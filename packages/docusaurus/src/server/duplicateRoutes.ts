@@ -4,9 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import chalk from 'chalk';
-import {RouteConfig, OnDuplicateRoutes} from '@docusaurus/types';
-import {getFinalRoutes} from './utils';
+import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import {getFinalRoutes, reportMessage} from './utils';
 import {flatMap} from 'lodash';
 
 export function getAllDuplicateRoutes(
@@ -41,7 +40,7 @@ export function getDuplicateRoutesMessage(
 
 export function handleDuplicateRoutes(
   pluginsRouteConfigs: RouteConfig[],
-  onDuplicateRoutes: OnDuplicateRoutes,
+  onDuplicateRoutes: ReportingSeverity,
 ): void {
   if (onDuplicateRoutes === 'ignore') {
     return;
@@ -50,17 +49,6 @@ export function handleDuplicateRoutes(
   const message: string = getDuplicateRoutesMessage(duplicatePaths);
   if (message) {
     const finalMessage = `Duplicate routes found!\n${message}\nThis could lead to non-deterministic routing behavior`;
-    if (onDuplicateRoutes === 'log') {
-      console.log(chalk.blue(finalMessage));
-    } else if (onDuplicateRoutes === 'warn') {
-      console.warn(chalk.yellow(finalMessage));
-    } else if (onDuplicateRoutes === 'throw') {
-      throw new Error(finalMessage);
-    } else {
-      // should not reach here if validation is done correctly
-      throw new Error(
-        'unexpected onDuplicateRoutes value: ${onDuplicateRoutes}',
-      );
-    }
+    reportMessage(finalMessage, onDuplicateRoutes);
   }
 }
