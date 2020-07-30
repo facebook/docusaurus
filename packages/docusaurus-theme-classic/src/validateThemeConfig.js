@@ -6,7 +6,6 @@
  */
 
 const Joi = require('@hapi/joi');
-const merge = require('lodash/merge');
 
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
@@ -20,10 +19,6 @@ const DEFAULT_COLOR_MODE_CONFIG = {
   },
 };
 exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
-
-exports.mergeDefault = (config, defaultConfig) => {
-  return merge({}, defaultConfig, config);
-};
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 

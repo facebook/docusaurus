@@ -4,11 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import merge from 'lodash/merge';
+
 const {
   validateThemeConfig,
   DEFAULT_COLOR_MODE_CONFIG,
-  mergeDefault,
 } = require('../validateThemeConfig');
+
+const mergeDefault = (config) => merge({}, DEFAULT_COLOR_MODE_CONFIG, config);
 
 function testValidateThemeConfig(themeConfig) {
   function validate(schema, cfg) {
@@ -32,7 +35,7 @@ describe('color mode config', () => {
       },
     };
     expect(testValidateThemeConfig({colorMode})).toEqual({
-      colorMode: mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG),
+      colorMode: mergeDefault(colorMode),
     });
   });
 
@@ -54,21 +57,21 @@ describe('color mode config', () => {
       },
     };
     expect(testValidateThemeConfig({colorMode})).toEqual({
-      colorMode: mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG),
+      colorMode: mergeDefault(colorMode),
     });
   });
 
   test('undefined config', () => {
     const colorMode = undefined;
     expect(testValidateThemeConfig({colorMode})).toEqual({
-      colorMode: mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG),
+      colorMode: mergeDefault(colorMode),
     });
   });
 
   test('empty config', () => {
     const colorMode = {};
     expect(testValidateThemeConfig({colorMode})).toEqual({
-      colorMode: mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG),
+      colorMode: mergeDefault(colorMode),
     });
   });
 
@@ -77,7 +80,7 @@ describe('color mode config', () => {
       switchConfig: {},
     };
     expect(testValidateThemeConfig({colorMode})).toEqual({
-      colorMode: mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG),
+      colorMode: mergeDefault(colorMode),
     });
   });
 });

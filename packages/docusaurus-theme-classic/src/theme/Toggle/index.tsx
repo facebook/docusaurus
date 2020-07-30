@@ -13,11 +13,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-import {
-  DEFAULT_COLOR_MODE_CONFIG,
-  mergeDefault
-} from '../../validateThemeConfig';
-
 const Dark = ({icon, style}) => (
   <span className={clsx(styles.toggle, styles.dark)} style={style}>
     {icon}
@@ -30,19 +25,21 @@ const Light = ({icon, style}) => (
 );
 
 export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
-  const {isClient, siteConfig = {}} = useDocusaurusContext();
   const {
-    themeConfig: {
-      colorMode
-    },
-  } = siteConfig;
-  
-  const { switchConfig: {
-    darkIcon,
-    darkIconStyle,
-    lightIcon,
-    lightIconStyle
-  } } = mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG)
+    siteConfig: {
+      themeConfig: {
+        colorMode: {
+          switchConfig: {
+            darkIcon,
+            darkIconStyle,
+            lightIcon,
+            lightIconStyle,
+          },
+        },
+      },
+    }, 
+    isClient 
+  } = useDocusaurusContext();
 
   return (
     <Toggle
