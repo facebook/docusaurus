@@ -40,7 +40,10 @@ export default function search(
     async postBuild(props: Props) {
       const files = await Promise.all(
         options.include.map((pattern) =>
-          promisify(glob)(`${pattern}/index.html`, {cwd: props.outDir}),
+          promisify(glob)(`${pattern}/index.html`, {
+            cwd: props.outDir,
+            ignore: options.exclude,
+          }),
         ),
       );
       const uniquefiles = new Set(flat(files));

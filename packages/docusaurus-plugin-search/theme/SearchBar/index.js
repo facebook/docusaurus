@@ -38,23 +38,22 @@ export default function () {
   });
   return (
     <div>
-      <button
-        type="button"
-        className="navbar__items--right"
-        onKeyDown={() => console.log('')}
-        onClick={() => {
-          if (fuse) {
-            document.body.style.overflowY = 'hidden';
-            setOpen(true);
-          } else {
-            getData().then(() => {
+      <div className="navbar__search">
+        <input
+          className="navbar__search-input"
+          onClick={() => {
+            if (fuse) {
               document.body.style.overflowY = 'hidden';
               setOpen(true);
-            });
-          }
-        }}>
-        search
-      </button>
+            } else {
+              getData().then(() => {
+                document.body.style.overflowY = 'hidden';
+                setOpen(true);
+              });
+            }
+          }}
+        />
+      </div>
       <Modal
         isOpen={open}
         fuse={fuse}

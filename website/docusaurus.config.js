@@ -114,6 +114,7 @@ module.exports = {
       '@docusaurus/plugin-search',
       {
         include: ['docs/*'],
+        exclude: versions.map((version) => `**/${version}/**`),
       },
     ],
   ],

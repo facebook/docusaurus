@@ -34,4 +34,5 @@ export interface DataNode {
 
 export interface pluginOptions {
   include: Array<string>;
+  exclude: Array<string>;
 }
