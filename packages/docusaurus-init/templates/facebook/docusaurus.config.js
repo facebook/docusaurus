@@ -92,14 +92,10 @@ module.exports = {
             {
               label: 'Privacy',
               href: 'https://opensource.facebook.com/legal/privacy/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
           ],
         },
