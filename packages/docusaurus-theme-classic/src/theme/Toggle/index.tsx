@@ -13,7 +13,10 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-import {DEFAULT_COLOR_MODE_CONFIG} from '../../themeConfigSchema.js';
+import {
+  DEFAULT_COLOR_MODE_CONFIG,
+  mergeDefault
+} from '../../validateThemeConfig';
 
 const Dark = ({icon, style}) => (
   <span className={clsx(styles.toggle, styles.dark)} style={style}>
@@ -28,27 +31,19 @@ const Light = ({icon, style}) => (
 
 export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
   const {isClient, siteConfig = {}} = useDocusaurusContext();
-
-  const {
-    switchConfig: {
-      darkIcon: defaultDarkIcon,
-      darkIconStyle: defaultDarkIconStyle,
-      lightIcon: defaultLightIcon,
-      lightIconStyle: defaultLightIconStyle,
-    },
-  } = DEFAULT_COLOR_MODE_CONFIG;
   const {
     themeConfig: {
-      colorMode: {
-        switchConfig: {
-          darkIcon = defaultDarkIcon,
-          darkIconStyle = defaultDarkIconStyle,
-          lightIcon = defaultLightIcon,
-          lightIconStyle = defaultLightIconStyle,
-        } = DEFAULT_COLOR_MODE_CONFIG.switchConfig,
-      } = DEFAULT_COLOR_MODE_CONFIG,
+      colorMode
     },
   } = siteConfig;
+  
+  const { switchConfig: {
+    darkIcon,
+    darkIconStyle,
+    lightIcon,
+    lightIconStyle
+  } } = mergeDefault(colorMode, DEFAULT_COLOR_MODE_CONFIG)
+
   return (
     <Toggle
       disabled={!isClient}
