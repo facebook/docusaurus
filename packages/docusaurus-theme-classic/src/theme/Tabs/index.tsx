@@ -93,10 +93,8 @@ function Tabs(props: Props): JSX.Element {
     setKeyboardPress(true);
   };
 
-  const handleMouseEvent = (event) => {
-    if (event.keyCode === keys.tab) {
-      setKeyboardPress(false);
-    }
+  const handleMouseEvent = () => {
+    setKeyboardPress(false);
   };
 
   useEffect(() => {
