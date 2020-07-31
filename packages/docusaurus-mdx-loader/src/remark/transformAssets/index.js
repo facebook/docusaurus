@@ -51,15 +51,20 @@ async function processLinkNode(node, index, parent, {filePath}) {
     !path.extname(assetPath) ||
     !assetPath.startsWith('.')
   ) {
-    return;
+    if (!assetPath.startsWith('!')) {
+      return;
+    }
   }
 
-  const expectedAssetPath = path.join(path.dirname(filePath), assetPath);
+  const expectedAssetPath = path.join(
+    path.dirname(filePath),
+    assetPath.replace(/!.*!/, ''),
+  );
   await ensureAssetFileExist(expectedAssetPath, filePath);
 
   node.type = 'jsx';
   node.value = `<a  target="_blank" ${
-    assetPath ? `href={require('!file-loader!${assetPath}').default}` : ''
+    assetPath ? `href={require('${assetPath}').default}` : ''
   } ${node.title ? `title={${node.title}}` : ''} >`;
   const {children} = node;
   delete node.children;
