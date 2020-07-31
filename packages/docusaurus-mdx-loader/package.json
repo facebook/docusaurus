@@ -10,9 +10,11 @@
   "dependencies": {
     "@babel/parser": "^7.9.4",
     "@babel/traverse": "^7.9.0",
+    "@docusaurus/core": "^2.0.0-alpha.60",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "escape-html": "^1.0.3",
+    "file-loader": "^6.0.0",
     "fs-extra": "^8.1.0",
     "github-slugger": "^1.3.0",
     "gray-matter": "^4.0.2",
@@ -20,7 +22,8 @@
     "mdast-util-to-string": "^1.1.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
-    "unist-util-visit": "^2.0.2"
+    "unist-util-visit": "^2.0.2",
+    "url-loader": "^4.1.0"
   },
   "devDependencies": {
     "remark": "^12.0.0",
