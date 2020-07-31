@@ -62,7 +62,7 @@ export function reportMessage(
       throw new Error(message);
     default:
       throw new Error(
-        'unexpected reportingSeverity value: ${reportingSeverity}',
+        `unexpected reportingSeverity value: ${reportingSeverity}`,
       );
   }
 }
