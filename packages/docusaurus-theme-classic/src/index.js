@@ -7,7 +7,7 @@
 
 const path = require('path');
 const Module = require('module');
-const ThemeConfigSchema = require('./themeConfigSchema');
+const {validateThemeConfig} = require('./validateThemeConfig');
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -120,6 +120,4 @@ module.exports = function (context, options) {
   };
 };
 
-module.exports.validateThemeConfig = ({validate, themeConfig}) => {
-  return validate(ThemeConfigSchema, themeConfig);
-};
+module.exports.validateThemeConfig = validateThemeConfig;
