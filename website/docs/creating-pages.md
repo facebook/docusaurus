@@ -66,7 +66,7 @@ How are you?
 
 In the same way, a page will be created at `http://localhost:3000/helloMarkdown`.
 
-Markdown pages are a bit less flexible that React pages, because the default layout is applied.
+Markdown pages are less flexible than React pages, because it always uses the theme layout.
 
 Here's an [example markdown page](/examples/markdownPageExample).
 
