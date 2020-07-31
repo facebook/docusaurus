@@ -23,7 +23,7 @@ export default ({children, className}) => {
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({line, key: i})}>
               {line.map((token, key) => (
-                <span key={key} {...getTokenProps({token, key})} />
+                <code key={key} {...getTokenProps({token, key})} />
               ))}
             </div>
           ))}
