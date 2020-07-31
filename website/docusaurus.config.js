@@ -136,6 +136,9 @@ module.exports = {
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
         },
+        pages: {
+          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
