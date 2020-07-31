@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.tabItem {
-  margin-top: 0 !important;
-}
-
+module.exports = {
+  title: 'My Site',
+  tagline: 'The tagline of my site',
+  url: 'https://your-docusaurus-test-site.com',
+  baseUrl: '/',
+  favicon: 'img/favicon.ico',
+};

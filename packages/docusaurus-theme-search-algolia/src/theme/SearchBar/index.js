@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
+import React, {useState, useRef, useCallback} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
@@ -35,7 +35,9 @@ function DocSearch(props) {
   const {siteMetadata} = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
+  const searchButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState(null);
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -61,7 +63,23 @@ function DocSearch(props) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  useDocSearchKeyboardEvents({isOpen, onOpen, onClose});
+  const onInput = useCallback(
+    (event) => {
+      importDocSearchModalIfNeeded().then(() => {
+        setIsOpen(true);
+        setInitialQuery(event.key);
+      });
+    },
+    [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery],
+  );
+
+  useDocSearchKeyboardEvents({
+    isOpen,
+    onOpen,
+    onClose,
+    onInput,
+    searchButtonRef,
+  });
 
   return (
     <>
@@ -81,7 +99,7 @@ function DocSearch(props) {
         onFocus={importDocSearchModalIfNeeded}
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
-        aria-label="Search"
+        ref={searchButtonRef}
       />
 
       {isOpen &&
@@ -89,6 +107,7 @@ function DocSearch(props) {
           <DocSearchModal
             onClose={onClose}
             initialScrollY={window.scrollY}
+            initialQuery={initialQuery}
             navigator={{
               navigate({suggestionUrl}) {
                 history.push(suggestionUrl);

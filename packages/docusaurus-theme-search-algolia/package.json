@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docsearch/react": "^1.0.0-alpha.24",
+    "@docsearch/react": "^1.0.0-alpha.25",
     "@hapi/joi": "^17.1.1",
     "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",
@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
-    "@docusaurus/utils": "^2.0.0-alpha.54",
+    "@docusaurus/utils": "2.0.0-alpha.60",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

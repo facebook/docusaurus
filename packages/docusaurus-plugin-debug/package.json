@@ -12,8 +12,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.60",
-    "@docusaurus/utils": "^2.0.0-alpha.60"
+    "@docusaurus/types": "2.0.0-alpha.60",
+    "@docusaurus/utils": "2.0.0-alpha.60"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

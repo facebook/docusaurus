@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.tabItem {
-  margin-top: 0 !important;
-}
+declare module 'remark-admonitions' {
+  type Options = any;
 
+  const plugin: (options?: Options) => void;
+  export = plugin;
+}
