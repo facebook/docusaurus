@@ -30,7 +30,7 @@ function Tabs(props: Props): JSX.Element {
   const {block, children, defaultValue, values, groupId} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
-  const [tabPressed, setTabPressed] = useState(false);
+  const [keyboardPress, setKeyboardPress] = useState(false);
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -85,14 +85,23 @@ function Tabs(props: Props): JSX.Element {
     }
   };
 
-  const handleTab = (event) => {
+  const handleKeyboardEvent = (event) => {
+    if (event.metaKey || event.altKey || event.ctrlKey) {
+      return;
+    }
+
+    setKeyboardPress(true);
+  };
+
+  const handleMouseEvent = (event) => {
     if (event.keyCode === keys.tab) {
-      setTabPressed(true);
+      setKeyboardPress(true);
     }
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleTab);
+    window.addEventListener('keydown', handleKeyboardEvent);
+    window.addEventListener('mousedown', handleMouseEvent);
   }, []);
 
   return (
@@ -111,18 +120,19 @@ function Tabs(props: Props): JSX.Element {
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
-            style={tabPressed ? {} : {outline: 'none'}}
+            style={keyboardPress ? {} : {outline: 'none'}}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={(event) => {
               handleKeydown(tabRefs, event.target, event);
-              handleTab(event);
+              handleKeyboardEvent(event);
             }}
             onFocus={() => changeSelectedValue(value)}
             onClick={() => {
               changeSelectedValue(value);
-              setTabPressed(false);
-            }}>
+              setKeyboardPress(false);
+            }}
+            onPointerDown={() => setKeyboardPress(false)}>
             {label}
           </li>
         ))}
