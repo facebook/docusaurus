@@ -246,7 +246,11 @@ export default ({
                   return (
                     <div key={i} {...lineProps}>
                       {line.map((token, key) => (
-                        <code key={key} {...getTokenProps({token, key})} />
+                        <code
+                          key={key}
+                          {...getTokenProps({token, key})}
+                          style={{backgroundColor: 'transparent'}}
+                        />
                       ))}
                     </div>
                   );
