@@ -103,6 +103,7 @@ export default function ({fuse, isOpen, setOpen}) {
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
+              placeholder="search"
               className="navbar__search-input"
               onChange={(event) => {
                 setSearchTerm(event.target.value);
