@@ -120,8 +120,3 @@ React is used as the UI library to create pages. Every page component should exp
 ## Duplicate Routes
 
 You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.
-
-<!--
-TODO:
-- That v2 is different from v1, users can write interactive components with lifecycles.
--->
