@@ -65,10 +65,12 @@ function DocSearch(props) {
 
   const onInput = useCallback(
     (event) => {
-      setIsOpen(true);
-      setInitialQuery(event.key);
+      importDocSearchModalIfNeeded().then(() => {
+        setIsOpen(true);
+        setInitialQuery(event.key);
+      });
     },
-    [setIsOpen, setInitialQuery],
+    [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery],
   );
 
   useDocSearchKeyboardEvents({
