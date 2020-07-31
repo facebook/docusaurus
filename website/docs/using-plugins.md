@@ -344,7 +344,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-pages`
 
-The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](creating-pages.md) functionality.
+The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 
 **Installation**
 

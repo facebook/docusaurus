@@ -1,6 +1,7 @@
 ---
 id: creating-pages
 title: Creating Pages
+slug: /creating-pages
 ---
 
 In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
@@ -112,4 +113,10 @@ All JavaScript/TypeScript files within the `src/pages/` directory will have corr
 
 ## Using React
 
+React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressiveness of React to build rich and interactive content.
+
 React is used as the UI library to create pages. Every page component should export a React component, and you can leverage on the expressiveness of React to build rich and interactive content.
+
+## Duplicate Routes
+
+You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.

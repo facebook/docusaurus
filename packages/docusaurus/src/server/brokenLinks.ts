@@ -7,11 +7,11 @@
 
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
-import chalk from 'chalk';
 import fs from 'fs-extra';
-import {mapValues, pickBy, flatMap} from 'lodash';
-import {RouteConfig, OnBrokenLinks} from '@docusaurus/types';
+import {mapValues, pickBy} from 'lodash';
+import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix} from '@docusaurus/utils';
+import {getAllFinalRoutes, reportMessage} from './utils';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -59,12 +59,8 @@ function getPageBrokenLinks({
 // For this reason, we only consider the "final routes", that do not have subroutes
 // We also need to remove the match all 404 route
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
-  function getFinalRoutes(route: RouteConfig): RouteConfig[] {
-    return route.routes ? flatMap(route.routes, getFinalRoutes) : [route];
-  }
-
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
-  return flatMap(routesWithout404, getFinalRoutes);
+  return getAllFinalRoutes(routesWithout404);
 }
 
 export function getAllBrokenLinks({
@@ -152,7 +148,7 @@ export async function handleBrokenLinks({
   outDir,
 }: {
   allCollectedLinks: Record<string, string[]>;
-  onBrokenLinks: OnBrokenLinks;
+  onBrokenLinks: ReportingSeverity;
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
@@ -177,16 +173,6 @@ export async function handleBrokenLinks({
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
     const finalMessage = `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n\n`;
-
-    // Useful to ensure the CI fails in case of broken link
-    if (onBrokenLinks === 'throw') {
-      throw new Error(finalMessage);
-    } else if (onBrokenLinks === 'error') {
-      console.error(chalk.red(finalMessage));
-    } else if (onBrokenLinks === 'log') {
-      console.log(chalk.blue(finalMessage));
-    } else {
-      throw new Error(`unexpected onBrokenLinks value=${onBrokenLinks}`);
-    }
+    reportMessage(finalMessage, onBrokenLinks);
   }
 }

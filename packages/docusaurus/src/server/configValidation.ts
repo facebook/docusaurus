@@ -11,11 +11,12 @@ import Joi from '@hapi/joi';
 import {
   isValidationDisabledEscapeHatch,
   logValidationBugReportHint,
-} from './validationUtils';
+} from './utils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'onBrokenLinks'
+  | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
   | 'presets'
@@ -23,6 +24,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
 > = {
   onBrokenLinks: 'throw',
+  onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
   presets: [],
@@ -54,8 +56,11 @@ const ConfigSchema = Joi.object({
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
   onBrokenLinks: Joi.string()
-    .equal('ignore', 'log', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
+  onDuplicateRoutes: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
   projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),

@@ -2,6 +2,7 @@
 id: docusaurus.config.js
 title: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
+slug: /docusaurus.config.js
 ---
 
 ## Overview
@@ -81,7 +82,7 @@ module.exports = {
 
 ### `onBrokenLinks`
 
-- Type: `'ignore' | 'log' | 'error' | 'throw'`
+- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
 The behavior of Docusaurus, when it detects any broken link.
 
@@ -92,6 +93,14 @@ By default, it throws an error, to ensure you never ship any broken link, but yo
 The broken links detection is only available for a production build (`docusaurus build`).
 
 :::
+
+### `onDuplicateRoutes`
+
+- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+
+The behavior of Docusaurus when it detects any [duplicate routes](/guides/creating-pages.md#duplicate-routes).
+
+By default, it displays a warning after you run `yarn start` or `yarn build`.
 
 ### `tagline`
 
