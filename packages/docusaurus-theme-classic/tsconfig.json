@@ -6,7 +6,10 @@
     "noEmit": true,
     "noImplicitAny": false,
     "jsx": "react",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@theme-classic/*": ["./theme/*"]
+    }
   },
   "include": ["src/"]
 }

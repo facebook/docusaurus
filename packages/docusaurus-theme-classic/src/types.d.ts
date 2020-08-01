@@ -5,6 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable spaced-comment */
+// eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
-/// <reference types="../lib" />

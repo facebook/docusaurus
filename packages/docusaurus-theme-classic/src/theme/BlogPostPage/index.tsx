@@ -7,9 +7,9 @@
 
 import React from 'react';
 
-import Layout from '@theme/Layout';
-import BlogPostItem from '@theme/BlogPostItem';
-import BlogPostPaginator from '@theme/BlogPostPaginator';
+import Layout from '@theme-classic/Layout';
+import BlogPostItem from '@theme-classic/BlogPostItem';
+import BlogPostPaginator from '@theme-classic/BlogPostPaginator';
 
 function BlogPostPage(props): JSX.Element {
   const {content: BlogPostContents} = props;

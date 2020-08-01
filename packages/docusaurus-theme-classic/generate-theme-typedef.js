@@ -8,13 +8,10 @@
 // @ts-check
 
 const {spawnSync} = require('child_process');
-const {mkdirSync, writeFileSync, readFileSync, unlinkSync} = require('fs');
-const {dirname} = require('path');
+const {writeFileSync, readFileSync} = require('fs');
+const {join} = require('path');
 
-const TARGET = 'lib/index.d.ts';
-
-mkdirSync(dirname(TARGET), {recursive: true});
-writeFileSync(TARGET, '');
+const TARGET = join('lib', 'index.d.ts');
 
 spawnSync(
   'yarn',
@@ -26,7 +23,7 @@ spawnSync(
     '--noEmit',
     'false',
     '--outFile',
-    'temp.d.ts',
+    TARGET,
     '--emitDeclarationOnly',
   ],
   {shell: true, stdio: 'inherit'},
@@ -34,11 +31,9 @@ spawnSync(
 
 writeFileSync(
   TARGET,
-  readFileSync('temp.d.ts')
+  readFileSync(TARGET)
     .toString()
     .replace(/declare module "/g, 'declare module "@theme/')
     .replace(/\/index/g, '')
     .replace(/import '\.\/styles\.css';/g, ''),
 );
-unlinkSync('temp.d.ts');
-unlinkSync('temp.d.ts.map');
