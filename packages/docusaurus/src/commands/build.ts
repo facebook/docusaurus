@@ -151,7 +151,7 @@ export default async function build(
   console.log(
     `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
       relativeDir,
-    )}.Use ${chalk.greenBright(
+    )}. Use ${chalk.greenBright(
       '`npm run serve`',
     )} to test your build locally.\n`,
   );
