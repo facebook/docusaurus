@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Enabling Search · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="도큐사우르스에서는 [Algolia 문서 검색](https://community.algolia.com/docsearch/) 기능을 지원합니다. 여러분의 웹사이트가 온라인 상태라면 [DocSearch에 요청하기](https://community.algolia.com/docsearch/)를 할 수 있습니다. Algolia에서 인증 코드를 보내주면 `siteConfig.js` 파일에 추가합니다."/><meta name="docsearch:version" content="1.14.4"/><meta name="docsearch:language" content="ko"/><meta property="og:title" content="Enabling Search · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="도큐사우르스에서는 [Algolia 문서 검색](https://community.algolia.com/docsearch/) 기능을 지원합니다. 여러분의 웹사이트가 온라인 상태라면 [DocSearch에 요청하기](https://community.algolia.com/docsearch/)를 할 수 있습니다. Algolia에서 인증 코드를 보내주면 `siteConfig.js` 파일에 추가합니다."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ko"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ko/versions"><h3>1.14.4</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ko/1.14.4/installation" target="_self">문서</a></li><li class=""><a href="/docs/ko/1.14.4/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/ko/users" target="_self">사용자</a></li><li class=""><a href="/blog/" target="_self">블로그</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_blank">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>한국어</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.14.4/search">English</a></li><li><a href="/docs/fr/1.14.4/search">Français</a></li><li><a href="/docs/pt-BR/1.14.4/search">Português (Brasil)</a></li><li><a href="/docs/ro/1.14.4/search">Română</a></li><li><a href="/docs/ru/1.14.4/search">Русский</a></li><li><a href="/docs/zh-CN/1.14.4/search">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">번역을 도와주세요</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>가이드</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">시작하기<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">가이드<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/custom-pages">Custom Pages</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ko/1.14.4/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ko" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Enabling Search</h1></header><article><div><span><p>도큐사우르스에서는 <a href="https://community.algolia.com/docsearch/">Algolia 문서 검색</a> 기능을 지원합니다. 여러분의 웹사이트가 온라인 상태라면 <a href="https://community.algolia.com/docsearch/">DocSearch에 요청하기</a>를 할 수 있습니다. Algolia에서 인증 코드를 보내주면 <code>siteConfig.js</code> 파일에 추가합니다.</p>
+<p>DocSearch는 매일 24시간동안 여러분의 웹사이트 콘텐츠를 수집해서 Algolia 인덱스에 모든 콘텐츠를 추가합니다. 여러분의 웹사이트에서 Algolia API를 사용해 수집된 콘텐츠에 대해 질의를 던질 수 있습니다. Note that your website needs to be publicly available for this to work (ie. 방화벽 뒤에 감추어져 있으면 안됩니다). 이 서비스는 무료입니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="검색창-활성화하기"></a><a href="#검색창-활성화하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>검색창 활성화하기</h2>
+<p><code>siteConfig.js</code> 파일의 <code>algolia</code> 항목에서 API 키와 인덱스명(Algolia에서 보내준)을 입력하면 웹사이트에서 검색 기능을 사용할 수 있습니다.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'API 키값'</span>,
+    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'인덱스명'</span>,
+    <span class="hljs-attr">algoliaOptions</span>: {} <span class="hljs-comment">// Algolia에서 받은 옵션값이 있는 경우 사용</span>
+  },
+  ...
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="extra-search-options"></a><a href="#extra-search-options" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extra Search Options</h2>
+<p>You can also specify extra <a href="https://community.algolia.com/docsearch/documentation/">search options used by Algolia</a> by using an <code>algoliaOptions</code> field in <code>algolia</code>. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of &quot;VERSION&quot; or &quot;LANGUAGE&quot; will be replaced by the version or language of the current page, respectively. More details about search options can be <a href="https://www.algolia.com/doc/api-reference/api-parameters/#overview">found here</a>.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    ...
+    algoliaOptions: {
+      <span class="hljs-attr">facetFilters</span>: [ <span class="hljs-string">"language:LANGUAGE"</span>, <span class="hljs-string">"version:VERSION"</span> ]
+    }
+  },
+};
+</code></pre>
+<p>Algolia might provide you with <a href="https://community.algolia.com/docsearch/documentation/">extra search options</a>. If so, you should add them to the <code>algoliaOptions</code> object.</p>
+<h2><a class="anchor" aria-hidden="true" id="controlling-the-location-of-the-search-bar"></a><a href="#controlling-the-location-of-the-search-bar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Controlling the Location of the Search Bar</h2>
+<p>By default, the search bar will be the rightmost element in the top navigation bar.</p>
+<p>If you want to change the default location, add the <code>searchBar</code> flag in the <code>headerLinks</code> field of <code>siteConfig.js</code> in your desired location. For example, you may want the search bar between your internal and external links.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  headerLinks: [
+    {...}
+    {...}
+    { <span class="hljs-attr">search</span>: <span class="hljs-literal">true</span> }
+    {...}
+    {...}
+  ],
+  ...
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="customizing-the-placeholder"></a><a href="#customizing-the-placeholder" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Customizing the placeholder</h2>
+<p>If you want to change the placeholder (which defaults to <em>Search</em>), add the <code>placeholder</code> field in your config. For example, you may want the search bar to display <em>Ask me something</em>:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    ...
+    placeholder: <span class="hljs-string">'Ask me something'</span>
+  },
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="disabling-the-search-bar"></a><a href="#disabling-the-search-bar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Disabling the Search Bar</h2>
+<p>To disable the search bar, comment out (recommended) or delete the <code>algolia</code> section in the <code>siteConfig.js</code> file.</p>
+<p>Also, if you have customized the location of the search bar in <code>headerLinks</code>, set <code>search: false</code>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/1.14.4/custom-pages"><span class="arrow-prev">← </span><span>사용자 지정 페이지</span></a><a class="docs-next button" href="/docs/ko/1.14.4/navigation"><span>네비게이션과 사이드바</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#검색창-활성화하기">검색창 활성화하기</a></li><li><a href="#extra-search-options">Extra Search Options</a></li><li><a href="#controlling-the-location-of-the-search-bar">Controlling the Location of the Search Bar</a></li><li><a href="#customizing-the-placeholder">Customizing the placeholder</a></li><li><a href="#disabling-the-search-bar">Disabling the Search Bar</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/ko/installation">Getting Started</a><a href="
+                /docs/ko/versioning">Versioning</a><a href="
+                /docs/ko/translation">Localization</a><a href="
+                /docs/ko/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/ko/help">Help</a><a href="/ko/users">User Showcase</a><a href="/ko/about-slash">About</a></div><div class="footerSection"><h5>Legal</h5><a href="https://opensource.facebook.com/legal/privacy/" target="_blank" rel="noreferrer noopener">Privacy</a><a href="https://opensource.facebook.com/legal/terms/" target="_blank" rel="noreferrer noopener">Terms</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2020 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:ko","version:1.14.4"]}
+              });
+            </script></body></html>

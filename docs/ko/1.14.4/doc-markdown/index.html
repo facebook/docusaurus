@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Markdown Features · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/features/mastering-markdown/). Find out more about Docusaurus-specific fields when writing Markdown."/><meta name="docsearch:version" content="1.14.4"/><meta name="docsearch:language" content="ko"/><meta property="og:title" content="Markdown Features · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/features/mastering-markdown/). Find out more about Docusaurus-specific fields when writing Markdown."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ko"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ko/versions"><h3>1.14.4</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ko/1.14.4/installation" target="_self">문서</a></li><li class=""><a href="/docs/ko/1.14.4/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/ko/users" target="_self">사용자</a></li><li class=""><a href="/blog/" target="_self">블로그</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_blank">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>한국어</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.14.4/doc-markdown">English</a></li><li><a href="/docs/fr/1.14.4/doc-markdown">Français</a></li><li><a href="/docs/pt-BR/1.14.4/doc-markdown">Português (Brasil)</a></li><li><a href="/docs/ro/1.14.4/doc-markdown">Română</a></li><li><a href="/docs/ru/1.14.4/doc-markdown">Русский</a></li><li><a href="/docs/zh-CN/1.14.4/doc-markdown">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">번역을 도와주세요</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">시작하기<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">가이드<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/commands">CLI Commands</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ko/1.14.4/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.4/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ko" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Markdown Features</h1></header><article><div><span><p>Docusaurus uses <a href="https://guides.github.com/features/mastering-markdown/">GitHub Flavored Markdown (GFM)</a>. Find out more about Docusaurus-specific fields when writing Markdown.</p>
+<h2><a class="anchor" aria-hidden="true" id="마크다운-헤더"></a><a href="#마크다운-헤더" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>마크다운 헤더</h2>
+<h3><a class="anchor" aria-hidden="true" id="문서"></a><a href="#문서" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>문서</h3>
+<p>Documents use the following markdown header fields that are enclosed by a line <code>---</code> on either side:</p>
+<ul>
+<li><code>id</code>: A unique document id. If this field is not present, the document's <code>id</code> will default to its file name (without the extension).</li>
+<li><code>title</code>: The title of your document. If this field is not present, the document's <code>title</code> will default to its <code>id</code>.</li>
+<li><code>hide_title</code>: Whether to hide the title at the top of the doc.</li>
+<li><code>description</code>: 문서의 설명은 검색엔진에서 사용할 수 있게 <code>&lt;meta name=&quot;description&quot; content=&quot;...&quot;/&gt;</code>과 <code>&lt;head&gt;</code>안에 <code>&lt;meta property=&quot;og:description&quot; content=&quot;...&quot;/&gt;</code>가 됩니다. 만약 이 필드가 없으면 내용물의 첫번째 줄이 기본값으로 사용됩니다.</li>
+<li><code>sidebar_label</code>: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's <code>sidebar_label</code> will default to its <code>title</code>.</li>
+</ul>
+<p>예를 들면 아래와 같습니다.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">id:</span> <span class="hljs-string">doc1</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">내</span> <span class="hljs-string">문서</span>
+<span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">문서</span>
+<span class="hljs-meta">---</span>
+
+</code></pre>
+<p>Versioned documents have their ids altered to include the version number when they get copied. The new <code>id</code> is <code>version-${version}-${id}</code> where <code>${version}</code> is the version number of that document and <code>${id}</code> is the original <code>id</code>. Additionally, versioned documents get an added <code>original_id</code> field with the original document id.</p>
+<p>예를 들면 아래와 같습니다.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">id:</span> <span class="hljs-string">version-1.0.0-doc1</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">내</span> <span class="hljs-string">문서</span>
+<span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">문서</span>
+<span class="hljs-attr">original_id:</span> <span class="hljs-string">doc1</span>
+<span class="hljs-meta">---</span>
+
+</code></pre>
+<p><code>custom_edit_url</code>: The URL for editing this document. If this field is not present, the document's edit URL will fall back to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="/docs/ko/1.14.4/site-config">siteConfig.js</a> docs for more information.</p>
+<p>예를 들면 아래와 같습니다.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">id:</span> <span class="hljs-string">doc-markdown</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">마크다운</span> <span class="hljs-string">기능</span>
+<span class="hljs-attr">custom_edit_url:</span> <span class="hljs-string">https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md</span>
+<span class="hljs-meta">---</span>
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="블로그-포스트"></a><a href="#블로그-포스트" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>블로그 포스트</h3>
+<p>Blog posts use the following markdown header fields that are enclosed by a line <code>---</code> on either side:</p>
+<p><code>title</code>: The title of this blog post.</p>
+<p><code>author</code>: The author of this blog post. If this field is omitted, no author name will be shown.</p>
+<p><code>authorURL</code>: A page to link to when a site user clicks the author's name. If this field is omitted, the author's name will not link to anything.</p>
+<p><code>authorFBID</code>: The author's Facebook id, used only to get the author's profile picture to display with the blog post. If this field is omitted, no author picture will be shown for the blog post.</p>
+<p>예를 들면 아래와 같습니다.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">내</span> <span class="hljs-string">첫번째</span> <span class="hljs-string">블로그</span> <span class="hljs-string">포스트</span>
+<span class="hljs-attr">author:</span> <span class="hljs-string">프랭크</span> <span class="hljs-string">리</span>
+<span class="hljs-attr">authorURL:</span> <span class="hljs-string">http://twitter.com/franchementli</span>
+<span class="hljs-attr">authorFBID:</span> <span class="hljs-number">100002976521003</span>
+<span class="hljs-meta">---</span>
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="추가-기능"></a><a href="#추가-기능" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>추가 기능</h2>
+<p>Docusaurus supports some extra features when writing documentation in markdown.</p>
+<h3><a class="anchor" aria-hidden="true" id="다른-문서로-연결하기"></a><a href="#다른-문서로-연결하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>다른 문서로 연결하기</h3>
+<p>You can use relative URLs to other documentation files which will automatically get converted to the corresponding HTML links when they get rendered.</p>
+<p>예제:</p>
+<pre><code class="hljs css language-md">[<span class="hljs-string">다른 문서의 링크</span>](<span class="hljs-link">other-document.md</span>)
+</code></pre>
+<p>This markdown will automatically get converted into a link to <code>/docs/other-document.html</code> (or the appropriately translated/versioned link) once it gets rendered.</p>
+<p>This can help when you want to navigate through docs on GitHub since the links there will be functional links to other documents (still on GitHub), but the documents will have the correct HTML links when they get rendered.</p>
+<h3><a class="anchor" aria-hidden="true" id="이미지와-다른-내용물-연결"></a><a href="#이미지와-다른-내용물-연결" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>이미지와 다른 내용물 연결</h3>
+<p>Static assets can be linked to in the same way that documents are, using relative URLs. Static assets used in documents and blogs should go into <code>docs/assets</code> and <code>website/blog/assets</code>, respectively. The markdown will get converted into correct link paths so that these paths will work for documents of all languages and versions.</p>
+<p>예제:</p>
+<pre><code class="hljs css language-md">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">assets/doc-image.png</span>)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="목차-만들기"></a><a href="#목차-만들기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>목차 만들기</h3>
+<p>You can make an auto-generated list of links, which can be useful as a table of contents for API docs.</p>
+<p>In your markdown file, insert a line with the text <code>&lt;AUTOGENERATED_TABLE_OF_CONTENTS&gt;</code>. Write your documentation using <code>h3</code> headers for each function inside a code block. These will be found by Docusaurus and a list of links to these sections will be inserted at the text ``.</p>
+<p>예제:</p>
+<pre><code class="hljs css language-md"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
+
+내 함수를 설명하는 텍스트
+
+<span class="hljs-section">### `docdoc(file)`</span>
+
+내 함수를 설명하는 텍스트
+</code></pre>
+<p>will lead to a table of contents of the functions:</p>
+<pre><code class="hljs css language-md"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
+<span class="hljs-bullet">- </span><span class="hljs-code">`docdoc(file)`</span>
+</code></pre>
+<p>and each function will link to their corresponding sections in the page.</p>
+<h3><a class="anchor" aria-hidden="true" id="language-specific-code-tabs"></a><a href="#language-specific-code-tabs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Language-specific Code Tabs</h3>
+<p>Display code in multiple programming languages using code tabs. First, mark the start and end of a code tabs group, by using <code>&lt;!-- DOCUSAURUS_CODE_TABS --&gt;</code> and <code>&lt;!-- END_DOCUSAURUS_CODE_TABS --&gt;</code> respectively in your markdown. Then start each tab with <code>&lt;!--[TAB_TITLE]--&gt;</code>.</p>
+<p>Adding the following code to your Markdown file:</p>
+<script src="https://gist.github.com/yangshun/d36d04f383c40beb3f31dd2a16666f6c.js"></script>
+<p>produces this:</p>
+<!--DOCUSAURUS_CODE_TABS-->
+<pre><code class="hljs css language-js"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hello, world!'</span>);
+</code></pre>
+<pre><code class="hljs css language-py">print(<span class="hljs-string">'Hello, world!'</span>)
+</code></pre>
+<pre><code class="hljs css language-C"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Hello World!"</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="hljs css language-Pascal">program HelloWorld;
+begin
+  WriteLn('Hello, world!');
+end.
+```&lt;!--END_DOCUSAURUS_CODE_TABS--&gt;## 구문 강조
+
+Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the three opening backticks. The following JavaScript example...
+
+    ```js
+    ReactDOM.render(&lt;h1&gt;Hello, world!&lt;/h1&gt;, document.getElementById('root'));
+    ```
+
+...would be rendered with syntax highlighting like so:
+
+```js
+ReactDOM.render(&lt;h1&gt;Hello, world!&lt;/h1&gt;, document.getElementById('root'));
+</code></pre>
+<p>Highlighting is provided by <a href="https://highlightjs.org">Highlight.js</a> using the theme specified in your <code>siteConfig.js</code> file as part of the <code>highlight</code> key:</p>
+<pre><code class="hljs css language-js">{
+  ...
+  highlight: {
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>
+  }
+  ...
+}
+</code></pre>
+<p>You can find the full list of supported themes in the Highlight.js <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles"><code>styles</code></a> directory.</p>
+<h3><a class="anchor" aria-hidden="true" id="registering-additional-languages"></a><a href="#registering-additional-languages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registering additional languages</h3>
+<p>While Highlight.js provides support for <a href="https://highlightjs.org/static/demo/">many popular languages out of the box</a>, you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the <code>hljs</code> constant as part of the <code>highlight</code> config key. This in turn allows you to call <a href="http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language"><code>registerLanguage</code></a>:</p>
+<pre><code class="hljs css language-js">{
+  ...
+  highlight: {
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
+    <span class="hljs-attr">hljs</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">hljs</span>) </span>{
+      hljs.registerLanguage(<span class="hljs-string">'galacticbasic'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">hljs</span>) </span>{
+        <span class="hljs-comment">// ...</span>
+      });
+    }
+  }
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="using-prism-as-additional-syntax-highlighter"></a><a href="#using-prism-as-additional-syntax-highlighter" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Prism as additional syntax highlighter</h3>
+<p>You can also opt to use Prism to syntax highlight certain languages available in the list <a href="https://github.com/PrismJS/prism/tree/master/components">here</a>. Include those languages in <code>usePrism</code> field in your <a href="/docs/ko/1.14.4/site-config">siteConfig.js</a></p>
+<p>예제:</p>
+<pre><code class="hljs"><span class="hljs-comment">// siteConfig.js</span>
+<span class="hljs-string">usePrism:</span> [<span class="hljs-string">'jsx'</span>]
+</code></pre>
+<p>Notice that the code block below uses JSX syntax highlighting from Prism.</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">class</span> <span class="token class-name">Example</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>flex<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> alignItems<span class="token operator">:</span> <span class="token string">'center'</span><span class="token punctuation">,</span> justifyContent<span class="token operator">:</span> <span class="token string">'center'</span><span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token plain-text">Docusaurus</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span>
+          <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Click me<span class="token punctuation">"</span></span>
+          <span class="token attr-name">onPress</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>navigation<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'Docusaurus'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span>
+        <span class="token punctuation">/></span></span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="adding-copy-code-buttons"></a><a href="#adding-copy-code-buttons" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Copy Code Buttons</h3>
+<p>Docusaurus allows for adding buttons to copy the code within fenced code blocks. Please follow the instructions <a href="https://gist.github.com/yangshun/55db997ed0f8f4e6527571fc3bee4675">here</a> to add &quot;Copy&quot; buttons to your code blocks.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/1.14.4/commands"><span class="arrow-prev">← </span><span>CLI 명령어</span></a><a class="docs-next button" href="/docs/ko/1.14.4/api-pages"><span>페이지 및 스타일</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#마크다운-헤더">마크다운 헤더</a><ul class="toc-headings"><li><a href="#문서">문서</a></li><li><a href="#블로그-포스트">블로그 포스트</a></li></ul></li><li><a href="#추가-기능">추가 기능</a><ul class="toc-headings"><li><a href="#다른-문서로-연결하기">다른 문서로 연결하기</a></li><li><a href="#이미지와-다른-내용물-연결">이미지와 다른 내용물 연결</a></li><li><a href="#목차-만들기">목차 만들기</a></li><li><a href="#language-specific-code-tabs">Language-specific Code Tabs</a></li><li><a href="#registering-additional-languages">Registering additional languages</a></li><li><a href="#using-prism-as-additional-syntax-highlighter">Using Prism as additional syntax highlighter</a></li><li><a href="#adding-copy-code-buttons">Adding Copy Code Buttons</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/ko/installation">Getting Started</a><a href="
+                /docs/ko/versioning">Versioning</a><a href="
+                /docs/ko/translation">Localization</a><a href="
+                /docs/ko/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/ko/help">Help</a><a href="/ko/users">User Showcase</a><a href="/ko/about-slash">About</a></div><div class="footerSection"><h5>Legal</h5><a href="https://opensource.facebook.com/legal/privacy/" target="_blank" rel="noreferrer noopener">Privacy</a><a href="https://opensource.facebook.com/legal/terms/" target="_blank" rel="noreferrer noopener">Terms</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2020 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:ko","version:1.14.4"]}
+              });
+            </script></body></html>

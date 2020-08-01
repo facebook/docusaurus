@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="fr"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Add Versions · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Avec un site d&#x27;exemple déployé, nous pouvons maintenant essayer l&#x27;une des fonctionnalités mortelles de Docusaurus &amp;mdash; la documentation versionnée. La documentation versionnée aide à afficher la documentation pertinente pour la version actuelle d&#x27;un outil et à masquer la documentation non publiée aux utilisateurs, ce qui réduit la confusion. La documentation pour les anciennes versions est également conservée et accessible aux utilisateurs des anciennes versions d&#x27;un outil, même lorsque la dernière documentation est modifiée."/><meta name="docsearch:version" content="1.14.4"/><meta name="docsearch:language" content="fr"/><meta property="og:title" content="Add Versions · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="Avec un site d&#x27;exemple déployé, nous pouvons maintenant essayer l&#x27;une des fonctionnalités mortelles de Docusaurus &amp;mdash; la documentation versionnée. La documentation versionnée aide à afficher la documentation pertinente pour la version actuelle d&#x27;un outil et à masquer la documentation non publiée aux utilisateurs, ce qui réduit la confusion. La documentation pour les anciennes versions est également conservée et accessible aux utilisateurs des anciennes versions d&#x27;un outil, même lorsque la dernière documentation est modifiée."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/fr"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/fr/versions"><h3>1.14.4</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/fr/1.14.4/installation" target="_self">Documentations</a></li><li class="siteNavGroupActive"><a href="/docs/fr/1.14.4/tutorial-setup" target="_self">Tutoriel</a></li><li class=""><a href="/fr/users" target="_self">Utilisateurs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_blank">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>Français</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.14.4/tutorial-version">English</a></li><li><a href="/docs/ko/1.14.4/tutorial-version">한국어</a></li><li><a href="/docs/pt-BR/1.14.4/tutorial-version">Português (Brasil)</a></li><li><a href="/docs/ro/1.14.4/tutorial-version">Română</a></li><li><a href="/docs/ru/1.14.4/tutorial-version">Русский</a></li><li><a href="/docs/zh-CN/1.14.4/tutorial-version">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Aidez-nous à traduire</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Tutoriel</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Tutoriel<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/fr/1.14.4/tutorial-setup">Setting Up</a></li><li class="navListItem"><a class="navItem" href="/docs/fr/1.14.4/tutorial-create-new-site">Create a New Site</a></li><li class="navListItem"><a class="navItem" href="/docs/fr/1.14.4/tutorial-create-pages">Create Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/fr/1.14.4/tutorial-publish-site">Publish the Site</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/fr/1.14.4/tutorial-version">Add Versions</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/fr" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Add Versions</h1></header><article><div><span><p>Avec un site d'exemple déployé, nous pouvons maintenant essayer l'une des fonctionnalités mortelles de Docusaurus — la documentation versionnée. La documentation versionnée aide à afficher la documentation pertinente pour la version actuelle d'un outil et à masquer la documentation non publiée aux utilisateurs, ce qui réduit la confusion. La documentation pour les anciennes versions est également conservée et accessible aux utilisateurs des anciennes versions d'un outil, même lorsque la dernière documentation est modifiée.</p>
+<p><img src="/img/undraw_docusaurus_process.svg" alt="Docusaurus process"> {.docImage}</p>
+<h2><a class="anchor" aria-hidden="true" id="libérer-une-version"></a><a href="#libérer-une-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Libérer une version</h2>
+<p>Supposons que vous soyez satisfait de l'état actuel de la documentation et que vous vouliez la geler comme la documentation v1.0.0. Tout d'abord, vous <code>cd</code> dans le répertoire <code>website</code> et exécutez la commande suivante.</p>
+<pre><code class="hljs css language-sh">npm run examples versions
+</code></pre>
+<p>Cette commande génère un fichier <code>versions.js</code> qui sera utilisé pour lister toutes les versions des documents du projet.</p>
+<p>Ensuite, vous exécutez une commande avec la version que vous voulez créer, comme <code>1.0.0</code>.</p>
+<pre><code class="hljs css language-sh">npm run version 1.0.0
+</code></pre>
+<p>Cette commande préserve une copie de tous les documents actuellement dans le répertoire <code>docs</code> et les rend disponibles en tant que documentation pour la version 1.0.0. Le répertoire <code>docs</code> est copié dans le répertoire <code>website/versioned_docs/version-1.0.0</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="version-actuelle"></a><a href="#version-actuelle" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version actuelle</h3>
+<p>Tapez <code>npm start</code> et vous verrez la version à côté du titre. Version 1.0.0, qui est le numéro de votre version actuelle, apparaît à l'URL <a href="http://localhost:3000/docusaurus-tutorial/docs/doc1">http://localhost:3000/docusaurus-tutorial/docs/doc1</a>.</p>
+<p>Testons comment le versionnage fonctionne réellement. Ouvrez <code>docs/doc1.md</code> et changez la première ligne du corps :</p>
+<pre><code class="hljs css language-diff"><span class="hljs-comment">---</span>
+id: doc1
+title: Latin-ish
+sidebar_label: Page d'exemple
+<span class="hljs-comment">---</span>
+
+<span class="hljs-deletion">- Vérifiez la [documentation](https://docusaurus.io) pour savoir comment utiliser Docusaurus.</span>
+<span class="hljs-addition">+ Ceci est la dernière version de la documentation.</span>
+
+## Lorem
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies.
+</code></pre>
+<p>Si vous allez sur <a href="http://localhost:3000/docusaurus-tutorial/docs/doc1">http://localhost:3000/docusaurus-tutorial/docs/doc1</a> dans votre navigateur, vous vous rendez compte qu'il affiche toujours la ligne avant le changement. C'est parce que la version que vous regardez est la version 1.0.0, qui a déjà été figée dans le temps. Le document que vous avez modifié fait partie de la prochaine version.</p>
+<h3><a class="anchor" aria-hidden="true" id="prochaine-version"></a><a href="#prochaine-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prochaine version</h3>
+<p>La dernière version des documents est consultable en ajoutant <code>next</code> à l'URL : <a href="http://localhost:3000/docusaurus-tutorial/docs/next/doc1">http://localhost:3000/docusaurus-tutorial/docs/next/doc1</a>. Maintenant vous pouvez voir le changement de ligne à &quot;Ceci est la dernière version de la documentation.&quot; Notez que la version à côté du titre passe à &quot;next&quot; lorsque vous ouvrez cette URL.</p>
+<p>Cliquez sur la version pour ouvrir la page des versions, qui a été créée à l'adresse <a href="http://localhost:3000/docusaurus-tutorial/versions">http://localhost:3000/docusaurus-tutorial/versions</a> avec une liste des versions de la documentation. Vous voyez que <code>1.0.0</code> et <code>master</code> y sont listées et qu'elles sont liées aux versions respectives de la documentation.</p>
+<p>Les documents de master du répertoire <code>docs</code> sont devenus la version next lorsque le répertoire <code>website/versioned_docs/version-1.0.0</code> a été créé pour la version 1.0.0.</p>
+<h3><a class="anchor" aria-hidden="true" id="versions-antérieures"></a><a href="#versions-antérieures" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Versions antérieures</h3>
+<p>Supposons que la documentation ait été modifiée et qu'elle ait besoin d'une mise à jour. Vous pouvez publier une autre version, comme la <code>1.0.1</code>.</p>
+<pre><code class="hljs css language-sh">npm run version 1.0.1
+</code></pre>
+<p>La version 1.0.0 reste disponible en version antérieure. Vous pouvez le voir en ajoutant <code>1.0.0</code> à l'URL, <a href="http://localhost:3000/docusaurus-tutorial/docs/1.0.0/doc1">http://localhost:3000/docusaurus-tutorial/docs/1.0.0/doc1</a>. Un lien vers la version 1.0.0 apparaît également sur la page des versions.</p>
+<p>Allez-y et <a href="https://docusaurus.io/docs/en/next/tutorial-publish-site">publiez</a> votre site versionné avec le script <code>publish-gh-pages</code> !</p>
+<h2><a class="anchor" aria-hidden="true" id="récapitulatif"></a><a href="#récapitulatif" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Récapitulatif</h2>
+<p>C'est fini, Mesdames Messieurs ! Dans ce court tutoriel, vous avez pu constater à quel point il est facile de créer un site Web de documentation à partir de zéro et de créer des versions. Il y a bien d'autres choses que vous pouvez faire avec Docusaurus, comme ajouter un blog, rechercher et traduire. Consultez la section <a href="https://docusaurus.io/docs/en/next/versioning">Guide</a> pour en savoir plus.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.14.4/tutorial-publish-site"><span class="arrow-prev">← </span><span>Publier le site</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#libérer-une-version">Libérer une version</a><ul class="toc-headings"><li><a href="#version-actuelle">Version actuelle</a></li><li><a href="#prochaine-version">Prochaine version</a></li><li><a href="#versions-antérieures">Versions antérieures</a></li></ul></li><li><a href="#récapitulatif">Récapitulatif</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/fr/installation">Getting Started</a><a href="
+                /docs/fr/versioning">Versioning</a><a href="
+                /docs/fr/translation">Localization</a><a href="
+                /docs/fr/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/fr/help">Help</a><a href="/fr/users">User Showcase</a><a href="/fr/about-slash">About</a></div><div class="footerSection"><h5>Legal</h5><a href="https://opensource.facebook.com/legal/privacy/" target="_blank" rel="noreferrer noopener">Privacy</a><a href="https://opensource.facebook.com/legal/terms/" target="_blank" rel="noreferrer noopener">Terms</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2020 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:fr","version:1.14.4"]}
+              });
+            </script></body></html>
