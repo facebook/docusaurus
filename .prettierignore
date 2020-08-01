@@ -4,6 +4,7 @@ build
 coverage
 .docusaurus
 packages/docusaurus-utils/lib/
+packages/docusaurus-utils-validation/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
 packages/docusaurus-plugin-client-redirects/lib/

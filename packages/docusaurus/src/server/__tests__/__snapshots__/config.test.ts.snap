@@ -21,6 +21,7 @@ Object {
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
   "onBrokenLinks": "throw",
+  "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
   "plugins": Array [
     Array [

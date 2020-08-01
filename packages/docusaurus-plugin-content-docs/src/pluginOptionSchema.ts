@@ -6,6 +6,11 @@
  */
 import * as Joi from '@hapi/joi';
 import {PluginOptions} from './types';
+import {
+  RemarkPluginsSchema,
+  RehypePluginsSchema,
+  AdmonitionsSchema,
+} from '@docusaurus/utils-validation';
 
 const REVERSED_DOCS_HOME_PAGE_ID = '_index';
 
@@ -29,26 +34,19 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.string().uri(),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().default(DEFAULT_OPTIONS.homePageId),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().default(DEFAULT_OPTIONS.sidebarPath),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
-  remarkPlugins: Joi.array()
-    .items(
-      Joi.array().items(Joi.function(), Joi.object()).length(2),
-      Joi.function(),
-    )
-    .default(DEFAULT_OPTIONS.remarkPlugins),
-  rehypePlugins: Joi.array()
-    .items(Joi.string())
-    .default(DEFAULT_OPTIONS.rehypePlugins),
+  remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
+  rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
-  admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
   excludeNextVersionDocs: Joi.bool().default(
     DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),

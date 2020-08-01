@@ -14,9 +14,9 @@ function BrowserOnly({
 }: {
   children?: () => JSX.Element;
   fallback?: JSX.Element;
-}): JSX.Element | undefined {
+}): JSX.Element | null {
   if (!ExecutionEnvironment.canUseDOM || children == null) {
-    return fallback || undefined;
+    return fallback || null;
   }
 
   return <>{children()}</>;

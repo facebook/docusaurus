@@ -201,6 +201,10 @@ module.exports = {
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website/blog/',
         /**
+         * Blog page meta description for better SEO
+         */
+        blogDescription: 'Blog',
+        /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */
@@ -340,7 +344,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-pages`
 
-The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](creating-pages.md) functionality.
+The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 
 **Installation**
 
@@ -372,6 +376,15 @@ module.exports = {
          */
         routeBasePath: '',
         include: ['**/*.{js,jsx}'],
+        /**
+         * Theme component used by markdown pages.
+         */
+        mdxPageComponent: '@theme/MDXPage',
+        /**
+         * Remark and Rehype plugins passed to MDX
+         */
+        remarkPlugins: [],
+        rehypePlugins: [],
       },
     ],
   ],

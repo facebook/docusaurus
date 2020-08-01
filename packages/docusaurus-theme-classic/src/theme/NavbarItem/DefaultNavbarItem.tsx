@@ -28,6 +28,9 @@ function NavLink({
   activeClassName?: string;
   prependBaseUrlToHref?: string;
 } & ComponentProps<'a'>) {
+  // TODO all this seems hacky
+  // {to: 'version'} should probably be forbidden, in favor of {to: '/version'}
+  const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
   return (
@@ -41,7 +44,7 @@ function NavLink({
         : {
             isNavLink: true,
             activeClassName,
-            to,
+            to: toUrl,
             ...(activeBasePath || activeBaseRegex
               ? {
                   isActive: (_match, location) =>

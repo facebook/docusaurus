@@ -6,12 +6,17 @@
  */
 
 import {DocusaurusConfig} from '@docusaurus/types';
-import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
+import Joi from '@hapi/joi';
+import {
+  isValidationDisabledEscapeHatch,
+  logValidationBugReportHint,
+} from './utils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'onBrokenLinks'
+  | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
   | 'presets'
@@ -19,6 +24,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
 > = {
   onBrokenLinks: 'throw',
+  onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
   presets: [],
@@ -50,10 +56,13 @@ const ConfigSchema = Joi.object({
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
   onBrokenLinks: Joi.string()
-    .equal('ignore', 'log', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
-  organizationName: Joi.string(),
-  projectName: Joi.string(),
+  onDuplicateRoutes: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onDuplicateRoutes),
+  organizationName: Joi.string().allow(''),
+  projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
@@ -66,16 +75,16 @@ const ConfigSchema = Joi.object({
       src: Joi.string().required(),
       async: Joi.bool(),
       defer: Joi.bool(),
-    }).oxor('async', 'defer'),
+    }),
   ),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
-      href: Joi.string().uri().required(),
+      href: Joi.string().required(),
       type: Joi.string().required(),
-    }),
+    }).unknown(),
   ),
-  tagline: Joi.string(),
+  tagline: Joi.string().allow(''),
 });
 
 export function validateConfig(
@@ -85,6 +94,12 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
+    logValidationBugReportHint();
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return config as DocusaurusConfig;
+    }
+
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

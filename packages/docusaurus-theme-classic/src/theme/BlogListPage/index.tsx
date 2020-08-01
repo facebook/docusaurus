@@ -13,7 +13,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 
 type Props = {
-  metadata: {permalink: string; title: string};
+  metadata: {permalink: string; title: string; blogDescription: string};
   items: {content}[];
 };
 
@@ -24,9 +24,9 @@ function BlogListPage(props: Props): JSX.Element {
   } = useDocusaurusContext();
   const isBlogOnlyMode = metadata.permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : 'Blog';
-
+  const {blogDescription} = metadata;
   return (
-    <Layout title={title} description="Blog">
+    <Layout title={title} description={blogDescription}>
       <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">

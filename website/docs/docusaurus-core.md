@@ -132,7 +132,7 @@ function MyComponent() {
 
 ### `useDocusaurusContext`
 
-React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md), and some additional site metadata.
+React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md), and some additional site metadata.
 
 ```ts
 type DocusaurusPluginVersionInformation =

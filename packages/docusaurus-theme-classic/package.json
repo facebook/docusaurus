@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.59",
+  "version": "2.0.0-alpha.60",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -21,6 +21,7 @@
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.12",
+    "lodash": "^4.17.19",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
     "prismjs": "^1.20.0",
@@ -29,7 +30,7 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-alpha.59",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.60",
     "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
