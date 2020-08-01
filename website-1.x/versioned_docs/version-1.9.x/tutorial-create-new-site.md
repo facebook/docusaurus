@@ -55,7 +55,7 @@ The following contents will be created in your current directory. Some example d
     │       ├── favicon
     │       │   └── favicon.ico
     │       ├── favicon.png
-    │       └── oss_logo.png
+    │       └── oss_logo.webp
     └── yarn.lock
 ```
 

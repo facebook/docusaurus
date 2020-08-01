@@ -528,7 +528,7 @@ module.exports = {
     footer: {
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
+        src: 'img/oss_logo.webp',
         href: 'https://opensource.facebook.com',
       },
     },

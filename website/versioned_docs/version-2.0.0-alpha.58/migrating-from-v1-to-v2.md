@@ -256,7 +256,7 @@ module.exports = {
     footer: {
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: 'https://docusaurus.io/img/oss_logo.png',
+        src: 'https://docusaurus.io/img/oss_logo.webp',
         href: 'https://opensource.facebook.com/',
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here.
@@ -521,7 +521,7 @@ module.exports = {
     footer: {
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
+        src: 'img/oss_logo.webp',
         href: 'https://opensource.facebook.com',
       },
     },

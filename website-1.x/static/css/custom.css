@@ -91,7 +91,7 @@ table td:first-child > code {
 }
 
 .index-hero-project-keywords {
-  color: $primaryColor;
+  /* color: $primaryColor; */
 }
 
 @keyframes jackInTheBox {
