@@ -1,5 +1,54 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.61 (2020-08-01)
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#3083](https://github.com/facebook/docusaurus/pull/3083) feat(v2): warn user when there are conflicting routes ([@teikjun](https://github.com/teikjun))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus-utils`
+  - [#3158](https://github.com/facebook/docusaurus/pull/3158) feat(v2): markdown pages ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3127](https://github.com/facebook/docusaurus/pull/3127) feat(v2): dark mode toggle customization ([@Drewbi](https://github.com/Drewbi))
+- `docusaurus-theme-search-algolia`
+  - [#3166](https://github.com/facebook/docusaurus/pull/3166) feat(v2): improve Algolia search accessibility ([@francoischalifour](https://github.com/francoischalifour))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#2359](https://github.com/facebook/docusaurus/pull/2359) feat(v2): support custom description for blog-only mode ([@zxuqian](https://github.com/zxuqian))
+
+#### :bug: Bug Fix
+
+- `docusaurus-mdx-loader`, `docusaurus`
+  - [#3180](https://github.com/facebook/docusaurus/pull/3180) fix(v2): fix markdown images always using webpack url-loader ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3171](https://github.com/facebook/docusaurus/pull/3171) fix(v2): tab label showing outline & background when clicked ([@mdfaizan7](https://github.com/mdfaizan7))
+- `docusaurus-init`, `docusaurus-theme-classic`
+  - [#3168](https://github.com/facebook/docusaurus/pull/3168) fix(v2): fix link items refusing attributes like target, rel etc... ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#3162](https://github.com/facebook/docusaurus/pull/3162) fix(v2): inability for users to pin their docusaurus version ([@BuckyMaler](https://github.com/BuckyMaler))
+
+#### :memo: Documentation
+
+- [#3163](https://github.com/facebook/docusaurus/pull/3163) docs(v2): showcase user questdb ([@mpsq](https://github.com/mpsq))
+
+#### :house: Internal
+
+- Other
+  - [#3164](https://github.com/facebook/docusaurus/pull/3164) chore(deps): bump elliptic from 6.5.2 to 6.5.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#3157](https://github.com/facebook/docusaurus/pull/3157) chore(v2): remove alpha 59 doc ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3154](https://github.com/facebook/docusaurus/pull/3154) chore(v2): prepare v2.0.0.alpha-60 release ([@slorber](https://github.com/slorber))
+
+#### Committers: 8
+
+- Bucky Maler ([@BuckyMaler](https://github.com/BuckyMaler))
+- Drew Alexander ([@Drewbi](https://github.com/Drewbi))
+- Faizan ([@mdfaizan7](https://github.com/mdfaizan7))
+- François Chalifour ([@francoischalifour](https://github.com/francoischalifour))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Xuqian ([@zxuqian](https://github.com/zxuqian)) ✨ Done in 3.58s.
+
 ## 2.0.0-alpha.60 (2020-07-29)
 
 #### :rocket: New Feature
