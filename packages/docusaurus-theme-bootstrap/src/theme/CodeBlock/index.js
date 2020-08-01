@@ -21,9 +21,13 @@ export default ({children, className}) => {
       {({style, tokens, getLineProps, getTokenProps}) => (
         <pre className={className} style={{...style, padding: '20px'}}>
           {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({line, key: i})}>
+            <div key={i} {...getLineProps({line, key: i})} aria-hidden="true">
               {line.map((token, key) => (
-                <span key={key} {...getTokenProps({token, key})} />
+                <span
+                  key={key}
+                  {...getTokenProps({token, key})}
+                  aria-hidden="true"
+                />
               ))}
             </div>
           ))}

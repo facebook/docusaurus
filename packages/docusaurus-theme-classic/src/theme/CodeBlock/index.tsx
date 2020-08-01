@@ -244,12 +244,12 @@ export default ({
                   }
 
                   return (
-                    <div key={i} {...lineProps}>
+                    <div key={i} {...lineProps} aria-hidden="true">
                       {line.map((token, key) => (
-                        <code
+                        <span
                           key={key}
                           {...getTokenProps({token, key})}
-                          style={{backgroundColor: 'transparent'}}
+                          aria-hidden="true"
                         />
                       ))}
                     </div>
