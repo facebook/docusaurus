@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.60",
+  "version": "2.0.0-alpha.61",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -29,7 +29,7 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.60",
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.61",
     "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
