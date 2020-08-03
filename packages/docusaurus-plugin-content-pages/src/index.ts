@@ -8,6 +8,7 @@
 import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
+import minimatch from 'minimatch';
 import {
   encodePath,
   fileToPath,
@@ -49,6 +50,11 @@ export default function pluginContentPages(
     'docusaurus-plugin-content-pages',
   );
 
+  const excludeRegex = new RegExp(
+    options.exclude
+      .map((pattern) => minimatch.makeRe(pattern).source)
+      .join('|'),
+  );
   return {
     name: 'docusaurus-plugin-content-pages',
 
@@ -172,6 +178,9 @@ export default function pluginContentPages(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
+                      if (excludeRegex.test(mdxPath)) {
+                        return null;
+                      }
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
