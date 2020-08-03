@@ -9,7 +9,7 @@ exports[`transformAsset plugin pathname protocol 1`] = `
 "
 `;
 
-exports[`transformAsset plugin transform md links to <img /> 1`] = `
+exports[`transformAsset plugin transform md links to <a /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 
 <a  target=\\"_blank\\" href={require('./asset.pdf').default}  ></a>
@@ -23,6 +23,10 @@ exports[`transformAsset plugin transform md links to <img /> 1`] = `
 \`\`\`md
 [asset](./asset.pdf)
 \`\`\`
+
+<a  target=\\"_blank\\" href={require('!file-loader!./asset.pdf').default}  >assets</a>
+
+[assets](/github/!file-loader!/assets.pdf)
 
 [asset](asset.pdf)
 "

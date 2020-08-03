@@ -34,7 +34,7 @@ describe('transformAsset plugin', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('transform md links to <img />', async () => {
+  test('transform md links to <a />', async () => {
     const result = await processFixture('asset');
     expect(result).toMatchSnapshot();
   });
