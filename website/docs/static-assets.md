@@ -7,7 +7,7 @@ In general, every website needs assets: images, stylesheets, favicons and etc. I
 
 This means that if the site's `baseUrl` is `/`, an image in `/static/img/docusaurus_keytar.svg` is available at `/img/docusaurus_keytar.svg`.
 
-## Referencing your static asset
+## Referencing assets with respect to `baseUrl`
 
 You can reference assets from the `static` folder in your code. You could use hardcoded absolute paths, i.e. starting with a slash /, but remember to include the `baseUrl` if it is not `/`. However, this will break if you change your `baseUrl` in the config.
 
@@ -55,6 +55,118 @@ You could also just use Markdown image syntax, but you would have to manually ma
 ```md title="my-doc.md"
 ![Docusaurus with Keytar](/img/docusaurus_keytar.png)
 ```
+
+## Types of static assets
+
+Sometimes you want to link to static assets directly from markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
+
+We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
+
+Let's imagine the following file structure:
+
+```
+# Your doc
+/website/docs/myFeature.mdx
+
+# Some assets you want to use
+/website/docs/assets/docusaurus-asset-example-banner.png
+/website/docs/assets/docusaurus-asset-example-pdf.pdf
+/website/docs/assets/docusaurus-asset-example.xyz
+```
+
+### Image assets
+
+You can use images by requiring them and using an image tag through MDX:
+
+```mdx
+# My markdown page
+
+<img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+
+or
+
+![](./assets/docusaurus-asset-example-banner.png)
+```
+
+The ES imports syntax also works:
+
+```mdx
+# My markdown page
+
+import myImageUrl from './assets/docusaurus-asset-example-banner.png';
+
+<img src={myImageUrl)}/>
+```
+
+This results in displaying the image:
+
+![](./assets/docusaurus-asset-example-banner.png)
+
+:::note
+
+If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusplugin-ideal-image), you need to use the dedicated image component, as documented.
+
+:::
+
+### Common assets
+
+In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc...
+
+```mdx
+# My markdown page
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+
+or 
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
+
+### Unknown assets
+
+This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in:
+
+```mdx
+# My markdown page
+
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+
+or
+
+[Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
+```
+
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+
+[Download this unknown file using Markdown !!!](!file-loader!./assets/docusaurus-asset-example.xyz)
+
+
+```md
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
 
 ### Caveats
 
