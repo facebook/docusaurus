@@ -375,7 +375,11 @@ module.exports = {
          * do not include trailing slash
          */
         routeBasePath: '',
-        include: ['**/*.{js,jsx}'],
+        include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+        /**
+         * No Route will be created for matching files
+         */
+        exclude: ['**/_*.{js,jsx,ts,tsx,md,mdx}'],
         /**
          * Theme component used by markdown pages.
          */

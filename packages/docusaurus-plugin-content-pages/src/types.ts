@@ -9,6 +9,7 @@ export interface PluginOptions {
   path: string;
   routeBasePath: string;
   include: string[];
+  exclude: string[];
   mdxPageComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
