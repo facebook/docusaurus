@@ -6,6 +6,11 @@
  */
 
 import * as Joi from '@hapi/joi';
+import {
+  RemarkPluginsSchema,
+  RehypePluginsSchema,
+  AdmonitionsSchema,
+} from '@docusaurus/utils-validation';
 
 export const DEFAULT_OPTIONS = {
   feedOptions: {},
@@ -20,6 +25,7 @@ export const DEFAULT_OPTIONS = {
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
+  blogDescription: 'Blog',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
@@ -42,31 +48,30 @@ export const PluginOptionSchema = Joi.object({
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
   ),
+  blogDescription: Joi.string()
+    .allow('')
+    .default(DEFAULT_OPTIONS.blogDescription),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
-  remarkPlugins: Joi.array()
-    .items(
-      Joi.array()
-        .items(Joi.function().required(), Joi.object().required())
-        .length(2),
-      Joi.function(),
-    )
-    .default(DEFAULT_OPTIONS.remarkPlugins),
-  rehypePlugins: Joi.array()
-    .items(
-      Joi.array()
-        .items(Joi.function().required(), Joi.object().required())
-        .length(2),
-      Joi.function(),
-    )
-    .default(DEFAULT_OPTIONS.rehypePlugins),
+  remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
+  rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   editUrl: Joi.string().uri(),
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
-  admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
   beforeDefaultRemarkPlugins: Joi.array()
-    .items(Joi.object())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.beforeDefaultRemarkPlugins),
   beforeDefaultRehypePlugins: Joi.array()
-    .items(Joi.object())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.beforeDefaultRehypePlugins),
   feedOptions: Joi.object({
     type: Joi.alternatives().conditional(
@@ -75,8 +80,8 @@ export const PluginOptionSchema = Joi.object({
         then: Joi.custom((val) => (val === 'all' ? ['rss', 'atom'] : [val])),
       },
     ),
-    title: Joi.string(),
-    description: Joi.string(),
+    title: Joi.string().allow(''),
+    description: Joi.string().allow(''),
     copyright: Joi.string(),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
