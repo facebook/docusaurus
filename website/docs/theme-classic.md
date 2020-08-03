@@ -33,6 +33,27 @@ module.exports = {
       // Should we use the prefers-color-scheme media-query,
       // using user system preferences, instead of the hardcoded defaultMode
       respectPrefersColorScheme: false,
+
+      // Dark/light switch icon options
+      switchConfig: {
+        // Prefered icon for the switch while in dark mode
+        // Unicode such as `\u2600` will work but only if the code is
+        // 4 characters and not 5 e.g. `\u1F602`
+        darkIcon: '🌙',
+
+        // CSS Object to apply to dark icon,
+        // More information available here: https://reactjs.org/docs/dom-elements.html#style
+        darkIconStyle: {
+          marginLeft: '2px',
+        },
+
+        //Options for light mode
+        lightIcon: '☀️',
+        
+        lightIconStyle: {
+          marginLeft: '1px',
+        },
+      },
     },
     // ...
   },
