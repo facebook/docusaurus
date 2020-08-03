@@ -3,7 +3,7 @@ title: Markdown Page example title
 description: Markdown Page example description
 ---
 
-import Comp from "./\_ignore.md"
+import Comp from "./\_chapter1.md"
 
 # Markdown page
 
@@ -39,13 +39,13 @@ import TabItem from '@theme/TabItem';
 
 ```js
 // *.md file
-import Comp from './_ignore.md';
+import Comp from './_chapter1.md';
 
 // *.mdx file
-import OtherComp from './_ignore_mdx.mdx';
+import OtherComp from './_chapter2.mdx';
 ```
 
-import OtherComp from './\_ignore_mdx.mdx'; <Comp />
+import OtherComp from './\_chapter2.mdx'; <Comp />
 
 <Comp/>
 

@@ -20,7 +20,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   remarkPlugins: [],
   rehypePlugins: [],
   admonitions: {},
-  exclude: ['**/_*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: ['**/_*.{js,jsx,ts,tsx,md,mdx}', '**/*.test.*', '**/__tests__/**'],
 };
 
 export const PluginOptionSchema = Joi.object({

@@ -379,7 +379,11 @@ module.exports = {
         /**
          * No Route will be created for matching files
          */
-        exclude: ['**/_*.{js,jsx,ts,tsx,md,mdx}'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/*.test.*',
+          '**/__tests__/**',
+        ],
         /**
          * Theme component used by markdown pages.
          */

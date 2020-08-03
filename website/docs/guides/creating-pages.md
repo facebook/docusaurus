@@ -108,7 +108,7 @@ my-website
 
 :::caution
 
-All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components or test files (ending with `.test.js`) into that directory, use the `exclude` option (by default, files prefixed with `_` are not turned into pages).
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components into that directory, use the `exclude` option (by default, files prefixed with `_`, test files(`.test.js`) and files in `__tests__` directory are not turned into pages).
 
 :::
 
