@@ -6,7 +6,7 @@
  */
 
 const {getOptions} = require('loader-utils');
-const {readFile} = require('fs-extra');
+const {readFile, existsSync} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
 const matter = require('gray-matter');
@@ -60,9 +60,11 @@ module.exports = async function (fileString) {
     if (metadataPath) {
       // Add as dependency of this loader result so that we can
       // recompile if metadata is changed.
-      this.addDependency(metadataPath);
-      const metadata = await readFile(metadataPath, 'utf8');
-      exportStr += `\nexport const metadata = ${metadata};`;
+      if (existsSync(metadataPath)) {
+        this.addDependency(metadataPath);
+        const metadata = await readFile(metadataPath, 'utf8');
+        exportStr += `\nexport const metadata = ${metadata};`;
+      }
     }
   }
 
