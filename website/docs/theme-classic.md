@@ -39,7 +39,7 @@ module.exports = {
         // Icon for the switch while in dark mode
         darkIcon: '🌙',
 
-        // CSS to apply to dark icon with camelCase properties,
+        // CSS to apply to dark icon,
         // React inline style object
         // see https://reactjs.org/docs/dom-elements.html#style
         darkIconStyle: {
