@@ -12,4 +12,8 @@
 [asset](./asset.pdf)
 ```
 
+[assets](!file-loader!./asset.pdf)
+
+[assets](/github/!file-loader!/assets.pdf)
+
 [asset](asset.pdf)
