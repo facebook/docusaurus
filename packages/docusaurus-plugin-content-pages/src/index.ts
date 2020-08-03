@@ -9,6 +9,7 @@ import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
 import minimatch from 'minimatch';
+import slash from 'slash';
 import {
   encodePath,
   fileToPath,
@@ -178,7 +179,7 @@ export default function pluginContentPages(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
-                      if (excludeRegex.test(mdxPath)) {
+                      if (excludeRegex.test(slash(mdxPath))) {
                         return null;
                       }
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
