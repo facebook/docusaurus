@@ -37,8 +37,7 @@ module.exports = {
       // Dark/light switch icon options
       switchConfig: {
         // Prefered icon for the switch while in dark mode
-        // Unicode such as `\u2600` will work but only if the code is
-        // 4 characters and not 5 e.g. `\u1F602`
+        
         darkIcon: '🌙',
 
         // CSS Object to apply to dark icon,
@@ -47,8 +46,9 @@ module.exports = {
           marginLeft: '2px',
         },
 
-        //Options for light mode
-        lightIcon: '☀️',
+        // Unicode icons such as `\u2600` will work if the code
+        // is 4 characters long and not 5 e.g. `\u1F602`
+        lightIcon: '\u2600',
 
         lightIconStyle: {
           marginLeft: '1px',
