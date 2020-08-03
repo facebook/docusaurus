@@ -40,7 +40,8 @@ module.exports = {
         darkIcon: '🌙',
 
         // CSS to apply to dark icon with camelCase properties,
-        // More information available here: https://reactjs.org/docs/dom-elements.html#style
+        // React inline style object
+        // see https://reactjs.org/docs/dom-elements.html#style
         darkIconStyle: {
           marginLeft: '2px',
         },
