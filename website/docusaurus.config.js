@@ -32,6 +32,21 @@ module.exports = {
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'second-blog',
+        path: 'dogfooding/second-blog',
+        routeBasePath: 'second-blog',
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',
+        postsPerPage: 3,
+        feedOptions: {
+          type: 'all',
+          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+        },
+      },
+    ],
+    [
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['html'],

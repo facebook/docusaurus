@@ -15,7 +15,10 @@ import path from 'path';
 import chalk from 'chalk';
 
 import admonitions from 'remark-admonitions';
-import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
+import {
+  STATIC_DIR_NAME,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -78,10 +81,13 @@ export default function pluginContentDocs(
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
 
-  const dataDir = path.join(
+  const pluginGlobalDataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
-    // options.id ?? 'default', // TODO support multi-instance
+  );
+  const dataDir = path.join(
+    pluginGlobalDataDir,
+    options.id ?? DEFAULT_PLUGIN_ID,
   );
 
   // Versioning.
@@ -336,7 +342,7 @@ Available document ids=
       setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
       const aliasedSource = (source: string) =>
-        `~docs/${path.relative(dataDir, source)}`;
+        `~docs/${path.relative(pluginGlobalDataDir, source)}`;
 
       const createDocsBaseMetadata = (
         version: DocsVersion,
@@ -499,7 +505,7 @@ Available document ids=
         },
         resolve: {
           alias: {
-            '~docs': dataDir,
+            '~docs': pluginGlobalDataDir,
           },
         },
         module: {

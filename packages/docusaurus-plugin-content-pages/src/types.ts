@@ -6,6 +6,7 @@
  */
 
 export interface PluginOptions {
+  id?: string;
   path: string;
   routeBasePath: string;
   include: string[];

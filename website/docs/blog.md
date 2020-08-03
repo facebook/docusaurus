@@ -187,6 +187,8 @@ By default, the classic theme assumes only one blog per website and hence includ
 
 Set the `routeBasePath` to the URL route that you want your second blog to be accessed on. Note that the `routeBasePath` here has to be different from the first blog or else there could be a collision of paths! Also, set `path` to the path to the directory containing your second blog's entries.
 
+As documented for [multi-instance plugins](./using-plugins.md#multi-instance-plugins-and-plugin-ids), you need to assign a unique id to the plugins.
+
 ```js title="docusaurus.config.js"
 module.exports = {
   // ...
@@ -194,6 +196,10 @@ module.exports = {
     [
       '@docusaurus/plugin-content-blog',
       {
+        /**
+         * Required for any multi-instance plugin
+         */
+        id: 'second-blog',
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
@@ -209,13 +215,4 @@ module.exports = {
 };
 ```
 
-<!--
-
-Adding a blog using the blog plugin.
-
-References
----
-- [source code](/packages/docusaurus-plugin-content-blog/src/index.js)
-- [v1 doc](https://docusaurus.io/docs/en/next/adding-blog)
-
--->
+As an example, we host a second blog [here](/second-blog).

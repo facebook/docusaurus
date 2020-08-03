@@ -10,7 +10,10 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
-import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
+import {
+  STATIC_DIR_NAME,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/core/lib/constants';
 import {ValidationError} from '@hapi/joi';
 
 import {
@@ -48,11 +51,16 @@ export default function pluginContentBlog(
 
   const {siteDir, generatedFilesDir} = context;
   const contentPath = path.resolve(siteDir, options.path);
-  const dataDir = path.join(
+
+  const pluginGlobalDataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
-    // options.id ?? 'default',  // TODO support multi-instance
   );
+  const dataDir = path.join(
+    pluginGlobalDataDir,
+    options.id ?? DEFAULT_PLUGIN_ID,
+  );
+
   let blogPosts: BlogPost[] = [];
 
   return {
@@ -207,7 +215,7 @@ export default function pluginContentBlog(
       } = options;
 
       const aliasedSource = (source: string) =>
-        `~blog/${path.relative(dataDir, source)}`;
+        `~blog/${path.relative(pluginGlobalDataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
         blogPosts: loadedBlogPosts,
@@ -349,7 +357,7 @@ export default function pluginContentBlog(
       return {
         resolve: {
           alias: {
-            '~blog': dataDir,
+            '~blog': pluginGlobalDataDir,
           },
         },
         module: {

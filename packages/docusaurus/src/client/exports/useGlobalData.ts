@@ -6,6 +6,7 @@
  */
 
 import useDocusaurusContext from './useDocusaurusContext';
+import {DEFAULT_PLUGIN_ID} from '../../constants';
 
 export default function useGlobalData() {
   const {globalData} = useDocusaurusContext();
@@ -30,7 +31,7 @@ export function useAllPluginInstancesData<T = unknown>(
 
 export function usePluginData<T = unknown>(
   pluginName: string,
-  pluginId: string = 'default',
+  pluginId: string = DEFAULT_PLUGIN_ID,
 ): T {
   const pluginGlobalData = useAllPluginInstancesData(pluginName);
   const pluginInstanceGlobalData = pluginGlobalData[pluginId];

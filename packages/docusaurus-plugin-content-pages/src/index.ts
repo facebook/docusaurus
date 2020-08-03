@@ -25,6 +25,7 @@ import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -44,9 +45,13 @@ export default function pluginContentPages(
 
   const contentPath = path.resolve(siteDir, options.path);
 
-  const dataDir = path.join(
+  const pluginGlobalDataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
+  );
+  const dataDir = path.join(
+    pluginGlobalDataDir,
+    options.id ?? DEFAULT_PLUGIN_ID,
   );
 
   return {
