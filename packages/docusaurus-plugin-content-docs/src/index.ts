@@ -81,6 +81,7 @@ export default function pluginContentDocs(
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
 
   const pluginGlobalDataDir = path.join(
     generatedFilesDir,
@@ -108,22 +109,22 @@ export default function pluginContentDocs(
     },
 
     extendCli(cli) {
+      const command = isDefaultPluginId
+        ? 'docs:version'
+        : `docs:version:${pluginId}`;
+      const commandDescription = isDefaultPluginId
+        ? 'Tag a new docs version'
+        : `Tag a new docs version (${pluginId})`;
+
       cli
-        .command('docs:version')
+        .command(command)
         .arguments('<version>')
-        .description('Tag a new version for docs')
-        .option(
-          '--pluginId <id>',
-          'Which docs plugin instance to version (only useful for multi-instance docs)',
-        )
-        .action((version, {pluginId: pluginIdCliOption}) => {
-          const pluginIdCli: string = pluginIdCliOption ?? DEFAULT_PLUGIN_ID;
-          if (pluginIdCli === pluginId) {
-            docsVersion(version, siteDir, pluginIdCli, {
-              path: options.path,
-              sidebarPath: options.sidebarPath,
-            });
-          }
+        .description(commandDescription)
+        .action((version) => {
+          docsVersion(version, siteDir, pluginId, {
+            path: options.path,
+            sidebarPath: options.sidebarPath,
+          });
         });
     },
 
