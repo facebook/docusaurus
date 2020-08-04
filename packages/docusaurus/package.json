@@ -47,6 +47,7 @@
     "@babel/runtime-corejs3": "^7.10.4",
     "@docusaurus/types": "^2.0.0-alpha.61",
     "@docusaurus/utils": "^2.0.0-alpha.61",
+    "@docusaurus/utils-validation": "^2.0.0-alpha.61",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
     "@hapi/joi": "^17.1.1",
     "@svgr/webpack": "^5.4.0",

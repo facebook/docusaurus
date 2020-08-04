@@ -12,7 +12,6 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
-import normalizePluginOptions from './pluginOptionSchema.test';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -21,6 +20,8 @@ import {sortConfig} from '@docusaurus/core/src/server/plugins';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import * as version from '../version';
+import {PluginOptionSchema} from '../pluginOptionSchema';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 const createFakeActions = (
   routeConfigs: RouteConfig[],
@@ -61,7 +62,7 @@ test('site with wrong sidebar file', async () => {
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       sidebarPath,
     }),
   );
@@ -74,7 +75,10 @@ describe('empty/no docs website', () => {
 
   test('no files in docs folder', async () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
-    const plugin = pluginContentDocs(context, normalizePluginOptions({}));
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(PluginOptionSchema, {}),
+    );
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
@@ -95,7 +99,7 @@ describe('empty/no docs website', () => {
   test('docs folder does not exist', async () => {
     const plugin = pluginContentDocs(
       context,
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         path: '/path/does/not/exist/',
       }),
     );
@@ -111,7 +115,7 @@ describe('simple website', () => {
   const pluginPath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       path: pluginPath,
       sidebarPath,
       homePageId: 'hello',
@@ -248,7 +252,7 @@ describe('versioned website', () => {
   const routeBasePath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       routeBasePath,
       sidebarPath,
       homePageId: 'hello',
@@ -480,7 +484,7 @@ describe('versioned website (community)', () => {
   const pluginId = 'community';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       id: 'community',
       path: 'community',
       routeBasePath,
