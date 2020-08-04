@@ -19,18 +19,25 @@ export default ({children, className}) => {
       code={children}
       language={language}>
       {({style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={className} style={{...style, padding: '20px'}}>
-          {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({line, key: i})} aria-hidden="true">
-              {line.map((token, key) => (
-                <span
-                  key={key}
-                  {...getTokenProps({token, key})}
-                  aria-hidden="true"
-                />
-              ))}
-            </div>
-          ))}
+        <pre
+          style={{
+            margin: '0px',
+            padding: '0px',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+          }}>
+          <code style={{...style, padding: '20px', display: 'inline-flex'}}>
+            {tokens.map((line, i) => (
+              <div
+                key={i}
+                {...getLineProps({line, key: i})}
+                className={className}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({token, key})} />
+                ))}
+              </div>
+            ))}
+          </code>
         </pre>
       )}
     </Highlight>

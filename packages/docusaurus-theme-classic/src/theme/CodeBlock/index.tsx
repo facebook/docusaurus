@@ -244,15 +244,22 @@ export default ({
                   }
 
                   return (
-                    <div key={i} {...lineProps} aria-hidden="true">
-                      {line.map((token, key) => (
-                        <span
-                          key={key}
-                          {...getTokenProps({token, key})}
-                          aria-hidden="true"
-                        />
-                      ))}
-                    </div>
+                    <pre
+                      style={{
+                        margin: '0px',
+                        padding: '0px',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                      }}>
+                      <code
+                        key={i}
+                        {...lineProps}
+                        style={{display: 'inline-flex'}}>
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({token, key})} />
+                        ))}
+                      </code>
+                    </pre>
                   );
                 })}
               </div>
