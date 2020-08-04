@@ -64,7 +64,7 @@ Sometimes, it is more convenient to co-locate the asset next to the markdown/jav
 
 We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
 
-We'll take a look at how we can reference various file types using relative path for both markdown and JSX files. Let's imagine we have the following file structure:
+We'll take a look at how we can reference various file types using relative path for both MDX and JSX. Let's imagine we have the following file structure:
 
 <Tabs
   groupId="file-type"
@@ -77,7 +77,7 @@ We'll take a look at how we can reference various file types using relative path
 <TabItem value="mdx">
 
 ```
-# Your markdown file, where you want to use some assets 
+# Your markdown file - you want to use some assets here
 /website/docs/my-doc.mdx
 
 # Some assets you want to use
@@ -89,7 +89,7 @@ We'll take a look at how we can reference various file types using relative path
 <TabItem value="jsx">
 
 ```
-# Your JS file, where you want to use some assets 
+# Your JS file - you want to use some assets here
 /website/src/pages/myComponent.js
 
 # Some assets you want to use
@@ -102,7 +102,7 @@ We'll take a look at how we can reference various file types using relative path
 
 ### Image assets
 
-You can use images by requiring them and using an image tag through MDX:
+You can use images by requiring them and using an image tag through MDX or JSX.
 
 <Tabs
   groupId="file-type"
@@ -149,7 +149,7 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 </TabItem>
 </Tabs>
 
-This results in displaying the image:
+This displays the following image:
 
 ![](./assets/docusaurus-asset-example-banner.png)
 
@@ -185,7 +185,7 @@ or
 [Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 ```
 
-This results in displaying the following links:
+This results in the following links:
 
 <a
   target="_blank"
@@ -206,7 +206,7 @@ This results in displaying the following links:
 </a>
 ```
 
-This results in displaying the following links:
+This results in the following links:
 
 <a
   target="_blank"
@@ -218,7 +218,7 @@ This results in displaying the following links:
 
 ### Unknown assets
 
-This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in.
+This `require` method is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in.
 
 <Tabs
   groupId="file-type"
@@ -242,7 +242,7 @@ or
 [Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
 ```
 
-This results in displaying the following links:
+This results in the following links:
 
 <a
   target="_blank"
@@ -263,7 +263,7 @@ This results in displaying the following links:
 </a>
 ```
 
-This results in displaying the following links:
+This results in the following links:
 
 <a
   target="_blank"
