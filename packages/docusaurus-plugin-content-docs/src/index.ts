@@ -83,11 +83,13 @@ export default function pluginContentDocs(
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
   const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
 
-  const pluginGlobalDataDir = path.join(
+  const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
   );
-  const dataDir = path.join(pluginGlobalDataDir, pluginId);
+  const dataDir = path.join(pluginDataDirRoot, pluginId);
+  const aliasedSource = (source: string) =>
+    `~docs/${path.relative(pluginDataDirRoot, source)}`;
 
   // Versioning.
   const env = loadEnv(siteDir, pluginId, {
@@ -349,9 +351,6 @@ Available document ids=
 
       setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
-      const aliasedSource = (source: string) =>
-        `~docs/${path.relative(pluginGlobalDataDir, source)}`;
-
       const createDocsBaseMetadata = (
         version: DocsVersion,
       ): DocsBaseMetadata => {
@@ -513,7 +512,7 @@ Available document ids=
         },
         resolve: {
           alias: {
-            '~docs': pluginGlobalDataDir,
+            '~docs': pluginDataDirRoot,
           },
         },
         module: {
@@ -533,10 +532,10 @@ Available document ids=
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedSource)}.json`,
+                        `${docuHash(aliasedPath)}.json`,
                       );
                     },
                   },

@@ -143,6 +143,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          // routeBasePath: '/',
           homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
@@ -154,6 +155,7 @@ module.exports = {
           disableVersioning: !!process.env.DISABLE_VERSIONING,
         },
         blog: {
+          // routeBasePath: '/',
           path: '../website-1.x/blog',
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
