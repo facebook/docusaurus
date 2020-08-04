@@ -113,7 +113,7 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description('Tag a new version for docs')
         .action((version) => {
-          docsVersion(version, siteDir, {
+          docsVersion(version, siteDir, pluginId, {
             path: options.path,
             sidebarPath: options.sidebarPath,
           });
