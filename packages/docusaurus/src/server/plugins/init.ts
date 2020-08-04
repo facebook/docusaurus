@@ -16,7 +16,7 @@ import {
   ValidationSchema,
   DocusaurusPluginVersionInformation,
 } from '@docusaurus/types';
-import {CONFIG_FILE_NAME} from '../../constants';
+import {CONFIG_FILE_NAME, DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import * as Joi from '@hapi/joi';
@@ -32,7 +32,7 @@ function pluginOptionsValidator<T>(
   // All plugins can be provided an "id" for multi-instance support
   // we don't ask the user to implement id validation, we add it automatically
   const finalSchema = schema.append({
-    id: Joi.string(),
+    id: Joi.string().default(DEFAULT_PLUGIN_ID),
   });
   const {error, value} = finalSchema.validate(options, {
     convert: false,

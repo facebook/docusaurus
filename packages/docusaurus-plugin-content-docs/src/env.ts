@@ -50,6 +50,13 @@ export default function (
   pluginId: string,
   options: EnvOptions = {disableVersioning: false},
 ): Env {
+  if (!siteDir) {
+    throw new Error('unexpected, missing siteDir');
+  }
+  if (!pluginId) {
+    throw new Error('unexpected, missing pluginId');
+  }
+
   const versioning: VersioningEnv = {
     enabled: false,
     versions: [],

@@ -6,9 +6,13 @@
  */
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import * as Joi from '@hapi/joi';
 
 export default function normalizePluginOptions(options) {
-  const {value, error} = PluginOptionSchema.validate(options, {
+  const {value, error} = PluginOptionSchema.append({
+    id: Joi.string().default(DEFAULT_PLUGIN_ID),
+  }).validate(options, {
     convert: false,
   });
   if (error) {

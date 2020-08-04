@@ -263,6 +263,150 @@ Available document ids=
 - slugs/tryToEscapeSlug"
 `;
 
+exports[`versioned website (community) content 1`] = `
+Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": false,
+    "modules": Object {
+      "docsMetadata": "~docs/community-next-route-f11.json",
+    },
+    "path": "/community/next",
+    "priority": undefined,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/community/team.md",
+        },
+        "path": "/community/next/team",
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": false,
+    "modules": Object {
+      "docsMetadata": "~docs/community-route-aa2.json",
+    },
+    "path": "/community",
+    "priority": -1,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/community_versioned_docs/version-1.0.0/team.md",
+        },
+        "path": "/community/team",
+      },
+    ],
+  },
+]
+`;
+
+exports[`versioned website (community) content 2`] = `
+Object {
+  "pluginName": Object {
+    "pluginId": Object {
+      "latestVersionName": "1.0.0",
+      "path": "/community",
+      "versions": Array [
+        Object {
+          "docs": Array [
+            Object {
+              "id": "team",
+              "path": "/community/next/team",
+            },
+          ],
+          "mainDocId": "team",
+          "name": "next",
+          "path": "/community/next",
+        },
+        Object {
+          "docs": Array [
+            Object {
+              "id": "team",
+              "path": "/community/team",
+            },
+          ],
+          "mainDocId": "team",
+          "name": "1.0.0",
+          "path": "/community",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`versioned website (community) content: all sidebars 1`] = `
+Object {
+  "community": Array [
+    Object {
+      "href": "/community/next/team",
+      "label": "team",
+      "type": "link",
+    },
+  ],
+  "version-1.0.0/community": Array [
+    Object {
+      "href": "/community/team",
+      "label": "team",
+      "type": "link",
+    },
+  ],
+}
+`;
+
+exports[`versioned website (community) content: base metadata for latest version 1`] = `
+Object {
+  "docsSidebars": Object {
+    "version-1.0.0/community": Array [
+      Object {
+        "href": "/community/team",
+        "label": "team",
+        "type": "link",
+      },
+    ],
+  },
+  "permalinkToSidebar": Object {
+    "/community/team": "version-1.0.0/community",
+  },
+  "version": "1.0.0",
+}
+`;
+
+exports[`versioned website (community) content: base metadata for next version 1`] = `
+Object {
+  "docsSidebars": Object {
+    "community": Array [
+      Object {
+        "href": "/community/next/team",
+        "label": "team",
+        "type": "link",
+      },
+    ],
+  },
+  "permalinkToSidebar": Object {
+    "/community/next/team": "community",
+  },
+  "version": "next",
+}
+`;
+
+exports[`versioned website (community) content: sidebars needed for each version 1`] = `
+Object {
+  "1.0.0": Set {
+    "version-1.0.0/community",
+  },
+  "next": Set {
+    "community",
+  },
+}
+`;
+
 exports[`versioned website content 1`] = `
 Array [
   Object {

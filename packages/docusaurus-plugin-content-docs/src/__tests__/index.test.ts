@@ -18,6 +18,7 @@ import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import * as version from '../version';
 
@@ -39,6 +40,17 @@ const createFakeActions = (
     },
     setGlobalData: (data) => {
       globalDataContainer.pluginName = {pluginId: data};
+    },
+
+    // Extra fns useful for tests!
+    getCreatedData: (prefix: string) => {
+      const entry = Object.entries(dataContainer).find(([key]) =>
+        key.startsWith(prefix),
+      );
+      if (!entry) {
+        throw new Error(`No entry found for prefix=${prefix}`);
+      }
+      return JSON.parse(entry[1] as string);
     },
   };
 };
@@ -112,7 +124,7 @@ describe('simple website', () => {
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
-    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, {
+    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: pluginPath,
       sidebarPath,
     });
@@ -242,16 +254,20 @@ describe('versioned website', () => {
       homePageId: 'hello',
     }),
   );
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
   const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('isVersioned', () => {
+    expect(env.versioning.enabled).toEqual(true);
+  });
 
   test('extendCli - docsVersion', () => {
     const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
-    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, {
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: routeBasePath,
       sidebarPath,
     });
@@ -441,6 +457,164 @@ describe('versioned website', () => {
     );
     expect(firstVersionBaseMetadata).toMatchSnapshot(
       'base metadata for first version',
+    );
+    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+
+    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+    sortConfig(routeConfigs);
+
+    expect(routeConfigs).not.toEqual([]);
+    expect(routeConfigs).toMatchSnapshot();
+    expect(globalDataContainer).toMatchSnapshot();
+  });
+});
+
+describe('versioned website (community)', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'community_sidebars.json');
+  const routeBasePath = 'community';
+  const pluginId = 'community';
+  const plugin = pluginContentDocs(
+    context,
+    normalizePluginOptions({
+      id: 'community',
+      path: 'community',
+      routeBasePath,
+      sidebarPath,
+    }),
+  );
+  const env = loadEnv(siteDir, pluginId);
+  const {docsDir: versionedDir} = env.versioning;
+  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('isVersioned', () => {
+    expect(env.versioning.enabled).toEqual(true);
+  });
+
+  test('extendCli - docsVersion', () => {
+    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const cli = new commander.Command();
+    plugin.extendCli(cli);
+    cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
+      path: routeBasePath,
+      sidebarPath,
+    });
+    mock.mockRestore();
+  });
+
+  test('getPathToWatch', () => {
+    const pathToWatch = plugin.getPathsToWatch();
+    const matchPattern = pathToWatch.map((filepath) =>
+      posixPath(path.relative(siteDir, filepath)),
+    );
+    expect(matchPattern).not.toEqual([]);
+    expect(matchPattern).toMatchInlineSnapshot(`
+      Array [
+        "community/**/*.{md,mdx}",
+        "community_versioned_sidebars/version-1.0.0-sidebars.json",
+        "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "community_sidebars.json",
+      ]
+    `);
+    expect(isMatch('community/team.md', matchPattern)).toEqual(true);
+    expect(
+      isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
+    ).toEqual(true);
+
+    // Non existing version
+    expect(
+      isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
+    ).toEqual(false);
+    expect(
+      isMatch(
+        'community_versioned_sidebars/version-2.0.0-sidebars.json',
+        matchPattern,
+      ),
+    ).toEqual(false);
+
+    expect(isMatch('community/team.js', matchPattern)).toEqual(false);
+    expect(
+      isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
+    ).toEqual(false);
+  });
+
+  test('content', async () => {
+    const content = await plugin.loadContent();
+    const {
+      docsMetadata,
+      docsSidebars,
+      versionToSidebars,
+      permalinkToSidebar,
+    } = content;
+
+    expect(docsMetadata.team).toEqual({
+      id: 'team',
+      unversionedId: 'team',
+      isDocsHomePage: false,
+      permalink: '/community/next/team',
+      source: path.join('@site', routeBasePath, 'team.md'),
+      title: 'team',
+      description: 'Team current version',
+      version: 'next',
+      sidebar: 'community',
+    });
+    expect(docsMetadata['version-1.0.0/team']).toEqual({
+      id: 'version-1.0.0/team',
+      unversionedId: 'team',
+      isDocsHomePage: false,
+      permalink: '/community/team',
+      source: path.join(
+        '@site',
+        path.relative(siteDir, versionedDir),
+        'version-1.0.0',
+        'team.md',
+      ),
+      title: 'team',
+      description: 'Team 1.0.0',
+      version: '1.0.0',
+      sidebar: 'version-1.0.0/community',
+    });
+
+    expect(docsSidebars).toMatchSnapshot('all sidebars');
+    expect(versionToSidebars).toMatchSnapshot(
+      'sidebars needed for each version',
+    );
+
+    const routeConfigs = [];
+    const dataContainer = {};
+    const globalDataContainer = {};
+    const actions = createFakeActions(
+      routeConfigs,
+      pluginContentDir,
+      dataContainer,
+      globalDataContainer,
+    );
+    await plugin.contentLoaded({
+      content,
+      actions,
+    });
+
+    // The created base metadata for each nested docs route is smartly chunked/ splitted across version
+    const latestVersionBaseMetadata = actions.getCreatedData(
+      'community-route-',
+    );
+    expect(latestVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for latest version',
+    );
+    expect(latestVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+    const nextVersionBaseMetadata = actions.getCreatedData(
+      'community-next-route-',
+    );
+    expect(nextVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for next version',
     );
     expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
     expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
