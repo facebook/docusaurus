@@ -2,6 +2,8 @@
 id: static-assets
 title: Static Assets
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 In general, every website needs assets: images, stylesheets, favicons and etc. In such cases, you can create a directory named `static` at the root of your project. Every file you put into that directory will be copied into the the root of the generated `build` folder with the directory hierarchy preserved. E.g. if you add a file named `sun.jpg` to the static folder, it’ll be copied to `build/sun.jpg`.
 
@@ -56,31 +58,63 @@ You could also just use Markdown image syntax, but you would have to manually ma
 ![Docusaurus with Keytar](/img/docusaurus_keytar.png)
 ```
 
-## Types of static assets
+## Referencing assets using relative path
 
-Sometimes you want to link to static assets directly from markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
+Sometimes, it is more convenient to co-locate the asset next to the markdown/javascript file that uses it.
 
 We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
 
-Let's imagine the following file structure:
+We'll take a look at how we can reference various file types using relative path for both markdown and JSX files. Let's imagine we have the following file structure:
+
+<Tabs
+  groupId="file-type"
+  defaultValue="mdx"
+  values={[
+    {label: 'MDX', value: 'mdx'},
+    {label: 'JSX', value: 'jsx'},
+  ]
+}>
+<TabItem value="mdx">
 
 ```
-# Your doc
-/website/docs/myFeature.mdx
+# Your markdown file, where you want to use some assets 
+/website/docs/my-doc.mdx
 
 # Some assets you want to use
 /website/docs/assets/docusaurus-asset-example-banner.png
 /website/docs/assets/docusaurus-asset-example-pdf.pdf
 /website/docs/assets/docusaurus-asset-example.xyz
 ```
+</TabItem>
+<TabItem value="jsx">
+
+```
+# Your JS file, where you want to use some assets 
+/website/src/pages/myComponent.js
+
+# Some assets you want to use
+/website/src/pages/assets/docusaurus-asset-example-banner.png
+/website/src/pages/assets/docusaurus-asset-example-pdf.pdf
+/website/src/pages/assets/docusaurus-asset-example.xyz
+```
+</TabItem>
+</Tabs>
 
 ### Image assets
 
 You can use images by requiring them and using an image tag through MDX:
 
-```mdx
-# My markdown page
+<Tabs
+  groupId="file-type"
+  defaultValue="mdx"
+  values={[
+    {label: 'MDX', value: 'mdx'},
+    {label: 'JSX', value: 'jsx'},
+  ]
+}>
+<TabItem value="mdx">
 
+```mdx title="my-doc.mdx"
 <img src={require('./assets/docusaurus-asset-example-banner.png').default} />
 
 or
@@ -90,13 +124,30 @@ or
 
 The ES imports syntax also works:
 
-```mdx
-# My markdown page
-
+```mdx title="my-doc.mdx"
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl)}/>
+<img src={myImageUrl} />
 ```
+
+
+</TabItem>
+<TabItem value="jsx">
+
+```js title="myComponent.js"
+<img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+```
+
+The ES imports syntax also works:
+
+```js title="myComponent.js"
+import myImageUrl from './assets/docusaurus-asset-example-banner.png';
+
+<img src={myImageUrl} />
+```
+
+</TabItem>
+</Tabs>
 
 This results in displaying the image:
 
@@ -110,11 +161,19 @@ If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusp
 
 ### Common assets
 
-In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc...
+In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc.
 
-```mdx
-# My markdown page
+<Tabs
+  groupId="file-type"
+  defaultValue="mdx"
+  values={[
+    {label: 'MDX', value: 'mdx'},
+    {label: 'JSX', value: 'jsx'},
+  ]
+}>
+<TabItem value="mdx">
 
+```mdx title="my-doc.mdx"
 <a
   target="_blank"
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
@@ -126,6 +185,8 @@ or
 [Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 ```
 
+This results in displaying the following links:
+
 <a
   target="_blank"
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
@@ -134,14 +195,42 @@ or
 
 
 [Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
+</TabItem>
+<TabItem value="jsx">
+
+```js title="myComponent.js"
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+```
+
+This results in displaying the following links:
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+</TabItem>
+</Tabs>
 
 ### Unknown assets
 
-This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in:
+This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in.
 
-```mdx
-# My markdown page
+<Tabs
+  groupId="file-type"
+  defaultValue="mdx"
+  values={[
+    {label: 'MDX', value: 'mdx'},
+    {label: 'JSX', value: 'jsx'},
+  ]
+}>
+<TabItem value="mdx">
 
+```mdx title="my-doc.mdx"
 <a
   target="_blank"
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
@@ -153,6 +242,8 @@ or
 [Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
 ```
 
+This results in displaying the following links:
+
 <a
   target="_blank"
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
@@ -161,14 +252,40 @@ or
 
 [Download this unknown file using Markdown !!!](!file-loader!./assets/docusaurus-asset-example.xyz)
 
+</TabItem>
+<TabItem value="jsx">
 
-```md
+```js title="myComponent.js"
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+```
+
+This results in displaying the following links:
+
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+
+</TabItem>
+</Tabs>
+
+#### Extra: Image links
+
+You can even use images as links. For example, you can download a pdf file (using markdown) by clicking on the following image.
+
+```mdx title="my-doc.mdx"
 [![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
 ```
 
 [![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
 
-### Caveats
+
+## Caveats
 
 Keep in mind that:
 

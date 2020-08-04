@@ -298,7 +298,7 @@ will result in
 
 ### Syncing tab choices
 
-You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Not that `groupID` are globally-namespaced.
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that `groupID` are globally-namespaced.
 
 ```jsx {2,14}
 <Tabs
@@ -935,4 +935,4 @@ If you have multiple of these multi-language code tabs, and you want to sync the
 
 ## Assets
 
-You can directly link to static assets from your markdown files. More information can be found in the documentation for [Static Assets](static-assets.md).
+You can link to static assets (e.g. images, stylesheets, favicons) directly from your markdown files. More information can be found in the documentation for [Static Assets](static-assets.mdx).
