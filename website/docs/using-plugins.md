@@ -381,7 +381,7 @@ module.exports = {
          */
         exclude: [
           '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/*.test.*',
+          '**/*.test.{js,ts}',
           '**/__tests__/**',
         ],
         /**

@@ -188,6 +188,8 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    forbidFrontMatter: (mdxPath: string) =>
+                      excludeRegex.test(slash(mdxPath)),
                   },
                 },
                 {
