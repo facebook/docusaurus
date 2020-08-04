@@ -10,8 +10,13 @@ module.exports = {
     'no-restricted-imports': [
       'error',
       {
-        // prevent importing server code in client bundle
         patterns: [
+          // prevent importing lodash in client bundle
+          // prefer shipping vanilla JS
+          'lodash',
+          'lodash.**',
+          'lodash/**',
+          // prevent importing server code in client bundle
           '**/../babel/**',
           '**/../server/**',
           '**/../commands/**',
