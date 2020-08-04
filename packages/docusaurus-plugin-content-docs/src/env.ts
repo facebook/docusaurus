@@ -14,22 +14,40 @@ import {
   VERSIONED_SIDEBARS_DIR,
 } from './constants';
 
-export function getVersionedDocsDir(siteDir: string): string {
-  return path.join(siteDir, VERSIONED_DOCS_DIR);
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+
+// retro-compatibility: no prefix for the default plugin id
+function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
+  if (pluginId === DEFAULT_PLUGIN_ID) {
+    return fileOrDir;
+  } else {
+    return `${pluginId}_${fileOrDir}`;
+  }
 }
 
-export function getVersionedSidebarsDir(siteDir: string): string {
-  return path.join(siteDir, VERSIONED_SIDEBARS_DIR);
+export function getVersionedDocsDir(siteDir: string, pluginId: string): string {
+  return path.join(siteDir, addPluginIdPrefix(VERSIONED_DOCS_DIR, pluginId));
 }
 
-export function getVersionsJSONFile(siteDir: string): string {
-  return path.join(siteDir, VERSIONS_JSON_FILE);
+export function getVersionedSidebarsDir(
+  siteDir: string,
+  pluginId: string,
+): string {
+  return path.join(
+    siteDir,
+    addPluginIdPrefix(VERSIONED_SIDEBARS_DIR, pluginId),
+  );
+}
+
+export function getVersionsJSONFile(siteDir: string, pluginId: string): string {
+  return path.join(siteDir, addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId));
 }
 
 type EnvOptions = Partial<{disableVersioning: boolean}>;
 
 export default function (
   siteDir: string,
+  pluginId: string,
   options: EnvOptions = {disableVersioning: false},
 ): Env {
   const versioning: VersioningEnv = {
@@ -40,7 +58,7 @@ export default function (
     sidebarsDir: '',
   };
 
-  const versionsJSONFile = getVersionsJSONFile(siteDir);
+  const versionsJSONFile = getVersionsJSONFile(siteDir, pluginId);
   if (fs.existsSync(versionsJSONFile)) {
     if (!options.disableVersioning) {
       const parsedVersions = JSON.parse(
@@ -51,8 +69,8 @@ export default function (
         versioning.latestVersion = parsedVersions[0];
         versioning.enabled = true;
         versioning.versions = parsedVersions;
-        versioning.docsDir = getVersionedDocsDir(siteDir);
-        versioning.sidebarsDir = getVersionedSidebarsDir(siteDir);
+        versioning.docsDir = getVersionedDocsDir(siteDir, pluginId);
+        versioning.sidebarsDir = getVersionedSidebarsDir(siteDir, pluginId);
       }
     }
   }

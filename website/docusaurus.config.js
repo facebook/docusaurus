@@ -32,6 +32,18 @@ module.exports = {
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'community',
+        path: 'community',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
       '@docusaurus/plugin-content-blog',
       {
         id: 'second-blog',
@@ -203,10 +215,10 @@ module.exports = {
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {
-          to: 'docs/next/support',
+          to: '/community/support',
           label: 'Community',
           position: 'left',
-          activeBaseRegex: `docs/next/(support|team|resources)`,
+          activeBaseRegex: `/community/`,
         },
         {
           to: '/versions',
@@ -258,7 +270,7 @@ module.exports = {
             },
             {
               label: 'Help',
-              to: 'docs/next/support',
+              to: '/community/support',
             },
           ],
         },

@@ -80,18 +80,18 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
+  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
   const pluginGlobalDataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
   );
-  const dataDir = path.join(
-    pluginGlobalDataDir,
-    options.id ?? DEFAULT_PLUGIN_ID,
-  );
+  const dataDir = path.join(pluginGlobalDataDir, pluginId);
 
   // Versioning.
-  const env = loadEnv(siteDir, {disableVersioning: options.disableVersioning});
+  const env = loadEnv(siteDir, pluginId, {
+    disableVersioning: options.disableVersioning,
+  });
   const {versioning} = env;
   const {
     versions,

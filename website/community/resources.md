@@ -20,13 +20,13 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 
 ## Official plugins
 
-- [@docusaurus/plugin-content-blog](using-plugins.md#docusaurusplugin-content-blog)
-- [@docusaurus/plugin-content-docs](using-plugins.md#docusaurusplugin-content-docs)
-- [@docusaurus/plugin-content-pages](using-plugins.md#docusaurusplugin-content-pages)
-- [@docusaurus/plugin-google-analytics](using-plugins.md#docusaurusplugin-google-analytics)
-- [@docusaurus/plugin-google-gtag](using-plugins.md#docusaurusplugin-google-gtag)
-- [@docusaurus/plugin-sitemap](using-plugins.md#docusaurusplugin-sitemap)
-- [@docusaurus/plugin-ideal-image](using-plugins.md#docusaurusplugin-ideal-image)
+- [@docusaurus/plugin-content-blog](/docs/using-plugins#docusaurusplugin-content-blog)
+- [@docusaurus/plugin-content-docs](/docs/using-plugins#docusaurusplugin-content-docs)
+- [@docusaurus/plugin-content-pages](/docs/using-plugins#docusaurusplugin-content-pages)
+- [@docusaurus/plugin-google-analytics](/docs/using-plugins#docusaurusplugin-google-analytics)
+- [@docusaurus/plugin-google-gtag](/docs/using-plugins#docusaurusplugin-google-gtag)
+- [@docusaurus/plugin-sitemap](/docs/using-plugins#docusaurusplugin-sitemap)
+- [@docusaurus/plugin-ideal-image](/docs/using-plugins#docusaurusplugin-ideal-image)
 
 ## Community plugins
 
