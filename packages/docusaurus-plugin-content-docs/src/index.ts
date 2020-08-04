@@ -112,11 +112,18 @@ export default function pluginContentDocs(
         .command('docs:version')
         .arguments('<version>')
         .description('Tag a new version for docs')
-        .action((version) => {
-          docsVersion(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-          });
+        .option(
+          '--pluginId <id>',
+          'Which docs plugin instance to version (only useful for multi-instance docs)',
+        )
+        .action((version, {pluginId: pluginIdCliOption}) => {
+          const pluginIdCli: string = pluginIdCliOption ?? DEFAULT_PLUGIN_ID;
+          if (pluginIdCli === pluginId) {
+            docsVersion(version, siteDir, pluginIdCli, {
+              path: options.path,
+              sidebarPath: options.sidebarPath,
+            });
+          }
         });
     },
 
