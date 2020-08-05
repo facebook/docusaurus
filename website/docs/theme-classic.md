@@ -49,7 +49,6 @@ module.exports = {
         // Unicode icons such as '\u2600' will work
         // Unicode with 5 digits require brackets: '\u{1F602}'
         lightIcon: '\u{1F602}'
-        
 
         lightIconStyle: {
           marginLeft: '1px',
