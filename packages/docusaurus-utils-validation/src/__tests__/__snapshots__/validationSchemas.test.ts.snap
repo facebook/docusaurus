@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validation schemas AdmonitionsSchema: for value=[] 1`] = `"\\"value\\" must be of type object"`;
+
+exports[`validation schemas AdmonitionsSchema: for value=3 1`] = `"\\"value\\" must be of type object"`;
+
+exports[`validation schemas AdmonitionsSchema: for value=null 1`] = `"\\"value\\" must be of type object"`;
+
+exports[`validation schemas AdmonitionsSchema: for value=true 1`] = `"\\"value\\" must be of type object"`;
+
+exports[`validation schemas PluginIdSchema: for value="/docs" 1`] = `"\\"value\\" with value \\"/docs\\" fails to match the required pattern: /^[a-zA-Z_\\\\-]+$/"`;
+
+exports[`validation schemas PluginIdSchema: for value="do cs" 1`] = `"\\"value\\" with value \\"do cs\\" fails to match the required pattern: /^[a-zA-Z_\\\\-]+$/"`;
+
+exports[`validation schemas PluginIdSchema: for value="do/cs" 1`] = `"\\"value\\" with value \\"do/cs\\" fails to match the required pattern: /^[a-zA-Z_\\\\-]+$/"`;
+
+exports[`validation schemas PluginIdSchema: for value="docs/" 1`] = `"\\"value\\" with value \\"docs/\\" fails to match the required pattern: /^[a-zA-Z_\\\\-]+$/"`;
+
+exports[`validation schemas PluginIdSchema: for value=[] 1`] = `"\\"value\\" must be a string"`;
+
+exports[`validation schemas PluginIdSchema: for value=3 1`] = `"\\"value\\" must be a string"`;
+
+exports[`validation schemas PluginIdSchema: for value=null 1`] = `"\\"value\\" must be a string"`;
+
+exports[`validation schemas PluginIdSchema: for value=true 1`] = `"\\"value\\" must be a string"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[[]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[[null,null]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[[null,true]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[3] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[false] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=[null] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=3 1`] = `"\\"value\\" must be an array"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=false 1`] = `"\\"value\\" must be an array"`;
+
+exports[`validation schemas RehypePluginsSchema: for value=null 1`] = `"\\"value\\" must be an array"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[[]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[[null,null]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[[null,true]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[3] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[false] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=[null] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=3 1`] = `"\\"value\\" must be an array"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=false 1`] = `"\\"value\\" must be an array"`;
+
+exports[`validation schemas RemarkPluginsSchema: for value=null 1`] = `"\\"value\\" must be an array"`;

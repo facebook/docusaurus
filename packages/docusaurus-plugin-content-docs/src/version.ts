@@ -14,29 +14,36 @@ import fs from 'fs-extra';
 import path from 'path';
 import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 // Tests depend on non-default export for mocking.
 // eslint-disable-next-line import/prefer-default-export
 export function docsVersion(
   version: string | null | undefined,
   siteDir: string,
+  pluginId: string,
   options: PathOptions,
 ): void {
+  // It wouldn't be very user-friendly to show a [default] log prefix,
+  // so we use [docs] instead of [default]
+  const pluginIdLogPrefix =
+    pluginId === DEFAULT_PLUGIN_ID ? '[docs] ' : `[${pluginId}] `;
+
   if (!version) {
     throw new Error(
-      'No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0',
+      `${pluginIdLogPrefix}No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0`,
     );
   }
 
   if (version.includes('/') || version.includes('\\')) {
     throw new Error(
-      `Invalid version tag specified! Do not include slash (/) or (\\). Try something like: 1.0.0`,
+      `${pluginIdLogPrefix}Invalid version tag specified! Do not include slash (/) or (\\). Try something like: 1.0.0`,
     );
   }
 
   if (version.length > 32) {
     throw new Error(
-      'Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0',
+      `${pluginIdLogPrefix}Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0`,
     );
   }
 
@@ -44,19 +51,19 @@ export function docsVersion(
   // sure it's a valid pathname.
   if (/[<>:"\/\\|?*\x00-\x1F]/g.test(version)) {
     throw new Error(
-      'Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0',
+      `${pluginIdLogPrefix}Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0`,
     );
   }
 
   if (/^\.\.?$/.test(version)) {
     throw new Error(
-      'Invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0',
+      `${pluginIdLogPrefix}Invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0`,
     );
   }
 
   // Load existing versions.
   let versions = [];
-  const versionsJSONFile = getVersionsJSONFile(siteDir);
+  const versionsJSONFile = getVersionsJSONFile(siteDir, pluginId);
   if (fs.existsSync(versionsJSONFile)) {
     versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
   }
@@ -64,7 +71,7 @@ export function docsVersion(
   // Check if version already exists.
   if (versions.includes(version)) {
     throw new Error(
-      'This version already exists!. Use a version tag that does not already exist.',
+      `${pluginIdLogPrefix}This version already exists!. Use a version tag that does not already exist.`,
     );
   }
 
@@ -73,11 +80,11 @@ export function docsVersion(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
   if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
-    const versionedDir = getVersionedDocsDir(siteDir);
+    const versionedDir = getVersionedDocsDir(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
     fs.copySync(docsDir, newVersionDir);
   } else {
-    throw new Error('There is no docs to version !');
+    throw new Error(`${pluginIdLogPrefix}There is no docs to version !`);
   }
 
   // Load current sidebar and create a new versioned sidebars file.
@@ -109,7 +116,7 @@ export function docsVersion(
       {},
     );
 
-    const versionedSidebarsDir = getVersionedSidebarsDir(siteDir);
+    const versionedSidebarsDir = getVersionedSidebarsDir(siteDir, pluginId);
     const newSidebarFile = path.join(
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
@@ -127,5 +134,5 @@ export function docsVersion(
   fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
-  console.log(`Version ${version} created!`);
+  console.log(`${pluginIdLogPrefix}Version ${version} created!`);
 }
