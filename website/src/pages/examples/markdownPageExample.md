@@ -51,6 +51,6 @@ import Chapter1 from './\_chapter2.mdx';
 
 <Chapter1/>
 
-import Chapter1 from './\_chapter2.mdx';
+import Chapter2 from './\_chapter2.mdx';
 
 <Chapter2/>
