@@ -60,6 +60,7 @@ function readComponent(themePath: string) {
   );
 }
 
+// load components from theme based on configurations
 function getComponentName(
   themePath: string,
   plugin: any,
