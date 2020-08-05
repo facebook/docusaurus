@@ -25,6 +25,7 @@ import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -44,10 +45,11 @@ export default function pluginContentPages(
 
   const contentPath = path.resolve(siteDir, options.path);
 
-  const dataDir = path.join(
+  const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
   );
+  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
   return {
     name: 'docusaurus-plugin-content-pages',
@@ -83,20 +85,20 @@ export default function pluginContentPages(
 
       function toMetadata(relativeSource: string): Metadata {
         const source = path.join(pagesDir, relativeSource);
-        const aliasedSource = aliasedSitePath(source, siteDir);
+        const aliasedSourcePath = aliasedSitePath(source, siteDir);
         const pathName = encodePath(fileToPath(relativeSource));
         const permalink = pathName.replace(/^\//, baseUrl || '');
         if (isMarkdownSource(relativeSource)) {
           return {
             type: 'mdx',
             permalink,
-            source: aliasedSource,
+            source: aliasedSourcePath,
           };
         } else {
           return {
             type: 'jsx',
             permalink,
-            source: aliasedSource,
+            source: aliasedSourcePath,
           };
         }
       }
@@ -152,7 +154,7 @@ export default function pluginContentPages(
       return {
         resolve: {
           alias: {
-            '~pages': dataDir,
+            '~pages': pluginDataDirRoot,
           },
         },
         module: {
@@ -171,10 +173,10 @@ export default function pluginContentPages(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedSource)}.json`,
+                        `${docuHash(aliasedPath)}.json`,
                       );
                     },
                   },

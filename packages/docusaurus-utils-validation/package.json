@@ -16,7 +16,8 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
-    "@hapi/joi": "17.1.1"
+    "@hapi/joi": "17.1.1",
+    "chalk": "^3.0.0"
   },
   "engines": {
     "node": ">=10.15.1"

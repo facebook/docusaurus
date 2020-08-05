@@ -274,7 +274,24 @@ This results in the following links:
 </TabItem>
 </Tabs>
 
-#### Extra: Image links
+### Additional ways of using assets
+
+#### Inline SVGs
+
+Docusaurus supports inline SVGs out of the box.
+
+```js title="myComponent.js"
+
+import DocusaurusSvg from "./docusaurus.svg"
+
+<DocusaurusSvg />
+
+```
+import DocusaurusSvg from "@site/static/img/docusaurus.svg"
+
+<DocusaurusSvg />
+
+#### Image links
 
 You can even use images as links. For example, you can download a pdf file (using markdown) by clicking on the following image.
 

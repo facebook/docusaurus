@@ -10,7 +10,10 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
-import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
+import {
+  STATIC_DIR_NAME,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/core/lib/constants';
 import {ValidationError} from '@hapi/joi';
 
 import {
@@ -48,11 +51,15 @@ export default function pluginContentBlog(
 
   const {siteDir, generatedFilesDir} = context;
   const contentPath = path.resolve(siteDir, options.path);
-  const dataDir = path.join(
+
+  const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
-    // options.id ?? 'default',  // TODO support multi-instance
   );
+  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+  const aliasedSource = (source: string) =>
+    `~blog/${path.relative(pluginDataDirRoot, source)}`;
+
   let blogPosts: BlogPost[] = [];
 
   return {
@@ -206,8 +213,6 @@ export default function pluginContentBlog(
         blogTagsPostsComponent,
       } = options;
 
-      const aliasedSource = (source: string) =>
-        `~blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
         blogPosts: loadedBlogPosts,
@@ -349,7 +354,7 @@ export default function pluginContentBlog(
       return {
         resolve: {
           alias: {
-            '~blog': dataDir,
+            '~blog': pluginDataDirRoot,
           },
         },
         module: {
@@ -369,10 +374,10 @@ export default function pluginContentBlog(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedSource)}.json`,
+                        `${docuHash(aliasedPath)}.json`,
                       );
                     },
                   },
