@@ -30,21 +30,3 @@ module.exports = function () {
     },
   };
 };
-
-const ThemeConfigSchema = Joi.object({
-  prism: Joi.object({
-    theme: Joi.object({
-      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
-    darkTheme: Joi.object({
-      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
-    defaultLanguage: Joi.string(),
-  }),
-});
-
-module.exports.validateThemeConfig = ({validate, themeConfig}) => {
-  return validate(ThemeConfigSchema, themeConfig);
-};
