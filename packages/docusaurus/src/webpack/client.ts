@@ -24,6 +24,9 @@ export default function createClientConfig(
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
+    node: {
+      fs: 'empty',
+    },
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
