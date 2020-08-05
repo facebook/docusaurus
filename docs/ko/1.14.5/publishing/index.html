@@ -1,0 +1,413 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Publishing your site · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="여러분은 이제 [기본 사이트 구조 만들기와 로컬에서 실행하기](/docs/ko/1.14.5/site-creation)를 성공적으로 수행했습니다. 이번에는 [원하는 형태로 수정하기](/docs/ko/1.14.5/site-config) 과정을 통해 링크를 생성하고 다른 사용자에게 공개하는 방법을 살펴봅니다. 도큐사우르스는 정적인 HTML로 만들어진 웹사이트를 생성합니다. 생성된 HTML 파일을 여러분의 웹서버나 호스팅 업체에서 제공하는 공간에 옮기기만 하면 됩니다."/><meta name="docsearch:version" content="1.14.5"/><meta name="docsearch:language" content="ko"/><meta property="og:title" content="Publishing your site · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="여러분은 이제 [기본 사이트 구조 만들기와 로컬에서 실행하기](/docs/ko/1.14.5/site-creation)를 성공적으로 수행했습니다. 이번에는 [원하는 형태로 수정하기](/docs/ko/1.14.5/site-config) 과정을 통해 링크를 생성하고 다른 사용자에게 공개하는 방법을 살펴봅니다. 도큐사우르스는 정적인 HTML로 만들어진 웹사이트를 생성합니다. 생성된 HTML 파일을 여러분의 웹서버나 호스팅 업체에서 제공하는 공간에 옮기기만 하면 됩니다."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ko"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ko/versions"><h3>1.14.5</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ko/1.14.5/installation" target="_self">문서</a></li><li class=""><a href="/docs/ko/1.14.5/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/ko/users" target="_self">사용자</a></li><li class=""><a href="/blog/" target="_self">블로그</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_blank">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>한국어</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.14.5/publishing">English</a></li><li><a href="/docs/fr/1.14.5/publishing">Français</a></li><li><a href="/docs/pt-BR/1.14.5/publishing">Português (Brasil)</a></li><li><a href="/docs/ro/1.14.5/publishing">Română</a></li><li><a href="/docs/ru/1.14.5/publishing">Русский</a></li><li><a href="/docs/zh-CN/1.14.5/publishing">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">번역을 도와주세요</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>시작하기</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">시작하기<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/site-creation">Creating your site</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ko/1.14.5/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">가이드<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.14.5/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ko" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Publishing your site</h1></header><article><div><span><p>여러분은 이제 <a href="/docs/ko/1.14.5/site-creation">기본 사이트 구조 만들기와 로컬에서 실행하기</a>를 성공적으로 수행했습니다. 이번에는 <a href="/docs/ko/1.14.5/site-config">원하는 형태로 수정하기</a> 과정을 통해 링크를 생성하고 다른 사용자에게 공개하는 방법을 살펴봅니다. 도큐사우르스는 정적인 HTML로 만들어진 웹사이트를 생성합니다. 생성된 HTML 파일을 여러분의 웹서버나 호스팅 업체에서 제공하는 공간에 옮기기만 하면 됩니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="정적-html-페이지-만들기"></a><a href="#정적-html-페이지-만들기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>정적 HTML 페이지 만들기</h2>
+<p>여러분의 웹사이트 정적 빌드를 실행하기 위해서는 <code>website</code> 디렉토리 위치에서 아래 명령어를 실행합니다.</p>
+<pre><code class="hljs css language-bash">yarn run build <span class="hljs-comment"># 또는 `npm run build`</span>
+</code></pre>
+<p>명령어가 실행되면 <code>build</code> 디렉토리가 <code>website</code> 디렉토리 아래 생성됩니다. 생성된 디렉토리에는 작성한 문서가 <code>.html</code> 파일로 생성되며 <code>pages</code> 디렉토리 안에 있던 콘텐츠도 같이 생성됩니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="정적-html-페이지-호스팅하기"></a><a href="#정적-html-페이지-호스팅하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>정적 HTML 페이지 호스팅하기</h2>
+<p>이제 <code>website/build</code> 디렉토리에 생성된 모든 파일을 여러분이 선택한 웹서버 <code>html</code> 디렉토리 아래로 복사합니다.</p>
+<blockquote>
+<p>예를 들어, Apache와 Nginx 모두 <code>/var/www/html</code> 기본 컨텐츠 제공 경로 입니다. 어떤 웹서버나 호스팅 업체를 사용할지는 도큐사우르스에서 권할 문제는 아니라 여기서 언급하지는 않겠습니다.</p>
+</blockquote>
+<blockquote>
+<p>여러분의 웹서버에서 사이트를 서비스하는 경우에는 웹서버에서 적절한 HTTP 헤더값을 가지고 리소스 파일을 제공해주어야 합니다. CSS 파일은 헤더 <code>content-type</code> 값을 <code>text/css</code>으로 설정해야 합니다. Nginx의 경우는 <code>nginx.conf</code> 파일에 <code>include /etc/nginx/mime.types;</code> 을 설정하는 것을 의미합니다. See <a href="https://github.com/facebook/docusaurus/issues/602">this issue</a> for more info.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="호스팅-서비스-활용하기"></a><a href="#호스팅-서비스-활용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>호스팅 서비스 활용하기</h3>
+<ul>
+<li><a href="#using-zeit-now">ZEIT Now</a></li>
+<li><a href="#using-github-pages">GitHub 페이지</a></li>
+<li><a href="#hosting-on-netlify">Netlify</a></li>
+<li><a href="#hosting-on-render">Render</a></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="zeit-now-사용하기"></a><a href="#zeit-now-사용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ZEIT Now 사용하기</h3>
+<p>도큐사우르스 프로젝트를 <a href="https://zeit.co/now">ZEIT Now</a>에 배포하면 성능과 사용 편의성 측면에서 <a href="https://zeit.co/now">몇가지 이점</a>이 제공 됩니다.</p>
+<p>Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:</p>
+<ol>
+<li>우선, Zeit Now의 <a href="https://zeit.co/download">command-line interface</a>를 설치합니다:</li>
+</ol>
+<pre><code class="hljs css language-bash">npm i -g now
+</code></pre>
+<ol start="2">
+<li>다음 명령어를 프로젝트 루트 디렉토리에서 실행하세요:</li>
+</ol>
+<pre><code class="hljs css language-bash">now
+</code></pre>
+<p><strong>That's all.</strong> Your docs will automatically be deployed.</p>
+<blockquote>
+<p>Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The <code>docs</code> directory has to be within the <code>website</code> directory, ideally following the directory structure in this example. You will also have to specify a <code>customDocsPath</code> value in <code>siteConfig.js</code>. Take a look at the <a href="https://github.com/zeit/now-examples/tree/master/docusaurus">now-examples repository for a Docusaurus project</a>.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="github-페이지-활용하기"></a><a href="#github-페이지-활용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GitHub 페이지 활용하기</h3>
+<p>Docusaurus was designed to work well with one of the most popular hosting solutions for open source projects: <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+<h4><a class="anchor" aria-hidden="true" id="deploying-to-github-pages"></a><a href="#deploying-to-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploying to GitHub Pages</h4>
+<ol>
+<li>Docusaurus supports deploying as <a href="https://help.github.com/articles/user-organization-and-project-pages">project pages or user/organization pages</a>, your code repository does not even need to be public.</li>
+</ol>
+<blockquote>
+<p>코드 저장소가 프라이빗 상태라고 하더라도 <code>gh-pages</code> 브랜치에 배포되는 내용은 <a href="https://help.github.com/articles/user-organization-and-project-pages/">퍼블릭</a> 상태가 됩니다.</p>
+</blockquote>
+<p><strong>Note:</strong> When you deploy as user/organization page, the publish script will deploy these sites to the root of the <strong><code>master</code></strong> branch of the <em>username</em>.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in <strong>another branch of the <em>username</em>.github.io repo</strong> (e.g., maybe call it <code>source</code>), or in another, separate repo (e.g. in the same as the documented source code).</p>
+<ol start="2">
+<li>You will need to modify the file <code>website/siteConfig.js</code> and add the required parameters.</li>
+</ol>
+<table>
+<thead>
+<tr><th>파라미터</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>organizationName</code></td><td>코드 저장소를 소유하고 있는 GitHub 사용자 또는 그룹 계정입니다. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the &quot;<em>facebook</em>&quot; GitHub organization.</td></tr>
+<tr><td><code>projectName</code></td><td>프로젝트에서 사용하고 있는 GitHub 저장소의 이름입니다. For example, the source code for Docusaurus is hosted at <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, so our project name, in this case, would be &quot;docusaurus&quot;.</td></tr>
+<tr><td><code>url</code></td><td>Your website's URL. For projects hosted on GitHub pages, this will be &quot;https://<em>username</em>.github.io&quot;</td></tr>
+<tr><td><code>baseUrl</code></td><td>Base URL for your project. For projects hosted on GitHub pages, it follows the format &quot;/<em>projectName</em>/&quot;. For <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, <code>baseUrl</code> is <code>/docusaurus/</code>.</td></tr>
+</tbody>
+</table>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  url: <span class="hljs-string">'https://__userName__.github.io'</span>, <span class="hljs-comment">// Your website URL</span>
+  <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">'/testProject/'</span>,
+  <span class="hljs-attr">projectName</span>: <span class="hljs-string">'testProject'</span>,
+  <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'userName'</span>
+  ...
+}
+</code></pre>
+<p>In case you want to deploy as a user or organization site, specify the project name as <code>&lt;username&gt;.github.io</code> or <code>&lt;orgname&gt;.github.io</code>. E.g. If your GitHub username is &quot;user42&quot; then <em>user42.github.io</em>, or in the case of an organization name of &quot;org123&quot;, it will be <em>org123.github.io</em>.</p>
+<p><strong>Note:</strong> Not setting the <code>url</code> and <code>baseUrl</code> of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.</p>
+<blockquote>
+<p><code>projectName</code>과 <code>organizationName</code> 설정은 <code>siteConfig.js</code> 파일에서 관리하는 것을 권장합니다. 물론, 환경 변수에서 <code>ORGANIZATION_NAME</code>, <code>PROJECT_NAME</code> 값을 지정하는 방법도 사용할 수 있습니다.</p>
+</blockquote>
+<ol start="3">
+<li>Now you have to specify the git user as an environment variable, and run the script <a href="/docs/ko/1.14.5/commands#docusaurus-publish"><code>publish-gh-pages</code></a></li>
+</ol>
+<table>
+<thead>
+<tr><th>파라미터</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>GIT_USER</code></td><td>The username for a GitHub account that has to commit access to this repo. For your repositories, this will usually be your own GitHub username. <code>GIT_USER</code>는 <code>organizationName</code>와 <code>projectName</code>의 조합으로 지정된 저장소에 푸시 권한을 가지고 있어야 합니다.</td></tr>
+</tbody>
+</table>
+<p>명령행에서 스크립트를 바로 실행하기 위해서는 적절하게 파라미터 값을 채워주어야 합니다.</p>
+<p><strong>Bash</strong></p>
+<pre><code class="hljs css language-bash">GIT_USER=&lt;GIT_USER&gt; \
+  CURRENT_BRANCH=master \
+  USE_SSH=<span class="hljs-literal">true</span> \
+  yarn run publish-gh-pages <span class="hljs-comment"># 또는 `npm run publish-gh-pages`</span>
+</code></pre>
+<p><strong>Windows</strong></p>
+<pre><code class="hljs css language-batch">cmd /C <span class="hljs-string">"set "</span><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt;"&amp;&amp; <span class="hljs-builtin-name">set</span> <span class="hljs-attribute">CURRENT_BRANCH</span>=master &amp;&amp; <span class="hljs-builtin-name">set</span> <span class="hljs-attribute">USE_SSH</span>=<span class="hljs-literal">true</span> &amp;&amp; yarn <span class="hljs-builtin-name">run</span> publish-gh-pages<span class="hljs-string">"
+</span></code></pre>
+<p>환경 변수로 설정할 수 있는 추가적인 2가지 파라미터는 아래와 같습니다.</p>
+<table>
+<thead>
+<tr><th>파라미터</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>USE_SSH</code></td><td><code>true</code>로 값을 설정하면 GitHub 저장소 연결 시 HTTPS 대신 SSH를 사용합니다. 변수값을 설정하지 않으면 HTTPS가 기본으로 설정됩니다.</td></tr>
+<tr><td><code>CURRENT_BRANCH</code></td><td>배포될 최신 문서를 포함하고 있는 브랜치를 지정합니다. 일반적인 경우는 <code>master</code> 브랜치가 되겠지만, <code>gh-pages</code>를 제외한 어떤 브랜치(기본값 또는 다른)를 사용해도 괜찮습니다. 변수값을 설정하지 않으면 현재 브랜치를 사용합니다.</td></tr>
+</tbody>
+</table>
+<p>SSH 키 관련 문제가 발생한다면 <a href="https://help.github.com/articles/connecting-to-github-with-ssh/">GitHub's authentication documentation</a> 페이지 정보를 참고하세요.</p>
+<p>You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://<em>username</em>.github.io/<em>projectName</em>, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is <a href="https://facebook.github.io/Docusaurus">https://facebook.github.io/Docusaurus</a> because it is served from the <code>gh-pages</code> branch of the <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a> GitHub repository. However, it can also be accessed via <a href="https://docusaurus.io/">https://docusaurus.io/</a>, via a generated <code>CNAME</code> file which can be configured via the <code>cname</code> <a href="/docs/ko/1.14.5/site-config#cname-string">siteConfig option</a>.</p>
+<p>서비스가 어떻게 동작하는지 궁금하다면 <a href="https://pages.github.com">GitHub Pages documentation</a> 페이지 정보를 참고하세요.</p>
+<p>문서를 수정해서 변경된 내용을 사이트에 배포하고자 한다면 위에 있는 명령어를 실행하기만 하면 됩니다. 문서의 변경이 거의 발생하지 않는다면 스크립트를 수동으로 실행하는 방식이 더 좋은 선택입니다. 수동으로 변경된 항목을 배포하는 것은 그리 귀찮은 일은 아닙니다.</p>
+<p>하지만, 지속적인 통합(CI) 프로세스를 만들고자 한다면 자동으로 배포되는 작업을 구성할 수도 있습니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="지속적인-통합-환경에서-자동으로-배포하기"></a><a href="#지속적인-통합-환경에서-자동으로-배포하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>지속적인 통합 환경에서 자동으로 배포하기</h2>
+<p>지속적인 통합 (CI) 서비스는 소스 콘트롤에 새로운 커밋이 발생할때마다 반복적으로 발생하는 작업을 처리하기 위해 사용합니다. 지속적인 통합 환경에서는 단위 테스트, 통합 테스트, 자동 빌드, NPM 배포 그리고 변경된 내용을 웹사이트에 배포하기 같은 복합적인 작업을 처리할 수 있습니다. All you need to do to automate the deployment of your website is to invoke the <code>publish-gh-pages</code> script whenever your docs get updated. In the following section, we'll be covering how to do just that using <a href="https://circleci.com/">CircleCI</a>, a popular continuous integration service provider.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-circleci-20"></a><a href="#using-circleci-20" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using CircleCI 2.0</h3>
+<p>Circle Ci에 대한 정보가 필요하다면 <a href="https://circleci.com/signup/">setup CircleCI</a> 페이지 정보를 참고하세요. 여러분의 사이트와 문서를 CircleCI를 통해 자동으로 배포하고자 한다면 <code>publish-gh-pages</code> 스크립트가 배포 단계에서 실행될 수 있도록 Circle 설정을 변경해주기만 하면 됩니다. 아래와 같은 단계로 설정을 변경할 수 있습니다.</p>
+<ol>
+<li><code>GIT_USER</code>에 설정한 GitHub 사용자 계정은 문서가 있는 저장소 <code>쓰기</code> 권한을 가지고 있어야 합니다. 저장소에서 <code>Settings | Collaborators &amp; teams</code> 메뉴에서 설정을 변경할 수 있습니다.</li>
+<li><code>GIT_USER</code>에 지정한 사용자로 GitHub 사이트에 로그인합니다.</li>
+<li><a href="Https://github.com/settings/tokens">Https://github.com/settings/tokens</a> URL로 접근해서 <code>GIT_USER</code>를 위한 <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a>을 생성합니다. 접근 범위 설정 시 <code>repository</code>를 선택하면 프라이빗 저장소에 대한 모든 권한을 부여할 수 있습니다. 생성한 토큰은 안전한 곳에 보관하고 외부에 노출되지 않도록 합니다. 토큰은 GitHub 비밀번호를 대신해 GitHub에서 처리하고자하는 모든 작업에 대한 인증 작업을 수행합니다.</li>
+<li>Open your CircleCI dashboard, and navigate to the Settings page for your repository, then select &quot;Environment variables&quot;. URL은 <a href="https://circleci.com/gh/ORG/REPO/edit#env-vars와">https://circleci.com/gh/ORG/REPO/edit#env-vars와</a> 같은 형식인데, &quot;ORG/REPO&quot; 부분은 여러분의 GitHub 그룹 계정/저장소로 변경합니다.</li>
+<li><code>GITHUB_TOKEN</code>라는 이름으로 새로운 환경 변수를 생성하고 앞에서 생성된 액세스 토큰을 값으로 지정합니다.</li>
+<li><code>.circleci</code> 이라는 이름으로 디렉토리를 생성하고 <code>config.yml</code> 파일을 만들어서 넣어줍니다.</li>
+<li>아래에 있는 내용을 <code>.circleci/config.yml</code> 파일에 채워줍니다.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># If you only want the circle to run on direct commits to master, you can uncomment this out</span>
+<span class="hljs-comment"># and uncomment the filters: *filter-only-master down below too</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># aliases:</span>
+<span class="hljs-comment">#  - &amp;filter-only-master</span>
+<span class="hljs-comment">#    branches:</span>
+<span class="hljs-comment">#      only:</span>
+<span class="hljs-comment">#        - master</span>
+
+<span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">deploy-website:</span>
+    <span class="hljs-attr">docker:</span>
+      <span class="hljs-comment"># specify the version you desire here</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
+
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">checkout</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">Deploying</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+          <span class="hljs-attr">command:</span> <span class="hljs-string">|
+            git config --global user.email "&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"
+            git config --global user.name "&lt;YOUR_NAME&gt;"
+            echo "machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN" &gt; ~/.netrc
+            cd website &amp;&amp; yarn install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; yarn run publish-gh-pages
+</span>
+<span class="hljs-attr">workflows:</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+  <span class="hljs-attr">build_and_deploy:</span>
+    <span class="hljs-attr">jobs:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">deploy-website:</span>
+<span class="hljs-comment">#         filters: *filter-only-master</span>
+</code></pre>
+<p><code>command:</code> 항목에서 <code>&lt;....&gt;</code>로 표시된 부분은 적절한 값으로 변경해주어야 합니다. <code>&lt;GIT_USER&gt;</code> 항목은 GitHub 저장소에 문서를 집어넣기 위한 권한을 가지고 있는 GitHub 사용자 계정을 지정해줍니다. 대부분의 경우 <code>&lt;GIT_USER&gt;</code>와 <code>&lt;GITHUB_USERNAME&gt;</code>은 같은 값을 사용합니다.</p>
+<p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 5.</p>
+<blockquote>
+<p>GitHub 저장소 접근 시 SSH를 사용하고자 한다면 <code>USE_SSH=true</code>을 설정하면 됩니다. SSH 설정을 적용하면 설정된 값은 다음과 같은 형식이 됩니다. <code>cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; USE_SSH=true npm run publish-gh-pages</code>.</p>
+</blockquote>
+<blockquote>
+<p>Unlike when you run the <code>publish-gh-pages</code> script manually when the script runs within the Circle environment, the value of <code>CURRENT_BRANCH</code> is already defined as an <a href="https://circleci.com/docs/1.0/environment-variables/">environment variable within CircleCI</a> and will be picked up by the script automatically.</p>
+</blockquote>
+<p>이제 <code>master</code> 브랜치에 새로운 커밋이 발생하게 되면 CircleCI는 여러분의 테스트 스위트가 실행되고 모든 테스트가 통과되면 <code>publish-gh-pages</code> 스크립트가 실행되어 여러분의 웹사이트를 배포하게 됩니다.</p>
+<blockquote>
+<p>If you would rather use a deploy key instead of a personal access token, you can by starting with the CircleCI <a href="https://circleci.com/docs/1.0/adding-read-write-deployment-key/">instructions</a> for adding a read/write deploy key.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="팁--트릭"></a><a href="#팁--트릭" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>팁 &amp; 트릭</h3>
+<p>When initially deploying to a <code>gh-pages</code> branch using CircleCI, you may notice that some jobs triggered by commits to the <code>gh-pages</code> branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).</p>
+<p>You can work around this by:</p>
+<ul>
+<li>Setting the environment variable <code>CUSTOM_COMMIT_MESSAGE</code> flag to the <code>publish-gh-pages</code> command with the contents of <code>[skip ci]</code>. e.g.</li>
+</ul>
+<pre><code class="hljs css language-bash">CUSTOM_COMMIT_MESSAGE=<span class="hljs-string">"[skip ci]"</span> \
+  yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
+</code></pre>
+<ul>
+<li>Alternatively, you can work around this by creating a basic CircleCI config with the following contents:</li>
+</ul>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># CircleCI 2.0 Config File</span>
+<span class="hljs-comment"># This config file will prevent tests from being run on the gh-pages branch.</span>
+<span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build:</span>
+    <span class="hljs-attr">machine:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">branches:</span>
+      <span class="hljs-attr">ignore:</span> <span class="hljs-string">gh-pages</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">"Skipping tests on gh-pages branch"</span>
+</code></pre>
+<p><code>config.yml</code> 파일로 만들고 <code>website/static</code> 디렉토리 밑에 있는 <code>.circleci</code> 디렉토리 아래에 저장합니다.</p>
+<h3><a class="anchor" aria-hidden="true" id="travis-ci-사용하기"></a><a href="#travis-ci-사용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Travis CI 사용하기</h3>
+<ol>
+<li><a href="Https://github.com/settings/tokens">Https://github.com/settings/tokens</a> 에 접속해서 새로운 <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a>을 생성합니다.</li>
+<li>GitHub 사용자 계정을 사용해 활성화하고자 하는 저장소에 <a href="https://github.com/marketplace/travis-ci">Travis CI 앱을 추가합니다</a>.</li>
+<li>Travis CI 대시보드를 실행합니다. The URL looks like <a href="https://travis-ci.com/USERNAME/REPO">https://travis-ci.com/USERNAME/REPO</a>, and navigate to the <code>More options</code> &gt; <code>Setting</code> &gt; <code>Environment Variables</code> section of your repository.</li>
+<li><code>GH_TOKEN</code>라는 이름으로 새로운 환경 변수를 만들고 이전 단계에서 생성한 토큰을 값으로 지정합니다. 그리고 <code>GH_EMAIL</code> (이메일 주소), <code>GH_NAME</code> (GitHub 사용자 계정) 환경 변수값도 설정합니다.</li>
+<li>저장소 루트에 아래 내용을 참고해 <code>.travis.yml</code> 파일을 생성합니다.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># .travis.yml</span>
+<span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
+<span class="hljs-attr">node_js:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">'8'</span>
+<span class="hljs-attr">branches:</span>
+  <span class="hljs-attr">only:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
+<span class="hljs-attr">cache:</span>
+  <span class="hljs-attr">yarn:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">script:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">"${GH_NAME}"</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.email</span> <span class="hljs-string">"${GH_EMAIL}"</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">"machine github.com login ${GH_NAME} password ${GH_TOKEN}"</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">~/.netrc</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">cd</span> <span class="hljs-string">website</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">install</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">GIT_USER="${GH_NAME}"</span> <span class="hljs-string">yarn</span> <span class="hljs-string">run</span> <span class="hljs-string">publish-gh-pages</span>
+</code></pre>
+<p>이제 <code>master</code> 브랜치에 새로운 커밋이 발생하게 되면 Travis CI는 여러분의 테스트 스위트가 실행되고 모든 테스트가 통과되면 <code>publish-gh-pages</code> 스크립트가 실행되어 여러분의 웹사이트를 배포하게 됩니다.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-azure-pipelines"></a><a href="#using-azure-pipelines" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Azure Pipelines</h3>
+<ol>
+<li>Sign Up at <a href="https://azure.microsoft.com/en-us/services/devops/pipelines/">Azure Pipelines</a> if you haven't already.</li>
+<li>Create an organization and within the organization create a project and connect your repository from GitHub.</li>
+<li>Go to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and generate a new <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a> with repository scope.</li>
+<li>In the project page (which looks like <a href="https://dev.azure.com/ORG_NAME/REPO_NAME/_build">https://dev.azure.com/ORG_NAME/REPO_NAME/_build</a>) create a new pipeline with the following text. Also, click on edit and add a new environment variable named <code>GH_TOKEN</code> with your newly generated token as its value, then <code>GH_EMAIL</code> (your email address) and <code>GH_NAME</code> (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named <code>azure-pipelines.yml</code> at yout repository root.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># azure-pipelines.yml</span>
+<span class="hljs-attr">trigger:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
+
+<span class="hljs-attr">pool:</span>
+  <span class="hljs-attr">vmImage:</span> <span class="hljs-string">'ubuntu-latest'</span>
+
+<span class="hljs-attr">steps:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">checkout:</span> <span class="hljs-string">self</span>
+    <span class="hljs-attr">persistCredentials:</span> <span class="hljs-literal">true</span>
+
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">task:</span> <span class="hljs-string">NodeTool@0</span>
+    <span class="hljs-attr">inputs:</span>
+      <span class="hljs-attr">versionSpec:</span> <span class="hljs-string">'10.x'</span>
+    <span class="hljs-attr">displayName:</span> <span class="hljs-string">'Install Node.js'</span>
+
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">script:</span> <span class="hljs-string">|
+      git config --global user.name "${GH_NAME}"
+      git config --global user.email "${GH_EMAIL}"
+      git checkout -b master
+      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" &gt; ~/.netrc
+      cd website
+      yarn install
+      GIT_USER="${GH_NAME}" CURRENT_BRANCH=master yarn run publish-gh-pages
+</span>    <span class="hljs-attr">env:</span>
+      <span class="hljs-attr">GH_NAME:</span> <span class="hljs-string">$(GH_NAME)</span>
+      <span class="hljs-attr">GH_EMAIL:</span> <span class="hljs-string">$(GH_EMAIL)</span>
+      <span class="hljs-attr">GH_TOKEN:</span> <span class="hljs-string">$(GH_TOKEN)</span>
+    <span class="hljs-attr">displayName:</span> <span class="hljs-string">'yarn install and build'</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="hosting-on-zeit-now"></a><a href="#hosting-on-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on ZEIT Now</h3>
+<p>With <a href="#using-zeit-now">ZEIT Now</a>, you can deploy your site and connect it to <a href="https://zeit.co/github">GitHub</a> or <a href="https://zeit.co/gitlab">GitLab</a> to automatically receive a new deployment every time you push a commit.</p>
+<h3><a class="anchor" aria-hidden="true" id="netlify-활용하기"></a><a href="#netlify-활용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Netlify 활용하기</h3>
+<p>아래 단계를 따라 도큐사우르스로 만든 사이트를 Netlify에서 운영할 수 있습니다.</p>
+<ol>
+<li><p>Select <strong>New site from Git</strong></p></li>
+<li><p>사용하고 있는 Git 서비스 공급자에 연결합니다.</p></li>
+<li><p>배포할 브랜치를 선택합니다. 기본값은 <code>master</code>입니다.</p></li>
+<li><p>빌드 단계의 세부 항목을 설정합니다.</p>
+<ul>
+<li>빌드 명령어를 다음과 같이 입력합니다. <code>cd website; npm install; npm run build;</code></li>
+<li>배포할 디렉토리는 다음과 같습니다. <code>website/build/&lt;projectName&gt;</code> (<code>projectName</code>은 <code>siteConfig</code>에서 설정합니다).</li>
+</ul></li>
+<li><p>Click <strong>Deploy site</strong></p></li>
+</ol>
+<p>Netlify 설정을 통해 저장소에 커밋이 발생할때마다 빌드를 처리할 수도 있고 <code>master</code> 브랜치에 커밋이 발생할때만 빌드가 실행될 수 있습니다.</p>
+<h3><a class="anchor" aria-hidden="true" id="hosting-on-render"></a><a href="#hosting-on-render" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on Render</h3>
+<p>Render offers free <a href="https://render.com/docs/static-sites">static site</a> hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploy from your Git repo. Deploy your app in just a few minutes by following these steps.</p>
+<ol>
+<li><p>Create a new <strong>Web Service</strong> on Render, and give Render's GitHub app permission to access your Docusaurus repo.</p></li>
+<li><p>배포할 브랜치를 선택합니다. The default is <code>master</code>.</p></li>
+<li><p>Enter the following values during creation.</p>
+<table>
+<thead>
+<tr><th>Field</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Environment</strong></td><td><code>Static Site</code></td></tr>
+<tr><td><strong>Build Command</strong></td><td><code>cd website; yarn install; yarn build</code></td></tr>
+<tr><td><strong>Publish Directory</strong></td><td><code>website/build/&lt;projectName&gt;</code></td></tr>
+</tbody>
+</table>
+<p><code>projectName</code> is the value you defined in your <code>siteConfig.js</code>.</p>
+<pre><code class="hljs css language-javascript{7}"><span class="hljs-keyword">const</span> siteConfig = {
+  <span class="hljs-comment">// ...</span>
+  projectName: <span class="hljs-string">'your-project-name'</span>,
+  <span class="hljs-comment">// ...</span>
+</code></pre></li>
+</ol>
+<p>That's it! Your app will be live on your Render URL as soon as the build finishes.</p>
+<h3><a class="anchor" aria-hidden="true" id="github-enterprise-활용하기"></a><a href="#github-enterprise-활용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GitHub Enterprise 활용하기</h3>
+<p>GitHub Enterprise의 설치방법은 github.com에서 했던 방법과 같습니다. 그룹 계정에서 사용할 GitHub Enterprise 호스트를 처리해주기만 하면 됩니다.</p>
+<table>
+<thead>
+<tr><th>파라미터</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>GITHUB_HOST</code></td><td>GitHub enterprise 서버에서 사용하는 호스트이름을 설정합니다.</td></tr>
+</tbody>
+</table>
+<p><code>siteConfig.js</code> 파일에 GitHub Enterprise 호스트이름을 설정하는 <code>'githubHost'</code> 속성을 추가합니다. 아니면, 환경 변수로 명령어 실행 시 <code>GITHUB_HOST</code>를 설정할 수 있습니다.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/1.14.5/site-creation"><span class="arrow-prev">← </span><span>당신만의 사이트 만들기</span></a><a class="docs-next button" href="/docs/ko/1.14.5/docker"><span>도커</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#정적-html-페이지-만들기">정적 HTML 페이지 만들기</a></li><li><a href="#정적-html-페이지-호스팅하기">정적 HTML 페이지 호스팅하기</a><ul class="toc-headings"><li><a href="#호스팅-서비스-활용하기">호스팅 서비스 활용하기</a></li><li><a href="#zeit-now-사용하기">ZEIT Now 사용하기</a></li><li><a href="#github-페이지-활용하기">GitHub 페이지 활용하기</a></li></ul></li><li><a href="#지속적인-통합-환경에서-자동으로-배포하기">지속적인 통합 환경에서 자동으로 배포하기</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#팁--트릭">팁 &amp; 트릭</a></li><li><a href="#travis-ci-사용하기">Travis CI 사용하기</a></li><li><a href="#using-azure-pipelines">Using Azure Pipelines</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#netlify-활용하기">Netlify 활용하기</a></li><li><a href="#hosting-on-render">Hosting on Render</a></li><li><a href="#github-enterprise-활용하기">GitHub Enterprise 활용하기</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/ko/installation">Getting Started</a><a href="
+                /docs/ko/versioning">Versioning</a><a href="
+                /docs/ko/translation">Localization</a><a href="
+                /docs/ko/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/ko/help">Help</a><a href="/ko/users">User Showcase</a><a href="/ko/about-slash">About</a></div><div class="footerSection"><h5>Legal</h5><a href="https://opensource.facebook.com/legal/privacy/" target="_blank" rel="noreferrer noopener">Privacy</a><a href="https://opensource.facebook.com/legal/terms/" target="_blank" rel="noreferrer noopener">Terms</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2020 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:ko","version:1.14.5"]}
+              });
+            </script></body></html>

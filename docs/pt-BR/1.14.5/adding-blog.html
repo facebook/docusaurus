@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Adding a Blog · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Configuração inicial"/><meta name="docsearch:version" content="1.14.5"/><meta name="docsearch:language" content="pt-BR"/><meta property="og:title" content="Adding a Blog · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="## Configuração inicial"/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/pt-BR"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/pt-BR/versions"><h3>1.14.5</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/pt-BR/1.14.5/installation" target="_self">Documentação</a></li><li class=""><a href="/docs/pt-BR/1.14.5/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/pt-BR/users" target="_self">Usuários</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_blank">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>Português (Brasil)</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.14.5/adding-blog">English</a></li><li><a href="/docs/fr/1.14.5/adding-blog">Français</a></li><li><a href="/docs/ko/1.14.5/adding-blog">한국어</a></li><li><a href="/docs/ro/1.14.5/adding-blog">Română</a></li><li><a href="/docs/ru/1.14.5/adding-blog">Русский</a></li><li><a href="/docs/zh-CN/1.14.5/adding-blog">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Ajude-nos a traduzir</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guias</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Primeiros passos<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guias<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/docs/pt-BR/1.14.5/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.14.5/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/pt-BR" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Adding a Blog</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="configuração-inicial"></a><a href="#configuração-inicial" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuração inicial</h2>
+<p>Para configurar o blog do seu site, primeiro crie um diretório <code>blog</code> dentro do diretório <code>website</code> do seu repositório.</p>
+<p>Depois, adicione um link de cabeçalho ao seu blog lá no <code>siteConfig.js</code>:</p>
+<pre><code class="hljs css language-js">headerLinks: [
+    ...
+    { <span class="hljs-attr">blog</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Blog'</span> },
+    ...
+]
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="adicionando-posts"></a><a href="#adicionando-posts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adicionando posts</h2>
+<p>To publish in the blog, create a file within the blog directory with a formatted name of <code>YYYY-MM-DD-my-blog-post-title.md</code>. Como você já deve ter adivinhado, a data do post é extraída do nome do arquivo.</p>
+<p>For example, at <code>website/blog/2017-12-14-introducing-docusaurus.md</code>:</p>
+<pre><code class="hljs css language-yml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Introducing</span> <span class="hljs-string">Docusaurus</span>
+<span class="hljs-attr">author:</span> <span class="hljs-string">Joel</span> <span class="hljs-string">Marcey</span>
+<span class="hljs-attr">authorURL:</span> <span class="hljs-string">http://twitter.com/JoelMarcey</span>
+<span class="hljs-attr">authorFBID:</span> <span class="hljs-number">611217057</span>
+<span class="hljs-attr">authorTwitter:</span> <span class="hljs-string">JoelMarcey</span>
+<span class="hljs-meta">---</span>
+<span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="opções-do-cabeçalho"></a><a href="#opções-do-cabeçalho" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Opções do cabeçalho</h2>
+<p>The only required field is <code>title</code>; however, we provide options to add author information to your blog post as well along with other options.</p>
+<ul>
+<li><code>author</code> - O nome do autor como ele vai aparecer dentro do post.</li>
+<li><code>authorURL</code> - O link associado com o autor. Pode ser um perfil do Twitter, Facebook, GitHub, etc.</li>
+<li><code>authorFBID</code> - O ID do perfil do Facebook do autor, usado para se obter a foto de perfil dele.</li>
+<li><code>authorImageURL</code> - O link para a imagem do autor. (Nota: Se você usa ambos o <code>authorFBID</code> e <code>authorImageURL</code>, <code>authorFBID</code> vai ter prioridade. Não inclua <code>authorFBID</code> se você quiser que <code>authorImageURL</code> apareça.)</li>
+<li><code>title</code> - O título do post.</li>
+<li><code>unlisted</code> - The post will be accessible by directly visiting the URL but will not show up in the sidebar in the final build; during local development, the post will still be listed. Useful in situations where you want to share a WIP post with others for feedback.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="definindo-um-resumo-para-o-post"></a><a href="#definindo-um-resumo-para-o-post" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definindo um resumo para o post</h2>
+<p>Use o marcador <code>&lt;!--truncate--&gt;</code> no seu post para demarcar a parte do seu post que será mostrada como resumo ao visualizar todos os posts publicados. Tudo que estiver sobre <code>&lt;!--truncate--&gt;</code> será parte do resumo. Por exemplo:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
+<span class="hljs-meta">---</span>
+<span class="hljs-string">All</span> <span class="hljs-string">this</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">part</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">blog</span> <span class="hljs-string">post</span> <span class="hljs-string">summary.</span>
+
+<span class="hljs-string">Isso</span> <span class="hljs-string">aqui</span> <span class="hljs-string">também.</span>
+
+<span class="hljs-string">&lt;!--truncate--&gt;</span>
+
+<span class="hljs-string">Mas</span> <span class="hljs-string">tudo</span> <span class="hljs-string">que</span> <span class="hljs-string">estiver</span> <span class="hljs-string">daqui</span> <span class="hljs-string">pra</span> <span class="hljs-string">baixo</span> <span class="hljs-string">estará</span> <span class="hljs-string">fora</span> <span class="hljs-string">do</span> <span class="hljs-string">resumo.</span>
+
+<span class="hljs-string">Isso</span> <span class="hljs-string">aqui</span> <span class="hljs-string">não.</span>
+
+<span class="hljs-string">Nem</span> <span class="hljs-string">isso.</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="alterando-o-número-de-posts-mostrados-na-barra-lateral"></a><a href="#alterando-o-número-de-posts-mostrados-na-barra-lateral" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alterando o número de posts mostrados na barra lateral</h2>
+<p>Por padrão, são mostrados na barra lateral os 5 posts mais recentes.</p>
+<p>Você pode mudar a quantidade de posts mostrada ao adicionar uma configuração <code>blogSidebarCount</code> ao seu <code>siteConfig.js</code>.</p>
+<p>As opções disponíveis são um inteiro representando o número de posts desejado ou uma string com o valor <code>'ALL'</code>.</p>
+<p>Exemplo:</p>
+<pre><code class="hljs css language-js">blogSidebarCount: <span class="hljs-string">'ALL'</span>,
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="alterando-o-título-da-barra-lateral"></a><a href="#alterando-o-título-da-barra-lateral" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alterando o título da barra lateral</h2>
+<p>Você pode definir um título específico para a barra lateral adicionando uma configuração <code>blogSidebarTitle</code> ao seu <code>siteConfig.js</code>.</p>
+<p>A opção é um objeto que pode ter as chaves <code>default</code> e <code>all</code>. O valor da chave <code>default</code> será o título padrão da barra lateral. O valor da chave <code>all</code> será o título da barra lateral caso a opção <code>blogSidebarCount</code> tenha sido configurada como <code>'ALL'</code>.</p>
+<p>Exemplo:</p>
+<pre><code class="hljs css language-js">blogSidebarTitle: { <span class="hljs-attr">default</span>: <span class="hljs-string">'Posts recentes'</span>, <span class="hljs-attr">all</span>: <span class="hljs-string">'Todos os posts'</span> },
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="feed-rss"></a><a href="#feed-rss" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Feed RSS</h2>
+<p>Docusaurus provides an RSS feed for your blog posts. Ambos os formatos RSS e Atom são compatíveis. This data is automatically added to your website page's HTML <code>&lt;HEAD&gt;</code> tag.
+No feed RSS, é fornecido um resumo do texto do post até o marcador <code>&lt;!--truncate--&gt;</code>. If no <code>&lt;!--truncate--&gt;</code> tag is found, then all text up to 250 characters are used.</p>
+<h2><a class="anchor" aria-hidden="true" id="botões-de-redes-sociais"></a><a href="#botões-de-redes-sociais" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Botões de redes sociais</h2>
+<p>Se você quiser adicionar botões para o Facebook e/ou Twitter ao fim de seus posts, defina as opções de <a href="/docs/pt-BR/1.14.5/site-config">configuração do site</a> <code>facebookAppId</code> e/ou <code>twitter</code> lá no <code>siteConfig.js</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="tópicos-avançados"></a><a href="#tópicos-avançados" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tópicos avançados</h2>
+<h3><a class="anchor" aria-hidden="true" id="quero-que-meu-site-seja-somente-um-blog"></a><a href="#quero-que-meu-site-seja-somente-um-blog" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Quero que meu site seja somente um blog.</h3>
+<p>Você pode fazer com que o site Docusaurus mostre o seu blog como página inicial ao invés de uma landing page.</p>
+<p>Para isso:</p>
+<ol>
+<li>Crie um arquivo <code>index.html</code> em <code>website/static/</code>.</li>
+<li>Coloque o conteúdo do modelo abaixo em <code>website/static/index.html</code></li>
+<li>Personalize o <code>&lt;title&gt;</code> de <code>website/static/index.html</code></li>
+<li>Exclua a landing page dinâmica <code>website/pages/en/index.js</code></li>
+</ol>
+<blockquote>
+<p>Agora, quando o Docusaurus gerar ou construir o seu site, ele vai copiar o conteúdo de <code>static/index.html</code> e colocá-lo no diretório principal do site. O arquivo estático é servido quando um visitante chega em sua página. When the page loads, it will redirect the visitor to <code>/blog</code>.</p>
+</blockquote>
+<p>Você pode usar este modelo:</p>
+<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en-US"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=blog/"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'blog/'</span>;
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title of Your Blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    If you are not redirected automatically, follow this
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"blog/"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/pt-BR/1.14.5/docker"><span class="arrow-prev">← </span><span>Docker</span></a><a class="docs-next button" href="/docs/pt-BR/1.14.5/custom-pages"><span>Páginas personalizadas</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#configuração-inicial">Configuração inicial</a></li><li><a href="#adicionando-posts">Adicionando posts</a></li><li><a href="#opções-do-cabeçalho">Opções do cabeçalho</a></li><li><a href="#definindo-um-resumo-para-o-post">Definindo um resumo para o post</a></li><li><a href="#alterando-o-número-de-posts-mostrados-na-barra-lateral">Alterando o número de posts mostrados na barra lateral</a></li><li><a href="#alterando-o-título-da-barra-lateral">Alterando o título da barra lateral</a></li><li><a href="#feed-rss">Feed RSS</a></li><li><a href="#botões-de-redes-sociais">Botões de redes sociais</a></li><li><a href="#tópicos-avançados">Tópicos avançados</a><ul class="toc-headings"><li><a href="#quero-que-meu-site-seja-somente-um-blog">Quero que meu site seja somente um blog.</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/pt-BR/installation">Getting Started</a><a href="
+                /docs/pt-BR/versioning">Versioning</a><a href="
+                /docs/pt-BR/translation">Localization</a><a href="
+                /docs/pt-BR/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/pt-BR/help">Help</a><a href="/pt-BR/users">User Showcase</a><a href="/pt-BR/about-slash">About</a></div><div class="footerSection"><h5>Legal</h5><a href="https://opensource.facebook.com/legal/privacy/" target="_blank" rel="noreferrer noopener">Privacy</a><a href="https://opensource.facebook.com/legal/terms/" target="_blank" rel="noreferrer noopener">Terms</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2020 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:pt-BR","version:1.14.5"]}
+              });
+            </script></body></html>
