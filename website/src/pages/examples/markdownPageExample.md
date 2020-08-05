@@ -47,8 +47,10 @@ import Chapter2 from './_chapter2.mdx';
 <Chapter2 />
 ```
 
-import OtherComp from './\_chapter2.mdx'; <Comp />
+import Chapter1 from './\_chapter2.mdx';
 
-<Comp/>
+<Chapter1/>
 
-<OtherComp/>
+import Chapter1 from './\_chapter2.mdx';
+
+<Chapter2/>
