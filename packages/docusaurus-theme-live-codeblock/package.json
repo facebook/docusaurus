@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
     "parse-numeric-range": "^0.0.2",
@@ -22,8 +21,5 @@
   },
   "engines": {
     "node": ">=10.15.1"
-  },
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
   }
 }
