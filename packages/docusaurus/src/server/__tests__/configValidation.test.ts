@@ -15,94 +15,124 @@ const baseConfig = {
   url: 'https://mysite.com',
 };
 
-const testConfig = (config) => validateConfig({...baseConfig, ...config});
+const normalizeConfig = (config) => validateConfig({...baseConfig, ...config});
 
-describe('validateConfig', () => {
-  test('normalize config', () => {
-    const value = testConfig({});
+describe('normalizeConfig', () => {
+  test('should normalize empty config', () => {
+    const value = normalizeConfig({});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
     });
   });
 
-  test('throw error for unknown field', () => {
+  test('should accept correctly defined config options', () => {
+    const userConfig = {
+      ...DEFAULT_CONFIG,
+      ...baseConfig,
+      tagline: 'my awesome site',
+      organizationName: 'facebook',
+      projectName: 'docusaurus',
+      githubHost: 'github.com',
+      customFields: {
+        myCustomField: '42',
+      },
+      scripts: [
+        {
+          src: `/analytics.js`,
+          async: true,
+          defer: true,
+        },
+      ],
+      stylesheets: [
+        {
+          href: '/katex/katex.min.css',
+          type: 'text/css',
+          crossorigin: 'anonymous',
+        },
+      ],
+    };
+    const normalizedConfig = normalizeConfig(userConfig);
+    expect(normalizedConfig).toEqual(userConfig);
+  });
+
+  test('should accept custom field in config', () => {
+    const value = normalizeConfig({
+      customFields: {
+        author: 'anshul',
+      },
+    });
+    expect(value).toEqual({
+      ...DEFAULT_CONFIG,
+      ...baseConfig,
+      customFields: {
+        author: 'anshul',
+      },
+    });
+  });
+
+  test('should throw error for unknown field', () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         invalid: true,
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('throw error for baseUrl without trailing `/`', () => {
+  test('should throw error for baseUrl without trailing `/`', () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         baseUrl: 'noslash',
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('throw error if plugins is not array', () => {
+  test('should throw error if plugins is not array', () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         plugins: {},
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('throw error if themes is not array', () => {
+  test('should throw error if themes is not array', () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         themes: {},
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('throw error if presets is not array', () => {
+  test('should throw error if presets is not array', () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         presets: {},
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test("throw error if scripts doesn't have src", () => {
+  test("should throw error if scripts doesn't have src", () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         scripts: ['https://some.com', {}],
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test("throw error if css doesn't have href", () => {
+  test("should throw error if css doesn't have href", () => {
     expect(() => {
-      testConfig({
+      normalizeConfig({
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('custom field in config', () => {
-    const value = testConfig({
-      customFields: {
-        author: 'anshul',
-      },
-    });
-    expect(value).toEqual({
-      ...DEFAULT_CONFIG,
-      ...baseConfig,
-      customFields: {
-        author: 'anshul',
-      },
-    });
-  });
-
-  test('throw error for required fields', () => {
+  test('should throw error for required fields', () => {
     expect(
       () =>
         validateConfig(({
-          invalid: true,
-          preset: {},
+          invalidField: true,
+          presets: {},
           stylesheets: {},
           themes: {},
           scripts: {},

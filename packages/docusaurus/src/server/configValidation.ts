@@ -11,11 +11,12 @@ import Joi from '@hapi/joi';
 import {
   isValidationDisabledEscapeHatch,
   logValidationBugReportHint,
-} from './validationUtils';
+} from './utils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'onBrokenLinks'
+  | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
   | 'presets'
@@ -23,6 +24,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
 > = {
   onBrokenLinks: 'throw',
+  onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
   presets: [],
@@ -54,10 +56,13 @@ const ConfigSchema = Joi.object({
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
   onBrokenLinks: Joi.string()
-    .equal('ignore', 'log', 'error', 'throw')
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
-  organizationName: Joi.string(),
-  projectName: Joi.string(),
+  onDuplicateRoutes: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onDuplicateRoutes),
+  organizationName: Joi.string().allow(''),
+  projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
@@ -79,7 +84,7 @@ const ConfigSchema = Joi.object({
       type: Joi.string().required(),
     }).unknown(),
   ),
-  tagline: Joi.string(),
+  tagline: Joi.string().allow(''),
 });
 
 export function validateConfig(

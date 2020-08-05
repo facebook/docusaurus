@@ -23,7 +23,7 @@ import * as Joi from '@hapi/joi';
 import {
   isValidationDisabledEscapeHatch,
   logValidationBugReportHint,
-} from '../validationUtils';
+} from '../utils';
 
 export function pluginOptionsValidator<T>(
   schema: ValidationSchema<T>,

@@ -10,7 +10,7 @@ import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
 
-export type OnBrokenLinks = 'ignore' | 'log' | 'error' | 'throw';
+export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -18,7 +18,8 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
-  onBrokenLinks: OnBrokenLinks;
+  onBrokenLinks: ReportingSeverity;
+  onDuplicateRoutes: ReportingSeverity;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;

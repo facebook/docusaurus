@@ -14,6 +14,7 @@ const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
 const transformImage = require('./remark/transformImage');
+const tranformAsset = require('./remark/transformAssets');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
@@ -34,11 +35,16 @@ module.exports = async function (fileString) {
         transformImage,
         {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
       ],
+      [
+        tranformAsset,
+        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+      ],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [
       ...(reqOptions.beforeDefaultRehypePlugins || []),
       ...DEFAULT_OPTIONS.rehypePlugins,
+
       ...(reqOptions.rehypePlugins || []),
     ],
     filepath: this.resourcePath,

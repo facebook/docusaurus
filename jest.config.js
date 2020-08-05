@@ -12,6 +12,7 @@ const ignorePatterns = [
   '__fixtures__',
   '/packages/docusaurus/lib',
   '/packages/docusaurus-utils/lib',
+  '/packages/docusaurus-utils-validation/lib',
   '/packages/docusaurus-plugin-content-blog/lib',
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',

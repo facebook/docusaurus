@@ -18,6 +18,9 @@ export default function normalizePluginOptions(options) {
   }
 }
 
+// the type of remark/rehype plugins is function
+const remarkRehypePluginStub = () => {};
+
 describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
     const {value} = await PluginOptionSchema.validate({});
@@ -34,14 +37,26 @@ describe('normalizeDocsPluginOptions', () => {
       docLayoutComponent: '@theme/DocPage',
       docItemComponent: '@theme/DocItem',
       remarkPlugins: [],
-      rehypePlugins: [],
+      rehypePlugins: [remarkRehypePluginStub],
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
       excludeNextVersionDocs: true,
       disableVersioning: true,
     };
+    const {value} = await PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual(userOptions);
+  });
 
+  test('should accept correctly defined remark and rehype plugin options', async () => {
+    const userOptions = {
+      ...DEFAULT_OPTIONS,
+      remarkPlugins: [remarkRehypePluginStub, {option1: '42'}],
+      rehypePlugins: [
+        remarkRehypePluginStub,
+        [remarkRehypePluginStub, {option1: '42'}],
+      ],
+    };
     const {value} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
   });

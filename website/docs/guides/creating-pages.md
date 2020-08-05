@@ -1,19 +1,20 @@
 ---
 id: creating-pages
 title: Creating Pages
+slug: /creating-pages
 ---
 
 In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
 
 The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
-## Adding a new page
+You can use React components, or Markdown.
 
-<!-- TODO: What will the user see if pages/ is empty? -->
+## Add a React page
 
-In the `/src/pages/` directory, create a file called `hello.js` with the following contents:
+Create a file `/src/pages/helloReact.js`:
 
-```jsx title="/src/pages/hello.js"
+```jsx title="/src/pages/helloReact.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -39,13 +40,40 @@ function Hello() {
 export default Hello;
 ```
 
-Once you save the file, the development server will automatically reload the changes. Now open http://localhost:3000/hello, you will see the new page you just created.
+Once you save the file, the development server will automatically reload the changes. Now open `http://localhost:3000/helloReact`, you will see the new page you just created.
 
 Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
 
 :::tip
 
-You can also create a page in TypeScript, in which case the file name should use the `.tsx` extension, eg. `hello.tsx`.
+You can also create TypeScript pages with the `.tsx` extension (`helloReact.tsx`).
+
+:::
+
+## Add a Markdown page
+
+Create a file `/src/pages/helloMarkdown.md`:
+
+```mdx title="/src/pages/helloMarkdown.md"
+---
+title: my hello page title
+description: my hello page description
+---
+
+# Hello
+
+How are you?
+```
+
+In the same way, a page will be created at `http://localhost:3000/helloMarkdown`.
+
+Markdown pages are less flexible than React pages, because it always uses the theme layout.
+
+Here's an [example markdown page](/examples/markdownPageExample).
+
+:::tip
+
+You can use the full power of React in Markdown pages too, refer to the [MDX](https://mdxjs.com/) documentation.
 
 :::
 
@@ -85,9 +113,8 @@ All JavaScript/TypeScript files within the `src/pages/` directory will have corr
 
 ## Using React
 
-React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressiveness of React to build rich and interactive content.
+React is used as the UI library to create pages. Every page component should export a React component, and you can leverage on the expressiveness of React to build rich and interactive content.
 
-<!--
-TODO:
-- That v2 is different from v1, users can write interactive components with lifecycles.
--->
+## Duplicate Routes
+
+You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.

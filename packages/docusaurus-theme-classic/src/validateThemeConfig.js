@@ -7,6 +7,19 @@
 
 const Joi = require('@hapi/joi');
 
+const DEFAULT_COLOR_MODE_CONFIG = {
+  defaultMode: 'light',
+  disableSwitch: false,
+  respectPrefersColorScheme: false,
+  switchConfig: {
+    darkIcon: '🌜',
+    darkIconStyle: {},
+    lightIcon: '🌞',
+    lightIconStyle: {},
+  },
+};
+exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
+
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 // TODO we should probably create a custom navbar item type "dropdown"
@@ -102,14 +115,42 @@ const NavbarItemSchema = Joi.object().when('type', {
  */
 
 const ColorModeSchema = Joi.object({
-  defaultMode: Joi.string().equal('dark', 'light').default('light'),
-  disableSwitch: Joi.bool().default(false),
-  respectPrefersColorScheme: Joi.bool().default(false),
-}).default({
-  defaultMode: 'light',
-  disableSwitch: false,
-  respectPrefersColorScheme: false,
-});
+  defaultMode: Joi.string()
+    .equal('dark', 'light')
+    .default(DEFAULT_COLOR_MODE_CONFIG.defaultMode),
+  disableSwitch: Joi.bool().default(DEFAULT_COLOR_MODE_CONFIG.disableSwitch),
+  respectPrefersColorScheme: Joi.bool().default(
+    DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
+  ),
+  switchConfig: Joi.object({
+    darkIcon: Joi.string().default(
+      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIcon,
+    ),
+    darkIconStyle: Joi.object().default(
+      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIconStyle,
+    ),
+    lightIcon: Joi.string().default(
+      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIcon,
+    ),
+    lightIconStyle: Joi.object().default(
+      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIconStyle,
+    ),
+  }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
+}).default(DEFAULT_COLOR_MODE_CONFIG);
+
+const FooterLinkItemSchema = Joi.object({
+  to: Joi.string(),
+  href: Joi.string().uri(),
+  html: Joi.string(),
+  label: Joi.string(),
+})
+  .xor('to', 'href', 'html')
+  .with('to', 'label')
+  .with('href', 'label')
+  .nand('html', 'label')
+  // We allow any unknown attributes on the links
+  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .unknown();
 
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
@@ -158,21 +199,12 @@ const ThemeConfigSchema = Joi.object({
     links: Joi.array().items(
       Joi.object({
         title: Joi.string().required(),
-        items: Joi.array().items(
-          Joi.object({
-            to: Joi.string(),
-            href: Joi.string().uri(),
-            html: Joi.string(),
-            label: Joi.string(),
-          })
-            .xor('to', 'href', 'html')
-            .with('to', 'label')
-            .with('href', 'label')
-            .nand('html', 'label'),
-        ),
+        items: Joi.array().items(FooterLinkItemSchema).default([]),
       }),
     ),
   }),
 });
 
-module.exports = ThemeConfigSchema;
+exports.validateThemeConfig = ({validate, themeConfig}) => {
+  return validate(ThemeConfigSchema, themeConfig);
+};

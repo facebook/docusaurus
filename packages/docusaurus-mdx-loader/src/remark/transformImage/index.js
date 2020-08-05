@@ -9,6 +9,11 @@ const visit = require('unist-util-visit');
 const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
+const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
+
+const {
+  loaders: {inlineMarkdownImageFileLoader},
+} = getFileLoaderUtils();
 
 // Needed to throw errors with computer-agnostic path messages
 // Absolute paths are too dependant of user FS
@@ -62,7 +67,7 @@ async function processImageNode(node, {filePath, staticDir}) {
     node.type = 'jsx';
     node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
       node.url
-        ? `src={require("!url-loader!${
+        ? `src={require("${inlineMarkdownImageFileLoader}${
             node.url.startsWith('./') ? node.url : `./${node.url}`
           }").default}`
         : ''

@@ -156,6 +156,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'QuestDB',
+    description:
+      'An open source SQL database designed to process time series data',
+    preview: require('./showcase/questdb.png'),
+    website: 'https://questdb.io',
+    source: 'https://github.com/questdb/questdb.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
