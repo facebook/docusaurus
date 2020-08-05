@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.6] - 2020-08-05
+
+#### :bug: Bug Fix
+
+- `docusaurus-1.x`
+
+  - [#3213](https://github.com/facebook/docusaurus/pull/3213) fix(v1): fresh install failing due to <> syntax ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3186](https://github.com/facebook/docusaurus/pull/3186) docs(v1): formatting changelog ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## [1.14.5] - 2020-08-01
 
 #### :rocket: New Feature
