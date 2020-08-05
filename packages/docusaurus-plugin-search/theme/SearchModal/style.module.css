@@ -3,6 +3,8 @@
   height: 60vh;
   margin: 60px auto;
   overflow-y: auto;
+  z-index: 2000;
+  background-color: var(--ifm-color-emphasis-0)
 }
 
 .result {
@@ -33,7 +35,6 @@
 }
 
 .overlay {
-  background-color: rgba(101, 108, 133, 0.8);
   height: 100vh;
   left: 0;
   position: fixed;
@@ -43,6 +44,10 @@
   display: flex;
   justify-content: start;
   flex-direction: column;
+}
+
+.overlay_colored {
+  background-color: rgba(101, 108, 133, 0.8);
 }
 
 .data_node {
@@ -69,6 +74,7 @@
   margin-left: 0;
   padding: 10px 5px;
   margin: 5px 0;
+  background-color: var(--ifm-color-emphasis-100);
 }
 
 .search_item:hover {
@@ -86,4 +92,24 @@
 .header {
   display: flex;
   justify-content: space-between;
+}
+
+.close_button {
+  display: none;
+}
+@media (max-width: 750px) {
+  .modal {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: 2000;
+    border-radius: 0;
+  }
+  .data_node {
+    font-size: 15px;
+  }
+  .close_button {
+    display: inline;
+    border: none !important;
+  }
 }

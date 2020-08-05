@@ -96,7 +96,12 @@ export default function ({fuse, isOpen, setOpen}) {
     return fuse ? rank(fuse.search(searchTerm)) : [];
   }, [fuse, searchTerm]);
   return isOpen ? (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={styles.overlay}>
+      <div
+        className={`${styles.overlay} ${styles.overlay_colored}`}
+        onClick={setOpen}
+      />
       <div className={`${styles.modal} card shadow--tl`}>
         <div className={`${styles.header} card__header`}>
           <div className="navbar__search">
@@ -111,10 +116,10 @@ export default function ({fuse, isOpen, setOpen}) {
             />
           </div>
           <button
-            className="button button--primary "
+            className={`button button--outline button--primary ${styles.close_button}`}
             onClick={setOpen}
             type="button">
-            Close
+            close
           </button>
         </div>
         <div className={`${styles.result} card__body`}>
