@@ -55,6 +55,17 @@ if (fs.existsSync(`${CWD}/data/custom-translation-strings.json`)) {
   );
 }
 
+function parseJSXFile(file) {
+  try {
+    return babylon.parse(fs.readFileSync(file, 'utf8'), {
+      plugins: ['jsx'],
+    });
+  } catch (e) {
+    throw new Error(`Babylon parsing failure for file=${file}: ${e.message}
+    \nNote: Docusaurus v1 currently uses Babylon v6, and <> fragment syntax is not supported`);
+  }
+}
+
 function writeFileAndCreateFolder(file, content) {
   mkdirp.sync(file.replace(new RegExp('/[^/]*$'), ''));
   fs.writeFileSync(file, content);
@@ -151,9 +162,7 @@ function execute() {
   glob.sync(`${CWD}/pages/en/**`).forEach((file) => {
     const extension = nodePath.extname(file);
     if (extension === '.js') {
-      const ast = babylon.parse(fs.readFileSync(file, 'utf8'), {
-        plugins: ['jsx'],
-      });
+      const ast = parseJSXFile(file);
       traverse(ast, {
         enter(path) {
           if (

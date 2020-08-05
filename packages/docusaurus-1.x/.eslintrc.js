@@ -28,6 +28,7 @@ module.exports = {
     'no-plusplus': OFF,
     'prefer-template': OFF,
     'import/no-extraneous-dependencies': OFF,
+    'react/jsx-fragments': OFF, // Babylon v6 does not support <> fragments
     'react/jsx-closing-bracket-location': OFF, // Formatting is left to Prettier.
     'react/jsx-filename-extension': OFF, // Enable in future when migrating.
     'react/jsx-one-expression-per-line': OFF, // Formatting is left to Prettier.
