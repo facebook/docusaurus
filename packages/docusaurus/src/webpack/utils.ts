@@ -220,7 +220,7 @@ export function getFileLoaderUtils() {
     images: (): RuleSetRule => {
       return {
         use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|svg|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
       };
     },
 

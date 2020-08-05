@@ -15,6 +15,7 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
+    "@docusaurus/core": "^2.0.0-alpha.61",
     "@docusaurus/mdx-loader": "^2.0.0-alpha.61",
     "@docusaurus/types": "^2.0.0-alpha.61",
     "@docusaurus/utils": "^2.0.0-alpha.61",

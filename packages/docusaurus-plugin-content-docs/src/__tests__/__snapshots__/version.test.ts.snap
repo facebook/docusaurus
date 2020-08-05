@@ -77,3 +77,14 @@ Object {
   ],
 }
 `;
+
+exports[`docsVersion second docs instance versioning 1`] = `
+Object {
+  "version-2.0.0/community": Array [
+    Object {
+      "id": "version-2.0.0/team",
+      "type": "doc",
+    },
+  ],
+}
+`;

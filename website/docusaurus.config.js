@@ -32,6 +32,33 @@ module.exports = {
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'community',
+        path: 'community',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'second-blog',
+        path: 'dogfooding/second-blog',
+        routeBasePath: 'second-blog',
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',
+        postsPerPage: 3,
+        feedOptions: {
+          type: 'all',
+          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+        },
+      },
+    ],
+    [
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['html'],
@@ -42,6 +69,20 @@ module.exports = {
             return [`${path}/introduction`];
           }
         },
+        redirects: [
+          {
+            from: ['/docs/support', '/docs/next/support'],
+            to: '/community/support',
+          },
+          {
+            from: ['/docs/team', '/docs/next/team'],
+            to: '/community/team',
+          },
+          {
+            from: ['/docs/resources', '/docs/next/resources'],
+            to: '/community/resources',
+          },
+        ],
       },
     ],
     [
@@ -116,6 +157,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          // routeBasePath: '/',
           homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
@@ -127,6 +169,7 @@ module.exports = {
           disableVersioning: !!process.env.DISABLE_VERSIONING,
         },
         blog: {
+          // routeBasePath: '/',
           path: '../website-1.x/blog',
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
@@ -188,10 +231,10 @@ module.exports = {
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {
-          to: 'docs/next/support',
+          to: '/community/support',
           label: 'Community',
           position: 'left',
-          activeBaseRegex: `docs/next/(support|team|resources)`,
+          activeBaseRegex: `/community/`,
         },
         {
           to: '/versions',
@@ -243,7 +286,7 @@ module.exports = {
             },
             {
               label: 'Help',
-              to: 'docs/next/support',
+              to: '/community/support',
             },
           ],
         },
