@@ -39,10 +39,14 @@ import TabItem from '@theme/TabItem';
 
 ```js
 // *.md file
-import Comp from './_chapter1.md';
+import Chapter1 from './_chapter1.md';
+
+<Chapter1 />
 
 // *.mdx file
-import OtherComp from './_chapter2.mdx';
+import Chapter2 from './_chapter2.mdx';
+
+<Chapter2 />
 ```
 
 import OtherComp from './\_chapter2.mdx'; <Comp />
