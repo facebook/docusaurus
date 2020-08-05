@@ -67,7 +67,7 @@ How are you?
 
 In the same way, a page will be created at `http://localhost:3000/helloMarkdown`.
 
-Markdown pages allow you to use [markdown features](markdown-features.mdx) in your pages, which may be more convenient than creating React pages. However, markdown pages are less flexible than React pages, because it always uses the theme layout.
+Markdown pages allow you to use [markdown features](markdown-features.mdx) in your pages, which may be more convenient than creating React pages. However, markdown pages are less flexible than React pages, because they always use the theme layout.
 
 Here's an [example markdown page](/examples/markdownPageExample).
 
