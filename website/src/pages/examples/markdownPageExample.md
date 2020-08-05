@@ -3,8 +3,6 @@ title: Markdown Page example title
 description: Markdown Page example description
 ---
 
-import Comp from "./\_chapter1.md"
-
 # Markdown page
 
 This is a page generated from markdown to illustrate the markdown page feature.
