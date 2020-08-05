@@ -8,6 +8,8 @@
 import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
+import minimatch from 'minimatch';
+import slash from 'slash';
 import {
   encodePath,
   fileToPath,
@@ -51,6 +53,11 @@ export default function pluginContentPages(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
+  const excludeRegex = new RegExp(
+    options.exclude
+      .map((pattern) => minimatch.makeRe(pattern).source)
+      .join('|'),
+  );
   return {
     name: 'docusaurus-plugin-content-pages',
 
@@ -81,6 +88,7 @@ export default function pluginContentPages(
       const {baseUrl} = siteConfig;
       const pagesFiles = await globby(include, {
         cwd: pagesDir,
+        ignore: options.exclude,
       });
 
       function toMetadata(relativeSource: string): Metadata {
@@ -173,12 +181,17 @@ export default function pluginContentPages(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
-                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+                      if (excludeRegex.test(slash(mdxPath))) {
+                        return null;
+                      }
+                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedPath)}.json`,
+                        `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    forbidFrontMatter: (mdxPath: string) =>
+                      excludeRegex.test(slash(mdxPath)),
                   },
                 },
                 {

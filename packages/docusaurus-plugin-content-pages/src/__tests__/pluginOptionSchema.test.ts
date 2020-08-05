@@ -10,7 +10,7 @@ import {PluginOptions} from '../types';
 
 export default function normalizePluginOptions(
   options: Partial<PluginOptions>,
-) {
+): PluginOptions {
   const {value, error} = PluginOptionSchema.validate(options, {
     convert: false,
   });
@@ -37,6 +37,7 @@ describe('normalizePagesPluginOptions', () => {
       path: 'src/my-pages',
       routeBasePath: 'my-pages',
       include: ['**/*.{js,jsx,ts,tsx}'],
+      exclude: ['**/$*/'],
     };
     const value = normalizePluginOptions(userOptions);
     expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
