@@ -91,7 +91,7 @@ In this component-based development era, it is encouraged to co-locate your styl
 - Add a `/src/pages/support.js` file
 - Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
 
-The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommended directory structure and you will still need to manually import the CSS module file within your component module (`support/index.js`). Any Markdown or Javascript file starting with `_` will be ignored and no routes will be created for that file.
+The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommended directory structure and you will still need to manually import the CSS module file within your component module (`support/index.js`). By default, any Markdown or Javascript file starting with `_` will be ignored, and no routes will be created for that file (see the `exclude` option).
 
 ```sh
 my-website
