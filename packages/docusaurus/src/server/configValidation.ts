@@ -6,12 +6,12 @@
  */
 
 import {DocusaurusConfig} from '@docusaurus/types';
-import {URISchema} from '@docusaurus/utils-validation';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
 import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
+  URISchema
 } from '@docusaurus/utils-validation';
 
 export const DEFAULT_CONFIG: Pick<
