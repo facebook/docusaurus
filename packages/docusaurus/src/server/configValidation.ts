@@ -6,6 +6,7 @@
  */
 
 import {DocusaurusConfig} from '@docusaurus/types';
+import {URISchema} from '@docusaurus/utils-validation';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
 import {
@@ -54,7 +55,7 @@ const ConfigSchema = Joi.object({
     .message('{{#label}} must be a string with a trailing `/`'),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
-  url: Joi.string().uri().required(),
+  url: URISchema.required(),
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),

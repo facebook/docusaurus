@@ -43,3 +43,5 @@ exports[`validation schemas RemarkPluginsSchema 7`] = `"\\"[0]\\" does not match
 exports[`validation schemas RemarkPluginsSchema 8`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
 exports[`validation schemas RemarkPluginsSchema 9`] = `"\\"[0]\\" does not match any of the allowed types"`;
+
+exports[`validation schemas URISchema 1`] = `"\\"value\\" does not match any of the allowed types"`;

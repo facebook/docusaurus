@@ -10,6 +10,7 @@ import {
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
+  URISchema,
 } from '@docusaurus/utils-validation';
 
 export const DEFAULT_OPTIONS = {
@@ -55,7 +56,7 @@ export const PluginOptionSchema = Joi.object({
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
-  editUrl: Joi.string().uri(),
+  editUrl: URISchema,
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
   beforeDefaultRemarkPlugins: Joi.array()
     .items(
