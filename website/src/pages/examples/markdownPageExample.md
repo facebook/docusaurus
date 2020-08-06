@@ -39,12 +39,12 @@ import TabItem from '@theme/TabItem';
 // *.md file
 import Chapter1 from './_chapter1.md';
 
-<Chapter1 />
+<Chapter1 />;
 
 // *.mdx file
 import Chapter2 from './_chapter2.mdx';
 
-<Chapter2 />
+<Chapter2 />;
 ```
 
 import Chapter1 from './\_chapter2.mdx';

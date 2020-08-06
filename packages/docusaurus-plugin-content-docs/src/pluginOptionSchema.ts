@@ -12,12 +12,10 @@ import {
   AdmonitionsSchema,
 } from '@docusaurus/utils-validation';
 
-const REVERSED_DOCS_HOME_PAGE_ID = '_index';
-
 export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
-  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
+  homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
@@ -35,7 +33,7 @@ export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.string().uri(),
   routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
-  homePageId: Joi.string().default(DEFAULT_OPTIONS.homePageId),
+  homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().default(DEFAULT_OPTIONS.sidebarPath),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),

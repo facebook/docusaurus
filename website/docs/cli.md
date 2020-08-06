@@ -92,7 +92,7 @@ Running the command will copy the relevant theme files to your site folder. You 
 #### Options
 
 | Name               | Description                            |
-| ------------------ | ---------------------------------------|
+| ------------------ | -------------------------------------- |
 | `themeName`        | The name of the theme you are using.   |
 | `swizzleComponent` | The name of the component to swizzle.  |
 | `--danger`         | Allow swizzling of unstable components |
