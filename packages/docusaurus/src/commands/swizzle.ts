@@ -14,7 +14,8 @@ import leven from 'leven';
 
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins, {pluginOptionsValidator} from '../server/plugins/init';
+import initPlugins from '../server/plugins/init';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 export function getPluginNames(plugins: PluginConfig[]): string[] {
   return plugins.map((plugin) => {
