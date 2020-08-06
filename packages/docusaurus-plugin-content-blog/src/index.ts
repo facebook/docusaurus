@@ -28,7 +28,6 @@ import {
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
   LoadContext,
-  PluginContentLoadedActions,
   ConfigureWebpackUtils,
   Props,
   Plugin,
@@ -195,13 +194,7 @@ export default function pluginContentBlog(
       };
     },
 
-    async contentLoaded({
-      content: blogContents,
-      actions,
-    }: {
-      content: BlogContent;
-      actions: PluginContentLoadedActions;
-    }) {
+    async contentLoaded({content: blogContents, actions}) {
       if (!blogContents) {
         return;
       }

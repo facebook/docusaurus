@@ -15,7 +15,7 @@ import {
   PluginConfig,
   DocusaurusPluginVersionInformation,
 } from '@docusaurus/types';
-import {CONFIG_FILE_NAME} from '../../constants';
+import {CONFIG_FILE_NAME, DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {
@@ -79,6 +79,13 @@ export default function initPlugins({
           options: pluginOptions,
         });
         pluginOptions = normalizedOptions;
+      } else {
+        // Important to ensure all plugins have an id
+        // as we don't go through the Joi schema that adds it
+        pluginOptions = {
+          ...pluginOptions,
+          id: pluginOptions.id ?? DEFAULT_PLUGIN_ID,
+        };
       }
 
       // support both commonjs and ES modules

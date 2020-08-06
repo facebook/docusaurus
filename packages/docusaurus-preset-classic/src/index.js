@@ -11,6 +11,9 @@ module.exports = function preset(context, opts = {}) {
   const {algolia, googleAnalytics, gtag} = themeConfig;
   const isProd = process.env.NODE_ENV === 'production';
 
+  const debug =
+    typeof opts.debug !== 'undefined' ? Boolean(opts.debug) : !isProd;
+
   return {
     themes: [
       [require.resolve('@docusaurus/theme-classic'), opts.theme],
@@ -24,7 +27,7 @@ module.exports = function preset(context, opts = {}) {
       isProd &&
         googleAnalytics &&
         require.resolve('@docusaurus/plugin-google-analytics'),
-      !isProd && require.resolve('@docusaurus/plugin-debug'),
+      debug && require.resolve('@docusaurus/plugin-debug'),
       isProd && gtag && require.resolve('@docusaurus/plugin-google-gtag'),
       isProd && [require.resolve('@docusaurus/plugin-sitemap'), opts.sitemap],
     ],
