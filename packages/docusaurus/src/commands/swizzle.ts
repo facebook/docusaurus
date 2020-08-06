@@ -11,7 +11,7 @@ import importFresh from 'import-fresh';
 import path from 'path';
 import {Plugin, LoadContext, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
-
+import {partition} from 'lodash';
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
@@ -80,60 +80,45 @@ function getComponentName(
   return readComponent(themePath);
 }
 
-function themeComponents(
-  themePath: string,
-  plugin: Plugin<unknown>,
-  danger: boolean,
-): string {
-  const components = colorCode(themePath, plugin, danger);
-  if (danger) {
-    return `Theme Components available for swizzle.
-${chalk.green('green')}=recommended: lower breaking change risk
-${chalk.red('red')}=internal: higher breaking change risk
+function themeComponents(themePath: string, plugin: Plugin<unknown>): string {
+  const components = colorCode(themePath, plugin);
 
-${components.join('\n')}`;
-  } else {
-    return `Theme Components recommended for swizzle.
-Run the same command with --danger to show internal components.
-
-${components.join('\n')}`;
+  if (components.length === 0) {
+    return `${chalk.red('No component to swizzle')}`;
   }
+
+  return `
+${chalk.cyan('Theme Components available for swizzle')}
+
+${chalk.green('green  =>')} recommended: lower breaking change risk
+${chalk.red('red    =>')} internal: higher breaking change risk
+
+${components.join('\n')}
+`;
 }
 
 function formatedThemeNames(themeNames: string[]): string {
   return `Themes available for swizzle:\n${themeNames.join('\n')}`;
 }
 
-function colorCode(
-  themePath: string,
-  plugin: any,
-  danger: boolean,
-): Array<string> {
+function colorCode(themePath: string, plugin: any): Array<string> {
   // support both commonjs and ES style exports
   const getSwizzleComponentList =
     plugin.default?.getSwizzleComponentList ?? plugin.getSwizzleComponentList;
-  if (getSwizzleComponentList) {
-    const allowedComponent = getSwizzleComponentList();
-    if (danger) {
-      const components = readComponent(themePath);
-      const componentMap = allowedComponent.reduce(
-        (acc: {[key: string]: boolean}, component) => {
-          acc[component] = true;
-          return acc;
-        },
-        {},
-      );
-      const colorCodedComponent = components
-        .filter((component) => !componentMap[component])
-        .map((component) => chalk.red(component));
-      return [
-        ...allowedComponent.map((component) => chalk.green(component)),
-        ...colorCodedComponent,
-      ];
-    }
-    return allowedComponent;
-  }
-  return readComponent(themePath);
+
+  const components = readComponent(themePath);
+  const allowedComponent = getSwizzleComponentList
+    ? getSwizzleComponentList()
+    : [];
+
+  const [greenComponents, redComponents] = partition(components, (comp) =>
+    allowedComponent.includes(comp),
+  );
+
+  return [
+    ...greenComponents.map((component) => chalk.green(component)),
+    ...redComponents.map((component) => chalk.red(component)),
+  ];
 }
 
 export default async function swizzle(
@@ -239,11 +224,7 @@ export default async function swizzle(
               `Component ${componentName} not found.${
                 suggestion
                   ? ` Did you mean "${suggestion}"?`
-                  : `${themeComponents(
-                      themePath,
-                      pluginModule,
-                      Boolean(danger),
-                    )}`
+                  : `${themeComponents(themePath, pluginModule)}`
               }`,
             );
           }
@@ -277,7 +258,7 @@ export default async function swizzle(
         );
       }
     } else {
-      console.log(themeComponents(themePath, pluginModule, Boolean(danger)));
+      console.log(themeComponents(themePath, pluginModule));
     }
   }
 }
