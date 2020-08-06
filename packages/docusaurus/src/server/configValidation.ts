@@ -11,7 +11,7 @@ import Joi from '@hapi/joi';
 import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
-  URISchema
+  URISchema,
 } from '@docusaurus/utils-validation';
 
 export const DEFAULT_CONFIG: Pick<
