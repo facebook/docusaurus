@@ -110,6 +110,10 @@ export default function pluginContentDocs(
       return path.resolve(__dirname, './theme');
     },
 
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '..', 'src', 'theme');
+    },
+
     extendCli(cli) {
       const command = isDefaultPluginId
         ? 'docs:version'
