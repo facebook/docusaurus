@@ -86,7 +86,18 @@ function themeComponents(
   danger: boolean,
 ): string {
   const components = colorCode(themePath, plugin, danger);
-  return `Theme Components available for swizzle:\n${components.join('\n')}`;
+  if (danger) {
+    return `Theme Components available for swizzle.
+${chalk.green('green')}=recommended: lower breaking change risk
+${chalk.red('red')}=internal: higher breaking change risk
+
+${components.join('\n')}`;
+  } else {
+    return `Theme Components recommended for swizzle.
+Run the same command with --danger to show internal components.
+
+${components.join('\n')}`;
+  }
 }
 
 function formatedThemeNames(themeNames: string[]): string {
@@ -239,7 +250,7 @@ export default async function swizzle(
         }
         if (!components.includes(componentName) && !danger) {
           throw new Error(
-            `${componentName} is an internal component, if you want to swizzle it use "--danger" flag.`,
+            `${componentName} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
           );
         }
         await fs.copy(fromPath, toPath);
