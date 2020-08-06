@@ -39,6 +39,7 @@ describe('normalizePluginOptions', () => {
         redirects: [{from: '/x', to: '/y'}],
       }),
     ).toEqual({
+      id: 'default',
       fromExtensions: ['exe', 'zip'],
       toExtensions: ['html'],
       createRedirects,
