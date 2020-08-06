@@ -187,7 +187,7 @@ export default async function swizzle(
     if (validateOptions) {
       // normilize options
       const normalizedOptions = validateOptions({
-        validate: pluginOptionsValidator,
+        validate: normalizePluginOptions,
         options: pluginOptions,
       });
       pluginOptions = normalizedOptions;
