@@ -13,65 +13,15 @@ import {
   Plugin,
   PluginOptions,
   PluginConfig,
-  ValidationSchema,
   DocusaurusPluginVersionInformation,
 } from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
-import * as Joi from '@hapi/joi';
 import {
-  isValidationDisabledEscapeHatch,
-  logValidationBugReportHint,
-} from '../utils';
-
-export function pluginOptionsValidator<T>(
-  schema: ValidationSchema<T>,
-  options: Partial<T>,
-): Partial<T> {
-  // All plugins can be provided an "id" for multi-instance support
-  // we don't ask the user to implement id validation, we add it automatically
-  const finalSchema = schema.append({
-    id: Joi.string(),
-  });
-  const {error, value} = finalSchema.validate(options, {
-    convert: false,
-  });
-  if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      console.error(error);
-      return options;
-    } else {
-      throw error;
-    }
-  }
-  return value;
-}
-
-export function themeConfigValidator<T>(
-  schema: ValidationSchema<T>,
-  themeConfig: Partial<T>,
-): Partial<T> {
-  // A theme should only validate his "slice" of the full themeConfig,
-  // not the whole object, so we allow unknown attributes to pass a theme validation
-  const finalSchema = schema.unknown();
-
-  const {error, value} = finalSchema.validate(themeConfig, {
-    convert: false,
-  });
-
-  if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      console.error(error);
-      return themeConfig;
-    } else {
-      throw error;
-    }
-  }
-  return value;
-}
+  normalizePluginOptions,
+  normalizeThemeConfig,
+} from '@docusaurus/utils-validation';
 
 export type InitPlugin = Plugin<unknown> & {
   readonly options: PluginOptions;
@@ -125,7 +75,7 @@ export default function initPlugins({
 
       if (validateOptions) {
         const normalizedOptions = validateOptions({
-          validate: pluginOptionsValidator,
+          validate: normalizePluginOptions,
           options: pluginOptions,
         });
         pluginOptions = normalizedOptions;
@@ -138,7 +88,7 @@ export default function initPlugins({
 
       if (validateThemeConfig) {
         const normalizedThemeConfig = validateThemeConfig({
-          validate: themeConfigValidator,
+          validate: normalizeThemeConfig,
           themeConfig: context.siteConfig.themeConfig,
         });
 

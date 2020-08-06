@@ -128,29 +128,5 @@
         }
       ]
     }
-  ],
-  "version-2.0.0-alpha.56/community": [
-    {
-      "type": "doc",
-      "id": "version-2.0.0-alpha.56/support"
-    },
-    {
-      "type": "doc",
-      "id": "version-2.0.0-alpha.56/team"
-    },
-    {
-      "type": "doc",
-      "id": "version-2.0.0-alpha.56/resources"
-    },
-    {
-      "type": "link",
-      "href": "/showcase",
-      "label": "Showcase"
-    },
-    {
-      "type": "link",
-      "href": "/feedback",
-      "label": "Feedback"
-    }
   ]
 }

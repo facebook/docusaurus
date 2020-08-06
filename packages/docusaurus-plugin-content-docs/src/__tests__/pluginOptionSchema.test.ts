@@ -6,17 +6,7 @@
  */
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
-
-export default function normalizePluginOptions(options) {
-  const {value, error} = PluginOptionSchema.validate(options, {
-    convert: false,
-  });
-  if (error) {
-    throw error;
-  } else {
-    return value;
-  }
-}
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 // the type of remark/rehype plugins is function
 const remarkRehypePluginStub = () => {};
@@ -63,7 +53,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad path inputs', () => {
     expect(() => {
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         path: 2,
       });
     }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
@@ -71,7 +61,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad include inputs', () => {
     expect(() => {
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         include: '**/*.{md,mdx}',
       });
     }).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
@@ -79,7 +69,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad showLastUpdateTime inputs', () => {
     expect(() => {
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         showLastUpdateTime: 'true',
       });
     }).toThrowErrorMatchingInlineSnapshot(
@@ -89,7 +79,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad remarkPlugins input', () => {
     expect(() => {
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         remarkPlugins: 'remark-math',
       });
     }).toThrowErrorMatchingInlineSnapshot(

@@ -16,8 +16,7 @@ import {
 } from '@docusaurus/types';
 import initPlugins, {InitPlugin} from './init';
 import chalk from 'chalk';
-
-const DefaultPluginId = 'default';
+import {DEFAULT_PLUGIN_ID} from '../../constants';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -90,14 +89,11 @@ export async function loadPlugins({
         return;
       }
 
-      const pluginId = plugin.options.id ?? DefaultPluginId;
+      const pluginId = plugin.options.id ?? DEFAULT_PLUGIN_ID;
 
-      const pluginContentDir = path.join(
-        context.generatedFilesDir,
-        plugin.name,
-        // TODO each plugin instance should have its folder
-        // pluginId,
-      );
+      // plugins data files are namespaced by pluginName/pluginId
+      const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
+      const dataDir = path.join(dataDirRoot, pluginId);
 
       const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
         pluginsRouteConfigs.push(config);
@@ -106,9 +102,9 @@ export async function loadPlugins({
         name,
         content,
       ) => {
-        const modulePath = path.join(pluginContentDir, name);
+        const modulePath = path.join(dataDir, name);
         await fs.ensureDir(path.dirname(modulePath));
-        await generate(pluginContentDir, name, content);
+        await generate(dataDir, name, content);
         return modulePath;
       };
 

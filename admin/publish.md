@@ -89,7 +89,13 @@ GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 
 Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 
-**Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)). Adding the `--from` options seems to help (`yarn changelog --from v2.0.0-alpha.60`).
+**Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)).
+
+Adding the `--from` options seems to help:
+
+```sh
+yarn changelog --from v2.0.0-alpha.60`
+```
 
 ### 4. Cut a new version of the docs
 
@@ -223,7 +229,45 @@ https://github.com/facebook/docusaurus/releases/tag/%VER%
 
 ## Docusaurus 1
 
-1. Bump version number in [`package.json`](https://github.com/facebook/docusaurus/blob/master/package.json).
+### Updated v1 release process
+
+Process reworked by @slorber at `1.14.6`, it may not be perfect yet:
+
+Suppose we are at `v1.14.5`, and want to release `v1.14.6`:
+
+- Assign appropriate `tag: xyz` labels to merged PRs
+- Be on master (up-to-date): `git co master && git pull`
+- Create a new branch: `git co -b slorber/release-1.14.6`
+- Get the changelog from last release: `git fetch --tags && GITHUB_AUTH=<myToken> yarn changelog --from=v1.14.5`
+- Update [CHANGELOG.md](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), but remove the v2-related items manually.
+- Run `yarn install`
+- Version the docs: `yarn workspace docusaurus-1-website docusaurus-version 1.14.6`
+- Test the v1 website locally: `yarn start:v1` + `yarn build:v1`
+- Publish: `yarn workspace docusaurus publish --new-version 1.14.6`
+
+The release is now published. It's worth to test it by initializing a new v1 site:
+
+```sh
+mkdir my-v1-website
+cd my-v1-website
+npx docusaurus-init
+cd website
+yarn start
+```
+
+Finish the release:
+
+- Commit: `git commit -am "chore(v1): release v1.14.6"`
+- Push: `git push origin slorber/release-1.14.6`
+- Run `git tag v1.14.6` (important: the tag is prefixed by **`v`**)
+- Run `git push origin v1.14.6`
+- Open a PR, and merge it
+- Create the [new Github release](https://github.com/facebook/docusaurus/releases/new), paste the changelog
+- The End
+
+### Historical v1 release process
+
+1. Bump version number in [`package.json`](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/package.json).
 1. Update the [changelog](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), including at the reference links at the bottom.
 1. Do this always, but particularly important if there were any `package.json` changes in this release:
    1. If there is no `node_modules` directory in you local Docusaurus version, run `yarn install` and `npm install`.

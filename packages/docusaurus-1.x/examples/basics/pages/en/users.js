@@ -34,14 +34,14 @@ class Users extends React.Component {
             </div>
             <div className="logos">{showcase}</div>
             {siteConfig.repoUrl && (
-              <>
+              <React.Fragment>
                 <p>Are you using this project?</p>
                 <a
                   href={`${siteConfig.repoUrl}/edit/master/website/siteConfig.js`}
                   className="button">
                   Add your company
                 </a>
-              </>
+              </React.Fragment>
             )}
           </div>
         </Container>

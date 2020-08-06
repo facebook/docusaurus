@@ -72,6 +72,17 @@ module.exports = async function (fileString) {
     }
   }
 
+  if (
+    options.forbidFrontMatter &&
+    typeof options.forbidFrontMatter === 'function'
+  ) {
+    if (
+      options.forbidFrontMatter(this.resourcePath) &&
+      Object.keys(data).length > 0
+    ) {
+      return callback(new Error(`Front matter is forbidden in this file`));
+    }
+  }
   const code = `
   import React from 'react';
   import { mdx } from '@mdx-js/react';

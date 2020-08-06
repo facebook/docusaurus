@@ -12,34 +12,64 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
-import normalizePluginOptions from './pluginOptionSchema.test';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import * as version from '../version';
+import {PluginOptionSchema} from '../pluginOptionSchema';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
-const createFakeActions = (
-  routeConfigs: RouteConfig[],
-  contentDir,
-  dataContainer?,
-  globalDataContainer?,
-) => {
-  return {
+const createFakeActions = (contentDir: string) => {
+  const routeConfigs: RouteConfig[] = [];
+  const dataContainer: any = {};
+  const globalDataContainer: any = {};
+
+  const actions = {
     addRoute: (config: RouteConfig) => {
       routeConfigs.push(config);
     },
-    createData: async (name, content) => {
-      if (dataContainer) {
-        dataContainer[name] = content;
-      }
+    createData: async (name: string, content: unknown) => {
+      dataContainer[name] = content;
       return path.join(contentDir, name);
     },
-    setGlobalData: (data) => {
+    setGlobalData: (data: any) => {
       globalDataContainer.pluginName = {pluginId: data};
     },
+  };
+
+  // Extra fns useful for tests!
+  const utils = {
+    getGlobalData: () => globalDataContainer,
+    getRouteConfigs: () => routeConfigs,
+    // query by prefix, because files have a hash at the end
+    // so it's not convenient to query by full filename
+    getCreatedDataByPrefix: (prefix: string) => {
+      const entry = Object.entries(dataContainer).find(([key]) =>
+        key.startsWith(prefix),
+      );
+      if (!entry) {
+        throw new Error(`No entry found for prefix=${prefix}`);
+      }
+      return JSON.parse(entry[1] as string);
+    },
+
+    expectSnapshot: () => {
+      // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+      sortConfig(routeConfigs);
+      expect(routeConfigs).not.toEqual([]);
+      expect(routeConfigs).toMatchSnapshot('route config');
+      expect(dataContainer).toMatchSnapshot('data');
+      expect(globalDataContainer).toMatchSnapshot('global data');
+    },
+  };
+
+  return {
+    actions,
+    utils,
   };
 };
 
@@ -49,7 +79,7 @@ test('site with wrong sidebar file', async () => {
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       sidebarPath,
     }),
   );
@@ -62,28 +92,30 @@ describe('empty/no docs website', () => {
 
   test('no files in docs folder', async () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
-    const plugin = pluginContentDocs(context, normalizePluginOptions({}));
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(PluginOptionSchema, {}),
+    );
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
     expect(docsSidebars).toMatchInlineSnapshot(`Object {}`);
 
-    const routeConfigs = [];
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
-    const actions = createFakeActions(routeConfigs, pluginContentDir);
+    const {actions, utils} = createFakeActions(pluginContentDir);
 
     await plugin.contentLoaded({
       content,
       actions,
     });
 
-    expect(routeConfigs).toEqual([]);
+    expect(utils.getRouteConfigs()).toEqual([]);
   });
 
   test('docs folder does not exist', async () => {
     const plugin = pluginContentDocs(
       context,
-      normalizePluginOptions({
+      normalizePluginOptions(PluginOptionSchema, {
         path: '/path/does/not/exist/',
       }),
     );
@@ -99,7 +131,7 @@ describe('simple website', () => {
   const pluginPath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       path: pluginPath,
       sidebarPath,
       homePageId: 'hello',
@@ -112,7 +144,7 @@ describe('simple website', () => {
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
-    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, {
+    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: pluginPath,
       sidebarPath,
     });
@@ -200,15 +232,7 @@ describe('simple website', () => {
 
     expect(docsSidebars).toMatchSnapshot();
 
-    const routeConfigs = [];
-    const dataContainer = {};
-    const globalDataContainer = {};
-    const actions = createFakeActions(
-      routeConfigs,
-      pluginContentDir,
-      dataContainer,
-      globalDataContainer,
-    );
+    const {actions, utils} = createFakeActions(pluginContentDir);
 
     await plugin.contentLoaded({
       content,
@@ -216,16 +240,12 @@ describe('simple website', () => {
     });
 
     // There is only one nested docs route for simple site
-    const baseMetadata = JSON.parse(dataContainer['docs-route-ff2.json']);
+    const baseMetadata = utils.getCreatedDataByPrefix('docs-route-');
     expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
     expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
 
-    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
-    sortConfig(routeConfigs);
-
-    expect(routeConfigs).not.toEqual([]);
-    expect(routeConfigs).toMatchSnapshot();
-    expect(globalDataContainer).toMatchSnapshot();
+    utils.expectSnapshot();
+    expect(utils.getGlobalData()).toMatchSnapshot();
   });
 });
 
@@ -236,22 +256,26 @@ describe('versioned website', () => {
   const routeBasePath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions({
+    normalizePluginOptions(PluginOptionSchema, {
       routeBasePath,
       sidebarPath,
       homePageId: 'hello',
     }),
   );
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
   const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('isVersioned', () => {
+    expect(env.versioning.enabled).toEqual(true);
+  });
 
   test('extendCli - docsVersion', () => {
     const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
-    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, {
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: routeBasePath,
       sidebarPath,
     });
@@ -401,23 +425,15 @@ describe('versioned website', () => {
     expect(versionToSidebars).toMatchSnapshot(
       'sidebars needed for each version',
     );
-    const routeConfigs = [];
-    const dataContainer = {};
-    const globalDataContainer = {};
-    const actions = createFakeActions(
-      routeConfigs,
-      pluginContentDir,
-      dataContainer,
-      globalDataContainer,
-    );
+    const {actions, utils} = createFakeActions(pluginContentDir);
     await plugin.contentLoaded({
       content,
       actions,
     });
 
     // The created base metadata for each nested docs route is smartly chunked/ splitted across version
-    const latestVersionBaseMetadata = JSON.parse(
-      dataContainer['docs-route-ff2.json'],
+    const latestVersionBaseMetadata = utils.getCreatedDataByPrefix(
+      'docs-route-',
     );
     expect(latestVersionBaseMetadata).toMatchSnapshot(
       'base metadata for latest version',
@@ -426,8 +442,8 @@ describe('versioned website', () => {
     expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
       permalinkToSidebar,
     );
-    const nextVersionBaseMetadata = JSON.parse(
-      dataContainer['docs-next-route-1c8.json'],
+    const nextVersionBaseMetadata = utils.getCreatedDataByPrefix(
+      'docs-next-route-',
     );
     expect(nextVersionBaseMetadata).toMatchSnapshot(
       'base metadata for next version',
@@ -436,8 +452,8 @@ describe('versioned website', () => {
     expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
       permalinkToSidebar,
     );
-    const firstVersionBaseMetadata = JSON.parse(
-      dataContainer['docs-1-0-0-route-660.json'],
+    const firstVersionBaseMetadata = utils.getCreatedDataByPrefix(
+      'docs-1-0-0-route-',
     );
     expect(firstVersionBaseMetadata).toMatchSnapshot(
       'base metadata for first version',
@@ -447,11 +463,151 @@ describe('versioned website', () => {
       permalinkToSidebar,
     );
 
-    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
-    sortConfig(routeConfigs);
+    utils.expectSnapshot();
+  });
+});
 
-    expect(routeConfigs).not.toEqual([]);
-    expect(routeConfigs).toMatchSnapshot();
-    expect(globalDataContainer).toMatchSnapshot();
+describe('versioned website (community)', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'community_sidebars.json');
+  const routeBasePath = 'community';
+  const pluginId = 'community';
+  const plugin = pluginContentDocs(
+    context,
+    normalizePluginOptions(PluginOptionSchema, {
+      id: 'community',
+      path: 'community',
+      routeBasePath,
+      sidebarPath,
+    }),
+  );
+  const env = loadEnv(siteDir, pluginId);
+  const {docsDir: versionedDir} = env.versioning;
+  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('isVersioned', () => {
+    expect(env.versioning.enabled).toEqual(true);
+  });
+
+  test('extendCli - docsVersion', () => {
+    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const cli = new commander.Command();
+    plugin.extendCli(cli);
+    cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
+      path: routeBasePath,
+      sidebarPath,
+    });
+    mock.mockRestore();
+  });
+
+  test('getPathToWatch', () => {
+    const pathToWatch = plugin.getPathsToWatch();
+    const matchPattern = pathToWatch.map((filepath) =>
+      posixPath(path.relative(siteDir, filepath)),
+    );
+    expect(matchPattern).not.toEqual([]);
+    expect(matchPattern).toMatchInlineSnapshot(`
+      Array [
+        "community/**/*.{md,mdx}",
+        "community_versioned_sidebars/version-1.0.0-sidebars.json",
+        "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "community_sidebars.json",
+      ]
+    `);
+    expect(isMatch('community/team.md', matchPattern)).toEqual(true);
+    expect(
+      isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
+    ).toEqual(true);
+
+    // Non existing version
+    expect(
+      isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
+    ).toEqual(false);
+    expect(
+      isMatch(
+        'community_versioned_sidebars/version-2.0.0-sidebars.json',
+        matchPattern,
+      ),
+    ).toEqual(false);
+
+    expect(isMatch('community/team.js', matchPattern)).toEqual(false);
+    expect(
+      isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
+    ).toEqual(false);
+  });
+
+  test('content', async () => {
+    const content = await plugin.loadContent();
+    const {
+      docsMetadata,
+      docsSidebars,
+      versionToSidebars,
+      permalinkToSidebar,
+    } = content;
+
+    expect(docsMetadata.team).toEqual({
+      id: 'team',
+      unversionedId: 'team',
+      isDocsHomePage: false,
+      permalink: '/community/next/team',
+      source: path.join('@site', routeBasePath, 'team.md'),
+      title: 'team',
+      description: 'Team current version',
+      version: 'next',
+      sidebar: 'community',
+    });
+    expect(docsMetadata['version-1.0.0/team']).toEqual({
+      id: 'version-1.0.0/team',
+      unversionedId: 'team',
+      isDocsHomePage: false,
+      permalink: '/community/team',
+      source: path.join(
+        '@site',
+        path.relative(siteDir, versionedDir),
+        'version-1.0.0',
+        'team.md',
+      ),
+      title: 'team',
+      description: 'Team 1.0.0',
+      version: '1.0.0',
+      sidebar: 'version-1.0.0/community',
+    });
+
+    expect(docsSidebars).toMatchSnapshot('all sidebars');
+    expect(versionToSidebars).toMatchSnapshot(
+      'sidebars needed for each version',
+    );
+
+    const {actions, utils} = createFakeActions(pluginContentDir);
+    await plugin.contentLoaded({
+      content,
+      actions,
+    });
+
+    // The created base metadata for each nested docs route is smartly chunked/ splitted across version
+    const latestVersionBaseMetadata = utils.getCreatedDataByPrefix(
+      'community-route-',
+    );
+    expect(latestVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for latest version',
+    );
+    expect(latestVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+    const nextVersionBaseMetadata = utils.getCreatedDataByPrefix(
+      'community-next-route-',
+    );
+    expect(nextVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for next version',
+    );
+    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+
+    utils.expectSnapshot();
   });
 });
