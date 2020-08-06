@@ -51,19 +51,4 @@ module.exports = {
       ],
     },
   ],
-  community: [
-    'community/support',
-    'community/team',
-    'community/resources',
-    {
-      type: 'link',
-      href: '/showcase',
-      label: 'Showcase',
-    },
-    {
-      type: 'link',
-      href: '/feedback',
-      label: 'Feedback',
-    },
-  ],
 };

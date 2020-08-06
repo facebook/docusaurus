@@ -36,7 +36,7 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
     githubUrl="https://github.com/slorber"
     twitterUrl="https://twitter.com/sebastienlorber"
   >
-    React lover since 2014. Freelance, helping Facebook ship Docusaurus v2.
+    React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his <a href="https://sebastienlorber.com/" target="_blank">website</a> and <a href="https://dev.to/sebastienlorber" target="_blank">Dev.to</a>.
   </TeamProfileCardCol>
   <TeamProfileCardCol 
     name="Yangshun Tay" 

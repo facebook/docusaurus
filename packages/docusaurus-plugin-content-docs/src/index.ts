@@ -15,7 +15,10 @@ import path from 'path';
 import chalk from 'chalk';
 
 import admonitions from 'remark-admonitions';
-import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
+import {
+  STATIC_DIR_NAME,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -77,15 +80,21 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
+  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
 
-  const dataDir = path.join(
+  const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
-    // options.id ?? 'default', // TODO support multi-instance
   );
+  const dataDir = path.join(pluginDataDirRoot, pluginId);
+  const aliasedSource = (source: string) =>
+    `~docs/${path.relative(pluginDataDirRoot, source)}`;
 
   // Versioning.
-  const env = loadEnv(siteDir, {disableVersioning: options.disableVersioning});
+  const env = loadEnv(siteDir, pluginId, {
+    disableVersioning: options.disableVersioning,
+  });
   const {versioning} = env;
   const {
     versions,
@@ -101,13 +110,24 @@ export default function pluginContentDocs(
       return path.resolve(__dirname, './theme');
     },
 
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '..', 'src', 'theme');
+    },
+
     extendCli(cli) {
+      const command = isDefaultPluginId
+        ? 'docs:version'
+        : `docs:version:${pluginId}`;
+      const commandDescription = isDefaultPluginId
+        ? 'Tag a new docs version'
+        : `Tag a new docs version (${pluginId})`;
+
       cli
-        .command('docs:version')
+        .command(command)
         .arguments('<version>')
-        .description('Tag a new version for docs')
+        .description(commandDescription)
         .action((version) => {
-          docsVersion(version, siteDir, {
+          docsVersion(version, siteDir, pluginId, {
             path: options.path,
             sidebarPath: options.sidebarPath,
           });
@@ -335,9 +355,6 @@ Available document ids=
 
       setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
-      const aliasedSource = (source: string) =>
-        `~docs/${path.relative(dataDir, source)}`;
-
       const createDocsBaseMetadata = (
         version: DocsVersion,
       ): DocsBaseMetadata => {
@@ -499,7 +516,7 @@ Available document ids=
         },
         resolve: {
           alias: {
-            '~docs': dataDir,
+            '~docs': pluginDataDirRoot,
           },
         },
         module: {
@@ -519,10 +536,10 @@ Available document ids=
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedSource)}.json`,
+                        `${docuHash(aliasedPath)}.json`,
                       );
                     },
                   },

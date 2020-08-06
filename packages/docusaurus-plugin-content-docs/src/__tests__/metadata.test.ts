@@ -11,6 +11,7 @@ import processMetadata from '../metadata';
 import loadEnv from '../env';
 import {MetadataRaw, Env, MetadataOptions} from '../types';
 import {LoadContext} from '@docusaurus/types';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -66,7 +67,7 @@ describe('simple site', () => {
   const context = loadContext(siteDir);
   const routeBasePath = 'docs';
   const docsDir = path.resolve(siteDir, routeBasePath);
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
   const options = {routeBasePath};
 
   const {testMeta, testSlug} = createTestHelpers({
@@ -309,7 +310,7 @@ describe('versioned site', () => {
   const context = loadContext(siteDir);
   const routeBasePath = 'docs';
   const docsDir = path.resolve(siteDir, routeBasePath);
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
   const {docsDir: versionedDir} = env.versioning;
   const options = {routeBasePath};
 

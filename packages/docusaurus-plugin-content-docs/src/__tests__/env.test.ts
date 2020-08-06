@@ -7,18 +7,19 @@
 
 import path from 'path';
 import loadEnv from '../env';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 describe('loadEnv', () => {
   test('website with versioning disabled', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
-    const env = loadEnv(siteDir);
+    const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
     expect(env.versioning.enabled).toBe(false);
     expect(env.versioning.versions).toStrictEqual([]);
   });
 
   test('website with versioning enabled', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
-    const env = loadEnv(siteDir);
+    const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
     expect(env.versioning.enabled).toBe(true);
     expect(env.versioning.latestVersion).toBe('1.0.1');
     expect(env.versioning.versions).toStrictEqual([
@@ -28,9 +29,17 @@ describe('loadEnv', () => {
     ]);
   });
 
+  test('website with versioning enabled, 2nd docs plugin instance', () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const env = loadEnv(siteDir, 'community');
+    expect(env.versioning.enabled).toBe(true);
+    expect(env.versioning.latestVersion).toBe('1.0.0');
+    expect(env.versioning.versions).toStrictEqual(['1.0.0']);
+  });
+
   test('website with versioning but disabled', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
-    const env = loadEnv(siteDir, {disableVersioning: true});
+    const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID, {disableVersioning: true});
     expect(env.versioning.enabled).toBe(false);
     expect(env.versioning.versions).toStrictEqual([]);
   });
@@ -42,7 +51,7 @@ describe('loadEnv', () => {
         invalid: 'json',
       };
     });
-    const env = loadEnv(siteDir);
+    const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
     expect(env.versioning.enabled).toBe(false);
     mock.mockRestore();
   });

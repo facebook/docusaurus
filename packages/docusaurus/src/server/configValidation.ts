@@ -10,9 +10,9 @@ import {URISchema} from '@docusaurus/utils-validation';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
 import {
-  isValidationDisabledEscapeHatch,
   logValidationBugReportHint,
-} from './utils';
+  isValidationDisabledEscapeHatch,
+} from '@docusaurus/utils-validation';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
@@ -48,6 +48,7 @@ const PresetSchema = Joi.alternatives().try(
   Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
 );
 
+// TODO move to @docusaurus/utils-validation
 const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
@@ -88,6 +89,7 @@ const ConfigSchema = Joi.object({
   tagline: Joi.string().allow(''),
 });
 
+// TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: Partial<DocusaurusConfig>,
 ): DocusaurusConfig {

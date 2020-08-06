@@ -8,6 +8,8 @@
 import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
+import minimatch from 'minimatch';
+import slash from 'slash';
 import {
   encodePath,
   fileToPath,
@@ -25,6 +27,7 @@ import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -44,11 +47,17 @@ export default function pluginContentPages(
 
   const contentPath = path.resolve(siteDir, options.path);
 
-  const dataDir = path.join(
+  const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
   );
+  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
+  const excludeRegex = new RegExp(
+    options.exclude
+      .map((pattern) => minimatch.makeRe(pattern).source)
+      .join('|'),
+  );
   return {
     name: 'docusaurus-plugin-content-pages',
 
@@ -79,24 +88,25 @@ export default function pluginContentPages(
       const {baseUrl} = siteConfig;
       const pagesFiles = await globby(include, {
         cwd: pagesDir,
+        ignore: options.exclude,
       });
 
       function toMetadata(relativeSource: string): Metadata {
         const source = path.join(pagesDir, relativeSource);
-        const aliasedSource = aliasedSitePath(source, siteDir);
+        const aliasedSourcePath = aliasedSitePath(source, siteDir);
         const pathName = encodePath(fileToPath(relativeSource));
         const permalink = pathName.replace(/^\//, baseUrl || '');
         if (isMarkdownSource(relativeSource)) {
           return {
             type: 'mdx',
             permalink,
-            source: aliasedSource,
+            source: aliasedSourcePath,
           };
         } else {
           return {
             type: 'jsx',
             permalink,
-            source: aliasedSource,
+            source: aliasedSourcePath,
           };
         }
       }
@@ -152,7 +162,7 @@ export default function pluginContentPages(
       return {
         resolve: {
           alias: {
-            '~pages': dataDir,
+            '~pages': pluginDataDirRoot,
           },
         },
         module: {
@@ -171,12 +181,17 @@ export default function pluginContentPages(
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
+                      if (excludeRegex.test(slash(mdxPath))) {
+                        return null;
+                      }
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    forbidFrontMatter: (mdxPath: string) =>
+                      excludeRegex.test(slash(mdxPath)),
                   },
                 },
                 {

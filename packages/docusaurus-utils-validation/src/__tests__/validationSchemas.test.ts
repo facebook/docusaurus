@@ -11,8 +11,9 @@ import {
   AdmonitionsSchema,
   RehypePluginsSchema,
   RemarkPluginsSchema,
+  PluginIdSchema,
   URISchema,
-} from '../index';
+} from '../validationSchemas';
 
 function createTestHelpers({
   schema,
@@ -26,7 +27,10 @@ function createTestHelpers({
   }
 
   function testFail(value: unknown) {
-    expect(() => Joi.attempt(value, schema)).toThrowErrorMatchingSnapshot();
+    expect(() => Joi.attempt(value, schema)).toThrowErrorMatchingSnapshot(
+      // @ts-expect-error: seems ok at runtime, but bad typedef
+      `for value=${JSON.stringify(value)}`,
+    );
   }
 
   return {testOK, testFail};
@@ -59,6 +63,27 @@ function testMarkdownPluginSchemas(schema: Joi.SchemaLike) {
 }
 
 describe('validation schemas', () => {
+  test('PluginIdSchema', () => {
+    const {testOK, testFail} = createTestHelpers({
+      schema: PluginIdSchema,
+      defaultValue: 'default',
+    });
+
+    testOK(undefined);
+    testOK('docs');
+    testOK('default');
+    testOK('plugin-id_with-simple-special-chars');
+
+    testFail('/docs');
+    testFail('docs/');
+    testFail('do/cs');
+    testFail('do cs');
+    testFail(null);
+    testFail(3);
+    testFail(true);
+    testFail([]);
+  });
+
   test('AdmonitionsSchema', () => {
     const {testOK, testFail} = createTestHelpers({
       schema: AdmonitionsSchema,

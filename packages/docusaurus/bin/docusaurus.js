@@ -102,18 +102,20 @@ cli
   });
 
 cli
-  .command('swizzle <themeName> [componentName] [siteDir]')
+  .command('swizzle [themeName] [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .option(
     '--typescript',
     'Copy TypeScript theme files when possible (default: false)',
   )
-  .action((themeName, componentName, siteDir = '.', {typescript}) => {
+  .option('--danger', 'Enable swizzle for internal component of themes')
+  .action((themeName, componentName, siteDir = '.', {typescript, danger}) => {
     wrapCommand(swizzle)(
       path.resolve(siteDir),
       themeName,
       componentName,
       typescript,
+      danger,
     );
   });
 

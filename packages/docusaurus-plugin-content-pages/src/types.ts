@@ -6,9 +6,11 @@
  */
 
 export interface PluginOptions {
+  id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
+  exclude: string[];
   mdxPageComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
