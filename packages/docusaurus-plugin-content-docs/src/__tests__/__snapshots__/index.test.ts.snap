@@ -192,6 +192,7 @@ Object {
   \\"title\\": \\"Bar\\",
   \\"description\\": \\"This is custom description\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
+  \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
@@ -206,6 +207,7 @@ Object {
   \\"title\\": \\"baz\\",
   \\"description\\": \\"Images\\",
   \\"source\\": \\"@site/docs/foo/baz.md\\",
+  \\"slug\\": \\"/foo/bazSlug.html\\",
   \\"permalink\\": \\"/docs/foo/bazSlug.html\\",
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -224,6 +226,7 @@ Object {
   \\"title\\": \\"Hello, World !\\",
   \\"description\\": \\"Hi, Endilie here :)\\",
   \\"source\\": \\"@site/docs/hello.md\\",
+  \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -238,6 +241,7 @@ Object {
   \\"title\\": \\"ipsum\\",
   \\"description\\": \\"Lorem ipsum.\\",
   \\"source\\": \\"@site/docs/ipsum.md\\",
+  \\"slug\\": \\"/ipsum\\",
   \\"permalink\\": \\"/docs/ipsum\\",
   \\"editUrl\\": null
 }",
@@ -248,6 +252,7 @@ Object {
   \\"title\\": \\"lorem\\",
   \\"description\\": \\"Lorem ipsum.\\",
   \\"source\\": \\"@site/docs/lorem.md\\",
+  \\"slug\\": \\"/lorem\\",
   \\"permalink\\": \\"/docs/lorem\\",
   \\"editUrl\\": \\"https://github.com/customUrl/docs/lorem.md\\"
 }",
@@ -258,6 +263,7 @@ Object {
   \\"title\\": \\"rootAbsoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootAbsoluteSlug.md\\",
+  \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
 }",
   "site-docs-root-relative-slug-md-3dd.json": "{
@@ -267,6 +273,7 @@ Object {
   \\"title\\": \\"rootRelativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootRelativeSlug.md\\",
+  \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/rootRelativeSlug\\"
 }",
   "site-docs-root-resolved-slug-md-4d1.json": "{
@@ -276,6 +283,7 @@ Object {
   \\"title\\": \\"rootResolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootResolvedSlug.md\\",
+  \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/hey/rootResolvedSlug\\"
 }",
   "site-docs-root-try-to-escape-slug-md-9ee.json": "{
@@ -285,6 +293,7 @@ Object {
   \\"title\\": \\"rootTryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootTryToEscapeSlug.md\\",
+  \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/rootTryToEscapeSlug\\"
 }",
   "site-docs-slugs-absolute-slug-md-4e8.json": "{
@@ -294,6 +303,7 @@ Object {
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
+  \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/absoluteSlug\\"
 }",
   "site-docs-slugs-relative-slug-md-d1c.json": "{
@@ -303,6 +313,7 @@ Object {
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
+  \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/slugs/relativeSlug\\"
 }",
   "site-docs-slugs-resolved-slug-md-02b.json": "{
@@ -312,6 +323,7 @@ Object {
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
+  \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/slugs/hey/resolvedSlug\\"
 }",
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
@@ -321,6 +333,7 @@ Object {
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
+  \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/tryToEscapeSlug\\"
 }",
 }
@@ -630,6 +643,7 @@ Object {
   \\"title\\": \\"team\\",
   \\"description\\": \\"Team current version\\",
   \\"source\\": \\"@site/community/team.md\\",
+  \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/next/team\\",
   \\"version\\": \\"next\\",
   \\"sidebar\\": \\"community\\"
@@ -641,6 +655,7 @@ Object {
   \\"title\\": \\"team\\",
   \\"description\\": \\"Team 1.0.0\\",
   \\"source\\": \\"@site/community_versioned_docs/version-1.0.0/team.md\\",
+  \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/team\\",
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/community\\"
@@ -1070,6 +1085,7 @@ Object {
   \\"title\\": \\"bar\\",
   \\"description\\": \\"This is next version of bar.\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
+  \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/next/foo/barSlug\\",
   \\"version\\": \\"next\\",
   \\"sidebar\\": \\"docs\\",
@@ -1085,6 +1101,7 @@ Object {
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello next !\\",
   \\"source\\": \\"@site/docs/hello.md\\",
+  \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/next/\\",
   \\"version\\": \\"next\\",
   \\"sidebar\\": \\"docs\\",
@@ -1100,6 +1117,7 @@ Object {
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
+  \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/next/absoluteSlug\\",
   \\"version\\": \\"next\\"
 }",
@@ -1110,6 +1128,7 @@ Object {
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
+  \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/relativeSlug\\",
   \\"version\\": \\"next\\"
 }",
@@ -1120,6 +1139,7 @@ Object {
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
+  \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/hey/resolvedSlug\\",
   \\"version\\": \\"next\\"
 }",
@@ -1130,6 +1150,7 @@ Object {
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
+  \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
   \\"version\\": \\"next\\"
 }",
@@ -1140,6 +1161,7 @@ Object {
   \\"title\\": \\"bar\\",
   \\"description\\": \\"Bar 1.0.0 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.0/foo/bar.md\\",
+  \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/barSlug\\",
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/docs\\",
@@ -1155,6 +1177,7 @@ Object {
   \\"title\\": \\"baz\\",
   \\"description\\": \\"Baz 1.0.0 ! This will be deleted in next subsequent versions.\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.0/foo/baz.md\\",
+  \\"slug\\": \\"/foo/baz\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/baz\\",
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/docs\\",
@@ -1174,6 +1197,7 @@ Object {
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello 1.0.0 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.0/hello.md\\",
+  \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/1.0.0/\\",
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/docs\\",
@@ -1189,6 +1213,7 @@ Object {
   \\"title\\": \\"bar\\",
   \\"description\\": \\"Bar 1.0.1 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.1/foo/bar.md\\",
+  \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
   \\"version\\": \\"1.0.1\\",
   \\"sidebar\\": \\"version-1.0.1/docs\\",
@@ -1204,6 +1229,7 @@ Object {
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello 1.0.1 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.1/hello.md\\",
+  \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
   \\"version\\": \\"1.0.1\\",
   \\"sidebar\\": \\"version-1.0.1/docs\\",
@@ -1219,6 +1245,7 @@ Object {
   \\"title\\": \\"rootAbsoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md\\",
+  \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1229,6 +1256,7 @@ Object {
   \\"title\\": \\"rootRelativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootRelativeSlug.md\\",
+  \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootRelativeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1239,6 +1267,7 @@ Object {
   \\"title\\": \\"rootResolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootResolvedSlug.md\\",
+  \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/hey/rootResolvedSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1249,6 +1278,7 @@ Object {
   \\"title\\": \\"rootTryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md\\",
+  \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootTryToEscapeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1259,6 +1289,7 @@ Object {
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md\\",
+  \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/absoluteSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1269,6 +1300,7 @@ Object {
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md\\",
+  \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/relativeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1279,6 +1311,7 @@ Object {
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md\\",
+  \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/hey/resolvedSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
@@ -1289,6 +1322,7 @@ Object {
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md\\",
+  \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/tryToEscapeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",

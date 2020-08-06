@@ -71,6 +71,16 @@ export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
+  // TODO remove homePageId before end of 2020
+  // "slug: /" is better because the home doc can be different across versions
+  if (options.homePageId) {
+    console.log(
+      chalk.red(
+        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
+      ),
+    );
+  }
+
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -424,8 +434,10 @@ Available document ids=
         const docsRoutes = await genRoutes(docs);
 
         const mainDoc: Metadata =
-          docs.find((doc) => doc.unversionedId === options.homePageId) ??
-          docs[0];
+          docs.find(
+            (doc) =>
+              doc.unversionedId === options.homePageId || doc.slug === '/',
+          ) ?? docs[0];
 
         const toGlobalDataDoc = (doc: Metadata): GlobalDoc => ({
           id: doc.unversionedId,

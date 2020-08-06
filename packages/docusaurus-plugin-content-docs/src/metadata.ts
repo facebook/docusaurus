@@ -129,11 +129,13 @@ export default async function processMetadata({
     throw new Error('Document id cannot include "/".');
   }
 
-  const id =
-    dirNameWithVersion !== '.' ? `${dirNameWithVersion}/${baseID}` : baseID;
+  // test for website/docs folder, not a versioned folder
+  // TODO legacy test, looks bad
+  const isCurrrentDocs = dirNameWithVersion === '.';
+  const id = isCurrrentDocs ? baseID : `${dirNameWithVersion}/${baseID}`;
   const unversionedId = version ? removeVersionPrefix(id, version) : id;
 
-  const isDocsHomePage = unversionedId === homePageId;
+  const isDocsHomePage = unversionedId === (homePageId ?? '_index');
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
       `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
@@ -173,6 +175,7 @@ export default async function processMetadata({
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),
+    slug: docSlug,
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
     version,

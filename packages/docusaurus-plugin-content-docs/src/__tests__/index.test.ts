@@ -205,6 +205,7 @@ describe('simple website', () => {
       unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
+      slug: '/',
       previous: {
         title: 'baz',
         permalink: '/docs/foo/bazSlug.html',
@@ -224,6 +225,7 @@ describe('simple website', () => {
         permalink: '/docs/foo/bazSlug.html',
       },
       permalink: '/docs/foo/bar',
+      slug: '/foo/bar',
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'foo', 'bar.md'),
       title: 'Bar',
@@ -349,6 +351,7 @@ describe('versioned website', () => {
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
+      slug: '/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
       title: 'bar',
       description: 'This is next version of bar.',
@@ -364,6 +367,7 @@ describe('versioned website', () => {
       unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/next/',
+      slug: '/',
       source: path.join('@site', routeBasePath, 'hello.md'),
       title: 'hello',
       description: 'Hello next !',
@@ -379,6 +383,7 @@ describe('versioned website', () => {
       unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
+      slug: '/',
       source: path.join(
         '@site',
         path.relative(siteDir, versionedDir),
@@ -399,6 +404,7 @@ describe('versioned website', () => {
       unversionedId: 'foo/baz',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
+      slug: '/foo/baz',
       source: path.join(
         '@site',
         path.relative(siteDir, versionedDir),
@@ -552,6 +558,7 @@ describe('versioned website (community)', () => {
       unversionedId: 'team',
       isDocsHomePage: false,
       permalink: '/community/next/team',
+      slug: '/team',
       source: path.join('@site', routeBasePath, 'team.md'),
       title: 'team',
       description: 'Team current version',
@@ -563,6 +570,7 @@ describe('versioned website (community)', () => {
       unversionedId: 'team',
       isDocsHomePage: false,
       permalink: '/community/team',
+      slug: '/team',
       source: path.join(
         '@site',
         path.relative(siteDir, versionedDir),

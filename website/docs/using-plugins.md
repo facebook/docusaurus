@@ -292,7 +292,6 @@ module.exports = {
          * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'docs',
-        homePageId: '_index', // Document id for docs home page.
         include: ['**/*.md', '**/*.mdx'], // Extensions to include.
         /**
          * Path to sidebar configuration for showing a list of markdown pages.

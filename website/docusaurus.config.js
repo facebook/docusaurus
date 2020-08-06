@@ -158,7 +158,6 @@ module.exports = {
       {
         docs: {
           // routeBasePath: '/',
-          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:

@@ -124,6 +124,7 @@ export interface MetadataRaw extends LastUpdateData {
   title: string;
   description: string;
   source: string;
+  slug: string;
   permalink: string;
   sidebar_label?: string;
   editUrl?: string | null;
