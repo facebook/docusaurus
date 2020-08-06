@@ -157,6 +157,7 @@ export interface Plugin<T, U = unknown> {
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
   };
+  getSwizzleComponentList?(): string[];
 }
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];

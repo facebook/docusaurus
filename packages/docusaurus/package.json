@@ -74,6 +74,7 @@
     "import-fresh": "^3.2.1",
     "inquirer": "^7.2.0",
     "is-root": "^2.1.0",
+    "leven": "^3.1.0",
     "lodash": "^4.5.2",
     "lodash.flatmap": "^4.5.0",
     "lodash.has": "^4.5.2",

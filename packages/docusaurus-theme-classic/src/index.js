@@ -120,4 +120,16 @@ module.exports = function (context, options) {
   };
 };
 
+const swizzleAllowedComponents = [
+  'CodeBlock',
+  'DocSidebar',
+  'Footer',
+  'NotFound',
+  'SearchBar',
+  'hooks/useTheme',
+  'prism-include-languages',
+];
+
+module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
+
 module.exports.validateThemeConfig = validateThemeConfig;
