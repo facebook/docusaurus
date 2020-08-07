@@ -244,20 +244,13 @@ export default ({
                   }
 
                   return (
-                    <pre
-                      style={{
-                        margin: '0px',
-                        padding: '0px',
-                        whiteSpace: 'pre-wrap',
-                        wordBreak: 'break-word',
-                      }}>
-                      <code
-                        key={i}
-                        {...lineProps}
-                        style={{display: 'inline-flex'}}>
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({token, key})} />
-                        ))}
+                    <pre className={styles.preTag}>
+                      <code className={styles.codeTag}>
+                        <div key={i} {...lineProps}>
+                          {line.map((token, key) => (
+                            <span key={key} {...getTokenProps({token, key})} />
+                          ))}
+                        </div>
                       </code>
                     </pre>
                   );

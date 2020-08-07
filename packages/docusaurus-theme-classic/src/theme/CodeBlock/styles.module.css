@@ -61,3 +61,15 @@
   min-width: 100%;
   padding: var(--ifm-pre-padding);
 }
+
+.preTag{
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding: 0px;
+  margin: 0px;
+}
+
+.codeTag{
+  display: inline-flex;
+}
+
