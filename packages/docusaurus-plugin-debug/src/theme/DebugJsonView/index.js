@@ -7,14 +7,27 @@
 
 import React from 'react';
 
-import ReactJson from 'react-json-view';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 // avoids "react-json-view" to display  "root"
 const RootName = false;
 
+// Seems ReactJson does not work with SSR
+// https://github.com/mac-s-g/react-json-view/issues/121
+const BrowserOnlyReactJson = (props) => {
+  return (
+    <BrowserOnly>
+      {() => {
+        const ReactJson = require('react-json-view').default;
+        return <ReactJson {...props} />;
+      }}
+    </BrowserOnly>
+  );
+};
+
 function DebugJsonView({src}) {
   return (
-    <ReactJson
+    <BrowserOnlyReactJson
       src={src}
       name={RootName}
       shouldCollapse={(field) => {
