@@ -64,18 +64,18 @@ function NavLink({
 
 function NavItemDesktop({items, position, className, ...props}) {
   const dropDownRef = React.useRef<HTMLDivElement>(null);
-  const dropDownChildrenRef = React.useRef<HTMLUListElement>(null);
+  const dropDownMenuRef = React.useRef<any>(null); // TODO should find better solution for this. anything else will get a error when retrieve children.
   const [showDropDown, setShowDropDown] = useState(false);
   useOnClickOutside(dropDownRef, () => toggle(false));
   function toggle(state: boolean) {
     if (
       state &&
-      dropDownChildrenRef &&
-      dropDownChildrenRef.current &&
-      dropDownChildrenRef.current.firstChild &&
-      dropDownChildrenRef.current.firstChild.firstChild
+      dropDownMenuRef &&
+      dropDownMenuRef.current &&
+      dropDownMenuRef.current.firstChild &&
+      dropDownMenuRef.current.firstChild.firstChild
     ) {
-      dropDownChildrenRef.current.firstChild.firstChild.focus();
+      dropDownMenuRef.current.firstChild.firstChild.focus();
     }
     setShowDropDown(state);
   }
@@ -118,7 +118,7 @@ function NavItemDesktop({items, position, className, ...props}) {
         }}>
         {props.label}
       </NavLink>
-      <ul ref={dropDownChildrenRef} className="dropdown__menu">
+      <ul ref={dropDownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li key={i}>
             <NavLink
