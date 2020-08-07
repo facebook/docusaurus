@@ -21,6 +21,7 @@ class Users extends React.Component {
     const restToShowcase = siteConfig.users.filter(
       (user) => !user.fbOpenSource,
     );
+
     return (
       <div className="mainContainer">
         <Container padding={['bottom']}>

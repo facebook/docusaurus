@@ -51,21 +51,21 @@ module.exports = [
   },
   {
     caption: 'Amphora Data',
-    image: '/img/users/AmphoraData.png',
+    image: '/img/users/amphora-data.png',
     infoLink: 'https://amphoradata.github.io/',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'Anssr Data Platform',
-    image: '/img/users/anssr.svg',
+    image: '/img/users/anssr-data-plataform.svg',
     infoLink: 'https://anssr.io/',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'Apify SDK',
-    image: '/img/users/apify.svg',
+    image: '/img/users/apify-skd.svg',
     infoLink: 'https://sdk.apify.com/',
     fbOpenSource: false,
     pinned: false,
@@ -317,7 +317,7 @@ module.exports = [
   },
   {
     caption: 'Home Assistant',
-    image: '/img/logo-responsive.svg',
+    image: '/img/users/home-assistant.png',
     infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
@@ -464,7 +464,7 @@ module.exports = [
   },
   {
     caption: 'Open Power Quality',
-    image: '/img/users/opqlogo.png',
+    image: '/img/users/open-power-quality.png',
     infoLink: 'https://openpowerquality.org/',
     fbOpenSource: false,
     pinned: false,
@@ -513,8 +513,8 @@ module.exports = [
   },
   {
     caption: 'Polymath Network',
-    image: '/img/users/polymatch-logo.png',
-    infoLink: 'https://developers.polymath.network',
+    image: '/img/users/polymatch-network.png',
+    infoLink: 'https://polymath.network',
     fbOpenSource: false,
     pinned: false,
   },
@@ -688,7 +688,7 @@ module.exports = [
   },
   {
     caption: 'rest-hapi',
-    image: '/img/users/rest-hapi-logo-alt.png',
+    image: '/img/users/rest-hapi.png',
     infoLink: 'https://jkheadley.github.io/rest-hapi/',
     fbOpenSource: false,
     pinned: false,
@@ -737,7 +737,7 @@ module.exports = [
   },
   {
     caption: 'smash.gg',
-    image: '/img/users/eBFBDei.png',
+    image: '/img/users/smash.png',
     infoLink: 'https://developer.smash.gg',
     fbOpenSource: false,
     pinned: false,
