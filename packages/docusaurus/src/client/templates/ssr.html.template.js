@@ -29,7 +29,7 @@ module.exports = `
       <%~ it.appHtml %>
     </div>
     <% it.scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>" defer></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
