@@ -20,15 +20,6 @@ UserLink.propTypes = {
   image: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
 };
-<<<<<<< HEAD
-const Showcase = ({users}) => (
-  <div className="showcase">
-    {users.map((user) => (
-      <UserLink key={user.infoLink} {...user} />
-    ))}
-  </div>
-);
-=======
 
 const Showcase = ({users}) => {
   users.forEach((user) => {
@@ -47,7 +38,6 @@ const Showcase = ({users}) => {
     </div>
   );
 };
->>>>>>> self-host-images
 
 Showcase.propTypes = {
   users: PropTypes.array.isRequired,
