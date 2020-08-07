@@ -317,7 +317,7 @@ module.exports = [
   },
   {
     caption: 'Home Assistant',
-    image: '/img/users/home-assistant.png',
+    image: '/img/users/home-assinstant.svg',
     infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
@@ -723,7 +723,7 @@ module.exports = [
   },
   {
     caption: 'single-spa',
-    image: '/img/users/logo-white-bgblue.svg',
+    image: '/img/users/single-spa.svg',
     infoLink: 'https://single-spa.js.org/',
     fbOpenSource: false,
     pinned: false,
