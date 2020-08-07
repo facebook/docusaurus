@@ -8,8 +8,10 @@
 import {PluginOptions, RedirectOption, UserPluginOptions} from './types';
 import * as Joi from '@hapi/joi';
 import {PathnameValidator} from './redirectValidation';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 export const DefaultPluginOptions: PluginOptions = {
+  id: DEFAULT_PLUGIN_ID, // TODO temporary
   fromExtensions: [],
   toExtensions: [],
   redirects: [],
@@ -26,6 +28,7 @@ const RedirectPluginOptionValidation = Joi.object<RedirectOption>({
 const isString = Joi.string().required().not(null);
 
 const UserOptionsSchema = Joi.object<UserPluginOptions>({
+  id: Joi.string().optional(), // TODO remove once validation  migrated to new system
   fromExtensions: Joi.array().items(isString),
   toExtensions: Joi.array().items(isString),
   redirects: Joi.array().items(RedirectPluginOptionValidation),

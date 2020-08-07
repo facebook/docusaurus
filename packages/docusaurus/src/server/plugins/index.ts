@@ -9,6 +9,7 @@ import {generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
+  AllContent,
   LoadContext,
   PluginConfig,
   PluginContentLoadedActions,
@@ -17,6 +18,7 @@ import {
 import initPlugins, {InitPlugin} from './init';
 import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
+import {chain} from 'lodash';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -68,15 +70,23 @@ export async function loadPlugins({
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
-  const pluginsLoadedContent = await Promise.all(
+  type ContentLoadedPlugin = {plugin: InitPlugin; content: unknown};
+  const contentLoadedPlugins: ContentLoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
-      if (!plugin.loadContent) {
-        return null;
-      }
-
-      return plugin.loadContent();
+      const content = plugin.loadContent ? await plugin.loadContent() : null;
+      return {plugin, content};
     }),
   );
+
+  const allContent: AllContent = chain(contentLoadedPlugins)
+    .groupBy((item) => item.plugin.name)
+    .mapValues((nameItems) => {
+      return chain(nameItems)
+        .groupBy((item) => item.plugin.options.id ?? DEFAULT_PLUGIN_ID)
+        .mapValues((idItems) => idItems[0].content)
+        .value();
+    })
+    .value();
 
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
@@ -84,7 +94,7 @@ export async function loadPlugins({
   const globalData = {};
 
   await Promise.all(
-    plugins.map(async (plugin, index) => {
+    contentLoadedPlugins.map(async ({plugin, content}) => {
       if (!plugin.contentLoaded) {
         return;
       }
@@ -100,11 +110,11 @@ export async function loadPlugins({
 
       const createData: PluginContentLoadedActions['createData'] = async (
         name,
-        content,
+        data,
       ) => {
         const modulePath = path.join(dataDir, name);
         await fs.ensureDir(path.dirname(modulePath));
-        await generate(dataDir, name, content);
+        await generate(dataDir, name, data);
         return modulePath;
       };
 
@@ -125,8 +135,9 @@ export async function loadPlugins({
       };
 
       await plugin.contentLoaded({
-        content: pluginsLoadedContent[index],
+        content,
         actions,
+        allContent,
       });
     }),
   );
