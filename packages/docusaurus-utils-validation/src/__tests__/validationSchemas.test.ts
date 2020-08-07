@@ -108,16 +108,15 @@ describe('validation schemas', () => {
     testMarkdownPluginSchemas(RehypePluginsSchema);
   });
 
-  const useTest = <T>(schema: Joi.Schema) => (value: T) =>
-    Joi.attempt(value, schema);
-
   test('URISchema', () => {
     const validURL = 'https://docusaurus.io';
     const doubleHash = 'https://docusaurus.io#github#/:';
-    const invalidURL = 'https://docusaurus.io?search=  ';
-    const testURL = useTest(URISchema);
-    expect(testURL(validURL)).toBe(validURL);
-    expect(testURL(doubleHash)).toBe(doubleHash);
-    expect(() => testURL(invalidURL)).toThrowErrorMatchingSnapshot();
+    const invalidURL = 'invalidURL';
+    const urlFromIssue = 'https://riot.im/app/#/room/#ligo-public:matrix.org';
+    const {testFail, testOK} = createTestHelpers({schema: URISchema});
+    testOK(validURL);
+    testOK(doubleHash);
+    testFail(invalidURL);
+    testOK(urlFromIssue);
   });
 });
