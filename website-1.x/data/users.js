@@ -317,11 +317,7 @@ module.exports = [
   },
   {
     caption: 'Home Assistant',
-<<<<<<< HEAD
-    image: '/img/users/home-assistant.png',
-=======
     image: '/img/users/home-assinstant.svg',
->>>>>>> self-host-images
     infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
