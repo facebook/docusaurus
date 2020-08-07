@@ -67,6 +67,13 @@ function theme(context) {
               href: normalizeUrl([baseUrl, OPEN_SEARCH_FILENAME]),
             },
           },
+          {
+            tagName: 'meta',
+            attributes: {
+              name: 'robots',
+              content: 'noindex, follow',
+            },
+          },
         ],
       };
     },
