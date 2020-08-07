@@ -19,9 +19,6 @@ module.exports = `
     <% it.stylesheets.forEach((stylesheet) => { %>
       <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
-    <% it.scripts.forEach((script) => { %>
-      <link rel="prefetch" href="<%= it.baseUrl %><%= script %>" as="script">
-    <% }); %>
   </head>
   <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
