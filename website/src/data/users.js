@@ -157,7 +157,7 @@ const users = [
   },
   {
     title: 'QA-Board',
-    description: 
+    description:
       'An open source run-tracker for algorithm and performance engineering with rich visualizations',
     preview: require('./showcase/qa-board.png'),
     website: 'https://samsung.github.io/qaboard/',
