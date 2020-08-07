@@ -11,6 +11,7 @@ import Joi from '@hapi/joi';
 import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
+  URISchema,
 } from '@docusaurus/utils-validation';
 
 export const DEFAULT_CONFIG: Pick<
@@ -55,7 +56,7 @@ const ConfigSchema = Joi.object({
     .message('{{#label}} must be a string with a trailing `/`'),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
-  url: Joi.string().uri().required(),
+  url: URISchema.required(),
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),

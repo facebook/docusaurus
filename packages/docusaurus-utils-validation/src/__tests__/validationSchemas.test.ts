@@ -12,6 +12,7 @@ import {
   RehypePluginsSchema,
   RemarkPluginsSchema,
   PluginIdSchema,
+  URISchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -105,5 +106,17 @@ describe('validation schemas', () => {
 
   test('RehypePluginsSchema', () => {
     testMarkdownPluginSchemas(RehypePluginsSchema);
+  });
+
+  test('URISchema', () => {
+    const validURL = 'https://docusaurus.io';
+    const doubleHash = 'https://docusaurus.io#github#/:';
+    const invalidURL = 'invalidURL';
+    const urlFromIssue = 'https://riot.im/app/#/room/#ligo-public:matrix.org';
+    const {testFail, testOK} = createTestHelpers({schema: URISchema});
+    testOK(validURL);
+    testOK(doubleHash);
+    testFail(invalidURL);
+    testOK(urlFromIssue);
   });
 });

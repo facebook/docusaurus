@@ -6,6 +6,7 @@
  */
 
 const Joi = require('@hapi/joi');
+const {URISchema} = require('@docusaurus/utils-validation');
 
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
@@ -28,7 +29,7 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 const DefaultNavbarItemSchema = Joi.object({
   items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
-  href: Joi.string().uri(),
+  href: URISchema,
   label: Joi.string(),
   position: NavbarItemPosition,
   activeBasePath: Joi.string(),
@@ -140,7 +141,7 @@ const ColorModeSchema = Joi.object({
 
 const FooterLinkItemSchema = Joi.object({
   to: Joi.string(),
-  href: Joi.string().uri(),
+  href: URISchema,
   html: Joi.string(),
   label: Joi.string(),
 })
