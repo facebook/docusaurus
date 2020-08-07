@@ -20,6 +20,13 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 };
 exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
 
+const DEFAULT_META_IMAGE = {
+  apiUrl: 'https://preview-card-gen.vercel.app',
+  darkMode: false,
+  docusaurusStamp: true,
+};
+exports.DEFAULT_META_IMAGE = DEFAULT_META_IMAGE;
+
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 // TODO we should probably create a custom navbar item type "dropdown"
@@ -165,6 +172,11 @@ const ThemeConfigSchema = Joi.object({
   }),
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  dynamicMetaImage: Joi.object({
+    apiUrl: Joi.string().uri().default(DEFAULT_META_IMAGE.apiUrl),
+    darkMode: Joi.bool().default(DEFAULT_META_IMAGE.darkMode),
+    docusaurusStamp: Joi.bool().default(DEFAULT_META_IMAGE.docusaurusStamp),
+  }).default(DEFAULT_META_IMAGE),
   announcementBar: Joi.object({
     id: Joi.string(),
     content: Joi.string(),

@@ -45,15 +45,14 @@ function Layout(props: Props): JSX.Element {
     title: siteTitle,
     themeConfig: {
       image: defaultImage,
+      dynamicMetaImage: {
+        apiUrl, darkMode, docusaurusStamp,
+      },
       navbar: {
         logo: {src: logo},
       },
     },
     url: siteUrl,
-    dynamicMetaImage: {
-      apiUrl = 'https://og-image.now.sh',
-      docusaurusStamp = true,
-    },
   } = siteConfig;
 
   const {
@@ -65,7 +64,6 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
     version,
-    type,
   } = props;
 
   const generateImageUrl = (
@@ -73,11 +71,11 @@ function Layout(props: Props): JSX.Element {
     ogTitle,
     ogSiteTitle,
     ogVersion,
+    ogTheme,
     ogLogo,
-    ogType,
     ogStamp,
   ) => {
-    const url = `${ogUrl}/${ogTitle}.png?siteTitle=${ogSiteTitle}&images=${ogLogo}&version=${ogVersion}&type=${ogType}&stamp=${ogStamp}`;
+    const url = `${ogUrl}/${ogTitle}.png?siteTitle=${ogSiteTitle}&images=${ogLogo}&version=${ogVersion}&theme=${ogTheme ? 'dark' : 'light'}&docusaurusStamp=${ogStamp}`;
     return encodeURI(url);
   };
 
@@ -90,11 +88,11 @@ function Layout(props: Props): JSX.Element {
     ? localMetaImageUrl
     : generateImageUrl(
         apiUrl,
-        metaTitle,
         title,
+        siteTitle,
         version,
+        darkMode,
         logoUrl,
-        type,
         docusaurusStamp,
       );
 
@@ -115,9 +113,9 @@ function Layout(props: Props): JSX.Element {
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
+        {metaImageUrl && <meta property="og:image" content={metaImageUrl} />}
+        {metaImageUrl && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImageUrl && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
