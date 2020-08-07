@@ -12,6 +12,7 @@ packages/docusaurus-1.x/lib/core/metadata.js
 packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-1.x/lib/core/__tests__/split-tab.test.js
 packages/docusaurus-utils/lib/
+packages/docusaurus-utils-validation/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
 packages/docusaurus-plugin-client-redirects/lib/
@@ -23,6 +24,7 @@ packages/docusaurus-plugin-sitemap/lib/
 packages/docusaurus-plugin-ideal-image/lib/
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 packages/docusaurus-theme-classic/lib/
+packages/docusaurus-migrate/lib/
 
 packages/docusaurus-1.x/.eslintrc.js
 packages/docusaurus-init/templates/facebook/.eslintrc.js

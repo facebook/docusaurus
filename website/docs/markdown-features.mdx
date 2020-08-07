@@ -144,7 +144,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 
 **Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
 
-**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](guides/migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
 
 Try this block here:
 
@@ -951,7 +951,7 @@ Let's imagine the following file structure:
 /website/docs/assets/docusaurus-asset-example.xyz
 ```
 
-### Image assets:
+### Image assets
 
 You can use images by requiring them and using an image tag through MDX:
 
@@ -959,6 +959,10 @@ You can use images by requiring them and using an image tag through MDX:
 # My markdown page
 
 <img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+
+or
+
+![](./assets/docusaurus-asset-example-banner.png)
 ```
 
 The ES imports syntax also works:
@@ -973,12 +977,7 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
 This results in displaying the image:
 
-<img
-  src={
-    require('!file-loader!./assets/docusaurus-asset-example-banner.png').default
-  }
-  style={{maxWidth: 300}}
-/>
+![](./assets/docusaurus-asset-example-banner.png)
 
 :::note
 
@@ -998,6 +997,10 @@ In the same way, you can link to existing assets by requiring them and using the
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF !!!
 </a>
+
+or 
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 ```
 
 <a
@@ -1005,6 +1008,9 @@ In the same way, you can link to existing assets by requiring them and using the
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF !!!
 </a>
+
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 
 ### Unknown assets
 
@@ -1018,6 +1024,10 @@ This require behavior is not supported for all file extensions, but as an escape
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
   Download this unknown file !!!
 </a>
+
+or
+
+[Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
 ```
 
 <a
@@ -1025,3 +1035,12 @@ This require behavior is not supported for all file extensions, but as an escape
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
   Download this unknown file !!!
 </a>
+
+[Download this unknown file using Markdown !!!](!file-loader!./assets/docusaurus-asset-example.xyz)
+
+
+```md
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)

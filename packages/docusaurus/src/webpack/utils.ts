@@ -12,6 +12,7 @@ import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
+import {STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -174,29 +175,41 @@ export function compile(config: Configuration[]): Promise<void> {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils() {
-  const assetsRelativeRoot = 'assets/';
+  // files/images < 10kb will be inlined as base64 strings directly in the html
+  const urlLoaderLimit = 10000;
+
+  // defines the path/pattern of the assets handled by webpack
+  const fileLoaderFileName = (folder: string) =>
+    `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
-    file: (options = {}) => {
+    file: (options: {folder: string}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
-          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
-          ...options,
+          name: fileLoaderFileName(options.folder),
         },
       };
     },
-    url: (options = {}) => {
+    url: (options: {folder: string}) => {
       return {
         loader: require.resolve(`url-loader`),
         options: {
-          limit: 10000,
-          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
+          limit: urlLoaderLimit,
+          name: fileLoaderFileName(options.folder),
           fallback: require.resolve(`file-loader`),
-          ...options,
         },
       };
     },
+
+    // TODO find a better solution to avoid conflicts with the ideal-image plugin
+    // TODO this may require a little breaking change for ideal-image users?
+    // Maybe with the ideal image plugin, all md images should be "ideal"?
+    // This is used to force url-loader+file-loader on markdown images
+    // https://webpack.js.org/concepts/loaders/#inline
+    inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
+      'images',
+    )}&fallback=file-loader!`,
   };
 
   const rules = {
@@ -206,7 +219,7 @@ export function getFileLoaderUtils() {
      */
     images: (): RuleSetRule => {
       return {
-        use: [loaders.url()],
+        use: [loaders.url({folder: 'images'})],
         test: /\.(ico|svg|jpg|jpeg|png|gif|webp)(\?.*)?$/,
       };
     },
@@ -217,14 +230,14 @@ export function getFileLoaderUtils() {
      */
     media: (): RuleSetRule => {
       return {
-        use: [loaders.url()],
+        use: [loaders.url({folder: 'medias'})],
         test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
       };
     },
 
     otherAssets: (): RuleSetRule => {
       return {
-        use: [loaders.file()],
+        use: [loaders.file({folder: 'files'})],
         test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
       };
     },

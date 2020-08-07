@@ -16,12 +16,6 @@
 .toggle::before {
   position: absolute;
 }
-.moon::before {
-  content: '\1F31C';
-}
-.sun::before {
-  content: '\1F31E';
-}
 
 /**
  * styles for React Toggle

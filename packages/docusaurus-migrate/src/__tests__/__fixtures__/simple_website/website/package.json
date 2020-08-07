@@ -1,0 +1,19 @@
+{
+  "name": "docusaurus-1-website",
+  "version": "2.0.0-alpha.58",
+  "private": true,
+  "scripts": {
+    "start": "docusaurus-start",
+    "build": "docusaurus-build",
+    "publish-gh-pages": "docusaurus-publish",
+    "examples": "docusaurus-examples",
+    "write-translations": "docusaurus-write-translations",
+    "docusaurus-version": "docusaurus-version",
+    "rename-version": "docusaurus-rename-version",
+    "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
+    "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
+  },
+  "dependencies": {
+    "docusaurus": "*"
+  }
+}

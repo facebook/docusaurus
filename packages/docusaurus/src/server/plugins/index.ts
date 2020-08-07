@@ -14,7 +14,10 @@ import {
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import initPlugins, {PluginWithVersionInformation} from './init';
+import initPlugins, {InitPlugin} from './init';
+import chalk from 'chalk';
+
+const DefaultPluginId = 'default';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -52,11 +55,12 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: PluginWithVersionInformation[];
+  plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
+  globalData: any;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: PluginWithVersionInformation[] = initPlugins({
+  const plugins: InitPlugin[] = initPlugins({
     pluginConfigs,
     context,
   });
@@ -78,25 +82,50 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
+  const globalData = {};
+
   await Promise.all(
     plugins.map(async (plugin, index) => {
       if (!plugin.contentLoaded) {
         return;
       }
 
+      const pluginId = plugin.options.id ?? DefaultPluginId;
+
       const pluginContentDir = path.join(
         context.generatedFilesDir,
         plugin.name,
+        // TODO each plugin instance should have its folder
+        // pluginId,
       );
 
+      const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
+        pluginsRouteConfigs.push(config);
+
+      const createData: PluginContentLoadedActions['createData'] = async (
+        name,
+        content,
+      ) => {
+        const modulePath = path.join(pluginContentDir, name);
+        await fs.ensureDir(path.dirname(modulePath));
+        await generate(pluginContentDir, name, content);
+        return modulePath;
+      };
+
+      // the plugins global data are namespaced to avoid data conflicts:
+      // - by plugin name
+      // - by plugin id (allow using multiple instances of the same plugin)
+      const setGlobalData: PluginContentLoadedActions['setGlobalData'] = (
+        data,
+      ) => {
+        globalData[plugin.name] = globalData[plugin.name] ?? {};
+        globalData[plugin.name][pluginId] = data;
+      };
+
       const actions: PluginContentLoadedActions = {
-        addRoute: (config) => pluginsRouteConfigs.push(config),
-        createData: async (name, content) => {
-          const modulePath = path.join(pluginContentDir, name);
-          await fs.ensureDir(path.dirname(modulePath));
-          await generate(pluginContentDir, name, content);
-          return modulePath;
-        },
+        addRoute,
+        createData,
+        setGlobalData,
       };
 
       await plugin.contentLoaded({
@@ -116,6 +145,14 @@ export async function loadPlugins({
         return null;
       }
 
+      // TODO remove this deprecated lifecycle soon
+      // deprecated since alpha-60
+      console.error(
+        chalk.red(
+          'plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please open a Github issue with your usecase',
+        ),
+      );
+
       return plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
@@ -127,5 +164,6 @@ export async function loadPlugins({
   return {
     plugins,
     pluginsRouteConfigs,
+    globalData,
   };
 }

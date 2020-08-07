@@ -20,6 +20,8 @@ Object {
   "baseUrl": "/",
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
+  "onBrokenLinks": "throw",
+  "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
   "plugins": Array [
     Array [
@@ -30,6 +32,7 @@ Object {
     ],
     "@docusaurus/plugin-content-pages",
   ],
+  "presets": Array [],
   "projectName": "hello",
   "tagline": "Hello World",
   "themeConfig": Object {},

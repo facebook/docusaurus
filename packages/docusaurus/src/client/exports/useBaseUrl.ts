@@ -6,7 +6,7 @@
  */
 
 import useDocusaurusContext from './useDocusaurusContext';
-import isInternalUrl from './isInternalUrl';
+import {hasProtocol} from './isInternalUrl';
 
 type BaseUrlOptions = Partial<{
   forcePrependBaseUrl: boolean;
@@ -23,21 +23,30 @@ function addBaseUrl(
     return url;
   }
 
+  // it never makes sense to add a base url to a local anchor url
+  if (url.startsWith('#')) {
+    return url;
+  }
+
+  // it never makes sense to add a base url to an url with a protocol
+  if (hasProtocol(url)) {
+    return url;
+  }
+
   if (forcePrependBaseUrl) {
     return baseUrl + url;
   }
 
-  if (!isInternalUrl(url)) {
-    return url;
-  }
+  // We should avoid adding the baseurl twice if it's already there
+  const shouldAddBaseUrl = !url.startsWith(baseUrl);
 
-  const basePath = baseUrl + url.replace(/^\//, '');
+  const basePath = shouldAddBaseUrl ? baseUrl + url.replace(/^\//, '') : url;
 
   return absolute ? siteUrl + basePath : basePath;
 }
 
 export type BaseUrlUtils = {
-  withBaseUrl: (url: string, options: BaseUrlOptions) => string;
+  withBaseUrl: (url: string, options?: BaseUrlOptions) => string;
 };
 
 export function useBaseUrlUtils(): BaseUrlUtils {
@@ -53,7 +62,7 @@ export function useBaseUrlUtils(): BaseUrlUtils {
 
 export default function useBaseUrl(
   url: string,
-  options: BaseUrlOptions,
+  options: BaseUrlOptions = {},
 ): string {
   const {withBaseUrl} = useBaseUrlUtils();
   return withBaseUrl(url, options);

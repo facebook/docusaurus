@@ -11,7 +11,14 @@ const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
-const {build, swizzle, deploy, start, externalCommand} = require('../lib');
+const {
+  build,
+  swizzle,
+  deploy,
+  start,
+  externalCommand,
+  serve,
+} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 const pkg = require('../package.json');
 const updateNotifier = require('update-notifier');
@@ -148,6 +155,35 @@ cli
       poll,
     });
   });
+
+cli
+  .command('serve [siteDir]')
+  .description('Serve website')
+  .option(
+    '--dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default: build).',
+  )
+  .option('-p, --port <port>', 'use specified port (default: 3000)')
+  .option('--build', 'Build website before serving (default: false)')
+  .option('-h, --host <host>', 'use specified host (default: localhost')
+  .action(
+    (
+      siteDir = '.',
+      {
+        dir = 'build',
+        port = 3000,
+        host = 'localhost',
+        build: buildSite = false,
+      },
+    ) => {
+      wrapCommand(serve)(path.resolve(siteDir), {
+        dir,
+        port,
+        build: buildSite,
+        host,
+      });
+    },
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.61",
   "description": "Docs content plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -12,29 +12,34 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.61",
+    "@types/hapi__joi": "^17.1.2",
     "commander": "^5.0.0",
-    "picomatch": "^2.1.1",
-    "@types/hapi__joi": "^17.1.2"
+    "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.58",
-    "@docusaurus/types": "^2.0.0-alpha.58",
-    "@docusaurus/utils": "^2.0.0-alpha.58",
+    "@docusaurus/core": "^2.0.0-alpha.61",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.61",
+    "@docusaurus/types": "^2.0.0-alpha.61",
+    "@docusaurus/utils": "^2.0.0-alpha.61",
+    "@docusaurus/utils-validation": "^2.0.0-alpha.61",
+    "@hapi/joi": "17.1.1",
+    "chalk": "^3.0.0",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
-    "@hapi/joi": "17.1.1",
     "import-fresh": "^3.2.1",
     "loader-utils": "^1.2.3",
+    "lodash": "^4.17.19",
     "lodash.flatmap": "^4.5.0",
     "lodash.groupby": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
+    "lodash.sortby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

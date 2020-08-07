@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.5] - 2020-08-01
+
+#### :rocket: New Feature
+
+- `docusaurus-1.x`
+  - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
+  - [#3124](https://github.com/facebook/docusaurus/pull/3124) feat(v1): add 'slugPreprocessor' config option to allow users customize the hash links ([@Simek](https://github.com/Simek))
+
+#### :memo: Documentation
+
+- `docusaurus-1.x`
+  - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
+  - [#3011](https://github.com/facebook/docusaurus/pull/3011) docs(v1): external links ([@slorber](https://github.com/slorber))
+  - [#2388](https://github.com/facebook/docusaurus/pull/2388) docs(v1): showcase user Day.js ([@iamkun](https://github.com/iamkun))
+  - [#2307](https://github.com/facebook/docusaurus/pull/2307) docs(v1): fix Windows instructions for GitHub Pages publishing ([@jartuso](https://github.com/jartuso))
+
+#### Committers: 6
+
+- [@aldeed](https://github.com/aldeed)
+- [@Simek](https://github.com/Simek)
+- [@slorber](https://github.com/slorber)
+- [@iamkun](https://github.com/iamkun)
+- [@jartuso](https://github.com/jartuso)
+
 ## [1.14.4] - 2020-01-12
 
 #### :bug: Bug Fix

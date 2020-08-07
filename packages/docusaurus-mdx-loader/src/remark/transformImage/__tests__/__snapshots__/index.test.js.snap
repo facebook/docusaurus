@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/fail.md not found."`;
+
+exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image url is mandatory. filePath=packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md"`;
+
+exports[`transformImage plugin pathname protocol 1`] = `
+"![img](/img/unchecked.png)
+"
+`;
+
+exports[`transformImage plugin transform md images to <img /> 1`] = `
+"![img](https://example.com/img.png)
+
+<img  src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title={\\"Title\\"} /> ![img](/img.png)
+
+## Heading
+
+\`\`\`md
+![img](./img.png)
+\`\`\`
+
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+"
+`;

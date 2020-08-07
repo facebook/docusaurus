@@ -22,7 +22,7 @@ module.exports = {
       type: 'category',
       label: 'Guides',
       items: [
-        'creating-pages',
+        'guides/creating-pages',
         'styling-layout',
         'static-assets',
         {
@@ -31,7 +31,7 @@ module.exports = {
         'blog',
         'search',
         'deployment',
-        'migrating-from-v1-to-v2',
+        'guides/migrating-from-v1-to-v2',
       ],
     },
     {
@@ -45,16 +45,16 @@ module.exports = {
       items: [
         'cli',
         'docusaurus-core',
-        'docusaurus.config.js',
+        'api/docusaurus.config.js',
         'lifecycle-apis',
         'theme-classic',
       ],
     },
   ],
   community: [
-    'support',
-    'team',
-    'resources',
+    'community/support',
+    'community/team',
+    'community/resources',
     {
       type: 'link',
       href: '/showcase',

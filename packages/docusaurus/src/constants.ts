@@ -11,5 +11,6 @@ export const CONFIG_FILE_NAME = 'docusaurus.config.js';
 export const GENERATED_FILES_DIR_NAME = '.docusaurus';
 export const SRC_DIR_NAME = 'src';
 export const STATIC_DIR_NAME = 'static';
+export const STATIC_ASSETS_DIR_NAME = 'assets'; // files handled by webpack
 export const THEME_PATH = `${SRC_DIR_NAME}/theme`;
 export const DEFAULT_PORT = 3000;

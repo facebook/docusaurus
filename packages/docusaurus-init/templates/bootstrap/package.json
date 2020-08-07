@@ -1,16 +1,18 @@
 {
   "name": "docusaurus-2-bootstrap-template",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.61",
   "private": true,
   "scripts": {
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "serve": "docusaurus serve"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.58",
-    "@docusaurus/preset-bootstrap": "^2.0.0-alpha.58",
+    "@docusaurus/core": "^2.0.0-alpha.61",
+    "@docusaurus/preset-bootstrap": "^2.0.0-alpha.61",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "react": "^16.8.4",

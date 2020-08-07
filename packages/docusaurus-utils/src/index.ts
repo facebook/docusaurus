@@ -14,6 +14,9 @@ import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
 
+// @ts-expect-error: no typedefs :s
+import resolvePathnameUnsafe from 'resolve-pathname';
+
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
@@ -59,8 +62,8 @@ export function objectWithKeySorted(obj: {[index: string]: any}) {
     }, {});
 }
 
-const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js|ts|tsx)$/;
+const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
+const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -361,12 +364,20 @@ export function isValidPathname(str: string): boolean {
     return false;
   }
   try {
+    // weird, but is there a better way?
     return new URL(str, 'https://domain.com').pathname === str;
   } catch (e) {
     return false;
   }
 }
 
+// resolve pathname and fail fast if resolution fails
+export function resolvePathname(to: string, from?: string) {
+  return resolvePathnameUnsafe(to, from);
+}
+export function addLeadingSlash(str: string): string {
+  return str.startsWith('/') ? str : `/${str}`;
+}
 export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }

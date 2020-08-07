@@ -21,7 +21,11 @@ describe('loadEnv', () => {
     const env = loadEnv(siteDir);
     expect(env.versioning.enabled).toBe(true);
     expect(env.versioning.latestVersion).toBe('1.0.1');
-    expect(env.versioning.versions).toStrictEqual(['1.0.1', '1.0.0']);
+    expect(env.versioning.versions).toStrictEqual([
+      '1.0.1',
+      '1.0.0',
+      'withSlugs',
+    ]);
   });
 
   test('website with versioning but disabled', () => {

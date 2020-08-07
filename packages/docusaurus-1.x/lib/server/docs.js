@@ -104,7 +104,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
 
 function getMarkup(rawContent, mdToHtml, metadata, siteConfig) {
   // generate table of contents
-  let content = insertTOC(rawContent);
+  let content = insertTOC(rawContent, siteConfig.slugPreprocessor);
 
   // replace any links to markdown files to their website html links
   content = mdToHtmlify(content, mdToHtml, metadata, siteConfig);
