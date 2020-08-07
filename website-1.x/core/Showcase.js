@@ -20,6 +20,7 @@ UserLink.propTypes = {
   image: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
 };
+<<<<<<< HEAD
 const Showcase = ({users}) => (
   <div className="showcase">
     {users.map((user) => (
@@ -27,6 +28,26 @@ const Showcase = ({users}) => (
     ))}
   </div>
 );
+=======
+
+const Showcase = ({users}) => {
+  users.forEach((user) => {
+    if (!user.image.startsWith('/img/users')) {
+      throw new Error(
+        'User image should be self-hosted in /img/users folder. This was not the case for ' +
+          user.image,
+      );
+    }
+  });
+  return (
+    <div className="showcase">
+      {users.map((user) => (
+        <UserLink key={user.infoLink} {...user} />
+      ))}
+    </div>
+  );
+};
+>>>>>>> self-host-images
 
 Showcase.propTypes = {
   users: PropTypes.array.isRequired,
