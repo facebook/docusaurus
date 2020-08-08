@@ -36,7 +36,7 @@ export const PluginOptionSchema = Joi.object({
   routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
-  sidebarPath: Joi.string().default(DEFAULT_OPTIONS.sidebarPath),
+  sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),

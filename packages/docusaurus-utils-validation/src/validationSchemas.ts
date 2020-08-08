@@ -14,10 +14,9 @@ export const PluginIdSchema = Joi.string()
 const MarkdownPluginsSchema = Joi.array()
   .items(
     Joi.array()
-      // TODO, this allows [config,fn] too?
-      .items(Joi.function().required(), Joi.object().required())
-      .length(2),
+      .ordered(Joi.function().required(), Joi.object().required()),
     Joi.function(),
+    Joi.object(),
   )
   .default([]);
 
