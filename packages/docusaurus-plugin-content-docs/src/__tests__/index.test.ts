@@ -121,7 +121,7 @@ describe('empty/no docs website', () => {
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"No docs directory found for the docs plugin at: /path/does/not/exist"`,
+      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at /path/does/not/exist"`,
     );
   });
 });

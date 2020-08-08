@@ -24,7 +24,7 @@ export interface PathOptions {
 }
 
 export interface PluginOptions extends MetadataOptions, PathOptions {
-  id?: string;
+  id: string;
   include: string[];
   docLayoutComponent: string;
   docItemComponent: string;
@@ -32,7 +32,8 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   rehypePlugins: string[];
   admonitions: any;
   disableVersioning: boolean;
-  excludeNextVersionDocs: boolean;
+  excludeNextVersionDocs?: boolean;
+  includeCurrentVersion: boolean;
 }
 
 export type SidebarItemDoc = {

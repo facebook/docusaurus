@@ -6,9 +6,9 @@
  */
 
 import {
-  getVersionsJSONFile,
-  getVersionedDocsDir,
-  getVersionedSidebarsDir,
+  getVersionsFilePath,
+  getVersionedDocsDirPath,
+  getVersionedSidebarsDirPath,
 } from './env';
 import fs from 'fs-extra';
 import path from 'path';
@@ -63,7 +63,7 @@ export function docsVersion(
 
   // Load existing versions.
   let versions = [];
-  const versionsJSONFile = getVersionsJSONFile(siteDir, pluginId);
+  const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
   if (fs.existsSync(versionsJSONFile)) {
     versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
   }
@@ -80,7 +80,7 @@ export function docsVersion(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
   if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
-    const versionedDir = getVersionedDocsDir(siteDir, pluginId);
+    const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
     fs.copySync(docsDir, newVersionDir);
   } else {
@@ -116,7 +116,7 @@ export function docsVersion(
       {},
     );
 
-    const versionedSidebarsDir = getVersionedSidebarsDir(siteDir, pluginId);
+    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,

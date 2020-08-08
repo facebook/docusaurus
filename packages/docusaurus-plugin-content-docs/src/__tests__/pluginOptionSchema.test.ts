@@ -32,6 +32,7 @@ describe('normalizeDocsPluginOptions', () => {
       showLastUpdateAuthor: true,
       admonitions: {},
       excludeNextVersionDocs: true,
+      includeCurrentVersion: false,
       disableVersioning: true,
     };
     const {value} = await PluginOptionSchema.validate(userOptions);

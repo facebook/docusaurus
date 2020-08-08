@@ -10,7 +10,6 @@ import pick from 'lodash.pick';
 import pickBy from 'lodash.pickby';
 import sortBy from 'lodash.sortby';
 import globby from 'globby';
-import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
 
@@ -36,7 +35,7 @@ import {
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import processMetadata from './metadata';
-import loadEnv from './env';
+import loadEnv, {readVersionsMetadata} from './env';
 
 import {
   PluginOptions,
@@ -67,25 +66,19 @@ import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 
-function ensureDocsDirExist(docsDir: string) {
-  if (!fs.existsSync(docsDir)) {
-    throw new Error(
-      `No docs directory found for the docs plugin at: ${docsDir}`,
-    );
-  }
-}
-
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const {siteDir, generatedFilesDir, baseUrl} = context;
+
+  const versionsMetadata = readVersionsMetadata(siteDir, options);
+  console.log(versionsMetadata);
+
   const docsDir = path.resolve(siteDir, options.path);
-  ensureDocsDirExist(docsDir);
 
   const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
-  const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -135,6 +128,10 @@ export default function pluginContentDocs(
     },
 
     extendCli(cli) {
+      const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
+
+      // Need to create one distinct command per plugin instance
+      // otherwise 2 instances would try to execute the command!
       const command = isDefaultPluginId
         ? 'docs:version'
         : `docs:version:${pluginId}`;
@@ -183,17 +180,14 @@ export default function pluginContentDocs(
     },
 
     async loadContent() {
-      const {include, sidebarPath} = options;
+      const {includeCurrentVersion, include, sidebarPath} = options;
 
       // Prepare metadata container.
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
-      const includeDefaultDocs = !(
-        options.excludeNextVersionDocs && process.argv[2] === 'build'
-      );
 
-      // Metadata for default/master docs files.
-      if (includeDefaultDocs) {
+      // Metadata for current docs files.
+      if (includeCurrentVersion) {
         const docsFiles = await globby(include, {
           cwd: docsDir,
         });
@@ -238,7 +232,7 @@ export default function pluginContentDocs(
         (versionName) => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
       );
 
-      if (includeDefaultDocs) {
+      if (includeCurrentVersion) {
         sidebarPaths.unshift(sidebarPath);
       }
 
@@ -574,18 +568,29 @@ export function validateOptions({
   PluginOptions,
   ValidationError
 > {
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  const validatedOptions: PluginOptions = validate(PluginOptionSchema, options);
-
-  if (validatedOptions.homePageId) {
-    // TODO remove homePageId before end of 2020
-    // "slug: /" is better because the home doc can be different across versions
+  // TODO remove homePageId before end of 2020
+  // "slug: /" is better because the home doc can be different across versions
+  if (options.homePageId) {
     console.log(
       chalk.red(
-        `The docs plugin option homePageId=${validatedOptions.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
+        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
       ),
     );
   }
+
+  if (typeof options.excludeNextVersionDocs !== 'undefined') {
+    console.log(
+      chalk.red(
+        `The docs plugin option excludeNextVersionDocs=${
+          options.excludeNextVersionDocs
+        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
+      ),
+    );
+    options.includeCurrentVersion = !options.excludeNextVersionDocs;
+  }
+
+  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
+  const validatedOptions: PluginOptions = validate(PluginOptionSchema, options);
 
   if (options.admonitions) {
     validatedOptions.remarkPlugins = validatedOptions.remarkPlugins.concat([

@@ -10,9 +10,9 @@ import {docsVersion} from '../version';
 import {PathOptions} from '../types';
 import fs from 'fs-extra';
 import {
-  getVersionedDocsDir,
-  getVersionsJSONFile,
-  getVersionedSidebarsDir,
+  getVersionedDocsDirPath,
+  getVersionsFilePath,
+  getVersionedSidebarsDirPath,
 } from '../env';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
@@ -163,19 +163,19 @@ describe('docsVersion', () => {
     expect(copyMock).toHaveBeenCalledWith(
       path.join(simpleSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(simpleSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedDocsDirPath(simpleSiteDir, DEFAULT_PLUGIN_ID),
         'version-1.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(simpleSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedSidebarsDirPath(simpleSiteDir, DEFAULT_PLUGIN_ID),
         'version-1.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(simpleSiteDir, DEFAULT_PLUGIN_ID),
+      getVersionsFilePath(simpleSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith('[docs] Version 1.0.0 created!');
@@ -211,19 +211,19 @@ describe('docsVersion', () => {
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(versionedSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedDocsDirPath(versionedSiteDir, DEFAULT_PLUGIN_ID),
         'version-2.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(versionedSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedSidebarsDirPath(versionedSiteDir, DEFAULT_PLUGIN_ID),
         'version-2.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(versionedSiteDir, DEFAULT_PLUGIN_ID),
+      getVersionsFilePath(versionedSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
     expect(consoleMock).toHaveBeenCalledWith('[docs] Version 2.0.0 created!');
@@ -261,19 +261,19 @@ describe('docsVersion', () => {
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(versionedSiteDir, pluginId),
+        getVersionedDocsDirPath(versionedSiteDir, pluginId),
         'version-2.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(versionedSiteDir, pluginId),
+        getVersionedSidebarsDirPath(versionedSiteDir, pluginId),
         'version-2.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(versionedSiteDir, pluginId),
+      getVersionsFilePath(versionedSiteDir, pluginId),
     );
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
