@@ -64,7 +64,7 @@ function NavLink({
 
 function NavItemDesktop({items, position, className, ...props}) {
   const dropDownRef = React.useRef<HTMLDivElement>(null);
-  const dropDownMenuRef = React.useRef<HTMLUListElement | any>(null); // TODO should find better solution for this. anything else will get a error when retrieve children.
+  const dropDownMenuRef = React.useRef<HTMLUListElement>(null); // TODO should find better solution for this. anything else will get a error when retrieve children.
   const [showDropDown, setShowDropDown] = useState(false);
   useOnClickOutside(dropDownRef, () => toggle(false));
   function toggle(state: boolean) {
