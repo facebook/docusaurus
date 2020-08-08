@@ -5,7 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Sidebar, SidebarItem, Order} from './types';
+import {Sidebar, SidebarItem, Order, SidebarItemDoc} from './types';
+import {flatten} from 'lodash';
+
+function getOrderedDocItems(items: SidebarItem[]): SidebarItemDoc[] {
+  function getDocItemsRecursion(item: SidebarItem): SidebarItemDoc[] {
+    if (item.type === 'doc') {
+      return [item];
+    }
+    if (item.type === 'category') {
+      return getOrderedDocItems(item.items);
+    }
+    // Refs and links should not be shown in navigation.
+    if (item.type === 'ref' || item.type === 'link') {
+      return [];
+    }
+    throw new Error(`unknown sidebar item type = ${item.type}`);
+  }
+
+  return flatten(items.map(getDocItemsRecursion));
+}
 
 // Build the docs meta such as next, previous, category and sidebar.
 export default function createOrder(allSidebars: Sidebar = {}): Order {
@@ -14,41 +33,22 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
   Object.keys(allSidebars).forEach((sidebarId) => {
     const sidebar = allSidebars[sidebarId];
 
-    const ids: string[] = [];
-    const indexItems = ({items}: {items: SidebarItem[]}) => {
-      items.forEach((item) => {
-        switch (item.type) {
-          case 'category':
-            indexItems({
-              items: item.items,
-            });
-            break;
-          case 'ref':
-          case 'link':
-            // Refs and links should not be shown in navigation.
-            break;
-          case 'doc':
-            ids.push(item.id);
-            break;
-          default:
-        }
-      });
-    };
-
-    indexItems({items: sidebar});
+    const docIds: string[] = getOrderedDocItems(sidebar).map(
+      (docItem) => docItem.id,
+    );
 
     // eslint-disable-next-line
-    for (let i = 0; i < ids.length; i++) {
-      const id = ids[i];
+    for (let i = 0; i < docIds.length; i++) {
+      const id = docIds[i];
       let previous;
       let next;
 
       if (i > 0) {
-        previous = ids[i - 1];
+        previous = docIds[i - 1];
       }
 
-      if (i < ids.length - 1) {
-        next = ids[i + 1];
+      if (i < docIds.length - 1) {
+        next = docIds[i + 1];
       }
 
       order[id] = {

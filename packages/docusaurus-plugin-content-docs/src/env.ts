@@ -72,7 +72,6 @@ export default function (
         fs.readFileSync(versionsJSONFile, 'utf8'),
       );
       if (parsedVersions && parsedVersions.length > 0) {
-        // eslint-disable-next-line prefer-destructuring
         versioning.latestVersion = parsedVersions[0];
         versioning.enabled = true;
         versioning.versions = parsedVersions;

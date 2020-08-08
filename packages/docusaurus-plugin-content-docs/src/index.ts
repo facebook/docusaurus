@@ -67,18 +67,30 @@ import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 
+// TODO remove homePageId before end of 2020
+// "slug: /" is better because the home doc can be different across versions
+function logHomePageIdDeprecated(homePageId: string) {
+  console.log(
+    chalk.red(
+      `The docs plugin option homePageId=${homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
+    ),
+  );
+}
+
+function ensureDocsDirExist(docsDir: string) {
+  if (!fs.existsSync(docsDir)) {
+    throw new Error(
+      `No docs directory found for the docs plugin at: ${docsDir}`,
+    );
+  }
+}
+
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
-  // TODO remove homePageId before end of 2020
-  // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
-    console.log(
-      chalk.red(
-        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-      ),
-    );
+    logHomePageIdDeprecated(options.homePageId);
   }
 
   if (options.admonitions) {
@@ -89,6 +101,8 @@ export default function pluginContentDocs(
 
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
+  ensureDocsDirExist(docsDir);
+
   const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
   const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
@@ -112,6 +126,22 @@ export default function pluginContentDocs(
     sidebarsDir: versionedSidebarsDir,
   } = versioning;
   const versionsNames = versions.map((version) => `version-${version}`);
+
+  async function processDocsMetadata({
+    source,
+    refDir,
+  }: {
+    source: string;
+    refDir: string;
+  }) {
+    return processMetadata({
+      source,
+      refDir,
+      context,
+      options,
+      env,
+    });
+  }
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -144,6 +174,14 @@ export default function pluginContentDocs(
         });
     },
 
+    getClientModules() {
+      const modules = [];
+      if (options.admonitions) {
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
+      }
+      return modules;
+    },
+
     getPathsToWatch() {
       const {include} = options;
       let globPattern = include.map((pattern) => `${docsDir}/${pattern}`);
@@ -164,28 +202,8 @@ export default function pluginContentDocs(
       return [...globPattern, options.sidebarPath];
     },
 
-    getClientModules() {
-      const modules = [];
-
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-
-      return modules;
-    },
-
-    // Fetches blog contents and returns metadata for the contents.
     async loadContent() {
       const {include, sidebarPath} = options;
-
-      if (!fs.existsSync(docsDir)) {
-        console.error(
-          chalk.red(
-            `No docs directory found for the docs plugin at: ${docsDir}`,
-          ),
-        );
-        return null;
-      }
 
       // Prepare metadata container.
       const docsMetadataRaw: DocsMetadataRaw = {};
@@ -202,12 +220,9 @@ export default function pluginContentDocs(
         docsPromises.push(
           Promise.all(
             docsFiles.map(async (source) => {
-              const metadata: MetadataRaw = await processMetadata({
+              const metadata: MetadataRaw = await processDocsMetadata({
                 source,
                 refDir: docsDir,
-                context,
-                options,
-                env,
               });
               docsMetadataRaw[metadata.id] = metadata;
             }),
@@ -228,12 +243,9 @@ export default function pluginContentDocs(
         docsPromises.push(
           Promise.all(
             versionedFiles.map(async (source) => {
-              const metadata = await processMetadata({
+              const metadata = await processDocsMetadata({
                 source,
                 refDir: versionedDir,
-                context,
-                options,
-                env,
               });
               docsMetadataRaw[metadata.id] = metadata;
             }),
@@ -259,21 +271,22 @@ export default function pluginContentDocs(
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       const versionToSidebars: VersionToSidebars = {};
+
+      function toDocNavLink(doc: MetadataRaw) {
+        return {
+          title: doc.title,
+          permalink: doc.permalink,
+        };
+      }
+
       Object.keys(docsMetadataRaw).forEach((currentID) => {
         const {next: nextID, previous: previousID, sidebar} =
-          order[currentID] || {};
+          order[currentID] ?? {};
         const previous = previousID
-          ? {
-              title: docsMetadataRaw[previousID]?.title ?? 'Previous',
-              permalink: docsMetadataRaw[previousID]?.permalink,
-            }
+          ? toDocNavLink(docsMetadataRaw[previousID]!)
           : undefined;
-        const next = nextID
-          ? {
-              title: docsMetadataRaw[nextID]?.title ?? 'Next',
-              permalink: docsMetadataRaw[nextID]?.permalink,
-            }
-          : undefined;
+        const next = nextID ? toDocNavLink(docsMetadataRaw[nextID]) : undefined;
+
         docsMetadata[currentID] = {
           ...docsMetadataRaw[currentID],
           sidebar,

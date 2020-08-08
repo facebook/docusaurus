@@ -113,14 +113,16 @@ describe('empty/no docs website', () => {
   });
 
   test('docs folder does not exist', async () => {
-    const plugin = pluginContentDocs(
-      context,
-      normalizePluginOptions(PluginOptionSchema, {
-        path: '/path/does/not/exist/',
-      }),
+    expect(() =>
+      pluginContentDocs(
+        context,
+        normalizePluginOptions(PluginOptionSchema, {
+          path: '/path/does/not/exist/',
+        }),
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"No docs directory found for the docs plugin at: /path/does/not/exist"`,
     );
-    const content = await plugin.loadContent();
-    expect(content).toBeNull();
   });
 });
 
