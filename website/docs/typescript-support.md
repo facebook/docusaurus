@@ -5,37 +5,22 @@ title: TypeScript Support
 
 ## Setup
 
-Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` to your project:
+Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
 
 ```bash
-npm install --save-dev typescript @docusaurus/module-type-aliases
+npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet
 ```
 
-Then add `tsconfig.json` to your project root with following content:
+Then add `tsconfig.json` to your project root with the following content:
 
 ```json title="tsconfig.json"
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "lib": ["DOM"],
-    "noEmit": true,
-    "noImplicitAny": false
-  },
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
   "include": ["src/"]
 }
 ```
 
-Docusaurus doesn't use this `tsconfig.json` to compile your TypeScript. It is added just for a nicer Editor experience, although you can choose to run `tsc --noEmit` to type check your code for yourself.
-
-Then add `types.d.ts` in your `src` folder with the following content:
-
-```ts title="src/types.d.ts"
-/// <reference types="@docusaurus/module-type-aliases" />
-```
-
-This file makes TypeScript recognize various Docusaurus specific webpack aliases like `@theme`, `@docusaurus`, `@generated`.
+Docusaurus doesn't use this `tsconfig.json` to compile your project. It is added just for a nicer Editor experience, although you can choose to run `tsc` to type check your code for yourself or on CI.
 
 Now you can start writing TypeScript theme components.
 

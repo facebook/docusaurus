@@ -53,6 +53,28 @@ declare module '@theme-original/*';
 
 declare module '@docusaurus/*';
 
+declare module '@docusaurus/Head' {
+  const helmet: typeof import("react-helmet")
+  export default helmet
+}
+
+declare module '@docusaurus/Link' {
+  const Link: import("react-router-dom").Link
+  export default Link
+}
+
+declare module '@docusaurus/router' {
+  export const Redirect: (props: { to: string}) => import("react").Component
+}
+
+declare module '@docusaurus/useDocusaurusContext' {
+  export default function(): any
+}
+
+declare module '@docusaurus/useBaseUrl' {
+  export default function(relativePath: string): string
+}
+
 declare module '*.module.css' {
   const classes: {readonly [key: string]: string};
   export default classes;
