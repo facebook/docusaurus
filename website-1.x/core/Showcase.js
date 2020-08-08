@@ -7,7 +7,15 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
+const users = require('../data/users');
 
+users.forEach((user) => {
+  if (!user.image.startsWith('/img/users')) {
+    throw new Error(
+      `User image should be self-hosted in /img/users folder. This was not the case for ${user.image}`,
+    );
+  }
+});
 const UserLink = ({infoLink, image, caption}) => (
   <a className="link" href={infoLink} key={infoLink}>
     <img src={image} alt={caption} title={caption} />
@@ -21,23 +29,13 @@ UserLink.propTypes = {
   caption: PropTypes.string.isRequired,
 };
 
-const Showcase = ({users}) => {
-  users.forEach((user) => {
-    if (!user.image.startsWith('/img/users')) {
-      throw new Error(
-        'User image should be self-hosted in /img/users folder. This was not the case for ' +
-          user.image,
-      );
-    }
-  });
-  return (
-    <div className="showcase">
-      {users.map((user) => (
-        <UserLink key={user.infoLink} {...user} />
-      ))}
-    </div>
-  );
-};
+const Showcase = ({users}) => (
+  <div className="showcase">
+    {users.map((user) => (
+      <UserLink key={user.infoLink} {...user} />
+    ))}
+  </div>
+);
 
 Showcase.propTypes = {
   users: PropTypes.array.isRequired,
