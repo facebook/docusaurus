@@ -16,6 +16,7 @@ users.forEach((user) => {
     );
   }
 });
+
 const UserLink = ({infoLink, image, caption}) => (
   <a className="link" href={infoLink} key={infoLink}>
     <img src={image} alt={caption} title={caption} />
