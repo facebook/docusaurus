@@ -33,7 +33,7 @@ function createTestHelpers({
   ) {
     const metadata = await processMetadata({
       source,
-      refDir,
+      docsDir: refDir,
       context,
       options,
       env,
@@ -51,7 +51,7 @@ function createTestHelpers({
   ) {
     const metadata = await processMetadata({
       source,
-      refDir,
+      docsDir: refDir,
       context,
       options,
       env,
@@ -281,7 +281,7 @@ describe('simple site', () => {
     await expect(
       processMetadata({
         source: 'invalid-id.md',
-        refDir: path.join(badSiteDir, 'docs'),
+        docsDir: path.join(badSiteDir, 'docs'),
         context,
         options: {
           routeBasePath,
@@ -299,7 +299,7 @@ describe('simple site', () => {
     await expect(
       processMetadata({
         source: 'docWithSlug.md',
-        refDir: path.join(badSiteDir, 'docs'),
+        docsDir: path.join(badSiteDir, 'docs'),
         context,
         options: {
           routeBasePath,

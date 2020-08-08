@@ -59,12 +59,14 @@ import {
   DocsVersion,
   GlobalVersion,
   GlobalDoc,
+  VersionMetadata,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
-import {VERSIONS_JSON_FILE} from './constants';
+import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
+import {flatten} from 'lodash';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -88,28 +90,35 @@ export default function pluginContentDocs(
   const aliasedSource = (source: string) =>
     `~docs/${path.relative(pluginDataDirRoot, source)}`;
 
+  // TODO remove soon!
   // Versioning.
   const env = loadEnv(siteDir, pluginId, {
     disableVersioning: options.disableVersioning,
   });
   const {versioning} = env;
-  const {
-    versions,
-    docsDir: versionedDir,
-    sidebarsDir: versionedSidebarsDir,
-  } = versioning;
-  const versionsNames = versions.map((version) => `version-${version}`);
+  const {versions, docsDir: versionedDir} = versioning;
+
+  // TODO refactor
+  function getVersionPath(versionName: string) {
+    if (versionName === versioning.latestVersion) {
+      return '';
+    }
+    if (versionName === CURRENT_VERSION_NAME) {
+      return 'next';
+    }
+    return versionName;
+  }
 
   async function processDocsMetadata({
     source,
-    refDir,
+    versionMetadata,
   }: {
     source: string;
-    refDir: string;
+    versionMetadata: VersionMetadata;
   }) {
     return processMetadata({
       source,
-      refDir,
+      versionMetadata,
       context,
       options,
       env,
@@ -160,93 +169,74 @@ export default function pluginContentDocs(
     },
 
     getPathsToWatch() {
-      const {include} = options;
-      let globPattern = include.map((pattern) => `${docsDir}/${pattern}`);
-      if (versioning.enabled) {
-        const docsGlob = include
-          .map((pattern) =>
-            versionsNames.map(
-              (versionName) => `${versionedDir}/${versionName}/${pattern}`,
-            ),
-          )
-          .reduce((a, b) => a.concat(b), []);
-        const sidebarsGlob = versionsNames.map(
-          (versionName) =>
-            `${versionedSidebarsDir}/${versionName}-sidebars.json`,
-        );
-        globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
+      function getVersionPathsToWatch(version: VersionMetadata): string[] {
+        return [
+          version.sidebarPath,
+          ...options.include.map((pattern) => `${version.docsPath}/${pattern}`),
+        ];
       }
-      return [...globPattern, options.sidebarPath];
+
+      return flatten(versionsMetadata.map(getVersionPathsToWatch));
     },
 
     async loadContent() {
-      const {includeCurrentVersion, include, sidebarPath} = options;
+      const {include} = options;
 
+      async function withDocFiles(version: VersionMetadata) {
+        const docsFiles = await globby(include, {
+          cwd: version.docsPath,
+        });
+        return {version, docsFiles};
+      }
+
+      async function processVersionDocs(
+        versionMetadata: VersionMetadata,
+      ): Promise<MetadataRaw[]> {
+        const {docsFiles} = await withDocFiles(versionMetadata);
+        return Promise.all(
+          docsFiles.map(async (source) => {
+            return processDocsMetadata({
+              source,
+              versionMetadata,
+            });
+          }),
+        );
+      }
+
+      // TODO refactor side-effectful
       // Prepare metadata container.
       const docsMetadataRaw: DocsMetadataRaw = {};
-      const docsPromises = [];
 
-      // Metadata for current docs files.
-      if (includeCurrentVersion) {
-        const docsFiles = await globby(include, {
-          cwd: docsDir,
-        });
-        docsPromises.push(
-          Promise.all(
-            docsFiles.map(async (source) => {
-              const metadata: MetadataRaw = await processDocsMetadata({
-                source,
-                refDir: docsDir,
-              });
-              docsMetadataRaw[metadata.id] = metadata;
-            }),
-          ),
-        );
-      }
+      await Promise.all(
+        versionsMetadata.map(async (version) => {
+          const versionDocs = await processVersionDocs(version);
 
-      // Metadata for versioned docs.
-      if (versioning.enabled) {
-        const versionedGlob = include
-          .map((pattern) =>
-            versionsNames.map((versionName) => `${versionName}/${pattern}`),
-          )
-          .reduce((a, b) => a.concat(b), []);
-        const versionedFiles = await globby(versionedGlob, {
-          cwd: versionedDir,
-        });
-        docsPromises.push(
-          Promise.all(
-            versionedFiles.map(async (source) => {
-              const metadata = await processDocsMetadata({
-                source,
-                refDir: versionedDir,
-              });
-              docsMetadataRaw[metadata.id] = metadata;
-            }),
-          ),
-        );
-      }
-
-      // Load the sidebars and create docs ordering.
-      const sidebarPaths = versionsNames.map(
-        (versionName) => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+          // TODO legacy side-effect, refactor!
+          versionDocs.forEach((versionDoc) => {
+            docsMetadataRaw[versionDoc.id] = versionDoc;
+          });
+        }),
       );
 
-      if (includeCurrentVersion) {
-        sidebarPaths.unshift(sidebarPath);
-      }
-
-      const loadedSidebars: Sidebar = loadSidebars(sidebarPaths);
+      const loadedSidebars: Sidebar = loadSidebars(
+        versionsMetadata.map((version) => version.sidebarPath),
+      );
       const order: Order = createOrder(loadedSidebars);
-
-      await Promise.all(docsPromises);
 
       // Construct inter-metadata relationship in docsMetadata.
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       const versionToSidebars: VersionToSidebars = {};
 
-      function toDocNavLink(doc: MetadataRaw) {
+      function toDocNavLink(docId: string) {
+        const doc = docsMetadataRaw[docId];
+        if (!doc) {
+          throw new Error(
+            `no doc for id=${docId}
+ All ids=
+- ${Object.keys(docsMetadataRaw).join('\n- ')}`,
+          );
+        }
         return {
           title: doc.title,
           permalink: doc.permalink,
@@ -256,10 +246,9 @@ export default function pluginContentDocs(
       Object.keys(docsMetadataRaw).forEach((currentID) => {
         const {next: nextID, previous: previousID, sidebar} =
           order[currentID] ?? {};
-        const previous = previousID
-          ? toDocNavLink(docsMetadataRaw[previousID]!)
-          : undefined;
-        const next = nextID ? toDocNavLink(docsMetadataRaw[nextID]) : undefined;
+
+        const previous = previousID ? toDocNavLink(previousID) : undefined;
+        const next = nextID ? toDocNavLink(nextID) : undefined;
 
         docsMetadata[currentID] = {
           ...docsMetadataRaw[currentID],
@@ -467,11 +456,10 @@ Available document ids=
           Object.keys(docsMetadataByVersion).map(async (version) => {
             const docsMetadata = docsMetadataByVersion[version];
 
-            const isLatestVersion = version === versioning.latestVersion;
             const docsBaseRoute = normalizeUrl([
               baseUrl,
               routeBasePath,
-              isLatestVersion ? '' : version,
+              getVersionPath(version),
             ]);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
@@ -494,7 +482,8 @@ Available document ids=
       pluginInstanceGlobalData.versions = sortBy(
         pluginInstanceGlobalData.versions,
         (versionMetadata: GlobalVersion) => {
-          const orderedVersionNames = ['next', ...versions];
+          // TODO keep order of versions.json?
+          const orderedVersionNames = [CURRENT_VERSION_NAME, ...versions];
           return orderedVersionNames.indexOf(versionMetadata.name!);
         },
       );

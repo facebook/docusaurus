@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {VersioningEnv, Env, PluginOptions} from './types';
+import {VersioningEnv, Env, PluginOptions, VersionMetadata} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -82,12 +82,6 @@ function readVersionNames(
   }
   return versions;
 }
-
-type VersionMetadata = {
-  versionName: string;
-  docsPath: string;
-  sidebarPath: string;
-};
 
 function createVersionMetadata({
   versionName,

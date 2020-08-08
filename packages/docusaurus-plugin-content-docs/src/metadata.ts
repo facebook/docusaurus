@@ -20,47 +20,10 @@ import {
   LastUpdateData,
   MetadataOptions,
   Env,
-  VersioningEnv,
+  VersionMetadata,
 } from './types';
 import getSlug from './slug';
-import {escapeRegExp} from 'lodash';
-
-function removeVersionPrefix(str: string, version: string): string {
-  return str.replace(new RegExp(`^version-${escapeRegExp(version)}/?`), '');
-}
-
-function inferVersion(
-  dirName: string,
-  versioning: VersioningEnv,
-): string | undefined {
-  if (!versioning.enabled) {
-    return undefined;
-  }
-  if (/^version-/.test(dirName)) {
-    const inferredVersion = dirName
-      .split('/', 1)
-      .shift()!
-      .replace(/^version-/, '');
-    if (inferredVersion && versioning.versions.includes(inferredVersion)) {
-      return inferredVersion;
-    }
-    throw new Error(
-      `Can't infer version from folder=${dirName}
-Expected versions:
-- ${versioning.versions.join('- ')}`,
-    );
-  } else {
-    return 'next';
-  }
-}
-
-type Args = {
-  source: string;
-  refDir: string;
-  context: LoadContext;
-  options: MetadataOptions;
-  env: Env;
-};
+import {CURRENT_VERSION_NAME} from './constants';
 
 async function lastUpdated(
   filePath: string,
@@ -91,29 +54,51 @@ async function lastUpdated(
 
 export default async function processMetadata({
   source,
-  refDir,
+  versionMetadata,
   context,
   options,
   env,
-}: Args): Promise<MetadataRaw> {
+}: {
+  source: string;
+  versionMetadata: VersionMetadata;
+  context: LoadContext;
+  options: MetadataOptions;
+  env: Env;
+}): Promise<MetadataRaw> {
   const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
-  const filePath = path.join(refDir, source);
+  const filePath = path.join(versionMetadata.docsPath, source);
 
   const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
-  const dirNameWithVersion = path.dirname(source); // ex: version-1.0.0/foo
-  const version = inferVersion(dirNameWithVersion, versioning); // ex: 1.0.0
-  const dirNameWithoutVersion = // ex: foo
-    version && version !== 'next'
-      ? removeVersionPrefix(dirNameWithVersion, version)
-      : dirNameWithVersion;
+  const docsFileDirName = path.dirname(source); // ex: api/myDoc -> api
+
+  console.log({source, docsFileDirName});
+
+  // TODO compatibility with legacy
+  const version = versionMetadata.versionName;
+  /*
+    versionMetadata.versionName === CURRENT_VERSION_NAME
+      ? 'next'
+      : versionMetadata.versionName;
+
+     */
+
+  // TODO for legacy compatibility
+  function getVersionPath(versionName: string) {
+    if (!versioning.enabled || versionName === versioning.latestVersion) {
+      return '';
+    }
+    if (versionName === CURRENT_VERSION_NAME) {
+      return 'next';
+    }
+    return versionName;
+  }
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
-  const versionPath =
-    version && version !== versioning.latestVersion ? version : '';
+  const versionPath = getVersionPath(versionMetadata.versionName);
 
   const relativePath = path.relative(siteDir, filePath);
 
@@ -122,19 +107,30 @@ export default async function processMetadata({
   const {frontMatter = {}, excerpt} = await fileMarkdownPromise;
   const {sidebar_label, custom_edit_url} = frontMatter;
 
-  // Default base id is the file name.
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
   if (baseID.includes('/')) {
-    throw new Error('Document id cannot include "/".');
+    throw new Error(`Document id [${baseID}]cannot include "/".`);
   }
 
-  // test for website/docs folder, not a versioned folder
-  // TODO legacy test, looks bad
-  const isCurrrentDocs = dirNameWithVersion === '.';
-  const id = isCurrrentDocs ? baseID : `${dirNameWithVersion}/${baseID}`;
-  const unversionedId = version ? removeVersionPrefix(id, version) : id;
+  // TODO legacy retrocompatibility
+  // The same doc in 2 distinct version could keep the same id,
+  // we just need to namespace the data by version
+  const versionIdPart =
+    versionMetadata.versionName === CURRENT_VERSION_NAME
+      ? ''
+      : `version-${versionMetadata.versionName}/`;
 
+  // TODO legacy retrocompatibility
+  // I think it's bad to affect the frontmatter id with the dirname
+  const dirNameIdPart = docsFileDirName === '.' ? '' : `${docsFileDirName}/`;
+
+  // TODO legacy composite id, requires a breaking change to modify this
+  const id = `${versionIdPart}${dirNameIdPart}${baseID}`;
+
+  const unversionedId = baseID;
+
+  // TODO remove soon, deprecated homePageId
   const isDocsHomePage = unversionedId === (homePageId ?? '_index');
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
@@ -146,7 +142,7 @@ export default async function processMetadata({
     ? '/'
     : getSlug({
         baseID,
-        dirName: dirNameWithoutVersion,
+        dirName: docsFileDirName,
         frontmatterSlug: frontMatter.slug,
       });
 

@@ -161,8 +161,8 @@ describe('simple website', () => {
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
-        "docs/**/*.{md,mdx}",
         "sidebars.json",
+        "docs/**/*.{md,mdx}",
       ]
     `);
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
@@ -294,14 +294,14 @@ describe('versioned website', () => {
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
+        "sidebars.json",
         "docs/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
-        "versioned_sidebars/version-1.0.0-sidebars.json",
-        "versioned_sidebars/version-withSlugs-sidebars.json",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+        "versioned_sidebars/version-1.0.0-sidebars.json",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "versioned_sidebars/version-withSlugs-sidebars.json",
         "versioned_docs/version-withSlugs/**/*.{md,mdx}",
-        "sidebars.json",
       ]
     `);
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
@@ -518,10 +518,10 @@ describe('versioned website (community)', () => {
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
+        "community_sidebars.json",
         "community/**/*.{md,mdx}",
         "community_versioned_sidebars/version-1.0.0-sidebars.json",
         "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
-        "community_sidebars.json",
       ]
     `);
     expect(isMatch('community/team.md', matchPattern)).toEqual(true);

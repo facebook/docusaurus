@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
