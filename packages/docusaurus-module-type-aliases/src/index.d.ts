@@ -54,25 +54,33 @@ declare module '@theme-original/*';
 declare module '@docusaurus/*';
 
 declare module '@docusaurus/Head' {
-  const helmet: typeof import("react-helmet")
-  export default helmet
+  const helmet: typeof import('react-helmet').Helmet;
+  export default helmet;
 }
 
 declare module '@docusaurus/Link' {
-  const Link: import("react-router-dom").Link
-  export default Link
+  const Link: import('react-router-dom').Link;
+  export default Link;
 }
 
 declare module '@docusaurus/router' {
-  export const Redirect: (props: { to: string}) => import("react").Component
+  export const Redirect: (props: {to: string}) => import('react').Component;
+  export function matchPath(
+    pathname: string,
+    opts: {path?: string; exact?: boolean; strict?: boolean},
+  ): void;
+  export function useLocation(): Location;
 }
 
 declare module '@docusaurus/useDocusaurusContext' {
-  export default function(): any
+  export default function (): any;
 }
 
 declare module '@docusaurus/useBaseUrl' {
-  export default function(relativePath: string): string
+  export default function (
+    relativePath: string | undefined,
+    opts?: {absolute?: true; forcePrependBaseUrl?: true},
+  ): string;
 }
 
 declare module '*.module.css' {
