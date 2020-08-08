@@ -25,3 +25,19 @@ export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
 
 export const AdmonitionsSchema = Joi.object().default({});
+
+export const URISchema = Joi.alternatives(
+  Joi.string().uri(),
+  Joi.custom((val, helpers) => {
+    try {
+      const url = new URL(val);
+      if (url) {
+        return val;
+      } else {
+        return helpers.error('any.invalid');
+      }
+    } catch {
+      return helpers.error('any.invalid');
+    }
+  }),
+);
