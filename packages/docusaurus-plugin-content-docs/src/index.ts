@@ -66,7 +66,7 @@ import {docsVersion} from './version';
 import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
-import {flatten} from 'lodash';
+import {flatten, keyBy} from 'lodash';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -75,7 +75,6 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
   const versionsMetadata = readVersionsMetadata(siteDir, options);
-  console.log(versionsMetadata);
 
   const docsDir = path.resolve(siteDir, options.path);
 
@@ -182,17 +181,12 @@ export default function pluginContentDocs(
     async loadContent() {
       const {include} = options;
 
-      async function withDocFiles(version: VersionMetadata) {
-        const docsFiles = await globby(include, {
-          cwd: version.docsPath,
-        });
-        return {version, docsFiles};
-      }
-
       async function processVersionDocs(
         versionMetadata: VersionMetadata,
       ): Promise<MetadataRaw[]> {
-        const {docsFiles} = await withDocFiles(versionMetadata);
+        const docsFiles = await globby(include, {
+          cwd: versionMetadata.docsPath,
+        });
         return Promise.all(
           docsFiles.map(async (source) => {
             return processDocsMetadata({
@@ -203,20 +197,12 @@ export default function pluginContentDocs(
         );
       }
 
-      // TODO refactor side-effectful
-      // Prepare metadata container.
-      const docsMetadataRaw: DocsMetadataRaw = {};
-
-      await Promise.all(
-        versionsMetadata.map(async (version) => {
-          const versionDocs = await processVersionDocs(version);
-
-          // TODO legacy side-effect, refactor!
-          versionDocs.forEach((versionDoc) => {
-            docsMetadataRaw[versionDoc.id] = versionDoc;
-          });
-        }),
+      // TODO, we should namespace docs by version!
+      const allDocs = flatten(
+        await Promise.all(versionsMetadata.map(processVersionDocs)),
       );
+
+      const allDocsById: DocsMetadataRaw = keyBy(allDocs, (doc) => doc.id);
 
       const loadedSidebars: Sidebar = loadSidebars(
         versionsMetadata.map((version) => version.sidebarPath),
@@ -229,21 +215,14 @@ export default function pluginContentDocs(
       const versionToSidebars: VersionToSidebars = {};
 
       function toDocNavLink(docId: string) {
-        const doc = docsMetadataRaw[docId];
-        if (!doc) {
-          throw new Error(
-            `no doc for id=${docId}
- All ids=
-- ${Object.keys(docsMetadataRaw).join('\n- ')}`,
-          );
-        }
+        const doc = allDocsById[docId];
         return {
           title: doc.title,
           permalink: doc.permalink,
         };
       }
 
-      Object.keys(docsMetadataRaw).forEach((currentID) => {
+      Object.keys(allDocsById).forEach((currentID) => {
         const {next: nextID, previous: previousID, sidebar} =
           order[currentID] ?? {};
 
@@ -251,14 +230,14 @@ export default function pluginContentDocs(
         const next = nextID ? toDocNavLink(nextID) : undefined;
 
         docsMetadata[currentID] = {
-          ...docsMetadataRaw[currentID],
+          ...allDocsById[currentID],
           sidebar,
           previous,
           next,
         };
 
         // sourceToPermalink and permalinkToSidebar mapping.
-        const {source, permalink, version} = docsMetadataRaw[currentID];
+        const {source, permalink, version} = allDocsById[currentID];
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
@@ -273,13 +252,13 @@ export default function pluginContentDocs(
 
       const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
         const docId = item.id;
-        const docMetadata = docsMetadataRaw[docId];
+        const docMetadata = allDocsById[docId];
 
         if (!docMetadata) {
           throw new Error(
             `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
 Available document ids=
-- ${Object.keys(docsMetadataRaw).sort().join('\n- ')}`,
+- ${Object.keys(allDocsById).sort().join('\n- ')}`,
           );
         }
 

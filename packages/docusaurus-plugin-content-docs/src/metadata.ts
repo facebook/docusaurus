@@ -75,19 +75,10 @@ export default async function processMetadata({
 
   const docsFileDirName = path.dirname(source); // ex: api/myDoc -> api
 
-  console.log({source, docsFileDirName});
-
-  // TODO compatibility with legacy
-  const version = versionMetadata.versionName;
-  /*
-    versionMetadata.versionName === CURRENT_VERSION_NAME
-      ? 'next'
-      : versionMetadata.versionName;
-
-     */
+  const {versionName} = versionMetadata;
 
   // TODO for legacy compatibility
-  function getVersionPath(versionName: string) {
+  function getVersionPath() {
     if (!versioning.enabled || versionName === versioning.latestVersion) {
       return '';
     }
@@ -98,11 +89,9 @@ export default async function processMetadata({
   }
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
-  const versionPath = getVersionPath(versionMetadata.versionName);
+  const versionPath = getVersionPath();
 
-  const relativePath = path.relative(siteDir, filePath);
-
-  const docsEditUrl = getEditUrl(relativePath, editUrl);
+  const docsEditUrl = getEditUrl(path.relative(siteDir, filePath), editUrl);
 
   const {frontMatter = {}, excerpt} = await fileMarkdownPromise;
   const {sidebar_label, custom_edit_url} = frontMatter;
@@ -174,7 +163,7 @@ export default async function processMetadata({
     slug: docSlug,
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
-    version,
+    version: versionName,
     lastUpdatedBy,
     lastUpdatedAt,
     sidebar_label,
