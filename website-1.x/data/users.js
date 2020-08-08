@@ -51,21 +51,21 @@ module.exports = [
   },
   {
     caption: 'Amphora Data',
-    image: '/img/users/AmphoraData.png',
+    image: '/img/users/amphora-data.png',
     infoLink: 'https://amphoradata.github.io/',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'Anssr Data Platform',
-    image: '/img/users/anssr.svg',
+    image: '/img/users/anssr-data-plataform.svg',
     infoLink: 'https://anssr.io/',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'Apify SDK',
-    image: '/img/users/apify.svg',
+    image: '/img/users/apify-skd.svg',
     infoLink: 'https://sdk.apify.com/',
     fbOpenSource: false,
     pinned: false,
@@ -275,14 +275,14 @@ module.exports = [
   },
   {
     caption: 'Goby',
-    image: 'https://goby-lang.org/img/goby-logo.svg',
+    image: '/img/users/goby-logo.svg',
     infoLink: 'https://goby-lang.org',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'graphql-compose',
-    image: 'https://graphql-compose.github.io/svg/graphql-compose-logo.svg',
+    image: '/img/users/graphql-compose-logo.svg',
     infoLink: 'https://graphql-compose.github.io',
     fbOpenSource: false,
     pinned: false,
@@ -317,7 +317,7 @@ module.exports = [
   },
   {
     caption: 'Home Assistant',
-    image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
+    image: '/img/users/home-assistant.svg',
     infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
@@ -338,7 +338,7 @@ module.exports = [
   },
   {
     caption: 'Jafar',
-    image: 'https://yahoo.github.io/jafar/img/jafar.svg',
+    image: '/img/users/jafar.svg',
     infoLink: 'https://yahoo.github.io/jafar',
     fbOpenSource: false,
     pinned: false,
@@ -450,7 +450,7 @@ module.exports = [
   },
   {
     caption: 'Node SerialPort',
-    image: 'https://serialport.io/img/serialport-logo.svg',
+    image: '/img/users/serialport-logo.svg',
     infoLink: 'https://serialport.io',
     fbOpenSource: false,
     pinned: false,
@@ -464,7 +464,7 @@ module.exports = [
   },
   {
     caption: 'Open Power Quality',
-    image: 'https://openpowerquality.org/img/opqlogo.png',
+    image: '/img/users/open-power-quality.png',
     infoLink: 'https://openpowerquality.org/',
     fbOpenSource: false,
     pinned: false,
@@ -506,15 +506,15 @@ module.exports = [
   },
   {
     caption: 'pnpm',
-    image: 'https://pnpm.js.org/img/pnpm.svg',
+    image: '/img/users/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
     fbOpenSource: false,
     pinned: false,
   },
   {
     caption: 'Polymath Network',
-    image: 'https://developers.polymath.network/img/text.svg',
-    infoLink: 'https://developers.polymath.network',
+    image: '/img/users/polymatch-network.png',
+    infoLink: 'https://polymath.network',
     fbOpenSource: false,
     pinned: false,
   },
@@ -688,7 +688,7 @@ module.exports = [
   },
   {
     caption: 'rest-hapi',
-    image: 'https://jkheadley.github.io/rest-hapi/img/rest-hapi-logo-alt.png',
+    image: '/img/users/rest-hapi.png',
     infoLink: 'https://jkheadley.github.io/rest-hapi/',
     fbOpenSource: false,
     pinned: false,
@@ -723,7 +723,7 @@ module.exports = [
   },
   {
     caption: 'single-spa',
-    image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
+    image: '/img/users/single-spa.svg',
     infoLink: 'https://single-spa.js.org/',
     fbOpenSource: false,
     pinned: false,
@@ -737,7 +737,7 @@ module.exports = [
   },
   {
     caption: 'smash.gg',
-    image: 'https://imgur.com/eBFBDei.png',
+    image: '/img/users/smash.png',
     infoLink: 'https://developer.smash.gg',
     fbOpenSource: false,
     pinned: false,
@@ -751,7 +751,7 @@ module.exports = [
   },
   {
     caption: 'Stackery',
-    image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
+    image: '/img/users/stackery-large-mark-teal-w.png',
     infoLink: 'https://docs.stackery.io',
     fbOpenSource: false,
     pinned: false,
@@ -793,7 +793,7 @@ module.exports = [
   },
   {
     caption: 'textlint',
-    image: 'https://textlint.github.io/img/textlint-icon.png',
+    image: '/img/users/textlint-icon.png',
     infoLink: 'https://textlint.github.io/',
     fbOpenSource: false,
     pinned: false,
