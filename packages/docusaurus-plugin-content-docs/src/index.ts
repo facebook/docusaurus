@@ -67,16 +67,6 @@ import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 
-// TODO remove homePageId before end of 2020
-// "slug: /" is better because the home doc can be different across versions
-function logHomePageIdDeprecated(homePageId: string) {
-  console.log(
-    chalk.red(
-      `The docs plugin option homePageId=${homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-    ),
-  );
-}
-
 function ensureDocsDirExist(docsDir: string) {
   if (!fs.existsSync(docsDir)) {
     throw new Error(
@@ -89,16 +79,6 @@ export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
-  if (options.homePageId) {
-    logHomePageIdDeprecated(options.homePageId);
-  }
-
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
-
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   ensureDocsDirExist(docsDir);
@@ -594,6 +574,25 @@ export function validateOptions({
   PluginOptions,
   ValidationError
 > {
-  const validatedOptions = validate(PluginOptionSchema, options);
+  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
+  const validatedOptions: PluginOptions = validate(PluginOptionSchema, options);
+
+  if (validatedOptions.homePageId) {
+    // TODO remove homePageId before end of 2020
+    // "slug: /" is better because the home doc can be different across versions
+    console.log(
+      chalk.red(
+        `The docs plugin option homePageId=${validatedOptions.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
+      ),
+    );
+  }
+
+  if (options.admonitions) {
+    validatedOptions.remarkPlugins = validatedOptions.remarkPlugins.concat([
+      [admonitions, options.admonitions],
+    ]);
+  }
+
+  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
   return validatedOptions;
 }
