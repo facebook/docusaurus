@@ -64,18 +64,16 @@ function NavLink({
 
 function NavItemDesktop({items, position, className, ...props}) {
   const dropDownRef = React.useRef<HTMLDivElement>(null);
-  const dropDownMenuRef = React.useRef<any>(null); // TODO should find better solution for this. anything else will get a error when retrieve children.
+  const dropDownMenuRef = React.useRef<HTMLUListElement | any>(null); // TODO should find better solution for this. anything else will get a error when retrieve children.
   const [showDropDown, setShowDropDown] = useState(false);
   useOnClickOutside(dropDownRef, () => toggle(false));
   function toggle(state: boolean) {
-    if (
-      state &&
-      dropDownMenuRef &&
-      dropDownMenuRef.current &&
-      dropDownMenuRef.current.firstChild &&
-      dropDownMenuRef.current.firstChild.firstChild
-    ) {
-      dropDownMenuRef.current.firstChild.firstChild.focus();
+    if (state) {
+      const firstNavLinkOfULElement =
+        dropDownMenuRef?.current?.firstChild?.firstChild;
+      if (firstNavLinkOfULElement) {
+        firstNavLinkOfULElement.focus();
+      }
     }
     setShowDropDown(state);
   }
@@ -95,17 +93,11 @@ function NavItemDesktop({items, position, className, ...props}) {
   return (
     <div
       ref={dropDownRef}
-      className={clsx(
-        'navbar__item',
-        'dropdown',
-        'dropdown--hoverable',
-        {
-          'dropdown--left': position === 'left',
-
-          'dropdown--right': position === 'right',
-        },
-        {'dropdown--show': showDropDown},
-      )}>
+      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
+        'dropdown--left': position === 'left',
+        'dropdown--right': position === 'right',
+        'dropdown--show': showDropDown,
+      })}>
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
