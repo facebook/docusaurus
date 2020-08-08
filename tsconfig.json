@@ -17,9 +17,11 @@
 
     /* Additional Checks */
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+
+    /* Disabled on purpose (handled by ESLint, should not block compilation) */
+    "noUnusedParameters": false,
 
     /* Module Resolution Options */
     "moduleResolution": "node",

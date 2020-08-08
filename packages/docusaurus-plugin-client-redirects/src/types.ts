@@ -8,6 +8,7 @@
 import {Props} from '@docusaurus/types';
 
 export type PluginOptions = {
+  id: string;
   fromExtensions: string[];
   toExtensions: string[];
   redirects: RedirectOption[];

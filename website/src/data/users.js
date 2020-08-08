@@ -156,6 +156,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'QA-Board',
+    description:
+      'An open source run-tracker for algorithm and performance engineering with rich visualizations',
+    preview: require('./showcase/qa-board.png'),
+    website: 'https://samsung.github.io/qaboard/',
+    source: 'https://github.com/Samsung/qaboard',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'QuestDB',
     description:
       'An open source SQL database designed to process time series data',

@@ -156,6 +156,7 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
+        debug: true, // force debug plugin usage
         docs: {
           // routeBasePath: '/',
           path: 'docs',

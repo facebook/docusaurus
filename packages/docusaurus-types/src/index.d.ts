@@ -126,8 +126,15 @@ export interface PluginContentLoadedActions {
   setGlobalData<T = unknown>(data: T): void;
 }
 
+export type AllContent = Record<
+  string, // plugin name
+  Record<
+    string, // plugin id
+    unknown // plugin data
+  >
+>;
+
 export interface Plugin<T, U = unknown> {
-  id?: string;
   name: string;
   loadContent?(): Promise<T>;
   validateOptions?(): ValidationResult<U>;
@@ -136,7 +143,8 @@ export interface Plugin<T, U = unknown> {
     content,
     actions,
   }: {
-    content: T;
+    content: T; // the content loaded by this plugin instance
+    allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
   }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
