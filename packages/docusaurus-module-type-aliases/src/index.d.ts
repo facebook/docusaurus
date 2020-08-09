@@ -59,7 +59,13 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  const Link: import('react-router-dom').Link;
+  type RRLinkProps = Partial<import('react-router-dom').LinkProps>;
+  type LinkProps = RRLinkProps & {
+    to?: string;
+    activeClassName?: string;
+    isNavLink?: boolean;
+  };
+  const Link: (props: LinkProps) => JSX.Element;
   export default Link;
 }
 
@@ -68,7 +74,7 @@ declare module '@docusaurus/router' {
   export function matchPath(
     pathname: string,
     opts: {path?: string; exact?: boolean; strict?: boolean},
-  ): void;
+  ): boolean;
   export function useLocation(): Location;
 }
 
