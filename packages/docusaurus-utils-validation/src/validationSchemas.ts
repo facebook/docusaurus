@@ -13,8 +13,7 @@ export const PluginIdSchema = Joi.string()
 
 const MarkdownPluginsSchema = Joi.array()
   .items(
-    Joi.array()
-      .ordered(Joi.function().required(), Joi.object().required()),
+    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
     Joi.function(),
     Joi.object(),
   )
