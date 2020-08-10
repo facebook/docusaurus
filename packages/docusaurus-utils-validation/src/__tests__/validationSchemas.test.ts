@@ -111,7 +111,7 @@ describe('validation schemas', () => {
   test('URISchema', () => {
     const validURL = 'https://docusaurus.io';
     const doubleHash = 'https://docusaurus.io#github#/:';
-    const invalidURL = 'invalidURL';
+    const invalidURL = 'https://invalid:url/index.html';
     const urlFromIssue = 'https://riot.im/app/#/room/#ligo-public:matrix.org';
     const {testFail, testOK} = createTestHelpers({schema: URISchema});
     testOK(validURL);
