@@ -8,7 +8,7 @@ authorTwitter: JoelMarcey
 tags: [documentation, blog, docusaurus]
 ---
 
-![Introducing Slash](/img/slash-introducing.svg)
+![Introducing Slash](img/slash-introducing.svg)
 
 We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.
 
@@ -27,7 +27,7 @@ Docusaurus also provides core website and documentation features out-of-the-box 
 
 ## The Birth of docusaurus
 
-![Birth of Slash](/img/slash-birth.png)
+![Birth of Slash](img/slash-birth.png)
 
 When Facebook first started their open source program, many teams implemented a custom website for each of their open source projects. This approach presented challenges when the open source program team was asked to help the project teams improve their documentation. Since each site was unique, adding basic infrastructure such as a blog, consistent navigation, search, etc. became challenging undertakings.
 
@@ -43,7 +43,7 @@ At Facebook, Docusaurus allows us to quickly get different projects up and runni
 
 ## Getting Up and Running
 
-![Slash Up and Running](/img/slash-upandrunning.png)
+![Slash Up and Running](img/slash-upandrunning.png)
 
 At its core, we wanted sites running Docusaurus to be simple to use. With one [installation](https://docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
 
@@ -131,7 +131,7 @@ build
 
 ## Community
 
-![Docusaurus](/img/docusaurus.svg)
+![Docusaurus](img/docusaurus.svg)
 
 We welcome your [contributions](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/docusaurus) and [Twitter](https://twitter.com/docusaurus).
 
