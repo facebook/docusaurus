@@ -8,7 +8,7 @@
 module.exports = function preset(context, opts = {}) {
   const {siteConfig = {}} = context;
   const {themeConfig} = siteConfig;
-  const {algolia, googleAnalytics, gtag} = themeConfig;
+  const {googleAnalytics, gtag} = themeConfig;
   const isProd = process.env.NODE_ENV === 'production';
 
   return {

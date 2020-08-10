@@ -8,7 +8,6 @@
 import React, {useContext} from 'react';
 import {groupBy, sortBy} from 'lodash-es';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Fuse from 'fuse.js';
 
 const ELEMENTS = {

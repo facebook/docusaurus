@@ -77,6 +77,7 @@ export default function ({
   return isOpen ? (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={styles.overlay}>
+      {/* eslint-disable-next-line */}
       <div
         className={`${styles.overlay} ${styles.overlay_colored}`}
         onClick={setOpen}
