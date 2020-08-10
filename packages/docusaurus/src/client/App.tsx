@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
+import Wrappers from '@generated/root-wrapper';
 import globalData from '@generated/globalData';
 import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
@@ -28,7 +29,15 @@ function App(): JSX.Element {
     <DocusaurusContext.Provider
       value={{siteConfig, siteMetadata, globalData, isClient}}>
       <PendingNavigation routes={routes}>
-        {renderRoutes(routes)}
+        {Wrappers.reduce(
+          (
+            prev: JSX.Element,
+            next: {default: (element: JSX.Element) => JSX.Element},
+          ) => {
+            return next.default(prev);
+          },
+          renderRoutes(routes),
+        )}
       </PendingNavigation>
     </DocusaurusContext.Provider>
   );

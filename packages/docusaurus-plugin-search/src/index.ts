@@ -37,6 +37,10 @@ export default function search(
       return modules;
     },
 
+    getRootWrapper() {
+      return join(__dirname, '..', 'theme', 'wrapRoot.js');
+    },
+
     async postBuild(props: Props) {
       const files = await Promise.all(
         options.include.map((pattern) =>

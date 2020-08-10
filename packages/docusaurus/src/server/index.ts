@@ -14,6 +14,7 @@ import {
   THEME_PATH,
 } from '../constants';
 import loadClientModules from './client-modules';
+import loadRootWrappers from './wrap-root';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import loadPresets from './presets';
@@ -150,6 +151,17 @@ export async function load(
       .join('\n')}\n];\n`,
   );
 
+  const rootWrappers = loadRootWrappers(plugins);
+  const genRootWrappers = generate(
+    generatedFilesDir,
+    'root-wrapper.js',
+    `export default [\n${rootWrappers
+      // import() is async so we use require() because client modules can have
+      // CSS and the order matters for loading CSS.
+      // We need to JSON.stringify so that if its on windows, backslash are escaped.
+      .map((module) => `  require(${JSON.stringify(module)}),`)
+      .join('\n')}\n];\n`,
+  );
   // Load extra head & body html tags.
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
@@ -218,6 +230,7 @@ ${Object.keys(registry)
     genRoutes,
     genGlobalData,
     genSiteMetadata,
+    genRootWrappers,
   ]);
 
   const props: Props = {

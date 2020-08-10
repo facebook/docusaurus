@@ -62,3 +62,8 @@ declare module '*.css' {
   const src: string;
   export default src;
 }
+
+declare module '@generated/root-wrapper' {
+  const wrappers: readonly any[];
+  export default wrappers;
+}

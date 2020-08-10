@@ -7,16 +7,9 @@
 
 import React, {useState} from 'react';
 import styles from './style.module.css';
-import {groupBy, sortBy} from 'lodash-es';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-
-const ELEMENTS = {
-  h1: 3,
-  h2: 2,
-  h3: 1,
-  p: 0.5,
-};
+import {useSearch} from '@theme/useSearch';
 
 const ALLOWED = 30;
 const formatString = (match, str) => {
@@ -69,32 +62,18 @@ function ListItem({page, dataNode, setOpen}) {
     </li>
   );
 }
-
-const score = (elements) =>
-  elements.reduce((acc, cur) => acc + (1 - cur.score) * ELEMENTS[cur.type], 0);
-
-const sortType = (data) => sortBy(data, 'type');
-
-const rank = (list) => {
-  const result = list.slice(0, 100).filter((v) => v.score < 0.5);
-  const data = groupBy(
-    result.map((v) => ({...v.item, match: v.matches})),
-    'pageID',
-  );
-  const ranked = sortBy(
-    Object.entries(data).map(([key, value]) => ({
-      key,
-      value: score(value),
-    })),
-    'value',
-  ).reverse();
-  return ranked.map(({key}) => ({key, value: sortType(data[key])}));
-};
-export default function ({fuse, isOpen, setOpen}) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const data = React.useMemo(() => {
-    return fuse ? rank(fuse.search(searchTerm)) : [];
-  }, [fuse, searchTerm]);
+export default function ({
+  isOpen,
+  setOpen,
+}: {
+  isOpen: boolean;
+  setOpen: () => void;
+}): JSX.Element {
+  const [data, setData] = useState([] as Array<any>);
+  React.useEffect(() => {
+    setData([]);
+  }, [isOpen, setData]);
+  const search = useSearch();
   return isOpen ? (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={styles.overlay}>
@@ -111,7 +90,7 @@ export default function ({fuse, isOpen, setOpen}) {
               placeholder="search"
               className="navbar__search-input"
               onChange={(event) => {
-                setSearchTerm(event.target.value);
+                search(event.target.value).then((v) => setData(v));
               }}
             />
           </div>
@@ -142,6 +121,6 @@ export default function ({fuse, isOpen, setOpen}) {
       </div>
     </div>
   ) : (
-    ''
+    <></>
   );
 }

@@ -151,6 +151,7 @@ export interface Plugin<T, U = unknown> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
+  getRootWrapper?(): string;
   injectHtmlTags?(): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;

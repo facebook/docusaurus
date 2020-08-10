@@ -15,7 +15,6 @@ module.exports = function preset(context, opts = {}) {
     themes: [
       [require.resolve('@docusaurus/theme-classic'), opts.theme],
       // Don't add this if algolia config is not defined.
-      algolia && require.resolve('@docusaurus/theme-search-algolia'),
     ],
     plugins: [
       [require.resolve('@docusaurus/plugin-content-docs'), opts.docs],
