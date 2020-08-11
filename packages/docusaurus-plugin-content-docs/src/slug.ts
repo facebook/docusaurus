@@ -27,8 +27,10 @@ export default function getSlug({
     slug = baseSlug;
   } else {
     const resolveDirname =
-      dirName === '.' ? '/' : addLeadingSlash(addTrailingSlash(dirName));
-    slug = resolvePathname(baseSlug, resolveDirname);
+      dirName === '.'
+        ? '/'
+        : addLeadingSlash(addTrailingSlash(encodeURI(dirName)));
+    slug = resolvePathname(encodeURI(baseSlug), resolveDirname);
   }
 
   if (!isValidPathname(slug)) {

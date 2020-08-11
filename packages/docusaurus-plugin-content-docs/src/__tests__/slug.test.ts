@@ -15,6 +15,13 @@ describe('getSlug', () => {
     );
   });
 
+  // See https://github.com/facebook/docusaurus/issues/3223
+  test('should handle special chars in doc path', () => {
+    expect(
+      getSlug({baseID: 'my dôc', dirName: '/dir with spâce/hey $hello'}),
+    ).toEqual('/dir%20with%20sp%C3%A2ce/hey%20$hello/my%20d%C3%B4c');
+  });
+
   test('should handle current dir', () => {
     expect(getSlug({baseID: 'doc', dirName: '.'})).toEqual('/doc');
     expect(getSlug({baseID: 'doc', dirName: '/'})).toEqual('/doc');
