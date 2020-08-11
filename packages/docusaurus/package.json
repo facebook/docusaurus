@@ -107,8 +107,7 @@
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0",
-    "@docusaurus/utils-validation": "^2.0.0-alpha.61"
+    "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4",

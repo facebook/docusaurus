@@ -7,12 +7,14 @@
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-// the type of remark/rehype plugins is function
-const remarkRehypePluginStub = () => {};
+// the type of remark/rehype plugins can be either function, object or array
+const markdownPluginsFunctionStub = () => {};
+const markdownPluginsObjectStub = {};
 
 test('should normalize options', () => {
-  const {value} = PluginOptionSchema.validate({});
+  const {value, error} = PluginOptionSchema.validate({});
   expect(value).toEqual(DEFAULT_OPTIONS);
+  expect(error).toBe(undefined);
 });
 
 test('should accept correctly defined user options', () => {
@@ -24,27 +26,29 @@ test('should accept correctly defined user options', () => {
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
   };
-  const {value} = PluginOptionSchema.validate(userOptions);
+  const {value, error} = PluginOptionSchema.validate(userOptions);
   expect(value).toEqual({
     ...userOptions,
     feedOptions: {type: ['rss'], title: 'myTitle'},
   });
+  expect(error).toBe(undefined);
 });
 
 test('should accept valid user options', async () => {
   const userOptions = {
     ...DEFAULT_OPTIONS,
-    routebasePath: '',
+    routeBasePath: '',
     beforeDefaultRemarkPlugins: [],
-    beforeDefaultRehypePlugins: [remarkRehypePluginStub],
-    remarkPlugins: [remarkRehypePluginStub, {option1: '42'}],
+    beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
+    remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
     rehypePlugins: [
-      remarkRehypePluginStub,
-      [remarkRehypePluginStub, {option1: '42'}],
+      markdownPluginsObjectStub,
+      [markdownPluginsFunctionStub, {option1: '42'}],
     ],
   };
-  const {value} = await PluginOptionSchema.validate(userOptions);
+  const {value, error} = await PluginOptionSchema.validate(userOptions);
   expect(value).toEqual(userOptions);
+  expect(error).toBe(undefined);
 });
 
 test('should throw Error in case of invalid options', () => {
