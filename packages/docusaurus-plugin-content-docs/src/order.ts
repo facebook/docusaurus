@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Sidebar, SidebarItem, Order, SidebarItemDoc} from './types';
+import {Sidebars, SidebarItem, Order, SidebarItemDoc} from './types';
 import {flatten} from 'lodash';
 
 function getOrderedDocItems(items: SidebarItem[]): SidebarItemDoc[] {
@@ -27,7 +27,7 @@ function getOrderedDocItems(items: SidebarItem[]): SidebarItemDoc[] {
 }
 
 // Build the docs meta such as next, previous, category and sidebar.
-export default function createOrder(allSidebars: Sidebar = {}): Order {
+export default function createOrder(allSidebars: Sidebars = {}): Order {
   const order: Order = {};
 
   Object.keys(allSidebars).forEach((sidebarId) => {

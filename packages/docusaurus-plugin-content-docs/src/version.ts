@@ -12,7 +12,7 @@ import {
 } from './env';
 import fs from 'fs-extra';
 import path from 'path';
-import {Sidebar, PathOptions, SidebarItem} from './types';
+import {Sidebars, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
@@ -89,7 +89,7 @@ export function docsVersion(
 
   // Load current sidebar and create a new versioned sidebars file.
   if (fs.existsSync(sidebarPath)) {
-    const loadedSidebars: Sidebar = loadSidebars([sidebarPath]);
+    const loadedSidebars: Sidebars = loadSidebars([sidebarPath]);
 
     // Transform id in original sidebar to versioned id.
     const normalizeItem = (item: SidebarItem): SidebarItem => {
@@ -107,8 +107,8 @@ export function docsVersion(
       }
     };
 
-    const versionedSidebar: Sidebar = Object.entries(loadedSidebars).reduce(
-      (acc: Sidebar, [sidebarId, sidebarItems]) => {
+    const versionedSidebar: Sidebars = Object.entries(loadedSidebars).reduce(
+      (acc: Sidebars, [sidebarId, sidebarItems]) => {
         const newVersionedSidebarId = `version-${version}/${sidebarId}`;
         acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
         return acc;

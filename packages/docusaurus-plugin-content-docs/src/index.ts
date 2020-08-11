@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import groupBy from 'lodash.groupby';
 import pick from 'lodash.pick';
 import pickBy from 'lodash.pickby';
 import sortBy from 'lodash.sortby';
@@ -39,7 +38,7 @@ import loadEnv, {readVersionsMetadata} from './env';
 
 import {
   PluginOptions,
-  Sidebar,
+  Sidebars,
   Order,
   DocsMetadata,
   LoadedContent,
@@ -62,6 +61,7 @@ import {
   VersionMetadata,
   DocNavLink,
   OrderMetadata,
+  LoadedVersion,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -73,7 +73,7 @@ import {flatten, keyBy} from 'lodash';
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
+): Plugin<LoadedContent, typeof PluginOptionSchema> {
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
   const versionsMetadata = readVersionsMetadata(siteDir, options);
@@ -188,14 +188,59 @@ export default function pluginContentDocs(
         const docsFiles = await globby(include, {
           cwd: versionMetadata.docsPath,
         });
-        return Promise.all(
-          docsFiles.map(async (source) => {
-            return processDocsMetadata({
-              source,
-              versionMetadata,
-            });
-          }),
+        async function processVersionDoc(source: string) {
+          return processDocsMetadata({
+            source,
+            versionMetadata,
+          });
+        }
+        return Promise.all(docsFiles.map(processVersionDoc));
+      }
+
+      async function loadVersion(
+        versionMetadata: VersionMetadata,
+      ): Promise<LoadedVersion> {
+        const docs: DocMetadataRaw[] = await processVersionDocs(
+          versionMetadata,
         );
+        const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
+
+        const sidebars = loadSidebars([versionMetadata.sidebarPath]);
+        const docsOrder: Order = createOrder(sidebars);
+
+        // Add sidebar/next/previous to the docs
+        function addNavData(doc: DocMetadataRaw): DocMetadata {
+          const {next: nextID, previous: previousID, sidebar} =
+            docsOrder[doc.id] ?? {};
+
+          function toDocNavLink(navDocId: string): DocNavLink {
+            const navDoc = docsById[navDocId];
+            return {
+              title: navDoc.title,
+              permalink: navDoc.permalink,
+            };
+          }
+
+          const previous = previousID ? toDocNavLink(previousID) : undefined;
+          const next = nextID ? toDocNavLink(nextID) : undefined;
+
+          return {
+            ...doc,
+            sidebar,
+            previous,
+            next,
+          };
+        }
+
+        const loadedDocs = docs.map(addNavData);
+
+        // sort to ensure consistent output for tests
+        loadedDocs.sort((a, b) => a.id.localeCompare(b.id));
+
+        return {
+          metadata: versionMetadata,
+          docs: docs.map(addNavData),
+        };
       }
 
       // TODO, we should namespace docs by version!
@@ -205,7 +250,7 @@ export default function pluginContentDocs(
 
       const allDocsById: DocsMetadataRaw = keyBy(allDocs, (doc) => doc.id);
 
-      const loadedSidebars: Sidebar = loadSidebars(
+      const loadedSidebars: Sidebars = loadSidebars(
         versionsMetadata.map((version) => version.sidebarPath),
       );
 
@@ -303,8 +348,13 @@ Available document ids=
         },
         {},
       );
+
+      const loadedVersions = await Promise.all(
+        versionsMetadata.map(loadVersion),
+      );
+
       return {
-        docsMetadata,
+        loadedVersions,
         docsDir,
         docsSidebars,
         permalinkToSidebar: objectWithKeySorted(permalinkToSidebar),
@@ -313,22 +363,14 @@ Available document ids=
     },
 
     async contentLoaded({content, actions}) {
-      if (!content || Object.keys(content.docsMetadata).length === 0) {
-        return;
-      }
-      const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
+      const {
+        loadedVersions,
+        docsSidebars,
+        permalinkToSidebar,
+        versionToSidebars,
+      } = content;
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData, setGlobalData} = actions;
-
-      const docsMetadataByVersion = groupBy(
-        // sort to ensure consistent output for tests
-        Object.values(content.docsMetadata).sort((a, b) =>
-          a.id.localeCompare(b.id),
-        ),
-        'version',
-      );
-
-      const allVersionNames = Object.keys(docsMetadataByVersion);
 
       const pluginInstanceGlobalData: GlobalPluginData = {
         path: normalizeUrl([baseUrl, options.routeBasePath]),
@@ -390,15 +432,18 @@ Available document ids=
       const getVersionRoutePriority = (version: VersionName) =>
         version === latestVersion ? -1 : undefined;
 
-      async function handleVersion(version: VersionName) {
-        const docs = docsMetadataByVersion[version];
+      async function handleVersion(loadedVersion: LoadedVersion) {
+        const {
+          metadata: {versionName},
+          docs,
+        } = loadedVersion;
 
         const versionPath = normalizeUrl([
           baseUrl,
           routeBasePath,
-          getVersionPath(version),
+          getVersionPath(versionName),
         ]);
-        const versionMetadataProp = createVersionMetadataProp(version);
+        const versionMetadataProp = createVersionMetadataProp(versionName);
 
         const versionMetadataPropPath = await createData(
           `${docuHash(normalizeUrl([versionPath, ':route']))}.json`,
@@ -428,7 +473,7 @@ Available document ids=
             .sort((a, b) => a.id.localeCompare(b.id)),
         });
 
-        const priority = getVersionRoutePriority(version);
+        const priority = getVersionRoutePriority(versionName);
 
         addRoute({
           path: versionPath,
@@ -442,7 +487,7 @@ Available document ids=
         });
       }
 
-      await Promise.all(allVersionNames.map(handleVersion));
+      await Promise.all(loadedVersions.map(handleVersion));
 
       pluginInstanceGlobalData.versions = sortBy(
         pluginInstanceGlobalData.versions,

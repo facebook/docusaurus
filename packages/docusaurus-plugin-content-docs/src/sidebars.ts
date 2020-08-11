@@ -9,7 +9,7 @@ import flatMap from 'lodash.flatmap';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {
-  Sidebar,
+  Sidebars,
   SidebarRaw,
   SidebarItem,
   SidebarItemCategoryRaw,
@@ -158,9 +158,9 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
 /**
  * Converts sidebars object to mapping to arrays of sidebar item objects.
  */
-function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
+function normalizeSidebar(sidebars: SidebarRaw): Sidebars {
   return Object.entries(sidebars).reduce(
-    (acc: Sidebar, [sidebarId, sidebar]) => {
+    (acc: Sidebars, [sidebarId, sidebar]) => {
       const normalizedSidebar: SidebarItemRaw[] = Array.isArray(sidebar)
         ? sidebar
         : normalizeCategoryShorthand(sidebar);
@@ -173,12 +173,12 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
   );
 }
 
-export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
+export default function loadSidebars(sidebarPaths?: string[]): Sidebars {
   // We don't want sidebars to be cached because of hot reloading.
   const allSidebars: SidebarRaw = {};
 
   if (!sidebarPaths || !sidebarPaths.length) {
-    return {} as Sidebar;
+    return {} as Sidebars;
   }
 
   sidebarPaths.forEach((sidebarPath) => {

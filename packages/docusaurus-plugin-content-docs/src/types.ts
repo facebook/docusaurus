@@ -8,13 +8,13 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
+export type VersionName = string;
+
 export type VersionMetadata = {
-  versionName: string;
+  versionName: VersionName;
   docsPath: string;
   sidebarPath: string;
 };
-
-export type VersionName = string;
 
 export interface MetadataOptions {
   routeBasePath: string;
@@ -92,7 +92,7 @@ export interface SidebarRaw {
   [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
 }
 
-export interface Sidebar {
+export interface Sidebars {
   [sidebarId: string]: SidebarItem[];
 }
 
@@ -169,8 +169,13 @@ export interface VersionToSidebars {
   [version: string]: Set<string>;
 }
 
+export type LoadedVersion = {
+  metadata: VersionMetadata;
+  docs: DocMetadata[];
+};
+
 export interface LoadedContent {
-  docsMetadata: DocsMetadata;
+  loadedVersions: LoadedVersion[];
   docsDir: string;
   docsSidebars: DocsSidebar;
   permalinkToSidebar: PermalinkToSidebar;
