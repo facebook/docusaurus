@@ -13,6 +13,7 @@ import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
 
+import Head from '@docusaurus/Head';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useVersioning from '@theme/hooks/useVersioning';
@@ -231,6 +232,14 @@ function Search() {
 
   return (
     <Layout title={getTitle()}>
+      <Head>
+        {/*
+         We should not index search pages
+          See https://github.com/facebook/docusaurus/pull/3233
+        */}
+        <meta property="robots" content="noindex, follow" />
+      </Head>
+
       <div className="container margin-vert--lg">
         <h1>{getTitle()}</h1>
 
