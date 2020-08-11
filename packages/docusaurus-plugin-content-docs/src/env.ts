@@ -158,7 +158,7 @@ export default function loadEnv(
   const versioning: VersioningEnv = {
     enabled: false,
     versions: [],
-    latestVersion: null,
+    latestVersion: CURRENT_VERSION_NAME,
     docsDir: '',
     sidebarsDir: '',
   };

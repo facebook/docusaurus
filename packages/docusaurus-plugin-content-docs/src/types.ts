@@ -14,7 +14,7 @@ export type VersionMetadata = {
   sidebarPath: string;
 };
 
-export type DocsVersion = string | null; // null = unversioned sites
+export type VersionName = string;
 
 export interface MetadataOptions {
   routeBasePath: string;
@@ -124,7 +124,8 @@ export interface LastUpdateData {
   lastUpdatedBy?: string;
 }
 
-export interface MetadataRaw extends LastUpdateData {
+export interface DocMetadataRaw extends LastUpdateData {
+  version: VersionName;
   unversionedId: string;
   id: string;
   isDocsHomePage: boolean;
@@ -135,26 +136,25 @@ export interface MetadataRaw extends LastUpdateData {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string | null;
-  version?: string;
 }
 
-export interface Paginator {
+export interface DocNavLink {
   title: string;
   permalink: string;
 }
 
-export interface Metadata extends MetadataRaw {
+export interface DocMetadata extends DocMetadataRaw {
   sidebar?: string;
-  previous?: Paginator;
-  next?: Paginator;
+  previous?: DocNavLink;
+  next?: DocNavLink;
 }
 
 export interface DocsMetadata {
-  [id: string]: Metadata;
+  [id: string]: DocMetadata;
 }
 
 export interface DocsMetadataRaw {
-  [id: string]: MetadataRaw;
+  [id: string]: DocMetadataRaw;
 }
 
 export interface SourceToPermalink {
@@ -177,16 +177,16 @@ export interface LoadedContent {
   versionToSidebars: VersionToSidebars;
 }
 
-export type DocsBaseMetadata = Pick<
+export type VersionMetadataProp = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
 > & {
-  version: string | null;
+  version: string;
 };
 
 export type VersioningEnv = {
   enabled: boolean;
-  latestVersion: string | null;
+  latestVersion: string;
   versions: string[];
   docsDir: string;
   sidebarsDir: string;
@@ -203,7 +203,7 @@ export type GlobalDoc = {
 };
 
 export type GlobalVersion = {
-  name: DocsVersion;
+  name: VersionName;
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
@@ -211,6 +211,6 @@ export type GlobalVersion = {
 
 export type GlobalPluginData = {
   path: string;
-  latestVersionName: DocsVersion;
+  latestVersionName: VersionName;
   versions: GlobalVersion[];
 };

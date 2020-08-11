@@ -9,7 +9,7 @@ import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import processMetadata from '../metadata';
 import loadEnv from '../env';
-import {MetadataRaw, Env, MetadataOptions} from '../types';
+import {DocMetadataRaw, Env, MetadataOptions} from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
@@ -29,7 +29,7 @@ function createTestHelpers({
   async function testMeta(
     refDir: string,
     source: string,
-    expectedMetadata: Omit<MetadataRaw, 'source'>,
+    expectedMetadata: Omit<DocMetadataRaw, 'source'>,
   ) {
     const metadata = await processMetadata({
       source,
