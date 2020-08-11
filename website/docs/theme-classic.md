@@ -332,3 +332,29 @@ module.exports = {
   },
 };
 ```
+
+### Dynamic Preview
+
+Docusaurus now supports OG Image's so you can add in a custom card for your website when you are sharing it on Social Networks!
+
+To get started add the dynamicMetaImage object into themeConfig with the 3 properties below.
+
+`apiUrl` is the address for the image generator. By default we have made one here: https://preview-card-gen.vercel.app. If you would like to customize and make your own one then feel free to fork off this repository: https://github.com/Drewbi/docusaurus-og-image and customise it to your liking and deploy it.
+
+`darkMode` is a boolean value and is `false` by default. If you want dark mode on the card then you can enable it.
+
+`docusaurusStamp` is a boolean value and is `true` by default. If you don't want the docusaurus logo to not show on the card then you can disable it.
+
+```js {5} title="docusaurus-config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    dynamicMetaImage: {
+      apiUrl: 'https://preview-card-gen.vercel.app',
+      darkMode: false,
+      docusaurusStamp: true,
+    },
+  },
+  // ...
+};
+```
