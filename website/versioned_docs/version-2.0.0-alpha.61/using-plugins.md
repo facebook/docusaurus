@@ -13,6 +13,12 @@ A plugin is usually a npm package, so you install them like other npm packages u
 npm install --save docusaurus-plugin-name
 ```
 
+:::tip
+
+After you've installed an npm package, you may face an error if you execute `npm run build`. To avoid this error, execute `npm install` or `npm run start' first. 
+
+:::
+
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
 ```jsx {3} title="docusaurus.config.js"
