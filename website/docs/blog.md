@@ -40,6 +40,7 @@ author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width
 tags: [hello, docusaurus-v2]
 description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
@@ -63,6 +64,7 @@ The only required field is `title`; however, we provide options to add author in
 - `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
 - `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
+- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default it is `false`.
 
 ## Summary truncation
 
