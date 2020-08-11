@@ -19,7 +19,7 @@ describe('getSlug', () => {
   test('should handle special chars in doc path', () => {
     expect(
       getSlug({baseID: 'my dôc', dirName: '/dir with spâce/hey $hello'}),
-    ).toEqual('/dir%20with%20sp%C3%A2ce/hey%20$hello/my%20d%C3%B4c');
+    ).toEqual('/dir with spâce/hey $hello/my dôc');
   });
 
   test('should handle current dir', () => {
