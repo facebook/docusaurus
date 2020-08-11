@@ -36,6 +36,7 @@
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.61",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
