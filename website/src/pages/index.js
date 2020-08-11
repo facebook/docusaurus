@@ -61,9 +61,7 @@ const QUOTES = [
 
 function Home() {
   const context = useDocusaurusContext();
-
   const {siteConfig: {customFields = {}, tagline} = {}} = context;
-
   return (
     <Layout
       permalink="/"
