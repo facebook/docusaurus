@@ -70,13 +70,6 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 import {flatten, keyBy} from 'lodash';
 
-function toDocNavLink(doc: DocMetadata): DocNavLink {
-  return {
-    title: doc.title,
-    permalink: doc.permalink,
-  };
-}
-
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
@@ -230,10 +223,16 @@ export default function pluginContentDocs(
         const {next: nextID, previous: previousID, sidebar} =
           order[doc.id] ?? {};
 
-        const previous = previousID
-          ? toDocNavLink(allDocsById[previousID])
-          : undefined;
-        const next = nextID ? toDocNavLink(allDocsById[nextID]) : undefined;
+        function toDocNavLink(navDocId: string): DocNavLink {
+          const navDoc = allDocsById[navDocId];
+          return {
+            title: navDoc.title,
+            permalink: navDoc.permalink,
+          };
+        }
+
+        const previous = previousID ? toDocNavLink(previousID) : undefined;
+        const next = nextID ? toDocNavLink(nextID) : undefined;
 
         return {
           ...doc,
@@ -317,7 +316,7 @@ Available document ids=
       if (!content || Object.keys(content.docsMetadata).length === 0) {
         return;
       }
-
+      const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData, setGlobalData} = actions;
 
@@ -343,7 +342,6 @@ Available document ids=
       const createVersionMetadataProp = (
         version: VersionName,
       ): VersionMetadataProp => {
-        const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
         const neededSidebars: Set<string> =
           versionToSidebars[version!] || new Set();
 
@@ -462,6 +460,44 @@ Available document ids=
         warningsFilter: [VERSIONS_JSON_FILE],
       };
 
+      // TODO instead of creating one mdx loader rule for all versions
+      // it may be simpler to create one mdx loader per version
+      // particularly to handle the markdown/linkify process
+      // (docsDir/versionedDir are a bit annoying here...)
+      function createMDXLoaderRule() {
+        return {
+          test: /(\.mdx?)$/,
+          include: versionsMetadata.map((vmd) => vmd.docsPath),
+          use: [
+            getCacheLoader(isServer),
+            getBabelLoader(isServer),
+            {
+              loader: require.resolve('@docusaurus/mdx-loader'),
+              options: {
+                remarkPlugins,
+                rehypePlugins,
+                staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                metadataPath: (mdxPath: string) => {
+                  // Note that metadataPath must be the same/in-sync as
+                  // the path from createData for each MDX.
+                  const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+                  return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+                },
+              },
+            },
+            {
+              loader: path.resolve(__dirname, './markdown/index.js'),
+              options: {
+                siteDir,
+                docsDir,
+                sourceToPermalink,
+                versionedDir: legacyVersioningEnv.versioning.docsDir,
+              },
+            },
+          ].filter(Boolean),
+        };
+      }
+
       return {
         stats,
         devServer: {
@@ -473,42 +509,7 @@ Available document ids=
           },
         },
         module: {
-          rules: [
-            {
-              test: /(\.mdx?)$/,
-              include: versionsMetadata.map((vmd) => vmd.docsPath),
-              use: [
-                getCacheLoader(isServer),
-                getBabelLoader(isServer),
-                {
-                  loader: require.resolve('@docusaurus/mdx-loader'),
-                  options: {
-                    remarkPlugins,
-                    rehypePlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    metadataPath: (mdxPath: string) => {
-                      // Note that metadataPath must be the same/in-sync as
-                      // the path from createData for each MDX.
-                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-                      return path.join(
-                        dataDir,
-                        `${docuHash(aliasedPath)}.json`,
-                      );
-                    },
-                  },
-                },
-                {
-                  loader: path.resolve(__dirname, './markdown/index.js'),
-                  options: {
-                    siteDir,
-                    docsDir,
-                    sourceToPermalink,
-                    versionedDir: legacyVersioningEnv.versioning.docsDir,
-                  },
-                },
-              ].filter(Boolean),
-            },
-          ],
+          rules: [createMDXLoaderRule()],
         },
       } as Configuration;
     },
