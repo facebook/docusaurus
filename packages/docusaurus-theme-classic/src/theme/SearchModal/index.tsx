@@ -10,9 +10,11 @@ import styles from './style.module.css';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import {useSearch} from '@theme/useSearch';
+import Fuse from 'fuse.js';
+import {TrySearchIcon, NoResultIcon} from './icon';
 
 const ALLOWED = 30;
-const formatString = (match, str) => {
+const formatString = (match: Fuse.FuseResultMatch, str: string) => {
   const [start, end] = match.indices[0];
   const length = end - start;
   const strChunks = [
@@ -50,7 +52,28 @@ const formatString = (match, str) => {
   return str;
 };
 
-function ListItem({page, dataNode, setOpen}) {
+const getIcon = (isDirty: boolean) =>
+  isDirty ? (
+    <div className={styles.svg_container}>
+      <NoResultIcon />
+      <div className={styles.subtitle}> No Result Found</div>
+    </div>
+  ) : (
+    <div className={styles.svg_container}>
+      <TrySearchIcon />
+      <div className={styles.subtitle}>Try Search</div>
+    </div>
+  );
+
+function ListItem({
+  page,
+  dataNode,
+  setOpen,
+}: {
+  page: {key: string};
+  dataNode: any;
+  setOpen: () => void;
+}) {
   const {withBaseUrl} = useBaseUrlUtils();
   return (
     <li className={`shadow--lw ${styles.search_item}`} onClick={setOpen}>
@@ -70,6 +93,7 @@ export default function ({
   setOpen: () => void;
 }): JSX.Element {
   const [data, setData] = useState([] as Array<any>);
+  const [isDirty, setDirty] = useState(false);
   React.useEffect(() => {
     setData([]);
   }, [isOpen, setData]);
@@ -91,6 +115,11 @@ export default function ({
               placeholder="search"
               className="navbar__search-input"
               onChange={(event) => {
+                if (event.target.value === '') {
+                  setDirty(false);
+                } else {
+                  setDirty(true);
+                }
                 search(event.target.value).then((v) => setData(v));
               }}
             />
@@ -103,21 +132,23 @@ export default function ({
           </button>
         </div>
         <div className={`${styles.result} card__body`}>
-          {data.map((page, pageIndex) => {
-            return [
-              <div className={styles.page}>{page.value[0].heading}</div>,
-              <ul className={styles.group}>
-                {page.value.map((dataNode, nodeIndex) => (
-                  <ListItem
-                    setOpen={setOpen}
-                    dataNode={dataNode}
-                    page={page}
-                    key={`${pageIndex}-${nodeIndex}`}
-                  />
-                ))}
-              </ul>,
-            ];
-          })}
+          {data.length > 0
+            ? data.map((page, pageIndex) => {
+                return [
+                  <div className={styles.page}>{page.value[0].heading}</div>,
+                  <ul className={styles.group}>
+                    {page.value.map((dataNode: any, nodeIndex: number) => (
+                      <ListItem
+                        setOpen={setOpen}
+                        dataNode={dataNode}
+                        page={page}
+                        key={`${pageIndex}-${nodeIndex}`}
+                      />
+                    ))}
+                  </ul>,
+                ];
+              })
+            : getIcon(isDirty)}
         </div>
       </div>
     </div>

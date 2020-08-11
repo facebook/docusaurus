@@ -4,7 +4,24 @@
   margin: 60px auto;
   overflow-y: auto;
   z-index: 2000;
-  background-color: var(--ifm-color-emphasis-0)
+  background-color: var(--ifm-color-emphasis-0);
+}
+
+.svgFill {
+  fill: var(--ifm-color-primary);
+}
+
+.svg {
+  width: 400px;
+  height: 45vh;
+}
+
+.svg_container {
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--ifm-hero-text-color);
 }
 
 .result {
@@ -98,6 +115,10 @@
   display: none;
 }
 @media (max-width: 750px) {
+  .svg {
+    width: 95%;
+    height: 95%;
+  }
   .modal {
     width: 100%;
     height: 100%;
@@ -111,5 +132,8 @@
   .close_button {
     display: inline;
     border: none !important;
+  }
+  .svg_container {
+    margin-top: 20vh;
   }
 }
