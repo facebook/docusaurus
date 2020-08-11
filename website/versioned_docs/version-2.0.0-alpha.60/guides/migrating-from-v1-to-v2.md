@@ -673,10 +673,10 @@ To use the migration command, follow these steps:
 
 ```
 // migration command format
-npx docusaurus-migrate migrate <v1 website directory> <desired v2 website directory>
+npx @docusaurus/migrate migrate <v1 website directory> <desired v2 website directory>
 
 // example
-npx docusaurus-migrate migrate ./v1-website ./v2-website
+npx @docusaurus/migrate migrate ./v1-website ./v2-website
 ```
 
 3. To view your new website locally, go into your v2 website's directory and start your development server.

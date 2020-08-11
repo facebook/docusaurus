@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ComponentType} from 'react';
+import React, {ComponentProps, ComponentType, useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useOnClickOutside from 'use-onclickoutside';
 
 function NavLink({
   activeBasePath,
@@ -33,6 +34,7 @@ function NavLink({
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
+
   return (
     <Link
       {...(href
@@ -61,6 +63,21 @@ function NavLink({
 }
 
 function NavItemDesktop({items, position, className, ...props}) {
+  const dropDownRef = React.useRef<HTMLDivElement>(null);
+  const dropDownMenuRef = React.useRef<HTMLUListElement>(null);
+  const [showDropDown, setShowDropDown] = useState(false);
+  useOnClickOutside(dropDownRef, () => toggle(false));
+  function toggle(state: boolean) {
+    if (state) {
+      const firstNavLinkOfULElement =
+        dropDownMenuRef?.current?.firstChild?.firstChild;
+
+      if (firstNavLinkOfULElement) {
+        (firstNavLinkOfULElement as HTMLElement).focus();
+      }
+    }
+    setShowDropDown(state);
+  }
   const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
     clsx(
       {
@@ -76,32 +93,34 @@ function NavItemDesktop({items, position, className, ...props}) {
 
   return (
     <div
+      ref={dropDownRef}
       className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
+        'dropdown--show': showDropDown,
       })}>
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
         onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
-          function toggle() {
-            ((e.target as HTMLElement)
-              .parentNode as HTMLElement).classList.toggle('dropdown--show');
-          }
-          if (e.key === 'Enter' && !props.to) {
-            toggle();
-          }
-          if (e.key === 'Tab') {
-            toggle();
+          if ((e.key === 'Enter' && !props.to) || e.key === 'Tab') {
+            e.preventDefault();
+            toggle(true);
           }
         }}>
         {props.label}
       </NavLink>
-      <ul className="dropdown__menu">
+      <ul ref={dropDownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li key={i}>
             <NavLink
+              onKeyDown={(e) => {
+                if (i === items.length - 1 && e.key === 'Tab') {
+                  e.preventDefault();
+                  toggle(false);
+                }
+              }}
               activeClassName="dropdown__link--active"
               className={navLinkClassNames(childItemClassName, true)}
               {...childItemProps}

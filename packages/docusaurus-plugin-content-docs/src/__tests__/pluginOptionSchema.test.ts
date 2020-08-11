@@ -9,12 +9,14 @@ import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 // the type of remark/rehype plugins is function
-const remarkRehypePluginStub = () => {};
+const markdownPluginsFunctionStub = () => {};
+const markdownPluginsObjectStub = {};
 
 describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
-    const {value} = await PluginOptionSchema.validate({});
+    const {value, error} = await PluginOptionSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
+    expect(error).toBe(undefined);
   });
 
   test('should accept correctly defined user options', async () => {
@@ -27,8 +29,8 @@ describe('normalizeDocsPluginOptions', () => {
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
       docLayoutComponent: '@theme/DocPage',
       docItemComponent: '@theme/DocItem',
-      remarkPlugins: [],
-      rehypePlugins: [remarkRehypePluginStub],
+      remarkPlugins: [markdownPluginsObjectStub],
+      rehypePlugins: [markdownPluginsFunctionStub],
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
@@ -36,21 +38,49 @@ describe('normalizeDocsPluginOptions', () => {
       includeCurrentVersion: false,
       disableVersioning: true,
     };
-    const {value} = await PluginOptionSchema.validate(userOptions);
+    const {value, error} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
+    expect(error).toBe(undefined);
   });
 
   test('should accept correctly defined remark and rehype plugin options', async () => {
     const userOptions = {
       ...DEFAULT_OPTIONS,
-      remarkPlugins: [remarkRehypePluginStub, {option1: '42'}],
+      remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
-        remarkRehypePluginStub,
-        [remarkRehypePluginStub, {option1: '42'}],
+        markdownPluginsObjectStub,
+        [markdownPluginsFunctionStub, {option1: '42'}],
       ],
     };
-    const {value} = await PluginOptionSchema.validate(userOptions);
+    const {value, error} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject invalid remark plugin options', () => {
+    expect(() => {
+      normalizePluginOptions(PluginOptionSchema, {
+        remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"remarkPlugins[0]\\" does not match any of the allowed types"`,
+    );
+  });
+
+  test('should reject invalid rehype plugin options', () => {
+    expect(() => {
+      normalizePluginOptions(PluginOptionSchema, {
+        rehypePlugins: [
+          [
+            markdownPluginsFunctionStub,
+            {option1: '42'},
+            markdownPluginsFunctionStub,
+          ],
+        ],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"rehypePlugins[0]\\" does not match any of the allowed types"`,
+    );
   });
 
   test('should reject bad path inputs', () => {
