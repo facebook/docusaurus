@@ -110,11 +110,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn eslint --fix",
-      "yarn prettier"
+      "eslint --fix",
+      "prettier --write"
     ],
-    "*.md": [
-      "yarn prettier-docs"
+    "*.{md,mdx}": [
+      "prettier --write"
     ]
   },
   "husky": {
