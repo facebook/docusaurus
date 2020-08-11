@@ -110,8 +110,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn eslint --fix",
-      "yarn prettier"
+      "eslint",
+      "prettier"
     ],
     "*.md": [
       "yarn prettier-docs"
