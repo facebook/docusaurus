@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Installation
-      run: yarn
+      run: yarn || yarn || yarn # 3 attemps to avoid timeout errors...
     - name: Docusaurus 1 Build
       run: yarn build:v1
     - name: Docusaurus 2 Build
