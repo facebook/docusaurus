@@ -49,12 +49,12 @@ import {
   DocNavLink,
   LoadedVersion,
 } from './types';
-import {Configuration} from 'webpack';
+import {RuleSetRule} from 'webpack';
 import {docsVersion} from './version';
 import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
-import {flatten, keyBy} from 'lodash';
+import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 
 function normalizeSidebars(loadedVersion: LoadedVersion): DocsSidebar {
@@ -387,20 +387,16 @@ export default function pluginContentDocs(
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
-      // Suppress warnings about non-existing of versions file.
-      const stats = {
-        warningsFilter: [VERSIONS_JSON_FILE],
-      };
 
       // TODO instead of creating one mdx loader rule for all versions
       // it may be simpler to create one mdx loader per version
       // particularly to handle the markdown/linkify process
       // (docsDir/versionedDir are a bit annoying here...)
-      function createMDXLoaderRule() {
+      function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
           include: versionsMetadata.map((vmd) => vmd.docsPath),
-          use: [
+          use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),
             {
@@ -426,9 +422,14 @@ export default function pluginContentDocs(
                 versionedDir: legacyVersioningEnv.versioning.docsDir,
               },
             },
-          ].filter(Boolean),
+          ]),
         };
       }
+
+      // Suppress warnings about non-existing of versions file.
+      const stats = {
+        warningsFilter: [VERSIONS_JSON_FILE],
+      };
 
       return {
         stats,
@@ -443,7 +444,7 @@ export default function pluginContentDocs(
         module: {
           rules: [createMDXLoaderRule()],
         },
-      } as Configuration;
+      };
     },
   };
 }
