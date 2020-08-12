@@ -16,7 +16,7 @@ import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
 import {
-  DocMetadataRaw,
+  DocMetadataBase,
   LastUpdateData,
   MetadataOptions,
   Env,
@@ -64,7 +64,7 @@ export default async function processMetadata({
   context: LoadContext;
   options: MetadataOptions;
   env: Env;
-}): Promise<DocMetadataRaw> {
+}): Promise<DocMetadataBase> {
   const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
@@ -153,7 +153,7 @@ export default async function processMetadata({
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
-  const metadata: DocMetadataRaw = {
+  const metadata: DocMetadataBase = {
     unversionedId,
     id,
     isDocsHomePage,

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import path from 'path';
 import chalk from 'chalk';
@@ -31,7 +30,6 @@ import loadEnv, {readVersionsMetadata} from './env';
 
 import {
   PluginOptions,
-  Sidebars,
   Order,
   LoadedContent,
   SourceToPermalink,
@@ -40,19 +38,15 @@ import {
   SidebarItemDoc,
   DocsSidebar,
   VersionMetadataProp,
-  DocMetadataRaw,
+  DocMetadataBase,
   DocsMetadataRaw,
   DocMetadata,
-  VersionToSidebars,
   SidebarItem,
   DocsSidebarItem,
   GlobalPluginData,
   VersionName,
-  GlobalVersion,
-  GlobalDoc,
   VersionMetadata,
   DocNavLink,
-  OrderMetadata,
   LoadedVersion,
 } from './types';
 import {Configuration} from 'webpack';
@@ -61,6 +55,7 @@ import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 import {flatten, keyBy} from 'lodash';
+import {toGlobalDataVersion} from './globalData';
 
 function normalizeSidebars(loadedVersion: LoadedVersion): DocsSidebar {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
@@ -118,7 +113,6 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
   const versionsMetadata = readVersionsMetadata(siteDir, options);
-  const versionNames = versionsMetadata.map((version) => version.versionName);
 
   const docsDir = path.resolve(siteDir, options.path);
 
@@ -139,8 +133,8 @@ export default function pluginContentDocs(
   });
   const {latestVersion} = legacyVersioningEnv.versioning;
 
-  // TODO refactor
-  function getVersionPath(version: VersionName) {
+  // TODO refactor, retrocompatibility
+  function getVersionPathPart(version: VersionName) {
     if (version === latestVersion) {
       return '';
     }
@@ -225,7 +219,7 @@ export default function pluginContentDocs(
 
       async function loadVersionDocs(
         versionMetadata: VersionMetadata,
-      ): Promise<DocMetadataRaw[]> {
+      ): Promise<DocMetadataBase[]> {
         const docsFiles = await globby(include, {
           cwd: versionMetadata.docsPath,
         });
@@ -241,14 +235,14 @@ export default function pluginContentDocs(
       async function loadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataRaw[] = await loadVersionDocs(versionMetadata);
+        const docs: DocMetadataBase[] = await loadVersionDocs(versionMetadata);
         const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
 
         const sidebars = loadSidebars([versionMetadata.sidebarPath]);
         const docsOrder: Order = createOrder(sidebars);
 
         // Add sidebar/next/previous to the docs
-        function addNavData(doc: DocMetadataRaw): DocMetadata {
+        function addNavData(doc: DocMetadataBase): DocMetadata {
           const {next: nextId, previous: previousId, sidebar} =
             docsOrder[doc.id] ?? {};
           const toDocNavLink = (navDocId: string): DocNavLink => ({
@@ -268,87 +262,55 @@ export default function pluginContentDocs(
         // sort to ensure consistent output for tests
         loadedDocs.sort((a, b) => a.id.localeCompare(b.id));
 
-        // TODO replace, not needed with global data?
-        const permalinkToSidebar: PermalinkToSidebar = {};
-
+        // TODO annoying side effect!
         Object.values(loadedDocs).forEach((loadedDoc) => {
-          const {id: docId, source, permalink} = loadedDoc;
-
-          const docSidebarName = docsOrder[docId]?.sidebar;
-
-          // TODO annoying!
+          const {source, permalink} = loadedDoc;
           sourceToPermalink[source] = permalink;
+        });
 
+        // TODO replace with global state logic?
+        const permalinkToSidebar: PermalinkToSidebar = {};
+        Object.values(loadedDocs).forEach((loadedDoc) => {
+          const {id: docId, permalink} = loadedDoc;
+          const docSidebarName = docsOrder[docId]?.sidebar;
           if (docSidebarName) {
             permalinkToSidebar[permalink] = docSidebarName;
           }
         });
 
+        // TODO compute in versionMetadata?
+        const versionPath = normalizeUrl([
+          baseUrl,
+          options.routeBasePath,
+          getVersionPathPart(versionMetadata.versionName),
+        ]);
+
+        // TODO bad algo!
+        const mainDoc: DocMetadata =
+          docs.find(
+            (doc) =>
+              doc.unversionedId === options.homePageId || doc.slug === '/',
+          ) ?? docs[0];
+
         return {
           ...versionMetadata,
+          versionPath,
+          mainDocId: mainDoc.unversionedId,
           sidebars,
           permalinkToSidebar,
           docs: docs.map(addNavData),
         };
       }
 
-      // TODO, we should namespace docs by version!
-      const allDocs = flatten(
-        await Promise.all(versionsMetadata.map(loadVersionDocs)),
-      );
-
-      const allDocsById: DocsMetadataRaw = keyBy(allDocs, (doc) => doc.id);
-
-      const loadedSidebars: Sidebars = loadSidebars(
-        versionsMetadata.map((version) => version.sidebarPath),
-      );
-
-      const order: Order = createOrder(loadedSidebars);
-      function getDocOrder(docId: string): OrderMetadata {
-        return order[docId] ?? {};
-      }
-
-      // Construct inter-metadata relationship in docsMetadata.
-      const permalinkToSidebar: PermalinkToSidebar = {};
-      const versionToSidebars: VersionToSidebars = {};
-
-      Object.keys(allDocsById).forEach((docId) => {
-        const {sidebar} = getDocOrder(docId);
-
-        // sourceToPermalink and permalinkToSidebar mapping.
-        const {source, permalink, version} = allDocsById[docId];
-        sourceToPermalink[source] = permalink;
-        if (sidebar) {
-          permalinkToSidebar[permalink] = sidebar;
-          if (!versionToSidebars[version]) {
-            versionToSidebars[version] = new Set();
-          }
-          versionToSidebars[version].add(sidebar);
-        }
-      });
-
-      const loadedVersions = await Promise.all(
-        versionsMetadata.map(loadVersion),
-      );
-
       return {
-        loadedVersions,
+        loadedVersions: await Promise.all(versionsMetadata.map(loadVersion)),
       };
     },
 
     async contentLoaded({content, actions}) {
       const {loadedVersions} = content;
-      const {docLayoutComponent, docItemComponent, routeBasePath} = options;
+      const {docLayoutComponent, docItemComponent} = options;
       const {addRoute, createData, setGlobalData} = actions;
-
-      const pluginInstanceGlobalData: GlobalPluginData = {
-        path: normalizeUrl([baseUrl, options.routeBasePath]),
-        latestVersionName: latestVersion,
-        // Initialized empty, will be mutated
-        versions: [],
-      };
-
-      setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
       const createVersionMetadataProp = (
         loadedVersion: LoadedVersion,
@@ -361,10 +323,10 @@ export default function pluginContentDocs(
       };
 
       const createDocRoutes = async (
-        metadataItems: DocMetadata[],
+        docs: DocMetadata[],
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
-          metadataItems.map(async (metadataItem) => {
+          docs.map(async (metadataItem) => {
             await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
@@ -386,73 +348,40 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
-      // We want latest version route to have lower priority
-      // Otherwise `/docs/next/foo` would match
-      // `/docs/:route` instead of `/docs/next/:route`.
-      const getVersionRoutePriority = (version: VersionName) =>
-        version === latestVersion ? -1 : undefined;
-
       async function handleVersion(loadedVersion: LoadedVersion) {
-        const {versionName, docs} = loadedVersion;
-
-        const versionPath = normalizeUrl([
-          baseUrl,
-          routeBasePath,
-          getVersionPath(versionName),
-        ]);
         const versionMetadataProp = createVersionMetadataProp(loadedVersion);
 
         const versionMetadataPropPath = await createData(
-          `${docuHash(normalizeUrl([versionPath, ':route']))}.json`,
+          `${docuHash(`${loadedVersion.versionName}`)}.json`,
           JSON.stringify(versionMetadataProp, null, 2),
         );
 
-        const docsRoutes = await createDocRoutes(docs);
-
-        // TODO bad algo!
-        const versionMainDoc: DocMetadata =
-          docs.find(
-            (doc) =>
-              doc.unversionedId === options.homePageId || doc.slug === '/',
-          ) ?? docs[0];
-
-        const toGlobalDataDoc = (doc: DocMetadata): GlobalDoc => ({
-          id: doc.unversionedId,
-          path: doc.permalink,
-        });
-
-        pluginInstanceGlobalData.versions.push({
-          name: versionMetadataProp.version,
-          path: versionPath,
-          mainDocId: versionMainDoc.unversionedId,
-          docs: docs
-            .map(toGlobalDataDoc)
-            // stable ordering, useful for tests
-            .sort((a, b) => a.id.localeCompare(b.id)),
-        });
-
-        const priority = getVersionRoutePriority(versionName);
-
         addRoute({
-          path: versionPath,
-          exact: false, // allow matching /docs/* as well
-          component: docLayoutComponent, // main docs component (DocPage)
-          routes: docsRoutes, // subroute for each doc
+          path: loadedVersion.versionPath,
+          // allow matching /docs/* as well
+          exact: false,
+          // main docs component (DocPage)
+          component: docLayoutComponent,
+          // sub-routes for each doc
+          routes: await createDocRoutes(loadedVersion.docs),
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },
-          priority,
+          // Because /docs/:route` should always be after `/docs/versionName/:route`.
+          priority:
+            getVersionPathPart(loadedVersion.versionName) === ''
+              ? -1
+              : undefined,
         });
       }
 
       await Promise.all(loadedVersions.map(handleVersion));
 
-      pluginInstanceGlobalData.versions = sortBy(
-        pluginInstanceGlobalData.versions,
-        (versionMetadata: GlobalVersion) => {
-          return versionNames.indexOf(versionMetadata.name!);
-        },
-      );
+      setGlobalData<GlobalPluginData>({
+        path: normalizeUrl([baseUrl, options.routeBasePath]),
+        latestVersionName: latestVersion,
+        versions: loadedVersions.map(toGlobalDataVersion),
+      });
     },
 
     configureWebpack(_config, isServer, utils) {

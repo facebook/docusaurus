@@ -124,7 +124,7 @@ export interface LastUpdateData {
   lastUpdatedBy?: string;
 }
 
-export interface DocMetadataRaw extends LastUpdateData {
+export interface DocMetadataBase extends LastUpdateData {
   version: VersionName;
   unversionedId: string;
   id: string;
@@ -143,14 +143,14 @@ export interface DocNavLink {
   permalink: string;
 }
 
-export interface DocMetadata extends DocMetadataRaw {
+export interface DocMetadata extends DocMetadataBase {
   sidebar?: string;
   previous?: DocNavLink;
   next?: DocNavLink;
 }
 
 export interface DocsMetadataRaw {
-  [id: string]: DocMetadataRaw;
+  [id: string]: DocMetadataBase;
 }
 
 export interface SourceToPermalink {
@@ -161,11 +161,9 @@ export interface PermalinkToSidebar {
   [permalink: string]: string;
 }
 
-export interface VersionToSidebars {
-  [version: string]: Set<string>;
-}
-
 export type LoadedVersion = VersionMetadata & {
+  versionPath: string;
+  mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
   permalinkToSidebar: Record<string, string>;
