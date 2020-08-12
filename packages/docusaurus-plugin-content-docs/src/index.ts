@@ -37,7 +37,6 @@ import {
   DocsMetadataRaw,
   DocMetadata,
   GlobalPluginData,
-  VersionName,
   VersionMetadata,
   DocNavLink,
   LoadedVersion,
@@ -45,7 +44,7 @@ import {
 } from './types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersion} from './cli';
-import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
+import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 import {flatten, keyBy, compact} from 'lodash';
@@ -58,7 +57,7 @@ export default function pluginContentDocs(
 ): Plugin<LoadedContent, typeof PluginOptionSchema> {
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
-  const versionsMetadata = readVersionsMetadata(siteDir, options);
+  const versionsMetadata = readVersionsMetadata({context, options});
 
   const docsDir = path.resolve(siteDir, options.path);
 
@@ -78,17 +77,6 @@ export default function pluginContentDocs(
     disableVersioning: options.disableVersioning,
   });
   const {latestVersion} = legacyVersioningEnv.versioning;
-
-  // TODO refactor, retrocompatibility
-  function getVersionPathPart(version: VersionName) {
-    if (version === latestVersion) {
-      return '';
-    }
-    if (version === CURRENT_VERSION_NAME) {
-      return 'next';
-    }
-    return version;
-  }
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -136,8 +124,10 @@ export default function pluginContentDocs(
     getPathsToWatch() {
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         return [
-          version.sidebarPath,
-          ...options.include.map((pattern) => `${version.docsPath}/${pattern}`),
+          version.sidebarFilePath,
+          ...options.include.map(
+            (pattern) => `${version.docsDirPath}/${pattern}`,
+          ),
         ];
       }
 
@@ -155,7 +145,6 @@ export default function pluginContentDocs(
             versionMetadata,
             context,
             options,
-            env: legacyVersioningEnv,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -167,7 +156,7 @@ export default function pluginContentDocs(
         const docs: DocMetadataBase[] = await loadVersionDocs(versionMetadata);
         const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
 
-        const sidebars = loadSidebars([versionMetadata.sidebarPath]);
+        const sidebars = loadSidebars([versionMetadata.sidebarFilePath]);
         const docsOrder: Order = createOrder(sidebars);
 
         // Add sidebar/next/previous to the docs
@@ -207,14 +196,8 @@ export default function pluginContentDocs(
           }
         });
 
-        // TODO compute in versionMetadata?
-        const versionPath = normalizeUrl([
-          baseUrl,
-          options.routeBasePath,
-          getVersionPathPart(versionMetadata.versionName),
-        ]);
-
-        // TODO bad algo!
+        // TODO bad legacy algo! docs[0] gives a random doc
+        // We should fallback to the first doc of the first sidebar instead
         const mainDoc: DocMetadata =
           docs.find(
             (doc) =>
@@ -223,7 +206,6 @@ export default function pluginContentDocs(
 
         return {
           ...versionMetadata,
-          versionPath,
           mainDocId: mainDoc.unversionedId,
           sidebars,
           permalinkToSidebar,
@@ -286,11 +268,7 @@ export default function pluginContentDocs(
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },
-          // Because /docs/:route` should always be after `/docs/versionName/:route`.
-          priority:
-            getVersionPathPart(loadedVersion.versionName) === ''
-              ? -1
-              : undefined,
+          priority: loadedVersion.routePriority,
         });
       }
 
@@ -314,7 +292,7 @@ export default function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
-          include: versionsMetadata.map((vmd) => vmd.docsPath),
+          include: versionsMetadata.map((vmd) => vmd.docsDirPath),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),
@@ -336,6 +314,8 @@ export default function pluginContentDocs(
               loader: path.resolve(__dirname, './markdown/index.js'),
               options: {
                 siteDir,
+
+                // TODO legacy attributes, need refactor
                 docsDir,
                 sourceToPermalink,
                 versionedDir: legacyVersioningEnv.versioning.docsDir,

@@ -17,9 +17,13 @@ export type DocFile = {
 export type VersionName = string;
 
 export type VersionMetadata = {
-  versionName: VersionName;
-  docsPath: string;
-  sidebarPath: string;
+  versionName: VersionName; // 1.0.0
+  versionLabel: string; // Version 1.0.0
+  versionPath: string; // /baseUrl/docs/1.0.0
+  isLast: boolean;
+  docsDirPath: string; // versioned_docs/1.0.0
+  sidebarFilePath: string; // versioned_sidebars/1.0.0.json
+  routePriority: number | undefined; // -1 for the latest docs
 };
 
 export type MetadataOptions = {

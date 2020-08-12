@@ -87,6 +87,7 @@ module.exports = {
       {functions: false, classes: false, variables: true},
     ],
     'no-unused-vars': OFF,
+    'no-nested-ternary': WARNING,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,

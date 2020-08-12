@@ -20,7 +20,6 @@ import {
   DocMetadataBase,
   LastUpdateData,
   MetadataOptions,
-  Env,
   VersionMetadata,
   DocFile,
   PluginOptions,
@@ -64,11 +63,11 @@ export async function readVersionDocs(
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
-    cwd: versionMetadata.docsPath,
+    cwd: versionMetadata.docsDirPath,
   });
 
   async function readDoc(source: string): Promise<DocFile> {
-    const filePath = path.join(versionMetadata.docsPath, source);
+    const filePath = path.join(versionMetadata.docsDirPath, source);
     const [content, lastUpdate] = await Promise.all([
       fs.readFile(filePath, 'utf-8'),
       readLastUpdateData(filePath, options),
@@ -84,39 +83,20 @@ export function processDocMetadata({
   versionMetadata,
   context,
   options,
-  env,
 }: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
-  env: Env;
 }): DocMetadataBase {
   const {source, content, lastUpdate} = docFile;
-  const {routeBasePath, editUrl, homePageId} = options;
-  const {siteDir, baseUrl} = context;
-  const {versioning} = env;
-  const filePath = path.join(versionMetadata.docsPath, source);
+  const {editUrl, homePageId} = options;
+  const {siteDir} = context;
+  const filePath = path.join(versionMetadata.docsDirPath, source);
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
-
-  const {versionName} = versionMetadata;
-
-  // TODO for legacy compatibility
-  function getVersionPath() {
-    if (!versioning.enabled || versionName === versioning.latestVersion) {
-      return '';
-    }
-    if (versionName === CURRENT_VERSION_NAME) {
-      return 'next';
-    }
-    return versionName;
-  }
-
-  // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
-  const versionPath = getVersionPath();
 
   const docsEditUrl = getEditUrl(path.relative(siteDir, filePath), editUrl);
 
@@ -167,12 +147,7 @@ export function processDocMetadata({
 
   const description: string = frontMatter.description || excerpt;
 
-  const permalink = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    versionPath,
-    docSlug,
-  ]);
+  const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
@@ -188,7 +163,7 @@ export function processDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
-    version: versionName,
+    version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     sidebar_label,
