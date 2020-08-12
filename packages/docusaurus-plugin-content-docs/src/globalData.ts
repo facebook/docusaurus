@@ -17,11 +17,10 @@ export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
 export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
   return {
     name: version.versionName,
+    label: version.versionLabel,
+    isLast: version.isLast,
     path: version.versionPath,
     mainDocId: version.mainDocId,
-    docs: version.docs
-      .map(toGlobalDataDoc)
-      // stable ordering, useful for tests
-      .sort((a, b) => a.id.localeCompare(b.id)),
+    docs: version.docs.map(toGlobalDataDoc),
   };
 }

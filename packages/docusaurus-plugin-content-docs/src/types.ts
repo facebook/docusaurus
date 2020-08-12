@@ -166,19 +166,6 @@ export type LoadedContent = {
   loadedVersions: LoadedVersion[];
 };
 
-export type VersioningEnv = {
-  enabled: boolean;
-  latestVersion: string;
-  versions: string[];
-  docsDir: string;
-  sidebarsDir: string;
-};
-
-export type Env = {
-  versioning: VersioningEnv;
-  // TODO: translation
-};
-
 export type GlobalDoc = {
   id: string;
   path: string;
@@ -186,6 +173,8 @@ export type GlobalDoc = {
 
 export type GlobalVersion = {
   name: VersionName;
+  label: string;
+  isLast: boolean;
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
@@ -193,7 +182,6 @@ export type GlobalVersion = {
 
 export type GlobalPluginData = {
   path: string;
-  latestVersionName: VersionName;
   versions: GlobalVersion[];
 };
 

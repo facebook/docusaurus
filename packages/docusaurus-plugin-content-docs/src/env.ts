@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {VersioningEnv, Env, PluginOptions, VersionMetadata} from './types';
+import {PluginOptions, VersionMetadata} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -250,50 +250,4 @@ export function readVersionsMetadata({
   );
   versionsMetadata.forEach(checkVersionMetadataPaths);
   return versionsMetadata;
-}
-
-// TODO remove soon
-type EnvOptions = Partial<{
-  disableVersioning: boolean;
-  includeCurrentVersion: boolean;
-}>;
-export default function loadEnv(
-  siteDir: string,
-  pluginId: string,
-  options: EnvOptions = {disableVersioning: false},
-): Env {
-  if (!siteDir) {
-    throw new Error('unexpected, missing siteDir');
-  }
-  if (!pluginId) {
-    throw new Error('unexpected, missing pluginId');
-  }
-
-  const versioning: VersioningEnv = {
-    enabled: false,
-    versions: [],
-    latestVersion: CURRENT_VERSION_NAME,
-    docsDir: '',
-    sidebarsDir: '',
-  };
-
-  const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    if (!options.disableVersioning) {
-      const parsedVersions = JSON.parse(
-        fs.readFileSync(versionsJSONFile, 'utf8'),
-      );
-      if (parsedVersions && parsedVersions.length > 0) {
-        versioning.latestVersion = parsedVersions[0];
-        versioning.enabled = true;
-        versioning.versions = parsedVersions;
-        versioning.docsDir = getVersionedDocsDirPath(siteDir, pluginId);
-        versioning.sidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
-      }
-    }
-  }
-
-  return {
-    versioning,
-  };
 }

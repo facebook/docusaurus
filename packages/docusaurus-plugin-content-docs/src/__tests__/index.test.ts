@@ -19,8 +19,8 @@ import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
-import * as version from '../version';
-import {PluginOptionSchema} from '../pluginOptionSchema';
+import * as cliDocs from '../cli';
+import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 const createFakeActions = (contentDir: string) => {
@@ -79,7 +79,7 @@ test('site with wrong sidebar file', async () => {
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions(PluginOptionSchema, {
+    normalizePluginOptions(OptionsSchema, {
       sidebarPath,
     }),
   );
@@ -94,7 +94,7 @@ describe('empty/no docs website', () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = pluginContentDocs(
       context,
-      normalizePluginOptions(PluginOptionSchema, {}),
+      normalizePluginOptions(OptionsSchema, {}),
     );
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
@@ -116,7 +116,7 @@ describe('empty/no docs website', () => {
     expect(() =>
       pluginContentDocs(
         context,
-        normalizePluginOptions(PluginOptionSchema, {
+        normalizePluginOptions(OptionsSchema, {
           path: '/path/does/not/exist/',
         }),
       ),
@@ -133,7 +133,7 @@ describe('simple website', () => {
   const pluginPath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions(PluginOptionSchema, {
+    normalizePluginOptions(OptionsSchema, {
       path: pluginPath,
       sidebarPath,
       homePageId: 'hello',
@@ -142,7 +142,7 @@ describe('simple website', () => {
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
@@ -260,7 +260,7 @@ describe('versioned website', () => {
   const routeBasePath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions(PluginOptionSchema, {
+    normalizePluginOptions(OptionsSchema, {
       routeBasePath,
       sidebarPath,
       homePageId: 'hello',
@@ -275,7 +275,7 @@ describe('versioned website', () => {
   });
 
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
@@ -483,7 +483,7 @@ describe('versioned website (community)', () => {
   const pluginId = 'community';
   const plugin = pluginContentDocs(
     context,
-    normalizePluginOptions(PluginOptionSchema, {
+    normalizePluginOptions(OptionsSchema, {
       id: 'community',
       path: 'community',
       routeBasePath,
@@ -499,7 +499,7 @@ describe('versioned website (community)', () => {
   });
 
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
     const cli = new commander.Command();
     plugin.extendCli(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);

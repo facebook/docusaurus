@@ -6,26 +6,18 @@
  */
 
 import path from 'path';
-import chalk from 'chalk';
 
-import admonitions from 'remark-admonitions';
 import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
-import {
-  LoadContext,
-  Plugin,
-  RouteConfig,
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
-import loadEnv, {readVersionsMetadata} from './env';
+import {readVersionsMetadata, getVersionedDocsDirPath} from './env';
 
 import {
   PluginOptions,
@@ -45,8 +37,7 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersion} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from '@hapi/joi';
+import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './versionMetadataProp';
@@ -54,7 +45,7 @@ import {toVersionMetadataProp} from './versionMetadataProp';
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent, typeof PluginOptionSchema> {
+): Plugin<LoadedContent, typeof OptionsSchema> {
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
@@ -71,12 +62,6 @@ export default function pluginContentDocs(
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
     `~docs/${path.relative(pluginDataDirRoot, source)}`;
-
-  // TODO remove soon!
-  const legacyVersioningEnv = loadEnv(siteDir, pluginId, {
-    disableVersioning: options.disableVersioning,
-  });
-  const {latestVersion} = legacyVersioningEnv.versioning;
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -276,7 +261,6 @@ export default function pluginContentDocs(
 
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
-        latestVersionName: latestVersion,
         versions: loadedVersions.map(toGlobalDataVersion),
       });
     },
@@ -318,7 +302,7 @@ export default function pluginContentDocs(
                 // TODO legacy attributes, need refactor
                 docsDir,
                 sourceToPermalink,
-                versionedDir: legacyVersioningEnv.versioning.docsDir,
+                versionedDir: getVersionedDocsDirPath(siteDir, options.id),
               },
             },
           ]),
@@ -348,46 +332,4 @@ export default function pluginContentDocs(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
-  // TODO remove homePageId before end of 2020
-  // "slug: /" is better because the home doc can be different across versions
-  if (options.homePageId) {
-    console.log(
-      chalk.red(
-        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-      ),
-    );
-  }
-
-  if (typeof options.excludeNextVersionDocs !== 'undefined') {
-    console.log(
-      chalk.red(
-        `The docs plugin option excludeNextVersionDocs=${
-          options.excludeNextVersionDocs
-        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
-      ),
-    );
-    options.includeCurrentVersion = !options.excludeNextVersionDocs;
-  }
-
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  const normalizedOptions: PluginOptions = validate(
-    PluginOptionSchema,
-    options,
-  );
-
-  if (normalizedOptions.admonitions) {
-    normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
-      [admonitions, normalizedOptions.admonitions],
-    ]);
-  }
-
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  return normalizedOptions;
-}
+export {validateOptions} from './options';
