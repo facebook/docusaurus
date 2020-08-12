@@ -335,9 +335,9 @@ module.exports = {
 
 ### Dynamic Preview
 
-Docusaurus now supports OG Image's so you can add in a custom card for your website when you are sharing it on Social Networks!
+To set a custom open graph image do the following:
 
-To get started add the dynamicMetaImage object into themeConfig with the 3 properties below.
+Add the dynamicMetaImage object into themeConfig with the 3 properties below.
 
 `apiUrl` is the address for the image generator. By default we have made one here: https://preview-card-gen.vercel.app. If you would like to customize and make your own one then feel free to fork off this repository: https://github.com/Drewbi/docusaurus-og-image and customise it to your liking and deploy it.
 
