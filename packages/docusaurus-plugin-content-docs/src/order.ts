@@ -5,35 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Sidebars, SidebarItem, Order, SidebarItemDoc} from './types';
-import {flatten} from 'lodash';
-
-function getOrderedDocItems(items: SidebarItem[]): SidebarItemDoc[] {
-  function getDocItemsRecursion(item: SidebarItem): SidebarItemDoc[] {
-    if (item.type === 'doc') {
-      return [item];
-    }
-    if (item.type === 'category') {
-      return getOrderedDocItems(item.items);
-    }
-    // Refs and links should not be shown in navigation.
-    if (item.type === 'ref' || item.type === 'link') {
-      return [];
-    }
-    throw new Error(`unknown sidebar item type = ${item.type}`);
-  }
-
-  return flatten(items.map(getDocItemsRecursion));
-}
+import {Sidebars, Order} from './types';
+import {collectSidebarDocItems} from './sidebars';
 
 // Build the docs meta such as next, previous, category and sidebar.
-export function createOrder(allSidebars: Sidebars = {}): Order {
+export function createOrder(allSidebars: Sidebars): Order {
   const order: Order = {};
 
   Object.keys(allSidebars).forEach((sidebarId) => {
     const sidebar = allSidebars[sidebarId];
 
-    const docIds: string[] = getOrderedDocItems(sidebar).map(
+    const docIds: string[] = collectSidebarDocItems(sidebar).map(
       (docItem) => docItem.id,
     );
 

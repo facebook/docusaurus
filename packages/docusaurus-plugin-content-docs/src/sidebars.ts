@@ -11,21 +11,44 @@ import importFresh from 'import-fresh';
 import {
   Sidebars,
   SidebarItem,
-  SidebarItemCategoryRaw,
-  SidebarItemRaw,
   SidebarItemLink,
   SidebarItemDoc,
-  SidebarCategoryShorthandRaw,
+  Sidebar,
 } from './types';
+import {mapValues, flatten} from 'lodash';
+
+type SidebarItemCategoryJSON = {
+  type: 'category';
+  label: string;
+  items: SidebarItemJSON[];
+  collapsed?: boolean;
+};
+
+type SidebarItemJSON =
+  | string
+  | SidebarCategoryShorthandJSON
+  | SidebarItemDoc
+  | SidebarItemLink
+  | SidebarItemCategoryJSON
+  | {
+      type: string;
+      [key: string]: unknown;
+    };
+
+type SidebarCategoryShorthandJSON = {
+  [sidebarCategory: string]: SidebarItemJSON[];
+};
+
+type SidebarJSON = SidebarCategoryShorthandJSON | SidebarItemJSON[];
 
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
-export interface SidebarJson {
-  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
-}
+type SidebarsJSON = {
+  [sidebarId: string]: SidebarJSON;
+};
 
 function isCategoryShorthand(
-  item: SidebarItemRaw,
-): item is SidebarCategoryShorthandRaw {
+  item: SidebarItemJSON,
+): item is SidebarCategoryShorthandJSON {
   return typeof item !== 'string' && !item.type;
 }
 
@@ -36,8 +59,8 @@ const defaultCategoryCollapsedValue = true;
  * Convert {category1: [item1,item2]} shorthand syntax to long-form syntax
  */
 function normalizeCategoryShorthand(
-  sidebar: SidebarCategoryShorthandRaw,
-): SidebarItemCategoryRaw[] {
+  sidebar: SidebarCategoryShorthandJSON,
+): SidebarItemCategoryJSON[] {
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
     collapsed: defaultCategoryCollapsedValue,
@@ -69,7 +92,7 @@ function assertItem<K extends string>(
 
 function assertIsCategory(
   item: unknown,
-): asserts item is SidebarItemCategoryRaw {
+): asserts item is SidebarItemCategoryJSON {
   assertItem(item, ['items', 'label', 'collapsed']);
   if (typeof item.label !== 'string') {
     throw new Error(
@@ -116,7 +139,7 @@ function assertIsLink(item: unknown): asserts item is SidebarItemLink {
  * Normalizes recursively item and all its children. Ensures that at the end
  * each item will be an object with the corresponding type.
  */
-function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
+function normalizeItem(item: SidebarItemJSON): SidebarItem[] {
   if (typeof item === 'string') {
     return [
       {
@@ -159,38 +182,45 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
   }
 }
 
-/**
- * Converts sidebars object to mapping to arrays of sidebar item objects.
- */
-function normalizeSidebar(sidebars: SidebarJson): Sidebars {
-  return Object.entries(sidebars).reduce(
-    (acc: Sidebars, [sidebarId, sidebar]) => {
-      const normalizedSidebar: SidebarItemRaw[] = Array.isArray(sidebar)
-        ? sidebar
-        : normalizeCategoryShorthand(sidebar);
+function normalizeSidebar(sidebar: SidebarJSON) {
+  const normalizedSidebar: SidebarItemJSON[] = Array.isArray(sidebar)
+    ? sidebar
+    : normalizeCategoryShorthand(sidebar);
 
-      acc[sidebarId] = flatMap(normalizedSidebar, normalizeItem);
-
-      return acc;
-    },
-    {},
-  );
+  return flatMap(normalizedSidebar, normalizeItem);
 }
 
-export function loadSidebars(sidebarPaths?: string[]): Sidebars {
-  // We don't want sidebars to be cached because of hot reloading.
-  const allSidebars: SidebarJson = {};
+function normalizeSidebars(sidebars: SidebarsJSON): Sidebars {
+  return mapValues(sidebars, normalizeSidebar);
+}
 
-  if (!sidebarPaths || !sidebarPaths.length) {
-    return {} as Sidebars;
+// TODO refactor: make async
+export function loadSidebars(sidebarFilePath: string): Sidebars {
+  if (!sidebarFilePath) {
+    throw new Error(`sidebarFilePath not provided: ${sidebarFilePath}`);
+  }
+  if (!fs.existsSync(sidebarFilePath)) {
+    throw new Error(`No sidebar file exist at path: ${sidebarFilePath}`);
+  }
+  // We don't want sidebars to be cached because of hot reloading.
+  const sidebarJson = importFresh(sidebarFilePath) as SidebarsJSON;
+  return normalizeSidebars(sidebarJson);
+}
+
+export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
+  function collectRecursive(item: SidebarItem): SidebarItemDoc[] {
+    if (item.type === 'doc') {
+      return [item];
+    }
+    if (item.type === 'category') {
+      return flatten(item.items.map(collectRecursive));
+    }
+    // Refs and links should not be shown in navigation.
+    if (item.type === 'ref' || item.type === 'link') {
+      return [];
+    }
+    throw new Error(`unknown sidebar item type = ${item.type}`);
   }
 
-  sidebarPaths.forEach((sidebarPath) => {
-    if (sidebarPath && fs.existsSync(sidebarPath)) {
-      const sidebar = importFresh(sidebarPath) as SidebarJson;
-      Object.assign(allSidebars, sidebar);
-    }
-  });
-
-  return normalizeSidebar(allSidebars);
+  return flatten(sidebar.map(collectRecursive));
 }

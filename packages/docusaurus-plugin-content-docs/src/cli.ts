@@ -89,7 +89,7 @@ export function cliDocsVersion(
 
   // Load current sidebar and create a new versioned sidebars file.
   if (fs.existsSync(sidebarPath)) {
-    const loadedSidebars: Sidebars = loadSidebars([sidebarPath]);
+    const loadedSidebars: Sidebars = loadSidebars(sidebarPath);
 
     // Transform id in original sidebar to versioned id.
     const normalizeItem = (item: SidebarItem): SidebarItem => {

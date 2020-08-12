@@ -141,7 +141,7 @@ export default function pluginContentDocs(
         const docs: DocMetadataBase[] = await loadVersionDocs(versionMetadata);
         const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
 
-        const sidebars = loadSidebars([versionMetadata.sidebarFilePath]);
+        const sidebars = loadSidebars(versionMetadata.sidebarFilePath);
         const docsOrder: Order = createOrder(sidebars);
 
         // Add sidebar/next/previous to the docs

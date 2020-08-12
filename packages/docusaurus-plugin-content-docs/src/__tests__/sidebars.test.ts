@@ -14,13 +14,13 @@ describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
   test('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars with deep level of category', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-category.js');
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
@@ -30,8 +30,8 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-shorthand.js',
     );
-    const sidebar1 = loadSidebars([sidebarPath1]);
-    const sidebar2 = loadSidebars([sidebarPath2]);
+    const sidebar1 = loadSidebars(sidebarPath1);
+    const sidebar2 = loadSidebars(sidebarPath2);
     expect(sidebar1).toEqual(sidebar2);
   });
 
@@ -40,9 +40,7 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-items.json',
     );
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}. \\"items\\" must be an array."`,
     );
   });
@@ -52,9 +50,7 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-label.json',
     );
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}. \\"label\\" must be a string."`,
     );
   });
@@ -64,9 +60,7 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-doc-id-not-string.json',
     );
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}. \\"id\\" must be a string."`,
     );
   });
@@ -76,60 +70,75 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-first-level-not-category.js',
     );
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link.json');
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link wrong label', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}. \\"label\\" must be a string."`,
     );
   });
 
   test('sidebars link wrong href', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" must be a string."`,
     );
   });
 
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Unknown sidebar item type [superman]. Sidebar item={\\"type\\":\\"superman\\"} "`,
     );
   });
 
   test('sidebars with known sidebar item type but wrong field', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
       `"Unknown sidebar item keys: href. Item: {\\"type\\":\\"category\\",\\"label\\":\\"category\\",\\"href\\":\\"https://github.com\\"}"`,
     );
   });
 
-  test('no sidebars', () => {
-    const result = loadSidebars(null);
-    expect(result).toEqual({});
+  test('unexisting path', () => {
+    expect(() => loadSidebars('badpath')).toThrowErrorMatchingInlineSnapshot(
+      `"No sidebar file exist at path: badpath"`,
+    );
+  });
+
+  test('undefined path', () => {
+    expect(() =>
+      loadSidebars(
+        // @ts-expect-error: bad arg
+        undefined,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"sidebarFilePath not provided: undefined"`,
+    );
+  });
+
+  test('null path', () => {
+    expect(() =>
+      loadSidebars(
+        // @ts-expect-error: bad arg
+        null,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"sidebarFilePath not provided: null"`,
+    );
   });
 
   test('sidebars with category.collapsed property', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
@@ -138,7 +147,7 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
-    const result = loadSidebars([sidebarPath]);
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 });

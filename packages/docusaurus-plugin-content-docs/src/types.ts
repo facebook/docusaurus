@@ -71,36 +71,14 @@ export type SidebarItemCategory = {
   collapsed: boolean;
 };
 
-export type SidebarItemCategoryRaw = {
-  type: 'category';
-  label: string;
-  items: SidebarItemRaw[];
-  collapsed?: boolean;
-};
-
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategory;
 
-export type SidebarItemRaw =
-  | string
-  | SidebarCategoryShorthandRaw
-  | SidebarItemDoc
-  | SidebarItemLink
-  | SidebarItemCategoryRaw
-  | {
-      type: string;
-      [key: string]: unknown;
-    };
+export type Sidebar = SidebarItem[];
 
-export type SidebarCategoryShorthandRaw = {
-  [sidebarCategory: string]: SidebarItemRaw[];
-};
-
-export type Sidebars = {
-  [sidebarId: string]: SidebarItem[];
-};
+export type Sidebars = Record<string, Sidebar>;
 
 export type OrderMetadata = {
   previous?: string;
