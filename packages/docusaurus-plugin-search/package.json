@@ -17,7 +17,6 @@
     "fuse.js": "^6.4.0",
     "glob": "^7.1.6",
     "hast-util-to-string": "^1.0.4",
-    "lodash-es": "^4.17.15",
     "react-modal": "^3.11.2",
     "rehype": "^11.0.0",
     "unist-util-find": "^1.0.1",

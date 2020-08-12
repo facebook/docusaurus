@@ -30,8 +30,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.0.0-alpha.59",
-    "@types/hapi__joi": "^17.1.2",
-    "@types/lodash-es": "^4.17.3"
+    "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

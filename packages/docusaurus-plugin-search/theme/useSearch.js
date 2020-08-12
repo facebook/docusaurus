@@ -12,7 +12,6 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import {groupBy, sortBy} from 'lodash-es';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Fuse from 'fuse.js';
 
@@ -58,21 +57,26 @@ function useEventListener(eventName, handler, options) {
 const score = (elements) =>
   elements.reduce((acc, cur) => acc + (1 - cur.score) * ELEMENTS[cur.type], 0);
 
-const sortType = (data) => sortBy(data, 'type');
+const sortType = (data) => data.sort((a, b) => a > b);
 
 const rank = (list) => {
   const result = list.slice(0, 100).filter((v) => v.score < 0.5);
-  const data = groupBy(
-    result.map((v) => ({...v.item, match: v.matches})),
-    'pageID',
-  );
-  const ranked = sortBy(
-    Object.entries(data).map(([key, value]) => ({
+  const data = result
+    .map((v) => ({...v.item, match: v.matches}))
+    .reduce((acc, curr) => {
+      if (Array.isArray(acc[curr.pageID])) {
+        acc[curr.pageID].push(curr);
+      } else {
+        acc[curr.pageID] = [curr];
+      }
+      return acc;
+    }, {});
+  const ranked = Object.entries(data)
+    .map(([key, value]) => ({
       key,
       value: score(value),
-    })),
-    'value',
-  ).reverse();
+    }))
+    .sort((a, b) => a.value > b.value);
   return ranked.map(({key}) => ({key, value: sortType(data[key])}));
 };
 
