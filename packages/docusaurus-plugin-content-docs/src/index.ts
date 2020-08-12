@@ -44,7 +44,7 @@ import {
   LoadedVersion,
 } from './types';
 import {RuleSetRule} from 'webpack';
-import {docsVersion} from './version';
+import {cliDocsVersion} from './cli';
 import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
@@ -134,7 +134,7 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          docsVersion(version, siteDir, pluginId, {
+          cliDocsVersion(version, siteDir, pluginId, {
             path: options.path,
             sidebarPath: options.sidebarPath,
           });
