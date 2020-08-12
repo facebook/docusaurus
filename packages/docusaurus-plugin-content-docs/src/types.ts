@@ -86,10 +86,6 @@ export type OrderMetadata = {
   sidebar?: string;
 };
 
-export type Order = {
-  [id: string]: OrderMetadata;
-};
-
 export type LastUpdateData = {
   lastUpdatedAt?: number;
   lastUpdatedBy?: string;
@@ -118,10 +114,6 @@ export type DocMetadata = DocMetadataBase & {
   sidebar?: string;
   previous?: DocNavLink;
   next?: DocNavLink;
-};
-
-export type DocsMetadataRaw = {
-  [id: string]: DocMetadataBase;
 };
 
 export type SourceToPermalink = {

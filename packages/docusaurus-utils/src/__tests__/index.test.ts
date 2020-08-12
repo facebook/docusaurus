@@ -480,7 +480,7 @@ describe('getFilePathForRoutePath', () => {
 });
 
 describe('getElementsAround', () => {
-  test.only('can return elements around', () => {
+  test('can return elements around', () => {
     expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
       previous: undefined,
       next: 'b',
@@ -499,7 +499,7 @@ describe('getElementsAround', () => {
     });
   });
 
-  test.only('throws if bad index is provided', () => {
+  test('throws if bad index is provided', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(

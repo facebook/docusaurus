@@ -16,6 +16,7 @@ import {
   Sidebar,
 } from './types';
 import {mapValues, flatten} from 'lodash';
+import {getElementsAround} from '@docusaurus/utils';
 
 type SidebarItemCategoryJSON = {
   type: 'category';
@@ -207,6 +208,7 @@ export function loadSidebars(sidebarFilePath: string): Sidebars {
   return normalizeSidebars(sidebarJson);
 }
 
+// traverse the sidebar tree in depth to find all doc items, in correct order
 export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
   function collectRecursive(item: SidebarItem): SidebarItemDoc[] {
     if (item.type === 'doc') {
@@ -223,4 +225,57 @@ export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
   }
 
   return flatten(sidebar.map(collectRecursive));
+}
+
+export function collectSidebarsDocIds(
+  sidebars: Sidebars,
+): Record<string, string[]> {
+  return mapValues(sidebars, (sidebar) => {
+    return collectSidebarDocItems(sidebar).map((docItem) => docItem.id);
+  });
+}
+
+export function createSidebarsUtils(sidebars: Sidebars) {
+  const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
+
+  function getFirstDocIdOfFirstSidebar(): string | undefined {
+    return Object.values(sidebarNameToDocIds)[0]?.[0];
+  }
+
+  function getSidebarNameByDocId(docId: string): string | undefined {
+    // TODO lookup speed can be optimized
+    const entry = Object.entries(
+      sidebarNameToDocIds,
+    ).find(([_sidebarName, docIds]) => docIds.includes(docId));
+
+    return entry?.[0];
+  }
+
+  function getDocNavigation(
+    docId: string,
+  ): {
+    sidebarName: string | undefined;
+    previousId: string | undefined;
+    nextId: string | undefined;
+  } {
+    const sidebarName = getSidebarNameByDocId(docId);
+    if (sidebarName) {
+      const docIds = sidebarNameToDocIds[sidebarName];
+      const currentIndex = docIds.indexOf(docId);
+      const {previous, next} = getElementsAround(docIds, currentIndex);
+      return {
+        sidebarName,
+        previousId: previous,
+        nextId: next,
+      };
+    } else {
+      return {
+        sidebarName: undefined,
+        previousId: undefined,
+        nextId: undefined,
+      };
+    }
+  }
+
+  return {getFirstDocIdOfFirstSidebar, getSidebarNameByDocId, getDocNavigation};
 }

@@ -14,19 +14,16 @@ import {
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
-import {createOrder} from './order';
-import {loadSidebars} from './sidebars';
+import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {readVersionsMetadata, getVersionedDocsDirPath} from './env';
 
 import {
   PluginOptions,
-  Order,
   LoadedContent,
   SourceToPermalink,
   PermalinkToSidebar,
   DocMetadataBase,
-  DocsMetadataRaw,
   DocMetadata,
   GlobalPluginData,
   VersionMetadata,
@@ -120,10 +117,19 @@ export default function pluginContentDocs(
     },
 
     async loadContent() {
-      async function loadVersionDocs(
+      async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
       ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
+        if (docFiles.length === 0) {
+          throw new Error(
+            `Docs version has no docs! At least once document is required!\n For version=${JSON.stringify(
+              versionMetadata,
+              null,
+              2,
+            )}`,
+          );
+        }
         async function processVersionDoc(docFile: DocFile) {
           return processDocMetadata({
             docFile,
@@ -138,60 +144,78 @@ export default function pluginContentDocs(
       async function loadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataBase[] = await loadVersionDocs(versionMetadata);
-        const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
-
         const sidebars = loadSidebars(versionMetadata.sidebarFilePath);
-        const docsOrder: Order = createOrder(sidebars);
+        const sidebarsUtils = createSidebarsUtils(sidebars);
+
+        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
+          versionMetadata,
+        );
+        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
+          docsBase,
+          (doc) => doc.id,
+        );
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
-          const {next: nextId, previous: previousId, sidebar} =
-            docsOrder[doc.id] ?? {};
+          const {
+            sidebarName,
+            previousId,
+            nextId,
+          } = sidebarsUtils.getDocNavigation(doc.id);
           const toDocNavLink = (navDocId: string): DocNavLink => ({
-            title: docsById[navDocId].title,
-            permalink: docsById[navDocId].permalink,
+            title: docsBaseById[navDocId].title,
+            permalink: docsBaseById[navDocId].permalink,
           });
           return {
             ...doc,
-            sidebar,
+            sidebar: sidebarName,
             previous: previousId ? toDocNavLink(previousId) : undefined,
             next: nextId ? toDocNavLink(nextId) : undefined,
           };
         }
 
-        const loadedDocs = docs.map(addNavData);
+        const docs = docsBase.map(addNavData);
 
         // sort to ensure consistent output for tests
-        loadedDocs.sort((a, b) => a.id.localeCompare(b.id));
+        docs.sort((a, b) => a.id.localeCompare(b.id));
 
         // TODO annoying side effect!
-        Object.values(loadedDocs).forEach((loadedDoc) => {
+        Object.values(docs).forEach((loadedDoc) => {
           const {source, permalink} = loadedDoc;
           sourceToPermalink[source] = permalink;
         });
 
-        // TODO replace with global state logic?
+        // TODO useful? replace with global state logic?
         const permalinkToSidebar: PermalinkToSidebar = {};
-        Object.values(loadedDocs).forEach((loadedDoc) => {
-          const {id: docId, permalink} = loadedDoc;
-          const docSidebarName = docsOrder[docId]?.sidebar;
-          if (docSidebarName) {
-            permalinkToSidebar[permalink] = docSidebarName;
+        Object.values(docs).forEach((doc) => {
+          if (doc.sidebar) {
+            permalinkToSidebar[doc.permalink] = doc.sidebar;
           }
         });
 
-        // TODO bad legacy algo! docs[0] gives a random doc
-        // We should fallback to the first doc of the first sidebar instead
-        const mainDoc: DocMetadata =
-          docs.find(
+        // The "main doc" is the "version entry point"
+        // We browse this doc by clicking on a version:
+        // - the doc at /
+        // - the first doc of the first sidebar
+        // - a random doc (if no docs are in any sidebar... edge case)
+        function getMainDoc(): DocMetadata {
+          const versionHomeDoc = docs.find(
             (doc) =>
               doc.unversionedId === options.homePageId || doc.slug === '/',
-          ) ?? docs[0];
+          );
+          const firstDocIdOfFirstSidebar = sidebarsUtils.getFirstDocIdOfFirstSidebar();
+          if (versionHomeDoc) {
+            return versionHomeDoc;
+          } else if (firstDocIdOfFirstSidebar) {
+            return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+          } else {
+            return docs[0];
+          }
+        }
 
         return {
           ...versionMetadata,
-          mainDocId: mainDoc.unversionedId,
+          mainDocId: getMainDoc().unversionedId,
           sidebars,
           permalinkToSidebar,
           docs: docs.map(addNavData),
