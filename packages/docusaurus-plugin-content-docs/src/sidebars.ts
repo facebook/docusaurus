@@ -10,7 +10,6 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {
   Sidebars,
-  SidebarRaw,
   SidebarItem,
   SidebarItemCategoryRaw,
   SidebarItemRaw,
@@ -18,6 +17,11 @@ import {
   SidebarItemDoc,
   SidebarCategoryShorthandRaw,
 } from './types';
+
+// Sidebar given by user that is not normalized yet. e.g: sidebars.json
+export interface SidebarJson {
+  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
+}
 
 function isCategoryShorthand(
   item: SidebarItemRaw,
@@ -158,7 +162,7 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
 /**
  * Converts sidebars object to mapping to arrays of sidebar item objects.
  */
-function normalizeSidebar(sidebars: SidebarRaw): Sidebars {
+function normalizeSidebar(sidebars: SidebarJson): Sidebars {
   return Object.entries(sidebars).reduce(
     (acc: Sidebars, [sidebarId, sidebar]) => {
       const normalizedSidebar: SidebarItemRaw[] = Array.isArray(sidebar)
@@ -175,7 +179,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebars {
 
 export default function loadSidebars(sidebarPaths?: string[]): Sidebars {
   // We don't want sidebars to be cached because of hot reloading.
-  const allSidebars: SidebarRaw = {};
+  const allSidebars: SidebarJson = {};
 
   if (!sidebarPaths || !sidebarPaths.length) {
     return {} as Sidebars;
@@ -183,7 +187,7 @@ export default function loadSidebars(sidebarPaths?: string[]): Sidebars {
 
   sidebarPaths.forEach((sidebarPath) => {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
-      const sidebar = importFresh(sidebarPath) as SidebarRaw;
+      const sidebar = importFresh(sidebarPath) as SidebarJson;
       Object.assign(allSidebars, sidebar);
     }
   });

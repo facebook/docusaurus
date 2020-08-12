@@ -87,26 +87,8 @@ export interface SidebarCategoryShorthandRaw {
   [sidebarCategory: string]: SidebarItemRaw[];
 }
 
-// Sidebar given by user that is not normalized yet. e.g: sidebars.json
-export interface SidebarRaw {
-  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
-}
-
 export interface Sidebars {
   [sidebarId: string]: SidebarItem[];
-}
-
-export interface DocsSidebarItemCategory {
-  type: 'category';
-  label: string;
-  items: DocsSidebarItem[];
-  collapsed?: boolean;
-}
-
-export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;
-
-export interface DocsSidebar {
-  [sidebarId: string]: DocsSidebarItem[];
 }
 
 export interface OrderMetadata {
@@ -173,12 +155,6 @@ export interface LoadedContent {
   loadedVersions: LoadedVersion[];
 }
 
-export type VersionMetadataProp = {
-  version: VersionName;
-  docsSidebars: DocsSidebar;
-  permalinkToSidebar: PermalinkToSidebar;
-};
-
 export type VersioningEnv = {
   enabled: boolean;
   latestVersion: string;
@@ -209,3 +185,24 @@ export type GlobalPluginData = {
   latestVersionName: VersionName;
   versions: GlobalVersion[];
 };
+
+export type PropVersionMetadata = {
+  version: VersionName;
+  docsSidebars: PropSidebars;
+  permalinkToSidebar: PermalinkToSidebar;
+};
+
+export type PropSidebarItemLink = SidebarItemLink; // same
+
+export interface PropSidebarItemCategory {
+  type: 'category';
+  label: string;
+  items: PropSidebarItemLink[];
+  collapsed?: boolean;
+}
+
+export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
+
+export interface PropSidebars {
+  [sidebarId: string]: PropSidebarItem[];
+}

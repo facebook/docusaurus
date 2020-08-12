@@ -34,15 +34,9 @@ import {
   LoadedContent,
   SourceToPermalink,
   PermalinkToSidebar,
-  SidebarItemLink,
-  SidebarItemDoc,
-  DocsSidebar,
-  VersionMetadataProp,
   DocMetadataBase,
   DocsMetadataRaw,
   DocMetadata,
-  SidebarItem,
-  DocsSidebarItem,
   GlobalPluginData,
   VersionName,
   VersionMetadata,
@@ -56,55 +50,7 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
-
-function normalizeSidebars(loadedVersion: LoadedVersion): DocsSidebar {
-  const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
-
-  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-    const docId = item.id;
-    const docMetadata = docsById[docId];
-
-    if (!docMetadata) {
-      throw new Error(
-        `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
-Available document ids=
-- ${Object.keys(docsById).sort().join('\n- ')}`,
-      );
-    }
-
-    const {title, permalink, sidebar_label} = docMetadata;
-
-    return {
-      type: 'link',
-      label: sidebar_label || title,
-      href: permalink,
-    };
-  };
-
-  const normalizeItem = (item: SidebarItem): DocsSidebarItem => {
-    switch (item.type) {
-      case 'category':
-        return {...item, items: item.items.map(normalizeItem)};
-      case 'ref':
-      case 'doc':
-        return convertDocLink(item);
-      case 'link':
-      default:
-        return item;
-    }
-  };
-
-  // Transform the sidebar so that all sidebar item will be in the
-  // form of 'link' or 'category' only.
-  // This is what will be passed as props to the UI component.
-  return Object.entries(loadedVersion.sidebars).reduce(
-    (acc: DocsSidebar, [sidebarId, sidebarItems]) => {
-      acc[sidebarId] = sidebarItems.map(normalizeItem);
-      return acc;
-    },
-    {},
-  );
-}
+import {toVersionMetadataProp} from './versionMetadataProp';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -312,16 +258,6 @@ export default function pluginContentDocs(
       const {docLayoutComponent, docItemComponent} = options;
       const {addRoute, createData, setGlobalData} = actions;
 
-      const createVersionMetadataProp = (
-        loadedVersion: LoadedVersion,
-      ): VersionMetadataProp => {
-        return {
-          version: loadedVersion.versionName,
-          docsSidebars: normalizeSidebars(loadedVersion),
-          permalinkToSidebar: loadedVersion.permalinkToSidebar,
-        };
-      };
-
       const createDocRoutes = async (
         docs: DocMetadata[],
       ): Promise<RouteConfig[]> => {
@@ -349,11 +285,11 @@ export default function pluginContentDocs(
       };
 
       async function handleVersion(loadedVersion: LoadedVersion) {
-        const versionMetadataProp = createVersionMetadataProp(loadedVersion);
-
         const versionMetadataPropPath = await createData(
-          `${docuHash(`${loadedVersion.versionName}`)}.json`,
-          JSON.stringify(versionMetadataProp, null, 2),
+          `${docuHash(
+            `version-${loadedVersion.versionName}-metadata-prop`,
+          )}.json`,
+          JSON.stringify(toVersionMetadataProp(loadedVersion), null, 2),
         );
 
         addRoute({
