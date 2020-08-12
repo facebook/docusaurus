@@ -13,7 +13,7 @@ import {
 import fs from 'fs-extra';
 import path from 'path';
 import {Sidebars, PathOptions, SidebarItem} from './types';
-import loadSidebars from './sidebars';
+import {loadSidebars} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 // Tests depend on non-default export for mocking.

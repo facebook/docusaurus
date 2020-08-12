@@ -27,7 +27,7 @@ function getOrderedDocItems(items: SidebarItem[]): SidebarItemDoc[] {
 }
 
 // Build the docs meta such as next, previous, category and sidebar.
-export default function createOrder(allSidebars: Sidebars = {}): Order {
+export function createOrder(allSidebars: Sidebars = {}): Order {
   const order: Order = {};
 
   Object.keys(allSidebars).forEach((sidebarId) => {

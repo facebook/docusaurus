@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import createOrder from '../order';
+import {createOrder} from '../order';
 
 describe('createOrder', () => {
   test('multiple sidebars with subcategory', () => {
@@ -13,15 +13,18 @@ describe('createOrder', () => {
       docs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [
             {
               type: 'category',
+              collapsed: false,
               label: 'Subcategory 1',
               items: [{type: 'doc', id: 'doc1'}],
             },
             {
               type: 'category',
+              collapsed: false,
               label: 'Subcategory 2',
               items: [{type: 'doc', id: 'doc2'}],
             },
@@ -29,6 +32,7 @@ describe('createOrder', () => {
         },
         {
           type: 'category',
+          collapsed: false,
           label: 'Category2',
           items: [
             {type: 'doc', id: 'doc3'},
@@ -39,6 +43,7 @@ describe('createOrder', () => {
       otherDocs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [{type: 'doc', id: 'doc5'}],
         },
@@ -77,6 +82,7 @@ describe('createOrder', () => {
       docs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [
             {type: 'doc', id: 'doc1'},
@@ -85,6 +91,7 @@ describe('createOrder', () => {
         },
         {
           type: 'category',
+          collapsed: false,
           label: 'Category2',
           items: [
             {type: 'doc', id: 'doc3'},
@@ -95,6 +102,7 @@ describe('createOrder', () => {
       otherDocs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [{type: 'doc', id: 'doc5'}],
         },
@@ -134,6 +142,7 @@ describe('createOrder', () => {
       docs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [{type: 'doc', id: 'doc1'}],
         },
@@ -141,11 +150,13 @@ describe('createOrder', () => {
       'version-1.2.3-docs': [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [{type: 'doc', id: 'version-1.2.3-doc2'}],
         },
         {
           type: 'category',
+          collapsed: false,
           label: 'Category2',
           items: [{type: 'doc', id: 'version-1.2.3-doc1'}],
         },
@@ -175,20 +186,24 @@ describe('createOrder', () => {
       docs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [
             {
               type: 'category',
+              collapsed: false,
               label: 'Subcategory 1',
               items: [{type: 'link', href: '//example.com', label: 'bar'}],
             },
             {
               type: 'category',
+              collapsed: false,
               label: 'Subcategory 2',
               items: [{type: 'doc', id: 'doc2'}],
             },
             {
               type: 'category',
+              collapsed: false,
               label: 'Subcategory 1',
               items: [{type: 'link', href: '//example2.com', label: 'baz'}],
             },
@@ -196,6 +211,7 @@ describe('createOrder', () => {
         },
         {
           type: 'category',
+          collapsed: false,
           label: 'Category2',
           items: [
             {type: 'doc', id: 'doc3'},
@@ -206,6 +222,7 @@ describe('createOrder', () => {
       otherDocs: [
         {
           type: 'category',
+          collapsed: false,
           label: 'Category1',
           items: [{type: 'doc', id: 'doc5'}],
         },
@@ -233,6 +250,7 @@ describe('createOrder', () => {
   test('edge cases', () => {
     expect(createOrder({})).toEqual({});
     expect(createOrder(undefined)).toEqual({});
+
     expect(() => createOrder(null)).toThrowErrorMatchingInlineSnapshot(
       `"Cannot convert undefined or null to object"`,
     );

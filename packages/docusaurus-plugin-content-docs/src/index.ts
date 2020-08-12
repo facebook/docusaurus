@@ -14,8 +14,8 @@ import {
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
-import createOrder from './order';
-import loadSidebars from './sidebars';
+import {createOrder} from './order';
+import {loadSidebars} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {readVersionsMetadata, getVersionedDocsDirPath} from './env';
 

@@ -177,7 +177,7 @@ function normalizeSidebar(sidebars: SidebarJson): Sidebars {
   );
 }
 
-export default function loadSidebars(sidebarPaths?: string[]): Sidebars {
+export function loadSidebars(sidebarPaths?: string[]): Sidebars {
   // We don't want sidebars to be cached because of hot reloading.
   const allSidebars: SidebarJson = {};
 

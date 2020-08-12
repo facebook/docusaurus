@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import loadSidebars from '../sidebars';
+import {loadSidebars} from '../sidebars';
 
 /* eslint-disable global-require, import/no-dynamic-require */
 
