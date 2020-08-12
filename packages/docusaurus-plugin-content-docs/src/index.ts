@@ -477,14 +477,17 @@ export function validateOptions({
   }
 
   // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  const validatedOptions: PluginOptions = validate(PluginOptionSchema, options);
+  const normalizedOptions: PluginOptions = validate(
+    PluginOptionSchema,
+    options,
+  );
 
-  if (options.admonitions) {
-    validatedOptions.remarkPlugins = validatedOptions.remarkPlugins.concat([
-      [admonitions, options.admonitions],
+  if (normalizedOptions.admonitions) {
+    normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
+      [admonitions, normalizedOptions.admonitions],
     ]);
   }
 
   // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  return validatedOptions;
+  return normalizedOptions;
 }
