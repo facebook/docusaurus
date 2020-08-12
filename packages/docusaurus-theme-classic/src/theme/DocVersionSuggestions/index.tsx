@@ -52,18 +52,21 @@ function DocVersionSuggestions(): JSX.Element {
 
   return (
     <div className="alert alert--warning margin-bottom--md" role="alert">
-      {activeVersionName === 'next' ? (
-        <div>
-          This is unreleased documentation for {siteTitle}{' '}
-          <strong>{activeVersionName}</strong> version.
-        </div>
-      ) : (
-        <div>
-          This is documentation for {siteTitle}{' '}
-          <strong>v{activeVersionName}</strong>, which is no longer actively
-          maintained.
-        </div>
-      )}
+      {
+        // TODO need refactoring
+        activeVersionName === 'current' ? (
+          <div>
+            This is unreleased documentation for {siteTitle}{' '}
+            <strong>{activeVersionName}</strong> version.
+          </div>
+        ) : (
+          <div>
+            This is documentation for {siteTitle}{' '}
+            <strong>v{activeVersionName}</strong>, which is no longer actively
+            maintained.
+          </div>
+        )
+      }
       <div className="margin-top--md">
         For up-to-date documentation, see the{' '}
         <strong>

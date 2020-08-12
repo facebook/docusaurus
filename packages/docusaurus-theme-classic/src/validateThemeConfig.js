@@ -50,7 +50,6 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
-  nextVersionLabel: Joi.string().default('Next'),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
