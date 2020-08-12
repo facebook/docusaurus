@@ -82,7 +82,7 @@ Specify the Git user as an environment variable.
 | --- | --- |
 | `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
 
-There are two more optional parameters that are set as environment variables:
+There are three more optional parameters that are set as environment variables:
 
 | Name | Description |
 | --- | --- |
