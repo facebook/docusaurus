@@ -12,7 +12,6 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
-import {useSearch} from '@theme/useSearch';
 
 import clsx from 'clsx';
 

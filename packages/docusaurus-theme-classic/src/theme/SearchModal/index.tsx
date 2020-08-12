@@ -9,7 +9,6 @@ import React, {useState} from 'react';
 import styles from './style.module.css';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-import {useSearch} from '@theme/useSearch';
 import Fuse from 'fuse.js';
 import {TrySearchIcon, NoResultIcon} from './icon';
 
@@ -88,16 +87,17 @@ function ListItem({
 export default function ({
   isOpen,
   setOpen,
+  search,
 }: {
   isOpen: boolean;
   setOpen: () => void;
+  search: (s: string) => Array<any>;
 }): JSX.Element {
   const [data, setData] = useState([] as Array<any>);
   const [isDirty, setDirty] = useState(false);
   React.useEffect(() => {
     setData([]);
   }, [isOpen, setData]);
-  const search = useSearch();
   return isOpen ? (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={styles.overlay}>
@@ -120,7 +120,7 @@ export default function ({
                 } else {
                   setDirty(true);
                 }
-                search(event.target.value).then((v) => setData(v));
+                setData(search(event.target.value));
               }}
             />
           </div>
@@ -134,19 +134,21 @@ export default function ({
         <div className={`${styles.result} card__body`}>
           {data.length > 0
             ? data.map((page, pageIndex) => {
-                return [
-                  <div className={styles.page}>{page.value[0].heading}</div>,
-                  <ul className={styles.group}>
-                    {page.value.map((dataNode: any, nodeIndex: number) => (
-                      <ListItem
-                        setOpen={setOpen}
-                        dataNode={dataNode}
-                        page={page}
-                        key={`${pageIndex}-${nodeIndex}`}
-                      />
-                    ))}
-                  </ul>,
-                ];
+                return (
+                  <div key={pageIndex}>
+                    <div className={styles.page}>{page.value[0].heading}</div>
+                    <ul className={styles.group}>
+                      {page.value.map((dataNode: any, nodeIndex: number) => (
+                        <ListItem
+                          setOpen={setOpen}
+                          dataNode={dataNode}
+                          page={page}
+                          key={`${pageIndex}-${nodeIndex}`}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                );
               })
             : getIcon(isDirty)}
         </div>

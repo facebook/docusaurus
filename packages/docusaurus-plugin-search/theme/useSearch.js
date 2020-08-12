@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react';
 import {groupBy, sortBy} from 'lodash-es';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Fuse from 'fuse.js';
@@ -16,6 +22,38 @@ const ELEMENTS = {
   h3: 1,
   p: 0.5,
 };
+
+function useEventListener(eventName, handler, options) {
+  const ref = useRef();
+  const savedHandler = useRef();
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+  useEffect(() => {
+    const passedInElement =
+      options &&
+      (typeof options.dom === 'function' ? options.dom() : options.dom);
+    const element = passedInElement || ref.current || window;
+    const isSupported = element.addEventListener;
+    if (!isSupported) {
+      return;
+    }
+    const eventListener = (event) =>
+      savedHandler.current && savedHandler.current(event);
+    element.addEventListener(eventName, eventListener, {
+      capture: options?.capture,
+      once: options?.once,
+      passive: options?.passive,
+    });
+    // eslint-disable-next-line consistent-return
+    return () => {
+      element.removeEventListener(eventName, eventListener, {
+        capture: options?.capture,
+      });
+    };
+  }, [eventName, options, ref.current]);
+  return ref;
+}
 
 const score = (elements) =>
   elements.reduce((acc, cur) => acc + (1 - cur.score) * ELEMENTS[cur.type], 0);
@@ -40,9 +78,26 @@ const rank = (list) => {
 
 export const FuseContext = React.createContext(undefined);
 
+export function useFuse() {
+  return useContext(FuseContext);
+}
+
 export function useSearch() {
   const {withBaseUrl} = useBaseUrlUtils();
-  const {fuse, setFuse} = useContext(FuseContext);
+  const {fuse, setFuse, getFromCache, setToCache} = useFuse();
+  const [loading, setLoading] = useState(false);
+  const search = useCallback(
+    (term) => {
+      const cached = getFromCache(term);
+      if (cached) {
+        return cached;
+      }
+      const value = rank(fuse.search(term));
+      setToCache(term, value);
+      return value;
+    },
+    [fuse, getFromCache, setToCache],
+  );
   const getData = React.useCallback(() => {
     return Promise.all([
       fetch(withBaseUrl('search_index.json')).then((res) => res.json()),
@@ -63,11 +118,18 @@ export function useSearch() {
       return newFuse;
     });
   }, [setFuse]);
-  return async (term) => {
+  const handler = useCallback(() => {
     if (!fuse) {
-      const newFuse = await getData();
-      return rank(newFuse.search(term));
+      setLoading(true);
+      getData().then(() => {
+        setLoading(false);
+      });
     }
-    return rank(fuse.search(term));
+  }, [fuse, setLoading, getData]);
+  const ref = useEventListener('mouseenter', handler);
+  return {
+    loading,
+    search,
+    ref,
   };
 }

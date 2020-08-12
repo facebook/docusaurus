@@ -6,36 +6,33 @@
  */
 
 import React, {useState} from 'react';
-
-let Modal: any = null;
+import Modal from '@theme/SearchModal';
+import {useSearch} from '@theme/useSearch';
 
 export default function (): JSX.Element {
   const [open, setOpen] = useState(false);
+  const {search, loading, ref} = useSearch();
   return (
-    <div>
-      <div className="navbar__search">
+    <>
+      <div className="navbar__search" ref={ref}>
         <input
           className="navbar__search-input"
           onClick={() => {
             document.body.style.overflowY = 'hidden';
-            import('@theme/SearchModal').then(({default: modal}) => {
-              Modal = modal;
-              setOpen(true);
-            });
+            setOpen(true);
           }}
         />
       </div>
-      {open ? (
+      {open && !loading && (
         <Modal
+          search={search}
           isOpen={open}
           setOpen={() => {
             document.body.style.overflowY = 'visible';
             setOpen(false);
           }}
         />
-      ) : (
-        ''
       )}
-    </div>
+    </>
   );
 }
