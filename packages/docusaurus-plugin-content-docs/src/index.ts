@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import path from 'path';
 import chalk from 'chalk';
 
@@ -25,7 +24,7 @@ import {
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
-import processMetadata from './metadata';
+import {readVersionDocs, processDocMetadata} from './docs';
 import loadEnv, {readVersionsMetadata} from './env';
 
 import {
@@ -42,6 +41,7 @@ import {
   VersionMetadata,
   DocNavLink,
   LoadedVersion,
+  DocFile,
 } from './types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersion} from './cli';
@@ -88,22 +88,6 @@ export default function pluginContentDocs(
       return 'next';
     }
     return version;
-  }
-
-  async function processDocsMetadata({
-    source,
-    versionMetadata,
-  }: {
-    source: string;
-    versionMetadata: VersionMetadata;
-  }) {
-    return processMetadata({
-      source,
-      versionMetadata,
-      context,
-      options,
-      env: legacyVersioningEnv,
-    });
   }
 
   return {
@@ -161,21 +145,20 @@ export default function pluginContentDocs(
     },
 
     async loadContent() {
-      const {include} = options;
-
       async function loadVersionDocs(
         versionMetadata: VersionMetadata,
       ): Promise<DocMetadataBase[]> {
-        const docsFiles = await globby(include, {
-          cwd: versionMetadata.docsPath,
-        });
-        async function processVersionDoc(source: string) {
-          return processDocsMetadata({
-            source,
+        const docFiles = await readVersionDocs(versionMetadata, options);
+        async function processVersionDoc(docFile: DocFile) {
+          return processDocMetadata({
+            docFile,
             versionMetadata,
+            context,
+            options,
+            env: legacyVersioningEnv,
           });
         }
-        return Promise.all(docsFiles.map(processVersionDoc));
+        return Promise.all(docFiles.map(processVersionDoc));
       }
 
       async function loadVersion(

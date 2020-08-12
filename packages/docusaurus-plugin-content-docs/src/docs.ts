@@ -6,35 +6,39 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import {
-  parseMarkdownFile,
   aliasedSitePath,
   normalizeUrl,
   getEditUrl,
+  parseMarkdownString,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
-import lastUpdate from './lastUpdate';
+import {getFileLastUpdate} from './lastUpdate';
 import {
   DocMetadataBase,
   LastUpdateData,
   MetadataOptions,
   Env,
   VersionMetadata,
+  DocFile,
+  PluginOptions,
 } from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
+import globby from 'globby';
 
-async function lastUpdated(
+async function readLastUpdateData(
   filePath: string,
-  options: MetadataOptions,
+  options: Pick<PluginOptions, 'showLastUpdateAuthor' | 'showLastUpdateTime'>,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
     // Use fake data in dev for faster development.
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
-        ? await lastUpdate(filePath)
+        ? await getFileLastUpdate(filePath)
         : {
             author: 'Author',
             timestamp: 1539502055,
@@ -52,28 +56,51 @@ async function lastUpdated(
   return {};
 }
 
-export default async function processMetadata({
-  source,
+export async function readVersionDocs(
+  versionMetadata: VersionMetadata,
+  options: Pick<
+    PluginOptions,
+    'include' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
+  >,
+): Promise<DocFile[]> {
+  const sources = await globby(options.include, {
+    cwd: versionMetadata.docsPath,
+  });
+
+  async function readDoc(source: string): Promise<DocFile> {
+    const filePath = path.join(versionMetadata.docsPath, source);
+    const [content, lastUpdate] = await Promise.all([
+      fs.readFile(filePath, 'utf-8'),
+      readLastUpdateData(filePath, options),
+    ]);
+    return {source, content, lastUpdate};
+  }
+
+  return Promise.all(sources.map(readDoc));
+}
+
+export function processDocMetadata({
+  docFile,
   versionMetadata,
   context,
   options,
   env,
 }: {
-  source: string;
+  docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
   env: Env;
-}): Promise<DocMetadataBase> {
+}): DocMetadataBase {
+  const {source, content, lastUpdate} = docFile;
   const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
   const filePath = path.join(versionMetadata.docsPath, source);
 
-  const fileMarkdownPromise = parseMarkdownFile(filePath);
-  const lastUpdatedPromise = lastUpdated(filePath, options);
-
-  const docsFileDirName = path.dirname(source); // ex: api/myDoc -> api
+  // ex: api/myDoc -> api
+  // ex: myDoc -> .
+  const docsFileDirName = path.dirname(source);
 
   const {versionName} = versionMetadata;
 
@@ -93,7 +120,7 @@ export default async function processMetadata({
 
   const docsEditUrl = getEditUrl(path.relative(siteDir, filePath), editUrl);
 
-  const {frontMatter = {}, excerpt} = await fileMarkdownPromise;
+  const {frontMatter = {}, excerpt} = parseMarkdownString(content);
   const {sidebar_label, custom_edit_url} = frontMatter;
 
   const baseID: string =
@@ -147,8 +174,6 @@ export default async function processMetadata({
     docSlug,
   ]);
 
-  const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
-
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -164,8 +189,8 @@ export default async function processMetadata({
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
     version: versionName,
-    lastUpdatedBy,
-    lastUpdatedAt,
+    lastUpdatedBy: lastUpdate.lastUpdatedBy,
+    lastUpdatedAt: lastUpdate.lastUpdatedAt,
     sidebar_label,
   };
 

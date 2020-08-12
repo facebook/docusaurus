@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/index';
-import processMetadata from '../metadata';
+import {processDocMetadata} from '../docs';
 import loadEnv from '../env';
 import {DocMetadataBase, Env, MetadataOptions} from '../types';
 import {LoadContext} from '@docusaurus/types';
@@ -31,7 +31,7 @@ function createTestHelpers({
     source: string,
     expectedMetadata: Omit<DocMetadataBase, 'source'>,
   ) {
-    const metadata = await processMetadata({
+    const metadata = await processDocMetadata({
       source,
       docsDir: refDir,
       context,
@@ -49,7 +49,7 @@ function createTestHelpers({
     source: string,
     expectedPermalink: string,
   ) {
-    const metadata = await processMetadata({
+    const metadata = await processDocMetadata({
       source,
       docsDir: refDir,
       context,
@@ -279,7 +279,7 @@ describe('simple site', () => {
     const badSiteDir = path.join(fixtureDir, 'bad-id-site');
 
     await expect(
-      processMetadata({
+      processDocMetadata({
         source: 'invalid-id.md',
         docsDir: path.join(badSiteDir, 'docs'),
         context,
@@ -297,7 +297,7 @@ describe('simple site', () => {
     const badSiteDir = path.join(fixtureDir, 'bad-slug-on-doc-home-site');
 
     await expect(
-      processMetadata({
+      processDocMetadata({
         source: 'docWithSlug.md',
         docsDir: path.join(badSiteDir, 'docs'),
         context,
