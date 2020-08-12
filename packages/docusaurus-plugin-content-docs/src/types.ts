@@ -149,10 +149,6 @@ export interface DocMetadata extends DocMetadataRaw {
   next?: DocNavLink;
 }
 
-export interface DocsMetadata {
-  [id: string]: DocMetadata;
-}
-
 export interface DocsMetadataRaw {
   [id: string]: DocMetadataRaw;
 }
@@ -169,24 +165,20 @@ export interface VersionToSidebars {
   [version: string]: Set<string>;
 }
 
-export type LoadedVersion = {
-  metadata: VersionMetadata;
+export type LoadedVersion = VersionMetadata & {
   docs: DocMetadata[];
+  sidebars: Sidebars;
+  permalinkToSidebar: Record<string, string>;
 };
 
 export interface LoadedContent {
   loadedVersions: LoadedVersion[];
-  docsDir: string;
-  docsSidebars: DocsSidebar;
-  permalinkToSidebar: PermalinkToSidebar;
-  versionToSidebars: VersionToSidebars;
 }
 
-export type VersionMetadataProp = Pick<
-  LoadedContent,
-  'docsSidebars' | 'permalinkToSidebar'
-> & {
-  version: string;
+export type VersionMetadataProp = {
+  version: VersionName;
+  docsSidebars: DocsSidebar;
+  permalinkToSidebar: PermalinkToSidebar;
 };
 
 export type VersioningEnv = {

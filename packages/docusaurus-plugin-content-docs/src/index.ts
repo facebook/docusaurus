@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import pick from 'lodash.pick';
-import pickBy from 'lodash.pickby';
 import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import path from 'path';
@@ -17,12 +15,7 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {
-  normalizeUrl,
-  docuHash,
-  objectWithKeySorted,
-  aliasedSitePath,
-} from '@docusaurus/utils';
+import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 import {
   LoadContext,
   Plugin,
@@ -40,7 +33,6 @@ import {
   PluginOptions,
   Sidebars,
   Order,
-  DocsMetadata,
   LoadedContent,
   SourceToPermalink,
   PermalinkToSidebar,
@@ -69,6 +61,55 @@ import {CURRENT_VERSION_NAME, VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 import {flatten, keyBy} from 'lodash';
+
+function normalizeSidebars(loadedVersion: LoadedVersion): DocsSidebar {
+  const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
+
+  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
+    const docId = item.id;
+    const docMetadata = docsById[docId];
+
+    if (!docMetadata) {
+      throw new Error(
+        `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
+Available document ids=
+- ${Object.keys(docsById).sort().join('\n- ')}`,
+      );
+    }
+
+    const {title, permalink, sidebar_label} = docMetadata;
+
+    return {
+      type: 'link',
+      label: sidebar_label || title,
+      href: permalink,
+    };
+  };
+
+  const normalizeItem = (item: SidebarItem): DocsSidebarItem => {
+    switch (item.type) {
+      case 'category':
+        return {...item, items: item.items.map(normalizeItem)};
+      case 'ref':
+      case 'doc':
+        return convertDocLink(item);
+      case 'link':
+      default:
+        return item;
+    }
+  };
+
+  // Transform the sidebar so that all sidebar item will be in the
+  // form of 'link' or 'category' only.
+  // This is what will be passed as props to the UI component.
+  return Object.entries(loadedVersion.sidebars).reduce(
+    (acc: DocsSidebar, [sidebarId, sidebarItems]) => {
+      acc[sidebarId] = sidebarItems.map(normalizeItem);
+      return acc;
+    },
+    {},
+  );
+}
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -182,7 +223,7 @@ export default function pluginContentDocs(
     async loadContent() {
       const {include} = options;
 
-      async function processVersionDocs(
+      async function loadVersionDocs(
         versionMetadata: VersionMetadata,
       ): Promise<DocMetadataRaw[]> {
         const docsFiles = await globby(include, {
@@ -200,9 +241,7 @@ export default function pluginContentDocs(
       async function loadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataRaw[] = await processVersionDocs(
-          versionMetadata,
-        );
+        const docs: DocMetadataRaw[] = await loadVersionDocs(versionMetadata);
         const docsById: DocsMetadataRaw = keyBy(docs, (doc) => doc.id);
 
         const sidebars = loadSidebars([versionMetadata.sidebarPath]);
@@ -210,25 +249,17 @@ export default function pluginContentDocs(
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataRaw): DocMetadata {
-          const {next: nextID, previous: previousID, sidebar} =
+          const {next: nextId, previous: previousId, sidebar} =
             docsOrder[doc.id] ?? {};
-
-          function toDocNavLink(navDocId: string): DocNavLink {
-            const navDoc = docsById[navDocId];
-            return {
-              title: navDoc.title,
-              permalink: navDoc.permalink,
-            };
-          }
-
-          const previous = previousID ? toDocNavLink(previousID) : undefined;
-          const next = nextID ? toDocNavLink(nextID) : undefined;
-
+          const toDocNavLink = (navDocId: string): DocNavLink => ({
+            title: docsById[navDocId].title,
+            permalink: docsById[navDocId].permalink,
+          });
           return {
             ...doc,
             sidebar,
-            previous,
-            next,
+            previous: previousId ? toDocNavLink(previousId) : undefined,
+            next: nextId ? toDocNavLink(nextId) : undefined,
           };
         }
 
@@ -237,15 +268,33 @@ export default function pluginContentDocs(
         // sort to ensure consistent output for tests
         loadedDocs.sort((a, b) => a.id.localeCompare(b.id));
 
+        // TODO replace, not needed with global data?
+        const permalinkToSidebar: PermalinkToSidebar = {};
+
+        Object.values(loadedDocs).forEach((loadedDoc) => {
+          const {id: docId, source, permalink} = loadedDoc;
+
+          const docSidebarName = docsOrder[docId]?.sidebar;
+
+          // TODO annoying!
+          sourceToPermalink[source] = permalink;
+
+          if (docSidebarName) {
+            permalinkToSidebar[permalink] = docSidebarName;
+          }
+        });
+
         return {
-          metadata: versionMetadata,
+          ...versionMetadata,
+          sidebars,
+          permalinkToSidebar,
           docs: docs.map(addNavData),
         };
       }
 
       // TODO, we should namespace docs by version!
       const allDocs = flatten(
-        await Promise.all(versionsMetadata.map(processVersionDocs)),
+        await Promise.all(versionsMetadata.map(loadVersionDocs)),
       );
 
       const allDocsById: DocsMetadataRaw = keyBy(allDocs, (doc) => doc.id);
@@ -260,40 +309,14 @@ export default function pluginContentDocs(
       }
 
       // Construct inter-metadata relationship in docsMetadata.
-      const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       const versionToSidebars: VersionToSidebars = {};
 
-      function addSidebarData(doc: DocMetadataRaw): DocMetadata {
-        const {next: nextID, previous: previousID, sidebar} =
-          order[doc.id] ?? {};
-
-        function toDocNavLink(navDocId: string): DocNavLink {
-          const navDoc = allDocsById[navDocId];
-          return {
-            title: navDoc.title,
-            permalink: navDoc.permalink,
-          };
-        }
-
-        const previous = previousID ? toDocNavLink(previousID) : undefined;
-        const next = nextID ? toDocNavLink(nextID) : undefined;
-
-        return {
-          ...doc,
-          sidebar,
-          previous,
-          next,
-        };
-      }
-
-      Object.keys(allDocsById).forEach((currentID) => {
-        const {sidebar} = getDocOrder(currentID);
-
-        docsMetadata[currentID] = addSidebarData(allDocsById[currentID]);
+      Object.keys(allDocsById).forEach((docId) => {
+        const {sidebar} = getDocOrder(docId);
 
         // sourceToPermalink and permalinkToSidebar mapping.
-        const {source, permalink, version} = allDocsById[currentID];
+        const {source, permalink, version} = allDocsById[docId];
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
@@ -304,71 +327,17 @@ export default function pluginContentDocs(
         }
       });
 
-      const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-        const docId = item.id;
-        const docMetadata = allDocsById[docId];
-
-        if (!docMetadata) {
-          throw new Error(
-            `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
-Available document ids=
-- ${Object.keys(allDocsById).sort().join('\n- ')}`,
-          );
-        }
-
-        const {title, permalink, sidebar_label} = docMetadata;
-
-        return {
-          type: 'link',
-          label: sidebar_label || title,
-          href: permalink,
-        };
-      };
-
-      const normalizeItem = (item: SidebarItem): DocsSidebarItem => {
-        switch (item.type) {
-          case 'category':
-            return {...item, items: item.items.map(normalizeItem)};
-          case 'ref':
-          case 'doc':
-            return convertDocLink(item);
-          case 'link':
-          default:
-            return item;
-        }
-      };
-
-      // Transform the sidebar so that all sidebar item will be in the
-      // form of 'link' or 'category' only.
-      // This is what will be passed as props to the UI component.
-      const docsSidebars: DocsSidebar = Object.entries(loadedSidebars).reduce(
-        (acc: DocsSidebar, [sidebarId, sidebarItems]) => {
-          acc[sidebarId] = sidebarItems.map(normalizeItem);
-          return acc;
-        },
-        {},
-      );
-
       const loadedVersions = await Promise.all(
         versionsMetadata.map(loadVersion),
       );
 
       return {
         loadedVersions,
-        docsDir,
-        docsSidebars,
-        permalinkToSidebar: objectWithKeySorted(permalinkToSidebar),
-        versionToSidebars,
       };
     },
 
     async contentLoaded({content, actions}) {
-      const {
-        loadedVersions,
-        docsSidebars,
-        permalinkToSidebar,
-        versionToSidebars,
-      } = content;
+      const {loadedVersions} = content;
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData, setGlobalData} = actions;
 
@@ -382,21 +351,12 @@ Available document ids=
       setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
       const createVersionMetadataProp = (
-        version: VersionName,
+        loadedVersion: LoadedVersion,
       ): VersionMetadataProp => {
-        const neededSidebars: Set<string> =
-          versionToSidebars[version!] || new Set();
-
         return {
-          docsSidebars: version
-            ? pick(docsSidebars, Array.from(neededSidebars))
-            : docsSidebars,
-          permalinkToSidebar: version
-            ? pickBy(permalinkToSidebar, (sidebar) =>
-                neededSidebars.has(sidebar),
-              )
-            : permalinkToSidebar,
-          version,
+          version: loadedVersion.versionName,
+          docsSidebars: normalizeSidebars(loadedVersion),
+          permalinkToSidebar: loadedVersion.permalinkToSidebar,
         };
       };
 
@@ -433,17 +393,14 @@ Available document ids=
         version === latestVersion ? -1 : undefined;
 
       async function handleVersion(loadedVersion: LoadedVersion) {
-        const {
-          metadata: {versionName},
-          docs,
-        } = loadedVersion;
+        const {versionName, docs} = loadedVersion;
 
         const versionPath = normalizeUrl([
           baseUrl,
           routeBasePath,
           getVersionPath(versionName),
         ]);
-        const versionMetadataProp = createVersionMetadataProp(versionName);
+        const versionMetadataProp = createVersionMetadataProp(loadedVersion);
 
         const versionMetadataPropPath = await createData(
           `${docuHash(normalizeUrl([versionPath, ':route']))}.json`,
@@ -452,6 +409,7 @@ Available document ids=
 
         const docsRoutes = await createDocRoutes(docs);
 
+        // TODO bad algo!
         const versionMainDoc: DocMetadata =
           docs.find(
             (doc) =>
