@@ -209,9 +209,7 @@ export default async function swizzle(
         let mostSuitableMatch = componentName;
         let score = formatedComponentName.length;
         components.forEach((component) => {
-          if (
-            component.toLowerCase() === formatedComponentName.toLowerCase()
-          ) {
+          if (component.toLowerCase() === formatedComponentName.toLowerCase()) {
             // may be components with same lowercase key, try to match closest component
             const currentScore = leven(formatedComponentName, component);
             if (currentScore < score) {
