@@ -9,7 +9,7 @@ import {
   getVersionsFilePath,
   getVersionedDocsDirPath,
   getVersionedSidebarsDirPath,
-} from './env';
+} from './versions';
 import fs from 'fs-extra';
 import path from 'path';
 import {Sidebars, PathOptions, SidebarItem} from './types';

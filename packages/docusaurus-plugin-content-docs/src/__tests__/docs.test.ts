@@ -7,78 +7,154 @@
 
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/index';
-import {processDocMetadata} from '../docs';
-import loadEnv from '../env';
-import {DocMetadataBase, Env, MetadataOptions} from '../types';
+import {processDocMetadata, readVersionDocs, readDocFile} from '../docs';
+import {readVersionsMetadata} from '../versions';
+import {
+  DocFile,
+  DocMetadataBase,
+  MetadataOptions,
+  VersionMetadata,
+} from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_OPTIONS} from '../options';
+import {Optional} from 'utility-types';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
-function createTestHelpers({
+const createFakeDocFile = ({
+  source,
+  frontmatter = {},
+  markdown = 'some markdown content',
+}: {
+  source: string;
+  frontmatter?: Record<string, string>;
+  markdown?: string;
+}): DocFile => {
+  const content = `---
+${Object.entries(frontmatter)
+  .map(([key, value]) => `${key}: ${value}`)
+  .join('\n')}
+---
+${markdown}
+`;
+  return {
+    source,
+    content,
+    lastUpdate: {},
+  };
+};
+
+function createTestUtils({
   siteDir,
   context,
-  env,
+  versionMetadata,
   options,
 }: {
   siteDir: string;
   context: LoadContext;
-  env: Env;
+  versionMetadata: VersionMetadata;
   options: MetadataOptions;
 }) {
+  async function readDoc(docFileSource: string) {
+    return readDocFile(versionMetadata.docsDirPath, docFileSource, options);
+  }
+  function processDocFile(docFile: DocFile) {
+    return processDocMetadata({
+      docFile,
+      versionMetadata,
+      options,
+      context,
+    });
+  }
   async function testMeta(
-    refDir: string,
-    source: string,
-    expectedMetadata: Omit<DocMetadataBase, 'source'>,
+    docFileSource: string,
+    expectedMetadata: Optional<
+      DocMetadataBase,
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
+    >,
   ) {
+    const docFile = await readDoc(docFileSource);
     const metadata = await processDocMetadata({
-      source,
-      docsDir: refDir,
+      docFile,
+      versionMetadata,
       context,
       options,
-      env,
     });
     expect(metadata).toEqual({
+      lastUpdatedBy: undefined,
+      lastUpdatedAt: undefined,
+      sidebar_label: undefined,
+      editUrl: undefined,
+      source: path.join(
+        '@site',
+        path.relative(siteDir, versionMetadata.docsDirPath),
+        docFileSource,
+      ),
       ...expectedMetadata,
-      source: path.join('@site', path.relative(siteDir, refDir), source),
     });
   }
 
-  async function testSlug(
-    refDir: string,
-    source: string,
-    expectedPermalink: string,
-  ) {
+  async function testSlug(docFileSource: string, expectedPermalink: string) {
+    const docFile = await readDoc(docFileSource);
     const metadata = await processDocMetadata({
-      source,
-      docsDir: refDir,
+      docFile,
+      versionMetadata,
       context,
       options,
-      env,
     });
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
 
-  return {testMeta, testSlug};
+  return {processDocFile, testMeta, testSlug};
 }
 
 describe('simple site', () => {
   const siteDir = path.join(fixtureDir, 'simple-site');
   const context = loadContext(siteDir);
-  const routeBasePath = 'docs';
-  const docsDir = path.resolve(siteDir, routeBasePath);
-  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
-  const options = {routeBasePath};
+  const options = {
+    id: DEFAULT_PLUGIN_ID,
+    ...DEFAULT_OPTIONS,
+  };
+  const versionsMetadata = readVersionsMetadata({
+    context,
+    options: {
+      id: DEFAULT_PLUGIN_ID,
+      ...DEFAULT_OPTIONS,
+    },
+  });
+  expect(versionsMetadata.length).toEqual(1);
+  const [currentVersion] = versionsMetadata;
 
-  const {testMeta, testSlug} = createTestHelpers({
+  const defaultTestUtils = createTestUtils({
     siteDir,
     context,
     options,
-    env,
+    versionMetadata: currentVersion,
+  });
+
+  test('readVersionDocs', async () => {
+    const docs = await readVersionDocs(currentVersion, options);
+    expect(docs.map((doc) => doc.source)).toMatchObject([
+      'hello.md',
+      'ipsum.md',
+      'lorem.md',
+      'rootAbsoluteSlug.md',
+      'rootRelativeSlug.md',
+      'rootResolvedSlug.md',
+      'rootTryToEscapeSlug.md',
+      'foo/bar.md',
+      'foo/baz.md',
+      'slugs/absoluteSlug.md',
+      'slugs/relativeSlug.md',
+      'slugs/resolvedSlug.md',
+      'slugs/tryToEscapeSlug.md',
+    ]);
   });
 
   test('normal docs', async () => {
-    await testMeta(docsDir, path.join('foo', 'bar.md'), {
+    await defaultTestUtils.testMeta(path.join('foo', 'bar.md'), {
+      version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
@@ -87,7 +163,8 @@ describe('simple site', () => {
       title: 'Bar',
       description: 'This is custom description',
     });
-    await testMeta(docsDir, path.join('hello.md'), {
+    await defaultTestUtils.testMeta(path.join('hello.md'), {
+      version: 'current',
       id: 'hello',
       unversionedId: 'hello',
       isDocsHomePage: false,
@@ -99,17 +176,15 @@ describe('simple site', () => {
   });
 
   test('homePageId doc', async () => {
-    const {testMeta: testMetaLocal} = createTestHelpers({
+    const testUtilsLocal = createTestUtils({
       siteDir,
-      options: {
-        routeBasePath,
-        homePageId: 'hello',
-      },
       context,
-      env,
+      options: {...options, homePageId: 'hello'},
+      versionMetadata: currentVersion,
     });
 
-    await testMetaLocal(docsDir, path.join('hello.md'), {
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      version: 'current',
       id: 'hello',
       unversionedId: 'hello',
       isDocsHomePage: true,
@@ -121,17 +196,15 @@ describe('simple site', () => {
   });
 
   test('homePageId doc nested', async () => {
-    const {testMeta: testMetaLocal} = createTestHelpers({
+    const testUtilsLocal = createTestUtils({
       siteDir,
-      options: {
-        routeBasePath,
-        homePageId: 'foo/bar',
-      },
       context,
-      env,
+      options: {...options, homePageId: 'foo/bar'},
+      versionMetadata: currentVersion,
     });
 
-    await testMetaLocal(docsDir, path.join('foo', 'bar.md'), {
+    await testUtilsLocal.testMeta(path.join('foo', 'bar.md'), {
+      version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: true,
@@ -143,17 +216,18 @@ describe('simple site', () => {
   });
 
   test('docs with editUrl', async () => {
-    const {testMeta: testMetaLocal} = createTestHelpers({
+    const testUtilsLocal = createTestUtils({
       siteDir,
+      context,
       options: {
-        routeBasePath,
+        ...options,
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
       },
-      context,
-      env,
+      versionMetadata: currentVersion,
     });
 
-    await testMetaLocal(docsDir, path.join('foo', 'baz.md'), {
+    await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
+      version: 'current',
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       isDocsHomePage: false,
@@ -167,7 +241,8 @@ describe('simple site', () => {
   });
 
   test('docs with custom editUrl & unrelated frontmatter', async () => {
-    await testMeta(docsDir, 'lorem.md', {
+    await defaultTestUtils.testMeta('lorem.md', {
+      version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
       isDocsHomePage: false,
@@ -180,18 +255,19 @@ describe('simple site', () => {
   });
 
   test('docs with last update time and author', async () => {
-    const {testMeta: testMetaLocal} = createTestHelpers({
+    const testUtilsLocal = createTestUtils({
       siteDir,
+      context,
       options: {
-        routeBasePath,
+        ...options,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
-      context,
-      env,
+      versionMetadata: currentVersion,
     });
 
-    await testMetaLocal(docsDir, 'lorem.md', {
+    await testUtilsLocal.testMeta('lorem.md', {
+      version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
       isDocsHomePage: false,
@@ -205,110 +281,78 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with null custom_edit_url', async () => {
-    const {testMeta: testMetaLocal} = createTestHelpers({
-      siteDir,
-      options: {
-        routeBasePath,
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-      context,
-      env,
-    });
-
-    await testMetaLocal(docsDir, 'ipsum.md', {
-      id: 'ipsum',
-      unversionedId: 'ipsum',
-      isDocsHomePage: false,
-      permalink: '/docs/ipsum',
-      slug: '/ipsum',
-      title: 'ipsum',
-      editUrl: null,
-      description: 'Lorem ipsum.',
-      lastUpdatedAt: 1539502055,
-      lastUpdatedBy: 'Author',
-    });
-  });
-
   test('docs with slugs', async () => {
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('rootRelativeSlug.md'),
       '/docs/rootRelativeSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('rootAbsoluteSlug.md'),
       '/docs/rootAbsoluteSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('rootResolvedSlug.md'),
       '/docs/hey/rootResolvedSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('rootTryToEscapeSlug.md'),
       '/docs/rootTryToEscapeSlug',
     );
 
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('slugs', 'absoluteSlug.md'),
       '/docs/absoluteSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('slugs', 'relativeSlug.md'),
       '/docs/slugs/relativeSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('slugs', 'resolvedSlug.md'),
       '/docs/slugs/hey/resolvedSlug',
     );
-    await testSlug(
-      docsDir,
+    await defaultTestUtils.testSlug(
       path.join('slugs', 'tryToEscapeSlug.md'),
       '/docs/tryToEscapeSlug',
     );
   });
 
-  test('docs with invalid id', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-id-site');
-
-    await expect(
-      processDocMetadata({
-        source: 'invalid-id.md',
-        docsDir: path.join(badSiteDir, 'docs'),
-        context,
-        options: {
-          routeBasePath,
-        },
-        env,
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Document id cannot include \\"/\\"."`,
+  test('docs with invalid id', () => {
+    expect(() => {
+      defaultTestUtils.processDocFile(
+        createFakeDocFile({
+          source: 'some/fake/path',
+          frontmatter: {
+            id: 'Hello/world',
+          },
+        }),
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Document id [Hello/world] cannot include \\"/\\"."`,
     );
   });
 
   test('docs with slug on doc home', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-slug-on-doc-home-site');
-
-    await expect(
-      processDocMetadata({
-        source: 'docWithSlug.md',
-        docsDir: path.join(badSiteDir, 'docs'),
-        context,
-        options: {
-          routeBasePath,
-          homePageId: 'docWithSlug',
-        },
-        env,
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The docs homepage (homePageId=docWithSlug) is not allowed to have a frontmatter slug=docWithSlug.html => you have to chooser either homePageId or slug, not both"`,
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options: {
+        ...options,
+        homePageId: 'homePageId',
+      },
+      versionMetadata: currentVersion,
+    });
+    expect(() => {
+      testUtilsLocal.processDocFile(
+        createFakeDocFile({
+          source: 'homePageId',
+          frontmatter: {
+            slug: '/x/y',
+          },
+        }),
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to chooser either homePageId or slug, not both"`,
     );
   });
 });
@@ -316,21 +360,54 @@ describe('simple site', () => {
 describe('versioned site', () => {
   const siteDir = path.join(fixtureDir, 'versioned-site');
   const context = loadContext(siteDir);
-  const routeBasePath = 'docs';
-  const docsDir = path.resolve(siteDir, routeBasePath);
-  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
-  const {docsDir: versionedDir} = env.versioning;
-  const options = {routeBasePath};
+  const options = {
+    id: DEFAULT_PLUGIN_ID,
+    ...DEFAULT_OPTIONS,
+  };
+  const versionsMetadata = readVersionsMetadata({
+    context,
+    options: {
+      id: DEFAULT_PLUGIN_ID,
+      ...DEFAULT_OPTIONS,
+    },
+  });
+  expect(versionsMetadata.length).toEqual(4);
+  const [
+    currentVersion,
+    version101,
+    version100,
+    versionWithSlugs,
+  ] = versionsMetadata;
 
-  const {testMeta, testSlug} = createTestHelpers({
+  const currentVersionTestUtils = createTestUtils({
     siteDir,
     context,
     options,
-    env,
+    versionMetadata: currentVersion,
+  });
+  const version101TestUtils = createTestUtils({
+    siteDir,
+    context,
+    options,
+    versionMetadata: version101,
+  });
+
+  const version100TestUtils = createTestUtils({
+    siteDir,
+    context,
+    options,
+    versionMetadata: version100,
+  });
+
+  const versionWithSlugsTestUtils = createTestUtils({
+    siteDir,
+    context,
+    options,
+    versionMetadata: versionWithSlugs,
   });
 
   test('next docs', async () => {
-    await testMeta(docsDir, path.join('foo', 'bar.md'), {
+    await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
@@ -338,9 +415,9 @@ describe('versioned site', () => {
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
-      version: 'next',
+      version: 'current',
     });
-    await testMeta(docsDir, path.join('hello.md'), {
+    await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
       unversionedId: 'hello',
       isDocsHomePage: false,
@@ -348,12 +425,12 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello next !',
-      version: 'next',
+      version: 'current',
     });
   });
 
   test('versioned docs', async () => {
-    await testMeta(versionedDir, path.join('version-1.0.0', 'foo', 'bar.md'), {
+    await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
@@ -363,7 +440,7 @@ describe('versioned site', () => {
       description: 'Bar 1.0.0 !',
       version: '1.0.0',
     });
-    await testMeta(versionedDir, path.join('version-1.0.0', 'hello.md'), {
+    await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       isDocsHomePage: false,
@@ -373,7 +450,7 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 !',
       version: '1.0.0',
     });
-    await testMeta(versionedDir, path.join('version-1.0.1', 'foo', 'bar.md'), {
+    await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
@@ -383,7 +460,7 @@ describe('versioned site', () => {
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
     });
-    await testMeta(versionedDir, path.join('version-1.0.1', 'hello.md'), {
+    await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       isDocsHomePage: false,
@@ -396,68 +473,56 @@ describe('versioned site', () => {
   });
 
   test('next doc slugs', async () => {
-    await testSlug(
-      docsDir,
+    await currentVersionTestUtils.testSlug(
       path.join('slugs', 'absoluteSlug.md'),
       '/docs/next/absoluteSlug',
     );
-    await testSlug(
-      docsDir,
+    await currentVersionTestUtils.testSlug(
       path.join('slugs', 'relativeSlug.md'),
       '/docs/next/slugs/relativeSlug',
     );
-    await testSlug(
-      docsDir,
+    await currentVersionTestUtils.testSlug(
       path.join('slugs', 'resolvedSlug.md'),
       '/docs/next/slugs/hey/resolvedSlug',
     );
-    await testSlug(
-      docsDir,
+    await currentVersionTestUtils.testSlug(
       path.join('slugs', 'tryToEscapeSlug.md'),
       '/docs/next/tryToEscapeSlug',
     );
   });
 
   test('versioned doc slugs', async () => {
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'rootAbsoluteSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('rootAbsoluteSlug.md'),
       '/docs/withSlugs/rootAbsoluteSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'rootRelativeSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('rootRelativeSlug.md'),
       '/docs/withSlugs/rootRelativeSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'rootResolvedSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('rootResolvedSlug.md'),
       '/docs/withSlugs/hey/rootResolvedSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'rootTryToEscapeSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('rootTryToEscapeSlug.md'),
       '/docs/withSlugs/rootTryToEscapeSlug',
     );
 
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'slugs', 'absoluteSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('slugs', 'absoluteSlug.md'),
       '/docs/withSlugs/absoluteSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'slugs', 'relativeSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('slugs', 'relativeSlug.md'),
       '/docs/withSlugs/slugs/relativeSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'slugs', 'resolvedSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('slugs', 'resolvedSlug.md'),
       '/docs/withSlugs/slugs/hey/resolvedSlug',
     );
-    await testSlug(
-      versionedDir,
-      path.join('version-withSlugs', 'slugs', 'tryToEscapeSlug.md'),
+    await versionWithSlugsTestUtils.testSlug(
+      path.join('slugs', 'tryToEscapeSlug.md'),
       '/docs/withSlugs/tryToEscapeSlug',
     );
   });

@@ -11,7 +11,6 @@ import {isMatch} from 'picomatch';
 import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
-import loadEnv from '../env';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -22,6 +21,9 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import * as cliDocs from '../cli';
 import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+
+// TODO remove
+function loadEnv(..._args: any[]): any {}
 
 const createFakeActions = (contentDir: string) => {
   const routeConfigs: RouteConfig[] = [];

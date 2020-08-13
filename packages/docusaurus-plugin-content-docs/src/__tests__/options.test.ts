@@ -21,7 +21,6 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should accept correctly defined user options', async () => {
     const userOptions = {
-      id: 'default',
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
       homePageId: 'home', // Document id for docs home page.

@@ -28,9 +28,14 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 
+type LastUpdateOptions = Pick<
+  PluginOptions,
+  'showLastUpdateAuthor' | 'showLastUpdateTime'
+>;
+
 async function readLastUpdateData(
   filePath: string,
-  options: Pick<PluginOptions, 'showLastUpdateAuthor' | 'showLastUpdateTime'>,
+  options: LastUpdateOptions,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
@@ -55,6 +60,19 @@ async function readLastUpdateData(
   return {};
 }
 
+export async function readDocFile(
+  docsDirPath: string,
+  source: string,
+  options: LastUpdateOptions,
+): Promise<DocFile> {
+  const filePath = path.join(docsDirPath, source);
+  const [content, lastUpdate] = await Promise.all([
+    fs.readFile(filePath, 'utf-8'),
+    readLastUpdateData(filePath, options),
+  ]);
+  return {source, content, lastUpdate};
+}
+
 export async function readVersionDocs(
   versionMetadata: VersionMetadata,
   options: Pick<
@@ -65,17 +83,11 @@ export async function readVersionDocs(
   const sources = await globby(options.include, {
     cwd: versionMetadata.docsDirPath,
   });
-
-  async function readDoc(source: string): Promise<DocFile> {
-    const filePath = path.join(versionMetadata.docsDirPath, source);
-    const [content, lastUpdate] = await Promise.all([
-      fs.readFile(filePath, 'utf-8'),
-      readLastUpdateData(filePath, options),
-    ]);
-    return {source, content, lastUpdate};
-  }
-
-  return Promise.all(sources.map(readDoc));
+  return Promise.all(
+    sources.map((source) =>
+      readDocFile(versionMetadata.docsDirPath, source, options),
+    ),
+  );
 }
 
 export function processDocMetadata({
@@ -106,7 +118,7 @@ export function processDocMetadata({
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
   if (baseID.includes('/')) {
-    throw new Error(`Document id [${baseID}]cannot include "/".`);
+    throw new Error(`Document id [${baseID}] cannot include "/".`);
   }
 
   // TODO legacy retrocompatibility
@@ -124,7 +136,7 @@ export function processDocMetadata({
   // TODO legacy composite id, requires a breaking change to modify this
   const id = `${versionIdPart}${dirNameIdPart}${baseID}`;
 
-  const unversionedId = baseID;
+  const unversionedId = `${dirNameIdPart}${baseID}`;
 
   // TODO remove soon, deprecated homePageId
   const isDocsHomePage = unversionedId === (homePageId ?? '_index');
