@@ -66,7 +66,7 @@ function ensureValidVersionArray(
 ): asserts versionArray is string[] {
   if (!(versionArray instanceof Array)) {
     throw new Error(
-      `The versions file should contain an array of versions! ${JSON.stringify(
+      `The versions file should contain an array of versions! Found content=${JSON.stringify(
         versionArray,
       )}`,
     );
@@ -95,9 +95,15 @@ function readVersionNames(
     'id' | 'disableVersioning' | 'includeCurrentVersion'
   >,
 ): string[] {
-  const versions = options.disableVersioning
-    ? []
-    : readVersionsFile(siteDir, options.id) ?? [];
+  const versionFileContent = readVersionsFile(siteDir, options.id);
+
+  if (!versionFileContent && options.disableVersioning) {
+    throw new Error(
+      `Docs: using disableVersioning=${options.disableVersioning} option on a non-versioned site does not make sense`,
+    );
+  }
+
+  const versions = options.disableVersioning ? [] : versionFileContent ?? [];
 
   // We add the current version at the beginning, unless
   // - user don't want to
@@ -111,7 +117,7 @@ function readVersionNames(
 
   if (versions.length === 0) {
     throw new Error(
-      "It is not possible to use docs without any version. You shouldn't use 'includeCurrentVersion: false' on an unversioned site",
+      `It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=${options.includeCurrentVersion} disableVersioning=${options.disableVersioning}`,
     );
   }
 
@@ -215,7 +221,7 @@ function checkVersionMetadataPaths({
 // "last version" is not a very good concept nor api surface
 function getLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
-    return versionNames[1];
+    return versionNames[0];
   } else {
     return versionNames.filter(
       (versionName) => versionName !== CURRENT_VERSION_NAME,

@@ -16,7 +16,7 @@ import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
-import {readVersionsMetadata, getVersionedDocsDirPath} from './env';
+import {readVersionsMetadata, getVersionedDocsDirPath} from './versions';
 
 import {
   PluginOptions,
@@ -37,7 +37,7 @@ import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
-import {toVersionMetadataProp} from './versionMetadataProp';
+import {toVersionMetadataProp} from './props';
 
 export default function pluginContentDocs(
   context: LoadContext,
