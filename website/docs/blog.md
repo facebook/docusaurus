@@ -7,7 +7,7 @@ title: Blog
 
 To setup your site's blog, start by creating a `blog` directory.
 
-Then, add a item link to your blog within `docusaurus.config.js`:
+Then, add an item link to your blog within `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -60,7 +60,7 @@ The only required field is `title`; however, we provide options to add author in
 - `author_title` - A description of the author.
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
-- `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
+- `draft` - A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
 - `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
 
@@ -72,7 +72,7 @@ Use the `<!--truncate-->` marker in your blog post to represent what will be sho
 ---
 title: Truncation Example
 ---
-All this will be part of the blog post summary.
+All these will be part of the blog post summary.
 
 Even this.
 
