@@ -123,7 +123,12 @@ export default function pluginContentDocs(
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
-            `Docs version ${versionMetadata.versionName} has no docs! At least one doc should exist at ${versionMetadata.docsDirPath}`,
+            `Docs version ${
+              versionMetadata.versionName
+            } has no docs! At least one doc should exist at path=[${path.relative(
+              siteDir,
+              versionMetadata.docsDirPath,
+            )}]`,
           );
         }
         async function processVersionDoc(docFile: DocFile) {
@@ -184,7 +189,7 @@ export default function pluginContentDocs(
           sourceToPermalink[source] = permalink;
         });
 
-        // TODO useful? replace with global state logic?
+        // TODO really useful? replace with global state logic?
         const permalinkToSidebar: PermalinkToSidebar = {};
         Object.values(docs).forEach((doc) => {
           if (doc.sidebar) {

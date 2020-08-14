@@ -130,7 +130,7 @@ describe('empty/no docs website', () => {
     await expect(
       plugin.loadContent!(),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Docs version current has no docs! At least one doc should exist at /Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs"`,
+      `"Docs version current has no docs! At least one doc should exist at path=[docs]"`,
     );
   });
 
