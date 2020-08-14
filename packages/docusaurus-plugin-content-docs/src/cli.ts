@@ -18,7 +18,7 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 // Tests depend on non-default export for mocking.
 // eslint-disable-next-line import/prefer-default-export
-export function cliDocsVersion(
+export function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,

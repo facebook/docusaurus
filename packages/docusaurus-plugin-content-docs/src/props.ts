@@ -16,7 +16,7 @@ import {
 } from './types';
 import {keyBy, mapValues} from 'lodash';
 
-function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
+export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
 
   const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {

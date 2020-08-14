@@ -32,7 +32,7 @@ import {
   DocFile,
 } from './types';
 import {RuleSetRule} from 'webpack';
-import {cliDocsVersion} from './cli';
+import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
@@ -88,7 +88,7 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersion(version, siteDir, pluginId, {
+          cliDocsVersionCommand(version, siteDir, pluginId, {
             path: options.path,
             sidebarPath: options.sidebarPath,
           });
@@ -123,11 +123,7 @@ export default function pluginContentDocs(
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
-            `Docs version has no docs! At least once document is required!\n For version=${JSON.stringify(
-              versionMetadata,
-              null,
-              2,
-            )}`,
+            `Docs version ${versionMetadata.versionName} has no docs! At least one doc should exist at ${versionMetadata.docsDirPath}`,
           );
         }
         async function processVersionDoc(docFile: DocFile) {
@@ -154,6 +150,9 @@ export default function pluginContentDocs(
           docsBase,
           (doc) => doc.id,
         );
+
+        const validDocIds = Object.keys(docsBaseById);
+        sidebarsUtils.checkSidebarsDocIds(validDocIds);
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {

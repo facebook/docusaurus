@@ -6,9 +6,10 @@
  */
 
 import path from 'path';
-import {validate} from 'webpack';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
+import {kebabCase} from 'lodash';
+
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import {loadContext} from '@docusaurus/core/src/server/index';
@@ -21,9 +22,23 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import * as cliDocs from '../cli';
 import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {DocMetadata, LoadedVersion} from '../types';
+import {toSidebarsProp} from '../props';
 
-// TODO remove
-function loadEnv(..._args: any[]): any {}
+// @ts-expect-error: TODO typedefs missing?
+import {validate} from 'webpack';
+
+function findDocById(version: LoadedVersion, unversionedId: string) {
+  return version.docs.find((item) => item.unversionedId === unversionedId);
+}
+const defaultDocMetadata: Partial<DocMetadata> = {
+  next: undefined,
+  previous: undefined,
+  editUrl: undefined,
+  lastUpdatedAt: undefined,
+  lastUpdatedBy: undefined,
+  sidebar_label: undefined,
+};
 
 const createFakeActions = (contentDir: string) => {
   const routeConfigs: RouteConfig[] = [];
@@ -43,20 +58,34 @@ const createFakeActions = (contentDir: string) => {
     },
   };
 
+  // query by prefix, because files have a hash at the end
+  // so it's not convenient to query by full filename
+  const getCreatedDataByPrefix = (prefix: string) => {
+    const entry = Object.entries(dataContainer).find(([key]) =>
+      key.startsWith(prefix),
+    );
+    if (!entry) {
+      throw new Error(`No created entry found for prefix=[${prefix}]
+Entries created:
+- ${Object.keys(dataContainer).join('\n- ')}
+        `);
+    }
+    return JSON.parse(entry[1] as string);
+  };
+
   // Extra fns useful for tests!
   const utils = {
     getGlobalData: () => globalDataContainer,
     getRouteConfigs: () => routeConfigs,
-    // query by prefix, because files have a hash at the end
-    // so it's not convenient to query by full filename
-    getCreatedDataByPrefix: (prefix: string) => {
-      const entry = Object.entries(dataContainer).find(([key]) =>
-        key.startsWith(prefix),
+
+    checkVersionMetadataPropCreated: (version: LoadedVersion) => {
+      const versionMetadataProp = getCreatedDataByPrefix(
+        `version-${kebabCase(version.versionName)}-metadata-prop`,
       );
-      if (!entry) {
-        throw new Error(`No entry found for prefix=${prefix}`);
-      }
-      return JSON.parse(entry[1] as string);
+      expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
+      expect(versionMetadataProp.permalinkToSidebar).toEqual(
+        version.permalinkToSidebar,
+      );
     },
 
     expectSnapshot: () => {
@@ -85,7 +114,7 @@ test('site with wrong sidebar file', async () => {
       sidebarPath,
     }),
   );
-  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
+  await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
 });
 
 describe('empty/no docs website', () => {
@@ -98,20 +127,11 @@ describe('empty/no docs website', () => {
       context,
       normalizePluginOptions(OptionsSchema, {}),
     );
-    const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars} = content;
-    expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
-    expect(docsSidebars).toMatchInlineSnapshot(`Object {}`);
-
-    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
-    const {actions, utils} = createFakeActions(pluginContentDir);
-
-    await plugin.contentLoaded({
-      content,
-      actions,
-    });
-
-    expect(utils.getRouteConfigs()).toEqual([]);
+    await expect(
+      plugin.loadContent!(),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Docs version current has no docs! At least one doc should exist at /Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs"`,
+    );
   });
 
   test('docs folder does not exist', async () => {
@@ -132,11 +152,10 @@ describe('simple website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
-  const pluginPath = 'docs';
   const plugin = pluginContentDocs(
     context,
     normalizePluginOptions(OptionsSchema, {
-      path: pluginPath,
+      path: 'docs',
       sidebarPath,
       homePageId: 'hello',
     }),
@@ -144,19 +163,23 @@ describe('simple website', () => {
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
+    const mock = jest
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation();
     const cli = new commander.Command();
-    plugin.extendCli(cli);
+    // @ts-expect-error: TODO annoying type incompatibility
+    plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
+    expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
-      path: pluginPath,
+      path: 'docs',
       sidebarPath,
     });
     mock.mockRestore();
   });
 
   test('getPathToWatch', () => {
-    const pathToWatch = plugin.getPathsToWatch();
+    const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
@@ -196,15 +219,13 @@ describe('simple website', () => {
   });
 
   test('content', async () => {
-    const content = await plugin.loadContent();
-    const {
-      docsMetadata,
-      docsSidebars,
-      versionToSidebars,
-      permalinkToSidebar,
-    } = content;
-    expect(versionToSidebars).toEqual({});
-    expect(docsMetadata.hello).toEqual({
+    const content = await plugin.loadContent!();
+    expect(content.loadedVersions.length).toEqual(1);
+    const [currentVersion] = content.loadedVersions;
+
+    expect(findDocById(currentVersion, 'hello')).toEqual({
+      ...defaultDocMetadata,
+      version: 'current',
       id: 'hello',
       unversionedId: 'hello',
       isDocsHomePage: true,
@@ -215,12 +236,18 @@ describe('simple website', () => {
         permalink: '/docs/foo/bazSlug.html',
       },
       sidebar: 'docs',
-      source: path.join('@site', pluginPath, 'hello.md'),
+      source: path.join(
+        '@site',
+        path.relative(siteDir, currentVersion.docsDirPath),
+        'hello.md',
+      ),
       title: 'Hello, World !',
       description: 'Hi, Endilie here :)',
     });
 
-    expect(docsMetadata['foo/bar']).toEqual({
+    expect(findDocById(currentVersion, 'foo/bar')).toEqual({
+      ...defaultDocMetadata,
+      version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
@@ -231,26 +258,30 @@ describe('simple website', () => {
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       sidebar: 'docs',
-      source: path.join('@site', pluginPath, 'foo', 'bar.md'),
+      source: path.join(
+        '@site',
+        path.relative(siteDir, currentVersion.docsDirPath),
+        'foo',
+        'bar.md',
+      ),
       title: 'Bar',
       description: 'This is custom description',
     });
 
-    expect(docsSidebars).toMatchSnapshot();
+    expect(currentVersion.sidebars).toMatchSnapshot();
 
     const {actions, utils} = createFakeActions(pluginContentDir);
 
-    await plugin.contentLoaded({
+    await plugin.contentLoaded!({
       content,
       actions,
+      allContent: {},
     });
 
-    // There is only one nested docs route for simple site
-    const baseMetadata = utils.getCreatedDataByPrefix('docs-route-');
-    expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
-    expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
+    utils.checkVersionMetadataPropCreated(currentVersion);
 
     utils.expectSnapshot();
+
     expect(utils.getGlobalData()).toMatchSnapshot();
   });
 });
@@ -268,19 +299,18 @@ describe('versioned website', () => {
       homePageId: 'hello',
     }),
   );
-  const env = loadEnv(siteDir, DEFAULT_PLUGIN_ID);
-  const {docsDir: versionedDir} = env.versioning;
+
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
-  test('isVersioned', () => {
-    expect(env.versioning.enabled).toEqual(true);
-  });
-
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
+    const mock = jest
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation();
     const cli = new commander.Command();
-    plugin.extendCli(cli);
+    // @ts-expect-error: TODO annoying type incompatibility
+    plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
+    expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: routeBasePath,
       sidebarPath,
@@ -289,7 +319,7 @@ describe('versioned website', () => {
   });
 
   test('getPathToWatch', () => {
-    const pathToWatch = plugin.getPathsToWatch();
+    const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
@@ -339,50 +369,65 @@ describe('versioned website', () => {
   });
 
   test('content', async () => {
-    const content = await plugin.loadContent();
-    const {
-      docsMetadata,
-      docsSidebars,
-      versionToSidebars,
-      permalinkToSidebar,
-    } = content;
+    const content = await plugin.loadContent!();
+    expect(content.loadedVersions.length).toEqual(4);
+    const [
+      currentVersion,
+      version101,
+      version100,
+      versionWithSlugs,
+    ] = content.loadedVersions;
 
     // foo/baz.md only exists in version -1.0.0
-    expect(docsMetadata['foo/baz']).toBeUndefined();
-    expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
-    expect(docsMetadata['foo/bar']).toEqual({
+    expect(findDocById(currentVersion, 'foo/baz')).toBeUndefined();
+    expect(findDocById(version101, 'foo/baz')).toBeUndefined();
+    expect(findDocById(versionWithSlugs, 'foo/baz')).toBeUndefined();
+
+    expect(findDocById(currentVersion, 'foo/bar')).toEqual({
+      ...defaultDocMetadata,
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
-      source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
+      source: path.join(
+        '@site',
+        path.relative(siteDir, currentVersion.docsDirPath),
+        'foo',
+        'bar.md',
+      ),
       title: 'bar',
       description: 'This is next version of bar.',
-      version: 'next',
+      version: 'current',
       sidebar: 'docs',
       next: {
         title: 'hello',
         permalink: '/docs/next/',
       },
     });
-    expect(docsMetadata.hello).toEqual({
+    expect(findDocById(currentVersion, 'hello')).toEqual({
+      ...defaultDocMetadata,
       id: 'hello',
       unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/next/',
       slug: '/',
-      source: path.join('@site', routeBasePath, 'hello.md'),
+      source: path.join(
+        '@site',
+        path.relative(siteDir, currentVersion.docsDirPath),
+        'hello.md',
+      ),
       title: 'hello',
       description: 'Hello next !',
-      version: 'next',
+      version: 'current',
       sidebar: 'docs',
       previous: {
         title: 'bar',
         permalink: '/docs/next/foo/barSlug',
       },
     });
-    expect(docsMetadata['version-1.0.1/hello']).toEqual({
+    expect(findDocById(version101, 'hello')).toEqual({
+      ...defaultDocMetadata,
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       isDocsHomePage: true,
@@ -390,8 +435,7 @@ describe('versioned website', () => {
       slug: '/',
       source: path.join(
         '@site',
-        path.relative(siteDir, versionedDir),
-        'version-1.0.1',
+        path.relative(siteDir, version101.docsDirPath),
         'hello.md',
       ),
       title: 'hello',
@@ -403,7 +447,8 @@ describe('versioned website', () => {
         permalink: '/docs/foo/bar',
       },
     });
-    expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
+    expect(findDocById(version100, 'foo/baz')).toEqual({
+      ...defaultDocMetadata,
       id: 'version-1.0.0/foo/baz',
       unversionedId: 'foo/baz',
       isDocsHomePage: false,
@@ -411,8 +456,7 @@ describe('versioned website', () => {
       slug: '/foo/baz',
       source: path.join(
         '@site',
-        path.relative(siteDir, versionedDir),
-        'version-1.0.0',
+        path.relative(siteDir, version100.docsDirPath),
         'foo',
         'baz.md',
       ),
@@ -431,47 +475,24 @@ describe('versioned website', () => {
       },
     });
 
-    expect(docsSidebars).toMatchSnapshot('all sidebars');
-    expect(versionToSidebars).toMatchSnapshot(
-      'sidebars needed for each version',
+    expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
+    expect(version101.sidebars).toMatchSnapshot('101 version sidebars');
+    expect(version100.sidebars).toMatchSnapshot('100 version sidebars');
+    expect(versionWithSlugs.sidebars).toMatchSnapshot(
+      'withSlugs version sidebars',
     );
+
     const {actions, utils} = createFakeActions(pluginContentDir);
-    await plugin.contentLoaded({
+    await plugin.contentLoaded!({
       content,
       actions,
+      allContent: {},
     });
 
-    // The created base metadata for each nested docs route is smartly chunked/ splitted across version
-    const latestVersionBaseMetadata = utils.getCreatedDataByPrefix(
-      'docs-route-',
-    );
-    expect(latestVersionBaseMetadata).toMatchSnapshot(
-      'base metadata for latest version',
-    );
-    expect(latestVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
-    expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
-      permalinkToSidebar,
-    );
-    const nextVersionBaseMetadata = utils.getCreatedDataByPrefix(
-      'docs-next-route-',
-    );
-    expect(nextVersionBaseMetadata).toMatchSnapshot(
-      'base metadata for next version',
-    );
-    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
-    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
-      permalinkToSidebar,
-    );
-    const firstVersionBaseMetadata = utils.getCreatedDataByPrefix(
-      'docs-1-0-0-route-',
-    );
-    expect(firstVersionBaseMetadata).toMatchSnapshot(
-      'base metadata for first version',
-    );
-    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
-    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
-      permalinkToSidebar,
-    );
+    utils.checkVersionMetadataPropCreated(currentVersion);
+    utils.checkVersionMetadataPropCreated(version101);
+    utils.checkVersionMetadataPropCreated(version100);
+    utils.checkVersionMetadataPropCreated(versionWithSlugs);
 
     utils.expectSnapshot();
   });
@@ -492,19 +513,17 @@ describe('versioned website (community)', () => {
       sidebarPath,
     }),
   );
-  const env = loadEnv(siteDir, pluginId);
-  const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
-  test('isVersioned', () => {
-    expect(env.versioning.enabled).toEqual(true);
-  });
-
   test('extendCli - docsVersion', () => {
-    const mock = jest.spyOn(cliDocs, 'docsVersion').mockImplementation();
+    const mock = jest
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation();
     const cli = new commander.Command();
-    plugin.extendCli(cli);
+    // @ts-expect-error: TODO annoying type incompatibility
+    plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
+    expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
       path: routeBasePath,
       sidebarPath,
@@ -513,7 +532,7 @@ describe('versioned website (community)', () => {
   });
 
   test('getPathToWatch', () => {
-    const pathToWatch = plugin.getPathsToWatch();
+    const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
@@ -549,27 +568,29 @@ describe('versioned website (community)', () => {
   });
 
   test('content', async () => {
-    const content = await plugin.loadContent();
-    const {
-      docsMetadata,
-      docsSidebars,
-      versionToSidebars,
-      permalinkToSidebar,
-    } = content;
+    const content = await plugin.loadContent!();
+    expect(content.loadedVersions.length).toEqual(2);
+    const [currentVersion, version100] = content.loadedVersions;
 
-    expect(docsMetadata.team).toEqual({
+    expect(findDocById(currentVersion, 'team')).toEqual({
+      ...defaultDocMetadata,
       id: 'team',
       unversionedId: 'team',
       isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
-      source: path.join('@site', routeBasePath, 'team.md'),
+      source: path.join(
+        '@site',
+        path.relative(siteDir, currentVersion.docsDirPath),
+        'team.md',
+      ),
       title: 'team',
       description: 'Team current version',
-      version: 'next',
+      version: 'current',
       sidebar: 'community',
     });
-    expect(docsMetadata['version-1.0.0/team']).toEqual({
+    expect(findDocById(version100, 'team')).toEqual({
+      ...defaultDocMetadata,
       id: 'version-1.0.0/team',
       unversionedId: 'team',
       isDocsHomePage: false,
@@ -577,8 +598,7 @@ describe('versioned website (community)', () => {
       slug: '/team',
       source: path.join(
         '@site',
-        path.relative(siteDir, versionedDir),
-        'version-1.0.0',
+        path.relative(siteDir, version100.docsDirPath),
         'team.md',
       ),
       title: 'team',
@@ -587,38 +607,18 @@ describe('versioned website (community)', () => {
       sidebar: 'version-1.0.0/community',
     });
 
-    expect(docsSidebars).toMatchSnapshot('all sidebars');
-    expect(versionToSidebars).toMatchSnapshot(
-      'sidebars needed for each version',
-    );
+    expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
+    expect(version100.sidebars).toMatchSnapshot('100 version sidebars');
 
     const {actions, utils} = createFakeActions(pluginContentDir);
-    await plugin.contentLoaded({
+    await plugin.contentLoaded!({
       content,
       actions,
+      allContent: {},
     });
 
-    // The created base metadata for each nested docs route is smartly chunked/ splitted across version
-    const latestVersionBaseMetadata = utils.getCreatedDataByPrefix(
-      'community-route-',
-    );
-    expect(latestVersionBaseMetadata).toMatchSnapshot(
-      'base metadata for latest version',
-    );
-    expect(latestVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
-    expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
-      permalinkToSidebar,
-    );
-    const nextVersionBaseMetadata = utils.getCreatedDataByPrefix(
-      'community-next-route-',
-    );
-    expect(nextVersionBaseMetadata).toMatchSnapshot(
-      'base metadata for next version',
-    );
-    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
-    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
-      permalinkToSidebar,
-    );
+    utils.checkVersionMetadataPropCreated(currentVersion);
+    utils.checkVersionMetadataPropCreated(version100);
 
     utils.expectSnapshot();
   });

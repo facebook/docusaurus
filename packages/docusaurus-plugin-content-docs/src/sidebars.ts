@@ -15,7 +15,7 @@ import {
   SidebarItemDoc,
   Sidebar,
 } from './types';
-import {mapValues, flatten} from 'lodash';
+import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 
 type SidebarItemCategoryJSON = {
@@ -277,5 +277,25 @@ export function createSidebarsUtils(sidebars: Sidebars) {
     }
   }
 
-  return {getFirstDocIdOfFirstSidebar, getSidebarNameByDocId, getDocNavigation};
+  function checkSidebarsDocIds(validDocIds: string[]) {
+    const allSidebarDocIds = flatten(Object.values(sidebarNameToDocIds));
+    const invalidSidebarDocIds = difference(allSidebarDocIds, validDocIds);
+    if (invalidSidebarDocIds.length > 0) {
+      throw new Error(
+        `Bad sidebars file.
+These sidebar document ids do not exist:
+- ${invalidSidebarDocIds.sort().join('\n- ')}\`,
+
+Available document ids=
+- ${validDocIds.sort().join('\n- ')}`,
+      );
+    }
+  }
+
+  return {
+    getFirstDocIdOfFirstSidebar,
+    getSidebarNameByDocId,
+    getDocNavigation,
+    checkSidebarsDocIds,
+  };
 }
