@@ -74,7 +74,6 @@ async function processImageNode(node, {filePath, staticDir}) {
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
-    // console.log(expectedImagePath,staticDir,node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
     createJSX(node, expectedImagePath);
   }
