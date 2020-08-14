@@ -52,12 +52,14 @@ function walk(dir: string): Array<string> {
   return results;
 }
 
+const formatComponentName = (componentName: string): string =>
+  componentName
+    .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, '')
+    .replace(/.(js|tsx|ts|jsx)/, '');
+
 function readComponent(themePath: string) {
   return walk(themePath).map((filePath) =>
-    path
-      .relative(themePath, filePath)
-      .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, '')
-      .replace(/.(js|tsx|ts|jsx)/, ''),
+    formatComponentName(path.relative(themePath, filePath)),
   );
 }
 
@@ -192,18 +194,45 @@ export default async function swizzle(
     const themePath = typescript
       ? pluginInstance.getTypeScriptThemePath?.()
       : pluginInstance.getThemePath?.();
+    const components = getComponentName(
+      themePath,
+      pluginModule,
+      Boolean(danger),
+    );
     if (componentName) {
+      const formatedComponentName = formatComponentName(componentName);
+      const isComponentExists = components.find(
+        (component) => component === formatedComponentName,
+      );
+      let mostSuitableComponent = componentName;
+      if (!isComponentExists) {
+        let mostSuitableMatch = componentName;
+        let score = formatedComponentName.length;
+        components.forEach((component) => {
+          if (component.toLowerCase() === formatedComponentName.toLowerCase()) {
+            // may be components with same lowercase key, try to match closest component
+            const currentScore = leven(formatedComponentName, component);
+            if (currentScore < score) {
+              score = currentScore;
+              mostSuitableMatch = component;
+            }
+          }
+        });
+        if (mostSuitableMatch) {
+          mostSuitableComponent = mostSuitableMatch;
+          console.log(
+            chalk.red(`Component "${componentName}" doesn't exists.`),
+            chalk.yellow(
+              `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
+            ),
+          );
+        }
+      }
       let fromPath = themePath;
       if (fromPath) {
         let toPath = path.resolve(siteDir, THEME_PATH);
-        fromPath = path.join(fromPath, componentName);
-        toPath = path.join(toPath, componentName);
-        const components = getComponentName(
-          themePath,
-          pluginModule,
-          Boolean(danger),
-        );
-
+        fromPath = path.join(fromPath, mostSuitableComponent);
+        toPath = path.join(toPath, mostSuitableComponent);
         // Handle single TypeScript/JavaScript file only.
         // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
         if (!fs.existsSync(fromPath)) {
@@ -216,12 +245,12 @@ export default async function swizzle(
           } else {
             let suggestion;
             components.forEach((name) => {
-              if (leven(name, componentName) < 3) {
+              if (leven(name, mostSuitableComponent) < 3) {
                 suggestion = name;
               }
             });
             throw new Error(
-              `Component ${componentName} not found.${
+              `Component ${mostSuitableComponent} not found.${
                 suggestion
                   ? ` Did you mean "${suggestion}"?`
                   : `${themeComponents(themePath, pluginModule)}`
@@ -229,17 +258,17 @@ export default async function swizzle(
             );
           }
         }
-        if (!components.includes(componentName) && !danger) {
+        if (!components.includes(mostSuitableComponent) && !danger) {
           throw new Error(
-            `${componentName} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
+            `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
           );
         }
         await fs.copy(fromPath, toPath);
 
         const relativeDir = path.relative(process.cwd(), toPath);
         const fromMsg = chalk.blue(
-          componentName
-            ? `${themeName} ${chalk.yellow(componentName)}`
+          mostSuitableComponent
+            ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
             : themeName,
         );
         const toMsg = chalk.cyan(relativeDir);
