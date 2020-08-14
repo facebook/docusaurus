@@ -74,9 +74,9 @@ async function processImageNode(node, {filePath, staticDir}) {
   // images without protocol
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
-    const expectedImagePath = path.join(posixPath(staticDir), node.url);
+    const expectedImagePath = path.join(staticDir, node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
-    createJSX(node, expectedImagePath);
+    createJSX(node, posixPath(expectedImagePath));
   }
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
