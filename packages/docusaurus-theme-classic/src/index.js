@@ -128,7 +128,6 @@ const swizzleAllowedComponents = [
   'SearchBar',
   'hooks/useTheme',
   'prism-include-languages',
-  'SearchPage',
 ];
 
 module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
