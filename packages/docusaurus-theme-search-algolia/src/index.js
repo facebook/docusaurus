@@ -19,7 +19,7 @@ function theme(context) {
     baseUrl,
     siteConfig: {title, url, favicon},
   } = context;
-  const pagePath = path.resolve(__dirname, './pages/search/index.js');
+  const pagePath = path.resolve(__dirname, './theme/SearchPage/index.js');
 
   return {
     name: 'docusaurus-theme-search-algolia',
