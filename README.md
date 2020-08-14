@@ -23,11 +23,15 @@
 
 ## Introduction
 
-Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
+Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
-- **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation/) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
-- **Localizable** Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation/) via CrowdIn. Empower and grow your international community by translating your documentation.
-- **Customizable** While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/adding-blog/), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages/) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages/).
+- **Simple to Start** 
+
+>Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/en/installation/) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+- **Localizable** 
+>Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation/) via CrowdIn. Empower and grow your international community by translating your documentation.
+- **Customizable** 
+>While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/adding-blog/), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages/) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages/).
 
 ## Installation
 
