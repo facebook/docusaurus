@@ -58,7 +58,7 @@
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
     "commander": "^4.0.1",
-    "copy-webpack-plugin": "^5.0.5",
+    "copy-webpack-plugin": "^6.0.3",
     "core-js": "^2.6.5",
     "css-loader": "^3.4.2",
     "del": "^5.1.0",
