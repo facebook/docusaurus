@@ -11,6 +11,7 @@
     "@babel/parser": "^7.9.4",
     "@babel/traverse": "^7.9.0",
     "@docusaurus/core": "^2.0.0-alpha.61",
+    "@docusaurus/utils": "^2.0.0-alpha.61",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "escape-html": "^1.0.3",
