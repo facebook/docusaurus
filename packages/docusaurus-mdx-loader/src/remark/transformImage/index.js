@@ -15,6 +15,25 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
+const createJSX = (node, pathUrl) => {
+  node.type = 'jsx';
+  node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
+    node.url
+      ? `src={require("${inlineMarkdownImageFileLoader}${pathUrl}").default}`
+      : ''
+  } ${node.title ? `title={"${node.title}"}` : ''} />`;
+
+  if (node.url) {
+    delete node.url;
+  }
+  if (node.alt) {
+    delete node.alt;
+  }
+  if (node.title) {
+    delete node.title;
+  }
+};
+
 // Needed to throw errors with computer-agnostic path messages
 // Absolute paths are too dependant of user FS
 function toRelativePath(filePath) {
@@ -55,7 +74,9 @@ async function processImageNode(node, {filePath, staticDir}) {
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
+    // console.log(expectedImagePath,staticDir,node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
+    createJSX(node, expectedImagePath);
   }
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
@@ -63,25 +84,7 @@ async function processImageNode(node, {filePath, staticDir}) {
     // relative paths are resolved against the source file's folder
     const expectedImagePath = path.join(path.dirname(filePath), node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
-
-    node.type = 'jsx';
-    node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
-      node.url
-        ? `src={require("${inlineMarkdownImageFileLoader}${
-            node.url.startsWith('./') ? node.url : `./${node.url}`
-          }").default}`
-        : ''
-    } ${node.title ? `title={"${node.title}"}` : ''} />`;
-
-    if (node.url) {
-      delete node.url;
-    }
-    if (node.alt) {
-      delete node.alt;
-    }
-    if (node.title) {
-      delete node.title;
-    }
+    createJSX(node, node.url.startsWith('./') ? node.url : `./${node.url}`);
   }
 }
 
