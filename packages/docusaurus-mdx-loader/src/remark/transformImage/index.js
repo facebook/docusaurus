@@ -10,6 +10,7 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
+const {posixPath} = require('@docusaurus/utils');
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -73,7 +74,7 @@ async function processImageNode(node, {filePath, staticDir}) {
   // images without protocol
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
-    const expectedImagePath = path.join(staticDir, node.url);
+    const expectedImagePath = path.join(posixPath(staticDir), node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
     createJSX(node, expectedImagePath);
   }
