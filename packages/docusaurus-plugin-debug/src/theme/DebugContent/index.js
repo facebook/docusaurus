@@ -5,35 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import DebugJsonView from '../DebugJsonView';
 
 const PluginInstanceContent = ({pluginId, pluginInstanceContent}) => (
   <section style={{marginBottom: 30}}>
-    <h4>{`>> ${pluginId}`}</h4>
-    <div
-      style={{
-        marginTop: 10,
-        padding: 10,
-        border: 'thin cyan solid',
-        borderRadius: 5,
-        backgroundColor: 'lightgrey',
-      }}>
-      <DebugJsonView src={pluginInstanceContent} />
-    </div>
+    <code>{pluginId}</code>
+      <DebugJsonView src={pluginInstanceContent} collapseDepth="2" />
   </section>
 );
 
 const PluginContent = ({pluginName, pluginContent}) => {
-  const [visible, setVisible] = useState(true);
   return (
     <section style={{marginBottom: 60}}>
-      <h3 onClick={() => setVisible((v) => !v)} style={{cursor: 'pointer'}}>
+      <h3>
         {pluginName}
       </h3>
-      {visible && (
         <div>
           {Object.entries(pluginContent)
             // filter plugin instances with no content
@@ -50,7 +39,6 @@ const PluginContent = ({pluginName, pluginContent}) => {
               );
             })}
         </div>
-      )}
     </section>
   );
 };
