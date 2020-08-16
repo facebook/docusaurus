@@ -9,15 +9,15 @@ import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import registry from '@generated/registry';
+import styles from './styles.module.css';
 
 function DebugRegistry() {
   return (
     <DebugLayout>
-      {' '}
       <h2>Registry</h2>
-      <ul>
+      <ul className={styles.list}>
         {Object.values(registry).map(([, aliasedPath, resolved]) => (
-          <li key={aliasedPath}>
+          <li key={aliasedPath} className={styles.listItem}>
             <div>Aliased Path: {aliasedPath}</div>
             <div>Resolved Path: {resolved}</div>
           </li>
