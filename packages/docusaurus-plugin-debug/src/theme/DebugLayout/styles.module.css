@@ -4,3 +4,59 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+.container {
+  padding: 20px;
+  padding-top: 80px;
+}
+
+ .nav {
+   position: fixed;
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+   height: 3.75rem;
+   background-color: #242526;
+   width: 100%;
+ }
+
+ .navlink {
+   color: white;
+   font-weight: 500;
+   text-align: center;
+   border-radius: 4px;
+   padding: 6px 16px;
+  }
+  
+  .navlink:hover {
+    text-decoration: none;
+    background-color: #292a2b;
+ }
+
+ .active {
+   background-color: #363739;
+ }
+
+ @media screen and (min-width: 800px) {
+  .nav {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    width: 200px;
+    float: left;
+    border-right: 1px solid #606770;
+  }
+
+  .navlink {
+    width: 80%;    
+    margin-top: 20px;
+    text-align: left;
+  }
+
+  .container {
+    padding-top: 40px;
+    float: right;
+    width: calc(100% - 200px);
+  }
+}
