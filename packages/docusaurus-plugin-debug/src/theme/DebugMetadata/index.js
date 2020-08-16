@@ -9,26 +9,29 @@ import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import styles from './styles.module.css';
 
 function DebugMetadata() {
   const {siteMetadata} = useDocusaurusContext();
   return (
     <DebugLayout>
       <h2>Site Metadata</h2>
-      <div>Docusaurus Version: {siteMetadata.docusaurusVersion}</div>
+      <div>Docusaurus Version: <code>{siteMetadata.docusaurusVersion}</code></div>
       <div>
-        Site Version: {siteMetadata.siteVersion || 'No version specified'}
+        Site Version: <code>{siteMetadata.siteVersion || 'No version specified'}</code>
       </div>
-      <h3>Plugins and themes:</h3>
-      <ul>
+      <h3 className={styles.sectionTitle}>Plugins and themes</h3>
+      <ul className={styles.list}>
         {Object.entries(siteMetadata.pluginVersions).map(
           ([name, versionInformation]) => (
-            <li key={name}>
-              <div>Name: {name}</div>
-              <div>Type: {versionInformation.type}</div>
+            <li key={name} className={styles.listItem}>
               {versionInformation.version && (
-                <div>Version: {versionInformation.version}</div>
+                <div className={styles.version}>
+                  <code>{versionInformation.version}</code>
+                </div>
               )}
+              <div className={styles.name}>{name}</div>
+              <div>Type: {versionInformation.type}</div>
             </li>
           ),
         )}
