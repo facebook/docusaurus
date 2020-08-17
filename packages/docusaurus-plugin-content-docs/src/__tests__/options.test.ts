@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
+import {OptionsSchema, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 // the type of remark/rehype plugins is function
@@ -14,7 +14,7 @@ const markdownPluginsObjectStub = {};
 
 describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
-    const {value, error} = await PluginOptionSchema.validate({});
+    const {value, error} = await OptionsSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
     expect(error).toBe(undefined);
   });
@@ -34,9 +34,10 @@ describe('normalizeDocsPluginOptions', () => {
       showLastUpdateAuthor: true,
       admonitions: {},
       excludeNextVersionDocs: true,
+      includeCurrentVersion: false,
       disableVersioning: true,
     };
-    const {value, error} = await PluginOptionSchema.validate(userOptions);
+    const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
     expect(error).toBe(undefined);
   });
@@ -50,14 +51,14 @@ describe('normalizeDocsPluginOptions', () => {
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
     };
-    const {value, error} = await PluginOptionSchema.validate(userOptions);
+    const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
     expect(error).toBe(undefined);
   });
 
   test('should reject invalid remark plugin options', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
       });
     }).toThrowErrorMatchingInlineSnapshot(
@@ -67,7 +68,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject invalid rehype plugin options', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         rehypePlugins: [
           [
             markdownPluginsFunctionStub,
@@ -83,7 +84,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad path inputs', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         path: 2,
       });
     }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
@@ -91,7 +92,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad include inputs', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         include: '**/*.{md,mdx}',
       });
     }).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
@@ -99,7 +100,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad showLastUpdateTime inputs', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         showLastUpdateTime: 'true',
       });
     }).toThrowErrorMatchingInlineSnapshot(
@@ -109,7 +110,7 @@ describe('normalizeDocsPluginOptions', () => {
 
   test('should reject bad remarkPlugins input', () => {
     expect(() => {
-      normalizePluginOptions(PluginOptionSchema, {
+      normalizePluginOptions(OptionsSchema, {
         remarkPlugins: 'remark-math',
       });
     }).toThrowErrorMatchingInlineSnapshot(

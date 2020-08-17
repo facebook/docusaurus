@@ -49,9 +49,7 @@ export type ActiveDocContext = {
 };
 
 export const getLatestVersion = (data: GlobalPluginData): Version => {
-  return data.versions.find(
-    (version) => version.name === data.latestVersionName,
-  )!;
+  return data.versions.find((version) => version.isLast)!;
 };
 
 // Note: return undefined on doc-unrelated pages,

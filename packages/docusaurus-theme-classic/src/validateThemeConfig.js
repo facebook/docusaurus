@@ -50,14 +50,13 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
-  nextVersionLabel: Joi.string().default('Next'),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
-  nextVersionLabel: Joi.string().default('Next'),
+  nextVersionLabel: Joi.string().default('Next'), // TODO remove soon
 });
 
 // Can this be made easier? :/

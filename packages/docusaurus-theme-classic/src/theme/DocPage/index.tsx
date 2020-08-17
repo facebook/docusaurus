@@ -20,11 +20,11 @@ import styles from './styles.module.css';
 
 function DocPageContent({
   currentDocRoute,
-  docsMetadata,
+  versionMetadata,
   children,
 }): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
+  const {permalinkToSidebar, docsSidebars, version} = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   return (
@@ -52,7 +52,7 @@ function DocPageContent({
 function DocPage(props) {
   const {
     route: {routes: docRoutes},
-    docsMetadata,
+    versionMetadata,
     location,
   } = props;
   const currentDocRoute = docRoutes.find((docRoute) =>
@@ -64,7 +64,7 @@ function DocPage(props) {
   return (
     <DocPageContent
       currentDocRoute={currentDocRoute}
-      docsMetadata={docsMetadata}>
+      versionMetadata={versionMetadata}>
       {renderRoutes(docRoutes)}
     </DocPageContent>
   );

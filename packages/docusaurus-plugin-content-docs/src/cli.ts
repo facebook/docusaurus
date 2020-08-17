@@ -6,19 +6,19 @@
  */
 
 import {
-  getVersionsJSONFile,
-  getVersionedDocsDir,
-  getVersionedSidebarsDir,
-} from './env';
+  getVersionsFilePath,
+  getVersionedDocsDirPath,
+  getVersionedSidebarsDirPath,
+} from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import {Sidebar, PathOptions, SidebarItem} from './types';
-import loadSidebars from './sidebars';
+import {Sidebars, PathOptions, SidebarItem} from './types';
+import {loadSidebars} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 // Tests depend on non-default export for mocking.
 // eslint-disable-next-line import/prefer-default-export
-export function docsVersion(
+export function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
@@ -63,7 +63,7 @@ export function docsVersion(
 
   // Load existing versions.
   let versions = [];
-  const versionsJSONFile = getVersionsJSONFile(siteDir, pluginId);
+  const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
   if (fs.existsSync(versionsJSONFile)) {
     versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
   }
@@ -80,7 +80,7 @@ export function docsVersion(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
   if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
-    const versionedDir = getVersionedDocsDir(siteDir, pluginId);
+    const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
     fs.copySync(docsDir, newVersionDir);
   } else {
@@ -89,7 +89,7 @@ export function docsVersion(
 
   // Load current sidebar and create a new versioned sidebars file.
   if (fs.existsSync(sidebarPath)) {
-    const loadedSidebars: Sidebar = loadSidebars([sidebarPath]);
+    const loadedSidebars: Sidebars = loadSidebars(sidebarPath);
 
     // Transform id in original sidebar to versioned id.
     const normalizeItem = (item: SidebarItem): SidebarItem => {
@@ -107,8 +107,8 @@ export function docsVersion(
       }
     };
 
-    const versionedSidebar: Sidebar = Object.entries(loadedSidebars).reduce(
-      (acc: Sidebar, [sidebarId, sidebarItems]) => {
+    const versionedSidebar: Sidebars = Object.entries(loadedSidebars).reduce(
+      (acc: Sidebars, [sidebarId, sidebarItems]) => {
         const newVersionedSidebarId = `version-${version}/${sidebarId}`;
         acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
         return acc;
@@ -116,7 +116,7 @@ export function docsVersion(
       {},
     );
 
-    const versionedSidebarsDir = getVersionedSidebarsDir(siteDir, pluginId);
+    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,

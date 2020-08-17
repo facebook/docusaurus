@@ -8,116 +8,91 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
-export type DocsVersion = string | null; // null = unversioned sites
+export type DocFile = {
+  source: string;
+  content: string;
+  lastUpdate: LastUpdateData;
+};
 
-export interface MetadataOptions {
+export type VersionName = string;
+
+export type VersionMetadata = {
+  versionName: VersionName; // 1.0.0
+  versionLabel: string; // Version 1.0.0
+  versionPath: string; // /baseUrl/docs/1.0.0
+  isLast: boolean;
+  docsDirPath: string; // versioned_docs/1.0.0
+  sidebarFilePath: string; // versioned_sidebars/1.0.0.json
+  routePriority: number | undefined; // -1 for the latest docs
+};
+
+export type MetadataOptions = {
   routeBasePath: string;
   homePageId?: string;
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
-}
+};
 
-export interface PathOptions {
+export type PathOptions = {
   path: string;
   sidebarPath: string;
-}
+};
 
-export interface PluginOptions extends MetadataOptions, PathOptions {
-  id?: string;
-  include: string[];
-  docLayoutComponent: string;
-  docItemComponent: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  rehypePlugins: string[];
-  admonitions: any;
-  disableVersioning: boolean;
-  excludeNextVersionDocs: boolean;
-}
+export type PluginOptions = MetadataOptions &
+  PathOptions & {
+    id: string;
+    include: string[];
+    docLayoutComponent: string;
+    docItemComponent: string;
+    remarkPlugins: ([Function, object] | Function)[];
+    rehypePlugins: string[];
+    admonitions: any;
+    disableVersioning: boolean;
+    excludeNextVersionDocs?: boolean;
+    includeCurrentVersion: boolean;
+  };
 
 export type SidebarItemDoc = {
   type: 'doc' | 'ref';
   id: string;
 };
 
-export interface SidebarItemLink {
+export type SidebarItemLink = {
   type: 'link';
   href: string;
   label: string;
-}
+};
 
-export interface SidebarItemCategory {
+export type SidebarItemCategory = {
   type: 'category';
   label: string;
   items: SidebarItem[];
   collapsed: boolean;
-}
-
-export interface SidebarItemCategoryRaw {
-  type: 'category';
-  label: string;
-  items: SidebarItemRaw[];
-  collapsed?: boolean;
-}
+};
 
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategory;
 
-export type SidebarItemRaw =
-  | string
-  | SidebarCategoryShorthandRaw
-  | SidebarItemDoc
-  | SidebarItemLink
-  | SidebarItemCategoryRaw
-  | {
-      type: string;
-      [key: string]: unknown;
-    };
+export type Sidebar = SidebarItem[];
 
-export interface SidebarCategoryShorthandRaw {
-  [sidebarCategory: string]: SidebarItemRaw[];
-}
+export type Sidebars = Record<string, Sidebar>;
 
-// Sidebar given by user that is not normalized yet. e.g: sidebars.json
-export interface SidebarRaw {
-  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
-}
-
-export interface Sidebar {
-  [sidebarId: string]: SidebarItem[];
-}
-
-export interface DocsSidebarItemCategory {
-  type: 'category';
-  label: string;
-  items: DocsSidebarItem[];
-  collapsed?: boolean;
-}
-
-export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;
-
-export interface DocsSidebar {
-  [sidebarId: string]: DocsSidebarItem[];
-}
-
-export interface OrderMetadata {
+export type OrderMetadata = {
   previous?: string;
   next?: string;
   sidebar?: string;
-}
+};
 
-export interface Order {
-  [id: string]: OrderMetadata;
-}
-
-export interface LastUpdateData {
+export type LastUpdateData = {
   lastUpdatedAt?: number;
   lastUpdatedBy?: string;
-}
+};
 
-export interface MetadataRaw extends LastUpdateData {
+export type DocMetadataBase = LastUpdateData & {
+  version: VersionName;
   unversionedId: string;
   id: string;
   isDocsHomePage: boolean;
@@ -128,67 +103,38 @@ export interface MetadataRaw extends LastUpdateData {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string | null;
-  version?: string;
-}
+};
 
-export interface Paginator {
+export type DocNavLink = {
   title: string;
   permalink: string;
-}
+};
 
-export interface Metadata extends MetadataRaw {
+export type DocMetadata = DocMetadataBase & {
   sidebar?: string;
-  previous?: Paginator;
-  next?: Paginator;
-}
+  previous?: DocNavLink;
+  next?: DocNavLink;
+};
 
-export interface DocsMetadata {
-  [id: string]: Metadata;
-}
-
-export interface DocsMetadataRaw {
-  [id: string]: MetadataRaw;
-}
-
-export interface SourceToPermalink {
+export type SourceToPermalink = {
   [source: string]: string;
-}
+};
 
-export interface PermalinkToSidebar {
+export type PermalinkToSidebar = {
   [permalink: string]: string;
-}
-
-export interface VersionToSidebars {
-  [version: string]: Set<string>;
-}
-
-export interface LoadedContent {
-  docsMetadata: DocsMetadata;
-  docsDir: string;
-  docsSidebars: DocsSidebar;
-  permalinkToSidebar: PermalinkToSidebar;
-  versionToSidebars: VersionToSidebars;
-}
-
-export type DocsBaseMetadata = Pick<
-  LoadedContent,
-  'docsSidebars' | 'permalinkToSidebar'
-> & {
-  version: string | null;
 };
 
-export type VersioningEnv = {
-  enabled: boolean;
-  latestVersion: string | null;
-  versions: string[];
-  docsDir: string;
-  sidebarsDir: string;
+export type LoadedVersion = VersionMetadata & {
+  versionPath: string;
+  mainDocId: string;
+  docs: DocMetadata[];
+  sidebars: Sidebars;
+  permalinkToSidebar: Record<string, string>;
 };
 
-export interface Env {
-  versioning: VersioningEnv;
-  // TODO: translation
-}
+export type LoadedContent = {
+  loadedVersions: LoadedVersion[];
+};
 
 export type GlobalDoc = {
   id: string;
@@ -196,7 +142,9 @@ export type GlobalDoc = {
 };
 
 export type GlobalVersion = {
-  name: DocsVersion;
+  name: VersionName;
+  label: string;
+  isLast: boolean;
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
@@ -204,6 +152,39 @@ export type GlobalVersion = {
 
 export type GlobalPluginData = {
   path: string;
-  latestVersionName: DocsVersion;
   versions: GlobalVersion[];
+};
+
+export type PropVersionMetadata = {
+  version: VersionName;
+  docsSidebars: PropSidebars;
+  permalinkToSidebar: PermalinkToSidebar;
+};
+
+export type PropSidebarItemLink = SidebarItemLink; // same
+
+export type PropSidebarItemCategory = {
+  type: 'category';
+  label: string;
+  items: PropSidebarItem[];
+  collapsed?: boolean;
+};
+
+export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
+
+export type PropSidebars = {
+  [sidebarId: string]: PropSidebarItem[];
+};
+
+export type BrokenMarkdownLink = {
+  filePath: string;
+  version: VersionMetadata;
+  link: string;
+};
+
+export type DocsMarkdownOption = {
+  versionsMetadata: VersionMetadata[];
+  siteDir: string;
+  sourceToPermalink: SourceToPermalink;
+  onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
 };

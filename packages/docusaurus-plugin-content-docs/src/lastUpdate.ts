@@ -14,7 +14,7 @@ const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
 
 let showedGitRequirementError = false;
 
-export default async function getFileLastUpdate(
+export async function getFileLastUpdate(
   filePath?: string,
 ): Promise<FileLastUpdateData | null> {
   if (!filePath) {
