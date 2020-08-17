@@ -8,7 +8,6 @@
 import React from 'react';
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-// import styles from './styles.module.css'
 
 // avoids "react-json-view" to display  "root"
 const RootName = false;
