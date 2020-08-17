@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.61",
   "description": "Algolia search component for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,15 +8,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "algoliasearch": "^3.24.5",
+    "@docsearch/react": "^1.0.0-alpha.27",
+    "@hapi/joi": "^17.1.1",
+    "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",
     "clsx": "^1.1.1",
-    "docsearch.js": "^2.6.3",
     "eta": "^1.1.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
-    "@docusaurus/utils": "^2.0.0-alpha.54",
+    "@docusaurus/utils": "2.0.0-alpha.60",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

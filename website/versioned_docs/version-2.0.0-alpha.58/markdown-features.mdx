@@ -197,7 +197,7 @@ You can also import your own components defined in other files or third-party co
 
 You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [Remark](https://github.com/remarkjs/remark) and [Rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
 
-First, install your [Remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [Rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
+First, install your [Remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) and [Rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins) plugins.
 
 For example:
 
@@ -571,7 +571,7 @@ module.exports = {
 If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
 ```bash npm2yarn
-yarn swizzle @docusaurus/theme-classic prism-include-languages
+npm run swizzle @docusaurus/theme-classic prism-include-languages
 ```
 
 It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:

@@ -14,6 +14,9 @@ import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
 
+// @ts-expect-error: no typedefs :s
+import resolvePathnameUnsafe from 'resolve-pathname';
+
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
@@ -59,8 +62,8 @@ export function objectWithKeySorted(obj: {[index: string]: any}) {
     }, {});
 }
 
-const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js|tsx)$/;
+const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
+const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -80,6 +83,10 @@ export function encodePath(userpath: string): string {
     .join('/');
 }
 
+export function simpleHash(str: string, length: number): string {
+  return createHash('md5').update(str).digest('hex').substr(0, length);
+}
+
 /**
  * Given an input string, convert to kebab-case and append a hash.
  * Avoid str collision.
@@ -88,7 +95,7 @@ export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
-  const shortHash = createHash('md5').update(str).digest('hex').substr(0, 3);
+  const shortHash = simpleHash(str, 3);
   return `${kebabCase(str)}-${shortHash}`;
 }
 
@@ -139,17 +146,11 @@ export function genChunkName(
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
     if (shortId) {
-      chunkName = createHash('md5')
-        .update(modulePath)
-        .digest('hex')
-        .substr(0, 8);
+      chunkName = simpleHash(modulePath, 8);
     } else {
       let str = modulePath;
       if (preferredName) {
-        const shortHash = createHash('md5')
-          .update(modulePath)
-          .digest('hex')
-          .substr(0, 3);
+        const shortHash = simpleHash(modulePath, 3);
         str = `${preferredName}${shortHash}`;
       }
       const name = str === '/' ? 'index' : docuHash(str);
@@ -363,12 +364,21 @@ export function isValidPathname(str: string): boolean {
     return false;
   }
   try {
-    return new URL(str, 'https://domain.com').pathname === str;
+    // weird, but is there a better way?
+    const parsedPathname = new URL(str, 'https://domain.com').pathname;
+    return parsedPathname === str || parsedPathname === encodeURI(str);
   } catch (e) {
     return false;
   }
 }
 
+// resolve pathname and fail fast if resolution fails
+export function resolvePathname(to: string, from?: string) {
+  return resolvePathnameUnsafe(to, from);
+}
+export function addLeadingSlash(str: string): string {
+  return str.startsWith('/') ? str : `/${str}`;
+}
 export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
@@ -384,8 +394,31 @@ export function removeSuffix(str: string, suffix: string): string {
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
+export function removePrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
+}
+
 export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);
+}
+
+export function getElementsAround<T extends unknown>(
+  array: T[],
+  aroundIndex: number,
+): {
+  next: T | undefined;
+  previous: T | undefined;
+} {
+  const min = 0;
+  const max = array.length - 1;
+  if (aroundIndex < min || aroundIndex > max) {
+    throw new Error(
+      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+    );
+  }
+  const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
+  const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
+  return {previous, next};
 }

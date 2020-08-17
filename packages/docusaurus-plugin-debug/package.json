@@ -1,18 +1,20 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.61",
   "description": "Debug plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.58",
-    "@docusaurus/utils": "^2.0.0-alpha.58"
+    "@docusaurus/types": "^2.0.0-alpha.61",
+    "@docusaurus/utils": "^2.0.0-alpha.61",
+    "react-json-view": "^1.19.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

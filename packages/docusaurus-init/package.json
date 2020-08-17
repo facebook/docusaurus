@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/init",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.61",
   "description": "Create Docusaurus app easily",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch"
   },
   "bin": {

@@ -7,14 +7,14 @@ title: Blog
 
 To setup your site's blog, start by creating a `blog` directory.
 
-Then, add a navbar link to your blog within `docusaurus.config.js`:
+Then, add an item link to your blog within `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     // ...
     navbar: {
-      links: [
+      items: [
         // ...
         // highlight-next-line
         {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
@@ -40,6 +40,7 @@ author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width
 tags: [hello, docusaurus-v2]
 description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
@@ -60,9 +61,10 @@ The only required field is `title`; however, we provide options to add author in
 - `author_title` - A description of the author.
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
-- `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
+- `draft` - A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
 - `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
+- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default it is `false`.
 
 ## Summary truncation
 
@@ -72,7 +74,7 @@ Use the `<!--truncate-->` marker in your blog post to represent what will be sho
 ---
 title: Truncation Example
 ---
-All this will be part of the blog post summary.
+All these will be part of the blog post summary.
 
 Even this.
 
@@ -157,17 +159,37 @@ module.exports = {
 };
 ```
 
-:::note
+:::caution
 
-Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
 
 :::
+
+You can also add meta description to the blog list page for better SEO:
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          blogDescription: 'A docusaurus powered blog!',
+        },
+      },
+    ],
+  ],
+};
+```
 
 ### Multiple blogs
 
 By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
 
 Set the `routeBasePath` to the URL route that you want your second blog to be accessed on. Note that the `routeBasePath` here has to be different from the first blog or else there could be a collision of paths! Also, set `path` to the path to the directory containing your second blog's entries.
+
+As documented for [multi-instance plugins](./using-plugins.md#multi-instance-plugins-and-plugin-ids), you need to assign a unique id to the plugins.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -176,6 +198,10 @@ module.exports = {
     [
       '@docusaurus/plugin-content-blog',
       {
+        /**
+         * Required for any multi-instance plugin
+         */
+        id: 'second-blog',
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
@@ -191,13 +217,4 @@ module.exports = {
 };
 ```
 
-<!--
-
-Adding a blog using the blog plugin.
-
-References
----
-- [source code](/packages/docusaurus-plugin-content-blog/src/index.js)
-- [v1 doc](https://docusaurus.io/docs/en/next/adding-blog)
-
--->
+As an example, we host a second blog [here](/second-blog).

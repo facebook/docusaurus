@@ -8,6 +8,7 @@
 import path from 'path';
 import {
   fileToPath,
+  simpleHash,
   docuHash,
   genComponentName,
   genChunkName,
@@ -22,7 +23,10 @@ import {
   addTrailingSlash,
   removeTrailingSlash,
   removeSuffix,
+  removePrefix,
   getFilePathForRoutePath,
+  addLeadingSlash,
+  getElementsAround,
 } from '../index';
 
 describe('load utils', () => {
@@ -67,6 +71,21 @@ describe('load utils', () => {
     };
     Object.keys(asserts).forEach((file) => {
       expect(genComponentName(file)).toBe(asserts[file]);
+    });
+  });
+
+  test('simpleHash', () => {
+    const asserts = {
+      '': 'd41',
+      '/foo-bar': '096',
+      '/foo/bar': '1df',
+      '/endi/lie': '9fa',
+      '/endi-lie': 'fd3',
+      '/yangshun/tay': '48d',
+      '/yangshun-tay': 'f3b',
+    };
+    Object.keys(asserts).forEach((file) => {
+      expect(simpleHash(file, 3)).toBe(asserts[file]);
     });
   });
 
@@ -376,10 +395,11 @@ describe('load utils', () => {
     expect(isValidPathname('/hey/ho/')).toBe(true);
     expect(isValidPathname('/hey/h%C3%B4/')).toBe(true);
     expect(isValidPathname('/hey///ho///')).toBe(true); // Unexpected but valid
+    expect(isValidPathname('/hey/héllô you')).toBe(true);
+
     //
     expect(isValidPathname('')).toBe(false);
     expect(isValidPathname('hey')).toBe(false);
-    expect(isValidPathname('/hey/hô')).toBe(false);
     expect(isValidPathname('/hey?qs=ho')).toBe(false);
     expect(isValidPathname('https://fb.com/hey')).toBe(false);
     expect(isValidPathname('//hey')).toBe(false);
@@ -392,6 +412,15 @@ describe('addTrailingSlash', () => {
   });
   test('should add /', () => {
     expect(addTrailingSlash('/abcd')).toEqual('/abcd/');
+  });
+});
+
+describe('addLeadingSlash', () => {
+  test('should no-op', () => {
+    expect(addLeadingSlash('/abc')).toEqual('/abc');
+  });
+  test('should add /', () => {
+    expect(addLeadingSlash('abc')).toEqual('/abc');
   });
 });
 
@@ -419,6 +448,21 @@ describe('removeSuffix', () => {
   });
 });
 
+describe('removePrefix', () => {
+  test('should no-op 1', () => {
+    expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
+  });
+  test('should no-op 2', () => {
+    expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
+  });
+  test('should no-op 3', () => {
+    expect(removePrefix('abcdef', '')).toEqual('abcdef');
+  });
+  test('should remove prefix', () => {
+    expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
+  });
+});
+
 describe('getFilePathForRoutePath', () => {
   test('works for /', () => {
     expect(getFilePathForRoutePath('/')).toEqual('/index.html');
@@ -431,6 +475,40 @@ describe('getFilePathForRoutePath', () => {
   test('works for /somePath/', () => {
     expect(getFilePathForRoutePath('/somePath/')).toEqual(
       '/somePath/index.html',
+    );
+  });
+});
+
+describe('getElementsAround', () => {
+  test('can return elements around', () => {
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
+      previous: undefined,
+      next: 'b',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 1)).toEqual({
+      previous: 'a',
+      next: 'c',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 2)).toEqual({
+      previous: 'b',
+      next: 'd',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 3)).toEqual({
+      previous: 'c',
+      next: undefined,
+    });
+  });
+
+  test('throws if bad index is provided', () => {
+    expect(() =>
+      getElementsAround(['a', 'b', 'c', 'd'], -1),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=-1"`,
+    );
+    expect(() =>
+      getElementsAround(['a', 'b', 'c', 'd'], 4),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
     );
   });
 });

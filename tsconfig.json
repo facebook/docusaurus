@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "lib": ["es2017","es2019.array"],
+    "lib": ["es2017","es2019.array", "DOM"],
     "declaration": true,
     "declarationMap": true,
+    "jsx": "react",
 
     /* Strict Type-Checking Options */
     "strict": true,
@@ -17,9 +18,11 @@
 
     /* Additional Checks */
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+
+    /* Disabled on purpose (handled by ESLint, should not block compilation) */
+    "noUnusedParameters": false,
 
     /* Module Resolution Options */
     "moduleResolution": "node",

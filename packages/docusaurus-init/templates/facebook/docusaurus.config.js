@@ -12,6 +12,7 @@ module.exports = {
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
+  onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
@@ -22,7 +23,7 @@ module.exports = {
         alt: 'My Facebook Project Logo',
         src: 'img/logo.svg',
       },
-      links: [
+      items: [
         {
           to: 'docs/',
           activeBasePath: 'docs',
@@ -91,14 +92,10 @@ module.exports = {
             {
               label: 'Privacy',
               href: 'https://opensource.facebook.com/legal/privacy/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
           ],
         },
@@ -117,8 +114,6 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'doc1',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:

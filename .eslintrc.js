@@ -64,6 +64,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'no-console': OFF,
+    'no-else-return': OFF,
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
@@ -78,12 +79,15 @@ module.exports = {
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
     'import/order': OFF,
+    'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
+    'no-lonely-if': WARNING,
     'no-use-before-define': [
       ERROR,
       {functions: false, classes: false, variables: true},
     ],
     'no-unused-vars': OFF,
+    'no-nested-ternary': WARNING,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,

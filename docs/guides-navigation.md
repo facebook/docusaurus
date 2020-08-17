@@ -42,7 +42,7 @@ You configure the contents of the sidebar, and the order of its documents, in th
 
 > Until you add your document to `website/sidebars.json`, they will only be accessible via a direct URL. The doc will not show up in any sidebar.
 
-Within `sidebars.json`, add the `id` you used in the document header to existing sidebar/category. In the below case, `docs` is the name of the sidebar and `Getting Started` is a category within the sidebar.
+Within `sidebars.json`, add the `id` you used in the document header to the existing sidebar/category. In the below case, `docs` is the name of the sidebar and `Getting Started` is a category within the sidebar.
 
 ```js
 {
@@ -234,7 +234,7 @@ If search is enabled on your site, your search bar will appear to the right of y
 
 ### Languages Dropdown
 
-If translations are enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
+If translations are enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection dropdown between links in the header, add a languages entry in the `headerLinks` config array:
 
 ```js
 {

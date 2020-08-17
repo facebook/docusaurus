@@ -11,31 +11,63 @@ This section is a work in progress.
 
 ## Common
 
-### Dark mode
+### Color mode - dark mode
 
-To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
+The classic theme provides by default light and dark mode support, with a navbar switch for the user.
 
-```js {4} title="docusaurus.config.js"
+It is possible to customize the color mode support with the following configuration:
+
+```js {6-35} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
-    disableDarkMode: false,
+    // ...
+    colorMode: {
+      // "light" | "dark"
+      defaultMode: 'light',
+
+      // Hides the switch in the navbar
+      // Useful if you want to support a single color mode
+      disableSwitch: false,
+
+      // Should we use the prefers-color-scheme media-query,
+      // using user system preferences, instead of the hardcoded defaultMode
+      respectPrefersColorScheme: false,
+
+      // Dark/light switch icon options
+      switchConfig: {
+        // Icon for the switch while in dark mode
+        darkIcon: '🌙',
+
+        // CSS to apply to dark icon,
+        // React inline style object
+        // see https://reactjs.org/docs/dom-elements.html#style
+        darkIconStyle: {
+          marginLeft: '2px',
+        },
+
+        // Unicode icons such as '\u2600' will work
+        // Unicode with 5 chars require brackets: '\u{1F602}'
+        lightIcon: '\u{1F602}'
+
+        lightIconStyle: {
+          marginLeft: '1px',
+        },
+      },
+    },
     // ...
   },
-};
-```
-
-With the enabled `defaultDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
-
-```js {4} title="docusaurus.config.js"
-module.exports = {
   // ...
-  themeConfig: {
-    defaultDarkMode: true,
-    // ...
-  },
 };
 ```
+
+:::caution
+
+With `respectPrefersColorScheme: true`, the `defaultMode` is overridden by user system preferences.
+
+If you only want to support one color mode, you likely want to ignore user system preferences.
+
+:::
 
 ### Meta image
 
@@ -137,16 +169,18 @@ module.exports = {
 };
 ```
 
-### Navbar links
+### Navbar items
 
-You can add links to the navbar via `themeConfig.navbar.links`:
+You can add items to the navbar via `themeConfig.navbar.items`.
+
+By default, Navbar items are regular links (internal or external).
 
 ```js {5-15} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
-      links: [
+      items: [
         {
           // Client-side routing, used for navigating within the website.
           // The baseUrl will be automatically prepended to this value.
@@ -169,7 +203,7 @@ module.exports = {
           // Custom CSS class (for styling any item).
           className: '',
         },
-        // ... other links
+        // ... other items
       ],
     },
     // ...
@@ -183,14 +217,14 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 ### Navbar dropdown
 
-Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar links.
+Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar items.
 
 ```js {9-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
-      links: [
+      items: [
         {
           label: 'Community',
           position: 'left', // or 'right'
@@ -209,6 +243,46 @@ module.exports = {
       ],
     },
     // ...
+  },
+};
+```
+
+### Navbar docs version dropdown
+
+If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions. The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+        },
+      ],
+    },
+  },
+};
+```
+
+### Navbar docs version
+
+If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current url), and fallback to the latest version.
+
+```js {5-10} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersion',
+          position: 'left',
+          // to: "/path // by default, link to active/latest version
+          // label: "label" // by default, show active/latest version label
+        },
+      ],
+    },
   },
 };
 ```

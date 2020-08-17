@@ -17,6 +17,7 @@ coverage
 types
 test-website
 packages/docusaurus-utils/lib/
+packages/docusaurus-utils-validation/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
 packages/docusaurus-plugin-client-redirects/lib/
@@ -26,3 +27,9 @@ packages/docusaurus-plugin-content-pages/lib/
 packages/docusaurus-plugin-debug/lib/
 packages/docusaurus-plugin-sitemap/lib/
 packages/docusaurus-plugin-ideal-image/lib/
+packages/docusaurus-theme-classic/lib/
+packages/docusaurus-migrate/lib/
+
+website/netlifyDeploy
+
+website-1.x-migrated

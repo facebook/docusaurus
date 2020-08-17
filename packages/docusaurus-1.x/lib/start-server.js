@@ -49,6 +49,6 @@ program
   .parse(process.argv);
 
 startDocusaurus().catch((ex) => {
-  console.error(chalk.red(`Failed to start Docusaurus server: ${ex}`));
+  console.error(chalk.red(ex && ex.stack ? ex.stack : ex));
   process.exit(1);
 });

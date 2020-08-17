@@ -4,6 +4,46 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.6] - 2020-08-05
+
+#### :bug: Bug Fix
+
+- `docusaurus-1.x`
+
+  - [#3213](https://github.com/facebook/docusaurus/pull/3213) fix(v1): fresh install failing due to <> syntax ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3186](https://github.com/facebook/docusaurus/pull/3186) docs(v1): formatting changelog ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
+## [1.14.5] - 2020-08-01
+
+#### :rocket: New Feature
+
+- `docusaurus-1.x`
+  - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
+  - [#3124](https://github.com/facebook/docusaurus/pull/3124) feat(v1): add 'slugPreprocessor' config option to allow users customize the hash links ([@Simek](https://github.com/Simek))
+
+#### :memo: Documentation
+
+- `docusaurus-1.x`
+  - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
+  - [#3011](https://github.com/facebook/docusaurus/pull/3011) docs(v1): external links ([@slorber](https://github.com/slorber))
+  - [#2388](https://github.com/facebook/docusaurus/pull/2388) docs(v1): showcase user Day.js ([@iamkun](https://github.com/iamkun))
+  - [#2307](https://github.com/facebook/docusaurus/pull/2307) docs(v1): fix Windows instructions for GitHub Pages publishing ([@jartuso](https://github.com/jartuso))
+
+#### Committers: 6
+
+- [@aldeed](https://github.com/aldeed)
+- [@Simek](https://github.com/Simek)
+- [@slorber](https://github.com/slorber)
+- [@iamkun](https://github.com/iamkun)
+- [@jartuso](https://github.com/jartuso)
+
 ## [1.14.4] - 2020-01-12
 
 #### :bug: Bug Fix
@@ -770,7 +810,7 @@ None that we know of. Please let us know if you find any as this is a big releas
 
 ### Added
 
-- Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of most [requested features](https://github.com/facebook/docusaurus/pull/705).
+- Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of the most [requested features](https://github.com/facebook/docusaurus/pull/705).
 - You can now use [Prism for syntax highlighting](https://github.com/facebook/docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
 - URLs can now be ["clean"](https://github.com/facebook/docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773) - no `.html` extension.
 - Scroll to top button [option](https://github.com/facebook/docusaurus/commit/aee255219bedc97b55048cdb4703742cbb7c247e) for your documentation pages.

@@ -8,6 +8,9 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
+import {MergeStrategy} from 'webpack-merge';
+
+export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -15,6 +18,8 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  onBrokenLinks: ReportingSeverity;
+  onDuplicateRoutes: ReportingSeverity;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -43,9 +48,29 @@ export interface DocusaurusConfig {
   )[];
 }
 
+/**
+ * - `type: 'package'`, plugin is in a different package.
+ * - `type: 'project'`, plugin is in the same docusaurus project.
+ * - `type: 'local'`, none of plugin's ancestor directory contains any package.json.
+ * - `type: 'synthetic'`, docusaurus generated internal plugin.
+ */
+export type DocusaurusPluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+export interface DocusaurusSiteMetadata {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+}
+
 export interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
-  isClient?: boolean;
+  siteConfig: DocusaurusConfig;
+  siteMetadata: DocusaurusSiteMetadata;
+  globalData: Record<string, any>;
+  isClient: boolean;
 }
 
 export interface Preset {
@@ -90,34 +115,48 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
+  routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<unknown>[];
+  plugins: Plugin<any, unknown>[];
 }
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
   createData(name: string, data: any): Promise<string>;
+  setGlobalData<T = unknown>(data: T): void;
 }
 
-export interface Plugin<T> {
+export type AllContent = Record<
+  string, // plugin name
+  Record<
+    string, // plugin id
+    unknown // plugin data
+  >
+>;
+
+export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
+  validateOptions?(): ValidationResult<U>;
+  validateThemeConfig?(): ValidationResult<any>;
   contentLoaded?({
     content,
     actions,
   }: {
-    content: T;
+    content: T; // the content loaded by this plugin instance
+    allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
   }): void;
-  routesLoaded?(routes: RouteConfig[]): void;
+  routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
-  ): Configuration;
+  ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   getThemePath?(): string;
+  getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
@@ -126,12 +165,15 @@ export interface Plugin<T> {
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
   };
+  getSwizzleComponentList?(): string[];
 }
 
-export type PluginConfig =
-  | [string, Record<string, unknown>]
-  | [string]
-  | string;
+export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
+export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+
+export type PluginOptions = {id?: string} & Record<string, unknown>;
+
+export type PluginConfig = [string, PluginOptions] | [string] | string;
 
 export interface ChunkRegistry {
   loader: string;
@@ -200,4 +242,31 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
+}
+
+export interface ValidationResult<T, E extends Error = Error> {
+  error?: E;
+  value: T;
+}
+
+export type Validate<T, E extends Error = Error> = (
+  validationSchema: ValidationSchema<T>,
+  options: Partial<T>,
+) => ValidationResult<T, E>;
+
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  options: Partial<T>;
+}
+
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  themeConfig: Partial<T>;
+}
+
+// TODO we should use a Joi type here
+export interface ValidationSchema<T> {
+  validate(options: Partial<T>, opt: object): ValidationResult<T>;
+  unknown(): ValidationSchema<T>;
+  append(data: any): ValidationSchema<T>;
 }

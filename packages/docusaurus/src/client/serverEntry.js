@@ -22,22 +22,52 @@ import packageJson from '../../package.json';
 import preload from './preload';
 // eslint-disable-next-line import/no-unresolved
 import App from './App';
+import {
+  createStatefulLinksCollector,
+  ProvideLinksCollector,
+} from './LinksCollector';
 import ssrTemplate from './templates/ssr.html.template';
+
+// eslint-disable-next-line no-restricted-imports
+import {memoize} from 'lodash';
+
+const getCompiledSSRTemplate = memoize(() => {
+  return eta.compile(ssrTemplate.trim(), {
+    rmWhitespace: true,
+  });
+});
+
+function renderSSRTemplate(data) {
+  const compiled = getCompiledSSRTemplate();
+  return compiled(data, eta.defaultConfig);
+}
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
-  const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
+  const {
+    routesLocation,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    onLinksCollected,
+    baseUrl,
+  } = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
   const modules = new Set();
   const context = {};
+
+  const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
-        <App />
+        <ProvideLinksCollector linksCollector={linksCollector}>
+          <App />
+        </ProvideLinksCollector>
       </StaticRouter>
     </Loadable.Capture>,
   );
+  onLinksCollected(location, linksCollector.getCollectedLinks());
 
   const helmet = Helmet.renderStatic();
   const htmlAttributes = helmet.htmlAttributes.toString();
@@ -59,28 +89,20 @@ export default async function render(locals) {
   const bundles = getBundles(manifest, modulesToBeLoaded);
   const stylesheets = (bundles.css || []).map((b) => b.file);
   const scripts = (bundles.js || []).map((b) => b.file);
-  const {baseUrl} = locals;
 
-  const renderedHtml = eta.render(
-    ssrTemplate.trim(),
-    {
-      appHtml,
-      baseUrl,
-      htmlAttributes: htmlAttributes || '',
-      bodyAttributes: bodyAttributes || '',
-      headTags,
-      preBodyTags,
-      postBodyTags,
-      metaAttributes,
-      scripts,
-      stylesheets,
-      version: packageJson.version,
-    },
-    {
-      name: 'ssr-template',
-      rmWhitespace: true,
-    },
-  );
+  const renderedHtml = renderSSRTemplate({
+    appHtml,
+    baseUrl,
+    htmlAttributes: htmlAttributes || '',
+    bodyAttributes: bodyAttributes || '',
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    metaAttributes,
+    scripts,
+    stylesheets,
+    version: packageJson.version,
+  });
 
   // Minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {

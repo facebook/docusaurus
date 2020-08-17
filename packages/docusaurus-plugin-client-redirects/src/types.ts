@@ -8,6 +8,7 @@
 import {Props} from '@docusaurus/types';
 
 export type PluginOptions = {
+  id: string;
   fromExtensions: string[];
   toExtensions: string[];
   redirects: RedirectOption[];
@@ -28,11 +29,9 @@ export type RedirectOption = {
 export type UserPluginOptions = Partial<PluginOptions>;
 
 // The minimal infos the plugin needs to work
-export type PluginContext = Pick<
-  Props,
-  'routesPaths' | 'outDir' | 'baseUrl'
-> & {
+export type PluginContext = Pick<Props, 'outDir' | 'baseUrl'> & {
   options: PluginOptions;
+  relativeRoutesPaths: string[];
 };
 
 // In-memory representation of redirects we want: easier to test

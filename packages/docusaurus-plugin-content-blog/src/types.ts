@@ -17,9 +17,10 @@ export interface DateLink {
   link: string;
 }
 
-export type FeedType = 'rss' | 'atom' | 'all';
+export type FeedType = 'rss' | 'atom';
 
 export interface PluginOptions {
+  id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
@@ -28,12 +29,13 @@ export interface PluginOptions {
   blogPostComponent: string;
   blogTagsListComponent: string;
   blogTagsPostsComponent: string;
+  blogDescription: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
-  feedOptions?: {
-    type: FeedType;
+  feedOptions: {
+    type: [FeedType];
     title?: string;
     description?: string;
     copyright: string;
@@ -66,6 +68,7 @@ export interface BlogPaginatedMetadata {
   totalCount: number;
   previousPage: string | null;
   nextPage: string | null;
+  blogDescription: string;
 }
 
 export interface BlogPaginated {

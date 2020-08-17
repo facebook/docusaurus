@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalizeConfig should throw error for baseUrl without trailing \`/\` 1`] = `
+"\\"baseUrl\\" must be a string with a trailing \`/\`
+"
+`;
+
+exports[`normalizeConfig should throw error for required fields 1`] = `
+"\\"baseUrl\\" is required
+\\"favicon\\" is required
+\\"title\\" is required
+\\"url\\" is required
+\\"themes\\" must be an array
+\\"presets\\" must be an array
+\\"scripts\\" must be an array
+\\"stylesheets\\" must be an array
+These field(s) [\\"invalidField\\",] are not recognized in docusaurus.config.js.
+If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
+See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields"
+`;
+
+exports[`normalizeConfig should throw error for unknown field 1`] = `
+"These field(s) [\\"invalid\\",] are not recognized in docusaurus.config.js.
+If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
+See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields"
+`;
+
+exports[`normalizeConfig should throw error if css doesn't have href 1`] = `
+"\\"stylesheets[1]\\" does not match any of the allowed types
+"
+`;
+
+exports[`normalizeConfig should throw error if plugins is not array 1`] = `
+"\\"plugins\\" must be an array
+"
+`;
+
+exports[`normalizeConfig should throw error if presets is not array 1`] = `
+"\\"presets\\" must be an array
+"
+`;
+
+exports[`normalizeConfig should throw error if scripts doesn't have src 1`] = `
+"\\"scripts[1]\\" does not match any of the allowed types
+"
+`;
+
+exports[`normalizeConfig should throw error if themes is not array 1`] = `
+"\\"themes\\" must be an array
+"
+`;

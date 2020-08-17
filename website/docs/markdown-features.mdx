@@ -144,7 +144,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 
 **Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
 
-**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](guides/migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
 
 Try this block here:
 
@@ -197,7 +197,7 @@ You can also import your own components defined in other files or third-party co
 
 You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [Remark](https://github.com/remarkjs/remark) and [Rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
 
-First, install your [Remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [Rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
+First, install your [Remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) and [Rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins) plugins.
 
 For example:
 
@@ -571,23 +571,23 @@ module.exports = {
 If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
 ```bash npm2yarn
-yarn swizzle @docusaurus/theme-classic prism-include-languages
+npm run swizzle @docusaurus/theme-classic prism-include-languages
 ```
 
 It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:
 
 ```js {8} title="src/theme/prism-include-languages.js"
 const prismIncludeLanguages = (Prism) => {
-    // ...
+  // ...
 
-    additionalLanguages.forEach((lang) => {
-      require(`prismjs/components/prism-${lang}`); // eslint-disable-line
-    });
+  additionalLanguages.forEach((lang) => {
+    require(`prismjs/components/prism-${lang}`); // eslint-disable-line
+  });
 
-    require('/path/to/your/prism-language-definition');
+  require('/path/to/your/prism-language-definition');
 
-    // ...
-}
+  // ...
+};
 ```
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
@@ -932,3 +932,130 @@ class HelloWorld {
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
 
 If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](#syncing-tab-choices).
+
+## Assets
+
+Sometimes you want to link to static assets directly from markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
+
+We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
+
+Let's imagine the following file structure:
+
+```
+# Your doc
+/website/docs/myFeature.mdx
+
+# Some assets you want to use
+/website/docs/assets/docusaurus-asset-example-banner.png
+/website/docs/assets/docusaurus-asset-example-pdf.pdf
+/website/docs/assets/docusaurus-asset-example.xyz
+```
+
+### Image assets
+
+You can use images by requiring them and using an image tag through MDX:
+
+```mdx
+# My markdown page
+
+<img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+
+or
+
+![](./assets/docusaurus-asset-example-banner.png)
+```
+
+The ES imports syntax also works:
+
+```mdx
+# My markdown page
+
+import myImageUrl from './assets/docusaurus-asset-example-banner.png';
+
+<img src={myImageUrl)}/>
+```
+
+This results in displaying the image:
+
+![](./assets/docusaurus-asset-example-banner.png)
+
+:::note
+
+If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusplugin-ideal-image), you need to use the dedicated image component, as documented.
+
+:::
+
+### Common assets
+
+In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc...
+
+```mdx
+# My markdown page
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+
+or 
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF !!!
+</a>
+
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
+
+### Unknown assets
+
+This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in:
+
+```mdx
+# My markdown page
+
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+
+or
+
+[Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
+```
+
+<a
+  target="_blank"
+  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
+  Download this unknown file !!!
+</a>
+
+[Download this unknown file using Markdown !!!](!file-loader!./assets/docusaurus-asset-example.xyz)
+
+
+```md
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
+
+### Inline SVGs
+
+Docusaurus support inlining SVGs out of the box.
+
+```js
+
+import DocusaurusSvg from "./docusaurus.svg"
+
+<DocusaurusSvg />
+
+```
+import DocusaurusSvg from "@site/static/img/docusaurus.svg"
+
+<DocusaurusSvg />

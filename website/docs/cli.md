@@ -79,7 +79,7 @@ We highly discourage swizzling of components until we've reached a Beta stage. T
 Change any Docusaurus theme components to your liking with `docusaurus swizzle`.
 
 ```shell
-docusaurus swizzle <themeName> [componentName] [siteDir]
+docusaurus swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
 docusaurus swizzle @docusaurus/theme-classic DocSidebar
@@ -87,12 +87,16 @@ docusaurus swizzle @docusaurus/theme-classic DocSidebar
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
+`docusaurus swizzle` without `themeName` lists all the themes available for swizzling similarly `docusaurus swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+
 #### Options
 
-| Name               | Description                           |
-| ------------------ | ------------------------------------- |
-| `themeName`        | The name of the theme you are using.  |
-| `swizzleComponent` | The name of the component to swizzle. |
+| Name               | Description                            |
+| ------------------ | -------------------------------------- |
+| `themeName`        | The name of the theme you are using.   |
+| `swizzleComponent` | The name of the component to swizzle.  |
+| `--danger`         | Allow swizzling of unstable components |
+| `--typescript`     | Swizzle typescript components          |
 
 To unswizzle a component, simply delete the files of the swizzled component.
 
@@ -111,3 +115,14 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
+
+### `docusaurus serve`
+
+Serve your built website localy.
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `--port` | `3000` | Use specified port |
+| `--dir` | `build` | The full path for the output directory, relative to the current workspace |
+| `--build` | `false` | Build website before serving |
+| `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |

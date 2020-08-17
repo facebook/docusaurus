@@ -39,41 +39,26 @@ slug: part1.html
 Lorem ipsum
 ```
 
-## Home page docs
-
-Using the `homePageId` property, you can create a home page of your docs. To do this, you can create a new document, especially for this purpose with the id as `_index`, or you could specify an existing document id.
-
-```js {8} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          homePageId: 'getting-started', // Defaults to `_index`
-          // ...
-        },
-      },
-    ],
-  ],
-  // ...
-};
-```
-
-Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled. Importantly, with document serves as home docs page, it will not be available at its URL. Following the example above, this means that the `docs/getting-started` URL will be lead to a 404 error.
-
-:::important
-
-The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route. If left to the default, the page will not show a sidebar. If you wish to have a sidebar for this page, specify the document id that is listed in the sidebar file.
-
-:::
-
 :::note
 
-The page `docs` that you created (eg. `src/pages/docs.js`) will take precedence over the route generated via the `homePageId` option.
+It is possible to use:
+
+- absolute slugs: `slug: /mySlug`, `slug: /`...
+- relative slugs: `slug: mySlug`, `slug: ./../mySlug`...
 
 :::
+
+## Home page docs
+
+If you want a document to be available at the root, and have a path like `https://v2.docusaurus.io/docs/`, you can use the slug frontmatter:
+
+```yml
+---
+id: my-home-doc
+slug: /
+---
+Lorem ipsum
+```
 
 ## Sidebar
 
@@ -325,39 +310,18 @@ module.exports = {
 
 ## Docs-only mode
 
-If you just want the documentation feature, you can enable "docs-only mode".
+If you only want the documentation feature, you can run your Docusaurus 2 site without a landing page and display your documentation page as the index page instead.
 
-To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
+To enable docs-only mode, set the docs plugin `routeBasePath: '/'`, and use the frontmatter `slug: /` on the document that should be the index page ([more infos](#home-page-docs)).
 
-:::note
+:::caution
 
-More details on functionality of home page for docs can be found in [appropriate section](#home-page-docs).
+You should delete the existing homepage at `./src/pages/index.js`, or else there will be two files mapping to the same route!
 
 :::
 
-```js {8-9} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          routeBasePath: '/', // Set this value to '/'.
-          homePageId: 'getting-started', // Set to existing document id.
-          // ...
-        },
-      },
-    ],
-  ],
-  // ...
-};
-```
-
-Now, when visiting your site, it will show your initial document instead of a landing page.
-
 :::tip
 
-There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `/src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus 2. You can use the same method detailed above. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
 
 :::

@@ -4,12 +4,13 @@
 </h1>
 
 <p align="center">
+  <a href="https://twitter.com/docusaurus"><img src="https://img.shields.io/twitter/follow/docusaurus.svg?style=social" align="right" alt="Twitter Follow" /></a>
   <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/backers/badge.svg" /></a>
   <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/sponsors/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/docusaurus"><img src="https://img.shields.io/npm/v/docusaurus.svg?style=flat" alt="npm version"></a>
   <a href="https://circleci.com/gh/facebook/docusaurus"><img src="https://img.shields.io/circleci/build/github/facebook/docusaurus.svg" alt="CircleCI status"></a>
-<a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
-  <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
+  <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/discord/102860784329052160.svg" align="right" alt="Discord Chat" /></a>
   <a href="https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
   <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
   <a href="https://gitpod.io/#https://github.com/facebook/docusaurus"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/></a>
@@ -22,11 +23,15 @@
 
 ## Introduction
 
-Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
+Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
-- **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation/) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
-- **Localizable** Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation/) via CrowdIn. Empower and grow your international community by translating your documentation.
-- **Customizable** While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/adding-blog/), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages/) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages/).
+- **Simple to Start** 
+
+>Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/en/installation/) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+- **Localizable** 
+>Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation/) via CrowdIn. Empower and grow your international community by translating your documentation.
+- **Customizable** 
+>While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/adding-blog/), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages/) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages/).
 
 ## Installation
 
@@ -66,13 +71,13 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 
 ## Backers
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Docusaurus#backer)]
+Thank you to all our backers! 🙏 [Become a backer](https://opencollective.com/Docusaurus#backer)
 
 <a href="https://opencollective.com/Docusaurus#backers" target="_blank"><img src="https://opencollective.com/Docusaurus/backers.svg?width=890"></a>
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Docusaurus#sponsor)]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/Docusaurus#sponsor)
 
 <a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
 
