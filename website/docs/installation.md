@@ -32,6 +32,12 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 npx @docusaurus/init@next init my-website facebook
 ```
 
+**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following::
+
+```bash
+npx @docusaurus/init@next init my-website bootstrap
+```
+
 ## Project structure
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:

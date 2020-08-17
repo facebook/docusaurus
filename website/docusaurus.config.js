@@ -15,6 +15,12 @@ const allDocHomesPaths = [
 ];
 
 const baseUrl = process.env.BASE_URL || '/';
+const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
+
+if (isBootstrapPreset) {
+  console.log('Will use bootstrap preset!');
+}
 
 module.exports = {
   title: 'Docusaurus',
@@ -23,7 +29,7 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -154,7 +160,9 @@ module.exports = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      isBootstrapPreset
+        ? '@docusaurus/preset-bootstrap'
+        : '@docusaurus/preset-classic',
       {
         debug: true, // force debug plugin usage
         docs: {
@@ -166,7 +174,7 @@ module.exports = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
-          disableVersioning: !!process.env.DISABLE_VERSIONING,
+          disableVersioning: isVersioningDisabled,
         },
         blog: {
           // routeBasePath: '/',

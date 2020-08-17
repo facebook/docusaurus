@@ -17,10 +17,14 @@
   # workaroud: a _redirect file is created in website/netlifyDeploy
   # can't we have context-based redirects with Netlify? :'(
   [[context.deploy-preview.redirects]]
-    from = "/build/*"
-    to = "/build/404.html"
+    from = "/classic/*"
+    to = "/classic/404.html"
+    status = 200
+  [[context.deploy-preview.redirects]]
+    from = "/bootstrap/*"
+    to = "/bootstrap/404.html"
     status = 200
   [[context.deploy-preview.redirects]]
     from = "/*"
-    to = "/build/"
+    to = "/classic/"
 

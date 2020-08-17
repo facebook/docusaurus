@@ -117,6 +117,26 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
+### `@docusaurus/theme-bootstrap`
+
+The bootstrap theme for Docusaurus. You can refer to [bootstrap theme configuration](theme-bootstrap.md) for more details on the configuration.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-bootstrap
+```
+
+:::tip
+
+If you have installed `@docusaurus/preset-bootstrap`, you don't need to install it as a dependency.
+
+:::
+
+:::caution
+
+This theme is a work in progress.
+
+:::
+
 ### `@docusaurus/theme-search-algolia`
 
 This theme provides a `@theme/SearchBar` component that integrates with Algolia DocSearch easily. Combined with `@docusaurus/theme-classic`, it provides a very easy search integration. You can read more on [search](search.md) documentation.

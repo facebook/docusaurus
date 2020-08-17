@@ -13,6 +13,7 @@
     "start:v2": "yarn workspace docusaurus-2-website start",
     "start:v2:watch": "nodemon --watch \"./packages/*/lib/**/*.*\" --exec \"yarn start:v2\"",
     "start:v2:baseUrl": "yarn workspace docusaurus-2-website start:baseUrl",
+    "start:v2:bootstrap": "yarn workspace docusaurus-2-website start:bootstrap",
     "build": "yarn build:packages && yarn build:v2",
     "build:packages": "lerna run build --no-private",
     "build:v1": "yarn workspace docusaurus-1-website build",
