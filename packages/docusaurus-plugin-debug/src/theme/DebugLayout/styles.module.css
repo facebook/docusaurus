@@ -8,6 +8,7 @@
 .container {
   padding: 20px;
   padding-top: 80px;
+  overflow-x: hidden;
 }
 
  .nav {
@@ -18,6 +19,7 @@
    height: 3.75rem;
    background-color: #242526;
    width: 100%;
+   z-index: 1;
  }
 
  .navlink {
@@ -25,7 +27,7 @@
    font-weight: 500;
    text-align: center;
    border-radius: 4px;
-   padding: 6px 16px;
+   padding: 6px 6px;
   }
   
   .navlink:hover {
@@ -45,7 +47,9 @@
     height: 100vh;
     width: 200px;
     float: left;
+    background-color: #18191a;
     border-right: 1px solid #606770;
+    padding-top: 20px;
   }
 
   .navlink {
