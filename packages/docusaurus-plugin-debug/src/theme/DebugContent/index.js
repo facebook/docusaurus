@@ -24,8 +24,8 @@ const PluginContent = ({pluginName, pluginContent}) => {
       <div>
         {Object.entries(pluginContent)
           // filter plugin instances with no content
-          .filter(([_pluginId, pluginInstanceContent]) =>
-            !!pluginInstanceContent,
+          .filter(
+            ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
           )
           .map(([pluginId, pluginInstanceContent]) => {
             return (

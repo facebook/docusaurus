@@ -25,11 +25,12 @@ function DebugRoutes() {
             <div>
               Is exact: <code>{String(Boolean(exact))}</code>
             </div>
-            {childRoutes && 
-              <div>Child Routes:
+            {childRoutes && (
+              <div>
+                Child Routes:
                 <DebugJsonView src={childRoutes} />
               </div>
-            }
+            )}
           </li>
         ))}
       </ul>
