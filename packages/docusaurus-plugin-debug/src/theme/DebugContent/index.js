@@ -27,7 +27,9 @@ const PluginContent = ({pluginName, pluginContent}) => {
           {Object.entries(pluginContent)
             // filter plugin instances with no content
             .filter(
-              ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
+              ([pluginId, pluginInstanceContent], _index, instances) => 
+                !!pluginInstanceContent 
+                && instances.length > 1 ? pluginId !== 'default' : true
             )
             .map(([pluginId, pluginInstanceContent]) => {
               return (
