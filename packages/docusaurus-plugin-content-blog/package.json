@@ -3,6 +3,7 @@
   "version": "2.0.0-alpha.61",
   "description": "Blog plugin for Docusaurus",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"

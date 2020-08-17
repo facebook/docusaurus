@@ -10,9 +10,10 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
+import type {Props} from '@theme/BlogPostPage';
 import TOC from '@theme/TOC';
 
-function BlogPostPage(props): JSX.Element {
+function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
   const {frontMatter, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem, editUrl} = metadata;

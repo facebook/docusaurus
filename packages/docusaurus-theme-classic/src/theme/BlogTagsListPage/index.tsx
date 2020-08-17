@@ -9,15 +9,14 @@ import React from 'react';
 
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import type {Props} from '@theme/BlogTagsListPage';
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
   return tag[0].toUpperCase();
 }
 
-type Tag = {permalink: string; name: string; count: number};
-
-function BlogTagsListPage(props: {tags: Record<string, Tag>}): JSX.Element {
+function BlogTagsListPage(props: Props): JSX.Element {
   const {tags} = props;
 
   const tagCategories: {[category: string]: string[]} = {};
