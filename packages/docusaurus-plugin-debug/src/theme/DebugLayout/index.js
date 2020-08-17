@@ -26,7 +26,8 @@ function DebugLayout({children}) {
   return (
     <div>
       <nav className={styles.nav}>
-        <DebugNavLink to="/__docusaurus/debug">Config</DebugNavLink>
+        <DebugNavLink to="/__docusaurus/debug">Home</DebugNavLink>
+        <DebugNavLink to="/__docusaurus/debug/config">Config</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/metadata">Metadata</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/registry">Registry</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/routes">Routes</DebugNavLink>
