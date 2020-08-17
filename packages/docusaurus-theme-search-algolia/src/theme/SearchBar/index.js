@@ -99,11 +99,17 @@ function DocSearch(props) {
     [onClose],
   );
 
-  const transformSearchClient = useRef((searchClient) => {
-    searchClient.addAlgoliaAgent('docusaurus', siteMetadata.docusaurusVersion);
+  const transformSearchClient = useCallback(
+    (searchClient) => {
+      searchClient.addAlgoliaAgent(
+        'docusaurus',
+        siteMetadata.docusaurusVersion,
+      );
 
-    return searchClient;
-  }).current;
+      return searchClient;
+    },
+    [siteMetadata.docusaurusVersion],
+  );
 
   useDocSearchKeyboardEvents({
     isOpen,
