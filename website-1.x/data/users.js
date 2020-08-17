@@ -561,6 +561,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Radity',
+    image: '/img/users/radity.svg',
+    infoLink: 'https://radity.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Rawsec Inventory',
     image: '/img/users/rawsec.png',
     infoLink: 'https://inventory.rawsec.ml/docs/',

@@ -11,6 +11,16 @@ const eta = require('eta');
 const {normalizeUrl} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
 const {validateThemeConfig} = require('./validateThemeConfig');
+const {memoize} = require('lodash');
+
+const getCompiledOpenSearchTemplate = memoize(() => {
+  return eta.compile(openSearchTemplate.trim());
+});
+
+function renderOpenSearchTemplate(data) {
+  const compiled = getCompiledOpenSearchTemplate();
+  return compiled(data, eta.defaultConfig);
+}
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
@@ -19,7 +29,7 @@ function theme(context) {
     baseUrl,
     siteConfig: {title, url, favicon},
   } = context;
-  const pagePath = path.resolve(__dirname, './pages/search/index.js');
+  const pagePath = path.resolve(__dirname, './theme/SearchPage/index.js');
 
   return {
     name: 'docusaurus-theme-search-algolia',
@@ -44,13 +54,14 @@ function theme(context) {
       try {
         fs.writeFileSync(
           path.join(outDir, OPEN_SEARCH_FILENAME),
-          eta.render(openSearchTemplate.trim(), {
+          renderOpenSearchTemplate({
             title,
             url,
             favicon: normalizeUrl([url, favicon]),
           }),
         );
       } catch (err) {
+        console.error(err);
         throw new Error(`Generating OpenSearch file failed: ${err}`);
       }
     },

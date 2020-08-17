@@ -156,6 +156,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Oxidizer',
+    description: 'A Rust ORM based on tokio-postgres and refinery',
+    preview: require('./showcase/oxidizer.png'),
+    website: 'https://oxidizer.rs',
+    source: 'https://github.com/oxidizer-rs/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'QA-Board',
     description:
       'An open source run-tracker for algorithm and performance engineering with rich visualizations',

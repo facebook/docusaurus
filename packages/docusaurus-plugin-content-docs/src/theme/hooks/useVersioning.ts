@@ -14,6 +14,7 @@ try {
   versions = [];
 }
 
+// TODO deprecate in favor of useDocs.ts instead
 function useVersioning(): {
   versioningEnabled: boolean;
   versions: string[];

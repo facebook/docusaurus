@@ -403,3 +403,22 @@ export function getFilePathForRoutePath(routePath: string): string {
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);
 }
+
+export function getElementsAround<T extends unknown>(
+  array: T[],
+  aroundIndex: number,
+): {
+  next: T | undefined;
+  previous: T | undefined;
+} {
+  const min = 0;
+  const max = array.length - 1;
+  if (aroundIndex < min || aroundIndex > max) {
+    throw new Error(
+      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+    );
+  }
+  const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
+  const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
+  return {previous, next};
+}

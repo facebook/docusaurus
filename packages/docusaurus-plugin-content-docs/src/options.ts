@@ -12,13 +12,17 @@ import {
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
+import {ValidationError} from '@hapi/joi';
+import chalk from 'chalk';
+import admonitions from 'remark-admonitions';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
+  sidebarPath: 'sidebars.json', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
@@ -27,10 +31,11 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateAuthor: false,
   admonitions: {},
   excludeNextVersionDocs: false,
+  includeCurrentVersion: true,
   disableVersioning: false,
 };
 
-export const PluginOptionSchema = Joi.object({
+export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: URISchema,
   routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
@@ -49,5 +54,50 @@ export const PluginOptionSchema = Joi.object({
   excludeNextVersionDocs: Joi.bool().default(
     DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),
+  includeCurrentVersion: Joi.bool().default(
+    DEFAULT_OPTIONS.includeCurrentVersion,
+  ),
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
 });
+
+// TODO bad validation function types
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  // TODO remove homePageId before end of 2020
+  // "slug: /" is better because the home doc can be different across versions
+  if (options.homePageId) {
+    console.log(
+      chalk.red(
+        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
+      ),
+    );
+  }
+
+  if (typeof options.excludeNextVersionDocs !== 'undefined') {
+    console.log(
+      chalk.red(
+        `The docs plugin option excludeNextVersionDocs=${
+          options.excludeNextVersionDocs
+        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
+      ),
+    );
+    options.includeCurrentVersion = !options.excludeNextVersionDocs;
+  }
+
+  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
+  const normalizedOptions: PluginOptions = validate(OptionsSchema, options);
+
+  if (normalizedOptions.admonitions) {
+    normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
+      [admonitions, normalizedOptions.admonitions],
+    ]);
+  }
+
+  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
+  return normalizedOptions;
+}

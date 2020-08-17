@@ -127,4 +127,4 @@ class PendingNavigation extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(PendingNavigation);
+export default withRouter(PendingNavigation as any) as any;

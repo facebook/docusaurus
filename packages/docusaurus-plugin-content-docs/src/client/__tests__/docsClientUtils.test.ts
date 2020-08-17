@@ -12,7 +12,7 @@ import {
   getActiveDocContext,
   getActiveVersion,
   getDocVersionSuggestions,
-} from '../../client/docsClientUtils';
+} from '../docsClientUtils';
 import {GlobalPluginData, GlobalVersion} from '../../types';
 import {shuffle} from 'lodash';
 
@@ -21,12 +21,10 @@ describe('docsClientUtils', () => {
     const data: Record<string, GlobalPluginData> = {
       pluginIosId: {
         path: '/ios',
-        latestVersionName: 'xyz',
         versions: [],
       },
       pluginAndroidId: {
         path: '/android',
-        latestVersionName: 'xyz',
         versions: [],
       },
     };
@@ -55,19 +53,25 @@ describe('docsClientUtils', () => {
     const versions: GlobalVersion[] = [
       {
         name: 'version1',
+        label: 'version1',
         path: '/???',
+        isLast: false,
         docs: [],
         mainDocId: '???',
       },
       {
         name: 'version2',
+        label: 'version2',
         path: '/???',
+        isLast: true,
         docs: [],
         mainDocId: '???',
       },
       {
         name: 'version3',
+        label: 'version3',
         path: '/???',
+        isLast: false,
         docs: [],
         mainDocId: '???',
       },
@@ -76,52 +80,35 @@ describe('docsClientUtils', () => {
     expect(
       getLatestVersion({
         path: '???',
-        latestVersionName: 'does not exist',
         versions,
       }),
-    ).toEqual(undefined);
-    expect(
-      getLatestVersion({
-        path: '???',
-        latestVersionName: 'version1',
-        versions,
-      })?.name,
-    ).toEqual('version1');
-    expect(
-      getLatestVersion({
-        path: '???',
-        latestVersionName: 'version2',
-        versions,
-      })?.name,
-    ).toEqual('version2');
-    expect(
-      getLatestVersion({
-        path: '???',
-        latestVersionName: 'version3',
-        versions,
-      })?.name,
-    ).toEqual('version3');
+    ).toEqual(versions[1]);
   });
 
   test('getActiveVersion', () => {
     const data: GlobalPluginData = {
       path: 'docs',
-      latestVersionName: 'version2',
       versions: [
         {
           name: 'next',
+          label: 'next',
+          isLast: false,
           path: '/docs/next',
           docs: [],
           mainDocId: '???',
         },
         {
           name: 'version2',
+          label: 'version2',
+          isLast: true,
           path: '/docs',
           docs: [],
           mainDocId: '???',
         },
         {
           name: 'version1',
+          label: 'version1',
+          isLast: false,
           path: '/docs/version1',
           docs: [],
           mainDocId: '???',
@@ -146,7 +133,9 @@ describe('docsClientUtils', () => {
   test('getActiveDocContext', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
+      label: 'next',
       path: '/docs/next',
+      isLast: false,
       mainDocId: 'doc1',
       docs: [
         {
@@ -162,6 +151,8 @@ describe('docsClientUtils', () => {
 
     const version2: GlobalVersion = {
       name: 'version2',
+      label: 'version2',
+      isLast: true,
       path: '/docs',
       mainDocId: 'doc1',
       docs: [
@@ -178,7 +169,9 @@ describe('docsClientUtils', () => {
 
     const version1: GlobalVersion = {
       name: 'version1',
+      label: 'version1',
       path: '/docs/version1',
+      isLast: false,
       mainDocId: 'doc1',
       docs: [
         {
@@ -197,7 +190,6 @@ describe('docsClientUtils', () => {
 
     const data: GlobalPluginData = {
       path: 'docs',
-      latestVersionName: 'version2',
       versions,
     };
 
@@ -270,6 +262,8 @@ describe('docsClientUtils', () => {
   test('getDocVersionSuggestions', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
+      label: 'next',
+      isLast: false,
       path: '/docs/next',
       mainDocId: 'doc1',
       docs: [
@@ -286,7 +280,9 @@ describe('docsClientUtils', () => {
 
     const version2: GlobalVersion = {
       name: 'version2',
+      label: 'version2',
       path: '/docs',
+      isLast: true,
       mainDocId: 'doc1',
       docs: [
         {
@@ -302,6 +298,8 @@ describe('docsClientUtils', () => {
 
     const version1: GlobalVersion = {
       name: 'version1',
+      label: 'version1',
+      isLast: false,
       path: '/docs/version1',
       mainDocId: 'doc1',
       docs: [
@@ -321,7 +319,6 @@ describe('docsClientUtils', () => {
 
     const data: GlobalPluginData = {
       path: 'docs',
-      latestVersionName: 'version2',
       versions,
     };
 

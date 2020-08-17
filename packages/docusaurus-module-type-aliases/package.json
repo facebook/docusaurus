@@ -6,5 +6,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "@types/react": "*",
+    "@types/react-helmet": "*",
+    "@types/react-router-dom": "*"
+  },
   "license": "MIT"
 }

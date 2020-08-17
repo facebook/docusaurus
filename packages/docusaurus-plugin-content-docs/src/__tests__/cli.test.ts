@@ -6,14 +6,14 @@
  */
 
 import path from 'path';
-import {docsVersion} from '../version';
+import {cliDocsVersionCommand} from '../cli';
 import {PathOptions} from '../types';
 import fs from 'fs-extra';
 import {
-  getVersionedDocsDir,
-  getVersionsJSONFile,
-  getVersionedSidebarsDir,
-} from '../env';
+  getVersionedDocsDirPath,
+  getVersionsFilePath,
+  getVersionedSidebarsDirPath,
+} from '../versions';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
@@ -28,17 +28,32 @@ describe('docsVersion', () => {
 
   test('no version tag provided', () => {
     expect(() =>
-      docsVersion(null, simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        null,
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
     expect(() =>
-      docsVersion(undefined, simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        undefined,
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
     expect(() =>
-      docsVersion('', simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        '',
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
@@ -46,12 +61,17 @@ describe('docsVersion', () => {
 
   test('version tag should not have slash', () => {
     expect(() =>
-      docsVersion('foo/bar', simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        'foo/bar',
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] Invalid version tag specified! Do not include slash (/) or (\\\\). Try something like: 1.0.0"`,
     );
     expect(() =>
-      docsVersion(
+      cliDocsVersionCommand(
         'foo\\bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
@@ -64,7 +84,7 @@ describe('docsVersion', () => {
 
   test('version tag should not be too long', () => {
     expect(() =>
-      docsVersion(
+      cliDocsVersionCommand(
         'a'.repeat(255),
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
@@ -77,12 +97,22 @@ describe('docsVersion', () => {
 
   test('version tag should not be a dot or two dots', () => {
     expect(() =>
-      docsVersion('..', simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        '..',
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
     );
     expect(() =>
-      docsVersion('.', simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        '.',
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
     );
@@ -90,7 +120,7 @@ describe('docsVersion', () => {
 
   test('version tag should be a valid pathname', () => {
     expect(() =>
-      docsVersion(
+      cliDocsVersionCommand(
         '<foo|bar>',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
@@ -100,7 +130,7 @@ describe('docsVersion', () => {
       `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
     expect(() =>
-      docsVersion(
+      cliDocsVersionCommand(
         'foo\x00bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
@@ -110,7 +140,12 @@ describe('docsVersion', () => {
       `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
     expect(() =>
-      docsVersion('foo:bar', simpleSiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        'foo:bar',
+        simpleSiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
@@ -118,7 +153,7 @@ describe('docsVersion', () => {
 
   test('version tag already exist', () => {
     expect(() =>
-      docsVersion(
+      cliDocsVersionCommand(
         '1.0.0',
         versionedSiteDir,
         DEFAULT_PLUGIN_ID,
@@ -132,7 +167,12 @@ describe('docsVersion', () => {
   test('no docs file to version', () => {
     const emptySiteDir = path.join(fixtureDir, 'empty-site');
     expect(() =>
-      docsVersion('1.0.0', emptySiteDir, DEFAULT_PLUGIN_ID, DEFAULT_OPTIONS),
+      cliDocsVersionCommand(
+        '1.0.0',
+        emptySiteDir,
+        DEFAULT_PLUGIN_ID,
+        DEFAULT_OPTIONS,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs] There is no docs to version !"`,
     );
@@ -159,23 +199,23 @@ describe('docsVersion', () => {
       path: 'docs',
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
-    docsVersion('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
+    cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
     expect(copyMock).toHaveBeenCalledWith(
       path.join(simpleSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(simpleSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedDocsDirPath(simpleSiteDir, DEFAULT_PLUGIN_ID),
         'version-1.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(simpleSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedSidebarsDirPath(simpleSiteDir, DEFAULT_PLUGIN_ID),
         'version-1.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(simpleSiteDir, DEFAULT_PLUGIN_ID),
+      getVersionsFilePath(simpleSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith('[docs] Version 1.0.0 created!');
@@ -207,23 +247,28 @@ describe('docsVersion', () => {
       path: 'docs',
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
-    docsVersion('2.0.0', versionedSiteDir, DEFAULT_PLUGIN_ID, options);
+    cliDocsVersionCommand(
+      '2.0.0',
+      versionedSiteDir,
+      DEFAULT_PLUGIN_ID,
+      options,
+    );
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(versionedSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedDocsDirPath(versionedSiteDir, DEFAULT_PLUGIN_ID),
         'version-2.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(versionedSiteDir, DEFAULT_PLUGIN_ID),
+        getVersionedSidebarsDirPath(versionedSiteDir, DEFAULT_PLUGIN_ID),
         'version-2.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(versionedSiteDir, DEFAULT_PLUGIN_ID),
+      getVersionsFilePath(versionedSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
     expect(consoleMock).toHaveBeenCalledWith('[docs] Version 2.0.0 created!');
@@ -257,23 +302,23 @@ describe('docsVersion', () => {
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };
-    docsVersion('2.0.0', versionedSiteDir, pluginId, options);
+    cliDocsVersionCommand('2.0.0', versionedSiteDir, pluginId, options);
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
-        getVersionedDocsDir(versionedSiteDir, pluginId),
+        getVersionedDocsDirPath(versionedSiteDir, pluginId),
         'version-2.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
     expect(versionedSidebarPath).toEqual(
       path.join(
-        getVersionedSidebarsDir(versionedSiteDir, pluginId),
+        getVersionedSidebarsDirPath(versionedSiteDir, pluginId),
         'version-2.0.0-sidebars.json',
       ),
     );
     expect(versionsPath).toEqual(
-      getVersionsJSONFile(versionedSiteDir, pluginId),
+      getVersionsFilePath(versionedSiteDir, pluginId),
     );
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(

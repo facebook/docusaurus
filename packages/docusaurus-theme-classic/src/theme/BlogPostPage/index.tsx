@@ -11,11 +11,13 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
+import TOC from '@theme/TOC';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
   const {frontMatter, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem, editUrl} = metadata;
+  const {hide_table_of_contents: hideTableOfContents} = frontMatter;
 
   return (
     <Layout title={title} description={description}>
@@ -56,6 +58,11 @@ function BlogPostPage(props: Props): JSX.Element {
                 </div>
               )}
             </div>
+            {!hideTableOfContents && BlogPostContents.rightToc && (
+              <div className="col col--2">
+                <TOC headings={BlogPostContents.rightToc} />
+              </div>
+            )}
           </div>
         </div>
       )}
