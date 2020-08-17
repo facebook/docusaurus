@@ -16,6 +16,7 @@ export default function DocsVersionNavbarItem({
   label: staticLabel,
   to: staticTo,
   docsPluginId,
+  nextVersionLabel: _unused, // TODO legacy, remove asap
   ...props
 }) {
   const activeVersion = useActiveVersion(docsPluginId);

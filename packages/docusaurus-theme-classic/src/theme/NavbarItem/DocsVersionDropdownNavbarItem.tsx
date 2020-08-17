@@ -19,6 +19,7 @@ const getVersionMainDoc = (version) =>
 export default function DocsVersionDropdownNavbarItem({
   mobile,
   docsPluginId,
+  nextVersionLabel: _unused, // TODO legacy, remove asap
   ...props
 }) {
   const activeDocContext = useActiveDocContext(docsPluginId);
