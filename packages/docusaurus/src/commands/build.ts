@@ -76,12 +76,14 @@ export default async function build(
   if (fs.existsSync(staticDir)) {
     serverConfig = merge(serverConfig, {
       plugins: [
-        new CopyWebpackPlugin([
-          {
-            from: staticDir,
-            to: outDir,
-          },
-        ]),
+        new CopyWebpackPlugin({
+          patterns: [
+            {
+              from: staticDir,
+              to: outDir,
+            },
+          ],
+        }),
       ],
     });
   }

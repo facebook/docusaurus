@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useCallback} from 'react';
+import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
@@ -73,6 +73,44 @@ function DocSearch(props) {
     [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery],
   );
 
+  const navigator = useRef({
+    navigate({suggestionUrl}) {
+      history.push(suggestionUrl);
+    },
+  }).current;
+
+  const transformItems = useRef((items) => {
+    return items.map((item) => {
+      // We transform the absolute URL into a relative URL.
+      // Alternatively, we can use `new URL(item.url)` but it's not
+      // supported in IE.
+      const a = document.createElement('a');
+      a.href = item.url;
+
+      return {
+        ...item,
+        url: withBaseUrl(`${a.pathname}${a.hash}`),
+      };
+    });
+  }).current;
+
+  const resultsFooterComponent = useMemo(
+    () => (footerProps) => <ResultsFooter {...footerProps} onClose={onClose} />,
+    [onClose],
+  );
+
+  const transformSearchClient = useCallback(
+    (searchClient) => {
+      searchClient.addAlgoliaAgent(
+        'docusaurus',
+        siteMetadata.docusaurusVersion,
+      );
+
+      return searchClient;
+    },
+    [siteMetadata.docusaurusVersion],
+  );
+
   useDocSearchKeyboardEvents({
     isOpen,
     onOpen,
@@ -108,37 +146,11 @@ function DocSearch(props) {
             onClose={onClose}
             initialScrollY={window.scrollY}
             initialQuery={initialQuery}
-            navigator={{
-              navigate({suggestionUrl}) {
-                history.push(suggestionUrl);
-              },
-            }}
-            transformItems={(items) => {
-              return items.map((item) => {
-                // We transform the absolute URL into a relative URL.
-                // Alternatively, we can use `new URL(item.url)` but it's not
-                // supported in IE.
-                const a = document.createElement('a');
-                a.href = item.url;
-
-                return {
-                  ...item,
-                  url: withBaseUrl(`${a.pathname}${a.hash}`),
-                };
-              });
-            }}
+            navigator={navigator}
+            transformItems={transformItems}
             hitComponent={Hit}
-            resultsFooterComponent={(footerProps) => (
-              <ResultsFooter {...footerProps} onClose={onClose} />
-            )}
-            transformSearchClient={(searchClient) => {
-              searchClient.addAlgoliaAgent(
-                'docusaurus',
-                siteMetadata.docusaurusVersion,
-              );
-
-              return searchClient;
-            }}
+            resultsFooterComponent={resultsFooterComponent}
+            transformSearchClient={transformSearchClient}
             {...props}
           />,
           document.body,
