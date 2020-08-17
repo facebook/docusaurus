@@ -28,6 +28,20 @@ import {
 } from './LinksCollector';
 import ssrTemplate from './templates/ssr.html.template';
 
+// eslint-disable-next-line no-restricted-imports
+import {memoize} from 'lodash';
+
+const getCompiledSSRTemplate = memoize(() => {
+  return eta.compile(ssrTemplate.trim(), {
+    rmWhitespace: true,
+  });
+});
+
+function renderSSRTemplate(data) {
+  const compiled = getCompiledSSRTemplate();
+  return compiled(data, eta.defaultConfig);
+}
+
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
   const {
@@ -76,26 +90,19 @@ export default async function render(locals) {
   const stylesheets = (bundles.css || []).map((b) => b.file);
   const scripts = (bundles.js || []).map((b) => b.file);
 
-  const renderedHtml = eta.render(
-    ssrTemplate.trim(),
-    {
-      appHtml,
-      baseUrl,
-      htmlAttributes: htmlAttributes || '',
-      bodyAttributes: bodyAttributes || '',
-      headTags,
-      preBodyTags,
-      postBodyTags,
-      metaAttributes,
-      scripts,
-      stylesheets,
-      version: packageJson.version,
-    },
-    {
-      name: 'ssr-template',
-      rmWhitespace: true,
-    },
-  );
+  const renderedHtml = renderSSRTemplate({
+    appHtml,
+    baseUrl,
+    htmlAttributes: htmlAttributes || '',
+    bodyAttributes: bodyAttributes || '',
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    metaAttributes,
+    scripts,
+    stylesheets,
+    version: packageJson.version,
+  });
 
   // Minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {
