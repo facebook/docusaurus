@@ -18,8 +18,8 @@ function DebugRegistry() {
       <ul className={styles.list}>
         {Object.values(registry).map(([, aliasedPath, resolved]) => (
           <li key={aliasedPath} className={styles.listItem}>
-            <div>Aliased Path: {aliasedPath}</div>
-            <div>Resolved Path: {resolved}</div>
+            <div style={{marginBottom: '10px'}}>Aliased Path: <code>{aliasedPath}</code></div>
+            <div>Resolved Path: <code>{resolved}</code></div>
           </li>
         ))}
       </ul>
