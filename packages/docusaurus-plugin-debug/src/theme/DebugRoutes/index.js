@@ -9,16 +9,19 @@ import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import routes from '@generated/routes';
+import styles from './styles.module.css';
 
 function DebugRoutes() {
   return (
     <DebugLayout>
       <h2>Routes</h2>
-      <ul>
+      <ul className={styles.list}>
         {routes.map(({path, exact}) => (
-          <li key={path}>
-            <div>Route: {path}</div>
-            <div>Is exact: {String(Boolean(exact))}</div>
+          <li key={path} className={styles.listItem}>
+            <div className={styles.route}>
+              <code className={styles.routeName}>{path}</code>
+            </div>
+            <div>Is exact: <code>{String(Boolean(exact))}</code></div>
           </li>
         ))}
       </ul>
