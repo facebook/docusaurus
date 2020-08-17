@@ -34,7 +34,7 @@ function DebugJsonView({src, collapseDepth}) {
         marginTop: '10px',
         padding: '10px',
         borderRadius: '4px',
-        backgroundColor: '#242526'
+        backgroundColor: '#292a2b',
       }}
       name={RootName}
       theme="paraiso"
