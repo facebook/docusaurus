@@ -16,7 +16,7 @@ import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
-import {readVersionsMetadata, getVersionedDocsDirPath} from './versions';
+import {readVersionsMetadata} from './versions';
 
 import {
   PluginOptions,
@@ -30,6 +30,7 @@ import {
   DocNavLink,
   LoadedVersion,
   DocFile,
+  DocsMarkdownOption,
 } from './types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
@@ -38,6 +39,7 @@ import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
+import chalk from 'chalk';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -46,8 +48,6 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
-
-  const docsDir = path.resolve(siteDir, options.path);
 
   const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
@@ -199,7 +199,7 @@ export default function pluginContentDocs(
 
         // The "main doc" is the "version entry point"
         // We browse this doc by clicking on a version:
-        // - the doc at /
+        // - the "home" doc (at '/docs/')
         // - the first doc of the first sidebar
         // - a random doc (if no docs are in any sidebar... edge case)
         function getMainDoc(): DocMetadata {
@@ -297,10 +297,20 @@ export default function pluginContentDocs(
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
 
-      // TODO instead of creating one mdx loader rule for all versions
-      // it may be simpler to create one mdx loader per version
-      // particularly to handle the markdown/linkify process
-      // (docsDir/versionedDir are a bit annoying here...)
+      const docsMarkdownOptions: DocsMarkdownOption = {
+        siteDir,
+        sourceToPermalink,
+        versionsMetadata,
+        onBrokenMarkdownLink: (brokenMarkdownLink) => {
+          // TODO make this warning configurable?
+          console.warn(
+            chalk.yellow(
+              `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
+            ),
+          );
+        },
+      };
+
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
@@ -324,14 +334,7 @@ export default function pluginContentDocs(
             },
             {
               loader: path.resolve(__dirname, './markdown/index.js'),
-              options: {
-                siteDir,
-
-                // TODO legacy attributes, need refactor
-                docsDir,
-                sourceToPermalink,
-                versionedDir: getVersionedDocsDirPath(siteDir, options.id),
-              },
+              options: docsMarkdownOptions,
             },
           ]),
         };

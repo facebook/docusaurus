@@ -189,7 +189,7 @@ High-level overview about themes:
 Related pieces
 ---
 
-- [Advanced Guides – Themes](advanced-themes.md)
+- [Advanced Guides – Themes](using-themes.md)
 - [Lifecycle APIs](lifecycle-apis.md)
 
 References

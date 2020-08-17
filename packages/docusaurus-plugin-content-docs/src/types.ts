@@ -175,3 +175,16 @@ export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
 export type PropSidebars = {
   [sidebarId: string]: PropSidebarItem[];
 };
+
+export type BrokenMarkdownLink = {
+  filePath: string;
+  version: VersionMetadata;
+  link: string;
+};
+
+export type DocsMarkdownOption = {
+  versionsMetadata: VersionMetadata[];
+  siteDir: string;
+  sourceToPermalink: SourceToPermalink;
+  onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
+};
