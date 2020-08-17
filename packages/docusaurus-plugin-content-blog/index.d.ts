@@ -42,6 +42,7 @@ declare module '@theme/BlogPostPage' {
   export type Content = {
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
+    readonly rightToc: any; // TODO where to define this shared type?
     (): JSX.Element;
   };
 
