@@ -61,27 +61,13 @@ const DocSidebarItem = ({item, onItemClick, ...props}) => {
   }
 };
 
-const DocSidebar = (props) => {
-  const {docsSidebars, sidebar: currentSidebar} = props;
-
+const DocSidebar = ({sidebar, path}) => {
   const [sidebarShown, setSidebarShown] = useState(false);
   const handleSidebarToggle = useCallback(() => {
     setSidebarShown(!sidebarShown);
   }, [sidebarShown, setSidebarShown]);
 
   useLockBodyScroll(sidebarShown);
-
-  if (!currentSidebar) {
-    return null;
-  }
-
-  const sidebarData = docsSidebars[currentSidebar];
-
-  if (!sidebarData) {
-    throw new Error(
-      `Cannot find the sidebar "${currentSidebar}" in the sidebar config!`,
-    );
-  }
 
   return (
     <div className={classNames('bg-info', styles.sidebar)}>
@@ -115,7 +101,7 @@ const DocSidebar = (props) => {
         </div>
         <div className={classNames(styles.sideMenu)}>
           <Nav vertical className="list-unstyled p-3 mr-auto">
-            {sidebarData.map((item) => (
+            {sidebar.map((item) => (
               <DocSidebarItem
                 key={item.label}
                 item={item}
