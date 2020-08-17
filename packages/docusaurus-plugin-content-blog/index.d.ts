@@ -36,6 +36,7 @@ declare module '@theme/BlogPostPage' {
       readonly label: string;
       readonly permalink: string;
     }[];
+    readonly hide_table_of_contents?: boolean;
   };
 
   export type Content = {
