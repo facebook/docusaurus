@@ -14,7 +14,10 @@ const DebugNavLink = ({to, children}) => (
     className={styles.navlink}
     isNavLink
     to={to}
-    exact>
+    exact
+    activeStyle={{
+      backgroundColor: '#363739'
+    }}>
     {children}
   </Link>
 );
