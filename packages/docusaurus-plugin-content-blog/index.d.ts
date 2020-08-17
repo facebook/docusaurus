@@ -20,6 +20,7 @@ declare module '@theme/BlogPostPage' {
     readonly authorTitle?: string;
     readonly author_image_url?: string;
     readonly authorImageURL?: string;
+    readonly hide_table_of_contents?: boolean;
   };
 
   export type Metadata = {
