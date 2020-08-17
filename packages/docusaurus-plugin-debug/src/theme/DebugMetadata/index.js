@@ -16,9 +16,12 @@ function DebugMetadata() {
   return (
     <DebugLayout>
       <h2>Site Metadata</h2>
-      <div>Docusaurus Version: <code>{siteMetadata.docusaurusVersion}</code></div>
       <div>
-        Site Version: <code>{siteMetadata.siteVersion || 'No version specified'}</code>
+        Docusaurus Version: <code>{siteMetadata.docusaurusVersion}</code>
+      </div>
+      <div>
+        Site Version:{' '}
+        <code>{siteMetadata.siteVersion || 'No version specified'}</code>
       </div>
       <h3 className={styles.sectionTitle}>Plugins and themes</h3>
       <ul className={styles.list}>

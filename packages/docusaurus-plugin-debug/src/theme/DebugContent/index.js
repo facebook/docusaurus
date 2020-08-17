@@ -13,34 +13,32 @@ import DebugJsonView from '../DebugJsonView';
 const PluginInstanceContent = ({pluginId, pluginInstanceContent}) => (
   <section style={{marginBottom: 30}}>
     <code>{pluginId}</code>
-      <DebugJsonView src={pluginInstanceContent} collapseDepth="2" />
+    <DebugJsonView src={pluginInstanceContent} collapseDepth="2" />
   </section>
 );
 
 const PluginContent = ({pluginName, pluginContent}) => {
   return (
     <section style={{marginBottom: 60}}>
-      <h3>
-        {pluginName}
-      </h3>
-        <div>
-          {Object.entries(pluginContent)
-            // filter plugin instances with no content
-            .filter(
-              ([pluginId, pluginInstanceContent], _index, instances) => 
-                !!pluginInstanceContent 
-                && instances.length > 1 ? pluginId !== 'default' : true
-            )
-            .map(([pluginId, pluginInstanceContent]) => {
-              return (
-                <PluginInstanceContent
-                  key={pluginId}
-                  pluginId={pluginId}
-                  pluginInstanceContent={pluginInstanceContent}
-                />
-              );
-            })}
-        </div>
+      <h3>{pluginName}</h3>
+      <div>
+        {Object.entries(pluginContent)
+          // filter plugin instances with no content
+          .filter(([pluginId, pluginInstanceContent], _index, instances) =>
+            !!pluginInstanceContent && instances.length > 1
+              ? pluginId !== 'default'
+              : true,
+          )
+          .map(([pluginId, pluginInstanceContent]) => {
+            return (
+              <PluginInstanceContent
+                key={pluginId}
+                pluginId={pluginId}
+                pluginInstanceContent={pluginInstanceContent}
+              />
+            );
+          })}
+      </div>
     </section>
   );
 };

@@ -17,7 +17,7 @@ function DebugMetadata() {
   return (
     <DebugLayout>
       <h2>Site config</h2>
-        <DebugJsonView src={siteConfig} collapseDepth="3" />
+      <DebugJsonView src={siteConfig} collapseDepth="3" />
     </DebugLayout>
   );
 }

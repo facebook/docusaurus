@@ -21,7 +21,9 @@ function DebugRoutes() {
             <div className={styles.route}>
               <code className={styles.routeName}>{path}</code>
             </div>
-            <div>Is exact: <code>{String(Boolean(exact))}</code></div>
+            <div>
+              Is exact: <code>{String(Boolean(exact))}</code>
+            </div>
           </li>
         ))}
       </ul>

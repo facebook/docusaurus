@@ -16,7 +16,7 @@ const DebugNavLink = ({to, children}) => (
     to={to}
     exact
     activeStyle={{
-      backgroundColor: '#363739'
+      backgroundColor: '#363739',
     }}>
     {children}
   </Link>
