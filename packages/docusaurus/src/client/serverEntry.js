@@ -31,18 +31,15 @@ import ssrTemplate from './templates/ssr.html.template';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
-const customEtaConfig = {
-  name: 'ssr-template',
-  rmWhitespace: true,
-};
-
 const getCompiledSSRTemplate = memoize(() => {
-  return eta.compile(ssrTemplate.trim(), customEtaConfig);
+  return eta.compile(ssrTemplate.trim(), {
+    rmWhitespace: true,
+  });
 });
 
 function renderSSRTemplate(data) {
   const compiled = getCompiledSSRTemplate();
-  return compiled(data, {...eta.defaultConfig, ...customEtaConfig});
+  return compiled(data, eta.defaultConfig);
 }
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises).
