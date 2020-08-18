@@ -38,7 +38,7 @@ export default function pluginContentPages({
       // Home is config (duplicate for now)
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug']),
-        component: '@theme/DebugHome',
+        component: '@theme/DebugConfig',
         exact: true,
       });
 
