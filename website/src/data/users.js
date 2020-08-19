@@ -194,6 +194,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'SpotifyAPI-NET',
+    description: 'A Client for the Spotify Web API, written in C#/.NET',
+    preview: require('./showcase/spotifyapi-net.png'),
+    website: 'https://johnnycrazy.github.io/SpotifyAPI-NET/',
+    source: 'https://github.com/JohnnyCrazy/SpotifyAPI-NET',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
