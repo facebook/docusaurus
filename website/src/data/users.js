@@ -212,6 +212,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'T-Regx',
+    description: 'Programmer-oriented Regular Expressions library for PHP',
+    preview: require('./showcase/t-regx.png'),
+    website: 'https://t-regx.com/',
+    source: 'https://github.com/T-Regx/T-Regx',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Tasit',
     description:
       'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
