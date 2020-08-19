@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ensureUniquePluginInstanceIds} from '../../plugins/pluginIds';
+import {ensureUniquePluginInstanceIds} from '../pluginIds';
 
-import {InitPlugin} from '../../plugins/init';
+import {InitPlugin} from '../init';
 
 function createTestPlugin(name: string, id?: string): InitPlugin {
   // @ts-expect-error: good enough for tests
