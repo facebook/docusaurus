@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getBrokenLinksErrorMessage, getAllBrokenLinks} from '../brokenLinks';
+import path from 'path';
+import {
+  getBrokenLinksErrorMessage,
+  getAllBrokenLinks,
+  filterExistingFileLinks,
+} from '../brokenLinks';
 import {RouteConfig} from '@docusaurus/types';
 
 describe('brokenLinks', () => {
@@ -104,5 +109,67 @@ describe('brokenLinks', () => {
     expect(getAllBrokenLinks({allCollectedLinks, routes})).toEqual(
       expectedBrokenLinks,
     );
+  });
+
+  test('filterExistingFileLinks', async () => {
+    const link1 = '/link1';
+    const link2 = '/docs/link2';
+    const link3 = '/hey/link3';
+
+    const linkToJavadoc1 = '/javadoc';
+    const linkToJavadoc2 = '/javadoc/';
+    const linkToJavadoc3 = '/javadoc/index.html';
+
+    const linkToZipFile = '/files/file.zip';
+    const linkToHtmlFile1 = '/files/hey.html';
+    const linkToHtmlFile2 = '/files/hey';
+
+    const linkToEmptyFolder1 = '/emptyFolder';
+    const linkToEmptyFolder2 = '/emptyFolder/';
+
+    const allCollectedLinks = {
+      '/page1': [
+        link1,
+        linkToHtmlFile1,
+        linkToJavadoc1,
+        linkToHtmlFile2,
+        linkToJavadoc3,
+        linkToEmptyFolder1,
+      ],
+      '/page2': [
+        link2,
+        linkToEmptyFolder2,
+        linkToJavadoc2,
+        link3,
+        linkToJavadoc3,
+        linkToZipFile,
+      ],
+    };
+
+    const allCollectedLinksFiltered = {
+      '/page1': [
+        link1,
+        // linkToHtmlFile1,
+        // linkToJavadoc1,
+        // linkToHtmlFile2,
+        // linkToJavadoc3,
+        linkToEmptyFolder1, // not filtered !
+      ],
+      '/page2': [
+        link2,
+        linkToEmptyFolder2, // not filtered !
+        // linkToJavadoc2,
+        link3,
+        // linkToJavadoc3,
+        // linkToZipFile,
+      ],
+    };
+
+    const result = await filterExistingFileLinks({
+      baseUrl: '/',
+      outDir: path.resolve(__dirname, '__fixtures__/brokenLinks/outDir'),
+      allCollectedLinks,
+    });
+    expect(result).toEqual(allCollectedLinksFiltered);
   });
 });

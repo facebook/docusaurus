@@ -10,8 +10,9 @@ import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
 import {mapValues, pickBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix} from '@docusaurus/utils';
+import {removePrefix, removeSuffix} from '@docusaurus/utils';
 import {getAllFinalRoutes, reportMessage} from './utils';
+import path from 'path';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -114,9 +115,17 @@ export function getBrokenLinksErrorMessage(
   );
 }
 
+function isExistingFile(filePath: string) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (e) {
+    return false;
+  }
+}
+
 // If a file actually exist on the file system, we know the link is valid
 // even if docusaurus does not know about this file, so we don't report it
-async function filterExistingFileLinks({
+export async function filterExistingFileLinks({
   baseUrl,
   outDir,
   allCollectedLinks,
@@ -127,12 +136,22 @@ async function filterExistingFileLinks({
 }): Promise<Record<string, string[]>> {
   // not easy to make this async :'(
   function linkFileExists(link: string): boolean {
-    const filePath = `${outDir}/${removePrefix(link, baseUrl)}`;
-    try {
-      return fs.statSync(filePath).isFile(); // only consider files
-    } catch (e) {
-      return false;
+    // /baseUrl/javadoc/ -> /outDir/javadoc
+    const baseFilePath = removeSuffix(
+      `${outDir}/${removePrefix(link, baseUrl)}`,
+      '/',
+    );
+
+    // -> /outDir/javadoc
+    // -> /outDir/javadoc.html
+    // -> /outDir/javadoc/index.html
+    const filePathsToTry: string[] = [baseFilePath];
+    if (!path.extname(baseFilePath)) {
+      filePathsToTry.push(`${baseFilePath}.html`);
+      filePathsToTry.push(path.join(baseFilePath, 'index.html'));
     }
+
+    return filePathsToTry.some(isExistingFile);
   }
 
   return mapValues(allCollectedLinks, (links) => {
