@@ -270,3 +270,9 @@ export interface ValidationSchema<T> {
   unknown(): ValidationSchema<T>;
   append(data: any): ValidationSchema<T>;
 }
+
+export interface MarkdownRightTableOfContents {
+  readonly value: string;
+  readonly id: string;
+  readonly children: MarkdownRightTableOfContents[];
+}
