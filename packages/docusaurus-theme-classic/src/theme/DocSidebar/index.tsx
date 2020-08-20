@@ -237,8 +237,8 @@ function DocSidebar({
               viewBox="0 0 32 32"
               role="img"
               focusable="false">
-              <title>Menu</title>
               <path
+                aria-labelledby="Menu"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeMiterlimit="10"

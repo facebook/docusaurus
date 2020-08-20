@@ -105,8 +105,8 @@ function Navbar(): JSX.Element {
                 viewBox="0 0 30 30"
                 role="img"
                 focusable="false">
-                <title>Menu</title>
                 <path
+                  aria-labelledby="Menu"
                   stroke="currentColor"
                   strokeLinecap="round"
                   strokeMiterlimit="10"
