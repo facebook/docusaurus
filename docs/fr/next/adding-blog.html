@@ -101,6 +101,19 @@
 <span class="hljs-meta">---</span>
 <span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
 </code></pre>
+<p>Adding slug will override the url of the blog post.</p>
+<p>Par exemple :</p>
+<pre><code class="hljs css language-yml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">slug:</span> <span class="hljs-string">introducing-docusaurus</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Introducing</span> <span class="hljs-string">Docusaurus</span>
+<span class="hljs-attr">author:</span> <span class="hljs-string">Joel</span> <span class="hljs-string">Marcey</span>
+<span class="hljs-attr">authorURL:</span> <span class="hljs-string">http://twitter.com/JoelMarcey</span>
+<span class="hljs-attr">authorFBID:</span> <span class="hljs-number">611217057</span>
+<span class="hljs-attr">authorTwitter:</span> <span class="hljs-string">JoelMarcey</span>
+<span class="hljs-meta">---</span>
+<span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
+</code></pre>
+<p>Will be available at <code>https://website/blog/introducing-docusaurus</code></p>
 <h2><a class="anchor" aria-hidden="true" id="options-dentête"></a><a href="#options-dentête" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options d'entête</h2>
 <p>Le seul champ requis est <code>title</code>, cependant, nous fournissons des options pour ajouter des informations sur l'auteur à votre blog ainsi que d'autres options.</p>
 <ul>
@@ -109,6 +122,7 @@
 <li><code>authorFBID</code> - L'ID de profil Facebook qui est utilisé pour récupérer l'image de profil.</li>
 <li><code>authorImageURL</code> - L'URL vers l'image de l'auteur. (Remarque : Si vous utilisez à la fois <code>authorFBID</code> et <code>authorImageURL</code>, <code>authorFBID</code> prendra la priorité. N’incluez pas <code>authorFBID</code> si vous voulez que <code>authorImageURL</code> apparaisse.)</li>
 <li><code>title</code> - Le titre de l'article du blog.</li>
+<li><code>slug</code> - The blog post url slug. Example: <code>/blog/my-test-slug</code>. When not specified, the blog url slug will be extracted from the file name.</li>
 <li><code>unlisted</code> - L'article sera accessible en visitant directement l'URL mais ne s'affichera pas dans la barre latérale de la version finale; pendant le développement local, l'article sera toujours listé. Utile dans les situations où vous voulez partager un article en cours de construction avec d'autres personnes pour les commentaires.</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="résumé-de-larticle"></a><a href="#résumé-de-larticle" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Résumé de l'article</h2>
