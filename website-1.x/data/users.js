@@ -274,6 +274,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Global CTO Forum',
+    image: '/img/users/global-cto-forum.svg',
+    infoLink: 'https://globalctoforum.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Goby',
     image: '/img/users/goby-logo.svg',
     infoLink: 'https://goby-lang.org',
