@@ -8,6 +8,8 @@
 /* eslint-disable camelcase */
 
 declare module '@theme/BlogPostPage' {
+  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+
   export type FrontMatter = {
     readonly title: string;
     readonly author?: string;
@@ -42,7 +44,7 @@ declare module '@theme/BlogPostPage' {
   export type Content = {
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
-    readonly rightToc: any; // TODO where to define this shared type?
+    readonly rightToc: MarkdownRightTableOfContents;
     (): JSX.Element;
   };
 

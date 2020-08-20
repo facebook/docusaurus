@@ -6,6 +6,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "build": "tsc"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/parser": "^7.9.4",
@@ -27,6 +30,7 @@
     "url-loader": "^4.1.0"
   },
   "devDependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.61",
     "remark": "^12.0.0",
     "remark-mdx": "^1.5.8",
     "to-vfile": "^6.0.0",
