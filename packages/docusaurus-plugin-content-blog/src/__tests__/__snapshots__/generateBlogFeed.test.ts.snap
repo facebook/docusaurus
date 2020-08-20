@@ -28,14 +28,14 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
     <entry>
         <title type=\\"html\\"><![CDATA[draft]]></title>
         <id>draft</id>
-        <link href=\\"https://docusaurus.io/blog/2020/02/27/draft\\"/>
+        <link href=\\"https://docusaurus.io/blog/draft\\"/>
         <updated>2020-02-27T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[this post should not be published yet]]></summary>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[date-matter]]></title>
         <id>date-matter</id>
-        <link href=\\"https://docusaurus.io/blog/2019/01/01/date-matter\\"/>
+        <link href=\\"https://docusaurus.io/blog/date-matter\\"/>
         <updated>2019-01-01T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[date inside front matter]]></summary>
     </entry>
@@ -77,14 +77,14 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
         <copyright>Copyright</copyright>
         <item>
             <title><![CDATA[draft]]></title>
-            <link>https://docusaurus.io/blog/2020/02/27/draft</link>
+            <link>https://docusaurus.io/blog/draft</link>
             <guid>draft</guid>
             <pubDate>Thu, 27 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[this post should not be published yet]]></description>
         </item>
         <item>
             <title><![CDATA[date-matter]]></title>
-            <link>https://docusaurus.io/blog/2019/01/01/date-matter</link>
+            <link>https://docusaurus.io/blog/date-matter</link>
             <guid>date-matter</guid>
             <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[date inside front matter]]></description>

@@ -34,6 +34,24 @@ authorTwitter: JoelMarcey
 Lorem Ipsum...
 ```
 
+Adding slug will override the url of the blog post.
+
+For example:
+
+```yml
+---
+slug: introducing-docusaurus
+title: Introducing Docusaurus
+author: Joel Marcey
+authorURL: http://twitter.com/JoelMarcey
+authorFBID: 611217057
+authorTwitter: JoelMarcey
+---
+Lorem Ipsum...
+```
+
+Will be available at `https://website/blog/introducing-docusaurus`
+
 ## Header Options
 
 The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
@@ -43,6 +61,7 @@ The only required field is `title`; however, we provide options to add author in
 - `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
 - `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
 - `title` - The blog post title.
+- `slug` - The blog post url slug. Example: `/blog/my-test-slug`. When not specified, the blog url slug will be extracted from the file name.
 - `unlisted` - The post will be accessible by directly visiting the URL but will not show up in the sidebar in the final build; during local development, the post will still be listed. Useful in situations where you want to share a WIP post with others for feedback.
 
 ## Summary Truncation

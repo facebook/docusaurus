@@ -53,10 +53,6 @@ describe('loadBlog', () => {
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
     ).birthtime;
-    const noDatePermalink = `/blog/${noDateSourceBirthTime
-      .toISOString()
-      .substr(0, '2019-01-01'.length)
-      .replace(/-/g, '/')}/no date`;
 
     expect({
       ...blogPosts.find((v) => v.metadata.title === 'date-matter').metadata,
@@ -64,7 +60,7 @@ describe('loadBlog', () => {
     }).toEqual({
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter.md',
-      permalink: '/blog/2019/01/01/date-matter',
+      permalink: '/blog/date-matter',
       readingTime: 0.02,
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
@@ -97,7 +93,7 @@ describe('loadBlog', () => {
       date: new Date('2018-12-14'),
       tags: [],
       prevItem: {
-        permalink: '/blog/2019/01/01/date-matter',
+        permalink: '/blog/date-matter',
         title: 'date-matter',
       },
       truncated: false,
@@ -109,7 +105,7 @@ describe('loadBlog', () => {
     }).toEqual({
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
-      permalink: noDatePermalink,
+      permalink: '/blog/no date',
       readingTime: 0.01,
       source: noDateSource,
       title: 'no date',
@@ -118,9 +114,51 @@ describe('loadBlog', () => {
       tags: [],
       prevItem: undefined,
       nextItem: {
-        permalink: '/blog/2020/02/27/draft',
+        permalink: '/blog/hey/my super path/héllô',
+        title: 'Complex Slug',
+      },
+      truncated: false,
+    });
+
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'Complex Slug').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/complex-slug.md',
+      permalink: '/blog/hey/my super path/héllô',
+      readingTime: 0.015,
+      source: path.join('@site', pluginPath, 'complex-slug.md'),
+      title: 'Complex Slug',
+      description: `complex url slug`,
+      prevItem: undefined,
+      nextItem: {
+        permalink: '/blog/simple/slug',
+        title: 'Simple Slug',
+      },
+      date: new Date('2020-08-16'),
+      tags: [],
+      truncated: false,
+    });
+
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'Simple Slug').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/simple-slug.md',
+      permalink: '/blog/simple/slug',
+      readingTime: 0.015,
+      source: path.join('@site', pluginPath, 'simple-slug.md'),
+      title: 'Simple Slug',
+      description: `simple url slug`,
+      prevItem: undefined,
+      nextItem: {
+        permalink: '/blog/draft',
         title: 'draft',
       },
+      date: new Date('2020-08-16'),
+      tags: [],
       truncated: false,
     });
   });

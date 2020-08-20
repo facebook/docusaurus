@@ -7,6 +7,7 @@
 
 import fs from 'fs-extra';
 import globby from 'globby';
+import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
@@ -126,6 +127,14 @@ export async function generateBlogPosts(
         return;
       }
 
+      if (frontMatter.id) {
+        console.warn(
+          chalk.yellow(
+            `${blogFileName} - 'id' header option is deprecated. Please use 'slug' option instead.`,
+          ),
+        );
+      }
+
       let date;
       // Extract date and title from filename.
       const match = blogFileName.match(FILENAME_PATTERN);
@@ -144,16 +153,15 @@ export async function generateBlogPosts(
 
       // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
+
+      const slug =
+        frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
       frontMatter.title = frontMatter.title || linkName;
 
       blogPosts.push({
-        id: frontMatter.id || frontMatter.title,
+        id: frontMatter.slug || frontMatter.title,
         metadata: {
-          permalink: normalizeUrl([
-            baseUrl,
-            routeBasePath,
-            frontMatter.id || toUrl({date, link: linkName}),
-          ]),
+          permalink: normalizeUrl([baseUrl, routeBasePath, slug]),
           editUrl: editBlogUrl,
           source: aliasedSource,
           description: frontMatter.description || excerpt,
