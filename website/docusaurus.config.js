@@ -29,7 +29,8 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  // onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  onBrokenLinks: 'ignore', //  TODO reenable
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:

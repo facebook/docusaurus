@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate, normalizeUrl} from '@docusaurus/utils';
+import {generate, normalizeUrl, addTrailingSlash} from '@docusaurus/utils';
 import path, {join} from 'path';
 import {
   BUILD_DIR_NAME,
@@ -32,14 +32,16 @@ import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import loadLocales from './loadLocales';
 
-function addLocaleBaseUrlSuffix(
-  baseUrl: string,
+function addLocaleBaseUrlPathSegmentSuffix(
+  originalPath: string,
   localization: LocalizationContext,
 ): string {
   if (localization.currentLocale === localization.defaultLocale) {
-    return baseUrl;
+    return originalPath;
   } else {
-    return normalizeUrl([baseUrl, localization.currentLocale]);
+    return addTrailingSlash(
+      normalizeUrl([originalPath, localization.currentLocale]),
+    );
   }
 }
 
@@ -54,7 +56,7 @@ export function loadContext(
     GENERATED_FILES_DIR_NAME,
   );
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const outDir = customOutDir
+  const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
@@ -65,9 +67,14 @@ export function loadContext(
     currentLocale: locale ?? locales.defaultLocale,
   };
 
-  const baseUrl = addLocaleBaseUrlSuffix(siteConfig.baseUrl, localization);
+  const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
+    siteConfig.baseUrl,
+    localization,
+  );
+  const outDir = addLocaleBaseUrlPathSegmentSuffix(baseOutDir, localization);
 
   console.log('baseUrl', baseUrl);
+  console.log('outDir', outDir);
 
   return {
     siteDir,
