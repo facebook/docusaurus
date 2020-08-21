@@ -42,10 +42,10 @@ export default async function build(
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
 ): Promise<string> {
-  function doBuildLocale(locale: string, forceTerm) {
+  async function doBuildLocale(locale: string, forceTerm) {
     try {
       console.log(chalk.yellow(`Building site in locale=${locale}`));
-      const result = buildLocale(siteDir, locale, cliOptions, forceTerm);
+      const result = await buildLocale(siteDir, locale, cliOptions, forceTerm);
       console.log(chalk.green(`Site successfully built in locale=${locale}`));
       return result;
     } catch (e) {
