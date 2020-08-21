@@ -48,7 +48,7 @@ export default async function start(
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
-  const props = await load(siteDir);
+  const props = await load(siteDir, {locale: cliOptions.locale});
 
   // Reload files processing.
   const reload = () => {

@@ -27,6 +27,7 @@ import {
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
+import {last} from 'lodash';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -61,16 +62,36 @@ async function readLastUpdateData(
 }
 
 export async function readDocFile(
-  docsDirPath: string,
+  docsDirPaths: string[],
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const filePath = path.join(docsDirPath, source);
+  const filePaths = docsDirPaths.map((docsDirPath) =>
+    path.join(docsDirPath, source),
+  );
+
+  const checkedFilePaths = await Promise.all(
+    filePaths.map(async (filePath) => ({
+      exists: await fs.pathExists(filePath),
+      filePath,
+    })),
+  );
+
+  // Normally this should never happen since the source is read from FS...
+  const filePath = checkedFilePaths.find(
+    (checkedFilePath) => checkedFilePath.exists,
+  )?.filePath;
+  if (!filePath) {
+    throw new Error(
+      `unexpected, none of these doc files exist:\n- ${filePaths.join('\n- ')}`,
+    );
+  }
+
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),
     readLastUpdateData(filePath, options),
   ]);
-  return {source, content, lastUpdate};
+  return {source, content, lastUpdate, filePath};
 }
 
 export async function readVersionDocs(
@@ -81,11 +102,12 @@ export async function readVersionDocs(
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
-    cwd: versionMetadata.docsDirPath,
+    // TODO refactor
+    cwd: last(versionMetadata.docsDirPaths),
   });
   return Promise.all(
     sources.map((source) =>
-      readDocFile(versionMetadata.docsDirPath, source, options),
+      readDocFile(versionMetadata.docsDirPaths, source, options),
     ),
   );
 }
@@ -101,10 +123,9 @@ export function processDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
 }): DocMetadataBase {
-  const {source, content, lastUpdate} = docFile;
+  const {source, content, lastUpdate, filePath} = docFile;
   const {editUrl, homePageId} = options;
   const {siteDir} = context;
-  const filePath = path.join(versionMetadata.docsDirPath, source);
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .

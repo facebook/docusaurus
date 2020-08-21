@@ -36,7 +36,7 @@ import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
-import {flatten, keyBy, compact} from 'lodash';
+import {flatten, keyBy, compact, last} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
@@ -107,8 +107,12 @@ export default function pluginContentDocs(
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         return [
           version.sidebarFilePath,
-          ...options.include.map(
-            (pattern) => `${version.docsDirPath}/${pattern}`,
+          ...flatten(
+            options.include.map((pattern) =>
+              version.docsDirPaths.map(
+                (docsDirPath) => `${docsDirPath}/${pattern}`,
+              ),
+            ),
           ),
         ];
       }
@@ -127,7 +131,8 @@ export default function pluginContentDocs(
               versionMetadata.versionName
             } has no docs! At least one doc should exist at path=[${path.relative(
               siteDir,
-              versionMetadata.docsDirPath,
+              // TODO refactor
+              last(versionMetadata.docsDirPaths)!,
             )}]`,
           );
         }
@@ -314,7 +319,11 @@ export default function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
-          include: versionsMetadata.map((vmd) => vmd.docsDirPath),
+          include: flatten(
+            versionsMetadata.map(
+              (versionMetadata) => versionMetadata.docsDirPaths,
+            ),
+          ),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),

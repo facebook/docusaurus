@@ -90,13 +90,18 @@ cli
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .option(
+    '-l, --locale <locale>',
+    'Build the site in a specified locale. Build all known locales otherwise.',
+  )
+  .option(
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
+  .action((siteDir = '.', {bundleAnalyzer, outDir, locale, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
+      locale,
       minify,
     });
   });
@@ -139,6 +144,7 @@ cli
   .description('Start the development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
+  .option('-l, --locale <locale>', 'use specified site locale')
   .option(
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
@@ -148,10 +154,11 @@ cli
     '--poll',
     'Use polling rather than watching for reload (default: false)',
   )
-  .action((siteDir = '.', {port, host, hotOnly, open, poll}) => {
+  .action((siteDir = '.', {port, host, locale, hotOnly, open, poll}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
+      locale,
       hotOnly,
       open,
       poll,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {generate, normalizeUrl} from '@docusaurus/utils';
 import path, {join} from 'path';
 import {
   BUILD_DIR_NAME,
@@ -23,16 +23,31 @@ import {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
   LoadContext,
+  LocalizationContext,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
+import loadLocales from './loadLocales';
+
+function addLocaleBaseUrlSuffix(
+  baseUrl: string,
+  localization: LocalizationContext,
+): string {
+  if (localization.currentLocale === localization.defaultLocale) {
+    return baseUrl;
+  } else {
+    return normalizeUrl([baseUrl, localization.currentLocale]);
+  }
+}
+
+type LoadContextOptions = {customOutDir?: string; locale?: string};
 
 export function loadContext(
   siteDir: string,
-  customOutDir?: string,
+  {customOutDir, locale}: LoadContextOptions = {},
 ): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
@@ -42,7 +57,17 @@ export function loadContext(
   const outDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
-  const {baseUrl} = siteConfig;
+
+  const locales = loadLocales(siteDir);
+
+  const localization: LocalizationContext = {
+    ...locales,
+    currentLocale: locale ?? locales.defaultLocale,
+  };
+
+  const baseUrl = addLocaleBaseUrlSuffix(siteConfig.baseUrl, localization);
+
+  console.log('baseUrl', baseUrl);
 
   return {
     siteDir,
@@ -50,6 +75,7 @@ export function loadContext(
     siteConfig,
     outDir,
     baseUrl,
+    localization,
   };
 }
 
@@ -65,13 +91,24 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   ];
 }
 
+type LoadOptions = {
+  customOutDir?: string;
+  locale?: string;
+};
+
 export async function load(
   siteDir: string,
-  customOutDir?: string,
+  {customOutDir, locale}: LoadOptions = {},
 ): Promise<Props> {
   // Context.
-  const context: LoadContext = loadContext(siteDir, customOutDir);
-  const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
+  const context: LoadContext = loadContext(siteDir, {customOutDir, locale});
+  const {
+    generatedFilesDir,
+    siteConfig,
+    outDir,
+    baseUrl,
+    localization,
+  } = context;
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
@@ -228,6 +265,7 @@ ${Object.keys(registry)
     siteDir,
     outDir,
     baseUrl,
+    localization,
     generatedFilesDir,
     routes: pluginsRouteConfigs,
     routesPaths,

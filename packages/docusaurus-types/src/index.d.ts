@@ -89,14 +89,28 @@ export interface StartCLIOptions {
   hotOnly: boolean;
   open: boolean;
   poll: boolean;
+  locale?: string;
 }
 
-export interface BuildCLIOptions {
+export type BuildOptions = {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
   skipBuild: boolean;
-}
+};
+
+export type BuildCLIOptions = BuildOptions & {
+  locale?: string;
+};
+
+export type LocalizationFile = {
+  locales: string[];
+  defaultLocale: string;
+};
+
+export type LocalizationContext = LocalizationFile & {
+  currentLocale: string;
+};
 
 export interface LoadContext {
   siteDir: string;
@@ -104,6 +118,7 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
+  localization: LocalizationContext;
 }
 
 export interface InjectedHtmlTags {

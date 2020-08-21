@@ -17,22 +17,82 @@ import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, Props} from '@docusaurus/types';
+import {BuildCLIOptions, BuildOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
+import loadLocales from '../server/loadLocales';
+
+async function asyncMapSequencial<T extends unknown, R extends unknown>(
+  array: T[],
+  action: (t: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await action(t);
+    results.push(result);
+  }
+  return results;
+}
 
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
 ): Promise<string> {
+  function doBuildLocale(locale: string, forceTerm) {
+    try {
+      console.log(chalk.yellow(`Building site in locale=${locale}`));
+      const result = buildLocale(siteDir, locale, cliOptions, forceTerm);
+      console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      return result;
+    } catch (e) {
+      console.error(`error building locale=${locale}`);
+      throw e;
+    }
+  }
+
+  const locales = loadLocales(siteDir);
+  if (locales.locales.length === 0) {
+    throw new Error('unexpected, no locales!');
+  }
+  if (cliOptions.locale) {
+    return doBuildLocale(cliOptions.locale, forceTerminate);
+  } else {
+    console.log(
+      chalk.blue(
+        `Site will be built with all these locales: ${locales.locales.join(
+          ', ',
+        )}`,
+      ),
+    );
+    const results = await asyncMapSequencial(locales.locales, (locale) => {
+      const isLastLocale =
+        locales.locales.indexOf(locale) === locales.locales.length - 1;
+      // TODO check why we need forceTerminate
+      const forceTerm = isLastLocale && forceTerminate;
+      return doBuildLocale(locale, forceTerm);
+    });
+    return results[0]!;
+  }
+}
+
+async function buildLocale(
+  siteDir: string,
+  locale: string,
+  cliOptions: Partial<BuildOptions> = {},
+  forceTerminate: boolean = true,
+): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir, cliOptions.outDir);
+  const props: Props = await load(siteDir, {
+    customOutDir: cliOptions.outDir,
+    locale,
+  });
 
   // Apply user webpack config.
   const {

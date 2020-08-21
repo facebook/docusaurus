@@ -18,6 +18,7 @@ import {
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {normalizeUrl} from '@docusaurus/utils';
+import {last} from 'lodash';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -130,10 +131,22 @@ function getVersionMetadataPaths({
   options,
 }: {
   versionName: string;
-  context: Pick<LoadContext, 'siteDir'>;
+  context: Pick<LoadContext, 'siteDir' | 'localization'>;
   options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath'>;
-}): Pick<VersionMetadata, 'docsDirPath' | 'sidebarFilePath'> {
+}): Pick<VersionMetadata, 'docsDirPaths' | 'sidebarFilePath'> {
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
+
+  // TODO if locale is fr-FR, should we look for translations in both /fr-FR and /fr folders?
+  const translatedDocsDirPath = path.resolve(
+    context.siteDir,
+    path.join(
+      'i18n',
+      context.localization.currentLocale,
+      'docs',
+      options.id,
+      versionName,
+    ),
+  );
 
   const docsDirPath = isCurrentVersion
     ? path.resolve(context.siteDir, options.path)
@@ -142,6 +155,9 @@ function getVersionMetadataPaths({
         `version-${versionName}`,
       );
 
+  // TODO for now order matter should be made more explicit!
+  const docsDirPaths = [translatedDocsDirPath, docsDirPath];
+
   const sidebarFilePath = isCurrentVersion
     ? path.resolve(context.siteDir, options.sidebarPath)
     : path.join(
@@ -149,7 +165,7 @@ function getVersionMetadataPaths({
         `version-${versionName}-sidebars.json`,
       );
 
-  return {docsDirPath, sidebarFilePath};
+  return {docsDirPaths, sidebarFilePath};
 }
 
 function createVersionMetadata({
@@ -160,14 +176,16 @@ function createVersionMetadata({
 }: {
   versionName: string;
   isLast: boolean;
-  context: Pick<LoadContext, 'siteDir' | 'baseUrl'>;
+  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'localization'>;
   options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath' | 'routeBasePath'>;
 }): VersionMetadata {
-  const {sidebarFilePath, docsDirPath} = getVersionMetadataPaths({
+  const {sidebarFilePath, docsDirPaths} = getVersionMetadataPaths({
     versionName,
     context,
     options,
   });
+
+  console.log('docsDirPaths \n', docsDirPaths.join('\n-'));
 
   // TODO hardcoded for retro-compatibility
   // TODO Need to make this configurable
@@ -195,15 +213,17 @@ function createVersionMetadata({
     isLast,
     routePriority,
     sidebarFilePath,
-    docsDirPath,
+    docsDirPaths,
   };
 }
 
 function checkVersionMetadataPaths({
   versionName,
-  docsDirPath,
+  docsDirPaths,
   sidebarFilePath,
 }: VersionMetadata) {
+  // TODO refactor
+  const docsDirPath = last(docsDirPaths)!;
   if (!fs.existsSync(docsDirPath)) {
     throw new Error(
       `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${docsDirPath}`,
@@ -233,7 +253,7 @@ export function readVersionsMetadata({
   context,
   options,
 }: {
-  context: Pick<LoadContext, 'siteDir' | 'baseUrl'>;
+  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'localization'>;
   options: Pick<
     PluginOptions,
     | 'id'
