@@ -138,7 +138,7 @@ module.exports = [
     image: '/img/users/casbin.png',
     infoLink: 'https://casbin.org/',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Channelize.io',
