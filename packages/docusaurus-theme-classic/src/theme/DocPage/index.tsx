@@ -5,24 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
+import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
+import type {DocumentRoute} from '@theme/DocItem';
+import type {Props} from '@theme/DocPage';
 import {matchPath} from '@docusaurus/router';
 
 import styles from './styles.module.css';
+
+type DocPageContentProps = {
+  readonly currentDocRoute: DocumentRoute;
+  readonly versionMetadata: PropVersionMetadata;
+  readonly children: ReactNode;
+};
 
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
   children,
-}): JSX.Element {
+}: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
   const {permalinkToSidebar, docsSidebars, version} = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
@@ -49,7 +58,7 @@ function DocPageContent({
   );
 }
 
-function DocPage(props) {
+function DocPage(props: Props): JSX.Element {
   const {
     route: {routes: docRoutes},
     versionMetadata,

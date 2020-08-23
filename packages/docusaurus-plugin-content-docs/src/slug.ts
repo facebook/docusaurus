@@ -20,7 +20,7 @@ export default function getSlug({
   baseID: string;
   frontmatterSlug?: string;
   dirName: string;
-}) {
+}): string {
   const baseSlug: string = frontmatterSlug || baseID;
   let slug: string;
   if (baseSlug.startsWith('/')) {

@@ -22,7 +22,6 @@ import {
   PluginOptions,
   LoadedContent,
   SourceToPermalink,
-  PermalinkToSidebar,
   DocMetadataBase,
   DocMetadata,
   GlobalPluginData,
@@ -32,6 +31,7 @@ import {
   DocFile,
   DocsMarkdownOption,
 } from './types';
+import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
