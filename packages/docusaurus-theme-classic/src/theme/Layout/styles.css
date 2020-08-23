@@ -13,6 +13,7 @@ body {
 body {
   margin: 0;
   transition: var(--ifm-transition-fast) ease color;
+  background-color: var(--ifm-background-color);
 }
 
 #__docusaurus {
