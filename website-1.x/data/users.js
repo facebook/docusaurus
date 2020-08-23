@@ -134,6 +134,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Casbin',
+    image: '/img/users/casbin.png',
+    infoLink: 'https://casbin.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Channelize.io',
     image: '/img/users/channelize.png',
     infoLink: 'https://docs.channelize.io/',
