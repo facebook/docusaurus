@@ -80,7 +80,7 @@ A handful of students have also worked on Docusaurus as part of their school ter
     Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
   </TeamProfileCardCol>
   <TeamProfileCardCol name="Sam Zhou" githubUrl="https://github.com/SamChou19815" twitterUrl="https://twitter.com/SamChou19815">
-    TODO
+    Sam started programming in 2011 and built his <a href="https://developersam.com">website</a> in 2015. He is interested in programming languages, dev infra and web development, and has built his own <a href="https://samlang.developersam.com/">programming language</a> and <a href="https://github.com/SamChou19815/mini-react">mini React</a>.
   </TeamProfileCardCol>
   <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
     Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
