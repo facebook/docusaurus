@@ -810,7 +810,7 @@ None that we know of. Please let us know if you find any as this is a big releas
 
 ### Added
 
-- Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of most [requested features](https://github.com/facebook/docusaurus/pull/705).
+- Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of the most [requested features](https://github.com/facebook/docusaurus/pull/705).
 - You can now use [Prism for syntax highlighting](https://github.com/facebook/docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
 - URLs can now be ["clean"](https://github.com/facebook/docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773) - no `.html` extension.
 - Scroll to top button [option](https://github.com/facebook/docusaurus/commit/aee255219bedc97b55048cdb4703742cbb7c247e) for your documentation pages.

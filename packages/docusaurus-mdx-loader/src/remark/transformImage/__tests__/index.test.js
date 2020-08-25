@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import {join, relative} from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -24,28 +24,35 @@ const processFixture = async (name, options) => {
   return result.toString();
 };
 
+// avoid hardcoding absolute
+const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
+
 describe('transformImage plugin', () => {
   test('fail if image does not exist', async () => {
     await expect(
-      processFixture('fail', {staticDir: join(__dirname, 'fixtures')}),
+      processFixture('fail', {
+        staticDir,
+      }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
   test('fail if image url is absent', async () => {
     await expect(
-      processFixture('noUrl', {staticDir: join(__dirname, 'fixtures')}),
+      processFixture('noUrl', {
+        staticDir,
+      }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
   test('transform md images to <img />', async () => {
     const result = await processFixture('img', {
-      staticDir: join(__dirname, 'fixtures'),
+      staticDir,
     });
     expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
     const result = await processFixture('pathname', {
-      staticDir: join(__dirname, 'fixtures'),
+      staticDir,
     });
     expect(result).toMatchSnapshot();
   });

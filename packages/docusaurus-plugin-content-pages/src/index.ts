@@ -27,7 +27,10 @@ import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {
+  DEFAULT_PLUGIN_ID,
+  STATIC_DIR_NAME,
+} from '@docusaurus/core/lib/constants';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -178,6 +181,7 @@ export default function pluginContentPages(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
