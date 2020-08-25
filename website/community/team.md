@@ -62,6 +62,17 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
   </TeamProfileCardCol>
 </div>
 
+## Fellows
+
+<div className="row">
+  <TeamProfileCardCol name="Anshul Goyal" githubUrl="https://github.com/anshulrgoyal" twitterUrl="https://twitter.com/ar_goyal">
+  Fullstack developer who loves to code and try new technologies. In his free time, he contributes to open source, writes blog posts on his <a href="https://anshulgoyal.dev/" target="_blank">website</a> and watches Anime.
+  </TeamProfileCardCol>
+  <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
+    Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
+  </TeamProfileCardCol>
+</div>
+
 ## Acknowledgements
 
 Docusaurus was originally created by Joel Marcey. Today, Docusaurus has a few hundred open source contributors. We’d like to recognize a few people who have made significant contributions to Docusaurus and its documentation in the past and have helped maintain them over the years:
