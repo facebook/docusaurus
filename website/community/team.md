@@ -11,35 +11,35 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
 ## Active Team
 
 <div className="row">
-  <TeamProfileCardCol 
-    name="Alexey Pyltsyn" 
+  <TeamProfileCardCol
+    name="Alexey Pyltsyn"
     githubUrl="https://github.com/lex111"
   >
     Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
   </TeamProfileCardCol>
-  <TeamProfileCardCol 
-    name="Fanny Vieira" 
+  <TeamProfileCardCol
+    name="Fanny Vieira"
     githubUrl="https://github.com/fanny"
     twitterUrl="https://twitter.com/fannyvieiira"
   >
     Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
   </TeamProfileCardCol>
-  <TeamProfileCardCol 
-    name="Joel Marcey" 
+  <TeamProfileCardCol
+    name="Joel Marcey"
     githubUrl="https://github.com/JoelMarcey"
     twitterUrl="https://twitter.com/joelmarcey"
   >
     Docusaurus founder and now ever grateful Docusaurus cheerleader to those who actually write code for it.
   </TeamProfileCardCol>
-  <TeamProfileCardCol 
-    name="Sébastien Lorber" 
+  <TeamProfileCardCol
+    name="Sébastien Lorber"
     githubUrl="https://github.com/slorber"
     twitterUrl="https://twitter.com/sebastienlorber"
   >
     React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his <a href="https://sebastienlorber.com/" target="_blank">website</a> and <a href="https://dev.to/sebastienlorber" target="_blank">Dev.to</a>.
   </TeamProfileCardCol>
-  <TeamProfileCardCol 
-    name="Yangshun Tay" 
+  <TeamProfileCardCol
+    name="Yangshun Tay"
     githubUrl="https://github.com/yangshun"
     twitterUrl="https://twitter.com/yangshunz"
   >
@@ -53,8 +53,8 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
   <TeamProfileCardCol name="Endilie Yacop Sucipto" githubUrl="https://github.com/endiliey" twitterUrl="https://twitter.com/endiliey">
     Maintainer @docusaurus · 🔥🔥🔥
   </TeamProfileCardCol>
-  <TeamProfileCardCol 
-    name="Wei Gao" 
+  <TeamProfileCardCol
+    name="Wei Gao"
     githubUrl="https://github.com/wgao19"
     twitterUrl="https://twitter.com/wgao19"
   >
