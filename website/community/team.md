@@ -71,6 +71,9 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
   <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
     Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
   </TeamProfileCardCol>
+  <TeamProfileCardCol name="Drew Alexander" githubUrl="https://github.com/drewbi">
+    Developer and Creative, trying to gain the skills to build whatever he can think of.
+  </TeamProfileCardCol>
 </div>
 
 ## Acknowledgements
