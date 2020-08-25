@@ -10,20 +10,11 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
 
 ## Active Team
 
+The Docusaurus team works on the core functionality, plugins for the classic theme, as well as the Docusaurus documentation website.
+
+Current members of the Docusaurus team are listed in alphabetical order below.
+
 <div className="row">
-  <TeamProfileCardCol
-    name="Alexey Pyltsyn"
-    githubUrl="https://github.com/lex111"
-  >
-    Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
-  </TeamProfileCardCol>
-  <TeamProfileCardCol
-    name="Fanny Vieira"
-    githubUrl="https://github.com/fanny"
-    twitterUrl="https://twitter.com/fannyvieiira"
-  >
-    Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
-  </TeamProfileCardCol>
   <TeamProfileCardCol
     name="Joel Marcey"
     githubUrl="https://github.com/JoelMarcey"
@@ -49,7 +40,15 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
 
 ## Honorary Alumni
 
+Docusaurus would never be what it is today without the huge contributions from these folks who have moved on to bigger and greater things.
+
 <div className="row">
+  <TeamProfileCardCol
+    name="Alexey Pyltsyn"
+    githubUrl="https://github.com/lex111"
+  >
+    Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
+  </TeamProfileCardCol>
   <TeamProfileCardCol name="Endilie Yacop Sucipto" githubUrl="https://github.com/endiliey" twitterUrl="https://twitter.com/endiliey">
     Maintainer @docusaurus · 🔥🔥🔥
   </TeamProfileCardCol>
@@ -62,17 +61,29 @@ export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} c
   </TeamProfileCardCol>
 </div>
 
-## Fellows
+## Student Fellows
+
+A handful of students have also worked on Docusaurus as part of their school term/internship and the [Major League Hacking Fellowship program](https://fellowship.mlh.io/), contributing amazing features such as plugin options validation, migration tooling, and a Bootstrap theme.
 
 <div className="row">
   <TeamProfileCardCol name="Anshul Goyal" githubUrl="https://github.com/anshulrgoyal" twitterUrl="https://twitter.com/ar_goyal">
   Fullstack developer who loves to code and try new technologies. In his free time, he contributes to open source, writes blog posts on his <a href="https://anshulgoyal.dev/" target="_blank">website</a> and watches Anime.
   </TeamProfileCardCol>
-  <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
-    Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
-  </TeamProfileCardCol>
   <TeamProfileCardCol name="Drew Alexander" githubUrl="https://github.com/drewbi">
     Developer and Creative, trying to gain the skills to build whatever he can think of.
+  </TeamProfileCardCol>
+  <TeamProfileCardCol
+    name="Fanny Vieira"
+    githubUrl="https://github.com/fanny"
+    twitterUrl="https://twitter.com/fannyvieiira"
+  >
+    Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
+  </TeamProfileCardCol>
+  <TeamProfileCardCol name="Sam Zhou" githubUrl="https://github.com/SamChou19815" twitterUrl="https://twitter.com/SamChou19815">
+    TODO
+  </TeamProfileCardCol>
+  <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
+    Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
   </TeamProfileCardCol>
 </div>
 
@@ -91,4 +102,3 @@ Docusaurus was originally created by Joel Marcey. Today, Docusaurus has a few hu
 - [Héctor Ramos](https://github.com/hramos)
 - [Ramón Lamana](https://github.com/rlamana)
 - [Ricky Vetter](https://github.com/rickyvetter)
-- [Sam Zhou](https://github.com/SamChou19815)
