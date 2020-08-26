@@ -85,6 +85,9 @@ A handful of students have also worked on Docusaurus as part of their school ter
   <TeamProfileCardCol name="Tan Teik Jun" githubUrl="https://github.com/teikjun" twitterUrl="https://twitter.com/teik_jun">
     Open-source enthusiast who aims to become as awesome as the other humans on this page. Working on Docusaurus brought him closer to his goal. 🌱
   </TeamProfileCardCol>
+  <TeamProfileCardCol name="Nisarag Bhatt" githubUrl="https://github.com/FocalChord" twitterUrl="https://twitter.com/focalchord_">
+    Fullstack web developer who loves learning new technologies and applying them! Loves contributing to open source as well as writing content articles and tutorials.
+  </TeamProfileCardCol>
 </div>
 
 ## Acknowledgements
