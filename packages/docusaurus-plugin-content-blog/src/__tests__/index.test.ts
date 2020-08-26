@@ -21,9 +21,8 @@ function validateAndNormalize(schema, options) {
 }
 
 describe('loadBlog', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'website');
   const pluginPath = 'blog';
-  const getBlogPosts = async () => {
+  const getBlogPosts = async (siteDir) => {
     const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
       title: 'Hello',
@@ -48,11 +47,8 @@ describe('loadBlog', () => {
   };
 
   test('simple website', async () => {
-    const blogPosts = await getBlogPosts();
-    const noDateSource = path.join('@site', pluginPath, 'no date.md');
-    const noDateSourceBirthTime = (
-      await fs.stat(noDateSource.replace('@site', siteDir))
-    ).birthtime;
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const blogPosts = await getBlogPosts(siteDir);
 
     expect({
       ...blogPosts.find((v) => v.metadata.title === 'date-matter').metadata,
@@ -100,27 +96,6 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'no date').metadata,
-      ...{prevItem: undefined},
-    }).toEqual({
-      editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
-      permalink: '/blog/no date',
-      readingTime: 0.01,
-      source: noDateSource,
-      title: 'no date',
-      description: `no date`,
-      date: noDateSourceBirthTime,
-      tags: [],
-      prevItem: undefined,
-      nextItem: {
-        permalink: '/blog/hey/my super path/héllô',
-        title: 'Complex Slug',
-      },
-      truncated: false,
-    });
-
-    expect({
       ...blogPosts.find((v) => v.metadata.title === 'Complex Slug').metadata,
       ...{prevItem: undefined},
     }).toEqual({
@@ -157,7 +132,7 @@ describe('loadBlog', () => {
         permalink: '/blog/draft',
         title: 'draft',
       },
-      date: new Date('2020-08-16'),
+      date: new Date('2020-08-15'),
       tags: [],
       truncated: false,
     });
@@ -165,8 +140,40 @@ describe('loadBlog', () => {
 
   test('draft blog post not exists in production build', async () => {
     process.env.NODE_ENV = 'production';
-    const blogPosts = await getBlogPosts();
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const blogPosts = await getBlogPosts(siteDir);
 
     expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
+  });
+
+  test('create blog post without date', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-without-date',
+    );
+    const blogPosts = await getBlogPosts(siteDir);
+    const noDateSource = path.join('@site', pluginPath, 'no date.md');
+    const noDateSourceBirthTime = (
+      await fs.stat(noDateSource.replace('@site', siteDir))
+    ).birthtime;
+
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'no date').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
+      permalink: '/blog/no date',
+      readingTime: 0.01,
+      source: noDateSource,
+      title: 'no date',
+      description: `no date`,
+      date: noDateSourceBirthTime,
+      tags: [],
+      prevItem: undefined,
+      nextItem: undefined,
+      truncated: false,
+    });
   });
 });
