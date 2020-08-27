@@ -948,12 +948,11 @@ Let's imagine the following file structure:
 # Some assets you want to use
 /website/docs/assets/docusaurus-asset-example-banner.png
 /website/docs/assets/docusaurus-asset-example-pdf.pdf
-/website/docs/assets/docusaurus-asset-example.xyz
 ```
 
-### Image assets
+### Images
 
-You can use images by requiring them and using an image tag through MDX:
+You can use images in Markdown, or by requiring them and using a JSX image tag:
 
 ```mdx
 # My markdown page
@@ -985,7 +984,7 @@ If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusp
 
 :::
 
-### Common assets
+### Files
 
 In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc...
 
@@ -998,7 +997,7 @@ In the same way, you can link to existing assets by requiring them and using the
   Download this PDF !!!
 </a>
 
-or 
+or
 
 [Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 ```
@@ -1009,53 +1008,18 @@ or
   Download this PDF !!!
 </a>
 
-
 [Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
-
-### Unknown assets
-
-This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in:
-
-```mdx
-# My markdown page
-
-<a
-  target="_blank"
-  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
-  Download this unknown file !!!
-</a>
-
-or
-
-[Download this unknown file using Markdown](!file-loader!./assets/docusaurus-asset-example.xyz)
-```
-
-<a
-  target="_blank"
-  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
-  Download this unknown file !!!
-</a>
-
-[Download this unknown file using Markdown !!!](!file-loader!./assets/docusaurus-asset-example.xyz)
-
-
-```md
-[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
-```
-
-[![](./assets/docusaurus-asset-example-banner.png)](./assets/docusaurus-asset-example-pdf.pdf)
 
 ### Inline SVGs
 
 Docusaurus support inlining SVGs out of the box.
 
 ```js
+import DocusaurusSvg from './docusaurus.svg';
 
-import DocusaurusSvg from "./docusaurus.svg"
-
-<DocusaurusSvg />
-
+<DocusaurusSvg />;
 ```
-import DocusaurusSvg from "@site/static/img/docusaurus.svg"
+
+import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
