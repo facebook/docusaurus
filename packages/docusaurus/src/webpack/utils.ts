@@ -173,17 +173,19 @@ export function compile(config: Configuration[]): Promise<void> {
   });
 }
 
+type AssetFolder = 'images' | 'files' | 'medias';
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils() {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
   // defines the path/pattern of the assets handled by webpack
-  const fileLoaderFileName = (folder: string) =>
+  const fileLoaderFileName = (folder: AssetFolder) =>
     `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
-    file: (options: {folder: string}) => {
+    file: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
@@ -191,7 +193,7 @@ export function getFileLoaderUtils() {
         },
       };
     },
-    url: (options: {folder: string}) => {
+    url: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`url-loader`),
         options: {
@@ -210,6 +212,9 @@ export function getFileLoaderUtils() {
     inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
     )}&fallback=file-loader!`,
+    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
+      'files',
+    )}!`,
   };
 
   const rules = {

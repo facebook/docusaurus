@@ -14,20 +14,18 @@ import slug from '../../slug';
 
 const processFixture = async (name, options) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
+  const staticDir = join(__dirname, 'fixtures', 'static');
   const file = await vfile.read(path);
   const result = await remark()
     .use(slug)
     .use(mdx)
-    .use(plugin, {...options, filePath: path})
+    .use(plugin, {...options, filePath: path, staticDir})
     .process(file);
 
   return result.toString();
 };
 
 describe('transformAsset plugin', () => {
-  test('fail if asset does not exist', async () => {
-    await expect(processFixture('fail')).rejects.toThrowErrorMatchingSnapshot();
-  });
   test('fail if asset url is absent', async () => {
     await expect(
       processFixture('noUrl'),

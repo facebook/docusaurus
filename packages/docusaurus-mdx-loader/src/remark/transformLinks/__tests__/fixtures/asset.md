@@ -17,3 +17,7 @@
 [assets](/github/!file-loader!/assets.pdf)
 
 [asset](asset.pdf)
+
+[staticAsset.pdf](/staticAsset.pdf)
+
+[@site/static/staticAsset.pdf](@site/static/staticAsset.pdf)

@@ -14,14 +14,14 @@ const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
 const transformImage = require('./remark/transformImage');
-const tranformAsset = require('./remark/transformAssets');
+const transformLinks = require('./remark/transformLinks');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
   remarkPlugins: [emoji, slug, rightToc],
 };
 
-module.exports = async function (fileString) {
+module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);
@@ -36,7 +36,7 @@ module.exports = async function (fileString) {
         {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
       ],
       [
-        tranformAsset,
+        transformLinks,
         {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
       ],
       ...(reqOptions.remarkPlugins || []),
