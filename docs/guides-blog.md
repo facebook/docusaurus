@@ -63,6 +63,7 @@ The only required field is `title`; however, we provide options to add author in
 - `title` - The blog post title.
 - `slug` - The blog post url slug. Example: `/blog/my-test-slug`. When not specified, the blog url slug will be extracted from the file name.
 - `unlisted` - The post will be accessible by directly visiting the URL but will not show up in the sidebar in the final build; during local development, the post will still be listed. Useful in situations where you want to share a WIP post with others for feedback.
+- `draft` - The post will not be appeared if set to `true`. Useful in situations where WIP but don't want to share the post.
 
 ## Summary Truncation
 
