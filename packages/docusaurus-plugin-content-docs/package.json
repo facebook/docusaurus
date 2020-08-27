@@ -3,6 +3,7 @@
   "version": "2.0.0-alpha.61",
   "description": "Docs content plugin for Docusaurus",
   "main": "lib/index.js",
+  "types": "src/plugin-content-docs.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"

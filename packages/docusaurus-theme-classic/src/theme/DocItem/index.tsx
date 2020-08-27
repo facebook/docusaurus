@@ -12,12 +12,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-function DocItem(props): JSX.Element {
+function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;

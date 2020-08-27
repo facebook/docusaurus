@@ -7,13 +7,15 @@
 
 import {
   LoadedVersion,
-  PropSidebars,
   SidebarItemDoc,
   SidebarItemLink,
-  PropVersionMetadata,
   SidebarItem,
-  PropSidebarItem,
 } from './types';
+import {
+  PropSidebars,
+  PropVersionMetadata,
+  PropSidebarItem,
+} from '@docusaurus/plugin-content-docs-types';
 import {keyBy, mapValues} from 'lodash';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {

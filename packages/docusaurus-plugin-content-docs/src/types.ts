@@ -119,11 +119,6 @@ export type DocMetadata = DocMetadataBase & {
 export type SourceToPermalink = {
   [source: string]: string;
 };
-
-export type PermalinkToSidebar = {
-  [permalink: string]: string;
-};
-
 export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;
@@ -153,27 +148,6 @@ export type GlobalVersion = {
 export type GlobalPluginData = {
   path: string;
   versions: GlobalVersion[];
-};
-
-export type PropVersionMetadata = {
-  version: VersionName;
-  docsSidebars: PropSidebars;
-  permalinkToSidebar: PermalinkToSidebar;
-};
-
-export type PropSidebarItemLink = SidebarItemLink; // same
-
-export type PropSidebarItemCategory = {
-  type: 'category';
-  label: string;
-  items: PropSidebarItem[];
-  collapsed?: boolean;
-};
-
-export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
-
-export type PropSidebars = {
-  [sidebarId: string]: PropSidebarItem[];
 };
 
 export type BrokenMarkdownLink = {
