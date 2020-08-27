@@ -166,7 +166,7 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   announcementBar: Joi.object({
-    id: Joi.string(),
+    id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
     backgroundColor: Joi.string().default('#fff'),
     textColor: Joi.string().default('#000'),
