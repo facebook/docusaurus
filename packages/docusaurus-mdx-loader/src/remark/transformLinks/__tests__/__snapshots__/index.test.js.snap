@@ -10,11 +10,11 @@ exports[`transformAsset plugin pathname protocol 1`] = `
 exports[`transformAsset plugin transform md links to <a /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/asset.pdf').default}  ></a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  ></a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/asset.pdf').default}  >asset</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  >asset</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/asset.pdf').default} title={Title} >asset</a> ![seet](asset)
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default} title={Title} >asset</a> ![seet](asset)
 
 ## Heading
 
@@ -26,10 +26,10 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 
 [assets](/github/!file-loader!/assets.pdf)
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/asset.pdf').default}  >asset</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  >asset</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/static/staticAsset.pdf').default}  >staticAsset.pdf</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset.pdf</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/static/staticAsset.pdf').default}  >@site/static/staticAsset.pdf</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >@site/static/staticAsset.pdf</a>
 "
 `;

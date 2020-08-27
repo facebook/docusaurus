@@ -33,8 +33,16 @@ async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
 }
 
 // transform the link node to a jsx link with a require() call
-function toAssetRequireNode({node, index, parent, requireAssetPath}) {
-  const hrefProp = `require('${inlineMarkdownLinkFileLoader}${requireAssetPath}').default`;
+function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
+  let relativeRequireAssetPath = path.relative(
+    path.dirname(filePath),
+    requireAssetPath,
+  );
+  relativeRequireAssetPath = relativeRequireAssetPath.startsWith('.')
+    ? relativeRequireAssetPath
+    : `./${relativeRequireAssetPath}`;
+
+  const hrefProp = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
 
   node.type = 'jsx';
 
@@ -42,12 +50,12 @@ function toAssetRequireNode({node, index, parent, requireAssetPath}) {
     node.title ? `title={${node.title}}` : ''
   } >`;
 
-  const {children} = node;
+  const linkText = (node.children[0] && node.children[0].value) || '';
   delete node.children;
 
   parent.children.splice(index + 1, 0, {
-    type: 'paragraph',
-    children,
+    type: 'text',
+    value: linkText,
   });
 
   parent.children.splice(index + 2, 0, {type: 'jsx', value: '</a>'});
@@ -80,6 +88,7 @@ async function convertToAssetLinkIfNeeded({
       node,
       index,
       parent,
+      filePath,
       requireAssetPath,
     });
   }
