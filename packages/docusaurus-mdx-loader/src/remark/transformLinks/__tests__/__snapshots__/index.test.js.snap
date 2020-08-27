@@ -3,7 +3,7 @@
 exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link url is mandatory. filePath=packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/noUrl.md, title=null"`;
 
 exports[`transformAsset plugin pathname protocol 1`] = `
-"[asset](/asset/unchecked.pdf)
+"[asset](pathname:///asset/unchecked.pdf)
 "
 `;
 

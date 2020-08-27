@@ -116,13 +116,6 @@ async function processLinkNode({node, index, parent, filePath, staticDir}) {
 
   const parsedUrl = url.parse(node.url);
   if (parsedUrl.protocol) {
-    // pathname:// is an escape hatch,
-    // in case user does not want his assets to be converted to require calls going through webpack loader
-    // we don't have to document this for now,
-    // it's mostly to make next release less risky (2.0.0-alpha.59)
-    if (parsedUrl.protocol === 'pathname:') {
-      node.url = node.url.replace('pathname://', '');
-    }
     return;
   }
 
