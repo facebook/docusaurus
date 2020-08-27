@@ -7,14 +7,12 @@
 
 import {useState, useEffect, useCallback} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnoucementBar';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
 const STORAGE_ID_KEY = 'docusaurus.announcement.id';
 
-const useAnnouncementBar = (): {
-  isAnnouncementBarClosed: boolean;
-  closeAnnouncementBar: () => void;
-} => {
+const useAnnouncementBar = (): useAnnouncementBarReturns => {
   const {announcementBar} = useDocusaurusContext().siteConfig.themeConfig;
 
   const [isClosed, setClosed] = useState(true);

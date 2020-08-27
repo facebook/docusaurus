@@ -14,6 +14,7 @@ import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
+import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
 
@@ -91,11 +92,7 @@ export default ({
   children,
   className: languageClassName,
   metastring,
-}: {
-  children: string;
-  className: string;
-  metastring: string;
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const {
     siteConfig: {
       themeConfig: {prism = {}},

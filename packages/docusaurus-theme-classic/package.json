@@ -10,13 +10,14 @@
   "scripts": {
     "build": "tsc --noEmit && yarn babel && yarn prettier",
     "watch": "yarn babel --watch",
-    "babel": "babel src -d lib --extensions \".tsx,.ts\" --copy-files",
+    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
+    "@types/react-toggle": "^4.0.2",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.12",

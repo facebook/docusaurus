@@ -9,15 +9,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
 
-type LogoLinkProps = {target?: string; rel?: string};
-
-const useLogo = (): {
-  logoLink: string;
-  logoLinkProps: LogoLinkProps;
-  logoImageUrl: string;
-  logoAlt: string;
-} => {
+const useLogo = (): useLogoReturns => {
   const {
     siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
   } = useDocusaurusContext();

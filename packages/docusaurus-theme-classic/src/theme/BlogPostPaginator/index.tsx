@@ -7,8 +7,9 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import type {Props} from '@theme/BlogPostPaginator';
 
-function BlogPostPaginator(props): JSX.Element {
+function BlogPostPaginator(props: Props): JSX.Element {
   const {nextItem, prevItem} = props;
 
   return (

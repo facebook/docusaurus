@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import useTheme from '@theme/hooks/useTheme';
 import ThemeContext from '@theme/ThemeContext';
+import type {Props} from '@theme/ThemeProvider';
 
-function ThemeProvider(props: {readonly children: ReactNode}): JSX.Element {
+function ThemeProvider(props: Props): JSX.Element {
   const {isDarkTheme, setLightTheme, setDarkTheme} = useTheme();
 
   return (
