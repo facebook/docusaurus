@@ -663,7 +663,7 @@ function migrateLatestSidebar(
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
     fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
     classicPreset.theme.customCss = path.join(
-      path.relative(newDir, siteDir),
+      path.relative(newDir, path.join(siteDir, '..')),
       'src',
       'css',
       'customTheme.css',
