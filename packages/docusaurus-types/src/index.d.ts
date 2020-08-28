@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// ESLint doesn't understand types dependencies in d.ts
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
