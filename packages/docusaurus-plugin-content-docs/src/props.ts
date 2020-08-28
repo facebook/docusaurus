@@ -66,6 +66,7 @@ export function toVersionMetadataProp(
 ): PropVersionMetadata {
   return {
     version: loadedVersion.versionName,
+    label: loadedVersion.versionLabel,
     docsSidebars: toSidebarsProp(loadedVersion),
     permalinkToSidebar: loadedVersion.permalinkToSidebar,
   };

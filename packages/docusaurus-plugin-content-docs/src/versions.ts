@@ -7,7 +7,12 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {PluginOptions, VersionMetadata} from './types';
+import {
+  PluginOptions,
+  VersionMetadata,
+  VersionOptions,
+  VersionsOptions,
+} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -18,6 +23,7 @@ import {
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {normalizeUrl} from '@docusaurus/utils';
+import {difference} from 'lodash';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -161,7 +167,10 @@ function createVersionMetadata({
   versionName: string;
   isLast: boolean;
   context: Pick<LoadContext, 'siteDir' | 'baseUrl'>;
-  options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath' | 'routeBasePath'>;
+  options: Pick<
+    PluginOptions,
+    'id' | 'path' | 'sidebarPath' | 'routeBasePath' | 'versions'
+  >;
 }): VersionMetadata {
   const {sidebarFilePath, docsDirPath} = getVersionMetadataPaths({
     versionName,
@@ -169,15 +178,19 @@ function createVersionMetadata({
     options,
   });
 
-  // TODO hardcoded for retro-compatibility
-  // TODO Need to make this configurable
-  const versionLabel =
+  // retro-compatible values
+  const defaultVersionLabel =
     versionName === CURRENT_VERSION_NAME ? 'Next' : versionName;
-  const versionPathPart = isLast
+  const defaultVersionPathPart = isLast
     ? ''
     : versionName === CURRENT_VERSION_NAME
     ? 'next'
     : versionName;
+
+  const versionOptions: VersionOptions = options.versions[versionName] ?? {};
+
+  const versionLabel = versionOptions.label ?? defaultVersionLabel;
+  const versionPathPart = versionOptions.path ?? defaultVersionPathPart;
 
   const versionPath = normalizeUrl([
     context.baseUrl,
@@ -219,13 +232,41 @@ function checkVersionMetadataPaths({
 // TODO for retrocompatibility with existing behavior
 // We should make this configurable
 // "last version" is not a very good concept nor api surface
-function getLastVersionName(versionNames: string[]) {
+function getDefaultLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
     return versionNames[0];
   } else {
     return versionNames.filter(
       (versionName) => versionName !== CURRENT_VERSION_NAME,
     )[0];
+  }
+}
+
+function checkVersionsOptions(
+  availableVersionNames: string[],
+  options: VersionsOptions,
+) {
+  const availableVersionNamesMsg = `Available version names are: ${availableVersionNames.join(
+    ', ',
+  )}`;
+  if (
+    options.lastVersion &&
+    !availableVersionNames.includes(options.lastVersion)
+  ) {
+    throw new Error(
+      `Docs option lastVersion=${options.lastVersion} is invalid.\n${availableVersionNamesMsg}`,
+    );
+  }
+  const unknownVersionNames = difference(
+    Object.keys(options.versions),
+    availableVersionNames,
+  );
+  if (unknownVersionNames.length > 0) {
+    throw new Error(
+      `Docs versions option provided configuration for unknown versions: ${unknownVersionNames.join(
+        ',',
+      )}\n${availableVersionNamesMsg}`,
+    );
   }
 }
 
@@ -242,10 +283,17 @@ export function readVersionsMetadata({
     | 'routeBasePath'
     | 'includeCurrentVersion'
     | 'disableVersioning'
+    | 'lastVersion'
+    | 'versions'
   >;
 }): VersionMetadata[] {
   const versionNames = readVersionNames(context.siteDir, options);
-  const lastVersionName = getLastVersionName(versionNames);
+
+  checkVersionsOptions(versionNames, options);
+
+  const lastVersionName =
+    options.lastVersion ?? getDefaultLastVersionName(versionNames);
+
   const versionsMetadata = versionNames.map((versionName) =>
     createVersionMetadata({
       versionName,

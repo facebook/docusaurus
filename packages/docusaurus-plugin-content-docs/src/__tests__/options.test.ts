@@ -36,6 +36,7 @@ describe('normalizeDocsPluginOptions', () => {
       excludeNextVersionDocs: true,
       includeCurrentVersion: false,
       disableVersioning: true,
+      versions: {},
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);

@@ -14,13 +14,15 @@ const allDocHomesPaths = [
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const isDeployPreview =
+  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+
 const baseUrl = process.env.BASE_URL || '/';
 const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
-const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
-if (isBootstrapPreset) {
-  console.log('Will use bootstrap preset!');
-}
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
 module.exports = {
   title: 'Docusaurus',
@@ -175,6 +177,13 @@ module.exports = {
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
           disableVersioning: isVersioningDisabled,
+          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          versions: {
+            current: {
+              path: isDeployPreview ? 'next-pr' : undefined,
+              label: isDeployPreview ? 'Next (PR)' : 'Next',
+            },
+          },
         },
         blog: {
           // routeBasePath: '/',
