@@ -10,6 +10,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-docs" />
+/// <reference types="@docusaurus/plugin-content-pages" />
 
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
@@ -270,8 +271,6 @@ declare module '@theme/MDXComponents' {
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
 }
-
-// TODO @theme/MDXPage
 
 declare module '@theme/Navbar' {
   const Navbar: () => JSX.Element;

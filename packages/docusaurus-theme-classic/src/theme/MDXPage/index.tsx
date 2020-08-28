@@ -9,8 +9,9 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
+import type {Props} from '@theme/MDXPage';
 
-function MDXPage(props) {
+function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {frontMatter, metadata} = MDXPageContent;
   const {title, description} = frontMatter;
