@@ -35,6 +35,7 @@ type Props = {
   keywords?: string[];
   permalink?: string;
   version?: string;
+  type?: string;
 };
 
 function Layout(props: Props): JSX.Element {
@@ -42,9 +43,18 @@ function Layout(props: Props): JSX.Element {
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {
+      image: defaultImage,
+      dynamicMetaImage: {
+        apiUrl, darkMode, docusaurusStamp,
+      },
+      navbar: {
+        logo: {src: logo},
+      },
+    },
     url: siteUrl,
   } = siteConfig;
+
   const {
     children,
     title,
@@ -55,10 +65,36 @@ function Layout(props: Props): JSX.Element {
     permalink,
     version,
   } = props;
+
+  const generateImageUrl = (
+    ogUrl,
+    ogTitle,
+    ogSiteTitle,
+    ogVersion,
+    ogTheme,
+    ogLogo,
+    ogStamp,
+  ) => {
+    const url = `${ogUrl}/${ogTitle}.png?siteTitle=${ogSiteTitle}&images=${ogLogo}&version=${ogVersion}&theme=${ogTheme ? 'dark' : 'light'}&docusaurusStamp=${ogStamp}`;
+    return encodeURI(url);
+  };
+
+  const faviconUrl = useBaseUrl(favicon);
+  const logoUrl = useBaseUrl(logo, {absolute: true});
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
-  const faviconUrl = useBaseUrl(favicon);
+  const localMetaImageUrl = useBaseUrl(metaImage, {absolute: true});
+  const metaImageUrl = metaImage
+    ? localMetaImageUrl
+    : generateImageUrl(
+        apiUrl,
+        title,
+        siteTitle,
+        version,
+        darkMode,
+        logoUrl,
+        docusaurusStamp,
+      );
 
   return (
     <Providers>
@@ -77,9 +113,9 @@ function Layout(props: Props): JSX.Element {
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
+        {metaImageUrl && <meta property="og:image" content={metaImageUrl} />}
+        {metaImageUrl && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImageUrl && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
