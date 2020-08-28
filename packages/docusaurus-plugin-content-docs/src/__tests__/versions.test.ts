@@ -94,7 +94,63 @@ describe('simple site', () => {
     ]);
   });
 
-  test('readVersionsMetadata simple site with base url', () => {
+  test('readVersionsMetadata simple site with current version config', () => {
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        versions: {
+          current: {
+            label: 'current-label',
+            path: 'current-path',
+          },
+        },
+      },
+      context: {
+        ...defaultContext,
+        baseUrl: '/myBaseUrl',
+      },
+    });
+
+    expect(versionsMetadata).toEqual([
+      {
+        ...vCurrent,
+        versionPath: '/myBaseUrl/docs/current-path',
+        versionLabel: 'current-label',
+        routePriority: undefined,
+      },
+    ]);
+  });
+
+  test('readVersionsMetadata simple site with unknown lastVersion should throw', () => {
+    expect(() =>
+      readVersionsMetadata({
+        options: {...defaultOptions, lastVersion: 'unknownVersionName'},
+        context: defaultContext,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Docs option lastVersion=unknownVersionName is invalid. Available version names are: current"`,
+    );
+  });
+
+  test('readVersionsMetadata simple site with unknown version configurations should throw', () => {
+    expect(() =>
+      readVersionsMetadata({
+        options: {
+          ...defaultOptions,
+          versions: {
+            current: {label: 'current'},
+            unknownVersionName1: {label: 'unknownVersionName1'},
+            unknownVersionName2: {label: 'unknownVersionName2'},
+          },
+        },
+        context: defaultContext,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Docs versions option provided configuration for unknown versions: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
+    );
+  });
+
+  test('readVersionsMetadata simple site with disableVersioning while single version should throw', () => {
     expect(() =>
       readVersionsMetadata({
         options: {...defaultOptions, disableVersioning: true},
@@ -105,7 +161,7 @@ describe('simple site', () => {
     );
   });
 
-  test('readVersionsMetadata simple site with base url', () => {
+  test('readVersionsMetadata simple site without including current version should throw', () => {
     expect(() =>
       readVersionsMetadata({
         options: {...defaultOptions, includeCurrentVersion: false},
@@ -201,6 +257,42 @@ describe('versioned site, pluginId=default', () => {
       // vCurrent removed
       v101,
       v100,
+      vwithSlugs,
+    ]);
+  });
+
+  test('readVersionsMetadata versioned site with version options', () => {
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        lastVersion: '1.0.0',
+        versions: {
+          current: {
+            path: 'current-path',
+          },
+          '1.0.0': {
+            label: '1.0.0-label',
+          },
+        },
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([
+      {...vCurrent, versionPath: '/docs/current-path'},
+      {
+        ...v101,
+        isLast: false,
+        routePriority: undefined,
+        versionPath: '/docs/1.0.1',
+      },
+      {
+        ...v100,
+        isLast: true,
+        routePriority: -1,
+        versionLabel: '1.0.0-label',
+        versionPath: '/docs',
+      },
       vwithSlugs,
     ]);
   });

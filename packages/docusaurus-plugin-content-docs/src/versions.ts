@@ -254,7 +254,7 @@ function checkVersionsOptions(
     !availableVersionNames.includes(options.lastVersion)
   ) {
     throw new Error(
-      `Docs option lastVersion=${options.lastVersion} is invalid.\n${availableVersionNamesMsg}`,
+      `Docs option lastVersion=${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
     );
   }
   const unknownVersionNames = difference(
@@ -265,7 +265,7 @@ function checkVersionsOptions(
     throw new Error(
       `Docs versions option provided configuration for unknown versions: ${unknownVersionNames.join(
         ',',
-      )}\n${availableVersionNamesMsg}`,
+      )}. ${availableVersionNamesMsg}`,
     );
   }
 }

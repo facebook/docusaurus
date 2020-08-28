@@ -36,7 +36,16 @@ describe('normalizeDocsPluginOptions', () => {
       excludeNextVersionDocs: true,
       includeCurrentVersion: false,
       disableVersioning: true,
-      versions: {},
+      versions: {
+        current: {
+          path: 'next',
+          label: 'next',
+        },
+        version1: {
+          path: 'hello',
+          label: 'world',
+        },
+      },
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
@@ -116,6 +125,34 @@ describe('normalizeDocsPluginOptions', () => {
       });
     }).toThrowErrorMatchingInlineSnapshot(
       `"\\"remarkPlugins\\" must be an array"`,
+    );
+  });
+
+  test('should reject bad lastVersion', () => {
+    expect(() => {
+      normalizePluginOptions(OptionsSchema, {
+        lastVersion: false,
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"lastVersion\\" must be a string"`,
+    );
+  });
+
+  test('should reject bad versions', () => {
+    expect(() => {
+      normalizePluginOptions(OptionsSchema, {
+        versions: {
+          current: {
+            hey: 3,
+          },
+          version1: {
+            path: 'hello',
+            label: 'world',
+          },
+        },
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"versions.current.hey\\" is not allowed"`,
     );
   });
 });
