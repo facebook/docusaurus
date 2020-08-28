@@ -639,7 +639,10 @@ function migrateLatestSidebar(
       path.join(siteDir, 'sidebars.json'),
       path.join(newDir, 'sidebars.json'),
     );
-    classicPreset.docs.sidebarPath = path.join(path.relative(newDir, path.join(siteDir, '..')), 'sidebars.json');
+    classicPreset.docs.sidebarPath = path.join(
+      path.relative(newDir, siteDir),
+      'sidebars.json',
+    );
   } catch {
     console.log(
       chalk.yellow(`Sidebar not found. Skipping migration for sidebar`),
@@ -660,7 +663,7 @@ function migrateLatestSidebar(
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
     fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
     classicPreset.theme.customCss = path.join(
-      path.relative(newDir, path.join(siteDir, '..')),
+      path.relative(newDir, siteDir),
       'src',
       'css',
       'customTheme.css',
