@@ -93,6 +93,22 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow empty alt tags for the logo image in the header', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+        hideOnScroll: false,
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...altTagConfig,
+    });
+  });
+
   test('should accept valid prism config', () => {
     const prismConfig = {
       prism: {

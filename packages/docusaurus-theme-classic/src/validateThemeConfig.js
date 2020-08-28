@@ -181,7 +181,7 @@ const ThemeConfigSchema = Joi.object({
     items: Joi.array().items(NavbarItemSchema),
     title: Joi.string().allow('', null),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string().required(),
       srcDark: Joi.string(),
       href: Joi.string(),
