@@ -948,7 +948,6 @@ Let's imagine the following file structure:
 # Some assets you want to use
 /website/docs/assets/docusaurus-asset-example-banner.png
 /website/docs/assets/docusaurus-asset-example-pdf.pdf
-/website/docs/assets/docusaurus-asset-example.xyz
 ```
 
 ### Image assets
@@ -1003,24 +1002,4 @@ In the same way, you can link to existing assets by requiring them and using the
   target="_blank"
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF !!!
-</a>
-
-### Unknown assets
-
-This require behavior is not supported for all file extensions, but as an escape hatch you can use the special Webpack syntax to force the `file-loader` to kick-in:
-
-```mdx
-# My markdown page
-
-<a
-  target="_blank"
-  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
-  Download this unknown file !!!
-</a>
-```
-
-<a
-  target="_blank"
-  href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
-  Download this unknown file !!!
 </a>
