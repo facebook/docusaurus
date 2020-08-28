@@ -180,8 +180,8 @@ module.exports = {
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
           versions: {
             current: {
-              path: isDeployPreview ? 'next-pr' : undefined,
-              label: isDeployPreview ? 'Next (PR)' : 'Next',
+              path: isDeployPreview ? '' : 'next',
+              label: isDeployPreview ? 'Next (deploy preview)' : 'Next',
             },
           },
         },
