@@ -26,7 +26,8 @@
     "loader-utils": "^1.2.3",
     "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
-    "slash": "^3.0.0"
+    "slash": "^3.0.0",
+    "webpack": "^4.41.2"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

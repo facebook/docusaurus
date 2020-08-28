@@ -13,6 +13,7 @@
     "@babel/preset-env": "^7.9.0",
     "@hapi/joi": "^17.1.1",
     "babel-loader": "^8.1.0",
+    "clsx": "^1.1.1",
     "core-js": "^2.6.5",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.41.2",
