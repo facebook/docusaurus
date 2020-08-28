@@ -135,21 +135,23 @@ describe('simple site', () => {
 
   test('readVersionDocs', async () => {
     const docs = await readVersionDocs(currentVersion, options);
-    expect(docs.map((doc) => doc.source)).toMatchObject([
-      'hello.md',
-      'ipsum.md',
-      'lorem.md',
-      'rootAbsoluteSlug.md',
-      'rootRelativeSlug.md',
-      'rootResolvedSlug.md',
-      'rootTryToEscapeSlug.md',
-      'foo/bar.md',
-      'foo/baz.md',
-      'slugs/absoluteSlug.md',
-      'slugs/relativeSlug.md',
-      'slugs/resolvedSlug.md',
-      'slugs/tryToEscapeSlug.md',
-    ]);
+    expect(docs.map((doc) => doc.source).sort()).toEqual(
+      [
+        'hello.md',
+        'ipsum.md',
+        'lorem.md',
+        'rootAbsoluteSlug.md',
+        'rootRelativeSlug.md',
+        'rootResolvedSlug.md',
+        'rootTryToEscapeSlug.md',
+        'foo/bar.md',
+        'foo/baz.md',
+        'slugs/absoluteSlug.md',
+        'slugs/relativeSlug.md',
+        'slugs/resolvedSlug.md',
+        'slugs/tryToEscapeSlug.md',
+      ].sort(),
+    );
   });
 
   test('normal docs', async () => {
