@@ -36,12 +36,8 @@ async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
 
 // transform the link node to a jsx link with a require() call
 function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
-  // fix path on windows
-  const relativeAssetPathPosix = posixPath(requireAssetPath);
-
-  let relativeRequireAssetPath = path.relative(
-    path.dirname(filePath),
-    relativeAssetPathPosix,
+  let relativeRequireAssetPath = posixPath(
+    path.relative(path.dirname(filePath), requireAssetPath),
   );
 
   // nodejs does not like require("assets/file.pdf")
