@@ -7,8 +7,9 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import type {Metadata} from '@theme/BlogListPage';
 
-function BlogListPaginator(props): JSX.Element {
+function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
   const {metadata} = props;
   const {previousPage, nextPage} = metadata;
 

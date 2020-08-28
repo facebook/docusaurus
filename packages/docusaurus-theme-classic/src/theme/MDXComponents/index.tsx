@@ -5,15 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps} from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
+import type {MDXComponentsObject} from '@theme/MDXComponents';
 
 import styles from './styles.module.css';
 
-export default {
-  code: (props: ComponentProps<typeof CodeBlock>): JSX.Element => {
+const MDXComponents: MDXComponentsObject = {
+  code: (props) => {
     const {children} = props;
     if (typeof children === 'string') {
       if (!children.includes('\n')) {
@@ -23,12 +24,8 @@ export default {
     }
     return children;
   },
-  a: (props: ComponentProps<'a'>): JSX.Element => {
-    return <Link {...props} />;
-  },
-  pre: (props: ComponentProps<'div'>): JSX.Element => (
-    <div className={styles.mdxCodeBlock} {...props} />
-  ),
+  a: (props) => <Link {...props} />,
+  pre: (props) => <div className={styles.mdxCodeBlock} {...props} />,
   h1: Heading('h1'),
   h2: Heading('h2'),
   h3: Heading('h3'),
@@ -36,3 +33,5 @@ export default {
   h5: Heading('h5'),
   h6: Heading('h6'),
 };
+
+export default MDXComponents;

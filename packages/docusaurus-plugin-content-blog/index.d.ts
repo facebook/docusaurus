@@ -44,7 +44,7 @@ declare module '@theme/BlogPostPage' {
   export type Content = {
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
-    readonly rightToc: MarkdownRightTableOfContents;
+    readonly rightToc: readonly MarkdownRightTableOfContents[];
     (): JSX.Element;
   };
 
@@ -64,17 +64,19 @@ declare module '@theme/BlogListPage' {
     readonly content: () => JSX.Element;
   };
 
+  export type Metadata = {
+    readonly blogDescription: string;
+    readonly nextPage?: string;
+    readonly page: number;
+    readonly permalink: string;
+    readonly postsPerPage: number;
+    readonly previousPage?: string;
+    readonly totalCount: number;
+    readonly totalPages: number;
+  };
+
   export type Props = {
-    readonly metadata: {
-      readonly blogDescription: string;
-      readonly nextPage?: string;
-      readonly page: number;
-      readonly permalink: string;
-      readonly postsPerPage: number;
-      readonly previousPage?: string;
-      readonly totalCount: number;
-      readonly totalPages: number;
-    };
+    readonly metadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
   };
 

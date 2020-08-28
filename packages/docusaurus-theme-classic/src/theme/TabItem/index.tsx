@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React from 'react';
+import type {Props} from '@theme/TabItem';
 
-function TabItem(props: {readonly children: ReactNode}): JSX.Element {
+function TabItem(props: Props): JSX.Element {
   return <div>{props.children}</div>;
 }
 

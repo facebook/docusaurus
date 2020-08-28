@@ -12,7 +12,7 @@ import {MDXProvider} from '@mdx-js/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
-import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+import type {Props} from '@theme/BlogPostItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
@@ -31,14 +31,6 @@ const MONTHS = [
   'November',
   'December',
 ];
-
-type Props = {
-  readonly frontMatter: FrontMatter;
-  readonly metadata: Metadata;
-  readonly truncated?: boolean;
-  readonly isBlogPostPage?: boolean;
-  readonly children: JSX.Element;
-};
 
 function BlogPostItem(props: Props): JSX.Element {
   const {

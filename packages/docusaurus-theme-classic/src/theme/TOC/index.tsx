@@ -8,14 +8,12 @@
 import React from 'react';
 
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
-import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
-
-type TOCProps = {readonly headings: MarkdownRightTableOfContents[]};
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {

@@ -66,6 +66,8 @@ declare module '@theme/DocItem' {
     readonly lastUpdatedAt?: number;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
+    readonly previous?: {readonly permalink: string; readonly title: string};
+    readonly next?: {readonly permalink: string; readonly title: string};
   };
 
   export type Props = {
@@ -73,7 +75,7 @@ declare module '@theme/DocItem' {
     readonly content: {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
-      readonly rightToc: MarkdownRightTableOfContents;
+      readonly rightToc: readonly MarkdownRightTableOfContents[];
       (): JSX.Element;
     };
   };
