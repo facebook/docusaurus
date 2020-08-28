@@ -39,8 +39,19 @@ export type PathOptions = {
   sidebarPath: string;
 };
 
+export type VersionOptions = {
+  path?: string;
+  label?: string;
+};
+
+export type VersionsOptions = {
+  lastVersion?: string;
+  versions: Record<string, VersionOptions>;
+};
+
 export type PluginOptions = MetadataOptions &
-  PathOptions & {
+  PathOptions &
+  VersionsOptions & {
     id: string;
     include: string[];
     docLayoutComponent: string;

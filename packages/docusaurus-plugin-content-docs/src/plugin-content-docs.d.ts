@@ -8,14 +8,13 @@
 /* eslint-disable camelcase */
 
 declare module '@docusaurus/plugin-content-docs-types' {
-  export type VersionName = string;
-
   export type PermalinkToSidebar = {
     [permalink: string]: string;
   };
 
   export type PropVersionMetadata = {
-    version: VersionName;
+    version: string;
+    label: string;
     docsSidebars: PropSidebars;
     permalinkToSidebar: PermalinkToSidebar;
   };

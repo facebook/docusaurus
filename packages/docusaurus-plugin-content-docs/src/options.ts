@@ -33,7 +33,18 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   excludeNextVersionDocs: false,
   includeCurrentVersion: true,
   disableVersioning: false,
+  lastVersion: undefined,
+  versions: {},
 };
+
+const VersionOptionsSchema = Joi.object({
+  path: Joi.string().allow('').optional(),
+  label: Joi.string().optional(),
+});
+
+const VersionsOptionsSchema = Joi.object()
+  .pattern(Joi.string().required(), VersionOptionsSchema)
+  .default(DEFAULT_OPTIONS.versions);
 
 export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
@@ -58,6 +69,8 @@ export const OptionsSchema = Joi.object({
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
+  lastVersion: Joi.string().optional(),
+  versions: VersionsOptionsSchema,
 });
 
 // TODO bad validation function types

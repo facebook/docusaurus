@@ -290,6 +290,7 @@ Object {
 }",
   "version-current-metadata-prop-751.json": "{
   \\"version\\": \\"current\\",
+  \\"label\\": \\"Next\\",
   \\"docsSidebars\\": {
     \\"docs\\": [
       {
@@ -613,6 +614,7 @@ Object {
 }",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"version\\": \\"1.0.0\\",
+  \\"label\\": \\"1.0.0\\",
   \\"docsSidebars\\": {
     \\"version-1.0.0/community\\": [
       {
@@ -628,6 +630,7 @@ Object {
 }",
   "version-current-metadata-prop-751.json": "{
   \\"version\\": \\"current\\",
+  \\"label\\": \\"Next\\",
   \\"docsSidebars\\": {
     \\"community\\": [
       {
@@ -1069,6 +1072,7 @@ Object {
 }",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"version\\": \\"1.0.0\\",
+  \\"label\\": \\"1.0.0\\",
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
       {
@@ -1110,6 +1114,7 @@ Object {
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
   \\"version\\": \\"1.0.1\\",
+  \\"label\\": \\"1.0.1\\",
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
       {
@@ -1145,6 +1150,7 @@ Object {
 }",
   "version-current-metadata-prop-751.json": "{
   \\"version\\": \\"current\\",
+  \\"label\\": \\"Next\\",
   \\"docsSidebars\\": {
     \\"docs\\": [
       {
@@ -1180,6 +1186,7 @@ Object {
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
   \\"version\\": \\"withSlugs\\",
+  \\"label\\": \\"withSlugs\\",
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
       {
