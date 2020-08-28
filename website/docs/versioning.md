@@ -64,9 +64,9 @@ When tagging a new version, the document versioning mechanism will:
 - Create a versioned sidebars file based from your current [sidebar](docs.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
 - Append the new version number to `versions.json`.
 
-## Files
+## Docs
 
-### Creating new files
+### Creating new docs
 
 1. Place the new file into the corresponding version folder.
 1. Include the reference for the new file into the corresponding sidebar file, according to version number.
@@ -91,7 +91,7 @@ versioned_docs/version-1.0.0/new.md
 versioned_sidebars/version-1.0.0-sidebars.json
 ```
 
-### Linking files
+### Linking docs
 
 - Remember to include the `.md` extension.
 - Files will be linked to correct corresponding version.
@@ -138,6 +138,35 @@ Example:
 
 ## Recommended practices
 
+### Figure out the behavior for the "current" version
+
+The "current" version is the version name for the `./docs` folder.
+
+There are different ways to manage versioning, but two very common patterns are:
+
+- You release v1, and start immediately working on v2 (including its docs)
+- You release v1, and will maintain it for some time before thinking about v2.
+
+Docusaurus defaults work great for the first usecase.
+
+**For the 2nd usecase**: if you release v1 and don't plan to work on v2 anytime soon, instead of versioning v1 and having to maintain the docs in 2 folders (`./docs` + `./versioned_docs/version-1.0.0`), you may consider using the following configuration instead:
+
+```json
+{
+  "lastVersion": "current",
+  "versions": {
+    "current": {
+      "label": "1.0.0",
+      "path": "1.0.0"
+    }
+  }
+}
+```
+
+The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, and `1.0.0` will become the default version we link to in the navbar dropdown, and you will only need to maintain a single `./docs` folder.
+
+See [docs plugin configuration](using-plugins#docusaurusplugin-content-docs) for more details.
+
 ### Version your documentation only when needed
 
 For example, you are building a documentation for your npm package `foo` and you are currently in version 1.0.0. You then release a patch version for a minor bug fix and it's now 1.0.1.
@@ -155,4 +184,24 @@ Don't use relative paths import within the docs. Because when we cut a version t
 ```diff
 - import Foo from '../src/components/Foo';
 + import Foo from '@site/src/components/Foo';
+```
+
+### Global or versioned colocated assets
+
+You should decide if assets like images and files are per version or shared between versions
+
+If your assets should be versioned, put them in the docs version, and use relative paths:
+
+```md
+![img alt](./myImage.png)
+
+[dowload this file](./file.pdf)
+```
+
+If your assets are global, put them in `/static` and use absolute paths:
+
+```md
+![img alt](/myImage.png)
+
+[dowload this file](/file.pdf)
 ```
