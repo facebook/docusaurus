@@ -277,10 +277,66 @@ declare module '@theme/Navbar' {
   export default Navbar;
 }
 
-// TODO @theme/NavbarItem/DefaultNavbarItem
-// TODO @theme/NavbarItem/DocsVersionDropdownNavbarItem
-// TODO @theme/NavbarItem/DocsVersionNavbarItem
-// TODO @theme/NavbarItem
+declare module '@theme/NavbarItem/DefaultNavbarItem' {
+  import type {ComponentProps} from 'react';
+
+  export type NavLinkProps = {
+    activeBasePath?: string;
+    activeBaseRegex?: string;
+    to?: string;
+    href?: string;
+    label?: string;
+    activeClassName?: string;
+    prependBaseUrlToHref?: string;
+  } & ComponentProps<'a'>;
+
+  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+    readonly items?: readonly NavLinkProps[];
+    readonly position?: 'left' | 'right';
+    readonly className?: string;
+  };
+
+  export type Props = DesktopOrMobileNavBarItemProps & {
+    readonly mobile?: boolean;
+  };
+
+  const DefaultNavbarItem: (props: Props) => JSX.Element;
+  export default DefaultNavbarItem;
+}
+
+declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps & {readonly docsPluginId?: string};
+
+  const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;
+  export default DocsVersionDropdownNavbarItem;
+}
+
+declare module '@theme/NavbarItem/DocsVersionNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps & {readonly docsPluginId?: string};
+
+  const DocsVersionNavbarItem: (props: Props) => JSX.Element;
+  export default DocsVersionNavbarItem;
+}
+
+declare module '@theme/NavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+  import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
+
+  export type Props =
+    | ({readonly type: 'default'} & DefaultNavbarItemProps)
+    | ({
+        readonly type: 'docsVersionDropdown';
+      } & DocsVersionDropdownNavbarItemProps)
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+
+  const NavbarItem: (props: Props) => JSX.Element;
+  export default NavbarItem;
+}
 
 declare module '@theme/TabItem' {
   import type {ReactNode} from 'react';
