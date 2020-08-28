@@ -8,6 +8,7 @@
 import React from 'react';
 import DefaultNavbarItem from './DefaultNavbarItem';
 import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
+import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -16,9 +17,8 @@ export default function DocsVersionNavbarItem({
   label: staticLabel,
   to: staticTo,
   docsPluginId,
-  nextVersionLabel: _unused, // TODO legacy, remove asap
   ...props
-}) {
+}: Props): JSX.Element {
   const activeVersion = useActiveVersion(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
   const version = activeVersion ?? latestVersion;

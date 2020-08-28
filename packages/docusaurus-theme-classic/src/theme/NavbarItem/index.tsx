@@ -9,14 +9,17 @@ import React from 'react';
 import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import type {Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents = {
   default: DefaultNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
-};
+} as const;
 
-const getNavbarItemComponent = (type: string = 'default') => {
+const getNavbarItemComponent = (
+  type: keyof typeof NavbarItemComponents = 'default',
+) => {
   const NavbarItemComponent = NavbarItemComponents[type];
   if (!NavbarItemComponent) {
     throw new Error(`No NavbarItem component found for type=${type}.`);
@@ -24,7 +27,7 @@ const getNavbarItemComponent = (type: string = 'default') => {
   return NavbarItemComponent;
 };
 
-export default function NavbarItem({type, ...props}) {
+export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const NavbarItemComponent = getNavbarItemComponent(type);
   return <NavbarItemComponent {...props} />;
 }
