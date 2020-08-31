@@ -146,7 +146,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs versions option provided configuration for unknown versions: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
+      `"Bad docs options.versions: unknown versions found: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
     );
   });
 
@@ -297,6 +297,19 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
+  test('readVersionsMetadata versioned site with onlyIncludeVersions option', () => {
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        // Order reversed on purpose: should not have any impact
+        onlyIncludeVersions: [vwithSlugs.versionName, v101.versionName],
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([v101, vwithSlugs]);
+  });
+
   test('readVersionsMetadata versioned site with disableVersioning', () => {
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, disableVersioning: true},
@@ -320,6 +333,49 @@ describe('versioned site, pluginId=default', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(
       `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+    );
+  });
+
+  test('readVersionsMetadata versioned site with empty onlyIncludeVersions', () => {
+    expect(() =>
+      readVersionsMetadata({
+        options: {
+          ...defaultOptions,
+          onlyIncludeVersions: [],
+        },
+        context: defaultContext,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed"`,
+    );
+  });
+
+  test('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', () => {
+    expect(() =>
+      readVersionsMetadata({
+        options: {
+          ...defaultOptions,
+          onlyIncludeVersions: ['unknownVersion1', 'unknownVersion2'],
+        },
+        context: defaultContext,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+    );
+  });
+
+  test('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', () => {
+    expect(() =>
+      readVersionsMetadata({
+        options: {
+          ...defaultOptions,
+          lastVersion: '1.0.1',
+          onlyIncludeVersions: ['current', '1.0.0'],
+        },
+        context: defaultContext,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array"`,
     );
   });
 

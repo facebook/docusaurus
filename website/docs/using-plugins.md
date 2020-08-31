@@ -362,6 +362,11 @@ module.exports = {
           },
           */
         },
+        /**
+         * Sometimes you only want to include a subset of all available versions.
+         * Tip: limit to 2 or 3 versions to improve startup and build time in dev and deploy previews
+         */
+        onlyIncludeVersions: undefined, // ex: ["current", "1.0.0", "2.0.0"]
       },
     ],
   ],
