@@ -13,7 +13,7 @@ const allDocHomesPaths = [
   '/docs/next/',
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
-//
+
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
