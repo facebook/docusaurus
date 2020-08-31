@@ -283,7 +283,7 @@ function checkVersionsOptions(
       throw new Error(
         `Bad docs options.onlyIncludeVersions: unknown versions found: ${unknownOnlyIncludeVersionNames.join(
           ',',
-        )}. ${unknownOnlyIncludeVersionNames}`,
+        )}. ${availableVersionNamesMsg}`,
       );
     }
     if (

@@ -360,7 +360,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. unknownVersion1,unknownVersion2"`,
+      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
     );
   });
 
