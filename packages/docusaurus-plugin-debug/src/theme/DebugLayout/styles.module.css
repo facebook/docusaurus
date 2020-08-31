@@ -9,6 +9,8 @@
   padding: 20px;
   padding-top: 80px;
   overflow-x: hidden;
+  background-color: #18191a;
+  color: white;
 }
 
  .nav {
@@ -34,6 +36,11 @@
   .navlink:hover {
     text-decoration: none;
     background-color: #292a2b;
+ }
+
+ code {
+  color: white;
+  background-color: #444950;
  }
 
  .active {
