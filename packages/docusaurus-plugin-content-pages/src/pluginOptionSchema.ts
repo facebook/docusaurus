@@ -14,7 +14,7 @@ import {
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
-  routeBasePath: '', // URL Route.
+  routeBasePath: '/', // URL Route.
   include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // Extensions to include.
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
