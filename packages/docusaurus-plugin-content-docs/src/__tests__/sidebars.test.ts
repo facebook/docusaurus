@@ -115,9 +115,13 @@ describe('loadSidebars', () => {
   });
 
   test('unexisting path', () => {
+    /*
     expect(() => loadSidebars('badpath')).toThrowErrorMatchingInlineSnapshot(
       `"No sidebar file exist at path: badpath"`,
     );
+     */
+    // See https://github.com/facebook/docusaurus/issues/3366
+    expect(loadSidebars('badpath')).toEqual({});
   });
 
   test('undefined path', () => {
