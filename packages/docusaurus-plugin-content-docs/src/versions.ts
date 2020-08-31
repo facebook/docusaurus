@@ -257,16 +257,59 @@ function checkVersionsOptions(
       `Docs option lastVersion=${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
     );
   }
-  const unknownVersionNames = difference(
+  const unknownVersionConfigNames = difference(
     Object.keys(options.versions),
     availableVersionNames,
   );
-  if (unknownVersionNames.length > 0) {
+  if (unknownVersionConfigNames.length > 0) {
     throw new Error(
-      `Docs versions option provided configuration for unknown versions: ${unknownVersionNames.join(
+      `Bad docs options.versions: unknown versions found: ${unknownVersionConfigNames.join(
         ',',
       )}. ${availableVersionNamesMsg}`,
     );
+  }
+
+  if (options.onlyIncludeVersions) {
+    if (options.onlyIncludeVersions.length === 0) {
+      throw new Error(
+        `Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed`,
+      );
+    }
+    const unknownOnlyIncludeVersionNames = difference(
+      options.onlyIncludeVersions,
+      availableVersionNames,
+    );
+    if (unknownOnlyIncludeVersionNames.length > 0) {
+      throw new Error(
+        `Bad docs options.onlyIncludeVersions: unknown versions found: ${unknownOnlyIncludeVersionNames.join(
+          ',',
+        )}. ${unknownOnlyIncludeVersionNames}`,
+      );
+    }
+    if (
+      options.lastVersion &&
+      !options.onlyIncludeVersions.includes(options.lastVersion)
+    ) {
+      throw new Error(
+        `Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array`,
+      );
+    }
+  }
+}
+
+// Filter versions according to provided options
+// Note: we preserve the order in which versions are provided
+// the order of the onlyIncludeVersions array does not matter
+function filterVersions(
+  versionNamesUnfiltered: string[],
+  options: Pick<PluginOptions, 'onlyIncludeVersions'>,
+) {
+  if (options.onlyIncludeVersions) {
+    return versionNamesUnfiltered.filter((name) =>
+      options.onlyIncludeVersions!.includes(name),
+    );
+  } else {
+    return versionNamesUnfiltered;
   }
 }
 
@@ -285,11 +328,14 @@ export function readVersionsMetadata({
     | 'disableVersioning'
     | 'lastVersion'
     | 'versions'
+    | 'onlyIncludeVersions'
   >;
 }): VersionMetadata[] {
-  const versionNames = readVersionNames(context.siteDir, options);
+  const versionNamesUnfiltered = readVersionNames(context.siteDir, options);
 
-  checkVersionsOptions(versionNames, options);
+  checkVersionsOptions(versionNamesUnfiltered, options);
+
+  const versionNames = filterVersions(versionNamesUnfiltered, options);
 
   const lastVersionName =
     options.lastVersion ?? getDefaultLastVersionName(versionNames);

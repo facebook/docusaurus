@@ -47,6 +47,7 @@ export type VersionOptions = {
 export type VersionsOptions = {
   lastVersion?: string;
   versions: Record<string, VersionOptions>;
+  onlyIncludeVersions?: string[];
 };
 
 export type PluginOptions = MetadataOptions &

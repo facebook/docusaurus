@@ -178,6 +178,10 @@ module.exports = {
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          onlyIncludeVersions:
+            isDev || isDeployPreview
+              ? ['current', ...versions.slice(0, 2)]
+              : undefined,
           versions: {
             current: {
               // path: isDev || isDeployPreview ? '' : 'next',

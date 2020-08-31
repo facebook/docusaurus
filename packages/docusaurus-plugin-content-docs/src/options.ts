@@ -68,6 +68,7 @@ export const OptionsSchema = Joi.object({
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
+  onlyIncludeVersions: Joi.array().items(Joi.string().required()).optional(),
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
