@@ -55,7 +55,6 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
-            nextVersionLabel: '2.0.0-next',
           },
           {
             to: 'docs/next/support',
