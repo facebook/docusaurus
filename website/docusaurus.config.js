@@ -179,7 +179,7 @@ module.exports = {
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
           onlyIncludeVersions:
-            isDev || isDeployPreview
+            !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
