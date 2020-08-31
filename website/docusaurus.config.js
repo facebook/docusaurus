@@ -250,7 +250,6 @@ module.exports = {
         {
           type: 'docsVersionDropdown',
           position: 'left',
-          nextVersionLabel: '2.0.0-next',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
