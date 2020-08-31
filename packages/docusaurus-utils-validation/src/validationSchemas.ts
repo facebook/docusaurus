@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import * as Joi from '@hapi/joi';
+import {isValidPathname} from '@docusaurus/utils';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[a-zA-Z_\-]+$/)
@@ -39,3 +40,15 @@ export const URISchema = Joi.alternatives(
     }
   }),
 );
+
+export const PathnameSchema = Joi.string()
+  .custom((val) => {
+    if (!isValidPathname(val)) {
+      throw new Error();
+    } else {
+      return val;
+    }
+  })
+  .message(
+    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+  );

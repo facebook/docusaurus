@@ -7,7 +7,7 @@
 
 import {PluginOptions, RedirectOption, UserPluginOptions} from './types';
 import * as Joi from '@hapi/joi';
-import {PathnameValidator} from './redirectValidation';
+import {PathnameSchema} from '@docusaurus/utils-validation';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 export const DefaultPluginOptions: PluginOptions = {
@@ -18,10 +18,10 @@ export const DefaultPluginOptions: PluginOptions = {
 };
 
 const RedirectPluginOptionValidation = Joi.object<RedirectOption>({
-  to: PathnameValidator.required(),
+  to: PathnameSchema.required(),
   from: Joi.alternatives().try(
-    PathnameValidator.required(),
-    Joi.array().items(PathnameValidator.required()),
+    PathnameSchema.required(),
+    Joi.array().items(PathnameSchema.required()),
   ),
 });
 
