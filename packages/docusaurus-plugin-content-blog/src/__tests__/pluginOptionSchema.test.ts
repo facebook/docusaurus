@@ -22,7 +22,7 @@ test('should accept correctly defined user options', () => {
     ...DEFAULT_OPTIONS,
     feedOptions: {type: 'rss', title: 'myTitle'},
     path: 'not_blog',
-    routeBasePath: '',
+    routeBasePath: 'myBlog',
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
   };
@@ -37,7 +37,7 @@ test('should accept correctly defined user options', () => {
 test('should accept valid user options', async () => {
   const userOptions = {
     ...DEFAULT_OPTIONS,
-    routeBasePath: '',
+    routeBasePath: 'myBlog',
     beforeDefaultRemarkPlugins: [],
     beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
     remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
