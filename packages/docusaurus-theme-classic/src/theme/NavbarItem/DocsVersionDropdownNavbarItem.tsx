@@ -26,19 +26,28 @@ export default function DocsVersionDropdownNavbarItem({
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
-  const items = versions.map((version) => {
-    // We try to link to the same doc, in another version
-    // When not possible, fallback to the "main doc" of the version
-    const versionDoc =
-      activeDocContext?.alternateDocVersions[version.name] ||
-      getVersionMainDoc(version);
-    return {
-      isNavLink: true,
-      label: version.label,
-      to: versionDoc.path,
-      isActive: () => version === activeDocContext?.activeVersion,
-    };
-  });
+  function getItems() {
+    // We don't want to render a version dropdown with 0 or 1 item
+    // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
+    // We'd rather render a buttonb instead of a dropdown
+    if (versions.length <= 2) {
+      return undefined;
+    }
+
+    return versions.map((version) => {
+      // We try to link to the same doc, in another version
+      // When not possible, fallback to the "main doc" of the version
+      const versionDoc =
+        activeDocContext?.alternateDocVersions[version.name] ||
+        getVersionMainDoc(version);
+      return {
+        isNavLink: true,
+        label: version.label,
+        to: versionDoc.path,
+        isActive: () => version === activeDocContext?.activeVersion,
+      };
+    });
+  }
 
   const dropdownVersion = activeDocContext.activeVersion ?? latestVersion;
 
@@ -54,7 +63,7 @@ export default function DocsVersionDropdownNavbarItem({
       mobile={mobile}
       label={dropdownLabel}
       to={dropdownTo}
-      items={items}
+      items={getItems()}
     />
   );
 }
