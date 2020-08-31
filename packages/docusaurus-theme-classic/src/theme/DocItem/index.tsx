@@ -17,16 +17,11 @@ import TOC from '@theme/TOC';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {useActivePlugin, useActiveVersion} from '@theme/hooks/useDocs';
-
-// TODO can't we receive the version as props instead?
-const useDocVersion = () => {
-  const version = useActiveVersion(useActivePlugin().pluginId);
-  if (!version) {
-    throw new Error("unexpected, can't get version data of doc"); // should not happen
-  }
-  return version;
-};
+import {
+  useActivePlugin,
+  useVersions,
+  useActiveVersion,
+} from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
@@ -49,7 +44,15 @@ function DocItem(props: Props): JSX.Element {
       hide_table_of_contents: hideTableOfContents,
     },
   } = DocContent;
-  const version = useDocVersion();
+
+  const {pluginId} = useActivePlugin({failfast: true});
+  const versions = useVersions(pluginId);
+  const version = useActiveVersion(pluginId);
+
+  // If site is not versioned or only one version is included
+  // we don't show the version badge
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const showVersionBadge = versions.length > 1;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
@@ -83,7 +86,7 @@ function DocItem(props: Props): JSX.Element {
             <DocVersionSuggestions />
             <div className={styles.docItemContainer}>
               <article>
-                {version && (
+                {showVersionBadge && (
                   <div>
                     <span className="badge badge--secondary">
                       Version: {version.label}
