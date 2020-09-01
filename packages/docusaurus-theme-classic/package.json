@@ -15,8 +15,12 @@
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.62",
-    "@docusaurus/utils-validation": "^2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.62",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.62",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.62",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.62",
+    "@docusaurus/types": "2.0.0-alpha.62",
+    "@docusaurus/utils-validation": "2.0.0-alpha.62",
     "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
@@ -34,14 +38,10 @@
     "use-onclickoutside": "^0.3.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-alpha.62",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.62",
     "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.61",
-    "@docusaurus/plugin-content-docs": "^2.0.0-alpha.61",
-    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.61",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

@@ -12,10 +12,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.62",
-    "@docusaurus/types": "^2.0.0-alpha.62",
-    "@docusaurus/utils": "^2.0.0-alpha.62",
-    "@docusaurus/utils-validation": "^2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.62",
+    "@docusaurus/types": "2.0.0-alpha.62",
+    "@docusaurus/utils": "2.0.0-alpha.62",
+    "@docusaurus/utils-validation": "2.0.0-alpha.62",
     "@hapi/joi": "^17.1.1",
     "@types/hapi__joi": "^17.1.2",
     "chalk": "^3.0.0",
@@ -25,7 +25,6 @@
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

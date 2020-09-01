@@ -8,6 +8,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.62",
     "@mdx-js/react": "^1.5.8",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
@@ -16,7 +17,6 @@
     "reactstrap": "^8.4.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
