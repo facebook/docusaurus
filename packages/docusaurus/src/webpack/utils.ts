@@ -139,6 +139,31 @@ export function applyConfigureWebpack(
   return config;
 }
 
+// See https://webpack.js.org/configuration/stats/#statswarningsfilter
+// @slorber: note sure why we have to re-implement this logic
+// just know that legacy had this only partially implemented, so completed it
+type WarningFilter = string | RegExp | Function;
+function filterWarnings(
+  warningsFilter: WarningFilter[],
+  warnings: string[],
+): string[] {
+  function isWarningFiltered(warning: string): boolean {
+    return warningsFilter.some((warningFilter) => {
+      if (typeof warningFilter === 'string') {
+        return warning.includes(warningFilter);
+      } else if (warningFilter instanceof RegExp) {
+        return !!warning.match(warningFilter);
+      } else if (warningFilter instanceof Function) {
+        return warningFilter(warning);
+      } else {
+        throw new Error(`Unknown warningFilter type = ${typeof warningFilter}`);
+      }
+    });
+  }
+
+  return warnings.filter((warning) => !isWarningFiltered(warning));
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
@@ -155,13 +180,12 @@ export function compile(config: Configuration[]): Promise<void> {
       if (stats.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
         let {warnings} = stats.toJson('errors-warnings');
+
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as any[];
+          ?.warningsFilter || []) as WarningFilter[];
 
         if (Array.isArray(warningsFilter)) {
-          warnings = warnings.filter((warning) =>
-            warningsFilter.every((str) => !warning.includes(str)),
-          );
+          warnings = filterWarnings(warningsFilter, warnings);
         }
 
         warnings.forEach((warning) => {
