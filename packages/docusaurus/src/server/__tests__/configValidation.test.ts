@@ -42,6 +42,7 @@ describe('normalizeConfig', () => {
           src: `/analytics.js`,
           async: true,
           defer: true,
+          'data-domain': 'xyz', // See https://github.com/facebook/docusaurus/issues/3378
         },
       ],
       stylesheets: [
