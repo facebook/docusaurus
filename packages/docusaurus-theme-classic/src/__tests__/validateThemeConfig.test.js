@@ -41,6 +41,7 @@ describe('themeConfig', () => {
         content: 'pls support',
         backgroundColor: '#fff',
         textColor: '#000',
+        isCloseable: true,
       },
       image: 'img/docusaurus-soc.png',
       navbar: {
