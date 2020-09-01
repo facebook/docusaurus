@@ -13,7 +13,11 @@ import {CONFIG_FILE_NAME} from '../constants';
 import {validateConfig} from './configValidation';
 
 export default function loadConfig(siteDir: string): DocusaurusConfig {
-  const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
+  // TODO temporary undocumented env variable: we should be able to use a cli option instead!
+  const loadedConfigFileName =
+    process.env.DOCUSAURUS_CONFIG || CONFIG_FILE_NAME;
+
+  const configPath = path.resolve(siteDir, loadedConfigFileName);
 
   if (!fs.existsSync(configPath)) {
     throw new Error(`${CONFIG_FILE_NAME} not found`);
