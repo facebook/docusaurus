@@ -227,23 +227,11 @@ Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, u
 
 Deploying your Docusaurus project to [Vercel](https://vercel.com/) will provide you with [various benefits](https://vercel.com/) in the areas of performance and ease of use.
 
-Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:
+To deploy your Docusaurus project with a [Vercel for Git Integration](https://vercel.com/docs/git-integrations), make sure it has been pushed to a Git repository.
 
-1. First, install their [command-line interface](https://vercel.com/download):
+Import the project into Vercel using the [Import Flow](https://vercel.com/import/git). During the import, you will find all relevant options preconfigured for you; however, you can choose to change any of these options, a list of which can be found [here](https://vercel.com/docs/build-step#build-&-development-settings).
 
-```bash
-npm i -g vercel
-```
-
-1. Run a single command inside the root directory of your project:
-
-```bash
-vercel
-```
-
-**That's all.** Your docs will automatically be deployed.
-
-Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (commonly "main") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
 
 ## Deploying to Render
 
