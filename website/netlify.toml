@@ -14,8 +14,9 @@
   publish = "website/netlifyDeploy"
 
   # TODO this does not seem to work
-  # workaroud: a _redirect file is created in website/netlifyDeploy
+  # workaroud: a _redirect file is created in npm/yarn scripts
   # can't we have context-based redirects with Netlify? :'(
+
   [[context.deploy-preview.redirects]]
     from = "/classic/*"
     to = "/classic/404.html"
@@ -23,6 +24,10 @@
   [[context.deploy-preview.redirects]]
     from = "/bootstrap/*"
     to = "/bootstrap/404.html"
+    status = 200
+  [[context.deploy-preview.redirects]]
+    from = "/blog-only/*"
+    to = "/blog-only/404.html"
     status = 200
   [[context.deploy-preview.redirects]]
     from = "/*"
