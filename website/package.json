@@ -15,11 +15,10 @@
     "start:blogOnly": "DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn start",
     "build:blogOnly": "DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn build",
     "netlify:build:production": "yarn build",
-    "netlify:build:deployPreview": "yarn rimraf netlifyDeploy && yarn netlify:build:deployPreview:classic && yarn netlify:build:deployPreview:bootstrap && yarn netlify:build:deployPreview:blogOnly && yarn netlify:build:deployPreview:redirects",
-    "netlify:build:deployPreview:classic": "BASE_URL='/classic/' yarn build --out-dir netlifyDeploy/classic",
-    "netlify:build:deployPreview:bootstrap": "BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeploy/bootstrap",
-    "netlify:build:deployPreview:blogOnly": "yarn build:blogOnly --out-dir netlifyDeploy/blog-only",
-    "netlify:build:deployPreview:redirects": "echo 'Writing Netlify baseUrl deployPreview _redirects file' && echo '/classic/* /classic/404.html 200' >> netlifyDeploy/_redirects && echo '/bootstrap/* /bootstrap/404.html 200' >> netlifyDeploy/_redirects && echo '/blog-only/* /blog-only/404.html 200' >> netlifyDeploy/_redirects && echo '/* /classic/' >> netlifyDeploy/_redirects",
+    "netlify:build:deployPreview": "yarn netlify:build:deployPreview:classic && yarn netlify:build:deployPreview:bootstrap && yarn netlify:build:deployPreview:blogOnlys",
+    "netlify:build:deployPreview:classic": "BASE_URL='/classic/' yarn build --out-dir netlifyDeployPreview/classic",
+    "netlify:build:deployPreview:bootstrap": "BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeployPreview/bootstrap",
+    "netlify:build:deployPreview:blogOnly": "yarn build:blogOnly --out-dir netlifyDeployPreview/blog-only",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
