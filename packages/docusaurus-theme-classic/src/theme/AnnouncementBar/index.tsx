@@ -15,13 +15,13 @@ function AnnouncementBar(): JSX.Element | null {
   const {
     siteConfig: {themeConfig: {announcementBar = {}} = {}} = {},
   } = useDocusaurusContext();
-  const {content, backgroundColor, textColor} = announcementBar;
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
   const {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
   } = useUserPreferencesContext();
 
-  if (!content || isAnnouncementBarClosed) {
+  if (!content || (isCloseable && isAnnouncementBarClosed)) {
     return null;
   }
 
@@ -36,14 +36,15 @@ function AnnouncementBar(): JSX.Element | null {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{__html: content}}
       />
-
-      <button
-        type="button"
-        className={styles.announcementBarClose}
-        onClick={closeAnnouncementBar}
-        aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      {isCloseable ? (
+        <button
+          type="button"
+          className={styles.announcementBarClose}
+          onClick={closeAnnouncementBar}
+          aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      ) : null}
     </div>
   );
 }
