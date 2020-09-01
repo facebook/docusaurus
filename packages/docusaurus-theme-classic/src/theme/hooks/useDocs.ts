@@ -7,6 +7,9 @@
 
 // See https://github.com/facebook/docusaurus/issues/3360
 // TODO find a better solution, this shouldn't be needed
+export {};
+/*
 throw new Error(
   "The docs plugin is not used, so you can't require the useDocs hooks. ",
 );
+ */
