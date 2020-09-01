@@ -6,25 +6,30 @@
  */
 
 import React from 'react';
-import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents = {
-  default: DefaultNavbarItem,
-  docsVersion: DocsVersionNavbarItem,
-  docsVersionDropdown: DocsVersionDropdownNavbarItem,
+  default: () => DefaultNavbarItem,
+
+  // Need to lazy load these items as we don't know for sure the docs plugin is loaded
+  // See https://github.com/facebook/docusaurus/issues/3360
+  docsVersion: () =>
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@theme/NavbarItem/DocsVersionNavbarItem').default,
+  docsVersionDropdown: () =>
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
 } as const;
 
 const getNavbarItemComponent = (
   type: keyof typeof NavbarItemComponents = 'default',
 ) => {
-  const NavbarItemComponent = NavbarItemComponents[type];
-  if (!NavbarItemComponent) {
+  const navbarItemComponent = NavbarItemComponents[type];
+  if (!navbarItemComponent) {
     throw new Error(`No NavbarItem component found for type=${type}.`);
   }
-  return NavbarItemComponent;
+  return navbarItemComponent();
 };
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
