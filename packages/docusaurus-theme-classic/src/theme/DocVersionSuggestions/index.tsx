@@ -14,16 +14,6 @@ import {
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
 
-const useMandatoryActiveDocsPluginId = () => {
-  const activePlugin = useActivePlugin();
-  if (!activePlugin) {
-    throw new Error(
-      'DocVersionCallout is only supposed to be used on docs-related routes',
-    );
-  }
-  return activePlugin.pluginId;
-};
-
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
@@ -31,7 +21,7 @@ function DocVersionSuggestions(): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const pluginId = useMandatoryActiveDocsPluginId();
+  const {pluginId} = useActivePlugin({failfast: true});
   const activeVersion = useActiveVersion(pluginId);
   const {
     latestDocSuggestion,

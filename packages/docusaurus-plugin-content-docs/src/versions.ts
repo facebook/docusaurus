@@ -24,6 +24,7 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {normalizeUrl} from '@docusaurus/utils';
 import {difference} from 'lodash';
+import chalk from 'chalk';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -222,9 +223,13 @@ function checkVersionMetadataPaths({
       `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${docsDirPath}`,
     );
   }
+
+  // See https://github.com/facebook/docusaurus/issues/3366
   if (!fs.existsSync(sidebarFilePath)) {
-    throw new Error(
-      `The sidebar file does not exist for version [${versionName}]. A sidebar file is expected to be found at ${sidebarFilePath}`,
+    console.log(
+      chalk.yellow(
+        `The sidebar file of docs version [${versionName}] does not exist. It is optional, but should rather be provided at ${sidebarFilePath}`,
+      ),
     );
   }
 }
