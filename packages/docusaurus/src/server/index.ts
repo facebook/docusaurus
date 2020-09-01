@@ -7,6 +7,7 @@
 
 import {generate} from '@docusaurus/utils';
 import path, {join} from 'path';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   BUILD_DIR_NAME,
   CONFIG_FILE_NAME,
@@ -42,7 +43,7 @@ export function loadContext(
   const outDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
-  const {baseUrl} = siteConfig;
+  const {baseUrl, ssrTemplate} = siteConfig;
 
   return {
     siteDir,
@@ -50,6 +51,7 @@ export function loadContext(
     siteConfig,
     outDir,
     baseUrl,
+    ssrTemplate,
   };
 }
 
@@ -71,7 +73,7 @@ export async function load(
 ): Promise<Props> {
   // Context.
   const context: LoadContext = loadContext(siteDir, customOutDir);
-  const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
+  const {generatedFilesDir, siteConfig, outDir, baseUrl, ssrTemplate} = context;
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
@@ -235,6 +237,7 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
+    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
   };
 
   return props;

@@ -81,6 +81,7 @@ const ConfigSchema = Joi.object({
       // See https://github.com/facebook/docusaurus/issues/3378
       .unknown(),
   ),
+  ssrTemplate: Joi.string(),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
