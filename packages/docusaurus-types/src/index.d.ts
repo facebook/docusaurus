@@ -41,6 +41,7 @@ export interface DocusaurusConfig {
         [key: string]: unknown;
       }
   )[];
+  ssrTemplate?: string;
   stylesheets?: (
     | string
     | {
@@ -110,6 +111,7 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
+  ssrTemplate?: string;
 }
 
 export interface InjectedHtmlTags {

@@ -26,19 +26,18 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import ssrTemplate from './templates/ssr.html.template';
 
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
-const getCompiledSSRTemplate = memoize(() => {
-  return eta.compile(ssrTemplate.trim(), {
+const getCompiledSSRTemplate = memoize((template) => {
+  return eta.compile(template.trim(), {
     rmWhitespace: true,
   });
 });
 
-function renderSSRTemplate(data) {
-  const compiled = getCompiledSSRTemplate();
+function renderSSRTemplate(ssrTemplate, data) {
+  const compiled = getCompiledSSRTemplate(ssrTemplate);
   return compiled(data, eta.defaultConfig);
 }
 
@@ -51,6 +50,7 @@ export default async function render(locals) {
     postBodyTags,
     onLinksCollected,
     baseUrl,
+    ssrTemplate,
   } = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
@@ -90,7 +90,7 @@ export default async function render(locals) {
   const stylesheets = (bundles.css || []).map((b) => b.file);
   const scripts = (bundles.js || []).map((b) => b.file);
 
-  const renderedHtml = renderSSRTemplate({
+  const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
     htmlAttributes: htmlAttributes || '',
