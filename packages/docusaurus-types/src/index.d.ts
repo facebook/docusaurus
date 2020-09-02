@@ -57,7 +57,11 @@ export interface DocusaurusConfig {
  * - `type: 'synthetic'`, docusaurus generated internal plugin.
  */
 export type DocusaurusPluginVersionInformation =
-  | {readonly type: 'package'; readonly version?: string}
+  | {
+      readonly type: 'package';
+      readonly name?: string;
+      readonly version?: string;
+    }
   | {readonly type: 'project'}
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};

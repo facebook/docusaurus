@@ -1786,6 +1786,24 @@
     "@francoischalifour/autocomplete-preset-algolia" "^1.0.0-alpha.27"
     algoliasearch "^4.0.0"
 
+"@docusaurus/plugin-pwa@2.0.0-alpha.61":
+  version "2.0.0-alpha.61"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-pwa/-/plugin-pwa-2.0.0-alpha.61.tgz#62db6341a7c17c0e4b8bf0c2f112b59239fe7d86"
+  integrity sha512-bR9RNX9zzF6amtQbVkT18tc0lz+TQrDnRRL4HLnhIsrMjL8xFcV4cnJS61qWCRVbwCB6o22CjbWwDBTRMDmrBQ==
+  dependencies:
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.10.1"
+    "@babel/plugin-proposal-optional-chaining" "^7.10.3"
+    "@babel/preset-env" "^7.9.0"
+    "@hapi/joi" "^17.1.1"
+    babel-loader "^8.1.0"
+    core-js "^2.6.5"
+    terser-webpack-plugin "^2.3.5"
+    webpack "^4.41.2"
+    webpack-merge "^4.2.2"
+    workbox-build "^5.1.2"
+    workbox-precaching "^5.1.2"
+    workbox-window "^5.1.2"
+
 "@endiliey/react-ideal-image@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@endiliey/react-ideal-image/-/react-ideal-image-0.0.11.tgz#dc3803d04e1409cf88efa4bba0f67667807bdf27"
