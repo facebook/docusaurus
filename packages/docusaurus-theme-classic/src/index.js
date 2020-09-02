@@ -95,6 +95,13 @@ module.exports = function (context, options) {
         .join('|');
 
       return {
+        stats: {
+          warningsFilter: [
+            // See https://github.com/facebook/docusaurus/pull/3382
+            (warning) =>
+              warning.includes("Can't resolve '@theme-init/hooks/useDocs"),
+          ],
+        },
         plugins: [
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,

@@ -5,11 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ComponentType, useState} from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useOnClickOutside from 'use-onclickoutside';
+import type {
+  NavLinkProps,
+  DesktopOrMobileNavBarItemProps,
+  Props,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 
 function NavLink({
   activeBasePath,
@@ -20,15 +25,7 @@ function NavLink({
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
   ...props
-}: {
-  activeBasePath?: string;
-  activeBaseRegex?: string;
-  to?: string;
-  href?: string;
-  label?: string;
-  activeClassName?: string;
-  prependBaseUrlToHref?: string;
-} & ComponentProps<'a'>) {
+}: NavLinkProps) {
   // TODO all this seems hacky
   // {to: 'version'} should probably be forbidden, in favor of {to: '/version'}
   const toUrl = useBaseUrl(to);
@@ -62,7 +59,12 @@ function NavLink({
   );
 }
 
-function NavItemDesktop({items, position, className, ...props}) {
+function NavItemDesktop({
+  items,
+  position,
+  className,
+  ...props
+}: DesktopOrMobileNavBarItemProps) {
   const dropDownRef = React.useRef<HTMLDivElement>(null);
   const dropDownMenuRef = React.useRef<HTMLUListElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -78,7 +80,7 @@ function NavItemDesktop({items, position, className, ...props}) {
     }
     setShowDropDown(state);
   }
-  const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
+  const navLinkClassNames = (extraClassName?: string, isDropdownItem = false) =>
     clsx(
       {
         'navbar__item navbar__link': !isDropdownItem,
@@ -132,9 +134,14 @@ function NavItemDesktop({items, position, className, ...props}) {
   );
 }
 
-function NavItemMobile({items, position: _position, className, ...props}) {
+function NavItemMobile({
+  items,
+  position: _position,
+  className,
+  ...props
+}: DesktopOrMobileNavBarItemProps) {
   // Need to destructure position from props so that it doesn't get passed on.
-  const navLinkClassNames = (extraClassName, isSubList = false) =>
+  const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
     clsx(
       'menu__link',
       {
@@ -172,8 +179,8 @@ function NavItemMobile({items, position: _position, className, ...props}) {
   );
 }
 
-function DefaultNavbarItem({mobile = false, ...props}) {
-  const Comp: ComponentType<any> = mobile ? NavItemMobile : NavItemDesktop;
+function DefaultNavbarItem({mobile = false, ...props}: Props): JSX.Element {
+  const Comp = mobile ? NavItemMobile : NavItemDesktop;
   return <Comp {...props} />;
 }
 

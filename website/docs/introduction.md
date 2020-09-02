@@ -33,7 +33,7 @@ Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we
 
 Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
 
-While our main focus will still be helping you get your documentations right and well, it is possible to build this any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
+While our main focus will still be helping you get your documentations right and well, it is possible to build any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
 
 ## Features
 

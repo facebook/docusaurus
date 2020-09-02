@@ -12,6 +12,7 @@ import {MDXProvider} from '@mdx-js/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
+import type {Props} from '@theme/BlogPostItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
@@ -31,7 +32,7 @@ const MONTHS = [
   'December',
 ];
 
-function BlogPostItem(props): JSX.Element {
+function BlogPostItem(props: Props): JSX.Element {
   const {
     children,
     frontMatter,

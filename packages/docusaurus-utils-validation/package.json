@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils-validation",
-  "version": "2.0.0-alpha.61",
+  "version": "2.0.0-alpha.62",
   "description": "Node validation utility functions for Docusaurus packages",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -16,6 +16,7 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
+    "@docusaurus/utils": "2.0.0-alpha.62",
     "@hapi/joi": "17.1.1",
     "chalk": "^3.0.0"
   },

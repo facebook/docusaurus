@@ -34,7 +34,7 @@ class Head extends React.Component {
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <title>{this.props.title}</title>
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content="Docusaurus" />
         <meta name="description" content={this.props.description} />
         {this.props.version && (

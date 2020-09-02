@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
@@ -15,13 +16,13 @@ function AnnouncementBar(): JSX.Element | null {
   const {
     siteConfig: {themeConfig: {announcementBar = {}} = {}} = {},
   } = useDocusaurusContext();
-  const {content, backgroundColor, textColor} = announcementBar;
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
   const {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
   } = useUserPreferencesContext();
 
-  if (!content || isAnnouncementBarClosed) {
+  if (!content || (isCloseable && isAnnouncementBarClosed)) {
     return null;
   }
 
@@ -31,19 +32,22 @@ function AnnouncementBar(): JSX.Element | null {
       style={{backgroundColor, color: textColor}}
       role="banner">
       <div
-        className={styles.announcementBarContent}
+        className={clsx(styles.announcementBarContent, {
+          [styles.announcementBarCloseable]: isCloseable,
+        })}
         // Developer provided the HTML, so assume it's safe.
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{__html: content}}
       />
-
-      <button
-        type="button"
-        className={styles.announcementBarClose}
-        onClick={closeAnnouncementBar}
-        aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      {isCloseable ? (
+        <button
+          type="button"
+          className={styles.announcementBarClose}
+          onClick={closeAnnouncementBar}
+          aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      ) : null}
     </div>
   );
 }

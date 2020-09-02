@@ -7,26 +7,15 @@
 
 import {getOptions} from 'loader-utils';
 import {loader} from 'webpack';
-import linkify from './linkify';
+import {linkify} from './linkify';
+import {DocsMarkdownOption} from '../types';
 
 const markdownLoader: loader.Loader = function (source) {
   const fileString = source as string;
   const callback = this.async();
-  const {docsDir, siteDir, versionedDir, sourceToPermalink} = getOptions(this);
-
+  const options = getOptions(this) as DocsMarkdownOption;
   return (
-    callback &&
-    callback(
-      null,
-      linkify(
-        fileString,
-        this.resourcePath,
-        docsDir,
-        siteDir,
-        sourceToPermalink,
-        versionedDir,
-      ),
-    )
+    callback && callback(null, linkify(fileString, this.resourcePath, options))
   );
 };
 

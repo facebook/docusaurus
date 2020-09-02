@@ -92,6 +92,7 @@ export function createBaseConfig(
     },
     resolveLoader: {
       plugins: [PnpWebpackPlugin.moduleLoader(module)],
+      modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
       removeAvailableModules: false,

@@ -11,54 +11,19 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import type {Props} from '@theme/DocItem';
+import TOC from '@theme/TOC';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import {
+  useActivePlugin,
+  useVersions,
+  useActiveVersion,
+} from '@theme/hooks/useDocs';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
-const TOP_OFFSET = 100;
-
-function DocTOC({headings}) {
-  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
-  return (
-    <div className="col col--3">
-      <div className={styles.tableOfContents}>
-        <Headings headings={headings} />
-      </div>
-    </div>
-  );
-}
-
-/* eslint-disable jsx-a11y/control-has-associated-label */
-function Headings({headings, isChild}: {headings; isChild?: boolean}) {
-  if (!headings.length) {
-    return null;
-  }
-  return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
-      {headings.map((heading) => (
-        <li key={heading.id}>
-          <a
-            href={`#${heading.id}`}
-            className={LINK_CLASS_NAME}
-            // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: heading.value}}
-          />
-          <Headings isChild headings={heading.children} />
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function DocItem(props): JSX.Element {
+function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;
@@ -70,7 +35,6 @@ function DocItem(props): JSX.Element {
     editUrl,
     lastUpdatedAt,
     lastUpdatedBy,
-    version,
   } = metadata;
   const {
     frontMatter: {
@@ -80,6 +44,15 @@ function DocItem(props): JSX.Element {
       hide_table_of_contents: hideTableOfContents,
     },
   } = DocContent;
+
+  const {pluginId} = useActivePlugin({failfast: true});
+  const versions = useVersions(pluginId);
+  const version = useActiveVersion(pluginId);
+
+  // If site is not versioned or only one version is included
+  // we don't show the version badge
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const showVersionBadge = versions.length > 1;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
@@ -113,10 +86,10 @@ function DocItem(props): JSX.Element {
             <DocVersionSuggestions />
             <div className={styles.docItemContainer}>
               <article>
-                {version && (
+                {showVersionBadge && (
                   <div>
                     <span className="badge badge--secondary">
-                      Version: {version}
+                      Version: {version.label}
                     </span>
                   </div>
                 )}
@@ -202,7 +175,9 @@ function DocItem(props): JSX.Element {
             </div>
           </div>
           {!hideTableOfContents && DocContent.rightToc && (
-            <DocTOC headings={DocContent.rightToc} />
+            <div className="col col--3">
+              <TOC headings={DocContent.rightToc} />
+            </div>
           )}
         </div>
       </div>

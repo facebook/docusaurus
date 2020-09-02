@@ -7,14 +7,14 @@
 
 import {useEffect, useState} from 'react';
 
+import type {WindowSize} from '@theme/hooks/useWindowSize';
+
 const desktopThresholdWidth = 996;
 
 const windowSizes = {
   desktop: 'desktop',
   mobile: 'mobile',
 } as const;
-
-type WindowSize = keyof typeof windowSizes;
 
 function useWindowSize(): WindowSize | undefined {
   const isClient = typeof window !== 'undefined';

@@ -14,7 +14,15 @@ const allDocHomesPaths = [
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const isDeployPreview =
+  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+
 const baseUrl = process.env.BASE_URL || '/';
+const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
+
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
 module.exports = {
   title: 'Docusaurus',
@@ -23,7 +31,7 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -154,7 +162,9 @@ module.exports = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      isBootstrapPreset
+        ? '@docusaurus/preset-bootstrap'
+        : '@docusaurus/preset-classic',
       {
         debug: true, // force debug plugin usage
         docs: {
@@ -166,7 +176,21 @@ module.exports = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
-          disableVersioning: !!process.env.DISABLE_VERSIONING,
+          disableVersioning: isVersioningDisabled,
+          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          onlyIncludeVersions:
+            !isVersioningDisabled && (isDev || isDeployPreview)
+              ? ['current', ...versions.slice(0, 2)]
+              : undefined,
+          versions: {
+            current: {
+              // path: isDev || isDeployPreview ? '' : 'next',
+              label:
+                isDev || isDeployPreview
+                  ? `Next (${isDeployPreview ? 'deploy preview' : 'dev'})`
+                  : 'Next',
+            },
+          },
         },
         blog: {
           // routeBasePath: '/',
@@ -226,7 +250,6 @@ module.exports = {
         {
           type: 'docsVersionDropdown',
           position: 'left',
-          nextVersionLabel: '2.0.0-next',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},

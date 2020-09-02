@@ -134,6 +134,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Casbin',
+    image: '/img/users/casbin.png',
+    infoLink: 'https://casbin.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Channelize.io',
     image: '/img/users/channelize.png',
     infoLink: 'https://docs.channelize.io/',
@@ -270,6 +277,13 @@ module.exports = [
     caption: 'FuseBox',
     image: '/img/users/fuse-box.svg',
     infoLink: 'https://fuse-box.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Global CTO Forum',
+    image: '/img/users/global-cto-forum.svg',
+    infoLink: 'https://globalctoforum.org/',
     fbOpenSource: false,
     pinned: false,
   },

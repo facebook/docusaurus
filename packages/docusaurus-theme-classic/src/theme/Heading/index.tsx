@@ -7,14 +7,15 @@
 
 /* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
 
-import React, {ComponentType} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {HeadingType, Props} from '@theme/Heading';
 
 import './styles.css';
 import styles from './styles.module.css';
 
-const Heading = (Tag: ComponentType): ((props) => JSX.Element) =>
+const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {
     const {
       siteConfig: {

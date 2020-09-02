@@ -41,6 +41,7 @@ describe('themeConfig', () => {
         content: 'pls support',
         backgroundColor: '#fff',
         textColor: '#000',
+        isCloseable: true,
       },
       image: 'img/docusaurus-soc.png',
       navbar: {
@@ -55,7 +56,6 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
-            nextVersionLabel: '2.0.0-next',
           },
           {
             to: 'docs/next/support',
@@ -90,6 +90,22 @@ describe('themeConfig', () => {
     expect(testValidateThemeConfig(userConfig)).toEqual({
       colorMode: DEFAULT_COLOR_MODE_CONFIG,
       ...userConfig,
+    });
+  });
+
+  test('should allow empty alt tags for the logo image in the header', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+        hideOnScroll: false,
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...altTagConfig,
     });
   });
 

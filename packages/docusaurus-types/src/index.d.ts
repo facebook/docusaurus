@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// ESLint doesn't understand types dependencies in d.ts
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
@@ -55,7 +57,11 @@ export interface DocusaurusConfig {
  * - `type: 'synthetic'`, docusaurus generated internal plugin.
  */
 export type DocusaurusPluginVersionInformation =
-  | {readonly type: 'package'; readonly version?: string}
+  | {
+      readonly type: 'package';
+      readonly name?: string;
+      readonly version?: string;
+    }
   | {readonly type: 'project'}
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};
@@ -269,4 +275,10 @@ export interface ValidationSchema<T> {
   validate(options: Partial<T>, opt: object): ValidationResult<T>;
   unknown(): ValidationSchema<T>;
   append(data: any): ValidationSchema<T>;
+}
+
+export interface MarkdownRightTableOfContents {
+  readonly value: string;
+  readonly id: string;
+  readonly children: MarkdownRightTableOfContents[];
 }

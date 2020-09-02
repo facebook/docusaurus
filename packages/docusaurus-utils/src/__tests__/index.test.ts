@@ -26,6 +26,7 @@ import {
   removePrefix,
   getFilePathForRoutePath,
   addLeadingSlash,
+  getElementsAround,
 } from '../index';
 
 describe('load utils', () => {
@@ -474,6 +475,40 @@ describe('getFilePathForRoutePath', () => {
   test('works for /somePath/', () => {
     expect(getFilePathForRoutePath('/somePath/')).toEqual(
       '/somePath/index.html',
+    );
+  });
+});
+
+describe('getElementsAround', () => {
+  test('can return elements around', () => {
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
+      previous: undefined,
+      next: 'b',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 1)).toEqual({
+      previous: 'a',
+      next: 'c',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 2)).toEqual({
+      previous: 'b',
+      next: 'd',
+    });
+    expect(getElementsAround(['a', 'b', 'c', 'd'], 3)).toEqual({
+      previous: 'c',
+      next: undefined,
+    });
+  });
+
+  test('throws if bad index is provided', () => {
+    expect(() =>
+      getElementsAround(['a', 'b', 'c', 'd'], -1),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=-1"`,
+    );
+    expect(() =>
+      getElementsAround(['a', 'b', 'c', 'd'], 4),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
     );
   });
 });

@@ -139,6 +139,31 @@ export function applyConfigureWebpack(
   return config;
 }
 
+// See https://webpack.js.org/configuration/stats/#statswarningsfilter
+// @slorber: note sure why we have to re-implement this logic
+// just know that legacy had this only partially implemented, so completed it
+type WarningFilter = string | RegExp | Function;
+function filterWarnings(
+  warningsFilter: WarningFilter[],
+  warnings: string[],
+): string[] {
+  function isWarningFiltered(warning: string): boolean {
+    return warningsFilter.some((warningFilter) => {
+      if (typeof warningFilter === 'string') {
+        return warning.includes(warningFilter);
+      } else if (warningFilter instanceof RegExp) {
+        return !!warning.match(warningFilter);
+      } else if (warningFilter instanceof Function) {
+        return warningFilter(warning);
+      } else {
+        throw new Error(`Unknown warningFilter type = ${typeof warningFilter}`);
+      }
+    });
+  }
+
+  return warnings.filter((warning) => !isWarningFiltered(warning));
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
@@ -155,13 +180,12 @@ export function compile(config: Configuration[]): Promise<void> {
       if (stats.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
         let {warnings} = stats.toJson('errors-warnings');
+
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as any[];
+          ?.warningsFilter || []) as WarningFilter[];
 
         if (Array.isArray(warningsFilter)) {
-          warnings = warnings.filter((warning) =>
-            warningsFilter.every((str) => !warning.includes(str)),
-          );
+          warnings = filterWarnings(warningsFilter, warnings);
         }
 
         warnings.forEach((warning) => {
@@ -173,17 +197,19 @@ export function compile(config: Configuration[]): Promise<void> {
   });
 }
 
+type AssetFolder = 'images' | 'files' | 'medias';
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils() {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
   // defines the path/pattern of the assets handled by webpack
-  const fileLoaderFileName = (folder: string) =>
+  const fileLoaderFileName = (folder: AssetFolder) =>
     `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
-    file: (options: {folder: string}) => {
+    file: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
@@ -191,7 +217,7 @@ export function getFileLoaderUtils() {
         },
       };
     },
-    url: (options: {folder: string}) => {
+    url: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`url-loader`),
         options: {
@@ -210,6 +236,9 @@ export function getFileLoaderUtils() {
     inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
     )}&fallback=file-loader!`,
+    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
+      'files',
+    )}!`,
   };
 
   const rules = {

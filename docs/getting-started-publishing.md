@@ -25,32 +25,32 @@ At this point, you can grab all of the files inside the `website/build` director
 
 ### Hosting on a Service:
 
-- [ZEIT Now](#using-zeit-now)
+- [Vercel](#using-vercel)
 - [GitHub Pages](#using-github-pages)
 - [Netlify](#hosting-on-netlify)
 - [Render](#hosting-on-render)
 
-### Using ZEIT Now
+### Using Vercel
 
-Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+Deploying your Docusaurus project to [Vercel](https://vercel.com) will provide you with various benefits in the areas of performance and ease of use.
 
 Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:
 
-1. First, install their [command-line interface](https://zeit.co/download):
+1. First, install their [command-line interface](https://vercel.com/download):
 
 ```bash
-npm i -g now
+npm i -g vercel
 ```
 
 2. Run a single command inside the root directory of your project:
 
 ```bash
-now
+vercel
 ```
 
 **That's all.** Your docs will automatically be deployed.
 
-> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
+> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the [now-examples repository for a Docusaurus project](https://github.com/vercel/vercel/tree/master/examples/docusaurus).
 
 ### Using GitHub Pages
 
@@ -289,9 +289,15 @@ steps:
     displayName: 'yarn install and build'
 ```
 
-### Hosting on ZEIT Now
+### Hosting on Vercel
 
-With [ZEIT Now](#using-zeit-now), you can deploy your site and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+Deploying your Docusaurus project to [Vercel](https://vercel.com/) will provide you with [various benefits](https://vercel.com/) in the areas of performance and ease of use.
+
+To deploy your Docusaurus project with a [Vercel for Git Integration](https://vercel.com/docs/git-integrations), make sure it has been pushed to a Git repository.
+
+Import the project into Vercel using the [Import Flow](https://vercel.com/import/git). During the import, you will find all relevant options preconfigured for you; however, you can choose to change any of these options, a list of which can be found [here](https://vercel.com/docs/build-step#build-&-development-settings).
+
+After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (commonly "main") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
 
 ### Hosting on Netlify
 

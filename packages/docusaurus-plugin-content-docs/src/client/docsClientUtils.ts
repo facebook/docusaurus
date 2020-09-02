@@ -20,13 +20,27 @@ export type ActivePlugin = {
   pluginData: GlobalPluginData;
 };
 
+export type GetActivePluginOptions = {failfast?: boolean};
+
 // get the data of the plugin that is currently "active"
 // ie the docs of that plugin are currently browsed
 // it is useful to support multiple docs plugin instances
-export const getActivePlugin = (
+export function getActivePlugin(
   allPluginDatas: Record<string, GlobalPluginData>,
   pathname: string,
-): ActivePlugin | undefined => {
+  options: {failfast: true}, // use fail-fast option if you know for sure one plugin instance is active
+): ActivePlugin;
+export function getActivePlugin(
+  allPluginDatas: Record<string, GlobalPluginData>,
+  pathname: string,
+  options?: GetActivePluginOptions,
+): ActivePlugin | undefined;
+
+export function getActivePlugin(
+  allPluginDatas: Record<string, GlobalPluginData>,
+  pathname: string,
+  options: GetActivePluginOptions = {},
+): ActivePlugin | undefined {
   const activeEntry = Object.entries(allPluginDatas).find(
     ([_id, pluginData]) => {
       return !!matchPath(pathname, {
@@ -37,10 +51,22 @@ export const getActivePlugin = (
     },
   );
 
-  return activeEntry
+  const activePlugin: ActivePlugin | undefined = activeEntry
     ? {pluginId: activeEntry[0], pluginData: activeEntry[1]}
     : undefined;
-};
+
+  if (!activePlugin && options.failfast) {
+    throw new Error(
+      `Can't find active docs plugin for pathname=${pathname}, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
+        allPluginDatas,
+      )
+        .map((plugin) => plugin.path)
+        .join(', ')}`,
+    );
+  }
+
+  return activePlugin;
+}
 
 export type ActiveDocContext = {
   activeVersion?: Version;
@@ -49,9 +75,7 @@ export type ActiveDocContext = {
 };
 
 export const getLatestVersion = (data: GlobalPluginData): Version => {
-  return data.versions.find(
-    (version) => version.name === data.latestVersionName,
-  )!;
+  return data.versions.find((version) => version.isLast)!;
 };
 
 // Note: return undefined on doc-unrelated pages,

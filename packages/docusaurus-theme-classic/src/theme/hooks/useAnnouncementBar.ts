@@ -5,33 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnoucementBar';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
 const STORAGE_ID_KEY = 'docusaurus.announcement.id';
 
-const useAnnouncementBar = (): {
-  isAnnouncementBarClosed: boolean;
-  closeAnnouncementBar: () => void;
-} => {
-  const {
-    siteConfig: {
-      themeConfig: {announcementBar: {id = 'annoucement-bar'} = {}} = {},
-    } = {},
-  } = useDocusaurusContext();
+const useAnnouncementBar = (): useAnnouncementBarReturns => {
+  const {announcementBar} = useDocusaurusContext().siteConfig.themeConfig;
+
   const [isClosed, setClosed] = useState(true);
-  const handleClose = () => {
+
+  const handleClose = useCallback(() => {
     localStorage.setItem(STORAGE_DISMISS_KEY, 'true');
     setClosed(true);
-  };
+  }, []);
 
   useEffect(() => {
-    if (!id) {
+    if (!announcementBar) {
       return;
     }
+    const {id} = announcementBar;
 
-    const viewedId = localStorage.getItem(STORAGE_ID_KEY);
+    let viewedId = localStorage.getItem(STORAGE_ID_KEY);
+
+    // retrocompatibility due to spelling mistake of default id
+    // see https://github.com/facebook/docusaurus/issues/3338
+    if (viewedId === 'annoucement-bar') {
+      viewedId = 'announcement-bar';
+    }
+
     const isNewAnnouncement = id !== viewedId;
 
     localStorage.setItem(STORAGE_ID_KEY, id);

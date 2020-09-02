@@ -130,6 +130,40 @@ module.exports = {
 };
 ```
 
+### `@docusaurus/preset-bootstrap`
+
+The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
+
+| Themes                             | Plugins                               |
+| ---------------------------------- | ------------------------------------- |
+| `@docusaurus/theme-bootstrap`      | `@docusaurus/plugin-content-docs`     |
+|                                    | `@docusaurus/plugin-content-blog`     |
+|                                    | `@docusaurus/plugin-content-pages`    |
+
+
+To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `docs` for `@docusaurus/theme-bootstrap`, pass them in the preset field, like this:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-bootstrap',
+      {
+        // Will be passed to @docusaurus/plugin-content-docs
+        docs: {},
+        // Will be passed to @docusaurus/plugin-content-blog
+        blog: {},
+      },
+    ],
+  ],
+};
+```
+:::caution
+
+This preset is work in progress
+
+:::
+
 <!--
 
 Advanced guide on using and configuring presets

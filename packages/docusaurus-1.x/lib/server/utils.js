@@ -69,7 +69,7 @@ function autoPrefixCss(cssContent) {
 function replaceAssetsLink(oldContent, location) {
   let fencedBlock = false;
   const lines = oldContent.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
+    if (line.trim().startsWith('```') && line.match(/`/g).length === 3) {
       fencedBlock = !fencedBlock;
     }
     return fencedBlock

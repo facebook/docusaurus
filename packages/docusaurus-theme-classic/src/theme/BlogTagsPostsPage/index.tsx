@@ -10,12 +10,13 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
+import type {Props} from '@theme/BlogTagsPostsPage';
 
 function pluralize(count: number, word: string) {
   return count > 1 ? `${word}s` : word;
 }
 
-function BlogTagsPostPage(props): JSX.Element {
+function BlogTagsPostPage(props: Props): JSX.Element {
   const {metadata, items} = props;
   const {allTagsPath, name: tagName, count} = metadata;
 

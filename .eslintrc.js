@@ -87,6 +87,7 @@ module.exports = {
       {functions: false, classes: false, variables: true},
     ],
     'no-unused-vars': OFF,
+    'no-nested-ternary': WARNING,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
@@ -96,7 +97,7 @@ module.exports = {
     // TODO re-enable some these as errors
     // context: https://github.com/facebook/docusaurus/pull/2949
     '@typescript-eslint/ban-types': WARNING,
-    'import/no-extraneous-dependencies': WARNING,
+    'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
     'no-param-reassign': WARNING,

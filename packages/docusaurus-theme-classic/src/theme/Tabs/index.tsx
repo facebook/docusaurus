@@ -7,6 +7,7 @@
 
 import React, {useState, Children, ReactElement, useEffect} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import type {Props} from '@theme/Tabs';
 
 import clsx from 'clsx';
 
@@ -16,14 +17,6 @@ const keys = {
   left: 37,
   right: 39,
   tab: 9,
-};
-
-type Props = {
-  block?: boolean;
-  children: ReactElement<{value: string}>[];
-  defaultValue?: string;
-  values: {value: string; label: string}[];
-  groupId?: string;
 };
 
 function Tabs(props: Props): JSX.Element {

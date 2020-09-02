@@ -11,11 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
-
-type Props = {
-  metadata: {permalink: string; title: string; blogDescription: string};
-  items: {content}[];
-};
+import type {Props} from '@theme/BlogListPage';
 
 function BlogListPage(props: Props): JSX.Element {
   const {metadata, items} = props;

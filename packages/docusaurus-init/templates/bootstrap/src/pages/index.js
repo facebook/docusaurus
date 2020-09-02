@@ -62,24 +62,26 @@ function Home() {
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
-      <header>
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link to={useBaseUrl('docs/')}>Get Started</Link>
-        </div>
-      </header>
-      <main>
-        {features && features.length > 0 && (
-          <section className={styles.features}>
-            <div className="row">
-              {features.map((props, idx) => (
-                <Feature key={idx} {...props} />
-              ))}
-            </div>
-          </section>
-        )}
-      </main>
+      <div className={styles.hero}>
+        <header>
+          <h1>{siteConfig.title}</h1>
+          <p>{siteConfig.tagline}</p>
+          <div className={styles.buttons}>
+            <Link to={useBaseUrl('docs/')}>Get Started</Link>
+          </div>
+        </header>
+        <main>
+          {features && features.length > 0 && (
+            <section className={styles.section}>
+              <div className={styles.features}>
+                {features.map((props, idx) => (
+                  <Feature key={idx} {...props} />
+                ))}
+              </div>
+            </section>
+          )}
+        </main>
+      </div>
     </Layout>
   );
 }
