@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
- .list {
+.sectionTitle {
+  margin-top: 20px;
+}
+
+.list {
   padding: 0;
 }
 
@@ -17,10 +21,11 @@
   margin-bottom: 20px;
 }
 
-.route {
-  margin-bottom: 10px;
+.version {
+  float: right;
 }
 
-.routeName {
+.name {
+  font-weight: 800;
   color: #e06b6b;
 }

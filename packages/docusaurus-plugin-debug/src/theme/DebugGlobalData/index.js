@@ -9,15 +9,14 @@ import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import DebugJsonView from '../DebugJsonView';
-
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useGlobalData from '@docusaurus/useGlobalData';
 
 function DebugMetadata() {
-  const {siteConfig} = useDocusaurusContext();
+  const globalData = useGlobalData();
   return (
     <DebugLayout>
-      <h2>Site config</h2>
-      <DebugJsonView src={siteConfig} collapseDepth="3" />
+      <h2>Global data</h2>
+      <DebugJsonView src={globalData} collapseDepth="3" />
     </DebugLayout>
   );
 }

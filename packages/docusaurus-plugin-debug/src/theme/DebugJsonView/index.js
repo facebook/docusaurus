@@ -25,17 +25,28 @@ const BrowserOnlyReactJson = (props) => {
   );
 };
 
-function DebugJsonView({src}) {
+function DebugJsonView({src, collapseDepth}) {
   return (
     <BrowserOnlyReactJson
       src={src}
+      style={{
+        marginTop: '10px',
+        padding: '10px',
+        borderRadius: '4px',
+        backgroundColor: '#292a2b',
+      }}
       name={RootName}
+      theme="paraiso"
       shouldCollapse={(field) => {
         // By default, we collapse the json for performance reasons
         // See https://github.com/mac-s-g/react-json-view/issues/235
-        // only the "root" is not collapsed
-        return field.name !== RootName;
+        // Non-root elements that are larger than 50 fields are collapsed
+        return field.name !== RootName && Object.keys(field.src).length > 50;
       }}
+      collapsed={collapseDepth}
+      groupArraysAfterLength="5"
+      enableClipboard={false}
+      displayDataTypes={false}
     />
   );
 }

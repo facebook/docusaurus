@@ -50,7 +50,7 @@ export default function pluginContentPages({
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/metadata']),
-        component: '@theme/DebugMetadata',
+        component: '@theme/DebugSiteMetadata',
         exact: true,
       });
 
@@ -73,6 +73,12 @@ export default function pluginContentPages({
         modules: {
           allContent: aliasedSource(allContentPath),
         },
+      });
+
+      addRoute({
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/globalData']),
+        component: '@theme/DebugGlobalData',
+        exact: true,
       });
     },
 

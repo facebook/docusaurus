@@ -7,16 +7,17 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-// import styles from './styles.module.css';
+import styles from './styles.module.css';
 
 const DebugNavLink = ({to, children}) => (
   <Link
-    style={{margin: 10}}
-    className="button button--primary"
+    className={styles.navlink}
     isNavLink
-    activeClassName="button--active"
     to={to}
-    exact>
+    exact
+    activeStyle={{
+      backgroundColor: '#363739',
+    }}>
     {children}
   </Link>
 );
@@ -24,14 +25,17 @@ const DebugNavLink = ({to, children}) => (
 function DebugLayout({children}) {
   return (
     <div>
-      <nav style={{width: '100%', padding: 10, border: 'solid'}}>
+      <nav className={styles.nav}>
         <DebugNavLink to="/__docusaurus/debug">Config</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/metadata">Metadata</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/registry">Registry</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/routes">Routes</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/content">Content</DebugNavLink>
+        <DebugNavLink to="/__docusaurus/debug/globalData">
+          Global data
+        </DebugNavLink>
       </nav>
-      <main style={{padding: 20}}>{children}</main>
+      <main className={styles.container}>{children}</main>
     </div>
   );
 }

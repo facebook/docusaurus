@@ -5,3 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.list {
+  padding: 0;
+}
+
+.listItem {
+  list-style: none;
+  background-color: #242526;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
