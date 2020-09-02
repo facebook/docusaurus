@@ -969,9 +969,17 @@ Passing `false` will disable registration entirely.
 
 ### `@docusaurus/plugin-debug`
 
-Will display useful debug informations at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
+The debug plugin will display useful debug informations at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
 
 It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
+
+:::note
+
+If you report a bug, we will probably ask you to have this plugin turned on in the production, so that we can inspect your deployment config more easily.
+
+If you don't have any sensitive information, you can keep it on in production [like we do](http://v2.docusaurus.io/__docusaurus/debug).
+
+:::
 
 **Installation**
 
