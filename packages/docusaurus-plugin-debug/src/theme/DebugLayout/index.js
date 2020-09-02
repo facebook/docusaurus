@@ -31,6 +31,9 @@ function DebugLayout({children}) {
         <DebugNavLink to="/__docusaurus/debug/registry">Registry</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/routes">Routes</DebugNavLink>
         <DebugNavLink to="/__docusaurus/debug/content">Content</DebugNavLink>
+        <DebugNavLink to="/__docusaurus/debug/globalData">
+          Global data
+        </DebugNavLink>
       </nav>
       <main className={styles.container}>{children}</main>
     </div>

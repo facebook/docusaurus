@@ -966,3 +966,29 @@ The module should have a `default` function export, and receives some params.
 Adds an entry before the Docusaurus app so that registration can happen before the app runs. The default `registerSW.js` file is enough for simple registration.
 
 Passing `false` will disable registration entirely.
+
+### `@docusaurus/plugin-debug`
+
+Will display useful debug informations at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
+
+It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+By default, it's enabled in dev, and disabled in prod, to avoid exposing potentially sensitive informations.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```

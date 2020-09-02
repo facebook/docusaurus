@@ -80,6 +80,7 @@ The classic preset that is usually shipped by default to new docusaurus website.
 | `@docusaurus/theme-classic`        | `@docusaurus/plugin-content-docs`     |
 | `@docusaurus/theme-search-algolia` | `@docusaurus/plugin-content-blog`     |
 |                                    | `@docusaurus/plugin-content-pages`    |
+|                                    | `@docusaurus/plugin-debug`            |
 |                                    | `@docusaurus/plugin-google-analytics` |
 |                                    | `@docusaurus/plugin-google-gtag`      |
 |                                    | `@docusaurus/plugin-sitemap`          |
@@ -92,17 +93,19 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
+        // Debug defaults to true in dev, false in prod
+        debug: undefined,
         // Will be passed to @docusaurus/theme-classic.
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        // Will be passed to @docusaurus/plugin-content-docs
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
         docs: {},
-        // Will be passed to @docusaurus/plugin-content-blog
+        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
         blog: {},
-        // Will be passed to @docusaurus/plugin-content-pages
+        // Will be passed to @docusaurus/plugin-content-pages (false to disable)
         pages: {},
-        // Will be passed to @docusaurus/plugin-content-sitemap
+        // Will be passed to @docusaurus/plugin-content-sitemap (false to disable)
         sitemap: {},
       },
     ],
@@ -134,12 +137,12 @@ module.exports = {
 
 The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
 
-| Themes                             | Plugins                               |
-| ---------------------------------- | ------------------------------------- |
-| `@docusaurus/theme-bootstrap`      | `@docusaurus/plugin-content-docs`     |
-|                                    | `@docusaurus/plugin-content-blog`     |
-|                                    | `@docusaurus/plugin-content-pages`    |
-
+| Themes                        | Plugins                            |
+| ----------------------------- | ---------------------------------- |
+| `@docusaurus/theme-bootstrap` | `@docusaurus/plugin-content-docs`  |
+|                               | `@docusaurus/plugin-content-blog`  |
+|                               | `@docusaurus/plugin-content-pages` |
+|                               | `@docusaurus/plugin-debug`         |
 
 To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `docs` for `@docusaurus/theme-bootstrap`, pass them in the preset field, like this:
 
@@ -149,15 +152,18 @@ module.exports = {
     [
       '@docusaurus/preset-bootstrap',
       {
-        // Will be passed to @docusaurus/plugin-content-docs
+        // Debug defaults to true in dev, false in prod
+        debug: undefined,
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
         docs: {},
-        // Will be passed to @docusaurus/plugin-content-blog
+        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
         blog: {},
       },
     ],
   ],
 };
 ```
+
 :::caution
 
 This preset is work in progress

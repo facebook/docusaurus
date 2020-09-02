@@ -11,43 +11,44 @@
   overflow-x: hidden;
   background-color: #18191a;
   color: white;
+  min-height: 100vh;
 }
 
- .nav {
-   position: fixed;
-   display: flex;
-   justify-content: space-evenly;
-   align-items: center;
-   height: 3.75rem;
-   background-color: #242526;
-   width: 100%;
-   z-index: 1;
- }
+.nav {
+  position: fixed;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 3.75rem;
+  background-color: #242526;
+  width: 100%;
+  z-index: 1;
+}
 
- .navlink {
-   color: white;
-   font-weight: 500;
-   font-size: clamp(12px, 4vw, 16px);
-   text-align: center;
-   border-radius: 4px;
-   padding: 6px 6px;
-  }
-  
-  .navlink:hover {
-    text-decoration: none;
-    background-color: #292a2b;
- }
+.navlink {
+  color: white;
+  font-weight: 500;
+  font-size: clamp(12px, 4vw, 16px);
+  text-align: center;
+  border-radius: 4px;
+  padding: 6px 6px;
+}
 
- code {
+.navlink:hover {
+  text-decoration: none;
+  background-color: #292a2b;
+}
+
+code {
   color: white;
   background-color: #444950;
- }
+}
 
- .active {
-   background-color: #363739;
- }
+.active {
+  background-color: #363739;
+}
 
- @media screen and (min-width: 800px) {
+@media screen and (min-width: 800px) {
   .nav {
     flex-direction: column;
     justify-content: flex-start;
@@ -61,7 +62,7 @@
   }
 
   .navlink {
-    width: 80%;    
+    width: 80%;
     margin-top: 20px;
     text-align: left;
   }
