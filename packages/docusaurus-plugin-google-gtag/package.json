@@ -7,8 +7,8 @@
     "access": "public"
   },
   "license": "MIT",
-  "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.62"
   },
   "engines": {
     "node": ">=10.15.1"

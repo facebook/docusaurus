@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.62",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
     "parse-numeric-range": "^0.0.2",
@@ -15,7 +16,6 @@
     "react-live": "^2.2.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

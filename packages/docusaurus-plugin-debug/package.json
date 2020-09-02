@@ -12,12 +12,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.62",
-    "@docusaurus/utils": "^2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.62",
+    "@docusaurus/types": "2.0.0-alpha.62",
+    "@docusaurus/utils": "2.0.0-alpha.62",
     "react-json-view": "^1.19.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

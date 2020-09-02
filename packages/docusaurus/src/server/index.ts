@@ -29,6 +29,7 @@ import {
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
+import chalk from 'chalk';
 
 export function loadContext(
   siteDir: string,
@@ -207,6 +208,7 @@ ${Object.keys(registry)
     .forEach(({name, version}) => {
       siteMetadata.pluginVersions[name] = version;
     });
+  checkDocusaurusPackagesVersion(siteMetadata);
   const genSiteMetadata = generate(
     generatedFilesDir,
     'site-metadata.json',
@@ -238,4 +240,28 @@ ${Object.keys(registry)
   };
 
   return props;
+}
+
+// We want all @docusaurus/* packages  to have the exact same version!
+// See https://github.com/facebook/docusaurus/issues/3371
+// See https://github.com/facebook/docusaurus/pull/3386
+function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
+  const {docusaurusVersion} = siteMetadata;
+  Object.entries(siteMetadata.pluginVersions).forEach(
+    ([plugin, versionInfo]) => {
+      if (
+        versionInfo.type === 'package' &&
+        versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version !== docusaurusVersion
+      ) {
+        // should we throw instead?
+        // It still could work with different versions
+        console.warn(
+          chalk.red(
+            `Bad ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
+          ),
+        );
+      }
+    },
+  );
 }
