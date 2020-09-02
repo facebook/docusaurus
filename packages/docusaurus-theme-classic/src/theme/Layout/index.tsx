@@ -43,7 +43,6 @@ function Layout(props: Props): JSX.Element {
     image,
     keywords,
     permalink,
-    version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
@@ -63,7 +62,6 @@ function Layout(props: Props): JSX.Element {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        {version && <meta name="docsearch:version" content={version} />}
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
