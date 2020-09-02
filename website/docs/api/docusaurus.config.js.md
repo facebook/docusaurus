@@ -306,6 +306,50 @@ module.exports = {
 };
 ```
 
+### `ssrTemplate`
+
+An HTML template that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from `upstream`.
+
+- Type: `string`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  ssrTemplate: `<!DOCTYPE html>
+<html <%~ it.htmlAttributes %>>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <%~ it.headTags %>
+    <% it.metaAttributes.forEach((metaAttribute) => { %>
+      <%~ metaAttribute %>
+    <% }); %>
+    <% it.stylesheets.forEach((stylesheet) => { %>
+      <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
+    <% }); %>
+    <% it.scripts.forEach((script) => { %>
+      <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
+    <% }); %>
+  </head>
+  <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+    <%~ it.preBodyTags %>
+    <div id="__docusaurus">
+      <%~ it.appHtml %>
+    </div>
+    <div id="outside-docusaurus">
+      <span>Custom markup</span>
+    </div>
+    <% it.scripts.forEach((script) => { %>
+      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+    <% }); %>
+    <%~ it.postBodyTags %>
+  </body>
+</html>
+};
+```
+
 ### `stylesheets`
 
 An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
