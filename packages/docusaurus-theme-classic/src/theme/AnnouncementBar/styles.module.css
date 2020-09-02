@@ -42,6 +42,9 @@
   width: 100%;
   text-align: center;
   padding: 5px 0;
+}
+
+.announcementBarCloseable {
   margin-right: 55px;
 }
 

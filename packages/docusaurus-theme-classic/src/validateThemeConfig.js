@@ -169,6 +169,7 @@ const ThemeConfigSchema = Joi.object({
     content: Joi.string(),
     backgroundColor: Joi.string().default('#fff'),
     textColor: Joi.string().default('#000'),
+    isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
     hideOnScroll: Joi.bool().default(false),
