@@ -235,7 +235,8 @@ module.exports = {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
       searchParameters: {
-        facetFilters: [`version:latest`],
+        // facetFilters: [`version:latest`],
+        facetFilters: [`version:${versions[0]}`],
       },
     },
     navbar: {
