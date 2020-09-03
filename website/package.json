@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.62",
+  "version": "2.0.0-alpha.63",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -22,12 +22,12 @@
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.62",
-    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.62",
-    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.62",
-    "@docusaurus/plugin-pwa": "2.0.0-alpha.62",
-    "@docusaurus/preset-classic": "2.0.0-alpha.62",
-    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.63",
+    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.63",
+    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.63",
+    "@docusaurus/plugin-pwa": "2.0.0-alpha.63",
+    "@docusaurus/preset-classic": "2.0.0-alpha.63",
+    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.63",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",
