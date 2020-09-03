@@ -18,7 +18,7 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
-- Start using Docusaurus 2! Go through the [Getting Started](installation.md) guides. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
+- Start using Docusaurus 2! Go through the [Getting Started](./installation) guides. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
 - Look through the [v2.0 issues](https://github.com/facebook/docusaurus/labels/v2). If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
 - Help us making the docs better. File an issue if you find anything that is confusing or can be improved. We also have [an umbrella issue for v2 docs](https://github.com/facebook/docusaurus/issues/1640) where we are planning and working on all v2 docs. You may adopt a doc piece there to work on.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
