@@ -1,0 +1,136 @@
+#
+# Your Crowdin credentials
+#
+"project_id" : "416738"
+"api_token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ3UUVxdmhVM3ZMT2EyWGljbVV5VCIsImp0aSI6IjAzMTQxZjJhOWZkZGQ1OWZhNjEzYzZmOWRlMDFjOGJmYjBmMmI4ZDRlYjM2ZDk2NTQwNWMxZjk5MGMyYzVlNDdjYTJhYTgxM2FkN2U4OWZhIiwiaWF0IjoxNTk5MTQ0OTQzLCJuYmYiOjE1OTkxNDQ5NDMsImV4cCI6MTYwMTczNjk0Mywic3ViIjoiMTQyNjcwMDAiLCJkb21haW4iOm51bGwsInNjb3BlcyI6WyJwcm9qZWN0Il0sImFzc29jaWF0aW9ucyI6WyIqIl0sInNlc3Npb24iOjAsInNlY3VyaXR5IjoxNTk5MTQ1MjMyfQ.IIJ1yS6YJpZRbY0644JiabIbWjXLhp-alpl3SpgeuCyxeYVSYMy-2P2vz1UniC-j4oSUzaD_Ie4Z5Zpq6xWnZiW7mREieKMaYesdeu-YiAnqzZrjsf3i_qGXe6XWR6CfhQpYixu5WzAaZgXYPmnsUb96oFqRsvMNqEUrDIYkzUrrIwGOSCNDdwZjVH2-DFn0qPjRkM04tv2Bv4GV9lfFAfsf1pC8VRrX0U0dzyhsronE3BJwIJiRon9yygxGax2JpYVXnozLq3P2idRl48R5G-GeVCvY5YuDvMdg2_lIHtaAdtVhNd2CL068PewahoTeMS5XkUrBF4lfGaYzQpB8MWZz61AzDOtpjSVeXCJGODyI4DMl2Wmju4wndWV7d2BXVsT1Vhhmulf3VPbl27CSuPnvsay43GPKZAKwIJdz_lMngr5Tr-fztrPPjoCKyNuHKEDP8awWuS9ev-EOoKUwmZJpVUF5B71osPOXdrkfchZEmw0u27Ess7XZLP9rR3ibflLJiuGYABsp5hdVEBE2V0MNPq9W9JkFhccEYzIMFlif-NBXve2QRZwGEVAcUnqnUXiUzEBs22Jhfh_0vMz4Qr7AliZt8Rurp5XOHjSpVwSJ6w-YGrD9NfTZ1wqlIsNdSKKGoKbcvaYLBMdzOWoq8jfIOfFLol-8DD4SqYAardo"
+"base_path" : "."
+"base_url" : "https://api.crowdin.com"
+
+#
+# Choose file structure in Crowdin
+# e.g. true or false
+#
+"preserve_hierarchy": true
+
+#
+# Files configuration
+#
+files: [
+ {
+  #
+  # Source files filter
+  # e.g. "/resources/en/*.json"
+  #
+  "source" : "/website/docs/**/*.(md|mdx)",
+
+  #
+  # Where translations will be placed
+  # e.g. "/resources/docs/%two_letters_code%/%original_file_name%"
+  #
+  "translation" : "/website/i18n/docs/current/%language%/%original_file_name%",
+
+  #
+  # Files or directories for ignore
+  # e.g. ["/**/?.txt", "/**/[0-9].txt", "/**/*\?*.txt"]
+  #
+  #"ignore" : [],
+
+  #
+  # The dest allows you to specify a file name in Crowdin
+  # e.g. "/messages.json"
+  #
+  #"dest" : "",
+
+  #
+  # File type
+  # e.g. "json"
+  #
+  #"type" : "",
+
+  #
+  # The parameter "update_option" is optional. If it is not set, after the files update the translations for changed strings will be removed. Use to fix typos and for minor changes in the source strings
+  # e.g. "update_as_unapproved" or "update_without_changes"
+  #
+  #"update_option" : "",
+
+  #
+  # Start block (for XML only)
+  #
+
+  #
+  # Defines whether to translate tags attributes.
+  # e.g. 0 or 1  (Default is 1)
+  #
+  # "translate_attributes" : 1,
+
+  #
+  # Defines whether to translate texts placed inside the tags.
+  # e.g. 0 or 1 (Default is 1)
+  #
+  # "translate_content" : 1,
+
+  #
+  # This is an array of strings, where each item is the XPaths to DOM element that should be imported
+  # e.g. ["/content/text", "/content/text[@value]"]
+  #
+  # "translatable_elements" : [],
+
+  #
+  # Defines whether to split long texts into smaller text segments
+  # e.g. 0 or 1 (Default is 1)
+  #
+  # "content_segmentation" : 1,
+
+  #
+  # End block (for XML only)
+  #
+
+  #
+  # Start .properties block
+  #
+
+  #
+  # Defines whether single quote should be escaped by another single quote or backslash in exported translations
+  # e.g. 0 or 1 or 2 or 3 (Default is 3)
+  # 0 - do not escape single quote;
+  # 1 - escape single quote by another single quote;
+  # 2 - escape single quote by backslash;
+  # 3 - escape single quote by another single quote only in strings containing variables ( {0} ).
+  #
+  # "escape_quotes" : 3,
+
+  #
+  # Defines whether any special characters (=, :, ! and #) should be escaped by backslash in exported translations.
+  # e.g. 0 or 1 (Default is 0)
+  # 0 - do not escape special characters
+  # 1 - escape special characters by a backslash
+  #
+  # "escape_special_characters": 0
+  #
+
+  #
+  # End .properties block
+  #
+
+  #
+  # Often software projects have custom names for the directories where translations are placed. crowdin-cli allows you to map your own languages to be understandable by Crowdin.
+  #
+  #"languages_mapping" : {
+  #  "two_letters_code" : {
+  #    "crowdin_language_code" : "local_name"
+  #   }
+  #},
+
+  #
+  # Does the first line contain header?
+  # e.g. true or false
+  #
+  #"first_line_contains_header" : true,
+
+  #
+  # for spreadsheets
+  # e.g. "identifier,source_phrase,context,uk,ru,fr"
+  #
+  # "scheme" : "",
+ }
+]
