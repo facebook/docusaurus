@@ -21,7 +21,7 @@ files: [
   # Source files filter
   # e.g. "/resources/en/*.json"
   #
-  "source" : "/website/docs/**/*.(md|mdx)",
+  "source" : "/website/docs/**/*.md",
 
   #
   # Where translations will be placed
