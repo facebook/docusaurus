@@ -38,14 +38,14 @@ function DocSearchVersionHeader({
   version: string;
   isLast: boolean;
 }) {
-  const versions = isLast ? [version, 'last'] : version;
+  const versions = isLast ? [version, 'latest'] : [version];
   return (
     <Head>
       <meta
         name="docsearch:version"
         content={
           // See https://github.com/facebook/docusaurus/issues/3391#issuecomment-685594160
-          versions instanceof Array ? JSON.stringify(versions) : version
+          versions.join(',')
         }
       />
     </Head>
