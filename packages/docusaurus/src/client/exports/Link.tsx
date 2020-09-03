@@ -55,19 +55,29 @@ function Link({
   const targetLinkUnprefixed = to || href;
 
   function maybeAddBaseUrl(str: string) {
-    return shouldAddBaseUrlAutomatically(str)
-      ? withBaseUrl(str)
-      : targetLinkUnprefixed;
+    return shouldAddBaseUrlAutomatically(str) ? withBaseUrl(str) : str;
   }
+
+  const isInternal = isInternalUrl(targetLinkUnprefixed);
+
+  // pathname:// is a special "protocol" we use to tell Docusaurus link
+  // that a link is not "internal" and that we shouldn't use history.push()
+  // this is not ideal but a good enough escape hatch for now
+  // see https://github.com/facebook/docusaurus/issues/3309
+  // note: we want baseUrl to be appended (see issue for details)
+  // TODO read routes and automatically detect internal/external links?
+  const targetLinkWithoutPathnameProtocol = targetLinkUnprefixed?.replace(
+    'pathname://',
+    '',
+  );
 
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
   const targetLink =
-    typeof targetLinkUnprefixed !== 'undefined'
-      ? maybeAddBaseUrl(targetLinkUnprefixed)
+    typeof targetLinkWithoutPathnameProtocol !== 'undefined'
+      ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
 

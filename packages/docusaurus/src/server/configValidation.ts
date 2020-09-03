@@ -77,8 +77,11 @@ const ConfigSchema = Joi.object({
       src: Joi.string().required(),
       async: Joi.bool(),
       defer: Joi.bool(),
-    }),
+    })
+      // See https://github.com/facebook/docusaurus/issues/3378
+      .unknown(),
   ),
+  ssrTemplate: Joi.string(),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({

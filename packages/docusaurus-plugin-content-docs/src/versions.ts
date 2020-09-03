@@ -7,7 +7,12 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {PluginOptions, VersionMetadata} from './types';
+import {
+  PluginOptions,
+  VersionMetadata,
+  VersionOptions,
+  VersionsOptions,
+} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -18,7 +23,8 @@ import {
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {normalizeUrl} from '@docusaurus/utils';
-import {last} from 'lodash';
+import {last, difference} from 'lodash';
+import chalk from 'chalk';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -177,7 +183,10 @@ function createVersionMetadata({
   versionName: string;
   isLast: boolean;
   context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'localization'>;
-  options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath' | 'routeBasePath'>;
+  options: Pick<
+    PluginOptions,
+    'id' | 'path' | 'sidebarPath' | 'routeBasePath' | 'versions'
+  >;
 }): VersionMetadata {
   const {sidebarFilePath, docsDirPaths} = getVersionMetadataPaths({
     versionName,
@@ -187,15 +196,19 @@ function createVersionMetadata({
 
   console.log('docsDirPaths \n', docsDirPaths.join('\n-'));
 
-  // TODO hardcoded for retro-compatibility
-  // TODO Need to make this configurable
-  const versionLabel =
+  // retro-compatible values
+  const defaultVersionLabel =
     versionName === CURRENT_VERSION_NAME ? 'Next' : versionName;
-  const versionPathPart = isLast
+  const defaultVersionPathPart = isLast
     ? ''
     : versionName === CURRENT_VERSION_NAME
     ? 'next'
     : versionName;
+
+  const versionOptions: VersionOptions = options.versions[versionName] ?? {};
+
+  const versionLabel = versionOptions.label ?? defaultVersionLabel;
+  const versionPathPart = versionOptions.path ?? defaultVersionPathPart;
 
   const versionPath = normalizeUrl([
     context.baseUrl,
@@ -229,9 +242,13 @@ function checkVersionMetadataPaths({
       `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${docsDirPath}`,
     );
   }
+
+  // See https://github.com/facebook/docusaurus/issues/3366
   if (!fs.existsSync(sidebarFilePath)) {
-    throw new Error(
-      `The sidebar file does not exist for version [${versionName}]. A sidebar file is expected to be found at ${sidebarFilePath}`,
+    console.log(
+      chalk.yellow(
+        `The sidebar file of docs version [${versionName}] does not exist. It is optional, but should rather be provided at ${sidebarFilePath}`,
+      ),
     );
   }
 }
@@ -239,13 +256,84 @@ function checkVersionMetadataPaths({
 // TODO for retrocompatibility with existing behavior
 // We should make this configurable
 // "last version" is not a very good concept nor api surface
-function getLastVersionName(versionNames: string[]) {
+function getDefaultLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
     return versionNames[0];
   } else {
     return versionNames.filter(
       (versionName) => versionName !== CURRENT_VERSION_NAME,
     )[0];
+  }
+}
+
+function checkVersionsOptions(
+  availableVersionNames: string[],
+  options: VersionsOptions,
+) {
+  const availableVersionNamesMsg = `Available version names are: ${availableVersionNames.join(
+    ', ',
+  )}`;
+  if (
+    options.lastVersion &&
+    !availableVersionNames.includes(options.lastVersion)
+  ) {
+    throw new Error(
+      `Docs option lastVersion=${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
+    );
+  }
+  const unknownVersionConfigNames = difference(
+    Object.keys(options.versions),
+    availableVersionNames,
+  );
+  if (unknownVersionConfigNames.length > 0) {
+    throw new Error(
+      `Bad docs options.versions: unknown versions found: ${unknownVersionConfigNames.join(
+        ',',
+      )}. ${availableVersionNamesMsg}`,
+    );
+  }
+
+  if (options.onlyIncludeVersions) {
+    if (options.onlyIncludeVersions.length === 0) {
+      throw new Error(
+        `Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed`,
+      );
+    }
+    const unknownOnlyIncludeVersionNames = difference(
+      options.onlyIncludeVersions,
+      availableVersionNames,
+    );
+    if (unknownOnlyIncludeVersionNames.length > 0) {
+      throw new Error(
+        `Bad docs options.onlyIncludeVersions: unknown versions found: ${unknownOnlyIncludeVersionNames.join(
+          ',',
+        )}. ${availableVersionNamesMsg}`,
+      );
+    }
+    if (
+      options.lastVersion &&
+      !options.onlyIncludeVersions.includes(options.lastVersion)
+    ) {
+      throw new Error(
+        `Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array`,
+      );
+    }
+  }
+}
+
+// Filter versions according to provided options
+// Note: we preserve the order in which versions are provided
+// the order of the onlyIncludeVersions array does not matter
+function filterVersions(
+  versionNamesUnfiltered: string[],
+  options: Pick<PluginOptions, 'onlyIncludeVersions'>,
+) {
+  if (options.onlyIncludeVersions) {
+    return versionNamesUnfiltered.filter((name) =>
+      options.onlyIncludeVersions!.includes(name),
+    );
+  } else {
+    return versionNamesUnfiltered;
   }
 }
 
@@ -262,10 +350,20 @@ export function readVersionsMetadata({
     | 'routeBasePath'
     | 'includeCurrentVersion'
     | 'disableVersioning'
+    | 'lastVersion'
+    | 'versions'
+    | 'onlyIncludeVersions'
   >;
 }): VersionMetadata[] {
-  const versionNames = readVersionNames(context.siteDir, options);
-  const lastVersionName = getLastVersionName(versionNames);
+  const versionNamesUnfiltered = readVersionNames(context.siteDir, options);
+
+  checkVersionsOptions(versionNamesUnfiltered, options);
+
+  const versionNames = filterVersions(versionNamesUnfiltered, options);
+
+  const lastVersionName =
+    options.lastVersion ?? getDefaultLastVersionName(versionNames);
+
   const versionsMetadata = versionNames.map((versionName) =>
     createVersionMetadata({
       versionName,

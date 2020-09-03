@@ -8,6 +8,8 @@
 import React from 'react';
 
 import DebugLayout from '../DebugLayout';
+import DebugJsonView from '../DebugJsonView';
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function DebugMetadata() {
@@ -15,7 +17,7 @@ function DebugMetadata() {
   return (
     <DebugLayout>
       <h2>Site config</h2>
-      <div>{JSON.stringify(siteConfig, null, 2)}</div>
+      <DebugJsonView src={siteConfig} collapseDepth="3" />
     </DebugLayout>
   );
 }

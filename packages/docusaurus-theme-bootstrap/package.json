@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-bootstrap",
-  "version": "2.0.0-alpha.61",
+  "version": "2.0.0-alpha.62",
   "description": "Bootstrap theme for docusaurus",
   "main": "src/index.js",
   "license": "MIT",
@@ -8,14 +8,15 @@
     "access": "public"
   },
   "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.62",
     "@mdx-js/react": "^1.5.8",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
     "prism-react-renderer": "^1.1.0",
     "reactstrap": "^8.4.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

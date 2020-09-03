@@ -142,6 +142,7 @@ export default async function start(
       // `webpackHotDevClient`.
       injectClient: false,
       quiet: true,
+      https: protocol === 'https',
       headers: {
         'access-control-allow-origin': '*',
       },

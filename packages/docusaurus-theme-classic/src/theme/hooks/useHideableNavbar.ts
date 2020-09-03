@@ -9,13 +9,14 @@ import {useState, useCallback, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useLocationHash from '@theme/hooks/useLocationHash';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
+import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 
-const useHideableNavbar = (hideOnScroll: boolean) => {
+const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isFocusedAnchor, setIsFocusedAnchor] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
-  const navbarRef = useCallback((node) => {
+  const navbarRef = useCallback((node: HTMLElement | null) => {
     if (node !== null) {
       setNavbarHeight(node.getBoundingClientRect().height);
     }

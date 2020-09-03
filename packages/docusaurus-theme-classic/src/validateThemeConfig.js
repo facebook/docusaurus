@@ -56,7 +56,6 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
-  nextVersionLabel: Joi.string().default('Next'), // TODO remove soon
 });
 
 // Can this be made easier? :/
@@ -166,10 +165,11 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   announcementBar: Joi.object({
-    id: Joi.string(),
+    id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
     backgroundColor: Joi.string().default('#fff'),
     textColor: Joi.string().default('#000'),
+    isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
     hideOnScroll: Joi.bool().default(false),
@@ -181,7 +181,7 @@ const ThemeConfigSchema = Joi.object({
     items: Joi.array().items(NavbarItemSchema),
     title: Joi.string().allow('', null),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string().required(),
       srcDark: Joi.string(),
       href: Joi.string(),

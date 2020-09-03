@@ -87,7 +87,7 @@ module.exports = {
 
 ### Announcement bar
 
-Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and dismissable panel above the navbar.
+Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.
 
 ```js {4-10} title="docusaurus.config.js"
 module.exports = {
@@ -99,6 +99,7 @@ module.exports = {
         'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
       backgroundColor: '#fafbfc', // Defaults to `#fff`.
       textColor: '#091E42', // Defaults to `#000`.
+      isCloseable: false, // Defaults to `true`.
     },
     // ...
   },

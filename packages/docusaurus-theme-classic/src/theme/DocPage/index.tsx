@@ -5,51 +5,88 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
+import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
+import type {DocumentRoute} from '@theme/DocItem';
+import type {Props} from '@theme/DocPage';
 import {matchPath} from '@docusaurus/router';
+import Head from '@docusaurus/Head';
 
 import styles from './styles.module.css';
+
+type DocPageContentProps = {
+  readonly currentDocRoute: DocumentRoute;
+  readonly versionMetadata: PropVersionMetadata;
+  readonly children: ReactNode;
+};
+
+// This theme is not coupled to Algolia, but can we do something else?
+// Note the last version is also indexed with "last", to avoid breaking search on new releases
+// See https://github.com/facebook/docusaurus/issues/3391
+function DocSearchVersionHeader({
+  version,
+  isLast,
+}: {
+  version: string;
+  isLast: boolean;
+}) {
+  const versions = isLast ? [version, 'latest'] : [version];
+  return (
+    <Head>
+      <meta
+        name="docsearch:version"
+        content={
+          // See https://github.com/facebook/docusaurus/issues/3391#issuecomment-685594160
+          versions.join(',')
+        }
+      />
+    </Head>
+  );
+}
 
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
   children,
-}): JSX.Element {
+}: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {permalinkToSidebar, docsSidebars, version} = versionMetadata;
+  const {permalinkToSidebar, docsSidebars, version, isLast} = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   return (
-    <Layout version={version} key={isClient}>
-      <div className={styles.docPage}>
-        {sidebar && (
-          <div className={styles.docSidebarContainer} role="complementary">
-            <DocSidebar
-              sidebar={sidebar}
-              path={currentDocRoute.path}
-              sidebarCollapsible={
-                siteConfig.themeConfig?.sidebarCollapsible ?? true
-              }
-            />
-          </div>
-        )}
-        <main className={styles.docMainContainer}>
-          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-        </main>
-      </div>
-    </Layout>
+    <>
+      <DocSearchVersionHeader version={version} isLast={isLast} />
+      <Layout key={isClient}>
+        <div className={styles.docPage}>
+          {sidebar && (
+            <div className={styles.docSidebarContainer} role="complementary">
+              <DocSidebar
+                sidebar={sidebar}
+                path={currentDocRoute.path}
+                sidebarCollapsible={
+                  siteConfig.themeConfig?.sidebarCollapsible ?? true
+                }
+              />
+            </div>
+          )}
+          <main className={styles.docMainContainer}>
+            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+          </main>
+        </div>
+      </Layout>
+    </>
   );
 }
 
-function DocPage(props) {
+function DocPage(props: Props): JSX.Element {
   const {
     route: {routes: docRoutes},
     versionMetadata,

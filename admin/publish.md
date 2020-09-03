@@ -169,7 +169,7 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-alpha.41 --dist-tag next
+yarn lerna publish 2.0.0-alpha.41 --dist-tag next --exact
 ```
 
 **Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.\_

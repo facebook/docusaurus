@@ -15,6 +15,7 @@ import useLogo from '@theme/hooks/useLogo';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import type {Props} from '@theme/DocSidebar';
 
 import styles from './styles.module.css';
 
@@ -167,7 +168,7 @@ function DocSidebar({
   path,
   sidebar,
   sidebarCollapsible = true,
-}): JSX.Element | null {
+}: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     siteConfig: {
@@ -195,7 +196,7 @@ function DocSidebar({
       })}>
       {hideOnScroll && (
         <Link
-          tabIndex="-1"
+          tabIndex={-1}
           className={styles.sidebarLogo}
           to={logoLink}
           {...logoLinkProps}>

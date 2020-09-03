@@ -97,7 +97,7 @@ module.exports = {
     // TODO re-enable some these as errors
     // context: https://github.com/facebook/docusaurus/pull/2949
     '@typescript-eslint/ban-types': WARNING,
-    'import/no-extraneous-dependencies': WARNING,
+    'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
     'no-param-reassign': WARNING,

@@ -18,6 +18,7 @@ import {
   getActiveVersion,
   getActiveDocContext,
   getDocVersionSuggestions,
+  GetActivePluginOptions,
 } from '../../client/docsClientUtils';
 
 const useAllDocsData = (): Record<string, GlobalPluginData> =>
@@ -26,10 +27,10 @@ const useAllDocsData = (): Record<string, GlobalPluginData> =>
 const useDocsData = (pluginId: string | undefined) =>
   usePluginData('docusaurus-plugin-content-docs', pluginId) as GlobalPluginData;
 
-export const useActivePlugin = () => {
+export const useActivePlugin = (options: GetActivePluginOptions = {}) => {
   const data = useAllDocsData();
   const {pathname} = useLocation();
-  return getActivePlugin(data, pathname);
+  return getActivePlugin(data, pathname, options);
 };
 
 // versions are returned ordered (most recent first)

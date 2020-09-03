@@ -32,6 +32,17 @@ describe('docsClientUtils', () => {
     expect(getActivePlugin(data, '/')).toEqual(undefined);
     expect(getActivePlugin(data, '/xyz')).toEqual(undefined);
 
+    expect(() =>
+      getActivePlugin(data, '/', {failfast: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't find active docs plugin for pathname=/, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+    );
+    expect(() =>
+      getActivePlugin(data, '/xyz', {failfast: true}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't find active docs plugin for pathname=/xyz, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+    );
+
     const activePluginIos: ActivePlugin = {
       pluginId: 'pluginIosId',
       pluginData: data.pluginIosId,
@@ -115,6 +126,9 @@ describe('docsClientUtils', () => {
         },
       ],
     };
+
+    expect(getActiveVersion(data, '/someUnknownPath')).toEqual(undefined);
+
     expect(getActiveVersion(data, '/docs/next')?.name).toEqual('next');
     expect(getActiveVersion(data, '/docs/next/')?.name).toEqual('next');
     expect(getActiveVersion(data, '/docs/next/someDoc')?.name).toEqual('next');

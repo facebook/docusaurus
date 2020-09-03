@@ -12,12 +12,18 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import {
+  useActivePlugin,
+  useVersions,
+  useActiveVersion,
+} from '@theme/hooks/useDocs';
 
-function DocItem(props): JSX.Element {
+function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;
@@ -29,7 +35,6 @@ function DocItem(props): JSX.Element {
     editUrl,
     lastUpdatedAt,
     lastUpdatedBy,
-    version,
   } = metadata;
   const {
     frontMatter: {
@@ -39,6 +44,15 @@ function DocItem(props): JSX.Element {
       hide_table_of_contents: hideTableOfContents,
     },
   } = DocContent;
+
+  const {pluginId} = useActivePlugin({failfast: true});
+  const versions = useVersions(pluginId);
+  const version = useActiveVersion(pluginId);
+
+  // If site is not versioned or only one version is included
+  // we don't show the version badge
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const showVersionBadge = versions.length > 1;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
@@ -72,10 +86,10 @@ function DocItem(props): JSX.Element {
             <DocVersionSuggestions />
             <div className={styles.docItemContainer}>
               <article>
-                {version && (
+                {showVersionBadge && (
                   <div>
                     <span className="badge badge--secondary">
-                      Version: {version}
+                      Version: {version.label}
                     </span>
                   </div>
                 )}

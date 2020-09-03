@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -15,6 +15,7 @@ import UserPreferencesProvider from '@theme/UserPreferencesProvider';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
+import type {Props} from '@theme/Layout';
 
 import './styles.css';
 
@@ -25,17 +26,6 @@ function Providers({children}) {
     </ThemeProvider>
   );
 }
-
-type Props = {
-  children: ReactNode;
-  title?: string;
-  noFooter?: boolean;
-  description?: string;
-  image?: string;
-  keywords?: string[];
-  permalink?: string;
-  version?: string;
-};
 
 function Layout(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
@@ -53,7 +43,6 @@ function Layout(props: Props): JSX.Element {
     image,
     keywords,
     permalink,
-    version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
@@ -73,7 +62,6 @@ function Layout(props: Props): JSX.Element {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        {version && <meta name="docsearch:version" content={version} />}
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}

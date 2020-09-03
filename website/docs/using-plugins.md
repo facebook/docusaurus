@@ -335,6 +335,38 @@ module.exports = {
          * in `/docs/next` directory, only versioned docs.
          */
         excludeNextVersionDocs: false,
+        /**
+         * The last version is the one we navigate to in priority on versioned sites
+         * It is the one displayed by default in docs navbar items
+         * By default, the last version is the first one to appear in versions.json
+         * By default, the last version is at the "root" (docs have path=/docs/myDoc)
+         * Note: it is possible to configure the path and label of the last version
+         * Tip: using lastVersion: 'current' make sense in many cases
+         */
+        lastVersion: undefined,
+        /**
+         * The docusaurus versioning defaults don't make sense for all projects
+         * This gives the ability customize the label and path of each version
+         * You may not like that default versin
+         */
+        versions: {
+          /*
+          Example configuration: 
+          current: {
+            label: 'Android SDK v2.0.0 (WIP)',
+            path: 'android-2.0.0',
+          },
+          '1.0.0': {
+            label: 'Android SDK v1.0.0',
+            path: 'android-1.0.0',
+          },
+          */
+        },
+        /**
+         * Sometimes you only want to include a subset of all available versions.
+         * Tip: limit to 2 or 3 versions to improve startup and build time in dev and deploy previews
+         */
+        onlyIncludeVersions: undefined, // ex: ["current", "1.0.0", "2.0.0"]
       },
     ],
   ],
@@ -934,3 +966,37 @@ The module should have a `default` function export, and receives some params.
 Adds an entry before the Docusaurus app so that registration can happen before the app runs. The default `registerSW.js` file is enough for simple registration.
 
 Passing `false` will disable registration entirely.
+
+### `@docusaurus/plugin-debug`
+
+The debug plugin will display useful debug informations at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
+
+It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
+
+:::note
+
+If you report a bug, we will probably ask you to have this plugin turned on in the production, so that we can inspect your deployment config more easily.
+
+If you don't have any sensitive information, you can keep it on in production [like we do](http://v2.docusaurus.io/__docusaurus/debug).
+
+:::
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+By default, it's enabled in dev, and disabled in prod, to avoid exposing potentially sensitive informations.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```

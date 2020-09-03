@@ -30,6 +30,8 @@ packages/docusaurus-plugin-ideal-image/lib/
 packages/docusaurus-theme-classic/lib/
 packages/docusaurus-migrate/lib/
 
-website/netlifyDeploy
+website/netlifyDeployPreview/**
+!website/netlifyDeployPreview/_redirects
+!website/netlifyDeployPreview/index.html
 
 website-1.x-migrated

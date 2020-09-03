@@ -200,9 +200,14 @@ export function loadSidebars(sidebarFilePath: string): Sidebars {
   if (!sidebarFilePath) {
     throw new Error(`sidebarFilePath not provided: ${sidebarFilePath}`);
   }
+
+  // sidebars file is optional, some users use docs without sidebars!
+  // See https://github.com/facebook/docusaurus/issues/3366
   if (!fs.existsSync(sidebarFilePath)) {
-    throw new Error(`No sidebar file exist at path: ${sidebarFilePath}`);
+    // throw new Error(`No sidebar file exist at path: ${sidebarFilePath}`);
+    return {};
   }
+
   // We don't want sidebars to be cached because of hot reloading.
   const sidebarJson = importFresh(sidebarFilePath) as SidebarsJSON;
   return normalizeSidebars(sidebarJson);

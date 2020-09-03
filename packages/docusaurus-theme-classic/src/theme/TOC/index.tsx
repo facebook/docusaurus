@@ -8,6 +8,7 @@
 import React from 'react';
 
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
@@ -15,7 +16,7 @@ const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-function Headings({headings, isChild}: {headings; isChild?: boolean}) {
+function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
   if (!headings.length) {
     return null;
   }
@@ -40,7 +41,7 @@ function Headings({headings, isChild}: {headings; isChild?: boolean}) {
   );
 }
 
-function TOC({headings}) {
+function TOC({headings}: TOCProps): JSX.Element {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
   return (
     <div className={styles.tableOfContents}>

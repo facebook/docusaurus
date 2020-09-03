@@ -1,14 +1,14 @@
 {
   "name": "@docusaurus/plugin-google-analytics",
-  "version": "2.0.0-alpha.61",
+  "version": "2.0.0-alpha.62",
   "description": "Global analytics (analytics.js) plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
-  "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.62"
   },
   "engines": {
     "node": ">=10.15.1"

@@ -33,12 +33,26 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   excludeNextVersionDocs: false,
   includeCurrentVersion: true,
   disableVersioning: false,
+  lastVersion: undefined,
+  versions: {},
 };
+
+const VersionOptionsSchema = Joi.object({
+  path: Joi.string().allow('').optional(),
+  label: Joi.string().optional(),
+});
+
+const VersionsOptionsSchema = Joi.object()
+  .pattern(Joi.string().required(), VersionOptionsSchema)
+  .default(DEFAULT_OPTIONS.versions);
 
 export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: URISchema,
-  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string()
+    // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
+    // .allow('') ""
+    .default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
@@ -57,7 +71,10 @@ export const OptionsSchema = Joi.object({
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
+  onlyIncludeVersions: Joi.array().items(Joi.string().required()).optional(),
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
+  lastVersion: Joi.string().optional(),
+  versions: VersionsOptionsSchema,
 });
 
 // TODO bad validation function types

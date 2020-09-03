@@ -9,9 +9,21 @@ module.exports = function preset(context, opts = {}) {
   return {
     themes: [[require.resolve('@docusaurus/theme-bootstrap'), opts.theme]],
     plugins: [
-      [require.resolve('@docusaurus/plugin-content-pages'), opts.pages],
-      [require.resolve('@docusaurus/plugin-content-blog'), opts.blog],
-      [require.resolve('@docusaurus/plugin-content-docs'), opts.docs],
+      [
+        opts.pages !== false &&
+          require.resolve('@docusaurus/plugin-content-pages'),
+        opts.pages,
+      ],
+      [
+        opts.blog !== false &&
+          require.resolve('@docusaurus/plugin-content-blog'),
+        opts.blog,
+      ],
+      [
+        opts.docs !== false &&
+          require.resolve('@docusaurus/plugin-content-docs'),
+        opts.docs,
+      ],
     ],
   };
 };

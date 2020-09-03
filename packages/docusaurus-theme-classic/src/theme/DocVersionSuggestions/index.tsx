@@ -14,16 +14,6 @@ import {
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
 
-const useMandatoryActiveDocsPluginId = () => {
-  const activePlugin = useActivePlugin();
-  if (!activePlugin) {
-    throw new Error(
-      'DocVersionCallout is only supposed to be used on docs-related routes',
-    );
-  }
-  return activePlugin.pluginId;
-};
-
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
@@ -31,7 +21,7 @@ function DocVersionSuggestions(): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const pluginId = useMandatoryActiveDocsPluginId();
+  const {pluginId} = useActivePlugin({failfast: true});
   const activeVersion = useActiveVersion(pluginId);
   const {
     latestDocSuggestion,
@@ -43,8 +33,6 @@ function DocVersionSuggestions(): JSX.Element {
     return <></>;
   }
 
-  const activeVersionName = activeVersion.name;
-
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version
   const suggestedDoc =
@@ -54,15 +42,15 @@ function DocVersionSuggestions(): JSX.Element {
     <div className="alert alert--warning margin-bottom--md" role="alert">
       {
         // TODO need refactoring
-        activeVersionName === 'current' ? (
+        activeVersion.name === 'current' ? (
           <div>
             This is unreleased documentation for {siteTitle}{' '}
-            <strong>{activeVersionName}</strong> version.
+            <strong>{activeVersion.label}</strong> version.
           </div>
         ) : (
           <div>
             This is documentation for {siteTitle}{' '}
-            <strong>v{activeVersionName}</strong>, which is no longer actively
+            <strong>{activeVersion.label}</strong>, which is no longer actively
             maintained.
           </div>
         )
@@ -72,7 +60,7 @@ function DocVersionSuggestions(): JSX.Element {
         <strong>
           <Link to={suggestedDoc.path}>latest version</Link>
         </strong>{' '}
-        ({latestVersionSuggestion.name}).
+        ({latestVersionSuggestion.label}).
       </div>
     </div>
   );

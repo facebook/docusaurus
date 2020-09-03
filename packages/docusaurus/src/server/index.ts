@@ -7,6 +7,7 @@
 
 import {generate, normalizeUrl, addTrailingSlash} from '@docusaurus/utils';
 import path, {join} from 'path';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   BUILD_DIR_NAME,
   CONFIG_FILE_NAME,
@@ -46,6 +47,7 @@ function addLocaleBaseUrlPathSegmentSuffix(
 }
 
 type LoadContextOptions = {customOutDir?: string; locale?: string};
+import chalk from 'chalk';
 
 export function loadContext(
   siteDir: string,
@@ -56,6 +58,8 @@ export function loadContext(
     GENERATED_FILES_DIR_NAME,
   );
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {ssrTemplate} = siteConfig;
+
   const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
@@ -83,6 +87,7 @@ export function loadContext(
     outDir,
     baseUrl,
     localization,
+    ssrTemplate,
   };
 }
 
@@ -115,8 +120,8 @@ export async function load(
     outDir,
     baseUrl,
     localization,
+    ssrTemplate,
   } = context;
-
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins({
@@ -251,6 +256,7 @@ ${Object.keys(registry)
     .forEach(({name, version}) => {
       siteMetadata.pluginVersions[name] = version;
     });
+  checkDocusaurusPackagesVersion(siteMetadata);
   const genSiteMetadata = generate(
     generatedFilesDir,
     'site-metadata.json',
@@ -280,7 +286,32 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
+    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
   };
 
   return props;
+}
+
+// We want all @docusaurus/* packages  to have the exact same version!
+// See https://github.com/facebook/docusaurus/issues/3371
+// See https://github.com/facebook/docusaurus/pull/3386
+function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
+  const {docusaurusVersion} = siteMetadata;
+  Object.entries(siteMetadata.pluginVersions).forEach(
+    ([plugin, versionInfo]) => {
+      if (
+        versionInfo.type === 'package' &&
+        versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version !== docusaurusVersion
+      ) {
+        // should we throw instead?
+        // It still could work with different versions
+        console.warn(
+          chalk.red(
+            `Bad ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
+          ),
+        );
+      }
+    },
+  );
 }
