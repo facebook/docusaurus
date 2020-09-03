@@ -15,6 +15,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropVersionMetadata = {
     version: string;
     label: string;
+    isLast: boolean;
     docsSidebars: PropSidebars;
     permalinkToSidebar: PermalinkToSidebar;
   };
