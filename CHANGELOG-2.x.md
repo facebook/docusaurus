@@ -1,5 +1,52 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.63 (2020-09-03)
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#3387](https://github.com/facebook/docusaurus/pull/3387) feat(v2): allow users to specify a custom ssr HTML template ([@mpsq](https://github.com/mpsq))
+- `docusaurus-plugin-debug`
+  - [#3392](https://github.com/facebook/docusaurus/pull/3392) feat(v2): officially release @docusaurus/plugin-debug ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3388](https://github.com/facebook/docusaurus/pull/3388) feat(v2): add isCloseable property for theme-classic announcement bar ([@Simek](https://github.com/Simek))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3373](https://github.com/facebook/docusaurus/pull/3373) feat(v2): docs options.onlyIncludeVersions ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3397](https://github.com/facebook/docusaurus/pull/3397) fix(v2): DocSearch should keep working after a new release (part 2/2) ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3393](https://github.com/facebook/docusaurus/pull/3393) fix(v2): DocSearch should keep working after a new release (part 1/2) ([@slorber](https://github.com/slorber))
+  - [#3381](https://github.com/facebook/docusaurus/pull/3381) fix(v2): alpha 62 doc fixes ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3385](https://github.com/facebook/docusaurus/pull/3385) fix(v2): scripts should allow unknown values ([@slorber](https://github.com/slorber))
+- `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3382](https://github.com/facebook/docusaurus/pull/3382) fix(v2): allow using classic theme/preset without the docs plugin ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils-validation`
+  - [#3377](https://github.com/facebook/docusaurus/pull/3377) fix(v2): reject routeBasePath: '' ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3390](https://github.com/facebook/docusaurus/pull/3390) docs(v1, v2): Update Deploy to Vercel guide ([@samsisle](https://github.com/samsisle))
+- [#3344](https://github.com/facebook/docusaurus/pull/3344) docs(v2): Update Deploy to Vercel guide ([@samsisle](https://github.com/samsisle))
+
+#### :house: Internal
+
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3386](https://github.com/facebook/docusaurus/pull/3386) chore(v2): pin exact dependency versions ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3359](https://github.com/facebook/docusaurus/pull/3359) chore(v2): prepare v2.0.0.alpha-62 release ([@slorber](https://github.com/slorber))
+
+#### Committers: 5
+
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Sam Ko ([@samsisle](https://github.com/samsisle))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Thad Guidry ([@thadguidry](https://github.com/thadguidry))
+
 ## 2.0.0-alpha.62 (2020-08-28)
 
 #### :rocket: New Feature
