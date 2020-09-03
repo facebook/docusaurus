@@ -119,7 +119,9 @@ An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114)
 
 Stay on your local branch `<your_username>/<version_to_release>`
 
-As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
+As we have a monorepo structure, we use `lerna publish --exact` to publish the new version of packages to npm in one shot.
+
+`--exact` is important to ensure we keep using fixed versions (without the ^ prefix added by Lerna).
 
 First, be sure to run the command below to verify that you have access to all the necessary repositories.
 
