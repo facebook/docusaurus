@@ -41,14 +41,14 @@ function splitNavItemsByPosition(items) {
 
 function Navbar(): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        navbar: {title = '', items = [], hideOnScroll = false} = {},
-        colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
-      },
-    },
-    isClient,
-  } = useDocusaurusContext();
+    title,
+    items = [],
+    hideOnScroll = false,
+  } = useDocusaurusContext().siteConfig.themeConfig.navbar;
+  const {
+    disableColorModeSwitch = false,
+  } = useDocusaurusContext().siteConfig.themeConfig.colorMode.disableSwitch;
+  const {isClient} = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 

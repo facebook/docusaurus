@@ -170,12 +170,8 @@ function DocSidebar({
   sidebarCollapsible = true,
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
-  const {
-    siteConfig: {
-      themeConfig: {navbar: {title = '', hideOnScroll = false} = {}} = {},
-    } = {},
-    isClient,
-  } = useDocusaurusContext();
+  const {title, hideOnScroll} = useDocusaurusContext().siteConfig.themeConfig;
+  const {isClient} = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();

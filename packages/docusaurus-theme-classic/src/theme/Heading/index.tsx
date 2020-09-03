@@ -18,10 +18,8 @@ import styles from './styles.module.css';
 const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {
     const {
-      siteConfig: {
-        themeConfig: {navbar: {hideOnScroll = false} = {}} = {},
-      } = {},
-    } = useDocusaurusContext();
+      hideOnScroll = false,
+    } = useDocusaurusContext().siteConfig.themeConfig.navbar;
 
     if (!id) {
       return <Tag {...props} />;

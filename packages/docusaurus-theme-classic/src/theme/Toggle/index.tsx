@@ -26,20 +26,12 @@ const Light = ({icon, style}) => (
 
 export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        colorMode: {
-          switchConfig: {
-            darkIcon,
-            darkIconStyle,
-            lightIcon,
-            lightIconStyle,
-          },
-        },
-      },
-    }, 
-    isClient 
-  } = useDocusaurusContext();
+    darkIcon,
+    darkIconStyle,
+    lightIcon,
+    lightIconStyle,
+  } = useDocusaurusContext().siteConfig.themeConfig.colorMode.switchConfig;
+  const {isClient} = useDocusaurusContext();
 
   return (
     <Toggle

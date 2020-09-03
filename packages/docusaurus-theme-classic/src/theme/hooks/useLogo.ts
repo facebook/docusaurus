@@ -12,9 +12,7 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
 
 const useLogo = (): useLogoReturns => {
-  const {
-    siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
-  } = useDocusaurusContext();
+  const {logo} = useDocusaurusContext().siteConfig.themeConfig.navbar;
   const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps: LogoLinkProps = {};

@@ -38,10 +38,8 @@ const storeTheme = (newTheme) => {
 
 const useTheme = (): useThemeReturns => {
   const {
-    siteConfig: {
-      themeConfig: {colorMode: {disableSwitch = false} = {}} = {},
-    } = {},
-  } = useDocusaurusContext();
+    disableSwitch = false,
+  } = useDocusaurusContext().siteConfig.themeConfig.colorMode;
   const [theme, setTheme] = useState(getInitialTheme);
 
   const setLightTheme = useCallback(() => {
