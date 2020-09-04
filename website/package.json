@@ -19,7 +19,7 @@
     "netlify:build:deployPreview:classic": "BASE_URL='/classic/' yarn build --out-dir netlifyDeployPreview/classic",
     "netlify:build:deployPreview:bootstrap": "BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeployPreview/bootstrap",
     "netlify:build:deployPreview:blogOnly": "yarn build:blogOnly --out-dir netlifyDeployPreview/blog-only",
-    "netlify:installCrowdin": "wget https://artifacts.crowdin.com/repo/deb/crowdin3.deb -O crowdin.deb && dpkg -i crowdin.deb",
+    "netlify:installCrowdin": "java -jar crowdin-cli.jar --version",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
