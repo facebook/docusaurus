@@ -28,11 +28,11 @@ function Providers({children}) {
 }
 
 function Layout(props: Props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
   } = siteConfig;
   const {
@@ -48,13 +48,11 @@ function Layout(props: Props): JSX.Element {
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
-
   return (
     <Providers>
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
-
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -74,6 +72,19 @@ function Layout(props: Props): JSX.Element {
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <Head
+      // it's important to have an additional <Head> element here,
+      // as it allows react-helmet to override values set in previous <Head>
+      // ie we can override default metadatas such as "twitter:card"
+      // In same Head, the same meta would appear twice instead of overriding
+      // See react-helmet doc
+      >
+        {metadatas.map((metadata, i) => (
+          <meta key={`metadata_${i}`} {...metadata} />
+        ))}
+      </Head>
+
       <AnnouncementBar />
       <Navbar />
       <div className="main-wrapper">{children}</div>

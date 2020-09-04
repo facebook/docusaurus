@@ -137,6 +137,15 @@ const ColorModeSchema = Joi.object({
   }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
+// schema can probably be improved
+const HtmlMetadataSchema = Joi.object({
+  id: Joi.string(),
+  name: Joi.string(),
+  property: Joi.string(),
+  content: Joi.string(),
+  itemprop: Joi.string(),
+}).unknown();
+
 const FooterLinkItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
@@ -164,6 +173,7 @@ const ThemeConfigSchema = Joi.object({
   }),
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  metadatas: Joi.array().items(HtmlMetadataSchema).default([]),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),

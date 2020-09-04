@@ -85,6 +85,20 @@ module.exports = {
 };
 ```
 
+### Metadatas
+
+You can configure additional html metadatas (and override existing ones).
+
+```js {4-6} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    metadatas: [{name: 'twitter:card', content: 'summary'}],
+    // ...
+  },
+};
+```
+
 ### Announcement bar
 
 Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.
