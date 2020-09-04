@@ -4,27 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import merge from 'lodash/merge';
 
-const {
-  validateThemeConfig,
-  DEFAULT_COLOR_MODE_CONFIG,
-} = require('../validateThemeConfig');
+const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
-const mergeDefault = (config) => merge({}, DEFAULT_COLOR_MODE_CONFIG, config);
+const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
 
 function testValidateThemeConfig(themeConfig) {
-  function validate(schema, cfg) {
-    const {value, error} = schema.validate(cfg, {
-      convert: false,
-    });
-    if (error) {
-      throw error;
-    }
-    return value;
-  }
-
-  return validateThemeConfig({themeConfig, validate});
+  return normalizeThemeConfig(ThemeConfigSchema, themeConfig);
 }
 
 describe('themeConfig', () => {
@@ -88,7 +76,7 @@ describe('themeConfig', () => {
       },
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({
-      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...DEFAULT_CONFIG,
       ...userConfig,
     });
   });
@@ -104,7 +92,7 @@ describe('themeConfig', () => {
       },
     };
     expect(testValidateThemeConfig(altTagConfig)).toEqual({
-      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...DEFAULT_CONFIG,
       ...altTagConfig,
     });
   });
@@ -116,12 +104,15 @@ describe('themeConfig', () => {
       },
     };
     expect(testValidateThemeConfig(prismConfig)).toEqual({
-      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...DEFAULT_CONFIG,
       ...prismConfig,
     });
   });
 
   describe('color mode config', () => {
+    const withDefaultValues = (colorMode) =>
+      merge({}, DEFAULT_CONFIG.colorMode, colorMode);
+
     test('minimal config', () => {
       const colorMode = {
         switchConfig: {
@@ -129,7 +120,8 @@ describe('themeConfig', () => {
         },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
@@ -151,21 +143,27 @@ describe('themeConfig', () => {
         },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
     test('undefined config', () => {
       const colorMode = undefined;
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
     test('empty config', () => {
       const colorMode = {};
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: {
+          ...DEFAULT_CONFIG.colorMode,
+          ...colorMode,
+        },
       });
     });
 
@@ -174,7 +172,8 @@ describe('themeConfig', () => {
         switchConfig: {},
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
   });

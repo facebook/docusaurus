@@ -229,6 +229,7 @@ module.exports = {
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
     image: 'img/docusaurus-soc.png',
+    // metadatas: [{name: 'twitter:card', content: 'summary'}],
     gtag: {
       trackingID: 'UA-141789564-1',
     },

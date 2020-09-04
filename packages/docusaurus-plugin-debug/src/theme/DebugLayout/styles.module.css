@@ -14,6 +14,11 @@
   min-height: 100vh;
 }
 
+.container code {
+  color: white;
+  background-color: #444950;
+}
+
 .nav {
   position: fixed;
   display: flex;
@@ -37,11 +42,6 @@
 .navlink:hover {
   text-decoration: none;
   background-color: #292a2b;
-}
-
-code {
-  color: white;
-  background-color: #444950;
 }
 
 .active {
