@@ -35,3 +35,5 @@ website/netlifyDeployPreview/**
 !website/netlifyDeployPreview/index.html
 
 website-1.x-migrated
+
+website/i18n
