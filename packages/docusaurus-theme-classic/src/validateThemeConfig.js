@@ -19,7 +19,12 @@ const DEFAULT_COLOR_MODE_CONFIG = {
     lightIconStyle: {},
   },
 };
-exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
+
+const DEFAULT_CONFIG = {
+  colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  metadatas: [],
+};
+exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
@@ -173,7 +178,9 @@ const ThemeConfigSchema = Joi.object({
   }),
   colorMode: ColorModeSchema,
   image: Joi.string(),
-  metadatas: Joi.array().items(HtmlMetadataSchema).default([]),
+  metadatas: Joi.array()
+    .items(HtmlMetadataSchema)
+    .default(DEFAULT_CONFIG.metadatas),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
@@ -226,6 +233,7 @@ const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array().items(Joi.string()),
   }).unknown(),
 });
+exports.ThemeConfigSchema = ThemeConfigSchema;
 
 exports.validateThemeConfig = ({validate, themeConfig}) => {
   return validate(ThemeConfigSchema, themeConfig);
