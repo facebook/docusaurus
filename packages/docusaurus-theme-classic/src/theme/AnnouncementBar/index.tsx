@@ -19,7 +19,9 @@ function AnnouncementBar(): JSX.Element | null {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
   } = useUserPreferencesContext();
-
+  if (!announcementBar) {
+    return null;
+  }
   if (!content || (isCloseable && isAnnouncementBarClosed)) {
     return null;
   }
