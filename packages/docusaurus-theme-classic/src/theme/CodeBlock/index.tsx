@@ -93,7 +93,11 @@ export default ({
   className: languageClassName,
   metastring,
 }: Props): JSX.Element => {
-  const {prism} = useDocusaurusContext().siteConfig.themeConfig;
+  const {
+    siteConfig: {
+      themeConfig: {prism = {}},
+    },
+  } = useDocusaurusContext();
 
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);

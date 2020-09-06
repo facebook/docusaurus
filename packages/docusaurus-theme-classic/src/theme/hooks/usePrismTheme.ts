@@ -10,7 +10,11 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
 
 const usePrismTheme = (): typeof defaultTheme => {
-  const {prism} = useDocusaurusContext().siteConfig.themeConfig;
+  const {
+    siteConfig: {
+      themeConfig: {prism = {}},
+    },
+  } = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
   const lightModeTheme = prism.theme || defaultTheme;
   const darkModeTheme = prism.darkTheme || lightModeTheme;
