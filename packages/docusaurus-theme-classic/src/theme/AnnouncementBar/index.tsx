@@ -13,15 +13,15 @@ import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {announcementBar} = useDocusaurusContext().siteConfig.themeConfig;
-  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
   const {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
   } = useUserPreferencesContext();
+  const {announcementBar} = useDocusaurusContext().siteConfig.themeConfig;
   if (!announcementBar) {
     return null;
   }
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
   if (!content || (isCloseable && isAnnouncementBarClosed)) {
     return null;
   }
