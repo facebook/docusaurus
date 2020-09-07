@@ -111,7 +111,7 @@ export type BuildCLIOptions = BuildOptions & {
 };
 
 export type LocalizationFile = {
-  locales: string[];
+  locales: [string, ...string[]];
   defaultLocale: string;
 };
 
