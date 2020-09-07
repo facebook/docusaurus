@@ -128,6 +128,10 @@ cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
   .option(
+    '-l, --locale <locale>',
+    'Deploy the site in a specified locale. Deploy all known locales otherwise.',
+  )
+  .option(
     '--out-dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
