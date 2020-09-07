@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {LocalizationFile} from '@docusaurus/types';
+import {LocalizationFile, LocalizationContext} from '@docusaurus/types';
 import Joi from '@hapi/joi';
 
 const DEFAULT_LOCALE = 'en';
@@ -59,11 +59,32 @@ function validateLocalesFile(
   }
 }
 
-export default function loadLocales(siteDir: string): LocalizationFile {
+function loadLocalizationFile(siteDir: string): LocalizationFile {
   const localesFileContent = loadLocalesFile(siteDir);
   if (localesFileContent) {
     return validateLocalesFile(localesFileContent);
   } else {
     return DEFAULT_LOCALIZATION_FILE;
   }
+}
+
+export function loadLocalizationContext(
+  siteDir: string,
+  options: {locale?: string},
+): LocalizationContext {
+  const localizationFile = loadLocalizationFile(siteDir);
+  const currentLocale = options.locale ?? localizationFile.defaultLocale;
+
+  if (currentLocale && !localizationFile.locales.includes(currentLocale)) {
+    throw new Error(
+      `It is not possible to load Docusaurus with locale=[${currentLocale}], as it's not in the available locales=[${localizationFile.locales.join(
+        ',',
+      )}]`,
+    );
+  }
+
+  return {
+    ...localizationFile,
+    currentLocale,
+  };
 }

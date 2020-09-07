@@ -22,7 +22,7 @@ import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-import loadLocales from '../server/loadLocales';
+import {loadLocalizationContext} from '../server/localization';
 
 async function asyncMapSequencial<T extends unknown, R extends unknown>(
   array: T[],
@@ -54,10 +54,7 @@ export default async function build(
     }
   }
 
-  const locales = loadLocales(siteDir);
-  if (locales.locales.length === 0) {
-    throw new Error('unexpected, no locales!');
-  }
+  const locales = loadLocalizationContext(siteDir, {locale: cliOptions.locale});
   if (cliOptions.locale) {
     return doBuildLocale(cliOptions.locale, forceTerminate);
   } else {

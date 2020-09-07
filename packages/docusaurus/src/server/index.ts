@@ -32,7 +32,7 @@ import {
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
-import loadLocales from './loadLocales';
+import {loadLocalizationContext} from './localization';
 
 function addLocaleBaseUrlPathSegmentSuffix(
   originalPath: string,
@@ -64,12 +64,7 @@ export function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  const locales = loadLocales(siteDir);
-
-  const localization: LocalizationContext = {
-    ...locales,
-    currentLocale: locale ?? locales.defaultLocale,
-  };
+  const localization = loadLocalizationContext(siteDir, {locale});
 
   const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
     baseSiteConfig.baseUrl,
