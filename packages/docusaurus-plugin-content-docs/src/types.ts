@@ -22,7 +22,7 @@ export type VersionMetadata = {
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
   isLast: boolean;
-  docsDirPaths: string[]; // ["i18n/fr-FR/1.0.0/default","i18n/fr/1.0.0/default","versioned_docs/1.0.0"
+  docsDirPaths: [string, ...string[]]; // ["i18n/fr-FR/1.0.0/default","i18n/fr/1.0.0/default","versioned_docs/1.0.0"
   sidebarFilePath: string; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
 };

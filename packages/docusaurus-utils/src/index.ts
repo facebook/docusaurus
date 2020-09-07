@@ -422,3 +422,31 @@ export function getElementsAround<T extends unknown>(
   const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
   return {previous, next};
 }
+
+export function getPluginI18nPath({
+  siteDir,
+  currentLocale,
+  pluginFolderName,
+  pluginId,
+  subPaths = [],
+}: {
+  siteDir: string;
+  currentLocale: string;
+  pluginFolderName: string;
+  pluginId: string;
+  subPaths: string[];
+}) {
+  return path.join(
+    siteDir,
+    'i18n',
+    // namespace first by locale: convenient to work in a single folder for a translator
+    currentLocale,
+    // Make it convenient to use for single-instance
+    // ie: return "docs", no "docs-default" nor "docs/default"
+    `${pluginFolderName}${
+      // TODO duplicate constant :(
+      pluginId === 'default' ? '' : `-${pluginId}`
+    }`,
+    ...subPaths,
+  );
+}

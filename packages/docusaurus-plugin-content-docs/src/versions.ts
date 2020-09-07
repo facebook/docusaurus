@@ -22,7 +22,7 @@ import {
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
-import {normalizeUrl} from '@docusaurus/utils';
+import {getPluginI18nPath, normalizeUrl} from '@docusaurus/utils';
 import {last, difference} from 'lodash';
 import chalk from 'chalk';
 
@@ -142,16 +142,13 @@ function getVersionMetadataPaths({
 }): Pick<VersionMetadata, 'docsDirPaths' | 'sidebarFilePath'> {
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
 
-  // TODO if locale is fr-FR, should we look for translations in both /fr-FR and /fr folders?
-  const translatedDocsDirPath = path.resolve(
-    context.siteDir,
-    path.join(
-      'i18n',
-      context.localization.currentLocale,
-      `docs${options.id === DEFAULT_PLUGIN_ID ? '' : `-${options.id}`}`,
-      versionName,
-    ),
-  );
+  const translatedDocsDirPath = getPluginI18nPath({
+    siteDir: context.siteDir,
+    currentLocale: context.localization.currentLocale,
+    pluginFolderName: 'docs',
+    pluginId: options.id,
+    subPaths: [versionName],
+  });
 
   const docsDirPath = isCurrentVersion
     ? path.resolve(context.siteDir, options.path)
@@ -161,7 +158,10 @@ function getVersionMetadataPaths({
       );
 
   // TODO for now order matter should be made more explicit!
-  const docsDirPaths = [translatedDocsDirPath, docsDirPath];
+  const docsDirPaths: [string, ...string[]] = [
+    translatedDocsDirPath,
+    docsDirPath,
+  ];
 
   const sidebarFilePath = isCurrentVersion
     ? path.resolve(context.siteDir, options.sidebarPath)
