@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {PluginOptions, BlogPost, DateLink} from './types';
+import {PluginOptions, BlogPost, DateLink, BlogContentPaths} from './types';
 import {
   parseMarkdownFile,
   normalizeUrl,
@@ -36,6 +36,7 @@ function toUrl({date, link}: DateLink) {
 }
 
 export async function generateBlogFeed(
+  contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Feed | null> {
@@ -44,9 +45,8 @@ export async function generateBlogFeed(
       'Invalid options - `feedOptions` is not expected to be null.',
     );
   }
-  const {siteDir, siteConfig} = context;
-  const contentPath = path.resolve(siteDir, options.path);
-  const blogPosts = await generateBlogPosts(contentPath, context, options);
+  const {siteConfig} = context;
+  const blogPosts = await generateBlogPosts(contentPaths, context, options);
   if (blogPosts == null) {
     return null;
   }
@@ -88,7 +88,7 @@ export async function generateBlogFeed(
 }
 
 export async function generateBlogPosts(
-  blogDir: string,
+  contentPaths: BlogContentPaths,
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
 ): Promise<BlogPost[]> {
@@ -100,22 +100,37 @@ export async function generateBlogPosts(
     editUrl,
   } = options;
 
-  if (!fs.existsSync(blogDir)) {
+  if (!fs.existsSync(contentPaths.contentPath)) {
     return [];
   }
 
   const {baseUrl = ''} = siteConfig;
   const blogFiles = await globby(include, {
-    cwd: blogDir,
+    cwd: contentPaths.contentPath,
   });
 
   const blogPosts: BlogPost[] = [];
 
+  function getContentPath(relativeSource: string) {
+    if (
+      fs.existsSync(
+        path.join(contentPaths.contentPathLocalized, relativeSource),
+      )
+    ) {
+      return contentPaths.contentPathLocalized;
+    } else {
+      return contentPaths.contentPath; // expected to always exist!
+    }
+  }
+
   await Promise.all(
     blogFiles.map(async (relativeSource: string) => {
-      const source = path.join(blogDir, relativeSource);
+      const contentPath = getContentPath(relativeSource);
+
+      const source = path.join(contentPath, relativeSource);
       const aliasedSource = aliasedSitePath(source, siteDir);
-      const refDir = path.parse(blogDir).dir;
+      const refDir = path.parse(contentPath).dir;
+
       const relativePath = path.relative(refDir, source);
       const blogFileName = path.basename(relativeSource);
 
@@ -187,9 +202,11 @@ export async function generateBlogPosts(
 export function linkify(
   fileContent: string,
   siteDir: string,
-  blogPath: string,
+  contentPaths: BlogContentPaths,
   blogPosts: BlogPost[],
 ): string {
+  const blogPath = contentPaths.contentPath; // TODO need to linkify localized folder too!
+
   let fencedBlock = false;
   const lines = fileContent.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {

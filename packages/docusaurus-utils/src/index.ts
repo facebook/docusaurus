@@ -434,7 +434,7 @@ export function getPluginI18nPath({
   currentLocale: string;
   pluginFolderName: string;
   pluginId: string;
-  subPaths: string[];
+  subPaths?: string[];
 }) {
   return path.join(
     siteDir,

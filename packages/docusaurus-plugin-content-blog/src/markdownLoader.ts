@@ -12,13 +12,13 @@ import {parseQuery, getOptions} from 'loader-utils';
 const markdownLoader: loader.Loader = function (source) {
   const fileString = source as string;
   const callback = this.async();
-  const {truncateMarker, siteDir, contentPath, blogPosts} = getOptions(this);
+  const {truncateMarker, siteDir, contentPaths, blogPosts} = getOptions(this);
 
   // Linkify posts
   let finalContent = linkify(
     fileString as string,
     siteDir,
-    contentPath,
+    contentPaths,
     blogPosts,
   );
 

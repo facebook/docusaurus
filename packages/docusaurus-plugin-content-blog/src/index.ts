@@ -9,12 +9,18 @@ import fs from 'fs-extra';
 import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
-import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  docuHash,
+  aliasedSitePath,
+  getPluginI18nPath,
+} from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
 import {ValidationError} from '@hapi/joi';
+import {flatten} from 'lodash';
 
 import {
   PluginOptions,
@@ -24,6 +30,7 @@ import {
   TagsModule,
   BlogPaginated,
   BlogPost,
+  BlogContentPaths,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -49,7 +56,16 @@ export default function pluginContentBlog(
   }
 
   const {siteDir, generatedFilesDir} = context;
-  const contentPath = path.resolve(siteDir, options.path);
+
+  const contentPaths: BlogContentPaths = {
+    contentPath: path.resolve(siteDir, options.path),
+    contentPathLocalized: getPluginI18nPath({
+      siteDir: context.siteDir,
+      currentLocale: context.localization.currentLocale,
+      pluginFolderName: 'blog',
+      pluginId: options.id!,
+    }),
+  };
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -66,8 +82,13 @@ export default function pluginContentBlog(
 
     getPathsToWatch() {
       const {include = []} = options;
-      const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
-      return [...globPattern];
+      return flatten(
+        [contentPaths.contentPathLocalized, contentPaths.contentPath].map(
+          (contentPath) => {
+            return include.map((pattern) => `${contentPath}/${pattern}`);
+          },
+        ),
+      );
     },
 
     getClientModules() {
@@ -84,7 +105,7 @@ export default function pluginContentBlog(
     async loadContent() {
       const {postsPerPage, routeBasePath} = options;
 
-      blogPosts = await generateBlogPosts(contentPath, context, options);
+      blogPosts = await generateBlogPosts(contentPaths, context, options);
       if (!blogPosts.length) {
         return null;
       }
@@ -354,7 +375,10 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [contentPath],
+              include: [
+                contentPaths.contentPathLocalized,
+                contentPaths.contentPath,
+              ],
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
@@ -379,7 +403,7 @@ export default function pluginContentBlog(
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: {
                     siteDir,
-                    contentPath,
+                    contentPaths,
                     truncateMarker,
                     blogPosts,
                   },
@@ -396,7 +420,7 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feed = await generateBlogFeed(context, options);
+      const feed = await generateBlogFeed(contentPaths, context, options);
 
       if (!feed) {
         return;

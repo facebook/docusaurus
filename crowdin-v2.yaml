@@ -25,6 +25,10 @@ files:
       'source': '/website/versioned_docs/**/*.md',
       'translation': '/website/i18n/%two_letters_code%/docs/**/%original_file_name%',
     },
+    {
+      'source': '/website-1.x/blog/**/*.md',
+      'translation': '/website/i18n/%two_letters_code%/blog/**/%original_file_name%',
+    },
   ]
 #
 # Source files filter
