@@ -148,8 +148,7 @@ function getVersionMetadataPaths({
     path.join(
       'i18n',
       context.localization.currentLocale,
-      'docs',
-      options.id,
+      `docs${options.id === DEFAULT_PLUGIN_ID ? '' : `-${options.id}`}`,
       versionName,
     ),
   );
