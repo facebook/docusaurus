@@ -69,6 +69,11 @@ function DocPageContent({
           {sidebar && (
             <div className={styles.docSidebarContainer} role="complementary">
               <DocSidebar
+                key={
+                  // Reset sidebar state on sidebar changes
+                  // See https://github.com/facebook/docusaurus/issues/3414
+                  sidebarName
+                }
                 sidebar={sidebar}
                 path={currentDocRoute.path}
                 sidebarCollapsible={

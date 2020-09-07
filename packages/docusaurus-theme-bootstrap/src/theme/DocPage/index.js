@@ -23,7 +23,11 @@ function DocPageContent({currentDocRoute, versionMetadata, children}) {
       <div className="d-flex vh-100 overflow-hidden">
         {sidebar && (
           <div className="vh-100" role="complementary">
-            <DocSidebar path={currentDocRoute.path} sidebar={sidebar} />
+            <DocSidebar
+              key={sidebarName}
+              path={currentDocRoute.path}
+              sidebar={sidebar}
+            />
           </div>
         )}
         <main className="vh-100 w-100 d-flex flex-column align-items-center overflow-auto p-5">
