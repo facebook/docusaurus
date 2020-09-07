@@ -16,7 +16,7 @@ import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
-import {readVersionsMetadata} from './versions';
+import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
   PluginOptions,
@@ -36,7 +36,7 @@ import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
-import {flatten, keyBy, compact, last} from 'lodash';
+import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
@@ -109,7 +109,7 @@ export default function pluginContentDocs(
           version.sidebarFilePath,
           ...flatten(
             options.include.map((pattern) =>
-              version.docsDirPaths.map(
+              getDocsDirPaths(version).map(
                 (docsDirPath) => `${docsDirPath}/${pattern}`,
               ),
             ),
@@ -131,8 +131,7 @@ export default function pluginContentDocs(
               versionMetadata.versionName
             } has no docs! At least one doc should exist at path=[${path.relative(
               siteDir,
-              // TODO refactor
-              last(versionMetadata.docsDirPaths)!,
+              versionMetadata.docsDirPath,
             )}]`,
           );
         }
@@ -319,11 +318,7 @@ export default function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
-          include: flatten(
-            versionsMetadata.map(
-              (versionMetadata) => versionMetadata.docsDirPaths,
-            ),
-          ),
+          include: flatten(versionsMetadata.map(getDocsDirPaths)),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),

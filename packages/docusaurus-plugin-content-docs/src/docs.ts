@@ -27,7 +27,7 @@ import {
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
-import {last} from 'lodash';
+import {getDocsDirPaths} from './versions';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -62,12 +62,15 @@ async function readLastUpdateData(
 }
 
 export async function readDocFile(
-  docsDirPaths: string[],
+  versionMetadata: Pick<
+    VersionMetadata,
+    'docsDirPath' | 'docsDirPathLocalized'
+  >,
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const filePaths = docsDirPaths.map((docsDirPath) =>
-    path.join(docsDirPath, source),
+  const filePaths = getDocsDirPaths(versionMetadata).map((dirPath) =>
+    path.join(dirPath, source),
   );
 
   const checkedFilePaths = await Promise.all(
@@ -102,13 +105,10 @@ export async function readVersionDocs(
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
-    // TODO refactor
-    cwd: last(versionMetadata.docsDirPaths),
+    cwd: versionMetadata.docsDirPath,
   });
   return Promise.all(
-    sources.map((source) =>
-      readDocFile(versionMetadata.docsDirPaths, source, options),
-    ),
+    sources.map((source) => readDocFile(versionMetadata, source, options)),
   );
 }
 

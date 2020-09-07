@@ -12,11 +12,11 @@ import {
   VersionMetadata,
   BrokenMarkdownLink,
 } from '../types';
-import {last} from 'lodash';
+import {getDocsDirPaths} from '../versions';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>
-    version.docsDirPaths.some((docsDirPath) =>
+    getDocsDirPaths(version).some((docsDirPath) =>
       filePath.startsWith(docsDirPath),
     ),
   );
@@ -35,7 +35,7 @@ function replaceMarkdownLinks(
   options: DocsMarkdownOption,
 ) {
   const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
-  const docsDirPath = last(version.docsDirPaths); // TODO refactor
+  const {docsDirPath} = version;
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;

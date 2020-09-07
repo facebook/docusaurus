@@ -23,7 +23,7 @@ import {
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {getPluginI18nPath, normalizeUrl} from '@docusaurus/utils';
-import {last, difference} from 'lodash';
+import {difference} from 'lodash';
 import chalk from 'chalk';
 
 // retro-compatibility: no prefix for the default plugin id
@@ -139,16 +139,11 @@ function getVersionMetadataPaths({
   versionName: string;
   context: Pick<LoadContext, 'siteDir' | 'localization'>;
   options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath'>;
-}): Pick<VersionMetadata, 'docsDirPaths' | 'sidebarFilePath'> {
+}): Pick<
+  VersionMetadata,
+  'docsDirPath' | 'docsDirPathLocalized' | 'sidebarFilePath'
+> {
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
-
-  const translatedDocsDirPath = getPluginI18nPath({
-    siteDir: context.siteDir,
-    currentLocale: context.localization.currentLocale,
-    pluginFolderName: 'docs',
-    pluginId: options.id,
-    subPaths: [versionName],
-  });
 
   const docsDirPath = isCurrentVersion
     ? path.resolve(context.siteDir, options.path)
@@ -157,11 +152,13 @@ function getVersionMetadataPaths({
         `version-${versionName}`,
       );
 
-  // TODO for now order matter should be made more explicit!
-  const docsDirPaths: [string, ...string[]] = [
-    translatedDocsDirPath,
-    docsDirPath,
-  ];
+  const docsDirPathLocalized = getPluginI18nPath({
+    siteDir: context.siteDir,
+    currentLocale: context.localization.currentLocale,
+    pluginFolderName: 'docs',
+    pluginId: options.id,
+    subPaths: [versionName],
+  });
 
   const sidebarFilePath = isCurrentVersion
     ? path.resolve(context.siteDir, options.sidebarPath)
@@ -170,7 +167,7 @@ function getVersionMetadataPaths({
         `version-${versionName}-sidebars.json`,
       );
 
-  return {docsDirPaths, sidebarFilePath};
+  return {docsDirPath, docsDirPathLocalized, sidebarFilePath};
 }
 
 function createVersionMetadata({
@@ -187,13 +184,17 @@ function createVersionMetadata({
     'id' | 'path' | 'sidebarPath' | 'routeBasePath' | 'versions'
   >;
 }): VersionMetadata {
-  const {sidebarFilePath, docsDirPaths} = getVersionMetadataPaths({
+  const {
+    sidebarFilePath,
+    docsDirPath,
+    docsDirPathLocalized,
+  } = getVersionMetadataPaths({
     versionName,
     context,
     options,
   });
 
-  console.log('docsDirPaths \n', docsDirPaths.join('\n-'));
+  console.log('docsDirPaths', {docsDirPath, docsDirPathLocalized});
 
   // retro-compatible values
   const defaultVersionLabel =
@@ -225,17 +226,16 @@ function createVersionMetadata({
     isLast,
     routePriority,
     sidebarFilePath,
-    docsDirPaths,
+    docsDirPath,
+    docsDirPathLocalized,
   };
 }
 
 function checkVersionMetadataPaths({
   versionName,
-  docsDirPaths,
+  docsDirPath,
   sidebarFilePath,
 }: VersionMetadata) {
-  // TODO refactor
-  const docsDirPath = last(docsDirPaths)!;
   if (!fs.existsSync(docsDirPath)) {
     throw new Error(
       `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${docsDirPath}`,
@@ -373,4 +373,16 @@ export function readVersionsMetadata({
   );
   versionsMetadata.forEach(checkVersionMetadataPaths);
   return versionsMetadata;
+}
+
+// order matter!
+// Read in priority the localized path, then the unlocalized one
+// We want the localized doc to "override" the unlocalized one
+export function getDocsDirPaths(
+  versionMetadata: Pick<
+    VersionMetadata,
+    'docsDirPath' | 'docsDirPathLocalized'
+  >,
+): [string, string] {
+  return [versionMetadata.docsDirPathLocalized, versionMetadata.docsDirPath];
 }
