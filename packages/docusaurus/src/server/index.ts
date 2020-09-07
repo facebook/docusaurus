@@ -7,6 +7,7 @@
 
 import {generate, normalizeUrl, addTrailingSlash} from '@docusaurus/utils';
 import path, {join} from 'path';
+import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   BUILD_DIR_NAME,
@@ -47,7 +48,6 @@ function addLocaleBaseUrlPathSegmentSuffix(
 }
 
 type LoadContextOptions = {customOutDir?: string; locale?: string};
-import chalk from 'chalk';
 
 export function loadContext(
   siteDir: string,
@@ -57,8 +57,8 @@ export function loadContext(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
-  const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const {ssrTemplate} = siteConfig;
+  const baseSiteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {ssrTemplate} = baseSiteConfig;
 
   const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
@@ -72,13 +72,13 @@ export function loadContext(
   };
 
   const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
-    siteConfig.baseUrl,
+    baseSiteConfig.baseUrl,
     localization,
   );
   const outDir = addLocaleBaseUrlPathSegmentSuffix(baseOutDir, localization);
+  const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
-  console.log('baseUrl', baseUrl);
-  console.log('outDir', outDir);
+  console.log('Site', {locale, baseUrl, outDir});
 
   return {
     siteDir,
