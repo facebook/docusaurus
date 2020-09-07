@@ -9,6 +9,21 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {LocalizationFile} from '@docusaurus/types';
+import Joi from '@hapi/joi';
+
+const DEFAULT_LOCALE = 'en';
+
+const DEFAULT_LOCALIZATION_FILE: LocalizationFile = {
+  defaultLocale: DEFAULT_LOCALE,
+  locales: [DEFAULT_LOCALE],
+};
+
+const LOCALIZATION_FILE_SCHEMA = Joi.object<LocalizationFile>({
+  defaultLocale: Joi.string().required(),
+  locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
+})
+  .optional()
+  .default(DEFAULT_LOCALIZATION_FILE);
 
 function loadLocalesFile(siteDir: string): unknown {
   const localeJsPath = path.resolve(siteDir, 'locales.js');
@@ -22,13 +37,26 @@ function loadLocalesFile(siteDir: string): unknown {
   return undefined;
 }
 
-// TODO proper validation with Joi schema
-function validateLocalesFile(localesFile: unknown) {
-  // @ts-expect-error: todo refactor, temp
-  if (!localesFile.defaultLocale || !localesFile.locales) {
-    throw new Error(`locales file look bad: ${localesFile}`);
+function validateLocalesFile(
+  unsafeLocalizationFile: unknown,
+): LocalizationFile {
+  try {
+    const localizationFile = Joi.attempt(
+      unsafeLocalizationFile,
+      LOCALIZATION_FILE_SCHEMA,
+      {convert: false, allowUnknown: false, abortEarly: true},
+    );
+    if (!localizationFile.locales.includes(localizationFile.defaultLocale)) {
+      throw new Error(
+        `locales=${localizationFile.locales.join(
+          ',',
+        )} should include defaultLocale=${localizationFile.defaultLocale}`,
+      );
+    }
+    return localizationFile;
+  } catch (e) {
+    throw new Error(`The docusaurus locales file looks invalid: ${e.message}`);
   }
-  return localesFile as LocalizationFile;
 }
 
 export default function loadLocales(siteDir: string): LocalizationFile {
@@ -36,8 +64,6 @@ export default function loadLocales(siteDir: string): LocalizationFile {
   if (localesFileContent) {
     return validateLocalesFile(localesFileContent);
   } else {
-    // TODO not sure if we should make these defaults configurable
-    // locales.json is already a way to configure...
-    return {defaultLocale: 'en', locales: ['en']};
+    return DEFAULT_LOCALIZATION_FILE;
   }
 }
