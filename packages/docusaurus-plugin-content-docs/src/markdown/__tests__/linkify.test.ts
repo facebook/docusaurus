@@ -25,6 +25,7 @@ function createFakeVersion(
     versionLabel: 'Any',
     versionPath: 'any',
     docsDirPath,
+    docsDirPathLocalized: path.join(docsDirPath, 'localized'),
     sidebarFilePath: 'any',
     routePriority: undefined,
     isLast: false,

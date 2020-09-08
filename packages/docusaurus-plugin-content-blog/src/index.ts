@@ -31,6 +31,7 @@ import {
   BlogPaginated,
   BlogPost,
   BlogContentPaths,
+  BlogMarkdownLoaderOptions,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -43,7 +44,12 @@ import {
   ValidationResult,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
-import {generateBlogFeed, generateBlogPosts} from './blogUtils';
+import {
+  generateBlogFeed,
+  generateBlogPosts,
+  getContentPathList,
+} from './blogUtils';
+import chalk from 'chalk';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -83,11 +89,9 @@ export default function pluginContentBlog(
     getPathsToWatch() {
       const {include = []} = options;
       return flatten(
-        [contentPaths.contentPathLocalized, contentPaths.contentPath].map(
-          (contentPath) => {
-            return include.map((pattern) => `${contentPath}/${pattern}`);
-          },
-        ),
+        getContentPathList(contentPaths).map((contentPath) => {
+          return include.map((pattern) => `${contentPath}/${pattern}`);
+        }),
       );
     },
 
@@ -365,6 +369,22 @@ export default function pluginContentBlog(
       {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
     ) {
       const {rehypePlugins, remarkPlugins, truncateMarker} = options;
+
+      const markdownLoaderOptions: BlogMarkdownLoaderOptions = {
+        siteDir,
+        contentPaths,
+        truncateMarker,
+        blogPosts,
+        onBrokenMarkdownLink: (brokenMarkdownLink) => {
+          // TODO make this warning configurable?
+          console.warn(
+            chalk.yellow(
+              `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} in markdown folder ${brokenMarkdownLink.folderPath}`,
+            ),
+          );
+        },
+      };
+
       return {
         resolve: {
           alias: {
@@ -375,10 +395,7 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [
-                contentPaths.contentPathLocalized,
-                contentPaths.contentPath,
-              ],
+              include: getContentPathList(contentPaths),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
@@ -401,12 +418,7 @@ export default function pluginContentBlog(
                 },
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
-                  options: {
-                    siteDir,
-                    contentPaths,
-                    truncateMarker,
-                    blogPosts,
-                  },
+                  options: markdownLoaderOptions,
                 },
               ].filter(Boolean) as Loader[],
             },

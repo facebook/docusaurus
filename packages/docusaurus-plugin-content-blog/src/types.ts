@@ -120,3 +120,16 @@ export interface TagModule {
   count: number;
   permalink: string;
 }
+
+export type BlogBrokenMarkdownLink = {
+  folderPath: string;
+  filePath: string;
+  link: string;
+};
+export type BlogMarkdownLoaderOptions = {
+  siteDir: string;
+  contentPaths: BlogContentPaths;
+  truncateMarker: RegExp;
+  blogPosts: BlogPost[];
+  onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
+};
