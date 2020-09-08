@@ -25,10 +25,6 @@ function Button() {
 }
 ```
 
-### Using relative path
-
-![](../../../static/img/docusaurus.png)
-
 ### Using absolute path
 
 ![](/img/docusaurus.png)

@@ -20,17 +20,14 @@ files:
     {
       'source': '/website/docs/**/*',
       'translation': '/website/i18n/%two_letters_code%/docs/current/**/%original_file_name%',
-      'ignore': ['/**/*.js', '/**/*.jsx', '/**/*.ts', '/**/*.tsx', '/**/*.css'],
     },
     {
       'source': '/website/versioned_docs/**/*',
       'translation': '/website/i18n/%two_letters_code%/docs/**/%original_file_name%',
-      'ignore': ['/**/*.js', '/**/*.jsx', '/**/*.ts', '/**/*.tsx', '/**/*.css'],
     },
     {
       'source': '/website-1.x/blog/**/*',
       'translation': '/website/i18n/%two_letters_code%/blog/**/%original_file_name%',
-      'ignore': ['/**/*.js', '/**/*.jsx', '/**/*.ts', '/**/*.tsx', '/**/*.css'],
     },
     {
       'source': '/website/src/pages/**/*',
