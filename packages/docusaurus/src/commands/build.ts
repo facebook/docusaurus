@@ -23,19 +23,7 @@ import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadLocalizationContext} from '../server/localization';
-
-async function asyncMapSequencial<T extends unknown, R extends unknown>(
-  array: T[],
-  action: (t: T) => Promise<R>,
-): Promise<R[]> {
-  const results: R[] = [];
-  for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
-    const result = await action(t);
-    results.push(result);
-  }
-  return results;
-}
+import {mapAsyncSequencial} from '@docusaurus/utils';
 
 export default async function build(
   siteDir: string,
@@ -65,7 +53,7 @@ export default async function build(
         )}`,
       ),
     );
-    const results = await asyncMapSequencial(locales.locales, (locale) => {
+    const results = await mapAsyncSequencial(locales.locales, (locale) => {
       const isLastLocale =
         locales.locales.indexOf(locale) === locales.locales.length - 1;
       // TODO check why we need forceTerminate

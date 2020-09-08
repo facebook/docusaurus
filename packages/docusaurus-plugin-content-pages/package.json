@@ -24,6 +24,7 @@
     "@hapi/joi": "17.1.1",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
+    "lodash": "^4.17.19",
     "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
     "slash": "^3.0.0",

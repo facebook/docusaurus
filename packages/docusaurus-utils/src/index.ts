@@ -450,3 +450,47 @@ export function getPluginI18nPath({
     ...subPaths,
   );
 }
+
+export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+  array: T[],
+  action: (t: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await action(t);
+    results.push(result);
+  }
+  return results;
+}
+
+export async function findAsyncSequential<T>(
+  array: T[],
+  predicate: (t: T) => Promise<boolean>,
+): Promise<T | undefined> {
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    if (await predicate(t)) {
+      return t;
+    }
+  }
+  return undefined;
+}
+
+export async function getFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string> {
+  const maybeFolderPath = await findAsyncSequential(folderPaths, (folderPath) =>
+    fs.pathExists(path.join(folderPath, relativeFilePath)),
+  );
+  // should never happen, as the source was read from the FS anyway...
+  if (!maybeFolderPath) {
+    throw new Error(
+      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+        '\n- ',
+      )}]`,
+    );
+  }
+  return maybeFolderPath;
+}

@@ -61,13 +61,17 @@ export default function pluginContentBlog(
     ]);
   }
 
-  const {siteDir, generatedFilesDir} = context;
+  const {
+    siteDir,
+    generatedFilesDir,
+    localization: {currentLocale},
+  } = context;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
-      siteDir: context.siteDir,
-      currentLocale: context.localization.currentLocale,
+      siteDir,
+      currentLocale,
       pluginFolderName: 'blog',
       pluginId: options.id!,
     }),

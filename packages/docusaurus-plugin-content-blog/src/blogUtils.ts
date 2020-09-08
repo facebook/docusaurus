@@ -24,6 +24,7 @@ import {
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
+  getFolderContainingFile,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {keyBy} from 'lodash';
@@ -119,26 +120,13 @@ export async function generateBlogPosts(
 
   const blogPosts: BlogPost[] = [];
 
-  // If the blog exist in the localized folder,
-  // we'll pick the localized folder file in priority
-  function getSourceContentPath(blogSourceFile: string) {
-    const maybeContentPath = getContentPathList(contentPaths).find(
-      (contentPath) => {
-        return fs.existsSync(path.join(contentPath, blogSourceFile));
-      },
-    );
-    // should never happen, as the source was read from the FS anyway...
-    if (!maybeContentPath) {
-      throw new Error(
-        `can't find content path for blog relativeSource=${blogSourceFile}`,
-      );
-    }
-    return maybeContentPath;
-  }
-
   await Promise.all(
     blogSourceFiles.map(async (blogSourceFile: string) => {
-      const contentPath = getSourceContentPath(blogSourceFile);
+      // Lookup in localized folder in priority
+      const contentPath = await getFolderContainingFile(
+        getContentPathList(contentPaths),
+        blogSourceFile,
+      );
 
       const source = path.join(contentPath, blogSourceFile);
       const aliasedSource = aliasedSitePath(source, siteDir);

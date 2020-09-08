@@ -32,3 +32,8 @@ export type MDXPageMetadata = {
 export type Metadata = JSXPageMetadata | MDXPageMetadata;
 
 export type LoadedContent = Metadata[];
+
+export type PagesContentPaths = {
+  contentPath: string;
+  contentPathLocalized: string;
+};
