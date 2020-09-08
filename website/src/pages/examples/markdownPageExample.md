@@ -53,7 +53,7 @@ import Chapter2 from './_chapter2.mdx';
 <Chapter2 />;
 ```
 
-import Chapter1 from './\_chapter1.mdx';
+import Chapter1 from './\_chapter1.md';
 
 <Chapter1/>
 
