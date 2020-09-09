@@ -259,6 +259,22 @@ describe('load utils', () => {
   test('normalizeUrl', () => {
     const asserts = [
       {
+        input: ['/', ''],
+        output: '/',
+      },
+      {
+        input: ['', '/'],
+        output: '/',
+      },
+      {
+        input: ['/'],
+        output: '/',
+      },
+      {
+        input: [''],
+        output: '',
+      },
+      {
         input: ['/', '/'],
         output: '/',
       },

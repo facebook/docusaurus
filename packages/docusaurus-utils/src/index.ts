@@ -306,15 +306,16 @@ export function normalizeUrl(rawUrls: string[]): string {
       continue;
     }
 
-    if (i > 0) {
-      // Removing the starting slashes for each component but the first.
-      component = component.replace(/^[/]+/, '');
+    if (component !== '/') {
+      if (i > 0) {
+        // Removing the starting slashes for each component but the first.
+        component = component.replace(/^[/]+/, '');
+      }
+
+      // Removing the ending slashes for each component but the last.
+      // For the last component we will combine multiple slashes to a single one.
+      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
     }
-
-    // Removing the ending slashes for each component but the last.
-    // For the last component we will combine multiple slashes to a single one.
-    component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
-
     resultArray.push(component);
   }
 
