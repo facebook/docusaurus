@@ -105,6 +105,7 @@ describe('mdToHtmlify', () => {
         id: 'subdir-doc3',
         title: 'Document 3',
         source: 'subdir/doc3.md',
+        versioned_source: 'subdir/doc3.md',
         permalink: 'docs/subdir/doc3.html',
         language: 'en',
       },
