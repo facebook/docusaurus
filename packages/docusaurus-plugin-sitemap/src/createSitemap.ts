@@ -24,7 +24,9 @@ export default function createSitemap(
     .map(
       (routesPath) =>
         ({
-          url: routesPath,
+          url: `${routesPath}${
+            options.trailingSlash && routesPath !== '/' ? '/' : ''
+          }`,
           changefreq: options.changefreq,
           priority: options.priority,
         } as SitemapItemOptions),
