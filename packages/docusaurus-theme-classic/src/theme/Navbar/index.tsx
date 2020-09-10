@@ -43,7 +43,12 @@ function Navbar(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: {title = '', items = [], hideOnScroll = false} = {},
+        navbar: {
+          title = '',
+          items = [],
+          hideOnScroll = false,
+          style = undefined,
+        } = {},
         colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
       },
     },
@@ -83,7 +88,9 @@ function Navbar(): JSX.Element {
   return (
     <nav
       ref={navbarRef}
-      className={clsx('navbar', 'navbar--light', 'navbar--fixed-top', {
+      className={clsx('navbar', 'navbar--fixed-top', {
+        'navbar--dark': style === 'dark',
+        'navbar--primary': style === 'primary',
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,

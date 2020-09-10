@@ -304,6 +304,24 @@ module.exports = {
 };
 ```
 
+### Navbar force style
+
+This might be useful if you prefer static Navbar design without disabling the theme switching ability. You can force single theme to always apply no matter which theme user have selected.
+
+Currently, two possible style options are `dark` and `primary`.
+
+```js {5} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      style: 'primary',
+    },
+    // ...
+  },
+};
+```
+
 <!--
 
 ## Footer

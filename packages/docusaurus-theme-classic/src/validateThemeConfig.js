@@ -189,6 +189,7 @@ const ThemeConfigSchema = Joi.object({
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
+    style: Joi.string().equal('dark', 'primary'),
     hideOnScroll: Joi.bool().default(false),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({

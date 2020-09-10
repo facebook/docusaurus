@@ -240,6 +240,7 @@ module.exports = {
       },
     },
     navbar: {
+      style: 'primary',
       hideOnScroll: true,
       title: 'Docusaurus',
       logo: {
