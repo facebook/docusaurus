@@ -67,7 +67,7 @@ function mdToHtml(Metadata, siteConfig) {
   const result = {};
   Object.keys(Metadata).forEach((id) => {
     const metadata = Metadata[id];
-    if (metadata.language !== 'en' || metadata.original_id) {
+    if (metadata.language !== 'en') {
       return;
     }
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
@@ -81,7 +81,7 @@ function mdToHtml(Metadata, siteConfig) {
     } else {
       htmlLink = htmlLink.replace(docsRegex, `${baseDocsPart}VERSION/`);
     }
-    result[metadata.source] = htmlLink;
+    result[metadata.versioned_source] = htmlLink;
   });
   return result;
 }

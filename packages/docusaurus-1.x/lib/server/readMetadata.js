@@ -172,6 +172,7 @@ function processMetadata(file, refDir) {
   metadata.source = subDir
     ? `${subDir}/${path.basename(file)}`
     : path.basename(file);
+  metadata.versioned_source = metadata.source;
 
   if (!metadata.title) {
     metadata.title = metadata.id;
@@ -426,6 +427,7 @@ module.exports = {
   getDocsPath,
   readSidebar,
   processMetadata,
+  shouldGenerateNextReleaseDocs,
   generateMetadataDocs,
   generateMetadataBlog,
 };
