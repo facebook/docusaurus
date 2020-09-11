@@ -41,7 +41,7 @@
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4",
     "utility-types": "^3.10.0",
-    "webpack": "^4.41.2"
+    "webpack": "^4.44.1"
   },
   "peerDependencies": {
     "react": "^16.8.4",

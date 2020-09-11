@@ -22,7 +22,7 @@
     "@endiliey/responsive-loader": "^1.3.2",
     "react-waypoint": "^9.0.2",
     "sharp": "^0.25.2",
-    "webpack": "^4.41.2"
+    "webpack": "^4.44.1"
   },
   "peerDependencies": {
     "react": "^16.8.4",

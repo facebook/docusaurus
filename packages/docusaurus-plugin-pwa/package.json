@@ -16,12 +16,12 @@
     "babel-loader": "^8.1.0",
     "clsx": "^1.1.1",
     "core-js": "^2.6.5",
-    "terser-webpack-plugin": "^2.3.5",
-    "webpack": "^4.41.2",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "workbox-build": "^5.1.2",
-    "workbox-precaching": "^5.1.2",
-    "workbox-window": "^5.1.2"
+    "workbox-build": "^5.1.4",
+    "workbox-precaching": "^5.1.4",
+    "workbox-window": "^5.1.4"
   },
   "peerDependencies": {
     "react": "^16.8.4",
