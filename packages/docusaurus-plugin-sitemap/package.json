@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.63",
+  "version": "2.0.0-alpha.64",
   "description": "Simple sitemap generation plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.63",
-    "@docusaurus/types": "2.0.0-alpha.63",
+    "@docusaurus/core": "2.0.0-alpha.64",
+    "@docusaurus/types": "2.0.0-alpha.64",
     "@hapi/joi": "17.1.1",
     "fs-extra": "^8.1.0",
     "sitemap": "^3.2.2"
