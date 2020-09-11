@@ -304,11 +304,11 @@ module.exports = {
 };
 ```
 
-### Navbar force style
+### Navbar style
 
-This might be useful if you prefer static Navbar design without disabling the theme switching ability. You can force single theme to always apply no matter which theme user have selected.
+You can set the static Navbar style without disabling the theme switching ability. The selected style will always apply no matter which theme user have selected.
 
-Currently, two possible style options are `dark` and `primary`.
+Currently, there are two possible style options: `dark` and `primary` (based on the `--ifm-color-primary` color). You can see the styles preview in the [Infima documentation](https://facebookincubator.github.io/infima/docs/components/navbar/).
 
 ```js {5} title="docusaurus.config.js"
 module.exports = {
