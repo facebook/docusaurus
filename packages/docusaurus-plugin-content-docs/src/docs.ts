@@ -142,7 +142,7 @@ export function processDocMetadata({
   const isDocsHomePage = unversionedId === (homePageId ?? '_index');
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
-      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
+      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to choose either homePageId or slug, not both`,
     );
   }
 
