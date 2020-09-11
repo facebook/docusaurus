@@ -33,6 +33,7 @@ describe('themeConfig', () => {
       },
       image: 'img/docusaurus-soc.png',
       navbar: {
+        style: 'primary',
         hideOnScroll: true,
         title: 'Docusaurus',
         logo: {

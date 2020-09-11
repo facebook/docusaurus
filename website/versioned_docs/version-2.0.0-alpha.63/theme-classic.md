@@ -304,6 +304,24 @@ module.exports = {
 };
 ```
 
+### Navbar style
+
+You can set the static Navbar style without disabling the theme switching ability. The selected style will always apply no matter which theme user have selected.
+
+Currently, there are two possible style options: `dark` and `primary` (based on the `--ifm-color-primary` color). You can see the styles preview in the [Infima documentation](https://facebookincubator.github.io/infima/docs/components/navbar/).
+
+```js {5} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      style: 'primary',
+    },
+    // ...
+  },
+};
+```
+
 <!--
 
 ## Footer
