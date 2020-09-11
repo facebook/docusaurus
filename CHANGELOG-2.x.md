@@ -1,5 +1,55 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.64 (2020-09-11)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#3432](https://github.com/facebook/docusaurus/pull/3432) feat(v2): add style property to theme-classic navbar ([@Simek](https://github.com/Simek))
+  - [#3406](https://github.com/facebook/docusaurus/pull/3406) feat(v2): ability to add/override theme html metadatas ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#3426](https://github.com/facebook/docusaurus/pull/3426) feat(v2): add option to add trailing slash to urls in sitemap ([@mpsq](https://github.com/mpsq))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3438](https://github.com/facebook/docusaurus/pull/3438) fix(v2): docusaurus 2 PWA should work under baseurl (deploy previews) ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#3435](https://github.com/facebook/docusaurus/pull/3435) fix(v2): fix empty link error message ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-pwa`
+  - [#3436](https://github.com/facebook/docusaurus/pull/3436) fix(v2): Correctly resolve sw.js path on windows ([@ashscodes](https://github.com/ashscodes))
+- `docusaurus-theme-classic`
+  - [#3433](https://github.com/facebook/docusaurus/pull/3433) fix(v2): fix theme-classic announcement bar closeable style ([@Simek](https://github.com/Simek))
+- `docusaurus-1.x`
+  - [#3429](https://github.com/facebook/docusaurus/pull/3429) fix(v1): versioned_docs and skip-next-release relative path issue ([@josephMG](https://github.com/josephMG))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3418](https://github.com/facebook/docusaurus/pull/3418) fix(v2): reset sidebar state on sidebar changes ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-debug`
+  - [#3405](https://github.com/facebook/docusaurus/pull/3405) fix(v2): fix debug plugin unscoped inline code global css ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3428](https://github.com/facebook/docusaurus/pull/3428) docs(v2): fix grammar ([@thadguidry](https://github.com/thadguidry))
+- [#3425](https://github.com/facebook/docusaurus/pull/3425) docs(v2): mention Eta in ssrTemplate section ([@mpsq](https://github.com/mpsq))
+- [#3423](https://github.com/facebook/docusaurus/pull/3423) docs(v2): minor typo fix ([@rutikwankhade](https://github.com/rutikwankhade))
+
+#### :house: Internal
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus`
+  - [#3439](https://github.com/facebook/docusaurus/pull/3439) chore(v2): fix serialize-javascript security issue by upgrading webpack/workbox ([@slorber](https://github.com/slorber))
+- Other
+  - [#3401](https://github.com/facebook/docusaurus/pull/3401) chore(deps): bump decompress from 4.2.0 to 4.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 7
+
+- Ash ([@ashscodes](https://github.com/ashscodes))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Rutik Wankhade ([@rutikwankhade](https://github.com/rutikwankhade))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Thad Guidry ([@thadguidry](https://github.com/thadguidry))
+- [@josephMG](https://github.com/josephMG)
+
 ## 2.0.0-alpha.63 (2020-09-03)
 
 #### :rocket: New Feature
