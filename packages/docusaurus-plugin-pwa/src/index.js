@@ -73,7 +73,7 @@ function plugin(context, options) {
         plugins: [
           new webpack.EnvironmentPlugin({
             PWA_DEBUG: debug,
-            PWA_SERVICE_WORKER_URL: path.resolve(
+            PWA_SERVICE_WORKER_URL: path.posix.resolve(
               `${config.output.publicPath || '/'}`,
               'sw.js',
             ),
