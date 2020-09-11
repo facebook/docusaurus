@@ -118,7 +118,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: '/manifest.json',
+            href: 'manifest.json',
           },
           {
             tagName: 'meta',
