@@ -298,6 +298,27 @@ const MyComponent = () => {
 };
 ```
 
+### `onRouteUpdate({location})`
+
+Set the page field to current location on the default tracker, such that subsequent hits on this page are attributed to this page.
+Recommended for Single-page Applications.
+
+Usage example:
+
+```jsx {2,5,6,7}
+import React from 'react';
+import {onRouteUpdate} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const location={
+                  pathname:'./example.html'
+                 };
+
+  onRouteUpdate({location});
+  return <div>Page value set to {location.pathname}</div>;
+};
+```
+
 ## Modules
 
 ### `ExecutionEnvironment`
