@@ -26,7 +26,7 @@ export const RehypePluginsSchema = MarkdownPluginsSchema;
 export const AdmonitionsSchema = Joi.object().default({});
 
 export const URISchema = Joi.alternatives(
-  Joi.string().uri(),
+  Joi.string().uri({allowRelative: true}),
   Joi.custom((val, helpers) => {
     try {
       const url = new URL(val);

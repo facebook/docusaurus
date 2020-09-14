@@ -111,12 +111,16 @@ describe('validation schemas', () => {
   test('URISchema', () => {
     const validURL = 'https://docusaurus.io';
     const doubleHash = 'https://docusaurus.io#github#/:';
-    const invalidURL = 'invalidURL';
+    const invalidURL = 'spaces are invalid in a URL';
+    const relativeURL = 'relativeURL';
+    const relativeURLWithParent = '../relativeURLWithParent';
     const urlFromIssue = 'https://riot.im/app/#/room/#ligo-public:matrix.org';
     const {testFail, testOK} = createTestHelpers({schema: URISchema});
     testOK(validURL);
     testOK(doubleHash);
     testFail(invalidURL);
+    testOK(relativeURL);
+    testOK(relativeURLWithParent);
     testOK(urlFromIssue);
   });
 });
