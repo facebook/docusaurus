@@ -29,6 +29,10 @@ export const URISchema = Joi.alternatives(
   Joi.string().uri(),
   Joi.custom((val, helpers) => {
     try {
+      if (typeof val === 'string' && val.startsWith('//')) {
+        return val;
+      }
+
       const url = new URL(val);
       if (url) {
         return val;
