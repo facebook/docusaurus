@@ -64,7 +64,7 @@ table td:first-child > code {
   font-weight: bold;
   font-size: 24px;
   padding: 48px;
-  margin: 0 auto;
+  margin: 0 auto -40px;
   text-align: center;
 }
 
