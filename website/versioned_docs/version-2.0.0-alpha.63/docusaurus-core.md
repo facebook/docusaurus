@@ -310,9 +310,7 @@ import React from 'react';
 import {onRouteUpdate} from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
-  const location={
-                  pathname:'./example.html'
-                 };
+ const location = { pathname:'./example.html' };
 
   onRouteUpdate({location});
   return <div>Page value set to {location.pathname}</div>;
