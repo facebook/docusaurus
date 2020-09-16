@@ -300,7 +300,8 @@ const MyComponent = () => {
 
 ### `onRouteUpdate({location})`
 
-Set the page field to current location on the default tracker, such that subsequent hits on this page are attributed to this page.
+If the current rendering environment is on client i.e. `ExecutionEnvironment.canUseDOM === true`, then `onRouteUpdate({location})`  updates the Google Analytics plugin
+by setting the page value to current path, inorder to measure the number of views one had for a particular page on the website. 
 Recommended for Single-page Applications.
 
 Usage example:
