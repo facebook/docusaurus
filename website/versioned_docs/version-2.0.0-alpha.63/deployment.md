@@ -102,8 +102,12 @@ GIT_USER=<GITHUB_USERNAME> yarn deploy
 
 **Windows**
 
-```batch
+```batch title="cmd"
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
+```
+
+```powershell title="powershell"
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 ```
 
 ### Triggering deployment with GitHub Actions
