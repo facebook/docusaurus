@@ -94,7 +94,7 @@ Optional parameters, also set as environment variables:
 
 Finally, to deploy your site to GitHub Pages, run:
 
-<Tabs defaultValue="bash" values={[ { label: 'bash', value: 'bash'}, { label: 'powershell', value: 'powershell', }, { label: 'cmd', value: 'cmd', }, ]}> <TabItem value="bash">
+<Tabs defaultValue="bash" values={[ { label: 'bash', value: 'bash', }, { label: 'powershell', value: 'powershell', }, { label: 'cmd', value: 'cmd', }, ] }><TabItem value="bash">
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
