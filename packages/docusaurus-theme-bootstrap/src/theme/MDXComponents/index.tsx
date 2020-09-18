@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import {Table} from 'reactstrap';
 
-const Heading = (tag) => {
+const Heading = (tag: string): ReactNode => {
   return function (props) {
     return React.createElement(tag, {className: `${tag} my-3`, ...props});
   };

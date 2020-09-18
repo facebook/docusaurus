@@ -11,8 +11,9 @@ import Head from '@docusaurus/Head';
 import DocPaginator from '@theme/DocPaginator';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {Props} from '@theme/DocItem';
 
-function DocItem(props) {
+function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;
@@ -23,7 +24,7 @@ function DocItem(props) {
   } = DocContent;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  let metaImageUrl: string | undefined = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }

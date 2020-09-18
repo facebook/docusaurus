@@ -30,7 +30,7 @@ function NavItem({
 }) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
-  const normalizedHref = useBaseUrl(href, true);
+  const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
   return (
     <NavItemBase>
@@ -65,7 +65,7 @@ function NavItem({
 function Navbar() {
   const {
     siteConfig: {
-      themeConfig: {navbar: {title, links = []} = {}},
+      themeConfig: {navbar: {title = '', links = []} = {}},
     },
     isClient,
   } = useDocusaurusContext();

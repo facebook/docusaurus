@@ -6,8 +6,9 @@
  */
 
 import React from 'react';
+import type {Props} from '@theme/TabItem';
 
-function TabItem(props) {
+function TabItem(props: Props): JSX.Element {
   return <div>{props.children}</div>;
 }
 

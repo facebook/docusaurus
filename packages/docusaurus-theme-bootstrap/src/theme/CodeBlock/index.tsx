@@ -9,7 +9,7 @@ import React from 'react';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 
-export default ({children, className}) => {
+export default ({children, className}): JSX.Element => {
   const language = className && className.replace(/language-/, '');
 
   return (
