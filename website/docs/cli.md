@@ -14,7 +14,8 @@ Once your website is bootstrapped, the website source will contain the Docusauru
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear"
   }
 }
 ```
@@ -126,3 +127,7 @@ Serve your built website localy.
 | `--dir` | `build` | The full path for the output directory, relative to the current workspace |
 | `--build` | `false` | Build website before serving |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
+
+### `docusaurus clear`
+
+Remove build artifacts.
