@@ -190,7 +190,7 @@ cli
 
 cli
   .command('clear')
-  .description('Clean website')
+  .description('Remove build artifacts')
   .action(() => {
     wrapCommand(clear)(path.resolve('.'));
   });
