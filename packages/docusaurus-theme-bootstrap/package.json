@@ -25,8 +25,9 @@
     "@docusaurus/module-type-aliases": "2.0.0-alpha.64"
   },
   "scripts": {
-    "build": "tsc --noEmit && yarn babel",
-    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files"
+    "build": "tsc --noEmit && yarn babel && yarn prettier",
+    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "peerDependencies": {
     "react": "^16.8.4",
