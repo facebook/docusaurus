@@ -5,6 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable import/no-duplicates */
+/* eslint-disable spaced-comment */
+/// <reference types="@docusaurus/module-type-aliases" />
+/// <reference types="@docusaurus/plugin-content-blog" />
+/// <reference types="@docusaurus/plugin-content-docs" />
+/// <reference types="@docusaurus/plugin-content-pages" />
+
 declare module '@theme/BlogListPaginator' {
   import type {Metadata} from '@theme/BlogListPage';
 
@@ -96,6 +103,8 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/TabItem' {
+  import type {ReactNode} from 'react';
+
   export type Props = {readonly children: ReactNode};
 
   const TabItem: (props: Props) => JSX.Element;
