@@ -110,3 +110,17 @@ declare module '@theme/TabItem' {
   const TabItem: (props: Props) => JSX.Element;
   export default TabItem;
 }
+
+declare module '@theme/hooks/useLogo' {
+  export type LogoLinkProps = {target?: string; rel?: string};
+
+  export type useLogoReturns = {
+    readonly logoLink: string;
+    readonly logoLinkProps: LogoLinkProps;
+    readonly logoImageUrl: string;
+    readonly logoAlt: string;
+  };
+
+  const useLogo: () => useLogoReturns;
+  export default useLogo;
+}

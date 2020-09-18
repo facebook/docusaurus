@@ -6,8 +6,9 @@
  */
 
 import defaultTheme from 'prism-react-renderer/themes/palenight';
+import type {PrismTheme} from 'prism-react-renderer';
 
-const usePrismTheme = () => {
+const usePrismTheme = (): PrismTheme => {
   return defaultTheme;
 };
 
