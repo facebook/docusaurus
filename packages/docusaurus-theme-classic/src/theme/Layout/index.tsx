@@ -32,7 +32,7 @@ function Layout(props: Props): JSX.Element {
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage, metadatas},
+    themeConfig: {image: defaultImage, metadatas, titleDelimiter},
     url: siteUrl,
   } = siteConfig;
   const {
@@ -44,7 +44,9 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
   } = props;
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  const metaTitle = title
+    ? `${title} ${titleDelimiter || '|'} ${siteTitle}`
+    : siteTitle;
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);

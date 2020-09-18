@@ -178,6 +178,7 @@ const ThemeConfigSchema = Joi.object({
   }),
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  titleDelimiter: Joi.string().default('|'),
   metadatas: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadatas),
