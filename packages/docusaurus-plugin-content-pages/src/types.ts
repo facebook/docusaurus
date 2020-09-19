@@ -14,6 +14,8 @@ export interface PluginOptions {
   mdxPageComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
+  beforeDefaultRemarkPlugins: (Function | object)[];
+  beforeDefaultRehypePlugins: (Function | object)[];
   admonitions: any;
 }
 
