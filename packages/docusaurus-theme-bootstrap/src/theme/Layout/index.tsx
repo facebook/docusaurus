@@ -17,12 +17,11 @@ import Footer from '@theme/Footer';
 import type {Props} from '@theme/Layout';
 
 function Layout(props: Props): JSX.Element {
-  console.log('aa');
-  const {siteConfig = {}} = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
   } = siteConfig;
   const {
@@ -33,7 +32,6 @@ function Layout(props: Props): JSX.Element {
     image,
     keywords,
     permalink,
-    // version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
@@ -43,6 +41,7 @@ function Layout(props: Props): JSX.Element {
     metaImageUrl = metaImage;
   }
   const faviconUrl = useBaseUrl(favicon);
+  console.log(siteConfig, metadatas);
 
   return (
     <div className="container-fluid vh-100 vw-100 row m-0 p-0">
@@ -57,7 +56,6 @@ function Layout(props: Props): JSX.Element {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        <meta name="docsearch:version" content="" />
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
@@ -68,6 +66,18 @@ function Layout(props: Props): JSX.Element {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <Head
+      // it's important to have an additional <Head> element here,
+      // as it allows react-helmet to override values set in previous <Head>
+      // ie we can override default metadatas such as "twitter:card"
+      // In same Head, the same meta would appear twice instead of overriding
+      // See react-helmet doc
+      >
+        {metadatas?.length > 0 &&
+          metadatas.map((metadata, i) => (
+            <meta key={`metadata_${i}`} {...metadata} />
+          ))}
       </Head>
       <Navbar />
       <div className="container-fluid px-0 d-inline-flex flex-row">
