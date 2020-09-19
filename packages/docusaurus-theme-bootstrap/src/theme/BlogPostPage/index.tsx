@@ -11,7 +11,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
 
-function BlogPostPage(props: Props) {
+function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
   const {frontMatter, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem} = metadata;

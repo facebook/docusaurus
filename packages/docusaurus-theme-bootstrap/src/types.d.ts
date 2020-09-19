@@ -124,3 +124,20 @@ declare module '@theme/hooks/useLogo' {
   const useLogo: () => useLogoReturns;
   export default useLogo;
 }
+
+declare module '@theme/Layout' {
+  import type {ReactNode} from 'react';
+
+  export type Props = {
+    children: ReactNode;
+    title?: string;
+    noFooter?: boolean;
+    description?: string;
+    image?: string;
+    keywords?: string[];
+    permalink?: string;
+  };
+
+  const Layout: (props: Props) => JSX.Element;
+  export default Layout;
+}

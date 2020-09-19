@@ -20,6 +20,8 @@ function BlogListPage(props: Props): JSX.Element {
   const isBlogOnlyMode = metadata.permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : 'Blog';
 
+  console.log(Layout);
+
   return (
     <Layout title={title} description="Blog">
       <div className="container-fluid mt-4">

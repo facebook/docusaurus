@@ -8,14 +8,12 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
-import useThemeContext from '@theme/hooks/useThemeContext';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
 
 const useLogo = (): useLogoReturns => {
   const {
     siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
   } = useDocusaurusContext();
-  const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps: LogoLinkProps = {};
 
@@ -27,9 +25,7 @@ const useLogo = (): useLogoReturns => {
       target: '_blank',
     };
   }
-
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoImageUrl = useBaseUrl(logoSrc);
+  const logoImageUrl = useBaseUrl(logo.src);
 
   return {
     logoLink,

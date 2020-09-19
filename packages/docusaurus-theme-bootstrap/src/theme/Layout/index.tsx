@@ -14,8 +14,10 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
+import type {Props} from '@theme/Layout';
 
-function Layout(props) {
+function Layout(props: Props): JSX.Element {
+  console.log('aa');
   const {siteConfig = {}} = useDocusaurusContext();
   const {
     favicon,
@@ -31,7 +33,7 @@ function Layout(props) {
     image,
     keywords,
     permalink,
-    version,
+    // version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
@@ -55,7 +57,7 @@ function Layout(props) {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        {version && <meta name="docsearch:version" content={version} />}
+        <meta name="docsearch:version" content="" />
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
