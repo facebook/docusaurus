@@ -30,6 +30,8 @@ describe('normalizeDocsPluginOptions', () => {
       docItemComponent: '@theme/DocItem',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
+      beforeDefaultRehypePlugins: [],
+      beforeDefaultRemarkPlugins: [],
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
