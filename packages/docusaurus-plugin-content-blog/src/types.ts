@@ -31,6 +31,8 @@ export interface PluginOptions {
   blogTagsPostsComponent: string;
   blogDescription: string;
   remarkPlugins: ([Function, object] | Function)[];
+  beforeDefaultRehypePlugins: (Function | object)[];
+  beforeDefaultRemarkPlugins: (Function | object)[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
