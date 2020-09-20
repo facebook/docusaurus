@@ -7,12 +7,13 @@
 
 export default () => ({
   elements: {
-    sidebar: '.sidebar__-_-_-docusaurus-theme-bootstrap-lib-theme-DocSidebar-',
+    sidebar: '[data-testid=sidebar]',
     pageLink: '.page-link',
+    // Actually is not possible to change to data-testid attribute,
+    // because the component renderer is from reactstrap
     mobileMenuSidebar:
       '.sidebarFAB__-_-_-docusaurus-theme-bootstrap-lib-theme-DocSidebar-',
-    mobileSidebar:
-      '.sideMenu__-_-_-docusaurus-theme-bootstrap-lib-theme-DocSidebar-',
+    mobileSidebar: '[data-testid=sideMenu]',
   },
   mobileViewports: [
     'iphone-4',

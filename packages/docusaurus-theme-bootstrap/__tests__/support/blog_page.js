@@ -6,7 +6,19 @@
  */
 
 export default () => ({
-  navigate() {
-    cy.visit('/blog');
+  elements: {
+    pagination: '.page-link',
+  },
+  navigate(url = '/blog') {
+    cy.visit(url);
+  },
+  previousPage() {
+    cy.get(this.elements.pagination).first().click();
+  },
+  nextPage() {
+    cy.get(this.elements.pagination).last().click();
+  },
+  isPaginationItemsLengthEqual(expectedLength) {
+    cy.get(this.elements.pagination).should('to.have.length', expectedLength);
   },
 });

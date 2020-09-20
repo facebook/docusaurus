@@ -13,4 +13,40 @@ describe('Blog Page', () => {
   beforeEach(() => {
     BlogPage.navigate();
   });
+
+  context('Blog Pagination', () => {
+    it('Pagination', () => {
+      BlogPage.navigate('/blog/2020/04/14/blog-plugin');
+      BlogPage.isPaginationItemsLengthEqual(1);
+      cy.url().should('include', '/blog-plugin');
+
+      BlogPage.nextPage();
+      cy.url().should('include', '/large-blog-post');
+      BlogPage.isPaginationItemsLengthEqual(2);
+
+      BlogPage.nextPage();
+      cy.url().should('include', '/welcome');
+      BlogPage.isPaginationItemsLengthEqual(2);
+
+      BlogPage.nextPage();
+      cy.url().should('include', '/hello-world');
+      BlogPage.isPaginationItemsLengthEqual(2);
+
+      BlogPage.nextPage();
+      cy.url().should('include', '/hola');
+      BlogPage.isPaginationItemsLengthEqual(1);
+
+      BlogPage.previousPage();
+      cy.url().should('include', '/hello-world');
+
+      BlogPage.previousPage();
+      cy.url().should('include', '/welcome');
+
+      BlogPage.previousPage();
+      cy.url().should('include', '/large-blog-post');
+
+      BlogPage.previousPage();
+      cy.url().should('include', '/blog-plugin');
+    });
+  });
 });

@@ -7,7 +7,7 @@
 
 import docPageFactory from '../support/doc_page.js';
 
-describe('Initial Page', () => {
+describe('Doc Page', () => {
   const DocPage = docPageFactory();
 
   beforeEach(() => {
@@ -43,7 +43,6 @@ describe('Initial Page', () => {
 
   context('Large devices resolutions', () => {
     it('Sidebar', () => {
-      console.log(cy.get(DocPage.elements.sidebar));
       cy.get(DocPage.elements.sidebar).should('be.visible');
     });
   });
