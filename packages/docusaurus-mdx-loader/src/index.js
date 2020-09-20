@@ -15,10 +15,11 @@ const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
 const transformImage = require('./remark/transformImage');
 const transformLinks = require('./remark/transformLinks');
+const npm2yarn = require('./remark/npm2yarn');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [emoji, slug, rightToc],
+  remarkPlugins: [emoji, slug, rightToc, npm2yarn],
 };
 
 module.exports = async function docusaurusMdxLoader(fileString) {
