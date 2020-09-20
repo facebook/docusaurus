@@ -33,13 +33,13 @@ function DocPageContent({
   const sidebar = docsSidebars[sidebarName];
   return (
     <Layout title="Doc page" description="My Doc page">
-      <div className="d-flex vh-100 overflow-hidden">
+      <div className="d-flex vh-100">
         {sidebar && (
-          <div className="vh-100" role="complementary">
+          <div role="complementary">
             <DocSidebar key={sidebarName} sidebar={sidebar} />
           </div>
         )}
-        <main className="vh-100 w-100 d-flex flex-column align-items-center overflow-auto p-5">
+        <main className="w-100 align-items-center overflow-auto p-5">
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </main>
       </div>
