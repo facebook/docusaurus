@@ -83,6 +83,7 @@ const DocSidebar = ({sidebar}: Props): JSX.Element => {
         })}>
         <div className="d-flex w-100 justify-content-end mr-5">
           <Button
+            dataTest="fab"
             color="secondary"
             onClick={handleSidebarToggle}
             className={classNames('mr-2', styles.sidebarFAB)}>
