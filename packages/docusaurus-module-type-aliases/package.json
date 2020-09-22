@@ -6,6 +6,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@docusaurus/types": "2.0.0-alpha.64"
+  },
   "devDependencies": {
     "@types/react": "*",
     "@types/react-helmet": "*",

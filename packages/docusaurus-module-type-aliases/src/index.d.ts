@@ -79,7 +79,7 @@ declare module '@docusaurus/router' {
 }
 
 declare module '@docusaurus/useDocusaurusContext' {
-  export default function (): any;
+  export default function (): import('@docusaurus/types').DocusaurusContext;
 }
 
 declare module '@docusaurus/useBaseUrl' {
