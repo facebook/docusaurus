@@ -83,7 +83,11 @@ module.exports = function (context, options) {
       ];
 
       if (customCss) {
-        modules.push(customCss);
+        if (Array.isArray(customCss)) {
+          modules.concat(customCss);
+        } else {
+          modules.push(customCss);
+        }
       }
 
       return modules;
