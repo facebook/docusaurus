@@ -1,6 +1,7 @@
 ---
 title: Markdown Page example title
 description: Markdown Page example description
+wrapperClassName: docusaurus-markdown-example
 ---
 
 # Markdown page
