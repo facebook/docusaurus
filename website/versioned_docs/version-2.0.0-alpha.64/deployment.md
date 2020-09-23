@@ -33,7 +33,6 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 
 ```bash npm2yarn
 npm run serve --build --port 80 --host 0.0.0.0
-
 ```
 
 ## Deploying to GitHub Pages
