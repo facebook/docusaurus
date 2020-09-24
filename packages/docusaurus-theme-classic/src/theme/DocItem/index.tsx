@@ -59,7 +59,7 @@ function DocItem(props: Props): JSX.Element {
   const showVersionBadge = versions.length > 1;
 
   const metaTitle = title
-    ? `${title} ${titleDelimiter || '|'} ${siteTitle}`
+    ? `${title} ${titleDelimiter} ${siteTitle}`
     : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   return (

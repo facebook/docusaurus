@@ -45,7 +45,7 @@ function Layout(props: Props): JSX.Element {
     permalink,
   } = props;
   const metaTitle = title
-    ? `${title} ${titleDelimiter || '|'} ${siteTitle}`
+    ? `${title} ${titleDelimiter} ${siteTitle}`
     : siteTitle;
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
