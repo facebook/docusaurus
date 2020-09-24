@@ -23,6 +23,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   metadatas: [],
+  titleDelimiter: '|',
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
