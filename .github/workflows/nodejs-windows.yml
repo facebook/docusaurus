@@ -30,3 +30,5 @@ jobs:
       run: yarn build:v2
       env:
         CI: true
+    - name: Docusaurus Jest Tests
+      run: yarn test
