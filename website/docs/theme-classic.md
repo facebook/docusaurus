@@ -99,20 +99,6 @@ module.exports = {
 };
 ```
 
-### Title delimiter
-
-You can specify a custom title delimiter that will be used in the generated `<title>` tag.
-
-```js {4} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  themeConfig: {
-    titleDelimiter: '🦖', // Default: '|'
-    // ...
-  },
-};
-```
-
 ### Announcement bar
 
 Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.

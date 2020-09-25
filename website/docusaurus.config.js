@@ -33,6 +33,7 @@ module.exports = {
   url: 'https://v2.docusaurus.io',
   onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   favicon: 'img/docusaurus.ico',
+  titleDelimiter: '🦖',
   customFields: {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',

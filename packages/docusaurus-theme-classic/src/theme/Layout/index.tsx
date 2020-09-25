@@ -32,8 +32,9 @@ function Layout(props: Props): JSX.Element {
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage, metadatas, titleDelimiter},
+    themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
+    titleDelimiter,
   } = siteConfig;
   const {
     children,
