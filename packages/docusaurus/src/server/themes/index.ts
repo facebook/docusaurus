@@ -29,6 +29,10 @@ export default function loadThemeAlias(
   userThemePaths.forEach((themePath) => {
     const userThemeAliases = themeAlias(themePath, false);
     Object.keys(userThemeAliases).forEach((aliasKey) => {
+      if (aliasKey in aliases) {
+        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+        aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
+      }
       aliases[aliasKey] = userThemeAliases[aliasKey];
     });
   });
