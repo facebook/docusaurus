@@ -48,7 +48,7 @@ module.exports = {
 
         // Unicode icons such as '\u2600' will work
         // Unicode with 5 chars require brackets: '\u{1F602}'
-        lightIcon: '\u{1F602}'
+        lightIcon: '\u{1F602}',
 
         lightIconStyle: {
           marginLeft: '1px',
@@ -89,7 +89,7 @@ module.exports = {
 
 You can configure additional html metadatas (and override existing ones).
 
-```js {4-6} title="docusaurus.config.js"
+```js {4} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -103,7 +103,7 @@ module.exports = {
 
 Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.
 
-```js {4-10} title="docusaurus.config.js"
+```js {4-11} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
