@@ -382,6 +382,6 @@ Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  titleDelimiter: '🦖', // Default: '|'
+  titleDelimiter: '🦖', // Defaults to `|`
 };
 ```
