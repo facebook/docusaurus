@@ -25,7 +25,7 @@ import {
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle} = siteConfig;
+  const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {
@@ -54,7 +54,9 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  const metaTitle = title
+    ? `${title} ${titleDelimiter} ${siteTitle}`
+    : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   return (
     <>

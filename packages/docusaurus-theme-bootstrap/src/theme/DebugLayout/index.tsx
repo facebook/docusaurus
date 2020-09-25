@@ -23,6 +23,7 @@ function Layout(props: Props): JSX.Element {
     title: siteTitle,
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
+    titleDelimiter,
   } = siteConfig;
   const {
     children,
@@ -33,8 +34,9 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
   } = props;
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-
+  const metaTitle = title
+    ? `${title} ${titleDelimiter} ${siteTitle}`
+    : siteTitle;
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {

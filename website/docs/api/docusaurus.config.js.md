@@ -371,3 +371,17 @@ module.exports = {
   ],
 };
 ```
+
+### `titleDelimiter`
+
+- Type: `string`
+
+A string that will be used as title delimiter in the generated `<title>` tag.
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  titleDelimiter: '🦖', // Defaults to `|`
+};
+```

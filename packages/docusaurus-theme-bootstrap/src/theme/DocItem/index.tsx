@@ -15,7 +15,7 @@ import {Props} from '@theme/DocItem';
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle} = siteConfig;
+  const {url: siteUrl, title: siteTitle, titleDelimiter = ' | '} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {description, title, permalink} = metadata;
@@ -23,8 +23,11 @@ function DocItem(props: Props): JSX.Element {
     frontMatter: {image: metaImage, keywords},
   } = DocContent;
 
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  const metaTitle = title
+    ? `${title} ${titleDelimiter} ${siteTitle}`
+    : siteTitle;
   let metaImageUrl: string | undefined = siteUrl + useBaseUrl(metaImage);
+
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
