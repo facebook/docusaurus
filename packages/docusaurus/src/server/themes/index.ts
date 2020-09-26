@@ -8,33 +8,36 @@
 import {ThemeAlias} from '@docusaurus/types';
 import themeAlias from './alias';
 
+function buildThemeAliases(
+  themeAliases: ThemeAlias,
+  aliases: ThemeAlias = {},
+): ThemeAlias {
+  Object.keys(themeAliases).forEach((aliasKey) => {
+    if (aliasKey in aliases) {
+      const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+      // eslint-disable-next-line no-param-reassign
+      aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
+    }
+    // eslint-disable-next-line no-param-reassign
+    aliases[aliasKey] = themeAliases[aliasKey];
+  });
+  return aliases;
+}
+
 export default function loadThemeAlias(
   themePaths: string[],
   userThemePaths: string[] = [],
 ): ThemeAlias {
-  const aliases = {};
+  let aliases = {};
 
   themePaths.forEach((themePath) => {
     const themeAliases = themeAlias(themePath);
-    Object.keys(themeAliases).forEach((aliasKey) => {
-      if (aliasKey in aliases) {
-        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-        aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
-      }
-
-      aliases[aliasKey] = themeAliases[aliasKey];
-    });
+    aliases = {...aliases, ...buildThemeAliases(themeAliases, aliases)};
   });
 
   userThemePaths.forEach((themePath) => {
     const userThemeAliases = themeAlias(themePath, false);
-    Object.keys(userThemeAliases).forEach((aliasKey) => {
-      if (aliasKey in aliases) {
-        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-        aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
-      }
-      aliases[aliasKey] = userThemeAliases[aliasKey];
-    });
+    aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
   });
 
   return aliases;
