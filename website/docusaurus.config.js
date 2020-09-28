@@ -207,7 +207,7 @@ module.exports = {
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
       },
     ],

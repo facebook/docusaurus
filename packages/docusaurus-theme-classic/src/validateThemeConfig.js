@@ -165,6 +165,10 @@ const FooterLinkItemSchema = Joi.object({
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
+const CustomCssSchema = Joi.alternatives()
+  .try(Joi.array().items(Joi.string().required()), Joi.string().required())
+  .optional();
+
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden(false).messages({
@@ -176,6 +180,7 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
+  customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
   metadatas: Joi.array()

@@ -19,7 +19,7 @@ module.exports = {
       {
         // highlight-start
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
         // highlight-end
       },
@@ -164,7 +164,7 @@ module.exports = {
       {
         // ...
         theme: {
-          customCss: require.resolve('./src/css/custom.scss'),
+          customCss: [require.resolve('./src/css/custom.scss')],
         },
         // ...
       },
