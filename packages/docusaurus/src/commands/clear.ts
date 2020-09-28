@@ -9,28 +9,22 @@ import path from 'path';
 import chalk = require('chalk');
 import {BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
-export default async function clear(siteDir: string): Promise<void> {
-  fs.remove(path.join(siteDir, GENERATED_FILES_DIR_NAME))
+function removePath(fsPath: string) {
+  return fs
+    .remove(path.join(fsPath))
     .then(() => {
-      console.log(`${chalk.green(`Removing ${GENERATED_FILES_DIR_NAME}`)}`);
+      console.log(`${chalk.green(`Removing ${fsPath}`)}`);
     })
     .catch((err) => {
+      console.error(`Could not remove ${fsPath}`);
       console.error(err);
     });
-  fs.remove(path.join(siteDir, BUILD_DIR_NAME))
-    .then(() => {
-      console.log(`${chalk.green(`Removing ${BUILD_DIR_NAME}`)}`);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fs.remove(path.join(siteDir, 'node_modules/.cache/cache-loader'))
-    .then(() => {
-      console.log(
-        `${chalk.green('Removing /node_modules/.cache/cache-loader')}`,
-      );
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+}
+
+export default async function clear(siteDir: string): Promise<unknown> {
+  return Promise.all([
+    removePath(path.join(siteDir, GENERATED_FILES_DIR_NAME)),
+    removePath(path.join(siteDir, BUILD_DIR_NAME)),
+    removePath(path.join(siteDir, 'node_modules/.cache/cache-loader')),
+  ]);
 }
