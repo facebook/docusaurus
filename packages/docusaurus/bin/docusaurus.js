@@ -202,7 +202,7 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 function isInternalCommand(command) {
-  return ['start', 'build', 'swizzle', 'deploy', 'clear'].includes(command);
+  return ['start', 'build', 'swizzle', 'deploy', 'serve', 'clear'].includes(command);
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {

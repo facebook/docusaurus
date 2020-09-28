@@ -22,6 +22,7 @@ function Layout(props) {
     title: siteTitle,
     themeConfig: {image: defaultImage},
     url: siteUrl,
+    titleDelimiter,
   } = siteConfig;
   const {
     children,
@@ -33,8 +34,9 @@ function Layout(props) {
     permalink,
     version,
   } = props;
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-
+  const metaTitle = title
+    ? `${title} ${titleDelimiter} ${siteTitle}`
+    : siteTitle;
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
