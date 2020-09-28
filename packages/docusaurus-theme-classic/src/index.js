@@ -84,7 +84,7 @@ module.exports = function (context, options) {
 
       if (customCss) {
         if (Array.isArray(customCss)) {
-          modules.concat(customCss);
+          modules.push(...customCss);
         } else {
           modules.push(customCss);
         }
