@@ -130,4 +130,14 @@ Serve your built website localy.
 
 ### `docusaurus clear`
 
-Remove build artifacts.
+Clear a Docusaurus site's generated assets, caches and build artifacts.
+
+We recommend running this command before reporting bugs, or after upgrading versions.
+
+This is just an alias that removes some folders of your site:
+
+```
+rm -rf .docusaurus
+rm -rf build
+rm -rf node_modules/.cache/cache-loader
+```
