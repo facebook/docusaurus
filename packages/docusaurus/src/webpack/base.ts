@@ -103,7 +103,16 @@ export function createBaseConfig(
           ? [
               new TerserPlugin({
                 cache: true,
-                parallel: true,
+                // Do not run Terser in parallel when using CircleCI or similar CI environments
+                // to avoid "Error: Call retries were exceeded" errors. For more information
+                // see https://github.com/webpack-contrib/terser-webpack-plugin#parallel
+                //
+                // CI=true is true for:
+                // - https://docs.gitlab.com/ee/ci/variables/#debug-logging
+                // - https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables#default-environment-variables
+                // - https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
+                // - https://docs.travis-ci.com/user/environment-variables/
+                parallel: process.env.CI.toLowerCase() !== 'true',
                 sourceMap: false,
                 terserOptions: {
                   parse: {
