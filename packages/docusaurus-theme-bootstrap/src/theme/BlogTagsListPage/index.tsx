@@ -8,8 +8,9 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import type {Props} from '@theme/BlogTagsListPage';
 
-function BlogTagsListPage(props) {
+function BlogTagsListPage(props: Props): JSX.Element {
   const {tags} = props;
   const renderAllTags = () => (
     <>

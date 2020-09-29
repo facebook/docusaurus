@@ -9,6 +9,7 @@ import React from 'react';
 import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import Link from '@docusaurus/Link';
+import type {Props} from '@theme/BlogPostItem';
 
 const MONTHS = [
   'January',
@@ -29,7 +30,7 @@ const getReadingTime = (readingTime) => {
   return Math.ceil(readingTime);
 };
 
-function BlogPostItem(props) {
+function BlogPostItem(props: Props): JSX.Element {
   const {
     children,
     frontMatter,
@@ -61,7 +62,7 @@ function BlogPostItem(props) {
         <div className="col">
           {author && (
             <h5>
-              <a href={authorURL} alt={author}>
+              <a href={authorURL} rel={author}>
                 {author}
               </a>
             </h5>

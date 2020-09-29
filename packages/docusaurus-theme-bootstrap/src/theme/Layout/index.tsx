@@ -14,15 +14,15 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
+import type {Props} from '@theme/Layout';
 
-function Layout(props) {
-  const {siteConfig = {}} = useDocusaurusContext();
+function Layout(props: Props): JSX.Element {
+  const {siteConfig} = useDocusaurusContext();
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
-    titleDelimiter,
   } = siteConfig;
   const {
     children,
@@ -32,11 +32,9 @@ function Layout(props) {
     image,
     keywords,
     permalink,
-    version,
   } = props;
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
@@ -57,7 +55,6 @@ function Layout(props) {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        {version && <meta name="docsearch:version" content={version} />}
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
@@ -68,6 +65,18 @@ function Layout(props) {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <Head
+      // it's important to have an additional <Head> element here,
+      // as it allows react-helmet to override values set in previous <Head>
+      // ie we can override default metadatas such as "twitter:card"
+      // In same Head, the same meta would appear twice instead of overriding
+      // See react-helmet doc
+      >
+        {metadatas?.length > 0 &&
+          metadatas.map((metadata, i) => (
+            <meta key={`metadata_${i}`} {...metadata} />
+          ))}
       </Head>
       <Navbar />
       <div className="container-fluid px-0 d-inline-flex flex-row">

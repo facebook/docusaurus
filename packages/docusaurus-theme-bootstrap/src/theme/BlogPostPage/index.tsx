@@ -9,11 +9,12 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
+import type {Props} from '@theme/BlogPostPage';
 
-function BlogPostPage(props) {
+function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
-  const {title, description, frontMatter, metadata} = BlogPostContents;
-  const {nextItem, prevItem} = metadata;
+  const {frontMatter, metadata} = BlogPostContents;
+  const {title, description, nextItem, prevItem} = metadata;
 
   return (
     <Layout title={title} description={description}>

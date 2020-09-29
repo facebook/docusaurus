@@ -11,57 +11,63 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import {NavItem, Nav, Button} from 'reactstrap';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import classNames from 'classnames';
+import {Props} from '@theme/DocSidebar';
+import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
 
 import styles from './styles.module.css';
 
-const DocSidebarItem = ({item, onItemClick, ...props}) => {
-  const {items, href, label, type} = item;
+type DocSidebarItemProps = {
+  item: PropSidebarItem;
+  onItemClick: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+};
 
-  switch (type) {
-    case 'category':
-      return (
-        items.length > 0 && (
-          <div>
-            <h4 className="ml-2">{label}</h4>
-            {items.map((childItem) => (
-              <DocSidebarItem
-                key={childItem.label}
-                item={childItem}
-                onItemClick={onItemClick}
-              />
-            ))}
-          </div>
-        )
-      );
-
-    case 'link':
-    default:
-      return (
-        <NavItem>
-          <Link
-            key={label}
-            className="sidebar-item m-4 text-white"
-            to={href}
-            {...(isInternalUrl(href)
-              ? {
-                  isNavLink: true,
-                  activeClassName: 'active',
-                  exact: true,
-                  onClick: onItemClick,
-                }
-              : {
-                  target: '_blank',
-                  rel: 'noreferrer noopener',
-                })}
-            {...props}>
-            {label}
-          </Link>
-        </NavItem>
-      );
+const DocSidebarItem = ({
+  item,
+  onItemClick,
+}: DocSidebarItemProps): JSX.Element => {
+  if (item.type === 'category') {
+    return item.items.length > 0 ? (
+      <div>
+        <h4 className="ml-2">{item.label}</h4>
+        {item.items.map((childItem) => (
+          <DocSidebarItem
+            key={childItem.label}
+            item={childItem}
+            onItemClick={onItemClick}
+          />
+        ))}
+      </div>
+    ) : (
+      <></>
+    );
+  } else if (item.type === 'link') {
+    return (
+      <NavItem>
+        <Link
+          key={item.label}
+          className="sidebar-item m-4 text-white"
+          to={item.href}
+          {...(isInternalUrl(item.href)
+            ? {
+                isNavLink: true,
+                activeClassName: 'active',
+                exact: true,
+                onClick: onItemClick,
+              }
+            : {
+                target: '_blank',
+                rel: 'noreferrer noopener',
+              })}>
+          {item.label}
+        </Link>
+      </NavItem>
+    );
+  } else {
+    return <></>;
   }
 };
 
-const DocSidebar = ({sidebar, path}) => {
+const DocSidebar = ({sidebar}: Props): JSX.Element => {
   const [sidebarShown, setSidebarShown] = useState(false);
   const handleSidebarToggle = useCallback(() => {
     setSidebarShown(!sidebarShown);
@@ -106,7 +112,7 @@ const DocSidebar = ({sidebar, path}) => {
                 key={item.label}
                 item={item}
                 onItemClick={(e) => {
-                  e.target.blur();
+                  e.currentTarget.blur();
                   setSidebarShown(false);
                 }}
               />

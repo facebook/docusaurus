@@ -10,8 +10,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BlogPostCard from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import Layout from '@theme/Layout';
+import type {Props} from '@theme/BlogListPage';
 
-function BlogListPage(props) {
+function BlogListPage(props: Props): JSX.Element {
   const {items, metadata} = props;
   const {
     siteConfig: {title: siteTitle},

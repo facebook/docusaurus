@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, useEffect} from 'react';
+import React, {useState, ReactElement, Children, useEffect} from 'react';
+import type {Props} from '@theme/Tabs';
 
 import clsx from 'clsx';
 
@@ -29,7 +30,7 @@ function useUserPreferencesContext() {
   };
 }
 
-function Tabs(props) {
+function Tabs(props: Props): JSX.Element {
   const {block, children, defaultValue, values, groupId} = props;
 
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
@@ -55,7 +56,7 @@ function Tabs(props) {
     }
   };
 
-  const tabRefs = [];
+  const tabRefs: (HTMLLIElement | null)[] = [];
 
   const focusNextTab = (tabs, target) => {
     const next = tabs.indexOf(target) + 1;
@@ -143,7 +144,9 @@ function Tabs(props) {
       <div role="tabpanel" className="margin-vert--md">
         {
           Children.toArray(children).filter(
-            (child) => child.props.value === selectedValue,
+            (child) =>
+              (child as ReactElement<{value: string}>).props.value ===
+              selectedValue,
           )[0]
         }
       </div>
