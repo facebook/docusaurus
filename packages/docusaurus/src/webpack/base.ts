@@ -38,6 +38,13 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
+let terserParallel: boolean | number = true;
+if (process.env.TERSER_PARALLEL === 'false') {
+  terserParallel = false;
+} else if (parseInt(process.env.TERSER_PARALLEL) > 0) {
+  terserParallel = parseInt(process.env.TERSER_PARALLEL)
+}
+
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
@@ -112,7 +119,7 @@ export function createBaseConfig(
                 // - https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables#default-environment-variables
                 // - https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
                 // - https://docs.travis-ci.com/user/environment-variables/
-                parallel: (process.env.CI || 'false').toLowerCase() !== 'true',
+                parallel: terserParallel,
                 sourceMap: false,
                 terserOptions: {
                   parse: {
