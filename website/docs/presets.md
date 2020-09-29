@@ -97,7 +97,7 @@ module.exports = {
         debug: undefined,
         // Will be passed to @docusaurus/theme-classic.
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
         // Will be passed to @docusaurus/plugin-content-docs (false to disable)
         docs: {},

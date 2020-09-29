@@ -15,7 +15,7 @@ You can deploy your site to static site hosting services such as [Vercel](https:
 
 ## Testing Build Local
 
-It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build locally.
 
 ```bash npm2yarn
 npm run serve
@@ -33,7 +33,6 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 
 ```bash npm2yarn
 npm run serve --build --port 80 --host 0.0.0.0
-
 ```
 
 ## Deploying to GitHub Pages
@@ -94,17 +93,28 @@ Optional parameters, also set as environment variables:
 
 Finally, to deploy your site to GitHub Pages, run:
 
-**Bash**
+<Tabs defaultValue="bash" values={[ { label: 'Bash', value: 'bash', }, { label: 'Windows', value: 'windows', }, { label: 'PowerShell', value: 'powershell', },]}><TabItem value="bash">
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
-**Windows**
+</TabItem>
+<TabItem value="windows">
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
+
+</TabItem>
+<TabItem value="powershell">
+
+```powershell
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
+```
+
+</TabItem>
+</Tabs>
 
 ### Triggering deployment with GitHub Actions
 
@@ -252,6 +262,40 @@ steps:
       GH_TOKEN: $(GH_TOKEN)
     displayName: 'yarn install and build'
 ```
+
+### Using Drone
+
+1.  Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
+1.  Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+1.  Go to https://github.com/USERNAME/REPO/settings/keys and add a new deploy key by pasting in our public key you just generated.
+1.  Open your Drone.io dashboard and login. The URL looks like https://cloud.drone.io/USERNAME/REPO.
+1.  Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
+1.  Create a `.drone.yml` on the root of your repository with below text.
+
+```yaml
+# .drone.yml
+kind: pipeline
+type: docker
+trigger:
+  event:
+    - tag
+- name: Website
+  image: node
+  commands:
+    - mkdir -p $HOME/.ssh
+    - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+    - echo "$GITHUB_PRIVATE_KEY > $HOME/.ssh/id_rsa"
+    - chmod 0600 $HOME/.ssh/id_rsa
+    - cd website
+    - npm i
+    - npm run publish-gh-pages
+  environment:
+    USE_SSH: true
+    GIT_USER: $DRONE_COMMIT_AUTHOR
+    GITHUB_PRIVATE_KEY: git_deploy_private_key
+```
+
+Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.
 
 ## Deploying to Netlify
 

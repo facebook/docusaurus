@@ -49,6 +49,7 @@ export interface DocusaurusConfig {
         [key: string]: unknown;
       }
   )[];
+  titleDelimiter?: string;
 }
 
 /**

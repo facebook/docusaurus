@@ -128,7 +128,7 @@ function DocSearch(props) {
         <link
           rel="preconnect"
           href={`https://${props.appId}-dsn.algolia.net`}
-          crossOrigin
+          crossOrigin="anonymous"
         />
       </Head>
 

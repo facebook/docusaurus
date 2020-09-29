@@ -30,6 +30,8 @@ describe('normalizeDocsPluginOptions', () => {
       docItemComponent: '@theme/DocItem',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
+      beforeDefaultRehypePlugins: [],
+      beforeDefaultRemarkPlugins: [],
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
@@ -55,6 +57,8 @@ describe('normalizeDocsPluginOptions', () => {
   test('should accept correctly defined remark and rehype plugin options', async () => {
     const userOptions = {
       ...DEFAULT_OPTIONS,
+      beforeDefaultRemarkPlugins: [],
+      beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
         markdownPluginsObjectStub,

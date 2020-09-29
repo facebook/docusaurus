@@ -40,7 +40,7 @@
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel --no-private watch",
-    "clear": "yarn rimraf website/.docusaurus && rimraf -rf website/node_modules/.cache && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus",
+    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus",
     "test:v1Migration:migrate": "rimraf website-1.x-migrated && docusaurus-migrate migrate ./website-1.x ./website-1.x-migrated && sed -i -- 's/docusaurus-1-website/docusaurus-1-website-migrated/g;' website-1.x-migrated/package.json",
     "test:v1Migration:start": "yarn workspace docusaurus-1-website-migrated start",
     "test:v1Migration:build": "yarn workspace docusaurus-1-website-migrated build",

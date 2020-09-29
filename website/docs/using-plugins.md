@@ -424,6 +424,12 @@ module.exports = {
          */
         remarkPlugins: [],
         rehypePlugins: [],
+        /**
+         * Custom Remark and Rehype plugins passed to MDX before
+         * the default Docusaurus Remark and Rehype plugins.
+         */
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
       },
     ],
   ],
