@@ -295,7 +295,12 @@ export default function pluginContentDocs(
 
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
-      const {rehypePlugins, remarkPlugins} = options;
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        beforeDefaultRehypePlugins,
+        beforeDefaultRemarkPlugins,
+      } = options;
 
       const docsMarkdownOptions: DocsMarkdownOption = {
         siteDir,
@@ -323,6 +328,8 @@ export default function pluginContentDocs(
               options: {
                 remarkPlugins,
                 rehypePlugins,
+                beforeDefaultRehypePlugins,
+                beforeDefaultRemarkPlugins,
                 staticDir: path.join(siteDir, STATIC_DIR_NAME),
                 metadataPath: (mdxPath: string) => {
                   // Note that metadataPath must be the same/in-sync as
