@@ -43,7 +43,7 @@ let terserParallel: boolean | number = true;
 if (process.env.TERSER_PARALLEL === 'false') {
   terserParallel = false;
 } else if (process.env.TERSER_PARALLEL && parseInt(process.env.TERSER_PARALLEL, 10) > 0) {
-  terserParallel = parseInt(process.env.TERSER_PARALLEL, 10)
+  terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
 }
 
 export function createBaseConfig(
