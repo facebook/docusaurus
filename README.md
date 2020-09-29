@@ -11,7 +11,8 @@
   <a href="https://circleci.com/gh/facebook/docusaurus"><img src="https://img.shields.io/circleci/build/github/facebook/docusaurus.svg" alt="CircleCI status"></a>
   <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/discord/102860784329052160.svg" align="right" alt="Discord Chat" /></a>
-  <a href="https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
+  <a href= "https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
+  <a href="#license"><img src="https://img.shields.io/github/license/sourcerer-io/hall-of-fame.svg?colorB=ff0000"></a>
   <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
   <a href="https://gitpod.io/#https://github.com/facebook/docusaurus"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/></a>
   <a href="https://app.netlify.com/sites/docusaurus-preview/deploys"><img src="https://api.netlify.com/api/v1/badges/57ebb454-c937-4c1d-a228-d9dccb494f49/deploy-status" alt="Netlify Status"></a>
@@ -19,7 +20,7 @@
 
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
 >
-> You can see the clean live demo with classic theme by clicking this badge [![Runme](https://runme.io/static/button.svg)](https://runme.io/run?app_id=0dd80306-47bb-4e80-95dc-dc95eb05d3fd).
+> You can see the clean live demo with classic theme by clicking this badge  [![Runme](https://runme.io/static/button.svg)](https://runme.io/run?app_id=0dd80306-47bb-4e80-95dc-dc95eb05d3fd)
 
 ## Introduction
 
@@ -53,7 +54,7 @@ Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master
 
 ### Beginner-friendly bugs
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
+To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner-friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
 
 ## Contact
 
