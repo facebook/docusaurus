@@ -114,7 +114,7 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 
 ### `docusaurus serve`
 
-Serve your built website localy.
+Serve your built website locally.
 
 | Name | Default | Description |
 | --- | --- | --- |

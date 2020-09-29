@@ -41,7 +41,6 @@ function Layout(props: Props): JSX.Element {
     metaImageUrl = metaImage;
   }
   const faviconUrl = useBaseUrl(favicon);
-  console.log(siteConfig, metadatas);
 
   return (
     <div className="container-fluid vh-100 vw-100 row m-0 p-0">

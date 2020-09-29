@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -34,6 +35,7 @@ function Layout(props: Props): JSX.Element {
     title: siteTitle,
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
+    titleDelimiter,
   } = siteConfig;
   const {
     children,
@@ -43,8 +45,11 @@ function Layout(props: Props): JSX.Element {
     image,
     keywords,
     permalink,
+    wrapperClassName,
   } = props;
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  const metaTitle = title
+    ? `${title} ${titleDelimiter} ${siteTitle}`
+    : siteTitle;
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
@@ -87,7 +92,7 @@ function Layout(props: Props): JSX.Element {
 
       <AnnouncementBar />
       <Navbar />
-      <div className="main-wrapper">{children}</div>
+      <div className={clsx('main-wrapper', wrapperClassName)}>{children}</div>
       {!noFooter && <Footer />}
     </Providers>
   );

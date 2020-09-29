@@ -15,6 +15,13 @@ function testValidateThemeConfig(themeConfig) {
   return normalizeThemeConfig(ThemeConfigSchema, themeConfig);
 }
 
+function testOk(partialConfig) {
+  expect(testValidateThemeConfig(partialConfig)).toEqual({
+    ...DEFAULT_CONFIG,
+    ...partialConfig,
+  });
+}
+
 describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
@@ -107,6 +114,36 @@ describe('themeConfig', () => {
     expect(testValidateThemeConfig(prismConfig)).toEqual({
       ...DEFAULT_CONFIG,
       ...prismConfig,
+    });
+  });
+
+  describe.only('customCss config', () => {
+    test('should accept customCss undefined', () => {
+      testOk({
+        customCss: undefined,
+      });
+    });
+
+    test('should accept customCss string', () => {
+      testOk({
+        customCss: './path/to/cssFile.css',
+      });
+    });
+
+    test('should accept customCss string array', () => {
+      testOk({
+        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
+      });
+    });
+
+    test('should reject customCss number', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          customCss: 42,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"customCss\\" must be one of [array, string]"`,
+      );
     });
   });
 

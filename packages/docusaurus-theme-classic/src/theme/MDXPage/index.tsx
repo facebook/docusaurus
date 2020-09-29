@@ -14,11 +14,15 @@ import type {Props} from '@theme/MDXPage';
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {frontMatter, metadata} = MDXPageContent;
-  const {title, description} = frontMatter;
+  const {title, description, wrapperClassName} = frontMatter;
   const {permalink} = metadata;
 
   return (
-    <Layout title={title} description={description} permalink={permalink}>
+    <Layout
+      title={title}
+      description={description}
+      permalink={permalink}
+      wrapperClassName={wrapperClassName}>
       <main>
         <div className="container margin-vert--lg padding-vert--lg">
           <MDXProvider components={MDXComponents}>

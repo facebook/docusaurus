@@ -23,6 +23,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'presets'
   | 'customFields'
   | 'themeConfig'
+  | 'titleDelimiter'
 > = {
   onBrokenLinks: 'throw',
   onDuplicateRoutes: 'warn',
@@ -31,6 +32,7 @@ export const DEFAULT_CONFIG: Pick<
   presets: [],
   customFields: {},
   themeConfig: {},
+  titleDelimiter: '|',
 };
 
 const PluginSchema = Joi.alternatives().try(
@@ -90,6 +92,7 @@ const ConfigSchema = Joi.object({
     }).unknown(),
   ),
   tagline: Joi.string().allow(''),
+  titleDelimiter: Joi.string().default('|'),
 });
 
 // TODO move to @docusaurus/utils-validation

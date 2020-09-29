@@ -38,6 +38,7 @@ Object {
   "themeConfig": Object {},
   "themes": Array [],
   "title": "Hello",
+  "titleDelimiter": "|",
   "url": "https://docusaurus.io",
 }
 `;

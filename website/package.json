@@ -8,6 +8,7 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
     "start:baseUrl": "BASE_URL='/build/' yarn start",
     "build:baseUrl": "BASE_URL='/build/' yarn build",
     "start:bootstrap": "DOCUSAURUS_PRESET=bootstrap yarn start",

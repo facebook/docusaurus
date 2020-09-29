@@ -15,7 +15,7 @@ You can deploy your site to static site hosting services such as [Vercel](https:
 
 ## Testing Build Local
 
-It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build locally.
 
 ```bash npm2yarn
 npm run serve
@@ -33,7 +33,6 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 
 ```bash npm2yarn
 npm run serve --build --port 80 --host 0.0.0.0
-
 ```
 
 ## Deploying to GitHub Pages
@@ -94,17 +93,28 @@ Optional parameters, also set as environment variables:
 
 Finally, to deploy your site to GitHub Pages, run:
 
-**Bash**
+<Tabs defaultValue="bash" values={[ { label: 'Bash', value: 'bash', }, { label: 'Windows', value: 'windows', }, { label: 'PowerShell', value: 'powershell', },]}><TabItem value="bash">
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
-**Windows**
+</TabItem>
+<TabItem value="windows">
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
+
+</TabItem>
+<TabItem value="powershell">
+
+```powershell
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
+```
+
+</TabItem>
+</Tabs>
 
 ### Triggering deployment with GitHub Actions
 
