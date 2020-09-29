@@ -42,7 +42,7 @@ export function excludeJS(modulePath: string): boolean {
 let terserParallel: boolean | number = true;
 if (process.env.TERSER_PARALLEL === 'false') {
   terserParallel = false;
-} else if (parseInt(process.env.TERSER_PARALLEL) > 0) {
+} else if (process.env.TERSER_PARALLEL && parseInt(process.env.TERSER_PARALLEL) > 0) {
   terserParallel = parseInt(process.env.TERSER_PARALLEL)
 }
 
