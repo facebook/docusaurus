@@ -63,7 +63,6 @@ function NavItem({
 }
 
 function Navbar() {
-  console.log(useDocusaurusContext());
   const {
     siteConfig: {
       themeConfig: {navbar: {title = '', items: links = []} = {}},
