@@ -40,9 +40,12 @@ export function excludeJS(modulePath: string): boolean {
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 let terserParallel: boolean | number = true;
-if (process.env.TERSER_PARALLEL === 'false') {
+if (process.env.TERSER_PARALLEL === "false") {
   terserParallel = false;
-} else if (process.env.TERSER_PARALLEL && parseInt(process.env.TERSER_PARALLEL, 10) > 0) {
+} else if (
+  process.env.TERSER_PARALLEL &&
+  parseInt(process.env.TERSER_PARALLEL, 10) > 0
+) {
   terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
 }
 
