@@ -9,7 +9,6 @@
 const users = require('./data/users');
 
 const siteConfig = {
-  customDocsPath: 'website-1.x/docs',
   title: 'Docusaurus',
   tagline: 'Easy to Maintain Open Source Documentation Websites',
   url: 'https://docusaurus.io',
@@ -19,7 +18,9 @@ const siteConfig = {
   cname: 'docusaurus.io',
   noIndex: false,
   users,
-  editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+  customDocsPath: 'website-1.x/docs',
+  editUrl:
+    'https://github.com/facebook/docusaurus/edit/master/website-1.x/docs/',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {doc: 'tutorial-setup', label: 'Tutorial'},
