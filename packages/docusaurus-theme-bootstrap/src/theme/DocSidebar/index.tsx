@@ -76,7 +76,9 @@ const DocSidebar = ({sidebar}: Props): JSX.Element => {
   useLockBodyScroll(sidebarShown);
 
   return (
-    <div className={classNames('bg-info', styles.sidebar)}>
+    <div
+      data-testid="sidebar"
+      className={classNames('bg-info', styles.sidebar)}>
       <div
         className={classNames('text-white', {
           [styles.isOpen]: sidebarShown,
@@ -105,7 +107,7 @@ const DocSidebar = ({sidebar}: Props): JSX.Element => {
             </svg>
           </Button>
         </div>
-        <div className={classNames(styles.sideMenu)}>
+        <div data-testid="sideMenu" className={classNames(styles.sideMenu)}>
           <Nav vertical className="list-unstyled p-3 mr-auto">
             {sidebar.map((item) => (
               <DocSidebarItem

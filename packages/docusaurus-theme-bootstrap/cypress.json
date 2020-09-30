@@ -1,0 +1,5 @@
+{
+  "baseUrl": "http://localhost:3000/",
+  "integrationFolder": "__tests__/integration",
+  "supportFile": "__tests__/support/index.js"
+}
