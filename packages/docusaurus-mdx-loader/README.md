@@ -5,6 +5,8 @@ Docusaurus webpack loader of [MDX](https://github.com/mdx-js/mdx)
 ## Installation
 
 ```sh
+npm install --save-dev @docusaurus/mdx-loader
+OR
 yarn add @docusaurus/mdx-loader
 ```
 
