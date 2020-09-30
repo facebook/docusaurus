@@ -83,8 +83,6 @@ What this means to the user is that if you wish to use the `CompLibrary` module,
 
 If you wish to use your own components inside the website directory, use `process.cwd()` which will refer to the `website` directory to construct require paths. For example, if you add a component to `website/core/mycomponent.js`, you can use the require path, `'process.cwd() + /core/mycomponent.js'`.
 
-There is a special import for custom items `@theme-original`. The `theme-original` alias (just like using `theme` alias) will not get the theme component from the plugin's code. While the `init-theme` alias refers to the proper (theme) component (from the theme itself, where it is first defined). Therefore the `theme-original` is for the user and `theme-initial` is for the plugins.
-
 ## Provided Components
 
 Docusaurus provides the following components in `CompLibrary`:
