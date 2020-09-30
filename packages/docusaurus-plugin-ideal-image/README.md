@@ -5,6 +5,8 @@ Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, a
 ## Installation
 
 ```sh
+npm install --save-dev @docusaurus/plugin-ideal-image
+or
 yarn add @docusaurus/plugin-ideal-image
 ```
 
