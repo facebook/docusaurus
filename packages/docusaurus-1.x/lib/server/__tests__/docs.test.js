@@ -143,7 +143,7 @@ describe('getFile', () => {
       'Document 2 is not good',
     'website-1.x/translated_docs/ko/version-1.0.0/doc1.md':
       '이것은 오래된 가짜입니다.',
-    'docs/doc1.md': 'Just another document',
+    'website-1.x/docs/doc1.md': 'Just another document',
   };
   fs.existsSync = jest.fn().mockReturnValue(true);
   fs.readFileSync = jest.fn().mockImplementation((file) => {
@@ -189,7 +189,9 @@ describe('getFile', () => {
 
   test('normal docs', () => {
     const metadata = Metadata['en-doc1'];
-    expect(docs.getFile(metadata)).toEqual(fakeContent['docs/doc1.md']);
+    expect(docs.getFile(metadata)).toEqual(
+      fakeContent['website-1.x/docs/doc1.md'],
+    );
   });
 });
 
