@@ -5,7 +5,9 @@ You can create live code editors with a code block `live` meta string.
 Install
 
 ```bash
-npm i @docusaurus/theme-live-codeblock # or yarn add @docusaurus/theme-live-codeblock
+npm i @docusaurus/theme-live-codeblock 
+or 
+yarn add @docusaurus/theme-live-codeblock
 ```
 
 Modify your `docusaurus.config.js`
