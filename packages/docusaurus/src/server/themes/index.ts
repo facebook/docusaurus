@@ -31,7 +31,7 @@ export default function loadThemeAlias(
   let aliases = {};
 
   themePaths.forEach((themePath) => {
-    const themeAliases = themeAlias(themePath);
+    const themeAliases = themeAlias(themePath, true);
     aliases = {...aliases, ...buildThemeAliases(themeAliases, aliases)};
   });
 

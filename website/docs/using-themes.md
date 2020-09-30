@@ -101,6 +101,58 @@ npm run swizzle @docusaurus/theme-classic
 
 **Note**: You need to restart your webpack dev server in order for Docusaurus to know about the new component.
 
+## Wrapping theme components
+
+Sometimes, you just want to wrap an existing theme component with additional logic, and it can be a pain to have to maintain an almost duplicate copy of the original theme component.
+
+In such case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it.
+
+### For site owners
+
+The `@theme-original` alias allows you to import the original theme component.
+
+Here is an example to display some text just above the footer, with minimal code duplication.
+
+```js title="src/theme/Footer.js"
+// Note: importing from "@theme/Footer" would fail due to the file importing itself
+import OriginalFooter from '@theme-original/Footer';
+
+export default function Footer(props) {
+  return (
+    <>
+      <div>Before footer</div>
+      <OriginalFooter {...props} />
+    </>
+  );
+}
+```
+
+### For plugin authors
+
+One theme can wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
+
+Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+Check the code of `docusaurus-theme-live-codeblock` for details.
+
+:::caution
+
+Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`.
+
+:::
+
 ## Official themes by Docusaurus
 
 ### `@docusaurus/theme-classic`
