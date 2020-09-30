@@ -27,7 +27,7 @@
     "@types/react-toggle": "^4.0.2",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
-    "infima": "0.2.0-alpha.12",
+    "infima": "0.2.0-alpha.13",
     "lodash": "^4.17.19",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
