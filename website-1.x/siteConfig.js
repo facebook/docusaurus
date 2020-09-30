@@ -9,6 +9,7 @@
 const users = require('./data/users');
 
 const siteConfig = {
+  customDocsPath: 'website-1.x/docs',
   title: 'Docusaurus',
   tagline: 'Easy to Maintain Open Source Documentation Websites',
   url: 'https://docusaurus.io',
