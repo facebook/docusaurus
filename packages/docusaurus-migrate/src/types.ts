@@ -101,6 +101,7 @@ export type VersionOneConfig = {
   colors?: any;
   copyright?: string;
   editUrl?: string;
+  customDocsPath?: string;
   users?: Array<Record<string, unknown>>;
   disableHeaderTitle?: string;
   disableTitleTagline?: string;
