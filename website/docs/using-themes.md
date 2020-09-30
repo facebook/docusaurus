@@ -109,12 +109,12 @@ In such case, you should swizzle the component you want to wrap, but import the 
 
 ### For site owners
 
-The `@theme-original` alias allows you to import the original theme component
+The `@theme-original` alias allows you to import the original theme component.
 
 Here is an example to display some text just above the footer, with minimal code duplication.
 
 ```js title="src/theme/Footer.js"
-// note: importing from "@theme/Footer" would fail due to the file importing itself
+// Note: importing from "@theme/Footer" would fail due to the file importing itself
 import OriginalFooter from '@theme-original/Footer';
 
 export default function Footer(props) {
@@ -149,7 +149,7 @@ Check the code of `docusaurus-theme-live-codeblock` for details.
 
 :::caution
 
-Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`
+Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`.
 
 :::
 
