@@ -29,24 +29,26 @@ export default async function serve(
     );
   }
   const port = await choosePort(cliOptions.host, cliOptions.port);
-  const server = http.createServer((req, res) => {
-    serveHandler(req, res, {
-      cleanUrls: true,
-      public: dir,
+  if (port) {
+    const server = http.createServer((req, res) => {
+      serveHandler(req, res, {
+        cleanUrls: true,
+        public: dir,
+      });
     });
-  });
-  console.log(
-    boxen(
-      `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
-        cliOptions.host
-      }:${port}`,
-      {
-        borderColor: 'green',
-        padding: 1,
-        margin: 1,
-        align: 'center',
-      },
-    ),
-  );
-  server.listen(port);
+    console.log(
+      boxen(
+        `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
+          cliOptions.host
+        }:${port}`,
+        {
+          borderColor: 'green',
+          padding: 1,
+          margin: 1,
+          align: 'center',
+        },
+      ),
+    );
+    server.listen(port);
+  }
 }
