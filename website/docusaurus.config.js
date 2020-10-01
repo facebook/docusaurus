@@ -8,6 +8,23 @@
 const path = require('path');
 const versions = require('./versions.json');
 
+// This probably only makes sense for the alpha phase, temporary
+function getNextAlphaVersionName() {
+  const expectedPrefix = '2.0.0-alpha.';
+
+  const lastReleasedVersion = versions[0];
+  if (!lastReleasedVersion.includes(expectedPrefix)) {
+    throw new Error(
+      'this code is only meant to be used during the 2.0 alpha phase.',
+    );
+  }
+  const alphaBuild = parseInt(
+    lastReleasedVersion.replace(expectedPrefix, ''),
+    10,
+  );
+  return `${expectedPrefix}${alphaBuild + 1}`;
+}
+
 const allDocHomesPaths = [
   '/docs/',
   '/docs/next/',
@@ -177,18 +194,14 @@ module.exports = {
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          lastVersion: 'current',
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              // path: isDev || isDeployPreview ? '' : 'next',
-              label:
-                isDev || isDeployPreview
-                  ? `Next (${isDeployPreview ? 'deploy preview' : 'dev'})`
-                  : 'Next',
+              label: `${getNextAlphaVersionName()} (unreleased)`,
             },
           },
         },
