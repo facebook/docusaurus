@@ -221,7 +221,10 @@ export function createConfigFile({
   v1Config,
   siteDir,
   newDir,
-}: Omit<MigrationContext, 'v2Config'>): VersionTwoConfig {
+}: Pick<
+  MigrationContext,
+  'v1Config' | 'siteDir' | 'newDir'
+>): VersionTwoConfig {
   const siteConfig = v1Config;
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
