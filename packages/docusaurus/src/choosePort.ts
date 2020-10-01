@@ -92,7 +92,7 @@ export default async function choosePort(
   // @ts-expect-error: bad lib typedef?
   return detect(defaultPort, host).then(
     (port) =>
-      new Promise((resolve) => {
+      new Promise((resolve, reject) => {
         if (port === defaultPort) {
           return resolve(port);
         }
@@ -116,14 +116,16 @@ export default async function choosePort(
           inquirer.prompt(question).then((answer: any) => {
             if (answer.shouldChangePort) {
               resolve(port);
-            } else {
-              resolve(null);
             }
+            reject(new Error(`Could not run app on port ${defaultPort}.`));
           });
         } else {
           console.log(chalk.red(message));
           resolve(null);
         }
+        return null;
+      }).catch((reason) => {
+        console.log(chalk.red(reason));
         return null;
       }),
     (err) => {
