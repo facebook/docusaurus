@@ -18,7 +18,9 @@ const siteConfig = {
   cname: 'docusaurus.io',
   noIndex: false,
   users,
-  editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+  customDocsPath: 'website-1.x/docs',
+  editUrl:
+    'https://github.com/facebook/docusaurus/edit/master/website-1.x/docs/',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {doc: 'tutorial-setup', label: 'Tutorial'},

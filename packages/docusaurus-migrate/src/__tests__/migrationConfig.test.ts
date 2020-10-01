@@ -7,12 +7,17 @@
 
 import importFresh from 'import-fresh';
 import {createConfigFile} from '../index';
+import {VersionOneConfig} from '../types';
 
 describe('create config', () => {
   test('simple test', () => {
-    const input = importFresh(`${__dirname}/__fixtures__/sourceSiteConfig.js`);
+    const v1Config: VersionOneConfig = importFresh(
+      `${__dirname}/__fixtures__/sourceSiteConfig.js`,
+    ) as any;
+    const siteDir = 'website';
+    const newDir = 'websiteMigrated';
 
-    const result = createConfigFile(input);
+    const result = createConfigFile({v1Config, siteDir, newDir});
 
     const output = importFresh(
       `${__dirname}/__fixtures__/expectedSiteConfig.js`,

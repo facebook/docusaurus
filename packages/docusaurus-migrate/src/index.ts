@@ -61,16 +61,46 @@ function sanitizedFileContent(
   return sanitizedData;
 }
 
+// TODO refactor this new type should be used everywhere instead  of passing many params to each method
+type MigrationContext = {
+  siteDir: string;
+  newDir: string;
+  shouldMigrateMdFiles: boolean;
+  shouldMigratePages: boolean;
+  v1Config: VersionOneConfig;
+  v2Config: VersionTwoConfig;
+};
+
 export async function migrateDocusaurusProject(
   siteDir: string,
   newDir: string,
   shouldMigrateMdFiles: boolean = false,
   shouldMigratePages: boolean = false,
 ): Promise<void> {
-  const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
-  console.log('Starting migration from v1 to v2...');
-  const config = createConfigFile(siteConfig);
-  const classicPreset = config.presets[0][1];
+  function createMigrationContext(): MigrationContext {
+    const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+    console.log('Starting migration from v1 to v2...');
+    const partialMigrationContext = {
+      siteDir,
+      newDir,
+      shouldMigrateMdFiles,
+      shouldMigratePages,
+      v1Config,
+    };
+    const v2Config = createConfigFile(partialMigrationContext);
+    return {
+      ...partialMigrationContext,
+      v2Config,
+    };
+  }
+
+  const migrationContext = createMigrationContext();
+
+  // TODO need refactor legacy, we pass migrationContext to all methods
+  const siteConfig = migrationContext.v1Config;
+  const config = migrationContext.v2Config;
+
+  const classicPreset = migrationContext.v2Config.presets[0][1];
 
   const deps: Record<string, string> = {
     '@docusaurus/core': DOCUSAURUS_VERSION,
@@ -139,7 +169,7 @@ export async function migrateDocusaurusProject(
     );
   }
   try {
-    handleVersioning(siteDir, newDir, config, shouldMigrateMdFiles);
+    handleVersioning(siteDir, siteConfig, newDir, config, shouldMigrateMdFiles);
   } catch (errorInVersion) {
     console.log(
       chalk.red(
@@ -187,9 +217,15 @@ export async function migrateDocusaurusProject(
   console.log('Completed migration from v1 to v2');
 }
 
-export function createConfigFile(
-  siteConfig: VersionOneConfig,
-): VersionTwoConfig {
+export function createConfigFile({
+  v1Config,
+  siteDir,
+  newDir,
+}: Pick<
+  MigrationContext,
+  'v1Config' | 'siteDir' | 'newDir'
+>): VersionTwoConfig {
+  const siteConfig = v1Config;
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
 
@@ -215,6 +251,7 @@ export function createConfigFile(
       'colors',
       'copyright',
       'editUrl',
+      'customDocsPath',
       'facebookComments',
       'usePrism',
       'highlight',
@@ -241,6 +278,17 @@ export function createConfigFile(
       'Following Fields from siteConfig.js will be added to docusaurus.config.js in `customFields`',
     )}\n${chalk.yellow(Object.keys(customConfigFields).join('\n'))}`,
   );
+
+  let v2DocsPath: string | undefined;
+  if (siteConfig.customDocsPath) {
+    const absoluteDocsPath = path.resolve(
+      siteDir,
+      '..',
+      siteConfig.customDocsPath,
+    );
+    v2DocsPath = path.relative(newDir, absoluteDocsPath);
+  }
+
   const result: VersionTwoConfig = {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
@@ -258,6 +306,7 @@ export function createConfigFile(
         '@docusaurus/preset-classic',
         {
           docs: {
+            ...(v2DocsPath && {path: v2DocsPath}),
             homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
@@ -416,6 +465,7 @@ function migrateBlogFiles(
 
 function handleVersioning(
   siteDir: string,
+  siteConfig: VersionOneConfig,
   newDir: string,
   config: VersionTwoConfig,
   migrateMDFiles: boolean,
@@ -433,6 +483,7 @@ function handleVersioning(
     migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
     fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
     migrateVersionedDocs(
+      siteConfig,
       versions,
       siteDir,
       newDir,
@@ -456,6 +507,7 @@ function handleVersioning(
 }
 
 function migrateVersionedDocs(
+  siteConfig: VersionOneConfig,
   versions: string[],
   siteDir: string,
   newDir: string,
@@ -465,7 +517,7 @@ function migrateVersionedDocs(
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
       fs.copySync(
-        path.join(siteDir, '..', 'docs'),
+        path.join(siteDir, '..', siteConfig.customDocsPath || 'docs'),
         path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       fs.copySync(
