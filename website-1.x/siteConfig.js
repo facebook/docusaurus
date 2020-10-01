@@ -12,7 +12,7 @@ const siteConfig = {
   title: 'Docusaurus',
   tagline: 'Easy to Maintain Open Source Documentation Websites',
   url: 'https://docusaurus.io',
-  baseUrl: '/',
+  baseUrl: process.env.BASE_URL || '/',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   cname: 'docusaurus.io',
