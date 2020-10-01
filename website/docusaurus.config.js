@@ -201,7 +201,7 @@ module.exports = {
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} (next)`,
+              label: `${getNextAlphaVersionName()} (unreleased)`,
             },
           },
         },
