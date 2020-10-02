@@ -1,6 +1,7 @@
 ---
 title: Markdown Page example title
 description: Markdown Page example description
+wrapperClassName: docusaurus-markdown-example
 ---
 
 # Markdown page
@@ -53,7 +54,7 @@ import Chapter2 from './_chapter2.mdx';
 <Chapter2 />;
 ```
 
-import Chapter1 from './\_chapter2.mdx';
+import Chapter1 from './\_chapter1.md';
 
 <Chapter1/>
 

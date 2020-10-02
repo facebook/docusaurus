@@ -8,6 +8,23 @@
 const path = require('path');
 const versions = require('./versions.json');
 
+// This probably only makes sense for the alpha phase, temporary
+function getNextAlphaVersionName() {
+  const expectedPrefix = '2.0.0-alpha.';
+
+  const lastReleasedVersion = versions[0];
+  if (!lastReleasedVersion.includes(expectedPrefix)) {
+    throw new Error(
+      'this code is only meant to be used during the 2.0 alpha phase.',
+    );
+  }
+  const alphaBuild = parseInt(
+    lastReleasedVersion.replace(expectedPrefix, ''),
+    10,
+  );
+  return `${expectedPrefix}${alphaBuild + 1}`;
+}
+
 const allDocHomesPaths = [
   '/docs/',
   '/docs/next/',
@@ -113,12 +130,12 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'icon',
-            href: '/img/docusaurus.png',
+            href: 'img/docusaurus.png',
           },
           {
             tagName: 'link',
             rel: 'manifest',
-            href: '/manifest.json',
+            href: 'manifest.json',
           },
           {
             tagName: 'meta',
@@ -138,18 +155,18 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'apple-touch-icon',
-            href: '/img/docusaurus.png',
+            href: 'img/docusaurus.png',
           },
           {
             tagName: 'link',
             rel: 'mask-icon',
-            href: '/img/docusaurus.svg',
+            href: 'img/docusaurus.svg',
             color: 'rgb(62, 204, 94)',
           },
           {
             tagName: 'meta',
             name: 'msapplication-TileImage',
-            content: '/img/docusaurus.png',
+            content: 'img/docusaurus.png',
           },
           {
             tagName: 'meta',
@@ -177,18 +194,14 @@ module.exports = {
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          lastVersion: 'current',
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              // path: isDev || isDeployPreview ? '' : 'next',
-              label:
-                isDev || isDeployPreview
-                  ? `Next (${isDeployPreview ? 'deploy preview' : 'dev'})`
-                  : 'Next',
+              label: `${getNextAlphaVersionName()} (unreleased)`,
             },
           },
         },
@@ -207,7 +220,7 @@ module.exports = {
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
       },
     ],
@@ -228,6 +241,7 @@ module.exports = {
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
     image: 'img/docusaurus-soc.png',
+    // metadatas: [{name: 'twitter:card', content: 'summary'}],
     gtag: {
       trackingID: 'UA-141789564-1',
     },
@@ -235,7 +249,7 @@ module.exports = {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
       searchParameters: {
-        facetFilters: [`version:${versions[0]}`],
+        facetFilters: [`version:latest`],
       },
     },
     navbar: {

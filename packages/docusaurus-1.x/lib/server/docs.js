@@ -69,17 +69,20 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       /* Replace it to correct html link */
-      const docsSource = metadata.version
-        ? metadata.source.replace(/version-.*?\//, '')
-        : metadata.source;
+      const docsSource =
+        metadata.version && readMetadata.shouldGenerateNextReleaseDocs()
+          ? metadata.versioned_source.replace(/version-.*?\//, '')
+          : metadata.versioned_source;
       let htmlLink =
         mdToHtml[resolve(docsSource, mdMatch[1])] || mdToHtml[mdMatch[1]];
       if (htmlLink) {
         htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
         htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
         htmlLink = htmlLink.replace(
-          '/VERSION/',
-          metadata.version && metadata.version !== env.versioning.latestVersion
+          /\/VERSION\/(next\/)?/,
+          metadata.version &&
+            metadata.version !== env.versioning.latestVersion &&
+            readMetadata.shouldGenerateNextReleaseDocs()
             ? `/${metadata.version}/`
             : '/',
         );
@@ -95,7 +98,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
 
   if (mdBrokenLinks.length) {
     console.log(
-      `[WARN] unresolved links in file '${metadata.source}' >`,
+      `[WARN] unresolved links in file '${metadata.versioned_source}' >`,
       mdBrokenLinks,
     );
   }

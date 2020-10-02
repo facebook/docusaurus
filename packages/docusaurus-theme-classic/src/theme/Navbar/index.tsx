@@ -13,6 +13,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import useThemeConfig from '@theme/hooks/useThemeConfig';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -40,15 +41,12 @@ function splitNavItemsByPosition(items) {
 }
 
 function Navbar(): JSX.Element {
-  const {
-    title,
-    items = [],
-    hideOnScroll = false,
-  } = useDocusaurusContext().siteConfig.themeConfig.navbar;
-  const {
-    disableColorModeSwitch = false,
-  } = useDocusaurusContext().siteConfig.themeConfig.colorMode.disableSwitch;
   const {isClient} = useDocusaurusContext();
+
+  const {navbar, colorMode} = useThemeConfig();
+  const {title, items, hideOnScroll, style} = navbar;
+  const {disableSwitch: disableColorModeSwitch} = colorMode;
+
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
@@ -83,7 +81,9 @@ function Navbar(): JSX.Element {
   return (
     <nav
       ref={navbarRef}
-      className={clsx('navbar', 'navbar--light', 'navbar--fixed-top', {
+      className={clsx('navbar', 'navbar--fixed-top', {
+        'navbar--dark': style === 'dark',
+        'navbar--primary': style === 'primary',
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,

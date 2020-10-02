@@ -59,6 +59,8 @@ export type PluginOptions = MetadataOptions &
     docItemComponent: string;
     remarkPlugins: ([Function, object] | Function)[];
     rehypePlugins: string[];
+    beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
+    beforeDefaultRehypePlugins: ([Function, object] | Function)[];
     admonitions: any;
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;

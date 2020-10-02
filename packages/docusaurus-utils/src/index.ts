@@ -282,6 +282,9 @@ export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls;
   const resultArray = [];
 
+  let hasStartingSlash = false;
+  let hasEndingSlash = false;
+
   // If the first part is a plain protocol, we combine it with the next part.
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
     const first = urls.shift();
@@ -302,19 +305,30 @@ export function normalizeUrl(rawUrls: string[]): string {
     }
 
     if (component === '') {
+      if (i === urls.length - 1 && hasEndingSlash) {
+        resultArray.push('/');
+      }
       // eslint-disable-next-line
       continue;
     }
 
-    if (i > 0) {
-      // Removing the starting slashes for each component but the first.
-      component = component.replace(/^[/]+/, '');
+    if (component !== '/') {
+      if (i > 0) {
+        // Removing the starting slashes for each component but the first.
+        component = component.replace(
+          /^[/]+/,
+          // Special case where the first element of rawUrls is empty ["", "/hello"] => /hello
+          component[0] === '/' && !hasStartingSlash ? '/' : '',
+        );
+      }
+
+      hasEndingSlash = component[component.length - 1] === '/';
+      // Removing the ending slashes for each component but the last.
+      // For the last component we will combine multiple slashes to a single one.
+      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
     }
 
-    // Removing the ending slashes for each component but the last.
-    // For the last component we will combine multiple slashes to a single one.
-    component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
-
+    hasStartingSlash = true;
     resultArray.push(component);
   }
 

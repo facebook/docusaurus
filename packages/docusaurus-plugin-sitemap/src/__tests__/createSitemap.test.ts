@@ -19,6 +19,7 @@ describe('createSitemap', () => {
         cacheTime: 600,
         changefreq: 'daily',
         priority: 0.7,
+        trailingSlash: false,
       },
     );
     expect(sitemap.toString()).toContain(
@@ -44,8 +45,31 @@ describe('createSitemap', () => {
         cacheTime: 600,
         changefreq: 'daily',
         priority: 0.7,
+        trailingSlash: false,
       },
     );
     expect(sitemap.toString()).not.toContain('404');
+  });
+
+  test('add trailing slash', () => {
+    const sitemap = createSitemap(
+      {
+        url: 'https://example.com',
+      } as DocusaurusConfig,
+      ['/', '/test'],
+      {
+        cacheTime: 600,
+        changefreq: 'daily',
+        priority: 0.7,
+        trailingSlash: true,
+      },
+    );
+
+    expect(sitemap.toString()).toContain(
+      '<loc>https://example.com/test/</loc>',
+    );
+    expect(sitemap.toString()).not.toContain(
+      '<loc>https://example.com/test</loc>',
+    );
   });
 });

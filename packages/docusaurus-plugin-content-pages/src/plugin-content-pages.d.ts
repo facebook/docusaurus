@@ -13,6 +13,7 @@ declare module '@theme/MDXPage' {
       readonly frontMatter: {
         readonly title: string;
         readonly description: string;
+        readonly wrapperClassName?: string;
       };
       readonly metadata: {readonly permalink: string};
       readonly rightToc: readonly MarkdownRightTableOfContents[];

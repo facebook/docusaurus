@@ -245,7 +245,7 @@ declare module '@theme/Layout' {
     image?: string;
     keywords?: string[];
     permalink?: string;
-    version?: string;
+    wrapperClassName?: string;
   };
 
   const Layout: (props: Props) => JSX.Element;

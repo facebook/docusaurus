@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-pwa",
-  "version": "2.0.0-alpha.62",
+  "version": "2.0.0-alpha.65",
   "description": "Docusaurus Plugin to add PWA support",
   "main": "src/index.js",
   "publishConfig": {
@@ -11,17 +11,17 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",
     "@babel/plugin-proposal-optional-chaining": "^7.10.3",
     "@babel/preset-env": "^7.9.0",
-    "@docusaurus/core": "2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.65",
     "@hapi/joi": "^17.1.1",
     "babel-loader": "^8.1.0",
     "clsx": "^1.1.1",
     "core-js": "^2.6.5",
-    "terser-webpack-plugin": "^2.3.5",
-    "webpack": "^4.41.2",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "workbox-build": "^5.1.2",
-    "workbox-precaching": "^5.1.2",
-    "workbox-window": "^5.1.2"
+    "workbox-build": "^5.1.4",
+    "workbox-precaching": "^5.1.4",
+    "workbox-window": "^5.1.4"
   },
   "peerDependencies": {
     "react": "^16.8.4",

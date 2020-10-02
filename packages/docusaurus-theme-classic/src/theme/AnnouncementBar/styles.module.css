@@ -54,6 +54,8 @@
   }
   .announcementBarContent {
     width: auto;
+  }
+  .announcementBarCloseable {
     margin-right: 35px;
   }
 }

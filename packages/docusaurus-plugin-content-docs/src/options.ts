@@ -27,6 +27,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
   rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
@@ -60,6 +62,12 @@ export const OptionsSchema = Joi.object({
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
+    DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
+  ),
+  beforeDefaultRehypePlugins: RehypePluginsSchema.default(
+    DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
+  ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(

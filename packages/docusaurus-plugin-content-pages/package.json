@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-alpha.62",
+  "version": "2.0.0-alpha.65",
   "description": "Pages content plugin for Docusaurus",
   "main": "lib/index.js",
   "types": "src/plugin-content-pages.d.ts",
@@ -16,18 +16,18 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.62",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.62",
-    "@docusaurus/types": "2.0.0-alpha.62",
-    "@docusaurus/utils": "2.0.0-alpha.62",
-    "@docusaurus/utils-validation": "2.0.0-alpha.62",
+    "@docusaurus/core": "2.0.0-alpha.65",
+    "@docusaurus/mdx-loader": "2.0.0-alpha.65",
+    "@docusaurus/types": "2.0.0-alpha.65",
+    "@docusaurus/utils": "2.0.0-alpha.65",
+    "@docusaurus/utils-validation": "2.0.0-alpha.65",
     "@hapi/joi": "17.1.1",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
     "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
     "slash": "^3.0.0",
-    "webpack": "^4.41.2"
+    "webpack": "^4.44.1"
   },
   "peerDependencies": {
     "react": "^16.8.4",

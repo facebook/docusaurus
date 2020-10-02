@@ -234,6 +234,10 @@ function processVersionMetadata(file, version, useVersion, language) {
   metadata.id = (env.translation.enabled ? `${language}-` : '') + metadata.id;
   metadata.language = language;
   metadata.version = version;
+  metadata.versioned_source = metadata.source.replace(
+    `version-${useVersion}`,
+    `version-${version}`,
+  );
 
   return metadata;
 }

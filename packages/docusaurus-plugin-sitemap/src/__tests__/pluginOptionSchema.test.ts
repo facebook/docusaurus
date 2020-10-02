@@ -29,6 +29,7 @@ describe('normalizeSitemapPluginOptions', () => {
       cacheTime: 300,
       changefreq: 'yearly',
       priority: 0.9,
+      trailingSlash: false,
     };
     const {value} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);

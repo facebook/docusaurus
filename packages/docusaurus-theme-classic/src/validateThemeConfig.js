@@ -19,7 +19,12 @@ const DEFAULT_COLOR_MODE_CONFIG = {
     lightIconStyle: {},
   },
 };
-exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
+
+const DEFAULT_CONFIG = {
+  colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  metadatas: [],
+};
+exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
@@ -137,6 +142,15 @@ const ColorModeSchema = Joi.object({
   }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
+// schema can probably be improved
+const HtmlMetadataSchema = Joi.object({
+  id: Joi.string(),
+  name: Joi.string(),
+  property: Joi.string(),
+  content: Joi.string(),
+  itemprop: Joi.string(),
+}).unknown();
+
 const FooterLinkItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
@@ -151,6 +165,10 @@ const FooterLinkItemSchema = Joi.object({
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
+const CustomCssSchema = Joi.alternatives()
+  .try(Joi.array().items(Joi.string().required()), Joi.string().required())
+  .optional();
+
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden(false).messages({
@@ -162,8 +180,12 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
+  customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  metadatas: Joi.array()
+    .items(HtmlMetadataSchema)
+    .default(DEFAULT_CONFIG.metadatas),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
@@ -172,6 +194,7 @@ const ThemeConfigSchema = Joi.object({
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
+    style: Joi.string().equal('dark', 'primary'),
     hideOnScroll: Joi.bool().default(false),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({
@@ -216,6 +239,7 @@ const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array().items(Joi.string()),
   }).unknown(),
 });
+exports.ThemeConfigSchema = ThemeConfigSchema;
 
 exports.validateThemeConfig = ({validate, themeConfig}) => {
   return validate(ThemeConfigSchema, themeConfig);

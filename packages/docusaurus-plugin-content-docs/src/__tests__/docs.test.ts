@@ -354,7 +354,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to chooser either homePageId or slug, not both"`,
+      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to choose either homePageId or slug, not both"`,
     );
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/lqip-loader",
-  "version": "2.0.0-alpha.62",
+  "version": "2.0.0-alpha.65",
   "description": "Low Quality Image Placeholders (LQIP) loader for webpack",
   "main": "src/index.js",
   "publishConfig": {
