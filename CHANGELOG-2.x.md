@@ -1,5 +1,84 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.65 (2020-10-02)
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#3497](https://github.com/facebook/docusaurus/pull/3497) feat(v2): env variable TERSER_PARALLEL to customize TerserPlugin.parallel ([@aeneasr](https://github.com/aeneasr))
+  - [#3446](https://github.com/facebook/docusaurus/pull/3446) feat(v2): new docusaurus clear command ([@abadon7](https://github.com/abadon7))
+  - [#3485](https://github.com/facebook/docusaurus/pull/3485) feat(v2): Add @theme-init components to user theme ([@edno](https://github.com/edno))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`
+  - [#3467](https://github.com/facebook/docusaurus/pull/3467) feat(v2): add beforeDefaultRemarkPlugins/beforeDefaultRehypePlugins options to all md content plugins ([@ayshiff](https://github.com/ayshiff))
+- `docusaurus-init`, `docusaurus-theme-bootstrap`
+  - [#3496](https://github.com/facebook/docusaurus/pull/3496) feat(v2): migrate bootstrap components to ts ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3474](https://github.com/facebook/docusaurus/pull/3474) feat(v2): allow to use array of files in customCss field ([@Simek](https://github.com/Simek))
+- `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`
+  - [#3457](https://github.com/facebook/docusaurus/pull/3457) feat(v2): add optional custom wrapper class name for pages based on theme classic Layout ([@Simek](https://github.com/Simek))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3517](https://github.com/facebook/docusaurus/pull/3517) fix(v1): v1 deploy preview should be available ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3498](https://github.com/facebook/docusaurus/pull/3498) fix(v2): fixed props being passed to @svgr/webpack loader ([@anru](https://github.com/anru))
+- `docusaurus-theme-search-algolia`
+  - [#3456](https://github.com/facebook/docusaurus/pull/3456) fix(v2): use valid value for crossorigin attribute ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#3427](https://github.com/facebook/docusaurus/pull/3427) fix(v2): normalizeUrl edge cases ([@ayshiff](https://github.com/ayshiff))
+- `docusaurus-theme-classic`
+  - [#3472](https://github.com/facebook/docusaurus/pull/3472) fix(v2): Show dropdown instead of a single button when there are two versions ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`
+  - [#3441](https://github.com/facebook/docusaurus/pull/3441) fix(v2): fixing typo in error message ([@ayonious](https://github.com/ayonious))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#3499](https://github.com/facebook/docusaurus/pull/3499) chore(v2): upgrade Infima to 0.2.0-alpha.13 ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- `docusaurus`
+  - [#3502](https://github.com/facebook/docusaurus/pull/3502) docs(v2): add doc for wrapping theme components with @theme-original and @theme-init ([@slorber](https://github.com/slorber))
+- Other
+  - [#3473](https://github.com/facebook/docusaurus/pull/3473) misc: add License to the documentation ([@muskanvk](https://github.com/muskanvk))
+  - [#3492](https://github.com/facebook/docusaurus/pull/3492) docs(v2): Added drone.io publish docs #3491 ([@aakhtar3](https://github.com/aakhtar3))
+  - [#3479](https://github.com/facebook/docusaurus/pull/3479) docs(v2): remove redundant new line in code block ([@lex111](https://github.com/lex111))
+  - [#3448](https://github.com/facebook/docusaurus/pull/3448) chore(v2): fix theme classic navbar style docs ([@Simek](https://github.com/Simek))
+
+#### :house: Internal
+
+- `docusaurus-1.x`, `docusaurus-migrate`
+  - [#3504](https://github.com/facebook/docusaurus/pull/3504) chore(v1): move v1 docs inside website-1.x ([@slorber](https://github.com/slorber))
+- Other
+  - [#3506](https://github.com/facebook/docusaurus/pull/3506) chore(v2): v2 website should make it easy to contribute to upstream docs ([@slorber](https://github.com/slorber))
+  - [#3511](https://github.com/facebook/docusaurus/pull/3511) misc: update CODEOWNERS ([@yangshun](https://github.com/yangshun))
+  - [#3477](https://github.com/facebook/docusaurus/pull/3477) chore(v2): remove alpha 58 doc ([@lex111](https://github.com/lex111))
+- `docusaurus-utils-validation`
+  - [#3453](https://github.com/facebook/docusaurus/pull/3453) test(v2): add protocol relative uri validation test ([@moonrailgun](https://github.com/moonrailgun))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Andrey Rublev ([@anru](https://github.com/anru))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Grégory Heitz ([@edno](https://github.com/edno))
+- Henry Vélez ([@abadon7](https://github.com/abadon7))
+- Jeremy Hager ([@jeremyhager](https://github.com/jeremyhager))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Long Ho ([@longlho](https://github.com/longlho))
+- Muskan Kumar ([@muskanvk](https://github.com/muskanvk))
+- Nahiyan Kamal ([@ayonious](https://github.com/ayonious))
+- Rémi Doreau ([@ayshiff](https://github.com/ayshiff))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tim Gates ([@timgates42](https://github.com/timgates42))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- [@aakhtar3](https://github.com/aakhtar3)
+- hackerman ([@aeneasr](https://github.com/aeneasr))
+- moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
+
 ## 2.0.0-alpha.64 (2020-09-11)
 
 #### :rocket: New Feature

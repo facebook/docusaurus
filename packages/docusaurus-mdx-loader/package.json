@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.65",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
@@ -13,8 +13,8 @@
   "dependencies": {
     "@babel/parser": "^7.9.4",
     "@babel/traverse": "^7.9.0",
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/utils": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.65",
+    "@docusaurus/utils": "2.0.0-alpha.65",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "escape-html": "^1.0.3",
@@ -30,7 +30,7 @@
     "url-loader": "^4.1.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-alpha.64",
+    "@docusaurus/types": "2.0.0-alpha.65",
     "remark": "^12.0.0",
     "remark-mdx": "^1.5.8",
     "to-vfile": "^6.0.0",
