@@ -12,11 +12,11 @@ import clsx from 'clsx';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
+import useThemeConfig from '../../utils/useThemeConfig';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (
@@ -93,11 +93,7 @@ export default ({
   className: languageClassName,
   metastring,
 }: Props): JSX.Element => {
-  const {
-    siteConfig: {
-      themeConfig: {prism = {}},
-    },
-  } = useDocusaurusContext();
+  const {prism} = useThemeConfig();
 
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);

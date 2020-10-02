@@ -23,6 +23,13 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   metadatas: [],
+  prism: {
+    additionalLanguages: [],
+  },
+  navbar: {
+    hideOnScroll: false,
+    items: [],
+  },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -195,13 +202,15 @@ const ThemeConfigSchema = Joi.object({
   }).optional(),
   navbar: Joi.object({
     style: Joi.string().equal('dark', 'primary'),
-    hideOnScroll: Joi.bool().default(false),
+    hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
-    items: Joi.array().items(NavbarItemSchema),
+    items: Joi.array()
+      .items(NavbarItemSchema)
+      .default(DEFAULT_CONFIG.navbar.items),
     title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string().allow(''),
@@ -210,7 +219,7 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
       target: Joi.string(),
     }),
-  }),
+  }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
@@ -219,13 +228,15 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array().items(
-      Joi.object({
-        title: Joi.string().required(),
-        items: Joi.array().items(FooterLinkItemSchema).default([]),
-      }),
-    ),
-  }),
+    links: Joi.array()
+      .items(
+        Joi.object({
+          title: Joi.string().required(),
+          items: Joi.array().items(FooterLinkItemSchema).default([]),
+        }),
+      )
+      .default([]),
+  }).optional(),
   prism: Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
@@ -236,8 +247,12 @@ const ThemeConfigSchema = Joi.object({
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
     defaultLanguage: Joi.string(),
-    additionalLanguages: Joi.array().items(Joi.string()),
-  }).unknown(),
+    additionalLanguages: Joi.array()
+      .items(Joi.string())
+      .default(DEFAULT_CONFIG.prism.additionalLanguages),
+  })
+    .default(DEFAULT_CONFIG.prism)
+    .unknown(),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

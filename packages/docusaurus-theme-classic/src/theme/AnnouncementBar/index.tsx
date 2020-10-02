@@ -7,21 +7,23 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeConfig from '../../utils/useThemeConfig';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
   const {
-    siteConfig: {themeConfig: {announcementBar = {}} = {}} = {},
-  } = useDocusaurusContext();
-  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-  const {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
   } = useUserPreferencesContext();
+  const {announcementBar} = useThemeConfig();
 
+  if (!announcementBar) {
+    return null;
+  }
+
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
   if (!content || (isCloseable && isAnnouncementBarClosed)) {
     return null;
   }

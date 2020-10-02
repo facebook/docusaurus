@@ -11,14 +11,19 @@ const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
 
-function testValidateThemeConfig(themeConfig) {
-  return normalizeThemeConfig(ThemeConfigSchema, themeConfig);
+function testValidateThemeConfig(partialThemeConfig) {
+  return normalizeThemeConfig(ThemeConfigSchema, {
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
 }
 
-function testOk(partialConfig) {
-  expect(testValidateThemeConfig(partialConfig)).toEqual({
+function testOk(partialThemeConfig) {
+  expect(
+    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
+  ).toEqual({
     ...DEFAULT_CONFIG,
-    ...partialConfig,
+    ...partialThemeConfig,
   });
 }
 
@@ -101,7 +106,10 @@ describe('themeConfig', () => {
     };
     expect(testValidateThemeConfig(altTagConfig)).toEqual({
       ...DEFAULT_CONFIG,
-      ...altTagConfig,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
+      },
     });
   });
 
@@ -117,7 +125,7 @@ describe('themeConfig', () => {
     });
   });
 
-  describe.only('customCss config', () => {
+  describe('customCss config', () => {
     test('should accept customCss undefined', () => {
       testOk({
         customCss: undefined,

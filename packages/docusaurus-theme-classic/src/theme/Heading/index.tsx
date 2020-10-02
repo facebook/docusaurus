@@ -9,8 +9,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {HeadingType, Props} from '@theme/Heading';
+import useThemeConfig from '../../utils/useThemeConfig';
 
 import './styles.css';
 import styles from './styles.module.css';
@@ -18,10 +18,8 @@ import styles from './styles.module.css';
 const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {
     const {
-      siteConfig: {
-        themeConfig: {navbar: {hideOnScroll = false} = {}} = {},
-      } = {},
-    } = useDocusaurusContext();
+      navbar: {hideOnScroll},
+    } = useThemeConfig();
 
     if (!id) {
       return <Tag {...props} />;

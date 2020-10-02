@@ -24,18 +24,13 @@ import useLogo from '@theme/hooks/useLogo';
 
 const Example = () => {
   // highlight-next-line
-   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
     <Link to={logoLink} {...logoLinkProps}>
-      {logoImageUrl != null && (
-        <img
-          src={logoImageUrl}
-          alt={logoAlt}
-        />
-      )}
+      {logoImageUrl != null && <img src={logoImageUrl} alt={logoAlt} />}
     </Link>
-  )
+  );
 };
 ```
 
@@ -107,7 +102,6 @@ React Router should automatically apply active link styling to links, but you ca
 
 Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
-
 ## Footer
 
 You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.md). Logo URL works in the same way of the navbar logo.
@@ -125,58 +119,58 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
 ```
 
 ## Footer Links
-You can add links to the navbar via `themeConfig.footer.links`:
 
+You can add links to the navbar via `themeConfig.footer.links`:
 
 ```js {5-15} title="docusaurus.config.js"
 module.exports = {
   // ...
   footer: {
-      links: [
-        {
-          // Label of the section of these links
-          title: 'Docs',
-          items: [
-            {
-              // Label of the link
-              label: 'Style Guide',
-              // Client-side routing, used for navigating within the website.
-              // The baseUrl will be automatically prepended to this value.
-              to: 'docs/',
-            },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              // A full-page navigation, used for navigating outside of the website.
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-            {
-              //Renders the html pass-through instead of a simple link
-              html: `
+    links: [
+      {
+        // Label of the section of these links
+        title: 'Docs',
+        items: [
+          {
+            // Label of the link
+            label: 'Style Guide',
+            // Client-side routing, used for navigating within the website.
+            // The baseUrl will be automatically prepended to this value.
+            to: 'docs/',
+          },
+          {
+            label: 'Second Doc',
+            to: 'docs/doc2/',
+          },
+        ],
+      },
+      {
+        title: 'Community',
+        items: [
+          {
+            label: 'Stack Overflow',
+            // A full-page navigation, used for navigating outside of the website.
+            href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+          },
+          {
+            label: 'Discord',
+            href: 'https://discordapp.com/invite/docusaurus',
+          },
+          {
+            label: 'Twitter',
+            href: 'https://twitter.com/docusaurus',
+          },
+          {
+            //Renders the html pass-through instead of a simple link
+            html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
                   <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
                 </a>
               `,
-            },
-          ],
-        },
-      ],
-    },
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
