@@ -14,6 +14,9 @@ type ThemeConfig = {
   // TODO temporary types
   navbar: any;
   colorMode: any;
+  announcementBar: any;
+  prism: any;
+  footer: any;
 };
 
 export default function useThemeConfig(): ThemeConfig {

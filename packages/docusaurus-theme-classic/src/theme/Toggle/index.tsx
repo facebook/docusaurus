@@ -7,7 +7,7 @@
 
 import React, {ComponentProps} from 'react';
 import Toggle from 'react-toggle';
-
+import useThemeConfig from '../../utils/useThemeConfig';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import clsx from 'clsx';
@@ -26,11 +26,10 @@ const Light = ({icon, style}) => (
 
 export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
   const {
-    darkIcon,
-    darkIconStyle,
-    lightIcon,
-    lightIconStyle,
-  } = useDocusaurusContext().siteConfig.themeConfig.colorMode.switchConfig;
+    colorMode: {
+      switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
+    },
+  } = useThemeConfig();
   const {isClient} = useDocusaurusContext();
 
   return (

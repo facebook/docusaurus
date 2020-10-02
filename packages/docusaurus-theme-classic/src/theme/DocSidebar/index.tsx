@@ -8,6 +8,7 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeConfig from '../../utils/useThemeConfig';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -170,7 +171,9 @@ function DocSidebar({
   sidebarCollapsible = true,
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
-  const {title, hideOnScroll} = useDocusaurusContext().siteConfig.themeConfig;
+  const {
+    navbar: {title, hideOnScroll},
+  } = useThemeConfig();
   const {isClient} = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();

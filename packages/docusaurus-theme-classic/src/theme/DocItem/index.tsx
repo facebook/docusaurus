@@ -24,7 +24,7 @@ import {
 } from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;

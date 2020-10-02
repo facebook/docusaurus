@@ -210,7 +210,7 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
       target: Joi.string(),
     }),
-  }),
+  }).required(),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
@@ -225,7 +225,7 @@ const ThemeConfigSchema = Joi.object({
         items: Joi.array().items(FooterLinkItemSchema).default([]),
       }),
     ),
-  }),
+  }).optional(),
   prism: Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
@@ -237,7 +237,9 @@ const ThemeConfigSchema = Joi.object({
     }),
     defaultLanguage: Joi.string(),
     additionalLanguages: Joi.array().items(Joi.string()),
-  }).unknown(),
+  })
+    .default({})
+    .unknown(),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 
