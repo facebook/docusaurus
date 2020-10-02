@@ -48,7 +48,10 @@
     "netlify:deployPreview:v1": "yarn netlify:deployPreview:v1:setDeployPreviewVersions && yarn netlify:deployPreview:v1:build && yarn netlify:deployPreview:v1:moveBuild",
     "netlify:deployPreview:v1:setDeployPreviewVersions": "yarn node -e 'require(\"./website-1.x/netlifyUtils\").setDeployPreviewVersions()'",
     "netlify:deployPreview:v1:build": "BASE_URL=/v1/ yarn build:v1",
-    "netlify:deployPreview:v1:moveBuild": "mv website-1.x/build/docusaurus website/netlifyDeployPreview/v1"
+    "netlify:deployPreview:v1:moveBuild": "mv website-1.x/build/docusaurus website/netlifyDeployPreview/v1",
+    "netlify:deployPreview:v1-migrated": "yarn test:v1Migration:migrate && yarn netlify:deployPreview:v1-migrated:setBaseUrl && yarn netlify:deployPreview:v1-migrated:build",
+    "netlify:deployPreview:v1-migrated:setBaseUrl": "sed -i -e 's,\"baseUrl\": \"/\",\"baseUrl\": \"/v1-migrated/\",g'  ./website-1.x-migrated/docusaurus.config.js",
+    "netlify:deployPreview:v1-migrated:build": "yarn workspace docusaurus-1-website-migrated build --out-dir=../website/netlifyDeployPreview/v1-migrated"
   },
   "devDependencies": {
     "@babel/cli": "^7.9.0",
