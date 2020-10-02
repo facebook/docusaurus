@@ -32,7 +32,7 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 // having this recursive structure is bad because we only support 2 levels
 // + parent/child don't have exactly the same props
 const DefaultNavbarItemSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('...')),
+  items: Joi.array().optional().items(Joi.link('...')).default([]),
   to: Joi.string(),
   href: URISchema,
   label: Joi.string(),
@@ -201,7 +201,7 @@ const ThemeConfigSchema = Joi.object({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
-    items: Joi.array().items(NavbarItemSchema),
+    items: Joi.array().items(NavbarItemSchema).default([]),
     title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string().allow(''),
@@ -219,12 +219,14 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array().items(
-      Joi.object({
-        title: Joi.string().required(),
-        items: Joi.array().items(FooterLinkItemSchema).default([]),
-      }),
-    ),
+    links: Joi.array()
+      .items(
+        Joi.object({
+          title: Joi.string().required(),
+          items: Joi.array().items(FooterLinkItemSchema).default([]),
+        }),
+      )
+      .default([]),
   }).optional(),
   prism: Joi.object({
     theme: Joi.object({
@@ -236,7 +238,7 @@ const ThemeConfigSchema = Joi.object({
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
     defaultLanguage: Joi.string(),
-    additionalLanguages: Joi.array().items(Joi.string()),
+    additionalLanguages: Joi.array().items(Joi.string()).default([]),
   })
     .default({})
     .unknown(),
