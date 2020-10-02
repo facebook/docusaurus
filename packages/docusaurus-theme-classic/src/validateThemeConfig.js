@@ -23,6 +23,13 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   metadatas: [],
+  prism: {
+    additionalLanguages: [],
+  },
+  navbar: {
+    hideOnScroll: false,
+    items: [],
+  },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -32,7 +39,7 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 // having this recursive structure is bad because we only support 2 levels
 // + parent/child don't have exactly the same props
 const DefaultNavbarItemSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('...')).default([]),
+  items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
   href: URISchema,
   label: Joi.string(),
@@ -195,13 +202,15 @@ const ThemeConfigSchema = Joi.object({
   }).optional(),
   navbar: Joi.object({
     style: Joi.string().equal('dark', 'primary'),
-    hideOnScroll: Joi.bool().default(false),
+    hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
-    items: Joi.array().items(NavbarItemSchema).default([]),
+    items: Joi.array()
+      .items(NavbarItemSchema)
+      .default(DEFAULT_CONFIG.navbar.items),
     title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string().allow(''),
@@ -210,7 +219,7 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
       target: Joi.string(),
     }),
-  }).required(),
+  }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
@@ -238,9 +247,11 @@ const ThemeConfigSchema = Joi.object({
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
     defaultLanguage: Joi.string(),
-    additionalLanguages: Joi.array().items(Joi.string()).default([]),
+    additionalLanguages: Joi.array()
+      .items(Joi.string())
+      .default(DEFAULT_CONFIG.prism.additionalLanguages),
   })
-    .default({})
+    .default(DEFAULT_CONFIG.prism)
     .unknown(),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
