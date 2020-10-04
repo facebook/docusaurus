@@ -11,7 +11,7 @@ npm run build
 
 Once it finishes, the static files will be generated within the `build/` directory.
 
-You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/docs/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Testing Build Local
 
