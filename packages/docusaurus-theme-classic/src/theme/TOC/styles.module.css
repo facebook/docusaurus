@@ -11,6 +11,7 @@
   overflow-y: auto;
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 2rem);
+  transition: transform 0.2s ease 0s;
 }
 
 .tableOfContents::-webkit-scrollbar {
@@ -40,4 +41,3 @@
     padding: 0 0.3rem;
   }
 }
-  

@@ -44,7 +44,7 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
 function TOC({headings}: TOCProps): JSX.Element {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
   return (
-    <div className={styles.tableOfContents}>
+    <div id="docusaurus-toc" className={styles.tableOfContents}>
       <Headings headings={headings} />
     </div>
   );

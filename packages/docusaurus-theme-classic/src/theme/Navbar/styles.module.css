@@ -24,3 +24,8 @@
 .navbarHidden {
   top: calc(var(--ifm-navbar-height) * -1) !important;
 }
+
+.navbarHidden ~ :global(.main-wrapper) :global(#docusaurus-toc) {
+  transform: translateY(-61px);
+  transition: transform 0.2s ease 0s;
+}
