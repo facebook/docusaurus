@@ -21,27 +21,14 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
-import choosePort from '../choosePort';
-
-function getHost(reqHost: string | undefined): string {
-  return reqHost || 'localhost';
-}
-
-async function getPort(
-  reqPort: string | undefined,
-  host: string,
-): Promise<number | null> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
-  const port = await choosePort(host, basePort);
-  return port;
-}
+import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 
 export default async function start(
   siteDir: string,
-  cliOptions: Partial<StartCLIOptions> = {},
+  cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
@@ -82,8 +69,8 @@ export default async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
-  const host: string = getHost(cliOptions.host);
-  const port: number | null = await getPort(cliOptions.port, host);
+  const host: string = getCLIOptionHost(cliOptions.host);
+  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
 
   if (port === null) {
     process.exit();
