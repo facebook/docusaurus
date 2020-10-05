@@ -110,33 +110,28 @@
           "id": "version-2.0.0-alpha.65/presets"
         }
       ]
+    }
+  ],
+  "api": [
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.65/cli"
     },
     {
-      "collapsed": true,
-      "type": "category",
-      "label": "API Reference",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-2.0.0-alpha.65/cli"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0-alpha.65/docusaurus-core"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0-alpha.65/api/docusaurus.config.js"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0-alpha.65/lifecycle-apis"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0-alpha.65/theme-classic"
-        }
-      ]
+      "type": "doc",
+      "id": "version-2.0.0-alpha.65/docusaurus-core"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.65/api/docusaurus.config.js"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.65/lifecycle-apis"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.65/theme-classic"
     }
   ]
 }

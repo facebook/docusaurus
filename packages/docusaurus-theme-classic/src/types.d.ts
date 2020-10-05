@@ -284,6 +284,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     activeBasePath?: string;
     activeBaseRegex?: string;
     to?: string;
+    exact?: boolean;
     href?: string;
     label?: string;
     activeClassName?: string;

@@ -99,17 +99,14 @@ html[data-theme='dark'] .DocSearch {
   );
 }
 
-.navbar__item {
+.navbar__items > .navbar__item {
   position: relative;
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.navbar__item.navbar__link.doc-sidebar-active {
-  color: var(--ifm-link-color);
-}
-.navbar__item.navbar__link.doc-sidebar-active::after {
+.navbar__items > .navbar__item.navbar__link.navbar__link--active::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -117,4 +114,16 @@ html[data-theme='dark'] .DocSearch {
   width: 100%;
   height: 0.25rem;
   background-color: var(--ifm-link-color);
+}
+.navbar__items > .navbar__item.navbar__link.doc-sidebar-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--ifm-link-color);
+}
+.navbar__items > .navbar__item.navbar__link.doc-sidebar-active {
+  color: var(--ifm-link-color);
 }

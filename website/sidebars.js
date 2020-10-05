@@ -40,7 +40,7 @@ module.exports = {
       items: ['using-plugins', 'using-themes', 'presets'],
     },
   ],
-  API: [
+  api: [
     'cli',
     'docusaurus-core',
     'api/docusaurus.config.js',

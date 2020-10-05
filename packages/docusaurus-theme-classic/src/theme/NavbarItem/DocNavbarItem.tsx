@@ -34,6 +34,7 @@ Available docIds=\n- ${version.docs.join('\n- ')}`,
 
   return (
     <DefaultNavbarItem
+      exact
       {...props}
       className={clsx(props.className, {
         'doc-sidebar-active': activeDoc && activeDoc.sidebar === doc.sidebar,
