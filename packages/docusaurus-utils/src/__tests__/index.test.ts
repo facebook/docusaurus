@@ -38,7 +38,9 @@ describe('load utils', () => {
       'user/docs/test.md': '@site/../docs/test.md',
     };
     Object.keys(asserts).forEach((file) => {
-      expect(aliasedSitePath(file, 'user/website')).toBe(asserts[file]);
+      expect(posixPath(aliasedSitePath(file, 'user/website'))).toBe(
+        asserts[file],
+      );
     });
   });
 
@@ -509,15 +511,15 @@ describe('removePrefix', () => {
 
 describe('getFilePathForRoutePath', () => {
   test('works for /', () => {
-    expect(getFilePathForRoutePath('/')).toEqual('/index.html');
+    expect(posixPath(getFilePathForRoutePath('/'))).toEqual('/index.html');
   });
   test('works for /somePath', () => {
-    expect(getFilePathForRoutePath('/somePath')).toEqual(
+    expect(posixPath(getFilePathForRoutePath('/somePath'))).toEqual(
       '/somePath/index.html',
     );
   });
   test('works for /somePath/', () => {
-    expect(getFilePathForRoutePath('/somePath/')).toEqual(
+    expect(posixPath(getFilePathForRoutePath('/somePath/'))).toEqual(
       '/somePath/index.html',
     );
   });
