@@ -14,6 +14,7 @@ import createRedirectPageContent from './createRedirectPageContent';
 import {
   addTrailingSlash,
   getFilePathForRoutePath,
+  posixPath,
   removeTrailingSlash,
 } from '@docusaurus/utils';
 
@@ -41,7 +42,9 @@ export function toRedirectFilesMetadata(
       getFilePathForRoutePath(redirect.from),
     );
     const toUrl = addTrailingSlash(
-      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
+      `${removeTrailingSlash(pluginContext.baseUrl)}${posixPath(
+        path.join(redirect.to),
+      )}`,
     );
     const fileContent = createPageContentMemoized(toUrl);
     return {
