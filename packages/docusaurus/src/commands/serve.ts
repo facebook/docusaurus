@@ -12,11 +12,12 @@ import chalk from 'chalk';
 import path from 'path';
 
 import build from './build';
-import choosePort from '../choosePort';
+import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {ServeCLIOptions} from '@docusaurus/types';
 
 export default async function serve(
   siteDir: string,
-  cliOptions: {port: string; build: boolean; dir: string; host: string},
+  cliOptions: ServeCLIOptions,
 ): Promise<void> {
   let dir = path.join(siteDir, cliOptions.dir);
   if (cliOptions.build) {
@@ -28,10 +29,9 @@ export default async function serve(
       false,
     );
   }
-  const port: number | null = await choosePort(
-    cliOptions.host,
-    Number(cliOptions.port),
-  );
+
+  const host: string = getCLIOptionHost(cliOptions.host);
+  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
 
   if (port === null) {
     process.exit();
