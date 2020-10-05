@@ -322,6 +322,18 @@ declare module '@theme/NavbarItem/DocsVersionNavbarItem' {
   export default DocsVersionNavbarItem;
 }
 
+declare module '@theme/NavbarItem/DocNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps & {
+    readonly docId: string;
+    readonly docsPluginId?: string;
+  };
+
+  const DocsSidebarNavbarItem: (props: Props) => JSX.Element;
+  export default DocsSidebarNavbarItem;
+}
+
 declare module '@theme/NavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';

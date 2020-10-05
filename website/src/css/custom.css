@@ -14,6 +14,8 @@
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-color-feedback-background: #fff;
+
+  --ifm-navbar-padding-vertical: 0;
 }
 
 html[data-theme='dark'] {
@@ -95,4 +97,24 @@ html[data-theme='dark'] .DocSearch {
     var(--ifm-color-emphasis-200) 0%,
     var(--ifm-color-emphasis-100) 100%
   );
+}
+
+.navbar__item {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__item.navbar__link.doc-sidebar-active {
+  color: var(--ifm-link-color);
+}
+.navbar__item.navbar__link.doc-sidebar-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--ifm-link-color);
 }

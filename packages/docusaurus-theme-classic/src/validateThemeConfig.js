@@ -70,6 +70,14 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   docsPluginId: Joi.string(),
 });
 
+const DocItemSchema = Joi.object({
+  type: Joi.string().equal('doc').required(),
+  position: NavbarItemPosition,
+  docId: Joi.string().required(),
+  label: Joi.string(),
+  docsPluginId: Joi.string(),
+});
+
 // Can this be made easier? :/
 const isOfType = (type) => {
   let typeSchema = Joi.string().required();
@@ -93,6 +101,10 @@ const NavbarItemSchema = Joi.object().when({
     {
       is: isOfType('docsVersionDropdown'),
       then: DocsVersionDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('doc'),
+      then: DocItemSchema,
     },
     {
       is: isOfType(undefined),

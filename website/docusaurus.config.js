@@ -265,6 +265,18 @@ module.exports = {
           type: 'docsVersionDropdown',
           position: 'left',
         },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'cli',
+          label: 'API',
+        },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {

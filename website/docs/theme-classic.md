@@ -262,6 +262,27 @@ module.exports = {
 };
 ```
 
+### Navbar doc link
+
+If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided docId. It will get the class `doc-sidebar-active` as long as you browse a doc of the same sidebar.
+
+```js {5-10} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+      ],
+    },
+  },
+};
+```
+
 ### Navbar docs version dropdown
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions. The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
