@@ -37,11 +37,29 @@ export default async function start(
   // Process all related files as a prop.
   const props = await load(siteDir);
 
+  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+
+  const host: string = getCLIOptionHost(cliOptions.host);
+  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+
+  if (port === null) {
+    process.exit();
+  }
+
+  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
+  const urls = prepareUrls(protocol, host, port);
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+
   // Reload files processing.
   const reload = () => {
-    load(siteDir).catch((err) => {
-      console.error(chalk.red(err.stack));
-    });
+    load(siteDir)
+      .then(({baseUrl: newBaseUrl}) => {
+        const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
+        console.log(chalk.cyanBright(`Website is running on: ${newOpenUrl}`));
+      })
+      .catch((err) => {
+        console.error(chalk.red(err.stack));
+      });
   };
   const {siteConfig, plugins = []} = props;
 
@@ -66,19 +84,6 @@ export default async function start(
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
-
-  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-
-  const host: string = getCLIOptionHost(cliOptions.host);
-  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
-
-  if (port === null) {
-    process.exit();
-  }
-
-  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
-  const urls = prepareUrls(protocol, host, port);
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
