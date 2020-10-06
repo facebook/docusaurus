@@ -41,6 +41,7 @@ export interface DocusaurusConfig {
         [key: string]: unknown;
       }
   )[];
+  clientModules?: string[];
   ssrTemplate?: string;
   stylesheets?: (
     | string

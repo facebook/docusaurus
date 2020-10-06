@@ -306,6 +306,23 @@ module.exports = {
 };
 ```
 
+### `clientModules`
+
+An array of client modules to load globally on your site:
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  clientModules: [
+    require.resolve('./mySiteGlobalJs.js'),
+    require.resolve('./mySiteGlobalCss.css'),
+  ],
+};
+```
+
+See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules)
+
 ### `ssrTemplate`
 
 An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from `upstream`.
