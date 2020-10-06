@@ -361,7 +361,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 #### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
 
-**BREAKING**: `editUrl` should point to (website) docusaurus project instead of `docs` directory.
+**BREAKING**: `editUrl` should point to (website) Docusaurus project instead of `docs` directory.
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
@@ -671,11 +671,11 @@ To use the migration command, follow these steps:
 
 2. To migrate your v1 website, run the migration command with the appropriate filesystem paths:
 
-```
-// migration command format
+```bash
+# migration command format
 npx @docusaurus/migrate migrate <v1 website directory> <desired v2 website directory>
 
-// example
+# example
 npx @docusaurus/migrate migrate ./v1-website ./v2-website
 ```
 
@@ -689,15 +689,15 @@ yarn start
 
 #### Options
 
-You can add option flags to the migration command to automatically migrate markdown content and pages to v2. It is likely that you will still need to make some manual changes to achieve your desired result.
+You can add option flags to the migration command to automatically migrate Markdown content and pages to v2. It is likely that you will still need to make some manual changes to achieve your desired result.
 
 | Name     | Description                                            |
 | -------- | ------------------------------------------------------ |
-| `--mdx`  | Add this flag to convert markdown to mdx automatically |
+| `--mdx`  | Add this flag to convert Markdown to MDX automatically |
 | `--page` | Add this flag to migrate pages automatically           |
 
-```
-// example using options
+```bash
+# example using options
 npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
 ```
 
@@ -705,7 +705,7 @@ npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
 
 The migration of pages and MDX is still a work in progress.
 
-We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the --page and --mdx options.
+We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the `--page` and `--mdx` options.
 
 This way, you'd be able to easily inspect and fix the diff.
 
