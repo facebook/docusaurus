@@ -645,6 +645,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'ReactSeals',
+    image: '/img/users/reactseals.png',
+    infoLink: 'https://reactseals.com/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'react-slate',
     image: '/img/users/react-slate.svg',
     infoLink: 'https://react-slate.surge.sh/',
