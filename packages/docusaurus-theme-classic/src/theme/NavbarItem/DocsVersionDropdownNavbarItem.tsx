@@ -13,6 +13,7 @@ import {
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import {useDocsPreferredVersionPersistence} from '../../utils/useDocsPreferredVersionPersistence';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -25,6 +26,13 @@ export default function DocsVersionDropdownNavbarItem({
   const activeDocContext = useActiveDocContext(docsPluginId);
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
+
+  const preferredVersionPersistence = useDocsPreferredVersionPersistence({
+    docsPluginId,
+  });
+  const preferredVersion = versions.find(
+    (version) => version.name === preferredVersionPersistence.versionName,
+  );
 
   function getItems() {
     // We don't want to render a version dropdown with 0 or 1 item
@@ -45,11 +53,15 @@ export default function DocsVersionDropdownNavbarItem({
         label: version.label,
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
+        onClick: () => {
+          preferredVersionPersistence.setVersionName(version.name);
+        },
       };
     });
   }
 
-  const dropdownVersion = activeDocContext.activeVersion ?? latestVersion;
+  const dropdownVersion =
+    activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
   // Mobile is handled a bit differently
   const dropdownLabel = mobile ? 'Versions' : dropdownVersion.label;

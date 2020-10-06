@@ -8,6 +8,15 @@
 const Joi = require('@hapi/joi');
 const {URISchema} = require('@docusaurus/utils-validation');
 
+const DEFAULT_DOCS_CONFIG = {
+  versionPersistence: 'localStorage',
+};
+const DocsSchema = Joi.object({
+  versionPersistence: Joi.string()
+    .equal('localStorage', 'none')
+    .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+}).default(DEFAULT_DOCS_CONFIG);
+
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
   disableSwitch: false,
@@ -22,6 +31,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  docs: DEFAULT_DOCS_CONFIG,
   metadatas: [],
   prism: {
     additionalLanguages: [],
@@ -190,6 +200,7 @@ const ThemeConfigSchema = Joi.object({
   customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  docs: DocsSchema,
   metadatas: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadatas),

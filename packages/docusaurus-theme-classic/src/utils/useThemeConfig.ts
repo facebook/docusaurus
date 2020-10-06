@@ -7,6 +7,10 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 type ThemeConfig = {
+  docs: {
+    versionPersistence: 'localStorage' | 'none';
+  };
+
   // TODO we should complete this theme config type over time
   // and share it across all themes
   // and use it in the Joi validation schema?
