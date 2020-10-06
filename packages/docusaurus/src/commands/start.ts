@@ -50,12 +50,16 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
+  console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
+
   // Reload files processing.
   const reload = () => {
     load(siteDir)
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
-        console.log(chalk.cyanBright(`Website is running on: ${newOpenUrl}`));
+        console.log(
+          chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
+        );
       })
       .catch((err) => {
         console.error(chalk.red(err.stack));
