@@ -10,6 +10,7 @@ import {loadContext} from '@docusaurus/core/lib/server';
 
 import pluginContentPages from '../index';
 import normalizePluginOptions from './pluginOptionSchema.test';
+import {posixPath} from '@docusaurus/utils';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
@@ -28,27 +29,29 @@ describe('docusaurus-plugin-content-pages', () => {
       {
         type: 'jsx',
         permalink: '/',
-        source: path.join('@site', pluginPath, 'index.js'),
+        source: posixPath(path.join('@site', pluginPath, 'index.js')),
       },
       {
         type: 'jsx',
         permalink: '/typescript',
-        source: path.join('@site', pluginPath, 'typescript.tsx'),
+        source: posixPath(path.join('@site', pluginPath, 'typescript.tsx')),
       },
       {
         type: 'mdx',
         permalink: '/hello/',
-        source: path.join('@site', pluginPath, 'hello', 'index.md'),
+        source: posixPath(path.join('@site', pluginPath, 'hello', 'index.md')),
       },
       {
         type: 'mdx',
         permalink: '/hello/mdxPage',
-        source: path.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        source: posixPath(
+          path.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        ),
       },
       {
         type: 'jsx',
         permalink: '/hello/world',
-        source: path.join('@site', pluginPath, 'hello', 'world.js'),
+        source: posixPath(path.join('@site', pluginPath, 'hello', 'world.js')),
       },
     ]);
   });
