@@ -328,6 +328,7 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
 
   export type Props = DefaultNavbarItemProps & {
     readonly docId: string;
+    readonly activeSidebarClassName: string;
     readonly docsPluginId?: string;
   };
 

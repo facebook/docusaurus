@@ -264,7 +264,7 @@ module.exports = {
 
 ### Navbar doc link
 
-If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided docId. It will get the class `doc-sidebar-active` as long as you browse a doc of the same sidebar.
+If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided docId. It will get the class `activeSidebarClassName` as long as you browse a doc of the same sidebar.
 
 ```js {5-10} title="docusaurus.config.js"
 module.exports = {
@@ -276,6 +276,7 @@ module.exports = {
           position: 'left',
           docId: 'introduction',
           label: 'Docs',
+          activeSidebarClassName: 'navbar__link--active',
         },
       ],
     },

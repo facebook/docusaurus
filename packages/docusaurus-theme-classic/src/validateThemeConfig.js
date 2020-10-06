@@ -76,6 +76,7 @@ const DocItemSchema = Joi.object({
   docId: Joi.string().required(),
   label: Joi.string(),
   docsPluginId: Joi.string(),
+  activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
 // Can this be made easier? :/

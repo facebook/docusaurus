@@ -13,6 +13,7 @@ import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 
 export default function DocNavbarItem({
   docId,
+  activeSidebarClassName,
   label: staticLabel,
   docsPluginId,
   ...props
@@ -37,7 +38,8 @@ Available docIds=\n- ${version.docs.join('\n- ')}`,
       exact
       {...props}
       className={clsx(props.className, {
-        'doc-sidebar-active': activeDoc && activeDoc.sidebar === doc.sidebar,
+        [activeSidebarClassName]:
+          activeDoc && activeDoc.sidebar === doc.sidebar,
       })}
       label={staticLabel ?? doc.id}
       to={doc.path}
