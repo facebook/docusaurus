@@ -157,7 +157,7 @@ npm access ls-packages
 </pre>
 </details>
 
-It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organisation, but you don't have access to the packages that are not in that organisation.
+It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
 
 Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
 
@@ -196,7 +196,7 @@ Now that the release is done, **merge the pull request**.
 
 ### 8. Notify people about new release (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 

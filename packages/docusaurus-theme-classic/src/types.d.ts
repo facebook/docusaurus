@@ -105,7 +105,7 @@ declare module '@theme/Heading' {
   export default Heading;
 }
 
-declare module '@theme/hooks/useAnnoucementBar' {
+declare module '@theme/hooks/useAnnouncementBar' {
   export type useAnnouncementBarReturns = {
     readonly isAnnouncementBarClosed: boolean;
     readonly closeAnnouncementBar: () => void;

@@ -11,9 +11,9 @@ This section is a work in progress.
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## `validateOptions({options,validate})`
+## `validateOptions({options, validate})`
 
-Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during intialization.
+Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during initialization.
 
 ### `options`
 
@@ -61,7 +61,7 @@ export function validateOptions({options, validate}) {
 }
 ```
 
-## `validateThemeConfig({themeConfig,validate})`
+## `validateThemeConfig({themeConfig, validate})`
 
 Return validated and normalized configuration for the theme.
 
@@ -217,7 +217,7 @@ export default function friendsPlugin(context, options) {
         path: '/friends',
         component: '@site/src/components/Friends.js',
         modules: {
-          // propName -> json file path
+          // propName -> JSON file path
           friends: friendsJsonPath,
         },
         exact: true,
@@ -231,9 +231,9 @@ export default function friendsPlugin(context, options) {
 
 This function permits to create some global plugin data, that can be read from any page, including the pages created by other plugins, and your theme layout.
 
-This data become accessible to your client-side/theme code, through the [`useGlobalData`](./docusaurus-core.md#useglobaldata) and [`usePluginData`](./docusaurus-core.md#useplugindatapluginname-string-pluginid-string)
+This data become accessible to your client-side/theme code, through the [`useGlobalData`](./docusaurus-core.md#useglobaldata) and [`usePluginData`](./docusaurus-core.md#useplugindatapluginname-string-pluginid-string).
 
-One this data is created, you can access it with the global data hooks APIs
+One this data is created, you can access it with the global data hooks APIs.
 
 :::caution
 

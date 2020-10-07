@@ -6,7 +6,7 @@ wrapperClassName: docusaurus-markdown-example
 
 # Markdown page
 
-This is a page generated from markdown to illustrate the markdown page feature.
+This is a page generated from markdown to illustrate the Markdown page feature.
 
 It supports all the regular MDX features, as you can see:
 
