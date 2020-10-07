@@ -69,6 +69,8 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(DefaultNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DefaultNavbarItemSchema).default([]),
 });
 
 const DocItemSchema = Joi.object({
