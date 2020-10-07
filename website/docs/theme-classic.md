@@ -297,11 +297,11 @@ module.exports = {
           type: 'docsVersionDropdown',
           position: 'left',
 
-          // Add additional dropdown items at the beginning/end of the dropdown
+          // Add additional dropdown items at the beginning/end of the dropdown.
           dropdownItemsBefore: [],
           dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
 
-          // do not add the link active class when browsing docs
+          // Do not add the link active class when browsing docs.
           dropdownActiveClassDisabled: true,
         },
       ],
