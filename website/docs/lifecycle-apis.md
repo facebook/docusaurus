@@ -531,17 +531,17 @@ module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
 
-As an example, to make your theme load a `customCss` object from `options` passed in by the user:
+As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 
 ```js {7-9} title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
-  const {customCss} = options || {};
+  const {customCss, customJs} = options || {};
   return {
     name: 'name-of-my-theme',
     getClientModules() {
-      return [customCss];
+      return [customCss, customJs];
     },
   };
 };
