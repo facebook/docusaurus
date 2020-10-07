@@ -76,6 +76,12 @@ function Layout(props: Props): JSX.Element {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
+
+        <meta
+          // TODO likely temporary as version must follow semver
+          name="docsearch:version"
+          content="default"
+        />
       </Head>
 
       <Head

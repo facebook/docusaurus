@@ -13,6 +13,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   export type PropVersionMetadata = {
+    pluginId: string;
     version: string;
     label: string;
     isLast: boolean;

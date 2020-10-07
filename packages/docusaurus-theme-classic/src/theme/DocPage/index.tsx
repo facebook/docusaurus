@@ -32,9 +32,11 @@ type DocPageContentProps = {
 // Note the last version is also indexed with "last", to avoid breaking search on new releases
 // See https://github.com/facebook/docusaurus/issues/3391
 function DocSearchVersionHeader({
+  pluginId,
   version,
   isLast,
 }: {
+  pluginId: string;
   version: string;
   isLast: boolean;
 }) {
@@ -45,7 +47,13 @@ function DocSearchVersionHeader({
         name="docsearch:version"
         content={
           // See https://github.com/facebook/docusaurus/issues/3391#issuecomment-685594160
-          versions.join(',')
+          versions
+            .map(
+              (v) =>
+                // TODO likely temporary as version must follow semver
+                `${pluginId}-${v}`,
+            )
+            .join(',')
         }
       />
     </Head>
@@ -58,36 +66,46 @@ function DocPageContent({
   children,
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {permalinkToSidebar, docsSidebars, version, isLast} = versionMetadata;
+  const {
+    pluginId,
+    permalinkToSidebar,
+    docsSidebars,
+    version,
+    isLast,
+  } = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   return (
-    <>
-      <DocSearchVersionHeader version={version} isLast={isLast} />
-      <Layout key={isClient}>
-        <div className={styles.docPage}>
-          {sidebar && (
-            <div className={styles.docSidebarContainer} role="complementary">
-              <DocSidebar
-                key={
-                  // Reset sidebar state on sidebar changes
-                  // See https://github.com/facebook/docusaurus/issues/3414
-                  sidebarName
-                }
-                sidebar={sidebar}
-                path={currentDocRoute.path}
-                sidebarCollapsible={
-                  siteConfig.themeConfig?.sidebarCollapsible ?? true
-                }
-              />
-            </div>
-          )}
-          <main className={styles.docMainContainer}>
-            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-          </main>
-        </div>
-      </Layout>
-    </>
+    <Layout key={isClient}>
+      <DocSearchVersionHeader
+        // This comp must be nested under Layout
+        // because we want to override the Algolia Docsearch default header
+        pluginId={pluginId}
+        version={version}
+        isLast={isLast}
+      />
+      <div className={styles.docPage}>
+        {sidebar && (
+          <div className={styles.docSidebarContainer} role="complementary">
+            <DocSidebar
+              key={
+                // Reset sidebar state on sidebar changes
+                // See https://github.com/facebook/docusaurus/issues/3414
+                sidebarName
+              }
+              sidebar={sidebar}
+              path={currentDocRoute.path}
+              sidebarCollapsible={
+                siteConfig.themeConfig?.sidebarCollapsible ?? true
+              }
+            />
+          </div>
+        )}
+        <main className={styles.docMainContainer}>
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        </main>
+      </div>
+    </Layout>
   );
 }
 

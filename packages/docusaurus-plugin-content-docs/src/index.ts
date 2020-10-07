@@ -267,7 +267,11 @@ export default function pluginContentDocs(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
           )}.json`,
-          JSON.stringify(toVersionMetadataProp(loadedVersion), null, 2),
+          JSON.stringify(
+            toVersionMetadataProp(pluginId, loadedVersion),
+            null,
+            2,
+          ),
         );
 
         addRoute({

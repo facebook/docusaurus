@@ -13,6 +13,7 @@ import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
+import useDocsearchParameters from '@theme/hooks/useDocsearchParameters';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 
 let DocSearchModal = null;
@@ -33,6 +34,9 @@ function ResultsFooter({state, onClose}) {
 
 function DocSearch(props) {
   const {siteMetadata} = useDocusaurusContext();
+  const searchParameters = useDocsearchParameters();
+  console.log('docsearchParameters SearchBar', {searchParameters});
+
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchButtonRef = useRef(null);
@@ -151,6 +155,7 @@ function DocSearch(props) {
             hitComponent={Hit}
             resultsFooterComponent={resultsFooterComponent}
             transformSearchClient={transformSearchClient}
+            searchParameters={searchParameters}
             {...props}
           />,
           document.body,
