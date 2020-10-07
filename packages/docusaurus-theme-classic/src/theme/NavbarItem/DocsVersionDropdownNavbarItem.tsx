@@ -20,6 +20,7 @@ const getVersionMainDoc = (version) =>
 export default function DocsVersionDropdownNavbarItem({
   mobile,
   docsPluginId,
+  dropdownActiveClassDisabled,
   ...props
 }: Props): JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
@@ -64,6 +65,7 @@ export default function DocsVersionDropdownNavbarItem({
       label={dropdownLabel}
       to={dropdownTo}
       items={getItems()}
+      isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );
 }

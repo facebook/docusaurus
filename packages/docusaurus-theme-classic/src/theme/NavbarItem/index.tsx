@@ -20,6 +20,9 @@ const NavbarItemComponents = {
   docsVersionDropdown: () =>
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
+  doc: () =>
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@theme/NavbarItem/DocNavbarItem').default,
 } as const;
 
 const getNavbarItemComponent = (

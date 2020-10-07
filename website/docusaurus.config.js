@@ -264,6 +264,19 @@ module.exports = {
         {
           type: 'docsVersionDropdown',
           position: 'left',
+          dropdownActiveClassDisabled: true,
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'cli',
+          label: 'API',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
