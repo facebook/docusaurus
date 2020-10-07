@@ -264,6 +264,7 @@ module.exports = {
         {
           type: 'docsVersionDropdown',
           position: 'left',
+          dropdownActiveClassDisabled: true,
         },
         {
           type: 'doc',

@@ -68,6 +68,7 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  dropdownActiveClassDisabled: Joi.boolean(),
 });
 
 const DocItemSchema = Joi.object({

@@ -289,6 +289,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     label?: string;
     activeClassName?: string;
     prependBaseUrlToHref?: string;
+    isActive?: () => boolean;
   } & ComponentProps<'a'>;
 
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
@@ -308,7 +309,10 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
 
-  export type Props = DefaultNavbarItemProps & {readonly docsPluginId?: string};
+  export type Props = DefaultNavbarItemProps & {
+    readonly docsPluginId?: string;
+    dropdownActiveClassDisabled?: boolean;
+  };
 
   const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;
   export default DocsVersionDropdownNavbarItem;
