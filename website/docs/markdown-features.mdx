@@ -568,6 +568,22 @@ module.exports = {
 };
 ```
 
+If you added a language under `prism.additionalLanguages` and used it on a code-block but that code-block is not getting highlighted, the reason might be missing styling support for tokens of that language in whatever syntax highlighting theme your Docusaurus config is using. You could manually add CSS, or you could import additional prism theme that will provide missing style for such language:
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    // ...
+    theme: {
+      customCss: [
+        require.resolve('./src/css/custom.css'),
+        'prismjs/themes/prism-dark.css'  // Additional prism theme.
+      ]
+    }
+  ]
+}
+```
+  
 If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
 ```bash npm2yarn
