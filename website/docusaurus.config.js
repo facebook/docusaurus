@@ -136,7 +136,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: '/manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
