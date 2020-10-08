@@ -15,7 +15,6 @@ import {
   fileToPath,
   aliasedSitePath,
   docuHash,
-  posixPath,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -97,7 +96,7 @@ export default function pluginContentPages(
 
       function toMetadata(relativeSource: string): Metadata {
         const source = path.join(pagesDir, relativeSource);
-        const aliasedSourcePath = posixPath(aliasedSitePath(source, siteDir));
+        const aliasedSourcePath = aliasedSitePath(source, siteDir);
         const pathName = encodePath(fileToPath(relativeSource));
         const permalink = pathName.replace(/^\//, baseUrl || '');
         if (isMarkdownSource(relativeSource)) {
