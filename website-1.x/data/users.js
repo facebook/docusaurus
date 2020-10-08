@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = [
+const users = [
   // Please add your logo in alphabetical order of caption.
   {
     caption: '1Hive',
@@ -892,3 +892,13 @@ module.exports = [
 
   // Please add your logo in alphabetical order of caption.
 ];
+
+users.forEach((user) => {
+  if (!user.image || !user.image.startsWith('/img/users/')) {
+    throw new Error(
+      `Bad user site image = ${user.image}. The image should be hosted on Docusaurus site, in /static/img/users/ folder, and not use remote http or https urls`,
+    );
+  }
+});
+
+module.exports = users;
