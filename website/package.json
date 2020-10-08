@@ -50,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.1"
   }
 }
