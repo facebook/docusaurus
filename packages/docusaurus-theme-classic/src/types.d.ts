@@ -308,10 +308,13 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
 
   export type Props = DefaultNavbarItemProps & {
     readonly docsPluginId?: string;
     dropdownActiveClassDisabled?: boolean;
+    dropdownItemsBefore: NavLinkProps[];
+    dropdownItemsAfter: NavLinkProps[];
   };
 
   const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;

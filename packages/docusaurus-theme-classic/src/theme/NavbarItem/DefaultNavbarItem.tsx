@@ -9,6 +9,8 @@ import React, {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useLocation} from '@docusaurus/router';
+import {isSamePath} from '../../utils';
 import useOnClickOutside from 'use-onclickoutside';
 import type {
   NavLinkProps,
@@ -140,6 +142,11 @@ function NavItemMobile({
   className,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
+  const {pathname} = useLocation();
+  const [collapsed, setCollapsed] = useState(
+    () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
+  );
+
   // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
     clsx(
@@ -159,8 +166,16 @@ function NavItemMobile({
   }
 
   return (
-    <li className="menu__list-item">
-      <NavLink className={navLinkClassNames(className, true)} {...props}>
+    <li
+      className={clsx('menu__list-item', {
+        'menu__list-item--collapsed': collapsed,
+      })}>
+      <NavLink
+        className={navLinkClassNames(className, true)}
+        {...props}
+        onClick={() => {
+          setCollapsed((state) => !state);
+        }}>
         {props.label}
       </NavLink>
       <ul className="menu__list">

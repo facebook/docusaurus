@@ -136,7 +136,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: 'manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
@@ -260,11 +260,6 @@ module.exports = {
       },
       items: [
         {
-          type: 'docsVersionDropdown',
-          position: 'left',
-          dropdownActiveClassDisabled: true,
-        },
-        {
           type: 'doc',
           position: 'left',
           docId: 'introduction',
@@ -284,10 +279,17 @@ module.exports = {
           position: 'left',
           activeBaseRegex: `/community/`,
         },
+        // right
         {
-          to: '/versions',
-          label: 'All versions',
+          type: 'docsVersionDropdown',
           position: 'right',
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: 'All versions',
+            },
+          ],
         },
         {
           href: 'https://github.com/facebook/docusaurus',

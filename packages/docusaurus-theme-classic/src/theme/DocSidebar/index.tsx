@@ -9,6 +9,7 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeConfig from '../../utils/useThemeConfig';
+import {isSamePath} from '../../utils';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -29,12 +30,6 @@ function usePrevious(value) {
   }, [value]);
   return ref.current;
 }
-
-// Compare the 2 paths, ignoring trailing /
-const isSamePath = (path1, path2) => {
-  const normalize = (str) => (str.endsWith('/') ? str : `${str}/`);
-  return normalize(path1) === normalize(path2);
-};
 
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
