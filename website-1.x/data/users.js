@@ -84,6 +84,13 @@ module.exports = [
     fbOpenSource: true,
     pinned: true,
   },
+   {
+    caption: 'Axioms',
+    image: 'https://static.axioms.io/branding/favicon.svg',
+    infoLink: 'https://developer.axioms.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
   {
     caption: 'Babel',
     image: '/img/users/babel.svg',
