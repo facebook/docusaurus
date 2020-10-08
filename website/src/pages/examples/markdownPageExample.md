@@ -92,7 +92,7 @@ Let's say you have a React component.
 
 You can import and use it in MDX:
 
-```jsx
+```jsx title="myMarkdownFile.mdx"
 import MyComponent from './myComponent';
 
 <MyComponent />;
@@ -106,7 +106,7 @@ import MyComponent from './myComponent';
 
 But you can also display its source code directly in MDX, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/)
 
-```jsx
+```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
 
 import MyComponentSource from '!!raw-loader!./myComponent';
@@ -118,4 +118,8 @@ import CodeBlock from "@theme/CodeBlock"
 
 import MyComponentSource from '!!raw-loader!./\_myComponent';
 
+<BrowserWindow url="http://localhost:3000">
+
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>
