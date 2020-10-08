@@ -366,13 +366,13 @@ Deploy your app in a matter of seconds using surge with the following steps:
 npm install --g surge
 ```
 
-1. To build the static files of your site for production in the root directory of your project, run:
+2. To build the static files of your site for production in the root directory of your project, run:
 
 ```bash
 npm run build
 ```
 
-1. Then, run this command inside the root directory of your project:
+3. Then, run this command inside the root directory of your project:
 
 ```bash
 surge build/
@@ -380,7 +380,7 @@ surge build/
 
 First-time users of Surge would be prompted to create an account from the command line(happens only once).
 
-Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
+Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
 
 ### Using your domain
 

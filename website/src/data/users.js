@@ -258,6 +258,15 @@ const users = [
     fbOpenSource: false,
     pinned: true,
   },
+  {
+    title: 'Wisdom',
+    description: 'Session replay web analytics with open data SQL/S3 access.',
+    preview: require('./showcase/wisdom.png'),
+    website: 'https://developers.getwisdom.io/',
+    source: 'https://github.com/Wisdom/dev-docs',
+    fbOpenSource: false,
+    pinned: true,
+  },
 ];
 
 export default users;

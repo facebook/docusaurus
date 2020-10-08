@@ -105,7 +105,7 @@ declare module '@theme/Heading' {
   export default Heading;
 }
 
-declare module '@theme/hooks/useAnnoucementBar' {
+declare module '@theme/hooks/useAnnouncementBar' {
   export type useAnnouncementBarReturns = {
     readonly isAnnouncementBarClosed: boolean;
     readonly closeAnnouncementBar: () => void;
@@ -284,10 +284,12 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     activeBasePath?: string;
     activeBaseRegex?: string;
     to?: string;
+    exact?: boolean;
     href?: string;
     label?: string;
     activeClassName?: string;
     prependBaseUrlToHref?: string;
+    isActive?: () => boolean;
   } & ComponentProps<'a'>;
 
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
@@ -306,8 +308,14 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
 
-  export type Props = DefaultNavbarItemProps & {readonly docsPluginId?: string};
+  export type Props = DefaultNavbarItemProps & {
+    readonly docsPluginId?: string;
+    dropdownActiveClassDisabled?: boolean;
+    dropdownItemsBefore: NavLinkProps[];
+    dropdownItemsAfter: NavLinkProps[];
+  };
 
   const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;
   export default DocsVersionDropdownNavbarItem;
@@ -320,6 +328,19 @@ declare module '@theme/NavbarItem/DocsVersionNavbarItem' {
 
   const DocsVersionNavbarItem: (props: Props) => JSX.Element;
   export default DocsVersionNavbarItem;
+}
+
+declare module '@theme/NavbarItem/DocNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps & {
+    readonly docId: string;
+    readonly activeSidebarClassName: string;
+    readonly docsPluginId?: string;
+  };
+
+  const DocsSidebarNavbarItem: (props: Props) => JSX.Element;
+  export default DocsSidebarNavbarItem;
 }
 
 declare module '@theme/NavbarItem' {

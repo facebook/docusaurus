@@ -20,6 +20,9 @@ const getVersionMainDoc = (version) =>
 export default function DocsVersionDropdownNavbarItem({
   mobile,
   docsPluginId,
+  dropdownActiveClassDisabled,
+  dropdownItemsBefore,
+  dropdownItemsAfter,
   ...props
 }: Props): JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
@@ -27,14 +30,7 @@ export default function DocsVersionDropdownNavbarItem({
   const latestVersion = useLatestVersion(docsPluginId);
 
   function getItems() {
-    // We don't want to render a version dropdown with 0 or 1 item
-    // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
-    // We'd rather render a buttonb instead of a dropdown
-    if (versions.length <= 1) {
-      return undefined;
-    }
-
-    return versions.map((version) => {
+    const versionLinks = versions.map((version) => {
       // We try to link to the same doc, in another version
       // When not possible, fallback to the "main doc" of the version
       const versionDoc =
@@ -47,6 +43,21 @@ export default function DocsVersionDropdownNavbarItem({
         isActive: () => version === activeDocContext?.activeVersion,
       };
     });
+
+    const items = [
+      ...dropdownItemsBefore,
+      ...versionLinks,
+      ...dropdownItemsAfter,
+    ];
+
+    // We don't want to render a version dropdown with 0 or 1 item
+    // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
+    // We'd rather render a buttonb instead of a dropdown
+    if (items.length <= 1) {
+      return undefined;
+    }
+
+    return items;
   }
 
   const dropdownVersion = activeDocContext.activeVersion ?? latestVersion;
@@ -64,6 +75,7 @@ export default function DocsVersionDropdownNavbarItem({
       label={dropdownLabel}
       to={dropdownTo}
       items={getItems()}
+      isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );
 }

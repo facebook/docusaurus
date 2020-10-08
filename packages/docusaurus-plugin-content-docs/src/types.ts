@@ -148,6 +148,7 @@ export type LoadedContent = {
 export type GlobalDoc = {
   id: string;
   path: string;
+  sidebar: string | undefined;
 };
 
 export type GlobalVersion = {

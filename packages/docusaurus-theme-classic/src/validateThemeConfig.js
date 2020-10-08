@@ -68,6 +68,18 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(DefaultNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DefaultNavbarItemSchema).default([]),
+});
+
+const DocItemSchema = Joi.object({
+  type: Joi.string().equal('doc').required(),
+  position: NavbarItemPosition,
+  docId: Joi.string().required(),
+  label: Joi.string(),
+  docsPluginId: Joi.string(),
+  activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
 // Can this be made easier? :/
@@ -93,6 +105,10 @@ const NavbarItemSchema = Joi.object().when({
     {
       is: isOfType('docsVersionDropdown'),
       then: DocsVersionDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('doc'),
+      then: DocItemSchema,
     },
     {
       is: isOfType(undefined),
