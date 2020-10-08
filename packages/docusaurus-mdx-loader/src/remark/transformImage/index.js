@@ -38,7 +38,7 @@ const createJSX = (node, pathUrl) => {
 // Needed to throw errors with computer-agnostic path messages
 // Absolute paths are too dependant of user FS
 function toRelativePath(filePath) {
-  return path.relative(process.cwd(), filePath);
+  return posixPath(path.relative(process.cwd(), filePath));
 }
 
 async function ensureImageFileExist(imagePath, sourceFilePath) {
