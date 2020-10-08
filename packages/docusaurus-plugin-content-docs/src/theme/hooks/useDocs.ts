@@ -19,6 +19,7 @@ import {
   getActiveDocContext,
   getDocVersionSuggestions,
   GetActivePluginOptions,
+  ActivePlugin,
 } from '../../client/docsClientUtils';
 
 export const useAllDocsData = (): Record<string, GlobalPluginData> =>
@@ -35,15 +36,19 @@ export const useActivePlugin = (options: GetActivePluginOptions = {}) => {
 
 export const useActivePluginAndVersion = (
   options: GetActivePluginOptions = {},
-) => {
-  const {pathname} = useLocation();
+):
+  | undefined
+  | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined} => {
   const activePlugin = useActivePlugin(options);
-  return activePlugin
-    ? {
-        activePlugin,
-        activeVersion: getActiveVersion(activePlugin.pluginData, pathname),
-      }
-    : undefined;
+  const {pathname} = useLocation();
+  if (activePlugin) {
+    const activeVersion = getActiveVersion(activePlugin.pluginData, pathname);
+    return {
+      activePlugin,
+      activeVersion,
+    };
+  }
+  return undefined;
 };
 
 // versions are returned ordered (most recent first)

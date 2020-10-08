@@ -6,17 +6,18 @@
  */
 import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
 
-export default function useDocsearchParameters() {
+// TODO decouple this from DocSearch?
+// Maybe users will want to use its own search engine solution
+export default function useSearchTags() {
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();
 
-  function getDocPluginFacetFilters(docPluginId: string) {
+  function getDocPluginTags(docPluginId: string) {
     const activeVersion =
-      activePluginAndVersion &&
-      activePluginAndVersion.pluginId === docPluginId &&
-      activePluginAndVersion.version
-        ? activePluginAndVersion.version
+      activePluginAndVersion?.activePlugin?.pluginId === docPluginId
+        ? activePluginAndVersion.activeVersion
         : undefined;
+
     const fallbackVersion = allDocsData[docPluginId].versions.find(
       (v) => v.isLast,
     );
@@ -26,21 +27,18 @@ export default function useDocsearchParameters() {
     return `version:${docPluginId}-${facetVersion.name}`;
   }
 
-  const facetFilters = [
-    // `language:en`, // TODO
-    [
-      `default`,
-      ...Object.keys(allDocsData).map(getDocPluginFacetFilters),
-      /*
+  const tags = [
+    // `language:en`, // TODO on i18n branch, later
+    // [
+    `default`,
+    ...Object.keys(allDocsData).map(getDocPluginTags),
+    /*
       `version:ios-1.0`,
       `version:android-3.0`,
       `version:js-unreleased`,
-
        */
-    ],
+    // ],
   ];
 
-  return {
-    facetFilters,
-  };
+  return tags;
 }
