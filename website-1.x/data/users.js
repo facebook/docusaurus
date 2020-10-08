@@ -894,7 +894,7 @@ const users = [
 ];
 
 users.forEach((user) => {
-  if (!user.image || !user.image.startsWith('/img/users/')) {
+  if (!user.image || user.image.indexOf('/img/users/') !== 0) {
     throw new Error(
       `Bad user site image = ${user.image}. The image should be hosted on Docusaurus site, in /static/img/users/ folder, and not use remote http or https urls`,
     );

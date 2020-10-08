@@ -272,8 +272,8 @@ const users = [
 users.forEach((user) => {
   if (
     !user.preview ||
-    user.preview.startsWith('http') ||
-    user.preview.startsWith('//')
+    user.preview.indexOf('http') === 0 ||
+    user.preview.indexOf('//') === 0
   ) {
     throw new Error(
       `Bad user site image preview = ${user.preview}. The image should be hosted on Docusaurus site, and not use remote http or https urls`,
