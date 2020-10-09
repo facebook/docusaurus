@@ -105,7 +105,7 @@ export function getBrokenLinksErrorMessage(
   }
 
   return (
-    `Broken links found!` +
+    `Broken links found!\nPlease check the pages of your site in the list bellow, and  make sure you don't reference any path that does not exist\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.\n\n` +
     `${Object.entries(allBrokenLinks)
       .map(([pagePath, brokenLinks]) =>
         pageBrokenLinksMessage(pagePath, brokenLinks),
@@ -191,7 +191,6 @@ export async function handleBrokenLinks({
 
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
-    const finalMessage = `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n\n`;
-    reportMessage(finalMessage, onBrokenLinks);
+    reportMessage(errorMessage, onBrokenLinks);
   }
 }
