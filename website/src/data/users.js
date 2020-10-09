@@ -27,7 +27,7 @@ const users = [
     pinned: false,
   },
   {
-    caption: 'Axioms',
+    title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
     infoLink: 'https://developer.axioms.io/',
