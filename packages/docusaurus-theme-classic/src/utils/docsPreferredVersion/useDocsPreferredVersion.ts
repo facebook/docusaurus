@@ -7,7 +7,10 @@
 import {useCallback} from 'react';
 import {useDocsPreferredVersionContext} from './DocsPreferredVersionProvider';
 import {useDocsData} from '@theme/hooks/useDocs';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+
+// TODO why this import does not work!
+// import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+const DEFAULT_PLUGIN_ID = 'default';
 
 // Note, the preferredVersion attribute will always be null before mount
 export default function useDocsPreferredVersion(
