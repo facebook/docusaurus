@@ -35,10 +35,22 @@ const createJSX = (node, pathUrl) => {
   }
 };
 
+/**
+ * Revove replace the starting "../" with "".
+ * E.g: ../package/doc -> package/doc
+ */
+function cleanPath(filePath) {
+  if (filePath.startsWith('../')) {
+    return filePath.replace('../', '');
+  } else {
+    return filePath;
+  }
+}
+
 // Needed to throw errors with computer-agnostic path messages
 // Absolute paths are too dependant of user FS
 function toRelativePath(filePath) {
-  return posixPath(path.relative(process.cwd(), filePath));
+  return cleanPath(posixPath(path.relative(process.cwd(), filePath)));
 }
 
 async function ensureImageFileExist(imagePath, sourceFilePath) {
