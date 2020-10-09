@@ -21,10 +21,10 @@ import {
   GetActivePluginOptions,
 } from '../../client/docsClientUtils';
 
-const useAllDocsData = (): Record<string, GlobalPluginData> =>
+export const useAllDocsData = (): Record<string, GlobalPluginData> =>
   useAllPluginInstancesData('docusaurus-plugin-content-docs');
 
-const useDocsData = (pluginId: string | undefined) =>
+export const useDocsData = (pluginId: string | undefined) =>
   usePluginData('docusaurus-plugin-content-docs', pluginId) as GlobalPluginData;
 
 export const useActivePlugin = (options: GetActivePluginOptions = {}) => {

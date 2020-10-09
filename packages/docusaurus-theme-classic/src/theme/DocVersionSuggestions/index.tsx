@@ -13,7 +13,7 @@ import {
   useActiveVersion,
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
-import {useDocsPreferredVersionPersistence} from '../../utils/useDocsPreferredVersionPersistence';
+import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -24,9 +24,7 @@ function DocVersionSuggestions(): JSX.Element {
   } = useDocusaurusContext();
   const {pluginId} = useActivePlugin({failfast: true});
 
-  const preferredVersionPersistence = useDocsPreferredVersionPersistence({
-    docsPluginId: pluginId,
-  });
+  const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
   const activeVersion = useActiveVersion(pluginId);
   const {
@@ -67,9 +65,7 @@ function DocVersionSuggestions(): JSX.Element {
           <Link
             to={latestVersionSuggestedDoc.path}
             onClick={() =>
-              preferredVersionPersistence.setVersionName(
-                latestVersionSuggestion.name,
-              )
+              savePreferredVersionName(latestVersionSuggestion.name)
             }>
             latest version
           </Link>

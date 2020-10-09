@@ -13,7 +13,7 @@ import {
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
-import {useDocsPreferredVersionPersistence} from '../../utils/useDocsPreferredVersionPersistence';
+import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -27,11 +27,8 @@ export default function DocsVersionDropdownNavbarItem({
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
-  const preferredVersionPersistence = useDocsPreferredVersionPersistence({
+  const {preferredVersion, savePreferredVersionName} = useDocsPreferredVersion(
     docsPluginId,
-  });
-  const preferredVersion = versions.find(
-    (version) => version.name === preferredVersionPersistence.versionName,
   );
 
   function getItems() {
@@ -54,7 +51,7 @@ export default function DocsVersionDropdownNavbarItem({
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
         onClick: () => {
-          preferredVersionPersistence.setVersionName(version.name);
+          savePreferredVersionName(version.name);
         },
       };
     });

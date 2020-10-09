@@ -6,9 +6,11 @@
  */
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-type ThemeConfig = {
+export type DocsVersionPersistence = 'localStorage' | 'none';
+
+export type ThemeConfig = {
   docs: {
-    versionPersistence: 'localStorage' | 'none';
+    versionPersistence: DocsVersionPersistence;
   };
 
   // TODO we should complete this theme config type over time
