@@ -30,7 +30,7 @@ const users = [
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
-    infoLink: 'https://developer.axioms.io/',
+    website: 'https://developer.axioms.io/',
     source: 'https://github.com/axioms-io/developer',
     fbOpenSource: false,
     pinned: false,
