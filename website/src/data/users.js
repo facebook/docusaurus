@@ -27,6 +27,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Axioms',
+    description: 'Axioms Developer Hub and Documentation Portal',
+    preview: require('./showcase/axioms.png'),
+    website: 'https://developer.axioms.io/',
+    source: 'https://github.com/axioms-io/developer',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
