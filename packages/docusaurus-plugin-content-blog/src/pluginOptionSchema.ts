@@ -27,6 +27,7 @@ export const DEFAULT_OPTIONS = {
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
   blogDescription: 'Blog',
+  blogTitle: 'Blog title',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
@@ -52,6 +53,7 @@ export const PluginOptionSchema = Joi.object({
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
   ),
+  blogTitle: Joi.string().allow('').default(DEFAULT_OPTIONS.blogTitle),
   blogDescription: Joi.string()
     .allow('')
     .default(DEFAULT_OPTIONS.blogDescription),

@@ -18,9 +18,9 @@ function BlogListPage(props: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const isBlogOnlyMode = metadata.permalink === '/';
-  const title = isBlogOnlyMode ? siteTitle : 'Blog';
-  const {blogDescription} = metadata;
+  const {blogDescription, blogTitle, permalink} = metadata;
+  const isBlogOnlyMode = permalink === '/';
+  const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
     <Layout title={title} description={blogDescription}>
       <div className="container margin-vert--lg">
