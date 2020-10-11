@@ -36,6 +36,7 @@ function Layout(props: Props): JSX.Element {
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
     titleDelimiter,
+    noIndex,
   } = siteConfig;
   const {
     children,
@@ -75,6 +76,7 @@ function Layout(props: Props): JSX.Element {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
+        {noIndex && <meta name="robots" content="noindex" />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 

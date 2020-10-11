@@ -46,6 +46,7 @@ module.exports = {
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
+  noIndex: false,
   baseUrl,
   url: 'https://v2.docusaurus.io',
   onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',

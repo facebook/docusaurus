@@ -80,6 +80,20 @@ module.exports = {
 
 ## Optional fields
 
+### `noIndex`
+
+- Type: `boolean`
+
+Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  noIndex: true, // Defaults to false
+};
+```
+
 ### `onBrokenLinks`
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`

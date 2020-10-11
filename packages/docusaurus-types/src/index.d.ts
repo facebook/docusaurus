@@ -51,6 +51,7 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
+  noIndex?: boolean;
 }
 
 /**
@@ -122,6 +123,7 @@ export interface LoadContext {
   outDir: string;
   baseUrl: string;
   ssrTemplate?: string;
+  noIndex?: boolean;
 }
 
 export interface InjectedHtmlTags {

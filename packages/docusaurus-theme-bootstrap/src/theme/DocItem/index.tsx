@@ -15,7 +15,12 @@ import {Props} from '@theme/DocItem';
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle, titleDelimiter = ' | '} = siteConfig;
+  const {
+    url: siteUrl,
+    title: siteTitle,
+    titleDelimiter = ' | ',
+    noIndex,
+  } = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {description, title, permalink} = metadata;
@@ -49,6 +54,7 @@ function DocItem(props: Props): JSX.Element {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {noIndex && <meta name="robots" content="noindex" />}
       </Head>
       <main className="col col-md-8 p-0">
         <DocContent />

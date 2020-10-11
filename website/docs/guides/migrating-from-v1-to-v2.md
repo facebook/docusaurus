@@ -440,7 +440,6 @@ The following fields are all deprecated, you may remove from your configuration 
 - `markdownOptions` - We use MDX in v2 instead of Remarkable. Your markdown options have to be converted to Remark/Rehype plugins.
 - `markdownPlugins` - We use MDX in v2 instead of Remarkable. Your markdown plugins have to be converted to Remark/Rehype plugins.
 - `manifest`
-- `noIndex`
 - `onPageNav` - This is turned on by default now.
 - `separateCss` - It can imported in the same manner as `custom.css` mentioned above.
 - `scrollToTop`
