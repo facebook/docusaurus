@@ -140,6 +140,7 @@ export default function pluginContentBlog(
                 ? blogPaginationPermalink(page + 1)
                 : null,
             blogDescription: options.blogDescription,
+            blogTitle: options.blogTitle,
           },
           items: blogPosts
             .slice(page * postsPerPage, (page + 1) * postsPerPage)
