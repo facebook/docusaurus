@@ -123,7 +123,14 @@ function NavItemDesktop({
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
                   toggle(false);
-                  dropDownRef?.current?.nextElementSibling?.focus();
+                  
+                  const nextNavbarItem =
+                    dropDownRef.current &&
+                    (dropDownRef.current as HTMLElement).nextElementSibling;
+
+                  if (nextNavbarItem) {
+                    (nextNavbarItem as HTMLElement).focus();
+                  }                  
                 }
               }}
               activeClassName="dropdown__link--active"
