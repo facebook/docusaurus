@@ -19,11 +19,16 @@ import Footer from '@theme/Footer';
 import type {Props} from '@theme/Layout';
 
 import './styles.css';
+import DocsPreferredVersionContextProvider from '../../utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 function Providers({children}) {
   return (
     <ThemeProvider>
-      <UserPreferencesProvider>{children}</UserPreferencesProvider>
+      <UserPreferencesProvider>
+        <DocsPreferredVersionContextProvider>
+          {children}
+        </DocsPreferredVersionContextProvider>
+      </UserPreferencesProvider>
     </ThemeProvider>
   );
 }
