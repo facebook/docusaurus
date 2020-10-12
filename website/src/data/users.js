@@ -268,6 +268,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Vue NodeGui',
+    description: 'A cross-platform native desktop app library',
+    preview: require('./showcase/vue-nodegui.png'),
+    website: 'https://vue.nodegui.org/',
+    source: 'https://github.com/nodegui/vue-nodegui',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
