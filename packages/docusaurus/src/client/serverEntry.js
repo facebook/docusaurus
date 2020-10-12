@@ -51,6 +51,7 @@ export default async function render(locals) {
     onLinksCollected,
     baseUrl,
     ssrTemplate,
+    noIndex,
   } = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
@@ -101,6 +102,7 @@ export default async function render(locals) {
     metaAttributes,
     scripts,
     stylesheets,
+    noIndex,
     version: packageJson.version,
   });
 

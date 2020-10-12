@@ -22,6 +22,7 @@ export interface DocusaurusConfig {
   url: string;
   onBrokenLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
+  noIndex: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -51,7 +52,6 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
-  noIndex?: boolean;
 }
 
 /**
@@ -123,7 +123,6 @@ export interface LoadContext {
   outDir: string;
   baseUrl: string;
   ssrTemplate?: string;
-  noIndex?: boolean;
 }
 
 export interface InjectedHtmlTags {

@@ -84,7 +84,7 @@ module.exports = {
 
 - Type: `boolean`
 
-Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
+this option adds `<meta name="robots" content="noindex">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
 
 Example:
 

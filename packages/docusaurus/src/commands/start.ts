@@ -101,6 +101,7 @@ export default async function start(
         inject: false,
         filename: 'index.html',
         title: siteConfig.title,
+        noIndex: siteConfig.noIndex,
         headTags,
         preBodyTags,
         postBodyTags,

@@ -25,7 +25,7 @@ import {
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle, titleDelimiter, noIndex} = siteConfig;
+  const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {
@@ -77,7 +77,6 @@ function DocItem(props: Props): JSX.Element {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
-        {noIndex && <meta name="robots" content="noindex" />}
       </Head>
       <div
         className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
