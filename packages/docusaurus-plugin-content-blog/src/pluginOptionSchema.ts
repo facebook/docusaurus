@@ -27,7 +27,7 @@ export const DEFAULT_OPTIONS = {
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
   blogDescription: 'Blog',
-  blogTitle: 'Blog title',
+  blogTitle: 'Blog',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
