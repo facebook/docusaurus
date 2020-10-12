@@ -13,8 +13,10 @@ import React, {
   useState,
 } from 'react';
 import useThemeConfig, {DocsVersionPersistence} from '../useThemeConfig';
+import {isDocsPluginEnabled} from '../docsUtils';
 
-import {docsPluginEnabled, useAllDocsData} from '@theme/hooks/useDocs';
+import {useAllDocsData} from '@theme/hooks/useDocs';
+
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 
 type DocsPreferredVersionName = string | null;
@@ -132,7 +134,7 @@ export default function DocsPreferredVersionContextProvider({
 }: {
   children: ReactNode;
 }) {
-  if (docsPluginEnabled) {
+  if (isDocsPluginEnabled) {
     return (
       <DocsPreferredVersionContextProviderUnsafe>
         {children}
