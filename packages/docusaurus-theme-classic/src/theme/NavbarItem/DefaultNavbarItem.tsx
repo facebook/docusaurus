@@ -67,7 +67,7 @@ function NavItemDesktop({
   className,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  const dropDownRef = React.useRef<HTMLElement>(null);
+  const dropDownRef = React.useRef<HTMLDivElement>(null);
   const dropDownMenuRef = React.useRef<HTMLUListElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
   useOnClickOutside(dropDownRef, () => toggle(false));
