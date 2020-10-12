@@ -13,8 +13,10 @@
 // note: warning can be filtered: https://github.com/facebook/docusaurus/pull/3382#issuecomment-684966924
 try {
   module.exports = require('@theme-init/hooks/useDocs');
+  exports.docsPluginEnabled = true;
 } catch (e) {
   module.exports = {};
+  exports.docsPluginEnabled = false;
 }
 
 /*
