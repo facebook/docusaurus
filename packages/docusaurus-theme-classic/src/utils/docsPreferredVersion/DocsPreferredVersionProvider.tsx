@@ -139,7 +139,7 @@ export default function DocsPreferredVersionContextProvider({
       </DocsPreferredVersionContextProviderUnsafe>
     );
   } else {
-    return <>children</>;
+    return <>{children}</>;
   }
 }
 
