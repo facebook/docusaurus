@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
 // eslint-disable-next-line no-restricted-imports
 export {
   // constants were only available on node
@@ -12,3 +13,8 @@ export {
   // import {DEFAULT_PLUGIN_ID} '@docusaurus/constants'
   DEFAULT_PLUGIN_ID,
 } from '../../constants';
+ */
+
+// Not duplicating the constants seems to produce
+// weird TS compilation side-effects
+export const DEFAULT_PLUGIN_ID = 'default';
