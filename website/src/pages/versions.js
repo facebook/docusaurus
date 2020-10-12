@@ -30,27 +30,30 @@ function Version() {
       description="Docusaurus 2 Versions page listing all documented site versions">
       <main className="container margin-vert--lg">
         <h1>Docusaurus documentation versions</h1>
-        <div className="margin-bottom--lg">
-          <h3 id="next">Current version (Stable)</h3>
-          <p>
-            Here you can find the documentation for current released version.
-          </p>
-          <table>
-            <tbody>
-              <tr>
-                <th>{stableVersion.name}</th>
-                <td>
-                  <Link to={stableVersion.path}>Documentation</Link>
-                </td>
-                <td>
-                  <a href={`${repoUrl}/releases/tag/v${stableVersion.name}`}>
-                    Release Notes
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+
+        {stableVersion && (
+          <div className="margin-bottom--lg">
+            <h3 id="next">Current version (Stable)</h3>
+            <p>
+              Here you can find the documentation for current released version.
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <th>{stableVersion.name}</th>
+                  <td>
+                    <Link to={stableVersion.path}>Documentation</Link>
+                  </td>
+                  <td>
+                    <a href={`${repoUrl}/releases/tag/v${stableVersion.name}`}>
+                      Release Notes
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
 
         <div className="margin-bottom--lg">
           <h3 id="latest">Next version (Unreleased)</h3>
