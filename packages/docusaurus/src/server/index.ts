@@ -104,11 +104,18 @@ export async function load(
   // Make a fake plugin to:
   // - Resolve aliased theme components
   // - Inject scripts/stylesheets
-  const {stylesheets = [], scripts = []} = siteConfig;
+  const {
+    stylesheets = [],
+    scripts = [],
+    clientModules: siteConfigClientModules = [],
+  } = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
     options: {},
     version: {type: 'synthetic'},
+    getClientModules() {
+      return siteConfigClientModules;
+    },
     configureWebpack: () => ({
       resolve: {
         alias,

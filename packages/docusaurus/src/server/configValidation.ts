@@ -91,6 +91,7 @@ const ConfigSchema = Joi.object({
       type: Joi.string().required(),
     }).unknown(),
   ),
+  clientModules: Joi.array().items(Joi.string()),
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
 });

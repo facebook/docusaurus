@@ -57,6 +57,8 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
+            dropdownItemsBefore: [],
+            dropdownItemsAfter: [],
           },
           {
             to: 'docs/next/support',

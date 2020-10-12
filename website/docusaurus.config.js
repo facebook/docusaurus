@@ -54,6 +54,7 @@ module.exports = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -135,7 +136,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: 'manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
@@ -262,8 +263,16 @@ module.exports = {
       },
       items: [
         {
-          type: 'docsVersionDropdown',
+          type: 'doc',
           position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'cli',
+          label: 'API',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -273,10 +282,17 @@ module.exports = {
           position: 'left',
           activeBaseRegex: `/community/`,
         },
+        // right
         {
-          to: '/versions',
-          label: 'All versions',
+          type: 'docsVersionDropdown',
           position: 'right',
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: 'All versions',
+            },
+          ],
         },
         {
           href: 'https://github.com/facebook/docusaurus',

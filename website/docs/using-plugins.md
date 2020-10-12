@@ -201,6 +201,10 @@ module.exports = {
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website/blog/',
         /**
+         * Blog page title for better SEO
+         */
+        blogTitle: 'Blog title',
+        /**
          * Blog page meta description for better SEO
          */
         blogDescription: 'Blog',

@@ -39,16 +39,12 @@ module.exports = {
       label: 'Advanced Guides',
       items: ['using-plugins', 'using-themes', 'presets'],
     },
-    {
-      type: 'category',
-      label: 'API Reference',
-      items: [
-        'cli',
-        'docusaurus-core',
-        'api/docusaurus.config.js',
-        'lifecycle-apis',
-        'theme-classic',
-      ],
-    },
+  ],
+  api: [
+    'cli',
+    'docusaurus-core',
+    'api/docusaurus.config.js',
+    'lifecycle-apis',
+    'theme-classic',
   ],
 };
