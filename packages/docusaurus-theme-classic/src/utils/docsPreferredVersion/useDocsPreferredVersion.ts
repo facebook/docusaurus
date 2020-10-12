@@ -6,7 +6,7 @@
  */
 import {useCallback} from 'react';
 import {useDocsPreferredVersionContext} from './DocsPreferredVersionProvider';
-import {useDocsData} from '@theme/hooks/useDocs';
+import {useAllDocsData, useDocsData} from '@theme/hooks/useDocs';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 
@@ -31,4 +31,32 @@ export default function useDocsPreferredVersion(
   );
 
   return {preferredVersion, savePreferredVersionName} as const;
+}
+
+export function useDocsPreferredVersionByPluginId() {
+  const allDocsData = useAllDocsData();
+  const [state] = useDocsPreferredVersionContext();
+
+  function getPluginIdPreferredVersion(pluginId: string) {
+    const docsData = allDocsData[pluginId];
+    const {preferredVersionName} = state[pluginId];
+
+    return preferredVersionName
+      ? docsData.versions.find(
+          (version) => version.name === preferredVersionName,
+        )
+      : null;
+  }
+
+  const pluginIds = Object.keys(allDocsData);
+
+  const result: Record<
+    string,
+    any // TODO find a way to type this properly!
+  > = {};
+  pluginIds.forEach((pluginId) => {
+    result[pluginId] = getPluginIdPreferredVersion(pluginId);
+  });
+
+  return result;
 }

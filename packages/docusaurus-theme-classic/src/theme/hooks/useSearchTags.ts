@@ -5,26 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
+import {useDocsPreferredVersionByPluginId} from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 
 // TODO decouple this from DocSearch?
 // Maybe users will want to use its own search engine solution
 export default function useSearchTags() {
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();
+  const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();
 
-  function getDocPluginTags(docPluginId: string) {
+  function getDocPluginTags(pluginId: string) {
     const activeVersion =
-      activePluginAndVersion?.activePlugin?.pluginId === docPluginId
+      activePluginAndVersion?.activePlugin?.pluginId === pluginId
         ? activePluginAndVersion.activeVersion
         : undefined;
 
-    const fallbackVersion = allDocsData[docPluginId].versions.find(
-      (v) => v.isLast,
-    );
+    const preferredVersion = docsPreferredVersionByPluginId[pluginId];
 
-    const facetVersion = activeVersion ?? fallbackVersion;
+    const latestVersion = allDocsData[pluginId].versions.find((v) => v.isLast);
 
-    return `version:${docPluginId}-${facetVersion.name}`;
+    const facetVersion = activeVersion ?? preferredVersion ?? latestVersion;
+
+    return `version:${pluginId}-${facetVersion.name}`;
   }
 
   const tags = [
