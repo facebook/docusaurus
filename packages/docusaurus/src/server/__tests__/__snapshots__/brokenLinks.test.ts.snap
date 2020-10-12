@@ -1,18 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`brokenLinks getBrokenLinksErrorMessage 1`] = `
-"Broken links found!
-Please check the pages of your site in the list bellow, and  make sure you don't reference any path that does not exist
+"Docusaurus found broken links!
+
+Please check the pages of your site in the list bellow, and make sure you don't reference any path that does not exist.
 Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
 
+Exhaustive list of all broken links found:
+
+- On source page path = /docs/mySourcePage:
+   -> linking to ./myBrokenLink (resolved as: /docs/myBrokenLink)
+   -> linking to ../otherBrokenLink (resolved as: /otherBrokenLink)
+
+- On source page path = /otherSourcePage:
+   -> linking to /badLink
+"
+`;
+
+exports[`brokenLinks getBrokenLinksErrorMessage with potential layout broken links 1`] = `
+"Docusaurus found broken links!
+
+Please check the pages of your site in the list bellow, and make sure you don't reference any path that does not exist.
+Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+It looks like some of the broken links we found appear in many pages of your site.
+Maybe those broken links appear on all pages through your site layout?
+We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
+Frequent broken links are linking to: 
+- ./myBrokenLinkFrequent1
+- ./myBrokenLinkFrequent2
 
 
-- Page path = /docs/mySourcePage:
-   -> link to ./myBrokenLink (resolved as: /docs/myBrokenLink)
-   -> link to ../otherBrokenLink (resolved as: /otherBrokenLink)
+Exhaustive list of all broken links found:
 
+- On source page path = /docs/page1:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
 
-- Page path = /otherSourcePage:
-   -> link to /badLink
+- On source page path = /docs/page2:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+   -> linking to ./myBrokenLinkInfrequent1 (resolved as: /docs/myBrokenLinkInfrequent1)
+   -> linking to ./myBrokenLinkInfrequent2 (resolved as: /docs/myBrokenLinkInfrequent2)
+
+- On source page path = /docs/page3:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+
+- On source page path = /docs/page4:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+   -> linking to ./myBrokenLinkInfrequent1 (resolved as: /docs/myBrokenLinkInfrequent1)
+   -> linking to ./myBrokenLinkInfrequent2 (resolved as: /docs/myBrokenLinkInfrequent2)
+
+- On source page path = /docs/page5:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+
+- On source page path = /docs/page6:
+   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
+   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
 "
 `;
