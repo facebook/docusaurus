@@ -41,6 +41,8 @@ function DocSearch(props) {
     ...props.searchParameters,
   };
 
+  console.log('searchParameters', searchParameters);
+
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchButtonRef = useRef(null);
