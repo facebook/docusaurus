@@ -84,7 +84,7 @@ module.exports = {
 
 - Type: `boolean`
 
-this option adds `<meta name="robots" content="noindex">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
+This option adds `<meta name="robots" content="noindex">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
 
 Example:
 
