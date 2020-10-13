@@ -35,6 +35,7 @@ export interface VersionTwoConfig {
   url: string;
   organizationName?: string;
   projectName?: string;
+  noIndex?: boolean;
   githubHost?: string;
   onBrokenLinks: string;
   plugins: Array<[string, {[key: string]: any}]>;
@@ -94,7 +95,7 @@ export type VersionOneConfig = {
   defaultVersionShown?: string;
   organizationName?: string;
   projectName?: string;
-  noIndex?: string;
+  noIndex?: boolean;
   headerLinks?: Array<any>;
   headerIcon?: string;
   favicon?: string;
