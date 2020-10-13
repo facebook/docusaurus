@@ -12,7 +12,6 @@ import npm2yarn from '../index';
 import vfile from 'to-vfile';
 import {join, relative} from 'path';
 import mdx from 'remark-mdx';
-import slug from '../../slug/index';
 
 const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
 
@@ -20,7 +19,6 @@ const processFixture = async (name, options) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
-    .use(slug)
     .use(mdx)
     .use(npm2yarn, {...options, filePath: path})
     .process(file);
