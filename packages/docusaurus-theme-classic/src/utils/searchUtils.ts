@@ -4,12 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
-import {useDocsPreferredVersionByPluginId} from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 
-// TODO decouple this from DocSearch?
+import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
+import {useDocsPreferredVersionByPluginId} from './docsPreferredVersion/useDocsPreferredVersion';
+
+export const DEFAULT_SEARCH_TAG = 'default';
+
+export function docVersionSearchTag(pluginId: string, versionName: string) {
+  return `${pluginId}-${versionName}`;
+}
+
+type SearchFilters = {
+  language: string;
+  tags: string[];
+};
+
+// We may want to support multiple search engines, don't couple that to Algolia/DocSearch
 // Maybe users will want to use its own search engine solution
-export default function useSearchTags() {
+export function useSearchFilters(): SearchFilters {
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();
   const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();
@@ -24,23 +36,20 @@ export default function useSearchTags() {
 
     const latestVersion = allDocsData[pluginId].versions.find((v) => v.isLast);
 
-    const facetVersion = activeVersion ?? preferredVersion ?? latestVersion;
+    const version = activeVersion ?? preferredVersion ?? latestVersion;
 
-    return `version:${pluginId}-${facetVersion.name}`;
+    return docVersionSearchTag(pluginId, version.name);
   }
 
+  const language = 'en'; // TODO i18n
+
   const tags = [
-    // `language:en`, // TODO on i18n branch, later
-    // [
-    `default`,
+    DEFAULT_SEARCH_TAG,
     ...Object.keys(allDocsData).map(getDocPluginTags),
-    /*
-      `version:ios-1.0`,
-      `version:android-3.0`,
-      `version:js-unreleased`,
-       */
-    // ],
   ];
 
-  return tags;
+  return {
+    language,
+    tags,
+  };
 }

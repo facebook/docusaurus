@@ -13,8 +13,8 @@ import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
-import useSearchTags from '@theme/hooks/useSearchTags';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import {useAlgoliaSearchParameters} from '../../utils/algoliaSearchUtils';
 
 let DocSearchModal = null;
 
@@ -34,15 +34,12 @@ function ResultsFooter({state, onClose}) {
 
 function DocSearch(props) {
   const {siteMetadata} = useDocusaurusContext();
-  const searchTags = useSearchTags();
 
-  // We merge user-provided searchParameters, and let user override default facetFilters if he wants to
+  // we let user override default searchParameters if he wants to
   const searchParameters = {
-    facetFilters: searchTags,
+    ...useAlgoliaSearchParameters(),
     ...props.searchParameters,
   };
-
-  console.log('searchParameters', searchParameters);
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();

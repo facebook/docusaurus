@@ -18,9 +18,9 @@ import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
 import {matchPath} from '@docusaurus/router';
-import Head from '@docusaurus/Head';
 
 import styles from './styles.module.css';
+import {docVersionSearchTag} from '../../utils/searchUtils';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -28,62 +28,22 @@ type DocPageContentProps = {
   readonly children: ReactNode;
 };
 
-// This theme is not coupled to Algolia, but can we do something else?
-// Note the last version is also indexed with "last", to avoid breaking search on new releases
-// See https://github.com/facebook/docusaurus/issues/3391
-function DocSearchVersionHeader({
-  pluginId,
-  version,
-  isLast,
-}: {
-  pluginId: string;
-  version: string;
-  isLast: boolean;
-}) {
-  const versions = isLast ? [version, 'latest'] : [version];
-  return (
-    <Head>
-      <meta
-        name="docsearch:version"
-        content={
-          // See https://github.com/facebook/docusaurus/issues/3391#issuecomment-685594160
-          versions
-            .map(
-              (v) =>
-                // TODO likely temporary as version must follow semver
-                `${pluginId}-${v}`,
-            )
-            .join(',')
-        }
-      />
-    </Head>
-  );
-}
-
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {
-    pluginId,
-    permalinkToSidebar,
-    docsSidebars,
-    version,
-    isLast,
-  } = versionMetadata;
+  const {pluginId, permalinkToSidebar, docsSidebars, version} = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   return (
-    <Layout key={isClient}>
-      <DocSearchVersionHeader
-        // This comp must be nested under Layout
-        // because we want to override the Algolia Docsearch default header
-        pluginId={pluginId}
-        version={version}
-        isLast={isLast}
-      />
+    <Layout
+      key={isClient}
+      searchMetadatas={{
+        version,
+        tag: docVersionSearchTag(pluginId, version),
+      }}>
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer} role="complementary">
