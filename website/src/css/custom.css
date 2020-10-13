@@ -49,6 +49,19 @@ html[data-theme='dark'] .header-github-link:before {
     no-repeat;
 }
 
+.unique-tabs .tabs__item {
+  height: 18px;
+  line-height: 16px;
+  margin-right: 8px;
+}
+
+.unique-tabs .tabs__item--active {
+  border: 0;
+  color: #fff;
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-tabs-color-active);
+}
+
 /*
 TODO temporary, should be handled by infima next release
 https://github.com/facebookincubator/infima/commit/7820399af53c182b1879aa6d7fceb4d296f78ce0
