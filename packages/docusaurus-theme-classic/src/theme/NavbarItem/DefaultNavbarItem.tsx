@@ -25,7 +25,7 @@ function NavLink({
   label,
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
-  position, // Need to destructure `position` from props so that it doesn't get passed on.
+  position: _position, // Need to destructure `position` from props so that it doesn't get passed on.
   ...props
 }: NavLinkProps) {
   // TODO all this seems hacky
