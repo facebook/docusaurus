@@ -22,6 +22,7 @@ export interface DocusaurusConfig {
   url: string;
   onBrokenLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
+  noIndex: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
