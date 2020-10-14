@@ -106,9 +106,9 @@ function NavItemDesktop({
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
-        onClick={props.to ? undefined : (e) => e.preventDefault()}
+        onClick={(e) => e.preventDefault()}
         onKeyDown={(e) => {
-          if ((e.key === 'Enter' && !props.to) || e.key === 'Tab') {
+          if (e.key === 'Enter') {
             e.preventDefault();
             toggle(true);
           }
@@ -123,6 +123,14 @@ function NavItemDesktop({
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
                   toggle(false);
+                  
+                  const nextNavbarItem =
+                    dropDownRef.current &&
+                    (dropDownRef.current as HTMLElement).nextElementSibling;
+
+                  if (nextNavbarItem) {
+                    (nextNavbarItem as HTMLElement).focus();
+                  }                  
                 }
               }}
               activeClassName="dropdown__link--active"
