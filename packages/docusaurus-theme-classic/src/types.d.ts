@@ -290,6 +290,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     activeClassName?: string;
     prependBaseUrlToHref?: string;
     isActive?: () => boolean;
+    position?: string;
   } & ComponentProps<'a'>;
 
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
