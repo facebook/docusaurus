@@ -72,7 +72,7 @@ function NavItemDesktop({
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    const handler = (event) => {
+    const handleClickOutside = (event) => {
       if (!dropdownRef.current || dropdownRef.current.contains(event.target)) {
         return;
       }
@@ -80,12 +80,12 @@ function NavItemDesktop({
       setShowDropdown(false);
     };
 
-    document.addEventListener('mousedown', handler);
-    document.addEventListener('touchstart', handler);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handler);
-      document.removeEventListener('touchstart', handler);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [dropdownRef]);
 
