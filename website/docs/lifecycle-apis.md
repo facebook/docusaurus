@@ -299,10 +299,11 @@ You may use them to return your webpack configures conditionally.
 
 For example, this plugin below modify the webpack config to transpile `.foo` file.
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
+    // highlight-start
     configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
       return {
@@ -316,6 +317,7 @@ module.exports = function (context, options) {
         },
       };
     },
+    // highlight-end
   };
 };
 ```
@@ -326,14 +328,16 @@ We merge the Webpack configuration parts of plugins into the global Webpack conf
 
 It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
       return {
+        // highlight-start
         mergeStrategy: {'module.rules': 'prepend'},
         module: {rules: [myRuleToPrepend]},
+        // highlight-end
       };
     },
   };
@@ -433,10 +437,11 @@ interface HtmlTagObject {
 
 Example:
 
-```js {4-28} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     injectHtmlTags() {
       return {
         headTags: [
@@ -460,6 +465,7 @@ module.exports = function (context, options) {
         postBodyTags: [`<div> This is post body </div>`],
       };
     },
+    // highlight-end
   };
 };
 ```

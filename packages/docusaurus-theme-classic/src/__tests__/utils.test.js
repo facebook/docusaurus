@@ -13,7 +13,7 @@ describe('isSamePath', () => {
   });
 
   test('should be true for compared path with trailing slash', () => {
-    expect(isSamePath('/docs', '/docs')).toBeTruthy();
+    expect(isSamePath('/docs', '/docs/')).toBeTruthy();
   });
 
   test('should be false for compared path with double trailing slash', () => {

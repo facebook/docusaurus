@@ -190,11 +190,12 @@ You can add items to the navbar via `themeConfig.navbar.items`.
 
 By default, Navbar items are regular links (internal or external).
 
-```js {5-15} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
+      // highlight-start
       items: [
         {
           // Client-side routing, used for navigating within the website.
@@ -220,6 +221,7 @@ module.exports = {
         },
         // ... other items
       ],
+      // highlight-end
     },
     // ...
   },
@@ -266,11 +268,12 @@ module.exports = {
 
 If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
 
-```js {5-10} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     navbar: {
       items: [
+        // highlight-start
         {
           type: 'doc',
           position: 'left',
@@ -278,6 +281,7 @@ module.exports = {
           label: 'Docs',
           activeSidebarClassName: 'navbar__link--active',
         },
+        // highlight-end
       ],
     },
   },
@@ -314,17 +318,19 @@ module.exports = {
 
 If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current url), and fallback to the latest version.
 
-```js {5-10} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     navbar: {
       items: [
+        // highlight-start
         {
           type: 'docsVersion',
           position: 'left',
           // to: "/path // by default, link to active/latest version
           // label: "label" // by default, show active/latest version label
         },
+        // highlight-end
       ],
     },
   },
