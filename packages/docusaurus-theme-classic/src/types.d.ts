@@ -377,6 +377,7 @@ declare module '@theme/Tabs' {
     readonly defaultValue?: string;
     readonly values: readonly {value: string; label: string}[];
     readonly groupId?: string;
+    readonly className?: string;
   };
 
   const Tabs: () => JSX.Element;
