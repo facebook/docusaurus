@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-
 import React, {useEffect, useState, useRef} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps} from 'prism-react-renderer';
@@ -210,6 +208,7 @@ export default ({
           )}
           <div className={styles.codeBlockContent}>
             <button
+              tabIndex={0}
               ref={button}
               type="button"
               aria-label="Copy code to clipboard"
@@ -220,7 +219,6 @@ export default ({
               {showCopied ? 'Copied' : 'Copy'}
             </button>
             <div
-              tabIndex={0}
               className={clsx(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
