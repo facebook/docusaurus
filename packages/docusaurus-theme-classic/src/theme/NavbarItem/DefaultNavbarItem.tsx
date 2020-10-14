@@ -25,6 +25,7 @@ function NavLink({
   label,
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
+  position, // Need to destructure `position` from props so that it doesn't get passed on.
   ...props
 }: NavLinkProps) {
   // TODO all this seems hacky
@@ -152,7 +153,6 @@ function NavItemDesktop({
 
 function NavItemMobile({
   items,
-  position: _position,
   className,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
@@ -161,7 +161,6 @@ function NavItemMobile({
     () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
   );
 
-  // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
     clsx(
       'menu__link',
