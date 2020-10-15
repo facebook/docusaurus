@@ -60,4 +60,4 @@ exports[`validation schemas RemarkPluginsSchema: for value=false 1`] = `"\\"valu
 
 exports[`validation schemas RemarkPluginsSchema: for value=null 1`] = `"\\"value\\" must be an array"`;
 
-exports[`validation schemas URISchema: for value="invalidURL" 1`] = `"\\"value\\" does not match any of the allowed types"`;
+exports[`validation schemas URISchema: for value="spaces are invalid in a URL" 1`] = `"\\"value\\" does not match any of the allowed types"`;

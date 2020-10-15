@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.65",
   "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.65",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
     "parse-numeric-range": "^0.0.2",

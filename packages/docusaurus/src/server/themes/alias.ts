@@ -13,7 +13,7 @@ import {ThemeAlias} from '@docusaurus/types';
 
 export default function themeAlias(
   themePath: string,
-  addOriginalAlias: boolean = true,
+  addOriginalAlias: boolean,
 ): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {
     return {};

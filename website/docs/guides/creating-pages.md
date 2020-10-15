@@ -58,6 +58,7 @@ Create a file `/src/pages/helloMarkdown.md`:
 ---
 title: my hello page title
 description: my hello page description
+hide_table_of_contents: true
 ---
 
 # Hello
@@ -69,7 +70,7 @@ In the same way, a page will be created at `http://localhost:3000/helloMarkdown`
 
 Markdown pages are less flexible than React pages, because it always uses the theme layout.
 
-Here's an [example markdown page](/examples/markdownPageExample).
+Here's an [example Markdown page](/examples/markdownPageExample).
 
 :::tip
 

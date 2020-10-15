@@ -8,6 +8,23 @@
 const path = require('path');
 const versions = require('./versions.json');
 
+// This probably only makes sense for the alpha phase, temporary
+function getNextAlphaVersionName() {
+  const expectedPrefix = '2.0.0-alpha.';
+
+  const lastReleasedVersion = versions[0];
+  if (!lastReleasedVersion.includes(expectedPrefix)) {
+    throw new Error(
+      'this code is only meant to be used during the 2.0 alpha phase.',
+    );
+  }
+  const alphaBuild = parseInt(
+    lastReleasedVersion.replace(expectedPrefix, ''),
+    10,
+  );
+  return `${expectedPrefix}${alphaBuild + 1}`;
+}
+
 const allDocHomesPaths = [
   '/docs/',
   '/docs/next/',
@@ -37,6 +54,7 @@ module.exports = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -118,7 +136,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: 'manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
@@ -177,18 +195,14 @@ module.exports = {
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          lastVersion: 'current',
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              // path: isDev || isDeployPreview ? '' : 'next',
-              label:
-                isDev || isDeployPreview
-                  ? `Next (${isDeployPreview ? 'deploy preview' : 'dev'})`
-                  : 'Next',
+              label: `${getNextAlphaVersionName()} (unreleased)`,
             },
           },
         },
@@ -207,7 +221,7 @@ module.exports = {
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
       },
     ],
@@ -235,9 +249,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      searchParameters: {
-        facetFilters: [`version:latest`],
-      },
+      contextualSearch: true,
     },
     navbar: {
       hideOnScroll: true,
@@ -249,8 +261,16 @@ module.exports = {
       },
       items: [
         {
-          type: 'docsVersionDropdown',
+          type: 'doc',
           position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'cli',
+          label: 'API',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -260,10 +280,17 @@ module.exports = {
           position: 'left',
           activeBaseRegex: `/community/`,
         },
+        // right
         {
-          to: '/versions',
-          label: 'All versions',
+          type: 'docsVersionDropdown',
           position: 'right',
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: 'All versions',
+            },
+          ],
         },
         {
           href: 'https://github.com/facebook/docusaurus',

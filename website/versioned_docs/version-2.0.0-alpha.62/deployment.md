@@ -15,7 +15,7 @@ You can deploy your site to static site hosting services such as [Vercel](https:
 
 ## Testing Build Local
 
-It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build locally.
 
 ```bash npm2yarn
 npm run serve
@@ -33,7 +33,6 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 
 ```bash npm2yarn
 npm run serve --build --port 80 --host 0.0.0.0
-
 ```
 
 ## Deploying to GitHub Pages
@@ -336,7 +335,7 @@ surge build/
 
 First-time users of Surge would be prompted to create an account from the command line(happens only once).
 
-Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
+Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
 
 ### Using your domain
 

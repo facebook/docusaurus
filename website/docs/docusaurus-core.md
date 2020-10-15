@@ -283,7 +283,7 @@ const MyComponent = () => {
 
 ### `useAllPluginInstancesData(pluginName: string)`
 
-Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by pluginId.
+Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
 Usage example:
 
@@ -320,3 +320,15 @@ function MyPage() {
 | `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
 | `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
 | `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |
+
+### `constants`
+
+A module exposing useful constants to client-side theme code.
+
+```jsx
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+```
+
+| Named export        | Value     |
+| ------------------- | --------- |
+| `DEFAULT_PLUGIN_ID` | `default` |

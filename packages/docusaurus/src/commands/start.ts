@@ -21,27 +21,14 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
-import choosePort from '../choosePort';
-
-function getHost(reqHost: string | undefined): string {
-  return reqHost || 'localhost';
-}
-
-async function getPort(
-  reqPort: string | undefined,
-  host: string,
-): Promise<number | null> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
-  const port = await choosePort(host, basePort);
-  return port;
-}
+import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 
 export default async function start(
   siteDir: string,
-  cliOptions: Partial<StartCLIOptions> = {},
+  cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
@@ -50,11 +37,33 @@ export default async function start(
   // Process all related files as a prop.
   const props = await load(siteDir);
 
+  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+
+  const host: string = getCLIOptionHost(cliOptions.host);
+  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+
+  if (port === null) {
+    process.exit();
+  }
+
+  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
+  const urls = prepareUrls(protocol, host, port);
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+
+  console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
+
   // Reload files processing.
   const reload = () => {
-    load(siteDir).catch((err) => {
-      console.error(chalk.red(err.stack));
-    });
+    load(siteDir)
+      .then(({baseUrl: newBaseUrl}) => {
+        const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
+        console.log(
+          chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
+        );
+      })
+      .catch((err) => {
+        console.error(chalk.red(err.stack));
+      });
   };
   const {siteConfig, plugins = []} = props;
 
@@ -79,19 +88,6 @@ export default async function start(
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
-
-  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-
-  const host: string = getHost(cliOptions.host);
-  const port: number | null = await getPort(cliOptions.port, host);
-
-  if (port === null) {
-    process.exit();
-  }
-
-  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
-  const urls = prepareUrls(protocol, host, port);
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [

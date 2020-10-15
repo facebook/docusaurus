@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-bootstrap-template",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.65",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -11,8 +11,8 @@
     "serve": "docusaurus serve"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/preset-bootstrap": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.65",
+    "@docusaurus/preset-bootstrap": "2.0.0-alpha.65",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "react": "^16.8.4",

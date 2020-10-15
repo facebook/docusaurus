@@ -140,6 +140,7 @@ export default function pluginContentBlog(
                 ? blogPaginationPermalink(page + 1)
                 : null,
             blogDescription: options.blogDescription,
+            blogTitle: options.blogTitle,
           },
           items: blogPosts
             .slice(page * postsPerPage, (page + 1) * postsPerPage)
@@ -343,7 +344,13 @@ export default function pluginContentBlog(
       isServer: boolean,
       {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
     ) {
-      const {rehypePlugins, remarkPlugins, truncateMarker} = options;
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        truncateMarker,
+        beforeDefaultRemarkPlugins,
+        beforeDefaultRehypePlugins,
+      } = options;
       return {
         resolve: {
           alias: {
@@ -363,6 +370,8 @@ export default function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    beforeDefaultRemarkPlugins,
+                    beforeDefaultRehypePlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.

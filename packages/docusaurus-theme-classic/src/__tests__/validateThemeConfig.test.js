@@ -11,8 +11,20 @@ const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
 
-function testValidateThemeConfig(themeConfig) {
-  return normalizeThemeConfig(ThemeConfigSchema, themeConfig);
+function testValidateThemeConfig(partialThemeConfig) {
+  return normalizeThemeConfig(ThemeConfigSchema, {
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
+}
+
+function testOk(partialThemeConfig) {
+  expect(
+    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
+  ).toEqual({
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
 }
 
 describe('themeConfig', () => {
@@ -45,6 +57,8 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
+            dropdownItemsBefore: [],
+            dropdownItemsAfter: [],
           },
           {
             to: 'docs/next/support',
@@ -94,7 +108,10 @@ describe('themeConfig', () => {
     };
     expect(testValidateThemeConfig(altTagConfig)).toEqual({
       ...DEFAULT_CONFIG,
-      ...altTagConfig,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
+      },
     });
   });
 
@@ -107,6 +124,36 @@ describe('themeConfig', () => {
     expect(testValidateThemeConfig(prismConfig)).toEqual({
       ...DEFAULT_CONFIG,
       ...prismConfig,
+    });
+  });
+
+  describe('customCss config', () => {
+    test('should accept customCss undefined', () => {
+      testOk({
+        customCss: undefined,
+      });
+    });
+
+    test('should accept customCss string', () => {
+      testOk({
+        customCss: './path/to/cssFile.css',
+      });
+    });
+
+    test('should accept customCss string array', () => {
+      testOk({
+        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
+      });
+    });
+
+    test('should reject customCss number', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          customCss: 42,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"customCss\\" must be one of [array, string]"`,
+      );
     });
   });
 

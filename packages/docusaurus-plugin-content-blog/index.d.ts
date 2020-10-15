@@ -65,6 +65,7 @@ declare module '@theme/BlogListPage' {
   };
 
   export type Metadata = {
+    readonly blogTitle: string;
     readonly blogDescription: string;
     readonly nextPage?: string;
     readonly page: number;

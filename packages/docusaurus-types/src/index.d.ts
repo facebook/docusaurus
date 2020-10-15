@@ -22,6 +22,7 @@ export interface DocusaurusConfig {
   url: string;
   onBrokenLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
+  noIndex: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -41,6 +42,7 @@ export interface DocusaurusConfig {
         [key: string]: unknown;
       }
   )[];
+  clientModules?: string[];
   ssrTemplate?: string;
   stylesheets?: (
     | string
@@ -49,6 +51,7 @@ export interface DocusaurusConfig {
         [key: string]: unknown;
       }
   )[];
+  titleDelimiter?: string;
 }
 
 /**
@@ -90,13 +93,21 @@ export type PresetConfig =
   | [string]
   | string;
 
-export interface StartCLIOptions {
-  port: string;
-  host: string;
+export type HostPortCLIOptions = {
+  host?: string;
+  port?: string;
+};
+
+export type StartCLIOptions = HostPortCLIOptions & {
   hotOnly: boolean;
   open: boolean;
   poll: boolean;
-}
+};
+
+export type ServeCLIOptions = HostPortCLIOptions & {
+  build: boolean;
+  dir: string;
+};
 
 export interface BuildCLIOptions {
   bundleAnalyzer: boolean;

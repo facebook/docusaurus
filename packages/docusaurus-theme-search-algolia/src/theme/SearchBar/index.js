@@ -14,6 +14,7 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import {useAlgoliaContextualSearchParameters} from '../../utils/algoliaSearchUtils';
 
 let DocSearchModal = null;
 
@@ -31,8 +32,17 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch(props) {
+function DocSearch({contextualSearch, ...props}) {
   const {siteMetadata} = useDocusaurusContext();
+
+  const contextualSearchParameters = useAlgoliaContextualSearchParameters();
+
+  // we let user override default searchParameters if he wants to
+  const searchParameters = {
+    ...(contextualSearch ? contextualSearchParameters : {}),
+    ...props.searchParameters,
+  };
+
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchButtonRef = useRef(null);
@@ -128,7 +138,7 @@ function DocSearch(props) {
         <link
           rel="preconnect"
           href={`https://${props.appId}-dsn.algolia.net`}
-          crossOrigin
+          crossOrigin="anonymous"
         />
       </Head>
 
@@ -152,6 +162,7 @@ function DocSearch(props) {
             resultsFooterComponent={resultsFooterComponent}
             transformSearchClient={transformSearchClient}
             {...props}
+            searchParameters={searchParameters}
           />,
           document.body,
         )}

@@ -27,6 +27,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Axioms',
+    description: 'Axioms Developer Hub and Documentation Portal',
+    preview: require('./showcase/axioms.png'),
+    website: 'https://developer.axioms.io/',
+    source: 'https://github.com/axioms-io/developer',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
@@ -71,6 +80,15 @@ const users = [
     source: 'https://github.com/facebook/componentkit',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    title: 'Taro',
+    description: 'An open cross-end and cross-frame solution',
+    preview: require('./showcase/docs-taro-zone.png'),
+    website: 'https://docs.taro.zone/',
+    source: 'https://github.com/NervJS/taro',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'Eta',
@@ -258,6 +276,36 @@ const users = [
     fbOpenSource: false,
     pinned: true,
   },
+  {
+    title: 'Vue NodeGui',
+    description: 'A cross-platform native desktop app library',
+    preview: require('./showcase/vue-nodegui.png'),
+    website: 'https://vue.nodegui.org/',
+    source: 'https://github.com/nodegui/vue-nodegui',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    title: 'Wisdom',
+    description: 'Session replay web analytics with open data SQL/S3 access.',
+    preview: require('./showcase/wisdom.png'),
+    website: 'https://developers.getwisdom.io/',
+    source: 'https://github.com/Wisdom/dev-docs',
+    fbOpenSource: false,
+    pinned: true,
+  },
 ];
+
+users.forEach((user) => {
+  if (
+    !user.preview ||
+    (user.preview instanceof String &&
+      (user.preview.startsWith('http') || user.preview.startsWith('//')))
+  ) {
+    throw new Error(
+      `Bad user site image preview = ${user.preview}. The image should be hosted on Docusaurus site, and not use remote http or https urls`,
+    );
+  }
+});
 
 export default users;

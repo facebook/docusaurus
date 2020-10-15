@@ -11,11 +11,11 @@ npm run build
 
 Once it finishes, the static files will be generated within the `build/` directory.
 
-You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/docs/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Testing Build Local
 
-It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build locally.
 
 ```bash npm2yarn
 npm run serve
@@ -33,7 +33,6 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 
 ```bash npm2yarn
 npm run serve --build --port 80 --host 0.0.0.0
-
 ```
 
 ## Deploying to GitHub Pages
@@ -204,7 +203,7 @@ jobs:
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
-1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/).
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
 1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
 1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
 1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
@@ -232,7 +231,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
 1.  Create an organization and within the organization create a project and connect your repository from GitHub.
-1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with repository scope.
+1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
 1.  In the project page (which looks like https://dev.azure.com/ORG_NAME/REPO_NAME/_build) create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at yout repository root.
 
 ```yaml title="azure-pipelines.yml"
@@ -263,6 +262,40 @@ steps:
       GH_TOKEN: $(GH_TOKEN)
     displayName: 'yarn install and build'
 ```
+
+### Using Drone
+
+1.  Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
+1.  Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+1.  Go to https://github.com/USERNAME/REPO/settings/keys and add a new deploy key by pasting in our public key you just generated.
+1.  Open your Drone.io dashboard and login. The URL looks like https://cloud.drone.io/USERNAME/REPO.
+1.  Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
+1.  Create a `.drone.yml` on the root of your repository with below text.
+
+```yaml
+# .drone.yml
+kind: pipeline
+type: docker
+trigger:
+  event:
+    - tag
+- name: Website
+  image: node
+  commands:
+    - mkdir -p $HOME/.ssh
+    - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+    - echo "$GITHUB_PRIVATE_KEY > $HOME/.ssh/id_rsa"
+    - chmod 0600 $HOME/.ssh/id_rsa
+    - cd website
+    - npm i
+    - npm run publish-gh-pages
+  environment:
+    USE_SSH: true
+    GIT_USER: $DRONE_COMMIT_AUTHOR
+    GITHUB_PRIVATE_KEY: git_deploy_private_key
+```
+
+Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.
 
 ## Deploying to Netlify
 
@@ -333,13 +366,13 @@ Deploy your app in a matter of seconds using surge with the following steps:
 npm install --g surge
 ```
 
-1. To build the static files of your site for production in the root directory of your project, run:
+2. To build the static files of your site for production in the root directory of your project, run:
 
 ```bash
 npm run build
 ```
 
-1. Then, run this command inside the root directory of your project:
+3. Then, run this command inside the root directory of your project:
 
 ```bash
 surge build/
@@ -347,7 +380,7 @@ surge build/
 
 First-time users of Surge would be prompted to create an account from the command line(happens only once).
 
-Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
+Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
 
 ### Using your domain
 

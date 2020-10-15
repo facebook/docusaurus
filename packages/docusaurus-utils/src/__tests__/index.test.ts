@@ -259,6 +259,22 @@ describe('load utils', () => {
   test('normalizeUrl', () => {
     const asserts = [
       {
+        input: ['/', ''],
+        output: '/',
+      },
+      {
+        input: ['', '/'],
+        output: '/',
+      },
+      {
+        input: ['/'],
+        output: '/',
+      },
+      {
+        input: [''],
+        output: '',
+      },
+      {
         input: ['/', '/'],
         output: '/',
       },
@@ -305,6 +321,34 @@ describe('load utils', () => {
       {
         input: ['http://foobar.com', '', 'test', '/'],
         output: 'http://foobar.com/test/',
+      },
+      {
+        input: ['/', '', 'hello', '', '/', '/', '', '/', '/world'],
+        output: '/hello/world',
+      },
+      {
+        input: ['', '', '/tt', 'ko', 'hello'],
+        output: '/tt/ko/hello',
+      },
+      {
+        input: ['', '///hello///', '', '///world'],
+        output: '/hello/world',
+      },
+      {
+        input: ['', '/hello/', ''],
+        output: '/hello/',
+      },
+      {
+        input: ['', '/', ''],
+        output: '/',
+      },
+      {
+        input: ['///', '///'],
+        output: '/',
+      },
+      {
+        input: ['/', '/hello/world/', '///'],
+        output: '/hello/world/',
       },
     ];
     asserts.forEach((testCase) => {

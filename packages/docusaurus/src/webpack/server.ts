@@ -32,6 +32,7 @@ export default function createServerConfig({
     preBodyTags,
     postBodyTags,
     ssrTemplate,
+    siteConfig: {noIndex},
   } = props;
   const config = createBaseConfig(props, true, minify);
 
@@ -72,6 +73,7 @@ export default function createServerConfig({
           postBodyTags,
           onLinksCollected,
           ssrTemplate,
+          noIndex,
         },
         paths: ssgPaths,
       }),

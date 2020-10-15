@@ -8,6 +8,15 @@
 const Joi = require('@hapi/joi');
 const {URISchema} = require('@docusaurus/utils-validation');
 
+const DEFAULT_DOCS_CONFIG = {
+  versionPersistence: 'localStorage',
+};
+const DocsSchema = Joi.object({
+  versionPersistence: Joi.string()
+    .equal('localStorage', 'none')
+    .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+}).default(DEFAULT_DOCS_CONFIG);
+
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
   disableSwitch: false,
@@ -22,7 +31,15 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  docs: DEFAULT_DOCS_CONFIG,
   metadatas: [],
+  prism: {
+    additionalLanguages: [],
+  },
+  navbar: {
+    hideOnScroll: false,
+    items: [],
+  },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -61,6 +78,18 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(DefaultNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DefaultNavbarItemSchema).default([]),
+});
+
+const DocItemSchema = Joi.object({
+  type: Joi.string().equal('doc').required(),
+  position: NavbarItemPosition,
+  docId: Joi.string().required(),
+  label: Joi.string(),
+  docsPluginId: Joi.string(),
+  activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
 // Can this be made easier? :/
@@ -86,6 +115,10 @@ const NavbarItemSchema = Joi.object().when({
     {
       is: isOfType('docsVersionDropdown'),
       then: DocsVersionDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('doc'),
+      then: DocItemSchema,
     },
     {
       is: isOfType(undefined),
@@ -165,6 +198,10 @@ const FooterLinkItemSchema = Joi.object({
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
+const CustomCssSchema = Joi.alternatives()
+  .try(Joi.array().items(Joi.string().required()), Joi.string().required())
+  .optional();
+
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden(false).messages({
@@ -176,8 +213,10 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
+  customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  docs: DocsSchema,
   metadatas: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadatas),
@@ -190,13 +229,15 @@ const ThemeConfigSchema = Joi.object({
   }).optional(),
   navbar: Joi.object({
     style: Joi.string().equal('dark', 'primary'),
-    hideOnScroll: Joi.bool().default(false),
+    hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
-    items: Joi.array().items(NavbarItemSchema),
+    items: Joi.array()
+      .items(NavbarItemSchema)
+      .default(DEFAULT_CONFIG.navbar.items),
     title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string().allow(''),
@@ -205,7 +246,7 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
       target: Joi.string(),
     }),
-  }),
+  }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
@@ -214,13 +255,15 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array().items(
-      Joi.object({
-        title: Joi.string().required(),
-        items: Joi.array().items(FooterLinkItemSchema).default([]),
-      }),
-    ),
-  }),
+    links: Joi.array()
+      .items(
+        Joi.object({
+          title: Joi.string().required(),
+          items: Joi.array().items(FooterLinkItemSchema).default([]),
+        }),
+      )
+      .default([]),
+  }).optional(),
   prism: Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
@@ -231,8 +274,12 @@ const ThemeConfigSchema = Joi.object({
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
     defaultLanguage: Joi.string(),
-    additionalLanguages: Joi.array().items(Joi.string()),
-  }).unknown(),
+    additionalLanguages: Joi.array()
+      .items(Joi.string())
+      .default(DEFAULT_CONFIG.prism.additionalLanguages),
+  })
+    .default(DEFAULT_CONFIG.prism)
+    .unknown(),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 
