@@ -30,6 +30,7 @@
     "@docusaurus/plugin-ideal-image": "2.0.0-alpha.65",
     "@docusaurus/plugin-pwa": "2.0.0-alpha.65",
     "@docusaurus/preset-classic": "2.0.0-alpha.65",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-alpha.65",
     "@docusaurus/theme-live-codeblock": "2.0.0-alpha.65",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
