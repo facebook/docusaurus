@@ -82,6 +82,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Taro',
+    description: 'An open cross-end and cross-frame solution',
+    preview: require('./showcase/docs-taro-zone.png'),
+    website: 'https://docs.taro.zone/',
+    source: 'https://github.com/NervJS/taro',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
