@@ -8,14 +8,14 @@ import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
 import {useDocsPreferredVersionByPluginId} from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 import {DEFAULT_SEARCH_TAG, docVersionSearchTag} from '../../utils/searchUtils';
 
-type SearchFilters = {
+type ContextualSearchFilters = {
   language: string;
   tags: string[];
 };
 
 // We may want to support multiple search engines, don't couple that to Algolia/DocSearch
 // Maybe users will want to use its own search engine solution
-export default function useSearchFilters(): SearchFilters {
+export default function useContextualSearchFilters(): ContextualSearchFilters {
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();
   const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();

@@ -14,7 +14,7 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
-import {useAlgoliaSearchParameters} from '../../utils/algoliaSearchUtils';
+import {useAlgoliaContextualSearchParameters} from '../../utils/algoliaSearchUtils';
 
 let DocSearchModal = null;
 
@@ -32,16 +32,18 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch(props) {
+function DocSearch({contextualSearch, ...props}) {
   const {siteMetadata} = useDocusaurusContext();
+
+  const contextualSearchParameters = useAlgoliaContextualSearchParameters();
 
   // we let user override default searchParameters if he wants to
   const searchParameters = {
-    ...useAlgoliaSearchParameters(),
+    ...(contextualSearch ? contextualSearchParameters : {}),
     ...props.searchParameters,
   };
 
-  console.log('searchParameters', searchParameters);
+  console.log('searchParameters', contextualSearch, searchParameters);
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();

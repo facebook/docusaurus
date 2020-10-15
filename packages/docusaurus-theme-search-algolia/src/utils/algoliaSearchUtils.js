@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useSearchFilters from '@theme/hooks/useSearchFilters';
+import useContextualSearchFilters from '@theme/hooks/useContextualSearchFilters';
 
 // Translate search-engine agnostic seach filters to Algolia search filters
-export function useAlgoliaSearchParameters() {
-  const {language, tags} = useSearchFilters();
+export function useAlgoliaContextualSearchParameters() {
+  const {language, tags} = useContextualSearchFilters();
 
   const languageFilter = `language:${language}`;
 

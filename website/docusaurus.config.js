@@ -247,12 +247,12 @@ module.exports = {
       trackingID: 'UA-141789564-1',
     },
     algolia: {
-      // apiKey: '47ecd3b21be71c5822571b9f59e52544',
-
-      appId: 'P64CMYBJ4G',
-      apiKey: 'fef25a54d94b17b4c6e659bc732edd52',
-
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
+      // contextualSearch: true,
+      searchParameters: {
+        facetFilters: [`version:current`],
+      },
     },
     navbar: {
       hideOnScroll: true,

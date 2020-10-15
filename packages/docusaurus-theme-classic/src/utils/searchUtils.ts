@@ -8,5 +8,5 @@
 export const DEFAULT_SEARCH_TAG = 'default';
 
 export function docVersionSearchTag(pluginId: string, versionName: string) {
-  return `${pluginId}-${versionName}`;
+  return `docs-${pluginId}-${versionName}`;
 }

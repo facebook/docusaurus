@@ -16,9 +16,14 @@ exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const Schema = Joi.object({
   algolia: Joi.object({
+    // Docusaurus attributes
+    contextualSearch: Joi.boolean().default(false),
+
+    // Algolia attributes
     appId: Joi.string().default(DEFAULT_CONFIG.appId),
     apiKey: Joi.string().required(),
     indexName: Joi.string().required(),
+    searchParameters: Joi.object().default({}).unknown(),
   })
     .label('themeConfig.algolia')
     .required()
@@ -30,5 +35,17 @@ exports.validateThemeConfig = function validateThemeConfig({
   validate,
   themeConfig,
 }) {
-  return validate(Schema, themeConfig);
+  const normalizedThemeConfig = validate(Schema, themeConfig);
+
+  if (
+    normalizedThemeConfig &&
+    normalizedThemeConfig.algolia.contextualSearch &&
+    normalizedThemeConfig.algolia.searchParameters &&
+    normalizedThemeConfig.algolia.searchParameters.facetFilters
+  ) {
+    throw new Error(
+      'If you are using algolia.contextualSearch: true, you should not provide algolia.searchParameters.facetFilters, as it is computed for you dynamically',
+    );
+  }
+  return normalizedThemeConfig;
 };
