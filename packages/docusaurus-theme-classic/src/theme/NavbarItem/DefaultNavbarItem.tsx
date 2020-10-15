@@ -25,7 +25,6 @@ function NavLink({
   label,
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
-  position: _position, // Need to destructure `position` from props so that it doesn't get passed on.
   ...props
 }: NavLinkProps) {
   // TODO all this seems hacky
@@ -154,6 +153,7 @@ function NavItemDesktop({
 function NavItemMobile({
   items,
   className,
+  position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const {pathname} = useLocation();
