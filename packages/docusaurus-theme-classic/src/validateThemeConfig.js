@@ -53,14 +53,13 @@ const BaseNavbarItemSchema = Joi.object({
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
-  .unknown()
-  .id('baseNavbarItem');
+  .unknown();
 
 // TODO we should probably create a custom navbar item type "dropdown"
 // having this recursive structure is bad because we only support 2 levels
 // + parent/child don't have exactly the same props
 const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
-  items: Joi.array().optional().items(Joi.link('#baseNavbarItem')),
+  items: Joi.array().optional().items(BaseNavbarItemSchema),
   position: NavbarItemPosition,
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
