@@ -43,8 +43,6 @@ function DocSearch({contextualSearch, ...props}) {
     ...props.searchParameters,
   };
 
-  console.log('searchParameters', contextualSearch, searchParameters);
-
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchButtonRef = useRef(null);
