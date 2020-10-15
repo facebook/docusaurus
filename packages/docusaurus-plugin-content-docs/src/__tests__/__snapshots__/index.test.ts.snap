@@ -302,6 +302,7 @@ Object {
   \\"version\\": \\"current\\"
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": true,
@@ -640,6 +641,7 @@ Object {
   \\"sidebar\\": \\"version-1.0.0/community\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
+  \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"isLast\\": true,
@@ -657,6 +659,7 @@ Object {
   }
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": false,
@@ -1102,6 +1105,7 @@ Object {
   \\"version\\": \\"withSlugs\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"isLast\\": false,
@@ -1145,6 +1149,7 @@ Object {
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
   \\"isLast\\": true,
@@ -1182,6 +1187,7 @@ Object {
   }
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": false,
@@ -1219,6 +1225,7 @@ Object {
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
   \\"isLast\\": false,

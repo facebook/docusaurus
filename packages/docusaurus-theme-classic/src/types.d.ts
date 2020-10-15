@@ -246,6 +246,10 @@ declare module '@theme/Layout' {
     keywords?: string[];
     permalink?: string;
     wrapperClassName?: string;
+    searchMetadatas?: {
+      version?: string;
+      tag?: string;
+    };
   };
 
   const Layout: (props: Props) => JSX.Element;

@@ -27,7 +27,14 @@ module.exports = {
     algolia: {
       apiKey: 'YOUR_API_KEY',
       indexName: 'YOUR_INDEX_NAME',
-      searchParameters: {}, // Optional (if provided by Algolia)
+
+      // Optional: see doc section bellow
+      contextualSearch: true,
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      //... other Algolia params
     },
     // highlight-end
   },
@@ -37,6 +44,37 @@ module.exports = {
 :::info
 
 The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1.
+
+:::
+
+### Contextual search
+
+Contextual search is mostly useful for versioned Docusaurus sites.
+
+Let's consider you have 2 docs versions, v1 and v2. When you are browsing v2 docs, it would be odd to return search results for the v1 documentation. Sometimes v1 and v2 docs are quite similar, and you would end up with duplicate search results for the same query (one result per version).
+
+To solve this problem, the contextual search feature understands that you are browsing a specific docs version, and will create the search query filters dynamically.
+
+- browsing `/docs/v1/myDoc`, search results will only include **v1** docs (+ other unversioned pages)
+- browsing `/docs/v2/myDoc`, search results will only include **v2** docs (+ other unversioned pages)
+
+```jsx title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: true,
+    },
+    // highlight-end
+  },
+};
+```
+
+:::caution
+
+If you decide to use contextual search, you can't provide `algolia.searchParameters.facetFilters`, as we compute this `facetFilters` attribute for you dynamically.
 
 :::
 
