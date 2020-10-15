@@ -7,8 +7,21 @@
 
 /* eslint-disable camelcase */
 
+declare module '@theme/BlogSidebar' {
+  export type BlogSidebarItem = {title: string; permalink: string};
+  export type BlogSidebar = BlogSidebarItem[];
+
+  export type Props = {
+    readonly sidebar: BlogSidebar;
+  };
+
+  const BlogSidebar: (props: Props) => JSX.Element;
+  export default BlogSidebar;
+}
+
 declare module '@theme/BlogPostPage' {
   import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
     readonly title: string;
@@ -50,6 +63,7 @@ declare module '@theme/BlogPostPage' {
 
   export type Props = {
     readonly content: Content;
+    readonly sidebar: BlogSidebar;
   };
 
   const BlogPostPage: (props: Props) => JSX.Element;

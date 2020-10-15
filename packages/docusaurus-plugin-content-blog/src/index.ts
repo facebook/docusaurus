@@ -50,12 +50,13 @@ export default function pluginContentBlog(
 
   const {siteDir, generatedFilesDir} = context;
   const contentPath = path.resolve(siteDir, options.path);
+  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
   );
-  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+  const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
     `~blog/${path.relative(pluginDataDirRoot, source)}`;
 
@@ -217,6 +218,23 @@ export default function pluginContentBlog(
 
       const blogItemsToMetadata: BlogItemsToMetadata = {};
 
+      // This prop is useful to provide the blog list sidebar
+      const blogPostSidebarProp = await createData(
+        // Note that this created data path must be in sync with
+        // metadataPath provided to mdx-loader.
+        `blog-post-list-prop-${pluginId}.json`,
+        JSON.stringify(
+          blogPosts.map((blogPost) => {
+            return {
+              title: blogPost.metadata.title,
+              permalink: blogPost.metadata.permalink,
+            };
+          }),
+          null,
+          2,
+        ),
+      );
+
       // Create routes for blog entries.
       await Promise.all(
         loadedBlogPosts.map(async (blogPost) => {
@@ -234,6 +252,7 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               content: metadata.source,
+              sidebar: blogPostSidebarProp,
             },
           });
 
