@@ -17,6 +17,7 @@
     "@docusaurus/utils": "2.0.0-alpha.65",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
+    "npm-to-yarn": "^1.0.0-2",
     "escape-html": "^1.0.3",
     "file-loader": "^6.0.0",
     "fs-extra": "^8.1.0",

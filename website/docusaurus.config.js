@@ -193,7 +193,7 @@ module.exports = {
             'https://github.com/facebook/docusaurus/edit/master/website/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
           disableVersioning: isVersioningDisabled,
           lastVersion: 'current',
           onlyIncludeVersions:
@@ -218,7 +218,7 @@ module.exports = {
           },
         },
         pages: {
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
