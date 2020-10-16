@@ -45,23 +45,26 @@ exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-// TODO we should probably create a custom navbar item type "dropdown"
-// having this recursive structure is bad because we only support 2 levels
-// + parent/child don't have exactly the same props
-const DefaultNavbarItemSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('...')),
+const BaseNavbarItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
   label: Joi.string(),
-  position: NavbarItemPosition,
-  activeBasePath: Joi.string(),
-  activeBaseRegex: Joi.string(),
   className: Joi.string(),
-  'aria-label': Joi.string(),
+  prependBaseUrlToHref: Joi.string(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
+
+// TODO we should probably create a custom navbar item type "dropdown"
+// having this recursive structure is bad because we only support 2 levels
+// + parent/child don't have exactly the same props
+const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
+  items: Joi.array().optional().items(BaseNavbarItemSchema),
+  position: NavbarItemPosition,
+  activeBasePath: Joi.string(),
+  activeBaseRegex: Joi.string(),
+});
 // TODO the dropdown parent item can have no href/to
 // should check should not apply to dropdown parent item
 // .xor('href', 'to');
@@ -79,8 +82,8 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
-  dropdownItemsBefore: Joi.array().items(DefaultNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(DefaultNavbarItemSchema).default([]),
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
 });
 
 const DocItemSchema = Joi.object({

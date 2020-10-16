@@ -96,6 +96,89 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow possible types of navbar items', () => {
+    const config = {
+      navbar: {
+        items: [
+          // Doc link
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'intro',
+            label: 'Introduction',
+            activeSidebarClassName: 'custom-class',
+          },
+          // Regular link
+          {
+            to: '/guide/',
+            label: 'Guide',
+            position: 'left',
+            activeBaseRegex: '/guide/',
+          },
+          // Regular dropdown
+          {
+            label: 'Community',
+            position: 'right',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://.facebook.com/',
+                target: '_self',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/facebook/docusaurus',
+                className: 'github-link',
+              },
+            ],
+          },
+          // Doc version dropdown
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
+            dropdownItemsBefore: [
+              {
+                href:
+                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                label: 'Versions on npm',
+                className: 'npm-styled',
+                target: '_self',
+              },
+            ],
+            dropdownItemsAfter: [
+              {
+                to: '/versions',
+                label: 'All versions',
+                className: 'all_vers',
+              },
+            ],
+          },
+          // External link with custom data attribute
+          {
+            href: 'https://github.com/facebook/docusaurus',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
+          },
+          // Docs version
+          {
+            type: 'docsVersion',
+            position: 'left',
+            label: 'Current version',
+          },
+        ],
+      },
+    };
+    expect(testValidateThemeConfig(config)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...config.navbar,
+      },
+    });
+  });
+
   test('should allow empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {

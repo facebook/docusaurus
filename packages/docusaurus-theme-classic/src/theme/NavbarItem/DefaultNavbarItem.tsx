@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
 import {isSamePath} from '../../utils';
-import useOnClickOutside from 'use-onclickoutside';
 import type {
   NavLinkProps,
   DesktopOrMobileNavBarItemProps,
@@ -67,21 +66,28 @@ function NavItemDesktop({
   className,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  const dropDownRef = React.useRef<HTMLDivElement>(null);
-  const dropDownMenuRef = React.useRef<HTMLUListElement>(null);
-  const [showDropDown, setShowDropDown] = useState(false);
-  useOnClickOutside(dropDownRef, () => toggle(false));
-  function toggle(state: boolean) {
-    if (state) {
-      const firstNavLinkOfULElement =
-        dropDownMenuRef?.current?.firstChild?.firstChild;
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownMenuRef = useRef<HTMLUListElement>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-      if (firstNavLinkOfULElement) {
-        (firstNavLinkOfULElement as HTMLElement).focus();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!dropdownRef.current || dropdownRef.current.contains(event.target)) {
+        return;
       }
-    }
-    setShowDropDown(state);
-  }
+
+      setShowDropdown(false);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   const navLinkClassNames = (extraClassName?: string, isDropdownItem = false) =>
     clsx(
       {
@@ -97,11 +103,11 @@ function NavItemDesktop({
 
   return (
     <div
-      ref={dropDownRef}
+      ref={dropdownRef}
       className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
-        'dropdown--show': showDropDown,
+        'dropdown--show': showDropdown,
       })}>
       <NavLink
         className={navLinkClassNames(className)}
@@ -110,27 +116,27 @@ function NavItemDesktop({
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            toggle(true);
+            setShowDropdown(!showDropdown);
           }
         }}>
         {props.label}
       </NavLink>
-      <ul ref={dropDownMenuRef} className="dropdown__menu">
+      <ul ref={dropdownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li key={i}>
             <NavLink
               onKeyDown={(e) => {
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
-                  toggle(false);
-                  
-                  const nextNavbarItem =
-                    dropDownRef.current &&
-                    (dropDownRef.current as HTMLElement).nextElementSibling;
+
+                  setShowDropdown(false);
+
+                  const nextNavbarItem = (dropdownRef.current as HTMLElement)
+                    .nextElementSibling;
 
                   if (nextNavbarItem) {
                     (nextNavbarItem as HTMLElement).focus();
-                  }                  
+                  }
                 }
               }}
               activeClassName="dropdown__link--active"
@@ -146,8 +152,8 @@ function NavItemDesktop({
 
 function NavItemMobile({
   items,
-  position: _position,
   className,
+  position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const {pathname} = useLocation();
@@ -155,7 +161,6 @@ function NavItemMobile({
     () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
   );
 
-  // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
     clsx(
       'menu__link',
