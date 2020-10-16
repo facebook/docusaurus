@@ -93,6 +93,11 @@ function Tabs(props: Props): JSX.Element {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyboardEvent);
     window.addEventListener('mousedown', handleMouseEvent);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyboardEvent);
+      window.removeEventListener('mousedown', handleMouseEvent);
+    };
   }, []);
 
   return (
