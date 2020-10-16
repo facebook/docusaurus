@@ -46,7 +46,7 @@ We have also released the [`docusaurus-init` package](https://www.npmjs.com/pack
 
 ## Contributing
 
-We've released Docusaurus because it helps us better scale and supports the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
+We have released Docusaurus because it helps us on better scale and supports the many OSS projects at Facebook. We hope that other organizations can be benefited from the project. We are thankful for any contributions from the community.
 
 ### [Code of Conduct](https://code.fb.com/codeofconduct)
 
