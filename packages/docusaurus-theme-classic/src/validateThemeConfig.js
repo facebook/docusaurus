@@ -50,6 +50,7 @@ const BaseNavbarItemSchema = Joi.object({
   href: URISchema,
   label: Joi.string(),
   className: Joi.string(),
+  prependBaseUrlToHref: Joi.string(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
