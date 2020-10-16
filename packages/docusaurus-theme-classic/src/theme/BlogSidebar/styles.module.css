@@ -19,8 +19,8 @@
 
 .sidebarItemList {
   overflow-y: auto;
-  font-size: 0.8rem;
-  padding-left: 0.3rem;
+  font-size: .9rem;
+  padding-left: 0;
 }
 
 .sidebarItem {
