@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
@@ -15,6 +14,7 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
 import {ValidationError} from '@hapi/joi';
+import {take, kebabCase} from 'lodash';
 
 import {
   PluginOptions,
@@ -218,18 +218,24 @@ export default function pluginContentBlog(
 
       const blogItemsToMetadata: BlogItemsToMetadata = {};
 
+      const sidebarBlogPosts =
+        options.blogSidebarCount === 'ALL'
+          ? blogPosts
+          : take(blogPosts, options.blogSidebarCount);
+
       // This prop is useful to provide the blog list sidebar
-      const blogPostSidebarProp = await createData(
+      const sidebarProp = await createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
         `blog-post-list-prop-${pluginId}.json`,
         JSON.stringify(
-          blogPosts.map((blogPost) => {
-            return {
+          {
+            title: options.blogSidebarTitle,
+            items: sidebarBlogPosts.map((blogPost) => ({
               title: blogPost.metadata.title,
               permalink: blogPost.metadata.permalink,
-            };
-          }),
+            })),
+          },
           null,
           2,
         ),
@@ -251,8 +257,8 @@ export default function pluginContentBlog(
             component: blogPostComponent,
             exact: true,
             modules: {
+              sidebar: sidebarProp,
               content: metadata.source,
-              sidebar: blogPostSidebarProp,
             },
           });
 
@@ -275,6 +281,7 @@ export default function pluginContentBlog(
             component: blogListComponent,
             exact: true,
             modules: {
+              sidebar: sidebarProp,
               items: items.map((postID) => {
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
@@ -322,6 +329,7 @@ export default function pluginContentBlog(
             component: blogTagsPostsComponent,
             exact: true,
             modules: {
+              sidebar: sidebarProp,
               items: items.map((postID) => {
                 const metadata = blogItemsToMetadata[postID];
                 return {
@@ -352,6 +360,7 @@ export default function pluginContentBlog(
           component: blogTagsListComponent,
           exact: true,
           modules: {
+            sidebar: sidebarProp,
             tags: aliasedSource(tagsListPath),
           },
         });

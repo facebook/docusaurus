@@ -216,6 +216,8 @@ module.exports = {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: 'All our posts',
         },
         pages: {
           remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],

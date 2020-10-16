@@ -5,11 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable import/no-duplicates */
 /* eslint-disable camelcase */
 
 declare module '@theme/BlogSidebar' {
   export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = BlogSidebarItem[];
+  export type BlogSidebar = {
+    title: string;
+    items: BlogSidebarItem[];
+  };
 
   export type Props = {
     readonly sidebar: BlogSidebar;
@@ -62,8 +66,8 @@ declare module '@theme/BlogPostPage' {
   };
 
   export type Props = {
-    readonly content: Content;
     readonly sidebar: BlogSidebar;
+    readonly content: Content;
   };
 
   const BlogPostPage: (props: Props) => JSX.Element;
@@ -71,8 +75,8 @@ declare module '@theme/BlogPostPage' {
 }
 
 declare module '@theme/BlogListPage' {
-  // eslint-disable-next-line import/no-duplicates
   import type {Content} from '@theme/BlogPostPage';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type Item = {
     readonly content: () => JSX.Element;
@@ -91,6 +95,7 @@ declare module '@theme/BlogListPage' {
   };
 
   export type Props = {
+    readonly sidebar: BlogSidebar;
     readonly metadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
   };
@@ -100,6 +105,8 @@ declare module '@theme/BlogListPage' {
 }
 
 declare module '@theme/BlogTagsListPage' {
+  import type {BlogSidebar} from '@theme/BlogSidebar';
+
   export type Tag = {
     permalink: string;
     name: string;
@@ -108,18 +115,22 @@ declare module '@theme/BlogTagsListPage' {
     slug: string;
   };
 
-  export type Props = {readonly tags: Readonly<Record<string, Tag>>};
+  export type Props = {
+    readonly sidebar: BlogSidebar;
+    readonly tags: Readonly<Record<string, Tag>>;
+  };
 
   const BlogTagsListPage: (props: Props) => JSX.Element;
   export default BlogTagsListPage;
 }
 
 declare module '@theme/BlogTagsPostsPage' {
+  import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {Tag} from '@theme/BlogTagsListPage';
-  // eslint-disable-next-line import/no-duplicates
   import type {Content} from '@theme/BlogPostPage';
 
   export type Props = {
+    readonly sidebar: BlogSidebar;
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
   };

@@ -31,6 +31,8 @@ export interface PluginOptions {
   blogTagsPostsComponent: string;
   blogTitle: string;
   blogDescription: string;
+  blogSidebarCount: number | 'ALL';
+  blogSidebarTitle: string;
   remarkPlugins: ([Function, object] | Function)[];
   beforeDefaultRehypePlugins: ([Function, object] | Function)[];
   beforeDefaultRemarkPlugins: ([Function, object] | Function)[];

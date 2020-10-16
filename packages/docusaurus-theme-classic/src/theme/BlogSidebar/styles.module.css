@@ -11,29 +11,33 @@
   overflow-y: auto;
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 2rem);
+}
 
-  border-right-color: var(--ifm-toc-border-color);
-  border-right-style: solid;
-  border-right-width: 1px;
+.sidebarItemTitle {
+  margin-bottom: 0.5rem;
 }
 
 .sidebarItemList {
   overflow-y: auto;
   font-size: 0.8rem;
-  padding: 0rem;
+  padding-left: 0.3rem;
 }
 
 .sidebarItem {
   list-style-type: none;
-  margin: var(--ifm-toc-padding-vertical);
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
-.sidebarItem a {
-  color: var(--ifm-toc-link-color);
+.sidebarItemLink {
+  color: var(--ifm-font-color-base);
 }
-.sidebarItem a:hover {
+.sidebarItemLink:hover {
   color: var(--ifm-color-primary);
   text-decoration: none;
+}
+.sidebarItemLinkActive {
+  color: var(--ifm-color-primary);
 }
 
 @media only screen and (max-width: 996px) {
