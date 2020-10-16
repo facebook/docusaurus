@@ -84,13 +84,13 @@ module.exports = {
 
 - Type: `boolean`
 
-This option adds `<meta name="robots" content="noindex">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
+This option adds `<meta name="robots" content="noindex, nofollow">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
 
 Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  noIndex: true, // Defaults to false
+  noIndex: true, // Defaults to `false`
 };
 ```
 
