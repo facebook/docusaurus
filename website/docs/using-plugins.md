@@ -209,6 +209,16 @@ module.exports = {
          */
         blogDescription: 'Blog',
         /**
+         * Number of blog post elements to show in the blog sidebar
+         * 'ALL' to show all blog posts
+         * 0 to disable
+         */
+        blogSidebarCount: 5,
+        /**
+         * Title of the blog sidebar
+         */
+        blogSidebarTitle: 'All our posts',
+        /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */

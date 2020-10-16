@@ -81,3 +81,42 @@ test('should convert all feed type to array with other feed type', () => {
     feedOptions: {type: ['rss', 'atom']},
   });
 });
+
+describe('blog sidebar', () => {
+  test('should accept 0 sidebar count', () => {
+    const userOptions = {blogSidebarCount: 0};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should accept "ALL" sidebar count', () => {
+    const userOptions = {blogSidebarCount: 'ALL'};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject "abcdef" sidebar count', () => {
+    const userOptions = {blogSidebarCount: 'abcdef'};
+    const {error} = PluginOptionSchema.validate(userOptions);
+    expect(error).toMatchInlineSnapshot(
+      `[ValidationError: "blogSidebarCount" must be one of [ALL, number]]`,
+    );
+  });
+
+  test('should accept "all posts" sidebar title', () => {
+    const userOptions = {blogSidebarTitle: 'all posts'};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject 42 sidebar title', () => {
+    const userOptions = {blogSidebarTitle: 42};
+    const {error} = PluginOptionSchema.validate(userOptions);
+    expect(error).toMatchInlineSnapshot(
+      `[ValidationError: "blogSidebarTitle" must be a string]`,
+    );
+  });
+});

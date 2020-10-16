@@ -28,6 +28,8 @@ export const DEFAULT_OPTIONS = {
   blogListComponent: '@theme/BlogListPage',
   blogDescription: 'Blog',
   blogTitle: 'Blog',
+  blogSidebarCount: 5,
+  blogSidebarTitle: 'Recent posts',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
@@ -57,6 +59,10 @@ export const PluginOptionSchema = Joi.object({
   blogDescription: Joi.string()
     .allow('')
     .default(DEFAULT_OPTIONS.blogDescription),
+  blogSidebarCount: Joi.alternatives()
+    .try(Joi.equal('ALL').required(), Joi.number().required())
+    .default(DEFAULT_OPTIONS.blogSidebarCount),
+  blogSidebarTitle: Joi.string().default(DEFAULT_OPTIONS.blogSidebarTitle),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),

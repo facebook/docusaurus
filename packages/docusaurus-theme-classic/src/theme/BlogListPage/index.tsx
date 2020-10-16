@@ -12,9 +12,10 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
+import BlogSidebar from '@theme/BlogSidebar';
 
 function BlogListPage(props: Props): JSX.Element {
-  const {metadata, items} = props;
+  const {metadata, items, sidebar} = props;
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
@@ -25,7 +26,10 @@ function BlogListPage(props: Props): JSX.Element {
     <Layout title={title} description={blogDescription}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <main className="col col--8 col--offset-2">
+          <div className="col col--2">
+            <BlogSidebar sidebar={sidebar} />
+          </div>
+          <main className="col col--8">
             {items.map(({content: BlogPostContent}) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}

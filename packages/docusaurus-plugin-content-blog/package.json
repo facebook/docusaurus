@@ -27,7 +27,7 @@
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
-    "lodash.kebabcase": "^4.1.1",
+    "lodash": "^4.5.2",
     "reading-time": "^1.2.0",
     "remark-admonitions": "^1.2.1",
     "webpack": "^4.44.1"
