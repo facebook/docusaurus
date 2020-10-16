@@ -156,6 +156,7 @@ function NavItemMobile({
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
+  const menuListRef = useRef<HTMLUListElement>(null);
   const {pathname} = useLocation();
   const [collapsed, setCollapsed] = useState(
     () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
@@ -191,7 +192,14 @@ function NavItemMobile({
         }}>
         {props.label}
       </NavLink>
-      <ul className="menu__list">
+      <ul
+        className="menu__list"
+        ref={menuListRef}
+        style={{
+          height: !collapsed
+            ? `${menuListRef.current?.scrollHeight}px`
+            : undefined,
+        }}>
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
             <NavLink

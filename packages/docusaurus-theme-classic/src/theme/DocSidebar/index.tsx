@@ -64,6 +64,23 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
 
+  const menuListRef = useRef<HTMLUListElement>(null);
+  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
+    undefined,
+  );
+  const handleMenuListHeight = (type: 'auto' | 'calc' | 'none') => {
+    switch (type) {
+      case 'calc':
+        return setMenuListHeight(
+          `calc(${menuListRef.current?.scrollHeight}px - var(--ifm-list-item-margin))`,
+        );
+      case 'none':
+        return setMenuListHeight('0px');
+      default:
+        return setMenuListHeight(undefined);
+    }
+  };
+
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
@@ -75,10 +92,19 @@ function DocSidebarItemCategory({
   const handleItemClick = useCallback(
     (e) => {
       e.preventDefault();
+
+      handleMenuListHeight('calc');
+
       setCollapsed((state) => !state);
     },
     [setCollapsed],
   );
+
+  useEffect(() => {
+    if (collapsed) {
+      handleMenuListHeight('none');
+    }
+  }, [collapsed]);
 
   if (items.length === 0) {
     return null;
@@ -101,7 +127,15 @@ function DocSidebarItemCategory({
         {...props}>
         {label}
       </a>
-      <ul className="menu__list">
+      <ul
+        className="menu__list"
+        ref={menuListRef}
+        style={{height: menuListHeight}}
+        onTransitionEnd={() => {
+          if (!collapsed) {
+            handleMenuListHeight('auto');
+          }
+        }}>
         {items.map((childItem) => (
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
