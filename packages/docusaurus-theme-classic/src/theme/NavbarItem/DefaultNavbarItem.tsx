@@ -112,7 +112,7 @@ function NavItemDesktop({
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
-        onClick={(e) => e.preventDefault()}
+        onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
