@@ -16,10 +16,12 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useVersioning from '@theme/hooks/useVersioning';
+import {useDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 
 import styles from './styles.module.css';
 
@@ -33,9 +35,10 @@ function Search() {
       themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
     } = {},
   } = useDocusaurusContext();
+  const {versions} = useDocsData(DEFAULT_PLUGIN_ID);
+  const versioningEnabled = versions.length > 0;
   const {searchValue, updateSearchPath} = useSearchQuery();
-  const {versioningEnabled, versions, latestVersion} = useVersioning();
-  const [searchVersion, setSearchVersion] = useState(latestVersion);
+  const [searchVersion, setSearchVersion] = useState(versions[0]?.name);
   const [searchQuery, setSearchQuery] = useState(searchValue);
   const initialSearchResultState = {
     items: [],
@@ -275,9 +278,7 @@ function Search() {
                 defaultValue={searchVersion}
                 className={styles.searchVersionInput}>
                 {versions.map((version, i) => (
-                  <option key={i} value={version}>
-                    {version}
-                  </option>
+                  <option key={i} label={version.label} value={version.name} />
                 ))}
               </select>
             </div>
