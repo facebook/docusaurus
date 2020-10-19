@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.66",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "types": "src/types.d.ts",
@@ -15,12 +15,12 @@
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.65",
-    "@docusaurus/types": "2.0.0-alpha.65",
-    "@docusaurus/utils-validation": "2.0.0-alpha.65",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
@@ -37,7 +37,7 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.65",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66",
     "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
