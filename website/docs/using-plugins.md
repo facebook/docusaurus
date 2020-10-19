@@ -76,7 +76,7 @@ module.exports = {
 
 It is possible to use multiple times the same plugin, on the same Docusaurus website.
 
-In this case, you it is required to assign a unique id to each plugin instance.
+In this case, it is required to assign a unique id to each plugin instance.
 
 By default, the plugin id is `default`.
 
