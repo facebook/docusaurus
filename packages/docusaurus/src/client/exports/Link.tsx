@@ -146,7 +146,8 @@ function Link({
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
       href={targetLink}
-      {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
+      {...(targetLinkUnprefixed &&
+        !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
     />
   ) : (
