@@ -248,7 +248,7 @@ const ThemeConfigSchema = Joi.object({
       srcDark: Joi.string(),
       href: Joi.string(),
       target: Joi.string(),
-    }),
+    }).default({}),
   }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
