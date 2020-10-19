@@ -184,6 +184,7 @@ function NavItemMobile({
         'menu__list-item--collapsed': collapsed,
       })}>
       <NavLink
+        role="button"
         className={navLinkClassNames(className, true)}
         {...props}
         onClick={() => {
