@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.66",
   "description": "Blog plugin for Docusaurus",
   "main": "lib/index.js",
   "types": "index.d.ts",
@@ -16,11 +16,11 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.65",
-    "@docusaurus/types": "2.0.0-alpha.65",
-    "@docusaurus/utils": "2.0.0-alpha.65",
-    "@docusaurus/utils-validation": "2.0.0-alpha.65",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/mdx-loader": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils": "2.0.0-alpha.66",
+    "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@hapi/joi": "^17.1.1",
     "chalk": "^3.0.0",
     "feed": "^4.1.0",
