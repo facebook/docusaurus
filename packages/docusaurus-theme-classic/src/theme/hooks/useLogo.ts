@@ -13,7 +13,7 @@ import useThemeConfig from '../../utils/useThemeConfig';
 
 const useLogo = (): useLogoReturns => {
   const {
-    navbar: {logo},
+    navbar: {logo = {}},
   } = useThemeConfig();
   const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');
