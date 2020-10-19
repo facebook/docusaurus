@@ -39,6 +39,7 @@ const DEFAULT_CONFIG = {
   navbar: {
     hideOnScroll: false,
     items: [],
+    logo: {},
   },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
