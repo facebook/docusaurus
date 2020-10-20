@@ -97,3 +97,7 @@
   /* Same as "arrow" transition */
   transition: height var(--ifm-transition-fast) linear;
 }
+
+:global(.menu__list-item--collapsed) :global(.menu__list) {
+  height: 0px !important;
+}

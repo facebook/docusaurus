@@ -68,17 +68,10 @@ function DocSidebarItemCategory({
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
     undefined,
   );
-  const handleMenuListHeight = (type: 'auto' | 'calc' | 'none') => {
-    switch (type) {
-      case 'calc':
-        return setMenuListHeight(
-          `calc(${menuListRef.current?.scrollHeight}px - var(--ifm-list-item-margin))`,
-        );
-      case 'none':
-        return setMenuListHeight('0px');
-      default:
-        return setMenuListHeight(undefined);
-    }
+  const handleMenuListHeight = (calc = true) => {
+    setMenuListHeight(
+      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
+    );
   };
 
   // If we navigate to a category, it should automatically expand itself
@@ -93,18 +86,14 @@ function DocSidebarItemCategory({
     (e) => {
       e.preventDefault();
 
-      handleMenuListHeight('calc');
+      if (!menuListHeight) {
+        handleMenuListHeight();
+      }
 
-      setCollapsed((state) => !state);
+      setTimeout(() => setCollapsed((state) => !state), 100);
     },
-    [setCollapsed],
+    [menuListHeight],
   );
-
-  useEffect(() => {
-    if (collapsed) {
-      handleMenuListHeight('none');
-    }
-  }, [collapsed]);
 
   if (items.length === 0) {
     return null;
@@ -130,10 +119,12 @@ function DocSidebarItemCategory({
       <ul
         className="menu__list"
         ref={menuListRef}
-        style={{height: menuListHeight}}
+        style={{
+          height: menuListHeight,
+        }}
         onTransitionEnd={() => {
           if (!collapsed) {
-            handleMenuListHeight('auto');
+            handleMenuListHeight(false);
           }
         }}>
         {items.map((childItem) => (
