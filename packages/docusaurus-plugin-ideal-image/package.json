@@ -10,6 +10,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-ideal-image"
+  },
   "license": "MIT",
   "devDependencies": {
     "fs-extra": "^9.0.0"

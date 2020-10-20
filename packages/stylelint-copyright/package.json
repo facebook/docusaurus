@@ -4,6 +4,11 @@
   "description": "stylelint plugin to check css files for a copyright header",
   "main": "index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/stylelint-copyright"
+  },
   "dependencies": {
     "stylelint": "^13.2.1"
   }

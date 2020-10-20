@@ -6,6 +6,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-search-algolia"
+  },
   "license": "MIT",
   "dependencies": {
     "@docsearch/react": "^1.0.0-alpha.27",

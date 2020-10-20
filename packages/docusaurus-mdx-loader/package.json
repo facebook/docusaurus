@@ -9,6 +9,11 @@
   "scripts": {
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-mdx-loader"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/parser": "^7.9.4",

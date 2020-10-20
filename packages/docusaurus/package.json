@@ -17,7 +17,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus"
   },
   "bin": {
     "docusaurus": "bin/docusaurus.js"

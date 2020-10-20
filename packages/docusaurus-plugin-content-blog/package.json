@@ -8,6 +8,11 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-blog"
+  },
   "publishConfig": {
     "access": "public"
   },

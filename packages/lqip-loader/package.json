@@ -6,6 +6,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/lqip-loader"
+  },
   "license": "MIT",
   "dependencies": {
     "loader-utils": "^1.2.3",
