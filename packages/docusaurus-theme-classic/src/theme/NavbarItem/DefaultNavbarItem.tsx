@@ -112,7 +112,7 @@ function NavItemDesktop({
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
-        onClick={(e) => e.preventDefault()}
+        onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
@@ -184,6 +184,7 @@ function NavItemMobile({
         'menu__list-item--collapsed': collapsed,
       })}>
       <NavLink
+        role="button"
         className={navLinkClassNames(className, true)}
         {...props}
         onClick={() => {

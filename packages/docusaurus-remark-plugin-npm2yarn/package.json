@@ -1,25 +1,25 @@
 {
   "name": "@docusaurus/remark-plugin-npm2yarn",
-  "version": "2.0.0-alpha.65",
-    "description": "Remark plugin for convert npm commands to yarn as tabs",
-    "main": "src/index.js",
-    "publishConfig": {
-      "access": "public"
-    },
-    "license": "MIT",
-    "dependencies": {
-      "npm-to-yarn": "^1.0.1"
-    },
-    "devDependencies": {
-      "remark": "^12.0.0",
-      "remark-mdx": "^1.5.8",
-      "to-vfile": "^6.0.0"
-    },
-    "peerDependencies": {
-      "react": "^16.8.4",
-      "react-dom": "^16.8.4"
-    },
-    "engines": {
-      "node": ">=10.15.1"
-    }
+  "version": "2.0.0-alpha.66",
+  "description": "Remark plugin for convert npm commands to yarn as tabs",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "npm-to-yarn": "^1.0.1"
+  },
+  "devDependencies": {
+    "remark": "^12.0.0",
+    "remark-mdx": "^1.5.8",
+    "to-vfile": "^6.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.15.1"
   }
+}

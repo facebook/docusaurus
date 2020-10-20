@@ -26,7 +26,7 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-
+import chalk from 'chalk';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
@@ -41,8 +41,21 @@ function renderSSRTemplate(ssrTemplate, data) {
   return compiled(data, eta.defaultConfig);
 }
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
+  try {
+    return await doRender(locals);
+  } catch (e) {
+    console.error(
+      chalk.red(
+        `Docusaurus Node/SSR could not render static page with path=${locals.path} because of error: ${e.message}`,
+      ),
+    );
+    throw e;
+  }
+}
+
+// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
+async function doRender(locals) {
   const {
     routesLocation,
     headTags,
