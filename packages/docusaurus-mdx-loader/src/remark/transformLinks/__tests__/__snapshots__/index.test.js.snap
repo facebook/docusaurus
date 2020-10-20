@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link url is mandatory. filePath=packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/noUrl.md, title=null"`;
+exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link url is mandatory. filePath=packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/fixtures/noUrl.md, title=asset, line=1"`;
 
 exports[`transformAsset plugin pathname protocol 1`] = `
 "[asset](pathname:///asset/unchecked.pdf)

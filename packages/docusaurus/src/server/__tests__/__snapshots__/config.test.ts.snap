@@ -20,6 +20,7 @@ Object {
   "baseUrl": "/",
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
+  "noIndex": false,
   "onBrokenLinks": "throw",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
@@ -38,6 +39,7 @@ Object {
   "themeConfig": Object {},
   "themes": Array [],
   "title": "Hello",
+  "titleDelimiter": "|",
   "url": "https://docusaurus.io",
 }
 `;

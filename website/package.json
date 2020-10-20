@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.63",
+  "version": "2.0.0-alpha.66",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -8,6 +8,8 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
     "start:baseUrl": "BASE_URL='/build/' yarn start",
     "build:baseUrl": "BASE_URL='/build/' yarn build",
     "start:bootstrap": "DOCUSAURUS_PRESET=bootstrap yarn start",
@@ -15,20 +17,22 @@
     "start:blogOnly": "DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn start",
     "build:blogOnly": "DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn build",
     "netlify:build:production": "yarn netlify:crowdin && yarn build",
-    "netlify:build:deployPreview": "yarn netlify:crowdin && yarn netlify:build:deployPreview:classic && yarn netlify:build:deployPreview:bootstrap && yarn netlify:build:deployPreview:blogOnly",
+    "netlify:build:deployPreview": "yarn netlify:crowdin && yarn netlify:build:deployPreview:v1:all && yarn netlify:build:deployPreview:classic && yarn netlify:build:deployPreview:bootstrap && yarn netlify:build:deployPreview:blogOnly",
     "netlify:build:deployPreview:classic": "BASE_URL='/classic/' yarn build --out-dir netlifyDeployPreview/classic",
     "netlify:build:deployPreview:bootstrap": "BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeployPreview/bootstrap",
     "netlify:build:deployPreview:blogOnly": "yarn build:blogOnly --out-dir netlifyDeployPreview/blog-only",
+    "netlify:build:deployPreview:v1:all": "yarn --cwd .. netlify:deployPreview:v1 && yarn --cwd .. netlify:deployPreview:v1-migrated",
     "netlify:crowdin": "cd .. && java -version && curl https://hardcore-ride-8fbb5a.netlify.app/crowdin-cli.jar --output crowdin-cli.jar && java -jar crowdin-cli.jar --version && java -jar crowdin-cli.jar download --config ./crowdin-v2.yaml",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.63",
-    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.63",
-    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.63",
-    "@docusaurus/plugin-pwa": "2.0.0-alpha.63",
-    "@docusaurus/preset-classic": "2.0.0-alpha.63",
-    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.63",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.66",
+    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.66",
+    "@docusaurus/plugin-pwa": "2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "2.0.0-alpha.66",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-alpha.66",
+    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.66",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",
@@ -48,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.1"
   }
 }

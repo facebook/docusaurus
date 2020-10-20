@@ -8,17 +8,28 @@
 const Joi = require('@hapi/joi');
 
 const DEFAULT_CONFIG = {
+  contextualSearch: false, // future: maybe we want to enable this by default
+
   // By default, all Docusaurus sites are using the same AppId
   // This has been designed on purpose with Algolia.
   appId: 'BH4D9OD16A',
+
+  searchParameters: {},
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const Schema = Joi.object({
   algolia: Joi.object({
+    // Docusaurus attributes
+    contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
+
+    // Algolia attributes
     appId: Joi.string().default(DEFAULT_CONFIG.appId),
     apiKey: Joi.string().required(),
     indexName: Joi.string().required(),
+    searchParameters: Joi.object()
+      .default(DEFAULT_CONFIG.searchParameters)
+      .unknown(),
   })
     .label('themeConfig.algolia')
     .required()
@@ -30,5 +41,17 @@ exports.validateThemeConfig = function validateThemeConfig({
   validate,
   themeConfig,
 }) {
-  return validate(Schema, themeConfig);
+  const normalizedThemeConfig = validate(Schema, themeConfig);
+
+  if (
+    normalizedThemeConfig &&
+    normalizedThemeConfig.algolia.contextualSearch &&
+    normalizedThemeConfig.algolia.searchParameters &&
+    normalizedThemeConfig.algolia.searchParameters.facetFilters
+  ) {
+    throw new Error(
+      'If you are using algolia.contextualSearch: true, you should not provide algolia.searchParameters.facetFilters, as it is computed for you dynamically',
+    );
+  }
+  return normalizedThemeConfig;
 };

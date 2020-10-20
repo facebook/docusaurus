@@ -18,6 +18,7 @@ const {
   start,
   externalCommand,
   serve,
+  clear,
 } = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 const pkg = require('../package.json');
@@ -198,6 +199,13 @@ cli
     },
   );
 
+cli
+  .command('clear')
+  .description('Remove build artifacts')
+  .action(() => {
+    wrapCommand(clear)(path.resolve('.'));
+  });
+
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
@@ -205,7 +213,9 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 function isInternalCommand(command) {
-  return ['start', 'build', 'swizzle', 'deploy'].includes(command);
+  return ['start', 'build', 'swizzle', 'deploy', 'serve', 'clear'].includes(
+    command,
+  );
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {

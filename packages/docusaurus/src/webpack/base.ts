@@ -38,6 +38,17 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
+// See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
+let terserParallel: boolean | number = true;
+if (process.env.TERSER_PARALLEL === 'false') {
+  terserParallel = false;
+} else if (
+  process.env.TERSER_PARALLEL &&
+  parseInt(process.env.TERSER_PARALLEL, 10) > 0
+) {
+  terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
+}
+
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
@@ -103,7 +114,7 @@ export function createBaseConfig(
           ? [
               new TerserPlugin({
                 cache: true,
-                parallel: true,
+                parallel: terserParallel,
                 sourceMap: false,
                 terserOptions: {
                   parse: {
@@ -207,7 +218,7 @@ export function createBaseConfig(
         },
         {
           test: /\.svg$/,
-          use: '@svgr/webpack?-prettier-svgo,+titleProp,+ref![path]',
+          use: '@svgr/webpack?-prettier,-svgo,+titleProp,+ref![path]',
         },
       ],
     },

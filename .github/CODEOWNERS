@@ -1,6 +1,5 @@
 # https://help.github.com/articles/about-codeowners/
 
-/packages/ @yangshun
-/packages/docusaurus-theme-classic/ @lex111
-/website/  @yangshun
-/website-1.x/  @yangshun
+/packages/ @slorber @lex111
+/website/  @slorber @lex111
+/website-1.x/  @slorber

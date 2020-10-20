@@ -25,6 +25,7 @@ interface Props {
   readonly href?: string;
   readonly activeClassName?: string;
   readonly children?: ReactNode;
+  readonly isActive?: () => boolean;
 
   // escape hatch in case broken links check is annoying for a specific link
   readonly 'data-noBrokenLinkCheck'?: boolean;
@@ -42,6 +43,7 @@ function Link({
   to,
   href,
   activeClassName,
+  isActive,
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   ...props
 }: Props): JSX.Element {
@@ -144,7 +146,8 @@ function Link({
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
       href={targetLink}
-      {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
+      {...(targetLinkUnprefixed &&
+        !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
     />
   ) : (
@@ -154,7 +157,7 @@ function Link({
       innerRef={handleRef}
       to={targetLink || ''}
       // avoid "React does not recognize the `activeClassName` prop on a DOM element"
-      {...(isNavLink && {activeClassName})}
+      {...(isNavLink && {isActive, activeClassName})}
     />
   );
 }

@@ -13,6 +13,7 @@ import {
   useActiveVersion,
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
+import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -22,6 +23,9 @@ function DocVersionSuggestions(): JSX.Element {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
   const {pluginId} = useActivePlugin({failfast: true});
+
+  const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
+
   const activeVersion = useActiveVersion(pluginId);
   const {
     latestDocSuggestion,
@@ -35,7 +39,7 @@ function DocVersionSuggestions(): JSX.Element {
 
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version
-  const suggestedDoc =
+  const latestVersionSuggestedDoc =
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 
   return (
@@ -58,7 +62,13 @@ function DocVersionSuggestions(): JSX.Element {
       <div className="margin-top--md">
         For up-to-date documentation, see the{' '}
         <strong>
-          <Link to={suggestedDoc.path}>latest version</Link>
+          <Link
+            to={latestVersionSuggestedDoc.path}
+            onClick={() =>
+              savePreferredVersionName(latestVersionSuggestion.name)
+            }>
+            latest version
+          </Link>
         </strong>{' '}
         ({latestVersionSuggestion.label}).
       </div>

@@ -194,7 +194,12 @@ export default function pluginContentPages(
       isServer: boolean,
       {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
     ) {
-      const {rehypePlugins, remarkPlugins} = options;
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        beforeDefaultRehypePlugins,
+        beforeDefaultRemarkPlugins,
+      } = options;
       return {
         resolve: {
           alias: {
@@ -214,6 +219,8 @@ export default function pluginContentPages(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    beforeDefaultRehypePlugins,
+                    beforeDefaultRemarkPlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.

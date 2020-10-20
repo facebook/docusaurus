@@ -71,6 +71,8 @@ If there are no errors, you can start preparing for the new release.
 
 The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `tag:`, otherwise the PR won't appear in the changelog.
 
+[Check tags of all recently merged Pull-Requests](https://github.com/facebook/docusaurus/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged+)
+
 The `tag:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
@@ -94,7 +96,7 @@ Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 Adding the `--from` options seems to help:
 
 ```sh
-yarn changelog --from v2.0.0-alpha.60`
+yarn changelog --from v2.0.0-alpha.60
 ```
 
 ### 4. Cut a new version of the docs
@@ -157,7 +159,7 @@ npm access ls-packages
 </pre>
 </details>
 
-It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organisation, but you don't have access to the packages that are not in that organisation.
+It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
 
 Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
 
@@ -196,7 +198,7 @@ Now that the release is done, **merge the pull request**.
 
 ### 8. Notify people about new release (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 

@@ -19,6 +19,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  beforeDefaultRehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
   admonitions: {},
   exclude: [
     '**/_*.{js,jsx,ts,tsx,md,mdx}',
@@ -35,5 +37,11 @@ export const PluginOptionSchema = Joi.object({
   mdxPageComponent: Joi.string().default(DEFAULT_OPTIONS.mdxPageComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  beforeDefaultRehypePlugins: RehypePluginsSchema.default(
+    DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
+  ),
+  beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
+    DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
+  ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
 });

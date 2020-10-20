@@ -20,7 +20,7 @@ const keys = {
 };
 
 function Tabs(props: Props): JSX.Element {
-  const {block, children, defaultValue, values, groupId} = props;
+  const {block, children, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const [keyboardPress, setKeyboardPress] = useState(false);
@@ -93,6 +93,11 @@ function Tabs(props: Props): JSX.Element {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyboardEvent);
     window.addEventListener('mousedown', handleMouseEvent);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyboardEvent);
+      window.removeEventListener('mousedown', handleMouseEvent);
+    };
   }, []);
 
   return (
@@ -100,9 +105,13 @@ function Tabs(props: Props): JSX.Element {
       <ul
         role="tablist"
         aria-orientation="horizontal"
-        className={clsx('tabs', {
-          'tabs--block': block,
-        })}>
+        className={clsx(
+          'tabs',
+          {
+            'tabs--block': block,
+          },
+          className,
+        )}>
         {values.map(({value, label}) => (
           <li
             role="tab"

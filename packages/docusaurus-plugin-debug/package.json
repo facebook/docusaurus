@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "2.0.0-alpha.63",
+  "version": "2.0.0-alpha.66",
   "description": "Debug plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -12,9 +12,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.63",
-    "@docusaurus/types": "2.0.0-alpha.63",
-    "@docusaurus/utils": "2.0.0-alpha.63",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils": "2.0.0-alpha.66",
     "react-json-view": "^1.19.1"
   },
   "peerDependencies": {

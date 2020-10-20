@@ -28,11 +28,12 @@ packages/docusaurus-plugin-debug/lib/
 packages/docusaurus-plugin-sitemap/lib/
 packages/docusaurus-plugin-ideal-image/lib/
 packages/docusaurus-theme-classic/lib/
+packages/docusaurus-theme-bootstrap/lib/
 packages/docusaurus-migrate/lib/
 
-website/netlifyDeployPreview/**
-!website/netlifyDeployPreview/_redirects
+website/netlifyDeployPreview/*
 !website/netlifyDeployPreview/index.html
+!website/netlifyDeployPreview/_redirects
 
 website-1.x-migrated
 

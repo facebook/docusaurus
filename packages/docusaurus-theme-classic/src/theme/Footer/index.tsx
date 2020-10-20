@@ -9,7 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeConfig from '../../utils/useThemeConfig';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
@@ -40,10 +40,7 @@ const FooterLogo = ({url, alt}) => (
 );
 
 function Footer(): JSX.Element | null {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {themeConfig = {}} = siteConfig;
-  const {footer} = themeConfig;
+  const {footer} = useThemeConfig();
 
   const {copyright, links = [], logo = {}} = footer || {};
   const logoUrl = useBaseUrl(logo.src);

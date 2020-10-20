@@ -119,10 +119,16 @@ async function convertToAssetLinkIfNeeded({
 
 async function processLinkNode({node, index, parent, filePath, staticDir}) {
   if (!node.url) {
+    // try to improve error feedback
+    // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
+    const title =
+      node.title || (node.children[0] && node.children[0].value) || '?';
+    const line =
+      (node.position && node.position.start && node.position.start.line) || '?';
     throw new Error(
       `Markdown link url is mandatory. filePath=${toRelativePath(
         filePath,
-      )}, title=${node.title}`,
+      )}, title=${title}, line=${line}`,
     );
   }
 

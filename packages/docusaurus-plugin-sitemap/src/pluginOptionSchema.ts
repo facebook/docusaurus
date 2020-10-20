@@ -11,6 +11,7 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: 'weekly',
   priority: 0.5,
+  trailingSlash: false,
 };
 
 export const PluginOptionSchema = Joi.object({
@@ -19,4 +20,5 @@ export const PluginOptionSchema = Joi.object({
     .valid('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never')
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
+  trailingSlash: Joi.bool().default(false),
 });
