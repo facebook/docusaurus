@@ -99,6 +99,11 @@ module.exports = function (context, options) {
         .join('|');
 
       return {
+        resolve: {
+          alias: {
+            '@theme-init': this.getTypeScriptThemePath(),
+          },
+        },
         stats: {
           warningsFilter: [
             // See https://github.com/facebook/docusaurus/pull/3382

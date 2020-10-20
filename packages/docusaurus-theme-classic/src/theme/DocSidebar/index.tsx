@@ -164,10 +164,13 @@ function DocSidebar({
   path,
   sidebar,
   sidebarCollapsible = true,
+  onCollapse,
+  isHidden,
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     navbar: {title, hideOnScroll},
+    hideableSidebar,
   } = useThemeConfig();
   const {isClient} = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
@@ -187,6 +190,7 @@ function DocSidebar({
     <div
       className={clsx(styles.sidebar, {
         [styles.sidebarWithHideableNavbar]: hideOnScroll,
+        [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && (
         <Link
@@ -258,6 +262,19 @@ function DocSidebar({
           ))}
         </ul>
       </div>
+
+      {hideableSidebar && (
+        <button
+          type="button"
+          title="Collapse sidebar"
+          aria-label="Collapse sidebar"
+          className={clsx(
+            'button button--secondary button--outline',
+            styles.collapseSidebarButton,
+          )}
+          onClick={onCollapse}
+        />
+      )}
     </div>
   );
 }

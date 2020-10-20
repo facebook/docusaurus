@@ -40,6 +40,7 @@ const DEFAULT_CONFIG = {
     hideOnScroll: false,
     items: [],
   },
+  hideableSidebar: false,
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -283,6 +284,7 @@ const ThemeConfigSchema = Joi.object({
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
+  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 
