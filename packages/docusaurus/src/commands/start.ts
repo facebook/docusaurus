@@ -81,10 +81,16 @@ export default async function start(
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
+
   const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
     cwd: siteDir,
     ignoreInitial: true,
+    usePolling: !!cliOptions.poll,
+    interval: Number.isInteger(cliOptions.poll)
+      ? (cliOptions.poll as number)
+      : undefined,
   });
+
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
