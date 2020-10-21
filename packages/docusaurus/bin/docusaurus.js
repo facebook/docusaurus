@@ -19,6 +19,7 @@ const {
   externalCommand,
   serve,
   clear,
+  writeTranslations,
 } = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 const pkg = require('../package.json');
@@ -206,6 +207,13 @@ cli
     wrapCommand(clear)(path.resolve('.'));
   });
 
+cli
+  .command('write-translations')
+  .description('Extract required translations of your site')
+  .action(() => {
+    wrapCommand(writeTranslations)(path.resolve('.'));
+  });
+
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
@@ -213,9 +221,15 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 function isInternalCommand(command) {
-  return ['start', 'build', 'swizzle', 'deploy', 'serve', 'clear'].includes(
-    command,
-  );
+  return [
+    'start',
+    'build',
+    'swizzle',
+    'deploy',
+    'serve',
+    'clear',
+    'write-translations',
+  ].includes(command);
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {

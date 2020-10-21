@@ -194,7 +194,7 @@ function createVersionMetadata({
     options,
   });
 
-  console.log('docsDirPaths', {docsDirPath, docsDirPathLocalized});
+  // console.log('docsDirPaths', {docsDirPath, docsDirPathLocalized});
 
   // retro-compatible values
   const defaultVersionLabel =

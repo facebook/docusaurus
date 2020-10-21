@@ -95,6 +95,19 @@ export default function pluginContentDocs(
         });
     },
 
+    getTranslations() {
+      return {
+        docs: {
+          doc1: {
+            title: 'todo title doc 1',
+          },
+        },
+        categories: {
+          guide: 'todo guide',
+        },
+      };
+    },
+
     getClientModules() {
       const modules = [];
       if (options.admonitions) {

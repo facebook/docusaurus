@@ -193,6 +193,7 @@ export interface Plugin<T, U = unknown> {
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
+  getTranslations?(): unknown;
   extendCli?(cli: Command): void;
   injectHtmlTags?(): {
     headTags?: HtmlTags;

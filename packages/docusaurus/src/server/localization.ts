@@ -70,7 +70,7 @@ function loadLocalizationFile(siteDir: string): LocalizationFile {
 
 export function loadLocalizationContext(
   siteDir: string,
-  options: {locale?: string},
+  options: {locale?: string} = {},
 ): LocalizationContext {
   const localizationFile = loadLocalizationFile(siteDir);
   const currentLocale = options.locale ?? localizationFile.defaultLocale;

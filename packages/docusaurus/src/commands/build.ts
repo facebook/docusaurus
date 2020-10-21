@@ -42,24 +42,30 @@ export default async function build(
     }
   }
 
-  const locales = loadLocalizationContext(siteDir, {locale: cliOptions.locale});
+  const localizationContext = loadLocalizationContext(siteDir, {
+    locale: cliOptions.locale,
+  });
   if (cliOptions.locale) {
     return doBuildLocale(cliOptions.locale, forceTerminate);
   } else {
     console.log(
       chalk.blue(
-        `Site will be built with all these locales: ${locales.locales.join(
+        `Site will be built with all these locales: ${localizationContext.locales.join(
           ', ',
         )}`,
       ),
     );
-    const results = await mapAsyncSequencial(locales.locales, (locale) => {
-      const isLastLocale =
-        locales.locales.indexOf(locale) === locales.locales.length - 1;
-      // TODO check why we need forceTerminate
-      const forceTerm = isLastLocale && forceTerminate;
-      return doBuildLocale(locale, forceTerm);
-    });
+    const results = await mapAsyncSequencial(
+      localizationContext.locales,
+      (locale) => {
+        const isLastLocale =
+          localizationContext.locales.indexOf(locale) ===
+          localizationContext.locales.length - 1;
+        // TODO check why we need forceTerminate
+        const forceTerm = isLastLocale && forceTerminate;
+        return doBuildLocale(locale, forceTerm);
+      },
+    );
     return results[0]!;
   }
 }
