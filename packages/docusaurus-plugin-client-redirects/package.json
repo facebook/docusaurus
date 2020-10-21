@@ -7,6 +7,11 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-client-redirects"
+  },
   "publishConfig": {
     "access": "public"
   },

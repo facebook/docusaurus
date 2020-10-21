@@ -4,7 +4,8 @@
   "description": "Create Docusaurus app easily",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-init"
   },
   "bugs": {
     "url": "https://github.com/facebook/docusaurus/issues"

@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-1.x"
   },
   "scripts": {
     "start": "cd ../../website-1.x && yarn start"
