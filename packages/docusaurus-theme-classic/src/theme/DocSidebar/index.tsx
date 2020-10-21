@@ -64,6 +64,16 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
 
+  const menuListRef = useRef<HTMLUListElement>(null);
+  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
+    undefined,
+  );
+  const handleMenuListHeight = (calc = true) => {
+    setMenuListHeight(
+      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
+    );
+  };
+
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
@@ -75,9 +85,14 @@ function DocSidebarItemCategory({
   const handleItemClick = useCallback(
     (e) => {
       e.preventDefault();
-      setCollapsed((state) => !state);
+
+      if (!menuListHeight) {
+        handleMenuListHeight();
+      }
+
+      setTimeout(() => setCollapsed((state) => !state), 100);
     },
-    [setCollapsed],
+    [menuListHeight],
   );
 
   if (items.length === 0) {
@@ -101,7 +116,17 @@ function DocSidebarItemCategory({
         {...props}>
         {label}
       </a>
-      <ul className="menu__list">
+      <ul
+        className="menu__list"
+        ref={menuListRef}
+        style={{
+          height: menuListHeight,
+        }}
+        onTransitionEnd={() => {
+          if (!collapsed) {
+            handleMenuListHeight(false);
+          }
+        }}>
         {items.map((childItem) => (
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}

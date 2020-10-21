@@ -100,6 +100,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
+    "glob": "^7.1.6",
     "husky": "^4.2.3",
     "jest": "^25.2.7",
     "lerna": "^3.19.0",

@@ -11,6 +11,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils-validation"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/hapi__joi": "^17.1.2"

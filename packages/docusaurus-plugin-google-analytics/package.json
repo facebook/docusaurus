@@ -6,6 +6,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-google-analytics"
+  },
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66"

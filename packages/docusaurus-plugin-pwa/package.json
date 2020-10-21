@@ -6,6 +6,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-pwa"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",

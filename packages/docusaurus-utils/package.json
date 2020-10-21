@@ -11,6 +11,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils"
+  },
   "license": "MIT",
   "dependencies": {
     "escape-string-regexp": "^2.0.0",

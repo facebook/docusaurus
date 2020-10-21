@@ -89,3 +89,15 @@
   line-height: 0.9;
   width: 24px;
 }
+
+/* TODO: Move to Infima */
+:global(.menu__list) :global(.menu__list) {
+  overflow-y: hidden;
+  will-change: height;
+  /* Same as "arrow" transition */
+  transition: height var(--ifm-transition-fast) linear;
+}
+
+:global(.menu__list-item--collapsed) :global(.menu__list) {
+  height: 0px !important;
+}

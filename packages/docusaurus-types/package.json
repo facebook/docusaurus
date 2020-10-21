@@ -7,6 +7,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-types"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/webpack": "^4.41.0",

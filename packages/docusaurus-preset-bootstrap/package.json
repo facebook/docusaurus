@@ -7,6 +7,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-preset-bootstrap"
+  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",

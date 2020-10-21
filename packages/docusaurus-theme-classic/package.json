@@ -7,6 +7,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-classic"
+  },
   "license": "MIT",
   "scripts": {
     "build": "tsc --noEmit && yarn babel && yarn prettier",
