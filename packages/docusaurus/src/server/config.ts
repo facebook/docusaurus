@@ -20,7 +20,7 @@ export default function loadConfig(siteDir: string): DocusaurusConfig {
   const configPath = path.resolve(siteDir, loadedConfigFileName);
 
   if (!fs.existsSync(configPath)) {
-    throw new Error(`${CONFIG_FILE_NAME} not found`);
+    throw new Error(`${CONFIG_FILE_NAME} not found at ${configPath}`);
   }
 
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
