@@ -101,7 +101,7 @@ export type HostPortCLIOptions = {
 export type StartCLIOptions = HostPortCLIOptions & {
   hotOnly: boolean;
   open: boolean;
-  poll: boolean;
+  poll: boolean | number;
 };
 
 export type ServeCLIOptions = HostPortCLIOptions & {
