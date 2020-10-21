@@ -15,6 +15,8 @@ const readFile = util.promisify(fsCb.readFile);
 describe('packages', () => {
   test('should contain repository and directory for every package', async () => {
     const allPackageJson = await glob('packages/*/package.json');
+    expect(allPackageJson.length).toBeGreaterThan(0);
+
     /* eslint-disable no-await-in-loop,no-restricted-syntax */
     for (const packageJson of allPackageJson) {
       const content = JSON.parse(await readFile(packageJson, 'utf8'));
