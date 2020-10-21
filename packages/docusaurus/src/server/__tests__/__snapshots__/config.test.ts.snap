@@ -6,7 +6,7 @@ exports[`loadConfig website with incomplete siteConfig 1`] = `
 "
 `;
 
-exports[`loadConfig website with no siteConfig 1`] = `"docusaurus.config.js not found"`;
+exports[`loadConfig website with no siteConfig 1`] = `"docusaurus.config.js not found at packages/docusaurus/src/server/__tests__/__fixtures__/nonExisting/docusaurus.config.js"`;
 
 exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `
 "\\"favicon\\" is required
