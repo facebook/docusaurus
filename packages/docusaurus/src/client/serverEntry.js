@@ -141,7 +141,10 @@ async function doRender(locals) {
   try {
     return doMinify(true);
   } catch (e) {
-    if (e.message?.includes("Cannot read property 'replace' of undefined")) {
+    if (
+      e.message &&
+      e.message.includes("Cannot read property 'replace' of undefined")
+    ) {
       console.error(
         chalk.red(
           '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
