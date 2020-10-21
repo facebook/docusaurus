@@ -120,13 +120,34 @@ async function doRender(locals) {
   });
 
   // Minify html with https://github.com/DanielRuf/html-minifier-terser
-  return minify(renderedHtml, {
-    removeComments: true,
-    removeRedundantAttributes: true,
-    removeEmptyAttributes: true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-    useShortDoctype: true,
-    minifyJS: true,
-  });
+  function doMinify() {
+    return minify(renderedHtml, {
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      useShortDoctype: true,
+      minifyJS: true,
+    });
+  }
+
+  // TODO this is a temporary error affecting only monorepos due to Terser 5 (async) being used by html-minifier-terser,
+  // instead of the expected Terser 4 (sync)
+  // TODO, remove this once we upgrade everything to Terser 5 (https://github.com/terser/html-minifier-terser/issues/46)
+  // See also
+  // - https://github.com/facebook/docusaurus/issues/3515
+  // - https://github.com/terser/html-minifier-terser/issues/49
+  try {
+    return doMinify(true);
+  } catch (e) {
+    if (e.message?.includes("Cannot read property 'replace' of undefined")) {
+      console.error(
+        chalk.red(
+          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
+        ),
+      );
+    }
+    throw e;
+  }
 }
