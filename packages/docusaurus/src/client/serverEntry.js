@@ -139,7 +139,7 @@ async function doRender(locals) {
   // - https://github.com/facebook/docusaurus/issues/3515
   // - https://github.com/terser/html-minifier-terser/issues/49
   try {
-    return doMinify(true);
+    return doMinify();
   } catch (e) {
     if (
       e.message &&
