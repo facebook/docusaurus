@@ -83,8 +83,7 @@
 
   .collapseSidebarButton {
     display: block !important;
-    background: url('~!file-loader!@theme-init/icons/arrow.svg') no-repeat
-      center center;
+    background: url('~!file-loader!../icons/arrow.svg') no-repeat center center;
     background-color: var(--ifm-button-background-color);
     height: 40px;
     position: sticky;

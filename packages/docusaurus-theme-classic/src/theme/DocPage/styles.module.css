@@ -51,7 +51,7 @@
 
   .collapsedDocSidebar:before {
     content: '';
-    background-image: url('~!file-loader!@theme-init/icons/arrow.svg');
+    background-image: url('~!file-loader!../icons/arrow.svg');
     width: 20px;
     height: 20px;
   }
