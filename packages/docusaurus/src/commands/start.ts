@@ -34,8 +34,13 @@ export default async function start(
   process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
+  function loadSite() {
+    const loadOptions = {locale: cliOptions.locale};
+    return load(siteDir, loadOptions);
+  }
+
   // Process all related files as a prop.
-  const props = await load(siteDir, {locale: cliOptions.locale});
+  const props = await loadSite();
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
@@ -54,7 +59,7 @@ export default async function start(
 
   // Reload files processing.
   const reload = () => {
-    load(siteDir)
+    loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         console.log(
