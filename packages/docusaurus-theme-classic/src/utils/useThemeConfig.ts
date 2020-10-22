@@ -23,6 +23,7 @@ export type ThemeConfig = {
   announcementBar: any;
   prism: any;
   footer: any;
+  hideableSidebar: any;
 };
 
 export default function useThemeConfig(): ThemeConfig {

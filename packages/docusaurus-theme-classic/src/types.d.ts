@@ -79,6 +79,8 @@ declare module '@theme/DocSidebar' {
     readonly path: string;
     readonly sidebar: readonly PropSidebarItem[];
     readonly sidebarCollapsible?: boolean;
+    readonly onCollapse: () => void;
+    readonly isHidden: boolean;
   };
 
   const DocSidebar: (props: Props) => JSX.Element;

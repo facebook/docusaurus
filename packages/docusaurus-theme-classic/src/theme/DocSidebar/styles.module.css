@@ -5,19 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+:root {
+  --collapse-button-bg-color-dark: #2e333a;
+}
+
 @media (min-width: 997px) {
   .sidebar {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow-y: auto;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);
+    width: var(--doc-sidebar-width);
+    transition: opacity 50ms ease;
   }
 
   .sidebarWithHideableNavbar {
     padding-top: 0;
+  }
+
+  .sidebarHidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   .sidebarLogo {
@@ -69,9 +80,32 @@
   .menuWithAnnouncementBar {
     margin-bottom: var(--docusaurus-announcement-bar-height);
   }
+
+  .collapseSidebarButton {
+    display: block !important;
+    background: url('~!file-loader!../icons/arrow.svg') no-repeat center center;
+    background-color: var(--ifm-button-background-color);
+    height: 40px;
+    position: sticky;
+    bottom: 0;
+    border-radius: 0;
+    transform: rotate(180deg);
+  }
+
+  html[data-theme='dark'] .collapseSidebarButton {
+    background-color: var(--collapse-button-bg-color-dark);
+    border: none;
+    border-left: 1px solid var(--ifm-toc-border-color);
+  }
+
+  html[data-theme='dark'] .collapseSidebarButton:hover,
+  html[data-theme='dark'] .collapseSidebarButton:focus {
+    background-color: var(--ifm-color-emphasis-200);
+  }
 }
 
-.sidebarLogo {
+.sidebarLogo,
+.collapseSidebarButton {
   display: none;
 }
 
