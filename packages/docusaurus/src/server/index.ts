@@ -33,6 +33,7 @@ import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import {loadLocalizationContext} from './localization';
+import {readTranslationsFile} from './translations';
 
 function addLocaleBaseUrlPathSegmentSuffix(
   originalPath: string,
@@ -245,6 +246,26 @@ ${Object.keys(registry)
     JSON.stringify(globalData, null, 2),
   );
 
+  async function genI18n() {
+    const translations = await readTranslationsFile({
+      siteDir,
+      locale: localization.currentLocale,
+    });
+    const i18n = {
+      context: {
+        currentLocale: localization.currentLocale,
+        locales: localization.locales,
+        defaultLocale: localization.defaultLocale,
+      },
+      translations,
+    };
+    return generate(
+      generatedFilesDir,
+      'i18n.json',
+      JSON.stringify(i18n, null, 2),
+    );
+  }
+
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
@@ -273,6 +294,7 @@ ${Object.keys(registry)
     genRoutes,
     genGlobalData,
     genSiteMetadata,
+    genI18n(),
   ]);
 
   const props: Props = {

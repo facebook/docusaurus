@@ -4,12 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import fs from 'fs-extra';
-import path from 'path';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
-import {loadLocalizationContext} from '../server/localization';
+
 import chalk from 'chalk';
+import {
+  collectPluginTranslation,
+  writeTranslationsFile,
+} from '../server/translations';
 
 export default async function writeTranslations(
   siteDir: string,
@@ -20,24 +22,24 @@ export default async function writeTranslations(
     pluginConfigs,
     context,
   });
-  const localizationContext = loadLocalizationContext(siteDir);
 
-  const translations = {};
+  const pluginTranslations = collectPluginTranslation(plugins);
 
-  plugins.forEach((plugin) => {
-    if (plugin.getTranslations) {
-      translations[plugin.name] = translations[plugin.name] ?? {};
-      translations[plugin.name][plugin.options.id] = plugin.getTranslations();
-    }
+  const siteTranslations = {
+    // TODO
+  };
+
+  const translations: Record<string, unknown> = {
+    ...pluginTranslations,
+    ...siteTranslations,
+  };
+
+  const translationsFilePath = await writeTranslationsFile({
+    siteDir,
+    locale: context.localization.defaultLocale,
+    translations,
   });
-
-  const fileDir = path.resolve(
-    path.join(siteDir, `i18n`, localizationContext.defaultLocale),
+  console.log(
+    chalk.cyan(`Translations file written at path=${translationsFilePath}`),
   );
-  await fs.ensureDir(fileDir);
-
-  const filePath = path.join(fileDir, `translations.json`);
-
-  await fs.writeFile(filePath, JSON.stringify(translations, null, 2));
-  console.log(chalk.cyan(`Translations file written at path=${filePath}`));
 }
