@@ -21,7 +21,7 @@ Becomes:
 ## Install
 
 ```bash
-npm install @docusaurus/remark-plugin-npm2yarn`
+npm install @docusaurus/remark-plugin-npm2yarn
 ```
 
 It is a Remark plugin, **not a Docusaurus plugin**, so you have to install it as a Remark plugin in the config of your Docusaurus plugins.
