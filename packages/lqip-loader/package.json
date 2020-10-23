@@ -1,10 +1,15 @@
 {
   "name": "@docusaurus/lqip-loader",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Low Quality Image Placeholders (LQIP) loader for webpack",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/lqip-loader"
   },
   "license": "MIT",
   "dependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-1.x"
   },
   "scripts": {
     "start": "cd ../../website-1.x && yarn start"

@@ -1,21 +1,26 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Client redirects plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-client-redirects"
+  },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/types": "2.0.0-alpha.64",
-    "@docusaurus/utils": "2.0.0-alpha.64",
-    "@docusaurus/utils-validation": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils": "2.0.0-alpha.66",
+    "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@hapi/joi": "^17.1.1",
     "@types/hapi__joi": "^17.1.2",
     "chalk": "^3.0.0",

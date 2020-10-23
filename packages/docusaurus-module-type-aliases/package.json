@@ -1,10 +1,15 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Docusaurus module type aliases",
   "types": "./src/index.d.ts",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-module-type-aliases"
   },
   "devDependencies": {
     "@types/react": "*",

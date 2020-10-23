@@ -11,10 +11,11 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
+import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
 
 function BlogPostPage(props: Props): JSX.Element {
-  const {content: BlogPostContents} = props;
+  const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem, editUrl} = metadata;
   const {hide_table_of_contents: hideTableOfContents} = frontMatter;
@@ -24,7 +25,10 @@ function BlogPostPage(props: Props): JSX.Element {
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
-            <div className="col col--8 col--offset-2">
+            <div className="col col--2">
+              <BlogSidebar sidebar={sidebar} />
+            </div>
+            <div className="col col--8">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}

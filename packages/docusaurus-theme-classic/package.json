@@ -1,11 +1,16 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "types": "src/types.d.ts",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-classic"
   },
   "license": "MIT",
   "scripts": {
@@ -15,12 +20,12 @@
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.64",
-    "@docusaurus/types": "2.0.0-alpha.64",
-    "@docusaurus/utils-validation": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
@@ -34,11 +39,10 @@
     "prismjs": "^1.20.0",
     "prop-types": "^15.7.2",
     "react-router-dom": "^5.1.2",
-    "react-toggle": "^4.1.1",
-    "use-onclickoutside": "^0.3.1"
+    "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.64",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66",
     "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {

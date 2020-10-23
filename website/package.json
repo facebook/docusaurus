@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -9,6 +9,7 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
     "start:baseUrl": "BASE_URL='/build/' yarn start",
     "build:baseUrl": "BASE_URL='/build/' yarn build",
     "start:bootstrap": "DOCUSAURUS_PRESET=bootstrap yarn start",
@@ -24,12 +25,13 @@
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.64",
-    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.64",
-    "@docusaurus/plugin-pwa": "2.0.0-alpha.64",
-    "@docusaurus/preset-classic": "2.0.0-alpha.64",
-    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.66",
+    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.66",
+    "@docusaurus/plugin-pwa": "2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "2.0.0-alpha.66",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-alpha.66",
+    "@docusaurus/theme-live-codeblock": "2.0.0-alpha.66",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",
@@ -49,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.1"
   }
 }

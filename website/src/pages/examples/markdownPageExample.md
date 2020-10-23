@@ -6,7 +6,7 @@ wrapperClassName: docusaurus-markdown-example
 
 # Markdown page
 
-This is a page generated from markdown to illustrate the markdown page feature.
+This is a page generated from markdown to illustrate the Markdown page feature.
 
 It supports all the regular MDX features, as you can see:
 
@@ -61,3 +61,65 @@ import Chapter1 from './\_chapter1.md';
 import Chapter2 from './\_chapter2.mdx';
 
 <Chapter2/>
+
+## Comments
+
+MDX comments can be used with
+
+```mdx
+<!--
+
+My comment
+
+-->
+```
+
+See, nothing is displayed:
+
+<!--
+
+My comment
+
+-->
+
+## Import code block from source code file
+
+import MyComponent from "./\_myComponent"
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Let's say you have a React component.
+
+You can import and use it in MDX:
+
+```jsx title="myMarkdownFile.mdx"
+import MyComponent from './myComponent';
+
+<MyComponent />;
+```
+
+<BrowserWindow url="http://localhost:3000">
+
+<MyComponent/>
+
+</BrowserWindow>
+
+But you can also display its source code directly in MDX, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/)
+
+```jsx title="myMarkdownFile.mdx"
+import CodeBlock from '@theme/CodeBlock';
+
+import MyComponentSource from '!!raw-loader!./myComponent';
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
+```
+
+import CodeBlock from "@theme/CodeBlock"
+
+import MyComponentSource from '!!raw-loader!./\_myComponent';
+
+<BrowserWindow url="http://localhost:3000">
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>

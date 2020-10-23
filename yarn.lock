@@ -4175,13 +4175,13 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.38":
-  version "16.9.38"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.38.tgz#868405dace93a4095d3e054f4c4a1de7a1ac0680"
-  integrity sha512-pHAeZbjjNRa/hxyNuLrvbxhhnKyKNiLC6I5fRF2Zr/t/S6zS41MiyzH4+c+1I9vVfvuRt1VS2Lodjr4ZWnxrdA==
+"@types/react@*", "@types/react@^16.9.52":
+  version "16.9.52"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.52.tgz#c46c72d1a1d8d9d666f4dd2066c0e22600ccfde1"
+  integrity sha512-EHRjmnxiNivwhGdMh9sz1Yw9AUxTSZFxKqdBWAAzyZx3sufWwx6ogqHYh/WB1m/I4ZpjkoZLExF5QTy2ekVi/Q==
   dependencies:
     "@types/prop-types" "*"
-    csstype "^2.2.0"
+    csstype "^3.0.2"
 
 "@types/relateurl@*":
   version "0.2.28"
@@ -4991,11 +4991,6 @@ archiver@^4.0.0:
     readable-stream "^3.6.0"
     tar-stream "^2.1.2"
     zip-stream "^3.0.1"
-
-are-passive-events-supported@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/are-passive-events-supported/-/are-passive-events-supported-1.1.1.tgz#3db180a1753a2186a2de50a32cded3ac0979f5dc"
-  integrity sha512-5wnvlvB/dTbfrCvJ027Y4L4gW/6Mwoy1uFSavney0YO++GU+0e/flnjiBBwH+1kh7xNCgCOGvmJC3s32joYbww==
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
@@ -7828,10 +7823,10 @@ cssstyle@^2.0.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^2.2.0:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
-  integrity sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w==
+csstype@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.3.tgz#2b410bbeba38ba9633353aff34b05d9755d065f8"
+  integrity sha512-jPl+wbWPOWJ7SXsWyqGRk3lGecbar0Cb0OvZF/r/ZU011R4YqiRehgkQ9p4eQfo9DSDLqLL3wHwfxeJiuIsNag==
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -15357,7 +15352,7 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
-npm-to-yarn@^1.0.0-2:
+npm-to-yarn@^1.0.0-2, npm-to-yarn@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/npm-to-yarn/-/npm-to-yarn-1.0.1.tgz#6cdb95114c4ff0be50a7a2381d4d16131a5f52df"
   integrity sha512-bp8T8oNMfLW+N/fE0itFfSu7RReytwhqNd9skbkfHfzGYC+5CCdzS2HnaXz6JiG4AlK2eA0qlT6NJN1SoFvcWQ==
@@ -17594,6 +17589,14 @@ raw-body@~1.1.0:
   dependencies:
     bytes "1"
     string_decoder "0.10"
+
+raw-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-4.0.1.tgz#14e1f726a359b68437e183d5a5b7d33a3eba6933"
+  integrity sha512-baolhQBSi3iNh1cglJjA0mYzga+wePk7vdEX//1dTFd+v4TsQlQE0jitJSNF1OIP82rdYulH7otaVmdlDaJ64A==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^2.6.5"
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.7, rc@^1.2.8:
   version "1.2.8"
@@ -21166,26 +21169,6 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
-
-use-isomorphic-layout-effect@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.0.0.tgz#f56b4ed633e1c21cd9fc76fe249002a1c28989fb"
-  integrity sha512-JMwJ7Vd86NwAt1jH7q+OIozZSIxA4ND0fx6AsOe2q1H8ooBUp5aN6DvVCqZiIaYU6JaMRJGyR0FO7EBCIsb/Rg==
-
-use-latest@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/use-latest/-/use-latest-1.1.0.tgz#7bf9684555869c3f5f37e10d0884c8accf4d3aa6"
-  integrity sha512-gF04d0ZMV3AMB8Q7HtfkAWe+oq1tFXP6dZKwBHQF5nVXtGsh2oAYeeqma5ZzxtlpOcW8Ro/tLcfmEodjDeqtuw==
-  dependencies:
-    use-isomorphic-layout-effect "^1.0.0"
-
-use-onclickoutside@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/use-onclickoutside/-/use-onclickoutside-0.3.1.tgz#fdd723a6a499046b6bc761e4a03af432eee5917b"
-  integrity sha512-aahvbW5+G0XJfzj31FJeLsvc6qdKbzeTsQ8EtkHHq5qTg6bm/qkJeKLcgrpnYeHDDbd7uyhImLGdkbM9BRzOHQ==
-  dependencies:
-    are-passive-events-supported "^1.1.0"
-    use-latest "^1.0.0"
 
 use@^3.1.0:
   version "3.1.1"

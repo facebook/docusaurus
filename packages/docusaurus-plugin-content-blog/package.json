@@ -1,12 +1,17 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Blog plugin for Docusaurus",
   "main": "lib/index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-blog"
   },
   "publishConfig": {
     "access": "public"
@@ -16,18 +21,18 @@
     "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.64",
-    "@docusaurus/types": "2.0.0-alpha.64",
-    "@docusaurus/utils": "2.0.0-alpha.64",
-    "@docusaurus/utils-validation": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/mdx-loader": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
+    "@docusaurus/utils": "2.0.0-alpha.66",
+    "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@hapi/joi": "^17.1.1",
     "chalk": "^3.0.0",
     "feed": "^4.1.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
-    "lodash.kebabcase": "^4.1.1",
+    "lodash": "^4.5.2",
     "reading-time": "^1.2.0",
     "remark-admonitions": "^1.2.1",
     "webpack": "^4.44.1"

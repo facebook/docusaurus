@@ -13,6 +13,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import useThemeConfig from '../../utils/useThemeConfig';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -40,20 +41,13 @@ function splitNavItemsByPosition(items) {
 }
 
 function Navbar(): JSX.Element {
+  const {isClient} = useDocusaurusContext();
+
   const {
-    siteConfig: {
-      themeConfig: {
-        navbar: {
-          title = '',
-          items = [],
-          hideOnScroll = false,
-          style = undefined,
-        } = {},
-        colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
-      },
-    },
-    isClient,
-  } = useDocusaurusContext();
+    navbar: {title, items, hideOnScroll, style},
+    colorMode: {disableSwitch: disableColorModeSwitch},
+  } = useThemeConfig();
+
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 

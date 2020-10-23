@@ -49,7 +49,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
-| `--poll` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 
 :::important
 
@@ -127,7 +127,7 @@ Running the command will copy the relevant theme files to your site folder. You 
 | `themeName`        | The name of the theme you are using.   |
 | `swizzleComponent` | The name of the component to swizzle.  |
 | `--danger`         | Allow swizzling of unstable components |
-| `--typescript`     | Swizzle typescript components          |
+| `--typescript`     | Swizzle TypeScript components          |
 
 To unswizzle a component, simply delete the files of the swizzled component.
 
@@ -160,6 +160,6 @@ Serve your built website locally.
 
 ### `docusaurus clear`
 
-Clear a Docusaurus site's generated assets, caches, build artifacts...
+Clear a Docusaurus site's generated assets, caches, build artifacts.
 
 We recommend running this command before reporting bugs, after upgrading versions, or anytime you have issues with your Docusaurus site.

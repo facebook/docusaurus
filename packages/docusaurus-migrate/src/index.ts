@@ -296,6 +296,7 @@ export function createConfigFile({
     baseUrl: siteConfig.baseUrl ?? '',
     organizationName: siteConfig.organizationName,
     projectName: siteConfig.projectName,
+    noIndex: siteConfig.noIndex,
     scripts: siteConfig.scripts,
     stylesheets: siteConfig.stylesheets,
     favicon: siteConfig.favicon ?? '',

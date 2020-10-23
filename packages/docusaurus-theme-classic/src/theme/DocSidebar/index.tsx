@@ -8,6 +8,8 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeConfig from '../../utils/useThemeConfig';
+import {isSamePath} from '../../utils';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -28,12 +30,6 @@ function usePrevious(value) {
   }, [value]);
   return ref.current;
 }
-
-// Compare the 2 paths, ignoring trailing /
-const isSamePath = (path1, path2) => {
-  const normalize = (str) => (str.endsWith('/') ? str : `${str}/`);
-  return normalize(path1) === normalize(path2);
-};
 
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
@@ -68,6 +64,16 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
 
+  const menuListRef = useRef<HTMLUListElement>(null);
+  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
+    undefined,
+  );
+  const handleMenuListHeight = (calc = true) => {
+    setMenuListHeight(
+      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
+    );
+  };
+
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
@@ -79,9 +85,14 @@ function DocSidebarItemCategory({
   const handleItemClick = useCallback(
     (e) => {
       e.preventDefault();
-      setCollapsed((state) => !state);
+
+      if (!menuListHeight) {
+        handleMenuListHeight();
+      }
+
+      setTimeout(() => setCollapsed((state) => !state), 100);
     },
-    [setCollapsed],
+    [menuListHeight],
   );
 
   if (items.length === 0) {
@@ -105,7 +116,17 @@ function DocSidebarItemCategory({
         {...props}>
         {label}
       </a>
-      <ul className="menu__list">
+      <ul
+        className="menu__list"
+        ref={menuListRef}
+        style={{
+          height: menuListHeight,
+        }}
+        onTransitionEnd={() => {
+          if (!collapsed) {
+            handleMenuListHeight(false);
+          }
+        }}>
         {items.map((childItem) => (
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
@@ -168,14 +189,15 @@ function DocSidebar({
   path,
   sidebar,
   sidebarCollapsible = true,
+  onCollapse,
+  isHidden,
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
-    siteConfig: {
-      themeConfig: {navbar: {title = '', hideOnScroll = false} = {}} = {},
-    } = {},
-    isClient,
-  } = useDocusaurusContext();
+    navbar: {title, hideOnScroll},
+    hideableSidebar,
+  } = useThemeConfig();
+  const {isClient} = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();
@@ -193,6 +215,7 @@ function DocSidebar({
     <div
       className={clsx(styles.sidebar, {
         [styles.sidebarWithHideableNavbar]: hideOnScroll,
+        [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && (
         <Link
@@ -264,6 +287,19 @@ function DocSidebar({
           ))}
         </ul>
       </div>
+
+      {hideableSidebar && (
+        <button
+          type="button"
+          title="Collapse sidebar"
+          aria-label="Collapse sidebar"
+          className={clsx(
+            'button button--secondary button--outline',
+            styles.collapseSidebarButton,
+          )}
+          onClick={onCollapse}
+        />
+      )}
     </div>
   );
 }

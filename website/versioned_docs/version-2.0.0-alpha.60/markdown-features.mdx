@@ -282,7 +282,7 @@ import TabItem from '@theme/TabItem';
 </Tabs>;
 ```
 
-will result in
+And you will get the following:
 
 <Tabs
   defaultValue="apple"
@@ -935,7 +935,7 @@ If you have multiple of these multi-language code tabs, and you want to sync the
 
 ## Assets
 
-Sometimes you want to link to static assets directly from markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
+Sometimes you want to link to static assets directly from Markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
 
 We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
 
@@ -955,7 +955,7 @@ Let's imagine the following file structure:
 You can use images by requiring them and using an image tag through MDX:
 
 ```mdx
-# My markdown page
+# My Markdown page
 
 <img src={require('./assets/docusaurus-asset-example-banner.png').default} />
 
@@ -967,7 +967,7 @@ or
 The ES imports syntax also works:
 
 ```mdx
-# My markdown page
+# My Markdown page
 
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
@@ -986,20 +986,20 @@ If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusp
 
 ### Common assets
 
-In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc...
+In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc.
 
 ```mdx
-# My markdown page
+# My Markdown page
 
 <a
   target="_blank"
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
-  Download this PDF !!!
+  Download this PDF
 </a>
 ```
 
 <a
   target="_blank"
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
-  Download this PDF !!!
+  Download this PDF
 </a>

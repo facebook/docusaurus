@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-bootstrap",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Bootstrap theme for docusaurus",
   "main": "src/index.js",
   "types": "src/types.d.ts",
@@ -8,12 +8,17 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-bootstrap"
+  },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64",
-    "@docusaurus/types": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.64",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.64",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66",
     "@mdx-js/react": "^1.5.8",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
@@ -22,7 +27,7 @@
     "reactstrap": "^8.4.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.64"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66"
   },
   "scripts": {
     "build": "tsc --noEmit && yarn babel && yarn prettier",

@@ -11,14 +11,19 @@ const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
 
-function testValidateThemeConfig(themeConfig) {
-  return normalizeThemeConfig(ThemeConfigSchema, themeConfig);
+function testValidateThemeConfig(partialThemeConfig) {
+  return normalizeThemeConfig(ThemeConfigSchema, {
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
 }
 
-function testOk(partialConfig) {
-  expect(testValidateThemeConfig(partialConfig)).toEqual({
+function testOk(partialThemeConfig) {
+  expect(
+    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
+  ).toEqual({
     ...DEFAULT_CONFIG,
-    ...partialConfig,
+    ...partialThemeConfig,
   });
 }
 
@@ -52,6 +57,8 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
+            dropdownItemsBefore: [],
+            dropdownItemsAfter: [],
           },
           {
             to: 'docs/next/support',
@@ -89,6 +96,89 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow possible types of navbar items', () => {
+    const config = {
+      navbar: {
+        items: [
+          // Doc link
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'intro',
+            label: 'Introduction',
+            activeSidebarClassName: 'custom-class',
+          },
+          // Regular link
+          {
+            to: '/guide/',
+            label: 'Guide',
+            position: 'left',
+            activeBaseRegex: '/guide/',
+          },
+          // Regular dropdown
+          {
+            label: 'Community',
+            position: 'right',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://.facebook.com/',
+                target: '_self',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/facebook/docusaurus',
+                className: 'github-link',
+              },
+            ],
+          },
+          // Doc version dropdown
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
+            dropdownItemsBefore: [
+              {
+                href:
+                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                label: 'Versions on npm',
+                className: 'npm-styled',
+                target: '_self',
+              },
+            ],
+            dropdownItemsAfter: [
+              {
+                to: '/versions',
+                label: 'All versions',
+                className: 'all_vers',
+              },
+            ],
+          },
+          // External link with custom data attribute
+          {
+            href: 'https://github.com/facebook/docusaurus',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
+          },
+          // Docs version
+          {
+            type: 'docsVersion',
+            position: 'left',
+            label: 'Current version',
+          },
+        ],
+      },
+    };
+    expect(testValidateThemeConfig(config)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...config.navbar,
+      },
+    });
+  });
+
   test('should allow empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {
@@ -101,7 +191,10 @@ describe('themeConfig', () => {
     };
     expect(testValidateThemeConfig(altTagConfig)).toEqual({
       ...DEFAULT_CONFIG,
-      ...altTagConfig,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
+      },
     });
   });
 
@@ -117,7 +210,7 @@ describe('themeConfig', () => {
     });
   });
 
-  describe.only('customCss config', () => {
+  describe('customCss config', () => {
     test('should accept customCss undefined', () => {
       testOk({
         customCss: undefined,

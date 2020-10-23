@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/migrate",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "A cli tool to migrate between different version of docusuarus",
   "main": "lib/index.js",
   "license": "MIT",
@@ -10,6 +10,11 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-migrate"
   },
   "publishConfig": {
     "access": "public"

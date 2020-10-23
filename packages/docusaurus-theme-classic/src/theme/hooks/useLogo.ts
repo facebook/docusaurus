@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
+import useThemeConfig from '../../utils/useThemeConfig';
 
 const useLogo = (): useLogoReturns => {
   const {
-    siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
-  } = useDocusaurusContext();
+    navbar: {logo = {}},
+  } = useThemeConfig();
   const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps: LogoLinkProps = {};

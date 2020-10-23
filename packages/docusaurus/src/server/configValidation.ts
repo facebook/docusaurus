@@ -24,6 +24,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'customFields'
   | 'themeConfig'
   | 'titleDelimiter'
+  | 'noIndex'
 > = {
   onBrokenLinks: 'throw',
   onDuplicateRoutes: 'warn',
@@ -33,6 +34,7 @@ export const DEFAULT_CONFIG: Pick<
   customFields: {},
   themeConfig: {},
   titleDelimiter: '|',
+  noIndex: false,
 };
 
 const PluginSchema = Joi.alternatives().try(
@@ -91,8 +93,10 @@ const ConfigSchema = Joi.object({
       type: Joi.string().required(),
     }).unknown(),
   ),
+  clientModules: Joi.array().items(Joi.string()),
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
+  noIndex: Joi.bool().default(false),
 });
 
 // TODO move to @docusaurus/utils-validation

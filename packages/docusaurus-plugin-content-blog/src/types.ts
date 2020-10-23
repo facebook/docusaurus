@@ -29,7 +29,10 @@ export interface PluginOptions {
   blogPostComponent: string;
   blogTagsListComponent: string;
   blogTagsPostsComponent: string;
+  blogTitle: string;
   blogDescription: string;
+  blogSidebarCount: number | 'ALL';
+  blogSidebarTitle: string;
   remarkPlugins: ([Function, object] | Function)[];
   beforeDefaultRehypePlugins: ([Function, object] | Function)[];
   beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
@@ -70,6 +73,7 @@ export interface BlogPaginatedMetadata {
   totalCount: number;
   previousPage: string | null;
   nextPage: string | null;
+  blogTitle: string;
   blogDescription: string;
 }
 

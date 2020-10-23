@@ -1,14 +1,19 @@
 {
   "name": "@docusaurus/plugin-google-analytics",
-  "version": "2.0.0-alpha.64",
+  "version": "2.0.0-alpha.66",
   "description": "Global analytics (analytics.js) plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-google-analytics"
+  },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.64"
+    "@docusaurus/core": "2.0.0-alpha.66"
   },
   "engines": {
     "node": ">=10.15.1"

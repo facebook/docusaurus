@@ -60,54 +60,67 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
+              "sidebar": "docs",
             },
             Object {
               "id": "foo/baz",
               "path": "/docs/foo/bazSlug.html",
+              "sidebar": "docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/",
+              "sidebar": "docs",
             },
             Object {
               "id": "ipsum",
               "path": "/docs/ipsum",
+              "sidebar": undefined,
             },
             Object {
               "id": "lorem",
               "path": "/docs/lorem",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/absoluteSlug",
               "path": "/docs/absoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/relativeSlug",
               "path": "/docs/slugs/relativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/resolvedSlug",
               "path": "/docs/slugs/hey/resolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
+              "sidebar": undefined,
             },
           ],
           "isLast": true,
@@ -289,6 +302,7 @@ Object {
   \\"version\\": \\"current\\"
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": true,
@@ -362,54 +376,67 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
+              "sidebar": "docs",
             },
             Object {
               "id": "foo/baz",
               "path": "/docs/foo/bazSlug.html",
+              "sidebar": "docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/",
+              "sidebar": "docs",
             },
             Object {
               "id": "ipsum",
               "path": "/docs/ipsum",
+              "sidebar": undefined,
             },
             Object {
               "id": "lorem",
               "path": "/docs/lorem",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/absoluteSlug",
               "path": "/docs/absoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/relativeSlug",
               "path": "/docs/slugs/relativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/resolvedSlug",
               "path": "/docs/slugs/hey/resolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
+              "sidebar": undefined,
             },
           ],
           "isLast": true,
@@ -614,6 +641,7 @@ Object {
   \\"sidebar\\": \\"version-1.0.0/community\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
+  \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"isLast\\": true,
@@ -631,6 +659,7 @@ Object {
   }
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": false,
@@ -661,6 +690,7 @@ Object {
             Object {
               "id": "team",
               "path": "/community/next/team",
+              "sidebar": "community",
             },
           ],
           "isLast": false,
@@ -674,6 +704,7 @@ Object {
             Object {
               "id": "team",
               "path": "/community/team",
+              "sidebar": "version-1.0.0/community",
             },
           ],
           "isLast": true,
@@ -1074,6 +1105,7 @@ Object {
   \\"version\\": \\"withSlugs\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"isLast\\": false,
@@ -1117,6 +1149,7 @@ Object {
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
   \\"isLast\\": true,
@@ -1154,6 +1187,7 @@ Object {
   }
 }",
   "version-current-metadata-prop-751.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"isLast\\": false,
@@ -1191,6 +1225,7 @@ Object {
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
+  \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
   \\"isLast\\": false,
@@ -1228,26 +1263,32 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/next/foo/barSlug",
+              "sidebar": "docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/next/",
+              "sidebar": "docs",
             },
             Object {
               "id": "slugs/absoluteSlug",
               "path": "/docs/next/absoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/relativeSlug",
               "path": "/docs/next/slugs/relativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/resolvedSlug",
               "path": "/docs/next/slugs/hey/resolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/next/tryToEscapeSlug",
+              "sidebar": undefined,
             },
           ],
           "isLast": false,
@@ -1261,10 +1302,12 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
+              "sidebar": "version-1.0.1/docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/",
+              "sidebar": "version-1.0.1/docs",
             },
           ],
           "isLast": true,
@@ -1278,14 +1321,17 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/1.0.0/foo/barSlug",
+              "sidebar": "version-1.0.0/docs",
             },
             Object {
               "id": "foo/baz",
               "path": "/docs/1.0.0/foo/baz",
+              "sidebar": "version-1.0.0/docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/1.0.0/",
+              "sidebar": "version-1.0.0/docs",
             },
           ],
           "isLast": false,
@@ -1299,34 +1345,42 @@ Object {
             Object {
               "id": "rootAbsoluteSlug",
               "path": "/docs/withSlugs/rootAbsoluteSlug",
+              "sidebar": "version-1.0.1/docs",
             },
             Object {
               "id": "rootRelativeSlug",
               "path": "/docs/withSlugs/rootRelativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootResolvedSlug",
               "path": "/docs/withSlugs/hey/rootResolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/withSlugs/rootTryToEscapeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/absoluteSlug",
               "path": "/docs/withSlugs/absoluteSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/relativeSlug",
               "path": "/docs/withSlugs/slugs/relativeSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/resolvedSlug",
               "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
+              "sidebar": undefined,
             },
             Object {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/withSlugs/tryToEscapeSlug",
+              "sidebar": undefined,
             },
           ],
           "isLast": false,

@@ -5,10 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable import/no-duplicates */
 /* eslint-disable camelcase */
+
+declare module '@theme/BlogSidebar' {
+  export type BlogSidebarItem = {title: string; permalink: string};
+  export type BlogSidebar = {
+    title: string;
+    items: BlogSidebarItem[];
+  };
+
+  export type Props = {
+    readonly sidebar: BlogSidebar;
+  };
+
+  const BlogSidebar: (props: Props) => JSX.Element;
+  export default BlogSidebar;
+}
 
 declare module '@theme/BlogPostPage' {
   import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
     readonly title: string;
@@ -49,6 +66,7 @@ declare module '@theme/BlogPostPage' {
   };
 
   export type Props = {
+    readonly sidebar: BlogSidebar;
     readonly content: Content;
   };
 
@@ -57,14 +75,15 @@ declare module '@theme/BlogPostPage' {
 }
 
 declare module '@theme/BlogListPage' {
-  // eslint-disable-next-line import/no-duplicates
   import type {Content} from '@theme/BlogPostPage';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type Item = {
     readonly content: () => JSX.Element;
   };
 
   export type Metadata = {
+    readonly blogTitle: string;
     readonly blogDescription: string;
     readonly nextPage?: string;
     readonly page: number;
@@ -76,6 +95,7 @@ declare module '@theme/BlogListPage' {
   };
 
   export type Props = {
+    readonly sidebar: BlogSidebar;
     readonly metadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
   };
@@ -85,6 +105,8 @@ declare module '@theme/BlogListPage' {
 }
 
 declare module '@theme/BlogTagsListPage' {
+  import type {BlogSidebar} from '@theme/BlogSidebar';
+
   export type Tag = {
     permalink: string;
     name: string;
@@ -93,18 +115,22 @@ declare module '@theme/BlogTagsListPage' {
     slug: string;
   };
 
-  export type Props = {readonly tags: Readonly<Record<string, Tag>>};
+  export type Props = {
+    readonly sidebar: BlogSidebar;
+    readonly tags: Readonly<Record<string, Tag>>;
+  };
 
   const BlogTagsListPage: (props: Props) => JSX.Element;
   export default BlogTagsListPage;
 }
 
 declare module '@theme/BlogTagsPostsPage' {
+  import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {Tag} from '@theme/BlogTagsListPage';
-  // eslint-disable-next-line import/no-duplicates
   import type {Content} from '@theme/BlogPostPage';
 
   export type Props = {
+    readonly sidebar: BlogSidebar;
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
   };
