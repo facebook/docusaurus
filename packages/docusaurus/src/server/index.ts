@@ -23,6 +23,7 @@ import loadRoutes from './routes';
 import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
+  DocusaurusI18n,
   DocusaurusSiteMetadata,
   LoadContext,
   LocalizationContext,
@@ -251,7 +252,7 @@ ${Object.keys(registry)
       siteDir,
       locale: localization.currentLocale,
     });
-    const i18n = {
+    const i18n: DocusaurusI18n = {
       context: {
         currentLocale: localization.currentLocale,
         locales: localization.locales,

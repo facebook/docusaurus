@@ -76,10 +76,34 @@ export interface DocusaurusSiteMetadata {
   readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
 }
 
+// pluginName -> pluginId -> translations (type can be different per plugin)
+export type DocusaurusI18nPluginTranslations = Record<
+  string,
+  Record<string, unknown>
+>;
+
+// text -> localized text
+export type DocusaurusI18nPagesTranslations = Record<string, string>;
+
+export type DocusaurusI18nTranslations = {
+  plugins: DocusaurusI18nPluginTranslations;
+  pages: DocusaurusI18nPagesTranslations;
+};
+
+export type DocusaurusI18n = {
+  context: {
+    currentLocale: string;
+    locales: string[];
+    defaultLocale: string;
+  };
+  translations: DocusaurusI18nTranslations;
+};
+
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
   globalData: Record<string, any>;
+  i18n: DocusaurusI18n;
   isClient: boolean;
 }
 

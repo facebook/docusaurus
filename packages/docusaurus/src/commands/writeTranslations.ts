@@ -12,6 +12,7 @@ import {
   collectPluginTranslation,
   writeTranslationsFile,
 } from '../server/translations';
+import {DocusaurusI18nTranslations} from '@docusaurus/types';
 
 export default async function writeTranslations(
   siteDir: string,
@@ -23,15 +24,11 @@ export default async function writeTranslations(
     context,
   });
 
-  const pluginTranslations = collectPluginTranslation(plugins);
-
-  const siteTranslations = {
-    // TODO
-  };
-
-  const translations: Record<string, unknown> = {
-    ...pluginTranslations,
-    ...siteTranslations,
+  const translations: DocusaurusI18nTranslations = {
+    plugins: collectPluginTranslation(plugins),
+    pages: {
+      todo: 'todo',
+    },
   };
 
   const translationsFilePath = await writeTranslationsFile({

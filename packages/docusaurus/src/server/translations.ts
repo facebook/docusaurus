@@ -7,16 +7,23 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {InitPlugin} from './plugins/init';
+import {
+  DocusaurusI18nTranslations,
+  DocusaurusI18nPluginTranslations,
+} from '@docusaurus/types';
 
 // should we make this configurable?
-export function getTranslationsDirPath(siteDir: string) {
+function getTranslationsDirPath(siteDir: string): string {
   return path.resolve(path.join(siteDir, `i18n`));
 }
-export function getTranslationsLocaleDirPath(siteDir: string, locale: string) {
+function getTranslationsLocaleDirPath(siteDir: string, locale: string): string {
   return path.join(getTranslationsDirPath(siteDir), locale);
 }
 
-export function getTranslationsFilePath(siteDir: string, locale: string) {
+export function getTranslationsFilePath(
+  siteDir: string,
+  locale: string,
+): string {
   return path.join(
     getTranslationsLocaleDirPath(siteDir, locale),
     'translations.json',
@@ -30,8 +37,8 @@ export async function writeTranslationsFile({
 }: {
   siteDir: string;
   locale: string;
-  translations: Record<string, unknown>;
-}) {
+  translations: DocusaurusI18nTranslations;
+}): Promise<string> {
   await fs.ensureDir(getTranslationsLocaleDirPath(siteDir, locale));
   const translationsFilePath = getTranslationsFilePath(siteDir, locale);
   await fs.writeFile(
@@ -41,25 +48,40 @@ export async function writeTranslationsFile({
   return translationsFilePath;
 }
 
+function isValidTranslationsFile(
+  content: any,
+): content is DocusaurusI18nTranslations {
+  return (
+    typeof content.plugins === 'object' && typeof content.pages === 'object'
+  );
+}
+
 export async function readTranslationsFile({
   siteDir,
   locale,
 }: {
   siteDir: string;
   locale: string;
-}) {
+}): Promise<DocusaurusI18nTranslations> {
   const translationsFilePath = getTranslationsFilePath(siteDir, locale);
   if (await fs.stat(translationsFilePath)) {
-    return JSON.parse(
+    const translationsFile = JSON.parse(
       await fs.readFile(translationsFilePath, 'utf8'),
-    ) as Record<string, unknown>;
+    );
+    if (isValidTranslationsFile(translationsFile)) {
+      return translationsFile;
+    } else {
+      throw new Error(
+        `File at path=${translationsFilePath} does not look like a valid Docusaurus translation file`,
+      );
+    }
   }
-  return {};
+  return {plugins: {}, pages: {}};
 }
 
 export function collectPluginTranslation(
   plugins: InitPlugin[],
-): Record<string, Record<string, unknown>> {
+): DocusaurusI18nPluginTranslations {
   const pluginTranslations = {};
   plugins.forEach((plugin) => {
     if (plugin.getTranslations) {

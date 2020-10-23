@@ -47,6 +47,11 @@ declare module '@generated/globalData' {
   export default globalData;
 }
 
+declare module '@generated/i18n' {
+  const i18n: any;
+  export default i18n;
+}
+
 declare module '@theme/*';
 
 declare module '@theme-original/*';
@@ -67,6 +72,14 @@ declare module '@docusaurus/Link' {
   };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
+}
+
+declare module '@docusaurus/Translate' {
+  type TranslateProps = {children: string};
+  const Translate: (props: TranslateProps) => JSX.Element;
+  export default Translate;
+
+  export function translate(text: string): string;
 }
 
 declare module '@docusaurus/router' {
