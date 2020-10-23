@@ -9,7 +9,8 @@ import initPlugins from '../server/plugins/init';
 
 import chalk from 'chalk';
 import {
-  collectPluginTranslation,
+  collectPluginTranslations,
+  collectPageTranslations,
   writeTranslationsFile,
 } from '../server/translations';
 import {DocusaurusI18nTranslations} from '@docusaurus/types';
@@ -25,10 +26,8 @@ export default async function writeTranslations(
   });
 
   const translations: DocusaurusI18nTranslations = {
-    plugins: collectPluginTranslation(plugins),
-    pages: {
-      todo: 'todo',
-    },
+    plugins: collectPluginTranslations(plugins),
+    pages: await collectPageTranslations(siteDir),
   };
 
   const translationsFilePath = await writeTranslationsFile({

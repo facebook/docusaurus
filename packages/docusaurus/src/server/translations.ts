@@ -10,7 +10,9 @@ import {InitPlugin} from './plugins/init';
 import {
   DocusaurusI18nTranslations,
   DocusaurusI18nPluginTranslations,
+  DocusaurusI18nPagesTranslations,
 } from '@docusaurus/types';
+import {getBabelOptions, getCustomBabelConfigFilePath} from '../webpack/utils';
 
 // should we make this configurable?
 export function getTranslationsDirPath(siteDir: string): string {
@@ -82,7 +84,7 @@ export async function readTranslationsFile({
   return {plugins: {}, pages: {}};
 }
 
-export function collectPluginTranslation(
+export function collectPluginTranslations(
   plugins: InitPlugin[],
 ): DocusaurusI18nPluginTranslations {
   const pluginTranslations = {};
@@ -95,4 +97,30 @@ export function collectPluginTranslation(
     }
   });
   return pluginTranslations;
+}
+
+export async function collectPageTranslations(
+  siteDir: string,
+): Promise<DocusaurusI18nPagesTranslations> {
+  const code = await fs.readFile(
+    '/Users/sebastienlorber/Desktop/projects/docusaurus/website/src/pages/index.js',
+    'utf8',
+  );
+
+  console.log('code', code);
+
+  const transformOptions = getBabelOptions({
+    isServer: true,
+    babelOptions: getCustomBabelConfigFilePath(siteDir),
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const parsedCode = require('@babel/core').parse(code, {
+    ...transformOptions,
+    filename: 'index.jsx',
+  });
+
+  console.log('parsedCode', parsedCode);
+
+  return {};
 }

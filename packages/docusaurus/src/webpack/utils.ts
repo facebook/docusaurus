@@ -12,7 +12,9 @@ import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
-import {STATIC_ASSETS_DIR_NAME} from '../constants';
+import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
+import path from 'path';
+import fs from 'fs-extra';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -85,19 +87,33 @@ export function getCacheLoader(
   };
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): Loader {
-  let options: TransformOptions;
+export function getCustomBabelConfigFilePath(
+  siteDir: string,
+): string | undefined {
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
+  return fs.existsSync(customBabelConfigurationPath)
+    ? customBabelConfigurationPath
+    : undefined;
+}
+
+export function getBabelOptions({
+  isServer,
+  babelOptions,
+}: {
+  isServer?: boolean;
+  babelOptions?: TransformOptions | string;
+} = {}): TransformOptions {
   if (typeof babelOptions === 'string') {
-    options = {
+    return {
       babelrc: false,
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
   } else {
-    options = Object.assign(
+    return Object.assign(
       babelOptions ?? {presets: [require.resolve('../babel/preset')]},
       {
         babelrc: false,
@@ -106,9 +122,15 @@ export function getBabelLoader(
       },
     );
   }
+}
+
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+): Loader {
   return {
     loader: require.resolve('babel-loader'),
-    options,
+    options: getBabelOptions({isServer, babelOptions}),
   };
 }
 
