@@ -13,10 +13,13 @@ import {
 } from '@docusaurus/types';
 
 // should we make this configurable?
-function getTranslationsDirPath(siteDir: string): string {
+export function getTranslationsDirPath(siteDir: string): string {
   return path.resolve(path.join(siteDir, `i18n`));
 }
-function getTranslationsLocaleDirPath(siteDir: string, locale: string): string {
+export function getTranslationsLocaleDirPath(
+  siteDir: string,
+  locale: string,
+): string {
   return path.join(getTranslationsDirPath(siteDir), locale);
 }
 
