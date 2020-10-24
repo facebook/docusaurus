@@ -65,7 +65,17 @@ export type PluginOptions = MetadataOptions &
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
-  };
+};
+
+export interface DocTags {
+  [key: string]: DocTag;
+};
+
+export interface DocTag {
+  name: string;
+  items: string[];
+  permalink: string;
+};
 
 export type SidebarItemDoc = {
   type: 'doc' | 'ref';

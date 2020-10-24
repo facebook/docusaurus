@@ -29,7 +29,8 @@ import {
   DocNavLink,
   LoadedVersion,
   DocFile,
-  DocsMarkdownOption,
+  DocsMarkdownOption
+  DocTags
 } from './types';
 import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
@@ -40,6 +41,8 @@ import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
+// import {BlogTags} from '@docusaurus/plugin-content-blog/lib/types';
+import kebabCase from 'lodash.kebabcase';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -117,6 +120,45 @@ export default function pluginContentDocs(
     },
 
     async loadContent() {
+      const {routeBasePath} = options;
+      const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
+
+      const docTags: DocTags = {};
+      const tagsPath = normalizeUrl([basePageUrl, 'tags']);
+      docTags.forEach((docTag) => {
+        const {tags} = docTag.metadata;
+        if (!tags || tags.length === 0) {
+          // TODO: Extract tags out into a separate plugin.
+          // eslint-disable-next-line no-param-reassign
+          docTag.metadata.tags = [];
+          return;
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        docTag.metadata.tags = tags.map((tag) => {
+          if (typeof tag === 'string') {
+            const normalizedTag = kebabCase(tag);
+            const permalink = normalizeUrl([tagsPath, normalizedTag]);
+            if (!docTags[normalizedTag]) {
+              docTags[normalizedTag] = {
+                // Will only use the name of the first occurrence of the tag.
+                name: tag.toLowerCase(),
+                items: [],
+                permalink,
+              };
+            }
+
+            docTags[normalizedTag].items.push(docTag.id);
+
+            return {
+              label: tag,
+              permalink,
+            };
+          }
+          return tag;
+        });
+      });
+
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
       ): Promise<DocMetadataBase[]> {
