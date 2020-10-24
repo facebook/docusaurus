@@ -239,9 +239,8 @@ function Search() {
       : 'Search the documentation';
 
   const makeSearch = (page = 0) => {
-    algoliaHelper.setQuery(searchQuery).setPage(page);
-
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+
     Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
       ([pluginId, searchVersion]) => {
         algoliaHelper.addDisjunctiveFacetRefinement(
@@ -251,7 +250,7 @@ function Search() {
       },
     );
 
-    algoliaHelper.search();
+    algoliaHelper.setQuery(searchQuery).setPage(page).search();
   };
 
   useEffect(() => {
