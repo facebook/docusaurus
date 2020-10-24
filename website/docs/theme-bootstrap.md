@@ -72,7 +72,7 @@ module.exports = {
   // ...
   themeConfig: {
     navbar: {
-      links: [
+      items: [
         {
           // Client-side routing, used for navigating within the website.
           // The baseUrl will be automatically prepended to this value.
