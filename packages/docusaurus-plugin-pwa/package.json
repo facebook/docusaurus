@@ -17,7 +17,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.10.3",
     "@babel/preset-env": "^7.9.0",
     "@docusaurus/core": "2.0.0-alpha.66",
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.2.1",
     "babel-loader": "^8.1.0",
     "clsx": "^1.1.1",
     "core-js": "^2.6.5",

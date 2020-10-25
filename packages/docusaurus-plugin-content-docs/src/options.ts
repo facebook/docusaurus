@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
 import {PluginOptions} from './types';
 import {
   RemarkPluginsSchema,
@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import {ValidationError} from '@hapi/joi';
+import {ValidationError} from 'joi';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
 

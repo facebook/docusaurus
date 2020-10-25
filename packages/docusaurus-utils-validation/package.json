@@ -17,12 +17,9 @@
     "directory": "packages/docusaurus-utils-validation"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
-  },
   "dependencies": {
     "@docusaurus/utils": "2.0.0-alpha.66",
-    "@hapi/joi": "17.1.1",
+    "joi": "^17.2.1",
     "chalk": "^3.0.0"
   },
   "engines": {

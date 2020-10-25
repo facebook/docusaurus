@@ -17,7 +17,7 @@ import {
   Plugin,
 } from '@docusaurus/types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from '@hapi/joi';
+import {ValidationError} from 'joi';
 
 export default function pluginSitemap(
   _context: LoadContext,

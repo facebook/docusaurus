@@ -17,16 +17,13 @@
     "access": "public"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
-  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/mdx-loader": "2.0.0-alpha.66",
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.2.1",
     "chalk": "^3.0.0",
     "feed": "^4.1.0",
     "fs-extra": "^8.1.0",
