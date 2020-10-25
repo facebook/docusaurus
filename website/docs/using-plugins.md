@@ -990,7 +990,7 @@ Passing `false` will disable registration entirely.
 
 ### `@docusaurus/plugin-debug`
 
-The debug plugin will display useful debug informations at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
+The debug plugin will display useful debug information at [http://localhost:3000/\_\_docusaurus/debug](http://localhost:3000/__docusaurus/debug).
 
 It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
 
@@ -1012,7 +1012,7 @@ npm install --save @docusaurus/plugin-debug
 
 If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
 
-By default, it's enabled in dev, and disabled in prod, to avoid exposing potentially sensitive informations.
+By default, it's enabled in dev, and disabled in prod, to avoid exposing potentially sensitive information.
 
 :::
 
