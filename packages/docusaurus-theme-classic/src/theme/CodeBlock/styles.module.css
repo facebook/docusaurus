@@ -63,3 +63,9 @@
   min-width: 100%;
   padding: var(--ifm-pre-padding);
 }
+
+@media print {
+  .codeBlockLines {
+    white-space: pre-wrap;
+  }
+}
