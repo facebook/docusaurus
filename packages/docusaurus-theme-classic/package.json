@@ -26,7 +26,7 @@
     "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.2.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "@types/react-toggle": "^4.0.2",
@@ -42,8 +42,7 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.66",
-    "@types/hapi__joi": "^17.1.2"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66"
   },
   "peerDependencies": {
     "react": "^16.8.4",

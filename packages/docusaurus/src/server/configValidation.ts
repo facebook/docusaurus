@@ -7,7 +7,7 @@
 
 import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,

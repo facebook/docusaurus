@@ -16,13 +16,10 @@
     "directory": "packages/docusaurus-plugin-sitemap"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
-  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/types": "2.0.0-alpha.66",
-    "@hapi/joi": "17.1.1",
+    "joi": "^17.2.1",
     "fs-extra": "^8.1.0",
     "sitemap": "^3.2.2"
   },
