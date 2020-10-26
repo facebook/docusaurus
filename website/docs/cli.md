@@ -63,13 +63,15 @@ There are multiple ways to obtain a certificate. We will use [mkcert](https://gi
 
 1. Run `mkcert localhost` to generate `localhost.pem` + `localhost-key.pem`
 
-2. Start the app with Docusaurus HTTPS env variables:
+2. Run `mkcert -install` to install the cert in your trust store, and restart your browser
+
+3. Start the app with Docusaurus HTTPS env variables:
 
 ```shell
 HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 ```
 
-3. Open `https://localhost:3000/`
+4. Open `https://localhost:3000/`
 
 ### `docusaurus build`
 
