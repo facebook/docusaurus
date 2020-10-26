@@ -13,7 +13,7 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {ValidationError} from '@hapi/joi';
+import {ValidationError} from 'joi';
 import {take, kebabCase} from 'lodash';
 
 import {

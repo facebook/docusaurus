@@ -16,7 +16,7 @@
     "@docsearch/react": "^1.0.0-alpha.27",
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.2.1",
     "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",
     "clsx": "^1.1.1",

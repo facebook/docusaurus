@@ -19,7 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-alpha.66",
-    "@types/hapi__joi": "^17.1.2",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.0.0",
     "picomatch": "^2.1.1"
@@ -30,7 +29,7 @@
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@hapi/joi": "17.1.1",
+    "joi": "^17.2.1",
     "chalk": "^3.0.0",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",

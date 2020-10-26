@@ -7,6 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
@@ -25,8 +26,12 @@ function Layout(props: Props): JSX.Element {
     <LayoutProviders>
       <LayoutHead {...props} />
 
+      <SkipToContent />
+
       <AnnouncementBar />
+
       <Navbar />
+
       <div className={clsx('main-wrapper', wrapperClassName)}>{children}</div>
 
       {!noFooter && <Footer />}
