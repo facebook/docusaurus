@@ -17,16 +17,13 @@
     "directory": "packages/docusaurus-plugin-content-pages"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
-  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/mdx-loader": "2.0.0-alpha.66",
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@hapi/joi": "17.1.1",
+    "joi": "^17.2.1",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.19",

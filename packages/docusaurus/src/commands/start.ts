@@ -23,7 +23,7 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack} from '../webpack/utils';
+import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations';
 
@@ -97,7 +97,12 @@ export default async function start(
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
+    usePolling: !!cliOptions.poll,
+    interval: Number.isInteger(cliOptions.poll)
+      ? (cliOptions.poll as number)
+      : undefined,
   });
+
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
@@ -151,7 +156,7 @@ export default async function start(
       // `webpackHotDevClient`.
       injectClient: false,
       quiet: true,
-      https: protocol === 'https',
+      https: getHttpsConfig(),
       headers: {
         'access-control-allow-origin': '*',
       },

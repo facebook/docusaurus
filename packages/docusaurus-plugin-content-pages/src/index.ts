@@ -28,7 +28,7 @@ import {
 import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from '@hapi/joi';
+import {ValidationError} from 'joi';
 import {
   DEFAULT_PLUGIN_ID,
   STATIC_DIR_NAME,

@@ -195,7 +195,7 @@ If your assets should be versioned, put them in the docs version, and use relati
 ```md
 ![img alt](./myImage.png)
 
-[dowload this file](./file.pdf)
+[download this file](./file.pdf)
 ```
 
 If your assets are global, put them in `/static` and use absolute paths:
@@ -203,5 +203,5 @@ If your assets are global, put them in `/static` and use absolute paths:
 ```md
 ![img alt](/myImage.png)
 
-[dowload this file](/file.pdf)
+[download this file](/file.pdf)
 ```

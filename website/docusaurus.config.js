@@ -230,6 +230,7 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
