@@ -16,7 +16,13 @@ function useKeyboardNavigation(): void {
     const keyboardFocusedClassName = 'navigation-with-keyboard';
 
     function handleOutlineStyles(e: MouseEvent | KeyboardEvent) {
-      document.body.classList.toggle(keyboardFocusedClassName, e.key === 'Tab');
+      if (e.type === 'keydown' && (e as KeyboardEvent).key === 'Tab') {
+        document.body.classList.add(keyboardFocusedClassName);
+      }
+
+      if (e.type === 'mousedown') {
+        document.body.classList.remove(keyboardFocusedClassName);
+      }
     }
 
     document.addEventListener('keydown', handleOutlineStyles);
