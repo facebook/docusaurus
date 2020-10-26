@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-body:not(.navigation-with-keyboard) *:focus {
+body:not(.navigation-with-keyboard) *:not(input):focus {
   outline: none;
 }

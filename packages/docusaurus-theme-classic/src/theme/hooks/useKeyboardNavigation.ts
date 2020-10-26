@@ -7,43 +7,25 @@
 
 import {useEffect} from 'react';
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-
 import './styles.css';
 
 // This hook detect keyboard focus indicator to not show outline for mouse users
 // Inspired by https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
 function useKeyboardNavigation(): void {
   useEffect(() => {
-    if (!ExecutionEnvironment.canUseDOM) {
-      return undefined;
-    }
-
     const keyboardFocusedClassName = 'navigation-with-keyboard';
 
-    function handleFirstTab(e: KeyboardEvent) {
-      if (e.key === 'Tab') {
-        document.body.classList.add(keyboardFocusedClassName);
-
-        document.removeEventListener('keydown', handleFirstTab);
-        document.addEventListener('mousedown', handleMouseDown);
-      }
+    function handleOutlineStyles(e: MouseEvent | KeyboardEvent) {
+      document.body.classList.toggle(keyboardFocusedClassName, e.key === 'Tab');
     }
 
-    function handleMouseDown() {
-      document.body.classList.remove(keyboardFocusedClassName);
-
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.addEventListener('keydown', handleFirstTab);
-    }
-
-    document.addEventListener('keydown', handleFirstTab);
+    document.addEventListener('keydown', handleOutlineStyles);
+    document.addEventListener('mousedown', handleOutlineStyles);
 
     return () => {
       document.body.classList.remove(keyboardFocusedClassName);
-
-      document.removeEventListener('keydown', handleFirstTab);
-      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('keydown', handleOutlineStyles);
+      document.removeEventListener('mousedown', handleOutlineStyles);
     };
   }, []);
 }
