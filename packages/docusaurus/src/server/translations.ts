@@ -69,7 +69,7 @@ export async function readTranslationsFile({
   locale: string;
 }): Promise<DocusaurusI18nTranslations> {
   const translationsFilePath = getTranslationsFilePath(siteDir, locale);
-  if (await fs.stat(translationsFilePath)) {
+  if (await fs.pathExists(translationsFilePath)) {
     const translationsFile = JSON.parse(
       await fs.readFile(translationsFilePath, 'utf8'),
     );
