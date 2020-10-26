@@ -23,7 +23,7 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack} from '../webpack/utils';
+import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 
 export default async function start(
@@ -144,7 +144,7 @@ export default async function start(
       // `webpackHotDevClient`.
       injectClient: false,
       quiet: true,
-      https: protocol === 'https',
+      https: getHttpsConfig(),
       headers: {
         'access-control-allow-origin': '*',
       },
