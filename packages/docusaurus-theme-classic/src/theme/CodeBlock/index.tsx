@@ -207,18 +207,9 @@ export default ({
             </div>
           )}
           <div className={styles.codeBlockContent}>
-            <button
-              tabIndex={0}
-              ref={button}
-              type="button"
-              aria-label="Copy code to clipboard"
-              className={clsx(styles.copyButton, {
-                [styles.copyButtonWithTitle]: codeBlockTitle,
-              })}
-              onClick={handleCopyCode}>
-              {showCopied ? 'Copied' : 'Copy'}
-            </button>
             <div
+              /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+              tabIndex={0}
               className={clsx(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
@@ -244,6 +235,17 @@ export default ({
                 })}
               </div>
             </div>
+
+            <button
+              ref={button}
+              type="button"
+              aria-label="Copy code to clipboard"
+              className={clsx(styles.copyButton, {
+                [styles.copyButtonWithTitle]: codeBlockTitle,
+              })}
+              onClick={handleCopyCode}>
+              {showCopied ? 'Copied' : 'Copy'}
+            </button>
           </div>
         </>
       )}
