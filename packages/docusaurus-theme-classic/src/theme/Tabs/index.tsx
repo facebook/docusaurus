@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, ReactElement, useEffect} from 'react';
+import React, {useState, Children, ReactElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import type {Props} from '@theme/Tabs';
 
@@ -16,14 +16,12 @@ import styles from './styles.module.css';
 const keys = {
   left: 37,
   right: 39,
-  tab: 9,
 };
 
 function Tabs(props: Props): JSX.Element {
   const {block, children, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
-  const [keyboardPress, setKeyboardPress] = useState(false);
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -78,28 +76,6 @@ function Tabs(props: Props): JSX.Element {
     }
   };
 
-  const handleKeyboardEvent = (event) => {
-    if (event.metaKey || event.altKey || event.ctrlKey) {
-      return;
-    }
-
-    setKeyboardPress(true);
-  };
-
-  const handleMouseEvent = () => {
-    setKeyboardPress(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyboardEvent);
-    window.addEventListener('mousedown', handleMouseEvent);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyboardEvent);
-      window.removeEventListener('mousedown', handleMouseEvent);
-    };
-  }, []);
-
   return (
     <div>
       <ul
@@ -120,19 +96,15 @@ function Tabs(props: Props): JSX.Element {
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
-            style={keyboardPress ? {} : {outline: 'none'}}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={(event) => {
               handleKeydown(tabRefs, event.target, event);
-              handleKeyboardEvent(event);
             }}
             onFocus={() => changeSelectedValue(value)}
             onClick={() => {
               changeSelectedValue(value);
-              setKeyboardPress(false);
-            }}
-            onPointerDown={() => setKeyboardPress(false)}>
+            }}>
             {label}
           </li>
         ))}

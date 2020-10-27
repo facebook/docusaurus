@@ -236,6 +236,12 @@ declare module '@theme/hooks/useWindowSize' {
   export default function useWindowSize(): WindowSize | undefined;
 }
 
+declare module '@theme/hooks/useKeyboardNavigation' {
+  const useKeyboardNavigation: () => void;
+
+  export default useKeyboardNavigation;
+}
+
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
