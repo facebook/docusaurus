@@ -10,9 +10,9 @@ import {InitPlugin} from './plugins/init';
 import {
   DocusaurusI18nTranslations,
   DocusaurusI18nPluginTranslations,
-  DocusaurusI18nPagesTranslations,
 } from '@docusaurus/types';
-import {getBabelOptions, getCustomBabelConfigFilePath} from '../webpack/utils';
+import {flatten} from 'lodash';
+import globby from 'globby';
 
 // should we make this configurable?
 export function getTranslationsDirPath(siteDir: string): string {
@@ -81,46 +81,55 @@ export async function readTranslationsFile({
       );
     }
   }
-  return {plugins: {}, pages: {}};
+  return {plugins: {}, extracted: {}};
 }
 
-export function collectPluginTranslations(
+export async function collectPluginTranslations(
   plugins: InitPlugin[],
-): DocusaurusI18nPluginTranslations {
-  const pluginTranslations = {};
-  plugins.forEach((plugin) => {
-    if (plugin.getTranslations) {
-      pluginTranslations[plugin.name] = pluginTranslations[plugin.name] ?? {};
-      pluginTranslations[plugin.name][
-        plugin.options.id
-      ] = plugin.getTranslations();
-    }
-  });
-  return pluginTranslations;
-}
-
-export async function collectPageTranslations(
-  siteDir: string,
-): Promise<DocusaurusI18nPagesTranslations> {
-  const code = await fs.readFile(
-    '/Users/sebastienlorber/Desktop/projects/docusaurus/website/src/pages/index.js',
-    'utf8',
+): Promise<DocusaurusI18nPluginTranslations> {
+  const pluginsTranslations = await Promise.all(
+    plugins.map((plugin) => {
+      return plugin.getTranslations ? plugin.getTranslations() : null;
+    }),
   );
 
-  console.log('code', code);
-
-  const transformOptions = getBabelOptions({
-    isServer: true,
-    babelOptions: getCustomBabelConfigFilePath(siteDir),
+  const translations = {};
+  plugins.forEach((plugin, index) => {
+    const pluginTranslations = pluginsTranslations[index];
+    if (pluginTranslations) {
+      translations[plugin.name] = translations[plugin.name] ?? {};
+      translations[plugin.name][plugin.options.id] = pluginTranslations;
+    }
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const parsedCode = require('@babel/core').parse(code, {
-    ...transformOptions,
-    filename: 'index.jsx',
-  });
+  return translations;
+}
 
-  console.log('parsedCode', parsedCode);
+// We only support extracting source code translations from these kind of files
+const TranslatableSourceCodeExtension = new Set([
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  // TODO support md/mdx translation extraction
+  // '.md',
+  // '.mdx',
+]);
+function isTranslatableSourceCodePath(filePath: string): boolean {
+  return TranslatableSourceCodeExtension.has(path.extname(filePath));
+}
 
-  return {};
+export async function collectPluginTranslationSourceCodeFilePaths(
+  plugins: InitPlugin[],
+): Promise<string[]> {
+  // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
+  // We can use this method as well to know which folders we should try to extract translations from
+  // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
+  const allPathsToWatch = flatten(
+    plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
+  );
+
+  const filePaths = await globby(allPathsToWatch);
+
+  return filePaths.filter(isTranslatableSourceCodePath);
 }

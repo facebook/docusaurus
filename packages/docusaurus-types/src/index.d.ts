@@ -83,11 +83,11 @@ export type DocusaurusI18nPluginTranslations = Record<
 >;
 
 // text -> localized text
-export type DocusaurusI18nPagesTranslations = Record<string, string>;
+export type DocusaurusI18nExtractedTranslations = Record<string, string>;
 
 export type DocusaurusI18nTranslations = {
   plugins: DocusaurusI18nPluginTranslations;
-  pages: DocusaurusI18nPagesTranslations;
+  extracted: DocusaurusI18nExtractedTranslations;
 };
 
 export type DocusaurusI18n = {
@@ -217,7 +217,7 @@ export interface Plugin<T, U = unknown> {
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
-  getTranslations?(): unknown;
+  getTranslations?(): Promise<unknown>;
   extendCli?(cli: Command): void;
   injectHtmlTags?(): {
     headTags?: HtmlTags;

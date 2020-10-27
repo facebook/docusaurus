@@ -45,6 +45,8 @@
     "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "@babel/runtime-corejs3": "^7.10.4",
+    "@babel/traverse": "^7.9.0",
+    "@babel/generator": "^7.9.0",
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
