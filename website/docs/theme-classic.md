@@ -371,6 +371,49 @@ module.exports = {
 };
 ```
 
+## Tabs
+
+You can offer tabs within your markdown, which is useful for code blocks in multiple languages:
+
+```mdx
+## Some markdown here
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="js"
+  values={[
+    { label: 'JavaScript', value: 'js' },
+    { label: 'Go', value: 'go' },
+  ]
+}>
+  <TabItem value="js">
+
+  some js code here
+
+  </TabItem>
+  <TabItem value="go">
+
+  some go code here
+
+  </TabItem>
+</Tabs>
+```
+
+If you have the same values across different `<Tabs>` and want them all to sync and persist in `localStorage`, provide a `groupId`:
+
+```js
+<Tabs
+  defaultValue="js"
+  groupId="codeGroup1"
+  values={[
+    { label: 'JavaScript', value: 'js' },
+    { label: 'Go', value: 'go' },
+  ]
+}>
+```
+
 <!--
 
 ## Footer
