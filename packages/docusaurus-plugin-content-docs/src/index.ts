@@ -29,20 +29,19 @@ import {
   DocNavLink,
   LoadedVersion,
   DocFile,
-  DocsMarkdownOption
-  DocTags
+  DocsMarkdownOption,
+  VersionTag,
 } from './types';
 import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
-import {flatten, keyBy, compact} from 'lodash';
+import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
-// import {BlogTags} from '@docusaurus/plugin-content-blog/lib/types';
-import kebabCase from 'lodash.kebabcase';
+import {getVersionTags} from './tags';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -120,45 +119,6 @@ export default function pluginContentDocs(
     },
 
     async loadContent() {
-      const {routeBasePath} = options;
-      const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
-
-      const docTags: DocTags = {};
-      const tagsPath = normalizeUrl([basePageUrl, 'tags']);
-      docTags.forEach((docTag) => {
-        const {tags} = docTag.metadata;
-        if (!tags || tags.length === 0) {
-          // TODO: Extract tags out into a separate plugin.
-          // eslint-disable-next-line no-param-reassign
-          docTag.metadata.tags = [];
-          return;
-        }
-
-        // eslint-disable-next-line no-param-reassign
-        docTag.metadata.tags = tags.map((tag) => {
-          if (typeof tag === 'string') {
-            const normalizedTag = kebabCase(tag);
-            const permalink = normalizeUrl([tagsPath, normalizedTag]);
-            if (!docTags[normalizedTag]) {
-              docTags[normalizedTag] = {
-                // Will only use the name of the first occurrence of the tag.
-                name: tag.toLowerCase(),
-                items: [],
-                permalink,
-              };
-            }
-
-            docTags[normalizedTag].items.push(docTag.id);
-
-            return {
-              label: tag,
-              permalink,
-            };
-          }
-          return tag;
-        });
-      });
-
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
       ): Promise<DocMetadataBase[]> {
@@ -259,10 +219,16 @@ export default function pluginContentDocs(
           }
         }
 
+        const tags = getVersionTags({
+          docs,
+          tagsPath: versionMetadata.tagsPath,
+        });
+
         return {
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
+          tags,
           permalinkToSidebar,
           docs: docs.map(addNavData),
         };
@@ -304,7 +270,39 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
+      async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
+        async function createTagsListRoute() {
+          const tagsProp = mapValues(loadedVersion.tags, (tagValue) => ({
+            name: tagValue.name,
+            permalink: tagValue.permalink,
+            count: tagValue.docIds.length,
+          }));
+          const tagsPropPath = await createData(
+            `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
+            JSON.stringify(tagsProp, null, 2),
+          );
+          addRoute({
+            path: loadedVersion.tagsPath,
+            exact: true,
+            component: '@theme/DocTagsListPage',
+            modules: {
+              tags: aliasedSource(tagsPropPath),
+            },
+          });
+        }
+
+        async function createTagPage(tag: VersionTag) {
+          // TODO
+          console.log(`todo createTagPage for tag=${tag.name}`);
+        }
+
+        await createTagsListRoute();
+        await Promise.all(Object.values(loadedVersion.tags).map(createTagPage));
+      }
+
       async function handleVersion(loadedVersion: LoadedVersion) {
+        await createVersionTagsRoutes(loadedVersion);
+
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,

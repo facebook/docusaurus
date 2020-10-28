@@ -90,6 +90,17 @@ export async function readVersionDocs(
   );
 }
 
+function readFrontmatterTags(frontMatter: any): string[] {
+  const tags: string[] = frontMatter.tags ?? [];
+  if (tags instanceof Array && tags.every((tag) => typeof tag === 'string')) {
+    return tags;
+  } else {
+    throw new Error(
+      `Bad frontmatter document tags.\nTags should be an array of strings.\nExample => 'tags: [tag1, tag2, tag3]'\nActual value=${tags}`,
+    );
+  }
+}
+
 export function processDocMetadata({
   docFile,
   versionMetadata,
@@ -175,6 +186,7 @@ export function processDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
+    tags: readFrontmatterTags(frontMatter),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,

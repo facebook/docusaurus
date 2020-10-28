@@ -202,10 +202,13 @@ function createVersionMetadata({
   // Because /docs/:route` should always be after `/docs/versionName/:route`.
   const routePriority = versionPathPart === '' ? -1 : undefined;
 
+  const tagsPath = normalizeUrl([versionPath, 'tags']);
+
   return {
     versionName,
     versionLabel,
     versionPath,
+    tagsPath,
     isLast,
     routePriority,
     sidebarFilePath,

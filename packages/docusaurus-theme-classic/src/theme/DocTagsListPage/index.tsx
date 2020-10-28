@@ -9,17 +9,19 @@ import React from 'react';
 
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import type {Props} from '@theme/DocTagsListPage';
 
+// TODO add TS types later
+// import type {Props} from '@theme/DocTagsListPage';
+type Props = {
+  tags: Record<string, {name: string; permalink: string; count: number}>;
+};
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
   return tag[0].toUpperCase();
 }
 
-function DocTagsListPage(props: Props): JSX.Element {
-  const {tags} = props;
-
+function DocTagsListPage({tags}: Props): JSX.Element {
   const tagCategories: {[category: string]: string[]} = {};
   Object.keys(tags).forEach((tag) => {
     const category = getCategoryOfTag(tag);

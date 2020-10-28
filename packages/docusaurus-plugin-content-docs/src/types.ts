@@ -20,6 +20,7 @@ export type VersionMetadata = {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
+  tagsPath: string;
   isLast: boolean;
   docsDirPath: string; // versioned_docs/1.0.0
   sidebarFilePath: string; // versioned_sidebars/1.0.0.json
@@ -65,17 +66,7 @@ export type PluginOptions = MetadataOptions &
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
-};
-
-export interface DocTags {
-  [key: string]: DocTag;
-};
-
-export interface DocTag {
-  name: string;
-  items: string[];
-  permalink: string;
-};
+  };
 
 export type SidebarItemDoc = {
   type: 'doc' | 'ref';
@@ -127,6 +118,7 @@ export type DocMetadataBase = LastUpdateData & {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string | null;
+  tags: string[];
 };
 
 export type DocNavLink = {
@@ -143,10 +135,21 @@ export type DocMetadata = DocMetadataBase & {
 export type SourceToPermalink = {
   [source: string]: string;
 };
+
+export type VersionTag = {
+  name: string; // normalized name/label of the tag
+  docIds: string[]; // all doc ids having this tag
+  permalink: string; // pathname of the tag
+};
+export type VersionTags = {
+  [key: string]: VersionTag;
+};
+
 export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;
   docs: DocMetadata[];
+  tags: VersionTags;
   sidebars: Sidebars;
   permalinkToSidebar: Record<string, string>;
 };
