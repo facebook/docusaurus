@@ -15,7 +15,7 @@ Assume you are happy with the current state of the documentation and want to fre
 npm run examples versions
 ```
 
-That command generates a `versions.js` file, which will be used to list down all the versions of docs in the project.
+That command generates a `versions.json` file, which will be used to list down all the versions of docs in the project.
 
 Next, you run a command with the version you want to create, like `1.0.0`.
 
