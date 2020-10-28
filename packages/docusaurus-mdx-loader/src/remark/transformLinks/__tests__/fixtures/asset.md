@@ -21,3 +21,5 @@
 [staticAsset.pdf](/staticAsset.pdf)
 
 [@site/static/staticAsset.pdf](@site/static/staticAsset.pdf)
+
+[staticAsset.pdf](/staticAsset.pdf), [staticAsset 2.pdf](/staticAsset.pdf), [staticAsset 3.pdf](/staticAsset.pdf)

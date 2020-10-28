@@ -35,7 +35,15 @@ async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
 }
 
 // transform the link node to a jsx link with a require() call
-function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
+function toAssetRequireNode({
+  node,
+  _index,
+  _parent,
+  filePath,
+  requireAssetPath,
+}) {
+  /* eslint-disable no-param-reassign */
+
   let relativeRequireAssetPath = posixPath(
     path.relative(path.dirname(filePath), requireAssetPath),
   );
@@ -46,22 +54,13 @@ function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
     : `./${relativeRequireAssetPath}`;
 
   const hrefProp = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
+  const linkText = (node.children[0] && node.children[0].value) || '';
 
   node.type = 'jsx';
 
   node.value = `<a target="_blank" href={${hrefProp}} ${
     node.title ? `title={${node.title}}` : ''
-  } >`;
-
-  const linkText = (node.children[0] && node.children[0].value) || '';
-  delete node.children;
-
-  parent.children.splice(index + 1, 0, {
-    type: 'text',
-    value: linkText,
-  });
-
-  parent.children.splice(index + 2, 0, {type: 'jsx', value: '</a>'});
+  } >${linkText}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,

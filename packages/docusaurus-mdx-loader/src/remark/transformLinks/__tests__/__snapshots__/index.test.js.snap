@@ -31,5 +31,7 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset.pdf</a>
 
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >@site/static/staticAsset.pdf</a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset.pdf</a>, <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset 2.pdf</a>, <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset 3.pdf</a>
 "
 `;
