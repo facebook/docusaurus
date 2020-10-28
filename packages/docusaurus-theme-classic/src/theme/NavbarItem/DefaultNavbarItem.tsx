@@ -179,6 +179,10 @@ function NavItemMobile({
     );
   }
 
+  const menuListHeight = menuListRef.current?.scrollHeight
+    ? `${menuListRef.current?.scrollHeight}px`
+    : undefined;
+
   return (
     <li
       className={clsx('menu__list-item', {
@@ -197,9 +201,7 @@ function NavItemMobile({
         className="menu__list"
         ref={menuListRef}
         style={{
-          height: !collapsed
-            ? `${menuListRef.current?.scrollHeight}px`
-            : undefined,
+          height: !collapsed ? menuListHeight : undefined,
         }}>
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
