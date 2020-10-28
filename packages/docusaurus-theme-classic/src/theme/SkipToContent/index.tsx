@@ -25,13 +25,15 @@ function SkipToContent(): JSX.Element {
   };
 
   return (
-    <button
-      type="button"
-      tabIndex={0}
-      className={styles.skipToContent}
-      onKeyDown={handleSkip}>
-      Skip to main content
-    </button>
+    <nav aria-label="Skip navigation links">
+      <button
+        type="button"
+        tabIndex={0}
+        className={styles.skipToContent}
+        onKeyDown={handleSkip}>
+        Skip to main content
+      </button>
+    </nav>
   );
 }
 
