@@ -4,7 +4,7 @@
 
 [asset](./asset.pdf)
 
-[asset](asset.pdf 'Title') ![seet](asset)
+[asset](asset.pdf 'Title')
 
 ## Heading
 
@@ -22,4 +22,6 @@
 
 [@site/static/staticAsset.pdf](@site/static/staticAsset.pdf)
 
-[staticAsset.pdf](/staticAsset.pdf), [staticAsset 2.pdf](/staticAsset.pdf), [staticAsset 3.pdf](/staticAsset.pdf)
+[Just staticAsset.pdf](/staticAsset.pdf), and [**awesome** staticAsset 2.pdf 'It is really "AWESOME"'](/staticAsset.pdf), but also [coded `staticAsset 3.pdf`](/staticAsset.pdf)
+
+[![Clickable Docusaurus logo](/staticAssetImage.png)](/staticAssetImage.png)

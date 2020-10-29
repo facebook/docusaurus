@@ -12,11 +12,11 @@ exports[`transformImage plugin pathname protocol 1`] = `
 exports[`transformImage plugin transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
-<img  src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+<img src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
 
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
 
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title={\\"Title\\"} /> <img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img.png\\").default}  />
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img.png\\").default} />
 
 ## Heading
 
@@ -24,6 +24,6 @@ exports[`transformImage plugin transform md images to <img /> 1`] = `
 ![img](./img.png)
 \`\`\`
 
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default}  />
+<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
 "
 `;
