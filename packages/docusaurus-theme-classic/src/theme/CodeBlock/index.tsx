@@ -7,7 +7,7 @@
 
 import React, {useEffect, useState, useRef} from 'react';
 import clsx from 'clsx';
-import Highlight, {defaultProps} from 'prism-react-renderer';
+import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
@@ -131,7 +131,9 @@ export default ({
   }
 
   let language =
-    languageClassName && languageClassName.replace(/language-/, '');
+    languageClassName &&
+    // Force Prism's language union type to `any` because it does not contain all available languages
+    ((languageClassName.replace(/language-/, '') as Language) as any);
 
   if (!language && prism.defaultLanguage) {
     language = prism.defaultLanguage;
@@ -197,7 +199,6 @@ export default ({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      // @ts-expect-error: prism-react-renderer doesn't export Language type
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <>
@@ -240,9 +241,7 @@ export default ({
               ref={button}
               type="button"
               aria-label="Copy code to clipboard"
-              className={clsx(styles.copyButton, {
-                [styles.copyButtonWithTitle]: codeBlockTitle,
-              })}
+              className={clsx(styles.copyButton)}
               onClick={handleCopyCode}>
               {showCopied ? 'Copied' : 'Copy'}
             </button>
