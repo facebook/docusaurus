@@ -14,6 +14,15 @@ const {toValue} = require('../utils');
 /** @typedef {import('@docusaurus/types').MarkdownRightTableOfContents} TOC */
 /** @typedef {import('unist').Node} Node */
 
+/**
+ * @typedef {Object} StringValuedNode
+ * @property {string} type
+ * @property {string} value
+ * @property {number} depth
+ * @property {Object} data
+ * @property {StringValuedNode[]} children
+ */
+
 // Visit all headings. We `slug` all headings (to account for
 // duplicates), but only take h2 and h3 headings.
 /**

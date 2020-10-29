@@ -9,15 +9,6 @@ const escapeHtml = require('escape-html');
 const toString = require('mdast-util-to-string');
 
 /**
- * @typedef {Object} StringValuedNode
- * @property {string} type
- * @property {string} value
- * @property {number} depth
- * @property {Object} data
- * @property {StringValuedNode[]} children
- */
-
-/**
  * @param {StringValuedNode | undefined} node
  * @returns {string}
  */
