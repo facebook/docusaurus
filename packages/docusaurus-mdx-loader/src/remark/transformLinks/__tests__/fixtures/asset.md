@@ -25,3 +25,5 @@
 [Just staticAsset.pdf](/staticAsset.pdf), and [**awesome** staticAsset 2.pdf 'It is really "AWESOME"'](/staticAsset.pdf), but also [coded `staticAsset 3.pdf`](/staticAsset.pdf)
 
 [![Clickable Docusaurus logo](./static/staticAssetImage.png)](/staticAssetImage.png)
+
+[<span style={{color: "red"}}>Stylized link to asset file</span>](./asset.pdf)
