@@ -77,6 +77,7 @@ export default async function render(locals) {
     helmet.title.toString(),
     helmet.meta.toString(),
     helmet.link.toString(),
+    helmet.script.toString(),
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
