@@ -9,7 +9,7 @@
 
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
-const escapeHtml = require('escape-html');
+const {toValue} = require('../utils');
 
 /** @typedef {import('@docusaurus/types').MarkdownRightTableOfContents} TOC */
 /** @typedef {import('unist').Node} Node */
@@ -22,33 +22,6 @@ const escapeHtml = require('escape-html');
  * @property {Object} data
  * @property {StringValuedNode[]} children
  */
-
-// https://github.com/syntax-tree/mdast#heading
-/**
- * @param {StringValuedNode | undefined} node
- * @returns {string}
- */
-function toValue(node) {
-  if (node && node.type) {
-    switch (node.type) {
-      case 'text':
-        return escapeHtml(node.value);
-      case 'heading':
-        return node.children.map(toValue).join('');
-      case 'inlineCode':
-        return `<code>${escapeHtml(node.value)}</code>`;
-      case 'emphasis':
-        return `<em>${node.children.map(toValue).join('')}</em>`;
-      case 'strong':
-        return `<strong>${node.children.map(toValue).join('')}</strong>`;
-      case 'delete':
-        return `<del>${node.children.map(toValue).join('')}</del>`;
-      default:
-    }
-  }
-
-  return toString(node);
-}
 
 // Visit all headings. We `slug` all headings (to account for
 // duplicates), but only take h2 and h3 headings.
