@@ -21,7 +21,7 @@ import styles from './styles.module.css';
 export default function BaseUrlSuggestionWarning() {
   const {baseUrl} = siteConfig;
   const {pathname} = useLocation();
-  const isHomePage = pathname === baseUrl;
+  const isHomePage = pathname === baseUrl; // returns true for the homepage during SRR
 
   const BaseUrlSuggestionContainerId = 'base-url-suggestion-container';
 
@@ -31,10 +31,16 @@ export default function BaseUrlSuggestionWarning() {
         <Head>
           <script type="text/javascript">
             {`
-document.addEventListener('DOMContentLoaded', function() {
-  var baseUrlSuggestion = document.getElementById("${BaseUrlSuggestionContainerId}");
+document.addEventListener('DOMContentLoaded', function () {
+  var baseUrlSuggestion = document.getElementById(
+    '${BaseUrlSuggestionContainerId}',
+  );
   if (baseUrlSuggestion) {
-    baseUrlSuggestion.innerHTML = window.location.pathname;
+    var actualHomePagePath = window.location.pathname;
+    var suggestedBaseUrl = actualHomePagePath.substr(-1) === '/'
+        ? actualHomePagePath
+        : actualHomePagePath + '/';
+    baseUrlSuggestion.innerHTML = suggestedBaseUrl;
   }
 });
 `}
@@ -43,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <div
           className={styles.baseUrlSuggestionWarning}
           style={{
-            fontWeight: 'bold',
             border: 'solid red thick',
             backgroundColor: '#ffe6b3',
             margin: 20,
@@ -51,24 +56,33 @@ document.addEventListener('DOMContentLoaded', function() {
             fontSize: 20,
           }}>
           <span>
-            <p>You Docusaurus site did not load properly.</p>
+            <p
+              style={{
+                fontWeight: 'bold',
+                fontSize: 30,
+              }}>
+              You Docusaurus site did not load properly.
+            </p>
             <p>
               A very common reason is a wrong site{' '}
-              <a href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl">
+              <a
+                href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl"
+                style={{fontWeight: 'bold'}}>
                 baseUrl configuration
               </a>
               .
             </p>
-
             <p>
-              Current configured baseUrl =
-              <span style={{fontWeight: 'bold', color: 'red'}}>{baseUrl}</span>
-              . We suggest trying baseUrl =
+              Current configured baseUrl ={' '}
+              <span style={{fontWeight: 'bold', color: 'red'}}>{baseUrl}</span>{' '}
+              {baseUrl === '/' ? ' (default value)' : ''}
+            </p>
+            <p>
+              We suggest trying baseUrl ={' '}
               <span
                 style={{fontWeight: 'bold', color: 'green'}}
                 id={BaseUrlSuggestionContainerId}
               />{' '}
-              instead.
             </p>
           </span>
         </div>
