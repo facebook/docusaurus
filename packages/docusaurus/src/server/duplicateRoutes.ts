@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {getAllFinalRoutes, reportMessage} from './utils';
+import {reportMessage} from '@docusaurus/utils';
+import {getAllFinalRoutes} from './utils';
 
 export function getAllDuplicateRoutes(
   pluginsRouteConfigs: RouteConfig[],
