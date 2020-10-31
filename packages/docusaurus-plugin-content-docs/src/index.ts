@@ -315,13 +315,16 @@ export default function pluginContentDocs(
         sourceToPermalink,
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (siteConfig.onBrokenLinks === 'ignore') {
+          if (
+            siteConfig.onBrokenMarkdownLinks === 'ignore' ||
+            !siteConfig.onBrokenMarkdownLinks
+          ) {
             return;
           }
 
           reportMessage(
             `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
-            siteConfig.onBrokenLinks,
+            siteConfig.onBrokenMarkdownLinks,
           );
         },
       };

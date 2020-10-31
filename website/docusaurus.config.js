@@ -49,6 +49,7 @@ module.exports = {
   baseUrl,
   url: 'https://v2.docusaurus.io',
   onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:

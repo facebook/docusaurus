@@ -38,6 +38,7 @@ export interface VersionTwoConfig {
   noIndex?: boolean;
   githubHost?: string;
   onBrokenLinks: string;
+  onBrokenMarkdownLinks: string;
   plugins: Array<[string, {[key: string]: any}]>;
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
