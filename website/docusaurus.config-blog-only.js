@@ -13,6 +13,7 @@ module.exports = {
   baseUrl: '/blog-only/',
   url: 'https://v2.docusaurus.io',
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [],

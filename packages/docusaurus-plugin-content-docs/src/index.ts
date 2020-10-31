@@ -315,10 +315,7 @@ export default function pluginContentDocs(
         sourceToPermalink,
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (
-            siteConfig.onBrokenMarkdownLinks === 'ignore' ||
-            !siteConfig.onBrokenMarkdownLinks
-          ) {
+          if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
             return;
           }
 
