@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 fontWeight: 'bold',
                 fontSize: 30,
               }}>
-              You Docusaurus site did not load properly.
+              Your Docusaurus site did not load properly.
             </p>
             <p>
               A very common reason is a wrong site{' '}
