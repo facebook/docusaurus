@@ -13,6 +13,24 @@
   top: calc(var(--ifm-navbar-height) + 2rem);
 }
 
+.sidebar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .sidebarItemTitle {
   margin-bottom: 0.5rem;
 }
