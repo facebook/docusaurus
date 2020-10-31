@@ -17,6 +17,7 @@ import {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'onBrokenLinks'
+  | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
@@ -27,6 +28,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'noIndex'
 > = {
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -64,6 +66,9 @@ const ConfigSchema = Joi.object({
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
+  onBrokenMarkdownLinks: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
