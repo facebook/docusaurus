@@ -108,14 +108,6 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
-### `onBrokenMarkdownLinks`
-
-- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
-
-The behavior of Docusaurus, when it detects any broken markdown link.
-
-By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
-
 ### `onDuplicateRoutes`
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
