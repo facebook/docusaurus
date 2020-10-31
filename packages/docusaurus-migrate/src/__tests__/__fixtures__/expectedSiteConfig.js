@@ -31,6 +31,7 @@ module.exports = {
     facebookAppId: '199138890728411',
   },
   onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'log',
   presets: [
     [
       '@docusaurus/preset-classic',

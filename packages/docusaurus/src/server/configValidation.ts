@@ -68,7 +68,7 @@ const ConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.onBrokenLinks),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenLinks),
+    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
