@@ -7,6 +7,6 @@
 
 // Compare the 2 paths, ignoring trailing /
 export const isSamePath = (path1, path2) => {
-  const normalize = (str) => (str.endsWith('/') ? str : `${str}/`);
-  return path1 && path2 ? normalize(path1) === normalize(path2) : true;
+  const normalize = (str) => (str?.endsWith('/') ? str : `${str}/`); //
+  return  normalize(path1) === normalize(path2)
 };

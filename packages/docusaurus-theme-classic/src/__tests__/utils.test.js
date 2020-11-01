@@ -19,7 +19,4 @@ describe('isSamePath', () => {
   test('should be false for compared path with double trailing slash', () => {
     expect(isSamePath('/docs', '/docs//')).toBeFalsy();
   });
-  test('should not fail if path is "undefined" when it is absent in case of dropdown in Navbar ', () => {
-    expect(isSamePath(undefined, undefined)).toBeTruthy();
-  });
 });
