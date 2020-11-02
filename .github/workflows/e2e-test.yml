@@ -56,10 +56,11 @@ jobs:
       - name: Setup test-website project for Yarn v2
         run: |
           cd test-website
-          yarn set version berry
+          yarn set version from sources
           yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
+          yarn config set enableGlobalCache true
           yarn install
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
