@@ -136,3 +136,24 @@
 :global(.menu__list-item--collapsed) :global(.menu__list) {
   height: 0px !important;
 }
+
+ul.onlycss li{
+  display: none;
+}
+
+ul.onlycss > li {
+  display: block;
+}
+
+ul.onlycss > li:focus-within > ul > li {
+  display: block;
+}
+
+
+ul.onlycss > li:focus-within :global(.menu__list) {
+  height: auto !important; 
+}
+
+ul {
+  list-style: none;
+}

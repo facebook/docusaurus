@@ -64,6 +64,8 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
 
+  const [enableCSSStyles, setEnableCSSStyles] = useState(true);
+
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
     undefined,
@@ -77,6 +79,7 @@ function DocSidebarItemCategory({
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
+    setEnableCSSStyles(false);
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
@@ -100,45 +103,47 @@ function DocSidebarItemCategory({
   }
 
   return (
-    <li
-      className={clsx('menu__list-item', {
-        'menu__list-item--collapsed': collapsed,
-      })}
-      key={label}>
-      <a
-        className={clsx('menu__link', {
-          'menu__link--sublist': collapsible,
-          'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible,
+    <ul className={clsx({[styles.onlycss]: enableCSSStyles})}>
+      <li
+        className={clsx('menu__list-item', {
+          'menu__list-item--collapsed': collapsed,
         })}
-        onClick={collapsible ? handleItemClick : undefined}
-        href={collapsible ? '#!' : undefined}
-        {...props}>
-        {label}
-      </a>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{
-          height: menuListHeight,
-        }}
-        onTransitionEnd={() => {
-          if (!collapsed) {
-            handleMenuListHeight(false);
-          }
-        }}>
-        {items.map((childItem) => (
-          <DocSidebarItem
-            tabIndex={collapsed ? '-1' : '0'}
-            key={childItem.label}
-            item={childItem}
-            onItemClick={onItemClick}
-            collapsible={collapsible}
-            activePath={activePath}
-          />
-        ))}
-      </ul>
-    </li>
+        key={label}>
+        <a
+          className={clsx('menu__link', {
+            'menu__link--sublist': collapsible,
+            'menu__link--active': collapsible && isActive,
+            [styles.menuLinkText]: !collapsible,
+          })}
+          onClick={collapsible ? handleItemClick : undefined}
+          href={collapsible ? '#!' : undefined}
+          {...props}>
+          {label}
+        </a>
+        <ul
+          className="menu__list"
+          ref={menuListRef}
+          style={{
+            height: menuListHeight,
+          }}
+          onTransitionEnd={() => {
+            if (!collapsed) {
+              handleMenuListHeight(false);
+            }
+          }}>
+          {items.map((childItem) => (
+            <DocSidebarItem
+              tabIndex={collapsed ? '-1' : '0'}
+              key={childItem.label}
+              item={childItem}
+              onItemClick={onItemClick}
+              collapsible={collapsible}
+              activePath={activePath}
+            />
+          ))}
+        </ul>
+      </li>
+    </ul>
   );
 }
 
