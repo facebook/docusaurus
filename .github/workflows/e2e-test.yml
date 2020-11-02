@@ -57,7 +57,6 @@ jobs:
         run: |
           cd test-website
           yarn set version berry
-          yarn set version from sources
           yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
