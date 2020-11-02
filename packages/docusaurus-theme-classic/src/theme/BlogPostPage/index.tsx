@@ -21,7 +21,10 @@ function BlogPostPage(props: Props): JSX.Element {
   const {hide_table_of_contents: hideTableOfContents} = frontMatter;
 
   return (
-    <Layout title={title} description={description}>
+    <Layout
+      title={title}
+      description={description}
+      wrapperClassName="blog-wrapper">
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
