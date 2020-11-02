@@ -159,7 +159,7 @@ function NavItemMobile({
   const menuListRef = useRef<HTMLUListElement>(null);
   const {pathname} = useLocation();
   const [collapsed, setCollapsed] = useState(
-    () => !items?.filter((item) => item.to).some((item) => isSamePath(item.to, pathname)) ?? true,
+    () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
   );
 
   const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
