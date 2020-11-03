@@ -99,7 +99,7 @@ export default function pluginContentDocs(
         });
     },
 
-    getTranslations() {
+    async getTranslations() {
       return {
         docs: {
           doc1: {
