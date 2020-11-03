@@ -37,4 +37,6 @@ website/netlifyDeployPreview/*
 
 website-1.x-migrated
 
-website/i18n
+website/i18n/**/*
+!website/i18n/*
+!website/i18n/*/translations.json

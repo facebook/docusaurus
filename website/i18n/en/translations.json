@@ -1,0 +1,783 @@
+{
+  "plugins": {
+    "docusaurus-plugin-content-docs": {
+      "default": {
+        "versions": {
+          "current": {
+            "label": "2.0.0-alpha.67 (unreleased)",
+            "sidebars": {
+              "docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides"
+              },
+              "api": {}
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.66": {
+            "label": "2.0.0-alpha.66",
+            "sidebars": {
+              "version-2.0.0-alpha.66/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides"
+              },
+              "version-2.0.0-alpha.66/api": {}
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.65": {
+            "label": "2.0.0-alpha.65",
+            "sidebars": {
+              "version-2.0.0-alpha.65/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides"
+              },
+              "api": {}
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.64": {
+            "label": "2.0.0-alpha.64",
+            "sidebars": {
+              "version-2.0.0-alpha.64/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides",
+                "API Reference": "API Reference"
+              }
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.63": {
+            "label": "2.0.0-alpha.63",
+            "sidebars": {
+              "version-2.0.0-alpha.63/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides",
+                "API Reference": "API Reference"
+              }
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.62": {
+            "label": "2.0.0-alpha.62",
+            "sidebars": {
+              "version-2.0.0-alpha.62/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides",
+                "API Reference": "API Reference"
+              }
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-bootstrap"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.61": {
+            "label": "2.0.0-alpha.61",
+            "sidebars": {
+              "version-2.0.0-alpha.61/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides",
+                "API Reference": "API Reference"
+              }
+            },
+            "docs": [
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          },
+          "2.0.0-alpha.60": {
+            "label": "2.0.0-alpha.60",
+            "sidebars": {
+              "version-2.0.0-alpha.60/docs": {
+                "Docusaurus": "Docusaurus",
+                "Getting Started": "Getting Started",
+                "Guides": "Guides",
+                "Docs": "Docs",
+                "Advanced Guides": "Advanced Guides",
+                "API Reference": "API Reference"
+              }
+            },
+            "docs": [
+              {
+                "title": "Blog"
+              },
+              {
+                "title": "CLI"
+              },
+              {
+                "title": "Configuration"
+              },
+              {
+                "title": "Contributing"
+              },
+              {
+                "title": "Creating Pages"
+              },
+              {
+                "title": "Deployment"
+              },
+              {
+                "title": "Design Principles"
+              },
+              {
+                "title": "Docs Introduction",
+                "sidebarLabel": "Introduction"
+              },
+              {
+                "title": "Docusaurus Client API",
+                "sidebarLabel": "Client API"
+              },
+              {
+                "title": "docusaurus.config.js"
+              },
+              {
+                "title": "Migrating from v1 to v2"
+              },
+              {
+                "title": "Installation"
+              },
+              {
+                "title": "Introduction"
+              },
+              {
+                "title": "Lifecycle APIs"
+              },
+              {
+                "title": "Markdown Features"
+              },
+              {
+                "title": "Presets"
+              },
+              {
+                "title": "Search"
+              },
+              {
+                "title": "Static Assets"
+              },
+              {
+                "title": "Styling and Layout"
+              },
+              {
+                "title": "@docusaurus/theme-classic"
+              },
+              {
+                "title": "TypeScript Support"
+              },
+              {
+                "title": "Plugins"
+              },
+              {
+                "title": "Themes"
+              },
+              {
+                "title": "Versioning"
+              }
+            ]
+          }
+        }
+      },
+      "community": {
+        "versions": {
+          "current": {
+            "label": "Next",
+            "sidebars": {
+              "community": {}
+            },
+            "docs": [
+              {
+                "title": "Awesome Resources"
+              },
+              {
+                "title": "Support"
+              },
+              {
+                "title": "Team"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "code": {
+    "Lead Prettier Developer": "Lead Prettier Developer",
+    "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.",
+    "Lead React Native Advocate": "Lead React Native Advocate",
+    "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!": "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!",
+    "ReasonReact Developer": "ReasonReact Developer",
+    "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.": "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.",
+    "Docusaurus with Keytar": "Docusaurus with Keytar",
+    "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>": "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>",
+    "Get Started": "Get Started",
+    "Coming from v1? Check out our": "Coming from v1? Check out our",
+    "v1 to v2 migration guide": "v1 to v2 migration guide",
+    "Powered by Markdown": "Powered by Markdown",
+    "Save time and focus on your project's documentation. Simply write docs and blog posts with Markdown/MDX and Docusaurus will publish a set of static HTML files ready to serve. You can even embed JSX components into your Markdown thanks to MDX.": "Save time and focus on your project's documentation. Simply write docs and blog posts with Markdown/MDX and Docusaurus will publish a set of static HTML files ready to serve. You can even embed JSX components into your Markdown thanks to MDX.",
+    "Built Using React": "Built Using React",
+    "Extend or customize your project's layout by reusing React. Docusaurus can be extended while reusing the same header and footer.": "Extend or customize your project's layout by reusing React. Docusaurus can be extended while reusing the same header and footer.",
+    "Ready for Translations": "Ready for Translations",
+    "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.": "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.",
+    "Document Versioning": "Document Versioning",
+    "Support users on all versions of your project. Document versioning helps you keep documentation in sync with project releases.": "Support users on all versions of your project. Document versioning helps you keep documentation in sync with project releases.",
+    "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search.": "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search."
+  }
+}

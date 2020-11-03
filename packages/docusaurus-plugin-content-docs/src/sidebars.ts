@@ -14,6 +14,7 @@ import {
   SidebarItemLink,
   SidebarItemDoc,
   Sidebar,
+  SidebarItemCategory,
 } from './types';
 import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
@@ -227,6 +228,19 @@ export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
       return [];
     }
     throw new Error(`unknown sidebar item type = ${item.type}`);
+  }
+
+  return flatten(sidebar.map(collectRecursive));
+}
+
+export function collectSidebarCategories(
+  sidebar: Sidebar,
+): SidebarItemCategory[] {
+  function collectRecursive(item: SidebarItem): SidebarItemCategory[] {
+    if (item.type === 'category') {
+      return flatten([item, ...item.items.map(collectRecursive)]);
+    }
+    return [];
   }
 
   return flatten(sidebar.map(collectRecursive));

@@ -20,7 +20,7 @@ export async function extractAllSourceCodeFileTranslations(
   sourceFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
-  console.log('extractAllSourceCodeFileTranslations', sourceFilePaths);
+  // console.log('extractAllSourceCodeFileTranslations', sourceFilePaths);
   return flatten(
     await Promise.all(
       sourceFilePaths.map((sourceFilePath) =>
@@ -126,7 +126,12 @@ function extractSourceCodeAstTranslations(
     },
   });
 
-  console.log('Extracted translations:\n', translations);
+  Object.keys(translations).length > 0 &&
+    console.log(
+      `${
+        Object.keys(translations).length
+      } code translations extracted from ${sourceFilePath}`,
+    );
 
   if (warnings.length > 0) {
     console.warn(

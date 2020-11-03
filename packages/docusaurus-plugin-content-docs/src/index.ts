@@ -44,6 +44,7 @@ import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
+import {getAllVersionsTranslations} from './translations';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -100,15 +101,9 @@ export default function pluginContentDocs(
     },
 
     async getTranslations() {
+      const {loadedVersions} = await this.loadContent!();
       return {
-        docs: {
-          doc1: {
-            title: 'todo title doc 1',
-          },
-        },
-        categories: {
-          guide: 'todo guide',
-        },
+        versions: getAllVersionsTranslations(loadedVersions),
       };
     },
 
