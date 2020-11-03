@@ -21,6 +21,7 @@ export interface DocusaurusConfig {
   title: string;
   url: string;
   onBrokenLinks: ReportingSeverity;
+  onBrokenMarkdownLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
   noIndex: boolean;
   organizationName?: string;

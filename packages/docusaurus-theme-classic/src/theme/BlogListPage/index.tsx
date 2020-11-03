@@ -23,7 +23,10 @@ function BlogListPage(props: Props): JSX.Element {
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
-    <Layout title={title} description={blogDescription}>
+    <Layout
+      title={title}
+      description={blogDescription}
+      wrapperClassName="blog-wrapper">
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">

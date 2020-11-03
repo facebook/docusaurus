@@ -174,6 +174,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'NextAuth.js',
+    description: 'An open source serverless authentication library for next.js',
+    preview: require('./showcase/nextauthjs.png'),
+    website: 'https://next-auth.js.org/',
+    source: 'https://github.com/nextauthjs/next-auth',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),

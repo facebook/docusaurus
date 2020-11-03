@@ -15,6 +15,10 @@
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66"
   },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
   "engines": {
     "node": ">=10.15.1"
   }

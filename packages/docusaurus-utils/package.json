@@ -18,6 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.66",
+    "chalk": "^3.0.0",
     "escape-string-regexp": "^2.0.0",
     "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.2",

@@ -22,6 +22,7 @@ Object {
   "favicon": "img/docusaurus.ico",
   "noIndex": false,
   "onBrokenLinks": "throw",
+  "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
   "plugins": Array [

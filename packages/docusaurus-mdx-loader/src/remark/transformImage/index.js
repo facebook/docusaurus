@@ -9,6 +9,7 @@ const visit = require('unist-util-visit');
 const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
+const escapeHtml = require('escape-html');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
 const {posixPath} = require('@docusaurus/utils');
 
@@ -18,11 +19,11 @@ const {
 
 const createJSX = (node, pathUrl) => {
   node.type = 'jsx';
-  node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
+  node.value = `<img ${node.alt ? `alt={"${node.alt}"} ` : ''}${
     node.url
       ? `src={require("${inlineMarkdownImageFileLoader}${pathUrl}").default}`
       : ''
-  } ${node.title ? `title={"${node.title}"}` : ''} />`;
+  }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
   if (node.url) {
     delete node.url;

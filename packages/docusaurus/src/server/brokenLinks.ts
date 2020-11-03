@@ -10,8 +10,8 @@ import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
 import {mapValues, pickBy, flatten, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix, removeSuffix} from '@docusaurus/utils';
-import {getAllFinalRoutes, reportMessage} from './utils';
+import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import {getAllFinalRoutes} from './utils';
 import path from 'path';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
