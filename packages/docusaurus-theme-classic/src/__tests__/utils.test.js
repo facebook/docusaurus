@@ -19,4 +19,14 @@ describe('isSamePath', () => {
   test('should be false for compared path with double trailing slash', () => {
     expect(isSamePath('/docs', '/docs//')).toBeFalsy();
   });
+
+  test('should be true for twice undefined/null', () => {
+    expect(isSamePath(undefined, undefined)).toBeTruthy();
+    expect(isSamePath(undefined, undefined)).toBeTruthy();
+  });
+
+  test('should be false when one undefined', () => {
+    expect(isSamePath('/docs', undefined)).toBeFalsy();
+    expect(isSamePath(undefined, '/docs')).toBeFalsy();
+  });
 });

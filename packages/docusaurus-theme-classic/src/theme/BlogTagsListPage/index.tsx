@@ -50,7 +50,10 @@ function BlogTagsListPage(props: Props): JSX.Element {
     .filter((item) => item != null);
 
   return (
-    <Layout title="Tags" description="Blog Tags">
+    <Layout
+      title="Tags"
+      description="Blog Tags"
+      wrapperClassName="blog-wrapper">
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">

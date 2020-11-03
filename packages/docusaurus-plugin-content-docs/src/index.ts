@@ -11,7 +11,12 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  docuHash,
+  aliasedSitePath,
+  reportMessage,
+} from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
@@ -39,13 +44,12 @@ import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
-import chalk from 'chalk';
 
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent, typeof OptionsSchema> {
-  const {siteDir, generatedFilesDir, baseUrl} = context;
+  const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
 
@@ -311,11 +315,13 @@ export default function pluginContentDocs(
         sourceToPermalink,
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          // TODO make this warning configurable?
-          console.warn(
-            chalk.yellow(
-              `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
-            ),
+          if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
+            return;
+          }
+
+          reportMessage(
+            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
+            siteConfig.onBrokenMarkdownLinks,
           );
         },
       };

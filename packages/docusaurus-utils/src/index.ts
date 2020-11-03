@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import chalk from 'chalk';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
@@ -13,6 +14,7 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
+import {ReportingSeverity} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
@@ -435,4 +437,29 @@ export function getElementsAround<T extends unknown>(
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
   const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
   return {previous, next};
+}
+
+export function reportMessage(
+  message: string,
+  reportingSeverity: ReportingSeverity,
+): void {
+  switch (reportingSeverity) {
+    case 'ignore':
+      break;
+    case 'log':
+      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      break;
+    case 'warn':
+      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      break;
+    case 'error':
+      console.error(chalk.bold.red('error ') + chalk.red(message));
+      break;
+    case 'throw':
+      throw new Error(message);
+    default:
+      throw new Error(
+        `unexpected reportingSeverity value: ${reportingSeverity}`,
+      );
+  }
 }

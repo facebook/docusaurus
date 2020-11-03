@@ -23,6 +23,10 @@
     "fs-extra": "^8.1.0",
     "sitemap": "^3.2.2"
   },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
   "engines": {
     "node": ">=10.15.1"
   }
