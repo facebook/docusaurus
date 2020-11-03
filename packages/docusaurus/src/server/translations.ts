@@ -57,7 +57,7 @@ function isValidTranslationsFile(
   content: any,
 ): content is DocusaurusI18nTranslations {
   return (
-    typeof content.plugins === 'object' && typeof content.pages === 'object'
+    typeof content.plugins === 'object' && typeof content.code === 'object'
   );
 }
 
@@ -77,11 +77,11 @@ export async function readTranslationsFile({
       return translationsFile;
     } else {
       throw new Error(
-        `File at path=${translationsFilePath} does not look like a valid Docusaurus translation file`,
+        `File at path=${translationsFilePath} exists, but does not look like a valid Docusaurus translation file`,
       );
     }
   }
-  return {plugins: {}, extracted: {}};
+  return {plugins: {}, code: {}};
 }
 
 export async function collectPluginTranslations(

@@ -7,11 +7,11 @@
 
 import React from 'react';
 
-// Can't read it from context, due to imperative API
+// Can't read it from context, due to exposing imperative API
 import i18n from '@generated/i18n';
 
 function getLocalizedText(text: string): string {
-  return i18n.translations.pages[text];
+  return i18n.translations.code[text];
 }
 
 // Imperative translation API is useful for some edge-cases:

@@ -65,7 +65,7 @@ export default async function writeTranslations(
     ]);
     return {
       plugins: pluginTranslations,
-      extracted: extractedTranslations,
+      code: extractedTranslations,
     };
   }
 

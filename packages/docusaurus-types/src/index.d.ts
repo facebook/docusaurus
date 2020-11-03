@@ -88,7 +88,7 @@ export type DocusaurusI18nExtractedTranslations = Record<string, string>;
 
 export type DocusaurusI18nTranslations = {
   plugins: DocusaurusI18nPluginTranslations;
-  extracted: DocusaurusI18nExtractedTranslations;
+  code: DocusaurusI18nExtractedTranslations;
 };
 
 export type DocusaurusI18n = {
