@@ -22,7 +22,7 @@ import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-import {loadLocalizationContext} from '../server/localization';
+import {loadI18nContext} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
 
 export default async function build(
@@ -42,7 +42,7 @@ export default async function build(
     }
   }
 
-  const localizationContext = loadLocalizationContext(siteDir, {
+  const i18nContext = loadI18nContext(siteDir, {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
@@ -50,22 +50,18 @@ export default async function build(
   } else {
     console.log(
       chalk.blue(
-        `Site will be built with all these locales: ${localizationContext.locales.join(
+        `Site will be built with all these locales: ${i18nContext.locales.join(
           ', ',
         )}`,
       ),
     );
-    const results = await mapAsyncSequencial(
-      localizationContext.locales,
-      (locale) => {
-        const isLastLocale =
-          localizationContext.locales.indexOf(locale) ===
-          localizationContext.locales.length - 1;
-        // TODO check why we need forceTerminate
-        const forceTerm = isLastLocale && forceTerminate;
-        return doBuildLocale(locale, forceTerm);
-      },
-    );
+    const results = await mapAsyncSequencial(i18nContext.locales, (locale) => {
+      const isLastLocale =
+        i18nContext.locales.indexOf(locale) === i18nContext.locales.length - 1;
+      // TODO check why we need forceTerminate
+      const forceTerm = isLastLocale && forceTerminate;
+      return doBuildLocale(locale, forceTerm);
+    });
     return results[0]!;
   }
 }

@@ -62,7 +62,9 @@ export default function pluginContentPages(
     siteConfig,
     siteDir,
     generatedFilesDir,
-    localization: {currentLocale},
+    i18n: {
+      context: {currentLocale},
+    },
   } = context;
 
   const contentPaths: PagesContentPaths = {

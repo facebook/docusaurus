@@ -91,7 +91,7 @@ export default async function start(
   const pathsToWatch: string[] = [
     ...pluginPaths,
     CONFIG_FILE_NAME,
-    getTranslationsLocaleDirPath(siteDir, props.localization.currentLocale),
+    getTranslationsLocaleDirPath(siteDir, props.i18n.context.currentLocale),
   ];
 
   const fsWatcher = chokidar.watch(pathsToWatch, {

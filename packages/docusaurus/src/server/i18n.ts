@@ -8,17 +8,17 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {LocalizationFile, LocalizationContext} from '@docusaurus/types';
-import Joi from '@hapi/joi';
+import {I18nFile, I18nContext} from '@docusaurus/types';
+import Joi from 'joi';
 
 const DEFAULT_LOCALE = 'en';
 
-const DEFAULT_LOCALIZATION_FILE: LocalizationFile = {
+const DEFAULT_LOCALIZATION_FILE: I18nFile = {
   defaultLocale: DEFAULT_LOCALE,
   locales: [DEFAULT_LOCALE],
 };
 
-const LOCALIZATION_FILE_SCHEMA = Joi.object<LocalizationFile>({
+const LOCALIZATION_FILE_SCHEMA = Joi.object<I18nFile>({
   defaultLocale: Joi.string().required(),
   locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
 })
@@ -37,9 +37,7 @@ function loadLocalesFile(siteDir: string): unknown {
   return undefined;
 }
 
-function validateLocalesFile(
-  unsafeLocalizationFile: unknown,
-): LocalizationFile {
+function validateI18nFile(unsafeLocalizationFile: unknown): I18nFile {
   try {
     const localizationFile = Joi.attempt(
       unsafeLocalizationFile,
@@ -59,20 +57,20 @@ function validateLocalesFile(
   }
 }
 
-function loadLocalizationFile(siteDir: string): LocalizationFile {
+function loadI18nFile(siteDir: string): I18nFile {
   const localesFileContent = loadLocalesFile(siteDir);
   if (localesFileContent) {
-    return validateLocalesFile(localesFileContent);
+    return validateI18nFile(localesFileContent);
   } else {
     return DEFAULT_LOCALIZATION_FILE;
   }
 }
 
-export function loadLocalizationContext(
+export function loadI18nContext(
   siteDir: string,
   options: {locale?: string} = {},
-): LocalizationContext {
-  const localizationFile = loadLocalizationFile(siteDir);
+): I18nContext {
+  const localizationFile = loadI18nFile(siteDir);
   const currentLocale = options.locale ?? localizationFile.defaultLocale;
 
   if (currentLocale && !localizationFile.locales.includes(currentLocale)) {

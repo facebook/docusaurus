@@ -35,6 +35,7 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
+  LoadedContentTranslations,
 } from './types';
 import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
@@ -44,7 +45,10 @@ import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
-import {getAllVersionsTranslations} from './translations';
+import {
+  getAllVersionsTranslations,
+  translateLoadedContent,
+} from './translations';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -100,7 +104,7 @@ export default function pluginContentDocs(
         });
     },
 
-    async getTranslations() {
+    async getTranslations(): Promise<LoadedContentTranslations> {
       const {loadedVersions} = await this.loadContent!();
       return {
         versions: getAllVersionsTranslations(loadedVersions),
@@ -248,7 +252,15 @@ export default function pluginContentDocs(
     },
 
     async contentLoaded({content, actions}) {
-      const {loadedVersions} = content;
+      const contentTranslations = context.i18n.translations.plugins?.[
+        this.name
+      ]?.[pluginId] as LoadedContentTranslations;
+
+      const {loadedVersions} = translateLoadedContent(
+        content,
+        contentTranslations,
+      );
+
       const {docLayoutComponent, docItemComponent} = options;
       const {addRoute, createData, setGlobalData} = actions;
 

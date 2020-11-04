@@ -20,6 +20,7 @@ import {
   SourceCodeFileTranslations,
 } from '../server/translationsExtractor';
 import {TransformOptions} from '@babel/core';
+import {isArray, isObject, mapValues} from 'lodash';
 
 // Should we warn here if the same translation "key" is found in multiple source code files?
 function flattenSourceCodeFileTranslations(
@@ -47,7 +48,7 @@ async function extractPluginCodeTranslations(
 export default async function writeTranslations(
   siteDir: string,
 ): Promise<void> {
-  const context = loadContext(siteDir);
+  const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({
     pluginConfigs,
@@ -71,12 +72,59 @@ export default async function writeTranslations(
 
   const translations = await getTranslations();
 
+  await Promise.all(
+    context.i18n.context.locales.map((locale) =>
+      writeLocaleTranslations({locale, translations, siteDir}),
+    ),
+  );
+}
+
+// TODO we should probably merge if the file already exists?
+// or provide a cli option?
+async function writeLocaleTranslations({
+  siteDir,
+  locale,
+  translations,
+}: {
+  siteDir: string;
+  locale: string;
+  translations: DocusaurusI18nTranslations;
+}) {
+  // TODO do we want to keep this suffix feature?
+  const suffixedTranslations = addTranslationSuffix(
+    translations,
+    ` (${locale})`,
+  );
+
   const translationsFilePath = await writeTranslationsFile({
     siteDir,
-    locale: context.localization.defaultLocale,
-    translations,
+    locale,
+    translations: suffixedTranslations,
   });
   console.log(
     chalk.cyan(`Translations file written at path=${translationsFilePath}`),
   );
+}
+
+// inspired by https://github.com/lodash/lodash/issues/1244#issuecomment-378314930
+// TODO type? do we actually want to keep this?
+function mapValuesDeep<T>(obj: T, cb: Function): T {
+  if (isArray(obj)) {
+    return obj.map((innerObj) => mapValuesDeep(innerObj, cb)) as any;
+  } else if (isObject(obj)) {
+    return mapValues(obj, (val) => mapValuesDeep(val, cb)) as any;
+  } else {
+    return cb(obj);
+  }
+}
+function addTranslationSuffix(
+  translations: DocusaurusI18nTranslations,
+  suffix: string,
+): DocusaurusI18nTranslations {
+  return mapValuesDeep(translations, (value) => {
+    if (typeof value === 'string') {
+      return value + suffix;
+    }
+    return value;
+  });
 }

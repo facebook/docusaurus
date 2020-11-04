@@ -23,22 +23,22 @@ import loadRoutes from './routes';
 import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
-  DocusaurusI18n,
+  I18n,
   DocusaurusSiteMetadata,
   LoadContext,
-  LocalizationContext,
+  I18nContext,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
-import {loadLocalizationContext} from './localization';
+import {loadI18nContext} from './i18n';
 import {readTranslationsFile} from './translations';
 
 function addLocaleBaseUrlPathSegmentSuffix(
   originalPath: string,
-  localization: LocalizationContext,
+  localization: I18nContext,
 ): string {
   if (localization.currentLocale === localization.defaultLocale) {
     return originalPath;
@@ -51,10 +51,10 @@ function addLocaleBaseUrlPathSegmentSuffix(
 
 type LoadContextOptions = {customOutDir?: string; locale?: string};
 
-export function loadContext(
+export async function loadContext(
   siteDir: string,
   {customOutDir, locale}: LoadContextOptions = {},
-): LoadContext {
+): Promise<LoadContext> {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
@@ -66,7 +66,7 @@ export function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  const localization = loadLocalizationContext(siteDir, {locale});
+  const localization = loadI18nContext(siteDir, {locale});
 
   const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
     baseSiteConfig.baseUrl,
@@ -77,13 +77,26 @@ export function loadContext(
 
   console.log('Site', {locale, baseUrl, outDir});
 
+  const translations = await readTranslationsFile({
+    siteDir,
+    locale: localization.currentLocale,
+  });
+  const i18n: I18n = {
+    context: {
+      currentLocale: localization.currentLocale,
+      locales: localization.locales,
+      defaultLocale: localization.defaultLocale,
+    },
+    translations,
+  };
+
   return {
     siteDir,
     generatedFilesDir,
     siteConfig,
     outDir,
     baseUrl,
-    localization,
+    i18n,
     ssrTemplate,
   };
 }
@@ -110,13 +123,16 @@ export async function load(
   {customOutDir, locale}: LoadOptions = {},
 ): Promise<Props> {
   // Context.
-  const context: LoadContext = loadContext(siteDir, {customOutDir, locale});
+  const context: LoadContext = await loadContext(siteDir, {
+    customOutDir,
+    locale,
+  });
   const {
     generatedFilesDir,
     siteConfig,
     outDir,
     baseUrl,
-    localization,
+    i18n,
     ssrTemplate,
   } = context;
   // Plugins.
@@ -247,25 +263,11 @@ ${Object.keys(registry)
     JSON.stringify(globalData, null, 2),
   );
 
-  async function genI18n() {
-    const translations = await readTranslationsFile({
-      siteDir,
-      locale: localization.currentLocale,
-    });
-    const i18n: DocusaurusI18n = {
-      context: {
-        currentLocale: localization.currentLocale,
-        locales: localization.locales,
-        defaultLocale: localization.defaultLocale,
-      },
-      translations,
-    };
-    return generate(
-      generatedFilesDir,
-      'i18n.json',
-      JSON.stringify(i18n, null, 2),
-    );
-  }
+  const genI18n = generate(
+    generatedFilesDir,
+    'i18n.json',
+    JSON.stringify(i18n, null, 2),
+  );
 
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
@@ -295,7 +297,7 @@ ${Object.keys(registry)
     genRoutes,
     genGlobalData,
     genSiteMetadata,
-    genI18n(),
+    genI18n,
   ]);
 
   const props: Props = {
@@ -303,7 +305,7 @@ ${Object.keys(registry)
     siteDir,
     outDir,
     baseUrl,
-    localization,
+    i18n,
     generatedFilesDir,
     routes: pluginsRouteConfigs,
     routesPaths,

@@ -91,7 +91,7 @@ export type DocusaurusI18nTranslations = {
   code: DocusaurusI18nExtractedTranslations;
 };
 
-export type DocusaurusI18n = {
+export type I18n = {
   context: {
     currentLocale: string;
     locales: string[];
@@ -104,7 +104,7 @@ export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
   globalData: Record<string, any>;
-  i18n: DocusaurusI18n;
+  i18n: I18n; // TODO rename type or name ?
   isClient: boolean;
 }
 
@@ -146,12 +146,12 @@ export type BuildCLIOptions = BuildOptions & {
   locale?: string;
 };
 
-export type LocalizationFile = {
+export type I18nFile = {
   locales: [string, ...string[]];
   defaultLocale: string;
 };
 
-export type LocalizationContext = LocalizationFile & {
+export type I18nContext = I18nFile & {
   currentLocale: string;
 };
 
@@ -161,7 +161,7 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
-  localization: LocalizationContext;
+  i18n: I18n;
   ssrTemplate?: string;
 }
 

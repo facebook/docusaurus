@@ -137,7 +137,7 @@ function getVersionMetadataPaths({
   options,
 }: {
   versionName: string;
-  context: Pick<LoadContext, 'siteDir' | 'localization'>;
+  context: Pick<LoadContext, 'siteDir' | 'i18n'>;
   options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath'>;
 }): Pick<
   VersionMetadata,
@@ -154,7 +154,7 @@ function getVersionMetadataPaths({
 
   const docsDirPathLocalized = getPluginI18nPath({
     siteDir: context.siteDir,
-    currentLocale: context.localization.currentLocale,
+    currentLocale: context.i18n.context.currentLocale,
     pluginFolderName: 'docs',
     pluginId: options.id,
     subPaths: [versionName],
@@ -178,7 +178,7 @@ function createVersionMetadata({
 }: {
   versionName: string;
   isLast: boolean;
-  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'localization'>;
+  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'i18n'>;
   options: Pick<
     PluginOptions,
     'id' | 'path' | 'sidebarPath' | 'routeBasePath' | 'versions'
@@ -340,7 +340,7 @@ export function readVersionsMetadata({
   context,
   options,
 }: {
-  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'localization'>;
+  context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'i18n'>;
   options: Pick<
     PluginOptions,
     | 'id'

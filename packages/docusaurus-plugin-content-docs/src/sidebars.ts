@@ -246,6 +246,22 @@ export function collectSidebarCategories(
   return flatten(sidebar.map(collectRecursive));
 }
 
+export function transformSidebarItems(
+  sidebar: Sidebar,
+  updateFn: (item: SidebarItem) => SidebarItem,
+): Sidebar {
+  function transformRecursive(item: SidebarItem): SidebarItem {
+    if (item.type === 'category') {
+      return updateFn({
+        ...item,
+        items: item.items.map(updateFn),
+      });
+    }
+    return updateFn(item);
+  }
+  return sidebar.map(transformRecursive);
+}
+
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
