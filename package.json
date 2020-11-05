@@ -28,6 +28,8 @@
     "serve:v2:ssl:gencert": "openssl req -x509 -nodes -days 365 -newkey rsa:4096 -subj \"/C=US/ST=Docusaurus/L=Anywhere/O=Dis/CN=localhost\" -keyout ./website/.docusaurus/selfsigned.key -out ./website/.docusaurus/selfsigned.crt",
     "serve:v2:ssl:message": "echo '\n\n\nServing Docusaurus with HTTPS on localhost requires to disable the Chrome security: chrome://flags/#allow-insecure-localhost\n\n\n'",
     "serve:v2:ssl:serve": "serve website/build --ssl-cert ./website/.docusaurus/selfsigned.crt --ssl-key ./website/.docusaurus/selfsigned.key",
+    "crowdin:upload:v2": "crowdin upload sources --config ./crowdin-v2.yaml",
+    "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
     "changelog": "lerna-changelog",
     "postinstall": "test -n \"$NO_YARN_POST_INSTALL\" || yarn build:packages",
     "install:fast": "NO_YARN_POST_INSTALL=true yarn install",
