@@ -84,7 +84,7 @@ const highlightDirectiveRegex = (lang) => {
       return getHighlightDirectiveRegex();
   }
 };
-const codeBlockTitleRegex = /(?<=title=").*(?=")/;
+const codeBlockTitleRegex = /(?:title=")(.*)(?:")/;
 
 export default ({
   children,
@@ -124,7 +124,7 @@ export default ({
   if (metastring && codeBlockTitleRegex.test(metastring)) {
     // Tested above
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    codeBlockTitle = metastring.match(codeBlockTitleRegex)![0];
+    codeBlockTitle = metastring.match(codeBlockTitleRegex)![1];
   }
 
   let language =
