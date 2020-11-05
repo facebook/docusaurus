@@ -34,7 +34,7 @@ They are used in a number of places such as your site's title and headings, brow
 
 Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with the `deploy` command.
 
-It is recommended to check the [deployment docs](deployment.md) for more information.
+It is recommended to check the [deployment docs](deployment.mdx)) for more information.
 
 ### Theme, plugin, and preset configurations
 
