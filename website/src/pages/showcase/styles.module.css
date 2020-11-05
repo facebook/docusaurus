@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-.card_image {
+:global(.card__image) {
   max-height: 175px;
   overflow: hidden;
 }
