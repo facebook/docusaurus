@@ -73,7 +73,7 @@ export default async function deploy(
 
   const useSSH = process.env.USE_SSH;
   const gitPass: string | undefined = process.env.GIT_PASS;
-  let gitCredentials = gitUser;
+  let gitCredentials = `${gitUser}`;
   if (gitPass) {
     gitCredentials = `${gitCredentials}:${gitPass}`;
   }
