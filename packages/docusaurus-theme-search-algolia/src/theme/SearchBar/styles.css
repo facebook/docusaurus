@@ -9,3 +9,8 @@
   --docsearch-primary-color: var(--ifm-color-primary);
   --docsearch-text-color: var(--ifm-font-color-base);
 }
+
+.DocSearch-Button {
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+}
