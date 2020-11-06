@@ -17,6 +17,12 @@
   color: var(--ifm-color-black);
 }
 
+@media print {
+  .announcementBar {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   :root {
     --docusaurus-announcement-bar-height: 30px;
