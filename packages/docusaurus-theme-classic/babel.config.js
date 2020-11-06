@@ -7,4 +7,8 @@
 
 module.exports = {
   presets: [['@babel/preset-typescript', {isTSX: true, allExtensions: true}]],
+  plugins: [
+    '@babel/plugin-proposal-nullish-coalescing-operator',
+    '@babel/plugin-proposal-optional-chaining',
+  ],
 };

@@ -4,10 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const {keyBy} = require('lodash');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Module = require('module');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const {validateThemeConfig} = require('./validateThemeConfig');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const {DEFAULT_PLUGIN_ID} = require('@docusaurus/core/lib/constants');
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -74,6 +80,57 @@ module.exports = function (context, options) {
 
     getTypeScriptThemePath() {
       return path.resolve(__dirname, './theme');
+    },
+
+    async getTranslations() {
+      //  TODO POC code
+      return {
+        navbar: {
+          items: keyBy(
+            themeConfig.navbar.items.map((item) => item.label).filter(Boolean),
+            (label) => label,
+          ),
+        },
+        footer: {
+          links: themeConfig.footer.links.map((linkColumn) => ({
+            title: linkColumn.title,
+            labels: keyBy(
+              linkColumn.items.map((item) => item.label).filter(Boolean),
+              (label) => label,
+            ),
+          })),
+        },
+      };
+    },
+
+    translateThemeConfig() {
+      const translations =
+        context.i18n.translations.plugins?.[this.name]?.[DEFAULT_PLUGIN_ID];
+
+      return {
+        ...themeConfig,
+        navbar: {
+          ...themeConfig.navbar,
+          items: themeConfig.navbar.items.map((item) => ({
+            ...item,
+            label: translations?.navbar?.items?.[item.label] ?? item.label,
+          })),
+        },
+        footer: {
+          ...themeConfig.footer,
+          links: themeConfig.footer.links.map((linkColumn, index) => ({
+            ...linkColumn,
+            title:
+              translations?.footer?.links?.[index]?.title ?? linkColumn.title,
+            items: themeConfig.footer.links[index].items.map((item) => ({
+              ...item,
+              label:
+                translations?.footer?.links?.[index]?.labels?.[item.label] ??
+                item.label,
+            })),
+          })),
+        },
+      };
     },
 
     getClientModules() {

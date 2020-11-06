@@ -780,6 +780,55 @@
           }
         }
       }
+    },
+    "docusaurus-theme-classic": {
+      "default": {
+        "navbar": {
+          "items": {
+            "Docs": "Docs (fr)",
+            "API": "API (fr)",
+            "Blog": "Blog (fr)",
+            "Showcase": "Showcase (fr)",
+            "Community": "Community (fr)"
+          }
+        },
+        "footer": {
+          "links": [
+            {
+              "title": "Learn (fr)",
+              "labels": {
+                "Introduction": "Introduction (fr)",
+                "Installation": "Installation (fr)",
+                "Migration from v1 to v2": "Migration from v1 to v2 (fr)"
+              }
+            },
+            {
+              "title": "Community (fr)",
+              "labels": {
+                "Stack Overflow": "Stack Overflow (fr)",
+                "Feedback": "Feedback (fr)",
+                "Discord": "Discord (fr)",
+                "Help": "Help (fr)"
+              }
+            },
+            {
+              "title": "More (fr)",
+              "labels": {
+                "Blog": "Blog (fr)",
+                "GitHub": "GitHub (fr)",
+                "Twitter": "Twitter (fr)"
+              }
+            },
+            {
+              "title": "Legal (fr)",
+              "labels": {
+                "Privacy": "Privacy (fr)",
+                "Terms": "Terms (fr)"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "code": {

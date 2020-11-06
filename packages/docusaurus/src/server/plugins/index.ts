@@ -168,6 +168,15 @@ export async function loadPlugins({
   // routes are always placed last.
   sortConfig(pluginsRouteConfigs);
 
+  // TODO refactor: avoid side-effect!
+  plugins.forEach((plugin) => {
+    const translatedThemeConfigSlice = plugin.translateThemeConfig?.();
+    context.siteConfig.themeConfig = {
+      ...context.siteConfig.themeConfig,
+      ...translatedThemeConfigSlice,
+    };
+  });
+
   return {
     plugins,
     pluginsRouteConfigs,

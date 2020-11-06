@@ -195,7 +195,9 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_algolia.svg')}
                 />
-                <h2 className={clsx(styles.featureHeading)}>Content Search</h2>
+                <h2 className={clsx(styles.featureHeading)}>
+                  <Translate>Content Search</Translate>
+                </h2>
                 <p className="padding-horiz--md">
                   <Translate>
                     Make it easy for your community to find what they need in

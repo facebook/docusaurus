@@ -219,6 +219,7 @@ export interface Plugin<T, U = unknown> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   getTranslations?(): Promise<unknown>;
+  translateThemeConfig?(): object;
   extendCli?(cli: Command): void;
   injectHtmlTags?(): {
     headTags?: HtmlTags;
