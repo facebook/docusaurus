@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
