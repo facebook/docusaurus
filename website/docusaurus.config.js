@@ -194,7 +194,9 @@ module.exports = {
             'https://github.com/facebook/docusaurus/edit/master/website/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ],
           disableVersioning: isVersioningDisabled,
           lastVersion: 'current',
           onlyIncludeVersions:
