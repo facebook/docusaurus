@@ -8,6 +8,9 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import PostCssCombineDuplicatedSelectors from 'postcss-combine-duplicated-selectors';
+import PostCssSortMediaQueries from 'postcss-sort-media-queries';
+import CleanCss from 'clean-css';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -21,6 +24,8 @@ import {
   getFileLoaderUtils,
 } from './utils';
 import {BABEL_CONFIG_FILE_NAME} from '../constants';
+
+import PostCssRemoveOverriddenCustomProperties from '../postcss/remove-overridden-custom-properties';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -108,46 +113,84 @@ export function createBaseConfig(
     optimization: {
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
-      minimize: minify && isProd && !isServer,
-      minimizer:
-        minify && isProd
-          ? [
-              new TerserPlugin({
-                cache: true,
-                parallel: terserParallel,
-                sourceMap: false,
-                terserOptions: {
-                  parse: {
-                    // we want uglify-js to parse ecma 8 code. However, we don't want it
-                    // to apply any minfication steps that turns valid ecma 5 code
-                    // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                    // sections only apply transformations that are ecma 5 safe
-                    // https://github.com/facebook/create-react-app/pull/4234
-                    ecma: 8,
+      // minimize: minify && isProd && !isServer,
+      minimize: true,
+      minimizer: true
+        ? // minify && isProd
+          [
+            new TerserPlugin({
+              cache: true,
+              parallel: terserParallel,
+              sourceMap: false,
+              terserOptions: {
+                parse: {
+                  // we want uglify-js to parse ecma 8 code. However, we don't want it
+                  // to apply any minfication steps that turns valid ecma 5 code
+                  // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                  // sections only apply transformations that are ecma 5 safe
+                  // https://github.com/facebook/create-react-app/pull/4234
+                  ecma: 8,
+                },
+                compress: {
+                  ecma: 5,
+                  warnings: false,
+                },
+                mangle: {
+                  safari10: true,
+                },
+                output: {
+                  ecma: 5,
+                  comments: false,
+                  // Turned on because emoji and regex is not minified properly using default
+                  // https://github.com/facebook/create-react-app/issues/2488
+                  ascii_only: true,
+                },
+              },
+            }),
+
+            new OptimizeCSSAssetsPlugin({
+              cssProcessorPluginOptions: {
+                preset: ['advanced'],
+              },
+            }),
+
+            new OptimizeCSSAssetsPlugin({
+              cssProcessor: CleanCss,
+              cssProcessorOptions: {
+                level: {
+                  1: {
+                    all: false,
                   },
-                  compress: {
-                    ecma: 5,
-                    warnings: false,
-                  },
-                  mangle: {
-                    safari10: true,
-                  },
-                  output: {
-                    ecma: 5,
-                    comments: false,
-                    // Turned on because emoji and regex is not minified properly using default
-                    // https://github.com/facebook/create-react-app/issues/2488
-                    ascii_only: true,
+                  2: {
+                    all: true,
+                    restructureRules: true,
                   },
                 },
-              }),
-              new OptimizeCSSAssetsPlugin({
-                cssProcessorPluginOptions: {
-                  preset: 'default',
-                },
-              }),
-            ]
-          : undefined,
+              },
+            }),
+
+            new OptimizeCSSAssetsPlugin({
+              cssProcessor: PostCssCombineDuplicatedSelectors,
+              cssProcessorOptions: {
+                removeDuplicatedProperties: true,
+              },
+            }),
+
+            new OptimizeCSSAssetsPlugin({
+              cssProcessor: PostCssSortMediaQueries,
+            }),
+
+            new OptimizeCSSAssetsPlugin({
+              cssProcessor: PostCssRemoveOverriddenCustomProperties,
+            }),
+
+            // new OptimizeCSSAssetsPlugin({
+            //   cssProcessorPluginOptions: {
+            //     preset: 'default',
+            //   },
+            // }),
+          ]
+        : undefined,
       splitChunks: isServer
         ? false
         : {
