@@ -39,7 +39,12 @@ import {readTranslationsFile} from './translations';
 function addLocaleBaseUrlPathSegmentSuffix(
   originalPath: string,
   localization: I18nContext,
+  options: LoadContextOptions,
 ): string {
+  if (options.locale) {
+    return originalPath;
+  }
+
   if (localization.currentLocale === localization.defaultLocale) {
     return originalPath;
   } else {
@@ -49,12 +54,17 @@ function addLocaleBaseUrlPathSegmentSuffix(
   }
 }
 
-type LoadContextOptions = {customOutDir?: string; locale?: string};
+type LoadContextOptions = {
+  customOutDir?: string;
+  locale?: string;
+  noLocalePrefix?: boolean; // TODO refactor temporary name
+};
 
 export async function loadContext(
   siteDir: string,
-  {customOutDir, locale}: LoadContextOptions = {},
+  options: LoadContextOptions = {},
 ): Promise<LoadContext> {
+  const {customOutDir, locale} = options;
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
@@ -71,8 +81,13 @@ export async function loadContext(
   const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
     baseSiteConfig.baseUrl,
     localization,
+    options,
   );
-  const outDir = addLocaleBaseUrlPathSegmentSuffix(baseOutDir, localization);
+  const outDir = addLocaleBaseUrlPathSegmentSuffix(
+    baseOutDir,
+    localization,
+    options,
+  );
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
   console.log('Site', {locale, baseUrl, outDir});
@@ -113,20 +128,12 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   ];
 }
 
-type LoadOptions = {
-  customOutDir?: string;
-  locale?: string;
-};
-
 export async function load(
   siteDir: string,
-  {customOutDir, locale}: LoadOptions = {},
+  options: LoadContextOptions = {},
 ): Promise<Props> {
   // Context.
-  const context: LoadContext = await loadContext(siteDir, {
-    customOutDir,
-    locale,
-  });
+  const context: LoadContext = await loadContext(siteDir, options);
   const {
     generatedFilesDir,
     siteConfig,

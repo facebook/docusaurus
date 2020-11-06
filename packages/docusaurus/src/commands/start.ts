@@ -36,7 +36,10 @@ export default async function start(
   console.log(chalk.blue('Starting the development server...'));
 
   function loadSite() {
-    const loadOptions = {locale: cliOptions.locale};
+    const loadOptions = {
+      locale: cliOptions.locale,
+      noLocalePrefix: !!cliOptions.locale,
+    };
     return load(siteDir, loadOptions);
   }
 

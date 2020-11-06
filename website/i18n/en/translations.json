@@ -851,6 +851,7 @@
     "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.": "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages. (en)",
     "Document Versioning": "Document Versioning (en)",
     "Support users on all versions of your project. Document versioning helps you keep documentation in sync with project releases.": "Support users on all versions of your project. Document versioning helps you keep documentation in sync with project releases. (en)",
+    "Content Search": "Content Search (en)",
     "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search.": "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search. (en)"
   }
 }

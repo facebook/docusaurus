@@ -17,7 +17,7 @@ import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, BuildOptions, Props} from '@docusaurus/types';
+import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
@@ -69,7 +69,7 @@ export default async function build(
 async function buildLocale(
   siteDir: string,
   locale: string,
-  cliOptions: Partial<BuildOptions> = {},
+  cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
@@ -79,6 +79,7 @@ async function buildLocale(
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
     locale,
+    noLocalePrefix: !!cliOptions.locale,
   });
 
   // Apply user webpack config.
