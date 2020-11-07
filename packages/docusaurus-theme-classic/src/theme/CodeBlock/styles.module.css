@@ -45,11 +45,7 @@
 }
 
 .codeBlockTitle:hover + .codeBlockContent .copyButton,
-.codeBlockContent:hover > .copyButton {
-  outline: none;
-  opacity: 1;
-}
-
+.codeBlockContent:hover > .copyButton,
 .copyButton:focus {
   opacity: 1;
 }
