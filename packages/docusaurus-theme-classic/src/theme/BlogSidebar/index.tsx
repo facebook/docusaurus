@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogSidebar';
 import styles from './styles.module.css';
@@ -15,7 +16,7 @@ export default function BlogSidebar({sidebar}: Props) {
     return null;
   }
   return (
-    <div className={styles.sidebar}>
+    <div className={clsx(styles.sidebar, 'thin-scrollbar')}>
       <h3 className={styles.sidebarItemTitle}>{sidebar.title}</h3>
       <ul className={styles.sidebarItemList}>
         {sidebar.items.map((item) => {
