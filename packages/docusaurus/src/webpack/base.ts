@@ -8,13 +8,12 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import PostCssCombineDuplicatedSelectors from 'postcss-combine-duplicated-selectors';
-import PostCssSortMediaQueries from 'postcss-sort-media-queries';
 import CleanCss from 'clean-css';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
+import CssNanoPreset from '@docusaurus/cssnano-preset';
 
 import {Props} from '@docusaurus/types';
 import {
@@ -24,8 +23,6 @@ import {
   getFileLoaderUtils,
 } from './utils';
 import {BABEL_CONFIG_FILE_NAME} from '../constants';
-
-import PostCssRemoveOverriddenCustomProperties from '../postcss/remove-overridden-custom-properties';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -150,7 +147,7 @@ export function createBaseConfig(
 
             new OptimizeCSSAssetsPlugin({
               cssProcessorPluginOptions: {
-                preset: ['advanced'],
+                preset: CssNanoPreset,
               },
             }),
 
@@ -168,27 +165,6 @@ export function createBaseConfig(
                 },
               },
             }),
-
-            new OptimizeCSSAssetsPlugin({
-              cssProcessor: PostCssCombineDuplicatedSelectors,
-              cssProcessorOptions: {
-                removeDuplicatedProperties: true,
-              },
-            }),
-
-            new OptimizeCSSAssetsPlugin({
-              cssProcessor: PostCssSortMediaQueries,
-            }),
-
-            new OptimizeCSSAssetsPlugin({
-              cssProcessor: PostCssRemoveOverriddenCustomProperties,
-            }),
-
-            // new OptimizeCSSAssetsPlugin({
-            //   cssProcessorPluginOptions: {
-            //     preset: 'default',
-            //   },
-            // }),
           ]
         : undefined,
       splitChunks: isServer
