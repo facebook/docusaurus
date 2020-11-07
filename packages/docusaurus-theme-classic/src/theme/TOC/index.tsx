@@ -23,7 +23,9 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
   return (
     <ul
       className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
+        isChild
+          ? ''
+          : 'table-of-contents table-of-contents__left-border thin-scrollbar'
       }>
       {headings.map((heading) => (
         <li key={heading.id}>
