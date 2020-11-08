@@ -103,47 +103,46 @@ function DocSidebarItemCategory({
   }
 
   return (
-    <ul className={clsx({[styles.onlycss]: enableCSSStyles})}>
-      <li
-        className={clsx('menu__list-item', {
-          'menu__list-item--collapsed': collapsed,
+    <li
+      className={clsx('menu__list-item', {
+        'menu__list-item--collapsed': collapsed,
+        [styles.onlycss]: enableCSSStyles,
+      })}
+      key={label}>
+      <a
+        className={clsx('menu__link', {
+          'menu__link--sublist': collapsible,
+          'menu__link--active': collapsible && isActive,
+          [styles.menuLinkText]: !collapsible,
         })}
-        key={label}>
-        <a
-          className={clsx('menu__link', {
-            'menu__link--sublist': collapsible,
-            'menu__link--active': collapsible && isActive,
-            [styles.menuLinkText]: !collapsible,
-          })}
-          onClick={collapsible ? handleItemClick : undefined}
-          href={collapsible ? '#!' : undefined}
-          {...props}>
-          {label}
-        </a>
-        <ul
-          className="menu__list"
-          ref={menuListRef}
-          style={{
-            height: menuListHeight,
-          }}
-          onTransitionEnd={() => {
-            if (!collapsed) {
-              handleMenuListHeight(false);
-            }
-          }}>
-          {items.map((childItem) => (
-            <DocSidebarItem
-              tabIndex={collapsed ? '-1' : '0'}
-              key={childItem.label}
-              item={childItem}
-              onItemClick={onItemClick}
-              collapsible={collapsible}
-              activePath={activePath}
-            />
-          ))}
-        </ul>
-      </li>
-    </ul>
+        onClick={collapsible ? handleItemClick : undefined}
+        href={collapsible ? '#!' : undefined}
+        {...props}>
+        {label}
+      </a>
+      <ul
+        className="menu__list"
+        ref={menuListRef}
+        style={{
+          height: menuListHeight,
+        }}
+        onTransitionEnd={() => {
+          if (!collapsed) {
+            handleMenuListHeight(false);
+          }
+        }}>
+        {items.map((childItem) => (
+          <DocSidebarItem
+            tabIndex={collapsed ? '-1' : '0'}
+            key={childItem.label}
+            item={childItem}
+            onItemClick={onItemClick}
+            collapsible={collapsible}
+            activePath={activePath}
+          />
+        ))}
+      </ul>
+    </li>
   );
 }
 

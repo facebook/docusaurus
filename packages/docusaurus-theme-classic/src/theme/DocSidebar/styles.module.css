@@ -137,23 +137,14 @@
   height: 0px !important;
 }
 
-ul.onlycss li{
+li.onlycss > ul {
   display: none;
 }
 
-ul.onlycss > li {
+li.onlycss:focus-within > ul {
   display: block;
 }
 
-ul.onlycss > li:focus-within > ul > li {
-  display: block;
-}
-
-
-ul.onlycss > li:focus-within :global(.menu__list) {
-  height: auto !important; 
-}
-
-ul {
-  list-style: none;
+li.onlycss:focus-within :global(.menu__list) {
+  height: auto !important;
 }
