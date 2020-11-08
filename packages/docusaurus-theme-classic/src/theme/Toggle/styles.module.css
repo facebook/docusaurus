@@ -10,7 +10,6 @@
   display: flex;
   height: 10px;
   justify-content: center;
-  position: relative;
   width: 10px;
 }
 .toggle::before {
@@ -39,7 +38,6 @@
   height: 1px;
   margin: -1px;
   overflow: hidden;
-  padding: 0;
   position: absolute;
   width: 1px;
 }
