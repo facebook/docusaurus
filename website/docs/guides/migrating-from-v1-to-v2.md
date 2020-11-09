@@ -104,20 +104,23 @@ A typical Docusaurus 2 `package.json` may look like this:
 ```json title="package.json"
 {
   "scripts": {
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.40",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.40",
+    "@docusaurus/core": "^2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.66",
     "clsx": "^1.1.1",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

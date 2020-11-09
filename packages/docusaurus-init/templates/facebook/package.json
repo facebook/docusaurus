@@ -9,6 +9,7 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
     "ci": "yarn lint && yarn prettier:diff",
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,md}\"",
@@ -37,7 +38,7 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5%",
       "not dead",
       "not op_mini all"
     ],
