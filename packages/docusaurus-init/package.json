@@ -11,6 +11,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
+    "dev": "node bin/index.js",
     "build": "tsc",
     "watch": "tsc --watch"
   },
