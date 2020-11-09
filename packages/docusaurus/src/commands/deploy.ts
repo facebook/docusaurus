@@ -82,7 +82,9 @@ export default async function deploy(
   const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
 
   const remoteBranch =
-    useSSH && useSSH.toLowerCase() === 'true' ? sshRemoteBranch : nonSshRemoteBranch;
+    useSSH && useSSH.toLowerCase() === 'true'
+      ? sshRemoteBranch
+      : nonSshRemoteBranch;
 
   // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
