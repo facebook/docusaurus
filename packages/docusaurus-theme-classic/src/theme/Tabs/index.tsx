@@ -19,7 +19,15 @@ const keys = {
 };
 
 function Tabs(props: Props): JSX.Element {
-  const {block, children, defaultValue, values, groupId, className} = props;
+  const {
+    lazy,
+    block,
+    children,
+    defaultValue,
+    values,
+    groupId,
+    className,
+  } = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
@@ -109,14 +117,24 @@ function Tabs(props: Props): JSX.Element {
           </li>
         ))}
       </ul>
-      <div className="margin-vert--md">
-        {children.map((tabItem, i) =>
-          cloneElement(tabItem, {
-            key: i,
-            hidden: tabItem.props.value !== selectedValue,
-          }),
-        )}
-      </div>
+
+      {lazy ? (
+        cloneElement(
+          children.filter(
+            (tabItem) => tabItem.props.value === selectedValue,
+          )[0],
+          {className: 'margin-vert--md'},
+        )
+      ) : (
+        <div className="margin-vert--md">
+          {children.map((tabItem, i) =>
+            cloneElement(tabItem, {
+              key: i,
+              hidden: tabItem.props.value !== selectedValue,
+            }),
+          )}
+        </div>
+      )}
     </div>
   );
 }
