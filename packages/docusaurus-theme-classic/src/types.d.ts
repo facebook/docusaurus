@@ -374,7 +374,12 @@ declare module '@theme/NavbarItem' {
 declare module '@theme/TabItem' {
   import type {ReactNode} from 'react';
 
-  export type Props = {readonly children: ReactNode};
+  export type Props = {
+    readonly children: ReactNode;
+    readonly value: string;
+    readonly hidden: boolean;
+    readonly className: string;
+  };
 
   const TabItem: () => JSX.Element;
   export default TabItem;
@@ -382,10 +387,12 @@ declare module '@theme/TabItem' {
 
 declare module '@theme/Tabs' {
   import type {ReactElement} from 'react';
+  import type {Props as TabItemProps} from '@theme/TabItem';
 
   export type Props = {
+    readonly lazy?: boolean;
     readonly block?: boolean;
-    readonly children: readonly ReactElement<{value: string}>[];
+    readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string;
     readonly values: readonly {value: string; label: string}[];
     readonly groupId?: string;

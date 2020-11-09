@@ -374,11 +374,15 @@ describe('load utils', () => {
         output:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
       },
-      // Content with imports declarations and Markdown markup, as well as Emoji
+      // Content with imports/exports declarations and Markdown markup, as well as Emoji
       {
         input: `
           import Component from '@site/src/components/Component';
           import Component from '@site/src/components/Component'
+
+          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
+
+          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
 
           Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~molestie~ et sagittis ut, varius ac justo :wink:.
 

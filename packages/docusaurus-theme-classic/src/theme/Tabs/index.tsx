@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, ReactElement} from 'react';
+import React, {useState, cloneElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import type {Props} from '@theme/Tabs';
 
@@ -19,7 +19,15 @@ const keys = {
 };
 
 function Tabs(props: Props): JSX.Element {
-  const {block, children, defaultValue, values, groupId, className} = props;
+  const {
+    lazy,
+    block,
+    children,
+    defaultValue,
+    values,
+    groupId,
+    className,
+  } = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
@@ -109,15 +117,24 @@ function Tabs(props: Props): JSX.Element {
           </li>
         ))}
       </ul>
-      <div role="tabpanel" className="margin-vert--md">
-        {
-          Children.toArray(children).filter(
-            (child) =>
-              (child as ReactElement<{value: string}>).props.value ===
-              selectedValue,
-          )[0]
-        }
-      </div>
+
+      {lazy ? (
+        cloneElement(
+          children.filter(
+            (tabItem) => tabItem.props.value === selectedValue,
+          )[0],
+          {className: 'margin-vert--md'},
+        )
+      ) : (
+        <div className="margin-vert--md">
+          {children.map((tabItem, i) =>
+            cloneElement(tabItem, {
+              key: i,
+              hidden: tabItem.props.value !== selectedValue,
+            }),
+          )}
+        </div>
+      )}
     </div>
   );
 }

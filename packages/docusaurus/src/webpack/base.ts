@@ -208,7 +208,7 @@ export function createBaseConfig(
         },
         {
           test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,-svgo,+titleProp,+ref![path]',
+          use: '@svgr/webpack?-prettier,+svgo,+titleProp,+ref![path]',
         },
       ],
     },

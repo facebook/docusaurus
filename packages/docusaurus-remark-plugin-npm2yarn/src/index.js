@@ -10,14 +10,15 @@ const npmToYarn = require('npm-to-yarn');
 // E.g. global install: 'npm i' -> 'yarn'
 const convertNpmToYarn = (npmCode) => npmToYarn(npmCode, 'yarn');
 
-const transformNode = (node) => {
+const transformNode = (node, isSync) => {
+  const groupIdProp = isSync ? 'groupId="npm2yarn" ' : '';
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
   return [
     {
       type: 'jsx',
       value:
-        `<Tabs defaultValue="npm" ` +
+        `<Tabs defaultValue="npm" ${groupIdProp}` +
         `values={[
     { label: 'npm', value: 'npm', },
     { label: 'Yarn', value: 'yarn', },
@@ -53,12 +54,13 @@ const nodeForImport = {
     "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
-module.exports = () => {
+module.exports = (options = {}) => {
+  const {sync = false} = options;
   let transformed = false;
   const transformer = (node) => {
     if (matchNode(node)) {
       transformed = true;
-      return transformNode(node);
+      return transformNode(node, sync);
     }
     if (Array.isArray(node.children)) {
       let index = 0;
