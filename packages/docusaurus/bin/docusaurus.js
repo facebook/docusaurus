@@ -94,13 +94,23 @@ cli
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
-    wrapCommand(build)(path.resolve(siteDir), {
-      bundleAnalyzer,
-      outDir,
-      minify,
-    });
-  });
+  .option(
+    '--use-old-css-minifier',
+    'Use only default preset cssnano for CSS minification (default: false)',
+  )
+  .action(
+    (
+      siteDir = '.',
+      {bundleAnalyzer, outDir, minify, useOldCssMinifier = false},
+    ) => {
+      wrapCommand(build)(path.resolve(siteDir), {
+        bundleAnalyzer,
+        outDir,
+        minify,
+        useOldCssMinifier,
+      });
+    },
+  );
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')

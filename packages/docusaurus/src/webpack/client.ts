@@ -18,10 +18,11 @@ import LogPlugin from './plugins/LogPlugin';
 export default function createClientConfig(
   props: Props,
   minify: boolean = true,
+  useOldCssMinifier: boolean = false,
 ): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';
-  const config = createBaseConfig(props, false, minify);
+  const config = createBaseConfig(props, false, minify, useOldCssMinifier);
 
   const clientConfig = merge(config, {
     entry: [
