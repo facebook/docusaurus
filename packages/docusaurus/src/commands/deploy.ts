@@ -72,10 +72,17 @@ export default async function deploy(
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
   const useSSH = process.env.USE_SSH;
+  const gitPass: string | undefined = process.env.GIT_PASS;
+  let gitCredentials = `${gitUser}`;
+  if (gitPass) {
+    gitCredentials = `${gitCredentials}:${gitPass}`;
+  }
+
+  const sshRemoteBranch: string = `git@${githubHost}:${organizationName}/${projectName}.git`;
+  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
+
   const remoteBranch =
-    useSSH && useSSH.toLowerCase() === 'true'
-      ? `git@${githubHost}:${organizationName}/${projectName}.git`
-      : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
+    useSSH && useSSH.toLowerCase() === 'true' ? sshRemoteBranch : nonSshRemoteBranch;
 
   // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
