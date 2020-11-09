@@ -230,11 +230,17 @@ function DocSidebar({
         </Link>
       )}
       <div
-        className={clsx('menu', 'menu--responsive', styles.menu, {
-          'menu--show': showResponsiveSidebar,
-          [styles.menuWithAnnouncementBar]:
-            !isAnnouncementBarClosed && scrollY === 0,
-        })}>
+        className={clsx(
+          'menu',
+          'menu--responsive',
+          'thin-scrollbar',
+          styles.menu,
+          {
+            'menu--show': showResponsiveSidebar,
+            [styles.menuWithAnnouncementBar]:
+              !isAnnouncementBarClosed && scrollY === 0,
+          },
+        )}>
         <button
           aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
           aria-haspopup="true"

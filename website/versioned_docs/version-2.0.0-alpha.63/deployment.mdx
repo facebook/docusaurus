@@ -81,7 +81,7 @@ Specify the Git user as an environment variable.
 | --- | --- |
 | `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
 
-There are two more optional parameters that are set as environment variables:
+Optional parameters, also set as environment variables:
 
 | Name | Description |
 | --- | --- |
@@ -93,17 +93,35 @@ There are two more optional parameters that are set as environment variables:
 
 Finally, to deploy your site to GitHub Pages, run:
 
-**Bash**
+<Tabs 
+  defaultValue="bash"
+  values={[ 
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' }, 
+    { label: 'PowerShell', value: 'powershell' } 
+]}>
+<TabItem value="bash">
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
-**Windows**
+</TabItem>
+<TabItem value="windows">
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
+
+</TabItem>
+<TabItem value="powershell">
+
+```powershell
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
+```
+
+</TabItem>
+</Tabs>
 
 ### Triggering deployment with GitHub Actions
 

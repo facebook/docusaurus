@@ -188,21 +188,21 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
-// Regex for an import statement.
-const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
-
 export function createExcerpt(fileString: string): string | undefined {
-  let fileContent = fileString.trimLeft();
+  const fileLines = fileString.trimLeft().split('\n');
 
-  if (RegExp(importRegexString).test(fileContent)) {
-    fileContent = fileContent
-      .replace(RegExp(importRegexString, 'gm'), '')
-      .trimLeft();
-  }
-
-  const fileLines = fileContent.split('\n');
-
+  /* eslint-disable no-continue */
   for (const fileLine of fileLines) {
+    // Skip empty line.
+    if (!fileLine.trim()) {
+      continue;
+    }
+
+    // Skip import/export declaration.
+    if (/^.*import\s.*from.*;?|export\s.*{.*};?/.test(fileLine)) {
+      continue;
+    }
+
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')

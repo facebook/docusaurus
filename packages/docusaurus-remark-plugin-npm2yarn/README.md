@@ -34,15 +34,15 @@ module.exports = {
       {
         docs: {
           // ...
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}]],
         },
         blog: {
           // ...
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}]],
         },
         pages: {
           // ...
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}]],
         },
         // ...
       },
@@ -51,3 +51,9 @@ module.exports = {
   // ...
 };
 ```
+
+## Options
+
+| Property | Type      | Default | Description                                                                                                               |
+|----------|-----------|---------|---------------------------------------------------------------------------------------------------------------------------|
+| `sync`   | `boolean` | `false` | Syncing tab choices (yarn and npm). See https://v2.docusaurus.io/docs/markdown-features/#syncing-tab-choices for details. |

@@ -8,3 +8,8 @@
 .showcaseUser {
   height: 100%;
 }
+
+:global(.card__image) {
+  max-height: 175px;
+  overflow: hidden;
+}
