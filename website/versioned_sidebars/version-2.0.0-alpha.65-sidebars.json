@@ -112,7 +112,7 @@
       ]
     }
   ],
-  "api": [
+  "version-2.0.0-alpha.65/api": [
     {
       "type": "doc",
       "id": "version-2.0.0-alpha.65/cli"
