@@ -14,6 +14,7 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
+import {SRC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {ReportingSeverity} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
@@ -462,4 +463,18 @@ export function reportMessage(
         `unexpected reportingSeverity value: ${reportingSeverity}`,
       );
   }
+}
+
+export function getSwizzledComponent(
+  componentPath: string,
+): string | undefined {
+  const swizzledComponentPath = path.resolve(
+    process.cwd(),
+    SRC_DIR_NAME,
+    componentPath,
+  );
+
+  return fs.existsSync(swizzledComponentPath)
+    ? swizzledComponentPath
+    : undefined;
 }
