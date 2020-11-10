@@ -70,7 +70,7 @@
     "globby": "^10.0.1",
     "html-minifier-terser": "^5.0.5",
     "html-tags": "^3.1.0",
-    "html-webpack-plugin": "^4.0.4",
+    "html-webpack-plugin": "^4.3.0",
     "import-fresh": "^3.2.1",
     "inquirer": "^7.2.0",
     "is-root": "^2.1.0",
