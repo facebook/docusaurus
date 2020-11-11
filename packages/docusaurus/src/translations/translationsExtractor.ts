@@ -122,20 +122,54 @@ function extractSourceCodeAstTranslations(
 
   traverse(ast, {
     JSXElement(path) {
+      function evaluateJSXProp(propName: string): string | undefined {
+        const attributePath = path
+          .get('openingElement.attributes')
+          .find(
+            (attr) => attr.isJSXAttribute() && attr.node.name.name === propName,
+          );
+
+        if (attributePath) {
+          const attributeValue = attributePath.get('value') as NodePath;
+          const attributeValueEvaluated = attributeValue.evaluate();
+
+          if (
+            attributeValueEvaluated.confident &&
+            typeof attributeValueEvaluated.value === 'string'
+          ) {
+            return attributeValueEvaluated.value;
+          } else {
+            warnings.push(
+              `<Translate> prop=${propName} should be a statically evaluable object.\nExample: <Translate id="optional.id" description="optional description">Message</Translate>\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
+                path.node,
+              )}\n${generateCode(path.node)}`,
+            );
+          }
+        }
+
+        return undefined;
+      }
+
       if (
         path.node.openingElement.name.type === 'JSXIdentifier' &&
         path.node.openingElement.name.name === 'Translate'
       ) {
-        const pathEvaluated = path.evaluate();
-        pathEvaluated.confident && console.log(pathEvaluated);
-
         // TODO support JSXExpressionContainer  + https://twitter.com/NicoloRibaudo/status/1321132895101214720
         if (
           path.node.children.length === 1 &&
           t.isJSXText(path.node.children[0])
         ) {
-          const text = path.node.children[0].value.trim().replace(/\s+/g, ' ');
-          translations[text] = {message: text};
+          const message = path.node.children[0].value
+            .trim()
+            .replace(/\s+/g, ' ');
+
+          const id = evaluateJSXProp('id');
+          const description = evaluateJSXProp('description');
+
+          translations[id ?? message] = {
+            message,
+            ...(description && {description}),
+          };
         } else {
           warnings.push(
             `${staticTranslateJSXWarningPart}\n${sourceFileWarningPart(
@@ -154,24 +188,31 @@ function extractSourceCodeAstTranslations(
         // console.log('CallExpression', path.node);
         if (path.node.arguments.length === 1) {
           const firstArgPath = path.get('arguments.0') as NodePath;
+
           // evaluation allows translate("x" + "y"); to be considered as translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();
+
+          // console.log('firstArgEvaluated', firstArgEvaluated);
+
           if (
             firstArgEvaluated.confident &&
-            typeof firstArgEvaluated.value === 'string'
+            typeof firstArgEvaluated.value === 'object'
           ) {
-            const text = firstArgEvaluated.value;
-            translations[text] = {message: text};
+            const {message, id, description} = firstArgEvaluated.value;
+            translations[id ?? message] = {
+              message,
+              ...(description && {description}),
+            };
           } else {
             warnings.push(
-              `translate() first arg should be a static string\n${sourceFileWarningPart(
+              `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
                 path.node,
               )}\n${generateCode(path.node)}`,
             );
           }
         } else {
           warnings.push(
-            `translate() function only takes 1 string arg\n${sourceFileWarningPart(
+            `translate() function only takes 1 arg\n${sourceFileWarningPart(
               path.node,
             )}\n${generateCode(path.node)}`,
           );

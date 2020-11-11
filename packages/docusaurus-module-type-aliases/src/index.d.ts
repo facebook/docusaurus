@@ -78,11 +78,15 @@ declare module '@docusaurus/Link' {
 }
 
 declare module '@docusaurus/Translate' {
-  type TranslateProps = {children: string};
+  type TranslateProps = {children: string; id?: string; description?: string};
   const Translate: (props: TranslateProps) => JSX.Element;
   export default Translate;
 
-  export function translate(text: string): string;
+  export function translate(param: {
+    message: string;
+    id?: string;
+    description?: string;
+  }): string;
 }
 
 declare module '@docusaurus/router' {

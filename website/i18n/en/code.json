@@ -1,27 +1,34 @@
 {
-  "Lead Prettier Developer": {
-    "message": "Lead Prettier Developer (en)"
+  "homepage.quotes.chrishopher-chedeau.title": {
+    "message": "Lead Prettier Developer (en)",
+    "description": "Title of quote of Chrishopher Chedeau on the home page"
   },
-  "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.": {
-    "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)"
+  "homepage.quotes.chrishopher-chedeau": {
+    "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)",
+    "description": "Quote of Chrishopher Chedeau on the home page"
   },
-  "Lead React Native Advocate": {
-    "message": "Lead React Native Advocate (en)"
+  "homepage.quotes.hector-ramos.title": {
+    "message": "Lead React Native Advocate (en)",
+    "description": "Title of quote of Hector Ramos on the home page"
   },
-  "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!": {
-    "message": "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash! (en)"
+  "homepage.quotes.hector-ramos": {
+    "message": "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash! (en)",
+    "description": "Quote of Hector Ramos on the home page"
   },
-  "ReasonReact Developer": {
-    "message": "ReasonReact Developer (en)"
+  "homepage.quotes.risky-vetter.title": {
+    "message": "ReasonReact Developer (en)",
+    "description": "Title of quote of Ricky Vetter on the home page"
   },
-  "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.": {
-    "message": "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors. (en)"
+  "homepage.quotes.risky-vetter": {
+    "message": "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors. (en)",
+    "description": "Quote of Ricky Vetter on the home page"
   },
   "Docusaurus with Keytar": {
     "message": "Docusaurus with Keytar (en)"
   },
-  "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>": {
-    "message": "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b> (en)"
+  "homepage.hero.title": {
+    "message": "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b> (en)",
+    "description": "Home page hero title, can contain simple html tags"
   },
   "Get Started": {
     "message": "Get Started (en)"
@@ -61,5 +68,26 @@
   },
   "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search.": {
     "message": "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search. (en)"
+  },
+  "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.": {
+    "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)"
+  },
+  "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!": {
+    "message": "Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash! (en)"
+  },
+  "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.": {
+    "message": "Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors. (en)"
+  },
+  "Lead Prettier Developer": {
+    "message": "Lead Prettier Developer (en)"
+  },
+  "Lead React Native Advocate": {
+    "message": "Lead React Native Advocate (en)"
+  },
+  "ReasonReact Developer": {
+    "message": "ReasonReact Developer (en)"
+  },
+  "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>": {
+    "message": "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b> (en)"
   }
 }
