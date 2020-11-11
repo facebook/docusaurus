@@ -34,7 +34,8 @@ import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import {loadI18nContext} from './i18n';
-import {readTranslationsFile} from './translations';
+import {readCodeTranslationFileContent} from '../translations/translations';
+import {mapValues} from 'lodash';
 
 function addLocaleBaseUrlPathSegmentSuffix(
   originalPath: string,
@@ -92,10 +93,18 @@ export async function loadContext(
 
   console.log('Site', {locale, baseUrl, outDir});
 
-  const translations = await readTranslationsFile({
-    siteDir,
-    locale: localization.currentLocale,
-  });
+  const codeTranslationFileContent =
+    (await readCodeTranslationFileContent({
+      siteDir,
+      locale: localization.currentLocale,
+    })) ?? {};
+
+  // We only need key->message for code translations
+  const translations = mapValues(
+    codeTranslationFileContent,
+    (value) => value.message,
+  );
+
   const i18n: I18n = {
     context: {
       currentLocale: localization.currentLocale,

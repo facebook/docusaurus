@@ -179,17 +179,3 @@ export type DocsMarkdownOption = {
   sourceToPermalink: SourceToPermalink;
   onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
 };
-
-// TODO can we merge getTranslations with user provided translations?
-// This would remove all ?/undefined herre
-// Translations may be partially provided
-export type SidebarTranslations = {categories?: Record<string, string>};
-export type DocTranslations = {title?: string; sidebarLabel?: string};
-export type VersionTranslations = {
-  label?: string;
-  sidebars?: Record<string, SidebarTranslations | undefined>;
-  docs?: Record<string, DocTranslations | undefined>;
-};
-export type LoadedContentTranslations = {
-  versions?: Record<string, VersionTranslations>;
-};

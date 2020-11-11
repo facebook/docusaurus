@@ -1,0 +1,17 @@
+{
+  "items.labels.Docs": {
+    "message": "Docs (en)"
+  },
+  "items.labels.API": {
+    "message": "API (en)"
+  },
+  "items.labels.Blog": {
+    "message": "Blog (en)"
+  },
+  "items.labels.Showcase": {
+    "message": "Showcase (en)"
+  },
+  "items.labels.Community": {
+    "message": "Community (en)"
+  }
+}

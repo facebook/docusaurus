@@ -25,7 +25,7 @@ import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {getTranslationsLocaleDirPath} from '../server/translations';
+import {getTranslationsLocaleDirPath} from '../translations/translations';
 
 export default async function start(
   siteDir: string,
@@ -94,7 +94,10 @@ export default async function start(
   const pathsToWatch: string[] = [
     ...pluginPaths,
     CONFIG_FILE_NAME,
-    getTranslationsLocaleDirPath(siteDir, props.i18n.context.currentLocale),
+    getTranslationsLocaleDirPath({
+      siteDir,
+      locale: props.i18n.context.currentLocale,
+    }),
   ];
 
   const fsWatcher = chokidar.watch(pathsToWatch, {

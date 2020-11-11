@@ -7,42 +7,40 @@
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins, {InitPlugin} from '../server/plugins/init';
 
-import chalk from 'chalk';
 import {
-  collectPluginTranslations,
-  writeTranslationsFile,
-  collectPluginTranslationSourceCodeFilePaths,
-} from '../server/translations';
-import {DocusaurusI18nTranslations} from '@docusaurus/types';
-import {getBabelOptions, getCustomBabelConfigFilePath} from '../webpack/utils';
-import {
-  extractAllSourceCodeFileTranslations,
-  SourceCodeFileTranslations,
-} from '../server/translationsExtractor';
-import {TransformOptions} from '@babel/core';
-import {isArray, isObject, mapValues} from 'lodash';
+  appendPluginTranslations,
+  appendCodeTranslations,
+} from '../translations/translations';
+import {extractPluginsSourceCodeTranslations} from '../translations/translationsExtractor';
+import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 
-// Should we warn here if the same translation "key" is found in multiple source code files?
-function flattenSourceCodeFileTranslations(
-  sourceCodeFileTranslations: SourceCodeFileTranslations[],
-): Record<string, string> {
-  return sourceCodeFileTranslations.reduce((acc, item) => {
-    return {...acc, ...item.translations};
-  }, {});
-}
+async function appendPluginTranslationFiles({
+  siteDir,
+  plugin,
+  locales,
+}: {
+  siteDir: string;
+  plugin: InitPlugin;
+  locales: string[];
+}) {
+  if (plugin.getTranslationFiles) {
+    const translationFiles = await plugin.getTranslationFiles();
 
-async function extractPluginCodeTranslations(
-  plugins: InitPlugin[],
-  babelOptions: TransformOptions,
-): Promise<Record<string, string>> {
-  const sourceCodePaths = await collectPluginTranslationSourceCodeFilePaths(
-    plugins,
-  );
-  const codeTranslations = await extractAllSourceCodeFileTranslations(
-    sourceCodePaths,
-    babelOptions,
-  );
-  return flattenSourceCodeFileTranslations(codeTranslations);
+    await Promise.all(
+      translationFiles.map(async (translationFile) => {
+        await Promise.all(
+          locales.map((locale) =>
+            appendPluginTranslations({
+              siteDir,
+              plugin,
+              translationFile,
+              locale,
+            }),
+          ),
+        );
+      }),
+    );
+  }
 }
 
 export default async function writeTranslations(
@@ -54,77 +52,31 @@ export default async function writeTranslations(
     pluginConfigs,
     context,
   });
+
+  // TODO make this configurable with cli???
+  const allLocales = false;
+
+  const locales = allLocales
+    ? context.i18n.context.locales
+    : [context.i18n.context.defaultLocale];
+
   const babelOptions = getBabelOptions({
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
   });
-
-  async function getTranslations(): Promise<DocusaurusI18nTranslations> {
-    const [pluginTranslations, extractedTranslations] = await Promise.all([
-      collectPluginTranslations(plugins),
-      extractPluginCodeTranslations(plugins, babelOptions),
-    ]);
-    return {
-      plugins: pluginTranslations,
-      code: extractedTranslations,
-    };
-  }
-
-  const translations = await getTranslations();
-
+  const codeTranslations = await extractPluginsSourceCodeTranslations(
+    plugins,
+    babelOptions,
+  );
   await Promise.all(
-    context.i18n.context.locales.map((locale) =>
-      writeLocaleTranslations({locale, translations, siteDir}),
+    locales.map((locale) =>
+      appendCodeTranslations({siteDir, locale}, codeTranslations),
     ),
   );
-}
 
-// TODO we should probably merge if the file already exists?
-// or provide a cli option?
-async function writeLocaleTranslations({
-  siteDir,
-  locale,
-  translations,
-}: {
-  siteDir: string;
-  locale: string;
-  translations: DocusaurusI18nTranslations;
-}) {
-  // TODO do we want to keep this suffix feature?
-  const suffixedTranslations = addTranslationSuffix(
-    translations,
-    ` (${locale})`,
+  await Promise.all(
+    plugins.map(async (plugin) => {
+      await appendPluginTranslationFiles({siteDir, plugin, locales});
+    }),
   );
-
-  const translationsFilePath = await writeTranslationsFile({
-    siteDir,
-    locale,
-    translations: suffixedTranslations,
-  });
-  console.log(
-    chalk.cyan(`Translations file written at path=${translationsFilePath}`),
-  );
-}
-
-// inspired by https://github.com/lodash/lodash/issues/1244#issuecomment-378314930
-// TODO type? do we actually want to keep this?
-function mapValuesDeep<T>(obj: T, cb: Function): T {
-  if (isArray(obj)) {
-    return obj.map((innerObj) => mapValuesDeep(innerObj, cb)) as any;
-  } else if (isObject(obj)) {
-    return mapValues(obj, (val) => mapValuesDeep(val, cb)) as any;
-  } else {
-    return cb(obj);
-  }
-}
-function addTranslationSuffix(
-  translations: DocusaurusI18nTranslations,
-  suffix: string,
-): DocusaurusI18nTranslations {
-  return mapValuesDeep(translations, (value) => {
-    if (typeof value === 'string') {
-      return value + suffix;
-    }
-    return value;
-  });
 }

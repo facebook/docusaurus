@@ -17,7 +17,12 @@ import {
   aliasedSitePath,
   reportMessage,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  RouteConfig,
+  TranslationFile,
+} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
@@ -35,7 +40,6 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
-  LoadedContentTranslations,
 } from './types';
 import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
@@ -46,8 +50,8 @@ import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import {
-  getAllVersionsTranslations,
   translateLoadedContent,
+  getVersionTranslationFiles,
 } from './translations';
 
 export default function pluginContentDocs(
@@ -104,11 +108,11 @@ export default function pluginContentDocs(
         });
     },
 
-    async getTranslations(): Promise<LoadedContentTranslations> {
+    async getTranslationFiles() {
       const {loadedVersions} = await this.loadContent!();
-      return {
-        versions: getAllVersionsTranslations(loadedVersions),
-      };
+      return flatten(
+        await Promise.all(loadedVersions.map(getVersionTranslationFiles)),
+      );
     },
 
     getClientModules() {
@@ -251,16 +255,18 @@ export default function pluginContentDocs(
       };
     },
 
-    async contentLoaded({content, actions}) {
-      const contentTranslations = context.i18n.translations.plugins?.[
-        this.name
-      ]?.[pluginId] as LoadedContentTranslations;
-
-      const {loadedVersions} = translateLoadedContent(
-        content,
-        contentTranslations,
+    translateContent({content, translationFiles}) {
+      // TODO common, should we transform to map in core?
+      const translationFilesMap: Record<string, TranslationFile> = keyBy(
+        translationFiles,
+        (f) => f.path,
       );
 
+      return translateLoadedContent(content, translationFilesMap);
+    },
+
+    async contentLoaded({content, actions}) {
+      const {loadedVersions} = content;
       const {docLayoutComponent, docItemComponent} = options;
       const {addRoute, createData, setGlobalData} = actions;
 

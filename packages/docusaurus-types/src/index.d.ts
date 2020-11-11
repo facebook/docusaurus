@@ -14,6 +14,10 @@ import {MergeStrategy} from 'webpack-merge';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
+export type ThemeConfig = {
+  [key: string]: unknown;
+};
+
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
@@ -30,9 +34,7 @@ export interface DocusaurusConfig {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
-  themeConfig?: {
-    [key: string]: unknown;
-  };
+  themeConfig?: ThemeConfig;
   customFields?: {
     [key: string]: unknown;
   };
@@ -77,19 +79,16 @@ export interface DocusaurusSiteMetadata {
   readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
 }
 
-// pluginName -> pluginId -> translations (type can be different per plugin)
-export type DocusaurusI18nPluginTranslations = Record<
-  string,
-  Record<string, unknown>
->;
-
-// text -> localized text
-export type DocusaurusI18nExtractedTranslations = Record<string, string>;
-
-export type DocusaurusI18nTranslations = {
-  plugins: DocusaurusI18nPluginTranslations;
-  code: DocusaurusI18nExtractedTranslations;
-};
+// Inspired by Chrome JSON, because it's a widely supported i18n format
+// https://developer.chrome.com/apps/i18n-messages
+// https://support.crowdin.com/file-formats/chrome-json/
+// https://www.applanga.com/docs/formats/chrome_i18n_json
+// https://docs.transifex.com/formats/chrome-json
+// https://help.phrase.com/help/chrome-json-messages
+export type TranslationMessage = {message: string; description?: string};
+export type TranslationFileContent = Record<string, TranslationMessage>;
+export type TranslationFile = {path: string; content: TranslationFileContent};
+export type TranslationFiles = TranslationFile[];
 
 export type I18n = {
   context: {
@@ -97,7 +96,7 @@ export type I18n = {
     locales: string[];
     defaultLocale: string;
   };
-  translations: DocusaurusI18nTranslations;
+  translations: Record<string, string>;
 };
 
 export interface DocusaurusContext {
@@ -218,8 +217,6 @@ export interface Plugin<T, U = unknown> {
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
-  getTranslations?(): Promise<unknown>;
-  translateThemeConfig?(): object;
   extendCli?(cli: Command): void;
   injectHtmlTags?(): {
     headTags?: HtmlTags;
@@ -227,6 +224,23 @@ export interface Plugin<T, U = unknown> {
     postBodyTags?: HtmlTags;
   };
   getSwizzleComponentList?(): string[];
+
+  // translations
+  getTranslationFiles?(): Promise<TranslationFiles>;
+  translateContent?({
+    content,
+    translationFiles,
+  }: {
+    content: T; // the content loaded by this plugin instance
+    translationFiles: TranslationFiles;
+  }): T;
+  translateThemeConfig?({
+    themeConfig,
+    translationFiles,
+  }: {
+    themeConfig: ThemeConfig;
+    translationFiles: TranslationFiles;
+  }): ThemeConfig;
 }
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];

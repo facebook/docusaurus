@@ -8,17 +8,21 @@
 import {
   LoadedVersion,
   Sidebar,
-  DocMetadata,
-  VersionTranslations,
-  DocTranslations,
-  SidebarTranslations,
   LoadedContent,
-  LoadedContentTranslations,
+  Sidebars,
+  SidebarItem,
 } from './types';
+import path from 'path';
 
 import {chain, mapValues} from 'lodash';
 import {collectSidebarCategories, transformSidebarItems} from './sidebars';
+import {
+  TranslationFileContent,
+  TranslationFile,
+  TranslationFiles,
+} from '@docusaurus/types';
 
+/*
 export function getSidebarTranslation(sidebar: Sidebar): SidebarTranslations {
   const categories = collectSidebarCategories(sidebar);
   const categoriesTranslations = chain(categories)
@@ -143,16 +147,135 @@ export function getLoadedContentTranslations(
   return {
     versions: getAllVersionsTranslations(loadedContent.loadedVersions),
   };
+
+ */
+
+export function translateVersion(
+  version: LoadedVersion,
+  translationFiles: Record<string, TranslationFile>,
+): LoadedVersion {
+  // TODO complete this
+  return {
+    ...version,
+    sidebars: translateSidebars(version, translationFiles),
+  };
 }
+
+export function translateAllVersions(
+  versions: LoadedVersion[],
+  translationFiles: Record<string, TranslationFile>,
+): LoadedVersion[] {
+  return versions.map((version) => {
+    return translateVersion(version, translationFiles);
+  });
+}
+
 export function translateLoadedContent(
   loadedContent: LoadedContent,
-  loadedContentTranslations: LoadedContentTranslations | undefined,
+  translationFiles: Record<string, TranslationFile>,
 ): LoadedContent {
   return {
     ...loadedContent,
     loadedVersions: translateAllVersions(
       loadedContent.loadedVersions,
-      loadedContentTranslations?.versions,
+      translationFiles,
     ),
   };
+}
+
+export function getSidebarTranslationFileContent(
+  sidebar: Sidebar,
+): TranslationFileContent {
+  const categories = collectSidebarCategories(sidebar);
+  return chain(categories)
+    .keyBy((category) => category.label)
+    .mapValues((category) => ({
+      message: category.label,
+    }))
+    .value();
+}
+
+export function translateSidebar(
+  sidebar: Sidebar,
+  sidebarTranslations: TranslationFileContent,
+  // docsTranslations: TranslationFileContent,
+): Sidebar {
+  return transformSidebarItems(
+    sidebar,
+    (item: SidebarItem): SidebarItem => {
+      if (item.type === 'category') {
+        return {
+          ...item,
+          label: sidebarTranslations[item.label]?.message ?? item.label,
+        };
+      }
+      if (item.type === 'doc') {
+        // TODO translate sidebarLabel !
+        /*
+      return {
+        ...item,
+        label:
+          docsTranslations[item.id]?.sidebarLabel ??
+          docsTranslations[item.id]?.title ??
+          'todo !!!',
+      };
+
+       */
+      }
+      return item;
+    },
+  );
+}
+
+export function getSidebarTranslationFilePath({
+  sidebarName,
+  versionName,
+}: {
+  sidebarName: string;
+  versionName: string;
+}) {
+  // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
+  function getNormalizedSidebarName(): string {
+    if (versionName === 'current') {
+      return sidebarName;
+    }
+    const [, ...rest] = sidebarName.split('/');
+    return rest.join('/');
+  }
+
+  return path.join(versionName, `sidebar-${getNormalizedSidebarName()}.json`);
+}
+
+export function getSidebarsTranslationFiles(
+  version: LoadedVersion,
+): TranslationFile[] {
+  return Object.entries(version.sidebars).map(([sidebarName, sidebar]) => {
+    return {
+      path: getSidebarTranslationFilePath({
+        sidebarName,
+        versionName: version.versionName,
+      }),
+      content: getSidebarTranslationFileContent(sidebar),
+    };
+  });
+}
+
+export function translateSidebars(
+  version: LoadedVersion,
+  translationFiles: Record<string, TranslationFile>,
+): Sidebars {
+  return mapValues(version.sidebars, (sidebar, sidebarName) => {
+    const translationFilePath = getSidebarTranslationFilePath({
+      versionName: version.versionName,
+      sidebarName,
+    });
+    const translationFile = translationFiles[translationFilePath];
+    return translateSidebar(sidebar, translationFile.content);
+  });
+}
+
+export async function getVersionTranslationFiles(
+  version: LoadedVersion,
+): Promise<TranslationFiles> {
+  return [...getSidebarsTranslationFiles(version)];
 }
