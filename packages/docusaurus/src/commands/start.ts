@@ -36,11 +36,10 @@ export default async function start(
   console.log(chalk.blue('Starting the development server...'));
 
   function loadSite() {
-    const loadOptions = {
+    return load(siteDir, {
       locale: cliOptions.locale,
-      noLocalePrefix: !!cliOptions.locale,
-    };
-    return load(siteDir, loadOptions);
+      localizePath: undefined, // should this be configurable?
+    });
   }
 
   // Process all related files as a prop.

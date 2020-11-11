@@ -37,28 +37,30 @@ import {loadI18nContext} from './i18n';
 import {readCodeTranslationFileContent} from '../translations/translations';
 import {mapValues} from 'lodash';
 
-function addLocaleBaseUrlPathSegmentSuffix(
+function localizePath(
   originalPath: string,
   localization: I18nContext,
   options: LoadContextOptions,
 ): string {
-  if (options.locale) {
-    return originalPath;
-  }
+  const shouldLocalizePath: boolean =
+    typeof options.localizePath === 'undefined'
+      ? // By default, we don't localize the path of defaultLocale
+        localization.currentLocale !== localization.defaultLocale
+      : options.localizePath;
 
-  if (localization.currentLocale === localization.defaultLocale) {
-    return originalPath;
-  } else {
+  if (shouldLocalizePath) {
     return addTrailingSlash(
       normalizeUrl([originalPath, localization.currentLocale]),
     );
+  } else {
+    return originalPath;
   }
 }
 
 type LoadContextOptions = {
   customOutDir?: string;
   locale?: string;
-  noLocalePrefix?: boolean; // TODO refactor temporary name
+  localizePath?: boolean; // undefined = only non-default locales paths are localized
 };
 
 export async function loadContext(
@@ -79,19 +81,11 @@ export async function loadContext(
 
   const localization = loadI18nContext(siteDir, {locale});
 
-  const baseUrl = addLocaleBaseUrlPathSegmentSuffix(
-    baseSiteConfig.baseUrl,
-    localization,
-    options,
-  );
-  const outDir = addLocaleBaseUrlPathSegmentSuffix(
-    baseOutDir,
-    localization,
-    options,
-  );
+  const baseUrl = localizePath(baseSiteConfig.baseUrl, localization, options);
+  const outDir = localizePath(baseOutDir, localization, options);
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
-  console.log('Site', {locale, baseUrl, outDir});
+  console.log('Site loadContext', {locale, baseUrl, outDir, options});
 
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({

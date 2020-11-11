@@ -55,7 +55,17 @@ export default async function build(
         )}`,
       ),
     );
-    const results = await mapAsyncSequencial(i18nContext.locales, (locale) => {
+
+    // We need the default locale to always be the 1st in the list
+    // If we build it last, it would "erase" the localized sites built in subfolders
+    const orderedLocales: string[] = [
+      i18nContext.defaultLocale,
+      ...i18nContext.locales.filter(
+        (locale) => locale !== i18nContext.defaultLocale,
+      ),
+    ];
+
+    const results = await mapAsyncSequencial(orderedLocales, (locale) => {
       const isLastLocale =
         i18nContext.locales.indexOf(locale) === i18nContext.locales.length - 1;
       // TODO check why we need forceTerminate
@@ -79,7 +89,7 @@ async function buildLocale(
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
     locale,
-    noLocalePrefix: !!cliOptions.locale,
+    localizePath: cliOptions.locale ? false : undefined,
   });
 
   // Apply user webpack config.
