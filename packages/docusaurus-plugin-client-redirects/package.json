@@ -26,7 +26,7 @@
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "joi": "^17.2.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.20"
   },
   "peerDependencies": {
     "react": "^16.8.4",
