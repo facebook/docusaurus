@@ -9,12 +9,14 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
-import useThemeConfig from '../../utils/useThemeConfig';
+import useThemeConfig, {NavbarLogo} from '../../utils/useThemeConfig';
 
 const useLogo = (): useLogoReturns => {
-  const {
-    navbar: {logo = {}},
-  } = useThemeConfig();
+  const {navbar} = useThemeConfig();
+
+  // TODO not clear if logo src is mandatory or not
+  const logo: NavbarLogo = navbar.logo ?? {src: ''};
+
   const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps: LogoLinkProps = {};
@@ -35,7 +37,7 @@ const useLogo = (): useLogoReturns => {
     logoLink,
     logoLinkProps,
     logoImageUrl,
-    logoAlt: logo.alt,
+    logoAlt: logo.alt ?? '',
   };
 };
 

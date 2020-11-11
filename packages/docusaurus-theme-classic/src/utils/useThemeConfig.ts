@@ -14,21 +14,40 @@ export type NavbarItem = {
   label?: string;
 };
 
-// TODO improve
-export type Navbar = {
-  title?: string;
-  items: NavbarItem[];
+export type NavbarLogo = {
+  src: string;
+  srcDark?: string;
+  href?: string;
+  target?: string;
+  alt?: string;
 };
 
 // TODO improve
+export type Navbar = {
+  style: 'dark' | 'primary';
+  hideOnScroll: boolean;
+  title?: string;
+  items: NavbarItem[];
+  logo?: NavbarLogo;
+};
+
 export type FooterLinkItem = {
   label?: string;
+  to?: string;
+  href?: string;
+  html?: string;
 };
 export type FooterLinks = {
   title?: string;
   items: FooterLinkItem[];
 };
 export type Footer = {
+  style: 'light' | 'dark';
+  logo?: {
+    alt?: string;
+    src?: string;
+    href?: string;
+  };
   copyright?: string;
   links: FooterLinks[];
 };

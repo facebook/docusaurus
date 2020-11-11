@@ -361,7 +361,7 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
 
   export type Props =
-    | ({readonly type: 'default'} & DefaultNavbarItemProps)
+    | ({readonly type?: 'default' | undefined} & DefaultNavbarItemProps)
     | ({
         readonly type: 'docsVersionDropdown';
       } & DocsVersionDropdownNavbarItemProps)
