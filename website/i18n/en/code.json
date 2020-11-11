@@ -1,11 +1,11 @@
 {
-  "homepage.quotes.chrishopher-chedeau.title": {
+  "homepage.quotes.christopher-chedeau.title": {
     "message": "Lead Prettier Developer (en)",
-    "description": "Title of quote of Chrishopher Chedeau on the home page"
+    "description": "Title of quote of Christopher Chedeau on the home page"
   },
-  "homepage.quotes.chrishopher-chedeau": {
+  "homepage.quotes.christopher-chedeau": {
     "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)",
-    "description": "Quote of Chrishopher Chedeau on the home page"
+    "description": "Quote of Christopher Chedeau on the home page"
   },
   "homepage.quotes.hector-ramos.title": {
     "message": "Lead React Native Advocate (en)",
@@ -68,6 +68,14 @@
   },
   "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search.": {
     "message": "Make it easy for your community to find what they need in your documentation. We proudly support Algolia documentation search. (en)"
+  },
+  "homepage.quotes.chrishopher-chedeau.title": {
+    "message": "Lead Prettier Developer (en)",
+    "description": "Title of quote of Chrishopher Chedeau on the home page"
+  },
+  "homepage.quotes.chrishopher-chedeau": {
+    "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)",
+    "description": "Quote of Chrishopher Chedeau on the home page"
   },
   "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.": {
     "message": "I've helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one. (en)"

@@ -201,17 +201,22 @@ cli
   );
 
 cli
-  .command('clear')
+  .command('clear [siteDir]')
   .description('Remove build artifacts')
-  .action(() => {
-    wrapCommand(clear)(path.resolve('.'));
+  .action((siteDir = '.') => {
+    wrapCommand(clear)(path.resolve(siteDir));
   });
 
 cli
-  .command('write-translations')
+  .command('write-translations [siteDir]')
   .description('Extract required translations of your site')
-  .action(() => {
-    wrapCommand(writeTranslations)(path.resolve('.'));
+  .option(
+    '-l, --locales <locales>',
+    'List of locales (comma separated), or "all".',
+    (value) => value.split(','),
+  )
+  .action((siteDir = '.', {locales}) => {
+    wrapCommand(writeTranslations)(path.resolve(siteDir), {locales});
   });
 
 cli.arguments('<command>').action((cmd) => {

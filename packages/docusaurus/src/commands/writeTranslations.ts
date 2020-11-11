@@ -13,6 +13,7 @@ import {
 } from '../translations/translations';
 import {extractPluginsSourceCodeTranslations} from '../translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+import {difference} from 'lodash';
 
 async function appendPluginTranslationFiles({
   siteDir,
@@ -45,6 +46,7 @@ async function appendPluginTranslationFiles({
 
 export default async function writeTranslations(
   siteDir: string,
+  options: {locales?: string[]},
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
@@ -53,12 +55,30 @@ export default async function writeTranslations(
     context,
   });
 
-  // TODO make this configurable with cli???
-  const allLocales = false;
+  function getLocalesToWrite(): string[] {
+    if (options.locales?.length === 1 && options.locales[0] === 'all') {
+      return context.i18n.context.locales;
+    } else if (options.locales) {
+      const unknownLocales = difference(
+        options.locales,
+        context.i18n.context.locales,
+      );
+      if (unknownLocales.length > 0) {
+        throw new Error(
+          `Can't write-translation for locales that are not in the locale configuration file. Unknown locales=${unknownLocales.join(
+            ',',
+          )}`,
+        );
+      }
+      return options.locales;
+    } else {
+      return [context.i18n.context.defaultLocale];
+    }
+  }
+  if (options.locales?.length === 1 && options.locales[0] === 'all') {
+  }
 
-  const locales = allLocales
-    ? context.i18n.context.locales
-    : [context.i18n.context.defaultLocale];
+  const locales = getLocalesToWrite();
 
   const babelOptions = getBabelOptions({
     isServer: true,
