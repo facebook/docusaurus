@@ -52,7 +52,10 @@ const docusaurus = {
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
     const chunkNamesNeeded = matches.reduce((arr: string[], match) => {
-      const chunk = routesChunkNames[match.route.path as string];
+      const chunk = (Object.entries(routesChunkNames).find((r) =>
+        r[0].startsWith(match.route.path as string),
+      ) || [])[1];
+
       if (!chunk) {
         return arr;
       }
