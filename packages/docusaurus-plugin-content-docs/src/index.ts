@@ -51,7 +51,7 @@ import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import {
   translateLoadedContent,
-  getVersionTranslationFiles,
+  getLoadedContentTranslationFiles,
 } from './translations';
 
 export default function pluginContentDocs(
@@ -109,10 +109,7 @@ export default function pluginContentDocs(
     },
 
     async getTranslationFiles() {
-      const {loadedVersions} = await this.loadContent!();
-      return flatten(
-        await Promise.all(loadedVersions.map(getVersionTranslationFiles)),
-      );
+      return getLoadedContentTranslationFiles(await this.loadContent!());
     },
 
     getClientModules() {

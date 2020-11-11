@@ -15,6 +15,7 @@ import {
   SidebarItemDoc,
   Sidebar,
   SidebarItemCategory,
+  SidebarItemType,
 } from './types';
 import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
@@ -233,17 +234,30 @@ export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
   return flatten(sidebar.map(collectRecursive));
 }
 
-export function collectSidebarCategories(
-  sidebar: Sidebar,
-): SidebarItemCategory[] {
-  function collectRecursive(item: SidebarItem): SidebarItemCategory[] {
-    if (item.type === 'category') {
-      return flatten([item, ...item.items.map(collectRecursive)]);
-    }
-    return [];
+export function collectSidebarItemsOfType<
+  Type extends SidebarItemType,
+  Item extends SidebarItem & {type: SidebarItemType}
+>(type: Type, sidebar: Sidebar): Item[] {
+  function collectRecursive(item: SidebarItem): Item[] {
+    const currentItemsCollected: Item[] =
+      item.type === type ? [item as Item] : [];
+
+    const childItemsCollected: Item[] =
+      item.type === 'category' ? flatten(item.items.map(collectRecursive)) : [];
+
+    return [...currentItemsCollected, ...childItemsCollected];
   }
 
   return flatten(sidebar.map(collectRecursive));
+}
+
+export function collectSidebarCategories(
+  sidebar: Sidebar,
+): SidebarItemCategory[] {
+  return collectSidebarItemsOfType('category', sidebar);
+}
+export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
+  return collectSidebarItemsOfType('link', sidebar);
 }
 
 export function transformSidebarItems(

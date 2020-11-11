@@ -93,6 +93,7 @@ export type SidebarItem =
   | SidebarItemCategory;
 
 export type Sidebar = SidebarItem[];
+export type SidebarItemType = SidebarItem['type'];
 
 export type Sidebars = Record<string, Sidebar>;
 
