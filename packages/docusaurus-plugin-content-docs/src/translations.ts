@@ -26,6 +26,7 @@ import {
   TranslationFile,
   TranslationFiles,
 } from '@docusaurus/types';
+import {mergeTranslations} from '@docusaurus/utils';
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
 // input: "version-2.0.0-alpha.66/docs"
@@ -42,14 +43,6 @@ function getNormalizedSidebarName({
   }
   const [, ...rest] = sidebarName.split('/');
   return rest.join('/');
-}
-
-function mergeContents(
-  contents: TranslationFileContent[],
-): TranslationFileContent {
-  return contents.reduce((acc, content) => {
-    return {...acc, ...content};
-  }, {});
 }
 
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
@@ -82,7 +75,7 @@ function translateDoc(
 }
 
 function getDocsTranslations(version: LoadedVersion): TranslationFileContent {
-  return mergeContents(version.docs.map(getDocTranslations));
+  return mergeTranslations(version.docs.map(getDocTranslations));
 }
 function translateDocs(
   docs: DocMetadata[],
@@ -113,7 +106,7 @@ function getSidebarTranslationFileContent(
     }))
     .value();
 
-  return mergeContents([categoryContent, linksContent]);
+  return mergeTranslations([categoryContent, linksContent]);
 }
 
 function translateSidebar({
@@ -152,7 +145,7 @@ function translateSidebar({
 function getSidebarsTranslations(
   version: LoadedVersion,
 ): TranslationFileContent {
-  return mergeContents(
+  return mergeTranslations(
     Object.entries(version.sidebars).map(([sidebarName, sidebar]) => {
       const normalizedSidebarName = getNormalizedSidebarName({
         sidebarName,

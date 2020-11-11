@@ -1,0 +1,70 @@
+{
+  "link.title.Learn": {
+    "message": "Learn (en)",
+    "description": "The title of the footer links column with title=Learn in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community (en)",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.More": {
+    "message": "More (en)",
+    "description": "The title of the footer links column with title=More in the footer"
+  },
+  "link.title.Legal": {
+    "message": "Legal (en)",
+    "description": "The title of the footer links column with title=Legal in the footer"
+  },
+  "link.item.label.Introduction": {
+    "message": "Introduction (en)",
+    "description": "The label of footer link with label=Introduction linking to docs"
+  },
+  "link.item.label.Installation": {
+    "message": "Installation (en)",
+    "description": "The label of footer link with label=Installation linking to docs/installation"
+  },
+  "link.item.label.Migration from v1 to v2": {
+    "message": "Migration from v1 to v2 (en)",
+    "description": "The label of footer link with label=Migration from v1 to v2 linking to docs/migrating-from-v1-to-v2"
+  },
+  "link.item.label.Stack Overflow": {
+    "message": "Stack Overflow (en)",
+    "description": "The label of footer link with label=Stack Overflow linking to https://stackoverflow.com/questions/tagged/docusaurus"
+  },
+  "link.item.label.Feedback": {
+    "message": "Feedback (en)",
+    "description": "The label of footer link with label=Feedback linking to feedback"
+  },
+  "link.item.label.Discord": {
+    "message": "Discord (en)",
+    "description": "The label of footer link with label=Discord linking to https://discordapp.com/invite/docusaurus"
+  },
+  "link.item.label.Help": {
+    "message": "Help (en)",
+    "description": "The label of footer link with label=Help linking to /community/support"
+  },
+  "link.item.label.Blog": {
+    "message": "Blog (en)",
+    "description": "The label of footer link with label=Blog linking to blog"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub (en)",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/facebook/docusaurus"
+  },
+  "link.item.label.Twitter": {
+    "message": "Twitter (en)",
+    "description": "The label of footer link with label=Twitter linking to https://twitter.com/docusaurus"
+  },
+  "link.item.label.Privacy": {
+    "message": "Privacy (en)",
+    "description": "The label of footer link with label=Privacy linking to https://opensource.facebook.com/legal/privacy/"
+  },
+  "link.item.label.Terms": {
+    "message": "Terms (en)",
+    "description": "The label of footer link with label=Terms linking to https://opensource.facebook.com/legal/terms/"
+  },
+  "copyright": {
+    "message": "Copyright © 2020 Facebook, Inc. Built with Docusaurus. (en)",
+    "description": "The footer copyright"
+  }
+}

@@ -29,9 +29,10 @@ async function writeTranslationFileContent(
   content: TranslationFileContent,
 ): Promise<void> {
   console.log(
-    `writing ${path.relative(process.cwd(), filePath)} => ${
-      Object.keys(content).length
-    } translations`,
+    `writing ${Object.keys(content).length} translations => ${path.relative(
+      process.cwd(),
+      filePath,
+    )}`,
   );
   await fs.ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, JSON.stringify(content, null, 2));

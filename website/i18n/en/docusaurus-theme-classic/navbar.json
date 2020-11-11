@@ -1,17 +1,41 @@
 {
-  "items.labels.Docs": {
+  "title": {
+    "message": "Docusaurus (en)",
+    "description": "The title in the navbar"
+  },
+  "item.label.Docs": {
+    "message": "Docs (en)",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.API": {
+    "message": "API (en)",
+    "description": "Navbar item with label API"
+  },
+  "item.label.Blog": {
+    "message": "Blog (en)",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Showcase": {
+    "message": "Showcase (en)",
+    "description": "Navbar item with label Showcase"
+  },
+  "item.label.Community": {
+    "message": "Community (en)",
+    "description": "Navbar item with label Community"
+  },
+  "items.label.Docs": {
     "message": "Docs (en)"
   },
-  "items.labels.API": {
+  "items.label.API": {
     "message": "API (en)"
   },
-  "items.labels.Blog": {
+  "items.label.Blog": {
     "message": "Blog (en)"
   },
-  "items.labels.Showcase": {
+  "items.label.Showcase": {
     "message": "Showcase (en)"
   },
-  "items.labels.Community": {
+  "items.label.Community": {
     "message": "Community (en)"
   }
 }

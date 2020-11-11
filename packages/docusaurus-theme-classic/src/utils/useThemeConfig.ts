@@ -8,6 +8,31 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
+// TODO improve
+export type NavbarItem = {
+  items: NavbarItem[];
+  label?: string;
+};
+
+// TODO improve
+export type Navbar = {
+  title?: string;
+  items: NavbarItem[];
+};
+
+// TODO improve
+export type FooterLinkItem = {
+  label?: string;
+};
+export type FooterLinks = {
+  title?: string;
+  items: FooterLinkItem[];
+};
+export type Footer = {
+  copyright?: string;
+  links: FooterLinks[];
+};
+
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
@@ -18,11 +43,11 @@ export type ThemeConfig = {
   // and use it in the Joi validation schema?
 
   // TODO temporary types
-  navbar: any;
+  navbar: Navbar;
   colorMode: any;
   announcementBar: any;
   prism: any;
-  footer: any;
+  footer: Footer;
   hideableSidebar: any;
 };
 

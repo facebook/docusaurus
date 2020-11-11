@@ -14,7 +14,7 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {ReportingSeverity} from '@docusaurus/types';
+import {ReportingSeverity, TranslationFileContent} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
@@ -534,4 +534,12 @@ export function reportMessage(
         `unexpected reportingSeverity value: ${reportingSeverity}`,
       );
   }
+}
+
+export function mergeTranslations(
+  contents: TranslationFileContent[],
+): TranslationFileContent {
+  return contents.reduce((acc, content) => {
+    return {...acc, ...content};
+  }, {});
 }
