@@ -10,6 +10,11 @@ set -euo pipefail
 CUSTOM_REGISTRY_URL="http://localhost:4873"
 NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version").NEW"
 CONTAINER_NAME="verdaccio"
+EXTRA_OPTS=""
+
+if getopts ":n" arg; then
+  EXTRA_OPTS="--use-npm"
+fi
 
 # Run Docker container with private npm registry Verdaccio
 docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdaccio.yaml":/verdaccio/conf/config.yaml verdaccio/verdaccio:latest
@@ -24,7 +29,7 @@ npx --no-install lerna publish --yes --no-verify-access --no-git-reset --no-git-
 git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" npx @docusaurus/init@"$NEW_VERSION" init test-website classic --use-npm
+npm_config_registry="$CUSTOM_REGISTRY_URL" npx @docusaurus/init@"$NEW_VERSION" init test-website classic $EXTRA_OPTS
 
 # Stop Docker container
 if [[ -z "${KEEP_CONTAINER:-}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
