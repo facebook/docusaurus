@@ -16,33 +16,33 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.9.4",
-    "@babel/traverse": "^7.9.0",
+    "@babel/parser": "^7.12.5",
+    "@babel/traverse": "^7.12.5",
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
-    "@mdx-js/mdx": "^1.5.8",
-    "@mdx-js/react": "^1.5.8",
+    "@mdx-js/mdx": "^1.6.21",
+    "@mdx-js/react": "^1.6.21",
     "escape-html": "^1.0.3",
-    "file-loader": "^6.0.0",
+    "file-loader": "^6.2.0",
     "fs-extra": "^8.1.0",
     "github-slugger": "^1.3.0",
     "gray-matter": "^4.0.2",
-    "loader-utils": "^1.2.3",
+    "loader-utils": "^2.0.0",
     "mdast-util-to-string": "^1.1.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.2",
-    "url-loader": "^4.1.0"
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-alpha.66",
     "remark": "^12.0.0",
-    "remark-mdx": "^1.5.8",
+    "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
     "unist-util-remove-position": "^2.0.1"
   },
- "peerDependencies": {
+  "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.8.4",
     "webpack": "^4.0.0 || ^5.0.0"

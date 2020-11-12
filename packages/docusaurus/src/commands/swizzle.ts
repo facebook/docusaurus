@@ -90,7 +90,7 @@ function themeComponents(themePath: string, plugin: Plugin<unknown>): string {
   }
 
   return `
-${chalk.cyan('Theme Components available for swizzle')}
+${chalk.cyan('Theme components available for swizzle')}
 
 ${chalk.green('green  =>')} recommended: lower breaking change risk
 ${chalk.red('red    =>')} internal: higher breaking change risk
@@ -99,7 +99,7 @@ ${components.join('\n')}
 `;
 }
 
-function formatedThemeNames(themeNames: string[]): string {
+function formattedThemeNames(themeNames: string[]): string {
   return `Themes available for swizzle:\n${themeNames.join('\n')}`;
 }
 
@@ -142,152 +142,158 @@ export default async function swizzle(
       ? plugins[index].getTypeScriptThemePath
       : plugins[index].getThemePath,
   );
+
   if (!themeName) {
-    console.log(formatedThemeNames(themeNames));
-  } else {
-    let pluginModule;
-    try {
-      pluginModule = importFresh(themeName) as (
-        context: LoadContext,
-      ) => Plugin<unknown>;
-    } catch {
-      let suggestion;
-      themeNames.forEach((name) => {
-        if (leven(name, themeName) < 4) {
-          suggestion = name;
+    console.log(formattedThemeNames(themeNames));
+    process.exit(1);
+  }
+
+  let pluginModule;
+  try {
+    pluginModule = importFresh(themeName) as (
+      context: LoadContext,
+    ) => Plugin<unknown>;
+  } catch {
+    let suggestion;
+    themeNames.forEach((name) => {
+      if (leven(name, themeName) < 4) {
+        suggestion = name;
+      }
+    });
+    chalk.red(
+      `Theme ${themeName} not found. ${
+        suggestion
+          ? `Did you mean "${suggestion}" ?`
+          : formattedThemeNames(themeNames)
+      }`,
+    );
+    process.exit(1);
+  }
+
+  const plugin = pluginModule.default ?? pluginModule;
+  const validateOptions =
+    pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+  let pluginOptions;
+  const resolvedThemeName = require.resolve(themeName);
+  // find the plugin from list of plugin and get options if specified
+  pluginConfigs.forEach((pluginConfig) => {
+    // plugin can be a [string], [string,object] or string.
+    if (Array.isArray(pluginConfig)) {
+      if (require.resolve(pluginConfig[0]) === resolvedThemeName) {
+        if (pluginConfig.length === 2) {
+          const [, options] = pluginConfig;
+          pluginOptions = options;
         }
-      });
-      throw new Error(
-        `Theme ${themeName} not found. ${
-          suggestion
-            ? `Did you mean "${suggestion}" ?`
-            : formatedThemeNames(themeNames)
-        }`,
-      );
+      }
     }
-    const plugin = pluginModule.default ?? pluginModule;
-    const validateOptions =
-      pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
-    let pluginOptions;
-    const resolvedThemeName = require.resolve(themeName);
-    // find the plugin from list of plugin and get options if specified
-    pluginConfigs.forEach((pluginConfig) => {
-      // plugin can be a [string], [string,object] or string.
-      if (Array.isArray(pluginConfig)) {
-        if (require.resolve(pluginConfig[0]) === resolvedThemeName) {
-          if (pluginConfig.length === 2) {
-            const [, options] = pluginConfig;
-            pluginOptions = options;
-          }
+  });
+
+  if (validateOptions) {
+    pluginOptions = validateOptions({
+      validate: normalizePluginOptions,
+      options: pluginOptions,
+    });
+  }
+
+  const pluginInstance = plugin(context, pluginOptions);
+  const themePath = typescript
+    ? pluginInstance.getTypeScriptThemePath?.()
+    : pluginInstance.getThemePath?.();
+
+  if (!themePath) {
+    console.warn(
+      chalk.yellow(
+        typescript
+          ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
+          : `${themeName} does not provide any theme code.`,
+      ),
+    );
+    process.exit(1);
+  }
+
+  if (!componentName) {
+    console.warn(themeComponents(themePath, pluginModule));
+    process.exit(1);
+  }
+
+  const components = getComponentName(themePath, pluginModule, Boolean(danger));
+  const formattedComponentName = formatComponentName(componentName);
+  const isComponentExists = components.find(
+    (component) => component === formattedComponentName,
+  );
+  let mostSuitableComponent = componentName;
+
+  if (!isComponentExists) {
+    let mostSuitableMatch = componentName;
+    let score = formattedComponentName.length;
+    components.forEach((component) => {
+      if (component.toLowerCase() === formattedComponentName.toLowerCase()) {
+        // may be components with same lowercase key, try to match closest component
+        const currentScore = leven(formattedComponentName, component);
+        if (currentScore < score) {
+          score = currentScore;
+          mostSuitableMatch = component;
         }
       }
     });
-    if (validateOptions) {
-      // normilize options
-      const normalizedOptions = validateOptions({
-        validate: normalizePluginOptions,
-        options: pluginOptions,
-      });
-      pluginOptions = normalizedOptions;
-    }
-    const pluginInstance = plugin(context, pluginOptions);
-    const themePath = typescript
-      ? pluginInstance.getTypeScriptThemePath?.()
-      : pluginInstance.getThemePath?.();
-    const components = getComponentName(
-      themePath,
-      pluginModule,
-      Boolean(danger),
-    );
-    if (componentName) {
-      const formatedComponentName = formatComponentName(componentName);
-      const isComponentExists = components.find(
-        (component) => component === formatedComponentName,
-      );
-      let mostSuitableComponent = componentName;
-      if (!isComponentExists) {
-        let mostSuitableMatch = componentName;
-        let score = formatedComponentName.length;
-        components.forEach((component) => {
-          if (component.toLowerCase() === formatedComponentName.toLowerCase()) {
-            // may be components with same lowercase key, try to match closest component
-            const currentScore = leven(formatedComponentName, component);
-            if (currentScore < score) {
-              score = currentScore;
-              mostSuitableMatch = component;
-            }
-          }
-        });
-        if (mostSuitableMatch) {
-          mostSuitableComponent = mostSuitableMatch;
-          console.log(
-            chalk.red(`Component "${componentName}" doesn't exists.`),
-            chalk.yellow(
-              `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
-            ),
-          );
-        }
-      }
-      let fromPath = themePath;
-      if (fromPath) {
-        let toPath = path.resolve(siteDir, THEME_PATH);
-        fromPath = path.join(fromPath, mostSuitableComponent);
-        toPath = path.join(toPath, mostSuitableComponent);
-        // Handle single TypeScript/JavaScript file only.
-        // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
-        if (!fs.existsSync(fromPath)) {
-          if (fs.existsSync(`${fromPath}.ts`)) {
-            [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];
-          } else if (fs.existsSync(`${fromPath}.tsx`)) {
-            [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
-          } else if (fs.existsSync(`${fromPath}.js`)) {
-            [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
-          } else {
-            let suggestion;
-            components.forEach((name) => {
-              if (leven(name, mostSuitableComponent) < 3) {
-                suggestion = name;
-              }
-            });
-            throw new Error(
-              `Component ${mostSuitableComponent} not found.${
-                suggestion
-                  ? ` Did you mean "${suggestion}"?`
-                  : `${themeComponents(themePath, pluginModule)}`
-              }`,
-            );
-          }
-        }
-        if (!components.includes(mostSuitableComponent) && !danger) {
-          throw new Error(
-            `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
-          );
-        }
-        await fs.copy(fromPath, toPath);
 
-        const relativeDir = path.relative(process.cwd(), toPath);
-        const fromMsg = chalk.blue(
-          mostSuitableComponent
-            ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
-            : themeName,
-        );
-        const toMsg = chalk.cyan(relativeDir);
-        console.log(
-          `\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
-        );
-      } else if (typescript) {
-        console.warn(
-          chalk.yellow(
-            `${themeName} does not provide TypeScript theme code via getTypeScriptThemePath().`,
-          ),
-        );
-      } else {
-        console.warn(
-          chalk.yellow(`${themeName} does not provide any theme code.`),
-        );
-      }
-    } else {
-      console.log(themeComponents(themePath, pluginModule));
+    if (mostSuitableMatch !== componentName) {
+      mostSuitableComponent = mostSuitableMatch;
+      console.log(
+        chalk.red(`Component "${componentName}" doesn't exists.`),
+        chalk.yellow(
+          `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
+        ),
+      );
     }
   }
+
+  let fromPath = path.join(themePath, mostSuitableComponent);
+  let toPath = path.resolve(siteDir, THEME_PATH, mostSuitableComponent);
+  // Handle single TypeScript/JavaScript file only.
+  // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
+  if (!fs.existsSync(fromPath)) {
+    if (fs.existsSync(`${fromPath}.ts`)) {
+      [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];
+    } else if (fs.existsSync(`${fromPath}.tsx`)) {
+      [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
+    } else if (fs.existsSync(`${fromPath}.js`)) {
+      [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
+    } else {
+      let suggestion;
+      components.forEach((name) => {
+        if (leven(name, mostSuitableComponent) < 3) {
+          suggestion = name;
+        }
+      });
+      console.warn(chalk.red(`Component ${mostSuitableComponent} not found.`));
+      console.warn(
+        suggestion
+          ? `Did you mean "${suggestion}"?`
+          : `${themeComponents(themePath, pluginModule)}`,
+      );
+      process.exit(1);
+    }
+  }
+
+  if (!components.includes(mostSuitableComponent) && !danger) {
+    console.warn(
+      chalk.red(
+        `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
+      ),
+    );
+    process.exit(1);
+  }
+
+  await fs.copy(fromPath, toPath);
+
+  const relativeDir = path.relative(process.cwd(), toPath);
+  const fromMsg = chalk.blue(
+    mostSuitableComponent
+      ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
+      : themeName,
+  );
+  const toMsg = chalk.cyan(relativeDir);
+
+  console.log(`\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
 }

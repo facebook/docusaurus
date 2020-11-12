@@ -21,12 +21,12 @@
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "joi": "^17.2.1",
     "chalk": "^3.0.0",
-    "eta": "^1.1.1",
+    "eta": "^1.11.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
-    "lodash": "^4.17.15"
+    "joi": "^17.2.1",
+    "lodash": "^4.17.20"
   },
   "peerDependencies": {
     "react": "^16.8.4",
