@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useCallback, useEffect, useRef} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useLocationHash from '@theme/hooks/useLocationHash';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
@@ -16,6 +16,7 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   const [isFocusedAnchor, setIsFocusedAnchor] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
+  const isFocusedAnchor1 = useRef(false);
   const navbarRef = useCallback((node: HTMLElement | null) => {
     if (node !== null) {
       setNavbarHeight(node.getBoundingClientRect().height);
@@ -30,20 +31,30 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
         return;
       }
 
+      console.log(scrollTop, isFocusedAnchor, isFocusedAnchor1);
+
       if (scrollTop === 0) {
+        console.log(11);
         setIsNavbarVisible(true);
       }
 
+      console.log(1);
+
       if (scrollTop < navbarHeight) {
+        console.log(2);
         return;
       }
 
-      if (isFocusedAnchor) {
+      if (isFocusedAnchor1.current) {
+        console.log(3);
+        isFocusedAnchor1.current = false;
         setIsFocusedAnchor(false);
         setIsNavbarVisible(false);
         setLastScrollTop(scrollTop);
         return;
       }
+
+      console.log(4);
 
       const documentHeight =
         document.documentElement.scrollHeight - navbarHeight;
@@ -57,7 +68,7 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
 
       setLastScrollTop(scrollTop);
     },
-    [lastScrollTop, navbarHeight],
+    [lastScrollTop, navbarHeight, isFocusedAnchor, isFocusedAnchor1],
   );
 
   useEffect(() => {
@@ -65,20 +76,30 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       return;
     }
 
+    // if (location.hash !== hash) {
+    //   console.log(222);
+    //   setIsFocusedAnchor(true);
+    //   test.current = true;
+    // } else {
     setIsNavbarVisible(true);
+    // }
+
     setHash(location.hash);
-  }, [location]);
+  }, [location, hash]);
 
   useEffect(() => {
     if (!hideOnScroll) {
       return;
     }
 
+    console.log(hash);
+
     if (!hash) {
       return;
     }
 
-    setIsFocusedAnchor(true);
+    // setIsFocusedAnchor(true);
+    isFocusedAnchor1.current = true;
     setIsNavbarVisible(false);
   }, [hash]);
 
