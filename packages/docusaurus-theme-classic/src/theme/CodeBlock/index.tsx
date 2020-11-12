@@ -116,16 +116,13 @@ export default ({
     // Tested above
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
-    highlightLines = rangeParser
-      .parse(highlightLinesRange)
-      .filter((n) => n > 0);
+    highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
   if (metastring && codeBlockTitleRegex.test(metastring)) {
     // Tested above
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    codeBlockTitle = metastring
-      .match(codeBlockTitleRegex)![1];
+    codeBlockTitle = metastring.match(codeBlockTitleRegex)![1];
   }
 
   let language =
@@ -180,7 +177,7 @@ export default ({
         index += 1;
       }
     }
-    highlightLines = rangeParser.parse(range);
+    highlightLines = rangeParser(range);
     code = lines.join('\n');
   }
 
