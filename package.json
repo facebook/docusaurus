@@ -54,11 +54,11 @@
     "netlify:deployPreview:v1-migrated:build": "yarn workspace docusaurus-1-website-migrated build --out-dir=../website/netlifyDeployPreview/v1-migrated"
   },
   "devDependencies": {
-    "@babel/cli": "^7.9.0",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/preset-typescript": "^7.9.0",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.0.1",
     "@types/inquirer": "^6.5.0",
