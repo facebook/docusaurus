@@ -5,8 +5,7 @@
     "website",
     "website-1.x",
     "website-1.x-migrated",
-    "packages/docusaurus-init/templates/*",
-    "test-website"
+    "packages/docusaurus-init/templates/*"
   ],
   "scripts": {
     "start": "yarn build:packages && yarn start:v2",
