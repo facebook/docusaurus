@@ -1066,3 +1066,26 @@ import DocusaurusSvg from './docusaurus.svg';
 import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
+
+### Themed Image
+
+Docusaurus also offers support for the themed images. It is useful if you need to switch the whole image based on the current theme.
+
+```js
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  lightSrc={useBaseUrl('img/docusaurus_light.svg')}
+  darkSrc={useBaseUrl('img/docusaurus_dark.svg')}
+/>;
+```
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  lightSrc={useBaseUrl('img/docusaurus_keytar.svg')}
+  darkSrc={useBaseUrl('img/docusaurus_speed.svg')}
+/>

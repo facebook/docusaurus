@@ -78,7 +78,7 @@ declare module '@theme/DocSidebar' {
 }
 
 declare module '@theme/Tabs' {
-  import type {ReactElement, ReactNode} from 'react';
+  import type {ReactElement} from 'react';
 
   export type Props = {
     readonly block?: boolean;
@@ -88,8 +88,20 @@ declare module '@theme/Tabs' {
     readonly groupId?: string;
   };
 
-  const Tabs: () => JSX.Element;
+  const Tabs: (props: Props) => JSX.Element;
   export default Tabs;
+}
+
+declare module '@theme/ThemedImage' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = {
+    readonly lightSrc: string;
+    readonly darkSrc?: string;
+  } & ComponentProps<'img'>;
+
+  const ThemedImage: (props: Props) => JSX.Element;
+  export default ThemedImage;
 }
 
 declare module '@theme/Footer' {
@@ -123,6 +135,14 @@ declare module '@theme/hooks/useLogo' {
 
   const useLogo: () => useLogoReturns;
   export default useLogo;
+}
+
+declare module '@theme/hooks/useThemeContext' {
+  export type ThemeContextProps = {
+    isDarkTheme: boolean;
+  };
+
+  export default function useThemeContext(): ThemeContextProps;
 }
 
 declare module '@theme/Layout' {
