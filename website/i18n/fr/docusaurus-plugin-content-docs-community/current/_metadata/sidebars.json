@@ -1,0 +1,10 @@
+{
+  "community.link.Showcase": {
+    "message": "Showcase (fr)",
+    "description": "The label for link Showcase in sidebar community, linking to /showcase"
+  },
+  "community.link.Feedback": {
+    "message": "Feedback (fr)",
+    "description": "The label for link Feedback in sidebar community, linking to /feedback"
+  }
+}

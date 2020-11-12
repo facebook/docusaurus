@@ -73,7 +73,7 @@ export default function pluginContentBlog(
     contentPathLocalized: getPluginI18nPath({
       siteDir,
       currentLocale,
-      pluginFolderName: 'blog',
+      pluginFolderName: 'docusaurus-plugin-content-blog',
       pluginId: options.id!,
     }),
   };

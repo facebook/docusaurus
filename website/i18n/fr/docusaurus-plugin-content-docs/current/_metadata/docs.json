@@ -1,0 +1,110 @@
+{
+  "api/docusaurus.config.js.title": {
+    "message": "docusaurus.config.js (fr)",
+    "description": "The title for doc with id=api/docusaurus.config.js"
+  },
+  "blog.title": {
+    "message": "Blog (fr)",
+    "description": "The title for doc with id=blog"
+  },
+  "cli.title": {
+    "message": "CLI (fr)",
+    "description": "The title for doc with id=cli"
+  },
+  "configuration.title": {
+    "message": "Configuration (fr)",
+    "description": "The title for doc with id=configuration"
+  },
+  "contributing.title": {
+    "message": "Contributing (fr)",
+    "description": "The title for doc with id=contributing"
+  },
+  "deployment.title": {
+    "message": "Deployment (fr)",
+    "description": "The title for doc with id=deployment"
+  },
+  "design-principles.title": {
+    "message": "Design Principles (fr)",
+    "description": "The title for doc with id=design-principles"
+  },
+  "docs-introduction.title": {
+    "message": "Docs Introduction (fr)",
+    "description": "The title for doc with id=docs-introduction"
+  },
+  "docs-introduction.sidebar_label": {
+    "message": "Introduction (fr)",
+    "description": "The sidebar label for doc with id=docs-introduction"
+  },
+  "docusaurus-core.title": {
+    "message": "Docusaurus Client API (fr)",
+    "description": "The title for doc with id=docusaurus-core"
+  },
+  "docusaurus-core.sidebar_label": {
+    "message": "Client API (fr)",
+    "description": "The sidebar label for doc with id=docusaurus-core"
+  },
+  "guides/creating-pages.title": {
+    "message": "Creating Pages (fr)",
+    "description": "The title for doc with id=guides/creating-pages"
+  },
+  "guides/migrating-from-v1-to-v2.title": {
+    "message": "Migrating from v1 to v2 (fr)",
+    "description": "The title for doc with id=guides/migrating-from-v1-to-v2"
+  },
+  "installation.title": {
+    "message": "Installation (fr)",
+    "description": "The title for doc with id=installation"
+  },
+  "introduction.title": {
+    "message": "Introduction (fr)",
+    "description": "The title for doc with id=introduction"
+  },
+  "lifecycle-apis.title": {
+    "message": "Lifecycle APIs (fr)",
+    "description": "The title for doc with id=lifecycle-apis"
+  },
+  "markdown-features.title": {
+    "message": "Markdown Features (fr)",
+    "description": "The title for doc with id=markdown-features"
+  },
+  "presets.title": {
+    "message": "Presets (fr)",
+    "description": "The title for doc with id=presets"
+  },
+  "search.title": {
+    "message": "Search (fr)",
+    "description": "The title for doc with id=search"
+  },
+  "static-assets.title": {
+    "message": "Static Assets (fr)",
+    "description": "The title for doc with id=static-assets"
+  },
+  "styling-layout.title": {
+    "message": "Styling and Layout (fr)",
+    "description": "The title for doc with id=styling-layout"
+  },
+  "theme-bootstrap.title": {
+    "message": "@docusaurus/theme-bootstrap (fr)",
+    "description": "The title for doc with id=theme-bootstrap"
+  },
+  "theme-classic.title": {
+    "message": "@docusaurus/theme-classic (fr)",
+    "description": "The title for doc with id=theme-classic"
+  },
+  "typescript-support.title": {
+    "message": "TypeScript Support (fr)",
+    "description": "The title for doc with id=typescript-support"
+  },
+  "using-plugins.title": {
+    "message": "Plugins (fr)",
+    "description": "The title for doc with id=using-plugins"
+  },
+  "using-themes.title": {
+    "message": "Themes (fr)",
+    "description": "The title for doc with id=using-themes"
+  },
+  "versioning.title": {
+    "message": "Versioning (fr)",
+    "description": "The title for doc with id=versioning"
+  }
+}

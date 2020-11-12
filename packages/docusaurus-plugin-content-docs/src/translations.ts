@@ -12,6 +12,7 @@ import {
   Sidebars,
   SidebarItem,
   DocMetadata,
+  VersionMetadata,
 } from './types';
 import path from 'path';
 
@@ -27,6 +28,28 @@ import {
   TranslationFiles,
 } from '@docusaurus/types';
 import {mergeTranslations} from '@docusaurus/utils';
+import {CURRENT_VERSION_NAME} from './constants';
+
+function getVersionFolderName(versionName: string): string {
+  if (versionName === CURRENT_VERSION_NAME) {
+    return versionName;
+  } else {
+    // I don't like this "version-" prefix,
+    // but it's for consistency with site/versioned_docs
+    return `version-${versionName}`;
+  }
+}
+
+function getVersionedMetadataFilePath(
+  version: VersionMetadata,
+  fileName: string,
+): string {
+  return path.join(
+    getVersionFolderName(version.versionName),
+    '_metadata',
+    fileName,
+  );
+}
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
 // input: "version-2.0.0-alpha.66/docs"
@@ -38,7 +61,7 @@ function getNormalizedSidebarName({
   versionName: string;
   sidebarName: string;
 }): string {
-  if (versionName === 'current') {
+  if (versionName === CURRENT_VERSION_NAME) {
     return sidebarName;
   }
   const [, ...rest] = sidebarName.split('/');
@@ -173,7 +196,7 @@ function translateSidebars(
 
 function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   const versionTranslationFile: TranslationFile = {
-    path: path.join(version.versionName, 'version'),
+    path: getVersionedMetadataFilePath(version, 'version'),
     content: {
       label: {
         message: version.versionLabel,
@@ -183,12 +206,12 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   };
 
   const docsTranslationFile = {
-    path: path.join(version.versionName, 'docs'),
+    path: getVersionedMetadataFilePath(version, 'docs'),
     content: getDocsTranslations(version),
   };
 
   const sidebarsTranslationFile = {
-    path: path.join(version.versionName, 'sidebars'),
+    path: getVersionedMetadataFilePath(version, 'sidebars'),
     content: getSidebarsTranslations(version),
   };
 
@@ -199,11 +222,11 @@ function translateVersion(
   translationFiles: Record<string, TranslationFile>,
 ): LoadedVersion {
   const versionTranslations =
-    translationFiles[path.join(version.versionName, 'version')].content;
+    translationFiles[getVersionedMetadataFilePath(version, 'version')].content;
   const sidebarsTranslations =
-    translationFiles[path.join(version.versionName, 'sidebars')].content;
+    translationFiles[getVersionedMetadataFilePath(version, 'sidebars')].content;
   const docsTranslations =
-    translationFiles[path.join(version.versionName, 'docs')].content;
+    translationFiles[getVersionedMetadataFilePath(version, 'docs')].content;
 
   return {
     ...version,

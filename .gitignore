@@ -38,5 +38,5 @@ website/netlifyDeployPreview/*
 website-1.x-migrated
 
 website/i18n/**/*
-!website/i18n/en
-!website/i18n/en/**
+!website/i18n/fr
+!website/i18n/fr/**/*

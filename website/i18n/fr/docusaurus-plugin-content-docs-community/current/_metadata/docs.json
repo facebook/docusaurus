@@ -1,0 +1,14 @@
+{
+  "resources.title": {
+    "message": "Awesome Resources (fr)",
+    "description": "The title for doc with id=resources"
+  },
+  "support.title": {
+    "message": "Support (fr)",
+    "description": "The title for doc with id=support"
+  },
+  "team.title": {
+    "message": "Team (fr)",
+    "description": "The title for doc with id=team"
+  }
+}

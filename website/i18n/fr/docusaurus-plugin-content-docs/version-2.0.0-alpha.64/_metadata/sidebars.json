@@ -1,0 +1,26 @@
+{
+  "docs.category.Docusaurus": {
+    "message": "Docusaurus (fr)",
+    "description": "The label for category Docusaurus in sidebar docs"
+  },
+  "docs.category.Getting Started": {
+    "message": "Getting Started (fr)",
+    "description": "The label for category Getting Started in sidebar docs"
+  },
+  "docs.category.Guides": {
+    "message": "Guides (fr)",
+    "description": "The label for category Guides in sidebar docs"
+  },
+  "docs.category.Docs": {
+    "message": "Docs (fr)",
+    "description": "The label for category Docs in sidebar docs"
+  },
+  "docs.category.Advanced Guides": {
+    "message": "Advanced Guides (fr)",
+    "description": "The label for category Advanced Guides in sidebar docs"
+  },
+  "docs.category.API Reference": {
+    "message": "API Reference (fr)",
+    "description": "The label for category API Reference in sidebar docs"
+  }
+}
