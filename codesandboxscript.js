@@ -1,5 +1,7 @@
-let {readFileSync, writeFileSync, copyFileSync, readdir} = require('fs');
+let {readFileSync, writeFileSync, readdir, rmdirSync} = require('fs');
 let {execSync} = require('child_process');
+
+rmdirSync('./examples', {recursive: true});
 // get the list of all available templates
 readdir('./packages/docusaurus-init/templates', (err, data) => {
   let templates = data.filter((i) => i !== 'README.MD');
@@ -24,14 +26,21 @@ readdir('./packages/docusaurus-init/templates', (err, data) => {
       //rewrite the package.json file with the new edit
       writeFileSync(
         `./examples/${template}/package.json`,
-        JSON.stringify(toJSON, null, 1),
+        JSON.stringify(toJSON, null, 2),
       );
 
       /*copy the sandbox config file from the root of docusaurus to the root
       of template in the examples folder*/
-      copyFileSync(
-        './sandbox.config.json',
+      let sandboxConfigContent = {
+        infiniteLoopProtection: true,
+        hardReloadOnChange: true,
+        view: 'browser',
+        template: 'node',
+      };
+
+      writeFileSync(
         `./examples/${template}/sandbox.config.json`,
+        JSON.stringify(sandboxConfigContent, null, 2),
       );
       console.log('done');
     } catch (error) {
