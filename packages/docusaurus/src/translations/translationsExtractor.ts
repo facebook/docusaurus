@@ -21,7 +21,8 @@ const TranslatableSourceCodeExtension = new Set([
   '.jsx',
   '.ts',
   '.tsx',
-  // TODO support md/mdx translation extraction
+  // TODO support md/mdx too? (may be overkill)
+  // need to compile the MDX to JSX first and remove frontmatter
   // '.md',
   // '.mdx',
 ]);
@@ -74,7 +75,6 @@ export async function extractAllSourceCodeTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
-  // console.log('extractAllSourceCodeFileTranslations', sourceFilePaths);
   return flatten(
     await Promise.all(
       sourceCodeFilePaths.map((sourceFilePath) =>
@@ -90,13 +90,11 @@ export async function extractSourceCodeTranslations(
 ): Promise<SourceCodeFileTranslations> {
   const code = await fs.readFile(sourceCodeFilePath, 'utf8');
 
-  // TODO support md/mdx too, need to parse the MDX to JSX first
-
   const ast = parse(code, {
     ...babelOptions,
     ast: true,
-    // TODO mdx => jsx see https://twitter.com/NicoloRibaudo/status/1321130735605002243
-    // Important, babel does not process the same files with js/ts extensions
+    // filename is important, because babel does not process the same files according to their js/ts extensions
+    // see  see https://twitter.com/NicoloRibaudo/status/1321130735605002243
     filename: sourceCodeFilePath,
   }) as Node;
 
@@ -220,15 +218,6 @@ function extractSourceCodeAstTranslations(
       }
     },
   });
-
-  /*
-  Object.keys(translations).length > 0 &&
-    console.log(
-      `${
-        Object.keys(translations).length
-      } code translations extracted from ${sourceCodeFilePath}`,
-    );
-   */
 
   if (warnings.length > 0) {
     console.warn(
