@@ -8,8 +8,17 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
+
+const DefaultI18N: I18n = {
+  context: {
+    currentLocale: 'en',
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+  translations: {},
+};
 
 function validateAndNormalize(schema, options) {
   const {value, error} = schema.validate(options);
@@ -34,6 +43,7 @@ describe('loadBlog', () => {
         siteDir,
         siteConfig,
         generatedFilesDir,
+        i18n: DefaultI18N,
       } as LoadContext,
       validateAndNormalize(PluginOptionSchema, {
         path: pluginPath,
