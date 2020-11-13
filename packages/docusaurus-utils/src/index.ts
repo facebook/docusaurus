@@ -463,3 +463,17 @@ export function reportMessage(
       );
   }
 }
+
+export function getSwizzledComponent(
+  componentPath: string,
+): string | undefined {
+  const swizzledComponentPath = path.resolve(
+    process.cwd(),
+    'src',
+    componentPath,
+  );
+
+  return fs.existsSync(swizzledComponentPath)
+    ? swizzledComponentPath
+    : undefined;
+}

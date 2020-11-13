@@ -197,7 +197,7 @@ This theme provides a `@theme/SearchBar` component that integrates with Algolia 
 npm install --save @docusaurus/theme-search-algolia
 ```
 
-This theme also adds search page available at `/search` path with OpenSearch support.
+This theme also adds search page available at `/search` (as swizzleable `SearchPage` component) path with OpenSearch support.
 
 :::tip
 
