@@ -1069,7 +1069,7 @@ import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 ### Themed Images
 
-Docusaurus supports themed images by `ThemedImage` component included in the theme. It can be used, if you want to switch the image source based on the current theme.
+Docusaurus supports themed images: the `ThemedImage` component (included in the classic/bootstrap themes) allows you to switch the image source based on the current theme.
 
 ```jsx {5-8}
 import ThemedImage from '@theme/ThemedImage';
@@ -1093,5 +1093,3 @@ import ThemedImage from '@theme/ThemedImage';
     dark: useBaseUrl('img/docusaurus_speed.svg'),
   }}
 />
-
-`ThemedImage` component can also be used as regular `img` tag, when instead of `sources` you provide the single image source via `src` property.
