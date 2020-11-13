@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "remark": "^12.0.0",
-    "remark-mdx": "^1.5.8",
+    "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0"
   },
   "peerDependencies": {

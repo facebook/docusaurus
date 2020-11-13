@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-
+import clsx from 'clsx';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
@@ -23,9 +23,7 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
   return (
     <ul
       className={
-        isChild
-          ? ''
-          : 'table-of-contents table-of-contents__left-border thin-scrollbar'
+        isChild ? '' : 'table-of-contents table-of-contents__left-border'
       }>
       {headings.map((heading) => (
         <li key={heading.id}>
@@ -46,7 +44,7 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
 function TOC({headings}: TOCProps): JSX.Element {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
   return (
-    <div className={styles.tableOfContents}>
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
       <Headings headings={headings} />
     </div>
   );

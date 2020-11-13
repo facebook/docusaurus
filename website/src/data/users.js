@@ -45,6 +45,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Botonic',
+    description: 'Build Chatbots and Conversational Apps Using React',
+    preview: require('./showcase/botonic.png'),
+    website: 'https://botonic.io/',
+    source: 'https://github.com/hubtype/botonic',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',

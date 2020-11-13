@@ -16,11 +16,11 @@
     "@docsearch/react": "^1.0.0-alpha.27",
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/utils": "2.0.0-alpha.66",
-    "joi": "^17.2.1",
     "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",
     "clsx": "^1.1.1",
-    "eta": "^1.1.1",
+    "eta": "^1.11.0",
+    "joi": "^17.2.1",
     "lodash": "^4.17.19"
   },
   "peerDependencies": {
