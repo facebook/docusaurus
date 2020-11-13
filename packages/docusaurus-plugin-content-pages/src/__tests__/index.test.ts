@@ -14,7 +14,7 @@ import normalizePluginOptions from './pluginOptionSchema.test';
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = loadContext(siteDir);
+    const context = await loadContext(siteDir);
     const pluginPath = 'src/pages';
     const plugin = pluginContentPages(
       context,
@@ -22,7 +22,7 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = await plugin.loadContent();
+    const pagesMetadatas = (await plugin.loadContent?.())!;
 
     expect(pagesMetadatas).toEqual([
       {

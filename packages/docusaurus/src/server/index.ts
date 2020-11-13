@@ -85,7 +85,7 @@ export async function loadContext(
   const outDir = localizePath(baseOutDir, localization, options);
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
-  console.log('Site loadContext', {locale, baseUrl, outDir, options});
+  // console.log('Site loadContext', {locale, baseUrl, outDir, options});
 
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({
