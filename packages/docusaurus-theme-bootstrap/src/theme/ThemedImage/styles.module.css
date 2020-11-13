@@ -1,11 +1,11 @@
-img.themedImageSSR {
+.themedImage {
   display: none;
 }
 
-html[data-theme='light'] img.themedImageSSR.themedImageLight {
+html[data-theme='light'] .themedImage--light {
   display: block;
 }
 
-html[data-theme='dark'] img.themedImageSSR.themedImageDark {
+html[data-theme='dark'] .themedImage--dark {
   display: block;
 }

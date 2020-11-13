@@ -12,59 +12,42 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import type {Props} from '@theme/ThemedImage';
 
+import styles from './styles.module.css';
+
 const ThemedImage = (props: Props): JSX.Element => {
   const {isClient} = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
-  const {sources, src, className, alt = '', ...propsRest} = props;
+  const {sources, className, alt = '', ...propsRest} = props;
 
-  if (isClient) {
-    const finalSrc = sources
-      ? isDarkTheme
-        ? sources.dark
-        : sources.light
-      : src;
-    return (
-      <img
-        src={finalSrc}
-        alt={alt}
-        className={clsx(
-          'themedImage',
-          sources
-            ? {
-                themedImageLight: !isDarkTheme,
-                themedImageDark: isDarkTheme,
-              }
-            : null,
-          className,
-        )}
-        {...propsRest}
-      />
-    );
-  } else {
-    return sources ? (
-      <>
-        <img
-          src={sources.light}
-          alt={alt}
-          className={clsx('themedImageSSR', 'themedImageLight', className)}
-          {...propsRest}
-        />
-        <img
-          src={sources.dark}
-          alt={alt}
-          className={clsx('themedImageSSR', 'themedImageDark', className)}
-          {...propsRest}
-        />
-      </>
-    ) : (
-      <img
-        src={src}
-        alt={alt}
-        className={clsx('themedImageSSR', className)}
-        {...propsRest}
-      />
-    );
-  }
+  type SourceName = keyof Props['sources'];
+
+  const renderedSourceNames: SourceName[] = isClient
+    ? isDarkTheme
+      ? ['dark']
+      : ['light']
+    : // We need to render both images on the server to avoid flash
+      // See https://github.com/facebook/docusaurus/pull/3730
+      ['light', 'dark'];
+
+  return (
+    <>
+      {renderedSourceNames.map((sourceName) => {
+        return (
+          <img
+            key={sourceName}
+            src={sources[sourceName]}
+            alt={alt}
+            className={clsx(
+              styles.themedImage,
+              styles[`themedImage--${sourceName}`],
+              className,
+            )}
+            {...propsRest}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 export default ThemedImage;
