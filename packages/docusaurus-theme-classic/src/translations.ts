@@ -14,7 +14,7 @@ const {keyBy, chain, flatten} = require('lodash');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {mergeTranslations} = require('@docusaurus/utils');
 
-function getNavbarTranslationFile(navbar: Navbar): TranslationFile {
+function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   //  TODO handle properly all the navbar item types here!
   function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
     const subItems = flatten(
@@ -42,16 +42,12 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFile {
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
     : {};
 
-  return {
-    path: 'navbar',
-    content: mergeTranslations([titleTranslations, navbarItemsTranslations]),
-  };
+  return mergeTranslations([titleTranslations, navbarItemsTranslations]);
 }
 function translateNavbar(
   navbar: Navbar,
-  translationFiles: Record<string, TranslationFile>,
+  navbarTranslations: TranslationFileContent,
 ): Navbar {
-  const navbarTranslations = translationFiles.navbar.content;
   return {
     ...navbar,
     title: navbarTranslations.title?.message ?? navbar.title,
@@ -64,7 +60,7 @@ function translateNavbar(
   };
 }
 
-function getFooterTranslationFile(footer: Footer): TranslationFile {
+function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   // TODO POC code
   const footerLinkTitles: TranslationFileContent = chain(
     footer.links.filter((link) => !!link.title),
@@ -99,17 +95,12 @@ function getFooterTranslationFile(footer: Footer): TranslationFile {
       }
     : {};
 
-  return {
-    path: 'footer',
-    content: mergeTranslations([footerLinkTitles, footerLinkLabels, copyright]),
-  };
+  return mergeTranslations([footerLinkTitles, footerLinkLabels, copyright]);
 }
 function translateFooter(
   footer: Footer,
-  translationFiles: Record<string, TranslationFile>,
+  footerTranslations: TranslationFileContent,
 ): Footer {
-  const footerTranslations = translationFiles.footer.content;
-
   const links = footer.links.map((link) => ({
     ...link,
     title:
@@ -137,13 +128,11 @@ exports.getTranslationFiles = async function getTranslationFiles({
   themeConfig: ThemeConfig;
 }): Promise<TranslationFile[]> {
   return [
-    getNavbarTranslationFile(themeConfig.navbar),
-    getFooterTranslationFile(themeConfig.footer),
+    {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
+    {path: 'footer', content: getFooterTranslationFile(themeConfig.footer)},
   ];
 };
 
-// TODO extract in separate  method
-// eslint-disable-next-line no-shadow
 exports.translateThemeConfig = function translateThemeConfig({
   themeConfig,
   translationFiles,
@@ -151,7 +140,6 @@ exports.translateThemeConfig = function translateThemeConfig({
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {
-  // TODO common, should we transform to map in core?
   const translationFilesMap: Record<string, TranslationFile> = keyBy(
     translationFiles,
     (f) => f.path,
@@ -159,7 +147,13 @@ exports.translateThemeConfig = function translateThemeConfig({
 
   return {
     ...themeConfig,
-    navbar: translateNavbar(themeConfig.navbar, translationFilesMap),
-    footer: translateFooter(themeConfig.footer, translationFilesMap),
+    navbar: translateNavbar(
+      themeConfig.navbar,
+      translationFilesMap.navbar.content,
+    ),
+    footer: translateFooter(
+      themeConfig.footer,
+      translationFilesMap.footer.content,
+    ),
   };
 };

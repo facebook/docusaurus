@@ -13,7 +13,7 @@ import {
   SidebarItem,
 } from './types';
 
-import {chain, mapValues, flatten} from 'lodash';
+import {chain, mapValues, flatten, keyBy} from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
@@ -243,12 +243,17 @@ export function getLoadedContentTranslationFiles(
 }
 export function translateLoadedContent(
   loadedContent: LoadedContent,
-  translationFiles: Record<string, TranslationFile>,
+  translationFiles: TranslationFile[],
 ): LoadedContent {
+  const translationFilesMap: Record<string, TranslationFile> = keyBy(
+    translationFiles,
+    (f) => f.path,
+  );
+
   return {
     loadedVersions: translateVersions(
       loadedContent.loadedVersions,
-      translationFiles,
+      translationFilesMap,
     ),
   };
 }

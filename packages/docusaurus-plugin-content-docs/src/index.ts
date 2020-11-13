@@ -17,12 +17,7 @@ import {
   aliasedSitePath,
   reportMessage,
 } from '@docusaurus/utils';
-import {
-  LoadContext,
-  Plugin,
-  RouteConfig,
-  TranslationFile,
-} from '@docusaurus/types';
+import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
@@ -253,13 +248,7 @@ export default function pluginContentDocs(
     },
 
     translateContent({content, translationFiles}) {
-      // TODO common, should we transform to map in core?
-      const translationFilesMap: Record<string, TranslationFile> = keyBy(
-        translationFiles,
-        (f) => f.path,
-      );
-
-      return translateLoadedContent(content, translationFilesMap);
+      return translateLoadedContent(content, translationFiles);
     },
 
     async contentLoaded({content, actions}) {
