@@ -8,14 +8,14 @@ import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins, {InitPlugin} from '../server/plugins/init';
 
 import {
-  appendPluginTranslations,
-  appendCodeTranslations,
+  writePluginTranslations,
+  writeCodeTranslations,
 } from '../translations/translations';
 import {extractPluginsSourceCodeTranslations} from '../translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 import {difference} from 'lodash';
 
-async function appendPluginTranslationFiles({
+async function writePluginTranslationFiles({
   siteDir,
   plugin,
   locales,
@@ -31,7 +31,7 @@ async function appendPluginTranslationFiles({
       translationFiles.map(async (translationFile) => {
         await Promise.all(
           locales.map((locale) =>
-            appendPluginTranslations({
+            writePluginTranslations({
               siteDir,
               plugin,
               translationFile,
@@ -75,8 +75,6 @@ export default async function writeTranslations(
       return [context.i18n.context.defaultLocale];
     }
   }
-  if (options.locales?.length === 1 && options.locales[0] === 'all') {
-  }
 
   const locales = getLocalesToWrite();
 
@@ -90,13 +88,13 @@ export default async function writeTranslations(
   );
   await Promise.all(
     locales.map((locale) =>
-      appendCodeTranslations({siteDir, locale}, codeTranslations),
+      writeCodeTranslations({siteDir, locale}, codeTranslations),
     ),
   );
 
   await Promise.all(
     plugins.map(async (plugin) => {
-      await appendPluginTranslationFiles({siteDir, plugin, locales});
+      await writePluginTranslationFiles({siteDir, plugin, locales});
     }),
   );
 }

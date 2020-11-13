@@ -12,6 +12,11 @@ import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import {getPluginI18nPath} from '@docusaurus/utils';
 import {DEFAULT_PLUGIN_ID} from '../constants';
 
+type TranslationContext = {
+  siteDir: string;
+  locale: string;
+};
+
 async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
@@ -24,30 +29,15 @@ async function readTranslationFileContent(
   return undefined;
 }
 
-async function writeTranslationFileContent(
-  filePath: string,
-  content: TranslationFileContent,
-): Promise<void> {
-  console.log(
-    `writing ${Object.keys(content).length} translations => ${path.relative(
-      process.cwd(),
-      filePath,
-    )}`,
-  );
-  await fs.ensureDir(path.dirname(filePath));
-  await fs.writeFile(filePath, JSON.stringify(content, null, 2));
-}
-
-async function appendTranslationFileContent({
+async function writeTranslationFileContent({
   filePath,
   content,
-  suffix,
+  suffix = '',
 }: {
   filePath: string;
   content: TranslationFileContent;
-  suffix: string;
+  suffix?: string;
 }): Promise<void> {
-  // TODO make this optional?
   const suffixedContent = mapValues(content, (value) => ({
     ...value,
     message: `${value.message}${suffix}`,
@@ -56,6 +46,8 @@ async function appendTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // TODO detect stale translation keys here?
+  // TODO add merge+/override modes
+  // TODO always update the translation description?
   const mergedContent: TranslationFileContent = {
     ...suffixedContent,
     ...existingContent,
@@ -63,14 +55,16 @@ async function appendTranslationFileContent({
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    await writeTranslationFileContent(filePath, mergedContent);
+    console.log(
+      `writing ${Object.keys(content).length} translations => ${path.relative(
+        process.cwd(),
+        filePath,
+      )}`,
+    );
+    await fs.ensureDir(path.dirname(filePath));
+    await fs.writeFile(filePath, JSON.stringify(content, null, 2));
   }
 }
-
-type TranslationContext = {
-  siteDir: string;
-  locale: string;
-};
 
 // should we make this configurable?
 export function getTranslationsDirPath(context: TranslationContext): string {
@@ -94,21 +88,28 @@ export async function readCodeTranslationFileContent(
   const filePath = getCodeTranslationsFilePath(context);
   return readTranslationFileContent(filePath);
 }
-export async function appendCodeTranslations(
+export async function writeCodeTranslations(
   context: TranslationContext,
   content: TranslationFileContent,
 ): Promise<void> {
   const filePath = getCodeTranslationsFilePath(context);
-  return appendTranslationFileContent({
+  return writeTranslationFileContent({
     filePath,
     content,
-    suffix: ` (${context.locale})`,
+    // suffix: ` (${context.locale})`,
   });
 }
 
-// TODO really needed?
-function addTranslationFileExtension(filepath: string) {
-  return filepath.endsWith('.json') ? filepath : `${filepath}.json`;
+// We ask users to not provide any extension on purpose:
+// maybe some day we'll want to support multiple FS formats?
+// (json/yaml/toml/xml...)
+function addTranslationFileExtension(translationFilePath: string) {
+  if (translationFilePath.endsWith('.json')) {
+    throw new Error(
+      `Translation file path does  not need to end  with .json, we addt the extension automatically. translationFilePath=${translationFilePath}`,
+    );
+  }
+  return `${translationFilePath}.json`;
 }
 
 export function getPluginTranslationFilePath({
@@ -130,15 +131,13 @@ export function getPluginTranslationFilePath({
   return path.join(dirPath, addTranslationFileExtension(translationFilePath));
 }
 
-export async function appendPluginTranslations({
+export async function writePluginTranslations({
   siteDir,
   plugin,
   locale,
   translationFile,
-}: {
-  siteDir: string;
+}: TranslationContext & {
   plugin: InitPlugin;
-  locale: string;
   translationFile: TranslationFile;
 }): Promise<void> {
   const filePath = getPluginTranslationFilePath({
@@ -148,10 +147,10 @@ export async function appendPluginTranslations({
     translationFilePath: translationFile.path,
   });
 
-  await appendTranslationFileContent({
+  await writeTranslationFileContent({
     filePath,
     content: translationFile.content,
-    suffix: ` (${locale})`,
+    // suffix: ` (${locale})`,
   });
 }
 
