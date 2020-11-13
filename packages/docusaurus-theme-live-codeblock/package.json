@@ -16,9 +16,9 @@
     "@docusaurus/core": "2.0.0-alpha.66",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
-    "parse-numeric-range": "^0.0.2",
-    "prism-react-renderer": "^1.1.0",
-    "react-live": "^2.2.1"
+    "parse-numeric-range": "^1.2.0",
+    "prism-react-renderer": "^1.1.1",
+    "react-live": "^2.2.3"
   },
   "peerDependencies": {
     "react": "^16.8.4",
