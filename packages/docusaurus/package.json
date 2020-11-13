@@ -51,7 +51,7 @@
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
     "@svgr/webpack": "^5.4.0",
     "babel-loader": "^8.2.1",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "babel-plugin-dynamic-import-node": "^2.3.0",
     "boxen": "^4.2.0",
     "cache-loader": "^4.1.0",
     "chalk": "^3.0.0",
