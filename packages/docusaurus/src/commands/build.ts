@@ -48,7 +48,7 @@ export default async function build(
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify, cliOptions.useOldCssMinifier),
+    createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.

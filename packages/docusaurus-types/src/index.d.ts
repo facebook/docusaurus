@@ -115,7 +115,6 @@ export interface BuildCLIOptions {
   outDir: string;
   minify: boolean;
   skipBuild: boolean;
-  useOldCssMinifier: boolean;
 }
 
 export interface LoadContext {

@@ -40,13 +40,13 @@ export function createBaseConfig(
   props: Props,
   isServer: boolean,
   minify: boolean = true,
-  useOldCssMinifier: boolean = false,
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
+  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
   const customBabelConfigurationPath = path.join(
     siteDir,
@@ -98,7 +98,9 @@ export function createBaseConfig(
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled ? getMinimizer(useOldCssMinifier) : undefined,
+      minimizer: minimizeEnabled
+        ? getMinimizer(useSimpleCssMinifier)
+        : undefined,
       splitChunks: isServer
         ? false
         : {

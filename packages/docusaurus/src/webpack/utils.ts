@@ -355,7 +355,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useOldCssMinimizer = false) {
+export function getMinimizer(useSimpleCssMinifier = false) {
   const minimizer = [
     new TerserPlugin({
       cache: true,
@@ -388,7 +388,7 @@ export function getMinimizer(useOldCssMinimizer = false) {
     }),
   ];
 
-  if (useOldCssMinimizer) {
+  if (useSimpleCssMinifier) {
     minimizer.push(
       new OptimizeCSSAssetsPlugin({
         cssProcessorPluginOptions: {

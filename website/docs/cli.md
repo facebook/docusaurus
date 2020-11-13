@@ -84,13 +84,12 @@ Compiles your site for production.
 | `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
-| `--use-old-css-minifier` | `false` | Use only default preset cssnano for CSS minification (see info below for more details). |
 
 :::info
 
 For minification of CSS bundle is used [advanced preset of cssnano](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced) (along with additional several PostCSS plugins) and [level 2 optimization of clean-css](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations).
-If as a result of this CSS minification you find broken CSS, use the option `--use-old-css-minifier` to minify CSS in old way, via using [default preset cssnano](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default) only.
-**Please [fill out an issue](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md) if you experience CSS minification bugs.**
+If as a result of this CSS minification you find broken CSS, build your website with the environment variable `USE_SIMPLE_CSS_MINIFIER=true` to minify CSS via using [default preset cssnano](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default) only.
+**But in that case, please [fill out an issue](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md) if you experience CSS minification bugs.**
 
 :::
 
