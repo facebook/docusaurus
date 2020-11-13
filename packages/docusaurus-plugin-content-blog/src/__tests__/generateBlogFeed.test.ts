@@ -8,12 +8,20 @@
 import path from 'path';
 import {generateBlogFeed} from '../blogUtils';
 import {LoadContext} from '@docusaurus/types';
-import {PluginOptions} from '../types';
+import {PluginOptions, BlogContentPaths} from '../types';
+
+function getBlogContentPaths(siteDir: string): BlogContentPaths {
+  return {
+    contentPath: path.resolve(siteDir, 'blog'),
+    contentPathLocalized: path.resolve(siteDir, 'i18n', 'en'),
+  };
+}
 
 describe('blogFeed', () => {
-  ['atom', 'rss'].forEach((feedType) => {
+  (['atom', 'rss'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
       test('can show feed without posts', async () => {
+        const siteDir = __dirname;
         const siteConfig = {
           title: 'Hello',
           baseUrl: '/',
@@ -22,8 +30,9 @@ describe('blogFeed', () => {
         };
 
         const feed = await generateBlogFeed(
+          getBlogContentPaths(siteDir),
           {
-            siteDir: __dirname,
+            siteDir,
             siteConfig,
           } as LoadContext,
           {
@@ -31,7 +40,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             include: ['*.md', '*.mdx'],
             feedOptions: {
-              type: feedType,
+              type: [feedType],
               copyright: 'Copyright',
             },
           } as PluginOptions,
@@ -52,6 +61,7 @@ describe('blogFeed', () => {
         };
 
         const feed = await generateBlogFeed(
+          getBlogContentPaths(siteDir),
           {
             siteDir,
             siteConfig,
@@ -62,7 +72,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             include: ['*r*.md', '*.mdx'], // skip no-date.md - it won't play nice with snapshots
             feedOptions: {
-              type: feedType,
+              type: [feedType],
               copyright: 'Copyright',
             },
           } as PluginOptions,
