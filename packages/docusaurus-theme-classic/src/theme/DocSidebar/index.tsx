@@ -7,17 +7,16 @@
 
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeConfig from '../../utils/useThemeConfig';
 import {isSamePath} from '../../utils';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
-import useLogo from '@theme/hooks/useLogo';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
+import Logo from '@theme/Logo';
 
 import styles from './styles.module.css';
 
@@ -194,11 +193,9 @@ function DocSidebar({
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
-    navbar: {title, hideOnScroll},
+    navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
-  const {isClient} = useDocusaurusContext();
-  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();
 
@@ -217,18 +214,7 @@ function DocSidebar({
         [styles.sidebarWithHideableNavbar]: hideOnScroll,
         [styles.sidebarHidden]: isHidden,
       })}>
-      {hideOnScroll && (
-        <Link
-          tabIndex={-1}
-          className={styles.sidebarLogo}
-          to={logoLink}
-          {...logoLinkProps}>
-          {logoImageUrl != null && (
-            <img key={isClient} src={logoImageUrl} alt={logoAlt} />
-          )}
-          {title != null && <strong>{title}</strong>}
-        </Link>
-      )}
+      {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <div
         className={clsx(
           'menu',
@@ -293,7 +279,6 @@ function DocSidebar({
           ))}
         </ul>
       </div>
-
       {hideableSidebar && (
         <button
           type="button"
