@@ -18,12 +18,12 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 const Logo = (props: Props): JSX.Element | null => {
   const {isClient} = useDocusaurusContext();
   const {
-    navbar: {title, logo},
+    navbar: {title, logo = {}},
   } = useThemeConfig();
 
   const {imageClassName, titleClassName, ...propsRest} = props;
-  const logoLink = useBaseUrl(logo?.href || '/');
-  const logoLinkProps = logo?.target
+  const logoLink = useBaseUrl(logo.href || '/');
+  const logoLinkProps = logo.target
     ? {target: logo.target}
     : !isInternalUrl(logoLink)
     ? {
@@ -32,18 +32,18 @@ const Logo = (props: Props): JSX.Element | null => {
       }
     : {};
   const sources = {
-    light: useBaseUrl(logo?.src),
-    dark: useBaseUrl(logo?.srcDark || logo?.src),
+    light: useBaseUrl(logo.src),
+    dark: useBaseUrl(logo.srcDark),
   };
 
   return (
     <Link to={logoLink} {...propsRest} {...logoLinkProps}>
-      {logo?.src && (
+      {logo.src && (
         <ThemedImage
           key={isClient}
           className={imageClassName}
           sources={sources}
-          alt={logo?.alt || title || 'Logo'}
+          alt={logo.alt || title || 'Logo'}
         />
       )}
       {title != null && <strong className={titleClassName}>{title}</strong>}
