@@ -48,11 +48,13 @@ declare module '@generated/globalData' {
 }
 
 declare module '@generated/i18n' {
-  const i18n: {
-    context: any; // TODO
-    translations: Record<string, string>;
-  };
+  const i18n: any; // TODO
   export default i18n;
+}
+
+declare module '@generated/codeTranslations' {
+  const codeTranslations: Record<string, string>;
+  export default codeTranslations;
 }
 
 declare module '@theme/*';

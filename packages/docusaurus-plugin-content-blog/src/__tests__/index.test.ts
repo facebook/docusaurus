@@ -12,12 +12,9 @@ import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 
 const DefaultI18N: I18n = {
-  context: {
-    currentLocale: 'en',
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
-  translations: {},
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
 };
 
 function validateAndNormalize(schema, options) {

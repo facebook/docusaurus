@@ -26,32 +26,29 @@ import {
   I18n,
   DocusaurusSiteMetadata,
   LoadContext,
-  I18nContext,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
-import {loadI18nContext} from './i18n';
+import {loadI18n} from './i18n';
 import {readCodeTranslationFileContent} from '../translations/translations';
 import {mapValues} from 'lodash';
 
 function localizePath(
   originalPath: string,
-  localization: I18nContext,
+  i18n: I18n,
   options: LoadContextOptions,
 ): string {
   const shouldLocalizePath: boolean =
     typeof options.localizePath === 'undefined'
       ? // By default, we don't localize the path of defaultLocale
-        localization.currentLocale !== localization.defaultLocale
+        i18n.currentLocale !== i18n.defaultLocale
       : options.localizePath;
 
   if (shouldLocalizePath) {
-    return addTrailingSlash(
-      normalizeUrl([originalPath, localization.currentLocale]),
-    );
+    return addTrailingSlash(normalizeUrl([originalPath, i18n.currentLocale]));
   } else {
     return originalPath;
   }
@@ -79,10 +76,10 @@ export async function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  const localization = loadI18nContext(siteDir, {locale});
+  const i18n = loadI18n(siteDir, {locale});
 
-  const baseUrl = localizePath(baseSiteConfig.baseUrl, localization, options);
-  const outDir = localizePath(baseOutDir, localization, options);
+  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options);
+  const outDir = localizePath(baseOutDir, i18n, options);
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
   // console.log('Site loadContext', {locale, baseUrl, outDir, options});
@@ -90,23 +87,14 @@ export async function loadContext(
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({
       siteDir,
-      locale: localization.currentLocale,
+      locale: i18n.currentLocale,
     })) ?? {};
 
   // We only need key->message for code translations
-  const translations = mapValues(
+  const codeTranslations = mapValues(
     codeTranslationFileContent,
     (value) => value.message,
   );
-
-  const i18n: I18n = {
-    context: {
-      currentLocale: localization.currentLocale,
-      locales: localization.locales,
-      defaultLocale: localization.defaultLocale,
-    },
-    translations,
-  };
 
   return {
     siteDir,
@@ -116,6 +104,7 @@ export async function loadContext(
     baseUrl,
     i18n,
     ssrTemplate,
+    codeTranslations,
   };
 }
 
@@ -144,6 +133,7 @@ export async function load(
     baseUrl,
     i18n,
     ssrTemplate,
+    codeTranslations,
   } = context;
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
@@ -279,6 +269,12 @@ ${Object.keys(registry)
     JSON.stringify(i18n, null, 2),
   );
 
+  const genCodeTranslations = generate(
+    generatedFilesDir,
+    'codeTranslations.json',
+    JSON.stringify(codeTranslations, null, 2),
+  );
+
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
@@ -308,6 +304,7 @@ ${Object.keys(registry)
     genGlobalData,
     genSiteMetadata,
     genI18n,
+    genCodeTranslations,
   ]);
 
   const props: Props = {
@@ -324,6 +321,7 @@ ${Object.keys(registry)
     preBodyTags,
     postBodyTags,
     ssrTemplate: ssrTemplate || ssrDefaultTemplate,
+    codeTranslations,
   };
 
   return props;

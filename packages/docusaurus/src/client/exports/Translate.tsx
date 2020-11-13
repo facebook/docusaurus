@@ -8,7 +8,7 @@
 import React from 'react';
 
 // Can't read it from context, due to exposing imperative API
-import i18n from '@generated/i18n';
+import codeTranslations from '@generated/codeTranslations';
 
 function getLocalizedMessage({
   id,
@@ -17,7 +17,7 @@ function getLocalizedMessage({
   message: string;
   id?: string;
 }): string {
-  return i18n.translations[id ?? message];
+  return codeTranslations[id ?? message] ?? message;
 }
 
 export type TranslateParam = {

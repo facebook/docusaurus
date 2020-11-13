@@ -91,19 +91,19 @@ export type TranslationFile = {path: string; content: TranslationFileContent};
 export type TranslationFiles = TranslationFile[];
 
 export type I18n = {
-  context: {
-    currentLocale: string;
-    locales: string[];
-    defaultLocale: string;
-  };
-  translations: Record<string, string>;
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  currentLocale: string;
 };
+
+export type I18nFile = Pick<I18n, 'defaultLocale' | 'locales'>;
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
   globalData: Record<string, any>;
-  i18n: I18n; // TODO rename type or name ?
+  i18n: I18n;
+  codeTranslations: Record<string, string>;
   isClient: boolean;
 }
 
@@ -145,15 +145,6 @@ export type BuildCLIOptions = BuildOptions & {
   locale?: string;
 };
 
-export type I18nFile = {
-  locales: [string, ...string[]];
-  defaultLocale: string;
-};
-
-export type I18nContext = I18nFile & {
-  currentLocale: string;
-};
-
 export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
@@ -162,6 +153,7 @@ export interface LoadContext {
   baseUrl: string;
   i18n: I18n;
   ssrTemplate?: string;
+  codeTranslations: Record<string, string>;
 }
 
 export interface InjectedHtmlTags {

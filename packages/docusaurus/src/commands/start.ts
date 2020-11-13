@@ -95,7 +95,7 @@ export default async function start(
     CONFIG_FILE_NAME,
     getTranslationsLocaleDirPath({
       siteDir,
-      locale: props.i18n.context.currentLocale,
+      locale: props.i18n.currentLocale,
     }),
   ];
 

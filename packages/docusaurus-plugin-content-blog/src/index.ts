@@ -63,9 +63,7 @@ export default function pluginContentBlog(
   const {
     siteDir,
     generatedFilesDir,
-    i18n: {
-      context: {currentLocale},
-    },
+    i18n: {currentLocale},
   } = context;
 
   const contentPaths: BlogContentPaths = {

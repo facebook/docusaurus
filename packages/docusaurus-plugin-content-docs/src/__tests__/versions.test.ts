@@ -18,12 +18,9 @@ import {PluginOptions, VersionMetadata} from '../types';
 import {I18n} from '@docusaurus/types';
 
 const DefaultI18N: I18n = {
-  context: {
-    currentLocale: 'en',
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
-  translations: {},
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
 };
 
 describe('version paths', () => {

@@ -57,12 +57,9 @@ export default async function writeTranslations(
 
   function getLocalesToWrite(): string[] {
     if (options.locales?.length === 1 && options.locales[0] === 'all') {
-      return context.i18n.context.locales;
+      return context.i18n.locales;
     } else if (options.locales) {
-      const unknownLocales = difference(
-        options.locales,
-        context.i18n.context.locales,
-      );
+      const unknownLocales = difference(options.locales, context.i18n.locales);
       if (unknownLocales.length > 0) {
         throw new Error(
           `Can't write-translation for locales that are not in the locale configuration file. Unknown locales=${unknownLocales.join(
@@ -72,7 +69,7 @@ export default async function writeTranslations(
       }
       return options.locales;
     } else {
-      return [context.i18n.context.defaultLocale];
+      return [context.i18n.defaultLocale];
     }
   }
 

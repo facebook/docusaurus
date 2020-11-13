@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {I18nFile, I18nContext} from '@docusaurus/types';
+import {I18nFile, I18n} from '@docusaurus/types';
 import Joi from 'joi';
 
 const DEFAULT_LOCALE = 'en';
@@ -25,22 +25,22 @@ const LOCALIZATION_FILE_SCHEMA = Joi.object<I18nFile>({
   .optional()
   .default(DEFAULT_LOCALIZATION_FILE);
 
-function loadLocalesFile(siteDir: string): unknown {
-  const localeJsPath = path.resolve(siteDir, 'locales.js');
+function loadI18nFileContent(siteDir: string): unknown {
+  const localeJsPath = path.resolve(siteDir, 'i18n.js');
   if (fs.existsSync(localeJsPath)) {
     return importFresh(localeJsPath);
   }
-  const localeJsonPath = path.resolve(siteDir, 'locales.json');
+  const localeJsonPath = path.resolve(siteDir, 'i18n.json');
   if (fs.existsSync(localeJsonPath)) {
     return importFresh(localeJsonPath);
   }
   return undefined;
 }
 
-function validateI18nFile(unsafeLocalizationFile: unknown): I18nFile {
+function validateI18nFileContent(uncheckedFileContent: unknown): I18nFile {
   try {
     const localizationFile = Joi.attempt(
-      unsafeLocalizationFile,
+      uncheckedFileContent,
       LOCALIZATION_FILE_SCHEMA,
       {convert: false, allowUnknown: false, abortEarly: true},
     );
@@ -58,18 +58,18 @@ function validateI18nFile(unsafeLocalizationFile: unknown): I18nFile {
 }
 
 function loadI18nFile(siteDir: string): I18nFile {
-  const localesFileContent = loadLocalesFile(siteDir);
+  const localesFileContent = loadI18nFileContent(siteDir);
   if (localesFileContent) {
-    return validateI18nFile(localesFileContent);
+    return validateI18nFileContent(localesFileContent);
   } else {
     return DEFAULT_LOCALIZATION_FILE;
   }
 }
 
-export function loadI18nContext(
+export function loadI18n(
   siteDir: string,
   options: {locale?: string} = {},
-): I18nContext {
+): I18n {
   const localizationFile = loadI18nFile(siteDir);
   const currentLocale = options.locale ?? localizationFile.defaultLocale;
 

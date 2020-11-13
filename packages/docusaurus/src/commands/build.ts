@@ -22,7 +22,7 @@ import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-import {loadI18nContext} from '../server/i18n';
+import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
 
 export default async function build(
@@ -42,7 +42,7 @@ export default async function build(
     }
   }
 
-  const i18nContext = loadI18nContext(siteDir, {
+  const i18nContext = loadI18n(siteDir, {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
