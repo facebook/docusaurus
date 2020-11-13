@@ -1,0 +1,11 @@
+img.themedImageSSR {
+  display: none;
+}
+
+html[data-theme='light'] img.themedImageSSR.themedImageLight {
+  display: block;
+}
+
+html[data-theme='dark'] img.themedImageSSR.themedImageDark {
+  display: block;
+}

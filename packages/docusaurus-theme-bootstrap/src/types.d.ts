@@ -96,8 +96,10 @@ declare module '@theme/ThemedImage' {
   import type {ComponentProps} from 'react';
 
   export type Props = {
-    readonly lightSrc: string;
-    readonly darkSrc?: string;
+    readonly sources?: {
+      readonly light: string;
+      readonly dark: string;
+    };
   } & ComponentProps<'img'>;
 
   const ThemedImage: (props: Props) => JSX.Element;

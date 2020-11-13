@@ -6,15 +6,65 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/ThemedImage';
+import clsx from 'clsx';
+
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import type {Props} from '@theme/ThemedImage';
 
-function ThemedImage(props: Props): JSX.Element {
+const ThemedImage = (props: Props): JSX.Element => {
+  const {isClient} = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
-  const {src, darkSrc, lightSrc, alt = '', ...propsRest} = props;
-  const finalSrc = darkSrc && isDarkTheme ? darkSrc : lightSrc || src;
+  const {sources, src, className, alt = '', ...propsRest} = props;
 
-  return <img src={finalSrc} alt={alt} {...propsRest} />;
-}
+  if (isClient) {
+    const finalSrc = sources
+      ? isDarkTheme
+        ? sources.dark
+        : sources.light
+      : src;
+    return (
+      <img
+        src={finalSrc}
+        alt={alt}
+        className={clsx(
+          'themedImage',
+          sources
+            ? {
+                themedImageLight: !isDarkTheme,
+                themedImageDark: isDarkTheme,
+              }
+            : null,
+          className,
+        )}
+        {...propsRest}
+      />
+    );
+  } else {
+    return sources ? (
+      <>
+        <img
+          src={sources.light}
+          alt={alt}
+          className={clsx('themedImageSSR', 'themedImageLight', className)}
+          {...propsRest}
+        />
+        <img
+          src={sources.dark}
+          alt={alt}
+          className={clsx('themedImageSSR', 'themedImageDark', className)}
+          {...propsRest}
+        />
+      </>
+    ) : (
+      <img
+        src={src}
+        alt={alt}
+        className={clsx('themedImageSSR', className)}
+        {...propsRest}
+      />
+    );
+  }
+};
 
 export default ThemedImage;

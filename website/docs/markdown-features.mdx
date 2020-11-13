@@ -4,14 +4,17 @@ title: Markdown Features
 description: Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific features when writing Markdown.
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+
 <ThemedImage
   alt="Docusaurus themed image"
-  lightSrc={
-    'https://images.pexels.com/photos/4734723/pexels-photo-4734723.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200'
-  }
-  darkSrc={
-    'https://images.pexels.com/photos/5828718/pexels-photo-5828718.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200'
-  }
+  sources={{
+    light:
+      'https://images.pexels.com/photos/4734723/pexels-photo-4734723.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200',
+    dark:
+      'https://images.pexels.com/photos/5828718/pexels-photo-5828718.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200',
+  }}
 />
 
 Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
@@ -1077,25 +1080,28 @@ import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
 
-### Themed Image
+### Themed Images
 
-Docusaurus also offers support for the themed images. It is useful if you need to switch the whole image based on the current theme.
+Docusaurus supports themed images by `ThemedImage` component included in the theme. It can be used, if you want to switch the image source based on the current theme.
 
-```js
+```jsx {5-8}
 import ThemedImage from '@theme/ThemedImage';
 
 <ThemedImage
   alt="Docusaurus themed image"
-  lightSrc={useBaseUrl('img/docusaurus_light.svg')}
-  darkSrc={useBaseUrl('img/docusaurus_dark.svg')}
+  sources={{
+    light: useBaseUrl('img/docusaurus_light.svg'),
+    dark: useBaseUrl('img/docusaurus_dark.svg'),
+  }}
 />;
 ```
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import ThemedImage from '@theme/ThemedImage';
-
 <ThemedImage
   alt="Docusaurus themed image"
-  lightSrc={useBaseUrl('img/docusaurus_keytar.svg')}
-  darkSrc={useBaseUrl('img/docusaurus_speed.svg')}
+  sources={{
+    light: useBaseUrl('img/docusaurus_keytar.svg'),
+    dark: useBaseUrl('img/docusaurus_speed.svg'),
+  }}
 />
+
+`ThemedImage` component can also be used as regular `img` tag, when instead of `sources` you provide the single image source via `src` property.
