@@ -5,8 +5,6 @@ description: Docusaurus was designed from the ground up to be easily installed a
 slug: /
 ---
 
-FRENCH
-
 ## Disclaimer
 
 It has been a year since we made the first **alpha release** of Docusaurus 2 and things have been pretty stable since then. Many of Facebook's new open source websites are using Docusaurus 2 now. At this point, we highly encourage you to use Docusaurus 2 over Docusaurus 1 for your new websites. For feedback and questions, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.

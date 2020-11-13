@@ -1,26 +1,26 @@
 {
   "title": {
-    "message": "Docusaurus (fr)",
+    "message": "Docusaurus (en)",
     "description": "The title in the navbar"
   },
   "item.label.Docs": {
-    "message": "Docs (fr)",
+    "message": "Docs (en)",
     "description": "Navbar item with label Docs"
   },
   "item.label.API": {
-    "message": "API (fr)",
+    "message": "API (en)",
     "description": "Navbar item with label API"
   },
   "item.label.Blog": {
-    "message": "Blog (fr)",
+    "message": "Blog (en)",
     "description": "Navbar item with label Blog"
   },
   "item.label.Showcase": {
-    "message": "Showcase (fr)",
+    "message": "Showcase (en)",
     "description": "Navbar item with label Showcase"
   },
   "item.label.Community": {
-    "message": "Community (fr)",
+    "message": "Community (en)",
     "description": "Navbar item with label Community"
   }
 }

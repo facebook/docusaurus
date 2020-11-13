@@ -1,5 +1,5 @@
 ---
-title: Tribute to Endi FR
+title: Tribute to Endi
 author: Joel Marcey
 authorTitle: Technical Lead and Developer Advocate at Facebook
 authorURL: https://github.com/JoelMarcey
@@ -9,8 +9,6 @@ tags:
   - endi
   - tribute
 ---
-
-FRENCH
 
 It is with great sadness to announce that our primary external Docusaurus contributor, [Endilie Yacop Sucipto](https://github.com/endiliey) (Endi to those who knew him), [passed away](https://give.asia/campaign/help_endi_beat_cancer#/updates) over the weekend after an illness associated with his bout with cancer.
 
