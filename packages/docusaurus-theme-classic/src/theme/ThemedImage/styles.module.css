@@ -1,0 +1,11 @@
+.themedImage {
+  display: none;
+}
+
+html[data-theme='light'] .themedImage--light {
+  display: block;
+}
+
+html[data-theme='dark'] .themedImage--dark {
+  display: block;
+}

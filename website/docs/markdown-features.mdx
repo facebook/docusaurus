@@ -1086,3 +1086,30 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 ```
 
 <DocusaurusSvg className="themedDocusaurus" />
+
+### Themed Images
+
+Docusaurus supports themed images: the `ThemedImage` component (included in the classic/bootstrap themes) allows you to switch the image source based on the current theme.
+
+```jsx {5-8}
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('img/docusaurus_light.svg'),
+    dark: useBaseUrl('img/docusaurus_dark.svg'),
+  }}
+/>;
+```
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('img/docusaurus_keytar.svg'),
+    dark: useBaseUrl('img/docusaurus_speed.svg'),
+  }}
+/>
