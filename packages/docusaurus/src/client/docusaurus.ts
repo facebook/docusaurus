@@ -52,16 +52,22 @@ const docusaurus = {
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
     const chunkNamesNeeded = matches.reduce((arr: string[], match) => {
-      const chunk = (Object.entries(routesChunkNames).find((r) =>
-        r[0].startsWith(match.route.path as string),
-      ) || [])[1];
+      const routesChunkNamesNeeded = Object.entries(routesChunkNames).filter(
+        (r) => r[0].replace(/(-[^-]+)$/, '') === match.route.path,
+      );
 
-      if (!chunk) {
+      if (!routesChunkNamesNeeded.length) {
         return arr;
       }
 
-      const chunkNames = Object.values(flat(chunk)) as string[];
-      return arr.concat(chunkNames);
+      for (const routeChunkNamesNeeded of routesChunkNamesNeeded) {
+        const chunkNames = Object.values(
+          flat(routeChunkNamesNeeded[1]),
+        ) as string[];
+        arr = arr.concat(chunkNames);
+      }
+
+      return arr;
     }, []);
 
     // Prefetch all webpack chunk assets file needed.
