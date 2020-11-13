@@ -11,10 +11,7 @@ import {
   LoadedContent,
   Sidebars,
   SidebarItem,
-  DocMetadata,
-  VersionMetadata,
 } from './types';
-import path from 'path';
 
 import {chain, mapValues, flatten} from 'lodash';
 import {
@@ -30,7 +27,7 @@ import {
 import {mergeTranslations} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from './constants';
 
-function getVersionFolderName(versionName: string): string {
+function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {
     return versionName;
   } else {
@@ -38,17 +35,6 @@ function getVersionFolderName(versionName: string): string {
     // but it's for consistency with site/versioned_docs
     return `version-${versionName}`;
   }
-}
-
-function getVersionedMetadataFilePath(
-  version: VersionMetadata,
-  fileName: string,
-): string {
-  return path.join(
-    getVersionFolderName(version.versionName),
-    '_metadata',
-    fileName,
-  );
 }
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
@@ -68,6 +54,9 @@ function getNormalizedSidebarName({
   return rest.join('/');
 }
 
+/*
+// TODO do we need this?
+// It seems translating frontmatter is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {
@@ -106,6 +95,7 @@ function translateDocs(
 ): DocMetadata[] {
   return docs.map((doc) => translateDoc(doc, docsTranslations));
 }
+ */
 
 function getSidebarTranslationFileContent(
   sidebar: Sidebar,
@@ -113,7 +103,7 @@ function getSidebarTranslationFileContent(
 ): TranslationFileContent {
   const categories = collectSidebarCategories(sidebar);
   const categoryContent: TranslationFileContent = chain(categories)
-    .keyBy((category) => `${sidebarName}.category.${category.label}`)
+    .keyBy((category) => `sidebar.${sidebarName}.category.${category.label}`)
     .mapValues((category) => ({
       message: category.label,
       description: `The label for category ${category.label} in sidebar ${sidebarName}`,
@@ -122,7 +112,7 @@ function getSidebarTranslationFileContent(
 
   const links = collectSidebarLinks(sidebar);
   const linksContent: TranslationFileContent = chain(links)
-    .keyBy((link) => `${sidebarName}.link.${link.label}`)
+    .keyBy((link) => `sidebar.${sidebarName}.link.${link.label}`)
     .mapValues((link) => ({
       message: link.label,
       description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
@@ -148,15 +138,16 @@ function translateSidebar({
         return {
           ...item,
           label:
-            sidebarsTranslations[`${sidebarName}.category.${item.label}`]
-              ?.message ?? item.label,
+            sidebarsTranslations[
+              `sidebar.${sidebarName}.category.${item.label}`
+            ]?.message ?? item.label,
         };
       }
       if (item.type === 'link') {
         return {
           ...item,
           label:
-            sidebarsTranslations[`${sidebarName}.link.${item.label}`]
+            sidebarsTranslations[`sidebar.${sidebarName}.link.${item.label}`]
               ?.message ?? item.label,
         };
       }
@@ -195,44 +186,41 @@ function translateSidebars(
 }
 
 function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
-  const versionTranslationFile: TranslationFile = {
-    path: getVersionedMetadataFilePath(version, 'version'),
-    content: {
-      label: {
-        message: version.versionLabel,
-        description: `The label for version ${version.versionName}`,
-      },
+  const versionTranslations: TranslationFileContent = {
+    'version.label': {
+      message: version.versionLabel,
+      description: `The label for version ${version.versionName}`,
     },
   };
 
-  const docsTranslationFile = {
-    path: getVersionedMetadataFilePath(version, 'docs'),
-    content: getDocsTranslations(version),
-  };
+  const sidebarsTranslations: TranslationFileContent = getSidebarsTranslations(
+    version,
+  );
 
-  const sidebarsTranslationFile = {
-    path: getVersionedMetadataFilePath(version, 'sidebars'),
-    content: getSidebarsTranslations(version),
-  };
+  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
 
-  return [versionTranslationFile, docsTranslationFile, sidebarsTranslationFile];
+  return [
+    {
+      path: getVersionFileName(version.versionName),
+      content: mergeTranslations([
+        versionTranslations,
+        sidebarsTranslations,
+        // docsTranslations,
+      ]),
+    },
+  ];
 }
 function translateVersion(
   version: LoadedVersion,
   translationFiles: Record<string, TranslationFile>,
 ): LoadedVersion {
   const versionTranslations =
-    translationFiles[getVersionedMetadataFilePath(version, 'version')].content;
-  const sidebarsTranslations =
-    translationFiles[getVersionedMetadataFilePath(version, 'sidebars')].content;
-  const docsTranslations =
-    translationFiles[getVersionedMetadataFilePath(version, 'docs')].content;
-
+    translationFiles[getVersionFileName(version.versionName)].content;
   return {
     ...version,
-    versionLabel: versionTranslations.label?.message,
-    sidebars: translateSidebars(version, sidebarsTranslations),
-    docs: translateDocs(version.docs, docsTranslations),
+    versionLabel: versionTranslations['version.label']?.message,
+    sidebars: translateSidebars(version, versionTranslations),
+    // docs: translateDocs(version.docs, versionTranslations),
   };
 }
 
