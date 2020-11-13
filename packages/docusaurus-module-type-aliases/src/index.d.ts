@@ -48,7 +48,11 @@ declare module '@generated/globalData' {
 }
 
 declare module '@generated/i18n' {
-  const i18n: any; // TODO
+  const i18n: {
+    defaultLocale: string;
+    locales: [string, ...string[]];
+    currentLocale: string;
+  };
   export default i18n;
 }
 
