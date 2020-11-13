@@ -119,14 +119,11 @@ export default async function build(
 
   // Remove server.bundle.js because it is not needed.
   if (
-    serverConfig?.output &&
-    serverConfig?.output?.filename &&
-    typeof serverConfig?.output?.filename === 'string'
+    serverConfig.output &&
+    serverConfig.output.filename &&
+    typeof serverConfig.output.filename === 'string'
   ) {
-    const serverBundle = path.join(
-      outDir,
-      serverConfig?.output?.filename as string,
-    );
+    const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.pathExists(serverBundle).then((exist) => {
       if (exist) {
         fs.unlink(serverBundle);
