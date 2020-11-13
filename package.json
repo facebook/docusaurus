@@ -31,7 +31,7 @@
     "crowdin:upload:v2": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
     "changelog": "lerna-changelog",
-    "postinstall": "test -n \"$NO_YARN_POST_INSTALL\" || yarn build:packages",
+    "postinstall": "yarn lock:update && test -n \"$NO_YARN_POST_INSTALL\" || yarn build:packages",
     "install:fast": "NO_YARN_POST_INSTALL=true yarn install",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
@@ -43,7 +43,7 @@
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel --no-private watch",
-    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus",
+    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:v1Migration:migrate": "rimraf website-1.x-migrated && docusaurus-migrate migrate ./website-1.x ./website-1.x-migrated && sed -i -- 's/docusaurus-1-website/docusaurus-1-website-migrated/g;' website-1.x-migrated/package.json",
     "test:v1Migration:start": "yarn workspace docusaurus-1-website-migrated start",
     "test:v1Migration:build": "yarn workspace docusaurus-1-website-migrated build",
@@ -54,7 +54,8 @@
     "netlify:deployPreview:v1:moveBuild": "mv website-1.x/build/docusaurus website/netlifyDeployPreview/v1",
     "netlify:deployPreview:v1-migrated": "yarn test:v1Migration:migrate && yarn netlify:deployPreview:v1-migrated:setBaseUrl && yarn netlify:deployPreview:v1-migrated:build",
     "netlify:deployPreview:v1-migrated:setBaseUrl": "sed -i -e 's,\"baseUrl\": \"/\",\"baseUrl\": \"/v1-migrated/\",g'  ./website-1.x-migrated/docusaurus.config.js",
-    "netlify:deployPreview:v1-migrated:build": "yarn workspace docusaurus-1-website-migrated build --out-dir=../website/netlifyDeployPreview/v1-migrated"
+    "netlify:deployPreview:v1-migrated:build": "yarn workspace docusaurus-1-website-migrated build --out-dir=../website/netlifyDeployPreview/v1-migrated",
+    "lock:update": "npx yarn-deduplicate"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
