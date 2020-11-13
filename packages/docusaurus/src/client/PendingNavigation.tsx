@@ -13,7 +13,7 @@ import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 
-import 'nprogress/nprogress.css';
+import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 

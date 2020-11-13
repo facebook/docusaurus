@@ -381,7 +381,7 @@ declare module '@theme/TabItem' {
     readonly className: string;
   };
 
-  const TabItem: () => JSX.Element;
+  const TabItem: (props: Props) => JSX.Element;
   export default TabItem;
 }
 
@@ -399,8 +399,22 @@ declare module '@theme/Tabs' {
     readonly className?: string;
   };
 
-  const Tabs: () => JSX.Element;
+  const Tabs: (props: Props) => JSX.Element;
   export default Tabs;
+}
+
+declare module '@theme/ThemedImage' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = {
+    readonly sources: {
+      readonly light: string;
+      readonly dark: string;
+    };
+  } & Omit<ComponentProps<'img'>, 'src'>;
+
+  const ThemedImage: (props: Props) => JSX.Element;
+  export default ThemedImage;
 }
 
 declare module '@theme/ThemeProvider' {
