@@ -1057,7 +1057,7 @@ or
 
 Docusaurus supports inlining SVGs out of the box.
 
-```js
+```jsx
 import DocusaurusSvg from './docusaurus.svg';
 
 <DocusaurusSvg />;
@@ -1066,3 +1066,23 @@ import DocusaurusSvg from './docusaurus.svg';
 import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
+
+This can be useful, if you want to alter the part of the SVG image via CSS. For example, you can change one of the SVG colors based on the current theme.
+
+```jsx
+import DocusaurusSvg from './docusaurus.svg';
+
+<DocusaurusSvg className="themedDocusaurus" />;
+```
+
+```css
+html[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: greenyellow;
+}
+
+html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: seagreen;
+}
+```
+
+<DocusaurusSvg className="themedDocusaurus" />
