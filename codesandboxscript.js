@@ -1,6 +1,7 @@
 let {readFileSync, writeFileSync, readdir, rmdirSync} = require('fs');
 let {execSync} = require('child_process');
 
+//delete the examples directory if it exists
 rmdirSync('./examples', {recursive: true});
 // get the list of all available templates
 readdir('./packages/docusaurus-init/templates', (err, data) => {
@@ -29,8 +30,7 @@ readdir('./packages/docusaurus-init/templates', (err, data) => {
         JSON.stringify(toJSON, null, 2),
       );
 
-      /*copy the sandbox config file from the root of docusaurus to the root
-      of template in the examples folder*/
+      //create sandbox.config.json file at the root of template
       let sandboxConfigContent = {
         infiniteLoopProtection: true,
         hardReloadOnChange: true,
