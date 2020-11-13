@@ -13,7 +13,7 @@ import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 
-import 'nprogress/nprogress.css';
+import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
@@ -77,7 +77,7 @@ class PendingNavigation extends React.Component<Props, State> {
           if (!hash) {
             window.scrollTo(0, 0);
           } else {
-            const id = hash.substring(1);
+            const id = decodeURIComponent(hash.substring(1));
             const element = document.getElementById(id);
             if (element) {
               element.scrollIntoView();
