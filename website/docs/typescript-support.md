@@ -7,7 +7,7 @@ title: TypeScript Support
 
 Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
 
-```bash
+```bash npm2yarn
 npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet @tsconfig/docusaurus
 ```
 
