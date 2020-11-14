@@ -9,7 +9,7 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
-import useThemeConfig from '../../utils/useThemeConfig';
+import useThemeConfig from '@theme-utils/useThemeConfig';
 
 const useLogo = (): useLogoReturns => {
   const {

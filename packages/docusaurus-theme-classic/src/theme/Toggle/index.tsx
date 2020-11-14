@@ -7,7 +7,7 @@
 
 import React, {ComponentProps} from 'react';
 import Toggle from 'react-toggle';
-import useThemeConfig from '../../utils/useThemeConfig';
+import useThemeConfig from '@theme-utils/useThemeConfig';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import clsx from 'clsx';

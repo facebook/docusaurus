@@ -10,7 +10,7 @@ import DefaultNavbarItem from './DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
+import useDocsPreferredVersion from '@theme-utils/docsPreferredVersion/useDocsPreferredVersion';
 
 export default function DocNavbarItem({
   docId,

@@ -13,7 +13,7 @@ import {
   useActiveVersion,
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
-import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
+import useDocsPreferredVersion from '@theme-utils/docsPreferredVersion/useDocsPreferredVersion';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);

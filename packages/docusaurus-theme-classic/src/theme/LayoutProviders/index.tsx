@@ -8,7 +8,7 @@
 import React from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import DocsPreferredVersionContextProvider from '../../utils/docsPreferredVersion/DocsPreferredVersionProvider';
+import DocsPreferredVersionContextProvider from '@theme-utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export default function LayoutProviders({children}) {
   return (
