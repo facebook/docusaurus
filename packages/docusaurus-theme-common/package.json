@@ -1,0 +1,35 @@
+{
+  "name": "@docusaurus/theme-common",
+  "version": "2.0.0-alpha.66",
+  "description": "Common parts for Docusaurus themes",
+  "main": "src/index.js",
+  "types": "src/types.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-common"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --noEmit && yarn babel && yarn prettier",
+    "watch": "yarn babel --watch",
+    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.66"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.15.1"
+  }
+}

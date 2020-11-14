@@ -9,7 +9,7 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeConfig from '@theme-utils/useThemeConfig';
-import {isSamePath} from '../../utils';
+import {isSamePath} from '@theme-utils';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';

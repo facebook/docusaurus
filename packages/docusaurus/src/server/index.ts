@@ -31,6 +31,7 @@ import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import chalk from 'chalk';
+import importFresh from 'import-fresh';
 
 export function loadContext(
   siteDir: string,
@@ -58,14 +59,32 @@ export function loadContext(
 
 export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
-  return [
+  const {
+    siteConfig: {plugins: sitePlugins = [], themes: siteThemes = []},
+  } = context;
+  const baseThemes = (themeConfigs) => {
+    return themeConfigs.reduce((themes, themeConfig) => {
+      const themePluginImport =
+        themeConfig instanceof Array ? themeConfig[0] : themeConfig;
+      const themePlugin: any = importFresh(themePluginImport);
+
+      if (typeof themePlugin.getBaseTheme === 'function') {
+        themes.push(themePlugin.getBaseTheme());
+      }
+
+      return themes;
+    }, []);
+  };
+
+  const pluginConfigs = [
     ...presetPlugins,
-    ...presetThemes,
+    ...baseThemes(presetThemes).concat(presetThemes),
     // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
+    ...sitePlugins,
+    ...baseThemes(siteThemes).concat(siteThemes),
   ];
+
+  return pluginConfigs;
 }
 
 export async function load(

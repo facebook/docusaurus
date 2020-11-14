@@ -26,6 +26,7 @@ packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 packages/docusaurus-theme-classic/lib/
 packages/docusaurus-theme-bootstrap/lib/
 packages/docusaurus-migrate/lib/
+packages/docusaurus-theme-common/lib/
 
 packages/docusaurus-1.x/.eslintrc.js
 packages/docusaurus-init/templates/facebook/.eslintrc.js

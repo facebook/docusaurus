@@ -99,11 +99,6 @@ module.exports = function (context, options) {
         .join('|');
 
       return {
-        resolve: {
-          alias: {
-            '@theme-utils': path.resolve(__dirname, 'utils'),
-          },
-        },
         stats: {
           warningsFilter: [
             // See https://github.com/facebook/docusaurus/pull/3382
@@ -149,3 +144,5 @@ const swizzleAllowedComponents = [
 module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
 
 module.exports.validateThemeConfig = validateThemeConfig;
+
+module.exports.getBaseTheme = () => '@docusaurus/theme-common';

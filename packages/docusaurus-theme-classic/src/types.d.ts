@@ -11,8 +11,7 @@
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-docs" />
 /// <reference types="@docusaurus/plugin-content-pages" />
-
-declare module '@theme-utils/*';
+/// <reference types="@docusaurus/theme-common" />
 
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
