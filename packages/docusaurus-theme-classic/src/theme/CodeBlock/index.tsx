@@ -112,6 +112,11 @@ export default ({
 
   const prismTheme = usePrismTheme();
 
+  // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
+  if (Array.isArray(children)) {
+    children = children.join('');
+  }
+
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
