@@ -9,20 +9,19 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
-    "clear": "docusaurus clear",
     "dev": "docusaurus start"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/preset-classic": "2.0.0-alpha.66",
-    "@mdx-js/react": "^1.6.21",
+    "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
   "browserslist": {
     "production": [
-      ">0.5%",
+      ">0.2%",
       "not dead",
       "not op_mini all"
     ],
