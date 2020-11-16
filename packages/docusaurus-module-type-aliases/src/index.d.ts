@@ -38,7 +38,7 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: any;
+  const routesChunkNames: Record<string, Record<string, string>>;
   export default routesChunkNames;
 }
 
