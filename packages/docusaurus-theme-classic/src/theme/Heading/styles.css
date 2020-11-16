@@ -16,6 +16,7 @@
   padding-left: 0.5rem;
 }
 
+.hash-link:focus,
 *:hover > .hash-link {
   opacity: 1;
 }
