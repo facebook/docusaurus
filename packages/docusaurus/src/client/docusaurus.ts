@@ -42,7 +42,7 @@ const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
 const flatten = <T>(arrays: T[][]): T[] =>
-  Array.prototype.concat.call([], arrays);
+  Array.prototype.concat.apply([], arrays);
 
 // Remove the last part containing the route hash
 // input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
