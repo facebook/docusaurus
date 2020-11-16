@@ -1,0 +1,31 @@
+name: Lighthouse CI
+on: pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn build
+      - name: Wait for the Netlify Preview
+        uses: jakepartusch/wait-for-netlify-action@v1
+        id: netlify
+        with:
+          site_name: 'docusaurus-2'
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          urls: |
+           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/classic/
+           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/bootstrap/
+           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/blog-only/
+          uploadArtifacts: true
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number}}
