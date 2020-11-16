@@ -1000,11 +1000,14 @@ You can use images in Markdown, or by requiring them and using a JSX image tag:
 ```mdx
 # My Markdown page
 
-<img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+<img
+  src={require('./assets/docusaurus-asset-example-banner.png').default}
+  alt="Example banner"
+/>
 
 or
 
-![](./assets/docusaurus-asset-example-banner.png)
+![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
 The ES imports syntax also works:
@@ -1014,12 +1017,12 @@ The ES imports syntax also works:
 
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl)}/>
+<img src={myImageUrl)} alt="My image alternative text" />
 ```
 
 This results in displaying the image:
 
-![](./assets/docusaurus-asset-example-banner.png)
+![My image alternative text](./assets/docusaurus-asset-example-banner.png)
 
 :::note
 
