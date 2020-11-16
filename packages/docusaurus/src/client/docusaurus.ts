@@ -11,8 +11,8 @@ import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';
 
-const fetched = {};
-const loaded = {};
+const fetched: Record<string, boolean> = {};
+const loaded: Record<string, boolean> = {};
 
 declare global {
   // eslint-disable-next-line camelcase, @typescript-eslint/no-explicit-any
@@ -41,6 +41,23 @@ const canPrefetch = (routePath: string) =>
 const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
+// Remove the last part containing the route hash
+// input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
+// output: /blog/2018/12/14/Happy-First-Birthday-Slash
+const removeRouteNameHash = (str: string) => str.replace(/(-[^-]+)$/, '');
+
+const getChunkNamesToLoad = (path: string): string[] => {
+  return Object.entries(routesChunkNames)
+    .filter(
+      ([routeNameWithHash]) => removeRouteNameHash(routeNameWithHash) === path,
+    )
+    .map(([, routeChunks]) => {
+      // flat() is useful for nested chunk names, it's not like array.flat()
+      return Object.values(flat(routeChunks));
+    })
+    .flat();
+};
+
 const docusaurus = {
   prefetch: (routePath: string): boolean => {
     if (!canPrefetch(routePath)) {
@@ -51,24 +68,10 @@ const docusaurus = {
 
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
-    const chunkNamesNeeded = matches.reduce((arr: string[], match) => {
-      const routesChunkNamesNeeded = Object.entries(routesChunkNames).filter(
-        (r) => r[0].replace(/(-[^-]+)$/, '') === match.route.path,
-      );
 
-      if (!routesChunkNamesNeeded.length) {
-        return arr;
-      }
-
-      for (const routeChunkNamesNeeded of routesChunkNamesNeeded) {
-        const chunkNames = Object.values(
-          flat(routeChunkNamesNeeded[1]),
-        ) as string[];
-        arr = arr.concat(chunkNames);
-      }
-
-      return arr;
-    }, []);
+    const chunkNamesNeeded = matches
+      .map((match) => getChunkNamesToLoad(match.route.path as string))
+      .flat();
 
     // Prefetch all webpack chunk assets file needed.
     chunkNamesNeeded.forEach((chunkName) => {
