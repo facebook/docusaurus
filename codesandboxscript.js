@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 const rimraf = require('rimraf');
 const {readFileSync, writeFileSync, readdir} = require('fs');
 const {execSync} = require('child_process');
