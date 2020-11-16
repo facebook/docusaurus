@@ -10,6 +10,9 @@ const rimraf = require('rimraf');
 const {readFileSync, writeFileSync, readdir} = require('fs');
 const {execSync} = require('child_process');
 
+// Generate one example per init template
+// We use those generated examples as CodeSandbox projects
+// See https://github.com/facebook/docusaurus/issues/1699
 function generateTemplateExample(template) {
   try {
     console.log(
@@ -18,8 +21,14 @@ function generateTemplateExample(template) {
 
     // run the docusaurus script to bootstrap the template in the examples folder
     execSync(
-      `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
-      {stdio: 'inherit'},
+      // /!\ we use the published init script on purpose,
+      // because using the local init script is too early and could generate upcoming/unavailable config options
+      // remember CodeSandbox templates will use the published version, not the repo version
+      `npx @docusaurus/init@next init examples/${template} ${template}`,
+      // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
+      {
+        stdio: 'inherit',
+      },
     );
 
     // read the content of the package.json
