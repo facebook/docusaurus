@@ -15,7 +15,7 @@
     "start:v2:baseUrl": "yarn workspace docusaurus-2-website start:baseUrl",
     "start:v2:bootstrap": "yarn workspace docusaurus-2-website start:bootstrap",
     "start:v2:blogOnly": "yarn workspace docusaurus-2-website start:blogOnly",
-    "examples:generate": "node codesandboxscript",
+    "examples:generate": "node generateExamples",
     "build": "yarn build:packages && yarn build:v2",
     "build:packages": "lerna run build --no-private",
     "build:v1": "yarn workspace docusaurus-1-website build",
