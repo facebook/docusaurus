@@ -37,19 +37,42 @@ async function updatePkg(
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
 }
 
+function getTemplates(): {[key: string]: string} {
+  const templatesDirs = [
+    path.resolve(__dirname, '../templates'),
+    path.resolve(process.cwd(), './templates'),
+  ];
+
+  const templates = {};
+
+  for (const templatesDir of templatesDirs) {
+    if (fs.existsSync(templatesDir)) {
+      Object.assign(
+        templates,
+        ...fs
+          .readdirSync(templatesDir)
+          .filter((d) => !d.startsWith('.') && !d.startsWith('README'))
+          .map((d) => ({
+            [d]: path.resolve(templatesDir, d),
+          })),
+      );
+    }
+  }
+
+  return templates;
+}
+
 export default async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,
 ): Promise<void> {
   const useYarn = hasYarn();
-  const templatesDir = path.resolve(__dirname, '../templates');
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
+  const templates = getTemplates();
+  const templateNames = Object.keys(templates);
 
   const gitChoice = 'Git repository';
-  const templateChoices = [...templates, gitChoice];
+  const templateChoices = [...templateNames, gitChoice];
 
   let name = siteName;
 
@@ -114,10 +137,10 @@ export default async function init(
     ) {
       throw new Error(chalk.red(`Cloning Git template: ${template} failed!`));
     }
-  } else if (template && templates.includes(template)) {
+  } else if (template && template in templates) {
     // Docusaurus templates.
     try {
-      await fs.copy(path.resolve(templatesDir, template), dest);
+      await fs.copy(templates[template], dest);
     } catch (err) {
       console.log(
         `Copying Docusaurus template: ${chalk.cyan(template)} failed!`,
