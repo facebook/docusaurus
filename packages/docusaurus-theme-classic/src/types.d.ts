@@ -144,20 +144,6 @@ declare module '@theme/hooks/useLockBodyScroll' {
   export default useLockBodyScroll;
 }
 
-declare module '@theme/hooks/useLogo' {
-  export type LogoLinkProps = {target?: string; rel?: string};
-
-  export type useLogoReturns = {
-    readonly logoLink: string;
-    readonly logoLinkProps: LogoLinkProps;
-    readonly logoImageUrl: string;
-    readonly logoAlt: string;
-  };
-
-  const useLogo: () => useLogoReturns;
-  export default useLogo;
-}
-
 declare module '@theme/hooks/usePrismTheme' {
   import defaultTheme from 'prism-react-renderer/themes/palenight';
 
@@ -470,4 +456,16 @@ declare module '@theme/UserPreferencesContext' {
     UserPreferencesContextProps | undefined
   >;
   export default UserPreferencesContext;
+}
+
+declare module '@theme/Logo' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = {
+    imageClassName?: string;
+    titleClassName?: string;
+  } & ComponentProps<'a'>;
+
+  const Logo: (props: Props) => JSX.Element;
+  export default Logo;
 }

@@ -43,7 +43,7 @@
     "unist-util-remove-position": "^2.0.1"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
+    "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "webpack": "^4.0.0 || ^5.0.0"
   },

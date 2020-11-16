@@ -41,8 +41,11 @@ export default async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,
+  cliOptions: Partial<{
+    useNpm: boolean;
+  }> = {},
 ): Promise<void> {
-  const useYarn = hasYarn();
+  const useYarn = !cliOptions.useNpm ? hasYarn() : false;
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = fs
     .readdirSync(templatesDir)
