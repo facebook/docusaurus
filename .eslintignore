@@ -29,3 +29,13 @@ packages/docusaurus-migrate/lib/
 
 packages/docusaurus-1.x/.eslintrc.js
 packages/docusaurus-init/templates/facebook/.eslintrc.js
+
+examples/bootstrap/babel.config.js
+examples/bootstrap/docusaurus.config.js
+examples/bootstrap/sidebars.js
+examples/bootstrap/src/pages/index.js
+examples/classic/babel.config.js
+examples/classic/docusaurus.config.js
+examples/classic/sidebars.js
+examples/classic/src/pages/index.js
+examples/facebook/.eslintrc.js
