@@ -41,21 +41,26 @@ const canPrefetch = (routePath: string) =>
 const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
+const flatten = <T>(arrays: T[][]): T[] =>
+  Array.prototype.concat.call([], arrays);
+
 // Remove the last part containing the route hash
 // input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
 // output: /blog/2018/12/14/Happy-First-Birthday-Slash
 const removeRouteNameHash = (str: string) => str.replace(/(-[^-]+)$/, '');
 
 const getChunkNamesToLoad = (path: string): string[] => {
-  return Object.entries(routesChunkNames)
-    .filter(
-      ([routeNameWithHash]) => removeRouteNameHash(routeNameWithHash) === path,
-    )
-    .map(([, routeChunks]) => {
-      // flat() is useful for nested chunk names, it's not like array.flat()
-      return Object.values(flat(routeChunks));
-    })
-    .flat();
+  return flatten(
+    Object.entries(routesChunkNames)
+      .filter(
+        ([routeNameWithHash]) =>
+          removeRouteNameHash(routeNameWithHash) === path,
+      )
+      .map(([, routeChunks]) => {
+        // flat() is useful for nested chunk names, it's not like array.flat()
+        return Object.values(flat(routeChunks));
+      }),
+  );
 };
 
 const docusaurus = {
@@ -69,9 +74,9 @@ const docusaurus = {
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
 
-    const chunkNamesNeeded = matches
-      .map((match) => getChunkNamesToLoad(match.route.path as string))
-      .flat();
+    const chunkNamesNeeded = flatten(
+      matches.map((match) => getChunkNamesToLoad(match.route.path as string)),
+    );
 
     // Prefetch all webpack chunk assets file needed.
     chunkNamesNeeded.forEach((chunkName) => {
