@@ -31,21 +31,19 @@ const ThemedImage = (props: Props): JSX.Element => {
 
   return (
     <>
-      {renderedSourceNames.map((sourceName) => {
-        return (
-          <img
-            key={sourceName}
-            src={sources[sourceName]}
-            alt={alt}
-            className={clsx(
-              styles.themedImage,
-              styles[`themedImage--${sourceName}`],
-              className,
-            )}
-            {...propsRest}
-          />
-        );
-      })}
+      {renderedSourceNames.map((sourceName) => (
+        <img
+          key={sourceName}
+          src={sources[sourceName]}
+          alt={alt}
+          className={clsx(
+            styles.themedImage,
+            styles[`themedImage--${sourceName}`],
+            className,
+          )}
+          {...propsRest}
+        />
+      ))}
     </>
   );
 };
