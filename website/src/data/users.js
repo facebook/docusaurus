@@ -94,7 +94,7 @@ const users = [
     title: 'ConfigCat Feature Flags',
     description: 'A feature flag and remote configuration service.',
     preview: require('./showcase/configcat.png'),
-    website: 'https://configcat.com',
+    website: 'https://configcat.com/docs/',
     source: 'https://github.com/configcat/docs',
     fbOpenSource: false,
     pinned: false,
