@@ -55,36 +55,34 @@ document.addEventListener('DOMContentLoaded', function () {
             padding: 20,
             fontSize: 20,
           }}>
-          <span>
-            <p
-              style={{
-                fontWeight: 'bold',
-                fontSize: 30,
-              }}>
-              Your Docusaurus site did not load properly.
-            </p>
-            <p>
-              A very common reason is a wrong site{' '}
-              <a
-                href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl"
-                style={{fontWeight: 'bold'}}>
-                baseUrl configuration
-              </a>
-              .
-            </p>
-            <p>
-              Current configured baseUrl ={' '}
-              <span style={{fontWeight: 'bold', color: 'red'}}>{baseUrl}</span>{' '}
-              {baseUrl === '/' ? ' (default value)' : ''}
-            </p>
-            <p>
-              We suggest trying baseUrl ={' '}
-              <span
-                style={{fontWeight: 'bold', color: 'green'}}
-                id={BaseUrlSuggestionContainerId}
-              />{' '}
-            </p>
-          </span>
+          <p
+            style={{
+              fontWeight: 'bold',
+              fontSize: 30,
+            }}>
+            Your Docusaurus site did not load properly.
+          </p>
+          <p>
+            A very common reason is a wrong site{' '}
+            <a
+              href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl"
+              style={{fontWeight: 'bold'}}>
+              baseUrl configuration
+            </a>
+            .
+          </p>
+          <p>
+            Current configured baseUrl ={' '}
+            <span style={{fontWeight: 'bold', color: 'red'}}>{baseUrl}</span>{' '}
+            {baseUrl === '/' ? ' (default value)' : ''}
+          </p>
+          <p>
+            We suggest trying baseUrl ={' '}
+            <span
+              style={{fontWeight: 'bold', color: 'green'}}
+              id={BaseUrlSuggestionContainerId}
+            />{' '}
+          </p>
         </div>
       </>
     );

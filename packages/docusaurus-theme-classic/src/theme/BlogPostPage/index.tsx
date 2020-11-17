@@ -31,7 +31,7 @@ function BlogPostPage(props: Props): JSX.Element {
             <div className="col col--2">
               <BlogSidebar sidebar={sidebar} />
             </div>
-            <div className="col col--8">
+            <main className="col col--8">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
@@ -64,7 +64,7 @@ function BlogPostPage(props: Props): JSX.Element {
                   <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
                 </div>
               )}
-            </div>
+            </main>
             {!hideTableOfContents && BlogPostContents.rightToc && (
               <div className="col col--2">
                 <TOC headings={BlogPostContents.rightToc} />
