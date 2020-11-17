@@ -25,5 +25,6 @@ jobs:
           urls: |
            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/classic/
           uploadArtifacts: true
+          temporaryPublicStorage: true
         env:
           PR_NUMBER: ${{ github.event.pull_request.number}}
