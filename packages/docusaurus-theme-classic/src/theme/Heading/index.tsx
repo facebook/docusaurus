@@ -38,7 +38,6 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
         {props.children}
         <a
           aria-hidden="true"
-          tabIndex={-1}
           className="hash-link"
           href={`#${id}`}
           title="Direct link to heading">
