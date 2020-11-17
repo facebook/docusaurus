@@ -14,7 +14,7 @@ import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   const location = useLocation();
   const [hash, setHash] = useLocationHash(location.hash);
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(!hideOnScroll);
   const isFocusedAnchor = useRef(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -65,9 +65,13 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       return;
     }
 
+    if (!lastScrollTop) {
+      return;
+    }
+
     setIsNavbarVisible(true);
     setHash(location.hash);
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!hideOnScroll) {
