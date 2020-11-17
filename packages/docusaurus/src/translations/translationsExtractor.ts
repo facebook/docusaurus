@@ -101,6 +101,14 @@ export async function extractSourceCodeTranslations(
   return extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
 }
 
+/*
+Need help understanding this?
+
+Useful resources:
+https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+https://github.com/formatjs/formatjs/blob/main/packages/babel-plugin-react-intl/index.ts
+https://github.com/pugjs/babel-walk
+ */
 function extractSourceCodeAstTranslations(
   ast: Node,
   sourceCodeFilePath: string,
