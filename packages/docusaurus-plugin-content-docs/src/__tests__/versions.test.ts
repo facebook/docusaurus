@@ -235,7 +235,7 @@ describe('versioned site, pluginId=default', () => {
       docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
       docsDirPathLocalized: path.join(
         versionedSiteDir,
-        'i18n/en/docusaurus-plugin-content-docs/1.0.1',
+        'i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
       ),
       isLast: true,
       routePriority: -1,
@@ -252,7 +252,7 @@ describe('versioned site, pluginId=default', () => {
       docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
       docsDirPathLocalized: path.join(
         versionedSiteDir,
-        'i18n/en/docusaurus-plugin-content-docs/1.0.0',
+        'i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
       ),
       isLast: false,
       routePriority: undefined,
@@ -272,7 +272,7 @@ describe('versioned site, pluginId=default', () => {
       ),
       docsDirPathLocalized: path.join(
         versionedSiteDir,
-        'i18n/en/docusaurus-plugin-content-docs/withSlugs',
+        'i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
       ),
       isLast: false,
       routePriority: undefined,
@@ -534,7 +534,7 @@ describe('versioned site, pluginId=community', () => {
       ),
       docsDirPathLocalized: path.join(
         versionedSiteDir,
-        'i18n/en/docusaurus-plugin-content-docs-community/1.0.0',
+        'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
       ),
       isLast: true,
       routePriority: -1,
