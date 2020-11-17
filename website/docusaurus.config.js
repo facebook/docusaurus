@@ -48,6 +48,10 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl,
   url: 'https://v2.docusaurus.io',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
   // onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   onBrokenLinks: 'warn', //  TODO reenable this
   onBrokenMarkdownLinks: 'warn',

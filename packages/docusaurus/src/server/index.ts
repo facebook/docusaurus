@@ -76,7 +76,7 @@ export async function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  const i18n = loadI18n(siteDir, {locale});
+  const i18n = loadI18n(baseSiteConfig, {locale});
 
   const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options);
   const outDir = localizePath(baseOutDir, i18n, options);

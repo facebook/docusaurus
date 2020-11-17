@@ -24,6 +24,7 @@ import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
+import loadConfig from '../server/config';
 
 export default async function build(
   siteDir: string,
@@ -42,7 +43,7 @@ export default async function build(
     }
   }
 
-  const i18nContext = loadI18n(siteDir, {
+  const i18n = loadI18n(loadConfig(siteDir), {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
@@ -50,24 +51,20 @@ export default async function build(
   } else {
     console.log(
       chalk.blue(
-        `Site will be built with all these locales: ${i18nContext.locales.join(
-          ', ',
-        )}`,
+        `Site will be built with all these locales: ${i18n.locales.join(', ')}`,
       ),
     );
 
     // We need the default locale to always be the 1st in the list
     // If we build it last, it would "erase" the localized sites built in subfolders
     const orderedLocales: string[] = [
-      i18nContext.defaultLocale,
-      ...i18nContext.locales.filter(
-        (locale) => locale !== i18nContext.defaultLocale,
-      ),
+      i18n.defaultLocale,
+      ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
     ];
 
     const results = await mapAsyncSequencial(orderedLocales, (locale) => {
       const isLastLocale =
-        i18nContext.locales.indexOf(locale) === i18nContext.locales.length - 1;
+        i18n.locales.indexOf(locale) === i18n.locales.length - 1;
       // TODO check why we need forceTerminate
       const forceTerm = isLastLocale && forceTerminate;
       return doBuildLocale(locale, forceTerm);

@@ -24,6 +24,7 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
@@ -90,13 +91,14 @@ export type TranslationFileContent = Record<string, TranslationMessage>;
 export type TranslationFile = {path: string; content: TranslationFileContent};
 export type TranslationFiles = TranslationFile[];
 
-export type I18n = {
+export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  currentLocale: string;
 };
 
-export type I18nFile = Pick<I18n, 'defaultLocale' | 'locales'>;
+export type I18n = I18nConfig & {
+  currentLocale: string;
+};
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
