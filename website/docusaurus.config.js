@@ -53,8 +53,8 @@ module.exports = {
     locales: ['en', 'fr'],
   },
   // onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
-  onBrokenLinks: 'warn', //  TODO reenable this
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
