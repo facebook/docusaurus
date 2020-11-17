@@ -353,13 +353,13 @@ describe('versioned website', () => {
         "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
         "docs/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/1.0.1/**/*.{md,mdx}",
+        "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/1.0.0/**/*.{md,mdx}",
+        "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
         "versioned_sidebars/version-withSlugs-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/withSlugs/**/*.{md,mdx}",
+        "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
         "versioned_docs/version-withSlugs/**/*.{md,mdx}",
       ]
     `);
@@ -590,7 +590,7 @@ describe('versioned website (community)', () => {
         "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
         "community/**/*.{md,mdx}",
         "community_versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs-community/1.0.0/**/*.{md,mdx}",
+        "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
         "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
       ]
     `);
