@@ -157,7 +157,11 @@ function getVersionMetadataPaths({
     currentLocale: context.i18n.currentLocale,
     pluginFolderName: 'docusaurus-plugin-content-docs',
     pluginId: options.id,
-    subPaths: [versionName],
+    subPaths: [
+      versionName === CURRENT_VERSION_NAME
+        ? CURRENT_VERSION_NAME
+        : `version-${versionName}`,
+    ],
   });
 
   const sidebarFilePath = isCurrentVersion
