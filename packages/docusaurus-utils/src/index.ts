@@ -441,25 +441,25 @@ export function getElementsAround<T extends unknown>(
 
 export function getPluginI18nPath({
   siteDir,
-  currentLocale,
-  pluginFolderName,
-  pluginId,
+  locale,
+  pluginName,
+  pluginId = 'default', // TODO duplicated constant
   subPaths = [],
 }: {
   siteDir: string;
-  currentLocale: string;
-  pluginFolderName: string;
-  pluginId: string;
+  locale: string;
+  pluginName: string;
+  pluginId?: string | undefined;
   subPaths?: string[];
 }) {
   return path.join(
     siteDir,
     'i18n',
     // namespace first by locale: convenient to work in a single folder for a translator
-    currentLocale,
+    locale,
     // Make it convenient to use for single-instance
-    // ie: return "docs", no "docs-default" nor "docs/default"
-    `${pluginFolderName}${
+    // ie: return "docs", not "docs-default" nor "docs/default"
+    `${pluginName}${
       // TODO duplicate constant :(
       pluginId === 'default' ? '' : `-${pluginId}`
     }`,

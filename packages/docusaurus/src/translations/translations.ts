@@ -10,7 +10,6 @@ import {InitPlugin} from '../server/plugins/init';
 import {mapValues} from 'lodash';
 import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import {getPluginI18nPath} from '@docusaurus/utils';
-import {DEFAULT_PLUGIN_ID} from '../constants';
 
 type TranslationContext = {
   siteDir: string;
@@ -123,9 +122,9 @@ export function getPluginTranslationFilePath({
 }): string {
   const dirPath = getPluginI18nPath({
     siteDir,
-    currentLocale: locale,
-    pluginFolderName: plugin.name, // TODO shorter names?
-    pluginId: plugin.options.id ?? DEFAULT_PLUGIN_ID,
+    locale,
+    pluginName: plugin.name,
+    pluginId: plugin.options.id,
   });
 
   return path.join(dirPath, addTranslationFileExtension(translationFilePath));

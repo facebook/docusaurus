@@ -69,9 +69,9 @@ export default function pluginContentPages(
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
       siteDir,
-      currentLocale,
-      pluginFolderName: 'docusaurus-plugin-content-pages',
-      pluginId: options.id!,
+      locale: currentLocale,
+      pluginName: 'docusaurus-plugin-content-pages',
+      pluginId: options.id,
     }),
   };
 

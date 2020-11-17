@@ -70,9 +70,9 @@ export default function pluginContentBlog(
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: getPluginI18nPath({
       siteDir,
-      currentLocale,
-      pluginFolderName: 'docusaurus-plugin-content-blog',
-      pluginId: options.id!,
+      locale: currentLocale,
+      pluginName: 'docusaurus-plugin-content-blog',
+      pluginId: options.id,
     }),
   };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
