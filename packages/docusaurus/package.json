@@ -104,7 +104,7 @@
     "terser-webpack-plugin": "^4.1.0",
     "update-notifier": "^4.1.0",
     "url-loader": "^4.1.1",
-    "wait-file": "^1.0.5",
+    "wait-on": "^5.2.0",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-dev-server": "^3.11.0",
