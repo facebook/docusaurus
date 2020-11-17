@@ -7,7 +7,7 @@
 
 const path = require('path');
 const fs = require('fs-extra');
-const {waitFile} = require('wait-file');
+const waitOn = require('wait-on');
 
 class WaitPlugin {
   constructor(options) {
@@ -20,7 +20,7 @@ class WaitPlugin {
       // To prevent 'waitFile' error on waiting non-existing directory
       fs.ensureDir(path.dirname(this.filepath), () => {
         // Wait until file exist
-        waitFile({
+        waitOn({
           resources: [this.filepath],
           interval: 300,
         })
