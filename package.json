@@ -119,7 +119,7 @@
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
-    "stylelint-copyright": "^2.0.0"
+    "stylelint-copyright": "2.0.0-alpha.66"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
