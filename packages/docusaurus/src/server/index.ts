@@ -40,7 +40,7 @@ function localizePath(
   originalPath: string,
   i18n: I18n,
   options: LoadContextOptions,
-  isFSPath: boolean,
+  pathType: 'fs' | 'url',
 ): string {
   const shouldLocalizePath: boolean =
     typeof options.localizePath === 'undefined'
@@ -49,10 +49,17 @@ function localizePath(
       : options.localizePath;
 
   if (shouldLocalizePath) {
-    if (isFSPath) {
+    // FS paths need special care, for Windows support
+    if (pathType === 'fs') {
       return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
-    } else {
+    }
+    // Url paths
+    else if (pathType === 'url') {
       return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+    }
+    // should never happen
+    else {
+      throw new Error(`unhandled pathType=${pathType}`);
     }
   } else {
     return originalPath;
@@ -81,17 +88,13 @@ export async function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  console.log('baseOutDir', {baseOutDir});
-
   const i18n = loadI18n(baseSiteConfig, {locale});
 
-  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options, false);
-  const outDir = localizePath(baseOutDir, i18n, options, true);
+  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options, 'url');
+  const outDir = localizePath(baseOutDir, i18n, options, 'fs');
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
 
-  console.log('outDir', {outDir, baseOutDir, baseUrl});
-
-  // console.log('Site loadContext', {locale, baseUrl, outDir, options});
+  // console.log('Site loadContext', {locale, baseUrl, baseOutDir, outDir, options});
 
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({
