@@ -35,7 +35,7 @@ export interface DocusaurusConfig {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
-  themeConfig?: ThemeConfig;
+  themeConfig: ThemeConfig;
   customFields?: {
     [key: string]: unknown;
   };

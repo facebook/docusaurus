@@ -15,6 +15,7 @@ import {
   RouteConfig,
   AllContent,
   TranslationFiles,
+  ThemeConfig,
 } from '@docusaurus/types';
 import initPlugins, {InitPlugin} from './init';
 import chalk from 'chalk';
@@ -69,6 +70,7 @@ export async function loadPlugins({
   plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: any;
+  themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
   const plugins: InitPlugin[] = initPlugins({
@@ -207,21 +209,29 @@ export async function loadPlugins({
   // routes are always placed last.
   sortConfig(pluginsRouteConfigs);
 
-  // TODO refactor: avoid side-effect!
-  contentLoadedTranslatedPlugins.forEach(({plugin, translationFiles}) => {
-    const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
-      themeConfig: context.siteConfig.themeConfig ?? {}, //  TODO ?? {} ???
-      translationFiles,
-    });
-    context.siteConfig.themeConfig = {
-      ...context.siteConfig.themeConfig,
-      ...translatedThemeConfigSlice,
-    };
-  });
+  // Apply each plugin one after the other to translate the theme config
+  function translateThemeConfig(
+    untranslatedThemeConfig: ThemeConfig,
+  ): ThemeConfig {
+    return contentLoadedTranslatedPlugins.reduce(
+      (currentThemeConfig, {plugin, translationFiles}) => {
+        const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
+          themeConfig: currentThemeConfig,
+          translationFiles,
+        });
+        return {
+          ...currentThemeConfig,
+          ...translatedThemeConfigSlice,
+        };
+      },
+      untranslatedThemeConfig,
+    );
+  }
 
   return {
     plugins,
     pluginsRouteConfigs,
     globalData,
+    themeConfigTranslated: translateThemeConfig(context.siteConfig.themeConfig),
   };
 }
