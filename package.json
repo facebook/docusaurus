@@ -32,7 +32,7 @@
     "crowdin:upload:v2": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
     "changelog": "lerna-changelog",
-    "postinstall": "yarn lock:update && test -n \"$NO_YARN_POST_INSTALL\" || yarn build:packages",
+    "postinstall": "yarn lock:update && yarn build:packages",
     "install:fast": "NO_YARN_POST_INSTALL=true yarn install",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
