@@ -10,20 +10,41 @@ import {InitPlugin} from '../server/plugins/init';
 import {mapValues} from 'lodash';
 import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import {getPluginI18nPath} from '@docusaurus/utils';
+import * as Joi from 'joi';
 
 type TranslationContext = {
   siteDir: string;
   locale: string;
 };
 
+const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
+  .pattern(
+    Joi.string(),
+    Joi.object({
+      message: Joi.string().required(),
+      description: Joi.string().optional(),
+    }),
+  )
+  .required();
+
 async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
-    // TODO validate file content
-    return JSON.parse(
+    const content = JSON.parse(
       await fs.readFile(filePath, 'utf8'),
     ) as TranslationFileContent;
+    try {
+      return Joi.attempt(content, TranslationFileContentSchema, {
+        abortEarly: false,
+        allowUnknown: false,
+        convert: false,
+      });
+    } catch (e) {
+      throw new Error(
+        `Invalid translation file at  path=${filePath}.\n${e.message}`,
+      );
+    }
   }
   return undefined;
 }
