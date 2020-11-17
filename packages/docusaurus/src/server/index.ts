@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate, normalizeUrl, addTrailingSlash} from '@docusaurus/utils';
+import {generate, normalizeUrl} from '@docusaurus/utils';
 import path, {join} from 'path';
 import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
@@ -40,6 +40,7 @@ function localizePath(
   originalPath: string,
   i18n: I18n,
   options: LoadContextOptions,
+  isFSPath: boolean,
 ): string {
   const shouldLocalizePath: boolean =
     typeof options.localizePath === 'undefined'
@@ -48,7 +49,11 @@ function localizePath(
       : options.localizePath;
 
   if (shouldLocalizePath) {
-    return addTrailingSlash(normalizeUrl([originalPath, i18n.currentLocale]));
+    if (isFSPath) {
+      return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+    } else {
+      return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+    }
   } else {
     return originalPath;
   }
@@ -76,11 +81,15 @@ export async function loadContext(
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
+  console.log('baseOutDir', {baseOutDir});
+
   const i18n = loadI18n(baseSiteConfig, {locale});
 
-  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options);
-  const outDir = localizePath(baseOutDir, i18n, options);
+  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options, false);
+  const outDir = localizePath(baseOutDir, i18n, options, true);
   const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
+
+  console.log('outDir', {outDir, baseOutDir, baseUrl});
 
   // console.log('Site loadContext', {locale, baseUrl, outDir, options});
 
