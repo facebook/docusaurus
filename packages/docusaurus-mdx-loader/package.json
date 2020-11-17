@@ -32,7 +32,8 @@
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.2",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack": "^4.44.1"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-alpha.66",
@@ -44,8 +45,7 @@
   },
   "peerDependencies": {
     "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "webpack": "^4.0.0 || ^5.0.0"
+    "react-dom": "^16.8.4"
   },
   "engines": {
     "node": ">=10.15.1"
