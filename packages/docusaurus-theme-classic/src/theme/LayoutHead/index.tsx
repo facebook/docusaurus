@@ -11,7 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
-import {DEFAULT_SEARCH_TAG} from '../../utils/searchUtils';
+import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common';
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();

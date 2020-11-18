@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isSamePath} from '../utils';
+import {isSamePath} from '../pathUtils';
 
 describe('isSamePath', () => {
   test('should be true for compared path without trailing slash', () => {

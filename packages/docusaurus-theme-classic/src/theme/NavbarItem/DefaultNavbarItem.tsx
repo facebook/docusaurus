@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
-import {isSamePath} from '../../utils';
+import {isSamePath} from '@docusaurus/theme-common';
 import type {
   NavLinkProps,
   DesktopOrMobileNavBarItemProps,

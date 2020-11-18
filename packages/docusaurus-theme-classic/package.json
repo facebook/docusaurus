@@ -24,6 +24,7 @@
     "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
     "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
     "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
+    "@docusaurus/theme-common": "2.0.0-alpha.66",
     "@docusaurus/types": "2.0.0-alpha.66",
     "@docusaurus/utils-validation": "2.0.0-alpha.66",
     "@mdx-js/mdx": "^1.6.21",

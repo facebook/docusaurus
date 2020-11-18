@@ -7,8 +7,7 @@
 
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
-import useThemeConfig from '../../utils/useThemeConfig';
-import {isSamePath} from '../../utils';
+import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';

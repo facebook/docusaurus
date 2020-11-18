@@ -36,6 +36,26 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
+export function getDocusaurusAliases() {
+  const dirPath = path.resolve(__dirname, '../client/exports');
+  const extensions = ['.js', '.ts', '.tsx'];
+
+  const aliases: Record<string, string> = {};
+
+  fs.readdirSync(dirPath)
+    .filter((fileName) => extensions.includes(path.extname(fileName)))
+    .forEach((fileName) => {
+      const fileNameWithoutExtension = path.basename(
+        fileName,
+        path.extname(fileName),
+      );
+      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
+      aliases[aliasName] = path.resolve(dirPath, fileName);
+    });
+
+  return aliases;
+}
+
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
@@ -77,7 +97,11 @@ export function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-        '@docusaurus': path.resolve(__dirname, '../client/exports'),
+
+        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
+        // so we use fine-grained aliases instead
+        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        ...getDocusaurusAliases(),
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict

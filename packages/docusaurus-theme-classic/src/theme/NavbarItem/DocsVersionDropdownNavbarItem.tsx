@@ -13,7 +13,7 @@ import {
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
-import useDocsPreferredVersion from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
