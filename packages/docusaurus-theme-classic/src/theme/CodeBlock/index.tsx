@@ -211,7 +211,7 @@ export default ({
             <div
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, {
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar', {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
               <div className={styles.codeBlockLines} style={style}>
