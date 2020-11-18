@@ -1,0 +1,25 @@
+{
+  "name": "@docusaurus/plugin-baidu-analytics",
+  "version": "2.0.0-alpha.66",
+  "description": "Global analytics (analytics.js) plugin for Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-baidu-analytics"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.66"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.15.1"
+  }
+}
