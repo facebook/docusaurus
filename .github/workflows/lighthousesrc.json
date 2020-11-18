@@ -2,7 +2,7 @@
     "ci": {
         "assert": {
             "assertions": {
-                "seo/robots-txt": "off",
+                "robots-txt": "off",
                 "seo/canonical": "off",
                 "seo/tap-targets": "off"
             }
