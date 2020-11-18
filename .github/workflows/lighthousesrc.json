@@ -2,7 +2,7 @@
     "ci": {
         "collect": {
             "settings": {
-                "skipAudits": ["seo/robots-txt", "seo/canonical", "seo/tap-targets"]
+                "skipAudits": ["robots-txt", "seo/canonical", "seo/tap-targets"]
             }
         }
     }
