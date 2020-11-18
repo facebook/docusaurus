@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.66",
+  "version": "2.0.0-alpha.68",
   "description": "Simple sitemap generation plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -17,10 +17,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/types": "2.0.0-alpha.66",
-    "joi": "^17.2.1",
+    "@docusaurus/core": "2.0.0-alpha.68",
+    "@docusaurus/types": "2.0.0-alpha.68",
     "fs-extra": "^8.1.0",
+    "joi": "^17.2.1",
     "sitemap": "^3.2.2"
   },
   "peerDependencies": {

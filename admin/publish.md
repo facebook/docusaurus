@@ -121,9 +121,9 @@ An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114)
 
 Stay on your local branch `<your_username>/<version_to_release>`
 
-As we have a monorepo structure, we use `lerna publish --exact` to publish the new version of packages to npm in one shot.
+As we have a monorepo structure, we use `lerna publish ... --exact` to publish the new version of packages to npm in one shot.
 
-`--exact` is important to ensure we keep using fixed versions (without the ^ prefix added by Lerna).
+Using the `--exact` is important to ensure we keep using fixed versions (without the ^ prefix added by Lerna).
 
 First, be sure to run the command below to verify that you have access to all the necessary repositories.
 
@@ -159,7 +159,7 @@ npm access ls-packages
 </pre>
 </details>
 
-It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
+It can happen that some accesses are not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
 
 Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
 
@@ -173,10 +173,10 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-alpha.41 --dist-tag next --exact
+yarn lerna publish 2.0.0-alpha.68 --exact
 ```
 
-**Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.\_
+~~**Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.~~
 
 This command does a few things:
 
@@ -233,6 +233,12 @@ https://github.com/facebook/docusaurus/releases/tag/%VER%
 
 ## Docusaurus 1
 
+### IMPORTANT: v1 packages are now private:
+
+**TLDR**: you need to mark them as public, publish, and mark them back as private
+
+v1 packages have been marked as `private: true` on purpose. This is because lerna will publish ALL (v1+v2) packages with the lerna-publish command. Unfortunately it seems therre is no way to tell it to ignore v1 packages while publishing v2. During a long time, we published all these packages using the @next dist tag: `yarn lerna publish 2.0.0-alpha.41 --dist-tag next --exact` But it cause problems because v2 packages will then all need @next during npm/yarn installs, confusing some users (https://github.com/facebook/docusaurus/issues/3755) We made the v1 packages private so that lerna publish won't publish them, so that we can publish v2 packages under latest dist tag, without creating v1 upgrades that people will be notified abut.
+
 ### Updated v1 release process
 
 Process reworked by @slorber at `1.14.6`, it may not be perfect yet:
@@ -247,7 +253,9 @@ Suppose we are at `v1.14.5`, and want to release `v1.14.6`:
 - Run `yarn install`
 - Version the docs: `yarn workspace docusaurus-1-website docusaurus-version 1.14.6`
 - Test the v1 website locally: `yarn start:v1` + `yarn build:v1`
+- Make the v1 package private: false
 - Publish: `yarn workspace docusaurus publish --new-version 1.14.6`
+- Make the v1 package private: true
 
 The release is now published. It's worth to test it by initializing a new v1 site:
 
