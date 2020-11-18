@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`babel transpilation exclude logic getDocusaurusAliases() return appropriate webpack aliases 1`] = `
+exports[`getDocusaurusAliases() return appropriate webpack aliases 1`] = `
 Object {
   "@docusaurus/BrowserOnly": "../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",

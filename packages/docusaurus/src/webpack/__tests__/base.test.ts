@@ -57,8 +57,10 @@ describe('babel transpilation exclude logic', () => {
       expect(excludeJS(file)).toEqual(true);
     });
   });
+});
 
-  test('getDocusaurusAliases() return appropriate webpack aliases', () => {
+describe('getDocusaurusAliases()', () => {
+  test('return appropriate webpack aliases', () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = mapValues(
       getDocusaurusAliases(),
