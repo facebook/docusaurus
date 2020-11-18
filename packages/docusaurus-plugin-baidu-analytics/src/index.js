@@ -6,10 +6,10 @@
  */
 
 module.exports = function (context, options) {
-  const { trackingID, trackingDEV = false } = options;
+  const {trackingID, trackingDEV = false} = options;
   if (!trackingID) {
     throw new Error(
-      'docusaurus-plugin-baidu-analytics: Baidu Analytic trackingID is not defined, please check your plugins options!'
+      'docusaurus-plugin-baidu-analytics: Baidu Analytic trackingID is not defined, please check your plugins options!',
     );
   }
   const isProd = process.env.NODE_ENV === 'production';
