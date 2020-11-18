@@ -512,6 +512,31 @@ module.exports = {
 };
 ```
 
+### `@docusaurus/plugin-baidu-analytics`
+
+It is a JavaScript tagging framework and API that allows you to send event data to Baidu Analytics.
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-baidu-analytics
+```
+
+**Configuration**
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: ['@docusaurus/plugin-google-gtag'],
+  themeConfig: {
+    gtag: {
+      trackingID: 'xxxxxxxxx',
+      // Optional fields.
+      trackingDEV: true, // Should insert tracking script in development? default to false
+    },
+  },
+};
+```
+
 ### `@docusaurus/plugin-sitemap`
 
 This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
