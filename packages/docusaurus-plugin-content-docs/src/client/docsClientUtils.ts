@@ -28,6 +28,17 @@ export type GetActivePluginOptions = {failfast?: boolean};
 export function getActivePlugin(
   allPluginDatas: Record<string, GlobalPluginData>,
   pathname: string,
+  options: {failfast: true}, // use fail-fast option if you know for sure one plugin instance is active
+): ActivePlugin;
+export function getActivePlugin(
+  allPluginDatas: Record<string, GlobalPluginData>,
+  pathname: string,
+  options?: GetActivePluginOptions,
+): ActivePlugin | undefined;
+
+export function getActivePlugin(
+  allPluginDatas: Record<string, GlobalPluginData>,
+  pathname: string,
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined {
   const activeEntry = Object.entries(allPluginDatas).find(

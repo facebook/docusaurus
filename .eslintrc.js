@@ -119,6 +119,8 @@ module.exports = {
     'no-undef': OFF,
     'no-shadow': OFF,
     '@typescript-eslint/no-shadow': ERROR,
+    'no-redeclare': OFF,
+    '@typescript-eslint/no-redeclare': ERROR,
   },
   overrides: [
     {
