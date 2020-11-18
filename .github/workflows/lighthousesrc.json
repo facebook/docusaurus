@@ -1,10 +1,8 @@
 {
     "ci": {
-        "assert": {
-            "assertions": {
-                "robots-txt": "off",
-                "seo/canonical": "off",
-                "seo/tap-targets": "off"
+        "collect": {
+            "settings": {
+                "skipAudits": ["seo/robots-txt", "seo/canonical", "seo/tap-targets"]
             }
         }
     }
