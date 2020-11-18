@@ -526,7 +526,7 @@ npm install --save @docusaurus/plugin-baidu-analytics
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
+  plugins: ['@docusaurus/plugin-baidu-analytics'],
   themeConfig: {
     gtag: {
       trackingID: 'xxxxxxxxx',
