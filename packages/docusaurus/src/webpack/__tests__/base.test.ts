@@ -7,7 +7,8 @@
 
 import path from 'path';
 
-import {excludeJS, clientDir} from '../base';
+import {excludeJS, clientDir, getDocusaurusAliases} from '../base';
+import {mapValues} from 'lodash';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {
@@ -55,5 +56,14 @@ describe('babel transpilation exclude logic', () => {
     moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toEqual(true);
     });
+  });
+
+  test('getDocusaurusAliases() return appropriate webpack aliases', () => {
+    // using relative paths makes tests work everywhere
+    const relativeDocusaurusAliases = mapValues(
+      getDocusaurusAliases(),
+      (aliasValue) => path.relative(__dirname, aliasValue),
+    );
+    expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
 });
