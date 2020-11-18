@@ -4,6 +4,9 @@
   "description": "Advanced cssnano preset for maximum optimization",
   "main": "index.js",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
