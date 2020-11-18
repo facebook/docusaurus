@@ -1,0 +1,11 @@
+{
+    "ci": {
+        "assert": {
+            "assertions": {
+                "seo/robots-txt": "off",
+                "seo/canonical": "off",
+                "seo/tap-targets": "off"
+            }
+        }
+    }
+}
