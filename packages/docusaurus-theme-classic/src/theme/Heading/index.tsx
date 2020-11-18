@@ -10,7 +10,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 import './styles.css';
 import styles from './styles.module.css';

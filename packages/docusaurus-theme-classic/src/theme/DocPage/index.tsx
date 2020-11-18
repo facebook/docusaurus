@@ -21,7 +21,7 @@ import {matchPath} from '@docusaurus/router';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {docVersionSearchTag} from '../../utils/searchUtils';
+import {docVersionSearchTag} from '@docusaurus/theme-common';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;

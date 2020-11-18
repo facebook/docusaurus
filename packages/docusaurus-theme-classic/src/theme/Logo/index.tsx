@@ -12,7 +12,7 @@ import Link from '@docusaurus/Link';
 import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 
 const Logo = (props: Props): JSX.Element => {

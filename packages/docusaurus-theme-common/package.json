@@ -18,7 +18,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.66"
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
+    "@docusaurus/types": "2.0.0-alpha.66"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.66"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "engines": {
     "node": ">=10.15.1"

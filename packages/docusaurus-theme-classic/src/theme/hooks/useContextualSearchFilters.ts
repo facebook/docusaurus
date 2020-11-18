@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
-import {useDocsPreferredVersionByPluginId} from '../../utils/docsPreferredVersion/useDocsPreferredVersion';
-import {DEFAULT_SEARCH_TAG, docVersionSearchTag} from '../../utils/searchUtils';
+import {
+  useDocsPreferredVersionByPluginId,
+  DEFAULT_SEARCH_TAG,
+  docVersionSearchTag,
+} from '@docusaurus/theme-common';
 
 type ContextualSearchFilters = {
   language: string;

@@ -5,4 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const Test = 42;
+export {useThemeConfig, ThemeConfig} from './utils/useThemeConfig';
+export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+export {isDocsPluginEnabled} from './utils/docsUtils';
+
+export {isSamePath} from './utils/pathUtils';
+
+export {
+  useDocsPreferredVersion,
+  useDocsPreferredVersionByPluginId,
+} from './utils/docsPreferredVersion/useDocsPreferredVersion';
+
+export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';

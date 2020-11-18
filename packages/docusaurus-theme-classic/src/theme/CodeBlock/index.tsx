@@ -14,7 +14,7 @@ import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (

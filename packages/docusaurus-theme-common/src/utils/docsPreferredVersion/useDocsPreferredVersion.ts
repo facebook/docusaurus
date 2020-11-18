@@ -10,8 +10,10 @@ import {useAllDocsData, useDocsData} from '@theme/hooks/useDocs';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 
+// TODO improve typing
+
 // Note, the preferredVersion attribute will always be null before mount
-export default function useDocsPreferredVersion(
+export function useDocsPreferredVersion(
   pluginId: string | undefined = DEFAULT_PLUGIN_ID,
 ) {
   const docsData = useDocsData(pluginId);
@@ -20,7 +22,9 @@ export default function useDocsPreferredVersion(
   const {preferredVersionName} = state[pluginId];
 
   const preferredVersion = preferredVersionName
-    ? docsData.versions.find((version) => version.name === preferredVersionName)
+    ? docsData.versions.find(
+        (version: any) => version.name === preferredVersionName,
+      )
     : null;
 
   const savePreferredVersionName = useCallback(
@@ -43,7 +47,7 @@ export function useDocsPreferredVersionByPluginId() {
 
     return preferredVersionName
       ? docsData.versions.find(
-          (version) => version.name === preferredVersionName,
+          (version: any) => version.name === preferredVersionName,
         )
       : null;
   }
