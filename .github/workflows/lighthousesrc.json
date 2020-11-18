@@ -2,7 +2,7 @@
     "ci": {
         "collect": {
             "settings": {
-                "skipAudits": ["robots-txt", "canonical", "tap-targets"]
+                "skipAudits": ["robots-txt", "canonical", "tap-targets", "is-crawlable"]
             }
         }
     }
