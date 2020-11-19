@@ -70,6 +70,6 @@ export type ThemeConfig = {
   hideableSidebar: any;
 };
 
-export default function useThemeConfig(): ThemeConfig {
+export function useThemeConfig(): ThemeConfig {
   return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
 }

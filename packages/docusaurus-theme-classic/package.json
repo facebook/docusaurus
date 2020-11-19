@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.66",
+  "version": "2.0.0-alpha.68",
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/types.d.ts",
@@ -21,20 +21,20 @@
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.66",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.66",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.66",
-    "@docusaurus/types": "2.0.0-alpha.66",
-    "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@docusaurus/utils": "2.0.0-alpha.66",
-    "joi": "^17.2.1",
+    "@docusaurus/core": "2.0.0-alpha.68",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.68",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.68",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.68",
+    "@docusaurus/theme-common": "2.0.0-alpha.68",
+    "@docusaurus/types": "2.0.0-alpha.68",
+    "@docusaurus/utils-validation": "2.0.0-alpha.68",
+    "@docusaurus/utils": "2.0.0-alpha.68",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@types/react-toggle": "^4.0.2",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
-    "infima": "0.2.0-alpha.15",
+    "infima": "0.2.0-alpha.17",
     "joi": "^17.2.1",
     "lodash": "^4.17.19",
     "parse-numeric-range": "^1.2.0",
@@ -45,7 +45,7 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.66"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.68"
   },
   "peerDependencies": {
     "react": "^16.8.4",

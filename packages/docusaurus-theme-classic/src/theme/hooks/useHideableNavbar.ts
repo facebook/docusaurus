@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useCallback, useEffect, useRef} from 'react';
 import {useLocation} from '@docusaurus/router';
-import useLocationHash from '@theme/hooks/useLocationHash';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 
 const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [isFocusedAnchor, setIsFocusedAnchor] = useState(false);
+  const location = useLocation();
+  const [isNavbarVisible, setIsNavbarVisible] = useState(!hideOnScroll);
+  const isFocusedAnchor = useRef(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const navbarRef = useCallback((node: HTMLElement | null) => {
@@ -21,8 +21,6 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       setNavbarHeight(node.getBoundingClientRect().height);
     }
   }, []);
-  const location = useLocation();
-  const [hash, setHash] = useLocationHash(location.hash);
 
   useScrollPosition(
     ({scrollY: scrollTop}) => {
@@ -30,19 +28,19 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
         return;
       }
 
-      if (scrollTop === 0) {
-        setIsNavbarVisible(true);
-      }
-
       if (scrollTop < navbarHeight) {
         return;
       }
 
-      if (isFocusedAnchor) {
-        setIsFocusedAnchor(false);
+      if (isFocusedAnchor.current) {
+        isFocusedAnchor.current = false;
         setIsNavbarVisible(false);
         setLastScrollTop(scrollTop);
         return;
+      }
+
+      if (lastScrollTop && scrollTop === 0) {
+        setIsNavbarVisible(true);
       }
 
       const documentHeight =
@@ -57,7 +55,7 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
 
       setLastScrollTop(scrollTop);
     },
-    [lastScrollTop, navbarHeight],
+    [lastScrollTop, navbarHeight, isFocusedAnchor],
   );
 
   useEffect(() => {
@@ -65,22 +63,20 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       return;
     }
 
+    if (!lastScrollTop) {
+      return;
+    }
+
     setIsNavbarVisible(true);
-    setHash(location.hash);
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!hideOnScroll) {
       return;
     }
 
-    if (!hash) {
-      return;
-    }
-
-    setIsFocusedAnchor(true);
-    setIsNavbarVisible(false);
-  }, [hash]);
+    isFocusedAnchor.current = true;
+  }, [location.hash]);
 
   return {
     navbarRef,

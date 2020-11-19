@@ -6,7 +6,12 @@
  */
 
 import {TranslationFile, TranslationFileContent} from '@docusaurus/types';
-import {ThemeConfig, Navbar, NavbarItem, Footer} from './utils/useThemeConfig';
+import {
+  ThemeConfig,
+  Navbar,
+  NavbarItem,
+  Footer,
+} from '@docusaurus/theme-common';
 
 // TODO imports due to transpiling with target esnext...
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -133,6 +138,7 @@ exports.getTranslationFiles = async function getTranslationFiles({
   ];
 };
 
+// TODO create  a package like @docusaurus/theme-common-node ?
 exports.translateThemeConfig = function translateThemeConfig({
   themeConfig,
   translationFiles,

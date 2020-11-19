@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
-  "version": "2.0.0-alpha.66",
+  "version": "2.0.0-alpha.68",
   "description": "Client redirects plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -17,10 +17,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/types": "2.0.0-alpha.66",
-    "@docusaurus/utils": "2.0.0-alpha.66",
-    "@docusaurus/utils-validation": "2.0.0-alpha.66",
+    "@docusaurus/core": "2.0.0-alpha.68",
+    "@docusaurus/types": "2.0.0-alpha.68",
+    "@docusaurus/utils": "2.0.0-alpha.68",
+    "@docusaurus/utils-validation": "2.0.0-alpha.68",
     "chalk": "^3.0.0",
     "eta": "^1.11.0",
     "fs-extra": "^8.1.0",

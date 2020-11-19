@@ -31,13 +31,13 @@ const useScrollPosition = (
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    const opts: AddEventListenerOptions & EventListenerOptions = {
+      passive: true,
+    };
 
-    return () =>
-      window.removeEventListener('scroll', handleScroll, {
-        // @ts-expect-error: See https://github.com/microsoft/TypeScript/issues/32912
-        passive: true,
-      });
+    window.addEventListener('scroll', handleScroll, opts);
+
+    return () => window.removeEventListener('scroll', handleScroll, opts);
   }, deps);
 
   return scrollPosition;

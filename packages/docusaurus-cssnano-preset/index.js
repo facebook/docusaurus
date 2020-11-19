@@ -13,7 +13,7 @@ const postCssRemoveOverriddenCustomProperties = require('./src/remove-overridden
 const preset = advancedBasePreset({autoprefixer: {add: true}});
 
 preset.plugins.unshift(
-  [postCssCombineDuplicatedSelectors, {removeDuplicatedProperties: true}],
+  [postCssCombineDuplicatedSelectors, {removeDuplicatedValues: true}],
   [postCssSortMediaQueries],
   [postCssRemoveOverriddenCustomProperties],
 );

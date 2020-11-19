@@ -1,7 +1,9 @@
 {
   "name": "docusaurus-init",
   "description": "Initialization script for Docusaurus",
-  "version": "2.0.0-alpha.66",
+  "version": "2.0.0-alpha.68",
+  "private_comment": "MADE PRIVATE ON PURPOSE! READ V1 PUBLISH GUIDE",
+  "private": true,
   "license": "MIT",
   "preferGlobal": true,
   "keywords": [

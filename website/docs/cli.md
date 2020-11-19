@@ -24,19 +24,6 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 
 Below is a list of Docusaurus CLI commands and their usages:
 
-<!-- TODO: init docs after the init command is implemented
-
-### `docusaurus init`
-
-The `docusaurus init` command is intended to be used with `docusaurus` installed globally:
-
-```shell
-$ yarn global add docusaurus
-# or
-$ npm install --global docusaurus
-```
--->
-
 ### `docusaurus start`
 
 Builds and serves a preview of your site locally with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).

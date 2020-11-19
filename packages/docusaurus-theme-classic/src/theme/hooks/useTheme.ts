@@ -9,7 +9,7 @@ import {useState, useCallback, useEffect} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {useThemeReturns} from '@theme/hooks/useTheme';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const themes = {
   light: 'light',

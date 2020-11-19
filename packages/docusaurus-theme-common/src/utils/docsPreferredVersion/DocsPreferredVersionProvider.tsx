@@ -12,7 +12,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import useThemeConfig, {DocsVersionPersistence} from '../useThemeConfig';
+import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
 import {useAllDocsData} from '@theme/hooks/useDocs';
@@ -68,7 +68,7 @@ function readStorageState({
     );
     const pluginData = allDocsData[pluginId];
     const versionExists = pluginData.versions.some(
-      (version) => version.name === preferredVersionNameUnsafe,
+      (version: any) => version.name === preferredVersionNameUnsafe,
     );
     if (versionExists) {
       return {preferredVersionName: preferredVersionNameUnsafe};
@@ -129,7 +129,7 @@ type DocsPreferredVersionContextValue = ReturnType<typeof useContextValue>;
 
 const Context = createContext<DocsPreferredVersionContextValue | null>(null);
 
-export default function DocsPreferredVersionContextProvider({
+export function DocsPreferredVersionContextProvider({
   children,
 }: {
   children: ReactNode;
