@@ -100,7 +100,7 @@ Docusaurus is a modern static website generator so we need to build the website 
 npm run build
 ```
 
-and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.mdx)) for more details.
+and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.mdx)) for more details.
 
 ## Updating your Docusaurus version
 
