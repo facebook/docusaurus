@@ -33,7 +33,7 @@ const Logo = (props: Props): JSX.Element => {
     : {};
   const sources = {
     light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark),
+    dark: useBaseUrl(logo.srcDark || logo.src),
   };
 
   return (
