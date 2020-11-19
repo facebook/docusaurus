@@ -64,14 +64,15 @@ class Index extends React.Component {
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="announcement">
           <div className="announcement-inner">
-            If you don't need advanced features such as versioning or
-            translations, try out{' '}
-            <a href="https://v2.docusaurus.io">Docusaurus 2</a> instead!
-            Contribute to its roadmap by suggesting features or{' '}
-            <a href="https://v2.docusaurus.io/feedback/">
-              giving feedback here
-            </a>
-            !
+            <div>
+              <span className="announcement-important">IMPORTANT</span>: this is
+              the documentation of{' '}
+              <span className="announcement-important">Docusaurus v1</span>.
+            </div>
+            <div>
+              We now recommend using{' '}
+              <a href="https://v2.docusaurus.io">Docusaurus 2</a> instead!
+            </div>
           </div>
         </div>
         <div className="mainContainer">

@@ -8,7 +8,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::caution
 
-This migration guide is targeted at Docusaurus users without translation and/or versioning features.
+For v1 translated sites, the migration doc is not available yet.
 
 :::
 
@@ -725,12 +725,6 @@ For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord ch
 
 ## Versioned Site
 
-:::caution
-
-The versioning feature is a work in progress! Although we've implemented docs versioning since `2.0.0-alpha.37`, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
-
-:::
-
 Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 
 ### Migrate your `versioned_docs` front matter
@@ -895,3 +889,9 @@ hello world
 - pre style="background: black">zzz</pre>
 + pre style={{background: 'black'}}>zzz</pre>
 ```
+
+## Translated Site
+
+We don't provide yet a migration path for v1 translated sites.
+
+v2 i18n support is a [work in progress](https://github.com/facebook/docusaurus/pull/3325), and will be added before the end of 2020 with a migration guide to help you migrate from v1 + Crowdin to v2 + Crowdin.
