@@ -10,8 +10,9 @@ import initPlugins, {InitPlugin} from '../server/plugins/init';
 import {
   writePluginTranslations,
   writeCodeTranslations,
-} from '../translations/translations';
-import {extractPluginsSourceCodeTranslations} from '../translations/translationsExtractor';
+  WriteTranslationsOptions,
+} from '../server/translations/translations';
+import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 import {difference} from 'lodash';
 
@@ -19,10 +20,12 @@ async function writePluginTranslationFiles({
   siteDir,
   plugin,
   locales,
+  options,
 }: {
   siteDir: string;
   plugin: InitPlugin;
   locales: string[];
+  options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
     const translationFiles = await plugin.getTranslationFiles();
@@ -36,6 +39,7 @@ async function writePluginTranslationFiles({
               plugin,
               translationFile,
               locale,
+              options,
             }),
           ),
         );
@@ -46,7 +50,7 @@ async function writePluginTranslationFiles({
 
 export default async function writeTranslations(
   siteDir: string,
-  options: {locales?: string[]},
+  options: WriteTranslationsOptions & {locales?: string[]},
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
@@ -75,6 +79,8 @@ export default async function writeTranslations(
 
   const locales = getLocalesToWrite();
 
+  console.log('writeTranslations', {siteDir, options, locales});
+
   const babelOptions = getBabelOptions({
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
@@ -85,13 +91,13 @@ export default async function writeTranslations(
   );
   await Promise.all(
     locales.map((locale) =>
-      writeCodeTranslations({siteDir, locale}, codeTranslations),
+      writeCodeTranslations({siteDir, locale}, codeTranslations, options),
     ),
   );
 
   await Promise.all(
     plugins.map(async (plugin) => {
-      await writePluginTranslationFiles({siteDir, plugin, locales});
+      await writePluginTranslationFiles({siteDir, plugin, locales, options});
     }),
   );
 }

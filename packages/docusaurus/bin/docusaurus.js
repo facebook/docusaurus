@@ -215,9 +215,26 @@ cli
     'List of locales (comma separated), or "all".',
     (value) => value.split(','),
   )
-  .action((siteDir = '.', {locales}) => {
-    wrapCommand(writeTranslations)(path.resolve(siteDir), {locales});
-  });
+  .option(
+    '--override',
+    'By default, we append translations to existing files. This option permits to simply override existing files.',
+  )
+  .option(
+    '--messagePrefix <messagePrefix>',
+    'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI.',
+  )
+  .action(
+    (
+      siteDir = '.',
+      {locales = ['all'], override = false, messagePrefix = ''},
+    ) => {
+      wrapCommand(writeTranslations)(path.resolve(siteDir), {
+        locales,
+        override,
+        messagePrefix,
+      });
+    },
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();

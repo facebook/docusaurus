@@ -33,7 +33,7 @@ import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import {loadI18n} from './i18n';
-import {readCodeTranslationFileContent} from '../translations/translations';
+import {readCodeTranslationFileContent} from './translations/translations';
 import {mapValues} from 'lodash';
 
 function localizePath(

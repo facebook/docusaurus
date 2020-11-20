@@ -25,7 +25,7 @@ import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {getTranslationsLocaleDirPath} from '../translations/translations';
+import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export default async function start(
   siteDir: string,

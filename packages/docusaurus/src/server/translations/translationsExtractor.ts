@@ -13,7 +13,7 @@ import {flatten} from 'lodash';
 import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
 import globby from 'globby';
 import nodePath from 'path';
-import {InitPlugin} from '../server/plugins/init';
+import {InitPlugin} from '../plugins/init';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([

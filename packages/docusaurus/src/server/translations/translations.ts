@@ -6,11 +6,17 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
-import {InitPlugin} from '../server/plugins/init';
-import {mapValues} from 'lodash';
+import {InitPlugin} from '../plugins/init';
+import {mapValues, difference} from 'lodash';
 import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import {getPluginI18nPath} from '@docusaurus/utils';
 import * as Joi from 'joi';
+import chalk from 'chalk';
+
+export type WriteTranslationsOptions = {
+  override?: boolean;
+  messagePrefix?: string;
+};
 
 type TranslationContext = {
   siteDir: string;
@@ -21,68 +27,111 @@ const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
   .pattern(
     Joi.string(),
     Joi.object({
-      message: Joi.string().required(),
+      message: Joi.string().allow('').required(),
       description: Joi.string().optional(),
     }),
   )
   .required();
 
-async function readTranslationFileContent(
+export function ensureTranslationFileContent(
+  content: unknown,
+): asserts content is TranslationFileContent {
+  Joi.attempt(content, TranslationFileContentSchema, {
+    abortEarly: false,
+    allowUnknown: false,
+    convert: false,
+  });
+}
+
+export async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
-    const content = JSON.parse(
-      await fs.readFile(filePath, 'utf8'),
-    ) as TranslationFileContent;
     try {
-      return Joi.attempt(content, TranslationFileContentSchema, {
-        abortEarly: false,
-        allowUnknown: false,
-        convert: false,
-      });
+      const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
+      ensureTranslationFileContent(content);
+      return content;
     } catch (e) {
       throw new Error(
-        `Invalid translation file at  path=${filePath}.\n${e.message}`,
+        `Invalid translation file at path=${filePath}.\n${e.message}`,
       );
     }
   }
   return undefined;
 }
 
-async function writeTranslationFileContent({
+function mergeTranslationFileContent({
+  existingContent = {},
+  newContent,
+  options,
+}: {
+  existingContent: TranslationFileContent | undefined;
+  newContent: TranslationFileContent;
+  options: WriteTranslationsOptions;
+}): TranslationFileContent {
+  // Apply messagePrefix to all messages
+  const newContentTransformed = mapValues(newContent, (value) => ({
+    ...value,
+    message: `${options.messagePrefix ?? ''}${value.message}`,
+  }));
+
+  const result: TranslationFileContent = {...existingContent};
+
+  // We only add missing keys here, we don't delete existing ones
+  Object.entries(newContentTransformed).forEach(
+    ([key, {message, description}]) => {
+      result[key] = {
+        // If the messages already exist, we don't override them (unless requested)
+        message: options.override
+          ? message
+          : existingContent[key]?.message ?? message,
+        description, // description
+      };
+    },
+  );
+
+  return result;
+}
+
+export async function writeTranslationFileContent({
   filePath,
-  content,
-  suffix = '',
+  content: newContent,
+  options = {},
 }: {
   filePath: string;
   content: TranslationFileContent;
-  suffix?: string;
+  options?: WriteTranslationsOptions;
 }): Promise<void> {
-  const suffixedContent = mapValues(content, (value) => ({
-    ...value,
-    message: `${value.message}${suffix}`,
-  }));
-
   const existingContent = await readTranslationFileContent(filePath);
 
-  // TODO detect stale translation keys here?
-  // TODO add merge+/override modes
-  // TODO always update the translation description?
-  const mergedContent: TranslationFileContent = {
-    ...suffixedContent,
-    ...existingContent,
-  };
+  // Warn about potential legacy keys
+  const unknownKeys = difference(
+    Object.keys(existingContent ?? {}),
+    Object.keys(newContent),
+  );
+  if (unknownKeys.length > 0) {
+    console.warn(
+      chalk.yellow(`Some translation keys looks unknown to us in file ${filePath}
+Maybe you should remove them?
+- ${unknownKeys.join('\n- ')}`),
+    );
+  }
+
+  const mergedContent = mergeTranslationFileContent({
+    existingContent,
+    newContent,
+    options,
+  });
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
     console.log(
-      `writing ${Object.keys(content).length} translations => ${path.relative(
-        process.cwd(),
-        filePath,
-      )}`,
+      `writing ${
+        Object.keys(mergedContent).length
+      } translations => ${path.relative(process.cwd(), filePath)}`,
     );
     await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, JSON.stringify(content, null, 2));
+    await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
   }
 }
 
@@ -105,18 +154,17 @@ export function getCodeTranslationsFilePath(
 export async function readCodeTranslationFileContent(
   context: TranslationContext,
 ): Promise<TranslationFileContent | undefined> {
-  const filePath = getCodeTranslationsFilePath(context);
-  return readTranslationFileContent(filePath);
+  return readTranslationFileContent(getCodeTranslationsFilePath(context));
 }
 export async function writeCodeTranslations(
   context: TranslationContext,
   content: TranslationFileContent,
+  options: WriteTranslationsOptions,
 ): Promise<void> {
-  const filePath = getCodeTranslationsFilePath(context);
   return writeTranslationFileContent({
-    filePath,
+    filePath: getCodeTranslationsFilePath(context),
     content,
-    // suffix: ` (${context.locale})`,
+    options,
   });
 }
 
@@ -132,7 +180,7 @@ function addTranslationFileExtension(translationFilePath: string) {
   return `${translationFilePath}.json`;
 }
 
-export function getPluginTranslationFilePath({
+function getPluginTranslationFilePath({
   siteDir,
   plugin,
   locale,
@@ -147,8 +195,8 @@ export function getPluginTranslationFilePath({
     pluginName: plugin.name,
     pluginId: plugin.options.id,
   });
-
-  return path.join(dirPath, addTranslationFileExtension(translationFilePath));
+  const filePath = addTranslationFileExtension(translationFilePath);
+  return path.join(dirPath, filePath);
 }
 
 export async function writePluginTranslations({
@@ -156,9 +204,11 @@ export async function writePluginTranslations({
   plugin,
   locale,
   translationFile,
+  options,
 }: TranslationContext & {
   plugin: InitPlugin;
   translationFile: TranslationFile;
+  options?: WriteTranslationsOptions;
 }): Promise<void> {
   const filePath = getPluginTranslationFilePath({
     plugin,
@@ -166,11 +216,10 @@ export async function writePluginTranslations({
     locale,
     translationFilePath: translationFile.path,
   });
-
   await writeTranslationFileContent({
     filePath,
     content: translationFile.content,
-    // suffix: ` (${locale})`,
+    options,
   });
 }
 

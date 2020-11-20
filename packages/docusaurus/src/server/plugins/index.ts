@@ -21,7 +21,7 @@ import initPlugins, {InitPlugin} from './init';
 import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
-import {localizePluginTranslationFile} from '../../translations/translations';
+import {localizePluginTranslationFile} from '../translations/translations';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
