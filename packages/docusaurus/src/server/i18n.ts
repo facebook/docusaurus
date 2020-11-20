@@ -15,9 +15,11 @@ export function loadI18n(
 
   if (currentLocale && !i18nConfig.locales.includes(currentLocale)) {
     throw new Error(
-      `It is not possible to load Docusaurus with locale=[${currentLocale}], because it's not in the available locales of your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
+      `It is not possible to load Docusaurus with locale="${currentLocale}".
+This locale is not in the available locales of your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
         ',',
-      )}]`,
+      )}]
+Note: Docusaurus only support running one local at a time.`,
     );
   }
 
