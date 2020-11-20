@@ -20,7 +20,7 @@ import path from 'path';
 
 async function createTmpSiteDir() {
   const {path: siteDirPath} = await tmp.dir({
-    prefix: 'jest-tmpSiteDir',
+    prefix: 'jest-createTmpSiteDir',
   });
   return siteDirPath;
 }
@@ -29,7 +29,7 @@ async function createTmpTranslationFile(
   content: TranslationFileContent | null,
 ) {
   const file = await tmp.file({
-    prefix: 'jest-writeTranslationFileContent',
+    prefix: 'jest-createTmpTranslationFile',
     postfix: '.json',
   });
 

@@ -30,7 +30,7 @@ function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
 }
 
-export async function getSourceCodeFilePaths(
+async function getSourceCodeFilePaths(
   plugins: InitPlugin[],
 ): Promise<string[]> {
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
@@ -50,7 +50,7 @@ export async function extractPluginsSourceCodeTranslations(
   babelOptions: TransformOptions,
 ): Promise<TranslationFileContent> {
   // Should we warn here if the same translation "key" is found in multiple source code files?
-  function flattenSourceCodeFileTranslations(
+  function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
     return sourceCodeFileTranslations.reduce((acc, item) => {
@@ -59,46 +59,69 @@ export async function extractPluginsSourceCodeTranslations(
   }
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(plugins);
-  const codeTranslations = await extractAllSourceCodeTranslations(
+  const sourceCodeFilesTranslations = await extractAllSourceCodeFileTranslations(
     sourceCodeFilePaths,
     babelOptions,
   );
-  return flattenSourceCodeFileTranslations(codeTranslations);
+
+  logSourceCodeFileTranslationsWarnings(sourceCodeFilesTranslations);
+
+  return toTranslationFileContent(sourceCodeFilesTranslations);
 }
 
-export type SourceCodeFileTranslations = {
+function logSourceCodeFileTranslationsWarnings(
+  sourceCodeFilesTranslations: SourceCodeFileTranslations[],
+) {
+  sourceCodeFilesTranslations.forEach(({sourceCodeFilePath, warnings}) => {
+    if (warnings.length > 0) {
+      console.warn(
+        `Translation extraction warnings for file path=${sourceCodeFilePath}:\n- ${chalk.yellow(
+          warnings.join('\n\n- '),
+        )}`,
+      );
+    }
+  });
+}
+
+type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
   translations: Record<string, TranslationMessage>;
+  warnings: string[];
 };
 
-export async function extractAllSourceCodeTranslations(
+async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
   return flatten(
     await Promise.all(
       sourceCodeFilePaths.map((sourceFilePath) =>
-        extractSourceCodeTranslations(sourceFilePath, babelOptions),
+        extractSourceCodeFileTranslations(sourceFilePath, babelOptions),
       ),
     ),
   );
 }
 
-export async function extractSourceCodeTranslations(
+export async function extractSourceCodeFileTranslations(
   sourceCodeFilePath: string,
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations> {
-  const code = await fs.readFile(sourceCodeFilePath, 'utf8');
+  try {
+    const code = await fs.readFile(sourceCodeFilePath, 'utf8');
 
-  const ast = parse(code, {
-    ...babelOptions,
-    ast: true,
-    // filename is important, because babel does not process the same files according to their js/ts extensions
-    // see  see https://twitter.com/NicoloRibaudo/status/1321130735605002243
-    filename: sourceCodeFilePath,
-  }) as Node;
+    const ast = parse(code, {
+      ...babelOptions,
+      ast: true,
+      // filename is important, because babel does not process the same files according to their js/ts extensions
+      // see  see https://twitter.com/NicoloRibaudo/status/1321130735605002243
+      filename: sourceCodeFilePath,
+    }) as Node;
 
-  return extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
+    return await extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
+  } catch (e) {
+    e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
+    throw e;
+  }
 }
 
 /*
@@ -125,6 +148,8 @@ function extractSourceCodeAstTranslations(
 
   const translations: Record<string, TranslationMessage> = {};
   const warnings: string[] = [];
+
+  // TODO we should check the presence of the correct @docusaurus imports here!
 
   traverse(ast, {
     JSXElement(path) {
@@ -227,13 +252,5 @@ function extractSourceCodeAstTranslations(
     },
   });
 
-  if (warnings.length > 0) {
-    console.warn(
-      `Translation extraction warnings:\n\n- ${chalk.yellow(
-        warnings.join('\n\n- '),
-      )}`,
-    );
-  }
-
-  return {sourceCodeFilePath, translations};
+  return {sourceCodeFilePath, translations, warnings};
 }
