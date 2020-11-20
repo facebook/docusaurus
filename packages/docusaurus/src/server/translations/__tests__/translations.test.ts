@@ -386,7 +386,7 @@ describe('writePluginTranslations', () => {
   });
 });
 
-describe.only('localizePluginTranslationFile', () => {
+describe('localizePluginTranslationFile', () => {
   test('not localize if localized file does not exist', async () => {
     const siteDir = await createTmpSiteDir();
 
