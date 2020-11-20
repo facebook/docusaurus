@@ -118,7 +118,7 @@ export default function MyComponent() {
 export default function MyComponent() {
   return (
     <div>
-      <Translate id="codeId" description="code description">
+      <Translate id="codeId" description={"code description"}>
         code message
       </Translate>
     </div>
@@ -160,43 +160,32 @@ export default function MyComponent() {
       <Translate
         id={prefix + "codeId comp"}
         description={prefix + "code description"}
-      >
-        code message
-      </Translate>
+      >{prefix + "code message"}</Translate>
     </div>
   );
 }
 `,
     });
 
-    const {translations, warnings} = await extractSourceCodeFileTranslations(
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
       sourceCodeFilePath,
       TestBabelOptions,
     );
 
-    expect(translations).toEqual({
-      // TODO unfortunately couldn't make "evaluate" to evaluate confidently dynamic JSX props
-      // while it seems to work for fn function calls
-      'code message': {
-        message: 'code message',
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {
+        'prefix codeId comp': {
+          message: 'prefix code message',
+          description: 'prefix code description',
+        },
+        'prefix codeId fn': {
+          message: 'prefix code message',
+          description: 'prefix code description',
+        },
       },
-      'prefix codeId fn': {
-        description: 'prefix code description',
-        message: 'prefix code message',
-      },
+      warnings: [],
     });
-
-    // TODO is there a way to make evaluate work in such case
-    expect(warnings[0]).toEqual(
-      expect.stringMatching(
-        /<Translate> prop=id should be a statically evaluable object/,
-      ),
-    );
-    expect(warnings[1]).toEqual(
-      expect.stringMatching(
-        /<Translate> prop=description should be a statically evaluable object/,
-      ),
-    );
   });
 
   test('extract from TypeScript file', async () => {

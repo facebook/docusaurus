@@ -162,7 +162,11 @@ function extractSourceCodeAstTranslations(
 
         if (attributePath) {
           const attributeValue = attributePath.get('value') as NodePath;
-          const attributeValueEvaluated = attributeValue.evaluate();
+
+          const attributeValueEvaluated =
+            attributeValue.node.type === 'JSXExpressionContainer'
+              ? (attributeValue.get('expression') as NodePath).evaluate()
+              : attributeValue.evaluate();
 
           if (
             attributeValueEvaluated.confident &&
@@ -185,7 +189,7 @@ function extractSourceCodeAstTranslations(
         path.node.openingElement.name.type === 'JSXIdentifier' &&
         path.node.openingElement.name.name === 'Translate'
       ) {
-        // TODO support JSXExpressionContainer  + https://twitter.com/NicoloRibaudo/status/1321132895101214720
+        // TODO support multiple childrens here?
         if (
           path.node.children.length === 1 &&
           t.isJSXText(path.node.children[0])
@@ -193,6 +197,22 @@ function extractSourceCodeAstTranslations(
           const message = path.node.children[0].value
             .trim()
             .replace(/\s+/g, ' ');
+
+          const id = evaluateJSXProp('id');
+          const description = evaluateJSXProp('description');
+
+          translations[id ?? message] = {
+            message,
+            ...(description && {description}),
+          };
+        } else if (
+          path.node.children.length === 1 &&
+          t.isJSXExpressionContainer(path.node.children[0]) &&
+          (path.get('children.0.expression') as NodePath).evaluate().confident
+        ) {
+          const message = (path.get(
+            'children.0.expression',
+          ) as NodePath).evaluate().value;
 
           const id = evaluateJSXProp('id');
           const description = evaluateJSXProp('description');
