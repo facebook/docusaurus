@@ -19,7 +19,7 @@
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.68",
     "@docusaurus/types": "2.0.0-alpha.68",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "joi": "^17.2.1",
     "sitemap": "^3.2.2"
   },

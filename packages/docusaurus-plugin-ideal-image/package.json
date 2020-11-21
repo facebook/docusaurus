@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "fs-extra": "^9.0.0"
+    "fs-extra": "^9.0.1"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.68",

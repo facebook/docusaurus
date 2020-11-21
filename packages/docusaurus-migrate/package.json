@@ -43,7 +43,6 @@
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.1",
     "@types/jscodeshift": "^0.7.1"
   }
 }
