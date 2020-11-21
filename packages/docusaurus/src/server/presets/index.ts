@@ -44,7 +44,9 @@ export default function loadPresets(
       throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule: any = importFresh(pluginRequire.resolve(presetModuleImport));
+    const presetModule: any = importFresh(
+      pluginRequire.resolve(presetModuleImport),
+    );
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,
