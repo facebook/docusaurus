@@ -67,7 +67,7 @@
     "eta": "^1.11.0",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "globby": "^10.0.1",
     "html-minifier-terser": "^5.1.1",
     "html-tags": "^3.1.0",

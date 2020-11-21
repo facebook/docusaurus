@@ -31,7 +31,7 @@
     "@docusaurus/utils-validation": "2.0.0-alpha.68",
     "chalk": "^3.0.0",
     "execa": "^3.4.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "globby": "^10.0.1",
     "import-fresh": "^3.2.2",
     "joi": "^17.2.1",
