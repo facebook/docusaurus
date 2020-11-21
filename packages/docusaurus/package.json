@@ -95,7 +95,7 @@
     "react-loadable-ssr-addon": "^0.3.0",
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
-    "react-router-dom": "^5.1.2",
+    "react-router-dom": "^5.2.0",
     "resolve-pathname": "^3.0.0",
     "semver": "^6.3.0",
     "serve-handler": "^6.1.3",

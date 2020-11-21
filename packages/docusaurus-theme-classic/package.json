@@ -39,7 +39,7 @@
     "prism-react-renderer": "^1.1.1",
     "prismjs": "^1.22.0",
     "prop-types": "^15.7.2",
-    "react-router-dom": "^5.1.2",
+    "react-router-dom": "^5.2.0",
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
