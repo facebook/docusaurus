@@ -11,18 +11,18 @@ Docusaurus v2 is **still alpha** (since mid-2019) but already quite stable.
 
 We highly encourage you to **use Docusaurus v2 over Docusaurus v1**.
 
-Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)), including [ReactNative](https://reactnative.dev), [Redux](https://redux.js.org/) and [many others](/showcase).
+Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)), including [React Native](https://reactnative.dev), [Redux](https://redux.js.org/) and [many others](/showcase).
 
 **Use **Docusaurus v2** if:**
 
 - :white_check_mark: You want a modern Jamstack documentation site
-- :white_check_mark: You want a Single-Page-Application with client-side routing
+- :white_check_mark: You want a single-page application (SPA) with client-side routing
 - :white_check_mark: You want the full power of React and MDX
 - :white_check_mark: You do not need support for IE11
 
 **Use [Docusaurus v1](https://docusaurus.io/) if:**
 
-- :x: You don't want a Single-Page-Application
+- :x: You don't want a single-page application (SPA)
 - :x: You prefer stability over modernity (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need support for IE11
 
