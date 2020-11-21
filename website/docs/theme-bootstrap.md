@@ -43,7 +43,7 @@ const Example = () => {
 
 ### Navbar title & logo
 
-You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
+You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab. If you are willing to use dark mode, then you must add Logo for dark theme to. Add `srcDark` via `themeConfig.navbar.logo` and use your prefred logo for dark theme.
 
 ```js {5-11} title="docusaurus.config.js"
 module.exports = {
@@ -54,6 +54,7 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo.svg',
         href: 'https://v2.docusaurus.io/', // Default to `siteConfig.baseUrl`.
         target: '_self', // By default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one).
       },
