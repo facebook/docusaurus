@@ -7,22 +7,23 @@ slug: /
 
 ## Disclaimer
 
-It has been a year since we made the first **alpha release** of Docusaurus 2 and things have been pretty stable since then. Many of Facebook's new open source websites are using Docusaurus 2 now. At this point, we highly encourage you to use Docusaurus 2 over Docusaurus 1 for your new websites. For feedback and questions, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.
+Docusaurus v2 is **still alpha** (since mid-2019) but already quite stable.
 
-**You should use this if:**
+We highly encourage you to **use Docusaurus v2 over Docusaurus v1**.
 
-- :white_check_mark: You want to contribute to Docusaurus 2
-- :white_check_mark: You want to build a modern website with client-side routing and prerendering
-- :white_check_mark: You want to provide feedback to make sure Docusaurus 2 suits your needs
-- :white_check_mark: You are curious about what comes next as a Docusaurus user
-- :white_check_mark: You want to ease the pain of migration in future
+Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)), including [React Native](https://reactnative.dev), [Redux](https://redux.js.org/) and [many others](/showcase).
+
+**Use **Docusaurus v2** if:**
+
+- :white_check_mark: You want a modern Jamstack documentation site
+- :white_check_mark: You want a single-page application (SPA) with client-side routing
+- :white_check_mark: You want the full power of React and MDX
 - :white_check_mark: You do not need support for IE11
 
-**Do not use this if:**
+**Use [Docusaurus v1](https://docusaurus.io/) if:**
 
-- :x: You need a fully production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
-- :x: You need the translation features present in v1
-- :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during the alpha period
+- :x: You don't want a single-page application (SPA)
+- :x: You prefer stability over modernity (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need support for IE11
 
 ## A better Docusaurus is coming to town

@@ -73,6 +73,11 @@ table td:first-child > code {
   max-width: 768px;
 }
 
+.announcement-important {
+  color: #d00101;
+  font-weight: bold;
+}
+
 .index-hero {
   background-color: #2b3137;
   padding: 48px;
