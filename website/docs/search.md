@@ -74,7 +74,7 @@ module.exports = {
 
 :::caution
 
-If you decide to use contextual search, you can't provide `algolia.searchParameters.facetFilters`, as we compute this `facetFilters` attribute for you dynamically.
+When using `contextualSearch: true`, the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters`.
 
 :::
 
