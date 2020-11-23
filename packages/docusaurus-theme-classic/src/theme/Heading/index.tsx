@@ -36,11 +36,7 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
           id={id}
         />
         {props.children}
-        <a
-          aria-hidden="true"
-          className="hash-link"
-          href={`#${id}`}
-          title="Direct link to heading">
+        <a className="hash-link" href={`#${id}`} title="Direct link to heading">
           #
         </a>
       </Tag>
