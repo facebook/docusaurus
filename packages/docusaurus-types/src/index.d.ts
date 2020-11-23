@@ -16,6 +16,7 @@ export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
 export interface DocusaurusConfig {
   baseUrl: string;
+  baseUrlIssueBanner: boolean;
   favicon: string;
   tagline?: string;
   title: string;

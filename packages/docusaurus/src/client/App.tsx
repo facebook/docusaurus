@@ -14,7 +14,7 @@ import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';
-import BaseUrlSuggestionWarning from './baseUrlSuggestionWarning/BaseUrlSuggestionWarning';
+import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
 
 import './client-lifecycles-dispatcher';
 
@@ -28,7 +28,7 @@ function App(): JSX.Element {
   return (
     <DocusaurusContext.Provider
       value={{siteConfig, siteMetadata, globalData, isClient}}>
-      <BaseUrlSuggestionWarning />
+      <BaseUrlIssueBanner />
       <PendingNavigation routes={routes}>
         {renderRoutes(routes)}
       </PendingNavigation>

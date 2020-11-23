@@ -26,6 +26,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
   | 'titleDelimiter'
   | 'noIndex'
+  | 'baseUrlIssueBanner'
 > = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -37,6 +38,7 @@ export const DEFAULT_CONFIG: Pick<
   themeConfig: {},
   titleDelimiter: '|',
   noIndex: false,
+  baseUrlIssueBanner: true,
 };
 
 const PluginSchema = Joi.alternatives().try(
@@ -61,6 +63,7 @@ const ConfigSchema = Joi.object({
     .required()
     .regex(new RegExp('/$', 'm'))
     .message('{{#label}} must be a string with a trailing `/`'),
+  baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: URISchema.required(),
