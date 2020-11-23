@@ -41,17 +41,5 @@ exports.validateThemeConfig = function validateThemeConfig({
   validate,
   themeConfig,
 }) {
-  const normalizedThemeConfig = validate(Schema, themeConfig);
-
-  if (
-    normalizedThemeConfig &&
-    normalizedThemeConfig.algolia.contextualSearch &&
-    normalizedThemeConfig.algolia.searchParameters &&
-    normalizedThemeConfig.algolia.searchParameters.facetFilters
-  ) {
-    throw new Error(
-      'If you are using algolia.contextualSearch: true, you should not provide algolia.searchParameters.facetFilters, as it is computed for you dynamically',
-    );
-  }
-  return normalizedThemeConfig;
+  return validate(Schema, themeConfig);
 };
