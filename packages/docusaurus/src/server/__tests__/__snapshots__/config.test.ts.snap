@@ -18,6 +18,7 @@ See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields"
 exports[`loadConfig website with valid siteConfig 1`] = `
 Object {
   "baseUrl": "/",
+  "baseUrlIssueBanner": true,
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
   "noIndex": false,

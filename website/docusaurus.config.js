@@ -47,6 +47,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl,
+  baseUrlIssueBanner: true,
   url: 'https://v2.docusaurus.io',
   onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   onBrokenMarkdownLinks: 'warn',

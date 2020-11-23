@@ -424,3 +424,27 @@ module.exports = {
   titleDelimiter: '🦖', // Defaults to `|`
 };
 ```
+
+### `baseUrlIssueBanner`
+
+- Type: `boolean`
+
+When enabled, will show a banner in case your site can't load its CSS or JavaScript files, which is a very common issue, often related to a wrong `baseUrl` in site config.
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  baseUrlIssueBanner: true, // Defaults to `true`
+};
+```
+
+![baseUrlIssueBanner](/img/baseUrlIssueBanner.png)
+
+:::caution
+
+This banner need to inline CSS / JS.
+
+If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
+
+:::
