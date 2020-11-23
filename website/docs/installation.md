@@ -15,13 +15,13 @@ Docusaurus is essentially a set of npm [packages](https://github.com/facebook/do
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/init init [name] [template]
+npx @docusaurus/init@latest init [name] [template]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init init my-website classic
+npx @docusaurus/init@latest init my-website classic
 ```
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
@@ -29,13 +29,13 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 **[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
-npx @docusaurus/init init my-website facebook
+npx @docusaurus/init@latest init my-website facebook
 ```
 
 **[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following::
 
 ```bash
-npx @docusaurus/init init my-website bootstrap
+npx @docusaurus/init@latest init my-website bootstrap
 ```
 
 ## Project structure
