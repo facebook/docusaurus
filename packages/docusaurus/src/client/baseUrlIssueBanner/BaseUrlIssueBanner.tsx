@@ -38,7 +38,7 @@ export default function BaseUrlIssueBanner() {
   return (
     <>
       <Head>
-        <script type="text/javascript">
+        <script>
           {`
 document.addEventListener('DOMContentLoaded', function () {
   var baseUrlSuggestion = document.getElementById(
