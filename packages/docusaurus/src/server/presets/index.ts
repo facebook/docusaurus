@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import Module from 'module';
+import {join} from 'path';
 import importFresh from 'import-fresh';
+import {CONFIG_FILE_NAME} from '../../constants';
 import {
   LoadContext,
   PluginConfig,
@@ -19,6 +22,13 @@ export default function loadPresets(
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
+  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
+  // declares the dependency on these plugins.
+  // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
+  // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
+  const createRequire = Module.createRequire || Module.createRequireFromPath;
+  const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
+
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
@@ -34,7 +44,9 @@ export default function loadPresets(
       throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule: any = importFresh(presetModuleImport);
+    const presetModule: any = importFresh(
+      pluginRequire.resolve(presetModuleImport),
+    );
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,
