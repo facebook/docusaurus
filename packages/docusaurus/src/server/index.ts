@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate, normalizeUrl} from '@docusaurus/utils';
+import {generate} from '@docusaurus/utils';
 import path, {join} from 'path';
 import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
@@ -23,7 +23,6 @@ import loadRoutes from './routes';
 import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
-  I18n,
   DocusaurusSiteMetadata,
   LoadContext,
   PluginConfig,
@@ -32,39 +31,9 @@ import {
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
-import {loadI18n} from './i18n';
+import {loadI18n, localizePath} from './i18n';
 import {readCodeTranslationFileContent} from './translations/translations';
 import {mapValues} from 'lodash';
-
-function localizePath(
-  originalPath: string,
-  i18n: I18n,
-  options: LoadContextOptions,
-  pathType: 'fs' | 'url',
-): string {
-  const shouldLocalizePath: boolean =
-    typeof options.localizePath === 'undefined'
-      ? // By default, we don't localize the path of defaultLocale
-        i18n.currentLocale !== i18n.defaultLocale
-      : options.localizePath;
-
-  if (shouldLocalizePath) {
-    // FS paths need special care, for Windows support
-    if (pathType === 'fs') {
-      return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
-    }
-    // Url paths
-    else if (pathType === 'url') {
-      return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
-    }
-    // should never happen
-    else {
-      throw new Error(`unhandled pathType=${pathType}`);
-    }
-  } else {
-    return originalPath;
-  }
-}
 
 type LoadContextOptions = {
   customOutDir?: string;
@@ -81,20 +50,29 @@ export async function loadContext(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
-  const baseSiteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const {ssrTemplate} = baseSiteConfig;
+  const initialSiteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {ssrTemplate} = initialSiteConfig;
 
   const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
 
-  const i18n = loadI18n(baseSiteConfig, {locale});
+  const i18n = await loadI18n(initialSiteConfig, {locale});
 
-  const baseUrl = localizePath(baseSiteConfig.baseUrl, i18n, options, 'url');
-  const outDir = localizePath(baseOutDir, i18n, options, 'fs');
-  const siteConfig: DocusaurusConfig = {...baseSiteConfig, baseUrl};
+  const baseUrl = localizePath({
+    path: initialSiteConfig.baseUrl,
+    i18n,
+    options,
+    pathType: 'url',
+  });
+  const outDir = localizePath({
+    path: baseOutDir,
+    i18n,
+    options,
+    pathType: 'fs',
+  });
 
-  // console.log('Site loadContext', {locale, baseUrl, baseOutDir, outDir, options});
+  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
 
   const codeTranslationFileContent =
     (await readCodeTranslationFileContent({

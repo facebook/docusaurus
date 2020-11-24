@@ -16,7 +16,7 @@ import {
 
 const DEFAULT_I18N_LOCALE = 'en';
 
-const DEFAULT_I18N_CONFIG: I18nConfig = {
+export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
   locales: [DEFAULT_I18N_LOCALE],
 };

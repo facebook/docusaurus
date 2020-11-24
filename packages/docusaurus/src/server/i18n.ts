@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {I18n, DocusaurusConfig} from '@docusaurus/types';
+import path from 'path';
+import {normalizeUrl} from '@docusaurus/utils';
 
-export function loadI18n(
+export async function loadI18n(
   config: DocusaurusConfig,
   options: {locale?: string} = {},
-): I18n {
+): Promise<I18n> {
   const i18nConfig = config.i18n;
   const currentLocale = options.locale ?? i18nConfig.defaultLocale;
 
@@ -27,4 +29,39 @@ Note: Docusaurus only support running one local at a time.`,
     ...i18nConfig,
     currentLocale,
   };
+}
+
+export function localizePath({
+  pathType,
+  path: originalPath,
+  i18n,
+  options = {},
+}: {
+  pathType: 'fs' | 'url';
+  path: string;
+  i18n: I18n;
+  options?: {localizePath?: boolean};
+}): string {
+  const shouldLocalizePath: boolean =
+    typeof options.localizePath === 'undefined'
+      ? // By default, we don't localize the path of defaultLocale
+        i18n.currentLocale !== i18n.defaultLocale
+      : options.localizePath;
+
+  if (shouldLocalizePath) {
+    // FS paths need special care, for Windows support
+    if (pathType === 'fs') {
+      return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+    }
+    // Url paths
+    else if (pathType === 'url') {
+      return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+    }
+    // should never happen
+    else {
+      throw new Error(`unhandled pathType=${pathType}`);
+    }
+  } else {
+    return originalPath;
+  }
 }
