@@ -8,6 +8,7 @@ Object {
   "@docusaurus/Head": "../../client/exports/Head.tsx",
   "@docusaurus/Link": "../../client/exports/Link.tsx",
   "@docusaurus/Noop": "../../client/exports/Noop.ts",
+  "@docusaurus/Translate": "../../client/exports/Translate.tsx",
   "@docusaurus/constants": "../../client/exports/constants.ts",
   "@docusaurus/context": "../../client/exports/context.ts",
   "@docusaurus/isInternalUrl": "../../client/exports/isInternalUrl.ts",
