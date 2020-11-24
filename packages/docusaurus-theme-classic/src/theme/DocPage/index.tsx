@@ -47,13 +47,6 @@ function DocPageContent({
     }
 
     setHiddenSidebarContainer(!hiddenSidebarContainer);
-
-    if (
-      !hiddenSidebar &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setHiddenSidebar(true);
-    }
   }, [hiddenSidebar]);
 
   return (
