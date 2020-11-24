@@ -62,4 +62,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.pull_request.number }}
           header: lighthouse
-          message: Test message.
+          message: ${{ steps.format_lighthouse_score.outputs.comment }}
