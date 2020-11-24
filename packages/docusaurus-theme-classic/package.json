@@ -28,7 +28,7 @@
     "@docusaurus/theme-common": "2.0.0-alpha.69",
     "@docusaurus/types": "2.0.0-alpha.69",
     "@docusaurus/utils-validation": "2.0.0-alpha.69",
-    "@docusaurus/utils": "2.0.0-alpha.68",
+    "@docusaurus/utils": "2.0.0-alpha.69",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@types/react-toggle": "^4.0.2",

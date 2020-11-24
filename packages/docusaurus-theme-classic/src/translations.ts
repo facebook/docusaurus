@@ -13,14 +13,11 @@ import {
   Footer,
 } from '@docusaurus/theme-common';
 
-// TODO imports due to transpiling with target esnext...
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {keyBy, chain, flatten} = require('lodash');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {mergeTranslations} = require('@docusaurus/utils');
+import {keyBy, chain, flatten} from 'lodash';
+import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
-  //  TODO handle properly all the navbar item types here!
+  // TODO handle properly all the navbar item types here!
   function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
     const subItems = flatten(
       items.map((item) => {
@@ -33,17 +30,17 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
 
   const allNavbarItems = flattenNavbarItems(navbar.items);
 
-  const navbarItemsTranslations = chain(
+  const navbarItemsTranslations: TranslationFileContent = chain(
     allNavbarItems.filter((navbarItem) => !!navbarItem.label),
   )
     .keyBy((navbarItem) => `item.label.${navbarItem.label}`)
     .mapValues((navbarItem) => ({
-      message: navbarItem.label,
+      message: navbarItem.label!,
       description: `Navbar item with label ${navbarItem.label}`,
     }))
     .value();
 
-  const titleTranslations = navbar.title
+  const titleTranslations: TranslationFileContent = navbar.title
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
     : {};
 
@@ -72,7 +69,7 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   )
     .keyBy((link) => `link.title.${link.title}`)
     .mapValues((link) => ({
-      message: link.title,
+      message: link.title!,
       description: `The title of the footer links column with title=${link.title} in the footer`,
     }))
     .value();
@@ -84,14 +81,14 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   )
     .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
     .mapValues((linkItem) => ({
-      message: linkItem.label,
+      message: linkItem.label!,
       description: `The label of footer link with label=${
         linkItem.label
       } linking to ${linkItem.to ?? linkItem.href}`,
     }))
     .value();
 
-  const copyright = footer.copyright
+  const copyright: TranslationFileContent = footer.copyright
     ? {
         copyright: {
           message: footer.copyright,
@@ -127,7 +124,7 @@ function translateFooter(
   };
 }
 
-exports.getTranslationFiles = async function getTranslationFiles({
+export async function getTranslationFiles({
   themeConfig,
 }: {
   themeConfig: ThemeConfig;
@@ -136,10 +133,9 @@ exports.getTranslationFiles = async function getTranslationFiles({
     {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
     {path: 'footer', content: getFooterTranslationFile(themeConfig.footer)},
   ];
-};
+}
 
-// TODO create  a package like @docusaurus/theme-common-node ?
-exports.translateThemeConfig = function translateThemeConfig({
+export function translateThemeConfig({
   themeConfig,
   translationFiles,
 }: {
@@ -162,4 +158,4 @@ exports.translateThemeConfig = function translateThemeConfig({
       translationFilesMap.footer.content,
     ),
   };
-};
+}
