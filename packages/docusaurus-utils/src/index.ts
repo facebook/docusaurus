@@ -493,12 +493,22 @@ export async function findAsyncSequential<T>(
   return undefined;
 }
 
+export async function findFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string | undefined> {
+  return findAsyncSequential(folderPaths, (folderPath) =>
+    fs.pathExists(path.join(folderPath, relativeFilePath)),
+  );
+}
+
 export async function getFolderContainingFile(
   folderPaths: string[],
   relativeFilePath: string,
 ): Promise<string> {
-  const maybeFolderPath = await findAsyncSequential(folderPaths, (folderPath) =>
-    fs.pathExists(path.join(folderPath, relativeFilePath)),
+  const maybeFolderPath = await findFolderContainingFile(
+    folderPaths,
+    relativeFilePath,
   );
   // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
