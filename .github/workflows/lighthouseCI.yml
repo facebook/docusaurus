@@ -29,7 +29,7 @@ jobs:
           temporaryPublicStorage: true
         env:
           PR_NUMBER: ${{ github.event.pull_request.number}}
-       - name: Format lighthouse score
+      - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@v3
         with:
