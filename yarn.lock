@@ -10790,10 +10790,10 @@ infer-owner@^1.0.3, infer-owner@^1.0.4:
   resolved "https://registry.yarnpkg.com/infer-owner/-/infer-owner-1.0.4.tgz#c4cefcaa8e51051c2a40ba2ce8a3d27295af9467"
   integrity sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==
 
-infima@0.2.0-alpha.17:
-  version "0.2.0-alpha.17"
-  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.17.tgz#c3b472e6504cb142c673c1d4a1f118fe2a60a961"
-  integrity sha512-pzUfgqbgFSP5GqA5D617+pjPvuFNRdOKBkQ9PuErvQfLPPBCVncR+tyDveUleCYrE1Uk7fKSjSpRM35GGHyypA==
+infima@0.2.0-alpha.18:
+  version "0.2.0-alpha.18"
+  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.18.tgz#8ac62711f13ef99b1f4a45b3ac14571722a2ccf6"
+  integrity sha512-ndSEffXzjgM/eiSm5jpLTX6ON9MmylzxqBnV2bTiC3kCSyDYdvzTs+bSwf+C4TWayuqnRTnBK1JUePo3m6Bnfg==
 
 inflight@^1.0.4:
   version "1.0.6"
