@@ -43,7 +43,7 @@ export default async function build(
     }
   }
 
-  const i18n = loadI18n(loadConfig(siteDir), {
+  const i18n = await loadI18n(loadConfig(siteDir), {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
