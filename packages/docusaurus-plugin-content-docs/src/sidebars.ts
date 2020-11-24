@@ -215,26 +215,7 @@ export function loadSidebars(sidebarFilePath: string): Sidebars {
   return normalizeSidebars(sidebarJson);
 }
 
-// traverse the sidebar tree in depth to find all doc items, in correct order
-export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
-  function collectRecursive(item: SidebarItem): SidebarItemDoc[] {
-    if (item.type === 'doc') {
-      return [item];
-    }
-    if (item.type === 'category') {
-      return flatten(item.items.map(collectRecursive));
-    }
-    // Refs and links should not be shown in navigation.
-    if (item.type === 'ref' || item.type === 'link') {
-      return [];
-    }
-    throw new Error(`unknown sidebar item type = ${item.type}`);
-  }
-
-  return flatten(sidebar.map(collectRecursive));
-}
-
-export function collectSidebarItemsOfType<
+function collectSidebarItemsOfType<
   Type extends SidebarItemType,
   Item extends SidebarItem & {type: SidebarItemType}
 >(type: Type, sidebar: Sidebar): Item[] {
@@ -251,6 +232,9 @@ export function collectSidebarItemsOfType<
   return flatten(sidebar.map(collectRecursive));
 }
 
+export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
+  return collectSidebarItemsOfType('doc', sidebar);
+}
 export function collectSidebarCategories(
   sidebar: Sidebar,
 ): SidebarItemCategory[] {
@@ -268,7 +252,7 @@ export function transformSidebarItems(
     if (item.type === 'category') {
       return updateFn({
         ...item,
-        items: item.items.map(updateFn),
+        items: item.items.map(transformRecursive),
       });
     }
     return updateFn(item);
