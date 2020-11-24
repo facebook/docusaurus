@@ -37,8 +37,8 @@ jobs:
           script: |
             # const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
             # const links = ${{ steps.lighthouse_audit.outputs.links }}
-            const s = ${{steps.lighthouse_audit.outputs}}
             console.log('Test log')
+            const s = steps.lighthouse_audit.outputs
             console.log(s)
 
             # const formatResult = (res) => Math.round((res * 100))
