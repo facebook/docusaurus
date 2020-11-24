@@ -5,15 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// TODO imports due to transpiling with target esnext...
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {getTranslationFiles, translateThemeConfig} = require('./translations');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Module = require('module');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {validateThemeConfig} = require('./validateThemeConfig');
+import {getTranslationFiles, translateThemeConfig} from './translations';
+import path from 'path';
+import Module from 'module';
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -64,7 +58,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
-module.exports = function (context, options) {
+export default function docusaurusThemeClassic(context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
@@ -138,7 +132,7 @@ module.exports = function (context, options) {
       };
     },
   };
-};
+}
 
 const swizzleAllowedComponents = [
   'CodeBlock',
@@ -150,6 +144,8 @@ const swizzleAllowedComponents = [
   'prism-include-languages',
 ];
 
-module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
+export function getSwizzleComponentList() {
+  return swizzleAllowedComponents;
+}
 
-module.exports.validateThemeConfig = validateThemeConfig;
+export {validateThemeConfig} from './validateThemeConfig';
