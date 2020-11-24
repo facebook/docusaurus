@@ -13,6 +13,7 @@ import {
   docuHash,
   aliasedSitePath,
   getPluginI18nPath,
+  reportMessage,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -48,7 +49,6 @@ import {
   generateBlogPosts,
   getContentPathList,
 } from './blogUtils';
-import chalk from 'chalk';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -62,6 +62,7 @@ export default function pluginContentBlog(
 
   const {
     siteDir,
+    siteConfig: {onBrokenMarkdownLinks},
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
@@ -414,11 +415,12 @@ export default function pluginContentBlog(
         truncateMarker,
         blogPosts,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          // TODO make this warning configurable?
-          console.warn(
-            chalk.yellow(
-              `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} in markdown folder ${brokenMarkdownLink.folderPath}`,
-            ),
+          if (onBrokenMarkdownLinks === 'ignore') {
+            return;
+          }
+          reportMessage(
+            `Blog markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath}`,
+            onBrokenMarkdownLinks,
           );
         },
       };

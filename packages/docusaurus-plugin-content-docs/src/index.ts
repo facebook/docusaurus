@@ -334,7 +334,6 @@ export default function pluginContentDocs(
           if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
             return;
           }
-
           reportMessage(
             `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
             siteConfig.onBrokenMarkdownLinks,
