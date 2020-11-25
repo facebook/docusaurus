@@ -53,7 +53,6 @@ module.exports = {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
-  // onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
   favicon: 'img/docusaurus.ico',
