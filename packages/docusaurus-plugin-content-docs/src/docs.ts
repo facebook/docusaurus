@@ -12,6 +12,7 @@ import {
   normalizeUrl,
   getEditUrl,
   parseMarkdownString,
+  getFolderContainingFile,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -69,26 +70,12 @@ export async function readDocFile(
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const filePaths = getDocsDirPaths(versionMetadata).map((dirPath) =>
-    path.join(dirPath, source),
+  const folderPath = await getFolderContainingFile(
+    getDocsDirPaths(versionMetadata),
+    source,
   );
 
-  const checkedFilePaths = await Promise.all(
-    filePaths.map(async (filePath) => ({
-      exists: await fs.pathExists(filePath),
-      filePath,
-    })),
-  );
-
-  // Normally this should never happen since the source is read from FS...
-  const filePath = checkedFilePaths.find(
-    (checkedFilePath) => checkedFilePath.exists,
-  )?.filePath;
-  if (!filePath) {
-    throw new Error(
-      `unexpected, none of these doc files exist:\n- ${filePaths.join('\n- ')}`,
-    );
-  }
+  const filePath = path.join(folderPath, source);
 
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),

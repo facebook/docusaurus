@@ -444,6 +444,7 @@ describe('versioned site', () => {
       versionsMetadata,
       currentVersionTestUtils,
       version101TestUtils,
+      version100,
       version100TestUtils,
       versionWithSlugsTestUtils,
     };
@@ -578,5 +579,34 @@ describe('versioned site', () => {
       path.join('slugs', 'tryToEscapeSlug.md'),
       '/docs/withSlugs/tryToEscapeSlug',
     );
+  });
+
+  test('translated doc with editUrl', async () => {
+    const {siteDir, context, options, version100} = await loadSite();
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options: {
+        ...options,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+      },
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+    });
   });
 });

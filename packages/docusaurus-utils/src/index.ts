@@ -498,6 +498,7 @@ export async function findAsyncSequential<T>(
   return undefined;
 }
 
+// return the  first folder path in which the file exists in
 export async function findFolderContainingFile(
   folderPaths: string[],
   relativeFilePath: string,
