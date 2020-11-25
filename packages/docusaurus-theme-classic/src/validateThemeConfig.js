@@ -254,7 +254,7 @@ const ThemeConfigSchema = Joi.object({
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string(),
       href: Joi.string(),
     }),

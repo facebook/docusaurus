@@ -198,6 +198,26 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow empty alt tags for the logo image in the footer', () => {
+    const partialConfig = {
+      footer: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+      },
+    });
+  });
+
   test('should accept valid prism config', () => {
     const prismConfig = {
       prism: {
