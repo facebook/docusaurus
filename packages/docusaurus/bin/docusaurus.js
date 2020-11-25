@@ -211,13 +211,12 @@ cli
   .command('write-translations [siteDir]')
   .description('Extract required translations of your site')
   .option(
-    '-l, --locales <locales>',
-    'List of locales (comma separated), or "all".',
-    (value) => value.split(','),
+    '-l, --locale <locale>',
+    'The locale folder to write the translations\n"--locale fr" will write translations in ./i18n/fr folder)',
   )
   .option(
     '--override',
-    'By default, we append translations to existing files. This option permits to simply override existing files.',
+    'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden.',
   )
   .option(
     '--messagePrefix <messagePrefix>',
@@ -226,10 +225,10 @@ cli
   .action(
     (
       siteDir = '.',
-      {locales = ['all'], override = false, messagePrefix = ''},
+      {locale = undefined, override = false, messagePrefix = ''},
     ) => {
       wrapCommand(writeTranslations)(path.resolve(siteDir), {
-        locales,
+        locale,
         override,
         messagePrefix,
       });

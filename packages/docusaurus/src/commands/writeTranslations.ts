@@ -14,17 +14,16 @@ import {
 } from '../server/translations/translations';
 import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
-import {difference} from 'lodash';
 
 async function writePluginTranslationFiles({
   siteDir,
   plugin,
-  locales,
+  locale,
   options,
 }: {
   siteDir: string;
   plugin: InitPlugin;
-  locales: string[];
+  locale: string;
   options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
@@ -32,17 +31,13 @@ async function writePluginTranslationFiles({
 
     await Promise.all(
       translationFiles.map(async (translationFile) => {
-        await Promise.all(
-          locales.map((locale) =>
-            writePluginTranslations({
-              siteDir,
-              plugin,
-              translationFile,
-              locale,
-              options,
-            }),
-          ),
-        );
+        await writePluginTranslations({
+          siteDir,
+          plugin,
+          translationFile,
+          locale,
+          options,
+        });
       }),
     );
   }
@@ -50,7 +45,7 @@ async function writePluginTranslationFiles({
 
 export default async function writeTranslations(
   siteDir: string,
-  options: WriteTranslationsOptions & {locales?: string[]},
+  options: WriteTranslationsOptions & {locale?: string},
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
@@ -59,27 +54,15 @@ export default async function writeTranslations(
     context,
   });
 
-  function getLocalesToWrite(): string[] {
-    if (options.locales?.length === 1 && options.locales[0] === 'all') {
-      return context.i18n.locales;
-    } else if (options.locales) {
-      const unknownLocales = difference(options.locales, context.i18n.locales);
-      if (unknownLocales.length > 0) {
-        throw new Error(
-          `Can't write-translation for locales that are not in the locale configuration file. Unknown locales=${unknownLocales.join(
-            ',',
-          )}`,
-        );
-      }
-      return options.locales;
-    } else {
-      return [context.i18n.defaultLocale];
-    }
+  const locale = options.locale ?? context.i18n.defaultLocale;
+
+  if (!context.i18n.locales.includes(locale)) {
+    throw new Error(
+      `Can't write-translation for locale that is not in the locale configuration file.
+Unknown locale=[${locale}].
+Available locales=[${context.i18n.locales.join(',')}]`,
+    );
   }
-
-  const locales = getLocalesToWrite();
-
-  console.log('writeTranslations', {siteDir, options, locales});
 
   const babelOptions = getBabelOptions({
     isServer: true,
@@ -89,15 +72,11 @@ export default async function writeTranslations(
     plugins,
     babelOptions,
   );
-  await Promise.all(
-    locales.map((locale) =>
-      writeCodeTranslations({siteDir, locale}, codeTranslations, options),
-    ),
-  );
+  await writeCodeTranslations({siteDir, locale}, codeTranslations, options);
 
   await Promise.all(
     plugins.map(async (plugin) => {
-      await writePluginTranslationFiles({siteDir, plugin, locales, options});
+      await writePluginTranslationFiles({siteDir, plugin, locale, options});
     }),
   );
 }

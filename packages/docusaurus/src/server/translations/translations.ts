@@ -126,9 +126,12 @@ Maybe you should remove them?
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
     console.log(
-      `writing ${
-        Object.keys(mergedContent).length
-      } translations => ${path.relative(process.cwd(), filePath)}`,
+      `${Object.keys(mergedContent)
+        .length.toString()
+        .padStart(3, ' ')} translations written at ${path.relative(
+        process.cwd(),
+        filePath,
+      )}`,
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
