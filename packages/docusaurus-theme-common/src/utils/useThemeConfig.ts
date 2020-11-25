@@ -10,7 +10,7 @@ export type DocsVersionPersistence = 'localStorage' | 'none';
 
 // TODO improve
 export type NavbarItem = {
-  items: NavbarItem[];
+  items?: NavbarItem[];
   label?: string;
 };
 
