@@ -14,10 +14,15 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {ReportingSeverity, TranslationFileContent} from '@docusaurus/types';
+import {
+  ReportingSeverity,
+  TranslationFileContent,
+  TranslationFile,
+} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {mapValues} from 'lodash';
 
 const fileHash = new Map();
 export async function generate(
@@ -566,4 +571,19 @@ export function getSwizzledComponent(
   return fs.existsSync(swizzledComponentPath)
     ? swizzledComponentPath
     : undefined;
+}
+
+// Useful to update all the messages of a translation file
+// Used in tests to simulate translations
+export function updateTranslationFileMessages(
+  translationFile: TranslationFile,
+  updateMessage: (message: string) => string,
+): TranslationFile {
+  return {
+    ...translationFile,
+    content: mapValues(translationFile.content, (translation) => ({
+      ...translation,
+      message: updateMessage(translation.message),
+    })),
+  };
 }

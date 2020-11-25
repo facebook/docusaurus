@@ -124,11 +124,11 @@ function translateFooter(
   };
 }
 
-export async function getTranslationFiles({
+export function getTranslationFiles({
   themeConfig,
 }: {
   themeConfig: ThemeConfig;
-}): Promise<TranslationFile[]> {
+}): TranslationFile[] {
   return [
     {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
     {path: 'footer', content: getFooterTranslationFile(themeConfig.footer)},

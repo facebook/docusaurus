@@ -47,7 +47,7 @@ function getNormalizedSidebarName({
   versionName: string;
   sidebarName: string;
 }): string {
-  if (versionName === CURRENT_VERSION_NAME) {
+  if (versionName === CURRENT_VERSION_NAME || !sidebarName.includes('/')) {
     return sidebarName;
   }
   const [, ...rest] = sidebarName.split('/');
@@ -55,8 +55,8 @@ function getNormalizedSidebarName({
 }
 
 /*
-// TODO do we need this?
-// It seems translating frontmatter is good enough
+// Do we need to translate doc metadatas?
+// It seems translating frontmatter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Plugin} from '@docusaurus/types';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
@@ -58,7 +59,10 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
-export default function docusaurusThemeClassic(context, options) {
+export default function docusaurusThemeClassic(
+  context,
+  options,
+): Plugin<null, unknown> {
   const {
     siteConfig: {themeConfig},
   } = context;
@@ -76,7 +80,7 @@ export default function docusaurusThemeClassic(context, options) {
       return path.resolve(__dirname, './theme');
     },
 
-    getTranslationFiles: () => getTranslationFiles({themeConfig}),
+    getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
     getClientModules() {
@@ -101,12 +105,15 @@ export default function docusaurusThemeClassic(context, options) {
         .map((lang) => `prism-${lang}`)
         .join('|');
 
+      // See https://github.com/facebook/docusaurus/pull/3382
+      const useDocsWarningFilter = (warning: string) =>
+        warning.includes("Can't resolve '@theme-init/hooks/useDocs");
+
       return {
         stats: {
           warningsFilter: [
-            // See https://github.com/facebook/docusaurus/pull/3382
-            (warning) =>
-              warning.includes("Can't resolve '@theme-init/hooks/useDocs"),
+            // The TS def does not allow function for array item :(
+            useDocsWarningFilter as any,
           ],
         },
         plugins: [

@@ -7,8 +7,7 @@
 
 import {getTranslationFiles, translateThemeConfig} from '../translations';
 import {ThemeConfig} from '@docusaurus/theme-common';
-import {mapValues} from 'lodash';
-import {TranslationFile} from '@docusaurus/types';
+import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 const ThemeConfigSample: ThemeConfig = {
   colorMode: {},
@@ -45,44 +44,31 @@ const ThemeConfigSample: ThemeConfig = {
   },
 };
 
-// Add a " (translated)" suffix to all messages of a translation file
-// to simulate translated messages
-function translateTranslationFile(
-  translationFile: TranslationFile,
-): TranslationFile {
-  const translatedContent = mapValues(
-    translationFile.content,
-    (translation) => ({
-      ...translation,
-      message: `${translation.message} (translated)`,
-    }),
-  );
-  return {
-    path: translationFile.path,
-    content: translatedContent,
-  };
-}
-
 function getSampleTranslationFiles() {
   return getTranslationFiles({
     themeConfig: ThemeConfigSample,
   });
 }
 
-async function getSampleTranslationFilesTranslated() {
-  const translationFiles = await getSampleTranslationFiles();
-  return translationFiles.map(translateTranslationFile);
+function getSampleTranslationFilesTranslated() {
+  const translationFiles = getSampleTranslationFiles();
+  return translationFiles.map((translationFile) =>
+    updateTranslationFileMessages(
+      translationFile,
+      (message) => `${message} (translated)`,
+    ),
+  );
 }
 
 describe('getTranslationFiles', () => {
-  test('should return translation files matching snapshot', async () => {
-    await expect(getSampleTranslationFiles()).resolves.toMatchSnapshot();
+  test('should return translation files matching snapshot', () => {
+    expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });
 
 describe('translateThemeConfig', () => {
-  test('should not translate anything if translation files are untranslated', async () => {
-    const translationFiles = await getSampleTranslationFiles();
+  test('should not translate anything if translation files are untranslated', () => {
+    const translationFiles = getSampleTranslationFiles();
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
@@ -91,8 +77,8 @@ describe('translateThemeConfig', () => {
     ).toEqual(ThemeConfigSample);
   });
 
-  test('should return translated themeConfig matching snapshot', async () => {
-    const translationFiles = await getSampleTranslationFilesTranslated();
+  test('should return translated themeConfig matching snapshot', () => {
+    const translationFiles = getSampleTranslationFilesTranslated();
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,

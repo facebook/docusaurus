@@ -32,6 +32,7 @@ import {
   findAsyncSequential,
   findFolderContainingFile,
   getFolderContainingFile,
+  updateTranslationFileMessages,
 } from '../index';
 import {sum} from 'lodash';
 
@@ -687,5 +688,30 @@ describe('getFolderContainingFile', () => {
     await expect(
       getFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('updateTranslationFileMessages', () => {
+  test('should update messages', () => {
+    expect(
+      updateTranslationFileMessages(
+        {
+          path: 'abc',
+          content: {
+            t1: {message: 't1 message', description: 't1 desc'},
+            t2: {message: 't2 message', description: 't2 desc'},
+            t3: {message: 't3 message', description: 't3 desc'},
+          },
+        },
+        (message) => `prefix ${message} suffix`,
+      ),
+    ).toEqual({
+      path: 'abc',
+      content: {
+        t1: {message: 'prefix t1 message suffix', description: 't1 desc'},
+        t2: {message: 'prefix t2 message suffix', description: 't2 desc'},
+        t3: {message: 'prefix t3 message suffix', description: 't3 desc'},
+      },
+    });
   });
 });
