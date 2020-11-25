@@ -13,7 +13,12 @@ import {PluginOptions, BlogContentPaths} from '../types';
 function getBlogContentPaths(siteDir: string): BlogContentPaths {
   return {
     contentPath: path.resolve(siteDir, 'blog'),
-    contentPathLocalized: path.resolve(siteDir, 'i18n', 'en'),
+    contentPathLocalized: path.resolve(
+      siteDir,
+      'i18n',
+      'en',
+      'docusaurus-plugin-content-blog',
+    ),
   };
 }
 

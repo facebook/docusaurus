@@ -1,0 +1,5 @@
+---
+title: translated title
+---
+
+TRANSLATED !
