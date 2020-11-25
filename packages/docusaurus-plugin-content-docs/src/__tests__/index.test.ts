@@ -629,13 +629,17 @@ describe('versioned website (community)', () => {
       isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
+      /*
       source: path.join(
         '@site',
         path.relative(siteDir, currentVersion.docsDirPath),
         'team.md',
       ),
-      title: 'team',
-      description: 'Team current version',
+       */
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md',
+      title: 'Team title translated',
+      description: 'Team current version (translated)',
       version: 'current',
       sidebar: 'community',
     });

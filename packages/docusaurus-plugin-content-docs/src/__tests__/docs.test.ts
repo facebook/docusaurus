@@ -494,8 +494,10 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
-      description: 'Hello 1.0.0 !',
+      description: 'Hello 1.0.0 ! (translated)',
       version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
