@@ -130,9 +130,8 @@ export async function generateBlogPosts(
 
       const source = path.join(contentPath, blogSourceFile);
       const aliasedSource = aliasedSitePath(source, siteDir);
-      const refDir = path.parse(contentPath).dir;
 
-      const relativePath = path.relative(refDir, source);
+      const relativePath = path.relative(siteDir, source);
       const blogFileName = path.basename(blogSourceFile);
 
       const editBlogUrl = getEditUrl(relativePath, editUrl);

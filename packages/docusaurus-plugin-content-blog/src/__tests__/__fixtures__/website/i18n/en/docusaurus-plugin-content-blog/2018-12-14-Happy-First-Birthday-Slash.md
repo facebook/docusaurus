@@ -1,5 +1,5 @@
 ---
-title: translated title
+title: Happy 1st Birthday Slash! (translated)
 ---
 
-TRANSLATED !
+Happy birthday! (translated)
