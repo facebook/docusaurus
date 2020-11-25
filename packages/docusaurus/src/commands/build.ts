@@ -31,9 +31,8 @@ export default async function build(
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
 ): Promise<string> {
-  async function doBuildLocale(locale: string, forceTerm) {
+  async function tryToBuildLocale(locale: string, forceTerm) {
     try {
-      console.log(chalk.yellow(`Building site in locale=${locale}`));
       const result = await buildLocale(siteDir, locale, cliOptions, forceTerm);
       console.log(chalk.green(`Site successfully built in locale=${locale}`));
       return result;
@@ -47,13 +46,16 @@ export default async function build(
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
-    return doBuildLocale(cliOptions.locale, forceTerminate);
+    return tryToBuildLocale(cliOptions.locale, forceTerminate);
   } else {
-    console.log(
-      chalk.blue(
-        `Site will be built with all these locales: ${i18n.locales.join(', ')}`,
-      ),
-    );
+    if (i18n.locales.length > 1) {
+      console.log(
+        chalk.yellow(
+          `\nSite will be built with all these locales:
+- ${i18n.locales.join('\n- ')}\n`,
+        ),
+      );
+    }
 
     // We need the default locale to always be the 1st in the list
     // If we build it last, it would "erase" the localized sites built in subfolders
@@ -67,7 +69,7 @@ export default async function build(
         i18n.locales.indexOf(locale) === i18n.locales.length - 1;
       // TODO check why we need forceTerminate
       const forceTerm = isLastLocale && forceTerminate;
-      return doBuildLocale(locale, forceTerm);
+      return tryToBuildLocale(locale, forceTerm);
     });
     return results[0]!;
   }
@@ -81,7 +83,9 @@ async function buildLocale(
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  console.log(chalk.blue('Creating an optimized production build...'));
+  console.log(
+    chalk.blue(`[${locale}] Creating an optimized production build...`),
+  );
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
