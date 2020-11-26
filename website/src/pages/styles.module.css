@@ -63,9 +63,10 @@
   margin: 0;
 }
 
-.heroProjectKeywords {
+.heroTitleTextHtml b {
   color: var(--ifm-color-primary);
 }
+
 
 @keyframes jackInTheBox {
   from {

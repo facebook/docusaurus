@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -21,40 +22,58 @@ const QUOTES = [
   {
     thumbnail: require('../data/quotes/christopher-chedeau.jpg'),
     name: 'Christopher "vjeux" Chedeau',
-    title: 'Lead Prettier Developer',
+    title: translate({
+      id: 'homepage.quotes.christopher-chedeau.title',
+      message: 'Lead Prettier Developer',
+      description: 'Title of quote of Christopher Chedeau on the home page',
+    }),
     text: (
-      <>
+      <Translate
+        id="homepage.quotes.christopher-chedeau"
+        description="Quote of Christopher Chedeau on the home page">
         I&apos;ve helped open source many projects at Facebook and every one
         needed a website. They all had very similar constraints: the
         documentation should be written in markdown and be deployed via GitHub
         pages. I’m so glad that Docusaurus now exists so that I don’t have to
         spend a week each time spinning up a new one.
-      </>
+      </Translate>
     ),
   },
   {
     thumbnail: require('../data/quotes/hector-ramos.jpg'),
     name: 'Hector Ramos',
-    title: 'Lead React Native Advocate',
+    title: translate({
+      id: 'homepage.quotes.hector-ramos.title',
+      message: 'Lead React Native Advocate',
+      description: 'Title of quote of Hector Ramos on the home page',
+    }),
     text: (
-      <>
+      <Translate
+        id="homepage.quotes.hector-ramos"
+        description="Quote of Hector Ramos on the home page">
         Open source contributions to the React Native docs have skyrocketed
         after our move to Docusaurus. The docs are now hosted on a small repo in
         plain markdown, with none of the clutter that a typical static site
         generator would require. Thanks Slash!
-      </>
+      </Translate>
     ),
   },
   {
     thumbnail: require('../data/quotes/ricky-vetter.jpg'),
     name: 'Ricky Vetter',
-    title: 'ReasonReact Developer',
+    title: translate({
+      id: 'homepage.quotes.risky-vetter.title',
+      message: 'ReasonReact Developer',
+      description: 'Title of quote of Ricky Vetter on the home page',
+    }),
     text: (
-      <>
+      <Translate
+        id="homepage.quotes.risky-vetter"
+        description="Quote of Ricky Vetter on the home page">
         Docusaurus has been a great choice for the ReasonML family of projects.
         It makes our documentation consistent, i18n-friendly, easy to maintain,
         and friendly for new contributors.
-      </>
+      </Translate>
     ),
   },
 ];
@@ -72,22 +91,28 @@ function Home() {
           <div className={styles.heroInner}>
             <h1 className={styles.heroProjectTagline}>
               <img
-                alt="Docusaurus with Keytar"
+                alt={translate({message: 'Docusaurus with Keytar'})}
                 className={styles.heroLogo}
                 src={useBaseUrl('img/docusaurus_keytar.svg')}
               />
-              Build{' '}
-              <span className={styles.heroProjectKeywords}>optimized</span>{' '}
-              websites{' '}
-              <span className={styles.heroProjectKeywords}>quickly</span>, focus
-              on your{' '}
-              <span className={styles.heroProjectKeywords}>content</span>
+              <span
+                className={styles.heroTitleTextHtml}
+                dangerouslySetInnerHTML={{
+                  __html: translate({
+                    id: 'homepage.hero.title',
+                    message:
+                      'Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>',
+                    description:
+                      'Home page hero title, can contain simple html tags',
+                  }),
+                }}
+              />
             </h1>
             <div className={styles.indexCtas}>
               <Link
                 className={styles.indexCtasGetStartedButton}
                 to={useBaseUrl('docs/')}>
-                Get Started
+                <Translate>Get Started</Translate>
               </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
                 <iframe
@@ -103,9 +128,9 @@ function Home() {
         </div>
         <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
-            Coming from v1? Check out our{' '}
+            <Translate>Coming from v1? Check out our</Translate>{' '}
             <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
-              v1 to v2 migration guide
+              <Translate>v1 to v2 migration guide</Translate>
             </Link>
             .
           </div>
@@ -120,14 +145,16 @@ function Home() {
                   src={useBaseUrl('img/undraw_typewriter.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
-                  Powered by Markdown
+                  <Translate>Powered by Markdown</Translate>
                 </h2>
                 <p className="padding-horiz--md">
-                  Save time and focus on your project's documentation. Simply
-                  write docs and blog posts with Markdown/MDX and Docusaurus
-                  will publish a set of static HTML files ready to serve. You
-                  can even embed JSX components into your Markdown thanks to
-                  MDX.
+                  <Translate>
+                    Save time and focus on your project's documentation. Simply
+                    write docs and blog posts with Markdown/MDX and Docusaurus
+                    will publish a set of static HTML files ready to serve. You
+                    can even embed JSX components into your Markdown thanks to
+                    MDX.
+                  </Translate>
                 </p>
               </div>
               <div className="col">
@@ -137,12 +164,14 @@ function Home() {
                   src={useBaseUrl('img/undraw_react.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
-                  Built Using React
+                  <Translate>Built Using React</Translate>
                 </h2>
                 <p className="padding-horiz--md">
-                  Extend or customize your project's layout by reusing React.
-                  Docusaurus can be extended while reusing the same header and
-                  footer.
+                  <Translate>
+                    Extend or customize your project's layout by reusing React.
+                    Docusaurus can be extended while reusing the same header and
+                    footer.
+                  </Translate>
                 </p>
               </div>
               <div className="col">
@@ -152,11 +181,13 @@ function Home() {
                   src={useBaseUrl('img/undraw_around_the_world.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
-                  Ready for Translations
+                  <Translate>Ready for Translations</Translate>
                 </h2>
                 <p className="padding-horiz--md">
-                  Localization comes pre-configured. Use Crowdin to translate
-                  your docs into over 70 languages.
+                  <Translate>
+                    Localization comes pre-configured. Use Crowdin to translate
+                    your docs into over 70 languages.
+                  </Translate>
                 </p>
               </div>
             </div>
@@ -170,12 +201,14 @@ function Home() {
                   src={useBaseUrl('img/undraw_version_control.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
-                  Document Versioning
+                  <Translate>Document Versioning</Translate>
                 </h2>
                 <p className="padding-horiz--md">
-                  Support users on all versions of your project. Document
-                  versioning helps you keep documentation in sync with project
-                  releases.
+                  <Translate>
+                    Support users on all versions of your project. Document
+                    versioning helps you keep documentation in sync with project
+                    releases.
+                  </Translate>
                 </p>
               </div>
               <div className="col col--4">
@@ -184,11 +217,15 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_algolia.svg')}
                 />
-                <h2 className={clsx(styles.featureHeading)}>Content Search</h2>
+                <h2 className={clsx(styles.featureHeading)}>
+                  <Translate>Content Search</Translate>
+                </h2>
                 <p className="padding-horiz--md">
-                  Make it easy for your community to find what they need in your
-                  documentation. We proudly support Algolia documentation
-                  search.
+                  <Translate>
+                    Make it easy for your community to find what they need in
+                    your documentation. We proudly support Algolia documentation
+                    search.
+                  </Translate>
                 </p>
               </div>
             </div>

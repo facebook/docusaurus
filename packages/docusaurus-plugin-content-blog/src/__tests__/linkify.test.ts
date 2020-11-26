@@ -7,11 +7,14 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {linkify} from '../blogUtils';
-import {BlogPost} from '../types';
+import {linkify, LinkifyParams} from '../blogUtils';
+import {BlogBrokenMarkdownLink, BlogContentPaths, BlogPost} from '../types';
 
-const sitePath = path.join(__dirname, '__fixtures__', 'website');
-const blogPath = path.join(sitePath, 'blog-with-ref');
+const siteDir = path.join(__dirname, '__fixtures__', 'website');
+const contentPaths: BlogContentPaths = {
+  contentPath: path.join(siteDir, 'blog-with-ref'),
+  contentPathLocalized: path.join(siteDir, 'blog-with-ref-localized'),
+};
 const pluginDir = 'blog-with-ref';
 const blogPosts: BlogPost[] = [
   {
@@ -36,14 +39,26 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
-const transform = (filepath: string) => {
-  const content = fs.readFileSync(filepath, 'utf-8');
-  const transformedContent = linkify(content, sitePath, blogPath, blogPosts);
-  return [content, transformedContent];
+const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const transformedContent = linkify({
+    filePath,
+    fileContent,
+    siteDir,
+    contentPaths,
+    blogPosts,
+    onBrokenMarkdownLink: (brokenMarkdownLink) => {
+      throw new Error(
+        `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
+      );
+    },
+    ...options,
+  });
+  return [fileContent, transformedContent];
 };
 
 test('transform to correct link', () => {
-  const post = path.join(blogPath, 'post.md');
+  const post = path.join(contentPaths.contentPath, 'post.md');
   const [content, transformedContent] = transform(post);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain(
@@ -53,4 +68,26 @@ test('transform to correct link', () => {
     '](2018-12-14-Happy-First-Birthday-Slash.md)',
   );
   expect(content).not.toEqual(transformedContent);
+});
+
+test('report broken markdown links', () => {
+  const filePath = 'post-with-broken-links.md';
+  const folderPath = contentPaths.contentPath;
+  const postWithBrokenLinks = path.join(folderPath, filePath);
+  const onBrokenMarkdownLink = jest.fn();
+  const [, transformedContent] = transform(postWithBrokenLinks, {
+    onBrokenMarkdownLink,
+  });
+  expect(transformedContent).toMatchSnapshot();
+  expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(2);
+  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
+    filePath: path.resolve(folderPath, filePath),
+    folderPath,
+    link: 'postNotExist1.md',
+  } as BlogBrokenMarkdownLink);
+  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
+    filePath: path.resolve(folderPath, filePath),
+    folderPath,
+    link: './postNotExist2.mdx',
+  } as BlogBrokenMarkdownLink);
 });

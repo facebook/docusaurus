@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from 'joi';
 import {
@@ -14,8 +14,16 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 
+const DEFAULT_I18N_LOCALE = 'en';
+
+export const DEFAULT_I18N_CONFIG: I18nConfig = {
+  defaultLocale: DEFAULT_I18N_LOCALE,
+  locales: [DEFAULT_I18N_LOCALE],
+};
+
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
+  | 'i18n'
   | 'onBrokenLinks'
   | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
@@ -28,6 +36,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'noIndex'
   | 'baseUrlIssueBanner'
 > = {
+  i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
@@ -57,6 +66,13 @@ const PresetSchema = Joi.alternatives().try(
   Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
 );
 
+const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
+  defaultLocale: Joi.string().required(),
+  locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
+})
+  .optional()
+  .default(DEFAULT_I18N_CONFIG);
+
 // TODO move to @docusaurus/utils-validation
 const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
@@ -67,6 +83,7 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: URISchema.required(),
+  i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),

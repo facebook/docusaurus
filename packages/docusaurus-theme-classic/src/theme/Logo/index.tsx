@@ -18,7 +18,7 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 const Logo = (props: Props): JSX.Element => {
   const {isClient} = useDocusaurusContext();
   const {
-    navbar: {title, logo = {}},
+    navbar: {title, logo = {src: ''}},
   } = useThemeConfig();
 
   const {imageClassName, titleClassName, ...propsRest} = props;

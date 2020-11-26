@@ -21,6 +21,12 @@ Object {
   "baseUrlIssueBanner": true,
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
+  "i18n": Object {
+    "defaultLocale": "en",
+    "locales": Array [
+      "en",
+    ],
+  },
   "noIndex": false,
   "onBrokenLinks": "throw",
   "onBrokenMarkdownLinks": "warn",

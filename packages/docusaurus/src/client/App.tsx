@@ -10,6 +10,8 @@ import React, {useEffect, useState} from 'react';
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
 import globalData from '@generated/globalData';
+import i18n from '@generated/i18n';
+import codeTranslations from '@generated/codeTranslations';
 import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
@@ -27,7 +29,14 @@ function App(): JSX.Element {
 
   return (
     <DocusaurusContext.Provider
-      value={{siteConfig, siteMetadata, globalData, isClient}}>
+      value={{
+        siteConfig,
+        siteMetadata,
+        globalData,
+        i18n,
+        codeTranslations,
+        isClient,
+      }}>
       <BaseUrlIssueBanner />
       <PendingNavigation routes={routes}>
         {renderRoutes(routes)}

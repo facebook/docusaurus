@@ -14,6 +14,8 @@ import {
   SidebarItemLink,
   SidebarItemDoc,
   Sidebar,
+  SidebarItemCategory,
+  SidebarItemType,
 } from './types';
 import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
@@ -213,23 +215,49 @@ export function loadSidebars(sidebarFilePath: string): Sidebars {
   return normalizeSidebars(sidebarJson);
 }
 
-// traverse the sidebar tree in depth to find all doc items, in correct order
-export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
-  function collectRecursive(item: SidebarItem): SidebarItemDoc[] {
-    if (item.type === 'doc') {
-      return [item];
-    }
-    if (item.type === 'category') {
-      return flatten(item.items.map(collectRecursive));
-    }
-    // Refs and links should not be shown in navigation.
-    if (item.type === 'ref' || item.type === 'link') {
-      return [];
-    }
-    throw new Error(`unknown sidebar item type = ${item.type}`);
+function collectSidebarItemsOfType<
+  Type extends SidebarItemType,
+  Item extends SidebarItem & {type: SidebarItemType}
+>(type: Type, sidebar: Sidebar): Item[] {
+  function collectRecursive(item: SidebarItem): Item[] {
+    const currentItemsCollected: Item[] =
+      item.type === type ? [item as Item] : [];
+
+    const childItemsCollected: Item[] =
+      item.type === 'category' ? flatten(item.items.map(collectRecursive)) : [];
+
+    return [...currentItemsCollected, ...childItemsCollected];
   }
 
   return flatten(sidebar.map(collectRecursive));
+}
+
+export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
+  return collectSidebarItemsOfType('doc', sidebar);
+}
+export function collectSidebarCategories(
+  sidebar: Sidebar,
+): SidebarItemCategory[] {
+  return collectSidebarItemsOfType('category', sidebar);
+}
+export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
+  return collectSidebarItemsOfType('link', sidebar);
+}
+
+export function transformSidebarItems(
+  sidebar: Sidebar,
+  updateFn: (item: SidebarItem) => SidebarItem,
+): Sidebar {
+  function transformRecursive(item: SidebarItem): SidebarItem {
+    if (item.type === 'category') {
+      return updateFn({
+        ...item,
+        items: item.items.map(transformRecursive),
+      });
+    }
+    return updateFn(item);
+  }
+  return sidebar.map(transformRecursive);
 }
 
 export function collectSidebarsDocIds(

@@ -18,7 +18,9 @@ export default async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir} = loadContext(siteDir, cliOptions.outDir);
+  const {outDir} = await loadContext(siteDir, {
+    customOutDir: cliOptions.outDir,
+  });
   const tempDir = path.join(siteDir, GENERATED_FILES_DIR_NAME);
 
   console.log('Deploy command invoked ...');

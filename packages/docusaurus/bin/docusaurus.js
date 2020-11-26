@@ -19,6 +19,7 @@ const {
   externalCommand,
   serve,
   clear,
+  writeTranslations,
 } = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 const pkg = require('../package.json');
@@ -90,13 +91,18 @@ cli
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .option(
+    '-l, --locale <locale>',
+    'Build the site in a specified locale. Build all known locales otherwise.',
+  )
+  .option(
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
+  .action((siteDir = '.', {bundleAnalyzer, outDir, locale, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
+      locale,
       minify,
     });
   });
@@ -123,6 +129,10 @@ cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
   .option(
+    '-l, --locale <locale>',
+    'Deploy the site in a specified locale. Deploy all known locales otherwise.',
+  )
+  .option(
     '--out-dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
@@ -139,6 +149,7 @@ cli
   .description('Start the development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
+  .option('-l, --locale <locale>', 'use specified site locale')
   .option(
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
@@ -148,10 +159,11 @@ cli
     '--poll [interval]',
     'Use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds.',
   )
-  .action((siteDir = '.', {port, host, hotOnly, open, poll}) => {
+  .action((siteDir = '.', {port, host, locale, hotOnly, open, poll}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
+      locale,
       hotOnly,
       open,
       poll,
@@ -188,11 +200,39 @@ cli
   );
 
 cli
-  .command('clear')
+  .command('clear [siteDir]')
   .description('Remove build artifacts')
-  .action(() => {
-    wrapCommand(clear)(path.resolve('.'));
+  .action((siteDir = '.') => {
+    wrapCommand(clear)(path.resolve(siteDir));
   });
+
+cli
+  .command('write-translations [siteDir]')
+  .description('Extract required translations of your site')
+  .option(
+    '-l, --locale <locale>',
+    'The locale folder to write the translations\n"--locale fr" will write translations in ./i18n/fr folder)',
+  )
+  .option(
+    '--override',
+    'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden.',
+  )
+  .option(
+    '--messagePrefix <messagePrefix>',
+    'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI.',
+  )
+  .action(
+    (
+      siteDir = '.',
+      {locale = undefined, override = false, messagePrefix = ''},
+    ) => {
+      wrapCommand(writeTranslations)(path.resolve(siteDir), {
+        locale,
+        override,
+        messagePrefix,
+      });
+    },
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
@@ -201,9 +241,15 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 function isInternalCommand(command) {
-  return ['start', 'build', 'swizzle', 'deploy', 'serve', 'clear'].includes(
-    command,
-  );
+  return [
+    'start',
+    'build',
+    'swizzle',
+    'deploy',
+    'serve',
+    'clear',
+    'write-translations',
+  ].includes(command);
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {

@@ -616,18 +616,6 @@ Object {
 
 exports[`versioned website (community) content: data 1`] = `
 Object {
-  "site-community-team-md-9d8.json": "{
-  \\"unversionedId\\": \\"team\\",
-  \\"id\\": \\"team\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"team\\",
-  \\"description\\": \\"Team current version\\",
-  \\"source\\": \\"@site/community/team.md\\",
-  \\"slug\\": \\"/team\\",
-  \\"permalink\\": \\"/community/next/team\\",
-  \\"version\\": \\"current\\",
-  \\"sidebar\\": \\"community\\"
-}",
   "site-community-versioned-docs-version-1-0-0-team-md-359.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"version-1.0.0/team\\",
@@ -639,6 +627,18 @@ Object {
   \\"permalink\\": \\"/community/team\\",
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/community\\"
+}",
+  "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
+  \\"unversionedId\\": \\"team\\",
+  \\"id\\": \\"team\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"Team title translated\\",
+  \\"description\\": \\"Team current version (translated)\\",
+  \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md\\",
+  \\"slug\\": \\"/team\\",
+  \\"permalink\\": \\"/community/next/team\\",
+  \\"version\\": \\"current\\",
+  \\"sidebar\\": \\"community\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"community\\",
@@ -667,7 +667,7 @@ Object {
     \\"community\\": [
       {
         \\"type\\": \\"link\\",
-        \\"label\\": \\"team\\",
+        \\"label\\": \\"Team title translated\\",
         \\"href\\": \\"/community/next/team\\"
       }
     ]
@@ -734,7 +734,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/community/team.md",
+          "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
       },
@@ -931,6 +931,22 @@ Object {
   \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
   \\"version\\": \\"current\\"
 }",
+  "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": "{
+  \\"unversionedId\\": \\"hello\\",
+  \\"id\\": \\"version-1.0.0/hello\\",
+  \\"isDocsHomePage\\": true,
+  \\"title\\": \\"hello\\",
+  \\"description\\": \\"Hello 1.0.0 ! (translated)\\",
+  \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md\\",
+  \\"slug\\": \\"/\\",
+  \\"permalink\\": \\"/docs/1.0.0/\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"sidebar\\": \\"version-1.0.0/docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz\\",
+    \\"permalink\\": \\"/docs/1.0.0/foo/baz\\"
+  }
+}",
   "site-versioned-docs-version-1-0-0-foo-bar-md-7a6.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"version-1.0.0/foo/bar\\",
@@ -965,22 +981,6 @@ Object {
   \\"next\\": {
     \\"title\\": \\"hello\\",
     \\"permalink\\": \\"/docs/1.0.0/\\"
-  }
-}",
-  "site-versioned-docs-version-1-0-0-hello-md-3ef.json": "{
-  \\"unversionedId\\": \\"hello\\",
-  \\"id\\": \\"version-1.0.0/hello\\",
-  \\"isDocsHomePage\\": true,
-  \\"title\\": \\"hello\\",
-  \\"description\\": \\"Hello 1.0.0 !\\",
-  \\"source\\": \\"@site/versioned_docs/version-1.0.0/hello.md\\",
-  \\"slug\\": \\"/\\",
-  \\"permalink\\": \\"/docs/1.0.0/\\",
-  \\"version\\": \\"1.0.0\\",
-  \\"sidebar\\": \\"version-1.0.0/docs\\",
-  \\"previous\\": {
-    \\"title\\": \\"baz\\",
-    \\"permalink\\": \\"/docs/1.0.0/foo/baz\\"
   }
 }",
   "site-versioned-docs-version-1-0-1-foo-bar-md-7a3.json": "{
@@ -1410,7 +1410,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/hello.md",
+          "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
         "path": "/docs/1.0.0/",
       },

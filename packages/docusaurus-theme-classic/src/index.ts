@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const Module = require('module');
-const {validateThemeConfig} = require('./validateThemeConfig');
+import {Plugin} from '@docusaurus/types';
+import {getTranslationFiles, translateThemeConfig} from './translations';
+import path from 'path';
+import Module from 'module';
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -58,7 +59,10 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
-module.exports = function (context, options) {
+export default function docusaurusThemeClassic(
+  context,
+  options,
+): Plugin<null, unknown> {
   const {
     siteConfig: {themeConfig},
   } = context;
@@ -69,12 +73,15 @@ module.exports = function (context, options) {
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, '..', 'lib', 'theme');
+      return path.join(__dirname, '..', 'lib-next', 'theme');
     },
 
     getTypeScriptThemePath() {
       return path.resolve(__dirname, './theme');
     },
+
+    getTranslationFiles: async () => getTranslationFiles({themeConfig}),
+    translateThemeConfig,
 
     getClientModules() {
       const modules = [
@@ -98,12 +105,15 @@ module.exports = function (context, options) {
         .map((lang) => `prism-${lang}`)
         .join('|');
 
+      // See https://github.com/facebook/docusaurus/pull/3382
+      const useDocsWarningFilter = (warning: string) =>
+        warning.includes("Can't resolve '@theme-init/hooks/useDocs");
+
       return {
         stats: {
           warningsFilter: [
-            // See https://github.com/facebook/docusaurus/pull/3382
-            (warning) =>
-              warning.includes("Can't resolve '@theme-init/hooks/useDocs"),
+            // The TS def does not allow function for array item :(
+            useDocsWarningFilter as any,
           ],
         },
         plugins: [
@@ -129,7 +139,7 @@ module.exports = function (context, options) {
       };
     },
   };
-};
+}
 
 const swizzleAllowedComponents = [
   'CodeBlock',
@@ -141,6 +151,8 @@ const swizzleAllowedComponents = [
   'prism-include-languages',
 ];
 
-module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
+export function getSwizzleComponentList() {
+  return swizzleAllowedComponents;
+}
 
-module.exports.validateThemeConfig = validateThemeConfig;
+export {validateThemeConfig} from './validateThemeConfig';

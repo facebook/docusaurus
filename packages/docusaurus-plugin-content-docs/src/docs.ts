@@ -12,6 +12,7 @@ import {
   normalizeUrl,
   getEditUrl,
   parseMarkdownString,
+  getFolderContainingFile,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -27,6 +28,7 @@ import {
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
+import {getDocsDirPaths} from './versions';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -61,16 +63,25 @@ async function readLastUpdateData(
 }
 
 export async function readDocFile(
-  docsDirPath: string,
+  versionMetadata: Pick<
+    VersionMetadata,
+    'docsDirPath' | 'docsDirPathLocalized'
+  >,
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const filePath = path.join(docsDirPath, source);
+  const folderPath = await getFolderContainingFile(
+    getDocsDirPaths(versionMetadata),
+    source,
+  );
+
+  const filePath = path.join(folderPath, source);
+
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),
     readLastUpdateData(filePath, options),
   ]);
-  return {source, content, lastUpdate};
+  return {source, content, lastUpdate, filePath};
 }
 
 export async function readVersionDocs(
@@ -84,9 +95,7 @@ export async function readVersionDocs(
     cwd: versionMetadata.docsDirPath,
   });
   return Promise.all(
-    sources.map((source) =>
-      readDocFile(versionMetadata.docsDirPath, source, options),
-    ),
+    sources.map((source) => readDocFile(versionMetadata, source, options)),
   );
 }
 
@@ -101,10 +110,9 @@ export function processDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
 }): DocMetadataBase {
-  const {source, content, lastUpdate} = docFile;
+  const {source, content, lastUpdate, filePath} = docFile;
   const {editUrl, homePageId} = options;
   const {siteDir} = context;
-  const filePath = path.join(versionMetadata.docsDirPath, source);
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .

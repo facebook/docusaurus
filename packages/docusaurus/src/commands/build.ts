@@ -22,17 +22,76 @@ import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
+import {loadI18n} from '../server/i18n';
+import {mapAsyncSequencial} from '@docusaurus/utils';
+import loadConfig from '../server/config';
 
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
 ): Promise<string> {
+  async function tryToBuildLocale(locale: string, forceTerm) {
+    try {
+      const result = await buildLocale(siteDir, locale, cliOptions, forceTerm);
+      console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      return result;
+    } catch (e) {
+      console.error(`error building locale=${locale}`);
+      throw e;
+    }
+  }
+
+  const i18n = await loadI18n(loadConfig(siteDir), {
+    locale: cliOptions.locale,
+  });
+  if (cliOptions.locale) {
+    return tryToBuildLocale(cliOptions.locale, forceTerminate);
+  } else {
+    if (i18n.locales.length > 1) {
+      console.log(
+        chalk.yellow(
+          `\nSite will be built with all these locales:
+- ${i18n.locales.join('\n- ')}\n`,
+        ),
+      );
+    }
+
+    // We need the default locale to always be the 1st in the list
+    // If we build it last, it would "erase" the localized sites built in subfolders
+    const orderedLocales: string[] = [
+      i18n.defaultLocale,
+      ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
+    ];
+
+    const results = await mapAsyncSequencial(orderedLocales, (locale) => {
+      const isLastLocale =
+        i18n.locales.indexOf(locale) === i18n.locales.length - 1;
+      // TODO check why we need forceTerminate
+      const forceTerm = isLastLocale && forceTerminate;
+      return tryToBuildLocale(locale, forceTerm);
+    });
+    return results[0]!;
+  }
+}
+
+async function buildLocale(
+  siteDir: string,
+  locale: string,
+  cliOptions: Partial<BuildCLIOptions> = {},
+  forceTerminate: boolean = true,
+): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  console.log(chalk.blue('Creating an optimized production build...'));
+  console.log(
+    chalk.blue(`[${locale}] Creating an optimized production build...`),
+  );
 
-  const props: Props = await load(siteDir, cliOptions.outDir);
+  const props: Props = await load(siteDir, {
+    customOutDir: cliOptions.outDir,
+    locale,
+    localizePath: cliOptions.locale ? false : undefined,
+  });
 
   // Apply user webpack config.
   const {

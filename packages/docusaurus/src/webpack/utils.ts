@@ -9,10 +9,10 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
 import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
+import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanCss from 'clean-css';
-import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -20,7 +20,7 @@ import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
-import {STATIC_ASSETS_DIR_NAME} from '../constants';
+import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -93,19 +93,33 @@ export function getCacheLoader(
   };
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): Loader {
-  let options: TransformOptions;
+export function getCustomBabelConfigFilePath(
+  siteDir: string,
+): string | undefined {
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
+  return fs.existsSync(customBabelConfigurationPath)
+    ? customBabelConfigurationPath
+    : undefined;
+}
+
+export function getBabelOptions({
+  isServer,
+  babelOptions,
+}: {
+  isServer?: boolean;
+  babelOptions?: TransformOptions | string;
+} = {}): TransformOptions {
   if (typeof babelOptions === 'string') {
-    options = {
+    return {
       babelrc: false,
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
   } else {
-    options = Object.assign(
+    return Object.assign(
       babelOptions ?? {presets: [require.resolve('../babel/preset')]},
       {
         babelrc: false,
@@ -114,9 +128,15 @@ export function getBabelLoader(
       },
     );
   }
+}
+
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+): Loader {
   return {
     loader: require.resolve('babel-loader'),
-    options,
+    options: getBabelOptions({isServer, babelOptions}),
   };
 }
 

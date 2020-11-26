@@ -14,7 +14,10 @@ import SearchMetadatas from '@theme/SearchMetadatas';
 import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common';
 
 export default function LayoutHead(props: Props): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const {
+    siteConfig,
+    i18n: {currentLocale},
+  } = useDocusaurusContext();
   const {
     favicon,
     title: siteTitle,
@@ -36,11 +39,12 @@ export default function LayoutHead(props: Props): JSX.Element {
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
+
+  const htmlLang = currentLocale.split('-')[0];
   return (
     <>
       <Head>
-        {/* TODO: Do not assume that it is in english language */}
-        <html lang="en" />
+        <html lang={htmlLang} />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -63,7 +67,7 @@ export default function LayoutHead(props: Props): JSX.Element {
 
       <SearchMetadatas
         tag={DEFAULT_SEARCH_TAG}
-        language="en" // TODO i18n
+        locale={currentLocale}
         {...searchMetadatas}
       />
 

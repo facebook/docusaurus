@@ -5,8 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {useThemeConfig, ThemeConfig} from './utils/useThemeConfig';
+export {
+  useThemeConfig,
+  ThemeConfig,
+  Navbar,
+  NavbarItem,
+  NavbarLogo,
+  Footer,
+  FooterLinks,
+  FooterLinkItem,
+} from './utils/useThemeConfig';
+
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+
 export {isDocsPluginEnabled} from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';

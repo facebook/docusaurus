@@ -10,7 +10,7 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 
 type SearchTagMetaProps = {
-  language?: string;
+  locale?: string;
   version?: string;
   tag?: string;
 };
@@ -19,13 +19,13 @@ type SearchTagMetaProps = {
 // We may want to support other search engine plugins too
 // Search plugins should swizzle/override this comp to add their behavior
 export default function SearchMetadatas({
-  language,
+  locale,
   version,
   tag,
 }: SearchTagMetaProps) {
   return (
     <Head>
-      {language && <meta name="docusaurus_language" content={`${language}`} />}
+      {locale && <meta name="docusaurus_locale" content={`${locale}`} />}
       {version && <meta name="docusaurus_version" content={version} />}
       {tag && <meta name="docusaurus_tag" content={tag} />}
     </Head>

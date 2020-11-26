@@ -13,7 +13,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
+function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -111,7 +111,7 @@ function Footer(): JSX.Element | null {
               // Developer provided the HTML, so assume it's safe.
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
-                __html: copyright,
+                __html: copyright ?? '',
               }}
             />
           </div>

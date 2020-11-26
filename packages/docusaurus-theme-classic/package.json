@@ -2,7 +2,7 @@
   "name": "@docusaurus/theme-classic",
   "version": "2.0.0-alpha.69",
   "description": "Classic theme for Docusaurus",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "types": "src/types.d.ts",
   "publishConfig": {
     "access": "public"
@@ -14,9 +14,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --noEmit && yarn babel && yarn prettier",
-    "watch": "yarn babel --watch",
-    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier",
+    "watch": "yarn babel:lib --watch",
+    "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "@docusaurus/theme-common": "2.0.0-alpha.69",
     "@docusaurus/types": "2.0.0-alpha.69",
     "@docusaurus/utils-validation": "2.0.0-alpha.69",
+    "@docusaurus/utils": "2.0.0-alpha.69",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@types/react-toggle": "^4.0.2",

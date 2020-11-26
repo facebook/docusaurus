@@ -11,14 +11,23 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {PluginOptions, BlogPost, DateLink} from './types';
+import {
+  PluginOptions,
+  BlogPost,
+  DateLink,
+  BlogContentPaths,
+  BlogBrokenMarkdownLink,
+  BlogMarkdownLoaderOptions,
+} from './types';
 import {
   parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
+  getFolderContainingFile,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
+import {keyBy} from 'lodash';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -36,6 +45,7 @@ function toUrl({date, link}: DateLink) {
 }
 
 export async function generateBlogFeed(
+  contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Feed | null> {
@@ -44,9 +54,8 @@ export async function generateBlogFeed(
       'Invalid options - `feedOptions` is not expected to be null.',
     );
   }
-  const {siteDir, siteConfig} = context;
-  const contentPath = path.resolve(siteDir, options.path);
-  const blogPosts = await generateBlogPosts(contentPath, context, options);
+  const {siteConfig} = context;
+  const blogPosts = await generateBlogPosts(contentPaths, context, options);
   if (blogPosts == null) {
     return null;
   }
@@ -88,7 +97,7 @@ export async function generateBlogFeed(
 }
 
 export async function generateBlogPosts(
-  blogDir: string,
+  contentPaths: BlogContentPaths,
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
 ): Promise<BlogPost[]> {
@@ -100,24 +109,30 @@ export async function generateBlogPosts(
     editUrl,
   } = options;
 
-  if (!fs.existsSync(blogDir)) {
+  if (!fs.existsSync(contentPaths.contentPath)) {
     return [];
   }
 
   const {baseUrl = ''} = siteConfig;
-  const blogFiles = await globby(include, {
-    cwd: blogDir,
+  const blogSourceFiles = await globby(include, {
+    cwd: contentPaths.contentPath,
   });
 
   const blogPosts: BlogPost[] = [];
 
   await Promise.all(
-    blogFiles.map(async (relativeSource: string) => {
-      const source = path.join(blogDir, relativeSource);
+    blogSourceFiles.map(async (blogSourceFile: string) => {
+      // Lookup in localized folder in priority
+      const contentPath = await getFolderContainingFile(
+        getContentPathList(contentPaths),
+        blogSourceFile,
+      );
+
+      const source = path.join(contentPath, blogSourceFile);
       const aliasedSource = aliasedSitePath(source, siteDir);
-      const refDir = path.parse(blogDir).dir;
-      const relativePath = path.relative(refDir, source);
-      const blogFileName = path.basename(relativeSource);
+
+      const relativePath = path.relative(siteDir, source);
+      const blogFileName = path.basename(blogSourceFile);
 
       const editBlogUrl = getEditUrl(relativePath, editUrl);
 
@@ -184,12 +199,31 @@ export async function generateBlogPosts(
   return blogPosts;
 }
 
-export function linkify(
-  fileContent: string,
-  siteDir: string,
-  blogPath: string,
-  blogPosts: BlogPost[],
-): string {
+export type LinkifyParams = {
+  filePath: string;
+  fileContent: string;
+} & Pick<
+  BlogMarkdownLoaderOptions,
+  'blogPosts' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
+>;
+
+export function linkify({
+  filePath,
+  contentPaths,
+  fileContent,
+  siteDir,
+  blogPosts,
+  onBrokenMarkdownLink,
+}: LinkifyParams): string {
+  // TODO temporary, should consider the file being in localized folder!
+  const folderPath = contentPaths.contentPath;
+
+  // TODO perf refactor: do this earlier (once for all md files, not per file)
+  const blogPostsBySource: Record<string, BlogPost> = keyBy(
+    blogPosts,
+    (item) => item.metadata.source,
+  );
+
   let fencedBlock = false;
   const lines = fileContent.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
@@ -208,18 +242,24 @@ export function linkify(
       const mdLink = mdMatch[1];
       const aliasedPostSource = `@site/${path.relative(
         siteDir,
-        path.resolve(blogPath, mdLink),
+        path.resolve(folderPath, mdLink),
       )}`;
-      let blogPostPermalink = null;
 
-      blogPosts.forEach((blogPost) => {
-        if (blogPost.metadata.source === aliasedPostSource) {
-          blogPostPermalink = blogPost.metadata.permalink;
-        }
-      });
+      const blogPost: BlogPost | undefined =
+        blogPostsBySource[aliasedPostSource];
 
-      if (blogPostPermalink) {
-        modifiedLine = modifiedLine.replace(mdLink, blogPostPermalink);
+      if (blogPost) {
+        modifiedLine = modifiedLine.replace(
+          mdLink,
+          blogPost.metadata.permalink,
+        );
+      } else {
+        const brokenMarkdownLink: BlogBrokenMarkdownLink = {
+          folderPath,
+          filePath,
+          link: mdLink,
+        };
+        onBrokenMarkdownLink(brokenMarkdownLink);
       }
 
       mdMatch = mdRegex.exec(modifiedLine);
@@ -229,4 +269,9 @@ export function linkify(
   });
 
   return lines.join('\n');
+}
+
+// Order matters: we look in priority in localized folder
+export function getContentPathList(contentPaths: BlogContentPaths) {
+  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

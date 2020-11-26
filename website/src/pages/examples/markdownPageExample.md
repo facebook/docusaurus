@@ -26,10 +26,6 @@ function Button() {
 }
 ```
 
-### Using relative path
-
-![](../../../static/img/docusaurus.png)
-
 ### Using absolute path
 
 ![](/img/docusaurus.png)
@@ -84,7 +80,7 @@ My comment
 
 ## Import code block from source code file
 
-import MyComponent from "./\_myComponent"
+import MyComponent from "@site/src/pages/examples/\_myComponent"
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
@@ -116,7 +112,7 @@ import MyComponentSource from '!!raw-loader!./myComponent';
 
 import CodeBlock from "@theme/CodeBlock"
 
-import MyComponentSource from '!!raw-loader!./\_myComponent';
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myComponent';
 
 <BrowserWindow url="http://localhost:3000">
 
