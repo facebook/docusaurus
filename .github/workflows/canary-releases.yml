@@ -1,0 +1,14 @@
+name: Canary releases
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Canary release
+        run: |
+          yarn canary
