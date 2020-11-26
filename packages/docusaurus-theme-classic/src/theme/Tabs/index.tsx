@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement} from 'react';
+import React, {useState, cloneElement, Children} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import type {Props} from '@theme/Tabs';
 
@@ -22,7 +22,6 @@ function Tabs(props: Props): JSX.Element {
   const {
     lazy,
     block,
-    children,
     defaultValue,
     values,
     groupId,
@@ -30,6 +29,7 @@ function Tabs(props: Props): JSX.Element {
   } = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const children = Children.toArray(props.children)
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
