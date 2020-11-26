@@ -29,7 +29,6 @@ const boxen = require('boxen');
 const notifier = updateNotifier({
   pkg,
   updateCheckInterval: 1000 * 60 * 60 * 24, // one day
-  distTag: 'next', // compare with the version that is tagged 'next' on npm
 });
 
 // allow the user to be notified for updates on the first run
@@ -50,7 +49,7 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
     `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
       ' → ',
     )}${chalk.green(`${notifier.update.latest}`)}\nRun ${chalk.cyan(
-      'yarn upgrade @docusaurus/core@next',
+      'yarn upgrade @docusaurus/core',
     )} to update`,
     boxenOptions,
   );
