@@ -16,6 +16,7 @@
   color: var(--docsearch-text-color);
   margin-bottom: 1rem;
   box-shadow: var(--docsearch-searchbox-shadow);
+  outline: none;
 }
 
 .searchQueryInput::placeholder {
