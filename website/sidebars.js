@@ -49,6 +49,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Plugins',
+      collapsed: false,
       items: [
         'api/plugins/plugins-overview',
         {
