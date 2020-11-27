@@ -45,7 +45,7 @@ Nested or latter components will override duplicate usages:
 </Parent>
 ```
 
-Outputs
+Outputs:
 
 ```html
 <head>
@@ -246,7 +246,7 @@ import React from 'react';
 import useGlobalData from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
-  const globalData = useDocusaurusContext();
+  const globalData = useGlobalData();
   const myPluginData = globalData['my-plugin']['default'];
   return <div>{myPluginData.someAttribute}</div>;
 };
@@ -260,15 +260,15 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 ### `usePluginData`
 
-```ts
-usePluginData(pluginName: string, pluginId?: string)
-```
-
 Access global data created by a specific plugin instance.
 
 This is the most convenient hook to access plugin global data, and should be used most of the time.
 
 `pluginId` is optional if you don't use multi-instance plugins.
+
+```ts
+usePluginData(pluginName: string, pluginId?: string)
+```
 
 Usage example:
 
@@ -284,11 +284,11 @@ const MyComponent = () => {
 
 ### `useAllPluginInstancesData`
 
+Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
+
 ```ts
 useAllPluginInstancesData(pluginName: string)
 ```
-
-Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
 Usage example:
 
