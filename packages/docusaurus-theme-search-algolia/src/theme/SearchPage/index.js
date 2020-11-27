@@ -294,7 +294,7 @@ function Search() {
   }, [searchValue]);
 
   return (
-    <Layout title={getTitle()} wrapperClassName="search-results-wrapper">
+    <Layout title={getTitle()} wrapperClassName="search-page-wrapper">
       <Head>
         {/*
          We should not index search pages
