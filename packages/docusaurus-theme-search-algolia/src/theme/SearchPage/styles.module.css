@@ -10,6 +10,7 @@
   border-radius: var(--ifm-global-radius);
   border: 0;
   font-size: var(--ifm-font-size-base);
+  font-family: var(--ifm-font-family-base);
   padding: 0.8rem;
   width: 100%;
   background: var(--docsearch-searchbox-focus-background);
@@ -87,6 +88,17 @@
     overflow: hidden;
     max-width: 40% !important;
     padding-left: 0 !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .searchQueryColumn {
+    max-width: 100% !important;
+  }
+
+  .searchVersionColumn {
+    max-width: 100% !important;
+    padding-left: var(--ifm-spacing-horizontal) !important;
   }
 }
 
