@@ -46,5 +46,34 @@ module.exports = {
     'api/docusaurus.config.js',
     'lifecycle-apis',
     'theme-classic',
+    {
+      type: 'category',
+      label: 'Plugins',
+      items: [
+        'api/plugins/plugins-overview',
+        {
+          type: 'category',
+          label: 'Content plugins',
+          items: [
+            'api/plugins/plugin-content-docs',
+            'api/plugins/plugin-content-blog',
+            'api/plugins/plugin-content-pages',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Behavior plugins',
+          items: [
+            'api/plugins/plugin-client-redirects',
+            'api/plugins/plugin-debug',
+            'api/plugins/plugin-google-analytics',
+            'api/plugins/plugin-google-gtag',
+            'api/plugins/plugin-ideal-image',
+            'api/plugins/plugin-pwa',
+            'api/plugins/plugin-sitemap',
+          ],
+        },
+      ],
+    },
   ],
 };

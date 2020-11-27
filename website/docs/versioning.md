@@ -165,7 +165,7 @@ Docusaurus defaults work great for the first usecase.
 
 The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, and `1.0.0` will become the default version we link to in the navbar dropdown, and you will only need to maintain a single `./docs` folder.
 
-See [docs plugin configuration](using-plugins#docusaurusplugin-content-docs) for more details.
+See [docs plugin configuration](./api/plugins/plugin-content-docs.md) for more details.
 
 ### Version your documentation only when needed
 
