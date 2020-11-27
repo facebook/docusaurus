@@ -16,5 +16,5 @@ export default function useAlgoliaContextualFacetFilters() {
 
   const tagsFilter = tags.map((tag) => `docusaurus_tag:${tag}`);
 
-  return [...(locale ? languageFilter : []), tagsFilter];
+  return [languageFilter, tagsFilter];
 }
