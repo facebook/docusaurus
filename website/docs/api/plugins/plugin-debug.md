@@ -1,6 +1,6 @@
 ---
 id: plugin-debug
-title: 'plugin-debug'
+title: '📦 plugin-debug'
 slug: '/api/plugins/@docusaurus/plugin-debug'
 ---
 

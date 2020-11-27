@@ -1,6 +1,6 @@
 ---
 id: plugin-google-analytics
-title: 'plugin-google-analytics'
+title: '📦 plugin-google-analytics'
 slug: '/api/plugins/@docusaurus/plugin-google-analytics'
 ---
 

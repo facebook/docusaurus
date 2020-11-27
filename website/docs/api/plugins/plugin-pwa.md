@@ -1,6 +1,6 @@
 ---
 id: plugin-pwa
-title: 'plugin-pwa'
+title: '📦 plugin-pwa'
 slug: '/api/plugins/@docusaurus/plugin-pwa'
 ---
 

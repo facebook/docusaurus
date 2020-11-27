@@ -1,6 +1,6 @@
 ---
 id: plugin-content-blog
-title: 'plugin-content-blog'
+title: '📦 plugin-content-blog'
 slug: '/api/plugins/@docusaurus/plugin-content-blog'
 ---
 

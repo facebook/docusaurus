@@ -1,6 +1,6 @@
 ---
 id: plugin-google-gtag
-title: 'plugin-google-gtag'
+title: '📦 plugin-google-gtag'
 slug: '/api/plugins/@docusaurus/plugin-google-gtag'
 ---
 

@@ -1,6 +1,6 @@
 ---
 id: plugin-content-pages
-title: 'plugin-content-pages'
+title: '📦 plugin-content-pages'
 slug: '/api/plugins/@docusaurus/plugin-content-pages'
 ---
 

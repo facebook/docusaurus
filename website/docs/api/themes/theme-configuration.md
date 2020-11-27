@@ -1,13 +1,10 @@
 ---
-id: theme-classic
-title: '@docusaurus/theme-classic'
+id: theme-configuration
+title: 'Theme configuration'
+slug: '/api/themes/configuration'
 ---
 
-:::caution
-
-This section is a work in progress.
-
-:::
+This configuration applies to all [main themes](./overview.md).
 
 ## Common
 
@@ -418,6 +415,79 @@ module.exports = {
       defaultLanguage: 'javascript',
     },
     // ...
+  },
+};
+```
+
+## Footer
+
+You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.md). Logo URL works in the same way of the navbar logo.
+
+```js {5-15} title="docusaurus.config.js"
+  // ...
+  footer: {
+    logo: {
+      alt: 'Facebook Open Source Logo',
+      src: 'img/oss_logo.png',
+      href: 'https://opensource.facebook.com',
+    },
+    copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+  }
+```
+
+## Footer Links
+
+You can add links to the navbar via `themeConfig.footer.links`:
+
+```js {5-15} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  footer: {
+    links: [
+      {
+        // Label of the section of these links
+        title: 'Docs',
+        items: [
+          {
+            // Label of the link
+            label: 'Style Guide',
+            // Client-side routing, used for navigating within the website.
+            // The baseUrl will be automatically prepended to this value.
+            to: 'docs/',
+          },
+          {
+            label: 'Second Doc',
+            to: 'docs/doc2/',
+          },
+        ],
+      },
+      {
+        title: 'Community',
+        items: [
+          {
+            label: 'Stack Overflow',
+            // A full-page navigation, used for navigating outside of the website.
+            href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+          },
+          {
+            label: 'Discord',
+            href: 'https://discordapp.com/invite/docusaurus',
+          },
+          {
+            label: 'Twitter',
+            href: 'https://twitter.com/docusaurus',
+          },
+          {
+            //Renders the html pass-through instead of a simple link
+            html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+                </a>
+              `,
+          },
+        ],
+      },
+    ],
   },
 };
 ```

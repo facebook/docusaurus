@@ -1,6 +1,6 @@
 ---
 id: plugin-sitemap
-title: 'plugin-sitemap'
+title: '📦 plugin-sitemap'
 slug: '/api/plugins/@docusaurus/plugin-sitemap'
 ---
 
