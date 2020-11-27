@@ -393,8 +393,7 @@ function Search() {
                           {index !== 0 && (
                             <span
                               className={styles.searchResultItemPathSeparator}>
-                              {' '}
-                              ›{' '}
+                              ›
                             </span>
                           )}
                           <span

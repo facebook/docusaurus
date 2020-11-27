@@ -55,7 +55,7 @@
 }
 
 .searchResultItemPathSeparator {
-  margin: 0 0.25rem;
+  margin: 0 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   color: var(--ifm-color-emphasis-400);
