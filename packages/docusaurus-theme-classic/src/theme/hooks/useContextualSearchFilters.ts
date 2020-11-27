@@ -20,7 +20,7 @@ type ContextualSearchFilters = {
 // We may want to support multiple search engines, don't couple that to Algolia/DocSearch
 // Maybe users will want to use its own search engine solution
 export default function useContextualSearchFilters(): ContextualSearchFilters {
-  const {siteConfig} = useDocusaurusContext();
+  const {i18n} = useDocusaurusContext();
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();
   const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();
@@ -46,7 +46,7 @@ export default function useContextualSearchFilters(): ContextualSearchFilters {
   ];
 
   return {
-    locale: siteConfig.i18n.currentLocale,
+    locale: i18n.currentLocale,
     tags,
   };
 }
