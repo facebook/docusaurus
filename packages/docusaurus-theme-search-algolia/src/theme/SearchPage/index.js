@@ -102,6 +102,8 @@ function Search() {
   const {
     siteConfig: {
       themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
+      title: siteTitle,
+      titleDelimiter,
     } = {},
   } = useDocusaurusContext();
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -294,8 +296,9 @@ function Search() {
   }, [searchValue]);
 
   return (
-    <Layout title={getTitle()}>
+    <Layout wrapperClassName="search-page-wrapper">
       <Head>
+        <title>{`${getTitle()} ${titleDelimiter} ${siteTitle}`}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233
