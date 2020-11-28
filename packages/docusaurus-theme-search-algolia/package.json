@@ -15,6 +15,7 @@
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.31",
     "@docusaurus/core": "2.0.0-alpha.69",
+    "@docusaurus/theme-common": "2.0.0-alpha.69",
     "@docusaurus/utils": "2.0.0-alpha.69",
     "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",

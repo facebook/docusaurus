@@ -8,6 +8,7 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
@@ -25,7 +26,7 @@ import {
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
+  const {url: siteUrl} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {
@@ -54,9 +55,7 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   return (
     <>
