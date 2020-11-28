@@ -16,8 +16,15 @@
   background: var(--docsearch-searchbox-focus-background);
   color: var(--docsearch-text-color);
   margin-bottom: 1rem;
+  box-shadow: inset 0 0 0 2px var(--ifm-toc-border-color);
+  transition: var(--ifm-transition-fast) ease box-shadow;
+}
+
+.searchQueryInput:active,
+.searchQueryInput:focus,
+.searchVersionInput:active,
+.searchVersionInput:focus {
   box-shadow: var(--docsearch-searchbox-shadow);
-  outline: none;
 }
 
 .searchQueryInput::placeholder {
