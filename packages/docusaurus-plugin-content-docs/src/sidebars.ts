@@ -317,7 +317,7 @@ export function createSidebarsUtils(sidebars: Sidebars) {
       throw new Error(
         `Bad sidebars file.
 These sidebar document ids do not exist:
-- ${invalidSidebarDocIds.sort().join('\n- ')}\`,
+- ${invalidSidebarDocIds.sort().join('\n- ')},
 
 Available document ids=
 - ${validDocIds.sort().join('\n- ')}`,
