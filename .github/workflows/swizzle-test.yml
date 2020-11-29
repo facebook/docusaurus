@@ -45,4 +45,4 @@ jobs:
           yarn swizzle:v2 TOC --danger
           yarn swizzle:v2 Toggle --danger
       - name: Build with swizzled components
-          yarn test:build:v2
+        run: yarn test:build:v2
