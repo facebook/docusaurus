@@ -387,14 +387,23 @@ function Search() {
                   />
 
                   {breadcrumbs.length > 0 && (
-                    <span
-                      className={styles.searchResultItemPath}
-                      // Developer provided the HTML, so assume it's safe.
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: breadcrumbs.join(' › '),
-                      }}
-                    />
+                    <span className={styles.searchResultItemPath}>
+                      {breadcrumbs.map((html, index) => (
+                        <>
+                          {index !== 0 && (
+                            <span
+                              className={styles.searchResultItemPathSeparator}>
+                              ›
+                            </span>
+                          )}
+                          <span
+                            // Developer provided the HTML, so assume it's safe.
+                            // eslint-disable-next-line react/no-danger
+                            dangerouslySetInnerHTML={{__html: html}}
+                          />
+                        </>
+                      ))}
+                    </span>
                   )}
 
                   {summary && (
