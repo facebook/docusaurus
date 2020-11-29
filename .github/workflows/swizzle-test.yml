@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installation
         run: yarn
-      - name: Swizzle most of theme-classic components
+      - name: Swizzle most of `theme-classic` components
         run: |
           yarn swizzle:v2 AnnouncementBar --danger
           yarn swizzle:v2 BlogListPage --danger
@@ -44,5 +44,13 @@ jobs:
           yarn swizzle:v2 Tabs --danger
           yarn swizzle:v2 TOC --danger
           yarn swizzle:v2 Toggle --danger
+      - name: Swizzle most of `theme-search-algolia` components
+        run: |
+          yarn swizzle:v2:algolia SearchBar
+          yarn swizzle:v2:algolia SearchPage
+      - name: Swizzle most of `theme-live-codeblock` components
+        run: |
+          yarn swizzle:v2:codeblock CodeBlock
+          yarn swizzle:v2:codeblock Playground
       - name: Build with swizzled components
         run: yarn build:v2

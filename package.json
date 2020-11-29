@@ -31,6 +31,8 @@
     "serve:v2:ssl:message": "echo '\n\n\nServing Docusaurus with HTTPS on localhost requires to disable the Chrome security: chrome://flags/#allow-insecure-localhost\n\n\n'",
     "serve:v2:ssl:serve": "serve website/build --ssl-cert ./website/.docusaurus/selfsigned.crt --ssl-key ./website/.docusaurus/selfsigned.key",
     "swizzle:v2": "yarn workspace docusaurus-2-website swizzle @docusaurus/theme-classic",
+    "swizzle:v2:algolia": "yarn workspace docusaurus-2-website swizzle @docusaurus/theme-search-algolia",
+    "swizzle:v2:codeblock": "yarn workspace docusaurus-2-website swizzle @docusaurus/theme-live-codeblock",
     "crowdin:upload:v2": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:uploadTranslations:v2": "crowdin upload translations --config ./crowdin-v2.yaml",
     "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
