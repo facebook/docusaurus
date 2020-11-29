@@ -47,7 +47,10 @@ test('should accept valid user options', async () => {
     ],
   };
   const {value, error} = await PluginOptionSchema.validate(userOptions);
-  expect(value).toEqual(userOptions);
+  expect(value).toEqual({
+    ...userOptions,
+    feedOptions: {type: ['rss', 'atom']},
+  });
   expect(error).toBe(undefined);
 });
 
@@ -79,6 +82,26 @@ test('should convert all feed type to array with other feed type', () => {
   expect(value).toEqual({
     ...DEFAULT_OPTIONS,
     feedOptions: {type: ['rss', 'atom']},
+  });
+});
+
+test('should contain array with rss + atom for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: ['rss', 'atom']},
+  });
+});
+
+test('should have array with rss + atom, title for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {title: 'title'},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: ['rss', 'atom'], title: 'title'},
   });
 });
 
