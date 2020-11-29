@@ -1,0 +1,48 @@
+name: Swizzle Test
+
+on:
+  # Trigger the workflow on pull request,
+  # but only for the master branch
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Installation
+        run: yarn
+      - name: Swizzle most of theme-classic components
+        run: |
+          yarn swizzle:v2 AnnouncementBar --danger
+          yarn swizzle:v2 BlogListPage --danger
+          yarn swizzle:v2 BlogListPaginator --danger
+          yarn swizzle:v2 BlogPostItem --danger
+          yarn swizzle:v2 BlogPostPage --danger
+          yarn swizzle:v2 BlogPostPaginator --danger
+          yarn swizzle:v2 BlogSidebar --danger
+          yarn swizzle:v2 BlogTagsListPage --danger
+          yarn swizzle:v2 BlogTagsPostsPage --danger
+          yarn swizzle:v2 DocItem --danger
+          yarn swizzle:v2 DocPage --danger
+          yarn swizzle:v2 DocPaginator --danger
+          yarn swizzle:v2 DocSidebar
+          yarn swizzle:v2 Footer
+          yarn swizzle:v2 Heading --danger
+          yarn swizzle:v2 Navbar --danger
+          yarn swizzle:v2 NavbarItem --danger
+          yarn swizzle:v2 TabItem --danger
+          yarn swizzle:v2 Tabs --danger
+          yarn swizzle:v2 TOC --danger
+          yarn swizzle:v2 Toggle --danger
+      - name: Build with swizzled components
+          yarn test:build:v2
