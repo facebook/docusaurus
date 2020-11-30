@@ -16,7 +16,7 @@
     "build:bootstrap": "cross-env DOCUSAURUS_PRESET=bootstrap yarn build",
     "start:blogOnly": "cross-env DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn start",
     "build:blogOnly": "cross-env DOCUSAURUS_CONFIG='docusaurus.config-blog-only.js' yarn build",
-    "netlify:build:production": "yarn netlify:crowdin:install && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",
+    "netlify:build:production": "yarn docusaurus write-translations && yarn netlify:crowdin:install && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",
     "netlify:build:deployPreview": "yarn docusaurus write-translations --locale fr --messagePrefix '(fr) ' && yarn netlify:crowdin:install && yarn netlify:crowdin:downloadTranslationsFailSafe && yarn netlify:build:deployPreview:v1:all && yarn netlify:build:deployPreview:classic && yarn netlify:build:deployPreview:bootstrap && yarn netlify:build:deployPreview:blogOnly",
     "netlify:build:deployPreview:classic": "cross-env BASE_URL='/classic/' yarn build --out-dir netlifyDeployPreview/classic",
     "netlify:build:deployPreview:bootstrap": "cross-env BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeployPreview/bootstrap",
