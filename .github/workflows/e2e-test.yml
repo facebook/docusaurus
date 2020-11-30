@@ -46,7 +46,12 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Use Yarn v2
-        run: yarn set version berry
+        run: |
+          yarn set version berry
+          yarn config set pnpMode loose
+          yarn config set npmRegistryServer http://localhost:4873
+          yarn config set unsafeHttpWhitelist --json '["localhost"]'
+          yarn config set enableGlobalCache true
       - name: Installation
         run: yarn
       - name: Setup test-website project against master release
@@ -56,10 +61,6 @@ jobs:
       - name: Setup test-website project for Yarn v2
         run: |
           cd test-website
-          yarn config set pnpMode loose
-          yarn config set npmRegistryServer http://localhost:4873
-          yarn config set unsafeHttpWhitelist --json '["localhost"]'
-          yarn config set enableGlobalCache true
           yarn install
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
