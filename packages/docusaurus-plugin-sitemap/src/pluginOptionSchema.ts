@@ -10,7 +10,7 @@ import {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
-  changefreq: 'weekly' as EnumChangefreq,
+  changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
   trailingSlash: false,
 };
@@ -18,7 +18,7 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 export const PluginOptionSchema = Joi.object({
   cacheTime: Joi.number().positive().default(DEFAULT_OPTIONS.cacheTime),
   changefreq: Joi.string()
-    .valid('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never')
+    .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
   trailingSlash: Joi.bool().default(false),
