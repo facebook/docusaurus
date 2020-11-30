@@ -45,7 +45,7 @@ export interface PluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type: [FeedType];
+    type?: [FeedType];
     title?: string;
     description?: string;
     copyright: string;

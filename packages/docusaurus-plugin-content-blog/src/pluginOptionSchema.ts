@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/utils-validation';
 
 export const DEFAULT_OPTIONS = {
-  feedOptions: {},
+  feedOptions: {type: 'all'},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
@@ -76,13 +76,12 @@ export const PluginOptionSchema = Joi.object({
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
   feedOptions: Joi.object({
-    type: Joi.alternatives()
-      .conditional(Joi.string().equal('all', 'rss', 'atom'), {
+    type: Joi.alternatives().conditional(
+      Joi.string().equal('all', 'rss', 'atom'),
+      {
         then: Joi.custom((val) => (val === 'all' ? ['rss', 'atom'] : [val])),
-      })
-      .empty(undefined)
-      .empty(null)
-      .default(['rss', 'atom']),
+      },
+    ),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
     copyright: Joi.string(),
