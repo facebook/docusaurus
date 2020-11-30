@@ -19,7 +19,7 @@ function createTestHelpers({
   schema,
   defaultValue,
 }: {
-  schema: Joi.SchemaLike;
+  schema: Joi.Schema;
   defaultValue?: unknown;
 }) {
   function testOK(value: unknown) {
@@ -36,7 +36,7 @@ function createTestHelpers({
   return {testOK, testFail};
 }
 
-function testMarkdownPluginSchemas(schema: Joi.SchemaLike) {
+function testMarkdownPluginSchemas(schema: Joi.Schema) {
   const {testOK, testFail} = createTestHelpers({
     schema,
     defaultValue: [],

@@ -272,6 +272,6 @@ export function linkify({
 }
 
 // Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths) {
+export function getContentPathList(contentPaths: BlogContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

@@ -18,7 +18,7 @@ import inquirer from 'inquirer';
 
 const isInteractive = process.stdout.isTTY;
 
-const execOptions: object = {
+const execOptions: Record<string, unknown> = {
   encoding: 'utf8',
   stdio: [
     'pipe', // stdin (default)
@@ -43,15 +43,13 @@ function getProcessIdOnPort(port: number): string {
 }
 
 // Gets process command
-function getProcessCommand(processId: string): Promise<string | null> | string {
-  let command: Buffer | string = execSync(
+function getProcessCommand(processId: string): string {
+  const command: Buffer = execSync(
     `ps -o command -p ${processId} | sed -n 2p`,
     execOptions,
   );
 
-  command = command.toString().replace(/\n$/, '');
-
-  return command;
+  return command.toString().replace(/\n$/, '');
 }
 
 // Gets directory of a process from its process id
@@ -103,7 +101,7 @@ export default async function choosePort(
         if (isInteractive) {
           clearConsole();
           const existingProcess = getProcessForPort(defaultPort);
-          const question: any = {
+          const question: Record<string, unknown> = {
             type: 'confirm',
             name: 'shouldChangePort',
             message: `${chalk.yellow(

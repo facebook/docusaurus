@@ -113,9 +113,7 @@ export default ({
   const prismTheme = usePrismTheme();
 
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
-  if (Array.isArray(children)) {
-    children = children.join('');
-  }
+  const content = Array.isArray(children) ? children.join('') : children;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
@@ -133,6 +131,7 @@ export default ({
   let language =
     languageClassName &&
     // Force Prism's language union type to `any` because it does not contain all available languages
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ((languageClassName.replace(/language-/, '') as Language) as any);
 
   if (!language && prism.defaultLanguage) {
@@ -140,12 +139,12 @@ export default ({
   }
 
   // only declaration OR directive highlight can be used for a block
-  let code = children.replace(/\n$/, '');
+  let code = content.replace(/\n$/, '');
   if (highlightLines.length === 0 && language !== undefined) {
     let range = '';
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
-    const lines = children.replace(/\n$/, '').split('\n');
+    const lines = content.replace(/\n$/, '').split('\n');
     let blockStart;
     // loop through lines
     for (let index = 0; index < lines.length; ) {

@@ -12,10 +12,10 @@ import glob from 'glob';
 import Color from 'color';
 
 import {
-  VersionOneConfig,
-  VersionTwoConfig,
   ClassicPresetEntries,
   SidebarEntries,
+  VersionOneConfig,
+  VersionTwoConfig,
 } from './types';
 import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
 import migratePage from './transform';
@@ -229,9 +229,9 @@ export function createConfigFile({
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
 
-  const customConfigFields: Record<string, any> = {};
+  const customConfigFields: Record<string, unknown> = {};
   // add fields that are unknown to v2 to customConfigFields
-  Object.keys(siteConfig).forEach((key: any) => {
+  Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
       'title',
       'tagline',
@@ -289,7 +289,7 @@ export function createConfigFile({
     v2DocsPath = path.relative(newDir, absoluteDocsPath);
   }
 
-  const result: VersionTwoConfig = {
+  return {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
     url: siteConfig.url ?? '',
@@ -330,22 +330,24 @@ export function createConfigFile({
           : undefined,
         items: (siteConfig.headerLinks ?? [])
           .map((link) => {
-            if (link.doc) {
+            const {doc, href, label, page} = link;
+            const position = 'left';
+            if (doc) {
               return {
-                to: `docs/${link.doc === homePageId ? '' : link.doc}`,
-                label: link.label,
-                position: 'left',
+                to: `docs/${doc === homePageId ? '' : doc}`,
+                label,
+                position,
               };
             }
-            if (link.page) {
+            if (page) {
               return {
-                to: `/${link.page}`,
-                label: link.label,
-                position: 'left',
+                to: `/${page}`,
+                label,
+                position,
               };
             }
-            if (link.href) {
-              return {href: link.href, label: link.label, position: 'left'};
+            if (href) {
+              return {href, label, position};
             }
             return null;
           })
@@ -379,7 +381,6 @@ export function createConfigFile({
         : undefined,
     },
   };
-  return result;
 }
 
 function createClientRedirects(
@@ -476,7 +477,7 @@ function handleVersioning(
     const loadedVersions: Array<string> = JSON.parse(
       String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
     );
-    fs.copyFile(
+    fs.copyFileSync(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
     );
@@ -732,11 +733,10 @@ function migrateLatestDocs(
   classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    const docsPath = path.join(
+    classicPreset.docs.path = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'docs',
     );
-    classicPreset.docs.path = docsPath;
     const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
@@ -797,5 +797,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  console.log(`Succesfully migrated ${siteDir} to ${newDir}`);
+  console.log(`Successfully migrated ${siteDir} to ${newDir}`);
 }

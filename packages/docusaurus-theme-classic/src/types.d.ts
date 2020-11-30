@@ -440,6 +440,15 @@ declare module '@theme/UserPreferencesProvider' {
   export default UserPreferencesProvider;
 }
 
+declare module '@theme/LayoutProviders' {
+  import type {ReactNode} from 'react';
+
+  export type Props = {readonly children: ReactNode};
+
+  const LayoutProviders: (props: Props) => JSX.Element;
+  export default LayoutProviders;
+}
+
 declare module '@theme/ThemeContext' {
   import type {Context} from 'react';
   import type {ThemeContextProps} from '@theme/hooks/useThemeContext';

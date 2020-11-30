@@ -28,11 +28,13 @@ module.exports = postcss.plugin(
         const sameProperties =
           decl.parent.nodes.filter((n) => n.prop === decl.prop) || [];
         const hasImportantProperties = sameProperties.some((p) =>
-          p.hasOwnProperty('important'),
+          Object.prototype.hasOwnProperty.call(p, 'important'),
         );
 
         const overriddenProperties = hasImportantProperties
-          ? sameProperties.filter((p) => !p.hasOwnProperty('important'))
+          ? sameProperties.filter(
+              (p) => !Object.prototype.hasOwnProperty.call(p, 'important'),
+            )
           : sameProperties.slice(0, -1);
 
         overriddenProperties.map((p) => p.remove());

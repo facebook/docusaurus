@@ -8,7 +8,13 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
+import webpack, {
+  Configuration,
+  Loader,
+  Plugin,
+  RuleSetRule,
+  Stats,
+} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
@@ -228,7 +234,7 @@ export function compile(config: Configuration[]): Promise<void> {
 type AssetFolder = 'images' | 'files' | 'medias';
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils() {
+export function getFileLoaderUtils(): Record<string, any> {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
@@ -375,7 +381,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false) {
+export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
   const minimizer = [
     new TerserPlugin({
       cache: true,

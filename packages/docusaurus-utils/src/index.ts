@@ -266,7 +266,7 @@ export function parseMarkdownString(markdownString: string): ParsedMarkdown {
     return {frontMatter, content, excerpt};
   } catch (e) {
     throw new Error(`Error while parsing markdown front matter.
-This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+This can happen if you use special characters like : in frontmatter values (try using "" around that value)
 ${e.message}`);
   }
 }
@@ -394,7 +394,7 @@ export function isValidPathname(str: string): boolean {
 }
 
 // resolve pathname and fail fast if resolution fails
-export function resolvePathname(to: string, from?: string) {
+export function resolvePathname(to: string, from?: string): string {
   return resolvePathnameUnsafe(to, from);
 }
 export function addLeadingSlash(str: string): string {
@@ -456,7 +456,7 @@ export function getPluginI18nPath({
   pluginName: string;
   pluginId?: string | undefined;
   subPaths?: string[];
-}) {
+}): string {
   return path.join(
     siteDir,
     'i18n',

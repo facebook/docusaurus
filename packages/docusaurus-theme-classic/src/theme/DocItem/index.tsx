@@ -27,7 +27,15 @@ function DocItem(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
   const {content: DocContent} = props;
-  const {metadata} = DocContent;
+  const {
+    metadata,
+    frontMatter: {
+      image: metaImage,
+      keywords,
+      hide_title: hideTitle,
+      hide_table_of_contents: hideTableOfContents,
+    },
+  } = DocContent;
   const {
     description,
     title,
@@ -36,14 +44,6 @@ function DocItem(props: Props): JSX.Element {
     lastUpdatedAt,
     lastUpdatedBy,
   } = metadata;
-  const {
-    frontMatter: {
-      image: metaImage,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
