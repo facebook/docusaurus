@@ -574,7 +574,7 @@ Array [
 exports[`site with wrong sidebar file 1`] = `
 "Bad sidebars file.
 These sidebar document ids do not exist:
-- goku\`,
+- goku,
 
 Available document ids=
 - foo/bar
