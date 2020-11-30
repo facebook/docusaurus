@@ -40,10 +40,13 @@ jobs:
           yarn swizzle:v2 Heading --danger
           yarn swizzle:v2 Navbar --danger
           yarn swizzle:v2 NavbarItem --danger
+          yarn swizzle:v2 NotFound
           yarn swizzle:v2 TabItem --danger
           yarn swizzle:v2 Tabs --danger
           yarn swizzle:v2 TOC --danger
           yarn swizzle:v2 Toggle --danger
+          yarn swizzle:v2 hooks/useTheme
+          yarn swizzle:v2 prism-include-languages
       - name: Swizzle most of `theme-search-algolia` components
         run: |
           yarn swizzle:v2:algolia SearchBar
