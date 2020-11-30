@@ -1,7 +1,7 @@
 #
 # Your Crowdin credentials
 #
-'project_id': '416738'
+'project_id': '428890'
 'api_token_env': 'CROWDIN_PERSONAL_TOKEN'
 'base_path': '.'
 'base_url': 'https://api.crowdin.com'
