@@ -121,6 +121,7 @@
     "rimraf": "^3.0.2",
     "serve": "^11.3.2",
     "stylelint": "^13.2.1",
+    "yarn-deduplicate": "^3.1.0",
     "typescript": "^3.9.5"
   },
   "lint-staged": {

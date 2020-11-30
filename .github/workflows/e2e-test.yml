@@ -48,9 +48,7 @@ jobs:
       - name: Use Yarn v2
         run: yarn set version berry
       - name: Installation
-        run: |
-          yarn install --ignore-scripts
-          yarn build:packages
+        run: yarn
       - name: Setup test-website project against master release
         run: |
           KEEP_CONTAINER=true yarn test:build:v2
@@ -62,7 +60,7 @@ jobs:
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
-          yarn install --ignore-scripts
+          yarn install
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
         env:
