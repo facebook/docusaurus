@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import sitemap, {SitemapItemOptions} from 'sitemap';
+import sitemap, {Sitemap, SitemapItemOptions} from 'sitemap';
 import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
 
@@ -13,28 +13,26 @@ export default function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
   options: PluginOptions,
-): sitemap.Sitemap {
+): Sitemap {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('url in docusaurus.config.js cannot be empty/undefined');
   }
+  const {cacheTime, changefreq, priority, trailingSlash} = options;
 
   const urls = routesPaths
-    .filter((route: string) => !route.endsWith('404.html'))
+    .filter((route) => !route.endsWith('404.html'))
     .map(
-      (routesPath) =>
-        ({
-          url: `${routesPath}${
-            options.trailingSlash && routesPath !== '/' ? '/' : ''
-          }`,
-          changefreq: options.changefreq,
-          priority: options.priority,
-        } as SitemapItemOptions),
+      (routesPath): SitemapItemOptions => ({
+        url: `${routesPath}${trailingSlash && routesPath !== '/' ? '/' : ''}`,
+        changefreq,
+        priority,
+      }),
     );
 
   return sitemap.createSitemap({
     hostname,
-    cacheTime: options.cacheTime,
+    cacheTime,
     urls,
   });
 }

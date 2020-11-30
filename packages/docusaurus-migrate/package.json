@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/migrate",
   "version": "2.0.0-alpha.69",
-  "description": "A cli tool to migrate between different version of docusuarus",
+  "description": "A cli tool to migrate between different version of Docusuarus",
   "main": "lib/index.js",
   "license": "MIT",
   "engines": {
@@ -43,6 +43,7 @@
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
+    "@types/color": "^3.0.1",
     "@types/jscodeshift": "^0.7.1"
   }
 }

@@ -268,7 +268,9 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(sidebars: Sidebars) {
+export function createSidebarsUtils(
+  sidebars: Sidebars,
+): Record<string, Function> {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {

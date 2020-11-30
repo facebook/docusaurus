@@ -11,7 +11,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogSidebar';
 import styles from './styles.module.css';
 
-export default function BlogSidebar({sidebar}: Props) {
+export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
   if (sidebar.items.length === 0) {
     return null;
   }

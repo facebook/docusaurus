@@ -9,21 +9,21 @@ import path from 'path';
 import fs from 'fs-extra';
 import {
   aliasedSitePath,
-  normalizeUrl,
   getEditUrl,
-  parseMarkdownString,
   getFolderContainingFile,
+  normalizeUrl,
+  parseMarkdownString,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
 import {
+  DocFile,
   DocMetadataBase,
   LastUpdateData,
   MetadataOptions,
-  VersionMetadata,
-  DocFile,
   PluginOptions,
+  VersionMetadata,
 } from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
@@ -173,7 +173,7 @@ export function processDocMetadata({
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
-  const metadata: DocMetadataBase = {
+  return {
     unversionedId,
     id,
     isDocsHomePage,
@@ -188,6 +188,4 @@ export function processDocMetadata({
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     sidebar_label,
   };
-
-  return metadata;
 }

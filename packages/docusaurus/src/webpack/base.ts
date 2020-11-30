@@ -36,11 +36,11 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export function getDocusaurusAliases() {
+export function getDocusaurusAliases(): Record<string, string> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: Record<string, string> = {};
+  const aliases = {};
 
   fs.readdirSync(dirPath)
     .filter((fileName) => extensions.includes(path.extname(fileName)))

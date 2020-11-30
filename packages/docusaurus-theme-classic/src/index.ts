@@ -151,7 +151,7 @@ const swizzleAllowedComponents = [
   'prism-include-languages',
 ];
 
-export function getSwizzleComponentList() {
+export function getSwizzleComponentList(): string[] {
   return swizzleAllowedComponents;
 }
 
