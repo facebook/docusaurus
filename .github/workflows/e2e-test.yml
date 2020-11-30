@@ -45,11 +45,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Use Yarn v2
-        run: |
-          yarn set version berry
-          yarn config set pnpMode loose
-          yarn config set enableGlobalCache true
       - name: Installation
         run: yarn
       - name: Setup test-website project against master release
@@ -59,6 +54,9 @@ jobs:
       - name: Setup test-website project for Yarn v2
         run: |
           cd test-website
+          yarn set version berry
+          yarn config set pnpMode loose
+          yarn config set enableGlobalCache true
           yarn install
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
