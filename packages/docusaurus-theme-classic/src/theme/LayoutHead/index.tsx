@@ -11,7 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
-import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common';
+import {DEFAULT_SEARCH_TAG, useTitleFormatter} from '@docusaurus/theme-common';
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
@@ -20,10 +20,8 @@ export default function LayoutHead(props: Props): JSX.Element {
   } = useDocusaurusContext();
   const {
     favicon,
-    title: siteTitle,
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
-    titleDelimiter,
   } = siteConfig;
   const {
     title,
@@ -33,9 +31,7 @@ export default function LayoutHead(props: Props): JSX.Element {
     permalink,
     searchMetadatas,
   } = props;
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
