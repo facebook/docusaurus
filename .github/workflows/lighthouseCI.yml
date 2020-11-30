@@ -1,5 +1,7 @@
 name: Lighthouse CI
-on: pull_request
+
+on: pull_request_target
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,8 +55,8 @@ jobs:
                 ' ',
                 `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
             ].join('\n')
-             core.setOutput("comment", comment); 
-            
+             core.setOutput("comment", comment);
+
       - name: Add Lighthouse stats as comment
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v2.0.0
