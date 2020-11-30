@@ -54,7 +54,7 @@ module.exports = {
     locales: ['en', 'fr'],
   },
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -327,7 +327,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
+              to: 'docs/migration',
             },
           ],
         },

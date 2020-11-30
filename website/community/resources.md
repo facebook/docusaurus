@@ -18,16 +18,6 @@ A curated list of interesting Docusaurus community projects.
 
 See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase</a>.
 
-## Official plugins
-
-- [@docusaurus/plugin-content-blog](/docs/using-plugins#docusaurusplugin-content-blog)
-- [@docusaurus/plugin-content-docs](/docs/using-plugins#docusaurusplugin-content-docs)
-- [@docusaurus/plugin-content-pages](/docs/using-plugins#docusaurusplugin-content-pages)
-- [@docusaurus/plugin-google-analytics](/docs/using-plugins#docusaurusplugin-google-analytics)
-- [@docusaurus/plugin-google-gtag](/docs/using-plugins#docusaurusplugin-google-gtag)
-- [@docusaurus/plugin-sitemap](/docs/using-plugins#docusaurusplugin-sitemap)
-- [@docusaurus/plugin-ideal-image](/docs/using-plugins#docusaurusplugin-ideal-image)
-
 ## Community plugins
 
 - [docusaurus-plugin-lunr](https://github.com/daldridge/docusaurus-plugin-lunr) - Docusaurus v2 plugin to create a local search index for use with Lunr.js
