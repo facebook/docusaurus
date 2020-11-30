@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 import * as Joi from 'joi';
+import {EnumChangefreq} from 'sitemap';
 import {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
-  changefreq: 'weekly',
+  changefreq: 'weekly' as EnumChangefreq,
   priority: 0.5,
   trailingSlash: false,
 };
