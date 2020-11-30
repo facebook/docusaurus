@@ -1,17 +1,19 @@
-name: Lighthouse CI
+name: Lighthouse Report
 
 on: pull_request_target
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node: ['12']
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: ${{ matrix.node }}
       - name: Install and Build
         run: |
           yarn install

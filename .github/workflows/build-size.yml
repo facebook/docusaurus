@@ -1,4 +1,4 @@
-name: Build Size
+name: Build Size Report
 
 on:
   pull_request_target:
@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - uses: preactjs/compressed-size-action@v2
