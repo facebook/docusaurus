@@ -49,8 +49,6 @@ jobs:
         run: |
           yarn set version berry
           yarn config set pnpMode loose
-          yarn config set npmRegistryServer http://localhost:4873
-          yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
       - name: Installation
         run: yarn
