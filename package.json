@@ -33,7 +33,7 @@
     "crowdin:uploadTranslations:v2": "crowdin upload translations --config ./crowdin-v2.yaml",
     "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
     "changelog": "lerna-changelog",
-    "postinstall": "yarn build:packages",
+    "postinstall": "yarn lock:update && yarn build:packages",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
     "prettier-docs": "prettier --config .prettierrc --write \"**/*.md\"",
