@@ -22,7 +22,7 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout master
+          git checkout slorber/fix-canary-release
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
           echo "TEST WHOAMI"
