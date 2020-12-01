@@ -16,6 +16,8 @@ import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
+import IconArrow from '@theme/IconArrow';
+import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
 
@@ -243,24 +245,11 @@ function DocSidebar({
               &times;
             </span>
           ) : (
-            <svg
-              aria-label="Menu"
+            <IconMenu
               className={styles.sidebarMenuIcon}
-              xmlns="http://www.w3.org/2000/svg"
               height={MOBILE_TOGGLE_SIZE}
               width={MOBILE_TOGGLE_SIZE}
-              viewBox="0 0 32 32"
-              role="img"
-              focusable="false">
-              <title>Menu</title>
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeMiterlimit="10"
-                strokeWidth="2"
-                d="M4 7h22M4 15h22M4 23h22"
-              />
-            </svg>
+            />
           )}
         </button>
         <ul className="menu__list">
@@ -287,8 +276,9 @@ function DocSidebar({
             'button button--secondary button--outline',
             styles.collapseSidebarButton,
           )}
-          onClick={onCollapse}
-        />
+          onClick={onCollapse}>
+          <IconArrow className={styles.collapseSidebarButtonIcon} />
+        </button>
       )}
     </div>
   );
