@@ -34,7 +34,7 @@
     "crowdin:download:v2": "crowdin download --config ./crowdin-v2.yaml",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
     "canary:bumpVersion": "yarn lerna version 2.0.0-alpha.`git rev-parse --short HEAD` --exact --no-push --yes --loglevel silly",
-    "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --loglevel silly",
+    "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access --loglevel silly",
     "changelog": "lerna-changelog",
     "postinstall": "yarn lock:update && yarn build:packages",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
