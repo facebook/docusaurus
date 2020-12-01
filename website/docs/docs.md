@@ -84,7 +84,7 @@ module.exports = {
 
 ### Hideable sidebar
 
-Using the enabled `themeConfig.hideableSidebar` option, you can make the entire sidebar hided, allowing you to better focus your users on the content. This is especially useful when content consumption on medium screens (e.g. on tablets).
+Using the enabled `themeConfig.hideableSidebar` option, you can make the entire sidebar hidden, allowing you to better focus your users on the content. This is especially useful when content consumption on medium screens (e.g. on tablets).
 
 ```js {4} title="docusaurus.config.js"
 module.exports = {
