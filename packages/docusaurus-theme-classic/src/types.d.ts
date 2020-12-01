@@ -478,3 +478,30 @@ declare module '@theme/Logo' {
   const Logo: (props: Props) => JSX.Element;
   export default Logo;
 }
+
+declare module '@theme/IconArrow' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconArrow: (props: Props) => JSX.Element;
+  export default IconArrow;
+}
+
+declare module '@theme/IconEdit' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconEdit: (props: Props) => JSX.Element;
+  export default IconEdit;
+}
+
+declare module '@theme/IconMenu' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconMenu: (props: Props) => JSX.Element;
+  export default IconMenu;
+}

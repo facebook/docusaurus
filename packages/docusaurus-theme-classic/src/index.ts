@@ -147,6 +147,9 @@ const swizzleAllowedComponents = [
   'Footer',
   'NotFound',
   'SearchBar',
+  'IconArrow',
+  'IconEdit',
+  'IconMenu',
   'hooks/useTheme',
   'prism-include-languages',
 ];
