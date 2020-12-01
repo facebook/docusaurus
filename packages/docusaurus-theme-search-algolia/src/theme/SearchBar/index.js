@@ -16,6 +16,7 @@ import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
 
+
 let DocSearchModal = null;
 
 function Hit({hit, children}) {
