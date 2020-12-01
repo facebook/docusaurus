@@ -113,7 +113,7 @@
     "glob": "^7.1.6",
     "husky": "^4.2.3",
     "jest": "^25.2.7",
-    "lerna": "^3.19.0",
+    "lerna": "^3.22.1",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.1.2",
     "netlify-cli": "^2.58.0",
