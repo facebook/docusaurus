@@ -96,6 +96,28 @@ module.exports = {
 };
 ```
 
+### Nested sidebar items
+
+Using nested object notation, it is possible to embed sub-pages in Docusaurus, as such:
+
+```js {4} title="sidebars.js"
+{
+  type: "category",
+  label: "Guides",
+  items: [
+    "guides/creating-pages",
+    "styling-layout",
+    "static-assets",
+    {
+      Docs: ["docs-introduction", "markdown-features", "versioning"],
+    },
+    "blog",
+    "search",
+    "deployment",
+  ]
+}
+```
+
 ### Sidebar object
 
 A sidebar object is defined like this:
