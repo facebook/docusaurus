@@ -23,6 +23,8 @@ jobs:
           git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout master
+          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> .npmrc
+          cat .npmrc
           npm whoami
       - name: Installation
         run: yarn
