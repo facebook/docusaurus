@@ -23,14 +23,14 @@ jobs:
           git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout master
-          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
           echo "TEST WHOAMI"
-          echo npm whoami
+          npm whoami
       - name: Installation
         run: yarn
       - name: Publish Canary release
         run: |
           yarn canary
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
