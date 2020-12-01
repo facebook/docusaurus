@@ -27,6 +27,8 @@ jobs:
           cat .npmrc
           echo "TEST WHOAMI"
           npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Installation
         run: yarn
       - name: Publish Canary release
