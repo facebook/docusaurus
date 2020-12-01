@@ -17,6 +17,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Checkout master
+        run: |
+          git checkout master
       - name: Installation
         run: yarn
       - name: Publish Canary release
