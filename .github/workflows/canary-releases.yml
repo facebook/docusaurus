@@ -23,6 +23,7 @@ jobs:
           git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout master
+          npm whoami
       - name: Installation
         run: yarn
       - name: Publish Canary release
