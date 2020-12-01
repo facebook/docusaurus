@@ -1,8 +1,6 @@
 name: Swizzle Test
 
 on:
-  # Trigger the workflow on pull request,
-  # but only for the master branch
   pull_request:
     branches:
       - master
@@ -12,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x]
+        node: ['10']
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node }}
       - name: Installation
         run: yarn
       - name: Swizzle most of `theme-classic` components
