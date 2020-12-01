@@ -17,8 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Checkout master
+      - name: Prepare git
         run: |
+          git config --global user.name "Docusaurus Canary"
+          git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout master
       - name: Installation
