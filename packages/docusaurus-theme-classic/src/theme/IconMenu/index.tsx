@@ -7,17 +7,17 @@
 
 import React from 'react';
 import {Props} from '@theme/IconMenu';
-import styles from '../DocSidebar/styles.module.css';
 
 const IconMenu = ({
   width = 30,
   height = 30,
+  className,
   ...restProps
 }: Props): JSX.Element => {
   return (
     <svg
       aria-label="Menu"
-      className={styles.sidebarMenuIcon}
+      className={className}
       width={width}
       height={height}
       viewBox="0 0 30 30"
