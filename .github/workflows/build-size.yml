@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: preactjs/compressed-size-action@v2
         with:
-          build-script: "build:v2"
+          build-script: "build:v2:en"
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
           pattern: '{website/build/main*js,website/build/styles*css,website/build/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/introduction/index.html}'
           strip-hash: '\.([^;]\w{7})\.'
