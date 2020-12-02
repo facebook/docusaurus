@@ -33,8 +33,6 @@ jobs:
         run: yarn
       - name: Publish Canary release
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-          npm whoami
           yarn canary
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
