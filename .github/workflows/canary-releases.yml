@@ -22,12 +22,11 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout slorber/fix-canary-release
+          git checkout master
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
-          echo "TEST WHOAMI"
+          echo "npm whoami"
           npm whoami
-          npm access ls-packages
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Installation
