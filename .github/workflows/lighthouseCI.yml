@@ -12,6 +12,7 @@ jobs:
         id: netlify
         with:
           site_name: 'docusaurus-2'
+          max_timeout: 300
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@v3

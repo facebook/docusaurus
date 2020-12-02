@@ -22,6 +22,7 @@
     "build:v2": "yarn workspace docusaurus-2-website build",
     "build:v2:baseUrl": "yarn workspace docusaurus-2-website build:baseUrl",
     "build:v2:blogOnly": "yarn workspace docusaurus-2-website build:blogOnly",
+    "build:v2:en": "yarn workspace docusaurus-2-website build --locale en",
     "serve:v1": "serve website-1.x/build/docusaurus",
     "serve:v2": "yarn workspace docusaurus-2-website serve",
     "serve:v2:baseUrl": "serve website",
