@@ -5,7 +5,8 @@ build
 coverage
 .docusaurus
 packages/docusaurus/lib/
-packages/docusaurus-*/lib/
+packages/docusaurus-*/lib/*
+!packages/docusaurus-1.x/lib/*
 packages/docusaurus-*/lib-next/
 packages/docusaurus-init/templates/**/*.md
 __fixtures__

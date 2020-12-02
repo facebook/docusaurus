@@ -17,22 +17,11 @@ coverage
 .cache-loader
 types
 test-website
-packages/docusaurus-utils/lib/
-packages/docusaurus-utils-validation/lib/
+
 packages/docusaurus/lib/
-packages/docusaurus-init/lib/
-packages/docusaurus-plugin-client-redirects/lib/
-packages/docusaurus-plugin-content-blog/lib/
-packages/docusaurus-plugin-content-docs/lib/
-packages/docusaurus-plugin-content-pages/lib/
-packages/docusaurus-plugin-debug/lib/
-packages/docusaurus-plugin-sitemap/lib/
-packages/docusaurus-plugin-ideal-image/lib/
-packages/docusaurus-theme-common/lib/
-packages/docusaurus-theme-classic/lib/
-packages/docusaurus-theme-classic/lib-next/
-packages/docusaurus-theme-bootstrap/lib/
-packages/docusaurus-migrate/lib/
+packages/docusaurus-*/lib/*
+!packages/docusaurus-1.x/lib/*
+packages/docusaurus-*/lib-next/
 
 website/netlifyDeployPreview/*
 !website/netlifyDeployPreview/index.html
