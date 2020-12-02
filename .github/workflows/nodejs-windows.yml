@@ -1,9 +1,6 @@
 name: Windows Build Test
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -16,6 +13,13 @@ jobs:
         node: ['10']
     steps:
       - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            v1:
+              - 'packages/docusaurus-1.x/**'
+              - 'packages/docusaurus-init-1.x/**'
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
@@ -23,6 +27,7 @@ jobs:
       - name: Installation
         run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
       - name: Docusaurus 1 Build
+        if: steps.filter.outputs.v1 == 'true'
         run: yarn build:v1
       - name: Docusaurus 2 Build
         run: yarn build:v2
