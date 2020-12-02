@@ -1,7 +1,7 @@
 name: Canary releases
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -22,7 +22,7 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout slorber/fix-canary-release
+          git checkout master
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
           echo "npm whoami"
