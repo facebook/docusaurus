@@ -34,7 +34,7 @@
     "build": "tsc --noEmit && yarn babel && yarn prettier",
     "watch": "yarn babel --watch",
     "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts}\""
   },
   "peerDependencies": {
     "react": "^16.8.4",
