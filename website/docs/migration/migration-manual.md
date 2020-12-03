@@ -208,6 +208,8 @@ We recommend using [ColorBox](https://www.colorbox.io/) to find the different sh
 
 Alteratively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
 
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
 <ColorGenerator/>
 
 #### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible`
