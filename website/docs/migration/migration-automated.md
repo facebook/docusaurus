@@ -61,7 +61,7 @@ You can add option flags to the migration CLI to automatically migrate Markdown 
 
 ```bash
 # example using options
-npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
+npx @docusaurus/migrate migrate --mdx --page ./v1-website ./v2-website
 ```
 
 :::danger
