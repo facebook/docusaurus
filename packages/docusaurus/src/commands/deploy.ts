@@ -8,11 +8,27 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
+import chalk from 'chalk';
 import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadContext} from '../server';
 import loadConfig from '../server/config';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
+
+// Log executed commands so that user can figure out mistakes on his own
+// for example: https://github.com/facebook/docusaurus/issues/3875
+function shellExecLog(cmd) {
+  try {
+    const result = shell.exec(cmd);
+    console.log(
+      `${chalk.cyan('CMD:')} ${cmd} ${chalk.cyan(`(code=${result.code})`)}`,
+    );
+    return result;
+  } catch (e) {
+    console.log(`${chalk.red('CMD:')} ${cmd}`);
+    throw e;
+  }
+}
 
 export default async function deploy(
   siteDir: string,
@@ -106,7 +122,7 @@ export default async function deploy(
 
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
-  const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
+  const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
   const runDeploy = (outputDirectory) => {
     if (shell.cd(tempDir).code !== 0) {
@@ -116,8 +132,9 @@ export default async function deploy(
     }
 
     if (
-      shell.exec(`git clone ${remoteBranch} ${projectName}-${deploymentBranch}`)
-        .code !== 0
+      shellExecLog(
+        `git clone ${remoteBranch} ${projectName}-${deploymentBranch}`,
+      ).code !== 0
     ) {
       throw new Error('Error: git clone failed');
     }
@@ -131,23 +148,24 @@ export default async function deploy(
       .exec('git rev-parse --abbrev-ref HEAD')
       .stdout.trim();
     if (defaultBranch !== deploymentBranch) {
-      if (shell.exec(`git checkout origin/${deploymentBranch}`).code !== 0) {
+      if (shellExecLog(`git checkout origin/${deploymentBranch}`).code !== 0) {
         if (
-          shell.exec(`git checkout --orphan ${deploymentBranch}`).code !== 0
+          shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
         ) {
           throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
         }
       } else if (
-        shell.exec(`git checkout -b ${deploymentBranch}`).code +
-          shell.exec(`git branch --set-upstream-to=origin/${deploymentBranch}`)
-            .code !==
+        shellExecLog(`git checkout -b ${deploymentBranch}`).code +
+          shellExecLog(
+            `git branch --set-upstream-to=origin/${deploymentBranch}`,
+          ).code !==
         0
       ) {
         throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
       }
     }
 
-    shell.exec('git rm -rf .');
+    shellExecLog('git rm -rf .');
 
     shell.cd('../..');
 
@@ -165,14 +183,14 @@ export default async function deploy(
       }
 
       shell.cd(toPath);
-      shell.exec('git add --all');
+      shellExecLog('git add --all');
 
       const commitMessage =
         process.env.CUSTOM_COMMIT_MESSAGE ||
         `Deploy website - based on ${currentCommit}`;
-      const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
+      const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
       if (
-        shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
+        shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
       ) {
         throw new Error('Error: Git push failed');
       } else if (commitResults.code === 0) {
