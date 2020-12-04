@@ -440,6 +440,15 @@ declare module '@theme/UserPreferencesProvider' {
   export default UserPreferencesProvider;
 }
 
+declare module '@theme/LayoutProviders' {
+  import type {ReactNode} from 'react';
+
+  export type Props = {readonly children: ReactNode};
+
+  const LayoutProviders: (props: Props) => JSX.Element;
+  export default LayoutProviders;
+}
+
 declare module '@theme/ThemeContext' {
   import type {Context} from 'react';
   import type {ThemeContextProps} from '@theme/hooks/useThemeContext';
@@ -468,4 +477,31 @@ declare module '@theme/Logo' {
 
   const Logo: (props: Props) => JSX.Element;
   export default Logo;
+}
+
+declare module '@theme/IconArrow' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconArrow: (props: Props) => JSX.Element;
+  export default IconArrow;
+}
+
+declare module '@theme/IconEdit' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconEdit: (props: Props) => JSX.Element;
+  export default IconEdit;
+}
+
+declare module '@theme/IconMenu' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconMenu: (props: Props) => JSX.Element;
+  export default IconMenu;
 }

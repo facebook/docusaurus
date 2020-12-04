@@ -14,11 +14,12 @@ import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
 
 import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
-import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 
 import styles from './styles.module.css';
@@ -102,8 +103,6 @@ function Search() {
   const {
     siteConfig: {
       themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
-      title: siteTitle,
-      titleDelimiter,
     } = {},
   } = useDocusaurusContext();
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -298,7 +297,7 @@ function Search() {
   return (
     <Layout wrapperClassName="search-page-wrapper">
       <Head>
-        <title>{`${getTitle()} ${titleDelimiter} ${siteTitle}`}</title>
+        <title>{useTitleFormatter(getTitle())}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233

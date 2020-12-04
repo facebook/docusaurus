@@ -252,12 +252,16 @@ function isInternalCommand(command) {
   ].includes(command);
 }
 
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  externalCommand(cli, path.resolve('.'));
+async function run() {
+  if (!isInternalCommand(process.argv.slice(2)[0])) {
+    await externalCommand(cli, path.resolve('.'));
+  }
+
+  cli.parse(process.argv);
+
+  if (!process.argv.slice(2).length) {
+    cli.outputHelp();
+  }
 }
 
-cli.parse(process.argv);
-
-if (!process.argv.slice(2).length) {
-  cli.outputHelp();
-}
+run();

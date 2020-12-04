@@ -9,6 +9,7 @@ import React from 'react';
 
 import Head from '@docusaurus/Head';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -20,10 +21,8 @@ function Layout(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {
     favicon,
-    title: siteTitle,
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
-    titleDelimiter,
   } = siteConfig;
   const {
     children,
@@ -34,9 +33,7 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
   } = props;
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {

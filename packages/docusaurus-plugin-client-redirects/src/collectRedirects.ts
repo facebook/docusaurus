@@ -85,11 +85,11 @@ It is not possible to redirect the same pathname to multiple destinations:
       }
     },
   );
-  redirects = uniqBy(redirects, (redirect) => redirect.from);
+  const collectedRedirects = uniqBy(redirects, (redirect) => redirect.from);
 
   // We don't want to override an already existing route with a redirect file!
-  const redirectsOverridingExistingPath = redirects.filter((redirect) =>
-    pluginContext.relativeRoutesPaths.includes(redirect.from),
+  const redirectsOverridingExistingPath = collectedRedirects.filter(
+    (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
@@ -100,11 +100,9 @@ It is not possible to redirect the same pathname to multiple destinations:
       ),
     );
   }
-  redirects = redirects.filter(
+  return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
-
-  return redirects;
 }
 
 // For each plugin config option, create the appropriate redirects

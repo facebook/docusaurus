@@ -22,7 +22,7 @@ export default function SearchMetadatas({
   locale,
   version,
   tag,
-}: SearchTagMetaProps) {
+}: SearchTagMetaProps): JSX.Element {
   return (
     <Head>
       {locale && <meta name="docusaurus_locale" content={`${locale}`} />}

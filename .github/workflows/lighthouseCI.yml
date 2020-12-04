@@ -1,24 +1,18 @@
-name: Lighthouse CI
-on: pull_request
+name: Lighthouse Report
+
+on: pull_request_target
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: Install and Build
-        run: |
-          yarn install
-          yarn build
       - name: Wait for the Netlify Preview
         uses: jakepartusch/wait-for-netlify-action@v1
         id: netlify
         with:
           site_name: 'docusaurus-2'
+          max_timeout: 300
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@v3
@@ -53,8 +47,8 @@ jobs:
                 ' ',
                 `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
             ].join('\n')
-             core.setOutput("comment", comment); 
-            
+             core.setOutput("comment", comment);
+
       - name: Add Lighthouse stats as comment
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v2.0.0

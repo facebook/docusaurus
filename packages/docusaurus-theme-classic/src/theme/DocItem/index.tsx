@@ -8,12 +8,14 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
+import IconEdit from '@theme/IconEdit';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -25,9 +27,17 @@ import {
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle, titleDelimiter} = siteConfig;
+  const {url: siteUrl} = siteConfig;
   const {content: DocContent} = props;
-  const {metadata} = DocContent;
+  const {
+    metadata,
+    frontMatter: {
+      image: metaImage,
+      keywords,
+      hide_title: hideTitle,
+      hide_table_of_contents: hideTableOfContents,
+    },
+  } = DocContent;
   const {
     description,
     title,
@@ -36,14 +46,6 @@ function DocItem(props: Props): JSX.Element {
     lastUpdatedAt,
     lastUpdatedBy,
   } = metadata;
-  const {
-    frontMatter: {
-      image: metaImage,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
@@ -54,9 +56,7 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   return (
     <>
@@ -112,20 +112,7 @@ function DocItem(props: Props): JSX.Element {
                         href={editUrl}
                         target="_blank"
                         rel="noreferrer noopener">
-                        <svg
-                          fill="currentColor"
-                          height="1.2em"
-                          width="1.2em"
-                          preserveAspectRatio="xMidYMid meet"
-                          viewBox="0 0 40 40"
-                          style={{
-                            marginRight: '0.3em',
-                            verticalAlign: 'sub',
-                          }}>
-                          <g>
-                            <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
-                          </g>
-                        </svg>
+                        <IconEdit />
                         Edit this page
                       </a>
                     )}

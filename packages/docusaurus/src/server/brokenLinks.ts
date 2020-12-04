@@ -202,7 +202,7 @@ export async function handleBrokenLinks({
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
-}) {
+}): Promise<void> {
   if (onBrokenLinks === 'ignore') {
     return;
   }

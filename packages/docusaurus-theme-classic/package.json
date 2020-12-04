@@ -18,7 +18,7 @@
     "watch": "yarn babel:lib --watch",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts}\""
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.69",

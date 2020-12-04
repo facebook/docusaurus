@@ -38,9 +38,15 @@ export interface PluginOptions {
   blogDescription: string;
   blogSidebarCount: number | 'ALL';
   blogSidebarTitle: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  beforeDefaultRehypePlugins: ([Function, object] | Function)[];
-  beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
+  remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
+  beforeDefaultRehypePlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
+  beforeDefaultRemarkPlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
@@ -52,7 +58,7 @@ export interface PluginOptions {
     language?: string;
   };
   editUrl?: string;
-  admonitions: any;
+  admonitions: Record<string, unknown>;
 }
 
 export interface BlogTags {

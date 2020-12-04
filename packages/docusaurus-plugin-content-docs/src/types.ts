@@ -59,11 +59,17 @@ export type PluginOptions = MetadataOptions &
     include: string[];
     docLayoutComponent: string;
     docItemComponent: string;
-    remarkPlugins: ([Function, object] | Function)[];
+    remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
     rehypePlugins: string[];
-    beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
-    beforeDefaultRehypePlugins: ([Function, object] | Function)[];
-    admonitions: any;
+    beforeDefaultRemarkPlugins: (
+      | [Function, Record<string, unknown>]
+      | Function
+    )[];
+    beforeDefaultRehypePlugins: (
+      | [Function, Record<string, unknown>]
+      | Function
+    )[];
+    admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;

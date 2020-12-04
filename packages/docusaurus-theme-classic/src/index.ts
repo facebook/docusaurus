@@ -147,11 +147,14 @@ const swizzleAllowedComponents = [
   'Footer',
   'NotFound',
   'SearchBar',
+  'IconArrow',
+  'IconEdit',
+  'IconMenu',
   'hooks/useTheme',
   'prism-include-languages',
 ];
 
-export function getSwizzleComponentList() {
+export function getSwizzleComponentList(): string[] {
   return swizzleAllowedComponents;
 }
 

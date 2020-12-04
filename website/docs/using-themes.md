@@ -5,6 +5,10 @@ title: Themes
 
 Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
 
+## Available themes
+
+We maintain a [list of official themes](./api/themes/overview.md).
+
 ## Using themes
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
@@ -152,66 +156,6 @@ Check the code of `docusaurus-theme-live-codeblock` for details.
 Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`.
 
 :::
-
-## Official themes by Docusaurus
-
-### `@docusaurus/theme-classic`
-
-The classic theme for Docusaurus. You can refer to [classic theme configuration](theme-classic.md) for more details on the configuration.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-classic
-```
-
-:::tip
-
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
-
-:::
-
-### `@docusaurus/theme-bootstrap`
-
-The bootstrap theme for Docusaurus. You can refer to [bootstrap theme configuration](theme-bootstrap.md) for more details on the configuration.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-bootstrap
-```
-
-:::tip
-
-If you have installed `@docusaurus/preset-bootstrap`, you don't need to install it as a dependency.
-
-:::
-
-:::caution
-
-This theme is a work in progress.
-
-:::
-
-### `@docusaurus/theme-search-algolia`
-
-This theme provides a `@theme/SearchBar` component that integrates with Algolia DocSearch easily. Combined with `@docusaurus/theme-classic`, it provides a very easy search integration. You can read more on [search](search.md) documentation.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-search-algolia
-```
-
-This theme also adds search page available at `/search` (as swizzleable `SearchPage` component) path with OpenSearch support.
-
-:::tip
-
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
-
-:::
-
-### `@docusaurus/theme-live-codeblock`
-
-This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](markdown-features.mdx#interactive-code-editor) documentation.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-live-codeblock
-```
 
 ## Themes design
 

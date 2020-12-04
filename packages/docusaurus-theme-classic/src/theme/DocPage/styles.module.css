@@ -49,13 +49,6 @@
     background-color: var(--collapse-button-bg-color-dark);
   }
 
-  .collapsedDocSidebar:before {
-    content: '';
-    background-image: url('~!file-loader!../icons/arrow.svg');
-    width: 20px;
-    height: 20px;
-  }
-
   .docMainContainer {
     flex-grow: 1;
   }

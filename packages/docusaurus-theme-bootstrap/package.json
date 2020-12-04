@@ -18,6 +18,7 @@
     "@docusaurus/plugin-content-blog": "2.0.0-alpha.69",
     "@docusaurus/plugin-content-docs": "2.0.0-alpha.69",
     "@docusaurus/plugin-content-pages": "2.0.0-alpha.69",
+    "@docusaurus/theme-common": "2.0.0-alpha.69",
     "@docusaurus/types": "2.0.0-alpha.69",
     "@mdx-js/react": "^1.6.21",
     "bootstrap": "^4.4.1",
@@ -33,7 +34,7 @@
     "build": "tsc --noEmit && yarn babel && yarn prettier",
     "watch": "yarn babel --watch",
     "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts}\""
   },
   "peerDependencies": {
     "react": "^16.8.4",

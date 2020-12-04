@@ -14,19 +14,17 @@ This reusable React component will manage all of your changes to the document he
 
 Usage Example:
 
-```jsx {2,6,11}
+```jsx {2,5,10}
 import React from 'react';
 import Head from '@docusaurus/Head';
 
 const MySEO = () => (
-  <>
-    <Head>
-      <meta property="og:description" content="My custom description" />
-      <meta charSet="utf-8" />
-      <title>My Title</title>
-      <link rel="canonical" href="http://mysite.com/example" />
-    </Head>
-  </>
+  <Head>
+    <meta property="og:description" content="My custom description" />
+    <meta charSet="utf-8" />
+    <title>My Title</title>
+    <link rel="canonical" href="http://mysite.com/example" />
+  </Head>
 );
 ```
 
@@ -38,7 +36,6 @@ Nested or latter components will override duplicate usages:
     <title>My Title</title>
     <meta name="description" content="Helmet application" />
   </Head>
-
   <Child>
     <Head>
       <title>Nested Title</title>
@@ -48,7 +45,7 @@ Nested or latter components will override duplicate usages:
 </Parent>
 ```
 
-Outputs
+Outputs:
 
 ```html
 <head>
@@ -98,9 +95,9 @@ Example usage:
 import React from 'react';
 import {Redirect} from '@docusaurus/router';
 
-function Home() {
+const Home = () => {
   return <Redirect to="/docs/test" />;
-}
+};
 ```
 
 :::note
@@ -113,10 +110,10 @@ function Home() {
 
 The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed). To improve SEO, you can also provide fallback content using the `fallback` prop, which will be prerendered until in the build process and replaced with the client-side only contents when viewed in the browser.
 
-```jsx
+```jsx {1,5-10}
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
-function MyComponent() {
+const MyComponent = () => {
   return (
     <BrowserOnly
       fallback={<div>The fallback content to display on prerendering</div>}>
@@ -125,7 +122,7 @@ function MyComponent() {
       }}
     </BrowserOnly>
   );
-}
+};
 ```
 
 ## Hooks
@@ -155,7 +152,7 @@ interface DocusaurusContext {
 
 Usage example:
 
-```jsx {5,8,9}
+```jsx {5,8-10}
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -189,7 +186,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-function Help() {
+const Help = () => {
   return (
     <div className="col">
       <h2>Browse the docs</h2>
@@ -199,7 +196,7 @@ function Help() {
       </p>
     </div>
   );
-}
+};
 ```
 
 ### `useBaseUrlUtils`
@@ -208,19 +205,19 @@ Sometimes `useBaseUrl` is not good enough. This hook return additional utils rel
 
 - `withBaseUrl`: useful if you need to add base urls to multiple urls at once
 
-```jsx {2,5,6,7}
+```jsx {2,5-7}
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
-function Component() {
+const Component = () => {
   const urls = ['/a', '/b'];
   const {withBaseUrl} = useBaseUrlUtils();
   const urlsWithBaseUrl = urls.map(withBaseUrl);
   return <div className="col">{/* ... */}</div>;
-}
+};
 ```
 
-### `useGlobalData()`
+### `useGlobalData`
 
 React hook to access Docusaurus global data created by all the plugins.
 
@@ -244,12 +241,12 @@ type GlobalData = Record<
 
 Usage example:
 
-```jsx {2,5,6,7}
+```jsx {2,5-7}
 import React from 'react';
 import useGlobalData from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
-  const globalData = useDocusaurusContext();
+  const globalData = useGlobalData();
   const myPluginData = globalData['my-plugin']['default'];
   return <div>{myPluginData.someAttribute}</div>;
 };
@@ -261,7 +258,7 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 :::
 
-### `usePluginData(pluginName: string, pluginId?: string)`
+### `usePluginData`
 
 Access global data created by a specific plugin instance.
 
@@ -269,9 +266,13 @@ This is the most convenient hook to access plugin global data, and should be use
 
 `pluginId` is optional if you don't use multi-instance plugins.
 
+```ts
+usePluginData(pluginName: string, pluginId?: string)
+```
+
 Usage example:
 
-```jsx {2,5,6}
+```jsx {2,5-6}
 import React from 'react';
 import {usePluginData} from '@docusaurus/useGlobalData';
 
@@ -281,13 +282,17 @@ const MyComponent = () => {
 };
 ```
 
-### `useAllPluginInstancesData(pluginName: string)`
+### `useAllPluginInstancesData`
 
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
+```ts
+useAllPluginInstancesData(pluginName: string)
+```
+
 Usage example:
 
-```jsx {2,5,6,7}
+```jsx {2,5-7}
 import React from 'react';
 import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
 
@@ -304,14 +309,14 @@ const MyComponent = () => {
 
 A module which exposes a few boolean variables to check the current rendering environment. Useful if you want to only run certain code on client/server or need to write server-side rendering compatible code.
 
-```jsx {2}
+```jsx {2,5}
 import React from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-function MyPage() {
+const MyPage = () => {
   const location = ExecutionEnvironment.canUseDOM ? window.location.href : null;
   return <div>{location}</div>;
-}
+};
 ```
 
 | Field | Description |

@@ -42,7 +42,7 @@ import {
 } from './types';
 import {flatten} from 'lodash';
 
-export function getContentPathList(contentPaths: PagesContentPaths) {
+export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 

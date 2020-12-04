@@ -22,6 +22,8 @@ export {isDocsPluginEnabled} from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
 
+export {useTitleFormatter} from './utils/generalUtils';
+
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,

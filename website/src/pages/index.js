@@ -129,7 +129,7 @@ function Home() {
         <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
             <Translate>Coming from v1? Check out our</Translate>{' '}
-            <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
+            <Link to={useBaseUrl('/docs/migration')}>
               <Translate>v1 to v2 migration guide</Translate>
             </Link>
             .

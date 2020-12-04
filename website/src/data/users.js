@@ -322,6 +322,16 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Wasp',
+    description:
+      'A DSL for building full-stack web apps with less boilerplate.',
+    preview: require('./showcase/wasp.png'),
+    website: 'https://wasp-lang.dev/',
+    source: 'https://github.com/wasp-lang/wasp',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
