@@ -38,7 +38,7 @@ const storeTheme = (newTheme) => {
 
 const useTheme = (): useThemeReturns => {
   const {
-    colorMode: {disableSwitch = false},
+    colorMode: {disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
   const [theme, setTheme] = useState(getInitialTheme);
 
@@ -71,7 +71,7 @@ const useTheme = (): useThemeReturns => {
   }, [setTheme]);
 
   useEffect(() => {
-    if (disableSwitch) {
+    if (disableSwitch && !respectPrefersColorScheme) {
       return;
     }
 
