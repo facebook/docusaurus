@@ -15,17 +15,25 @@ import loadConfig from '../server/config';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 
+// GIT_PASS env variable should not appear in logs
+function obfuscateGitPass(str) {
+  const gitPass = process.env.GIT_PASS;
+  return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
+}
+
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
 function shellExecLog(cmd) {
   try {
     const result = shell.exec(cmd);
     console.log(
-      `${chalk.cyan('CMD:')} ${cmd} ${chalk.cyan(`(code=${result.code})`)}`,
+      `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
+        `(code=${result.code})`,
+      )}`,
     );
     return result;
   } catch (e) {
-    console.log(`${chalk.red('CMD:')} ${cmd}`);
+    console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
     throw e;
   }
 }
@@ -64,6 +72,8 @@ export default async function deploy(
       `Missing project organization name. Did you forget to define 'organizationName' in ${CONFIG_FILE_NAME}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
+  console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
+
   const projectName =
     process.env.PROJECT_NAME ||
     process.env.CIRCLE_PROJECT_REPONAME ||
@@ -73,6 +83,7 @@ export default async function deploy(
       `Missing project name. Did you forget to define 'projectName' in ${CONFIG_FILE_NAME}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
+  console.log(`${chalk.cyan('projectName:')} ${projectName}`);
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -86,6 +97,8 @@ export default async function deploy(
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH ||
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
+  console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
+
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
@@ -103,6 +116,10 @@ export default async function deploy(
     useSSH && useSSH.toLowerCase() === 'true'
       ? sshRemoteBranch
       : nonSshRemoteBranch;
+
+  console.log(
+    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
+  );
 
   // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
