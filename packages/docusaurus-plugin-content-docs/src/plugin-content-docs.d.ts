@@ -21,13 +21,17 @@ declare module '@docusaurus/plugin-content-docs-types' {
     permalinkToSidebar: PermalinkToSidebar;
   };
 
-  export type PropSidebarItemLink = {
+  type PropsSidebarItemBase = {
+    customProps?: object;
+  };
+
+  export type PropSidebarItemLink = PropsSidebarItemBase & {
     type: 'link';
     href: string;
     label: string;
   };
 
-  export type PropSidebarItemCategory = {
+  export type PropSidebarItemCategory = PropsSidebarItemBase & {
     type: 'category';
     label: string;
     items: PropSidebarItem[];

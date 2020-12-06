@@ -288,6 +288,20 @@ module.exports = {
 };
 ```
 
+#### Custom Props
+
+If you would like to pass in custom props to a swizzled sidebar item, an optional object called `customProps` can be added to any of the items:
+
+```js
+{
+  type: 'doc';
+  id: 'doc1';
+  customProps: {
+    /* props */
+  }
+}
+```
+
 #### Collapsible categories
 
 For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:

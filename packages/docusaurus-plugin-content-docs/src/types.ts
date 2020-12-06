@@ -75,18 +75,22 @@ export type PluginOptions = MetadataOptions &
     includeCurrentVersion: boolean;
   };
 
-export type SidebarItemDoc = {
+export type SidebarItemBase = {
+  customProps?: object;
+};
+
+export type SidebarItemDoc = SidebarItemBase & {
   type: 'doc' | 'ref';
   id: string;
 };
 
-export type SidebarItemLink = {
+export type SidebarItemLink = SidebarItemBase & {
   type: 'link';
   href: string;
   label: string;
 };
 
-export type SidebarItemCategory = {
+export type SidebarItemCategory = SidebarItemBase & {
   type: 'category';
   label: string;
   items: SidebarItem[];
