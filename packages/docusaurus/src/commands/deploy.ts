@@ -8,11 +8,35 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
+import chalk from 'chalk';
 import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadContext} from '../server';
 import loadConfig from '../server/config';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
+
+// GIT_PASS env variable should not appear in logs
+function obfuscateGitPass(str) {
+  const gitPass = process.env.GIT_PASS;
+  return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
+}
+
+// Log executed commands so that user can figure out mistakes on his own
+// for example: https://github.com/facebook/docusaurus/issues/3875
+function shellExecLog(cmd) {
+  try {
+    const result = shell.exec(cmd);
+    console.log(
+      `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
+        `(code=${result.code})`,
+      )}`,
+    );
+    return result;
+  } catch (e) {
+    console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
+    throw e;
+  }
+}
 
 export default async function deploy(
   siteDir: string,
@@ -48,6 +72,8 @@ export default async function deploy(
       `Missing project organization name. Did you forget to define 'organizationName' in ${CONFIG_FILE_NAME}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
+  console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
+
   const projectName =
     process.env.PROJECT_NAME ||
     process.env.CIRCLE_PROJECT_REPONAME ||
@@ -57,6 +83,7 @@ export default async function deploy(
       `Missing project name. Did you forget to define 'projectName' in ${CONFIG_FILE_NAME}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
+  console.log(`${chalk.cyan('projectName:')} ${projectName}`);
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -70,6 +97,8 @@ export default async function deploy(
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH ||
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
+  console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
+
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
@@ -87,6 +116,10 @@ export default async function deploy(
     useSSH && useSSH.toLowerCase() === 'true'
       ? sshRemoteBranch
       : nonSshRemoteBranch;
+
+  console.log(
+    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
+  );
 
   // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
@@ -106,7 +139,7 @@ export default async function deploy(
 
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
-  const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
+  const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
   const runDeploy = (outputDirectory) => {
     if (shell.cd(tempDir).code !== 0) {
@@ -116,8 +149,9 @@ export default async function deploy(
     }
 
     if (
-      shell.exec(`git clone ${remoteBranch} ${projectName}-${deploymentBranch}`)
-        .code !== 0
+      shellExecLog(
+        `git clone ${remoteBranch} ${projectName}-${deploymentBranch}`,
+      ).code !== 0
     ) {
       throw new Error('Error: git clone failed');
     }
@@ -131,23 +165,24 @@ export default async function deploy(
       .exec('git rev-parse --abbrev-ref HEAD')
       .stdout.trim();
     if (defaultBranch !== deploymentBranch) {
-      if (shell.exec(`git checkout origin/${deploymentBranch}`).code !== 0) {
+      if (shellExecLog(`git checkout origin/${deploymentBranch}`).code !== 0) {
         if (
-          shell.exec(`git checkout --orphan ${deploymentBranch}`).code !== 0
+          shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
         ) {
           throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
         }
       } else if (
-        shell.exec(`git checkout -b ${deploymentBranch}`).code +
-          shell.exec(`git branch --set-upstream-to=origin/${deploymentBranch}`)
-            .code !==
+        shellExecLog(`git checkout -b ${deploymentBranch}`).code +
+          shellExecLog(
+            `git branch --set-upstream-to=origin/${deploymentBranch}`,
+          ).code !==
         0
       ) {
         throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
       }
     }
 
-    shell.exec('git rm -rf .');
+    shellExecLog('git rm -rf .');
 
     shell.cd('../..');
 
@@ -165,14 +200,14 @@ export default async function deploy(
       }
 
       shell.cd(toPath);
-      shell.exec('git add --all');
+      shellExecLog('git add --all');
 
       const commitMessage =
         process.env.CUSTOM_COMMIT_MESSAGE ||
         `Deploy website - based on ${currentCommit}`;
-      const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
+      const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
       if (
-        shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
+        shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
       ) {
         throw new Error('Error: Git push failed');
       } else if (commitResults.code === 0) {
