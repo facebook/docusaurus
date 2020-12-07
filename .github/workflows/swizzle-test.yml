@@ -55,4 +55,4 @@ jobs:
           yarn swizzle:v2:codeblock CodeBlock
           yarn swizzle:v2:codeblock Playground
       - name: Build with swizzled components
-        run: yarn build:v2
+        run: yarn build:v2:en
