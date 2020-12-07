@@ -34,6 +34,7 @@ jobs:
           yarn swizzle:v2 DocPage --danger
           yarn swizzle:v2 DocPaginator --danger
           yarn swizzle:v2 DocSidebar
+          yarn swizzle:v2 DocVersionSuggestions --danger
           yarn swizzle:v2 Footer
           yarn swizzle:v2 Heading --danger
           yarn swizzle:v2 Navbar --danger
