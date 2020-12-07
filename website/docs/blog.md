@@ -89,7 +89,7 @@ Or this.
 
 ## Feed
 
-You can generate RSS/ Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated.
+You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
 feedOptions?: {

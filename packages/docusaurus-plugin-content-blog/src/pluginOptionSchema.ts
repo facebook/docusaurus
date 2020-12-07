@@ -88,6 +88,7 @@ export const PluginOptionSchema = Joi.object({
           },
         ),
       )
+      .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
