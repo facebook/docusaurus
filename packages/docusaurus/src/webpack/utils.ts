@@ -440,6 +440,7 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
               2: {
                 all: true,
                 restructureRules: true,
+                removeUnusedAtRules: false,
               },
             },
           },
