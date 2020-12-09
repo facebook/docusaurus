@@ -15,12 +15,14 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
+      go_to: 'configuration',
       collapsed: false,
       items: ['installation', 'configuration', 'typescript-support'],
     },
     {
       type: 'category',
       label: 'Guides',
+      go_to: 'deployment',
       items: [
         'guides/creating-pages',
         'styling-layout',
@@ -37,6 +39,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Advanced Guides',
+      go_to: 'using-themes',
       items: ['using-plugins', 'using-themes', 'presets'],
     },
   ],
