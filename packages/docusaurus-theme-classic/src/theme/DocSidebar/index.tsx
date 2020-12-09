@@ -29,6 +29,10 @@ function usePrevious(value) {
   return ref.current;
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
     return isSamePath(item.href, activePath);
@@ -46,6 +50,7 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
+  goTo,
   ...props
 }) {
   const {items, label} = item;
@@ -61,6 +66,8 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
+  const [goToLink, setGoToLink] = useState(false);
+  const [intitalHref, setIntitalHref] = useState('');
 
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
@@ -78,20 +85,30 @@ function DocSidebarItemCategory({
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
+    if (goTo && collapsed) {
+      for (const i in items) {
+        if (items.hasOwnProperty(i)) {
+          const childItem = items[i];
+          if (childItem.type === 'link') {
+            if (goTo.includes(childItem.label.toLowerCase())) {
+              setIntitalHref(childItem.href);
+              setGoToLink(true);
+            }
+          }
+        }
+      }
+    }
   }, [isActive, wasActive, collapsed]);
 
-  const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      if (!menuListHeight) {
-        handleMenuListHeight();
-      }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
-    },
-    [menuListHeight],
-  );
+  const handleItemClick = useCallback(async () => {
+    if (!menuListHeight) {
+      handleMenuListHeight();
+    }
+    setCollapsed((state) => {
+      return !state;
+    });
+    await sleep(100);
+  }, [menuListHeight]);
 
   if (items.length === 0) {
     return null;
@@ -103,17 +120,41 @@ function DocSidebarItemCategory({
         'menu__list-item--collapsed': collapsed,
       })}
       key={label}>
-      <a
-        className={clsx('menu__link', {
-          'menu__link--sublist': collapsible,
-          'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible,
-        })}
-        onClick={collapsible ? handleItemClick : undefined}
-        href={collapsible ? '#!' : undefined}
-        {...props}>
-        {label}
-      </a>
+      {goToLink && collapsed ? (
+        <Link
+          to={intitalHref}
+          className={clsx('menu__link', {
+            'menu__link--sublist': collapsible,
+            'menu__link--active': collapsible && isActive,
+            [styles.menuLinkText]: !collapsible,
+          })}
+          {...(isInternalUrl(intitalHref)
+            ? {
+                isNavLink: true,
+                exact: true,
+                onClick: onItemClick,
+              }
+            : {
+                target: '_blank',
+                rel: 'noreferrer noopener',
+              })}
+          onClick={collapsible ? handleItemClick : undefined}
+          {...props}>
+          {label}
+        </Link>
+      ) : (
+        <a
+          className={clsx('menu__link', {
+            'menu__link--sublist': collapsible,
+            'menu__link--active': collapsible && isActive,
+            [styles.menuLinkText]: !collapsible,
+          })}
+          onClick={collapsible ? handleItemClick : undefined}
+          href={collapsible ? '#!' : undefined}
+          {...props}>
+          {label}
+        </a>
+      )}
       <ul
         className="menu__list"
         ref={menuListRef}
@@ -129,6 +170,7 @@ function DocSidebarItemCategory({
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
+            goTo={goTo}
             item={childItem}
             onItemClick={onItemClick}
             collapsible={collapsible}
@@ -268,6 +310,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
+              goTo={item.go_to}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);
