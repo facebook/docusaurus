@@ -126,7 +126,7 @@ Then, in the directory containing `package.json`, run your package manager's ins
 npm install
 ```
 
-To check that that the update occurred successfully, run:
+To check that the update occurred successfully, run:
 
 ```bash npm2yarn
 npx docusaurus --version
