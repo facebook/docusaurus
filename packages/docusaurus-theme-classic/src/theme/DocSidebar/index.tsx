@@ -50,7 +50,7 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
-  goTo,
+  link,
   ...props
 }) {
   const {items, label} = item;
@@ -66,8 +66,7 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
-  const [goToLink, setGoToLink] = useState(false);
-  const [intitalHref, setIntitalHref] = useState('');
+  const [initialLink, setInitialLink] = useState('');
 
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
@@ -85,14 +84,13 @@ function DocSidebarItemCategory({
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
-    if (goTo && collapsed) {
+    if (link && !collapsed) {
       for (const i in items) {
         if (items.hasOwnProperty(i)) {
           const childItem = items[i];
           if (childItem.type === 'link') {
-            if (goTo.includes(childItem.label.toLowerCase())) {
-              setIntitalHref(childItem.href);
-              setGoToLink(true);
+            if (link.id.includes(childItem.label.toLowerCase())) {
+              setInitialLink(childItem.href);
             }
           }
         }
@@ -100,15 +98,21 @@ function DocSidebarItemCategory({
     }
   }, [isActive, wasActive, collapsed]);
 
-  const handleItemClick = useCallback(async () => {
-    if (!menuListHeight) {
-      handleMenuListHeight();
-    }
-    setCollapsed((state) => {
-      return !state;
-    });
-    await sleep(100);
-  }, [menuListHeight]);
+  const handleItemClick = useCallback(
+    async (e) => {
+      if (!collapsed) {
+        e.preventDefault();
+      }
+      if (!menuListHeight) {
+        handleMenuListHeight();
+      }
+      setCollapsed((state) => {
+        return !state;
+      });
+      await sleep(100);
+    },
+    [menuListHeight],
+  );
 
   if (items.length === 0) {
     return null;
@@ -120,41 +124,27 @@ function DocSidebarItemCategory({
         'menu__list-item--collapsed': collapsed,
       })}
       key={label}>
-      {goToLink && collapsed ? (
-        <Link
-          to={intitalHref}
-          className={clsx('menu__link', {
-            'menu__link--sublist': collapsible,
-            'menu__link--active': collapsible && isActive,
-            [styles.menuLinkText]: !collapsible,
-          })}
-          {...(isInternalUrl(intitalHref)
-            ? {
-                isNavLink: true,
-                exact: true,
-                onClick: onItemClick,
-              }
-            : {
-                target: '_blank',
-                rel: 'noreferrer noopener',
-              })}
-          onClick={collapsible ? handleItemClick : undefined}
-          {...props}>
-          {label}
-        </Link>
-      ) : (
-        <a
-          className={clsx('menu__link', {
-            'menu__link--sublist': collapsible,
-            'menu__link--active': collapsible && isActive,
-            [styles.menuLinkText]: !collapsible,
-          })}
-          onClick={collapsible ? handleItemClick : undefined}
-          href={collapsible ? '#!' : undefined}
-          {...props}>
-          {label}
-        </a>
-      )}
+      <Link
+        to={initialLink}
+        className={clsx('menu__link', {
+          'menu__link--sublist': collapsible,
+          'menu__link--active': collapsible && isActive,
+          [styles.menuLinkText]: !collapsible,
+        })}
+        {...(isInternalUrl(initialLink)
+          ? {
+              isNavLink: true,
+              exact: true,
+              onClick: onItemClick,
+            }
+          : {
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            })}
+        onClick={collapsible ? handleItemClick : undefined}
+        {...props}>
+        {label}
+      </Link>
       <ul
         className="menu__list"
         ref={menuListRef}
@@ -170,7 +160,7 @@ function DocSidebarItemCategory({
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
-            goTo={goTo}
+            link={link}
             item={childItem}
             onItemClick={onItemClick}
             collapsible={collapsible}
@@ -310,7 +300,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
-              goTo={item.go_to}
+              link={item.link}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);

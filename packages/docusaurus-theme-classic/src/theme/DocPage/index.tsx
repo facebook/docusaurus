@@ -38,7 +38,7 @@ function DocPageContent({
   const {pluginId, permalinkToSidebar, docsSidebars, version} = versionMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
-
+  console.log(sidebar);
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
   const toggleSidebar = useCallback(() => {
