@@ -42,7 +42,7 @@ export function toRedirectFilesMetadata(
     );
     const toUrl = addTrailingSlash(
       `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
-    );
+    ).replace(/\\/g, '/');
     const fileContent = createPageContentMemoized(toUrl);
     return {
       ...redirect,
