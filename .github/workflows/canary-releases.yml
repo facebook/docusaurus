@@ -22,6 +22,7 @@ jobs:
   publish-canary:
     needs: checkPackagesHaveChanged
     if: ${{ needs.checkPackagesHaveChanged.outputs.packagesHaveChanged == 'true' }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [10.x]
