@@ -43,7 +43,7 @@ function MDXPage(props: Props): JSX.Element {
               </div>
               {!hideTableOfContents && MDXPageContent.rightToc && (
                 <div className="col col--2">
-                  <TOC headings={MDXPageContent.rightToc} />
+                  <TOC toc={MDXPageContent.rightToc} />
                 </div>
               )}
             </div>

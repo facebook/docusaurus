@@ -46,7 +46,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
 }
 
 declare module '@theme/DocItem' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {MarkdownTableOfContents} from '@docusaurus/types';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -80,7 +80,7 @@ declare module '@theme/DocItem' {
     readonly content: {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
-      readonly rightToc: readonly MarkdownRightTableOfContents[];
+      readonly rightToc: readonly MarkdownTableOfContents[];
       (): JSX.Element;
     };
   };

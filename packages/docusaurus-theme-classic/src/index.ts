@@ -72,6 +72,13 @@ export default function docusaurusThemeClassic(
   return {
     name: 'docusaurus-theme-classic',
 
+    getPathsToWatch() {
+      return [
+        path.join(__dirname, '..', 'lib'),
+        path.join(__dirname, '..', 'lib-next'),
+      ];
+    },
+
     getThemePath() {
       return path.join(__dirname, '..', 'lib-next', 'theme');
     },

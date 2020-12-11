@@ -164,7 +164,7 @@ function DocItem(props: Props): JSX.Element {
         </div>
         {!hideTableOfContents && DocContent.rightToc && (
           <div className="col col--3">
-            <TOC headings={DocContent.rightToc} />
+            <TOC toc={DocContent.rightToc} />
           </div>
         )}
       </div>
