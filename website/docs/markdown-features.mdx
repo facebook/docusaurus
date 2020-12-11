@@ -471,6 +471,61 @@ import TabItem from '@theme/TabItem';
   <TabItem value="banana">This is a banana 🍌</TabItem>
 </Tabs>
 
+## Inline table of contents
+
+Each markdown document displays a tab of content on the top-right corner.
+
+But it is also possible to display an inline table of contents directly inside a markdown document, thanks to MDX.
+
+### Full table of contents
+
+The `toc` variable is available in any MDX document, and contain all the top level headings of a MDX document.
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />;
+```
+
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+
+<TOCInline toc={toc} />
+
+</BrowserWindow>
+
+### Custom table of contents
+
+The `toc` props is just a list of table of contents items:
+
+```ts
+type TOCItem = {
+  value: string;
+  id: string;
+  children: TOCItem[];
+};
+```
+
+You can create this TOC tree manually, or derive a new TOC tree from the `toc` variable:
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  toc={
+    // Only show 4th and 5th top-level heading
+    [toc[3], toc[4]]
+  }
+/>;
+```
+
+<BrowserWindow>
+
+<TOCInline toc={[toc[3], toc[4]]} />
+
+</BrowserWindow>
+
 ## Callouts/admonitions
 
 In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions. Admonitions are wrapped by a set of 3 colons.

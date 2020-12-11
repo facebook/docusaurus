@@ -7,17 +7,14 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
-const TOP_OFFSET = 100;
+const LINK_CLASS_NAME = styles['table-of-contents__link--inline'];
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-function Headings({
+function HeadingsInline({
   toc,
   isChild,
 }: {
@@ -28,10 +25,7 @@ function Headings({
     return null;
   }
   return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
+    <ul className={isChild ? '' : 'table-of-contents'}>
       {toc.map((heading) => (
         <li key={heading.id}>
           <a
@@ -41,20 +35,19 @@ function Headings({
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
-          <Headings isChild toc={heading.children} />
+          <HeadingsInline isChild toc={heading.children} />
         </li>
       ))}
     </ul>
   );
 }
 
-function TOC({toc}: TOCProps): JSX.Element {
-  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
+function TOCInline({toc}: TOCProps): JSX.Element {
   return (
-    <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <Headings toc={toc} />
+    <div className={clsx(styles.tableOfContentsInline)}>
+      <HeadingsInline toc={toc} />
     </div>
   );
 }
 
-export default TOC;
+export default TOCInline;

@@ -413,14 +413,25 @@ declare module '@theme/ThemeProvider' {
 }
 
 declare module '@theme/TOC' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type TOCProps = {
-    readonly headings: readonly MarkdownRightTableOfContents[];
+    readonly toc: readonly TOCItem[];
   };
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;
+}
+
+declare module '@theme/TOCInline' {
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type TOCInlineProps = {
+    readonly toc: readonly TOCItem[];
+  };
+
+  const TOCInline: (props: TOCInlineProps) => JSX.Element;
+  export default TOCInline;
 }
 
 declare module '@theme/Toggle' {

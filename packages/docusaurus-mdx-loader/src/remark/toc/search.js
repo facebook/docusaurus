@@ -11,7 +11,7 @@ const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 const {toValue} = require('../utils');
 
-/** @typedef {import('@docusaurus/types').MarkdownRightTableOfContents} TOC */
+/** @typedef {import('@docusaurus/types').TOCItem} TOC */
 /** @typedef {import('unist').Node} Node */
 
 /**

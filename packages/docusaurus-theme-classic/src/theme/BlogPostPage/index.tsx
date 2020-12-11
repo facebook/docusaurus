@@ -53,9 +53,9 @@ function BlogPostPage(props: Props): JSX.Element {
                 </div>
               )}
             </main>
-            {!hideTableOfContents && BlogPostContents.rightToc && (
+            {!hideTableOfContents && BlogPostContents.toc && (
               <div className="col col--2">
-                <TOC headings={BlogPostContents.rightToc} />
+                <TOC toc={BlogPostContents.toc} />
               </div>
             )}
           </div>

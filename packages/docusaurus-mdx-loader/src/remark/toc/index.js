@@ -59,7 +59,7 @@ const getOrCreateExistingTargetIndex = (children, name) => {
 };
 
 const plugin = (options = {}) => {
-  const name = options.name || 'rightToc';
+  const name = options.name || 'toc';
 
   const transformer = (node) => {
     const headings = search(node);

@@ -1,4 +1,4 @@
-export const rightToc = ['replaceMe'];
+export const toc = ['replaceMe'];
 
 ## Thanos
 
