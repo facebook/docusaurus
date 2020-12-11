@@ -1,7 +1,7 @@
 name: Canary releases
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
