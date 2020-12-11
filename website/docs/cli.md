@@ -24,7 +24,7 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 
 import TOCInline from "@theme/TOCInline"
 
-<TOCInline toc={rightToc[1].children}/>
+<TOCInline toc={toc[1].children}/>
 
 ## Docusaurus CLI commands
 

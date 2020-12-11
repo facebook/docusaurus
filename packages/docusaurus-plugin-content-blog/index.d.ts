@@ -61,7 +61,7 @@ declare module '@theme/BlogPostPage' {
   export type Content = {
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
-    readonly rightToc: readonly TOCItem[];
+    readonly toc: readonly TOCItem[];
     (): JSX.Element;
   };
 

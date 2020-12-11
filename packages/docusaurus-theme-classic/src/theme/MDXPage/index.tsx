@@ -41,9 +41,9 @@ function MDXPage(props: Props): JSX.Element {
                   </MDXProvider>
                 </div>
               </div>
-              {!hideTableOfContents && MDXPageContent.rightToc && (
+              {!hideTableOfContents && MDXPageContent.toc && (
                 <div className="col col--2">
-                  <TOC toc={MDXPageContent.rightToc} />
+                  <TOC toc={MDXPageContent.toc} />
                 </div>
               )}
             </div>

@@ -80,7 +80,7 @@ declare module '@theme/DocItem' {
     readonly content: {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
-      readonly rightToc: readonly TOCItem[];
+      readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
   };

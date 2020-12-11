@@ -17,7 +17,7 @@ declare module '@theme/MDXPage' {
         readonly hide_table_of_contents?: string;
       };
       readonly metadata: {readonly permalink: string};
-      readonly rightToc: readonly TOCItem[];
+      readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
   };

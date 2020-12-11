@@ -479,19 +479,19 @@ But it is also possible to display an inline table of contents directly inside a
 
 ### Full table of contents
 
-The `rightToc` variable is available in any MDX document, and contain all the top level headings of a MDX document.
+The `toc` variable is available in any MDX document, and contain all the top level headings of a MDX document.
 
 ```jsx
 import TOCInline from '@theme/TOCInline';
 
-<TOCInline toc={rightToc} />;
+<TOCInline toc={toc} />;
 ```
 
 import TOCInline from '@theme/TOCInline';
 
 <BrowserWindow>
 
-<TOCInline toc={rightToc} />
+<TOCInline toc={toc} />
 
 </BrowserWindow>
 
@@ -507,7 +507,7 @@ type TOCItem = {
 };
 ```
 
-You can create this TOC tree manually, or derive a new TOC tree from the `rightToc` variable:
+You can create this TOC tree manually, or derive a new TOC tree from the `toc` variable:
 
 ```jsx
 import TOCInline from '@theme/TOCInline';
@@ -515,14 +515,14 @@ import TOCInline from '@theme/TOCInline';
 <TOCInline
   toc={
     // Only show 4th and 5th top-level heading
-    [rightToc[3], rightToc[4]]
+    [toc[3], toc[4]]
   }
 />;
 ```
 
 <BrowserWindow>
 
-<TOCInline toc={[rightToc[3], rightToc[4]]} />
+<TOCInline toc={[toc[3], toc[4]]} />
 
 </BrowserWindow>
 

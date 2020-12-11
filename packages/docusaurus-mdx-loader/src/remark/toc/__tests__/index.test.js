@@ -37,7 +37,7 @@ test('inline code should be escaped', async () => {
 test('text content', async () => {
   const result = await processFixture('just-content');
   expect(result).toMatchInlineSnapshot(`
-    "export const rightToc = [
+    "export const toc = [
     	{
     		value: 'Endi',
     		id: 'endi',
@@ -83,7 +83,7 @@ test('text content', async () => {
 test('should export even with existing name', async () => {
   const result = await processFixture('name-exist');
   expect(result).toMatchInlineSnapshot(`
-    "export const rightToc = [
+    "export const toc = [
     	{
     		value: 'Thanos',
     		id: 'thanos',
@@ -167,7 +167,7 @@ test('should insert below imports', async () => {
 
     import somethingElse from 'something-else';
 
-    export const rightToc = [
+    export const toc = [
     	{
     		value: 'Title',
     		id: 'title',
@@ -200,7 +200,7 @@ test('should insert below imports', async () => {
 test('empty headings', async () => {
   const result = await processFixture('empty-headings');
   expect(result).toMatchInlineSnapshot(`
-    "export const rightToc = [];
+    "export const toc = [];
 
     # Ignore this
 

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`inline code should be escaped 1`] = `
-"export const rightToc = [
+"export const toc = [
 	{
 		value: '<code>&lt;Head /&gt;</code>',
 		id: 'head-',
@@ -43,7 +43,7 @@ exports[`inline code should be escaped 1`] = `
 `;
 
 exports[`non text phrasing content 1`] = `
-"export const rightToc = [
+"export const toc = [
 	{
 		value: '<em>Emphasis</em>',
 		id: 'emphasis',
