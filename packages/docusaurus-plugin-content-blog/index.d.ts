@@ -24,7 +24,7 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {MarkdownTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
@@ -61,7 +61,7 @@ declare module '@theme/BlogPostPage' {
   export type Content = {
     readonly frontMatter: FrontMatter;
     readonly metadata: Metadata;
-    readonly rightToc: readonly MarkdownTableOfContents[];
+    readonly rightToc: readonly TOCItem[];
     (): JSX.Element;
   };
 

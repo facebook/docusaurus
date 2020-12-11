@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
-import {MarkdownTableOfContents} from '@docusaurus/types';
+import {TOCItem} from '@docusaurus/types';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
@@ -21,7 +21,7 @@ function Headings({
   toc,
   isChild,
 }: {
-  toc: readonly MarkdownTableOfContents[];
+  toc: readonly TOCItem[];
   isChild?: boolean;
 }) {
   if (!toc.length) {

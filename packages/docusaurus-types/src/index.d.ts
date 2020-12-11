@@ -344,8 +344,8 @@ export interface ValidationSchema<T> {
   append(data: any): ValidationSchema<T>;
 }
 
-export interface MarkdownTableOfContents {
+export interface TOCItem {
   readonly value: string;
   readonly id: string;
-  readonly children: MarkdownTableOfContents[];
+  readonly children: TOCItem[];
 }

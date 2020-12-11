@@ -9,16 +9,16 @@ import React from 'react';
 import clsx from 'clsx';
 import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
-import {MarkdownTableOfContents} from '@docusaurus/types';
+import {TOCItem} from '@docusaurus/types';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
+const LINK_CLASS_NAME = styles['table-of-contents__link--inline'];
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function HeadingsInline({
   toc,
   isChild,
 }: {
-  toc: readonly MarkdownTableOfContents[];
+  toc: readonly TOCItem[];
   isChild?: boolean;
 }) {
   if (!toc.length) {

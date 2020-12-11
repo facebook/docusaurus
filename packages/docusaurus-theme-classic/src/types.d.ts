@@ -413,10 +413,10 @@ declare module '@theme/ThemeProvider' {
 }
 
 declare module '@theme/TOC' {
-  import type {MarkdownTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type TOCProps = {
-    readonly toc: readonly MarkdownTableOfContents[];
+    readonly toc: readonly TOCItem[];
   };
 
   const TOC: (props: TOCProps) => JSX.Element;
@@ -424,10 +424,10 @@ declare module '@theme/TOC' {
 }
 
 declare module '@theme/TOCInline' {
-  import type {MarkdownTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type TOCInlineProps = {
-    readonly toc: readonly MarkdownTableOfContents[];
+    readonly toc: readonly TOCItem[];
   };
 
   const TOCInline: (props: TOCInlineProps) => JSX.Element;
