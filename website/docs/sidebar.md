@@ -301,3 +301,17 @@ module.exports = {
   },
 };
 ```
+
+## Passing custom props
+
+To pass in custom props to a swizzled sidebar item, add the optional `customProps` object to any of the items:
+
+```js
+{
+  type: 'doc';
+  id: 'doc1';
+  customProps: {
+    /* props */
+  }
+}
+```
