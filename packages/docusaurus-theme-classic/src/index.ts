@@ -72,12 +72,15 @@ export default function docusaurusThemeClassic(
   return {
     name: 'docusaurus-theme-classic',
 
+    /*
+    Does not seem needed: webpack can already hot reload theme files
     getPathsToWatch() {
       return [
         path.join(__dirname, '..', 'lib'),
         path.join(__dirname, '..', 'lib-next'),
       ];
     },
+     */
 
     getThemePath() {
       return path.join(__dirname, '..', 'lib-next', 'theme');
