@@ -298,6 +298,26 @@ export function getFileLoaderUtils(): Record<string, any> {
       };
     },
 
+    svg: (): RuleSetRule => {
+      return {
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              prettier: false,
+              svgo: true,
+              svgoConfig: {
+                plugins: [{removeViewBox: false}],
+              },
+              titleProp: true,
+              ref: ![path],
+            },
+          },
+        ],
+        test: /\.svg$/,
+      };
+    },
+
     otherAssets: (): RuleSetRule => {
       return {
         use: [loaders.file({folder: 'files'})],

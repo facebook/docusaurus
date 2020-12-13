@@ -12,7 +12,7 @@ import {
 } from 'webpack';
 import path from 'path';
 
-import {applyConfigureWebpack} from '../utils';
+import {applyConfigureWebpack, getFileLoaderUtils} from '../utils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
@@ -130,5 +130,21 @@ describe('extending generated webpack config', () => {
         rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
       },
     });
+  });
+});
+
+describe('getFileLoaderUtils()', () => {
+  test('plugin svgo/removeViewBox should be disabled', () => {
+    const use = getFileLoaderUtils().rules.svg().use;
+    expect(use).toContainEqual(
+      expect.objectContaining({
+        loader: '@svgr/webpack',
+        options: expect.objectContaining({
+          svgoConfig: {
+            plugins: [{removeViewBox: false}],
+          },
+        }),
+      }),
+    );
   });
 });
