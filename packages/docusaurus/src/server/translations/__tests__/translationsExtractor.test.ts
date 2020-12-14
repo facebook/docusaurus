@@ -160,7 +160,16 @@ export default function MyComponent() {
       <Translate
         id={prefix + "codeId comp"}
         description={prefix + "code description"}
-      >{prefix + "code message"}</Translate>
+      >
+      {prefix + "code message"}
+      </Translate>
+      <Translate>
+
+        {
+
+          prefix + \`Static template literal with unusual formatting!\`
+        }
+      </Translate>
     </div>
   );
 }
@@ -182,6 +191,9 @@ export default function MyComponent() {
         'prefix codeId fn': {
           message: 'prefix code message',
           description: 'prefix code description',
+        },
+        'prefix Static template literal with unusual formatting!': {
+          message: 'prefix Static template literal with unusual formatting!',
         },
       },
       warnings: [],
