@@ -25,7 +25,7 @@ export default function LocaleDropdownNavbarItem({
     return localeConfigs[locale].label;
   }
 
-  //  TODO Docusaurus could offer some APIs to we should probably
+  //  TODO Docusaurus expose this unlocalized baseUrl more reliably
   const baseUrlUnlocalized =
     currentLocale === defaultLocale
       ? baseUrl
@@ -41,15 +41,6 @@ export default function LocaleDropdownNavbarItem({
 
   const items = locales.map((locale) => {
     const to = `${getLocalizedBaseUrl(locale)}${pathnameSuffix}`;
-    console.log({
-      locale,
-      to,
-      pathname,
-      baseUrl,
-      baseUrlUnlocalized,
-      pathnameSuffix,
-    });
-
     return {
       isNavLink: true,
       label: getLocaleLabel(locale),
