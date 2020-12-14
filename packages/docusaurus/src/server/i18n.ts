@@ -8,6 +8,12 @@ import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 
+export function defaultLocaleConfig(locale: string): I18nLocaleConfig {
+  return {
+    label: locale,
+  };
+}
+
 export async function loadI18n(
   config: DocusaurusConfig,
   options: {locale?: string} = {},
@@ -30,12 +36,7 @@ Note: Docusaurus only support running one local at a time.`,
     const localeConfigOptions: Partial<I18nLocaleConfig> =
       i18nConfig.localeConfigs[locale];
 
-    // Default values
-    const localeConfigDefaults: I18nLocaleConfig = {
-      label: locale,
-    };
-
-    return {...localeConfigDefaults, ...localeConfigOptions};
+    return {...defaultLocaleConfig(locale), ...localeConfigOptions};
   }
 
   const localeConfigs = i18nConfig.locales.reduce((acc, locale) => {

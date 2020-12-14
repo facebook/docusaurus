@@ -5,9 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadI18n, localizePath} from '../i18n';
+import {loadI18n, localizePath, defaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
+import {chain, identity} from 'lodash';
+
+function testLocaleConfigsFor(locales: string[]) {
+  return chain(locales).keyBy(identity).mapValues(defaultLocaleConfig).value();
+}
 
 describe('loadI18n', () => {
   test('should load I18n for default config', async () => {
@@ -22,6 +27,7 @@ describe('loadI18n', () => {
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
+      localeConfigs: testLocaleConfigsFor(['en']),
     });
   });
 
@@ -33,6 +39,7 @@ describe('loadI18n', () => {
           i18n: {
             defaultLocale: 'fr',
             locales: ['en', 'fr', 'de'],
+            localeConfigs: {},
           },
         },
       ),
@@ -40,6 +47,7 @@ describe('loadI18n', () => {
       defaultLocale: 'fr',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
+      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
     });
   });
 
@@ -51,6 +59,7 @@ describe('loadI18n', () => {
           i18n: {
             defaultLocale: 'fr',
             locales: ['en', 'fr', 'de'],
+            localeConfigs: {},
           },
         },
         {locale: 'de'},
@@ -59,6 +68,35 @@ describe('loadI18n', () => {
       defaultLocale: 'fr',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
+      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
+    });
+  });
+
+  test('should load I18n for multi-locale config with some xcustom locale configs', async () => {
+    await expect(
+      loadI18n(
+        {
+          i18n: {
+            defaultLocale: 'fr',
+            locales: ['en', 'fr', 'de'],
+            localeConfigs: {
+              fr: {label: 'Français'},
+              // @ts-expect-error: empty on purpose
+              en: {},
+            },
+          },
+        },
+        {locale: 'de'},
+      ),
+    ).resolves.toEqual({
+      defaultLocale: 'fr',
+      locales: ['en', 'fr', 'de'],
+      currentLocale: 'de',
+      localeConfigs: {
+        fr: {label: 'Français'},
+        en: defaultLocaleConfig('en'),
+        de: defaultLocaleConfig('de'),
+      },
     });
   });
 
@@ -70,6 +108,7 @@ describe('loadI18n', () => {
           i18n: {
             defaultLocale: 'fr',
             locales: ['en', 'fr', 'de'],
+            localeConfigs: {},
           },
         },
         {locale: 'it'},
@@ -88,6 +127,7 @@ describe('localizePath', () => {
           defaultLocale: 'en',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
+          localeConfigs: {},
         },
         options: {localizePath: true},
       }),
@@ -103,6 +143,7 @@ describe('localizePath', () => {
           defaultLocale: 'en',
           locales: ['en', 'fr'],
           currentLocale: 'fr',
+          localeConfigs: {},
         },
         options: {localizePath: true},
       }),
@@ -118,6 +159,7 @@ describe('localizePath', () => {
           defaultLocale: 'en',
           locales: ['en', 'fr'],
           currentLocale: 'en',
+          localeConfigs: {},
         },
         options: {localizePath: true},
       }),
@@ -133,6 +175,7 @@ describe('localizePath', () => {
           defaultLocale: 'en',
           locales: ['en', 'fr'],
           currentLocale: 'en',
+          localeConfigs: {},
         },
         // options: {localizePath: true},
       }),
@@ -148,6 +191,7 @@ describe('localizePath', () => {
           defaultLocale: 'en',
           locales: ['en', 'fr'],
           currentLocale: 'en',
+          localeConfigs: {},
         },
         // options: {localizePath: true},
       }),
