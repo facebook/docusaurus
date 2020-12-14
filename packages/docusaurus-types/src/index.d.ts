@@ -92,9 +92,14 @@ export type TranslationFileContent = Record<string, TranslationMessage>;
 export type TranslationFile = {path: string; content: TranslationFileContent};
 export type TranslationFiles = TranslationFile[];
 
+export type I18nLocaleConfig = {
+  label: string;
+};
+
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export type I18n = I18nConfig & {
