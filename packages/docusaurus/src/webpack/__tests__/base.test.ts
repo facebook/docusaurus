@@ -7,7 +7,13 @@
 
 import path from 'path';
 
-import {excludeJS, clientDir, getDocusaurusAliases} from '../base';
+import {
+  excludeJS,
+  clientDir,
+  getDocusaurusAliases,
+  createBaseConfig,
+} from '../base';
+import * as utils from '../utils';
 import {mapValues} from 'lodash';
 
 describe('babel transpilation exclude logic', () => {
@@ -67,5 +73,30 @@ describe('getDocusaurusAliases()', () => {
       (aliasValue) => path.relative(__dirname, aliasValue),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
+  });
+});
+
+describe('base webpack config', () => {
+  const props = {
+    outDir: '',
+    siteDir: '',
+    baseUrl: '',
+    generatedFilesDir: '',
+    routesPaths: '',
+  };
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test('should use svg rule', () => {
+    const fileLoaderUtils = utils.getFileLoaderUtils();
+    const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
+    jest
+      .spyOn(utils, 'getFileLoaderUtils')
+      .mockImplementation(() => fileLoaderUtils);
+
+    createBaseConfig(props, false, false);
+    expect(mockSvg).toBeCalled();
   });
 });

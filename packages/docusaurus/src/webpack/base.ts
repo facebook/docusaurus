@@ -151,6 +151,7 @@ export function createBaseConfig(
       rules: [
         fileLoaderUtils.rules.images(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
@@ -182,10 +183,6 @@ export function createBaseConfig(
             sourceMap: !isProd,
             onlyLocals: isServer,
           }),
-        },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,+svgo,+titleProp,+ref![path]',
         },
       ],
     },
