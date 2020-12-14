@@ -195,15 +195,15 @@ function extractSourceCodeAstTranslations(
           // Remove empty/useless text nodes that might be around our translation!
           // Makes the translation system more reliable to JSX formatting issues
           .filter(
-            (childrenPath) =>
+            (childrenPath: NodePath) =>
               !(
-                t.isJSXText(childrenPath) &&
+                t.isJSXText(childrenPath.node) &&
                 childrenPath.node.value.replace('\n', '').trim() === ''
               ),
           )
           .pop();
 
-        if (singleChildren && t.isJSXText(singleChildren)) {
+        if (singleChildren && t.isJSXText(singleChildren.node)) {
           const message = singleChildren.node.value.trim().replace(/\s+/g, ' ');
 
           const id = evaluateJSXProp('id');
