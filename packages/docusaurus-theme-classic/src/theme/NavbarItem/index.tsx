@@ -7,12 +7,14 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents = {
   default: () => DefaultNavbarItem,
-  localeDropdown: () => LocaleDropdownNavbarItem,
+
+  localeDropdown: () => () =>
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@theme/NavbarItem/LocaleDropdownNavbarItem').default,
 
   // Need to lazy load these items as we don't know for sure the docs plugin is loaded
   // See https://github.com/facebook/docusaurus/issues/3360

@@ -32,6 +32,7 @@ export default function themeAlias(
     const aliasName = posixPath(
       normalizeUrl(['@theme', fileName]).replace(/\/$/, ''),
     );
+    console.log(aliasName);
     aliases[aliasName] = filePath;
 
     if (addOriginalAlias) {
