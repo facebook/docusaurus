@@ -52,6 +52,14 @@ module.exports = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    },
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -303,6 +311,7 @@ module.exports = {
             },
           ],
         },
+        // {type: 'localeDropdown', position: 'right'},
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',

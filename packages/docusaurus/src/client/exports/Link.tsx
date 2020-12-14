@@ -26,6 +26,7 @@ interface Props {
   readonly activeClassName?: string;
   readonly children?: ReactNode;
   readonly isActive?: () => boolean;
+  readonly autoAddBaseUrl?: boolean;
 
   // escape hatch in case broken links check is annoying for a specific link
   readonly 'data-noBrokenLinkCheck'?: boolean;
@@ -45,6 +46,7 @@ function Link({
   activeClassName,
   isActive,
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  autoAddBaseUrl = true,
   ...props
 }: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
@@ -57,7 +59,9 @@ function Link({
   const targetLinkUnprefixed = to || href;
 
   function maybeAddBaseUrl(str: string) {
-    return shouldAddBaseUrlAutomatically(str) ? withBaseUrl(str) : str;
+    return autoAddBaseUrl && shouldAddBaseUrlAutomatically(str)
+      ? withBaseUrl(str)
+      : str;
   }
 
   const isInternal = isInternalUrl(targetLinkUnprefixed);

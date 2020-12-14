@@ -96,6 +96,11 @@ const DocItemSchema = Joi.object({
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
+const LocaleDropdownNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('localeDropdown').required(),
+  position: NavbarItemPosition,
+});
+
 // Can this be made easier? :/
 const isOfType = (type) => {
   let typeSchema = Joi.string().required();
@@ -125,9 +130,13 @@ const NavbarItemSchema = Joi.object().when({
       then: DocItemSchema,
     },
     {
+      is: isOfType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
       is: isOfType(undefined),
       then: Joi.forbidden().messages({
-        'any.unknown': 'Bad nav item type {.type}',
+        'any.unknown': 'Bad navbar item type {.type}',
       }),
     },
   ],

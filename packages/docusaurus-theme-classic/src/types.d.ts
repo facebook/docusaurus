@@ -304,6 +304,15 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   export default DefaultNavbarItem;
 }
 
+declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps;
+
+  const LocaleDropdownNavbarItem: (props: Props) => JSX.Element;
+  export default LocaleDropdownNavbarItem;
+}
+
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';

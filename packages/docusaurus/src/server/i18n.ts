@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {I18n, DocusaurusConfig} from '@docusaurus/types';
+import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 
@@ -25,9 +25,27 @@ Note: Docusaurus only support running one local at a time.`,
     );
   }
 
+  function getLocaleConfig(locale: string): I18nLocaleConfig {
+    // User provided values
+    const localeConfigOptions: Partial<I18nLocaleConfig> =
+      i18nConfig.localeConfigs[locale];
+
+    // Default values
+    const localeConfigDefaults: I18nLocaleConfig = {
+      label: locale,
+    };
+
+    return {...localeConfigDefaults, ...localeConfigOptions};
+  }
+
+  const localeConfigs = i18nConfig.locales.reduce((acc, locale) => {
+    return {...acc, [locale]: getLocaleConfig(locale)};
+  }, {});
+
   return {
     ...i18nConfig,
     currentLocale,
+    localeConfigs,
   };
 }
 
