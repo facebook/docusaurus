@@ -118,6 +118,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'FoalTS',
+    description: 'Node.JS framework for building web applications',
+    preview: require('./showcase/foal.png'),
+    website: 'https://foalts.org/',
+    source: 'https://github.com/FoalTS/foal/tree/master/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
