@@ -71,7 +71,30 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 }
 ```
 
-The content plugin remains the same and the only thing you need to change is the theme.
+## Wrapper your site with `<Root>`
+
+A `<Root>` theme component is rendered at the very top of your Docusaurus site.
+
+It allows you to wrap your site with additional logic, by creating a file at `website/src/theme/Root.js`:
+
+```js title="website/src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+function Root({children}) {
+  return <>{children}</>;
+}
+
+export default Root;
+```
+
+This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
+
+:::tip
+
+Use this component render React Context providers and global stateful logic.
+
+:::
 
 ## Swizzling theme components
 
