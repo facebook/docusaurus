@@ -17,6 +17,7 @@ import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import Root from '@theme/Root';
 
 import './client-lifecycles-dispatcher';
 
@@ -37,10 +38,12 @@ function App(): JSX.Element {
         codeTranslations,
         isClient,
       }}>
-      <BaseUrlIssueBanner />
-      <PendingNavigation routes={routes}>
-        {renderRoutes(routes)}
-      </PendingNavigation>
+      <Root>
+        <BaseUrlIssueBanner />
+        <PendingNavigation routes={routes}>
+          {renderRoutes(routes)}
+        </PendingNavigation>
+      </Root>
     </DocusaurusContext.Provider>
   );
 }
