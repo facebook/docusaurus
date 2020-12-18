@@ -129,13 +129,17 @@ export function getTranslationFiles({
 }: {
   themeConfig: ThemeConfig;
 }): TranslationFile[] {
-  return [
+  const translationFiles: (TranslationFile | undefined)[] = [
     {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
-    themeConfig.footer && {
-      path: 'footer',
-      content: getFooterTranslationFile(themeConfig.footer),
-    },
-  ].filter(Boolean);
+    themeConfig.footer
+      ? {
+          path: 'footer',
+          content: getFooterTranslationFile(themeConfig.footer),
+        }
+      : undefined,
+  ];
+
+  return translationFiles.filter(Boolean) as TranslationFile[];
 }
 
 export function translateThemeConfig({
@@ -156,8 +160,8 @@ export function translateThemeConfig({
       themeConfig.navbar,
       translationFilesMap.navbar.content,
     ),
-    footer:
-      themeConfig.footer &&
-      translateFooter(themeConfig.footer, translationFilesMap.footer.content),
+    footer: themeConfig.footer
+      ? translateFooter(themeConfig.footer, translationFilesMap.footer.content)
+      : undefined,
   };
 }
