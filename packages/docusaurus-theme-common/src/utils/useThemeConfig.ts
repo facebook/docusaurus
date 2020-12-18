@@ -66,7 +66,7 @@ export type ThemeConfig = {
   colorMode: any;
   announcementBar: any;
   prism: any;
-  footer: Footer;
+  footer: Footer | undefined;
   hideableSidebar: any;
 };
 
