@@ -98,13 +98,13 @@ module.exports = {
 
 ### Auto Collapsable Sidebar
 
-Using the enabled `themeConfig.autoCollapseSidebar` option, you can make the sidebar only have one parent category open at a time, helping users not get cluttered and only focus on the content they selected. This is enabled by default, If you want them to be always opened, set `themeConfig.autoCollapseSidebar` to `false`:
+Using the enabled `themeConfig.autoCollapseSidebar` option, you can make the sidebar only have one parent category open at a time, helping users not get cluttered and only focus on the content they selected. If you want them to be enable this feature, set `themeConfig.autoCollapseSidebar` to `true`:
 
 ```js {4} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
-    autoCollapseSidebar: false,
+    autoCollapseSidebar: true,
     // ...
   },
 };

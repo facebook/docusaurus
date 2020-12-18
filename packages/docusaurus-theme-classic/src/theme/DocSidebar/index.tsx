@@ -21,6 +21,10 @@ import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function usePrevious(value) {
   const ref = useRef(value);
   useEffect(() => {
@@ -46,8 +50,8 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
-  collapseItems,
-  autoCollapsed,
+  autoCollapseCategory,
+  autoCollapse,
   ...props
 }) {
   const {items, label} = item;
@@ -65,6 +69,7 @@ function DocSidebarItemCategory({
   });
 
   const menuListRef = useRef<HTMLUListElement>(null);
+  const [currentCategory, setCurrentCategory] = useState(item);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
     undefined,
   );
@@ -82,12 +87,13 @@ function DocSidebarItemCategory({
     }
   }, [isActive, wasActive, collapsed]);
 
-  const handleItemClick = (category) => {
+  const handleItemClick = async (category) => {
     if (!menuListHeight) {
       handleMenuListHeight();
     }
 
-    collapseItems(category);
+    const updatedCategory = await autoCollapseCategory(category);
+    setCurrentCategory(updatedCategory);
   };
 
   if (items.length === 0) {
@@ -97,7 +103,7 @@ function DocSidebarItemCategory({
   return (
     <li
       className={clsx('menu__list-item', {
-        'menu__list-item--collapsed': item.collapsed,
+        'menu__list-item--collapsed': currentCategory.collapsed,
       })}
       key={label}>
       <a
@@ -106,7 +112,9 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? () => handleItemClick(item) : undefined}
+        onClick={
+          collapsible ? () => handleItemClick(currentCategory) : undefined
+        }
         href={collapsible ? '#!' : undefined}
         {...props}>
         {label}
@@ -127,7 +135,7 @@ function DocSidebarItemCategory({
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
             item={childItem}
-            autoCollapsed={autoCollapsed}
+            autoCollapse={autoCollapse}
             parent={items}
             onItemClick={onItemClick}
             collapsible={collapsible}
@@ -173,15 +181,15 @@ function DocSidebarItemLink({
 }
 
 function DocSidebarItem(props) {
-  const {autoCollapsed, parent} = props;
+  const {autoCollapse, parent} = props;
 
-  const collapseItems = (item) => {
+  const autoCollapseCategory = async (item) => {
     const isCollapsed = item.collapsed;
 
     if (!isCollapsed) {
       item.collapsed = !item.collapsed;
     } else {
-      if (autoCollapsed) {
+      if (autoCollapse) {
         for (const s in parent) {
           if (parent[s].type !== 'link') {
             parent[s].collapsed = true;
@@ -192,12 +200,17 @@ function DocSidebarItem(props) {
       }
       item.collapsed = !item.collapsed;
     }
+    await sleep(100);
+    return item;
   };
 
   switch (props.item.type) {
     case 'category':
       return (
-        <DocSidebarItemCategory {...props} collapseItems={collapseItems} />
+        <DocSidebarItemCategory
+          {...props}
+          autoCollapseCategory={autoCollapseCategory}
+        />
       );
     case 'link':
     default:
@@ -209,7 +222,7 @@ function DocSidebar({
   path,
   sidebar,
   sidebarCollapsible = true,
-  autoCollapseSidebar = true,
+  autoCollapseSidebar,
   onCollapse,
   isHidden,
 }: Props): JSX.Element | null {
@@ -297,7 +310,7 @@ function DocSidebar({
               }}
               collapsible={sidebarCollapsible}
               parent={sidebar}
-              autoCollapsed={autoCollapseSidebar}
+              autoCollapse={autoCollapseSidebar}
               activePath={path}
             />
           ))}

@@ -234,6 +234,7 @@ module.exports = {
   ],
   themeConfig: {
     hideableSidebar: true,
+    autoCollapseSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,

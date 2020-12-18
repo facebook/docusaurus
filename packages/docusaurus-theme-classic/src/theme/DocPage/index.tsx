@@ -86,7 +86,7 @@ function DocPageContent({
                 siteConfig.themeConfig?.sidebarCollapsible ?? true
               }
               autoCollapseSidebar={
-                siteConfig.themeConfig?.autoCollapseSidebar ?? true
+                siteConfig.themeConfig?.autoCollapseSidebar ?? false
               }
               onCollapse={toggleSidebar}
               isHidden={hiddenSidebar}
