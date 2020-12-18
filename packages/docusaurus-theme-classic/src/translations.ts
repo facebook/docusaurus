@@ -131,8 +131,11 @@ export function getTranslationFiles({
 }): TranslationFile[] {
   return [
     {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
-    {path: 'footer', content: getFooterTranslationFile(themeConfig.footer)},
-  ];
+    themeConfig.footer && {
+      path: 'footer',
+      content: getFooterTranslationFile(themeConfig.footer),
+    },
+  ].filter(Boolean);
 }
 
 export function translateThemeConfig({
@@ -153,9 +156,8 @@ export function translateThemeConfig({
       themeConfig.navbar,
       translationFilesMap.navbar.content,
     ),
-    footer: translateFooter(
-      themeConfig.footer,
-      translationFilesMap.footer.content,
-    ),
+    footer:
+      themeConfig.footer &&
+      translateFooter(themeConfig.footer, translationFilesMap.footer.content),
   };
 }
