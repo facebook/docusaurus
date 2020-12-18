@@ -228,16 +228,14 @@ async function buildLocale({
   });
 
   console.log(
-    `${chalk.green(
-      `[${locale}] Success!`,
-    )} Generated static files in ${chalk.cyan(
+    `${chalk.green(`Success!`)} Generated static files in ${chalk.cyan(
       path.relative(process.cwd(), outDir),
     )}.`,
   );
 
   if (isLastLocale) {
     console.log(
-      `Use ${chalk.greenBright(
+      `\nUse ${chalk.greenBright(
         '`npm run serve`',
       )} to test your build locally.\n`,
     );
