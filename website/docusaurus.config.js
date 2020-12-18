@@ -49,7 +49,19 @@ module.exports = {
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    },
+  },
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
@@ -300,6 +312,7 @@ module.exports = {
             },
           ],
         },
+        // {type: 'localeDropdown', position: 'right'},
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
@@ -324,7 +337,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
+              to: 'docs/migration',
             },
           ],
         },

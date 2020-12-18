@@ -9,13 +9,14 @@ import React from 'react';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import Head from '@docusaurus/Head';
 import DocPaginator from '@theme/DocPaginator';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {Props} from '@theme/DocItem';
 
 function DocItem(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle, titleDelimiter = ' | '} = siteConfig;
+  const {url: siteUrl} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {description, title, permalink} = metadata;
@@ -23,9 +24,7 @@ function DocItem(props: Props): JSX.Element {
     frontMatter: {image: metaImage, keywords},
   } = DocContent;
 
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   let metaImageUrl: string | undefined = siteUrl + useBaseUrl(metaImage);
 
   if (!isInternalUrl(metaImage)) {
@@ -44,7 +43,7 @@ function DocItem(props: Props): JSX.Element {
           <meta name="keywords" content={keywords.join(',')} />
         )}
         {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}

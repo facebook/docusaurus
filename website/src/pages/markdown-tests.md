@@ -10,10 +10,6 @@ See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 
 - [/dogfooding/someFile.xyz](/dogfooding/someFile.xyz)
 
-- [../../static/dogfooding/someFile.pdf](../../static/dogfooding/someFile.pdf)
-
-- [../../static/dogfooding/someFile.xyz](../../static/dogfooding/someFile.xyz)
-
 - [@site/static/dogfooding/someFile.pdf](@site/static/dogfooding/someFile.pdf)
 
 - [@site/static/dogfooding/someFile.xyz](@site/static/dogfooding/someFile.xyz)

@@ -40,7 +40,7 @@ describe('server utils', () => {
     expect(css).toMatchSnapshot();
 
     await expect(utils.minifyCss(notCss)).rejects.toMatchSnapshot();
-  });
+  }, 10000);
 
   test('autoprefix css', async () => {
     const testCss = fs.readFileSync(

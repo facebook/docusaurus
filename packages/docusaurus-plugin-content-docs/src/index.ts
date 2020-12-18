@@ -21,7 +21,7 @@ import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import {loadSidebars, createSidebarsUtils} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
-import {readVersionsMetadata} from './versions';
+import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
   PluginOptions,
@@ -44,6 +44,10 @@ import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
+import {
+  translateLoadedContent,
+  getLoadedContentTranslationFiles,
+} from './translations';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -99,6 +103,10 @@ export default function pluginContentDocs(
         });
     },
 
+    async getTranslationFiles() {
+      return getLoadedContentTranslationFiles(await this.loadContent!());
+    },
+
     getClientModules() {
       const modules = [];
       if (options.admonitions) {
@@ -111,8 +119,12 @@ export default function pluginContentDocs(
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         return [
           version.sidebarFilePath,
-          ...options.include.map(
-            (pattern) => `${version.docsDirPath}/${pattern}`,
+          ...flatten(
+            options.include.map((pattern) =>
+              getDocsDirPaths(version).map(
+                (docsDirPath) => `${docsDirPath}/${pattern}`,
+              ),
+            ),
           ),
         ];
       }
@@ -235,6 +247,10 @@ export default function pluginContentDocs(
       };
     },
 
+    translateContent({content, translationFiles}) {
+      return translateLoadedContent(content, translationFiles);
+    },
+
     async contentLoaded({content, actions}) {
       const {loadedVersions} = content;
       const {docLayoutComponent, docItemComponent} = options;
@@ -318,7 +334,6 @@ export default function pluginContentDocs(
           if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
             return;
           }
-
           reportMessage(
             `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
             siteConfig.onBrokenMarkdownLinks,
@@ -329,7 +344,7 @@ export default function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
-          include: versionsMetadata.map((vmd) => vmd.docsDirPath),
+          include: flatten(versionsMetadata.map(getDocsDirPaths)),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),

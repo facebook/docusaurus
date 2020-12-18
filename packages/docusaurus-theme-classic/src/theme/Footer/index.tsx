@@ -13,7 +13,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
+function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -90,7 +90,7 @@ function Footer(): JSX.Element | null {
           </div>
         )}
         {(logo || copyright) && (
-          <div className="text--center">
+          <div className="footer__bottom text--center">
             {logo && logo.src && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
@@ -106,14 +106,16 @@ function Footer(): JSX.Element | null {
                 )}
               </div>
             )}
-
-            <div
-              // Developer provided the HTML, so assume it's safe.
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: copyright,
-              }}
-            />
+            {copyright ? (
+              <div
+                className="footer__copyright"
+                // Developer provided the HTML, so assume it's safe.
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: copyright,
+                }}
+              />
+            ) : null}
           </div>
         )}
       </div>

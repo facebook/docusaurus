@@ -14,11 +14,12 @@ import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
 
 import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
-import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 
 import styles from './styles.module.css';
@@ -294,8 +295,9 @@ function Search() {
   }, [searchValue]);
 
   return (
-    <Layout title={getTitle()}>
+    <Layout wrapperClassName="search-page-wrapper">
       <Head>
+        <title>{useTitleFormatter(getTitle())}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233
@@ -384,14 +386,23 @@ function Search() {
                   />
 
                   {breadcrumbs.length > 0 && (
-                    <span
-                      className={styles.searchResultItemPath}
-                      // Developer provided the HTML, so assume it's safe.
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: breadcrumbs.join(' › '),
-                      }}
-                    />
+                    <span className={styles.searchResultItemPath}>
+                      {breadcrumbs.map((html, index) => (
+                        <>
+                          {index !== 0 && (
+                            <span
+                              className={styles.searchResultItemPathSeparator}>
+                              ›
+                            </span>
+                          )}
+                          <span
+                            // Developer provided the HTML, so assume it's safe.
+                            // eslint-disable-next-line react/no-danger
+                            dangerouslySetInnerHTML={{__html: html}}
+                          />
+                        </>
+                      ))}
+                    </span>
                   )}
 
                   {summary && (

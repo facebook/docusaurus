@@ -11,16 +11,17 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
-import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common';
+import {DEFAULT_SEARCH_TAG, useTitleFormatter} from '@docusaurus/theme-common';
 
 export default function LayoutHead(props: Props): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const {
+    siteConfig,
+    i18n: {currentLocale},
+  } = useDocusaurusContext();
   const {
     favicon,
-    title: siteTitle,
     themeConfig: {image: defaultImage, metadatas},
     url: siteUrl,
-    titleDelimiter,
   } = siteConfig;
   const {
     title,
@@ -30,17 +31,16 @@ export default function LayoutHead(props: Props): JSX.Element {
     permalink,
     searchMetadatas,
   } = props;
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
+
+  const htmlLang = currentLocale.split('-')[0];
   return (
     <>
       <Head>
-        {/* TODO: Do not assume that it is in english language */}
-        <html lang="en" />
+        <html lang={htmlLang} />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -52,7 +52,7 @@ export default function LayoutHead(props: Props): JSX.Element {
           <meta name="keywords" content={keywords.join(',')} />
         )}
         {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
@@ -63,7 +63,7 @@ export default function LayoutHead(props: Props): JSX.Element {
 
       <SearchMetadatas
         tag={DEFAULT_SEARCH_TAG}
-        language="en" // TODO i18n
+        locale={currentLocale}
         {...searchMetadatas}
       />
 

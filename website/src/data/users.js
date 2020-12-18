@@ -118,6 +118,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'FoalTS',
+    description: 'Node.JS framework for building web applications',
+    preview: require('./showcase/foal.png'),
+    website: 'https://foalts.org/',
+    source: 'https://github.com/FoalTS/foal/tree/master/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
@@ -320,6 +329,16 @@ const users = [
     source: 'https://github.com/nodegui/vue-nodegui',
     fbOpenSource: false,
     pinned: true,
+  },
+  {
+    title: 'Wasp',
+    description:
+      'A DSL for building full-stack web apps with less boilerplate.',
+    preview: require('./showcase/wasp.png'),
+    website: 'https://wasp-lang.dev/',
+    source: 'https://github.com/wasp-lang/wasp',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'Wisdom',

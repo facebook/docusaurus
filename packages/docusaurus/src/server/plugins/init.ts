@@ -9,11 +9,11 @@ import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
 import {
+  DocusaurusPluginVersionInformation,
   LoadContext,
   Plugin,
-  PluginOptions,
   PluginConfig,
-  DocusaurusPluginVersionInformation,
+  PluginOptions,
 } from '@docusaurus/types';
 import {CONFIG_FILE_NAME, DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
@@ -74,11 +74,10 @@ export default function initPlugins({
         pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
 
       if (validateOptions) {
-        const normalizedOptions = validateOptions({
+        pluginOptions = validateOptions({
           validate: normalizePluginOptions,
           options: pluginOptions,
         });
-        pluginOptions = normalizedOptions;
       } else {
         // Important to ensure all plugins have an id
         // as we don't go through the Joi schema that adds it

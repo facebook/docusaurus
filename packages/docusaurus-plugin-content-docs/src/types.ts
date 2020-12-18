@@ -9,6 +9,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 export type DocFile = {
+  filePath: string;
   source: string;
   content: string;
   lastUpdate: LastUpdateData;
@@ -21,7 +22,8 @@ export type VersionMetadata = {
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
   isLast: boolean;
-  docsDirPath: string; // versioned_docs/1.0.0
+  docsDirPath: string; // "versioned_docs/version-1.0.0"
+  docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
   sidebarFilePath: string; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
 };
@@ -57,28 +59,38 @@ export type PluginOptions = MetadataOptions &
     include: string[];
     docLayoutComponent: string;
     docItemComponent: string;
-    remarkPlugins: ([Function, object] | Function)[];
+    remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
     rehypePlugins: string[];
-    beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
-    beforeDefaultRehypePlugins: ([Function, object] | Function)[];
-    admonitions: any;
+    beforeDefaultRemarkPlugins: (
+      | [Function, Record<string, unknown>]
+      | Function
+    )[];
+    beforeDefaultRehypePlugins: (
+      | [Function, Record<string, unknown>]
+      | Function
+    )[];
+    admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
   };
 
-export type SidebarItemDoc = {
+export type SidebarItemBase = {
+  customProps?: object;
+};
+
+export type SidebarItemDoc = SidebarItemBase & {
   type: 'doc' | 'ref';
   id: string;
 };
 
-export type SidebarItemLink = {
+export type SidebarItemLink = SidebarItemBase & {
   type: 'link';
   href: string;
   label: string;
 };
 
-export type SidebarItemCategory = {
+export type SidebarItemCategory = SidebarItemBase & {
   type: 'category';
   label: string;
   items: SidebarItem[];
@@ -91,6 +103,7 @@ export type SidebarItem =
   | SidebarItemCategory;
 
 export type Sidebar = SidebarItem[];
+export type SidebarItemType = SidebarItem['type'];
 
 export type Sidebars = Record<string, Sidebar>;
 

@@ -16,9 +16,9 @@ import {
   getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
+  getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -36,11 +36,11 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export function getDocusaurusAliases() {
+export function getDocusaurusAliases(): Record<string, string> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: Record<string, string> = {};
+  const aliases = {};
 
   fs.readdirSync(dirPath)
     .filter((fileName) => extensions.includes(path.extname(fileName)))
@@ -67,11 +67,6 @@ export function createBaseConfig(
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
-
-  const customBabelConfigurationPath = path.join(
-    siteDir,
-    BABEL_CONFIG_FILE_NAME,
-  );
 
   const fileLoaderUtils = getFileLoaderUtils();
 
@@ -156,18 +151,14 @@ export function createBaseConfig(
       rules: [
         fileLoaderUtils.rules.images(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(
-              isServer,
-              fs.existsSync(customBabelConfigurationPath)
-                ? customBabelConfigurationPath
-                : undefined,
-            ),
+            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
           ].filter(Boolean) as Loader[],
         },
         {
@@ -192,10 +183,6 @@ export function createBaseConfig(
             sourceMap: !isProd,
             onlyLocals: isServer,
           }),
-        },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,+svgo,+titleProp,+ref![path]',
         },
       ],
     },

@@ -130,7 +130,7 @@ export default async function swizzle(
   typescript?: boolean,
   danger?: boolean,
 ): Promise<void> {
-  const context = loadContext(siteDir);
+  const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
   const pluginNames = getPluginNames(pluginConfigs);
   const plugins = initPlugins({

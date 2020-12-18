@@ -27,7 +27,14 @@ import {
   getFilePathForRoutePath,
   addLeadingSlash,
   getElementsAround,
+  mergeTranslations,
+  mapAsyncSequencial,
+  findAsyncSequential,
+  findFolderContainingFile,
+  getFolderContainingFile,
+  updateTranslationFileMessages,
 } from '../index';
+import {sum} from 'lodash';
 
 describe('load utils', () => {
   test('aliasedSitePath', () => {
@@ -558,5 +565,153 @@ describe('getElementsAround', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
     );
+  });
+});
+
+describe('mergeTranslations', () => {
+  test('should merge translations', () => {
+    expect(
+      mergeTranslations([
+        {
+          T1: {message: 'T1 message', description: 'T1 desc'},
+          T2: {message: 'T2 message', description: 'T2 desc'},
+          T3: {message: 'T3 message', description: 'T3 desc'},
+        },
+        {
+          T4: {message: 'T4 message', description: 'T4 desc'},
+        },
+        {T2: {message: 'T2 message 2', description: 'T2 desc 2'}},
+      ]),
+    ).toEqual({
+      T1: {message: 'T1 message', description: 'T1 desc'},
+      T2: {message: 'T2 message 2', description: 'T2 desc 2'},
+      T3: {message: 'T3 message', description: 'T3 desc'},
+      T4: {message: 'T4 message', description: 'T4 desc'},
+    });
+  });
+});
+
+describe('mapAsyncSequencial', () => {
+  function sleep(timeout: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  }
+
+  test('map sequentially', async () => {
+    const itemToTimeout: Record<string, number> = {
+      '1': 50,
+      '2': 150,
+      '3': 100,
+    };
+    const items = Object.keys(itemToTimeout);
+
+    const itemMapStartsAt: Record<string, number> = {};
+    const itemMapEndsAt: Record<string, number> = {};
+
+    const timeBefore = Date.now();
+    await expect(
+      mapAsyncSequencial(items, async (item) => {
+        const itemTimeout = itemToTimeout[item];
+        itemMapStartsAt[item] = Date.now();
+        await sleep(itemTimeout);
+        itemMapEndsAt[item] = Date.now();
+        return `${item} mapped`;
+      }),
+    ).resolves.toEqual(['1 mapped', '2 mapped', '3 mapped']);
+    const timeAfter = Date.now();
+
+    const timeTotal = timeAfter - timeBefore;
+
+    const totalTimeouts = sum(Object.values(itemToTimeout));
+    expect(timeTotal > totalTimeouts);
+
+    expect(itemMapStartsAt['1'] > 0);
+    expect(itemMapStartsAt['2'] > itemMapEndsAt['1']);
+    expect(itemMapStartsAt['3'] > itemMapEndsAt['2']);
+  });
+});
+
+describe('findAsyncSequencial', () => {
+  function sleep(timeout: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  }
+
+  test('find sequentially', async () => {
+    const items = ['1', '2', '3'];
+
+    const findFn = jest.fn(async (item: string) => {
+      await sleep(50);
+      return item === '2';
+    });
+
+    const timeBefore = Date.now();
+    await expect(findAsyncSequential(items, findFn)).resolves.toEqual('2');
+    const timeAfter = Date.now();
+
+    expect(findFn).toHaveBeenCalledTimes(2);
+    expect(findFn).toHaveBeenNthCalledWith(1, '1');
+    expect(findFn).toHaveBeenNthCalledWith(2, '2');
+
+    const timeTotal = timeAfter - timeBefore;
+    expect(timeTotal > 100);
+    expect(timeTotal < 150);
+  });
+});
+
+describe('findFolderContainingFile', () => {
+  test('find appropriate folder', async () => {
+    await expect(
+      findFolderContainingFile(
+        ['/abcdef', '/gehij', __dirname, '/klmn'],
+        'index.test.ts',
+      ),
+    ).resolves.toEqual(__dirname);
+  });
+
+  test('return undefined if no folder contain such file', async () => {
+    await expect(
+      findFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
+    ).resolves.toBeUndefined();
+  });
+});
+
+describe('getFolderContainingFile', () => {
+  test('get appropriate folder', async () => {
+    await expect(
+      getFolderContainingFile(
+        ['/abcdef', '/gehij', __dirname, '/klmn'],
+        'index.test.ts',
+      ),
+    ).resolves.toEqual(__dirname);
+  });
+
+  test('throw if no folder contain such file', async () => {
+    await expect(
+      getFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('updateTranslationFileMessages', () => {
+  test('should update messages', () => {
+    expect(
+      updateTranslationFileMessages(
+        {
+          path: 'abc',
+          content: {
+            t1: {message: 't1 message', description: 't1 desc'},
+            t2: {message: 't2 message', description: 't2 desc'},
+            t3: {message: 't3 message', description: 't3 desc'},
+          },
+        },
+        (message) => `prefix ${message} suffix`,
+      ),
+    ).toEqual({
+      path: 'abc',
+      content: {
+        t1: {message: 'prefix t1 message suffix', description: 't1 desc'},
+        t2: {message: 'prefix t2 message suffix', description: 't2 desc'},
+        t3: {message: 'prefix t3 message suffix', description: 't3 desc'},
+      },
+    });
   });
 });

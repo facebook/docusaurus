@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement} from 'react';
+import React, {useState, cloneElement, Children, ReactElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import type {Props} from '@theme/Tabs';
+import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
@@ -19,17 +20,13 @@ const keys = {
 };
 
 function Tabs(props: Props): JSX.Element {
-  const {
-    lazy,
-    block,
-    children,
-    defaultValue,
-    values,
-    groupId,
-    className,
-  } = props;
+  const {lazy, block, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
+
+  const children = Children.toArray(props.children) as ReactElement<
+    TabItemProps
+  >[];
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
