@@ -29,7 +29,9 @@ import loadConfig from '../server/config';
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-  forceTerminate: boolean = true, // TODO not sure what's the purpose of this arg ?
+
+  // TODO what's the purpose of this arg ?
+  forceTerminate: boolean = true,
 ): Promise<string> {
   async function tryToBuildLocale({
     locale,
@@ -225,11 +227,12 @@ async function buildLocale({
     baseUrl,
   });
 
-  const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
     `${chalk.green(
       `[${locale}] Success!`,
-    )} Generated static files in ${chalk.cyan(relativeDir)}.`,
+    )} Generated static files in ${chalk.cyan(
+      path.relative(process.cwd(), outDir),
+    )}.`,
   );
 
   if (isLastLocale) {
