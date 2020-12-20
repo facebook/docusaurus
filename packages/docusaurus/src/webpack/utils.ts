@@ -203,15 +203,15 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        reject(err);
+        reject(new Error(err.toString()));
       }
-      if (stats.hasErrors()) {
+      if (stats?.hasErrors()) {
         stats.toJson('errors-only').errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
-      if (stats.hasWarnings()) {
+      if (stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
         let {warnings} = stats.toJson('errors-warnings');
 
@@ -453,6 +453,7 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
         new OptimizeCSSAssetsPlugin({
           cssProcessor: CleanCss,
           cssProcessorOptions: {
+            inline: false,
             level: {
               1: {
                 all: false,
