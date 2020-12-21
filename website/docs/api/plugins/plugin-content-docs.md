@@ -38,6 +38,7 @@ module.exports = {
         /**
          * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
+         * INFO: It is possible to set just `/` for shipping docs without base path.
          */
         routeBasePath: 'docs',
         include: ['**/*.md', '**/*.mdx'], // Extensions to include.
