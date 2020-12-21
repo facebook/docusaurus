@@ -204,7 +204,7 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     // Skip import/export declaration.
-    if (/^.*import\s.*from.*;?|export\s.*{.*};?/.test(fileLine)) {
+    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
       continue;
     }
 

@@ -386,6 +386,7 @@ describe('load utils', () => {
         input: `
           import Component from '@site/src/components/Component';
           import Component from '@site/src/components/Component'
+          import './styles.css';
 
           export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
 
