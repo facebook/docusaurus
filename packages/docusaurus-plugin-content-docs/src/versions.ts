@@ -22,7 +22,7 @@ import {
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
-import {getPluginI18nPath, normalizeUrl} from '@docusaurus/utils';
+import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {difference} from 'lodash';
 import chalk from 'chalk';
 
@@ -174,6 +174,26 @@ function getVersionMetadataPaths({
   return {docsDirPath, docsDirPathLocalized, sidebarFilePath};
 }
 
+function getVersionEditUrl({
+  docsDirPath,
+  context: {siteDir},
+  options: {path: currentVersionPath, editUrl, editCurrentVersion},
+}: {
+  docsDirPath: string;
+  context: Pick<LoadContext, 'siteDir'>;
+  options: Pick<PluginOptions, 'path' | 'editUrl' | 'editCurrentVersion'>;
+}): string | undefined {
+  if (!editUrl) {
+    return undefined;
+  }
+
+  // TODO we could allow to configure the edit url we want for each version
+  const editDirPath = editCurrentVersion ? currentVersionPath : docsDirPath;
+
+  const versionPathSegment = posixPath(path.relative(siteDir, editDirPath));
+  return normalizeUrl([editUrl!, versionPathSegment]);
+}
+
 function createVersionMetadata({
   versionName,
   isLast,
@@ -185,7 +205,13 @@ function createVersionMetadata({
   context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'i18n'>;
   options: Pick<
     PluginOptions,
-    'id' | 'path' | 'sidebarPath' | 'routeBasePath' | 'versions'
+    | 'id'
+    | 'path'
+    | 'sidebarPath'
+    | 'routeBasePath'
+    | 'versions'
+    | 'editUrl'
+    | 'editCurrentVersion'
   >;
 }): VersionMetadata {
   const {
@@ -218,6 +244,8 @@ function createVersionMetadata({
     versionPathPart,
   ]);
 
+  const versionEditUrl = getVersionEditUrl({docsDirPath, context, options});
+
   // Because /docs/:route` should always be after `/docs/versionName/:route`.
   const routePriority = versionPathPart === '' ? -1 : undefined;
 
@@ -225,6 +253,7 @@ function createVersionMetadata({
     versionName,
     versionLabel,
     versionPath,
+    versionEditUrl,
     isLast,
     routePriority,
     sidebarFilePath,
@@ -354,6 +383,8 @@ export function readVersionsMetadata({
     | 'lastVersion'
     | 'versions'
     | 'onlyIncludeVersions'
+    | 'editUrl'
+    | 'editCurrentVersion'
   >;
 }): VersionMetadata[] {
   const versionNamesUnfiltered = readVersionNames(context.siteDir, options);

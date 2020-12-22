@@ -111,14 +111,17 @@ export function processDocMetadata({
   options: MetadataOptions;
 }): DocMetadataBase {
   const {source, content, lastUpdate, filePath} = docFile;
-  const {editUrl, homePageId} = options;
+  const {homePageId} = options;
   const {siteDir} = context;
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const docsEditUrl = getEditUrl(path.relative(siteDir, filePath), editUrl);
+  const docsEditUrl = getEditUrl(
+    path.relative(versionMetadata.docsDirPath, filePath),
+    versionMetadata.versionEditUrl,
+  );
 
   const {frontMatter = {}, excerpt} = parseMarkdownString(content);
   const {sidebar_label, custom_edit_url} = frontMatter;

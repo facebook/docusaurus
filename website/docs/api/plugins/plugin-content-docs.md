@@ -36,6 +36,11 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
+         * Will make the edit url of versioned docs target
+         * the current version doc instead of the versioned doc.
+         */
+        editCurrentVersion: false,
+        /**
          * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
          */

@@ -21,6 +21,7 @@ export type VersionMetadata = {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
+  versionEditUrl: string | undefined;
   isLast: boolean;
   docsDirPath: string; // "versioned_docs/version-1.0.0"
   docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
@@ -32,6 +33,7 @@ export type MetadataOptions = {
   routeBasePath: string;
   homePageId?: string;
   editUrl?: string;
+  editCurrentVersion: boolean;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
 };
