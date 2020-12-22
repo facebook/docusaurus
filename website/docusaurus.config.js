@@ -213,14 +213,14 @@ module.exports = {
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
           disableVersioning: isVersioningDisabled,
-          // lastVersion: 'current',
+          lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} (unreleased)`,
+              label: `${getNextAlphaVersionName()} 🚧`,
             },
           },
         },
