@@ -38,6 +38,7 @@ describe('normalizeDocsPluginOptions', () => {
       excludeNextVersionDocs: true,
       includeCurrentVersion: false,
       disableVersioning: true,
+      editCurrentVersion: true,
       versions: {
         current: {
           path: 'next',

@@ -51,7 +51,7 @@ const VersionsOptionsSchema = Joi.object()
 
 export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  editUrl: URISchema.default(DEFAULT_OPTIONS),
+  editUrl: URISchema,
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
