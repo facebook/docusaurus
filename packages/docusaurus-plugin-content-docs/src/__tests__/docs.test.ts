@@ -621,15 +621,46 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
     });
   });
 
-  test('translated doc with editUrl localized', async () => {
+  test('translated en doc with editUrl and editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-        // editCurrentVersion: true,
+        editCurrentVersion: true,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedDocs=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editLocalizedDocs: true,
       },
       locale: 'fr',
     });
@@ -654,6 +685,39 @@ describe('versioned site', () => {
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedDocs=true + editCurrentVersion=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editCurrentVersion: true,
+        editLocalizedDocs: true,
+      },
+      locale: 'fr',
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/fr/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated fr)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
     });
   });
 });

@@ -211,8 +211,6 @@ function getVersionEditUrls({
     return undefined;
   }
 
-  // TODO we could allow to configure the edit url we want for each version
-
   const editDirPath = editCurrentVersion ? currentVersionPath : docsDirPath;
   const editDirPathLocalized = editCurrentVersion
     ? getDocsDirPathLocalized({
@@ -223,18 +221,24 @@ function getVersionEditUrls({
       })
     : docsDirPathLocalized;
 
-  const versionPathSegment = posixPath(path.relative(siteDir, editDirPath));
+  const versionPathSegment = posixPath(
+    path.relative(siteDir, path.resolve(siteDir, editDirPath)),
+  );
   const versionPathSegmentLocalized = posixPath(
-    path.relative(siteDir, editDirPathLocalized),
+    path.relative(siteDir, path.resolve(siteDir, editDirPathLocalized)),
   );
 
   const versionEditUrl = normalizeUrl([editUrl, versionPathSegment]);
+
   const versionEditUrlLocalized = normalizeUrl([
     editUrl,
     versionPathSegmentLocalized,
   ]);
 
-  return {versionEditUrl, versionEditUrlLocalized};
+  return {
+    versionEditUrl,
+    versionEditUrlLocalized,
+  };
 }
 
 function createVersionMetadata({

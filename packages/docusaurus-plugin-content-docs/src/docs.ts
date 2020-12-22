@@ -122,9 +122,10 @@ export function processDocMetadata({
 
   const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
 
-  const versionEditUrl = isLocalized
-    ? versionMetadata.versionEditUrlLocalized
-    : versionMetadata.versionEditUrl;
+  const versionEditUrl =
+    isLocalized && options.editLocalizedDocs
+      ? versionMetadata.versionEditUrlLocalized
+      : versionMetadata.versionEditUrl;
 
   const docsEditUrl = getEditUrl(relativeFilePath, versionEditUrl);
 
