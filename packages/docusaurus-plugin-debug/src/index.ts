@@ -9,7 +9,7 @@ import {LoadContext, Plugin} from '@docusaurus/types';
 import {docuHash, normalizeUrl} from '@docusaurus/utils';
 import path from 'path';
 
-export default function pluginContentPages({
+export default function pluginDebug({
   siteConfig: {baseUrl},
   generatedFilesDir,
 }: LoadContext): Plugin<void> {
