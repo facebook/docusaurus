@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
@@ -22,6 +22,10 @@ import IconMenu from '@theme/IconMenu';
 import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function usePrevious(value) {
   const ref = useRef(value);
@@ -48,6 +52,8 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
+  autoCollapseCategory,
+  autoCollapse,
   ...props
 }) {
   const {items, label} = item;
@@ -65,6 +71,7 @@ function DocSidebarItemCategory({
   });
 
   const menuListRef = useRef<HTMLUListElement>(null);
+  const [currentCategory, setCurrentCategory] = useState(item);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
     undefined,
   );
@@ -82,18 +89,14 @@ function DocSidebarItemCategory({
     }
   }, [isActive, wasActive, collapsed]);
 
-  const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
+  const handleItemClick = async (category) => {
+    if (!menuListHeight) {
+      handleMenuListHeight();
+    }
 
-      if (!menuListHeight) {
-        handleMenuListHeight();
-      }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
-    },
-    [menuListHeight],
-  );
+    const updatedCategory = await autoCollapseCategory(category);
+    setCurrentCategory(updatedCategory);
+  };
 
   if (items.length === 0) {
     return null;
@@ -102,7 +105,7 @@ function DocSidebarItemCategory({
   return (
     <li
       className={clsx('menu__list-item', {
-        'menu__list-item--collapsed': collapsed,
+        'menu__list-item--collapsed': currentCategory.collapsed,
       })}
       key={label}>
       <a
@@ -111,7 +114,9 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? handleItemClick : undefined}
+        onClick={
+          collapsible ? () => handleItemClick(currentCategory) : undefined
+        }
         href={collapsible ? '#!' : undefined}
         {...props}>
         {label}
@@ -132,6 +137,8 @@ function DocSidebarItemCategory({
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
             item={childItem}
+            autoCollapse={autoCollapse}
+            parent={items}
             onItemClick={onItemClick}
             collapsible={collapsible}
             activePath={activePath}
@@ -176,9 +183,37 @@ function DocSidebarItemLink({
 }
 
 function DocSidebarItem(props) {
+  const {autoCollapse, parent} = props;
+
+  const autoCollapseCategory = async (item) => {
+    const isCollapsed = item.collapsed;
+
+    if (!isCollapsed) {
+      item.collapsed = !item.collapsed;
+    } else {
+      if (autoCollapse) {
+        for (const s in parent) {
+          if (parent[s].type !== 'link') {
+            parent[s].collapsed = true;
+          } else {
+            parent[s].collapsed = false;
+          }
+        }
+      }
+      item.collapsed = !item.collapsed;
+    }
+    await sleep(100);
+    return item;
+  };
+
   switch (props.item.type) {
     case 'category':
-      return <DocSidebarItemCategory {...props} />;
+      return (
+        <DocSidebarItemCategory
+          {...props}
+          autoCollapseCategory={autoCollapseCategory}
+        />
+      );
     case 'link':
     default:
       return <DocSidebarItemLink {...props} />;
@@ -189,6 +224,7 @@ function DocSidebar({
   path,
   sidebar,
   sidebarCollapsible = true,
+  autoCollapseSidebar,
   onCollapse,
   isHidden,
 }: Props): JSX.Element | null {
@@ -262,6 +298,8 @@ function DocSidebar({
                 setShowResponsiveSidebar(false);
               }}
               collapsible={sidebarCollapsible}
+              parent={sidebar}
+              autoCollapse={autoCollapseSidebar}
               activePath={path}
             />
           ))}

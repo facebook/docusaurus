@@ -77,9 +77,7 @@ module.exports = {
 };
 ```
 
-:::note
-Shorthand notation relies on the iteration order of JavaScript object keys for the category name. When using this notation, keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']`, yet this is generally true.
-:::
+:::note Shorthand notation relies on the iteration order of JavaScript object keys for the category name. When using this notation, keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']`, yet this is generally true. :::
 
 ## Using multiple sidebars
 
@@ -266,6 +264,20 @@ module.exports = {
   // ...
   themeConfig: {
     sidebarCollapsible: false,
+    // ...
+  },
+};
+```
+
+### Auto Collapsable Sidebar
+
+Using the enabled `themeConfig.autoCollapseSidebar` option, you can make the sidebar only have one parent category open at a time, helping users not get cluttered and only focus on the content they selected. If you want them to be enable this feature, set `themeConfig.autoCollapseSidebar` to `true`:
+
+```js {4} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    autoCollapseSidebar: true,
     // ...
   },
 };

@@ -79,6 +79,7 @@ declare module '@theme/DocSidebar' {
     readonly path: string;
     readonly sidebar: readonly PropSidebarItem[];
     readonly sidebarCollapsible?: boolean;
+    readonly autoCollapseSidebar?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
   };
