@@ -18,19 +18,25 @@ import writeRedirectFiles, {
 describe('createToUrl', () => {
   test('should create appropriate redirect urls', async () => {
     expect(createToUrl('/', '/docs/something/else')).toEqual(
-      '/docs/something/else/',
+      '/docs/something/else',
     );
     expect(createToUrl('/', '/docs/something/else/')).toEqual(
       '/docs/something/else/',
+    );
+    expect(createToUrl('/', 'docs/something/else')).toEqual(
+      '/docs/something/else',
     );
   });
 
   test('should create appropriate redirect urls with baseUrl', async () => {
     expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
-      '/baseUrl/docs/something/else/',
+      '/baseUrl/docs/something/else',
     );
     expect(createToUrl('/baseUrl/', '/docs/something/else/')).toEqual(
       '/baseUrl/docs/something/else/',
+    );
+    expect(createToUrl('/baseUrl/', 'docs/something/else')).toEqual(
+      '/baseUrl/docs/something/else',
     );
   });
 });
