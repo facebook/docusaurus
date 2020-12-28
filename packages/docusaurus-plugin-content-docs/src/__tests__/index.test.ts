@@ -143,12 +143,12 @@ describe('empty/no docs website', () => {
           path: `path/doesnt/exist`,
         }),
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at ${
+    ).toThrowError(
+      `The docs folder does not exist for version [current]. A docs folder is expected to be found at ${
         process.platform === 'win32'
           ? 'path\\doesnt\\exist'
           : 'path/doesnt/exist'
-      }"`,
+      }`,
     );
   });
 });
