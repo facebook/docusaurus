@@ -41,15 +41,13 @@ async function getSourceCodeFilePaths(
     plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
   );
 
+  // Required for Windows support, as paths using \ should not be used by globby
+  // (also using the windows hard drive prefix like c: is not a good idea)
   const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
     posixPath(nodePath.relative(process.cwd(), path)),
   );
 
   const filePaths = await globby(allRelativePosixPathsToWatch);
-
-  console.log('allPathsToWatch', allPathsToWatch);
-  console.log('allRelativePosixPathsToWatch', allRelativePosixPathsToWatch);
-  console.log('filePaths', filePaths);
 
   return filePaths.filter(isTranslatableSourceCodePath);
 }
