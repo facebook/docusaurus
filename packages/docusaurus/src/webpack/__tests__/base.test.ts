@@ -15,6 +15,7 @@ import {
 } from '../base';
 import * as utils from '../utils';
 import {mapValues} from 'lodash';
+import {posixPath} from '@docusaurus/utils';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {
@@ -70,7 +71,7 @@ describe('getDocusaurusAliases()', () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = mapValues(
       getDocusaurusAliases(),
-      (aliasValue) => path.relative(__dirname, aliasValue),
+      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
