@@ -140,8 +140,9 @@ export function posixPath(str: string): string {
   return str.replace(/\\/g, '/');
 }
 
-// When you want to display a path in an error message, it's more convenient to:
-// - make it relative to cwd
+// When you want to display a path in a message/warning/error,
+// it's more convenient to:
+// - make it relative to cwd()
 // - convert to posix (ie not using windows \ path separator)
 // This way, Jest tests can run more reliably on any computer/CI
 // on both Unix/Windows

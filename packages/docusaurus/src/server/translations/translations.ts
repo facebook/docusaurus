@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import {InitPlugin} from '../plugins/init';
 import {mapValues, difference} from 'lodash';
 import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
-import {getPluginI18nPath} from '@docusaurus/utils';
+import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import * as Joi from 'joi';
 import chalk from 'chalk';
 
@@ -128,15 +128,15 @@ Maybe you should remove them?
     console.log(
       `${Object.keys(mergedContent)
         .length.toString()
-        .padStart(3, ' ')} translations will be written at ${path.relative(
-        process.cwd(),
+        .padStart(
+          3,
+          ' ',
+        )} translations will be written at ${toMessageRelativeFilePath(
         filePath,
       )}`,
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
-
-    console.log(`FILE WRITTEN TEST: ${filePath}`);
   }
 }
 

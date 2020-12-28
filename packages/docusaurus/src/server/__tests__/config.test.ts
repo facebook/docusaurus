@@ -35,17 +35,6 @@ describe('loadConfig', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'nonExisting');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowError(
-      `docusaurus.config.js not found at ${path.join(
-        'packages',
-        'docusaurus',
-        'src',
-        'server',
-        '__tests__',
-        '__fixtures__',
-        'nonExisting',
-        'docusaurus.config.js',
-      )}`,
-    );
+    }).toThrowErrorMatchingSnapshot();
   });
 });
