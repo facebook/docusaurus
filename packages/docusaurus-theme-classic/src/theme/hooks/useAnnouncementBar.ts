@@ -6,7 +6,7 @@
  */
 
 import {useState, useEffect, useCallback} from 'react';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnouncementBar';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';

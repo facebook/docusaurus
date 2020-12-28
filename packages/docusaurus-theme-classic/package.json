@@ -1,45 +1,51 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.70",
   "description": "Classic theme for Docusaurus",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "types": "src/types.d.ts",
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-classic"
+  },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --noEmit && yarn babel && yarn prettier",
-    "watch": "yarn babel --watch",
-    "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier",
+    "watch": "concurrently -n \"lib,lib-next\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\"",
+    "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.65",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.65",
-    "@docusaurus/types": "2.0.0-alpha.65",
-    "@docusaurus/utils-validation": "2.0.0-alpha.65",
-    "@hapi/joi": "^17.1.1",
-    "@mdx-js/mdx": "^1.5.8",
-    "@mdx-js/react": "^1.5.8",
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.70",
+    "@docusaurus/theme-common": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70",
+    "@docusaurus/utils": "2.0.0-alpha.70",
+    "@docusaurus/utils-validation": "2.0.0-alpha.70",
+    "@mdx-js/mdx": "^1.6.21",
+    "@mdx-js/react": "^1.6.21",
     "@types/react-toggle": "^4.0.2",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
-    "infima": "0.2.0-alpha.13",
+    "infima": "0.2.0-alpha.18",
+    "joi": "^17.2.1",
     "lodash": "^4.17.19",
-    "parse-numeric-range": "^0.0.2",
-    "prism-react-renderer": "^1.1.0",
-    "prismjs": "^1.20.0",
+    "parse-numeric-range": "^1.2.0",
+    "prism-react-renderer": "^1.1.1",
+    "prismjs": "^1.22.0",
     "prop-types": "^15.7.2",
-    "react-router-dom": "^5.1.2",
-    "react-toggle": "^4.1.1",
-    "use-onclickoutside": "^0.3.1"
+    "react-router-dom": "^5.2.0",
+    "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.65",
-    "@types/hapi__joi": "^17.1.2"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.70"
   },
   "peerDependencies": {
     "react": "^16.8.4",

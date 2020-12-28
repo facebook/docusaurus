@@ -1,0 +1,53 @@
+name: Canary releases
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  checkPackagesHaveChanged:
+    runs-on: ubuntu-latest
+    outputs:
+      packagesHaveChanged: ${{ steps.filter.outputs.packagesHaveChanged }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            packagesHaveChanged:
+              - 'packages/**'
+
+  publish-canary:
+    needs: checkPackagesHaveChanged
+    if: ${{ needs.checkPackagesHaveChanged.outputs.packagesHaveChanged == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Prepare git
+        run: |
+          git config --global user.name "Docusaurus Canary"
+          git config --global user.email "canary@docusaurus.io"
+          git fetch
+          git checkout master
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+          cat .npmrc
+          echo "npm whoami"
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Installation
+        run: yarn
+      - name: Publish Canary release
+        run: |
+          yarn canary
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

@@ -39,6 +39,7 @@ Available document ids=
       type: 'link',
       label: sidebar_label || title,
       href: permalink,
+      customProps: item.customProps,
     };
   };
 
@@ -62,9 +63,11 @@ Available document ids=
 }
 
 export function toVersionMetadataProp(
+  pluginId: string,
   loadedVersion: LoadedVersion,
 ): PropVersionMetadata {
   return {
+    pluginId,
     version: loadedVersion.versionName,
     label: loadedVersion.versionLabel,
     isLast: loadedVersion.isLast,

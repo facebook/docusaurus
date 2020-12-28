@@ -5,18 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
   URISchema,
 } from '@docusaurus/utils-validation';
 
+const DEFAULT_I18N_LOCALE = 'en';
+
+export const DEFAULT_I18N_CONFIG: I18nConfig = {
+  defaultLocale: DEFAULT_I18N_LOCALE,
+  locales: [DEFAULT_I18N_LOCALE],
+  localeConfigs: {},
+};
+
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
+  | 'i18n'
   | 'onBrokenLinks'
+  | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
@@ -24,8 +34,12 @@ export const DEFAULT_CONFIG: Pick<
   | 'customFields'
   | 'themeConfig'
   | 'titleDelimiter'
+  | 'noIndex'
+  | 'baseUrlIssueBanner'
 > = {
+  i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -33,11 +47,14 @@ export const DEFAULT_CONFIG: Pick<
   customFields: {},
   themeConfig: {},
   titleDelimiter: '|',
+  noIndex: false,
+  baseUrlIssueBanner: true,
 };
 
 const PluginSchema = Joi.alternatives().try(
   Joi.string(),
   Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+  Joi.bool().equal(false), // In case of conditional adding of plugins.
 );
 
 const ThemeSchema = Joi.alternatives().try(
@@ -50,18 +67,37 @@ const PresetSchema = Joi.alternatives().try(
   Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
 );
 
+const LocaleConfigSchema = Joi.object({
+  label: Joi.string(),
+});
+
+const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
+  defaultLocale: Joi.string().required(),
+  locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
+  localeConfigs: Joi.object()
+    .pattern(/.*/, LocaleConfigSchema)
+    .default(DEFAULT_I18N_CONFIG.localeConfigs),
+})
+  .optional()
+  .default(DEFAULT_I18N_CONFIG);
+
 // TODO move to @docusaurus/utils-validation
 const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
     .regex(new RegExp('/$', 'm'))
     .message('{{#label}} must be a string with a trailing `/`'),
+  baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: URISchema.required(),
+  i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
+  onBrokenMarkdownLinks: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -94,6 +130,7 @@ const ConfigSchema = Joi.object({
   clientModules: Joi.array().items(Joi.string()),
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
+  noIndex: Joi.bool().default(false),
 });
 
 // TODO move to @docusaurus/utils-validation

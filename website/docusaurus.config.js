@@ -47,8 +47,22 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl,
+  baseUrlIssueBanner: true,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    },
+  },
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -63,6 +77,7 @@ module.exports = {
         id: 'community',
         path: 'community',
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editCurrentVersion: true,
         routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
@@ -136,7 +151,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: 'manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
@@ -191,18 +206,21 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
+          editCurrentVersion: true,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ],
           disableVersioning: isVersioningDisabled,
-          lastVersion: 'current',
+          lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} (unreleased)`,
+              label: `${getNextAlphaVersionName()} 🚧`,
             },
           },
         },
@@ -216,9 +234,11 @@ module.exports = {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: 'All our posts',
         },
         pages: {
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
@@ -227,6 +247,7 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
@@ -249,9 +270,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      searchParameters: {
-        facetFilters: [`version:latest`],
-      },
+      contextualSearch: true,
     },
     navbar: {
       hideOnScroll: true,
@@ -294,6 +313,7 @@ module.exports = {
             },
           ],
         },
+        // {type: 'localeDropdown', position: 'right'},
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
@@ -318,7 +338,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
+              to: 'docs/migration',
             },
           ],
         },

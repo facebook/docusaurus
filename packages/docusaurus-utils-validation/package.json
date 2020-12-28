@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils-validation",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.70",
   "description": "Node validation utility functions for Docusaurus packages",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -11,14 +11,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils-validation"
   },
+  "license": "MIT",
   "dependencies": {
-    "@docusaurus/utils": "2.0.0-alpha.65",
-    "@hapi/joi": "17.1.1",
-    "chalk": "^3.0.0"
+    "@docusaurus/utils": "2.0.0-alpha.70",
+    "chalk": "^3.0.0",
+    "joi": "^17.2.1"
   },
   "engines": {
     "node": ">=10.15.1"

@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, ReactElement, useEffect} from 'react';
+import React, {useState, cloneElement, Children, ReactElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import type {Props} from '@theme/Tabs';
+import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
@@ -16,14 +17,16 @@ import styles from './styles.module.css';
 const keys = {
   left: 37,
   right: 39,
-  tab: 9,
 };
 
 function Tabs(props: Props): JSX.Element {
-  const {block, children, defaultValue, values, groupId} = props;
+  const {lazy, block, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
-  const [keyboardPress, setKeyboardPress] = useState(false);
+
+  const children = Children.toArray(props.children) as ReactElement<
+    TabItemProps
+  >[];
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -78,31 +81,18 @@ function Tabs(props: Props): JSX.Element {
     }
   };
 
-  const handleKeyboardEvent = (event) => {
-    if (event.metaKey || event.altKey || event.ctrlKey) {
-      return;
-    }
-
-    setKeyboardPress(true);
-  };
-
-  const handleMouseEvent = () => {
-    setKeyboardPress(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyboardEvent);
-    window.addEventListener('mousedown', handleMouseEvent);
-  }, []);
-
   return (
     <div>
       <ul
         role="tablist"
         aria-orientation="horizontal"
-        className={clsx('tabs', {
-          'tabs--block': block,
-        })}>
+        className={clsx(
+          'tabs',
+          {
+            'tabs--block': block,
+          },
+          className,
+        )}>
         {values.map(({value, label}) => (
           <li
             role="tab"
@@ -111,32 +101,37 @@ function Tabs(props: Props): JSX.Element {
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
-            style={keyboardPress ? {} : {outline: 'none'}}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={(event) => {
               handleKeydown(tabRefs, event.target, event);
-              handleKeyboardEvent(event);
             }}
             onFocus={() => changeSelectedValue(value)}
             onClick={() => {
               changeSelectedValue(value);
-              setKeyboardPress(false);
-            }}
-            onPointerDown={() => setKeyboardPress(false)}>
+            }}>
             {label}
           </li>
         ))}
       </ul>
-      <div role="tabpanel" className="margin-vert--md">
-        {
-          Children.toArray(children).filter(
-            (child) =>
-              (child as ReactElement<{value: string}>).props.value ===
-              selectedValue,
-          )[0]
-        }
-      </div>
+
+      {lazy ? (
+        cloneElement(
+          children.filter(
+            (tabItem) => tabItem.props.value === selectedValue,
+          )[0],
+          {className: 'margin-vert--md'},
+        )
+      ) : (
+        <div className="margin-vert--md">
+          {children.map((tabItem, i) =>
+            cloneElement(tabItem, {
+              key: i,
+              hidden: tabItem.props.value !== selectedValue,
+            }),
+          )}
+        </div>
+      )}
     </div>
   );
 }

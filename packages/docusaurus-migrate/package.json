@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/migrate",
-  "version": "2.0.0-alpha.65",
-  "description": "A cli tool to migrate between different version of docusuarus",
+  "version": "2.0.0-alpha.70",
+  "description": "A cli tool to migrate between different version of Docusuarus",
   "main": "lib/index.js",
   "license": "MIT",
   "engines": {
@@ -11,6 +11,11 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-migrate"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -18,6 +23,7 @@
     "docusaurus-migrate": "bin/index.js"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.1.6",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
     "chalk": "^4.1.0",
     "color": "^3.1.2",
@@ -25,19 +31,19 @@
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "hast-util-to-string": "^1.0.4",
-    "hast-util-to-text": "^2.0.0",
+    "hast-util-to-text": "^2.0.1",
     "html-tags": "^3.1.0",
-    "import-fresh": "^3.2.1",
+    "import-fresh": "^3.2.2",
     "jscodeshift": "^0.10.0",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
     "semver": "^7.3.2",
-    "unified": "^9.0.0",
+    "unified": "^9.2.0",
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.1",
+    "@types/color": "^3.0.1",
     "@types/jscodeshift": "^0.7.1"
   }
 }

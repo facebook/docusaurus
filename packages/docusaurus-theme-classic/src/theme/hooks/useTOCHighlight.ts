@@ -17,27 +17,39 @@ function useTOCHighlight(
   );
 
   useEffect(() => {
-    let headersAnchors: HTMLCollectionOf<Element>;
-    let links: HTMLCollectionOf<HTMLAnchorElement>;
-
     function setActiveLink() {
-      function getActiveHeaderAnchor() {
-        let index = 0;
-        let activeHeaderAnchor: Element | null = null;
+      function getActiveHeaderAnchor(): Element | null {
+        const headersAnchors: Element[] = Array.from(
+          document.getElementsByClassName('anchor'),
+        );
 
-        headersAnchors = document.getElementsByClassName('anchor');
-        while (index < headersAnchors.length && !activeHeaderAnchor) {
-          const headerAnchor = headersAnchors[index];
-          const {top} = headerAnchor.getBoundingClientRect();
+        const firstAnchorUnderViewportTop = headersAnchors.find((anchor) => {
+          const {top} = anchor.getBoundingClientRect();
+          return top >= topOffset;
+        });
 
-          if (top >= 0 && top <= topOffset) {
-            activeHeaderAnchor = headerAnchor;
+        if (firstAnchorUnderViewportTop) {
+          // If first anchor in viewport is under a certain threshold, we consider it's not the active anchor.
+          // In such case, the active anchor is the previous one (if it exists), that may be above the viewport
+          if (
+            firstAnchorUnderViewportTop.getBoundingClientRect().top >= topOffset
+          ) {
+            const previousAnchor =
+              headersAnchors[
+                headersAnchors.indexOf(firstAnchorUnderViewportTop) - 1
+              ];
+            return previousAnchor ?? firstAnchorUnderViewportTop;
           }
-
-          index += 1;
+          // If the anchor is at the top of the viewport, we consider it's the first anchor
+          else {
+            return firstAnchorUnderViewportTop;
+          }
         }
-
-        return activeHeaderAnchor;
+        // no anchor under viewport top? (ie we are at the bottom of the page)
+        else {
+          // highlight the last anchor found
+          return headersAnchors[headersAnchors.length - 1];
+        }
       }
 
       const activeHeaderAnchor = getActiveHeaderAnchor();
@@ -47,7 +59,9 @@ function useTOCHighlight(
         let itemHighlighted = false;
 
         // @ts-expect-error: Must be <a> tags.
-        links = document.getElementsByClassName(linkClassName);
+        const links: HTMLCollectionOf<HTMLAnchorElement> = document.getElementsByClassName(
+          linkClassName,
+        );
         while (index < links.length && !itemHighlighted) {
           const link = links[index];
           const {href} = link;

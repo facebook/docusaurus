@@ -10,11 +10,11 @@ exports[`transformAsset plugin pathname protocol 1`] = `
 exports[`transformAsset plugin transform md links to <a /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  ></a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}></a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  >asset</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}>asset</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default} title={Title} >asset</a> ![seet](asset)
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}title=\\"Title\\">asset</a>
 
 ## Heading
 
@@ -26,10 +26,16 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 
 [assets](/github/!file-loader!/assets.pdf)
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}  >asset</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}>asset</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >staticAsset.pdf</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>staticAsset.pdf</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}  >@site/static/staticAsset.pdf</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>@site/static/staticAsset.pdf</a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>Just staticAsset.pdf</a>, and <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}><strong>awesome</strong> staticAsset 2.pdf &#39;It is really &quot;AWESOME&quot;&#39;</a>, but also <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>coded <code>staticAsset 3.pdf</code></a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAssetImage.png').default}><img alt={\\"Clickable Docusaurus logo\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./static/staticAssetImage.png\\").default} /></a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}><span style={{color: \\"red\\"}}>Stylized link to asset file</span></a>
 "
 `;

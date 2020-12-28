@@ -13,6 +13,7 @@ import {
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -29,6 +30,10 @@ export default function DocsVersionDropdownNavbarItem({
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
+  const {preferredVersion, savePreferredVersionName} = useDocsPreferredVersion(
+    docsPluginId,
+  );
+
   function getItems() {
     const versionLinks = versions.map((version) => {
       // We try to link to the same doc, in another version
@@ -41,6 +46,9 @@ export default function DocsVersionDropdownNavbarItem({
         label: version.label,
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
+        onClick: () => {
+          savePreferredVersionName(version.name);
+        },
       };
     });
 
@@ -52,7 +60,7 @@ export default function DocsVersionDropdownNavbarItem({
 
     // We don't want to render a version dropdown with 0 or 1 item
     // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
-    // We'd rather render a buttonb instead of a dropdown
+    // We'd rather render a button instead of a dropdown
     if (items.length <= 1) {
       return undefined;
     }
@@ -60,7 +68,8 @@ export default function DocsVersionDropdownNavbarItem({
     return items;
   }
 
-  const dropdownVersion = activeDocContext.activeVersion ?? latestVersion;
+  const dropdownVersion =
+    activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
   // Mobile is handled a bit differently
   const dropdownLabel = mobile ? 'Versions' : dropdownVersion.label;

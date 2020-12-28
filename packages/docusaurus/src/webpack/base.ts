@@ -7,20 +7,18 @@
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
-import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
-
 import {Props} from '@docusaurus/types';
 import {
   getBabelLoader,
   getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
+  getCustomBabelConfigFilePath,
+  getMinimizer,
 } from './utils';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -38,31 +36,37 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-// See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
-let terserParallel: boolean | number = true;
-if (process.env.TERSER_PARALLEL === 'false') {
-  terserParallel = false;
-} else if (
-  process.env.TERSER_PARALLEL &&
-  parseInt(process.env.TERSER_PARALLEL, 10) > 0
-) {
-  terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
+export function getDocusaurusAliases(): Record<string, string> {
+  const dirPath = path.resolve(__dirname, '../client/exports');
+  const extensions = ['.js', '.ts', '.tsx'];
+
+  const aliases = {};
+
+  fs.readdirSync(dirPath)
+    .filter((fileName) => extensions.includes(path.extname(fileName)))
+    .forEach((fileName) => {
+      const fileNameWithoutExtension = path.basename(
+        fileName,
+        path.extname(fileName),
+      );
+      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
+      aliases[aliasName] = path.resolve(dirPath, fileName);
+    });
+
+  return aliases;
 }
 
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
-  minify: boolean,
+  minify: boolean = true,
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
-
-  const customBabelConfigurationPath = path.join(
-    siteDir,
-    BABEL_CONFIG_FILE_NAME,
-  );
+  const minimizeEnabled = minify && isProd && !isServer;
+  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
   const fileLoaderUtils = getFileLoaderUtils();
 
@@ -88,7 +92,11 @@ export function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-        '@docusaurus': path.resolve(__dirname, '../client/exports'),
+
+        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
+        // so we use fine-grained aliases instead
+        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        ...getDocusaurusAliases(),
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
@@ -108,46 +116,10 @@ export function createBaseConfig(
     optimization: {
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
-      minimize: minify && isProd && !isServer,
-      minimizer:
-        minify && isProd
-          ? [
-              new TerserPlugin({
-                cache: true,
-                parallel: terserParallel,
-                sourceMap: false,
-                terserOptions: {
-                  parse: {
-                    // we want uglify-js to parse ecma 8 code. However, we don't want it
-                    // to apply any minfication steps that turns valid ecma 5 code
-                    // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                    // sections only apply transformations that are ecma 5 safe
-                    // https://github.com/facebook/create-react-app/pull/4234
-                    ecma: 8,
-                  },
-                  compress: {
-                    ecma: 5,
-                    warnings: false,
-                  },
-                  mangle: {
-                    safari10: true,
-                  },
-                  output: {
-                    ecma: 5,
-                    comments: false,
-                    // Turned on because emoji and regex is not minified properly using default
-                    // https://github.com/facebook/create-react-app/issues/2488
-                    ascii_only: true,
-                  },
-                },
-              }),
-              new OptimizeCSSAssetsPlugin({
-                cssProcessorPluginOptions: {
-                  preset: 'default',
-                },
-              }),
-            ]
-          : undefined,
+      minimize: minimizeEnabled,
+      minimizer: minimizeEnabled
+        ? getMinimizer(useSimpleCssMinifier)
+        : undefined,
       splitChunks: isServer
         ? false
         : {
@@ -179,18 +151,14 @@ export function createBaseConfig(
       rules: [
         fileLoaderUtils.rules.images(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(
-              isServer,
-              fs.existsSync(customBabelConfigurationPath)
-                ? customBabelConfigurationPath
-                : undefined,
-            ),
+            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
           ].filter(Boolean) as Loader[],
         },
         {
@@ -215,10 +183,6 @@ export function createBaseConfig(
             sourceMap: !isProd,
             onlyLocals: isServer,
           }),
-        },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,-svgo,+titleProp,+ref![path]',
         },
       ],
     },

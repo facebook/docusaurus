@@ -11,6 +11,8 @@ const visit = require('unist-util-visit');
 const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
+const escapeHtml = require('escape-html');
+const {toValue} = require('../utils');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
 
 const {
@@ -35,7 +37,9 @@ async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
 }
 
 // transform the link node to a jsx link with a require() call
-function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
+function toAssetRequireNode({node, filePath, requireAssetPath}) {
+  /* eslint-disable no-param-reassign */
+
   let relativeRequireAssetPath = posixPath(
     path.relative(path.dirname(filePath), requireAssetPath),
   );
@@ -45,35 +49,18 @@ function toAssetRequireNode({node, index, parent, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const hrefProp = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
+  const href = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
+  const children = (node.children || []).map((n) => toValue(n)).join('');
+  const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
   node.type = 'jsx';
-
-  node.value = `<a target="_blank" href={${hrefProp}} ${
-    node.title ? `title={${node.title}}` : ''
-  } >`;
-
-  const linkText = (node.children[0] && node.children[0].value) || '';
-  delete node.children;
-
-  parent.children.splice(index + 1, 0, {
-    type: 'text',
-    value: linkText,
-  });
-
-  parent.children.splice(index + 2, 0, {type: 'jsx', value: '</a>'});
+  node.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,
 // and use a require("assetUrl") (using webpack url-loader/file-loader)
 // instead of navigating to such link
-async function convertToAssetLinkIfNeeded({
-  node,
-  index,
-  parent,
-  staticDir,
-  filePath,
-}) {
+async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
   const assetPath = node.url;
 
   const hasSiteAlias = assetPath.startsWith('@site/');
@@ -89,8 +76,6 @@ async function convertToAssetLinkIfNeeded({
   function toAssetLinkNode(requireAssetPath) {
     toAssetRequireNode({
       node,
-      index,
-      parent,
       filePath,
       requireAssetPath,
     });
@@ -117,7 +102,7 @@ async function convertToAssetLinkIfNeeded({
   }
 }
 
-async function processLinkNode({node, index, parent, filePath, staticDir}) {
+async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -139,8 +124,6 @@ async function processLinkNode({node, index, parent, filePath, staticDir}) {
 
   await convertToAssetLinkIfNeeded({
     node,
-    index,
-    parent,
     staticDir,
     filePath,
   });

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const path = require('path');
 
 const DEFAULT_OPTIONS = {

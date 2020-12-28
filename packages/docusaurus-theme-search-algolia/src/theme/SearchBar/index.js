@@ -14,6 +14,7 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
 
 let DocSearchModal = null;
 
@@ -31,8 +32,25 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch(props) {
+function DocSearch({contextualSearch, ...props}) {
   const {siteMetadata} = useDocusaurusContext();
+
+  const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
+
+  const configFacetFilters = props.searchParameters?.facetFilters ?? [];
+
+  const facetFilters = contextualSearch
+    ? // Merge contextual search filters with config filters
+      [...contextualSearchFacetFilters, ...configFacetFilters]
+    : // ... or use config facetFilters
+      configFacetFilters;
+
+  // we let user override default searchParameters if he wants to
+  const searchParameters = {
+    ...props.searchParameters,
+    facetFilters,
+  };
+
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const searchButtonRef = useRef(null);
@@ -74,8 +92,8 @@ function DocSearch(props) {
   );
 
   const navigator = useRef({
-    navigate({suggestionUrl}) {
-      history.push(suggestionUrl);
+    navigate({itemUrl}) {
+      history.push(itemUrl);
     },
   }).current;
 
@@ -152,6 +170,7 @@ function DocSearch(props) {
             resultsFooterComponent={resultsFooterComponent}
             transformSearchClient={transformSearchClient}
             {...props}
+            searchParameters={searchParameters}
           />,
           document.body,
         )}

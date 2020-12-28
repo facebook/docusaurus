@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
 import chalk from 'chalk';
 import {PluginIdSchema} from './validationSchemas';
 
@@ -25,7 +25,7 @@ if (isValidationDisabledEscapeHatch) {
   );
 }
 
-export const logValidationBugReportHint = () => {
+export const logValidationBugReportHint = (): void => {
   console.log(
     `\n${chalk.red('A validation error occured.')}${chalk.cyanBright(
       '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +

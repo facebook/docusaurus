@@ -8,8 +8,14 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
+
+const DefaultI18N: I18n = {
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
+};
 
 function validateAndNormalize(schema, options) {
   const {value, error} = schema.validate(options);
@@ -34,6 +40,7 @@ describe('loadBlog', () => {
         siteDir,
         siteConfig,
         generatedFilesDir,
+        i18n: DefaultI18N,
       } as LoadContext,
       validateAndNormalize(PluginOptionSchema, {
         path: pluginPath,
@@ -66,26 +73,28 @@ describe('loadBlog', () => {
       tags: [],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-        title: 'Happy 1st Birthday Slash!',
+        title: 'Happy 1st Birthday Slash! (translated)',
       },
       truncated: false,
     });
 
     expect(
-      blogPosts.find((v) => v.metadata.title === 'Happy 1st Birthday Slash!')
-        .metadata,
+      blogPosts.find(
+        (v) => v.metadata.title === 'Happy 1st Birthday Slash! (translated)',
+      ).metadata,
     ).toEqual({
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2018-12-14-Happy-First-Birthday-Slash.md',
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/i18n/en/docusaurus-plugin-content-blog/2018-12-14-Happy-First-Birthday-Slash.md',
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-      readingTime: 0.01,
+      readingTime: 0.015,
       source: path.join(
         '@site',
-        pluginPath,
+        // pluginPath,
+        path.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
         '2018-12-14-Happy-First-Birthday-Slash.md',
       ),
-      title: 'Happy 1st Birthday Slash!',
-      description: `pattern name`,
+      title: 'Happy 1st Birthday Slash! (translated)',
+      description: `Happy birthday! (translated)`,
       date: new Date('2018-12-14'),
       tags: [],
       prevItem: {

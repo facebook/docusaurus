@@ -25,6 +25,39 @@ describe('brokenLinks', () => {
     expect(message).toMatchSnapshot();
   });
 
+  test('getBrokenLinksErrorMessage with potential layout broken links', async () => {
+    const frequentLink = [
+      {
+        link: './myBrokenLinkFrequent1',
+        resolvedLink: '/docs/myBrokenLinkFrequent1',
+      },
+      {
+        link: './myBrokenLinkFrequent2',
+        resolvedLink: '/docs/myBrokenLinkFrequent2',
+      },
+    ];
+    const infrequentLink = [
+      {
+        link: './myBrokenLinkInfrequent1',
+        resolvedLink: '/docs/myBrokenLinkInfrequent1',
+      },
+      {
+        link: './myBrokenLinkInfrequent2',
+        resolvedLink: '/docs/myBrokenLinkInfrequent2',
+      },
+    ];
+
+    const message = getBrokenLinksErrorMessage({
+      '/docs/page1': [...frequentLink],
+      '/docs/page2': [...frequentLink, ...infrequentLink],
+      '/docs/page3': [...frequentLink],
+      '/docs/page4': [...frequentLink, ...infrequentLink],
+      '/docs/page5': [...frequentLink],
+      '/docs/page6': [...frequentLink],
+    });
+    expect(message).toMatchSnapshot();
+  });
+
   test('getAllBrokenLinks', async () => {
     const routes: RouteConfig[] = [
       {

@@ -7,11 +7,11 @@
 
 // Too dynamic
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function flat(target: unknown): any {
+function flat(target: unknown): Record<string, any> {
   const delimiter = '.';
-  const output = {};
+  const output: Record<string, any> = {};
 
-  function step(object, prev?: string) {
+  function step(object: any, prev?: string) {
     Object.keys(object).forEach((key) => {
       const value = object[key];
       const type = typeof value;

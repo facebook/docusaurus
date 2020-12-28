@@ -36,19 +36,17 @@
   color: var(--ifm-color-white);
   cursor: pointer;
   opacity: 0;
-  outline: none;
+  user-select: none;
   padding: 0.4rem 0.5rem;
   position: absolute;
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
-  visibility: hidden;
-  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
-    bottom 200ms ease-in-out;
+  transition: opacity 200ms ease-in-out;
 }
 
 .codeBlockTitle:hover + .codeBlockContent .copyButton,
-.codeBlockContent:hover > .copyButton {
-  visibility: visible;
+.codeBlockContent:hover > .copyButton,
+.copyButton:focus {
   opacity: 1;
 }
 
@@ -60,4 +58,10 @@
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+}
+
+@media print {
+  .codeBlockLines {
+    white-space: pre-wrap;
+  }
 }

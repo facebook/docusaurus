@@ -5,20 +5,57 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docPage {
-  display: flex;
+:root {
+  --doc-sidebar-width: 300px;
 }
 
-.docSidebarContainer {
-  border-right: 1px solid var(--ifm-toc-border-color);
-  box-sizing: border-box;
-  width: 300px;
-  position: relative;
-  margin-top: calc(-1 * var(--ifm-navbar-height));
-}
+@media (min-width: 997px) {
+  .docPage {
+    display: flex;
+  }
 
-.docMainContainer {
-  flex-grow: 1;
+  .docSidebarContainer {
+    width: var(--doc-sidebar-width);
+    margin-top: calc(-1 * var(--ifm-navbar-height));
+    border-right: 1px solid var(--ifm-toc-border-color);
+    will-change: width;
+    transition: width var(--ifm-transition-fast) ease;
+    clip-path: inset(0);
+  }
+
+  .docSidebarContainerHidden {
+    width: 30px;
+    cursor: e-resize;
+  }
+
+  .collapsedDocSidebar {
+    position: sticky;
+    top: 0;
+    height: 100%;
+    max-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--ifm-transition-fast) ease;
+  }
+
+  .collapsedDocSidebar:hover,
+  .collapsedDocSidebar:focus {
+    background-color: var(--ifm-color-emphasis-200);
+  }
+
+  html[data-theme='dark'] .collapsedDocSidebar:hover,
+  html[data-theme='dark'] .collapsedDocSidebar:focus {
+    background-color: var(--collapse-button-bg-color-dark);
+  }
+
+  .docMainContainer {
+    flex-grow: 1;
+  }
+
+  .docItemWrapperEnhanced {
+    max-width: calc(var(--ifm-container-width) + var(--doc-sidebar-width));
+  }
 }
 
 @media (max-width: 996px) {
@@ -28,5 +65,20 @@
 
   .docSidebarContainer {
     margin-top: 0;
+  }
+}
+
+@media (min-width: 997px) and (max-width: 1320px) {
+  .docItemWrapper {
+    max-width: calc(
+      var(--ifm-container-width) - var(--doc-sidebar-width) -
+        var(--ifm-spacing-horizontal) * 2
+    );
+  }
+
+  .docItemWrapperEnhanced {
+    max-width: calc(
+      var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2
+    );
   }
 }

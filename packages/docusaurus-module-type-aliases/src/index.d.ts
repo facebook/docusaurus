@@ -38,13 +38,28 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: any;
+  const routesChunkNames: Record<string, Record<string, string>>;
   export default routesChunkNames;
 }
 
 declare module '@generated/globalData' {
   const globalData: any;
   export default globalData;
+}
+
+declare module '@generated/i18n' {
+  const i18n: {
+    defaultLocale: string;
+    locales: [string, ...string[]];
+    currentLocale: string;
+    localeConfigs: Record<string, {label: string}>;
+  };
+  export default i18n;
+}
+
+declare module '@generated/codeTranslations' {
+  const codeTranslations: Record<string, string>;
+  export default codeTranslations;
 }
 
 declare module '@theme/*';
@@ -67,6 +82,18 @@ declare module '@docusaurus/Link' {
   };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
+}
+
+declare module '@docusaurus/Translate' {
+  type TranslateProps = {children: string; id?: string; description?: string};
+  const Translate: (props: TranslateProps) => JSX.Element;
+  export default Translate;
+
+  export function translate(param: {
+    message: string;
+    id?: string;
+    description?: string;
+  }): string;
 }
 
 declare module '@docusaurus/router' {

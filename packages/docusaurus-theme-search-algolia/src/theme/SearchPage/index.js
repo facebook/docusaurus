@@ -14,11 +14,12 @@ import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
 
 import Head from '@docusaurus/Head';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useVersioning from '@theme/hooks/useVersioning';
-import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Link from '@docusaurus/Link';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useTitleFormatter} from '@docusaurus/theme-common';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useAllDocsData} from '@theme/hooks/useDocs';
+import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Layout from '@theme/Layout';
 
 import styles from './styles.module.css';
@@ -27,15 +28,85 @@ function pluralize(count, word) {
   return count > 1 ? `${word}s` : word;
 }
 
+function useDocsSearchVersionsHelpers() {
+  const allDocsData = useAllDocsData();
+
+  // State of the version select menus / algolia facet filters
+  // docsPluginId -> versionName map
+  const [searchVersions, setSearchVersions] = useState(() => {
+    return Object.entries(allDocsData).reduce((acc, [pluginId, pluginData]) => {
+      return {...acc, [pluginId]: pluginData.versions[0].name};
+    }, {});
+  });
+
+  // Set the value of a single select menu
+  const setSearchVersion = (pluginId, searchVersion) =>
+    setSearchVersions((s) => ({...s, [pluginId]: searchVersion}));
+
+  const versioningEnabled = Object.values(allDocsData).some(
+    (docsData) => docsData.versions.length > 1,
+  );
+
+  return {
+    allDocsData,
+    versioningEnabled,
+    searchVersions,
+    setSearchVersion,
+  };
+}
+
+// We want to display one select per versioned docs plugin instance
+const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
+  const versionedPluginEntries = Object.entries(
+    docsSearchVersionsHelpers.allDocsData,
+  )
+    // Do not show a version select for unversioned docs plugin instances
+    .filter(([, docsData]) => docsData.versions.length > 1);
+
+  return (
+    <div
+      className={clsx(
+        'col',
+        'col--3',
+        'padding-left--none',
+        styles.searchVersionColumn,
+      )}>
+      {versionedPluginEntries.map(([pluginId, docsData]) => {
+        const labelPrefix =
+          versionedPluginEntries.length > 1 ? `${pluginId}: ` : '';
+        return (
+          <select
+            key={pluginId}
+            onChange={(e) =>
+              docsSearchVersionsHelpers.setSearchVersion(
+                pluginId,
+                e.target.value,
+              )
+            }
+            defaultValue={docsSearchVersionsHelpers.searchVersions[pluginId]}
+            className={styles.searchVersionInput}>
+            {docsData.versions.map((version, i) => (
+              <option
+                key={i}
+                label={`${labelPrefix}${version.label}`}
+                value={version.name}
+              />
+            ))}
+          </select>
+        );
+      })}
+    </div>
+  );
+};
+
 function Search() {
   const {
     siteConfig: {
       themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
     } = {},
   } = useDocusaurusContext();
+  const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
   const {searchValue, updateSearchPath} = useSearchQuery();
-  const {versioningEnabled, versions, latestVersion} = useVersioning();
-  const [searchVersion, setSearchVersion] = useState(latestVersion);
   const [searchQuery, setSearchQuery] = useState(searchValue);
   const initialSearchResultState = {
     items: [],
@@ -87,7 +158,7 @@ function Search() {
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    facets: searchVersion ? ['version'] : [],
+    disjunctiveFacets: ['docusaurus_tag'],
   });
 
   algoliaHelper.on(
@@ -169,25 +240,18 @@ function Search() {
       : 'Search the documentation';
 
   const makeSearch = (page = 0) => {
-    if (searchVersion) {
-      algoliaHelper
-        .setQuery(searchQuery)
-        .addFacetRefinement('version', searchVersion)
-        .setPage(page)
-        .search();
-    } else {
-      algoliaHelper.setQuery(searchQuery).setPage(page).search();
-    }
-  };
+    algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
 
-  const handleSearchInputChange = (e) => {
-    const searchInputValue = e.target.value;
+    Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
+      ([pluginId, searchVersion]) => {
+        algoliaHelper.addDisjunctiveFacetRefinement(
+          'docusaurus_tag',
+          `docs-${pluginId}-${searchVersion}`,
+        );
+      },
+    );
 
-    if (e.target.tagName === 'SELECT') {
-      setSearchVersion(searchInputValue);
-    } else {
-      setSearchQuery(searchInputValue);
-    }
+    algoliaHelper.setQuery(searchQuery).setPage(page).search();
   };
 
   useEffect(() => {
@@ -214,7 +278,7 @@ function Search() {
         makeSearch();
       }, 300);
     }
-  }, [searchQuery, searchVersion]);
+  }, [searchQuery, docsSearchVersionsHelpers.searchVersions]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -231,8 +295,9 @@ function Search() {
   }, [searchValue]);
 
   return (
-    <Layout title={getTitle()}>
+    <Layout wrapperClassName="search-page-wrapper">
       <Head>
+        <title>{useTitleFormatter(getTitle())}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233
@@ -246,8 +311,8 @@ function Search() {
         <form className="row" onSubmit={(e) => e.preventDefault()}>
           <div
             className={clsx('col', styles.searchQueryColumn, {
-              'col--9': versioningEnabled,
-              'col--12': !versioningEnabled,
+              'col--9': docsSearchVersionsHelpers.versioningEnabled,
+              'col--12': !docsSearchVersionsHelpers.versioningEnabled,
             })}>
             <input
               type="search"
@@ -255,32 +320,17 @@ function Search() {
               className={styles.searchQueryInput}
               placeholder="Type your search here"
               aria-label="Search"
-              onChange={handleSearchInputChange}
+              onChange={(e) => setSearchQuery(e.target.value)}
               value={searchQuery}
               autoComplete="off"
               autoFocus
             />
           </div>
 
-          {versioningEnabled && (
-            <div
-              className={clsx(
-                'col',
-                'col--3',
-                'padding-left--none',
-                styles.searchVersionColumn,
-              )}>
-              <select
-                onChange={handleSearchInputChange}
-                defaultValue={searchVersion}
-                className={styles.searchVersionInput}>
-                {versions.map((version, i) => (
-                  <option key={i} value={version}>
-                    {version}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {docsSearchVersionsHelpers.versioningEnabled && (
+            <SearchVersionSelectList
+              docsSearchVersionsHelpers={docsSearchVersionsHelpers}
+            />
           )}
         </form>
 
@@ -336,14 +386,23 @@ function Search() {
                   />
 
                   {breadcrumbs.length > 0 && (
-                    <span
-                      className={styles.searchResultItemPath}
-                      // Developer provided the HTML, so assume it's safe.
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: breadcrumbs.join(' › '),
-                      }}
-                    />
+                    <span className={styles.searchResultItemPath}>
+                      {breadcrumbs.map((html, index) => (
+                        <>
+                          {index !== 0 && (
+                            <span
+                              className={styles.searchResultItemPathSeparator}>
+                              ›
+                            </span>
+                          )}
+                          <span
+                            // Developer provided the HTML, so assume it's safe.
+                            // eslint-disable-next-line react/no-danger
+                            dangerouslySetInnerHTML={{__html: html}}
+                          />
+                        </>
+                      ))}
+                    </span>
                   )}
 
                   {summary && (

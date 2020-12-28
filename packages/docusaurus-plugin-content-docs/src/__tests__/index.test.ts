@@ -106,7 +106,7 @@ Entries created:
 
 test('site with wrong sidebar file', async () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
-  const context = loadContext(siteDir);
+  const context = await loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
   const plugin = pluginContentDocs(
     context,
@@ -119,9 +119,9 @@ test('site with wrong sidebar file', async () => {
 
 describe('empty/no docs website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
-  const context = loadContext(siteDir);
 
   test('no files in docs folder', async () => {
+    const context = await loadContext(siteDir);
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = pluginContentDocs(
       context,
@@ -135,6 +135,7 @@ describe('empty/no docs website', () => {
   });
 
   test('docs folder does not exist', async () => {
+    const context = await loadContext(siteDir);
     expect(() =>
       pluginContentDocs(
         context,
@@ -149,20 +150,25 @@ describe('empty/no docs website', () => {
 });
 
 describe('simple website', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
-  const context = loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'sidebars.json');
-  const plugin = pluginContentDocs(
-    context,
-    normalizePluginOptions(OptionsSchema, {
-      path: 'docs',
-      sidebarPath,
-      homePageId: 'hello',
-    }),
-  );
-  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        path: 'docs',
+        sidebarPath,
+        homePageId: 'hello',
+      }),
+    );
+    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
-  test('extendCli - docsVersion', () => {
+    return {siteDir, context, sidebarPath, plugin, pluginContentDir};
+  }
+
+  test('extendCli - docsVersion', async () => {
+    const {siteDir, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
@@ -178,7 +184,9 @@ describe('simple website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', () => {
+  test('getPathToWatch', async () => {
+    const {siteDir, plugin} = await loadSite();
+
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
@@ -187,6 +195,7 @@ describe('simple website', () => {
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
         "sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
         "docs/**/*.{md,mdx}",
       ]
     `);
@@ -203,6 +212,8 @@ describe('simple website', () => {
   });
 
   test('configureWebpack', async () => {
+    const {plugin} = await loadSite();
+
     const config = applyConfigureWebpack(
       plugin.configureWebpack,
       {
@@ -219,6 +230,7 @@ describe('simple website', () => {
   });
 
   test('content', async () => {
+    const {siteDir, plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(1);
     const [currentVersion] = content.loadedVersions;
@@ -287,22 +299,32 @@ describe('simple website', () => {
 });
 
 describe('versioned website', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
-  const context = loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'sidebars.json');
-  const routeBasePath = 'docs';
-  const plugin = pluginContentDocs(
-    context,
-    normalizePluginOptions(OptionsSchema, {
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
+    const routeBasePath = 'docs';
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        routeBasePath,
+        sidebarPath,
+        homePageId: 'hello',
+      }),
+    );
+    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+    return {
+      siteDir,
+      context,
       routeBasePath,
       sidebarPath,
-      homePageId: 'hello',
-    }),
-  );
+      plugin,
+      pluginContentDir,
+    };
+  }
 
-  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
-
-  test('extendCli - docsVersion', () => {
+  test('extendCli - docsVersion', async () => {
+    const {siteDir, routeBasePath, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
@@ -318,7 +340,8 @@ describe('versioned website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', () => {
+  test('getPathToWatch', async () => {
+    const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
@@ -327,12 +350,16 @@ describe('versioned website', () => {
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
         "sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
         "docs/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.0-sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
         "versioned_sidebars/version-withSlugs-sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
         "versioned_docs/version-withSlugs/**/*.{md,mdx}",
       ]
     `);
@@ -369,6 +396,7 @@ describe('versioned website', () => {
   });
 
   test('content', async () => {
+    const {siteDir, plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(4);
     const [
@@ -499,23 +527,41 @@ describe('versioned website', () => {
 });
 
 describe('versioned website (community)', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
-  const context = loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'community_sidebars.json');
-  const routeBasePath = 'community';
-  const pluginId = 'community';
-  const plugin = pluginContentDocs(
-    context,
-    normalizePluginOptions(OptionsSchema, {
-      id: 'community',
-      path: 'community',
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'community_sidebars.json');
+    const routeBasePath = 'community';
+    const pluginId = 'community';
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        id: 'community',
+        path: 'community',
+        routeBasePath,
+        sidebarPath,
+      }),
+    );
+    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+    return {
+      siteDir,
+      context,
       routeBasePath,
       sidebarPath,
-    }),
-  );
-  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+      pluginId,
+      plugin,
+      pluginContentDir,
+    };
+  }
 
-  test('extendCli - docsVersion', () => {
+  test('extendCli - docsVersion', async () => {
+    const {
+      siteDir,
+      routeBasePath,
+      sidebarPath,
+      pluginId,
+      plugin,
+    } = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
@@ -531,7 +577,8 @@ describe('versioned website (community)', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', () => {
+  test('getPathToWatch', async () => {
+    const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
@@ -540,8 +587,10 @@ describe('versioned website (community)', () => {
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
         "community_sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
         "community/**/*.{md,mdx}",
         "community_versioned_sidebars/version-1.0.0-sidebars.json",
+        "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
         "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
       ]
     `);
@@ -568,6 +617,7 @@ describe('versioned website (community)', () => {
   });
 
   test('content', async () => {
+    const {siteDir, plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(2);
     const [currentVersion, version100] = content.loadedVersions;
@@ -579,13 +629,17 @@ describe('versioned website (community)', () => {
       isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
+      /*
       source: path.join(
         '@site',
         path.relative(siteDir, currentVersion.docsDirPath),
         'team.md',
       ),
-      title: 'team',
-      description: 'Team current version',
+       */
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md',
+      title: 'Team title translated',
+      description: 'Team current version (translated)',
       version: 'current',
       sidebar: 'community',
     });

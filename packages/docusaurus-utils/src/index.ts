@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import chalk from 'chalk';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
@@ -13,9 +14,15 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
+import {
+  ReportingSeverity,
+  TranslationFileContent,
+  TranslationFile,
+} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {mapValues} from 'lodash';
 
 const fileHash = new Map();
 export async function generate(
@@ -186,21 +193,21 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
-// Regex for an import statement.
-const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
-
 export function createExcerpt(fileString: string): string | undefined {
-  let fileContent = fileString.trimLeft();
+  const fileLines = fileString.trimLeft().split('\n');
 
-  if (RegExp(importRegexString).test(fileContent)) {
-    fileContent = fileContent
-      .replace(RegExp(importRegexString, 'gm'), '')
-      .trimLeft();
-  }
-
-  const fileLines = fileContent.split('\n');
-
+  /* eslint-disable no-continue */
   for (const fileLine of fileLines) {
+    // Skip empty line.
+    if (!fileLine.trim()) {
+      continue;
+    }
+
+    // Skip import/export declaration.
+    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
+      continue;
+    }
+
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
@@ -259,7 +266,7 @@ export function parseMarkdownString(markdownString: string): ParsedMarkdown {
     return {frontMatter, content, excerpt};
   } catch (e) {
     throw new Error(`Error while parsing markdown front matter.
-This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+This can happen if you use special characters like : in frontmatter values (try using "" around that value)
 ${e.message}`);
   }
 }
@@ -387,7 +394,7 @@ export function isValidPathname(str: string): boolean {
 }
 
 // resolve pathname and fail fast if resolution fails
-export function resolvePathname(to: string, from?: string) {
+export function resolvePathname(to: string, from?: string): string {
   return resolvePathnameUnsafe(to, from);
 }
 export function addLeadingSlash(str: string): string {
@@ -435,4 +442,149 @@ export function getElementsAround<T extends unknown>(
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
   const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
   return {previous, next};
+}
+
+export function getPluginI18nPath({
+  siteDir,
+  locale,
+  pluginName,
+  pluginId = 'default', // TODO duplicated constant
+  subPaths = [],
+}: {
+  siteDir: string;
+  locale: string;
+  pluginName: string;
+  pluginId?: string | undefined;
+  subPaths?: string[];
+}): string {
+  return path.join(
+    siteDir,
+    'i18n',
+    // namespace first by locale: convenient to work in a single folder for a translator
+    locale,
+    // Make it convenient to use for single-instance
+    // ie: return "docs", not "docs-default" nor "docs/default"
+    `${pluginName}${
+      // TODO duplicate constant :(
+      pluginId === 'default' ? '' : `-${pluginId}`
+    }`,
+    ...subPaths,
+  );
+}
+
+export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+  array: T[],
+  action: (t: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await action(t);
+    results.push(result);
+  }
+  return results;
+}
+
+export async function findAsyncSequential<T>(
+  array: T[],
+  predicate: (t: T) => Promise<boolean>,
+): Promise<T | undefined> {
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    if (await predicate(t)) {
+      return t;
+    }
+  }
+  return undefined;
+}
+
+// return the  first folder path in which the file exists in
+export async function findFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string | undefined> {
+  return findAsyncSequential(folderPaths, (folderPath) =>
+    fs.pathExists(path.join(folderPath, relativeFilePath)),
+  );
+}
+
+export async function getFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string> {
+  const maybeFolderPath = await findFolderContainingFile(
+    folderPaths,
+    relativeFilePath,
+  );
+  // should never happen, as the source was read from the FS anyway...
+  if (!maybeFolderPath) {
+    throw new Error(
+      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+        '\n- ',
+      )}]`,
+    );
+  }
+  return maybeFolderPath;
+}
+
+export function reportMessage(
+  message: string,
+  reportingSeverity: ReportingSeverity,
+): void {
+  switch (reportingSeverity) {
+    case 'ignore':
+      break;
+    case 'log':
+      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      break;
+    case 'warn':
+      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      break;
+    case 'error':
+      console.error(chalk.bold.red('error ') + chalk.red(message));
+      break;
+    case 'throw':
+      throw new Error(message);
+    default:
+      throw new Error(
+        `unexpected reportingSeverity value: ${reportingSeverity}`,
+      );
+  }
+}
+
+export function mergeTranslations(
+  contents: TranslationFileContent[],
+): TranslationFileContent {
+  return contents.reduce((acc, content) => {
+    return {...acc, ...content};
+  }, {});
+}
+
+export function getSwizzledComponent(
+  componentPath: string,
+): string | undefined {
+  const swizzledComponentPath = path.resolve(
+    process.cwd(),
+    'src',
+    componentPath,
+  );
+
+  return fs.existsSync(swizzledComponentPath)
+    ? swizzledComponentPath
+    : undefined;
+}
+
+// Useful to update all the messages of a translation file
+// Used in tests to simulate translations
+export function updateTranslationFileMessages(
+  translationFile: TranslationFile,
+  updateMessage: (message: string) => string,
+): TranslationFile {
+  return {
+    ...translationFile,
+    content: mapValues(translationFile.content, (translation) => ({
+      ...translation,
+      message: updateMessage(translation.message),
+    })),
+  };
 }

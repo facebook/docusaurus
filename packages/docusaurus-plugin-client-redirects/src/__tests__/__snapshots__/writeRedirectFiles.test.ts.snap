@@ -6,11 +6,11 @@ Array [
 <html>
   <head>
     <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
-    <link rel=\\"canonical\\" href=\\"/abc/\\" />
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc\\">
+    <link rel=\\"canonical\\" href=\\"/abc\\" />
   </head>
   <script>
-    window.location.href = '/abc/';
+    window.location.href = '/abc';
   </script>
 </html>",
 ]
@@ -22,11 +22,11 @@ Array [
 <html>
   <head>
     <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
-    <link rel=\\"canonical\\" href=\\"/abc/\\" />
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc\\">
+    <link rel=\\"canonical\\" href=\\"/abc\\" />
   </head>
   <script>
-    window.location.href = '/abc/';
+    window.location.href = '/abc';
   </script>
 </html>",
 ]
@@ -38,22 +38,22 @@ Array [
 <html>
   <head>
     <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc/\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc/\\" />
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc\\" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/abc/';
+    window.location.href = 'https://docusaurus.io/abc';
   </script>
 </html>",
   "<!DOCTYPE html>
 <html>
   <head>
     <meta charset=\\"UTF-8\\">
-    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html/\\">
-    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html/\\" />
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html\\" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/def.html/';
+    window.location.href = 'https://docusaurus.io/def.html';
   </script>
 </html>",
   "<!DOCTYPE html>

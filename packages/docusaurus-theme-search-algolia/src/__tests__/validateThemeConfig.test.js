@@ -88,4 +88,34 @@ describe('validateThemeConfig', () => {
       testValidateThemeConfig({algolia}),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"algolia.apiKey\\" is required"`);
   });
+
+  test('contextualSearch config', () => {
+    const algolia = {
+      indexName: 'index',
+      apiKey: 'apiKey',
+      contextualSearch: true,
+    };
+    expect(testValidateThemeConfig({algolia})).toEqual({
+      algolia: {
+        ...DEFAULT_CONFIG,
+        ...algolia,
+      },
+    });
+  });
+
+  test('searchParameters.facetFilters search config', () => {
+    const algolia = {
+      indexName: 'index',
+      apiKey: 'apiKey',
+      searchParameters: {
+        facetFilters: ['version:1.0'],
+      },
+    };
+    expect(testValidateThemeConfig({algolia})).toEqual({
+      algolia: {
+        ...DEFAULT_CONFIG,
+        ...algolia,
+      },
+    });
+  });
 });

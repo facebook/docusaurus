@@ -5,7 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import jscodeshift from 'jscodeshift';
+import jscodeshift, {
+  ArrowFunctionExpression,
+  AssignmentExpression,
+  ASTPath,
+  Collection,
+  TemplateElement,
+  VariableDeclarator,
+} from 'jscodeshift';
 
 const empty = () =>
   jscodeshift.arrowFunctionExpression(
@@ -18,16 +25,14 @@ const empty = () =>
     ),
   );
 
-const property = (key: string, value: jscodeshift.ArrowFunctionExpression) =>
+const property = (key: string, value: ArrowFunctionExpression) =>
   jscodeshift.objectProperty(jscodeshift.identifier(key), value);
 
-const processCallExpression = (
-  node: jscodeshift.ASTPath<jscodeshift.VariableDeclarator>,
-) => {
+const processCallExpression = (node: ASTPath<VariableDeclarator>) => {
   const args = (node?.value?.init as any)?.arguments[0];
   if (args.type === 'Literal') {
     if (args.value.includes('../../core/CompLibrary')) {
-      const newDeclartor = jscodeshift.variableDeclarator(
+      const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         jscodeshift.objectExpression([
           property('Container', empty()),
@@ -35,32 +40,30 @@ const processCallExpression = (
           property('MarkdownBlock', empty()),
         ]),
       );
-      jscodeshift(node).replaceWith(newDeclartor);
+      jscodeshift(node).replaceWith(newDeclarator);
     }
   }
   if (args.type === 'TemplateLiteral') {
     if (
       args.quasis
-        .map((element: jscodeshift.TemplateElement) => element.value.raw)
+        .map((element: TemplateElement) => element.value.raw)
         .join('')
         .match(/\/core\//)
     ) {
-      const newDeclartor = jscodeshift.variableDeclarator(
+      const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         empty(),
       );
-      jscodeshift(node).replaceWith(newDeclartor);
+      jscodeshift(node).replaceWith(newDeclarator);
     }
   }
 };
 
-const processMemberExpression = (
-  node: jscodeshift.ASTPath<jscodeshift.VariableDeclarator>,
-) => {
+const processMemberExpression = (node: ASTPath<VariableDeclarator>) => {
   const args = (node?.value?.init as any)?.object?.arguments[0];
   if (args.type === 'Literal') {
     if (args.value === '../../core/CompLibrary.js') {
-      const newDeclartor = jscodeshift.variableDeclarator(
+      const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         jscodeshift.objectExpression([
           property('Container', empty()),
@@ -68,27 +71,27 @@ const processMemberExpression = (
           property('MarkdownBlock', empty()),
         ]),
       );
-      jscodeshift(node).replaceWith(newDeclartor);
+      jscodeshift(node).replaceWith(newDeclarator);
     } else if (args.value.match(/server/)) {
-      const newDeclartor = jscodeshift.variableDeclarator(
+      const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         empty(),
       );
-      jscodeshift(node).replaceWith(newDeclartor);
+      jscodeshift(node).replaceWith(newDeclarator);
     }
   }
   if (args.type === 'TemplateLiteral') {
     if (
       args.quasis
-        .map((ele: jscodeshift.TemplateElement) => ele.value.raw)
+        .map((ele: TemplateElement) => ele.value.raw)
         .join('')
         .match(/\/core\//)
     ) {
-      const newDeclartor = jscodeshift.variableDeclarator(
+      const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         empty(),
       );
-      jscodeshift(node).replaceWith(newDeclartor);
+      jscodeshift(node).replaceWith(newDeclarator);
     }
   }
 };
@@ -113,7 +116,7 @@ export default function transformer(file: string): string {
   }
 
   root
-    .find(jscodeshift.AssignmentExpression, {
+    .find(AssignmentExpression, {
       operator: '=',
       left: {
         type: 'MemberExpression',
@@ -164,10 +167,10 @@ export default function transformer(file: string): string {
   return root.toSource();
 }
 
-function getDefaultImportDeclarators(rootAst: jscodeshift.Collection) {
+function getDefaultImportDeclarators(rootAst: Collection) {
   // var ... = require('y')
   return rootAst
-    .find(jscodeshift.VariableDeclarator, {
+    .find(VariableDeclarator, {
       init: {
         callee: {
           name: 'require',
@@ -179,9 +182,9 @@ function getDefaultImportDeclarators(rootAst: jscodeshift.Collection) {
     });
 }
 
-function getNamedImportDeclarators(rootAst: jscodeshift.Collection) {
+function getNamedImportDeclarators(rootAst: Collection) {
   // var ... = require('y').x
-  return rootAst.find(jscodeshift.VariableDeclarator, {
+  return rootAst.find(VariableDeclarator, {
     init: {
       object: {
         callee: {
@@ -192,7 +195,7 @@ function getNamedImportDeclarators(rootAst: jscodeshift.Collection) {
   });
 }
 
-function getImportDeclaratorPaths(variableDeclaration: jscodeshift.Collection) {
+function getImportDeclaratorPaths(variableDeclaration: Collection) {
   const defaultImports = getDefaultImportDeclarators(variableDeclaration);
 
   const namedImports = getNamedImportDeclarators(variableDeclaration);

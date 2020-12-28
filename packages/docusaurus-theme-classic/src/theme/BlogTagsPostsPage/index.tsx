@@ -11,22 +11,27 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
+import BlogSidebar from '@theme/BlogSidebar';
 
 function pluralize(count: number, word: string) {
   return count > 1 ? `${word}s` : word;
 }
 
 function BlogTagsPostPage(props: Props): JSX.Element {
-  const {metadata, items} = props;
+  const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
 
   return (
     <Layout
       title={`Posts tagged "${tagName}"`}
-      description={`Blog | Tagged "${tagName}"`}>
+      description={`Blog | Tagged "${tagName}"`}
+      wrapperClassName="blog-wrapper">
       <div className="container margin-vert--lg">
         <div className="row">
-          <main className="col col--8 col--offset-2">
+          <div className="col col--2">
+            <BlogSidebar sidebar={sidebar} />
+          </div>
+          <main className="col col--8">
             <h1>
               {count} {pluralize(count, 'post')} tagged with &quot;{tagName}
               &quot;

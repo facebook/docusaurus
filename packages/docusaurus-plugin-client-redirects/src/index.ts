@@ -14,7 +14,7 @@ import writeRedirectFiles, {
   toRedirectFilesMetadata,
   RedirectFileMetadata,
 } from './writeRedirectFiles';
-import {removePrefix} from '@docusaurus/utils';
+import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
 
 export default function pluginClientRedirectsPages(
   _context: LoadContext,
@@ -27,7 +27,7 @@ export default function pluginClientRedirectsPages(
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
-          (path) => `/${removePrefix(path, props.baseUrl)}`,
+          (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,
         ),
         baseUrl: props.baseUrl,
         outDir: props.outDir,

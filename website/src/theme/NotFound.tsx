@@ -11,11 +11,11 @@ import Feedback from '../pages/feedback';
 
 function NotFound({location}: {location: {pathname: string}}): JSX.Element {
   if (/^\/\bfeedback\b/.test(location.pathname)) {
-    return <Feedback />
+    return <Feedback />;
   } else {
     return (
       <Layout title="Page Not Found">
-        <div className="container margin-vert--xl" data-canny>
+        <main className="container margin-vert--xl" data-canny>
           <div className="row">
             <div className="col col--6 col--offset-3">
               <h1 className="hero__title">Page Not Found</h1>
@@ -26,7 +26,7 @@ function NotFound({location}: {location: {pathname: string}}): JSX.Element {
               </p>
             </div>
           </div>
-        </div>
+        </main>
       </Layout>
     );
   }

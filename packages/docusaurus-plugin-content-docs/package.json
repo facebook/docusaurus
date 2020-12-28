@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.70",
   "description": "Docs content plugin for Docusaurus",
   "main": "lib/index.js",
   "types": "src/plugin-content-docs.d.ts",
@@ -11,26 +11,30 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-docs"
+  },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.65",
-    "@types/hapi__joi": "^17.1.2",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.70",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.0.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.65",
-    "@docusaurus/types": "2.0.0-alpha.65",
-    "@docusaurus/utils": "2.0.0-alpha.65",
-    "@docusaurus/utils-validation": "2.0.0-alpha.65",
-    "@hapi/joi": "17.1.1",
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/mdx-loader": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70",
+    "@docusaurus/utils": "2.0.0-alpha.70",
+    "@docusaurus/utils-validation": "2.0.0-alpha.70",
     "chalk": "^3.0.0",
     "execa": "^3.4.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "globby": "^10.0.1",
-    "import-fresh": "^3.2.1",
+    "import-fresh": "^3.2.2",
+    "joi": "^17.2.1",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.19",
     "lodash.flatmap": "^4.5.0",

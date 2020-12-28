@@ -7,7 +7,7 @@
 
 import defaultTheme from 'prism-react-renderer/themes/palenight';
 import useThemeContext from '@theme/hooks/useThemeContext';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const usePrismTheme = (): typeof defaultTheme => {
   const {prism} = useThemeConfig();

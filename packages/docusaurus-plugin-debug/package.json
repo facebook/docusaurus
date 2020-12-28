@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "2.0.0-alpha.65",
+  "version": "2.0.0-alpha.70",
   "description": "Debug plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -10,11 +10,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-debug"
+  },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/types": "2.0.0-alpha.65",
-    "@docusaurus/utils": "2.0.0-alpha.65",
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70",
+    "@docusaurus/utils": "2.0.0-alpha.70",
     "react-json-view": "^1.19.1"
   },
   "peerDependencies": {

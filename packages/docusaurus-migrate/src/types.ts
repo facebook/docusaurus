@@ -35,8 +35,10 @@ export interface VersionTwoConfig {
   url: string;
   organizationName?: string;
   projectName?: string;
+  noIndex?: boolean;
   githubHost?: string;
   onBrokenLinks: string;
+  onBrokenMarkdownLinks: string;
   plugins: Array<[string, {[key: string]: any}]>;
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
@@ -94,7 +96,7 @@ export type VersionOneConfig = {
   defaultVersionShown?: string;
   organizationName?: string;
   projectName?: string;
-  noIndex?: string;
+  noIndex?: boolean;
   headerLinks?: Array<any>;
   headerIcon?: string;
   favicon?: string;

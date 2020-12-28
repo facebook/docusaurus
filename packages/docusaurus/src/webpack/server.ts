@@ -17,11 +17,9 @@ import LogPlugin from './plugins/LogPlugin';
 
 export default function createServerConfig({
   props,
-  minify = true,
   onLinksCollected = () => {},
 }: {
   props: Props;
-  minify?: boolean;
   onLinksCollected?: (staticPagePath: string, links: string[]) => void;
 }): Configuration {
   const {
@@ -32,8 +30,9 @@ export default function createServerConfig({
     preBodyTags,
     postBodyTags,
     ssrTemplate,
+    siteConfig: {noIndex},
   } = props;
-  const config = createBaseConfig(props, true, minify);
+  const config = createBaseConfig(props, true);
 
   const routesLocation = {};
   // Array of paths to be rendered. Relative to output directory
@@ -72,6 +71,7 @@ export default function createServerConfig({
           postBodyTags,
           onLinksCollected,
           ssrTemplate,
+          noIndex,
         },
         paths: ssgPaths,
       }),

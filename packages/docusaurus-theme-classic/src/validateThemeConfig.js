@@ -5,8 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const {URISchema} = require('@docusaurus/utils-validation');
+
+const DEFAULT_DOCS_CONFIG = {
+  versionPersistence: 'localStorage',
+};
+const DocsSchema = Joi.object({
+  versionPersistence: Joi.string()
+    .equal('localStorage', 'none')
+    .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+}).default(DEFAULT_DOCS_CONFIG);
 
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
@@ -22,6 +31,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  docs: DEFAULT_DOCS_CONFIG,
   metadatas: [],
   prism: {
     additionalLanguages: [],
@@ -30,28 +40,32 @@ const DEFAULT_CONFIG = {
     hideOnScroll: false,
     items: [],
   },
+  hideableSidebar: false,
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-// TODO we should probably create a custom navbar item type "dropdown"
-// having this recursive structure is bad because we only support 2 levels
-// + parent/child don't have exactly the same props
-const DefaultNavbarItemSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('...')),
+const BaseNavbarItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
   label: Joi.string(),
-  position: NavbarItemPosition,
-  activeBasePath: Joi.string(),
-  activeBaseRegex: Joi.string(),
   className: Joi.string(),
-  'aria-label': Joi.string(),
+  prependBaseUrlToHref: Joi.string(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
+
+// TODO we should probably create a custom navbar item type "dropdown"
+// having this recursive structure is bad because we only support 2 levels
+// + parent/child don't have exactly the same props
+const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
+  items: Joi.array().optional().items(BaseNavbarItemSchema),
+  position: NavbarItemPosition,
+  activeBasePath: Joi.string(),
+  activeBaseRegex: Joi.string(),
+});
 // TODO the dropdown parent item can have no href/to
 // should check should not apply to dropdown parent item
 // .xor('href', 'to');
@@ -69,8 +83,8 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
-  dropdownItemsBefore: Joi.array().items(DefaultNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(DefaultNavbarItemSchema).default([]),
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
 });
 
 const DocItemSchema = Joi.object({
@@ -80,6 +94,11 @@ const DocItemSchema = Joi.object({
   label: Joi.string(),
   docsPluginId: Joi.string(),
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
+});
+
+const LocaleDropdownNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('localeDropdown').required(),
+  position: NavbarItemPosition,
 });
 
 // Can this be made easier? :/
@@ -111,9 +130,13 @@ const NavbarItemSchema = Joi.object().when({
       then: DocItemSchema,
     },
     {
+      is: isOfType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
       is: isOfType(undefined),
       then: Joi.forbidden().messages({
-        'any.unknown': 'Bad nav item type {.type}',
+        'any.unknown': 'Bad navbar item type {.type}',
       }),
     },
   ],
@@ -206,6 +229,7 @@ const ThemeConfigSchema = Joi.object({
   customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  docs: DocsSchema,
   metadatas: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadatas),
@@ -239,7 +263,7 @@ const ThemeConfigSchema = Joi.object({
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string(),
       href: Joi.string(),
     }),
@@ -247,7 +271,7 @@ const ThemeConfigSchema = Joi.object({
     links: Joi.array()
       .items(
         Joi.object({
-          title: Joi.string().required(),
+          title: Joi.string(),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
       )
@@ -269,6 +293,7 @@ const ThemeConfigSchema = Joi.object({
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
+  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

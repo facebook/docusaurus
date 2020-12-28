@@ -12,6 +12,7 @@ module.exports = {
   baseUrl: '/',
   organizationName: 'facebook',
   projectName: 'docusaurus',
+  noIndex: true,
   scripts: [
     'https://buttons.github.io/buttons.js',
     'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
@@ -30,6 +31,7 @@ module.exports = {
     facebookAppId: '199138890728411',
   },
   onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'log',
   presets: [
     [
       '@docusaurus/preset-classic',

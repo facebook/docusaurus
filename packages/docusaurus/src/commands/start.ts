@@ -23,8 +23,9 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack} from '../webpack/utils';
+import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export default async function start(
   siteDir: string,
@@ -34,8 +35,15 @@ export default async function start(
   process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
+  function loadSite() {
+    return load(siteDir, {
+      locale: cliOptions.locale,
+      localizePath: undefined, // should this be configurable?
+    });
+  }
+
   // Process all related files as a prop.
-  const props = await load(siteDir);
+  const props = await loadSite();
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
@@ -54,7 +62,7 @@ export default async function start(
 
   // Reload files processing.
   const reload = () => {
-    load(siteDir)
+    loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         console.log(
@@ -81,10 +89,25 @@ export default async function start(
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
-  const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
+
+  const pathsToWatch: string[] = [
+    ...pluginPaths,
+    CONFIG_FILE_NAME,
+    getTranslationsLocaleDirPath({
+      siteDir,
+      locale: props.i18n.currentLocale,
+    }),
+  ];
+
+  const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
+    usePolling: !!cliOptions.poll,
+    interval: Number.isInteger(cliOptions.poll)
+      ? (cliOptions.poll as number)
+      : undefined,
   });
+
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
@@ -138,7 +161,7 @@ export default async function start(
       // `webpackHotDevClient`.
       injectClient: false,
       quiet: true,
-      https: protocol === 'https',
+      https: getHttpsConfig(),
       headers: {
         'access-control-allow-origin': '*',
       },

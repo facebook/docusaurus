@@ -1,0 +1,37 @@
+{
+  "name": "@docusaurus/theme-common",
+  "version": "2.0.0-alpha.70",
+  "description": "Common code for Docusaurus themes",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-common"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.70"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.15.1"
+  }
+}

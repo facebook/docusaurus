@@ -11,20 +11,28 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
+import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
+import IconEdit from '@theme/IconEdit';
 
 function BlogPostPage(props: Props): JSX.Element {
-  const {content: BlogPostContents} = props;
+  const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem, editUrl} = metadata;
   const {hide_table_of_contents: hideTableOfContents} = frontMatter;
 
   return (
-    <Layout title={title} description={description}>
+    <Layout
+      title={title}
+      description={description}
+      wrapperClassName="blog-wrapper">
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
-            <div className="col col--8 col--offset-2">
+            <div className="col col--2">
+              <BlogSidebar sidebar={sidebar} />
+            </div>
+            <main className="col col--8">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
@@ -34,20 +42,7 @@ function BlogPostPage(props: Props): JSX.Element {
               <div>
                 {editUrl && (
                   <a href={editUrl} target="_blank" rel="noreferrer noopener">
-                    <svg
-                      fill="currentColor"
-                      height="1.2em"
-                      width="1.2em"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 40 40"
-                      style={{
-                        marginRight: '0.3em',
-                        verticalAlign: 'sub',
-                      }}>
-                      <g>
-                        <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
-                      </g>
-                    </svg>
+                    <IconEdit />
                     Edit this page
                   </a>
                 )}
@@ -57,10 +52,10 @@ function BlogPostPage(props: Props): JSX.Element {
                   <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
                 </div>
               )}
-            </div>
-            {!hideTableOfContents && BlogPostContents.rightToc && (
+            </main>
+            {!hideTableOfContents && BlogPostContents.toc && (
               <div className="col col--2">
-                <TOC headings={BlogPostContents.rightToc} />
+                <TOC toc={BlogPostContents.toc} />
               </div>
             )}
           </div>

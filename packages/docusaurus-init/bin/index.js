@@ -38,9 +38,10 @@ program
 
 program
   .command('init [siteName] [template] [rootDir]')
+  .option('--use-npm')
   .description('Initialize website')
-  .action((siteName, template, rootDir = '.') => {
-    wrapCommand(init)(path.resolve(rootDir), siteName, template);
+  .action((siteName, template, rootDir = '.', {useNpm}) => {
+    wrapCommand(init)(path.resolve(rootDir), siteName, template, {useNpm});
   });
 
 program.arguments('<command>').action((cmd) => {

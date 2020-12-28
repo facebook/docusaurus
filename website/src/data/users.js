@@ -27,11 +27,29 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Axioms',
+    description: 'Axioms Developer Hub and Documentation Portal',
+    preview: require('./showcase/axioms.png'),
+    website: 'https://developer.axioms.io/',
+    source: 'https://github.com/axioms-io/developer',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Botonic',
+    description: 'Build Chatbots and Conversational Apps Using React',
+    preview: require('./showcase/botonic.png'),
+    website: 'https://botonic.io/',
+    source: 'https://github.com/hubtype/botonic',
     fbOpenSource: false,
     pinned: false,
   },
@@ -73,6 +91,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'ConfigCat Feature Flags',
+    description: 'A feature flag and remote configuration service.',
+    preview: require('./showcase/configcat.png'),
+    website: 'https://configcat.com/docs/',
+    source: 'https://github.com/configcat/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
@@ -89,6 +116,15 @@ const users = [
     source: 'https://github.com/facebook/flux',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    title: 'FoalTS',
+    description: 'Node.JS framework for building web applications',
+    preview: require('./showcase/foal.png'),
+    website: 'https://foalts.org/',
+    source: 'https://github.com/FoalTS/foal/tree/master/docs',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'GraphQL Code Generator',
@@ -156,6 +192,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'NextAuth.js',
+    description: 'An open source serverless authentication library for next.js',
+    preview: require('./showcase/nextauthjs.png'),
+    website: 'https://next-auth.js.org/',
+    source: 'https://github.com/nextauthjs/next-auth',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -182,6 +227,15 @@ const users = [
     website: 'https://questdb.io',
     source: 'https://github.com/questdb/questdb.io',
     fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'React Native',
+    description: 'A framework for building native apps using React',
+    preview: require('./showcase/reactnative.png'),
+    website: 'https://reactnative.dev',
+    source: 'https://github.com/facebook/react-native-website',
+    fbOpenSource: true,
     pinned: false,
   },
   {
@@ -217,6 +271,15 @@ const users = [
     preview: require('./showcase/t-regx.png'),
     website: 'https://t-regx.com/',
     source: 'https://github.com/T-Regx/T-Regx',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Taro',
+    description: 'An open cross-end and cross-frame solution',
+    preview: require('./showcase/docs-taro-zone.png'),
+    website: 'https://docs.taro.zone/',
+    source: 'https://github.com/NervJS/taro',
     fbOpenSource: false,
     pinned: false,
   },
@@ -259,6 +322,25 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Vue NodeGui',
+    description: 'A cross-platform native desktop app library',
+    preview: require('./showcase/vue-nodegui.png'),
+    website: 'https://vue.nodegui.org/',
+    source: 'https://github.com/nodegui/vue-nodegui',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    title: 'Wasp',
+    description:
+      'A DSL for building full-stack web apps with less boilerplate.',
+    preview: require('./showcase/wasp.png'),
+    website: 'https://wasp-lang.dev/',
+    source: 'https://github.com/wasp-lang/wasp',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
@@ -268,5 +350,17 @@ const users = [
     pinned: true,
   },
 ];
+
+users.forEach((user) => {
+  if (
+    !user.preview ||
+    (user.preview instanceof String &&
+      (user.preview.startsWith('http') || user.preview.startsWith('//')))
+  ) {
+    throw new Error(
+      `Bad user site image preview = ${user.preview}. The image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs`,
+    );
+  }
+});
 
 export default users;

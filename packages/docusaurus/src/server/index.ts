@@ -7,6 +7,7 @@
 
 import {generate} from '@docusaurus/utils';
 import path, {join} from 'path';
+import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   BUILD_DIR_NAME,
@@ -30,21 +31,60 @@ import {
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
-import chalk from 'chalk';
+import {loadI18n, localizePath} from './i18n';
+import {readCodeTranslationFileContent} from './translations/translations';
+import {mapValues} from 'lodash';
 
-export function loadContext(
+type LoadContextOptions = {
+  customOutDir?: string;
+  locale?: string;
+  localizePath?: boolean; // undefined = only non-default locales paths are localized
+};
+
+export async function loadContext(
   siteDir: string,
-  customOutDir?: string,
-): LoadContext {
+  options: LoadContextOptions = {},
+): Promise<LoadContext> {
+  const {customOutDir, locale} = options;
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
-  const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const outDir = customOutDir
+  const initialSiteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {ssrTemplate} = initialSiteConfig;
+
+  const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
     : path.resolve(siteDir, BUILD_DIR_NAME);
-  const {baseUrl, ssrTemplate} = siteConfig;
+
+  const i18n = await loadI18n(initialSiteConfig, {locale});
+
+  const baseUrl = localizePath({
+    path: initialSiteConfig.baseUrl,
+    i18n,
+    options,
+    pathType: 'url',
+  });
+  const outDir = localizePath({
+    path: baseOutDir,
+    i18n,
+    options,
+    pathType: 'fs',
+  });
+
+  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
+
+  const codeTranslationFileContent =
+    (await readCodeTranslationFileContent({
+      siteDir,
+      locale: i18n.currentLocale,
+    })) ?? {};
+
+  // We only need key->message for code translations
+  const codeTranslations = mapValues(
+    codeTranslationFileContent,
+    (value) => value.message,
+  );
 
   return {
     siteDir,
@@ -52,7 +92,9 @@ export function loadContext(
     siteConfig,
     outDir,
     baseUrl,
+    i18n,
     ssrTemplate,
+    codeTranslations,
   };
 }
 
@@ -70,18 +112,33 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
 
 export async function load(
   siteDir: string,
-  customOutDir?: string,
+  options: LoadContextOptions = {},
 ): Promise<Props> {
   // Context.
-  const context: LoadContext = loadContext(siteDir, customOutDir);
-  const {generatedFilesDir, siteConfig, outDir, baseUrl, ssrTemplate} = context;
-
+  const context: LoadContext = await loadContext(siteDir, options);
+  const {
+    generatedFilesDir,
+    siteConfig,
+    outDir,
+    baseUrl,
+    i18n,
+    ssrTemplate,
+    codeTranslations,
+  } = context;
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins({
+  const {
+    plugins,
+    pluginsRouteConfigs,
+    globalData,
+    themeConfigTranslated,
+  } = await loadPlugins({
     pluginConfigs,
     context,
   });
+
+  // Side-effect to replace the untranslated themeConfig by the translated one
+  context.siteConfig.themeConfig = themeConfigTranslated;
 
   handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
 
@@ -204,6 +261,18 @@ ${Object.keys(registry)
     JSON.stringify(globalData, null, 2),
   );
 
+  const genI18n = generate(
+    generatedFilesDir,
+    'i18n.json',
+    JSON.stringify(i18n, null, 2),
+  );
+
+  const genCodeTranslations = generate(
+    generatedFilesDir,
+    'codeTranslations.json',
+    JSON.stringify(codeTranslations, null, 2),
+  );
+
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
@@ -232,6 +301,8 @@ ${Object.keys(registry)
     genRoutes,
     genGlobalData,
     genSiteMetadata,
+    genI18n,
+    genCodeTranslations,
   ]);
 
   const props: Props = {
@@ -239,6 +310,7 @@ ${Object.keys(registry)
     siteDir,
     outDir,
     baseUrl,
+    i18n,
     generatedFilesDir,
     routes: pluginsRouteConfigs,
     routesPaths,
@@ -247,6 +319,7 @@ ${Object.keys(registry)
     preBodyTags,
     postBodyTags,
     ssrTemplate: ssrTemplate || ssrDefaultTemplate,
+    codeTranslations,
   };
 
   return props;
