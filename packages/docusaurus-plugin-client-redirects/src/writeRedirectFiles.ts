@@ -24,6 +24,10 @@ export type RedirectFileMetadata = {
   fileContent: string;
 };
 
+export function createToUrl(baseUrl: string, to: string) {
+  return addTrailingSlash(`${removeTrailingSlash(baseUrl)}${path.join(to)}`);
+}
+
 export function toRedirectFilesMetadata(
   redirects: RedirectMetadata[],
   pluginContext: WriteFilesPluginContext,
@@ -40,9 +44,7 @@ export function toRedirectFilesMetadata(
       pluginContext.outDir,
       getFilePathForRoutePath(redirect.from),
     );
-    const toUrl = addTrailingSlash(
-      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
-    ).replace(/\\/g, '/');
+    const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {
       ...redirect,
