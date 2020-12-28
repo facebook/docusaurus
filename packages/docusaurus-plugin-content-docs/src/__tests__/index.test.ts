@@ -144,7 +144,11 @@ describe('empty/no docs website', () => {
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at path${path.sep}doesnt${path.sep}exist"`,
+      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at ${
+        process.platform === 'win32'
+          ? 'path\\doesnt\\exist'
+          : 'path/doesnt/exist'
+      }"`,
     );
   });
 });
@@ -248,7 +252,7 @@ describe('simple website', () => {
         permalink: '/docs/foo/bazSlug.html',
       },
       sidebar: 'docs',
-      source: path.join(
+      source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'hello.md',
@@ -270,7 +274,7 @@ describe('simple website', () => {
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       sidebar: 'docs',
-      source: path.join(
+      source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'foo',

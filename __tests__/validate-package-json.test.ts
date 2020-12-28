@@ -18,7 +18,7 @@ type PackageJsonFile = {
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
-  const files = await glob('./packages/*/package.json');
+  const files = await glob('packages/*/package.json');
   return Promise.all(
     files.map(async (file) => {
       return {

@@ -93,7 +93,7 @@ function createTestUtils({
       source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
-        docFileSource,
+        posixPath(docFileSource),
       ),
       ...expectedMetadata,
     });

@@ -91,7 +91,7 @@ describe('docusaurus-plugin-content-pages', () => {
     );
     const pagesMetadatas = (await plugin.loadContent?.())!;
 
-    const frTranslationsPath = path.join(
+    const frTranslationsPath = path.posix.join(
       '@site',
       'i18n',
       'fr',
