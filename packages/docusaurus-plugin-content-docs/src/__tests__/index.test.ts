@@ -140,7 +140,7 @@ describe('empty/no docs website', () => {
       pluginContentDocs(
         context,
         normalizePluginOptions(OptionsSchema, {
-          path: `path${path.sep}doesnt${path.sep}exist`,
+          path: `path/doesnt/exist`,
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
