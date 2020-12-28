@@ -73,25 +73,6 @@ function Version() {
           </table>
         </div>
 
-        {currentVersion !== latestVersion && (
-          <div className="margin-bottom--lg">
-            <h3 id="next">Next version (Unreleased)</h3>
-            <p>Here you can find the documentation for unreleased version.</p>
-            <table>
-              <tbody>
-                <tr>
-                  <th>master</th>
-                  <td>
-                    <Link to={currentVersion.path}>Documentation</Link>
-                  </td>
-                  <td>
-                    <a href={repoUrl}>Source Code</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
         {pastVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
