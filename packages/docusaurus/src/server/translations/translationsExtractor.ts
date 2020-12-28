@@ -14,6 +14,7 @@ import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
 import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
+import {posixPath} from '@docusaurus/utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -40,9 +41,14 @@ async function getSourceCodeFilePaths(
     plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
   );
 
-  const filePaths = await globby(allPathsToWatch);
+  const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
+    posixPath(nodePath.relative(process.cwd(), path)),
+  );
+
+  const filePaths = await globby(allRelativePosixPathsToWatch);
 
   console.log('allPathsToWatch', allPathsToWatch);
+  console.log('allRelativePosixPathsToWatch', allRelativePosixPathsToWatch);
   console.log('filePaths', filePaths);
 
   return filePaths.filter(isTranslatableSourceCodePath);
