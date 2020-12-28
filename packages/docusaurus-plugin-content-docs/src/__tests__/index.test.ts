@@ -250,7 +250,7 @@ describe('simple website', () => {
       sidebar: 'docs',
       source: path.join(
         '@site',
-        path.relative(siteDir, currentVersion.docsDirPath),
+        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'hello.md',
       ),
       title: 'Hello, World !',
@@ -272,7 +272,7 @@ describe('simple website', () => {
       sidebar: 'docs',
       source: path.join(
         '@site',
-        path.relative(siteDir, currentVersion.docsDirPath),
+        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'foo',
         'bar.md',
       ),
@@ -418,9 +418,9 @@ describe('versioned website', () => {
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, currentVersion.docsDirPath),
+        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'foo',
         'bar.md',
       ),
@@ -440,9 +440,9 @@ describe('versioned website', () => {
       isDocsHomePage: true,
       permalink: '/docs/next/',
       slug: '/',
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, currentVersion.docsDirPath),
+        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
         'hello.md',
       ),
       title: 'hello',
@@ -461,9 +461,9 @@ describe('versioned website', () => {
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, version101.docsDirPath),
+        posixPath(path.relative(siteDir, version101.docsDirPath)),
         'hello.md',
       ),
       title: 'hello',
@@ -482,9 +482,9 @@ describe('versioned website', () => {
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       slug: '/foo/baz',
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, version100.docsDirPath),
+        posixPath(path.relative(siteDir, version100.docsDirPath)),
         'foo',
         'baz.md',
       ),
@@ -629,13 +629,6 @@ describe('versioned website (community)', () => {
       isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
-      /*
-      source: path.join(
-        '@site',
-        path.relative(siteDir, currentVersion.docsDirPath),
-        'team.md',
-      ),
-       */
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md',
       title: 'Team title translated',
@@ -650,9 +643,9 @@ describe('versioned website (community)', () => {
       isDocsHomePage: false,
       permalink: '/community/team',
       slug: '/team',
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, version100.docsDirPath),
+        posixPath(path.relative(siteDir, version100.docsDirPath)),
         'team.md',
       ),
       title: 'team',
