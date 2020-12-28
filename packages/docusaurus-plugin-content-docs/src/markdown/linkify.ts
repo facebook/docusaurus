@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {resolve} from 'url';
 import {
   DocsMarkdownOption,
@@ -13,6 +12,7 @@ import {
   BrokenMarkdownLink,
 } from '../types';
 import {getDocsDirPaths} from '../versions';
+import {aliasedSitePath} from '@docusaurus/utils';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>
@@ -58,7 +58,7 @@ function replaceMarkdownLinks(
       const mdLink = mdMatch[1];
 
       const aliasedSource = (source: string) =>
-        `@site/${path.relative(siteDir, source)}`;
+        aliasedSitePath(source, siteDir);
 
       const permalink =
         sourceToPermalink[aliasedSource(resolve(filePath, mdLink))] ||

@@ -6,7 +6,7 @@
  */
 
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {docuHash, normalizeUrl} from '@docusaurus/utils';
+import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
 import path from 'path';
 
 export default function pluginDebug({
@@ -18,7 +18,7 @@ export default function pluginDebug({
     'docusaurus-plugin-debug',
   );
   const aliasedSource = (source: string) =>
-    `~debug/${path.relative(pluginDataDirRoot, source)}`;
+    `~debug/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   return {
     name: 'docusaurus-plugin-debug',

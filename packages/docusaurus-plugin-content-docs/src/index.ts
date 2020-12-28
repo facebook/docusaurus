@@ -16,6 +16,7 @@ import {
   docuHash,
   aliasedSitePath,
   reportMessage,
+  posixPath,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
@@ -66,7 +67,7 @@ export default function pluginContentDocs(
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
-    `~docs/${path.relative(pluginDataDirRoot, source)}`;
+    `~docs/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   return {
     name: 'docusaurus-plugin-content-docs',

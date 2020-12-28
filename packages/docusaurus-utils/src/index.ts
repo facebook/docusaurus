@@ -365,7 +365,7 @@ export function normalizeUrl(rawUrls: string[]): string {
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
 export function aliasedSitePath(filePath: string, siteDir: string): string {
-  const relativePath = path.relative(siteDir, filePath);
+  const relativePath = posixPath(path.relative(siteDir, filePath));
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
