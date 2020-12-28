@@ -140,11 +140,11 @@ describe('empty/no docs website', () => {
       pluginContentDocs(
         context,
         normalizePluginOptions(OptionsSchema, {
-          path: '/path/does/not/exist/',
+          path: `path${path.sep}doesnt${path.sep}exist`,
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at /path/does/not/exist"`,
+      `"The docs folder does not exist for version [current]. A docs folder is expected to be found at path${path.sep}doesnt${path.sep}exist"`,
     );
   });
 });
