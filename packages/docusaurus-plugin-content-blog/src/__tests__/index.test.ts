@@ -65,7 +65,7 @@ describe('loadBlog', () => {
         'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter.md',
       permalink: '/blog/date-matter',
       readingTime: 0.02,
-      source: path.join('@site', pluginPath, 'date-matter.md'),
+      source: path.posix.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
@@ -87,10 +87,10 @@ describe('loadBlog', () => {
         'https://github.com/facebook/docusaurus/edit/master/website-1x/i18n/en/docusaurus-plugin-content-blog/2018-12-14-Happy-First-Birthday-Slash.md',
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
       readingTime: 0.015,
-      source: path.join(
+      source: path.posix.join(
         '@site',
         // pluginPath,
-        path.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
+        path.posix.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
         '2018-12-14-Happy-First-Birthday-Slash.md',
       ),
       title: 'Happy 1st Birthday Slash! (translated)',
@@ -112,7 +112,7 @@ describe('loadBlog', () => {
         'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/complex-slug.md',
       permalink: '/blog/hey/my super path/héllô',
       readingTime: 0.015,
-      source: path.join('@site', pluginPath, 'complex-slug.md'),
+      source: path.posix.join('@site', pluginPath, 'complex-slug.md'),
       title: 'Complex Slug',
       description: `complex url slug`,
       prevItem: undefined,
@@ -133,7 +133,7 @@ describe('loadBlog', () => {
         'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/simple-slug.md',
       permalink: '/blog/simple/slug',
       readingTime: 0.015,
-      source: path.join('@site', pluginPath, 'simple-slug.md'),
+      source: path.posix.join('@site', pluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,
       prevItem: undefined,
@@ -162,7 +162,7 @@ describe('loadBlog', () => {
       'website-blog-without-date',
     );
     const blogPosts = await getBlogPosts(siteDir);
-    const noDateSource = path.join('@site', pluginPath, 'no date.md');
+    const noDateSource = path.posix.join('@site', pluginPath, 'no date.md');
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
     ).birthtime;
