@@ -12,7 +12,7 @@ const {ruleName, messages} = rule;
 testStylelintRule(
   {
     // Relative to repo root.
-    plugins: ['./packages/stylelint-copyright'],
+    plugins: [path.join('.', 'packages', 'stylelint-copyright')],
     rules: {
       [ruleName]: true,
     },
