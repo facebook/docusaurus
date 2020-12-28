@@ -6,13 +6,24 @@ on:
       - master
 
 jobs:
-  build:
+  install:
     runs-on: windows-latest
     strategy:
       matrix:
         node: ['10']
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
+
+  buildV1:
+    needs: install
+    runs-on: windows-latest
+    steps:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
@@ -20,18 +31,22 @@ jobs:
             v1:
               - 'packages/docusaurus-1.x/**'
               - 'packages/docusaurus-init-1.x/**'
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Installation
-        run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
       - name: Docusaurus 1 Build
         if: steps.filter.outputs.v1 == 'true'
         run: yarn build:v1
-      - name: Docusaurus Jest Tests
-        run: yarn test
+
+  buildV2:
+    needs: install
+    runs-on: windows-latest
+    steps:
       - name: Docusaurus 2 Build
         run: yarn build:v2
         env:
           CI: true
+
+  testV2:
+    needs: install
+    runs-on: windows-latest
+    steps:
+      - name: Docusaurus 2 Jest Tests
+        run: yarn test
