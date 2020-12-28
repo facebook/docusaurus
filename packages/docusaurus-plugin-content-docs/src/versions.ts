@@ -316,13 +316,21 @@ function createVersionMetadata({
 }
 
 function checkVersionMetadataPaths({
-  versionName,
-  docsDirPath,
-  sidebarFilePath,
-}: VersionMetadata) {
+  versionMetadata,
+  context,
+}: {
+  versionMetadata: VersionMetadata;
+  context: Pick<LoadContext, 'siteDir'>;
+}) {
+  const {versionName, docsDirPath, sidebarFilePath} = versionMetadata;
+  const {siteDir} = context;
+
   if (!fs.existsSync(docsDirPath)) {
     throw new Error(
-      `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${docsDirPath}`,
+      `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${path.relative(
+        siteDir,
+        docsDirPath,
+      )}`,
     );
   }
 
@@ -457,7 +465,9 @@ export function readVersionsMetadata({
       options,
     }),
   );
-  versionsMetadata.forEach(checkVersionMetadataPaths);
+  versionsMetadata.forEach((versionMetadata) =>
+    checkVersionMetadataPaths({versionMetadata, context}),
+  );
   return versionsMetadata;
 }
 

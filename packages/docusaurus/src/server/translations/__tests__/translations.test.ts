@@ -28,21 +28,19 @@ async function createTmpSiteDir() {
 async function createTmpTranslationFile(
   content: TranslationFileContent | null,
 ) {
-  const file = await tmp.file({
+  const filePath = await tmp.tmpName({
     prefix: 'jest-createTmpTranslationFile',
     postfix: '.json',
   });
 
-  // null means we don't want a file, but tmp.file() creates an empty file :(
-  if (content === null) {
-    await fs.unlink(file.path);
-  } else {
-    await fs.writeFile(file.path, JSON.stringify(content, null, 2));
+  // null means we don't want a file, just a filename
+  if (content !== null) {
+    await fs.writeFile(filePath, JSON.stringify(content, null, 2));
   }
 
   return {
-    filePath: file.path,
-    readFile: async () => JSON.parse(await fs.readFile(file.path, 'utf8')),
+    filePath,
+    readFile: async () => JSON.parse(await fs.readFile(filePath, 'utf8')),
   };
 }
 

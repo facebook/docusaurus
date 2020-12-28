@@ -140,6 +140,17 @@ export function posixPath(str: string): string {
   return str.replace(/\\/g, '/');
 }
 
+// When you want to display a path in a message/warning/error,
+// it's more convenient to:
+// - make it relative to cwd()
+// - convert to posix (ie not using windows \ path separator)
+// This way, Jest tests can run more reliably on any computer/CI
+// on both Unix/Windows
+// For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
+export function toMessageRelativeFilePath(filePath: string) {
+  return posixPath(path.relative(process.cwd(), filePath));
+}
+
 const chunkNameCache = new Map();
 /**
  * Generate unique chunk name given a module path.
@@ -365,7 +376,7 @@ export function normalizeUrl(rawUrls: string[]): string {
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
 export function aliasedSitePath(filePath: string, siteDir: string): string {
-  const relativePath = path.relative(siteDir, filePath);
+  const relativePath = posixPath(path.relative(siteDir, filePath));
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;

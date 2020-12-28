@@ -14,6 +14,7 @@ import {
   aliasedSitePath,
   getPluginI18nPath,
   reportMessage,
+  posixPath,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -84,7 +85,7 @@ export default function pluginContentBlog(
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
-    `~blog/${path.relative(pluginDataDirRoot, source)}`;
+    `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   let blogPosts: BlogPost[] = [];
 

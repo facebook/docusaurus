@@ -20,6 +20,7 @@ import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
+import {posixPath} from '@docusaurus/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -89,10 +90,10 @@ function createTestUtils({
       lastUpdatedAt: undefined,
       sidebar_label: undefined,
       editUrl: undefined,
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, versionMetadata.docsDirPath),
-        docFileSource,
+        posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
+        posixPath(docFileSource),
       ),
       ...expectedMetadata,
     });

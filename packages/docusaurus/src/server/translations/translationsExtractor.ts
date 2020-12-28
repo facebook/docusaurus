@@ -14,6 +14,7 @@ import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
 import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
+import {posixPath} from '@docusaurus/utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -40,7 +41,13 @@ async function getSourceCodeFilePaths(
     plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
   );
 
-  const filePaths = await globby(allPathsToWatch);
+  // Required for Windows support, as paths using \ should not be used by globby
+  // (also using the windows hard drive prefix like c: is not a good idea)
+  const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
+    posixPath(nodePath.relative(process.cwd(), path)),
+  );
+
+  const filePaths = await globby(allRelativePosixPathsToWatch);
 
   return filePaths.filter(isTranslatableSourceCodePath);
 }

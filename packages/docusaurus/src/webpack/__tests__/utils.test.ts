@@ -135,7 +135,7 @@ describe('extending generated webpack config', () => {
 
 describe('getFileLoaderUtils()', () => {
   test('plugin svgo/removeViewBox should be disabled', () => {
-    const use = getFileLoaderUtils().rules.svg().use;
+    const {use} = getFileLoaderUtils().rules.svg();
     expect(use).toContainEqual(
       expect.objectContaining({
         loader: '@svgr/webpack',

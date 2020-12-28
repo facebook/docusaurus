@@ -51,9 +51,11 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
 :::info
+
 In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
+
 :::
 
 Example:
@@ -94,20 +96,20 @@ Optional parameters, also set as environment variables:
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment veriable:
 
-| Name | Description |
-| --- | --- |
+| Name          | Description                                     |
+| ------------- | ----------------------------------------------- |
 | `GITHUB_HOST` | The domain name of your GitHub enterprise site. |
 
 ### Deploy
 
 Finally, to deploy your site to GitHub Pages, run:
 
-<Tabs 
+<Tabs
   defaultValue="bash"
-  values={[ 
+  values={[
     { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }, 
-    { label: 'PowerShell', value: 'powershell' } 
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
 ]}>
 <TabItem value="bash">
 

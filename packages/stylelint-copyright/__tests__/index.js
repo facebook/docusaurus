@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const path = require('path');
 const rule = require('..');
 
 const {ruleName, messages} = rule;
@@ -12,7 +13,7 @@ const {ruleName, messages} = rule;
 testStylelintRule(
   {
     // Relative to repo root.
-    plugins: ['./packages/stylelint-copyright'],
+    plugins: [path.join(process.cwd(), 'packages', 'stylelint-copyright')],
     rules: {
       [ruleName]: true,
     },

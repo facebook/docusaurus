@@ -78,7 +78,9 @@ module.exports = {
 ```
 
 :::note
+
 Shorthand notation relies on the iteration order of JavaScript object keys for the category name. When using this notation, keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']`, yet this is generally true.
+
 :::
 
 ## Using multiple sidebars

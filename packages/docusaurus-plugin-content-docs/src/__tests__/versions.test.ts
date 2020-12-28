@@ -24,30 +24,30 @@ const DefaultI18N: I18n = {
 };
 
 describe('version paths', () => {
-  test('getVersionedDocsDirPath', () => {
+  test('getVersionsFilePath', () => {
     expect(getVersionsFilePath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versions.json',
+      `someSiteDir${path.sep}versions.json`,
     );
     expect(getVersionsFilePath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versions.json',
+      `otherSite${path.sep}dir${path.sep}pluginId_versions.json`,
     );
   });
 
   test('getVersionedDocsDirPath', () => {
     expect(getVersionedDocsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_docs',
+      `someSiteDir${path.sep}versioned_docs`,
     );
     expect(getVersionedDocsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_docs',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_docs`,
     );
   });
 
   test('getVersionedSidebarsDirPath', () => {
     expect(getVersionedSidebarsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_sidebars',
+      `someSiteDir${path.sep}versioned_sidebars`,
     );
     expect(getVersionedSidebarsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_sidebars',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_sidebars`,
     );
   });
 });
