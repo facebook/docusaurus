@@ -9,7 +9,8 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 export type DocFile = {
-  filePath: string;
+  docsDirPath: string; // /!\ may be localized
+  filePath: string; // /!\ may be localized
   source: string;
   content: string;
   lastUpdate: LastUpdateData;
@@ -21,6 +22,8 @@ export type VersionMetadata = {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
+  versionEditUrl?: string | undefined;
+  versionEditUrlLocalized?: string | undefined;
   isLast: boolean;
   docsDirPath: string; // "versioned_docs/version-1.0.0"
   docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
@@ -32,6 +35,8 @@ export type MetadataOptions = {
   routeBasePath: string;
   homePageId?: string;
   editUrl?: string;
+  editCurrentVersion: boolean;
+  editLocalizedDocs: boolean;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
 };

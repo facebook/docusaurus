@@ -70,18 +70,18 @@ export async function readDocFile(
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const folderPath = await getFolderContainingFile(
+  const docsDirPath = await getFolderContainingFile(
     getDocsDirPaths(versionMetadata),
     source,
   );
 
-  const filePath = path.join(folderPath, source);
+  const filePath = path.join(docsDirPath, source);
 
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),
     readLastUpdateData(filePath, options),
   ]);
-  return {source, content, lastUpdate, filePath};
+  return {source, content, lastUpdate, docsDirPath, filePath};
 }
 
 export async function readVersionDocs(
@@ -110,15 +110,24 @@ export function processDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
 }): DocMetadataBase {
-  const {source, content, lastUpdate, filePath} = docFile;
-  const {editUrl, homePageId} = options;
+  const {source, content, lastUpdate, docsDirPath, filePath} = docFile;
+  const {homePageId} = options;
   const {siteDir} = context;
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const docsEditUrl = getEditUrl(path.relative(siteDir, filePath), editUrl);
+  const relativeFilePath = path.relative(docsDirPath, filePath);
+
+  const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
+
+  const versionEditUrl =
+    isLocalized && options.editLocalizedDocs
+      ? versionMetadata.versionEditUrlLocalized
+      : versionMetadata.versionEditUrl;
+
+  const docsEditUrl = getEditUrl(relativeFilePath, versionEditUrl);
 
   const {frontMatter = {}, excerpt} = parseMarkdownString(content);
   const {sidebar_label, custom_edit_url} = frontMatter;

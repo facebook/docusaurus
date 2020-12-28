@@ -14,6 +14,7 @@ import {
   DocMetadataBase,
   MetadataOptions,
   VersionMetadata,
+  PluginOptions,
 } from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -42,6 +43,7 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
+    docsDirPath: 'docs',
     filePath: source,
   };
 };
@@ -111,19 +113,19 @@ function createTestUtils({
 }
 
 describe('simple site', () => {
-  async function loadSite() {
+  async function loadSite(
+    loadSiteOptions: {options: Partial<PluginOptions>} = {options: {}},
+  ) {
     const siteDir = path.join(fixtureDir, 'simple-site');
     const context = await loadContext(siteDir);
     const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
+      ...loadSiteOptions.options,
     };
     const versionsMetadata = readVersionsMetadata({
       context,
-      options: {
-        id: DEFAULT_PLUGIN_ID,
-        ...DEFAULT_OPTIONS,
-      },
+      options,
     });
     expect(versionsMetadata.length).toEqual(1);
     const [currentVersion] = versionsMetadata;
@@ -191,12 +193,14 @@ describe('simple site', () => {
   });
 
   test('homePageId doc', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite();
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {homePageId: 'hello'},
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {...options, homePageId: 'hello'},
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -213,12 +217,14 @@ describe('simple site', () => {
   });
 
   test('homePageId doc nested', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite();
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {homePageId: 'foo/bar'},
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {...options, homePageId: 'foo/bar'},
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -235,15 +241,16 @@ describe('simple site', () => {
   });
 
   test('docs with editUrl', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite();
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+      },
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-      },
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -278,16 +285,17 @@ describe('simple site', () => {
   });
 
   test('docs with last update time and author', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite();
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -361,15 +369,16 @@ describe('simple site', () => {
   });
 
   test('docs with slug on doc home', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite();
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        homePageId: 'homePageId',
+      },
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        homePageId: 'homePageId',
-      },
+      options,
       versionMetadata: currentVersion,
     });
     expect(() => {
@@ -388,19 +397,23 @@ describe('simple site', () => {
 });
 
 describe('versioned site', () => {
-  async function loadSite() {
+  async function loadSite(
+    loadSiteOptions: {options: Partial<PluginOptions>; locale?: string} = {
+      options: {},
+    },
+  ) {
     const siteDir = path.join(fixtureDir, 'versioned-site');
-    const context = await loadContext(siteDir);
+    const context = await loadContext(siteDir, {
+      locale: loadSiteOptions.locale,
+    });
     const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
+      ...loadSiteOptions.options,
     };
     const versionsMetadata = readVersionsMetadata({
       context,
-      options: {
-        id: DEFAULT_PLUGIN_ID,
-        ...DEFAULT_OPTIONS,
-      },
+      options,
     });
     expect(versionsMetadata.length).toEqual(4);
     const [
@@ -495,7 +508,7 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
-      description: 'Hello 1.0.0 ! (translated)',
+      description: 'Hello 1.0.0 ! (translated en)',
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -582,15 +595,17 @@ describe('versioned site', () => {
   });
 
   test('translated doc with editUrl', async () => {
-    const {siteDir, context, options, version100} = await loadSite();
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        // editCurrentVersion: true,
+      },
+    });
 
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-      },
+      options,
       versionMetadata: version100,
     });
 
@@ -601,12 +616,108 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
-      description: 'Hello 1.0.0 ! (translated)',
+      description: 'Hello 1.0.0 ! (translated en)',
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
+    });
+  });
+
+  test('translated en doc with editUrl and editCurrentVersion=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editCurrentVersion: true,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedDocs=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editLocalizedDocs: true,
+      },
+      locale: 'fr',
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/fr/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated fr)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedDocs=true + editCurrentVersion=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editCurrentVersion: true,
+        editLocalizedDocs: true,
+      },
+      locale: 'fr',
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/fr/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated fr)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
     });
   });
 });

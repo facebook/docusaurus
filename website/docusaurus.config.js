@@ -77,6 +77,7 @@ module.exports = {
         id: 'community',
         path: 'community',
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editCurrentVersion: true,
         routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
@@ -205,20 +206,21 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
+          editCurrentVersion: true,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
           disableVersioning: isVersioningDisabled,
-          lastVersion: 'current',
+          lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} (unreleased)`,
+              label: `${getNextAlphaVersionName()} 🚧`,
             },
           },
         },

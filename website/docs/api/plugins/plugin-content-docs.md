@@ -36,6 +36,18 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
+         * When docs are versioned, the edit url will link to the doc
+         * in current version, instead of the versioned doc.
+         * Useful if you don't want users to submit doc pull-requests to older versions.
+         */
+        editCurrentVersion: false,
+        /**
+         * When docs are localized, the edit url will target the localized doc,
+         * instead of the original unlocalized doc.
+         * Useful if you commit localized docs to git, instead of using a translation service.
+         */
+        editLocalizedDocs: false,
+        /**
          * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
          * INFO: It is possible to set just `/` for shipping docs without base path.
