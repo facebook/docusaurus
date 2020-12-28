@@ -21,7 +21,7 @@ const blogPosts: BlogPost[] = [
     id: 'Happy 1st Birthday Slash!',
     metadata: {
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-      source: path.join(
+      source: path.posix.join(
         '@site',
         pluginDir,
         '2018-12-14-Happy-First-Birthday-Slash.md',
