@@ -9,6 +9,7 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import chalk from 'chalk';
 import path from 'path';
+import {resolve} from 'url';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {
@@ -240,13 +241,18 @@ export function linkify({
 
     while (mdMatch !== null) {
       const mdLink = mdMatch[1];
-      const aliasedPostSource = `@site/${path.relative(
-        siteDir,
-        path.resolve(folderPath, mdLink),
-      )}`;
+
+      const aliasedSource = (source: string) =>
+        aliasedSitePath(source, siteDir);
 
       const blogPost: BlogPost | undefined =
-        blogPostsBySource[aliasedPostSource];
+        blogPostsBySource[aliasedSource(resolve(filePath, mdLink))] ||
+        blogPostsBySource[
+          aliasedSource(`${contentPaths.contentPathLocalized}/${mdLink}`)
+        ] ||
+        blogPostsBySource[
+          aliasedSource(`${contentPaths.contentPath}/${mdLink}`)
+        ];
 
       if (blogPost) {
         modifiedLine = modifiedLine.replace(
