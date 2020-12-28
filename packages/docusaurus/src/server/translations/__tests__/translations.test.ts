@@ -40,6 +40,8 @@ async function createTmpTranslationFile(
     await fs.writeFile(file.path, JSON.stringify(content, null, 2));
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
   return {
     filePath: file.path,
     readFile: async () => JSON.parse(await fs.readFile(file.path, 'utf8')),
