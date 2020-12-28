@@ -42,6 +42,9 @@ async function getSourceCodeFilePaths(
 
   const filePaths = await globby(allPathsToWatch);
 
+  console.log('allPathsToWatch', allPathsToWatch);
+  console.log('filePaths', filePaths);
+
   return filePaths.filter(isTranslatableSourceCodePath);
 }
 
