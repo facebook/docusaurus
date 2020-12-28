@@ -128,13 +128,15 @@ Maybe you should remove them?
     console.log(
       `${Object.keys(mergedContent)
         .length.toString()
-        .padStart(3, ' ')} translations written at ${path.relative(
+        .padStart(3, ' ')} translations will be written at ${path.relative(
         process.cwd(),
         filePath,
       )}`,
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
+
+    console.log(`FILE WRITTEN TEST: ${filePath}`);
   }
 }
 
