@@ -33,21 +33,29 @@ Your Docusaurus 1 site should have the following structure:
 
 ## Docusaurus 2 structure
 
-After the migration, your Docusaurus 2 site should look like:
+After the migration, your Docusaurus 2 site could look like:
 
 ```sh
-website
-├── blog
 ├── docs
-├── src
-│   ├── components
-│   ├── css
-│   └── pages
-├── static
-├── package.json
-├── sidebars.json
-├── docusaurus.config.js
+└── website
+    ├── blog
+    ├── src
+    │   ├── components
+    │   ├── css
+    │   └── pages
+    ├── static
+    ├── package.json
+    ├── sidebars.json
+    ├── docusaurus.config.js
 ```
+
+:::info
+
+This migration does not change the `/docs` folder location, but Docusaurus v2 sites generally have the `/docs` folder inside `/website`
+
+You are free to put the `/docs` folder anywhere you want after having migrated to v2.
+
+:::
 
 ## Migration process
 
