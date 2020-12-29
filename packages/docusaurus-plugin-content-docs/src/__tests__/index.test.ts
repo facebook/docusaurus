@@ -80,7 +80,7 @@ Entries created:
 
     checkVersionMetadataPropCreated: (version: LoadedVersion) => {
       const versionMetadataProp = getCreatedDataByPrefix(
-        `version-${kebabCase(version.versionName)}-metadata-prop`,
+        `version-${kebabCase(version.versionName)}`,
       );
       expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
       expect(versionMetadataProp.permalinkToSidebar).toEqual(

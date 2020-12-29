@@ -258,14 +258,16 @@ export default function pluginContentDocs(
       const {addRoute, createData, setGlobalData} = actions;
 
       const createDocRoutes = async (
-        docs: DocMetadata[],
+        loadedVersion: LoadedVersion,
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
-          docs.map(async (docMetadata) => {
+          loadedVersion.docs.map(async (docMetadata) => {
             const docMetadataPath = await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
-              `${docuHash(docMetadata.source)}.json`,
+              `${docuHash(
+                `doc-${loadedVersion.versionName}-${docMetadata.unversionedId}`,
+              )}.json`,
               JSON.stringify(docMetadata, null, 2),
             );
 
@@ -285,9 +287,7 @@ export default function pluginContentDocs(
 
       async function handleVersion(loadedVersion: LoadedVersion) {
         const versionMetadataPropPath = await createData(
-          `${docuHash(
-            `version-${loadedVersion.versionName}-metadata-prop`,
-          )}.json`,
+          `${docuHash(`version-${loadedVersion.versionName}`)}.json`,
           JSON.stringify(
             toVersionMetadataProp(pluginId, loadedVersion),
             null,
@@ -302,7 +302,7 @@ export default function pluginContentDocs(
           // main docs component (DocPage)
           component: docLayoutComponent,
           // sub-routes for each doc
-          routes: await createDocRoutes(loadedVersion.docs),
+          routes: await createDocRoutes(loadedVersion),
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },

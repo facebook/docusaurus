@@ -257,7 +257,7 @@ export default function pluginContentBlog(
       const sidebarProp = await createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
-        `blog-post-list-prop-${pluginId}.json`,
+        `blog-post-list.json`,
         JSON.stringify(
           {
             title: options.blogSidebarTitle,

@@ -137,7 +137,7 @@ Object {
 
 exports[`simple website content: data 1`] = `
 Object {
-  "site-docs-foo-bar-md-8c2.json": "{
+  "doc-current-foo-bar-79e.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
   \\"isDocsHomePage\\": false,
@@ -153,7 +153,7 @@ Object {
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
-  "site-docs-foo-baz-md-a69.json": "{
+  "doc-current-foo-baz-3b8.json": "{
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"foo/baz\\",
   \\"isDocsHomePage\\": false,
@@ -173,7 +173,7 @@ Object {
     \\"permalink\\": \\"/docs/\\"
   }
 }",
-  "site-docs-hello-md-9df.json": "{
+  "doc-current-hello-56d.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"hello\\",
   \\"isDocsHomePage\\": true,
@@ -189,7 +189,7 @@ Object {
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
-  "site-docs-ipsum-md-c61.json": "{
+  "doc-current-ipsum-418.json": "{
   \\"unversionedId\\": \\"ipsum\\",
   \\"id\\": \\"ipsum\\",
   \\"isDocsHomePage\\": false,
@@ -201,7 +201,7 @@ Object {
   \\"editUrl\\": null,
   \\"version\\": \\"current\\"
 }",
-  "site-docs-lorem-md-b27.json": "{
+  "doc-current-lorem-171.json": "{
   \\"unversionedId\\": \\"lorem\\",
   \\"id\\": \\"lorem\\",
   \\"isDocsHomePage\\": false,
@@ -213,7 +213,7 @@ Object {
   \\"editUrl\\": \\"https://github.com/customUrl/docs/lorem.md\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-root-absolute-slug-md-db5.json": "{
+  "doc-current-root-absolute-slug-8c4.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
   \\"id\\": \\"rootAbsoluteSlug\\",
   \\"isDocsHomePage\\": false,
@@ -224,7 +224,7 @@ Object {
   \\"permalink\\": \\"/docs/rootAbsoluteSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-root-relative-slug-md-3dd.json": "{
+  "doc-current-root-relative-slug-a37.json": "{
   \\"unversionedId\\": \\"rootRelativeSlug\\",
   \\"id\\": \\"rootRelativeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -235,7 +235,7 @@ Object {
   \\"permalink\\": \\"/docs/rootRelativeSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-root-resolved-slug-md-4d1.json": "{
+  "doc-current-root-resolved-slug-567.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
   \\"id\\": \\"rootResolvedSlug\\",
   \\"isDocsHomePage\\": false,
@@ -246,7 +246,7 @@ Object {
   \\"permalink\\": \\"/docs/hey/rootResolvedSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-root-try-to-escape-slug-md-9ee.json": "{
+  "doc-current-root-try-to-escape-slug-1eb.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
   \\"id\\": \\"rootTryToEscapeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -257,7 +257,7 @@ Object {
   \\"permalink\\": \\"/docs/rootTryToEscapeSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-slugs-absolute-slug-md-4e8.json": "{
+  "doc-current-slugs-absolute-slug-752.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
   \\"id\\": \\"slugs/absoluteSlug\\",
   \\"isDocsHomePage\\": false,
@@ -268,7 +268,7 @@ Object {
   \\"permalink\\": \\"/docs/absoluteSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-slugs-relative-slug-md-d1c.json": "{
+  "doc-current-slugs-relative-slug-c86.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
   \\"id\\": \\"slugs/relativeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -279,7 +279,7 @@ Object {
   \\"permalink\\": \\"/docs/slugs/relativeSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-slugs-resolved-slug-md-02b.json": "{
+  "doc-current-slugs-resolved-slug-1e3.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
   \\"id\\": \\"slugs/resolvedSlug\\",
   \\"isDocsHomePage\\": false,
@@ -290,7 +290,7 @@ Object {
   \\"permalink\\": \\"/docs/slugs/hey/resolvedSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
+  "doc-current-slugs-try-to-escape-slug-a96.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
   \\"id\\": \\"slugs/tryToEscapeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -301,7 +301,7 @@ Object {
   \\"permalink\\": \\"/docs/tryToEscapeSlug\\",
   \\"version\\": \\"current\\"
 }",
-  "version-current-metadata-prop-751.json": "{
+  "version-current-6f8.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
@@ -457,7 +457,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-current-metadata-prop-751.json",
+      "versionMetadata": "~docs/version-current-6f8.json",
     },
     "path": "/docs",
     "priority": -1,
@@ -466,7 +466,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/hello.md",
+          "content": "~docs/doc-current-hello-56d.json",
         },
         "path": "/docs/",
       },
@@ -474,7 +474,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/absoluteSlug.md",
+          "content": "~docs/doc-current-slugs-absolute-slug-752.json",
         },
         "path": "/docs/absoluteSlug",
       },
@@ -482,7 +482,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/foo/bar.md",
+          "content": "~docs/doc-current-foo-bar-79e.json",
         },
         "path": "/docs/foo/bar",
       },
@@ -490,7 +490,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/foo/baz.md",
+          "content": "~docs/doc-current-foo-baz-3b8.json",
         },
         "path": "/docs/foo/bazSlug.html",
       },
@@ -498,7 +498,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/rootResolvedSlug.md",
+          "content": "~docs/doc-current-root-resolved-slug-567.json",
         },
         "path": "/docs/hey/rootResolvedSlug",
       },
@@ -506,7 +506,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/ipsum.md",
+          "content": "~docs/doc-current-ipsum-418.json",
         },
         "path": "/docs/ipsum",
       },
@@ -514,7 +514,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/lorem.md",
+          "content": "~docs/doc-current-lorem-171.json",
         },
         "path": "/docs/lorem",
       },
@@ -522,7 +522,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/rootAbsoluteSlug.md",
+          "content": "~docs/doc-current-root-absolute-slug-8c4.json",
         },
         "path": "/docs/rootAbsoluteSlug",
       },
@@ -530,7 +530,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/rootRelativeSlug.md",
+          "content": "~docs/doc-current-root-relative-slug-a37.json",
         },
         "path": "/docs/rootRelativeSlug",
       },
@@ -538,7 +538,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/rootTryToEscapeSlug.md",
+          "content": "~docs/doc-current-root-try-to-escape-slug-1eb.json",
         },
         "path": "/docs/rootTryToEscapeSlug",
       },
@@ -546,7 +546,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/resolvedSlug.md",
+          "content": "~docs/doc-current-slugs-resolved-slug-1e3.json",
         },
         "path": "/docs/slugs/hey/resolvedSlug",
       },
@@ -554,7 +554,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/relativeSlug.md",
+          "content": "~docs/doc-current-slugs-relative-slug-c86.json",
         },
         "path": "/docs/slugs/relativeSlug",
       },
@@ -562,7 +562,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/tryToEscapeSlug.md",
+          "content": "~docs/doc-current-slugs-try-to-escape-slug-a96.json",
         },
         "path": "/docs/tryToEscapeSlug",
       },
@@ -616,7 +616,7 @@ Object {
 
 exports[`versioned website (community) content: data 1`] = `
 Object {
-  "site-community-versioned-docs-version-1-0-0-team-md-359.json": "{
+  "doc-1-0-0-team-0e8.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"version-1.0.0/team\\",
   \\"isDocsHomePage\\": false,
@@ -628,7 +628,7 @@ Object {
   \\"version\\": \\"1.0.0\\",
   \\"sidebar\\": \\"version-1.0.0/community\\"
 }",
-  "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
+  "doc-current-team-2db.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"team\\",
   \\"isDocsHomePage\\": false,
@@ -640,7 +640,7 @@ Object {
   \\"version\\": \\"current\\",
   \\"sidebar\\": \\"community\\"
 }",
-  "version-1-0-0-metadata-prop-608.json": "{
+  "version-1-0-0-0ad.json": "{
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
@@ -658,7 +658,7 @@ Object {
     \\"/community/team\\": \\"version-1.0.0/community\\"
   }
 }",
-  "version-current-metadata-prop-751.json": "{
+  "version-current-6f8.json": "{
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
@@ -725,7 +725,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-current-metadata-prop-751.json",
+      "versionMetadata": "~docs/version-current-6f8.json",
     },
     "path": "/community/next",
     "priority": undefined,
@@ -734,7 +734,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
+          "content": "~docs/doc-current-team-2db.json",
         },
         "path": "/community/next/team",
       },
@@ -744,7 +744,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
+      "versionMetadata": "~docs/version-1-0-0-0ad.json",
     },
     "path": "/community",
     "priority": -1,
@@ -753,7 +753,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/community_versioned_docs/version-1.0.0/team.md",
+          "content": "~docs/doc-1-0-0-team-0e8.json",
         },
         "path": "/community/team",
       },
@@ -855,99 +855,7 @@ Object {
 
 exports[`versioned website content: data 1`] = `
 Object {
-  "site-docs-foo-bar-md-8c2.json": "{
-  \\"unversionedId\\": \\"foo/bar\\",
-  \\"id\\": \\"foo/bar\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"bar\\",
-  \\"description\\": \\"This is next version of bar.\\",
-  \\"source\\": \\"@site/docs/foo/bar.md\\",
-  \\"slug\\": \\"/foo/barSlug\\",
-  \\"permalink\\": \\"/docs/next/foo/barSlug\\",
-  \\"version\\": \\"current\\",
-  \\"sidebar\\": \\"docs\\",
-  \\"next\\": {
-    \\"title\\": \\"hello\\",
-    \\"permalink\\": \\"/docs/next/\\"
-  }
-}",
-  "site-docs-hello-md-9df.json": "{
-  \\"unversionedId\\": \\"hello\\",
-  \\"id\\": \\"hello\\",
-  \\"isDocsHomePage\\": true,
-  \\"title\\": \\"hello\\",
-  \\"description\\": \\"Hello next !\\",
-  \\"source\\": \\"@site/docs/hello.md\\",
-  \\"slug\\": \\"/\\",
-  \\"permalink\\": \\"/docs/next/\\",
-  \\"version\\": \\"current\\",
-  \\"sidebar\\": \\"docs\\",
-  \\"previous\\": {
-    \\"title\\": \\"bar\\",
-    \\"permalink\\": \\"/docs/next/foo/barSlug\\"
-  }
-}",
-  "site-docs-slugs-absolute-slug-md-4e8.json": "{
-  \\"unversionedId\\": \\"slugs/absoluteSlug\\",
-  \\"id\\": \\"slugs/absoluteSlug\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"absoluteSlug\\",
-  \\"description\\": \\"Lorem\\",
-  \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
-  \\"slug\\": \\"/absoluteSlug\\",
-  \\"permalink\\": \\"/docs/next/absoluteSlug\\",
-  \\"version\\": \\"current\\"
-}",
-  "site-docs-slugs-relative-slug-md-d1c.json": "{
-  \\"unversionedId\\": \\"slugs/relativeSlug\\",
-  \\"id\\": \\"slugs/relativeSlug\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"relativeSlug\\",
-  \\"description\\": \\"Lorem\\",
-  \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
-  \\"slug\\": \\"/slugs/relativeSlug\\",
-  \\"permalink\\": \\"/docs/next/slugs/relativeSlug\\",
-  \\"version\\": \\"current\\"
-}",
-  "site-docs-slugs-resolved-slug-md-02b.json": "{
-  \\"unversionedId\\": \\"slugs/resolvedSlug\\",
-  \\"id\\": \\"slugs/resolvedSlug\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"resolvedSlug\\",
-  \\"description\\": \\"Lorem\\",
-  \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
-  \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
-  \\"permalink\\": \\"/docs/next/slugs/hey/resolvedSlug\\",
-  \\"version\\": \\"current\\"
-}",
-  "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
-  \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
-  \\"id\\": \\"slugs/tryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
-  \\"title\\": \\"tryToEscapeSlug\\",
-  \\"description\\": \\"Lorem\\",
-  \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
-  \\"slug\\": \\"/tryToEscapeSlug\\",
-  \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
-  \\"version\\": \\"current\\"
-}",
-  "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": "{
-  \\"unversionedId\\": \\"hello\\",
-  \\"id\\": \\"version-1.0.0/hello\\",
-  \\"isDocsHomePage\\": true,
-  \\"title\\": \\"hello\\",
-  \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
-  \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md\\",
-  \\"slug\\": \\"/\\",
-  \\"permalink\\": \\"/docs/1.0.0/\\",
-  \\"version\\": \\"1.0.0\\",
-  \\"sidebar\\": \\"version-1.0.0/docs\\",
-  \\"previous\\": {
-    \\"title\\": \\"baz\\",
-    \\"permalink\\": \\"/docs/1.0.0/foo/baz\\"
-  }
-}",
-  "site-versioned-docs-version-1-0-0-foo-bar-md-7a6.json": "{
+  "doc-1-0-0-foo-bar-05d.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"version-1.0.0/foo/bar\\",
   \\"isDocsHomePage\\": false,
@@ -963,7 +871,7 @@ Object {
     \\"permalink\\": \\"/docs/1.0.0/foo/baz\\"
   }
 }",
-  "site-versioned-docs-version-1-0-0-foo-baz-md-883.json": "{
+  "doc-1-0-0-foo-baz-b23.json": "{
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"version-1.0.0/foo/baz\\",
   \\"isDocsHomePage\\": false,
@@ -983,7 +891,23 @@ Object {
     \\"permalink\\": \\"/docs/1.0.0/\\"
   }
 }",
-  "site-versioned-docs-version-1-0-1-foo-bar-md-7a3.json": "{
+  "doc-1-0-0-hello-d36.json": "{
+  \\"unversionedId\\": \\"hello\\",
+  \\"id\\": \\"version-1.0.0/hello\\",
+  \\"isDocsHomePage\\": true,
+  \\"title\\": \\"hello\\",
+  \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
+  \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md\\",
+  \\"slug\\": \\"/\\",
+  \\"permalink\\": \\"/docs/1.0.0/\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"sidebar\\": \\"version-1.0.0/docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz\\",
+    \\"permalink\\": \\"/docs/1.0.0/foo/baz\\"
+  }
+}",
+  "doc-1-0-1-foo-bar-46d.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"version-1.0.1/foo/bar\\",
   \\"isDocsHomePage\\": false,
@@ -999,7 +923,7 @@ Object {
     \\"permalink\\": \\"/docs/\\"
   }
 }",
-  "site-versioned-docs-version-1-0-1-hello-md-0c7.json": "{
+  "doc-1-0-1-hello-131.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"version-1.0.1/hello\\",
   \\"isDocsHomePage\\": true,
@@ -1015,7 +939,83 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   }
 }",
-  "site-versioned-docs-version-with-slugs-root-absolute-slug-md-4d2.json": "{
+  "doc-current-foo-bar-79e.json": "{
+  \\"unversionedId\\": \\"foo/bar\\",
+  \\"id\\": \\"foo/bar\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"bar\\",
+  \\"description\\": \\"This is next version of bar.\\",
+  \\"source\\": \\"@site/docs/foo/bar.md\\",
+  \\"slug\\": \\"/foo/barSlug\\",
+  \\"permalink\\": \\"/docs/next/foo/barSlug\\",
+  \\"version\\": \\"current\\",
+  \\"sidebar\\": \\"docs\\",
+  \\"next\\": {
+    \\"title\\": \\"hello\\",
+    \\"permalink\\": \\"/docs/next/\\"
+  }
+}",
+  "doc-current-hello-56d.json": "{
+  \\"unversionedId\\": \\"hello\\",
+  \\"id\\": \\"hello\\",
+  \\"isDocsHomePage\\": true,
+  \\"title\\": \\"hello\\",
+  \\"description\\": \\"Hello next !\\",
+  \\"source\\": \\"@site/docs/hello.md\\",
+  \\"slug\\": \\"/\\",
+  \\"permalink\\": \\"/docs/next/\\",
+  \\"version\\": \\"current\\",
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"bar\\",
+    \\"permalink\\": \\"/docs/next/foo/barSlug\\"
+  }
+}",
+  "doc-current-slugs-absolute-slug-752.json": "{
+  \\"unversionedId\\": \\"slugs/absoluteSlug\\",
+  \\"id\\": \\"slugs/absoluteSlug\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"absoluteSlug\\",
+  \\"description\\": \\"Lorem\\",
+  \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
+  \\"slug\\": \\"/absoluteSlug\\",
+  \\"permalink\\": \\"/docs/next/absoluteSlug\\",
+  \\"version\\": \\"current\\"
+}",
+  "doc-current-slugs-relative-slug-c86.json": "{
+  \\"unversionedId\\": \\"slugs/relativeSlug\\",
+  \\"id\\": \\"slugs/relativeSlug\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"relativeSlug\\",
+  \\"description\\": \\"Lorem\\",
+  \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
+  \\"slug\\": \\"/slugs/relativeSlug\\",
+  \\"permalink\\": \\"/docs/next/slugs/relativeSlug\\",
+  \\"version\\": \\"current\\"
+}",
+  "doc-current-slugs-resolved-slug-1e3.json": "{
+  \\"unversionedId\\": \\"slugs/resolvedSlug\\",
+  \\"id\\": \\"slugs/resolvedSlug\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"resolvedSlug\\",
+  \\"description\\": \\"Lorem\\",
+  \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
+  \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
+  \\"permalink\\": \\"/docs/next/slugs/hey/resolvedSlug\\",
+  \\"version\\": \\"current\\"
+}",
+  "doc-current-slugs-try-to-escape-slug-a96.json": "{
+  \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
+  \\"id\\": \\"slugs/tryToEscapeSlug\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"tryToEscapeSlug\\",
+  \\"description\\": \\"Lorem\\",
+  \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
+  \\"slug\\": \\"/tryToEscapeSlug\\",
+  \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
+  \\"version\\": \\"current\\"
+}",
+  "doc-with-slugs-root-absolute-slug-06f.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
   \\"id\\": \\"version-withSlugs/rootAbsoluteSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1027,7 +1027,7 @@ Object {
   \\"version\\": \\"withSlugs\\",
   \\"sidebar\\": \\"version-1.0.1/docs\\"
 }",
-  "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": "{
+  "doc-with-slugs-root-relative-slug-4c6.json": "{
   \\"unversionedId\\": \\"rootRelativeSlug\\",
   \\"id\\": \\"version-withSlugs/rootRelativeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1038,7 +1038,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/rootRelativeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": "{
+  "doc-with-slugs-root-resolved-slug-6a9.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
   \\"id\\": \\"version-withSlugs/rootResolvedSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1049,7 +1049,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/hey/rootResolvedSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": "{
+  "doc-with-slugs-root-try-to-escape-slug-b45.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
   \\"id\\": \\"version-withSlugs/rootTryToEscapeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1060,7 +1060,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/rootTryToEscapeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": "{
+  "doc-with-slugs-slugs-absolute-slug-540.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/absoluteSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1071,7 +1071,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/absoluteSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": "{
+  "doc-with-slugs-slugs-relative-slug-d52.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/relativeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1082,7 +1082,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/slugs/relativeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": "{
+  "doc-with-slugs-slugs-resolved-slug-53a.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/resolvedSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1093,7 +1093,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/slugs/hey/resolvedSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": "{
+  "doc-with-slugs-slugs-try-to-escape-slug-42a.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/tryToEscapeSlug\\",
   \\"isDocsHomePage\\": false,
@@ -1104,7 +1104,7 @@ Object {
   \\"permalink\\": \\"/docs/withSlugs/tryToEscapeSlug\\",
   \\"version\\": \\"withSlugs\\"
 }",
-  "version-1-0-0-metadata-prop-608.json": "{
+  "version-1-0-0-0ad.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
@@ -1148,7 +1148,7 @@ Object {
     \\"/docs/1.0.0/\\": \\"version-1.0.0/docs\\"
   }
 }",
-  "version-1-0-1-metadata-prop-e87.json": "{
+  "version-1-0-1-1fb.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
@@ -1186,7 +1186,7 @@ Object {
     \\"/docs/\\": \\"version-1.0.1/docs\\"
   }
 }",
-  "version-current-metadata-prop-751.json": "{
+  "version-current-6f8.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
@@ -1224,7 +1224,7 @@ Object {
     \\"/docs/next/\\": \\"docs\\"
   }
 }",
-  "version-with-slugs-metadata-prop-2bf.json": "{
+  "version-with-slugs-20c.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
@@ -1401,7 +1401,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
+      "versionMetadata": "~docs/version-1-0-0-0ad.json",
     },
     "path": "/docs/1.0.0",
     "priority": undefined,
@@ -1410,7 +1410,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
+          "content": "~docs/doc-1-0-0-hello-d36.json",
         },
         "path": "/docs/1.0.0/",
       },
@@ -1418,7 +1418,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
+          "content": "~docs/doc-1-0-0-foo-bar-05d.json",
         },
         "path": "/docs/1.0.0/foo/barSlug",
       },
@@ -1426,7 +1426,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
+          "content": "~docs/doc-1-0-0-foo-baz-b23.json",
         },
         "path": "/docs/1.0.0/foo/baz",
       },
@@ -1436,7 +1436,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-current-metadata-prop-751.json",
+      "versionMetadata": "~docs/version-current-6f8.json",
     },
     "path": "/docs/next",
     "priority": undefined,
@@ -1445,7 +1445,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/hello.md",
+          "content": "~docs/doc-current-hello-56d.json",
         },
         "path": "/docs/next/",
       },
@@ -1453,7 +1453,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/absoluteSlug.md",
+          "content": "~docs/doc-current-slugs-absolute-slug-752.json",
         },
         "path": "/docs/next/absoluteSlug",
       },
@@ -1461,7 +1461,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/foo/bar.md",
+          "content": "~docs/doc-current-foo-bar-79e.json",
         },
         "path": "/docs/next/foo/barSlug",
       },
@@ -1469,7 +1469,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/resolvedSlug.md",
+          "content": "~docs/doc-current-slugs-resolved-slug-1e3.json",
         },
         "path": "/docs/next/slugs/hey/resolvedSlug",
       },
@@ -1477,7 +1477,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/relativeSlug.md",
+          "content": "~docs/doc-current-slugs-relative-slug-c86.json",
         },
         "path": "/docs/next/slugs/relativeSlug",
       },
@@ -1485,7 +1485,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/slugs/tryToEscapeSlug.md",
+          "content": "~docs/doc-current-slugs-try-to-escape-slug-a96.json",
         },
         "path": "/docs/next/tryToEscapeSlug",
       },
@@ -1495,7 +1495,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-with-slugs-metadata-prop-2bf.json",
+      "versionMetadata": "~docs/version-with-slugs-20c.json",
     },
     "path": "/docs/withSlugs",
     "priority": undefined,
@@ -1504,7 +1504,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
+          "content": "~docs/doc-with-slugs-slugs-absolute-slug-540.json",
         },
         "path": "/docs/withSlugs/absoluteSlug",
       },
@@ -1512,7 +1512,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/rootResolvedSlug.md",
+          "content": "~docs/doc-with-slugs-root-resolved-slug-6a9.json",
         },
         "path": "/docs/withSlugs/hey/rootResolvedSlug",
       },
@@ -1520,7 +1520,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
+          "content": "~docs/doc-with-slugs-root-absolute-slug-06f.json",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
       },
@@ -1528,7 +1528,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/rootRelativeSlug.md",
+          "content": "~docs/doc-with-slugs-root-relative-slug-4c6.json",
         },
         "path": "/docs/withSlugs/rootRelativeSlug",
       },
@@ -1536,7 +1536,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
+          "content": "~docs/doc-with-slugs-root-try-to-escape-slug-b45.json",
         },
         "path": "/docs/withSlugs/rootTryToEscapeSlug",
       },
@@ -1544,7 +1544,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
+          "content": "~docs/doc-with-slugs-slugs-resolved-slug-53a.json",
         },
         "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
       },
@@ -1552,7 +1552,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
+          "content": "~docs/doc-with-slugs-slugs-relative-slug-d52.json",
         },
         "path": "/docs/withSlugs/slugs/relativeSlug",
       },
@@ -1560,7 +1560,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
+          "content": "~docs/doc-with-slugs-slugs-try-to-escape-slug-42a.json",
         },
         "path": "/docs/withSlugs/tryToEscapeSlug",
       },
@@ -1570,7 +1570,7 @@ Array [
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
-      "versionMetadata": "~docs/version-1-0-1-metadata-prop-e87.json",
+      "versionMetadata": "~docs/version-1-0-1-1fb.json",
     },
     "path": "/docs",
     "priority": -1,
@@ -1579,7 +1579,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
+          "content": "~docs/doc-1-0-1-hello-131.json",
         },
         "path": "/docs/",
       },
@@ -1587,7 +1587,7 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
+          "content": "~docs/doc-1-0-1-foo-bar-46d.json",
         },
         "path": "/docs/foo/bar",
       },
