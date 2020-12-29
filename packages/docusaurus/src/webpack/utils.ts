@@ -300,21 +300,33 @@ export function getFileLoaderUtils(): Record<string, any> {
 
     svg: (): RuleSetRule => {
       return {
-        use: [
+        test: /\.svg?$/,
+        oneOf: [
           {
-            loader: '@svgr/webpack',
-            options: {
-              prettier: false,
-              svgo: true,
-              svgoConfig: {
-                plugins: [{removeViewBox: false}],
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: {
+                  prettier: false,
+                  svgo: true,
+                  svgoConfig: {
+                    plugins: [{removeViewBox: false}],
+                  },
+                  titleProp: true,
+                  ref: ![path],
+                },
               },
-              titleProp: true,
-              ref: ![path],
+            ],
+            // We don't want to use SVGR loader for non-React source code
+            // ie we don't want to use SVGR for CSS files...
+            issuer: {
+              test: /\.(ts|tsx|js|jsx|md|mdx)$/,
             },
           },
+          {
+            use: [loaders.url({folder: 'images'})],
+          },
         ],
-        test: /\.svg$/,
       };
     },
 
