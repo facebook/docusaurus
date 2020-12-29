@@ -275,7 +275,7 @@ export default function pluginContentBlog(
       await Promise.all(
         loadedBlogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
-          await createData(
+          const blogPostProp = await createData(
             // Note that this created data path must be in sync with
             // metadataPath provided to mdx-loader.
             `${docuHash(metadata.source)}.json`,
@@ -287,8 +287,8 @@ export default function pluginContentBlog(
             component: blogPostComponent,
             exact: true,
             modules: {
-              sidebar: sidebarProp,
-              content: metadata.source,
+              sidebar: aliasedSource(sidebarProp),
+              content: aliasedSource(blogPostProp),
             },
           });
 
@@ -311,7 +311,7 @@ export default function pluginContentBlog(
             component: blogListComponent,
             exact: true,
             modules: {
-              sidebar: sidebarProp,
+              sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) => {
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
@@ -390,7 +390,7 @@ export default function pluginContentBlog(
           component: blogTagsListComponent,
           exact: true,
           modules: {
-            sidebar: sidebarProp,
+            sidebar: aliasedSource(sidebarProp),
             tags: aliasedSource(tagsListPath),
           },
         });

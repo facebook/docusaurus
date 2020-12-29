@@ -17,6 +17,7 @@ import {
   docuHash,
   getPluginI18nPath,
   getFolderContainingFile,
+  posixPath,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -80,6 +81,9 @@ export default function pluginContentPages(
     'docusaurus-plugin-content-pages',
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+
+  const aliasedSource = (source: string) =>
+    `~pages/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   const excludeRegex = new RegExp(
     options.exclude
@@ -161,7 +165,7 @@ export default function pluginContentPages(
         content.map(async (metadata) => {
           const {permalink, source} = metadata;
           if (metadata.type === 'mdx') {
-            await createData(
+            const pageMetadataPropPath = await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
               `${docuHash(metadata.source)}.json`,
@@ -172,7 +176,7 @@ export default function pluginContentPages(
               component: options.mdxPageComponent,
               exact: true,
               modules: {
-                content: source,
+                content: aliasedSource(pageMetadataPropPath),
               },
             });
           } else {
@@ -228,10 +232,10 @@ export default function pluginContentPages(
                       if (excludeRegex.test(slash(mdxPath))) {
                         return null;
                       }
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
-                        `${docuHash(aliasedSource)}.json`,
+                        `${docuHash(aliasedPath)}.json`,
                       );
                     },
                     forbidFrontMatter: (mdxPath: string) =>

@@ -261,20 +261,20 @@ export default function pluginContentDocs(
         docs: DocMetadata[],
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
-          docs.map(async (metadataItem) => {
-            await createData(
+          docs.map(async (docMetadata) => {
+            const docMetadataPath = await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
-              `${docuHash(metadataItem.source)}.json`,
-              JSON.stringify(metadataItem, null, 2),
+              `${docuHash(docMetadata.source)}.json`,
+              JSON.stringify(docMetadata, null, 2),
             );
 
             return {
-              path: metadataItem.permalink,
+              path: docMetadata.permalink,
               component: docItemComponent,
               exact: true,
               modules: {
-                content: metadataItem.source,
+                content: aliasedSource(docMetadataPath),
               },
             };
           }),

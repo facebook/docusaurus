@@ -74,6 +74,18 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'communitybis',
+        path: 'community-2',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editCurrentVersion: true,
+        routeBasePath: 'community-2',
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'community',
         path: 'community',
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
