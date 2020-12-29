@@ -283,7 +283,7 @@ export function getFileLoaderUtils(): Record<string, any> {
     images: (): RuleSetRule => {
       return {
         use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|webp|svg)(\?.*)?$/,
       };
     },
 
@@ -314,6 +314,9 @@ export function getFileLoaderUtils(): Record<string, any> {
             },
           },
         ],
+        issuer: {
+          test: /\.(tsx|md|mdx|jsx)?$/
+        },
         test: /\.svg$/,
       };
     },
