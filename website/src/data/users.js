@@ -5,8 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
+ *
+ * Instructions
+ * - add your site in the json array below, in alphabetical order of title
+ * - add a local image preview (decent screenshot of your Docusaurus site)
+ *
+ * The image must be added to the Github repository, and use require("image")
+ *
+ * Example PR: https://github.com/facebook/docusaurus/pull/3976
+ *
+ * If you edit this file through the Github interface, you can:
+ * - Submit first your users.js edit PR
+ * - This will create a branch on your Docusaurus fork (usually "patch-1")
+ * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
+ * - Drag-and-drop an image here to add it to your existing PR
+ *
+ */
+
+// prettier-ignore
 const users = [
-  // Please add in alphabetical order of title.
   {
     title: 'AI-Speaker',
     description: 'Local, reliable, fast and private Audio and IoT gate.',
