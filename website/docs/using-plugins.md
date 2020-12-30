@@ -78,9 +78,11 @@ module.exports = {
 
 ## Multi-instance plugins and plugin ids
 
-It is possible to use multiple times the same plugin, on the same Docusaurus website.
+All Docusaurus content plugins can support multiple plugin instances.
 
-In this case, it is required to assign a unique id to each plugin instance.
+The Docs plugin has [additional multi-instance documentation](./guides/docs/docs-multi-instance.mdx)
+
+It is required to assign a unique id to each plugin instance.
 
 By default, the plugin id is `default`.
 
@@ -104,6 +106,12 @@ module.exports = {
   ],
 };
 ```
+
+:::note
+
+At most one plugin instance can be the "default plugin instance", by omitting the `id` attribute, or using `id: 'default'`.
+
+:::
 
 ## Plugins design
 
