@@ -9,8 +9,7 @@ const users = [
   // Please add in alphabetical order of title.
   {
     title: 'AI-Speaker',
-    description:
-      'Local, reliable, fast and private Audio and IoT gate.',
+    description: 'Local, reliable, fast and private Audio and IoT gate.',
     preview: require('./showcase/aispeaker.png'),
     website: 'https://ai-speaker.com/',
     source: 'https://github.com/sviete/AIS-WWW',
