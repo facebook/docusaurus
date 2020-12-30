@@ -15,6 +15,7 @@ import {
   getPluginI18nPath,
   reportMessage,
   posixPath,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -436,7 +437,9 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths),
+              include: getContentPathList(contentPaths)
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+                .map(addTrailingPathSeparator),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
