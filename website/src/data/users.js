@@ -8,6 +8,15 @@
 const users = [
   // Please add in alphabetical order of title.
   {
+    title: 'AI-Speaker',
+    description: 'Local, reliable, fast and private Audio and IoT gate.',
+    preview: require('./showcase/aispeaker.png'),
+    website: 'https://ai-speaker.com/',
+    source: 'https://github.com/sviete/AIS-WWW',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Algolia Docsearch',
     description:
       'The best search experience for docs, integrates in minutes, for free',
