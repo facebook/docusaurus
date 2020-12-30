@@ -1,5 +1,5 @@
 ---
-id: docs-sidebar
+id: sidebar
 title: Sidebar
 slug: /sidebar
 ---
@@ -105,7 +105,7 @@ By default, the doc page the user is reading will display the sidebar that it is
 
 For example, with the above example, when displaying the `doc2` page, the sidebar will contain the items of `secondSidebar` only. Another example of multiple sidebars is the `API` and `Docs` sections on the Docusaurus website.
 
-For more information about sidebars and how they relate to doc pages, see [Navbar doc link](./api/themes/theme-configuration.md#navbar-doc-link).
+For more information about sidebars and how they relate to doc pages, see [Navbar doc link](../../api/themes/theme-configuration.md#navbar-doc-link).
 
 ## Understanding sidebar items
 

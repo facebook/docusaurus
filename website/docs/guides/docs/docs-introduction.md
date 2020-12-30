@@ -1,7 +1,8 @@
 ---
-id: docs-introduction
+id: introduction
 title: Docs Introduction
 sidebar_label: Introduction
+slug: /docs-introduction
 ---
 
 The docs feature provides users with a way to organize Markdown files in a hierarchical format.
@@ -74,6 +75,6 @@ You should delete the existing homepage at `./src/pages/index.js`, or else there
 
 :::tip
 
-There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus 2. You can use the same method detailed above. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus 2. You can use the same method detailed above. Follow the setup instructions on [Blog-only mode](../../blog.md#blog-only-mode).
 
 :::

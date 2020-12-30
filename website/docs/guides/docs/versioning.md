@@ -1,6 +1,7 @@
 ---
 id: versioning
 title: Versioning
+slug: /versioning
 ---
 
 You can use the version script to create a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
@@ -61,7 +62,7 @@ npm run docusaurus docs:version 1.1.0
 When tagging a new version, the document versioning mechanism will:
 
 - Copy the full `docs/` folder contents into a new `versioned_docs/version-<version>/` folder.
-- Create a versioned sidebars file based from your current [sidebar](docs.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
+- Create a versioned sidebars file based from your current [sidebar](docs-introduction.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
 - Append the new version number to `versions.json`.
 
 ## Docs
@@ -165,7 +166,7 @@ Docusaurus defaults work great for the first usecase.
 
 The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, and `1.0.0` will become the default version we link to in the navbar dropdown, and you will only need to maintain a single `./docs` folder.
 
-See [docs plugin configuration](./api/plugins/plugin-content-docs.md) for more details.
+See [docs plugin configuration](../../api/plugins/plugin-content-docs.md) for more details.
 
 ### Version your documentation only when needed
 
