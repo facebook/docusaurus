@@ -23,17 +23,17 @@ module.exports = {
       label: 'Guides',
       items: [
         'guides/creating-pages',
-        'styling-layout',
-        'static-assets',
         {
           Docs: [
-            'docs-introduction',
-            'docs-sidebar',
-            'markdown-features',
-            'versioning',
+            'guides/docs/docs-introduction',
+            'guides/docs/docs-sidebar',
+            'guides/docs/markdown-features',
+            'guides/docs/versioning',
           ],
         },
         'blog',
+        'styling-layout',
+        'static-assets',
         'search',
         'deployment',
       ],

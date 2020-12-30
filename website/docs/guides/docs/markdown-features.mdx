@@ -2,6 +2,7 @@
 id: markdown-features
 title: Markdown Features
 description: Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific features when writing Markdown.
+slug: /markdown-features
 ---
 
 Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
@@ -144,7 +145,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 
 **Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
 
-**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
 
 Try this block here:
 
@@ -1077,11 +1078,11 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
 This results in displaying the image:
 
-![My image alternative text](./assets/docusaurus-asset-example-banner.png)
+![My image alternative text](../../assets/docusaurus-asset-example-banner.png)
 
 :::note
 
-If you are using [@docusaurus/plugin-ideal-image](./using-plugins.md#docusaurusplugin-ideal-image), you need to use the dedicated image component, as documented.
+If you are using [@docusaurus/plugin-ideal-image](../../using-plugins.md#docusaurusplugin-ideal-image), you need to use the dedicated image component, as documented.
 
 :::
 
@@ -1105,11 +1106,11 @@ or
 
 <a
   target="_blank"
-  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  href={require('../../assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF
 </a>
 
-[Download this PDF using Markdown](./assets/docusaurus-asset-example-pdf.pdf)
+[Download this PDF using Markdown](../../assets/docusaurus-asset-example-pdf.pdf)
 
 ### Inline SVGs
 
