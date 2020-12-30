@@ -4,7 +4,7 @@ title: '📦 plugin-content-docs'
 slug: '/api/plugins/@docusaurus/plugin-content-docs'
 ---
 
-Provides the [Docs](markdown-features.mdx) functionality and is the default docs plugin for Docusaurus.
+Provides the [Docs](../../guides/docs/docs-introduction.md) functionality and is the default docs plugin for Docusaurus.
 
 ## Installation
 
