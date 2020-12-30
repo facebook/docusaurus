@@ -85,17 +85,6 @@ module.exports = {
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'communitybis',
-        path: 'community-2',
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
-        routeBasePath: 'community-path-2',
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-    ],
-    [
       '@docusaurus/plugin-content-blog',
       {
         id: 'second-blog',

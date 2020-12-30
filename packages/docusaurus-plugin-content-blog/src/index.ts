@@ -438,9 +438,7 @@ export default function pluginContentBlog(
             {
               test: /(\.mdx?)$/,
               include: getContentPathList(contentPaths)
-                // Very important to add a trailing slash to avoid conflicts when one plugin instance dir path is included in another
-                // For example 2 plugins with id "community/"community-2" => "community" is also used for community-2 docs!
-                // See https://github.com/facebook/docusaurus/issues/3818
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
                 getCacheLoader(isServer),
