@@ -82,7 +82,7 @@ It is possible to use multiple times the same plugin, on the same Docusaurus web
 
 In this case, it is required to assign a unique id to each plugin instance.
 
-By default, the plugin id is `default`.
+By default, the plugin id is `default`. At most one plugin can omit the id and use this default value.
 
 ```js {6,13} title="docusaurus.config.js"
 module.exports = {

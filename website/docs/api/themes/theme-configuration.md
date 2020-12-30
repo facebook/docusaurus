@@ -273,10 +273,13 @@ module.exports = {
         // highlight-start
         {
           type: 'doc',
-          position: 'left',
           docId: 'introduction',
+
+          //// Optional
+          position: 'left',
           label: 'Docs',
           activeSidebarClassName: 'navbar__link--active',
+          docsPluginId: 'default',
         },
         // highlight-end
       ],
@@ -296,14 +299,15 @@ module.exports = {
       items: [
         {
           type: 'docsVersionDropdown',
-          position: 'left',
 
+          //// Optional
+          position: 'left',
           // Add additional dropdown items at the beginning/end of the dropdown.
           dropdownItemsBefore: [],
           dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
-
           // Do not add the link active class when browsing docs.
           dropdownActiveClassDisabled: true,
+          docsPluginId: 'default',
         },
       ],
     },
@@ -323,9 +327,12 @@ module.exports = {
         // highlight-start
         {
           type: 'docsVersion',
+
+          //// Optional
           position: 'left',
-          // to: "/path // by default, link to active/latest version
-          // label: "label" // by default, show active/latest version label
+          to: '/path', // by default, link to active/latest version
+          label: 'label', // by default, show active/latest version label
+          docsPluginId: 'default',
         },
         // highlight-end
       ],

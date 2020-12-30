@@ -27,9 +27,10 @@ module.exports = {
           Docs: [
             'guides/docs/introduction',
             'guides/docs/create-doc',
-            'guides/docs/markdown-features',
             'guides/docs/sidebar',
             'guides/docs/versioning',
+            'guides/docs/markdown-features',
+            'guides/docs/multi-instance',
           ],
         },
         'blog',
