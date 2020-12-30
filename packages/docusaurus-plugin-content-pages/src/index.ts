@@ -17,7 +17,7 @@ import {
   docuHash,
   getPluginI18nPath,
   getFolderContainingFile,
-  addTrailingSlash,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -215,7 +215,7 @@ export default function pluginContentPages(
                 // Very important to add a trailing slash to avoid conflicts when one plugin instance dir path is included in another
                 // For example 2 plugins with id "community/"community-2" => "community" is also used for community-2 docs!
                 // See https://github.com/facebook/docusaurus/issues/3818
-                .map(addTrailingSlash),
+                .map(addTrailingPathSeparator),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),

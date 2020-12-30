@@ -17,7 +17,7 @@ import {
   aliasedSitePath,
   reportMessage,
   posixPath,
-  addTrailingSlash,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
@@ -350,7 +350,7 @@ export default function pluginContentDocs(
             // Very important to add a trailing slash to avoid conflicts when one plugin instance dir path is included in another
             // For example 2 plugins with id "community/"community-2" => "community" is also used for community-2 docs!
             // See https://github.com/facebook/docusaurus/issues/3818
-            .map(addTrailingSlash),
+            .map(addTrailingPathSeparator),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),

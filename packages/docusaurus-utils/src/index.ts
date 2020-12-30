@@ -414,6 +414,9 @@ export function addLeadingSlash(str: string): string {
 export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
+export function addTrailingPathSeparator(str: string): string {
+  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
+}
 
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
