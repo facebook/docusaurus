@@ -1,5 +1,5 @@
 ---
-id: docs-sidebar
+id: sidebar
 title: Sidebar
 slug: /sidebar
 ---

@@ -1,5 +1,5 @@
 ---
-id: docs-introduction
+id: introduction
 title: Docs Introduction
 sidebar_label: Introduction
 slug: /docs-introduction
