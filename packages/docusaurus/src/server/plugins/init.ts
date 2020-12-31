@@ -55,10 +55,15 @@ export default function initPlugins({
         pluginModuleImport = pluginItem;
       } else if (Array.isArray(pluginItem)) {
         [pluginModuleImport, pluginOptions = {}] = pluginItem;
+      } else {
+        throw new TypeError(`You supplied a wrong type of plugin.
+A plugin should be either string or [importPath: string, options?: object].
+
+For more information, visit https://v2.docusaurus.io/docs/using-plugins.`);
       }
 
       if (!pluginModuleImport) {
-        return null;
+        throw new Error('The path to the plugin is either undefined or null.');
       }
 
       // The pluginModuleImport value is any valid

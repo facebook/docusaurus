@@ -53,7 +53,9 @@ export const DEFAULT_CONFIG: Pick<
 
 const PluginSchema = Joi.alternatives().try(
   Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+  Joi.array()
+    .ordered(Joi.string().required(), Joi.object().required())
+    .length(2),
   Joi.bool().equal(false), // In case of conditional adding of plugins.
 );
 
