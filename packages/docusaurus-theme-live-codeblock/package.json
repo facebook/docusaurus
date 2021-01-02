@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/standalone": "^7.12.12",
     "@docusaurus/core": "2.0.0-alpha.70",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",

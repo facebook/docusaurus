@@ -292,6 +292,31 @@ function Clock(props) {
 }
 ```
 
+Typescript is also supported. Simply replace `jsx live` with `tsx live`, then you are good to go.
+
+```tsx live
+() => {
+  const [date, setDate] = useState<Readonly<Date>>(new Date());
+  useEffect(() => {
+    var timerID: number = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  }, []);
+
+  function tick(): void {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
 :::caution react-live and imports
 
 It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.

@@ -11,13 +11,55 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-function Playground({children, theme, transformCode, ...props}) {
+const typescriptExtensions = ['ts', 'tsx'];
+const transformJs = (code) => `${code};`;
+
+function Playground({children, theme, className, scope}) {
+  const [tsTranspileError, setTsTranspileError] = React.useState(null);
+  const transformTs = React.useCallback((code) => {
+    try {
+      // eslint-disable-next-line global-require
+      const {code: transformed} = require('@babel/standalone').transform(code, {
+        filename: 'transformedCode.ts',
+        presets: [
+          'react',
+          [
+            'typescript',
+            {
+              isTSX: true,
+              allExtensions: true,
+            },
+          ],
+        ],
+      });
+      setTsTranspileError(null);
+
+      return transformed;
+    } catch (e) {
+      setTsTranspileError(e.message);
+    }
+
+    return '() => null;';
+  }, []);
+
+  const isTypescriptCode = React.useMemo(
+    () =>
+      typescriptExtensions.some((extension) => className.endsWith(extension)),
+    [className],
+  );
+
+  const transformCode = React.useMemo(() => {
+    return isTypescriptCode ? transformTs : transformJs;
+  }, [isTypescriptCode, transformTs]);
+
   return (
     <LiveProvider
+      scope={scope}
       code={children.replace(/\n$/, '')}
-      transformCode={transformCode || ((code) => `${code};`)}
+      transformCode={transformCode}
       theme={theme}
-      {...props}>
+      language={isTypescriptCode ? 'typescript' : 'javascript'}
+      className={className}>
       <div
         className={clsx(
           styles.playgroundHeader,
@@ -35,7 +77,7 @@ function Playground({children, theme, transformCode, ...props}) {
       </div>
       <div className={styles.playgroundPreview}>
         <LivePreview />
-        <LiveError />
+        {tsTranspileError ? <pre>{tsTranspileError}</pre> : <LiveError />}
       </div>
     </LiveProvider>
   );
