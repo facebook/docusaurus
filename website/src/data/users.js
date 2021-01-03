@@ -26,6 +26,15 @@
 
 // prettier-ignore
 const users = [
+    {
+    title: 'AgileTs',
+    description: 'Global State and Logic Framework for reactive Applications',
+    preview: require('./showcase/agilets.png'),
+    website: 'https://agile-ts.org/',
+    source: 'https://github.com/agile-ts/documentation',
+    fbOpenSource: false,
+    pinned: false,
+  },
   {
     title: 'AI-Speaker',
     description: 'Local, reliable, fast and private Audio and IoT gate.',
