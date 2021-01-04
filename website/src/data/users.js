@@ -26,7 +26,16 @@
 
 // prettier-ignore
 const users = [
-    {
+  {
+    title: 'Power\'s Wiki',
+    description: 'An example of personal wiki ',
+    preview: require('./showcase/power.png'),
+    website: 'https://wiki-power.com/',
+    source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
