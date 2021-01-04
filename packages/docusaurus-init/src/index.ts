@@ -43,6 +43,7 @@ export default async function init(
   reqTemplate?: string,
   cliOptions: Partial<{
     useNpm: boolean;
+    skipInstall: boolean;
   }> = {},
 ): Promise<void> {
   const useYarn = !cliOptions.useNpm ? hasYarn() : false;
@@ -155,14 +156,15 @@ export default async function init(
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
+  if (!cliOptions.skipInstall) {
+    console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
 
-  console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
-
-  try {
-    shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
-  } catch (err) {
-    console.log(chalk.red('Installation failed'));
-    throw err;
+    try {
+      shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
+    } catch (err) {
+      console.log(chalk.red('Installation failed'));
+      throw err;
+    }
   }
   console.log();
 
