@@ -405,6 +405,7 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'img/oss_logo.png',
+        srdDark: 'img/srdDark.png',
         href: 'https://opensource.facebook.com',
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
