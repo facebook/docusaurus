@@ -13,3 +13,9 @@
 .footerLogoLink:hover {
   opacity: 1;
 }
+
+.footerLogoImg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
