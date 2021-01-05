@@ -22,7 +22,7 @@
     "netlify:build:deployPreview:bootstrap": "echo 'netlify:build:deployPreview:bootstrap temporarily disabled' || cross-env BASE_URL='/bootstrap/' DOCUSAURUS_PRESET=bootstrap DISABLE_VERSIONING=true yarn build --out-dir netlifyDeployPreview/bootstrap",
     "netlify:build:deployPreview:blogOnly": "yarn build:blogOnly --out-dir netlifyDeployPreview/blog-only",
     "netlify:build:deployPreview:v1:all": "yarn --cwd .. netlify:deployPreview:v1 && yarn --cwd .. netlify:deployPreview:v1-migrated",
-    "netlify:crowdin:install": "cd .. && java -version && curl https://hardcore-ride-8fbb5a.netlify.app/crowdin-cli.jar --output crowdin-cli.jar && java -jar crowdin-cli.jar --version",
+    "netlify:crowdin:install": "cd .. && java -version && curl -L https://github.com/crowdin/crowdin-cli/releases/download/3.5.1/crowdin-cli.zip --output crowdin-cli.zip && unzip crowdin-cli.zip && cp 3.5.1/crowdin-cli.jar crowdin-cli.jar && java -jar crowdin-cli.jar --version",
     "netlify:crowdin:downloadTranslations": "cd .. && java -jar crowdin-cli.jar download --config ./crowdin-v2.yaml",
     "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:downloadTranslations || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)'",
     "netlify:crowdin:uploadSources": "cd .. && java -jar crowdin-cli.jar upload sources --config ./crowdin-v2.yaml",
