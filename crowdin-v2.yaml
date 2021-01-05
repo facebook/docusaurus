@@ -12,6 +12,12 @@
 #
 'preserve_hierarchy': true
 
+settings: {
+  # Ignore files like .DS_Store etc...
+  # https://github.com/crowdin/crowdin-cli/wiki/Ignoring-hidden-files-during-upload-sources
+  "ignore_hidden_files": true
+}
+
 #
 # Files configuration
 #
