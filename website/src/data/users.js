@@ -137,6 +137,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Datagit',
+    description:
+      'A persian tutorial website strive to make quality education for everyone.',
+    preview: require('./showcase/datagit.png'),
+    website: 'https://datagit.ir/',
+    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
