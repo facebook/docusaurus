@@ -56,6 +56,11 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'Internationalization',
+      items: ['i18n/introduction'],
+    },
+    {
+      type: 'category',
       label: 'Advanced Guides',
       items: ['using-plugins', 'using-themes', 'presets'],
     },
