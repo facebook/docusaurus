@@ -265,6 +265,7 @@ const ThemeConfigSchema = Joi.object({
     logo: Joi.object({
       alt: Joi.string().allow(''),
       src: Joi.string(),
+      srcDark: Joi.string(),
       href: Joi.string(),
     }),
     copyright: Joi.string(),
