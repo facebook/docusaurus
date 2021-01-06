@@ -1,6 +1,6 @@
 ---
 id: introduction
-title: Internationalization introduction
+title: i18n introduction
 sidebar_label: Introduction
 slug: /i18n/introduction
 ---
@@ -21,65 +21,75 @@ For more context, you can read the initial [RFC](https://github.com/facebook/doc
 
 ### i18n goals
 
-The Docusaurus i18n system was made with the following goal:
+The goals of the Docusaurus i18n system are:
 
-- Simple: just put the translated files in the correct file-system location.
+- **Simple**: just put the translated files in the correct file-system location.
 
-- Flexible translation workflows: based on Git (monorepo, forks or submodules), SaaS software, FTP...
+- **Flexible translation workflows**: based on Git (monorepo, forks or submodules), SaaS software, FTP...
 
-- Flexible deployment options: single domain (`docusaurus.io/fr`), or multiple domains (`fr.docusaurus.io` or `docusaurus.fr`).
+- **Flexible deployment options**: single domain (`docusaurus.io/fr`), or multiple domains (`fr.docusaurus.io` or `docusaurus.fr`).
 
-- Modular: allow plugin author to provide i18n support
+- **Modular**: allow plugin author to provide i18n support
 
-- Low-overhead runtime: static json/markdown content does not require a heavy i18n JS library.
+- **Low-overhead runtime**: static json/markdown content does not require a heavy i18n JS library.
 
-- Acceptable build-times: allow building and deploying localized sites independently.
+- **Acceptable build-times**: allow building and deploying localized sites independently.
 
-- Localize assets: an image of your site might contain text that should be translated.
+- **Localize assets**: an image of your site might contain text that should be translated.
 
-- Not coupled to any specific SaaS software, yet making the integration possible.
+- **No coupling**: not forced to use any SaaS, yet the integration is possible.
 
-- Document the [Crowdin](http://crowdin.com/) integration: multiple Docusaurus v1 use Crowdin (translation SaaS, free for open-source), and we provide a migration path to Docusaurus v2.
+- **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 
 ### i18n goals (TODO)
 
-i18n goals, not yet implemented:
+Features that are **not yet implemented**:
 
-- Have good SEO defaults: setting useful html meta headers like `hreflang` for you.
+- **Good SEO defaults**: setting useful html meta headers like `hreflang` for you.
 
-- Provide official support for RTL locales.
+- **RTL support**: one locale should not be harder to use than another.
 
-- Contextual translations: reduce friction to contribute to the translation effort.
+- **Contextual translations**: reduce friction to contribute to the translation effort.
 
-- Anchor links: linking should not break when you localize headings.
+- **Anchor links**: linking should not break when you localize headings.
 
 ### i18n non-goals
 
-- Support automatic locale detection/redirection: a Docusaurus site can be deployed to any simple static hosting solution.
+- **Support automatic locale detection/redirection**: a Docusaurus site can be deployed to any simple static hosting solution.
 
-- Support for any translation SaaS software: we provide integration documentation for some translation SaaS like Crowdin, but in the end you have to read the documentation of the external tools to understand them, and contact their support if you need help. These are living software with their own releases, bugs and very advanced features.
+- **Support for any translation SaaS software**: we provide integration documentation for some translation SaaS like Crowdin, but in the end you have to read the documentation of the external tools to understand them, and contact their support if you need help. These are living software with their own releases, bugs and very advanced features.
 
-- Support translation of page slugs: it is technically complicated, for little SEO value.
+- **Support translation of page slugs**: it is technically complicated, for little SEO value.
 
-## Translatable items
+## Translation workflow
 
-There are 2 ways to provide translations on a Docusaurus website:
+### Overview
 
-### Markdown translations
+Overview of the workflow to create a translated Docusaurus website:
+
+- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
+- **Translate**: put the translated files at the correct file-system location
+- **Deploy**: build and deploy your site using the strategy of your choice
+
+### Translated files
+
+You will have to work with 2 kind of translated files.
+
+#### Markdown files
 
 This is the main content of your Docusaurus website.
 
 Markdown and MDX documents are translated as a whole, to fully preserve the translation context, instead of splitting each sentance as a separate string.
 
-### Key/value translations
+#### JSON files
 
-Key-value strings will translate:
+JSON is used to translate:
 
 - your React code: using the `<Translate>` component
 - your theme: the navbar, footer...
 - your plugins: the docs sidebar category labels...
 
-The key-value strings use a JSON format called `Chrome JSON messages`:
+The JSON format used is called **Chrome i18n**:
 
 ```json
 {
@@ -96,5 +106,5 @@ The key-value strings use a JSON format called `Chrome JSON messages`:
 
 The choice was made for 2 reasons:
 
-- It supports a description attribute, to help translators with additional context.
-- It is widely supported ([Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages),[Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json))
+- **Description attribute**: to help translators with additional context.
+- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)...

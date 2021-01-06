@@ -57,7 +57,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Internationalization',
-      items: ['i18n/introduction'],
+      items: ['i18n/introduction', 'i18n/tutorial'],
     },
     {
       type: 'category',
