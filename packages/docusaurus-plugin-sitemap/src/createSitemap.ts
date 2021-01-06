@@ -8,6 +8,7 @@
 import sitemap, {Sitemap, SitemapItemOptions} from 'sitemap';
 import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
+import {addTrailingSlash} from '@docusaurus/utils';
 
 export default function createSitemap(
   siteConfig: DocusaurusConfig,
@@ -23,8 +24,8 @@ export default function createSitemap(
   const urls = routesPaths
     .filter((route) => !route.endsWith('404.html'))
     .map(
-      (routesPath): SitemapItemOptions => ({
-        url: `${routesPath}${trailingSlash && !routesPath.endsWith('/') ? '/' : ''}`,
+      (routePath): SitemapItemOptions => ({
+        url: trailingSlash ? addTrailingSlash(routePath) : routePath,
         changefreq,
         priority,
       }),
