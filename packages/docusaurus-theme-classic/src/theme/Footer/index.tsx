@@ -94,12 +94,7 @@ function Footer(): JSX.Element | null {
           </div>
         )}
         {(logo || copyright) && (
-          <div
-            className={clsx(
-              'footer__bottom',
-              'text--center',
-              styles.footerLogoImg,
-            )}>
+          <div className="footer__bottom text--center">
             {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
