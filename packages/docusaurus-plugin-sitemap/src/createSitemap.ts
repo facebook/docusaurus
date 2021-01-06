@@ -24,7 +24,7 @@ export default function createSitemap(
     .filter((route) => !route.endsWith('404.html'))
     .map(
       (routesPath): SitemapItemOptions => ({
-        url: `${routesPath}${trailingSlash && routesPath !== '/' ? '/' : ''}`,
+        url: `${routesPath}${trailingSlash && !routesPath.endsWith('/') ? '/' : ''}`,
         changefreq,
         priority,
       }),
