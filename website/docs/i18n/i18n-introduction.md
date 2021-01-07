@@ -1,6 +1,6 @@
 ---
 id: introduction
-title: i18n introduction
+title: i18n - Introduction
 sidebar_label: Introduction
 slug: /i18n/introduction
 ---
@@ -24,21 +24,13 @@ For more context, you can read the initial [RFC](https://github.com/facebook/doc
 The goals of the Docusaurus i18n system are:
 
 - **Simple**: just put the translated files in the correct file-system location.
-
 - **Flexible translation workflows**: based on Git (monorepo, forks or submodules), SaaS software, FTP...
-
-- **Flexible deployment options**: single domain (`docusaurus.io/fr`), or multiple domains (`fr.docusaurus.io` or `docusaurus.fr`).
-
-- **Modular**: allow plugin author to provide i18n support
-
+- **Flexible deployment options**: single or multiple domains.
+- **Modular**: allow plugin author to provide i18n support.
 - **Low-overhead runtime**: static json/markdown content does not require a heavy i18n JS library.
-
 - **Acceptable build-times**: allow building and deploying localized sites independently.
-
 - **Localize assets**: an image of your site might contain text that should be translated.
-
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
-
 - **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 
 ### i18n goals (TODO)
@@ -46,20 +38,18 @@ The goals of the Docusaurus i18n system are:
 Features that are **not yet implemented**:
 
 - **Good SEO defaults**: setting useful html meta headers like `hreflang` for you.
-
 - **RTL support**: one locale should not be harder to use than another.
-
 - **Contextual translations**: reduce friction to contribute to the translation effort.
-
 - **Anchor links**: linking should not break when you localize headings.
+- **Advanced configuration options**: customize route paths, file-system paths.
 
 ### i18n non-goals
 
-- **Support automatic locale detection/redirection**: a Docusaurus site can be deployed to any simple static hosting solution.
+We don't provide support for:
 
-- **Support for any translation SaaS software**: we provide integration documentation for some translation SaaS like Crowdin, but in the end you have to read the documentation of the external tools to understand them, and contact their support if you need help. These are living software with their own releases, bugs and very advanced features.
-
-- **Support translation of page slugs**: it is technically complicated, for little SEO value.
+- **Automatic locale detection**: opinionated, and best done on the [server](../deployment.mdx).
+- **Translation SaaS software**: you are responsible to understand the external tools of your choice.
+- **Translation of slugs**: technically complicated, little SEO value.
 
 ## Translation workflow
 
@@ -67,9 +57,9 @@ Features that are **not yet implemented**:
 
 Overview of the workflow to create a translated Docusaurus website:
 
-- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
-- **Translate**: put the translated files at the correct file-system location
-- **Deploy**: build and deploy your site using the strategy of your choice
+- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
+- **Translate**: put the translated files at the correct file-system location.
+- **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
 ### Translated files
 

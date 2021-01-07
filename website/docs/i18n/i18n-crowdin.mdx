@@ -1,0 +1,280 @@
+---
+id: crowdin
+title: i18n - Using Crowdin
+sidebar_label: Using Crowdin
+slug: /i18n/crowdin
+---
+
+The i18n system of Docusaurus is **decoupled from any translation software**.
+
+You can integrate Docusaurus with the tools and **SaaS of your choice**, as long as you put the translation files at the **correct file-system location**.
+
+We only document the usage of [Crowdin](http://crowdin.com/), as one possible **integration example**.
+
+:::caution
+
+This is **not an endorsement of Crowdin** being the ultimate choice to translate a Docusaurus site, but it is used to translate Facebook documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
+
+Refer to their **[official documentation](https://support.crowdin.com/)** and contact their **[support team](mailto:support@crowdin.com)** for help.
+
+:::
+
+## Crowdin overview
+
+Crowdin is a translation SaaS, offering a [free plan for open-source projects](https://crowdin.com/page/open-source-project-setup-request).
+
+We recommend the following translation workflow:
+
+- Upload sources to Crowdin (untranslated files)
+- Use Crowdin to translate the content
+- Download translations from Crowdin (localized translation files)
+
+Crowdin provides a [CLI](https://support.crowdin.com/cli-tool/) to upload sources and download translations, allowing you to automate the translation process.
+
+The [`crowdin.aml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/<locale>/..`).
+
+Read the **[official documentation](https://support.crowdin.com/)** to know more about advanced features and different translation workflows.
+
+## Crowdin tutorial
+
+This is a walk-through of using Crowdin to translate an existing English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
+
+### Prepare the Docusaurus site
+
+Initialize a new Docusaurus site:
+
+```bash
+npx @docusaurus/init@latest init website classic
+```
+
+Add the site configuration for the French language:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+};
+```
+
+### Create a Crowdin project
+
+Create a Crowdin project
+
+TODO screenshot
+
+Add French as target language
+
+TODO screenshot
+
+### Create the Crowdin configuration
+
+This configuration ([doc](https://support.crowdin.com/configuration-file/)) provides a mapping for the Crowdin CLI to understand:
+
+- Where to find the source files to upload (JSON and Markdown)
+- Where to download the files after translation (in `i18n/<locale>`).
+
+Create `crowdin.yml` in `website`:
+
+```yml title="crowdin.yml"
+project_id: '428890'
+api_token_env: 'CROWDIN_PERSONAL_TOKEN'
+preserve_hierarchy: true
+files: [
+    # JSON translation files
+    {
+      source: '/i18n/en/**/*',
+      translation: '/i18n/%two_letters_code%/**/%original_file_name%',
+    },
+    # Docs Markdown files
+    {
+      source: '/docs/**/*',
+      translation: '/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%',
+    },
+    # Blog Markdown files
+    {
+      source: '/blog/**/*',
+      translation: '/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%',
+    },
+  ]
+```
+
+Crowdin has its own syntax for declaring source/translation paths:
+
+- `**/*`: everything in a subfolder
+- `%two_letters_code%`: the 2-letters variant of Crowdin target languages (`fr` in our case)
+- `**/%original_file_name%`: the translations will preserve the original folder/file hierarchy
+
+:::info
+
+The Crowdin CLI warnings are not always easy to understand.
+
+We advise to:
+
+- change one thing at a time
+- re-upload sources after any configuration change
+- use paths starting with `/` (`./` does not work)
+- avoid fancy globbing patterns like `/docs/**/*.(md|mdx)` (does not work)
+
+:::
+
+#### Access token
+
+The `api_token_env` attribute defines the **env variable name** read by the Crowdin CLI.
+
+You can obtain a `Personal Access Token` on [your personal profile page](https://crowdin.com/settings#api-key).
+
+:::tip
+
+You can keep the default value `CROWDIN_PERSONAL_TOKEN`, and set this environment variable and on your computer and on the CI server to the generated access token.
+
+:::
+
+:::caution
+
+Personal access tokens grant read-write access to all your Crowdin projects: it may be a good idea to create a dedicated Crowdin profile for your company instead of using a personal account.
+
+:::
+
+#### Other configuration fields
+
+- `project_id`: can be hardcoded, and is found on `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api`.
+- `preserve_hierarchy`: preserve the folder's hierarchy of your docs on Crowdin UI instead of flattening everything.
+
+### Install the Crowdin CLI
+
+This tutorial use the CLI in version `3.5.2`, but we expect `3.x` releases to keep working.
+
+Install the Crowdin CLI as a NPM package to your Docusaurus site:
+
+```bash npm2yarn
+npm install @crowdin/cli@3
+```
+
+Add a `crowdin` script:
+
+```json title="package.json"
+{
+  "scripts": {
+    "crowdin": "crowdin"
+  }
+}
+```
+
+Test that you can run the Crowdin CLI:
+
+```bash npm2yarn
+npm run crowdin -- --version
+```
+
+Make sure to set the `CROWDIN_PERSONAL_TOKEN` env variable on your computer, so that the CLI can authenticate with the Crowdin API.
+
+### Upload the sources
+
+Generate the JSON translation files for the default language in `website/i18n/en`:
+
+```bash npm2yarn
+npm run write-translations
+```
+
+Upload all the JSON and Markdown translation files:
+
+```bash npm2yarn
+npm run crowdin -- upload sources --config ./crowdin.yml
+```
+
+Your source files are now visible on the Crowdin interface: `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#files`
+
+### Translate the sources
+
+On `https://crowdin.com/project/<MY_PROJECT_NAME>`, click on the French target language.
+
+Translate some Markdown and JSON files using the Crowdin interface.
+
+:::tip
+
+You can [pre-translate](https://support.crowdin.com/pre-translation-via-machine/) your site, and fix translation mistakes manually.
+
+:::
+
+### Download the translations
+
+Use the Crowdin CLI to download the translated JSON and Markdown files.
+
+```bash npm2yarn
+npm run crowdin -- download translations --config ./crowdin.yml
+```
+
+The translated content should be downloaded in `i18n/fr`.
+
+Start your site on the French locale:
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+Make sure that your website is now translated in French at `http://localhost:3000/fr/`
+
+### Automate with CI
+
+Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
+
+Create NPM scripts to upload sources and download translations:
+
+```json title="package.json"
+{
+  "scripts": {
+    "crowdin:sync": "npm run crowdin:uploadSources && npm run crowdin:downloadTranslations",
+    "crowdin:uploadSources": "crowdin upload sources --config ./crowdin.yml",
+    "crowdin:downloadTranslations": "crowdin download translations --config ./crowdin.yml"
+  }
+}
+```
+
+Call the `npm run crowdin:sync` script in your CI, just before building the Docusaurus site.
+
+:::tip
+
+Keep your deploy previews fast, use `npm run build -- --locale en`.
+
+:::
+
+:::caution
+
+Crowdin does not support well multiple concurrent uploads/downloads: it is preferable to only include translations to your production deployment, and keep deploy previews untranslated.
+
+:::
+
+## Advanced Crowdin configuration
+
+### Versioning
+
+You need to configure translation files for the `website/versioned_docs` folder.
+
+TODO use the "hide duplicate strings" option
+
+### Multi-instance
+
+You need to configure translation files for each plugin instance.
+
+If you have a docs plugin instance with `id=ios`, you will need to configure those source files as well
+
+- `website/ios`
+- `website/ios_versioned_docs` (if versioned)
+
+### Example configuration
+
+The **Docusaurus v2 configuration file** is a good example of using versioning and multi-instance:
+
+import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-yaml" title="test">
+  {CrowdinConfigV2.split('\n')
+    // remove comments
+    .map((line) => !line.startsWith('#') && line)
+    .filter(Boolean)
+    .join('\n')}
+</CodeBlock>
+```

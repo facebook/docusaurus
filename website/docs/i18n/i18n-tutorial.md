@@ -1,19 +1,19 @@
 ---
 id: tutorial
-title: i18n tutorial
+title: i18n - Tutorial
 sidebar_label: Tutorial
 slug: /i18n/tutorial
 ---
 
 This tutorial will walk you through the translation of a new Docusaurus website.
 
-Initialize a new site with `npx @docusaurus/init@latest init my-website classic` (like [this one](https://github.com/facebook/docusaurus/tree/master/examples/classic)).
+English will be the default language (in which you write the upstream content), and we will provide French translations.
 
-We will translate this new site in english and french, assuming english is the default language.
+Initialize a new site with `npx @docusaurus/init@latest init website classic` (like [this one](https://github.com/facebook/docusaurus/tree/master/examples/classic)).
 
 ## Configure your site
 
-Modify `docusaurus.config.js` to add the i18n support for the french language.
+Modify `docusaurus.config.js` to add the i18n support for the French language.
 
 ### Site configuration
 
@@ -79,7 +79,7 @@ Each locale is a **distinct standalone single-page-application**: it is not poss
 
 Let's see how to actually provide the translations.
 
-The french translations will be put in `website/i18n/fr`.
+The French translations will be put in `website/i18n/fr`.
 
 Docusaurus is modular, and each content plugin has its own subfolder.
 
@@ -250,10 +250,10 @@ Run the following command:
 npm run build
 ```
 
-It will build one single-page application per locale:
+Docusaurus will build one single-page application per locale:
 
-- `website/build`: for the default, english language
-- `website/build/fr`: for the french language
+- `website/build`: for the default, English language
+- `website/build/fr`: for the French language
 
 You can now [deploy](../deployment.mdx) the `build` folder to the static hosting solution of your choice.
 
