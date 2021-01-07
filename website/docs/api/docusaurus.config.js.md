@@ -191,6 +191,7 @@ module.exports = {
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
+      hideableSidebar: true, // default is false
       disableSwitch: false,
       respectPrefersColorScheme: true,
       switchConfig: {
