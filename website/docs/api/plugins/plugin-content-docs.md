@@ -27,7 +27,8 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         /**
-         * Path to data on filesystem relative to site dir.
+         * Path to data on filesystem relative to site dir
+         * (appended to editUrl in "Edit this page" links).
          */
         path: 'docs',
         /**
