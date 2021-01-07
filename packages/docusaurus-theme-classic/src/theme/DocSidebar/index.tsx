@@ -277,7 +277,10 @@ function DocSidebar({
             styles.collapseSidebarButton,
           )}
           onClick={onCollapse}>
-          <IconArrow className={styles.collapseSidebarButtonIcon} />
+          <IconArrow
+            className={styles.collapseSidebarButtonIcon}
+            aria-label="Collapse sidebar"
+          />
         </button>
       )}
     </div>
