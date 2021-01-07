@@ -114,6 +114,12 @@ Running the command will copy the relevant theme files to your site folder. You 
 | `--danger`         | Allow swizzling of unstable components |
 | `--typescript`     | Swizzle TypeScript components          |
 
+An example to use `--danger` flag let's consider the below code:
+
+```bash
+npx docusaurus swizzle @docusaurus/theme-classic Logo --danger
+```
+
 To unswizzle a component, simply delete the files of the swizzled component.
 
 <!--
