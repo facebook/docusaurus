@@ -40,7 +40,7 @@ The plan to [rebuild Docusaurus from scratch in 2019](https://docusaurus.io/blog
 
 ![Docusaurus v1 vs v2 npm trends](/img/blog/2020-recap/docusaurus-npm-trends.png)
 
-Notable **projects, startups, large companies and individuals** adopted Docusaurus 2 this year ([showcase](https://v2.docusaurus.io/showcase)):
+Notable **projects, startups, large companies and individuals** adopted Docusaurus 2 ([showcase](https://v2.docusaurus.io/showcase)):
 
 - [Supabase](https://supabase.io)
 - [React-Navigation](https://reactnavigation.org)
