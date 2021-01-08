@@ -52,12 +52,17 @@ module.exports = {
         'static-assets',
         'search',
         'deployment',
+        {
+          type: 'category',
+          label: 'Internationalization',
+          items: [
+            'i18n/introduction',
+            'i18n/tutorial',
+            'i18n/crowdin',
+            'i18n/faq',
+          ],
+        },
       ],
-    },
-    {
-      type: 'category',
-      label: 'Internationalization',
-      items: ['i18n/introduction', 'i18n/tutorial', 'i18n/crowdin', 'i18n/faq'],
     },
     {
       type: 'category',
