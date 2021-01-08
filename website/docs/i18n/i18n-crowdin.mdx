@@ -31,13 +31,15 @@ We recommend the following translation workflow:
 
 Crowdin provides a [CLI](https://support.crowdin.com/cli-tool/) to upload sources and download translations, allowing you to automate the translation process.
 
-The [`crowdin.aml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/<locale>/..`).
+The [`crowdin.yml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/<locale>/..`).
 
 Read the **[official documentation](https://support.crowdin.com/)** to know more about advanced features and different translation workflows.
 
 ## Crowdin tutorial
 
 This is a walk-through of using Crowdin to translate an existing English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
+
+The end result can be seen at [docusaurus-crowdin-example.netlify.app](https://docusaurus-crowdin-example.netlify.app/) ([repository](https://github.com/slorber/docusaurus-crowdin-example)).
 
 ### Prepare the Docusaurus site
 
@@ -55,18 +57,51 @@ module.exports = {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
 };
+```
+
+Translate the homepage:
+
+```jsx title="src/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
 ```
 
 ### Create a Crowdin project
 
-Create a Crowdin project
+Sign up on [Crowdin](https://crowdin.com/), and create a project.
 
-TODO screenshot
+Use English as source language, and French as target language.
 
-Add French as target language
+![Create a Crowdin project with english as source language, and french as target language](/img/crowdin/crowdin-create-project.png)
 
-TODO screenshot
+Your project is created, but it is empty for now. We will upload the files to translate in the next steps.
 
 ### Create the Crowdin configuration
 
@@ -78,7 +113,7 @@ This configuration ([doc](https://support.crowdin.com/configuration-file/)) prov
 Create `crowdin.yml` in `website`:
 
 ```yml title="crowdin.yml"
-project_id: '428890'
+project_id: '123456'
 api_token_env: 'CROWDIN_PERSONAL_TOKEN'
 preserve_hierarchy: true
 files: [
@@ -133,7 +168,9 @@ You can keep the default value `CROWDIN_PERSONAL_TOKEN`, and set this environmen
 
 :::caution
 
-Personal access tokens grant read-write access to all your Crowdin projects: it may be a good idea to create a dedicated Crowdin profile for your company instead of using a personal account.
+A Personal Access Tokens grant **read-write access to all your Crowdin projects**.
+
+You should **not commit** it, and it may be a good idea to create a dedicated **Crowdin profile for your company** instead of using a personal account.
 
 :::
 
@@ -168,7 +205,13 @@ Test that you can run the Crowdin CLI:
 npm run crowdin -- --version
 ```
 
-Make sure to set the `CROWDIN_PERSONAL_TOKEN` env variable on your computer, so that the CLI can authenticate with the Crowdin API.
+Set the `CROWDIN_PERSONAL_TOKEN` env variable on your computer, to allow the CLI to authenticate with the Crowdin API.
+
+:::tip
+
+Temporarily, you can hardcode your personal token in `crowdin.yml` with `api_token: 'MY-HARDCODED-TOKEN'`.
+
+:::
 
 ### Upload the sources
 
@@ -181,20 +224,48 @@ npm run write-translations
 Upload all the JSON and Markdown translation files:
 
 ```bash npm2yarn
-npm run crowdin -- upload sources --config ./crowdin.yml
+npm run crowdin -- upload
 ```
 
+![Crowdin CLI uploading Docusaurus source files](/img/crowdin/crowdin-upload-sources-cli.png)
+
 Your source files are now visible on the Crowdin interface: `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#files`
+
+![Crowdin UI showing Docusaurus source files](/img/crowdin/crowdin-source-files.png)
 
 ### Translate the sources
 
 On `https://crowdin.com/project/<MY_PROJECT_NAME>`, click on the French target language.
 
-Translate some Markdown and JSON files using the Crowdin interface.
+![Crowdin UI showing French translation files](/img/crowdin/crowdin-french-translations.png)
+
+Translate some Markdown files.
+
+![Crowdin UI to translate a Markdown file](/img/crowdin/crowdin-translate-markdown.png)
 
 :::tip
 
-You can [pre-translate](https://support.crowdin.com/pre-translation-via-machine/) your site, and fix translation mistakes manually.
+Use the `Hide String` feature to make sure **translators don't translate frontmatter fields** like `id`, `slug`, `tags`...
+
+![Crowdin UI hide string](/img/crowdin/crowdin-hide-string.png)
+
+:::
+
+Translate some JSON files.
+
+![Crowdin UI to translate a JSON file](/img/crowdin/crowdin-translate-json.png)
+
+:::info
+
+The `description` attribute of JSON translation files is visible on Crowdin to help translate the strings.
+
+:::
+
+:::tip
+
+**[Pre-translate](https://support.crowdin.com/pre-translation-via-machine/)** your site, and **fix pre-translation mistakes manually** (enable the Global Translation Memory in settings first).
+
+Use the `Hide String` feature first, as Crowdin is pre-translating things too optimistically.
 
 :::
 
@@ -203,7 +274,7 @@ You can [pre-translate](https://support.crowdin.com/pre-translation-via-machine/
 Use the Crowdin CLI to download the translated JSON and Markdown files.
 
 ```bash npm2yarn
-npm run crowdin -- download translations --config ./crowdin.yml
+npm run crowdin -- download
 ```
 
 The translated content should be downloaded in `i18n/fr`.
@@ -220,14 +291,12 @@ Make sure that your website is now translated in French at `http://localhost:300
 
 Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
 
-Create NPM scripts to upload sources and download translations:
+Create a NPM script to `sync` Crowdin (extract sources, upload sources, download translations):
 
 ```json title="package.json"
 {
   "scripts": {
-    "crowdin:sync": "npm run crowdin:uploadSources && npm run crowdin:downloadTranslations",
-    "crowdin:uploadSources": "crowdin upload sources --config ./crowdin.yml",
-    "crowdin:downloadTranslations": "crowdin download translations --config ./crowdin.yml"
+    "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download"
   }
 }
 ```
@@ -236,7 +305,7 @@ Call the `npm run crowdin:sync` script in your CI, just before building the Docu
 
 :::tip
 
-Keep your deploy previews fast, use `npm run build -- --locale en`.
+Keep your deploy previews fast: don't download translations, and use `npm run build -- --locale en` for feature branches.
 
 :::
 
@@ -250,9 +319,21 @@ Crowdin does not support well multiple concurrent uploads/downloads: it is prefe
 
 ### Versioning
 
-You need to configure translation files for the `website/versioned_docs` folder.
+Configure translation files for the `website/versioned_docs` folder.
 
-TODO use the "hide duplicate strings" option
+When creating a new version, the source strings will generally be quite similar to the current version (`website/docs`), and you don't want to translate the new version docs again and again.
+
+Crowdin provides a `Duplicate Strings` setting.
+
+![Crowdin Duplicate Strings option setting][/img/i18n/crowdin/crowdin-settings-duplicate-strings.png]
+
+We recommend using `Hide`, but the ideal setting depends on how much your versions are different.
+
+:::note
+
+Not using `Hide` leads to a much larger amount of `source strings` in quotas, and will affect the pricing.
+
+:::
 
 ### Multi-instance
 
@@ -277,4 +358,3 @@ import CodeBlock from '@theme/CodeBlock';
     .filter(Boolean)
     .join('\n')}
 </CodeBlock>
-```

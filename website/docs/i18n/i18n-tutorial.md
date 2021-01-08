@@ -154,7 +154,7 @@ npm run write-translations --locale fr
 
 It will extract and initialize the JSON translation files that you need to translate.
 
-The homepage translations are extract from React source code:
+The homepage translations are extracted from React source code:
 
 ```json title="i18n/fr/code.json"
 {
