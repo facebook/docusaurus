@@ -206,7 +206,7 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
         reject(new Error(err.toString()));
       }
       // let plugins consume all the stats
-      const allStats = stats?.toJson('warn');
+      const allStats = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
         allStats.errors.forEach((e) => {
           console.error(e);
