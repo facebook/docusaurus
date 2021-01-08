@@ -49,20 +49,17 @@ Notable **projects, startups, large companies and individuals** adopted Docusaur
 - [Algolia DocSearch](https://docsearch.algolia.com)
 - [SAP Cloud SDK](https://sap.github.io/cloud-sdk)
 - [Palo Alto Cortex XSOAR](https://xsoar.pan.dev)
-- [Quddús George's personal website](https://portfoliosaurus.now.sh)
-- [developer community](https://v2.docusaurus.io/showcase)
-
-We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **migration path** and **feature parity**.
+- [Quddús George's personal website](https://portfoliosaurus.now.sh) s We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **migration path** and **feature parity**.
 
 [ReactNative](https://reactnative.dev/) was successfully migrated ([old version](http://archive.reactnative.dev/)).
 
 ![ReactNative screenshot](/img/blog/2020-recap/react-native-screenshot.png)
 
-The **i18n support** is available for [early adopters](https://github.com/facebook/docusaurus/pull/3325) (released soon), and translated Docusaurus 1 sites like **Jest** will be able to upgrade:
+Localized Docusaurus 1 sites like **Jest** will be able to upgrade too:
 
 ![Jest in Japanese screenshot](/img/blog/2020-recap/jest-screenshot.png)
 
-We even saw the first **right-to-left** Docusaurus 2 site published:
+We even saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site published:
 
 ![Datagit screenshot](/img/blog/2020-recap/datagit-rtl-screenshot.png)
 
