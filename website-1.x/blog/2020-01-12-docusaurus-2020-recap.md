@@ -22,16 +22,16 @@ We are **still in alpha**, but expect **some good news very soon**!
 
 We have worked on many features this year, and would like to highlight the most significant ones:
 
-- **i18n**: easily translate your Docusaurus site (preview available for [early adopters](https://github.com/facebook/docusaurus/pull/3325), released soon!)
+- **i18n**: easily translate your Docusaurus site, released soon! ([preview](https://github.com/facebook/docusaurus/pull/3325))
 - **Version dropdown**: enable contextual version switch
 - **Versioning options**: solving the most common pain-points users had with versioning
-- **Contextual search**: use the brand new Algolia DocSearch 3 experience to search in currently browsed version/language (including blog posts and pages)
+- **Contextual search**: search in current version, use the brand-new Algolia DocSearch 3 experience
 - **Markdown pages**: use Markdown instead of React components to create standalone pages
 - **PWA**: add offline support to your site, and make it installable
 - **Fail-fast**: strict config validation, detect broken links and prevent bad production deployments
 - **Multi-instance**: use the docs plugin twice on a single Docusarus site (e.g. ios/android doc sdks)
 - **Migration CLI**: automate many parts to upgrade easily from Docusaurus 1
-- **CodeSandbox**: test Docusaurus easily without installing anything
+- **CodeSandbox**: assess Docusaurus easily from your browser
 - **Canary releases**: use the `@canary` npm tag to use the upcoming release before everyone else
 
 ## Docusaurus 2 growth
