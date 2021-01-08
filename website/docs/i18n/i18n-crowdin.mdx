@@ -7,15 +7,15 @@ slug: /i18n/crowdin
 
 The i18n system of Docusaurus is **decoupled from any translation software**.
 
-You can integrate Docusaurus with the tools and **SaaS of your choice**, as long as you put the translation files at the **correct file-system location**.
+You can integrate Docusaurus with the **tools and SaaS of your choice**, as long as you put the **translation files at the correct place**.
 
-We only document the usage of [Crowdin](http://crowdin.com/), as one possible **integration example**.
+We document the usage of [Crowdin](http://crowdin.com/), as one possible **integration example**.
 
 :::caution
 
-This is **not an endorsement of Crowdin** being the ultimate choice to translate a Docusaurus site, but it is used to translate Facebook documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
+This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is used successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
 
-Refer to their **[official documentation](https://support.crowdin.com/)** and contact their **[support team](mailto:support@crowdin.com)** for help.
+Refer to the **[Crowdin documentation](https://support.crowdin.com/)** and **[Crowdin support](mailto:support@crowdin.com)** for help.
 
 :::
 
@@ -25,11 +25,11 @@ Crowdin is a translation SaaS, offering a [free plan for open-source projects](h
 
 We recommend the following translation workflow:
 
-- Upload sources to Crowdin (untranslated files)
-- Use Crowdin to translate the content
-- Download translations from Crowdin (localized translation files)
+- **Upload sources** to Crowdin (untranslated files)
+- Use Crowdin to **translate the content**
+- **Download translations** from Crowdin (localized translation files)
 
-Crowdin provides a [CLI](https://support.crowdin.com/cli-tool/) to upload sources and download translations, allowing you to automate the translation process.
+Crowdin provides a [CLI](https://support.crowdin.com/cli-tool/) to **upload sources** and **download translations**, allowing you to automate the translation process.
 
 The [`crowdin.yml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/<locale>/..`).
 
@@ -289,6 +289,16 @@ Make sure that your website is now translated in French at `http://localhost:300
 
 ### Automate with CI
 
+We will configure the CI to **download the Crowdin translations at build time**.
+
+Add `website/i18n` to `.gitignore`.
+
+:::note
+
+You can also commit the `i18n` folder and set-up Crowdin to [send translation pull-requests to your GitHub repository](https://support.crowdin.com/github-integration/)
+
+:::
+
 Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
 
 Create a NPM script to `sync` Crowdin (extract sources, upload sources, download translations):
@@ -325,11 +335,11 @@ When creating a new version, the source strings will generally be quite similar 
 
 Crowdin provides a `Duplicate Strings` setting.
 
-![Crowdin Duplicate Strings option setting][/img/i18n/crowdin/crowdin-settings-duplicate-strings.png]
+![Crowdin Duplicate Strings option setting](/img/crowdin/crowdin-settings-duplicate-strings.png)
 
 We recommend using `Hide`, but the ideal setting depends on how much your versions are different.
 
-:::note
+:::caution
 
 Not using `Hide` leads to a much larger amount of `source strings` in quotas, and will affect the pricing.
 
