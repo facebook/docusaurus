@@ -186,7 +186,7 @@ Example:
 
 ### Creating a link to page without sidebar
 
-Set `type` to `ref` to link to a documentation page without binding it to a sidebar. This means the sidebar dissapears when the user displays the linked page.
+Set `type` to `ref` to link to a documentation page without binding it to a sidebar. This means the sidebar disappears when the user displays the linked page.
 
 ```typescript
 type SidebarItemRef = {
