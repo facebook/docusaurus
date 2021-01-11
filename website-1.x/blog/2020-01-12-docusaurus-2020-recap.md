@@ -12,7 +12,7 @@ tags: [recap]
 
 We continued to invest on [Docusaurus 2](https://v2.docusaurus.io/), and made it reach **full feature parity with [Docusaurus 1](https://docusaurus.io/)**,
 
-We can now safely **recommend Docusaurus 2** as the **default choice** to start a new project, and encourage v1 users to [migrate to Docusaurus 2](https://v2.docusaurus.io/docs/migration).
+We can now safely **recommend Docusaurus 2** as the **default choice** to start a new Docusaurus project, and encourage v1 users to [migrate to Docusaurus 2](https://v2.docusaurus.io/docs/migration).
 
 We are **still in alpha**, but expect **some good news very soon**!
 
@@ -33,6 +33,7 @@ We have worked on many features this year, and would like to highlight the most 
 - **Migration CLI**: automate many parts to upgrade easily from Docusaurus 1
 - **CodeSandbox**: assess Docusaurus easily from your browser
 - **Canary releases**: use the `@canary` npm tag to use the upcoming release before everyone else
+- **TypeScript**: progressive adoption for internal code, and improve usage for users
 
 ## Docusaurus 2 growth
 
@@ -49,7 +50,9 @@ Notable **projects, startups, large companies and individuals** adopted Docusaur
 - [Algolia DocSearch](https://docsearch.algolia.com)
 - [SAP Cloud SDK](https://sap.github.io/cloud-sdk)
 - [Palo Alto Cortex XSOAR](https://xsoar.pan.dev)
-- [Quddús George's personal website](https://portfoliosaurus.now.sh) s We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **migration path** and **feature parity**.
+- [Quddús George's personal website](https://portfoliosaurus.now.sh)
+
+We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **migration path** and **feature parity**.
 
 [ReactNative](https://reactnative.dev/) was successfully migrated ([old version](http://archive.reactnative.dev/)).
 
@@ -67,16 +70,55 @@ We even saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site
 
 - **Stars**: 14632 -> 20946 (+43.2% y/y)
 - **Total Contributors**: 303 -> 512 (+68.9% y/y). Most of which are non-Facebook contributors
-- **Daily npm Downloads**: ??? TODO
+- **Weekly npm Downloads**: 2356 -> 25592 (+986% y/y)
+- **On GitHub**, Docusaurus 1 is used by 6311 projects (+62.9% y/y) while Docusaurus 2 is used by 5039 projects (+19 40% y/y)
+
+## Collaboration with Major League Hacking
+
+We have welcomed [Major League Hacking](https://mlh.io/) open-source interns for 2 seasons already.
+
+We are very thankful for the various contributions they made, such as:
+
+- Writing the first v1 -> v2 migration CLI
+- Help migrate the ReactNative website (v1 -> v2)
+- Making the config validation more strict and exhaustive, returning helpful error messages
+- Adding CodeSandbox support
+- Improving our CI pipelines with build size and Lighthouse bots
+- Many other contributions
+
+We look forward to continuing this collaboration in 2021.
 
 ## Media
 
-TODO
+Dmitry Vinnik (dev advocate @ Facebook) explains Docusaurus in [60 seconds](https://www.youtube.com/watch?v=_An9EsKPhp0) or [15min + Q&A](https://www.youtube.com/watch?v=Yhyx7otSksg).
+
+Rachel Nabors (ReactNative documentation @ Facebook) talks a bit about Docusaurus in [ReactNative Radio 178](https://reactnativeradio.com/episodes/178-documenting-react-native-with-rachel-nabors-gWxwySPl), and William Candillon covered our [Docusaurus v1 -> v2 migration](https://www.youtube.com/watch?v=-zhjq2ECKq4)
+
+Various blog posts have been published:
+
+- [Easy documentation with Docusaurus](https://blog.logrocket.com/easy-documentation-with-docusaurus/) by Anshul Goyal, former MLH intern
+- [To the Makers of Docusaurus](https://portfoliosaurus.now.sh/blog/toTheMakers) by Quddus George
+- [Build Beautiful Documentation Websites with Docusaurus](https://lo-victoria.com/build-beautiful-documentation-websites-with-docusaurus) by Victoria Lo
+- [How to Build a Plugin for Docusaurus v2](https://aknapen.nl/blog/how-to-build-a-plugin-for-docusaurus-v2/) by Adriaan Knapen
 
 ## Community
 
-TODO
+The Docusaurus community continues to grow. Our [Discord](https://discord.gg/docusaurus) server is quite active, and [StackOverflow questions](https://stackoverflow.com/questions/tagged/docusaurus) keep being posted.
+
+The modular architecture of Docusaurus 2 allowed the community to build and publish [community plugins](https://v2.docusaurus.io/community/resources#community-plugins-). As we would like to federate better our community, if you are building a community plugin, please [let us know](https://github.com/facebook/docusaurus/discussions/4025).
 
 ## What's next?
 
-TODO
+The core features of Docusaurus 2 have finally been built, and we now have a clear migration path for all Docusaurus 1 sites to upgrade.
+
+We'll be able to dedicate time to solve the pain points and bugs reported by the community, and make Docusaurus stable enough to enter the beta and release-candidate phase.
+
+We still have a few major features that we'd like to work on:
+
+- [Create a theme gallery](https://github.com/facebook/docusaurus/issues/3522), make it easy to switch from one another, and include first-class Tailwind support
+- [Better compatibility with CommonMark](https://github.com/facebook/docusaurus/issues/3018), as MDX is not useful for all sites, and makes it harder for CommonMark-based sites to migrate to adopt Docusaurus
+- [Migration to Webpack 5](https://github.com/facebook/docusaurus/issues/4027), and improve build times
+
+Huge thanks to the community for their contributions, especially the core team - [Alexey Pyltsyn](https://github.com/lex111), [Yangshun Tay](https://twitter.com/yangshunz) and [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
+
+Cheers to a great 2021! 🎉
