@@ -156,6 +156,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'FlexIt Analytics',
+    description: 'Business Intelligence and Data Analytics platform',
+    preview: require('./showcase/flexit.png'),
+    website: 'https://learn.flexitanalytics.com/',
+    source: 'https://github.com/ataft/flexit-docs',
+    fbOpenSource: false,
+    pinned: false,
+  },  
+  {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
     preview: require('./showcase/flux.png'),
