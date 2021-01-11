@@ -103,7 +103,7 @@ export default async function start(
     cwd: siteDir,
     ignoreInitial: true,
     usePolling: !!cliOptions.poll,
-    interval: Number.isInteger((cliOptions.poll as unknown) as never)
+    interval: Number.isInteger(cliOptions.poll)
       ? (cliOptions.poll as number)
       : undefined,
   });
