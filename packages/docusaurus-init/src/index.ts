@@ -8,7 +8,7 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
-import inquirer from 'inquirer';
+import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import kebabCase from 'lodash.kebabcase';
@@ -52,20 +52,27 @@ export default async function init(
     .readdirSync(templatesDir)
     .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
 
-  const gitChoice = 'Git repository';
-  const templateChoices = [...templates, gitChoice];
+  function makeNameAndValueChoice(value: string): Choice {
+    return {title: value, value} as Choice;
+  }
+
+  const gitChoice = makeNameAndValueChoice('Git repository');
+  const templateChoices = [
+    ...templates.map((template) => makeNameAndValueChoice(template)),
+    gitChoice,
+  ];
 
   let name = siteName;
 
   // Prompt if siteName is not passed from CLI.
   if (!name) {
-    const {name: promptedName} = await inquirer.prompt({
-      type: 'input',
+    const prompt = await prompts({
+      type: 'text',
       name: 'name',
       message: 'What should we name this site?',
-      default: 'website',
+      initial: 'website',
     });
-    name = promptedName;
+    name = prompt.name;
   }
 
   if (!name) {
@@ -80,19 +87,19 @@ export default async function init(
   let template = reqTemplate;
   // Prompt if template is not provided from CLI.
   if (!template) {
-    const {template: promptedTemplate} = await inquirer.prompt({
-      type: 'list',
+    const templatePrompt = await prompts({
+      type: 'select',
       name: 'template',
       message: 'Select a template below...',
       choices: templateChoices,
     });
-    template = promptedTemplate;
+    template = templatePrompt.template;
   }
 
   // If user choose Git repository, we'll prompt for the url.
-  if (template === gitChoice) {
-    const {gitRepoUrl} = await inquirer.prompt({
-      type: 'input',
+  if (template === 'Git repository') {
+    const repoPrompt = await prompts({
+      type: 'text',
       name: 'gitRepoUrl',
       validate: (url?: string) => {
         if (url && isValidGitRepoUrl(url)) {
@@ -103,7 +110,7 @@ export default async function init(
       message:
         'Enter a repository URL from GitHub, BitBucket, GitLab, or any other public repo. \n(e.g: https://github.com/ownerName/repoName.git)',
     });
-    template = gitRepoUrl;
+    template = repoPrompt.gitRepoUrl;
   }
 
   console.log();
