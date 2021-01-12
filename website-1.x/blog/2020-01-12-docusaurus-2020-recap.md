@@ -35,6 +35,7 @@ We have worked on many features this year, and would like to highlight the most 
 - **CodeSandbox**: assess Docusaurus easily from your browser
 - **Canary releases**: use the `@canary` npm tag to use the upcoming release before anyone else
 - **TypeScript**: progressive adoption for internal code, and improve usage for users
+- **Publish Infima**: it is now [open-source](https://github.com/facebookincubator/infima)
 
 ## Docusaurus 2 growth
 
