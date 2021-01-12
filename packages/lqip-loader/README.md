@@ -2,19 +2,19 @@
 
 Low Quality Image Placeholders (LQIP) loader for webpack.
 
-### Installation
+## Installation
 
 ```
 npm install --save-dev @docusaurus/lqip-loader
 ```
 
-### Example
+## Example
 
 Generating Base64 & dominant colours palette for a jpeg image imported in your JS bundle:
 
 > The large image file will be emitted & only 400byte of Base64 (if set to true in the loader options) will be bundled.
 
-#### `webpack.config.js`
+### `webpack.config.js`
 
 ```js
 {
@@ -52,7 +52,7 @@ Generating Base64 & dominant colours palette for a jpeg image imported in your J
 }
 ```
 
-#### `your-app-module.js`
+### `your-app-module.js`
 
 ```js
 import banner from './images/banner.jpg';
@@ -80,6 +80,6 @@ More history about the issue can be [found here](https://bugs.chromium.org/p/chr
 
 Alternatively, you can fill the container with a really cheap colour or gradient from the amazing palette we provide.
 
-### Credits
+## Credits
 
-This package has been imported from [`@endiliey/lqip-loader`](https://github.com/endiliey/lqip-loader) which was a fork of original [`lqip-loader`](https://github.com/zouhir/lqip-loader) created exclusively for Docusaurus.
+This package has been imported from [`@endiliey/lqip-loader`](https://github.com/endiliey/lqip-loader) which was a fork of the original [`lqip-loader`](https://github.com/zouhir/lqip-loader) created exclusively for Docusaurus.

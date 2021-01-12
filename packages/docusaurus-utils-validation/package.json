@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/utils-validation",
   "version": "2.0.0-alpha.70",
-  "description": "Node validation utility functions for Docusaurus packages",
+  "description": "Node validation utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
