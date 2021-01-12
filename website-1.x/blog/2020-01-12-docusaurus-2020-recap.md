@@ -27,6 +27,7 @@ We have worked on many features this year, and would like to highlight the most 
 - **Versioning options**: solving the most common pain-points users had with versioning
 - **Contextual search**: search in the current version, use the brand-new DocSearch 3 experience
 - **Markdown pages**: use Markdown instead of React components to create standalone pages
+- **Better theme**: various UI, UX and accessibility improvements
 - **PWA**: add offline support to your site, and make it installable
 - **Fail-fast**: strict config validation, detect broken links, and prevent bad production deployments
 - **Multi-instance**: use the docs plugin twice on a single site (e.g. iOS/Android SDK docs)
