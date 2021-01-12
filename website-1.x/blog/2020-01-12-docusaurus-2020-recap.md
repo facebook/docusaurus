@@ -10,7 +10,7 @@ tags: [recap]
 
 **2020 was great for Docusaurus**, despite [a regrettable start](https://docusaurus.io/blog/2020/01/07/tribute-to-endi) and a tumultuous year for everyone.
 
-We continued to invest in [Docusaurus 2](https://v2.docusaurus.io/), and made it reach **full feature parity** with [Docusaurus 1](https://v1.docusaurus.io/),
+We continued to invest in [Docusaurus 2](https://v2.docusaurus.io/), and made it reach **full feature parity** with [Docusaurus 1](https://v1.docusaurus.io/).
 
 We now **recommend Docusaurus 2** as the **default choice** to start a new Docusaurus project and encourage v1 users to [migrate to Docusaurus 2](https://v2.docusaurus.io/docs/migration).
 
@@ -46,8 +46,8 @@ The plan to [rebuild Docusaurus from scratch in 2019](https://docusaurus.io/blog
 Notable **projects, startups, large companies, and individuals** adopted Docusaurus 2 ([showcase](https://v2.docusaurus.io/showcase)):
 
 - [Supabase](https://supabase.io)
-- [React-Navigation](https://reactnavigation.org)
-- [React-Redux](https://react-redux.js.org/)
+- [React Navigation](https://reactnavigation.org)
+- [React Redux](https://react-redux.js.org/)
 - [Vector](https://vector.dev)
 - [Algolia DocSearch](https://docsearch.algolia.com)
 - [SAP Cloud SDK](https://sap.github.io/cloud-sdk)
@@ -56,9 +56,9 @@ Notable **projects, startups, large companies, and individuals** adopted Docusau
 
 We helped **large scale Docusaurus 1 sites to upgrade**, ensuring a proper **migration path** and **feature parity**.
 
-[ReactNative](https://reactnative.dev/) was successfully upgraded to Docusaurus 2 ([archived v1 site](http://archive.reactnative.dev/)):
+[React Native](https://reactnative.dev/) was successfully upgraded to Docusaurus 2 ([archived v1 site](http://archive.reactnative.dev/)):
 
-![ReactNative screenshot](/img/blog/2020-recap/react-native-screenshot.png)
+![React Native screenshot](/img/blog/2020-recap/react-native-screenshot.png)
 
 Localized Docusaurus 1 sites (like **Jest**) will be able to upgrade too:
 
@@ -73,7 +73,7 @@ We also saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site
 - **Stars**: 14632 -> 20946 (+43.2% y/y)
 - **Total Contributors**: 303 -> 512 (+68.9% y/y). Most of which are non-Facebook contributors
 - **Weekly npm Downloads**: 2356 -> 25592 (+986% y/y)
-- **On GitHub**, Docusaurus 1 is used by 6311 projects (+62.9% y/y) while Docusaurus 2 is used by 5039 projects (+19 40% y/y)
+- **On GitHub**, Docusaurus 1 is used by 6311 projects (+62.9% y/y) while Docusaurus 2 is used by 5039 projects (+1940% y/y)
 
 ## Collaboration with Major League Hacking
 
@@ -82,7 +82,7 @@ We have welcomed [Major League Hacking](https://mlh.io/) **open-source interns**
 We are very thankful for the **various contributions** they made, such as:
 
 - Writing the foundations of the v1 to v2 migration CLI
-- Help migrate the ReactNative website from v1 to v2
+- Help migrate the React Native website from v1 to v2
 - Making the config validation more strict and exhaustive, returning helpful error messages
 - Adding CodeSandbox support
 - Improving the CI pipelines: build size and Lighthouse bots
@@ -93,7 +93,7 @@ We look forward to continuing this collaboration in 2021.
 
 Dmitry Vinnik (dev advocate @ Facebook) explains Docusaurus in [60 seconds](https://www.youtube.com/watch?v=_An9EsKPhp0) or [15min](https://www.youtube.com/watch?v=Yhyx7otSksg) videos.
 
-Rachel Nabors (documentation @ Facebook) talked a bit about Docusaurus in [ReactNative Radio 178 (podcast)](https://reactnativeradio.com/episodes/178-documenting-react-native-with-rachel-nabors-gWxwySPl), and William Candillon the [ReactNative website migration (video)](https://www.youtube.com/watch?v=-zhjq2ECKq4).
+Rachel Nabors (documentation @ Facebook) talked a bit about Docusaurus in [React Native Radio 178 (podcast)](https://reactnativeradio.com/episodes/178-documenting-react-native-with-rachel-nabors-gWxwySPl), and William Candillon the [React Native website migration (video)](https://www.youtube.com/watch?v=-zhjq2ECKq4).
 
 Many blog posts have been published:
 
@@ -104,7 +104,7 @@ Many blog posts have been published:
 
 ## Community
 
-The Docusaurus community continues to grow, the [Discord](https://discord.gg/docusaurus) server is quite active, and [StackOverflow questions](https://stackoverflow.com/questions/tagged/docusaurus) keep being posted.
+The Docusaurus community continues to grow, the [Discord](https://discord.gg/docusaurus) server is quite active, and [Stack Overflow questions](https://stackoverflow.com/questions/tagged/docusaurus) keep being posted.
 
 The **modular architecture** of Docusaurus 2 allowed the community to build and publish [third-party plugins](https://v2.docusaurus.io/community/resources#community-plugins-). As we would like to federate better our community, if you are building a plugin, please [let us know](https://github.com/facebook/docusaurus/discussions/4025).
 
@@ -112,7 +112,7 @@ The **modular architecture** of Docusaurus 2 allowed the community to build and 
 
 As the **core features of Docusaurus 2** have finally been built, we will be able to dedicate more time to solve the pain points and bugs reported by the community, and make Docusaurus stable and convenient enough to enter the **beta and release-candidate phase**.
 
-With proper support for **i18n and versioning**, and **large scale migrations** such as **ReactNative** and **Jest**, we now have a clear migration path for all Docusaurus 1 sites.
+With proper support for **i18n and versioning**, and **large scale migrations** such as **React Native** and **Jest**, we now have a clear migration path for all Docusaurus 1 sites.
 
 We still have a few **major features** that we would like to work on:
 
@@ -128,7 +128,7 @@ Huge thanks to the community for [their contributions in 2020](https://github.co
 - the core team - [Alexey Pyltsyn](https://github.com/lex111), [Sébastien Lorber](https://sebastienlorber.com), [Yangshun Tay](https://twitter.com/yangshunz)
 - the Major League Hacking and Facebook interns for their significant impact
 - the Algolia team for DocSearch 3 and their support
-- [Bartosz Kaszubowski](https://github.com/Simek) for his investment in the ReactNative migration
+- [Bartosz Kaszubowski](https://github.com/Simek) for his investment in the React Native migration
 - the whole community for their contributions, and providing support to each other
 
 Cheers to a great 2021! 🎉
