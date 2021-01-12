@@ -5,20 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs-extra');
-const waitOn = require('wait-on');
+import path from 'path';
+import fs from 'fs-extra';
+import waitOn from 'wait-on';
+import {Compiler} from 'webpack';
 
-class WaitPlugin {
-  constructor(options) {
+interface WaitPluginOptions {
+  filepath: string;
+}
+
+export default class WaitPlugin {
+  filepath: string;
+
+  constructor(options: WaitPluginOptions) {
     this.filepath = options.filepath;
   }
 
-  apply(compiler) {
+  apply(compiler: Compiler) {
     // Before finishing the compilation step
     compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
       // To prevent 'waitFile' error on waiting non-existing directory
-      fs.ensureDir(path.dirname(this.filepath), () => {
+      fs.ensureDir(path.dirname(this.filepath), {}, () => {
         // Wait until file exist
         waitOn({
           resources: [this.filepath],
@@ -27,12 +34,10 @@ class WaitPlugin {
           .then(() => {
             callback();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             console.warn(`WaitPlugin error: ${error}`);
           });
       });
     });
   }
 }
-
-module.exports = WaitPlugin;

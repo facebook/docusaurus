@@ -46,6 +46,7 @@ export type Footer = {
   logo?: {
     alt?: string;
     src?: string;
+    srcDark?: string;
     href?: string;
   };
   copyright?: string;

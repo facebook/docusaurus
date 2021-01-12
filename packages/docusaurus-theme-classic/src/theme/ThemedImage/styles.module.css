@@ -3,9 +3,9 @@
 }
 
 html[data-theme='light'] .themedImage--light {
-  display: block;
+  display: initial;
 }
 
 html[data-theme='dark'] .themedImage--dark {
-  display: block;
+  display: initial;
 }
