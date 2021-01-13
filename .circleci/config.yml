@@ -81,22 +81,22 @@ jobs:
             if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -E "(^docs\/.*)|(docusaurus-1\.x\/.*)|(website-1\.x\/.*)"; then
               echo "Skipping deploy. No relevant v1 website files have changed"
             elif [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
-              echo "Deploying website..."
+              echo "Deploying website v1..."
+              cd website-1.x
+
               # install Docusaurus and generate file of English strings
-              cd website-1.x && yarn run write-translations
-              # install Crowdin
-              sudo apt-get update
-              sudo apt-get install default-jre rsync
-              wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
-              sudo dpkg -i crowdin.deb
-              sleep 5
+              yarn run write-translations
+
               # upload translation strings and download translations
-              yarn run crowdin-upload
+              yarn crowdin-upload
+
               # download only enabled languages
-              for lang in fr ko ru ro pt-BR zh-CN
-              do
-                  yarn crowdin-download -l $lang
-              done
+              yarn crowdin-download
+              # for lang in fr ko ru ro pt-BR zh-CN
+              # do
+              #    yarn crowdin-download -l $lang
+              # done
+
               # publish
               GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
             else

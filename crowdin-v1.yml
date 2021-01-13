@@ -1,6 +1,6 @@
-project_identifier_env: CROWDIN_DOCUSAURUS_PROJECT_ID
-api_key_env: CROWDIN_DOCUSAURUS_API_KEY
-base_path: "./"
+project_id: '290988'
+api_token_env: 'CROWDIN_PERSONAL_TOKEN'
+base_path: "."
 preserve_hierarchy: true
 
 files:
@@ -9,30 +9,13 @@ files:
     translation: '/website-1.x/translated_docs/%locale%/**/%original_file_name%'
     languages_mapping: &anchor
       locale:
-        'af': 'af'
-        'ar': 'ar'
-        'bs-BA': 'bs-BA'
-        'ca': 'ca'
-        'cs': 'cs'
-        'da': 'da'
-        'de': 'de'
-        'el': 'el'
         'es-ES': 'es-ES'
-        'fa': 'fa-IR'
-        'fi': 'fi'
         'fr': 'fr'
-        'he': 'he'
-        'hu': 'hu'
-        'id': 'id-ID'
         'it': 'it'
         'ja': 'ja'
         'ko': 'ko'
-        'mr': 'mr-IN'
         'nl': 'nl'
-        'no': 'no-NO'
-        'pl': 'pl'
         'pt-BR': 'pt-BR'
-        'pt-PT': 'pt-PT'
         'ro': 'ro'
         'ru': 'ru'
         'sk': 'sk-SK'
