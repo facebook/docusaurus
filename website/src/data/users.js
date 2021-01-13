@@ -414,6 +414,15 @@ const users = [
     fbOpenSource: false,
     pinned: true,
   },
+  {
+    title: 'Nodify',
+    description: 'High-performance WPF node editor component designed for MVVM.',
+    preview: require('./showcase/nodify.png'),
+    website: 'https://miroiu.github.io/nodify/',
+    source: 'https://github.com/miroiu/nodify',
+    fbOpenSource: false,
+    pinned: true,
+  },
 ];
 
 users.forEach((user) => {
