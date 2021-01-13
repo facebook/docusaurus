@@ -8,6 +8,8 @@
   publish = "website-1.x/build/docusaurus"
 
 [context.deploy-preview]
+  base = "/"
   command = "yarn workspace docusaurus-1-website netlify:build:deployPreview"
+  publish = "website-1.x/build/docusaurus"
 
 
