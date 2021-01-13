@@ -77,7 +77,7 @@ We also saw the **[first right-to-left](https://datagit.ir/)** Docusaurus 2 site
 
 ## Collaboration with Major League Hacking
 
-We have welcomed [Major League Hacking](https://mlh.io/) **open-source interns** for 2 seasons already.
+We have welcomed [Major League Hacking](https://mlh.io/) (MLH) fellows for 2 seasons already.
 
 We are very thankful for the **various contributions** they made, such as:
 
@@ -91,9 +91,9 @@ We look forward to continuing this collaboration in 2021.
 
 ## Media
 
-Dmitry Vinnik (dev advocate @ Facebook) explains Docusaurus in [60 seconds](https://www.youtube.com/watch?v=_An9EsKPhp0) or [15min](https://www.youtube.com/watch?v=Yhyx7otSksg) videos.
+Dmitry Vinnik (Developer Advocate @ Facebook) explains Docusaurus in [60 seconds](https://www.youtube.com/watch?v=_An9EsKPhp0) or [15min](https://www.youtube.com/watch?v=Yhyx7otSksg) videos.
 
-Rachel Nabors (documentation @ Facebook) talked a bit about Docusaurus in [React Native Radio 178 (podcast)](https://reactnativeradio.com/episodes/178-documenting-react-native-with-rachel-nabors-gWxwySPl), and William Candillon the [React Native website migration (video)](https://www.youtube.com/watch?v=-zhjq2ECKq4).
+Rachel Nabors (Documentation Engineer @ Facebook) talked a bit about Docusaurus in [React Native Radio 178 (podcast)](https://reactnativeradio.com/episodes/178-documenting-react-native-with-rachel-nabors-gWxwySPl), and William Candillon the [React Native website migration (video)](https://www.youtube.com/watch?v=-zhjq2ECKq4).
 
 Many blog posts have been published:
 
