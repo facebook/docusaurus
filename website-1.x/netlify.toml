@@ -10,3 +10,4 @@
 [context.deploy-preview]
   command = "yarn workspace docusaurus-1-website netlify:build:deployPreview"
 
+
