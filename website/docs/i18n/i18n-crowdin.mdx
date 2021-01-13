@@ -289,15 +289,9 @@ Make sure that your website is now translated in French at `http://localhost:300
 
 ### Automate with CI
 
-We will configure the CI to **download the Crowdin translations at build time**.
+We will configure the CI to **download the Crowdin translations at build time**, and keep them outside of Git.
 
 Add `website/i18n` to `.gitignore`.
-
-:::note
-
-You can also commit the `i18n` folder and set-up Crowdin to [send translation pull-requests to your GitHub repository](https://support.crowdin.com/github-integration/)
-
-:::
 
 Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
 
@@ -315,7 +309,7 @@ Call the `npm run crowdin:sync` script in your CI, just before building the Docu
 
 :::tip
 
-Keep your deploy previews fast: don't download translations, and use `npm run build -- --locale en` for feature branches.
+Keep your deploy-previews fast: don't download translations, and use `npm run build -- --locale en` for feature branches.
 
 :::
 
@@ -325,9 +319,19 @@ Crowdin does not support well multiple concurrent uploads/downloads: it is prefe
 
 :::
 
-## Advanced Crowdin configuration
+## Advanced Crowdin topics
 
-### Versioning
+### MDX
+
+:::warning
+
+Crowdin does not support the `.mdx` extension, and interpret these files as plain text instead of Markdown, producing a bad translation experience.
+
+:::
+
+We temporarily recommend using the `.md` extension (even if the document contains React code), and are in touch with Crowdin to get this solved.
+
+### Docs versioning
 
 Configure translation files for the `website/versioned_docs` folder.
 
@@ -345,7 +349,7 @@ Not using `Hide` leads to a much larger amount of `source strings` in quotas, an
 
 :::
 
-### Multi-instance
+### Multi-instance plugins
 
 You need to configure translation files for each plugin instance.
 
@@ -353,6 +357,36 @@ If you have a docs plugin instance with `id=ios`, you will need to configure tho
 
 - `website/ios`
 - `website/ios_versioned_docs` (if versioned)
+
+### Maintaining your site
+
+Sometimes, you will **remove or rename a source file** on Git, and Crowdin will display CLI warnings:
+
+![Crowdin CLI: download translation warning](/img/crowdin/crowdin-download-translations-warning.png)
+
+When your sources are refactored, you should use the Crowdin UI to **update your Crowdin files manually**:
+
+![Crowdin UI: renaming a file](/img/crowdin/crowdin-files-rename.png)
+
+### Git / VCS integrations
+
+Crowdin has multiple VCS integrations for [GitHub](https://support.crowdin.com/github-integration/), GitLab, BitBucket...
+
+:::warning
+
+We recommend avoiding them.
+
+:::
+
+It could have been helpful to be able to edit the translations in both Git and Crowdin, and have a **bi-directional sync** between the 2 systems.
+
+In practice, **it didn't work very reliably** for a few reasons:
+
+- The Crowdin -> Git sync works fine (with a pull-request)
+- The Git -> Crowdin sync is manual (you have to press a button)
+- The heuristics used by Crowdin to match existing Markdown translations to existing Markdown sources are not 100% reliable, and you have to verify the result on Crowdin UI after any sync from Git
+- 2 users concurrently editing on Git and Crowdin can lead to a translation loss
+- It requires the `crowdin.yml` file to be at the root of the repository
 
 ### Example configuration
 
