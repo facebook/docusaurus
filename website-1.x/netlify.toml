@@ -1,0 +1,12 @@
+
+# Note: this file's config override the Netlify UI admin config
+
+# default/production build
+[build]
+  base = "/"
+  command = "yarn workspace docusaurus-1-website netlify:build:production"
+  publish = "website-1.x/build/docusaurus"
+
+[context.deploy-preview]
+  command = "yarn workspace docusaurus-1-website netlify:build:deployPreview"
+
