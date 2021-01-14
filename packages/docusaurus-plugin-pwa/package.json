@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-pwa",
   "version": "2.0.0-alpha.70",
-  "description": "Docusaurus Plugin to add PWA support",
+  "description": "Docusaurus Plugin to add PWA support.",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"

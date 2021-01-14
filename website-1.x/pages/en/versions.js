@@ -29,7 +29,7 @@ function Versions(props) {
           <h2 id="v2">Docusaurus v2</h2>
           <p>
             We now recommend using{' '}
-            <a href={`https://v2.docusaurus.io/`}>Docusaurus v2</a>.
+            <a href="https://v2.docusaurus.io/">Docusaurus v2</a>.
           </p>
           <table className="versions">
             <tbody>
