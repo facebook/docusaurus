@@ -26,8 +26,10 @@ function Versions(props) {
           <header className="postHeader">
             <h1>{siteConfig.title} Versions</h1>
           </header>
+          <h3 id="v2">Docusaurus v2</h3>
+          <p>We recommend to use [Docusaurus v2](http://v2.docusaurus.io/).</p>
           <h3 id="latest">Current version (Stable)</h3>
-          <p>Latest version of Docusaurus.</p>
+          <p>Latest version of Docusaurus v1.</p>
           <table className="versions">
             <tbody>
               <tr>
@@ -47,7 +49,8 @@ function Versions(props) {
             </tbody>
           </table>
           <h3 id="rc">Latest Version</h3>
-          Here you can find the latest documentation and unreleased code.
+          Here you can find the latest documentation and unreleased Docusaurus
+          v1 code.
           <table className="versions">
             <tbody>
               <tr>
