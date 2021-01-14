@@ -9,7 +9,7 @@
 const users = require('./data/users');
 
 const siteConfig = {
-  title: 'Docusaurus V1',
+  title: 'Docusaurus v1',
   tagline: 'Easy to Maintain Open Source Documentation Websites',
   url: 'https://docusaurus.io',
   baseUrl: process.env.BASE_URL || '/',
