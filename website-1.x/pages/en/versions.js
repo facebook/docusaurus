@@ -26,10 +26,10 @@ function Versions(props) {
           <header className="postHeader">
             <h1>{siteConfig.title} Versions</h1>
           </header>
-          <h3 id="v2">Docusaurus v2</h3>
+          <h2 id="v2">Docusaurus v2</h2>
           <p>
-            We recommend to use{' '}
-            <a href={`https://v2.docusaurus.io/`}>Docusaurus v2</a>.
+            We now recommend using{' '}
+            <a href="https://v2.docusaurus.io">Docusaurus v2</a>.
           </p>
           <table className="versions">
             <tbody>
@@ -41,7 +41,8 @@ function Versions(props) {
               </tr>
             </tbody>
           </table>
-          <h3 id="latest">Current version (Stable)</h3>
+          <h2 id="v1">Docusaurus v1</h2>
+          <h3 id="latest">Current v1 version (Stable)</h3>
           <p>Latest version of Docusaurus v1.</p>
           <table className="versions">
             <tbody>
@@ -62,12 +63,11 @@ function Versions(props) {
             </tbody>
           </table>
           <h3 id="rc">Latest Version</h3>
-          Here you can find the latest documentation and unreleased Docusaurus
-          v1 code.
+          <p>Unreleased Docusaurus v1 code.</p>
           <table className="versions">
             <tbody>
               <tr>
-                <th>master</th>
+                <th>v1 master</th>
                 <td>
                   <a
                     href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${props.language}/next/installation`}>
@@ -82,7 +82,8 @@ function Versions(props) {
           </table>
           <h3 id="archive">Past Versions</h3>
           <p>
-            Here you can find documentation for previous versions of Docusaurus.
+            Here you can find documentation for previous versions of Docusaurus
+            v1.
           </p>
           <table className="versions">
             <tbody>
