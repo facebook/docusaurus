@@ -97,10 +97,11 @@ Rachel Nabors (Documentation Engineer @ Facebook) talked a bit about Docusaurus 
 
 Many blog posts have been published:
 
-- [Easy documentation with Docusaurus](https://blog.logrocket.com/easy-documentation-with-docusaurus/) by Anshul Goyal, former MLH intern
 - [To the Makers of Docusaurus](https://portfoliosaurus.now.sh/blog/toTheMakers) by Quddus George
-- [Build Beautiful Documentation Websites with Docusaurus](https://lo-victoria.com/build-beautiful-documentation-websites-with-docusaurus) by Victoria Lo
+- [Richer API documentation with Redoc and Docusaurus](https://davidgoss.co/blog/api-documentation-redoc-docusaurus/) by David Goss
 - [How to Build a Plugin for Docusaurus v2](https://aknapen.nl/blog/how-to-build-a-plugin-for-docusaurus-v2/) by Adriaan Knapen
+- [Easy documentation with Docusaurus](https://blog.logrocket.com/easy-documentation-with-docusaurus/) by Anshul Goyal (MLH fellow)
+- [Build Beautiful Documentation Websites with Docusaurus](https://lo-victoria.com/build-beautiful-documentation-websites-with-docusaurus) by Victoria Lo
 
 ## Community
 
