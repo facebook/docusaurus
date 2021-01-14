@@ -257,6 +257,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Nodify',
+    description: 'High-performance WPF node editor component designed for MVVM.',
+    preview: require('./showcase/nodify.png'),
+    website: 'https://miroiu.github.io/nodify/',
+    source: 'https://github.com/miroiu/nodify',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -309,6 +318,15 @@ const users = [
     preview: require('./showcase/runlet.png'),
     website: 'https://runlet.app',
     source: 'https://github.com/runletapp/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'SCI WP Framework',
+    description: 'A PHP framework to create MVC plugins for WordPress',
+    preview: require('./showcase/sciwp.png'),
+    website: 'https://sciwp.com/',
+    source: 'https://github.com/sciwp/sciwp-framework',
     fbOpenSource: false,
     pinned: false,
   },
@@ -412,7 +430,7 @@ const users = [
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
 ];
 

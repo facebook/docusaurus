@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
   "version": "2.0.0-alpha.70",
-  "description": "Client redirects plugin for Docusaurus",
+  "description": "Client redirects plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
