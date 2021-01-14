@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-content-pages",
   "version": "2.0.0-alpha.70",
-  "description": "Pages content plugin for Docusaurus",
+  "description": "Pages plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-pages.d.ts",
   "scripts": {
