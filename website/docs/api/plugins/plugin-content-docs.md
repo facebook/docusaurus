@@ -147,6 +147,7 @@ Markdown documents can use the following markdown frontmmatter metadata fields, 
 - `keywords`: Keywords meta tag for the document page, for search engines.
 - `description`: The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
+- `slug`: Allows to customize the document url
 
 Example:
 
@@ -163,6 +164,9 @@ keywords:
   - docs
   - docusaurus
 image: https://i.imgur.com/mErPwqL.png
+slug: /myDoc
 ---
 My Document Markdown content
 ```
+
+## i18n
