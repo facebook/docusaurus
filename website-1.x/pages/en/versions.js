@@ -36,7 +36,7 @@ function Versions(props) {
               <tr>
                 <th>2.x</th>
                 <td>
-                  <a href={`https://v2.docusaurus.io/`}>Documentation</a>
+                  <a href="https://v2.docusaurus.io">Documentation</a>
                 </td>
               </tr>
             </tbody>
