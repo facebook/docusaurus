@@ -322,6 +322,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'SCI WP Framework',
+    description: 'A PHP framework to create MVC plugins for WordPress',
+    preview: require('./showcase/sciwp.png'),
+    website: 'https://sciwp.com/',
+    source: 'https://github.com/sciwp/sciwp-framework',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
