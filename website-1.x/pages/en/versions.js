@@ -27,7 +27,20 @@ function Versions(props) {
             <h1>{siteConfig.title} Versions</h1>
           </header>
           <h3 id="v2">Docusaurus v2</h3>
-          <p>We recommend to use [Docusaurus v2](http://v2.docusaurus.io/).</p>
+          <p>
+            We recommend to use{' '}
+            <a href={`https://v2.docusaurus.io/`}>Docusaurus v2</a>.
+          </p>
+          <table className="versions">
+            <tbody>
+              <tr>
+                <th>2.x</th>
+                <td>
+                  <a href={`https://v2.docusaurus.io/`}>Documentation</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <h3 id="latest">Current version (Stable)</h3>
           <p>Latest version of Docusaurus v1.</p>
           <table className="versions">
