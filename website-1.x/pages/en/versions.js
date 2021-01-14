@@ -63,10 +63,7 @@ function Versions(props) {
             </tbody>
           </table>
           <h3 id="rc">Latest Version</h3>
-          <p>
-            Here you can find the latest documentation and unreleased Docusaurus
-            v1 code.
-          </p>
+          <p>Unreleased Docusaurus v1 code.</p>
           <table className="versions">
             <tbody>
               <tr>
