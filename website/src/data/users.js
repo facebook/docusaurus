@@ -257,6 +257,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Nodify',
+    description: 'High-performance WPF node editor component designed for MVVM.',
+    preview: require('./showcase/nodify.png'),
+    website: 'https://miroiu.github.io/nodify/',
+    source: 'https://github.com/miroiu/nodify',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -412,7 +421,7 @@ const users = [
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
 ];
 
