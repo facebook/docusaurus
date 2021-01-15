@@ -19,6 +19,12 @@ Refer to the **[Crowdin documentation](https://support.crowdin.com/)** and **[Cr
 
 :::
 
+:::tip
+
+Use this **[community-driven GitHub issue](https://github.com/facebook/docusaurus/discussions/4052)** to discuss anything related to Docusaurus + Crowdin.
+
+:::
+
 ## Crowdin overview
 
 Crowdin is a translation SaaS, offering a [free plan for open-source projects](https://crowdin.com/page/open-source-project-setup-request).
@@ -390,6 +396,18 @@ In practice, **it didn't work very reliably** for a few reasons:
 - The heuristics used by Crowdin to match existing Markdown translations to existing Markdown sources are not 100% reliable, and you have to verify the result on Crowdin UI after any sync from Git
 - 2 users concurrently editing on Git and Crowdin can lead to a translation loss
 - It requires the `crowdin.yml` file to be at the root of the repository
+
+### In-Context localization
+
+Crowdin has an [In-Context localization](https://support.crowdin.com/in-context-localization/) feature.
+
+:::caution
+
+Unfortunately, it does not work yet for technical reasons, but we have good hope it can be solved.
+
+Crowdin replaces markdown strings with technical ids such as `crowdin:id12345`, but it does so too aggressively, including hidden strings, and mess-up with the frontmatter, admonitions, jsx...
+
+:::
 
 ### Example configuration
 
