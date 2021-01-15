@@ -62,7 +62,7 @@ module.exports = {
 Start your localized site in dev mode, using the locale of your choice:
 
 ```bash npm2yarn
-npm run start --locale fr
+npm run start -- --locale fr
 ```
 
 Your site is accessible at **`http://localhost:3000/fr/`**, but **falls back to untranslated content**.
@@ -81,7 +81,7 @@ Docusaurus is modular, and each content plugin has its own subfolder.
 
 :::note
 
-After copying files around, restart your site with `npm run start --locale fr`.
+After copying files around, restart your site with `npm run start -- --locale fr`.
 
 Hot-reload will work better when editing existing files.
 
@@ -145,7 +145,7 @@ JSON translation files are used for everything that is not contained in a Markdo
 Run the [write-translations](../cli.md#docusaurus-write-translations) command:
 
 ```bash npm2yarn
-npm run write-translations --locale fr
+npm run write-translations -- --locale fr
 ```
 
 It will extract and initialize the JSON translation files that you need to translate.
@@ -267,7 +267,7 @@ The Docusaurus v2 website use this strategy:
 You can also build your site for a single locale:
 
 ```bash npm2yarn
-npm run build --locale fr
+npm run build -- --locale fr
 ```
 
 Docusaurus will not add the `/fr/` url prefix.
