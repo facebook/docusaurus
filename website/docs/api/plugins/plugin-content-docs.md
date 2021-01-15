@@ -170,3 +170,32 @@ My Document Markdown content
 ```
 
 ## i18n
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location
+
+- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
+
+### Example file-system structure
+
+```bash
+website/i18n/<locale>/docusaurus-plugin-content-docs
+│
+│ # translations for website/docs
+├── current
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+├── current.json
+│
+│ # translations for website/versioned_docs/version-1.0.0
+├── version-1.0.0
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+└── version-1.0.0.json
+```

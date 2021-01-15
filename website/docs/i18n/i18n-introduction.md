@@ -58,12 +58,12 @@ We don't provide support for:
 Overview of the workflow to create a translated Docusaurus website:
 
 - **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-- **Translate**: put the translated files at the correct file-system location.
+- **Translate**: put the translation files at the correct file-system location.
 - **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
-### Translated files
+### Translation files
 
-You will have to work with 2 kind of translated files.
+You will have to work with 2 kind of translation files.
 
 #### Markdown files
 
@@ -98,3 +98,57 @@ The choice was made for 2 reasons:
 
 - **Description attribute**: to help translators with additional context.
 - **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)...
+
+### Translation files location
+
+The translation files should be created at the correct file-system location.
+
+Each locale and plugin has its own `i18n` subfolder:
+
+```
+website/i18n/<locale>/<pluginName>/...
+```
+
+:::note
+
+For multi-instance plugins, the path is `website/i18n/<locale>/<pluginName>-<pluginId>/...`.
+
+:::
+
+Translating a very simple Docusaurus site in French would lead to the following tree:
+
+```bash
+website/i18n
+└── fr
+    ├── code.json
+    │
+    ├── docusaurus-plugin-content-blog
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs
+    │   ├── current #
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic
+        ├── footer.json
+        └── navbar.json
+```
+
+The JSON files are initialized with the [`docusaurus write-translations`](../cli.md#docusaurus-write-translations) CLI command.
+
+The `code.json` file is extracted from React components using the `<Translate>` api.
+
+:::info
+
+Notice that the `docusaurus-plugin-content-docs` plugin has a `current` subfolder and a `current.json` file, useful for the **docs versioning feature**.
+
+:::
+
+Each content plugin or theme is different, and **define its own translation files location**:
+
+- [Docs i18n](../api/plugins/plugin-content-docs.md#i18n)
+- [Blog i18n](../api/plugins/plugin-content-blog.md#i18n)
+- [Pages i18n](../api/plugins/plugin-content-pages.md#i18n)
+- [Themes i18n](../api/themes/theme-configuration.md#i18n)

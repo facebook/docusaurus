@@ -117,6 +117,27 @@ module.exports = {
 };
 ```
 
+## i18n
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location
+
+- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
+- **Multi-instance path**: N/A
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **Markdown files**: `N/A
+
+### Example file-system structure
+
+```bash
+website/i18n/<locale>/docusaurus-theme-classic
+│
+│ # translations for the theme
+├── navbar.json
+└── footer.json
+```
+
 ## Hooks
 
 ### `useThemeContext`
