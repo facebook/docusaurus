@@ -21,6 +21,8 @@ To run the local web server:
 
    This will start a docker container with the image `docusaurus-doc`. To see more detailed container info run `docker ps` .
 
+To access Docusaurus from outside the docker container you must add the `--host` flag to the `docusaurus-start` command as described in: [API Commands](api-commands.md#docusaurus-start)
+
 ## Use docker-compose
 
 We can also use `docker-compose` to configure our application. This feature of docker allows you to run the web server and any additional services with a single command.
