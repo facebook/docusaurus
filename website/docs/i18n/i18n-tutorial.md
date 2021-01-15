@@ -5,9 +5,9 @@ sidebar_label: Tutorial
 slug: /i18n/tutorial
 ---
 
-This tutorial will walk you through the translation of a new Docusaurus website.
+This tutorial will walk you through the basis of the **Docusaurus i18n system**.
 
-English will be the default language (in which you write the upstream content), and we will provide French translations.
+We will add **French** translations to a **newly initialized English Docusaurus website**.
 
 Initialize a new site with `npx @docusaurus/init@latest init website classic` (like [this one](https://github.com/facebook/docusaurus/tree/master/examples/classic)).
 
@@ -17,7 +17,7 @@ Modify `docusaurus.config.js` to add the i18n support for the French language.
 
 ### Site configuration
 
-Declare the i18n locales and their respective configuration options:
+Use the [site i18n configuration](./../api/docusaurus.config.js.md#i18n) to declare the i18n locales:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -36,11 +36,9 @@ module.exports = {
 };
 ```
 
-TODO link to ref api for exhaustive list of option and move underlying note
-
 ### Theme configuration
 
-Add a navbar dropdown so that users can select the locale they want to use:
+Add a **navbar item** of type `localeDropdown` so that users can select the locale they want:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -77,9 +75,7 @@ Each locale is a **distinct standalone single-page-application**: it is not poss
 
 ## Translate your site
 
-Let's see how to actually provide the translations.
-
-The French translations will be put in `website/i18n/fr`.
+The French translations will be added in `website/i18n/fr`.
 
 Docusaurus is modular, and each content plugin has its own subfolder.
 
@@ -93,7 +89,7 @@ Hot-reload will work better when editing existing files.
 
 ### Use the translation APIs
 
-Open your homepage, and use the Docusaurus translation APIs:
+Open the homepage, and use the [translation APIs](../docusaurus-core.md#translate):
 
 ```jsx title="src/index.js"
 import React from 'react';
@@ -146,7 +142,7 @@ JSON translation files are used for everything that is not contained in a Markdo
 - Docs sidebar category labels
 - ...
 
-Run the following command:
+Run the [write-translations](../cli.md#docusaurus-write-translations) command:
 
 ```bash npm2yarn
 npm run write-translations --locale fr
@@ -154,7 +150,7 @@ npm run write-translations --locale fr
 
 It will extract and initialize the JSON translation files that you need to translate.
 
-The homepage translations are extracted from React source code:
+The homepage translations are statically extracted from React source code:
 
 ```json title="i18n/fr/code.json"
 {
@@ -169,7 +165,7 @@ The homepage translations are extracted from React source code:
 }
 ```
 
-Plugins and themes will also write JSON translation files, such as:
+Plugins and themes will also write their own **JSON translation files**, such as:
 
 ```json title="i18n/fr/docusaurus-theme-classic/navbar.json"
 {
@@ -234,13 +230,13 @@ cp -r pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 
 :::caution
 
-We only copy `.md` and `.mdx` files, as React components are translated through JSON translation files already.
+We only copy `.md` and `.mdx` files, as pages React components are translated through JSON translation files already.
 
 :::
 
 ## Deploy your site
 
-You can choose to deploy your site under a single domain, or use multiple (sub)domains.
+You can choose to deploy your site under a **single domain**, or use **multiple (sub)domains**.
 
 ### Single-domain deployment
 
@@ -250,7 +246,7 @@ Run the following command:
 npm run build
 ```
 
-Docusaurus will build one single-page application per locale:
+Docusaurus will build **one single-page application per locale**:
 
 - `website/build`: for the default, English language
 - `website/build/fr`: for the French language
@@ -274,16 +270,16 @@ You can also build your site for a single locale:
 npm run build --locale fr
 ```
 
-Building for a single locale does not add the `/fr/` url prefix.
+Docusaurus will not add the `/fr/` url prefix.
 
 On your [static hosting provider](../deployment.mdx):
 
 - create one deployment per locale
 - configure the appropriate build command, using the `--locale` option
-- configure the domain of your choice
+- configure the (sub)domain of your choice for each deployment
 
 :::caution
 
-This strategy is not possible with Github Pages, as it is only possible to have one deployment.
+This strategy is **not possible** with Github Pages, as it is only possible to **have a single deployment**.
 
 :::

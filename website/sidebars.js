@@ -58,8 +58,8 @@ module.exports = {
           items: [
             'i18n/introduction',
             'i18n/tutorial',
+            'i18n/git',
             'i18n/crowdin',
-            'i18n/faq',
           ],
         },
       ],

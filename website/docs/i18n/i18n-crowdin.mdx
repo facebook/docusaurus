@@ -7,9 +7,9 @@ slug: /i18n/crowdin
 
 The i18n system of Docusaurus is **decoupled from any translation software**.
 
-You can integrate Docusaurus with the **tools and SaaS of your choice**, as long as you put the **translation files at the correct place**.
+You can integrate Docusaurus with the **tools and SaaS of your choice**, as long as you put the **translation files at the correct location**.
 
-We document the usage of [Crowdin](http://crowdin.com/), as one possible **integration example**.
+We document the usage of [Crowdin](http://crowdin.com/), as **one** possible **integration example**.
 
 :::caution
 
@@ -209,7 +209,7 @@ Set the `CROWDIN_PERSONAL_TOKEN` env variable on your computer, to allow the CLI
 
 :::tip
 
-Temporarily, you can hardcode your personal token in `crowdin.yml` with `api_token: 'MY-HARDCODED-TOKEN'`.
+Temporarily, you can hardcode your personal token in `crowdin.yml` with `api_token: 'MY-TOKEN'`.
 
 :::
 
@@ -245,7 +245,10 @@ Translate some Markdown files.
 
 :::tip
 
-Use the `Hide String` feature to make sure **translators don't translate frontmatter fields** like `id`, `slug`, `tags`...
+Use `Hide String` to make sure translators **don't translate things that should not be**:
+
+- Frontmatter: `id`, `slug`, `tags` ...
+- Admonitions: `:::`, `:::note`, `:::tip` ...
 
 ![Crowdin UI hide string](/img/crowdin/crowdin-hide-string.png)
 
