@@ -80,6 +80,31 @@ module.exports = {
 
 ## Optional fields
 
+### `i18n`
+
+- Type: `Object`
+
+The i18n configuration object to [localize your site](../i18n/i18n-introduction.md).
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    },
+  },
+};
+```
+
 ### `noIndex`
 
 - Type: `boolean`
@@ -178,11 +203,7 @@ module.exports = {
 
 - Type: `Object`
 
-<!-- TODO: explain that theme configurations will be consumed by the theme, and link to theme doc -->
-
-An object containing data needed by the theme you use.<!--, see [theme configurations](#).-->
-
-For Docusaurus' default theme _classic_, we use `themeConfig` to customize your navbar and footer links:
+The [theme configuration](./themes/theme-configuration.md) object, to customize your site UI: navbar, footer...
 
 Example:
 

@@ -311,7 +311,9 @@ module.exports = {
 
 ### Navbar docs version dropdown
 
-If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions. The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
+
+The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
 
 ```js {5-8} title="docusaurus.config.js"
 module.exports = {
@@ -362,6 +364,44 @@ module.exports = {
 };
 ```
 
+### Navbar locale dropdown
+
+If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
+
+The user will be able to switch from one locale to another, while staying on the same page.
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'localeDropdown',
+
+          //// Optional
+          position: 'left',
+          // Add additional dropdown items at the beginning/end of the dropdown.
+          dropdownItemsBefore: [],
+          dropdownItemsAfter: [
+            {
+              to: 'https://my-site.com/help-us-translate',
+              label: 'Help us translate',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+```
+
+````
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        ```
+
 ### Auto-hide sticky navbar
 
 You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
@@ -376,7 +416,7 @@ module.exports = {
     // ...
   },
 };
-```
+````
 
 ### Navbar style
 

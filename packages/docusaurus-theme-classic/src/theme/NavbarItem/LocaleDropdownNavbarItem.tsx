@@ -13,6 +13,8 @@ import {useLocation} from '@docusaurus/router';
 
 export default function LocaleDropdownNavbarItem({
   mobile,
+  dropdownItemsBefore,
+  dropdownItemsAfter,
   ...props
 }: Props): JSX.Element {
   const {
@@ -39,7 +41,7 @@ export default function LocaleDropdownNavbarItem({
       : `${baseUrlUnlocalized}${locale}/`;
   }
 
-  const items = locales.map((locale) => {
+  const localeItems = locales.map((locale) => {
     const to = `${getLocalizedBaseUrl(locale)}${pathnameSuffix}`;
     return {
       isNavLink: true,
@@ -50,6 +52,8 @@ export default function LocaleDropdownNavbarItem({
       className: locale === currentLocale ? 'dropdown__link--active' : '',
     };
   });
+
+  const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 
   // Mobile is handled a bit differently
   const dropdownLabel = mobile ? 'Languages' : getLocaleLabel(currentLocale);
