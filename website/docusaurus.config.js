@@ -313,7 +313,6 @@ module.exports = {
             },
           ],
         },
-        /*
         {
           type: 'localeDropdown',
           position: 'right',
@@ -324,7 +323,6 @@ module.exports = {
             },
           ],
         },
-         */
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
