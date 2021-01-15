@@ -147,6 +147,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Eightshift Docs',
+    description: 'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
+    preview: require('./showcase/eightshift-docs.png'),
+    website: 'https://infinum.github.io/eightshift-docs/',
+    source: 'https://github.com/infinum/eightshift-docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
