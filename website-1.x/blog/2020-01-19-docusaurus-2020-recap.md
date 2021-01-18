@@ -6,6 +6,7 @@ authorURL: https://sebastienlorber.com
 authorImageURL: https://github.com/slorber.png
 authorTwitter: sebastienlorber
 tags: [recap]
+image: /img/docusaurus-2020-recap.png
 ---
 
 **2020 was great for Docusaurus**, despite [a regrettable start](https://docusaurus.io/blog/2020/01/07/tribute-to-endi) and a tumultuous year for everyone.
