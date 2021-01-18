@@ -32,7 +32,7 @@ We have worked on many features this year, and would like to highlight the most 
 - **Fail-fast**: strict config validation, detect broken links, and prevent bad production deployments
 - **Multi-instance**: use the docs plugin twice on a single site (e.g. iOS/Android SDK docs)
 - **Migration CLI**: automate the upgrade from Docusaurus 1
-- **CodeSandbox**: assess Docusaurus easily from your browser
+- **CodeSandbox**: assess Docusaurus easily from your browser with [new.docusaurus.io](https://new.docusaurus.io/)
 - **Canary releases**: use the `@canary` npm tag to use the upcoming release before anyone else
 - **TypeScript**: progressive adoption for internal code, and improve usage for users
 - **Publish Infima**: it is now [open-source](https://github.com/facebookincubator/infima)
@@ -100,6 +100,7 @@ Many blog posts have been published:
 - [To the Makers of Docusaurus](https://portfoliosaurus.now.sh/blog/toTheMakers) by Quddus George
 - [Richer API documentation with Redoc and Docusaurus](https://davidgoss.co/blog/api-documentation-redoc-docusaurus/) by David Goss
 - [How to Build a Plugin for Docusaurus v2](https://aknapen.nl/blog/how-to-build-a-plugin-for-docusaurus-v2/) by Adriaan Knapen
+- [React Tracked Documentation Website with Docusaurus v2](https://blog.axlight.com/posts/react-tracked-documentation-website-with-docusaurus-v2/) by Daishi Kato
 - [Easy documentation with Docusaurus](https://blog.logrocket.com/easy-documentation-with-docusaurus/) by Anshul Goyal (MLH fellow)
 - [Build Beautiful Documentation Websites with Docusaurus](https://lo-victoria.com/build-beautiful-documentation-websites-with-docusaurus) by Victoria Lo
 
