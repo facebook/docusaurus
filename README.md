@@ -25,6 +25,8 @@
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
+Try Docusaurus on **CodeSandbox** immediately with [new.docusaurus.io](http://new.docusaurus.io/)
+
 - **Simple to Start**
 
 > Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/en/installation/) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
