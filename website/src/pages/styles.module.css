@@ -122,8 +122,21 @@
 
 .indexCtasGitHubButton {
   border: none;
-  margin-left: 24px;
   overflow: hidden;
+}
+
+.indexCtaTryNowButton {
+  line-height: 1.2em;
+  text-decoration: underline;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 36px;
+}
+.indexCtaTryNowButton:hover {
+  color: var(--ifm-color-primary);
 }
 
 @media only screen and (max-width: 768px) {

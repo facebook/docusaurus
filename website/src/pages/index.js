@@ -114,6 +114,11 @@ function Home() {
                 to={useBaseUrl('docs/')}>
                 <Translate>Get Started</Translate>
               </Link>
+              <Link
+                className={styles.indexCtaTryNowButton}
+                to="https://new.docusaurus.io">
+                <Translate>Playground</Translate>
+              </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
                 <iframe
                   className={styles.indexCtasGitHubButton}

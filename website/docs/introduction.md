@@ -20,6 +20,12 @@ Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-v
 - :white_check_mark: You want the full power of React and MDX
 - :white_check_mark: You do not need support for IE11
 
+:::tip
+
+Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+
+:::
+
 **Use [Docusaurus v1](https://docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
@@ -95,9 +101,6 @@ Currently, GitBook is only free for open-source and non-profit teams. Docusaurus
 Jekyll is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! It is extremely simple to get started. We want to bring a similar developer experience as building a static site with Jekyll.
 
 In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. Using modern JavaScript ecosystem tooling, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
-
-:::tip You can easily bootstrap your documentation with Docusaurus on Codesandbox via this [link](https://new.docusaurus.io) 
-:::
 
 ### VuePress
 
