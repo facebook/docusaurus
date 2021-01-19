@@ -108,7 +108,8 @@ VuePress has many similarities with Docusaurus - both focus heavily on content-c
 - [Twitter](https://twitter.com/docusaurus)
 - [Blog](/blog)
 
-:::tip You can easily bootstrap your documentation with Docusaurus on Codesandbox via this [link](https://new.docusaurus.io) 
+
+:::tip You can easily bootstrap your documentation with Docusaurus on Codesandbox via this [link](https://new.docusaurus.io)
 :::
 
 ## Something missing?
