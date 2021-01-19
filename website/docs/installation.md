@@ -26,6 +26,9 @@ npx @docusaurus/init@latest init my-website classic
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
+:::tip You can easily bootstrap your documentation with Docusaurus on Codesandbox via this [link](https://new.docusaurus.io) 
+:::
+
 **[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash

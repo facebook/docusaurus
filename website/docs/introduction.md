@@ -96,6 +96,9 @@ Jekyll is one of the most mature static site generators around and has been a gr
 
 In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. Using modern JavaScript ecosystem tooling, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
 
+:::tip You can easily bootstrap your documentation with Docusaurus on Codesandbox via this [link](https://new.docusaurus.io) 
+:::
+
 ### VuePress
 
 VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you want a Vue-based solution, VuePress would be a decent choice.
