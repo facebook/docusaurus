@@ -1,0 +1,8 @@
+# Server redirects for Netlify
+
+# Redirect to fix blog post url typo on publish :'( can be cleaned up soon
+/blog/2020/01/19/docusaurus-2020-recap            /blog/2021/01/19/docusaurus-2020-recap
+/classic/blog/2020/01/19/docusaurus-2020-recap    /classic/blog/2021/01/19/docusaurus-2020-recap
+
+
+
