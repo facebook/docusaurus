@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Sun, 19 Jan 2020 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 19 Jan 2021 06:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -15,9 +15,9 @@
         <copyright>Copyright © 2021 Facebook Inc.</copyright>
         <item>
             <title><![CDATA[Docusaurus 2020 Recap]]></title>
-            <link>https://docusaurus.io/blog/2020/01/19/docusaurus-2020-recap.html</link>
-            <guid>https://docusaurus.io/blog/2020/01/19/docusaurus-2020-recap.html</guid>
-            <pubDate>Sun, 19 Jan 2020 06:00:00 GMT</pubDate>
+            <link>https://docusaurus.io/blog/2021/01/19/docusaurus-2020-recap.html</link>
+            <guid>https://docusaurus.io/blog/2021/01/19/docusaurus-2020-recap.html</guid>
+            <pubDate>Tue, 19 Jan 2021 06:00:00 GMT</pubDate>
             <description><![CDATA[<p><strong>2020 was great for Docusaurus</strong>, despite <a href="https://docusaurus.io/blog/2020/01/07/tribute-to-endi">a regrettable start</a> and a tumultuous year for everyone.</p>
 <p>We continued to invest in <a href="https://v2.docusaurus.io/">Docusaurus 2</a>, and made it reach <strong>full feature parity</strong> with <a href="https://v1.docusaurus.io/">Docusaurus 1</a>.</p>
 <p>We now <strong>recommend Docusaurus 2</strong> as the <strong>default choice</strong> to start a new Docusaurus project and encourage v1 users to <a href="https://v2.docusaurus.io/docs/migration">migrate to Docusaurus 2</a>.</p>
