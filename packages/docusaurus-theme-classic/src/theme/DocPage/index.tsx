@@ -17,11 +17,12 @@ import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
+import IconArrow from '@theme/IconArrow';
 import {matchPath} from '@docusaurus/router';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {docVersionSearchTag} from '../../utils/searchUtils';
+import {docVersionSearchTag} from '@docusaurus/theme-common';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -97,8 +98,9 @@ function DocPageContent({
                 tabIndex={0}
                 role="button"
                 onKeyDown={toggleSidebar}
-                onClick={toggleSidebar}
-              />
+                onClick={toggleSidebar}>
+                <IconArrow aria-label="Expand sidebar" />
+              </div>
             )}
           </div>
         )}

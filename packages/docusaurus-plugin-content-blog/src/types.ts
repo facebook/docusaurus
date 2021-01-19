@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export type BlogContentPaths = {
+  contentPath: string;
+  contentPathLocalized: string;
+};
+
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
@@ -33,21 +38,27 @@ export interface PluginOptions {
   blogDescription: string;
   blogSidebarCount: number | 'ALL';
   blogSidebarTitle: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  beforeDefaultRehypePlugins: ([Function, object] | Function)[];
-  beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
+  remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
+  beforeDefaultRehypePlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
+  beforeDefaultRemarkPlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type: [FeedType];
+    type?: [FeedType] | null;
     title?: string;
     description?: string;
     copyright: string;
     language?: string;
   };
   editUrl?: string;
-  admonitions: any;
+  admonitions: Record<string, unknown>;
 }
 
 export interface BlogTags {
@@ -121,3 +132,16 @@ export interface TagModule {
   count: number;
   permalink: string;
 }
+
+export type BlogBrokenMarkdownLink = {
+  folderPath: string;
+  filePath: string;
+  link: string;
+};
+export type BlogMarkdownLoaderOptions = {
+  siteDir: string;
+  contentPaths: BlogContentPaths;
+  truncateMarker: RegExp;
+  blogPosts: BlogPost[];
+  onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
+};

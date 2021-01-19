@@ -29,9 +29,15 @@ To serve as an example page when styling markdown based Docusaurus sites.
 
 ## Emphasis
 
+<<<<<<< HEAD
 Emphasis, aka italics, with *asterisks* or _underscores_.
 
 Strong emphasis, aka bold, with **asterisks** or __underscores__.
+=======
+Emphasis, aka italics, with _asterisks_ or _underscores_.
+
+Strong emphasis, aka bold, with **asterisks** or **underscores**.
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
 
 Combined emphasis with **asterisks and _underscores_**.
 
@@ -48,11 +54,19 @@ Strikethrough uses two tildes. ~~Scratch this.~~
    1. Ordered sub-list
 1. And another item.
 
+<<<<<<< HEAD
 * Unordered list can use asterisks
 
 - Or minuses
 
 + Or pluses
+=======
+- Unordered list can use asterisks
+
+* Or minuses
+
+- Or pluses
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
 
 ---
 
@@ -92,7 +106,10 @@ Images from any folder can be used by providing path to file. Path should be rel
 
 ![img](../static/img/logo.svg)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
 ---
 
 ## Code

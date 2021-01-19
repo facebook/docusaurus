@@ -17,7 +17,7 @@
     "alwaysStrict": true,
 
     /* Additional Checks */
-    "noUnusedLocals": true,
+    "noUnusedLocals": false, // ensured by eslint, should not block compilation
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 

@@ -22,6 +22,7 @@ export default function TeamProfileCard({
             <img
               className="avatar__photo avatar__photo--xl"
               src={githubUrl + '.png'}
+              alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">
               <h3 className="avatar__name">{name}</h3>

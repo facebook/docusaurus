@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {Route, withRouter} from 'react-router-dom';
+import {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
@@ -18,7 +19,7 @@ import './nprogress.css';
 nprogress.configure({showSpinner: false});
 
 interface Props {
-  routes: any[];
+  routes: RouteConfig[];
   delay: number;
   location: any;
 }
@@ -104,7 +105,7 @@ class PendingNavigation extends React.Component<Props, State> {
     }
   }
 
-  startProgressBar(delay) {
+  startProgressBar(delay: number) {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({

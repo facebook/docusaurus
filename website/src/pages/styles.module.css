@@ -10,7 +10,7 @@
 }
 
 .sectionAlt {
-  background-color: var(--ifm-color-emphasis-inverse-alpha-30);
+  background-color: var(--ifm-color-emphasis-100);
 }
 
 .sectionInner {
@@ -63,9 +63,10 @@
   margin: 0;
 }
 
-.heroProjectKeywords {
+.heroTitleTextHtml b {
   color: var(--ifm-color-primary);
 }
+
 
 @keyframes jackInTheBox {
   from {

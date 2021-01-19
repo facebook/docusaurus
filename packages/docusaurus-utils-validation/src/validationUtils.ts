@@ -25,7 +25,7 @@ if (isValidationDisabledEscapeHatch) {
   );
 }
 
-export const logValidationBugReportHint = () => {
+export const logValidationBugReportHint = (): void => {
   console.log(
     `\n${chalk.red('A validation error occured.')}${chalk.cyanBright(
       '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +

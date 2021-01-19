@@ -16,9 +16,9 @@ import {
   getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
+  getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -36,6 +36,26 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
+export function getDocusaurusAliases(): Record<string, string> {
+  const dirPath = path.resolve(__dirname, '../client/exports');
+  const extensions = ['.js', '.ts', '.tsx'];
+
+  const aliases = {};
+
+  fs.readdirSync(dirPath)
+    .filter((fileName) => extensions.includes(path.extname(fileName)))
+    .forEach((fileName) => {
+      const fileNameWithoutExtension = path.basename(
+        fileName,
+        path.extname(fileName),
+      );
+      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
+      aliases[aliasName] = path.resolve(dirPath, fileName);
+    });
+
+  return aliases;
+}
+
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
@@ -48,11 +68,6 @@ export function createBaseConfig(
   const minimizeEnabled = minify && isProd && !isServer;
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
-  const customBabelConfigurationPath = path.join(
-    siteDir,
-    BABEL_CONFIG_FILE_NAME,
-  );
-
   const fileLoaderUtils = getFileLoaderUtils();
 
   return {
@@ -62,8 +77,10 @@ export function createBaseConfig(
       futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:8].js' : '[name].js',
+      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: isProd
+        ? 'assets/js/[name].[contenthash:8].js'
+        : '[name].js',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb
@@ -77,7 +94,11 @@ export function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-        '@docusaurus': path.resolve(__dirname, '../client/exports'),
+
+        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
+        // so we use fine-grained aliases instead
+        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        ...getDocusaurusAliases(),
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
@@ -132,18 +153,14 @@ export function createBaseConfig(
       rules: [
         fileLoaderUtils.rules.images(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(
-              isServer,
-              fs.existsSync(customBabelConfigurationPath)
-                ? customBabelConfigurationPath
-                : undefined,
-            ),
+            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
           ].filter(Boolean) as Loader[],
         },
         {
@@ -169,16 +186,16 @@ export function createBaseConfig(
             onlyLocals: isServer,
           }),
         },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,+svgo,+titleProp,+ref![path]',
-        },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        filename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
+        chunkFilename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
         // remove css order warnings if css imports are not sorted alphabetically
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,

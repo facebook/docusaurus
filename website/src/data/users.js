@@ -5,8 +5,45 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
+ *
+ * Instructions
+ * - add your site in the json array below, in alphabetical order of title
+ * - add a local image preview (decent screenshot of your Docusaurus site)
+ *
+ * The image must be added to the Github repository, and use require("image")
+ *
+ * Example PR: https://github.com/facebook/docusaurus/pull/3976
+ *
+ * If you edit this file through the Github interface, you can:
+ * - Submit first your users.js edit PR
+ * - This will create a branch on your Docusaurus fork (usually "patch-1")
+ * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
+ * - Drag-and-drop an image here to add it to your existing PR
+ *
+ */
+
+// prettier-ignore
 const users = [
-  // Please add in alphabetical order of title.
+  {
+    title: 'AgileTs',
+    description: 'Global State and Logic Framework for reactive Applications',
+    preview: require('./showcase/agilets.png'),
+    website: 'https://agile-ts.org/',
+    source: 'https://github.com/agile-ts/documentation',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'AI-Speaker',
+    description: 'Local, reliable, fast and private Audio and IoT gate.',
+    preview: require('./showcase/aispeaker.png'),
+    website: 'https://ai-speaker.com/',
+    source: 'https://github.com/sviete/AIS-WWW',
+    fbOpenSource: false,
+    pinned: false,
+  },
   {
     title: 'Algolia Docsearch',
     description:
@@ -91,6 +128,34 @@ const users = [
     pinned: true,
   },
   {
+    title: 'ConfigCat Feature Flags',
+    description: 'A feature flag and remote configuration service.',
+    preview: require('./showcase/configcat.png'),
+    website: 'https://configcat.com/docs/',
+    source: 'https://github.com/configcat/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Datagit',
+    description:
+      'A persian tutorial website strive to make quality education for everyone.',
+    preview: require('./showcase/datagit.png'),
+    website: 'https://datagit.ir/',
+    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Eightshift Docs',
+    description: 'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
+    preview: require('./showcase/eightshift-docs.png'),
+    website: 'https://infinum.github.io/eightshift-docs/',
+    source: 'https://github.com/infinum/eightshift-docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
@@ -100,6 +165,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'FlexIt Analytics',
+    description: 'Business Intelligence and Data Analytics platform',
+    preview: require('./showcase/flexit.png'),
+    website: 'https://learn.flexitanalytics.com/',
+    source: 'https://github.com/ataft/flexit-docs',
+    fbOpenSource: false,
+    pinned: false,
+  },  
+  {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
     preview: require('./showcase/flux.png'),
@@ -107,6 +181,15 @@ const users = [
     source: 'https://github.com/facebook/flux',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    title: 'FoalTS',
+    description: 'Node.JS framework for building web applications',
+    preview: require('./showcase/foal.png'),
+    website: 'https://foalts.org/',
+    source: 'https://github.com/FoalTS/foal/tree/master/docs',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'GraphQL Code Generator',
@@ -183,11 +266,29 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Nodify',
+    description: 'High-performance WPF node editor component designed for MVVM.',
+    preview: require('./showcase/nodify.png'),
+    website: 'https://miroiu.github.io/nodify/',
+    source: 'https://github.com/miroiu/nodify',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
     website: 'https://oxidizer.rs',
     source: 'https://github.com/oxidizer-rs/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Power\'s Wiki',
+    description: 'An example of personal wiki ',
+    preview: require('./showcase/power.png'),
+    website: 'https://wiki-power.com/',
+    source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
     fbOpenSource: false,
     pinned: false,
   },
@@ -226,6 +327,15 @@ const users = [
     preview: require('./showcase/runlet.png'),
     website: 'https://runlet.app',
     source: 'https://github.com/runletapp/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'SCI WP Framework',
+    description: 'A PHP framework to create MVC plugins for WordPress',
+    preview: require('./showcase/sciwp.png'),
+    website: 'https://sciwp.com/',
+    source: 'https://github.com/sciwp/sciwp-framework',
     fbOpenSource: false,
     pinned: false,
   },
@@ -313,13 +423,23 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Wasp',
+    description:
+      'A DSL for building full-stack web apps with less boilerplate.',
+    preview: require('./showcase/wasp.png'),
+    website: 'https://wasp-lang.dev/',
+    source: 'https://github.com/wasp-lang/wasp',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
 ];
 

@@ -8,9 +8,10 @@
 import React from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import DocsPreferredVersionContextProvider from '../../utils/docsPreferredVersion/DocsPreferredVersionProvider';
+import {DocsPreferredVersionContextProvider} from '@docusaurus/theme-common';
+import {Props} from '@theme/LayoutProviders';
 
-export default function LayoutProviders({children}) {
+export default function LayoutProviders({children}: Props): JSX.Element {
   return (
     <ThemeProvider>
       <UserPreferencesProvider>

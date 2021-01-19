@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadI18n should throw when trying to load undeclared locale 1`] = `
+"It is not possible to load Docusaurus with locale=\\"it\\".
+This locale is not in the available locales of your site configuration: config.i18n.locales=[en,fr,de]
+Note: Docusaurus only support running one local at a time."
+`;

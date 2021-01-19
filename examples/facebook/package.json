@@ -9,7 +9,10 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
+<<<<<<< HEAD
     "clear": "docusaurus clear",
+=======
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
     "ci": "yarn lint && yarn prettier:diff",
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,md}\"",
@@ -19,7 +22,11 @@
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.66",
     "@docusaurus/preset-classic": "2.0.0-alpha.66",
+<<<<<<< HEAD
     "@mdx-js/react": "^1.6.21",
+=======
+    "@mdx-js/react": "^1.5.8",
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
     "clsx": "^1.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -39,7 +46,11 @@
   },
   "browserslist": {
     "production": [
+<<<<<<< HEAD
       ">0.5%",
+=======
+      ">0.2%",
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
       "not dead",
       "not op_mini all"
     ],

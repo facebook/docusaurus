@@ -13,7 +13,10 @@ module.exports = {
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
+<<<<<<< HEAD
   onBrokenMarkdownLinks: 'warn',
+=======
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
@@ -98,6 +101,17 @@ module.exports = {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
             },
+<<<<<<< HEAD
+=======
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
+            },
+>>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
           ],
         },
       ],

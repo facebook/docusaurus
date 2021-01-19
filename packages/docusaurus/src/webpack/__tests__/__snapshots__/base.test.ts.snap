@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getDocusaurusAliases() return appropriate webpack aliases 1`] = `
+Object {
+  "@docusaurus/BrowserOnly": "../../client/exports/BrowserOnly.tsx",
+  "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",
+  "@docusaurus/ExecutionEnvironment": "../../client/exports/ExecutionEnvironment.ts",
+  "@docusaurus/Head": "../../client/exports/Head.tsx",
+  "@docusaurus/Link": "../../client/exports/Link.tsx",
+  "@docusaurus/Noop": "../../client/exports/Noop.ts",
+  "@docusaurus/Translate": "../../client/exports/Translate.tsx",
+  "@docusaurus/constants": "../../client/exports/constants.ts",
+  "@docusaurus/context": "../../client/exports/context.ts",
+  "@docusaurus/isInternalUrl": "../../client/exports/isInternalUrl.ts",
+  "@docusaurus/renderRoutes": "../../client/exports/renderRoutes.ts",
+  "@docusaurus/router": "../../client/exports/router.ts",
+  "@docusaurus/useBaseUrl": "../../client/exports/useBaseUrl.ts",
+  "@docusaurus/useDocusaurusContext": "../../client/exports/useDocusaurusContext.ts",
+  "@docusaurus/useGlobalData": "../../client/exports/useGlobalData.ts",
+}
+`;

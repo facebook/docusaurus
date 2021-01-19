@@ -8,13 +8,21 @@
 import fs from 'fs-extra';
 import path from 'path';
 import admonitions from 'remark-admonitions';
-import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  docuHash,
+  aliasedSitePath,
+  getPluginI18nPath,
+  reportMessage,
+  posixPath,
+  addTrailingPathSeparator,
+} from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
 import {ValidationError} from 'joi';
-import {take, kebabCase} from 'lodash';
+import {flatten, take, kebabCase} from 'lodash';
 
 import {
   PluginOptions,
@@ -24,6 +32,8 @@ import {
   TagsModule,
   BlogPaginated,
   BlogPost,
+  BlogContentPaths,
+  BlogMarkdownLoaderOptions,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -36,7 +46,11 @@ import {
   ValidationResult,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
-import {generateBlogFeed, generateBlogPosts} from './blogUtils';
+import {
+  generateBlogFeed,
+  generateBlogPosts,
+  getContentPathList,
+} from './blogUtils';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -48,8 +62,22 @@ export default function pluginContentBlog(
     ]);
   }
 
-  const {siteDir, generatedFilesDir} = context;
-  const contentPath = path.resolve(siteDir, options.path);
+  const {
+    siteDir,
+    siteConfig: {onBrokenMarkdownLinks},
+    generatedFilesDir,
+    i18n: {currentLocale},
+  } = context;
+
+  const contentPaths: BlogContentPaths = {
+    contentPath: path.resolve(siteDir, options.path),
+    contentPathLocalized: getPluginI18nPath({
+      siteDir,
+      locale: currentLocale,
+      pluginName: 'docusaurus-plugin-content-blog',
+      pluginId: options.id,
+    }),
+  };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
   const pluginDataDirRoot = path.join(
@@ -58,7 +86,7 @@ export default function pluginContentBlog(
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
-    `~blog/${path.relative(pluginDataDirRoot, source)}`;
+    `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   let blogPosts: BlogPost[] = [];
 
@@ -67,8 +95,11 @@ export default function pluginContentBlog(
 
     getPathsToWatch() {
       const {include = []} = options;
-      const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
-      return [...globPattern];
+      return flatten(
+        getContentPathList(contentPaths).map((contentPath) => {
+          return include.map((pattern) => `${contentPath}/${pattern}`);
+        }),
+      );
     },
 
     getClientModules() {
@@ -85,7 +116,7 @@ export default function pluginContentBlog(
     async loadContent() {
       const {postsPerPage, routeBasePath} = options;
 
-      blogPosts = await generateBlogPosts(contentPath, context, options);
+      blogPosts = await generateBlogPosts(contentPaths, context, options);
       if (!blogPosts.length) {
         return null;
       }
@@ -379,6 +410,23 @@ export default function pluginContentBlog(
         beforeDefaultRemarkPlugins,
         beforeDefaultRehypePlugins,
       } = options;
+
+      const markdownLoaderOptions: BlogMarkdownLoaderOptions = {
+        siteDir,
+        contentPaths,
+        truncateMarker,
+        blogPosts,
+        onBrokenMarkdownLink: (brokenMarkdownLink) => {
+          if (onBrokenMarkdownLinks === 'ignore') {
+            return;
+          }
+          reportMessage(
+            `Blog markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath}`,
+            onBrokenMarkdownLinks,
+          );
+        },
+      };
+
       return {
         resolve: {
           alias: {
@@ -389,7 +437,9 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [contentPath],
+              include: getContentPathList(contentPaths)
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+                .map(addTrailingPathSeparator),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
@@ -414,12 +464,7 @@ export default function pluginContentBlog(
                 },
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
-                  options: {
-                    siteDir,
-                    contentPath,
-                    truncateMarker,
-                    blogPosts,
-                  },
+                  options: markdownLoaderOptions,
                 },
               ].filter(Boolean) as Loader[],
             },
@@ -433,7 +478,7 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feed = await generateBlogFeed(context, options);
+      const feed = await generateBlogFeed(contentPaths, context, options);
 
       if (!feed) {
         return;

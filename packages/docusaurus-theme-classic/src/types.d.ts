@@ -144,20 +144,6 @@ declare module '@theme/hooks/useLockBodyScroll' {
   export default useLockBodyScroll;
 }
 
-declare module '@theme/hooks/useLogo' {
-  export type LogoLinkProps = {target?: string; rel?: string};
-
-  export type useLogoReturns = {
-    readonly logoLink: string;
-    readonly logoLinkProps: LogoLinkProps;
-    readonly logoImageUrl: string;
-    readonly logoAlt: string;
-  };
-
-  const useLogo: () => useLogoReturns;
-  export default useLogo;
-}
-
 declare module '@theme/hooks/usePrismTheme' {
   import defaultTheme from 'prism-react-renderer/themes/palenight';
 
@@ -318,6 +304,15 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   export default DefaultNavbarItem;
 }
 
+declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps;
+
+  const LocaleDropdownNavbarItem: (props: Props) => JSX.Element;
+  export default LocaleDropdownNavbarItem;
+}
+
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -361,7 +356,7 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
 
   export type Props =
-    | ({readonly type: 'default'} & DefaultNavbarItemProps)
+    | ({readonly type?: 'default' | undefined} & DefaultNavbarItemProps)
     | ({
         readonly type: 'docsVersionDropdown';
       } & DocsVersionDropdownNavbarItemProps)
@@ -427,14 +422,25 @@ declare module '@theme/ThemeProvider' {
 }
 
 declare module '@theme/TOC' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type TOCProps = {
-    readonly headings: readonly MarkdownRightTableOfContents[];
+    readonly toc: readonly TOCItem[];
   };
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;
+}
+
+declare module '@theme/TOCInline' {
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type TOCInlineProps = {
+    readonly toc: readonly TOCItem[];
+  };
+
+  const TOCInline: (props: TOCInlineProps) => JSX.Element;
+  export default TOCInline;
 }
 
 declare module '@theme/Toggle' {
@@ -454,6 +460,15 @@ declare module '@theme/UserPreferencesProvider' {
   export default UserPreferencesProvider;
 }
 
+declare module '@theme/LayoutProviders' {
+  import type {ReactNode} from 'react';
+
+  export type Props = {readonly children: ReactNode};
+
+  const LayoutProviders: (props: Props) => JSX.Element;
+  export default LayoutProviders;
+}
+
 declare module '@theme/ThemeContext' {
   import type {Context} from 'react';
   import type {ThemeContextProps} from '@theme/hooks/useThemeContext';
@@ -470,4 +485,43 @@ declare module '@theme/UserPreferencesContext' {
     UserPreferencesContextProps | undefined
   >;
   export default UserPreferencesContext;
+}
+
+declare module '@theme/Logo' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = {
+    imageClassName?: string;
+    titleClassName?: string;
+  } & ComponentProps<'a'>;
+
+  const Logo: (props: Props) => JSX.Element;
+  export default Logo;
+}
+
+declare module '@theme/IconArrow' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconArrow: (props: Props) => JSX.Element;
+  export default IconArrow;
+}
+
+declare module '@theme/IconEdit' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconEdit: (props: Props) => JSX.Element;
+  export default IconEdit;
+}
+
+declare module '@theme/IconMenu' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconMenu: (props: Props) => JSX.Element;
+  export default IconMenu;
 }

@@ -66,13 +66,16 @@
 
   .collapseSidebarButton {
     display: block !important;
-    background: url('~!file-loader!../icons/arrow.svg') no-repeat center center;
     background-color: var(--ifm-button-background-color);
     height: 40px;
     position: sticky;
     bottom: 0;
     border-radius: 0;
+  }
+
+  .collapseSidebarButtonIcon {
     transform: rotate(180deg);
+    margin-top: 4px;
   }
 
   html[data-theme='dark'] .collapseSidebarButton {

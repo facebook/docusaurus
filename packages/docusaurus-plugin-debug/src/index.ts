@@ -6,10 +6,10 @@
  */
 
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {docuHash, normalizeUrl} from '@docusaurus/utils';
+import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
 import path from 'path';
 
-export default function pluginContentPages({
+export default function pluginDebug({
   siteConfig: {baseUrl},
   generatedFilesDir,
 }: LoadContext): Plugin<void> {
@@ -18,7 +18,7 @@ export default function pluginContentPages({
     'docusaurus-plugin-debug',
   );
   const aliasedSource = (source: string) =>
-    `~debug/${path.relative(pluginDataDirRoot, source)}`;
+    `~debug/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   return {
     name: 'docusaurus-plugin-debug',

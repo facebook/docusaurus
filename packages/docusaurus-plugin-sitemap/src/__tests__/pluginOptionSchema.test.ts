@@ -59,7 +59,7 @@ describe('normalizeSitemapPluginOptions', () => {
         changefreq: 'annually',
       });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"\\"changefreq\\" must be one of [always, hourly, daily, weekly, monthly, yearly, never]"`,
+      `"\\"changefreq\\" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
     );
   });
 });

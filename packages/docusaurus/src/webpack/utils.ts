@@ -8,11 +8,17 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
+import webpack, {
+  Configuration,
+  Loader,
+  Plugin,
+  RuleSetRule,
+  Stats,
+} from 'webpack';
+import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanCss from 'clean-css';
-import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -20,7 +26,7 @@ import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
-import {STATIC_ASSETS_DIR_NAME} from '../constants';
+import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -67,7 +73,7 @@ export function getStyleLoaders(
             autoprefixer: {
               flexbox: 'no-2009',
             },
-            stage: 3,
+            stage: 4,
           }),
         ],
       },
@@ -93,19 +99,33 @@ export function getCacheLoader(
   };
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): Loader {
-  let options: TransformOptions;
+export function getCustomBabelConfigFilePath(
+  siteDir: string,
+): string | undefined {
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
+  return fs.existsSync(customBabelConfigurationPath)
+    ? customBabelConfigurationPath
+    : undefined;
+}
+
+export function getBabelOptions({
+  isServer,
+  babelOptions,
+}: {
+  isServer?: boolean;
+  babelOptions?: TransformOptions | string;
+} = {}): TransformOptions {
   if (typeof babelOptions === 'string') {
-    options = {
+    return {
       babelrc: false,
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
   } else {
-    options = Object.assign(
+    return Object.assign(
       babelOptions ?? {presets: [require.resolve('../babel/preset')]},
       {
         babelrc: false,
@@ -114,9 +134,15 @@ export function getBabelLoader(
       },
     );
   }
+}
+
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+): Loader {
   return {
     loader: require.resolve('babel-loader'),
-    options,
+    options: getBabelOptions({isServer, babelOptions}),
   };
 }
 
@@ -172,22 +198,24 @@ function filterWarnings(
   return warnings.filter((warning) => !isWarningFiltered(warning));
 }
 
-export function compile(config: Configuration[]): Promise<void> {
+export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        reject(err);
+        reject(new Error(err.toString()));
       }
-      if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
+      // let plugins consume all the stats
+      const allStats = stats?.toJson('errors-warnings');
+      if (stats?.hasErrors()) {
+        allStats.errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
-      if (stats.hasWarnings()) {
+      if (stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let {warnings} = stats.toJson('errors-warnings');
+        let warnings = [...allStats.warnings];
 
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as WarningFilter[];
@@ -200,7 +228,7 @@ export function compile(config: Configuration[]): Promise<void> {
           console.warn(warning);
         });
       }
-      resolve();
+      resolve(allStats);
     });
   });
 }
@@ -208,7 +236,7 @@ export function compile(config: Configuration[]): Promise<void> {
 type AssetFolder = 'images' | 'files' | 'medias';
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils() {
+export function getFileLoaderUtils(): Record<string, any> {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
@@ -269,6 +297,38 @@ export function getFileLoaderUtils() {
       return {
         use: [loaders.url({folder: 'medias'})],
         test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+      };
+    },
+
+    svg: (): RuleSetRule => {
+      return {
+        test: /\.svg?$/,
+        oneOf: [
+          {
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: {
+                  prettier: false,
+                  svgo: true,
+                  svgoConfig: {
+                    plugins: [{removeViewBox: false}],
+                  },
+                  titleProp: true,
+                  ref: ![path],
+                },
+              },
+            ],
+            // We don't want to use SVGR loader for non-React source code
+            // ie we don't want to use SVGR for CSS files...
+            issuer: {
+              test: /\.(ts|tsx|js|jsx|md|mdx)$/,
+            },
+          },
+          {
+            use: [loaders.url({folder: 'images'})],
+          },
+        ],
       };
     },
 
@@ -355,7 +415,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false) {
+export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
   const minimizer = [
     new TerserPlugin({
       cache: true,
@@ -407,6 +467,7 @@ export function getMinimizer(useSimpleCssMinifier = false) {
         new OptimizeCSSAssetsPlugin({
           cssProcessor: CleanCss,
           cssProcessorOptions: {
+            inline: false,
             level: {
               1: {
                 all: false,
@@ -414,6 +475,7 @@ export function getMinimizer(useSimpleCssMinifier = false) {
               2: {
                 all: true,
                 restructureRules: true,
+                removeUnusedAtRules: false,
               },
             },
           },

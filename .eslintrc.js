@@ -76,13 +76,15 @@ module.exports = {
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
     'react-hooks/rules-of-hooks': ERROR,
+    'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
     'no-lonely-if': WARNING,
-    'no-use-before-define': [
+    'no-use-before-define': OFF,
+    '@typescript-eslint/no-use-before-define': [
       ERROR,
       {functions: false, classes: false, variables: true},
     ],
@@ -114,6 +116,11 @@ module.exports = {
     'no-empty': WARNING,
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
+    'no-undef': OFF,
+    'no-shadow': OFF,
+    '@typescript-eslint/no-shadow': ERROR,
+    'no-redeclare': OFF,
+    '@typescript-eslint/no-redeclare': ERROR,
   },
   overrides: [
     {

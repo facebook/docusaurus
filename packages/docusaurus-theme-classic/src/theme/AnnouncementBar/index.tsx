@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useThemeConfig from '../../utils/useThemeConfig';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import styles from './styles.module.css';

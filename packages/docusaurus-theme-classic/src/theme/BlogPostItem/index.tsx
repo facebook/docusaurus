@@ -102,7 +102,7 @@ function BlogPostItem(props: Props): JSX.Element {
           <meta name="keywords" content={keywords.join(',')} />
         )}
         {image && <meta property="og:image" content={imageUrl} />}
-        {image && <meta property="twitter:image" content={imageUrl} />}
+        {image && <meta name="twitter:image" content={imageUrl} />}
         {image && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}

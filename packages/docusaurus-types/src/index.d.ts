@@ -7,19 +7,25 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {Loader, Configuration} from 'webpack';
+import {Loader, Configuration, Stats} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
+export type ThemeConfig = {
+  [key: string]: unknown;
+};
+
 export interface DocusaurusConfig {
   baseUrl: string;
+  baseUrlIssueBanner: boolean;
   favicon: string;
   tagline?: string;
   title: string;
   url: string;
+  i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
@@ -30,9 +36,7 @@ export interface DocusaurusConfig {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
-  themeConfig?: {
-    [key: string]: unknown;
-  };
+  themeConfig: ThemeConfig;
   customFields?: {
     [key: string]: unknown;
   };
@@ -77,10 +81,37 @@ export interface DocusaurusSiteMetadata {
   readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
 }
 
+// Inspired by Chrome JSON, because it's a widely supported i18n format
+// https://developer.chrome.com/apps/i18n-messages
+// https://support.crowdin.com/file-formats/chrome-json/
+// https://www.applanga.com/docs/formats/chrome_i18n_json
+// https://docs.transifex.com/formats/chrome-json
+// https://help.phrase.com/help/chrome-json-messages
+export type TranslationMessage = {message: string; description?: string};
+export type TranslationFileContent = Record<string, TranslationMessage>;
+export type TranslationFile = {path: string; content: TranslationFileContent};
+export type TranslationFiles = TranslationFile[];
+
+export type I18nLocaleConfig = {
+  label: string;
+};
+
+export type I18nConfig = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  localeConfigs: Record<string, I18nLocaleConfig>;
+};
+
+export type I18n = I18nConfig & {
+  currentLocale: string;
+};
+
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
   globalData: Record<string, any>;
+  i18n: I18n;
+  codeTranslations: Record<string, string>;
   isClient: boolean;
 }
 
@@ -103,6 +134,7 @@ export type StartCLIOptions = HostPortCLIOptions & {
   hotOnly: boolean;
   open: boolean;
   poll: boolean | number;
+  locale?: string;
 };
 
 export type ServeCLIOptions = HostPortCLIOptions & {
@@ -110,12 +142,16 @@ export type ServeCLIOptions = HostPortCLIOptions & {
   dir: string;
 };
 
-export interface BuildCLIOptions {
+export type BuildOptions = {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
   skipBuild: boolean;
-}
+};
+
+export type BuildCLIOptions = BuildOptions & {
+  locale?: string;
+};
 
 export interface LoadContext {
   siteDir: string;
@@ -123,7 +159,9 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
+  i18n: I18n;
   ssrTemplate?: string;
+  codeTranslations: Record<string, string>;
 }
 
 export interface InjectedHtmlTags {
@@ -138,6 +176,13 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   routes: RouteConfig[];
   routesPaths: string[];
   plugins: Plugin<any, unknown>[];
+}
+
+/**
+ * Same as `Props` but also has webpack stats appended.
+ */
+export interface PropsPostBuild extends Props {
+  stats: Stats.ToJsonOutput;
 }
 
 export interface PluginContentLoadedActions {
@@ -168,7 +213,7 @@ export interface Plugin<T, U = unknown> {
     actions: PluginContentLoadedActions;
   }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?(props: Props): void;
+  postBuild?(props: PropsPostBuild): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
@@ -186,6 +231,24 @@ export interface Plugin<T, U = unknown> {
     postBodyTags?: HtmlTags;
   };
   getSwizzleComponentList?(): string[];
+  // TODO before/afterDevServer implementation
+
+  // translations
+  getTranslationFiles?(): Promise<TranslationFiles>;
+  translateContent?({
+    content,
+    translationFiles,
+  }: {
+    content: T; // the content loaded by this plugin instance
+    translationFiles: TranslationFiles;
+  }): T;
+  translateThemeConfig?({
+    themeConfig,
+    translationFiles,
+  }: {
+    themeConfig: ThemeConfig;
+    translationFiles: TranslationFiles;
+  }): ThemeConfig;
 }
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
@@ -286,13 +349,16 @@ export interface ThemeConfigValidationContext<T, E extends Error = Error> {
 
 // TODO we should use a Joi type here
 export interface ValidationSchema<T> {
-  validate(options: Partial<T>, opt: object): ValidationResult<T>;
+  validate(
+    options: Partial<T>,
+    opt: Record<string, unknown>,
+  ): ValidationResult<T>;
   unknown(): ValidationSchema<T>;
   append(data: any): ValidationSchema<T>;
 }
 
-export interface MarkdownRightTableOfContents {
+export interface TOCItem {
   readonly value: string;
   readonly id: string;
-  readonly children: MarkdownRightTableOfContents[];
+  readonly children: TOCItem[];
 }

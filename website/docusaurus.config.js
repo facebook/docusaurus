@@ -47,8 +47,21 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl,
+  baseUrlIssueBanner: true,
   url: 'https://v2.docusaurus.io',
-  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    },
+  },
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
@@ -64,6 +77,7 @@ module.exports = {
         id: 'community',
         path: 'community',
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editCurrentVersion: true,
         routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
@@ -192,20 +206,21 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
+          editCurrentVersion: true,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
           disableVersioning: isVersioningDisabled,
-          lastVersion: 'current',
+          lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
             !isVersioningDisabled && (isDev || isDeployPreview)
               ? ['current', ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} (unreleased)`,
+              label: `${getNextAlphaVersionName()} 🚧`,
             },
           },
         },
@@ -298,6 +313,7 @@ module.exports = {
             },
           ],
         },
+        // {type: 'localeDropdown', position: 'right'},
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
@@ -322,7 +338,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
+              to: 'docs/migration',
             },
           ],
         },
@@ -382,6 +398,14 @@ module.exports = {
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
+            },
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
             },
           ],
         },

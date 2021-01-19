@@ -50,9 +50,13 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
+:::info
+
 In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
+
+:::
 
 Example:
 
@@ -90,16 +94,22 @@ Optional parameters, also set as environment variables:
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 | `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
 
+GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment veriable:
+
+| Name          | Description                                     |
+| ------------- | ----------------------------------------------- |
+| `GITHUB_HOST` | The domain name of your GitHub enterprise site. |
+
 ### Deploy
 
 Finally, to deploy your site to GitHub Pages, run:
 
-<Tabs 
+<Tabs
   defaultValue="bash"
-  values={[ 
+  values={[
     { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }, 
-    { label: 'PowerShell', value: 'powershell' } 
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
 ]}>
 <TabItem value="bash">
 
@@ -346,21 +356,7 @@ After your project has been imported, all subsequent pushes to branches will gen
 
 ## Deploying to Render
 
-Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Deploy your app in just a few minutes by following these steps.
-
-1. Create a new **Web Service** on Render, and give Render permission to access your Docusaurus repo.
-
-1. Select the branch to deploy. The default is `master`.
-
-1. Enter the following values during creation.
-
-   | Field                 | Value         |
-   | --------------------- | ------------- |
-   | **Environment**       | `Static Site` |
-   | **Build Command**     | `yarn build`  |
-   | **Publish Directory** | `build`       |
-
-That's it! Your app will be live on your Render URL as soon as the build finishes.
+[Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
 
 ## Deploying to Surge
 

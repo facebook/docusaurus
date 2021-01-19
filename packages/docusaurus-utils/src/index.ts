@@ -14,10 +14,15 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {ReportingSeverity} from '@docusaurus/types';
+import {
+  ReportingSeverity,
+  TranslationFileContent,
+  TranslationFile,
+} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
+import {mapValues} from 'lodash';
 
 const fileHash = new Map();
 export async function generate(
@@ -135,6 +140,17 @@ export function posixPath(str: string): string {
   return str.replace(/\\/g, '/');
 }
 
+// When you want to display a path in a message/warning/error,
+// it's more convenient to:
+// - make it relative to cwd()
+// - convert to posix (ie not using windows \ path separator)
+// This way, Jest tests can run more reliably on any computer/CI
+// on both Unix/Windows
+// For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
+export function toMessageRelativeFilePath(filePath: string) {
+  return posixPath(path.relative(process.cwd(), filePath));
+}
+
 const chunkNameCache = new Map();
 /**
  * Generate unique chunk name given a module path.
@@ -199,7 +215,7 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     // Skip import/export declaration.
-    if (/^.*import\s.*from.*;?|export\s.*{.*};?/.test(fileLine)) {
+    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
       continue;
     }
 
@@ -261,7 +277,7 @@ export function parseMarkdownString(markdownString: string): ParsedMarkdown {
     return {frontMatter, content, excerpt};
   } catch (e) {
     throw new Error(`Error while parsing markdown front matter.
-This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+This can happen if you use special characters like : in frontmatter values (try using "" around that value)
 ${e.message}`);
   }
 }
@@ -360,7 +376,7 @@ export function normalizeUrl(rawUrls: string[]): string {
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
 export function aliasedSitePath(filePath: string, siteDir: string): string {
-  const relativePath = path.relative(siteDir, filePath);
+  const relativePath = posixPath(path.relative(siteDir, filePath));
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
@@ -389,7 +405,7 @@ export function isValidPathname(str: string): boolean {
 }
 
 // resolve pathname and fail fast if resolution fails
-export function resolvePathname(to: string, from?: string) {
+export function resolvePathname(to: string, from?: string): string {
   return resolvePathnameUnsafe(to, from);
 }
 export function addLeadingSlash(str: string): string {
@@ -397,6 +413,9 @@ export function addLeadingSlash(str: string): string {
 }
 export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
+}
+export function addTrailingPathSeparator(str: string): string {
+  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
 }
 
 export function removeTrailingSlash(str: string): string {
@@ -439,6 +458,89 @@ export function getElementsAround<T extends unknown>(
   return {previous, next};
 }
 
+export function getPluginI18nPath({
+  siteDir,
+  locale,
+  pluginName,
+  pluginId = 'default', // TODO duplicated constant
+  subPaths = [],
+}: {
+  siteDir: string;
+  locale: string;
+  pluginName: string;
+  pluginId?: string | undefined;
+  subPaths?: string[];
+}): string {
+  return path.join(
+    siteDir,
+    'i18n',
+    // namespace first by locale: convenient to work in a single folder for a translator
+    locale,
+    // Make it convenient to use for single-instance
+    // ie: return "docs", not "docs-default" nor "docs/default"
+    `${pluginName}${
+      // TODO duplicate constant :(
+      pluginId === 'default' ? '' : `-${pluginId}`
+    }`,
+    ...subPaths,
+  );
+}
+
+export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+  array: T[],
+  action: (t: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await action(t);
+    results.push(result);
+  }
+  return results;
+}
+
+export async function findAsyncSequential<T>(
+  array: T[],
+  predicate: (t: T) => Promise<boolean>,
+): Promise<T | undefined> {
+  for (const t of array) {
+    // eslint-disable-next-line no-await-in-loop
+    if (await predicate(t)) {
+      return t;
+    }
+  }
+  return undefined;
+}
+
+// return the  first folder path in which the file exists in
+export async function findFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string | undefined> {
+  return findAsyncSequential(folderPaths, (folderPath) =>
+    fs.pathExists(path.join(folderPath, relativeFilePath)),
+  );
+}
+
+export async function getFolderContainingFile(
+  folderPaths: string[],
+  relativeFilePath: string,
+): Promise<string> {
+  const maybeFolderPath = await findFolderContainingFile(
+    folderPaths,
+    relativeFilePath,
+  );
+  // should never happen, as the source was read from the FS anyway...
+  if (!maybeFolderPath) {
+    throw new Error(
+      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+        '\n- ',
+      )}]`,
+    );
+  }
+  return maybeFolderPath;
+}
+
 export function reportMessage(
   message: string,
   reportingSeverity: ReportingSeverity,
@@ -464,6 +566,14 @@ export function reportMessage(
   }
 }
 
+export function mergeTranslations(
+  contents: TranslationFileContent[],
+): TranslationFileContent {
+  return contents.reduce((acc, content) => {
+    return {...acc, ...content};
+  }, {});
+}
+
 export function getSwizzledComponent(
   componentPath: string,
 ): string | undefined {
@@ -476,4 +586,19 @@ export function getSwizzledComponent(
   return fs.existsSync(swizzledComponentPath)
     ? swizzledComponentPath
     : undefined;
+}
+
+// Useful to update all the messages of a translation file
+// Used in tests to simulate translations
+export function updateTranslationFileMessages(
+  translationFile: TranslationFile,
+  updateMessage: (message: string) => string,
+): TranslationFile {
+  return {
+    ...translationFile,
+    content: mapValues(translationFile.content, (translation) => ({
+      ...translation,
+      message: updateMessage(translation.message),
+    })),
+  };
 }

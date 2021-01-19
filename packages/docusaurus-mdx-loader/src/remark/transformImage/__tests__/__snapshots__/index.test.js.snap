@@ -18,6 +18,8 @@ exports[`transformImage plugin transform md images to <img /> 1`] = `
 
 <img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img.png\\").default} />
 
+<img alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title=\\"&#39;Quoted&#39; title\\" />
+
 ## Heading
 
 \`\`\`md

@@ -18,14 +18,14 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <h4 className="pagination-nav__label">&laquo; Newer Entries</h4>
+            <div className="pagination-nav__label">&laquo; Newer Entries</div>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <h4 className="pagination-nav__label">Older Entries &raquo;</h4>
+            <div className="pagination-nav__label">Older Entries &raquo;</div>
           </Link>
         )}
       </div>
