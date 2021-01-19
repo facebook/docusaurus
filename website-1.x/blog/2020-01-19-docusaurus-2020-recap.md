@@ -17,13 +17,15 @@ We now **recommend Docusaurus 2** as the **default choice** to start a new Docus
 
 We are **still in alpha**, but expect **some good news very soon**!
 
+![Docusaurus v1 vs v2 npm trends](/img/blog/2020-recap/docusaurus-plushie-banner.jpeg)
+
 <!--truncate-->
 
 ## Docusaurus 2 highlights
 
 We have worked on many features this year, and would like to highlight the most significant ones:
 
-- **i18n**: easily translate your Docusaurus site, released soon! ([preview](https://github.com/facebook/docusaurus/pull/3325))
+- **i18n**: easily translate your Docusaurus site, released soon! ([preview](https://github.com/facebook/docusaurus/pull/3325), [doc](https://v2.docusaurus.io/docs/next/i18n/introduction))
 - **Version dropdown**: enable contextual version switch
 - **Versioning options**: solving the most common pain-points users had with versioning
 - **Contextual search**: search in the current version, use the brand-new DocSearch 3 experience
