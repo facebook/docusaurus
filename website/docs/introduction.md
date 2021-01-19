@@ -20,6 +20,12 @@ Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-v
 - :white_check_mark: You want the full power of React and MDX
 - :white_check_mark: You do not need support for IE11
 
+:::tip
+
+Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+
+:::
+
 **Use [Docusaurus v1](https://docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
