@@ -15,11 +15,7 @@
     "start:v2:baseUrl": "yarn workspace docusaurus-2-website start:baseUrl",
     "start:v2:bootstrap": "yarn workspace docusaurus-2-website start:bootstrap",
     "start:v2:blogOnly": "yarn workspace docusaurus-2-website start:blogOnly",
-<<<<<<< HEAD
-    "examples:generate": "node codesandboxscript",
-=======
     "examples:generate": "node generateExamples",
->>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
     "build": "yarn build:packages && yarn build:v2",
     "build:packages": "lerna run build --no-private",
     "build:v1": "yarn workspace docusaurus-1-website build",
@@ -51,7 +47,7 @@
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel --no-private watch",
-    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus",
+    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec --ignore docusaurus yarn rimraf lib",
     "test:v1Migration:migrate": "rimraf website-1.x-migrated && docusaurus-migrate migrate ./website-1.x ./website-1.x-migrated && sed -i -- 's/docusaurus-1-website/docusaurus-1-website-migrated/g;' website-1.x-migrated/package.json",
     "test:v1Migration:start": "yarn workspace docusaurus-1-website-migrated start",
     "test:v1Migration:build": "yarn workspace docusaurus-1-website-migrated build",
@@ -66,13 +62,6 @@
     "lock:update": "npx yarn-deduplicate"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@babel/cli": "^7.9.0",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/preset-typescript": "^7.9.0",
-=======
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
@@ -80,7 +69,6 @@
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
     "@crowdin/cli": "^3.5.2",
->>>>>>> 458bf67484ff840686fa7976b7ed64b560174e45
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^9.0.4",
     "@types/inquirer": "^6.5.0",
