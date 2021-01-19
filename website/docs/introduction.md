@@ -50,10 +50,10 @@ Docusaurus is built with high attention to your experience building your site an
   - Extend and customize with React
   - Gain full control of your site's browsing experience by `swizzling` in your own components
 - **Pluggable**
-  - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community
+  - Bootstrap your site with a basic theme, then pick and plug functionalities built by us and our community
   - Open source your plugins to share with your fellow documentarians, because sharing is caring
 - ✂️ **Developer experience**
-  - Multiple bootstrapping templates to get your site up and running, start writing your docs right now
+  - Multiple bootstrapping themes to get your site up and running, start writing your docs right now
   - Universal configuration entry point to make it more maintainable by contributors
   - Hot reloading with lightning fast incremental build on changes
   - Route-based code and data splitting
