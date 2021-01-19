@@ -2,12 +2,28 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2020-01-07T06:00:00.000Z</updated>
+    <updated>2020-01-19T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2021 Facebook Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[Docusaurus 2020 Recap]]></title>
+        <id>https://docusaurus.io/blog/2020/01/19/docusaurus-2020-recap.html</id>
+        <link href="https://docusaurus.io/blog/2020/01/19/docusaurus-2020-recap.html"/>
+        <updated>2020-01-19T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p><strong>2020 was great for Docusaurus</strong>, despite <a href="https://docusaurus.io/blog/2020/01/07/tribute-to-endi">a regrettable start</a> and a tumultuous year for everyone.</p>
+<p>We continued to invest in <a href="https://v2.docusaurus.io/">Docusaurus 2</a>, and made it reach <strong>full feature parity</strong> with <a href="https://v1.docusaurus.io/">Docusaurus 1</a>.</p>
+<p>We now <strong>recommend Docusaurus 2</strong> as the <strong>default choice</strong> to start a new Docusaurus project and encourage v1 users to <a href="https://v2.docusaurus.io/docs/migration">migrate to Docusaurus 2</a>.</p>
+<p>We are <strong>still in alpha</strong>, but expect <strong>some good news very soon</strong>!</p>
+<p><img src="/img/blog/2020-recap/docusaurus-plushie-banner.jpeg" alt="Docusaurus v1 vs v2 npm trends"></p>
+]]></summary>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Tribute to Endi]]></title>
         <id>https://docusaurus.io/blog/2020/01/07/tribute-to-endi.html</id>
