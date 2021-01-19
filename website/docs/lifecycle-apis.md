@@ -346,6 +346,21 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
+## `configureDevServer(props)`
+
+Called through Webpack Dev Server's `before` and `after` callbacks. This allows you to add custom Express middleware to the development server, as well as access the dev server object and webpack Compiler object.
+
+For more information, see [`before`](https://webpack.js.org/configuration/dev-server/#devserverbefore) and [`after`](https://webpack.js.org/configuration/dev-server/#devserverafter) functions documentation.
+
+```ts
+type ConfigureDevServerProps = {
+  isAfter: boolean;
+  app: express.Application;
+  server: WebpackDevServer;
+  compiler: webpack.Compiler;
+};
+```
+
 ## `postBuild(props)`
 
 Called when a (production) build finishes.
@@ -606,14 +621,18 @@ module.exports = function (context, opts) {
       // docusaurus <start> finish
     },
 
-    // TODO
-    afterDevServer(app, server) {
+    configureDevServer({isAfter, app, server, compiler}) {
+      // Allows you to configure the dev server before and after other middleware,
+      // see the following resources:
       // https://webpack.js.org/configuration/dev-server/#devserverbefore
-    },
-
-    // TODO
-    beforeDevServer(app, server) {
       // https://webpack.js.org/configuration/dev-server/#devserverafter
+
+      if (!isAfter) {
+        app.use(function timeLoggerExampleMiddleware(req, res, next) {
+          console.log('Time:', Date.now());
+          next();
+        });
+      }
     },
 
     configureWebpack(config, isServer) {

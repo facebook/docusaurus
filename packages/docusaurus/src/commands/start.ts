@@ -20,7 +20,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
-import {StartCLIOptions} from '@docusaurus/types';
+import {StartCLIOptions, Props} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
@@ -35,7 +35,7 @@ export default async function start(
   process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
-  function loadSite() {
+  function loadSite(): Promise<Props> {
     return load(siteDir, {
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
@@ -177,7 +177,7 @@ export default async function start(
       // Disable overlay on browser since we use CRA's overlay error reporting.
       overlay: false,
       host,
-      before: (app, server) => {
+      before: (app, server, compiler) => {
         app.use(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
@@ -188,7 +188,26 @@ export default async function start(
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
 
-        // TODO: add plugins beforeDevServer and afterDevServer hook
+        // Plugin Lifecycle - configureDevServer.
+        plugins.forEach((plugin) => {
+          const {configureDevServer} = plugin;
+          if (!configureDevServer) {
+            return;
+          }
+
+          configureDevServer({isAfter: false, app, server, compiler});
+        });
+      },
+      after: (app, server, compiler) => {
+        // Plugin Lifecycle - configureDevServer.
+        plugins.forEach((plugin) => {
+          const {configureDevServer} = plugin;
+          if (!configureDevServer) {
+            return;
+          }
+
+          configureDevServer({isAfter: true, app, server, compiler});
+        });
       },
     },
     ...config.devServer,

@@ -30,7 +30,8 @@
     "esModuleInterop": true,
 
     /* Advanced Options */
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }

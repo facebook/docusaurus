@@ -7,8 +7,10 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {Loader, Configuration, Stats} from 'webpack';
+import {Compiler, Loader, Configuration, Stats} from 'webpack';
 import {Command} from 'commander';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {Application as ExpressApplication} from 'express';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
 
@@ -220,6 +222,17 @@ export interface Plugin<T, U = unknown> {
     isServer: boolean,
     utils: ConfigureWebpackUtils,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  configureDevServer?({
+    isAfter,
+    app,
+    server,
+    compiler,
+  }: {
+    isAfter: boolean;
+    app: ExpressApplication;
+    server: any;
+    compiler: Compiler;
+  }): void;
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
