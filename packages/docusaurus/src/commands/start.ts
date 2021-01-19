@@ -195,7 +195,12 @@ export default async function start(
             return;
           }
 
-          configureDevServer({isAfter: false, app, server, compiler});
+          configureDevServer.call(plugin, {
+            isAfter: false,
+            app,
+            server,
+            compiler,
+          });
         });
       },
       after: (app, server, compiler) => {
@@ -206,7 +211,12 @@ export default async function start(
             return;
           }
 
-          configureDevServer({isAfter: true, app, server, compiler});
+          configureDevServer.call(plugin, {
+            isAfter: true,
+            app,
+            server,
+            compiler,
+          });
         });
       },
     },
