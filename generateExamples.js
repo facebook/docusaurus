@@ -24,7 +24,7 @@ function generateTemplateExample(template) {
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
-      `npx @docusaurus/init@next init examples/${template} ${template}`,
+      `npx @docusaurus/init@latest init examples/${template} ${template}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
       {
         stdio: 'inherit',
@@ -50,7 +50,7 @@ function generateTemplateExample(template) {
       infiniteLoopProtection: true,
       hardReloadOnChange: true,
       view: 'browser',
-      template: 'node',
+      template: 'docusaurus',
     };
 
     writeFileSync(
