@@ -306,8 +306,12 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 
 declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
 
-  export type Props = DefaultNavbarItemProps;
+  export type Props = DefaultNavbarItemProps & {
+    readonly dropdownItemsBefore: NavLinkProps[];
+    readonly dropdownItemsAfter: NavLinkProps[];
+  };
 
   const LocaleDropdownNavbarItem: (props: Props) => JSX.Element;
   export default LocaleDropdownNavbarItem;
@@ -319,9 +323,9 @@ declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
 
   export type Props = DefaultNavbarItemProps & {
     readonly docsPluginId?: string;
-    dropdownActiveClassDisabled?: boolean;
-    dropdownItemsBefore: NavLinkProps[];
-    dropdownItemsAfter: NavLinkProps[];
+    readonly dropdownActiveClassDisabled?: boolean;
+    readonly dropdownItemsBefore: NavLinkProps[];
+    readonly dropdownItemsAfter: NavLinkProps[];
   };
 
   const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;

@@ -147,6 +147,7 @@ Markdown documents can use the following markdown frontmmatter metadata fields, 
 - `keywords`: Keywords meta tag for the document page, for search engines.
 - `description`: The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
+- `slug`: Allows to customize the document url
 
 Example:
 
@@ -163,6 +164,38 @@ keywords:
   - docs
   - docusaurus
 image: https://i.imgur.com/mErPwqL.png
+slug: /myDoc
 ---
 My Document Markdown content
+```
+
+## i18n
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location
+
+- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
+
+### Example file-system structure
+
+```bash
+website/i18n/<locale>/docusaurus-plugin-content-docs
+│
+│ # translations for website/docs
+├── current
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+├── current.json
+│
+│ # translations for website/versioned_docs/version-1.0.0
+├── version-1.0.0
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+└── version-1.0.0.json
 ```

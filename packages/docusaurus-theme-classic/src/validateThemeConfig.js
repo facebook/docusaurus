@@ -99,6 +99,8 @@ const DocItemSchema = Joi.object({
 const LocaleDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('localeDropdown').required(),
   position: NavbarItemPosition,
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
 });
 
 // Can this be made easier? :/

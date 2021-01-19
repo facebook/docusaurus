@@ -28,6 +28,7 @@
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
+    "@crowdin/cli": "^3.5.2",
     "@docusaurus/core": "2.0.0-alpha.70",
     "@docusaurus/plugin-client-redirects": "2.0.0-alpha.70",
     "@docusaurus/plugin-ideal-image": "2.0.0-alpha.70",

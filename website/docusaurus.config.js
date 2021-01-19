@@ -313,7 +313,16 @@ module.exports = {
             },
           ],
         },
-        // {type: 'localeDropdown', position: 'right'},
+        {
+          type: 'localeDropdown',
+          position: 'right',
+          dropdownItemsAfter: [
+            {
+              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              label: 'Help Us Translate',
+            },
+          ],
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',

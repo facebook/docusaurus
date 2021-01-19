@@ -13,7 +13,7 @@ We highly encourage you to **use Docusaurus v2 over Docusaurus v1**.
 
 Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)), including [React Native](https://reactnative.dev), [Redux](https://redux.js.org/) and [many others](/showcase).
 
-**Use **Docusaurus v2** if:**
+**Use Docusaurus v2 if:**
 
 - :white_check_mark: You want a modern Jamstack documentation site
 - :white_check_mark: You want a single-page application (SPA) with client-side routing
