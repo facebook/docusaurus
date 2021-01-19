@@ -189,6 +189,7 @@ Example:
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
+    hideableSidebar: false,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
