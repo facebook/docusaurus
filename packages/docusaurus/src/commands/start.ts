@@ -11,6 +11,7 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import debounce from 'lodash/debounce';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
@@ -61,7 +62,7 @@ export default async function start(
   console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
 
   // Reload files processing.
-  const reload = () => {
+  const reload = debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
@@ -72,7 +73,7 @@ export default async function start(
       .catch((err) => {
         console.error(chalk.red(err.stack));
       });
-  };
+  }, 500);
   const {siteConfig, plugins = []} = props;
 
   const normalizeToSiteDir = (filepath) => {
