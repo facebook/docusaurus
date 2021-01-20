@@ -39,6 +39,20 @@ function generateTemplateExample(template) {
     // attach the dev script which would be used in code sandbox by default
     templatePackageJson.scripts.dev = 'docusaurus start';
 
+    // these example projects are not meant to be published to npm
+    templatePackageJson.private = true;
+
+    // make sure package.json name is not "examples-classic"
+    // the package.json name appear in CodeSandbox UI so let's display a good name!
+    // unfortunately we can't use uppercase or spaces
+    // see also https://github.com/codesandbox/codesandbox-client/pull/5136#issuecomment-763521662
+    templatePackageJson.name =
+      template === 'classic' ? 'docusaurus' : `docusaurus-${template}`;
+    templatePackageJson.description =
+      template === 'classic'
+        ? 'Docusaurus example project'
+        : `Docusaurus example project (${template} template)`;
+
     // rewrite the package.json file with the new edit
     writeFileSync(
       `./examples/${template}/package.json`,
@@ -65,8 +79,10 @@ function generateTemplateExample(template) {
   }
 }
 
-// delete the examples directory if it exists
-rimraf.sync('./examples');
+// delete the examples directories if they exists
+rimraf.sync('./examples/classic');
+rimraf.sync('./examples/facebook');
+rimraf.sync('./examples/bootstrap');
 
 // get the list of all available templates
 readdir('./packages/docusaurus-init/templates', (err, data) => {

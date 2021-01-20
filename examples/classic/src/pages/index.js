@@ -54,7 +54,7 @@ function Feature({imageUrl, title, description}) {
   );
 }
 
-export default function Home() {
+function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   return (
@@ -93,3 +93,5 @@ export default function Home() {
     </Layout>
   );
 }
+
+export default Home;
