@@ -46,13 +46,9 @@ export function getStyleLoaders(
     ];
   }
 
-  const isProd = process.env.NODE_ENV === 'production';
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
-      options: {
-        hmr: !isProd,
-      },
     },
     {
       loader: require.resolve('css-loader'),
