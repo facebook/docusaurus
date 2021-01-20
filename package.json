@@ -1,5 +1,5 @@
 {
-  "name": "examples-classic",
+  "name": "docusaurus",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -31,5 +31,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Docusaurus example project"
 }
