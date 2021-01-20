@@ -1,5 +1,5 @@
 {
-  "name": "examples-bootstrap",
+  "name": "docusaurus-bootstrap",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -30,5 +30,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Docusaurus example project (bootstrap template)"
 }
