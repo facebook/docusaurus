@@ -3,6 +3,8 @@ id: configuration
 title: Configuration
 ---
 
+import TOCInline from '@theme/TOCInline';
+
 Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We guard the fields of this file, and facilitate making this data object accessible across your site.
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize the site.
@@ -13,14 +15,7 @@ You should not have to write your `docusaurus.config.js` from scratch even if yo
 
 However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
 
-The high-level overview of Docusaurus configuration can be categorized into:
-
-- [What goes into a `docusaurus.config.js`?](#what-goes-into-a-docusaurusconfigjs)
-  - [Site metadata](#site-metadata)
-  - [Deployment configurations](#deployment-configurations)
-  - [Theme, plugin, and preset configurations](#theme-plugin-and-preset-configurations)
-  - [Custom configurations](#custom-configurations)
-- [Customizing Babel Configuration](#customizing-babel-configuration)
+The high-level overview of Docusaurus configuration can be categorized into: <TOCInline toc={toc[0].children} />
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.md).
 
