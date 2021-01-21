@@ -27,7 +27,7 @@ export default function LocaleDropdownNavbarItem({
     return localeConfigs[locale].label;
   }
 
-  //  TODO Docusaurus expose this unlocalized baseUrl more reliably
+  // TODO Docusaurus should expose this unlocalized baseUrl more reliably?
   const baseUrlUnlocalized =
     currentLocale === defaultLocale
       ? baseUrl
