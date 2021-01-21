@@ -64,18 +64,20 @@ export function getStyleLoaders(
       // package.json
       loader: require.resolve('postcss-loader'),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 4,
-          }),
-        ],
+        postcssOptions: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          ident: 'postcss',
+          plugins: [
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 4,
+            }),
+          ],
+        },
       },
     },
   ];
