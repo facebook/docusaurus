@@ -11,7 +11,36 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
-import {DEFAULT_SEARCH_TAG, useTitleFormatter} from '@docusaurus/theme-common';
+import {
+  DEFAULT_SEARCH_TAG,
+  useTitleFormatter,
+  useAlternatePageUtils,
+} from '@docusaurus/theme-common';
+
+// Useful for SEO
+// See https://developers.google.com/search/docs/advanced/crawling/localized-versions
+// See https://github.com/facebook/docusaurus/issues/3317
+function AlternateLangHeaders(): JSX.Element {
+  const {
+    i18n: {defaultLocale, locales},
+  } = useDocusaurusContext();
+  const alternatePageUtils = useAlternatePageUtils();
+  return (
+    <Head>
+      {locales.map((locale) => (
+        <link
+          key={locale}
+          rel="alternate"
+          href={alternatePageUtils.createUrl({
+            locale,
+            fullyQualified: true,
+          })}
+          hrefLang={locale === defaultLocale ? 'x-default' : locale}
+        />
+      ))}
+    </Head>
+  );
+}
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
@@ -36,7 +65,10 @@ export default function LayoutHead(props: Props): JSX.Element {
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
 
-  const htmlLang = currentLocale.split('-')[0];
+  // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
+  // const htmlLang = currentLocale.split('-')[0];
+  const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
+
   return (
     <>
       <Head>
@@ -60,6 +92,8 @@ export default function LayoutHead(props: Props): JSX.Element {
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <AlternateLangHeaders />
 
       <SearchMetadatas
         tag={DEFAULT_SEARCH_TAG}
