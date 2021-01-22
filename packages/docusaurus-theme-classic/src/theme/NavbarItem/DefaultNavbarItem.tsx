@@ -119,7 +119,7 @@ function NavItemDesktop({
             setShowDropdown(!showDropdown);
           }
         }}>
-        {props.label}
+        {props.children ?? props.label}
       </NavLink>
       <ul ref={dropdownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
@@ -195,7 +195,7 @@ function NavItemMobile({
         onClick={() => {
           setCollapsed((state) => !state);
         }}>
-        {props.label}
+        {props.children ?? props.label}
       </NavLink>
       <ul
         className="menu__list"

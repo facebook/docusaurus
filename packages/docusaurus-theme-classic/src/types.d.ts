@@ -276,7 +276,7 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentProps, ReactNode} from 'react';
 
   export type NavLinkProps = {
     activeBasePath?: string;
@@ -284,7 +284,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     to?: string;
     exact?: boolean;
     href?: string;
-    label?: string;
+    label?: ReactNode;
     activeClassName?: string;
     prependBaseUrlToHref?: string;
     isActive?: () => boolean;
@@ -528,4 +528,13 @@ declare module '@theme/IconMenu' {
 
   const IconMenu: (props: Props) => JSX.Element;
   export default IconMenu;
+}
+
+declare module '@theme/IconLanguage' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconLanguage: (props: Props) => JSX.Element;
+  export default IconLanguage;
 }

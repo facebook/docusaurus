@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
@@ -62,7 +63,14 @@ export default function LocaleDropdownNavbarItem({
     <DefaultNavbarItem
       {...props}
       mobile={mobile}
-      label={dropdownLabel}
+      label={
+        <span>
+          <IconLanguage
+            style={{verticalAlign: 'text-bottom', marginRight: 5}}
+          />
+          <span>{dropdownLabel}</span>
+        </span>
+      }
       items={items}
     />
   );
