@@ -36,7 +36,10 @@ export default function LayoutHead(props: Props): JSX.Element {
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
 
-  const htmlLang = currentLocale.split('-')[0];
+  // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
+  // const htmlLang = currentLocale.split('-')[0];
+  const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
+
   return (
     <>
       <Head>
