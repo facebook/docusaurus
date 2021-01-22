@@ -193,7 +193,7 @@ export default function pluginContentPages(
     configureWebpack(
       _config: Configuration,
       isServer: boolean,
-      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+      {getBabelLoader}: ConfigureWebpackUtils,
     ) {
       const {
         rehypePlugins,
@@ -215,7 +215,6 @@ export default function pluginContentPages(
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),

@@ -4,28 +4,19 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+// @ts-nocheck
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import env from 'std-env';
 import merge from 'webpack-merge';
-import webpack, {
-  Configuration,
-  Loader,
-  Plugin,
-  RuleSetRule,
-  Stats,
-} from 'webpack';
+import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import CleanCss from 'clean-css';
+import CssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
-import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
@@ -34,7 +25,7 @@ export function getStyleLoaders(
   cssOptions: {
     [key: string]: unknown;
   } = {},
-): Loader[] {
+): RuleSetRule[] {
   if (isServer) {
     return [
       cssOptions.modules
@@ -42,12 +33,14 @@ export function getStyleLoaders(
             loader: require.resolve('css-loader'),
             options: cssOptions,
           }
-        : require.resolve('null-loader'),
+        : {
+            loader: require.resolve('null-loader'),
+          },
     ];
   }
 
   const isProd = process.env.NODE_ENV === 'production';
-  const loaders = [
+  return [
     {
       loader: MiniCssExtractPlugin.loader,
       options: {
@@ -81,24 +74,6 @@ export function getStyleLoaders(
       },
     },
   ];
-  return loaders;
-}
-
-export function getCacheLoader(
-  isServer: boolean,
-  cacheOptions?: {[key: string]: unknown},
-): Loader | null {
-  if (env.ci || env.test) {
-    return null;
-  }
-
-  return {
-    loader: require.resolve('cache-loader'),
-    options: {
-      cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      ...cacheOptions,
-    },
-  };
 }
 
 export function getCustomBabelConfigFilePath(
@@ -141,7 +116,7 @@ export function getBabelOptions({
 export function getBabelLoader(
   isServer: boolean,
   babelOptions?: TransformOptions | string,
-): Loader {
+): RuleSetRule {
   return {
     loader: require.resolve('babel-loader'),
     options: getBabelOptions({isServer, babelOptions}),
@@ -163,12 +138,15 @@ export function applyConfigureWebpack(
   // Export some utility functions
   const utils = {
     getStyleLoaders,
-    getCacheLoader,
     getBabelLoader,
   };
   if (typeof configureWebpack === 'function') {
+    // todo Updating webpack-merge would be breaking, so we just
+    // todo use aggressive persuasion.
+    // @ts-ignore
     const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
+      // @ts-ignore
       return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }
@@ -176,8 +154,10 @@ export function applyConfigureWebpack(
 }
 
 // See https://webpack.js.org/configuration/stats/#statswarningsfilter
-// @slorber: note sure why we have to re-implement this logic
+// @slorber: not sure why we have to re-implement this logic
 // just know that legacy had this only partially implemented, so completed it
+// @RDIL: the way warnings work was changed in v5, so does this even still work?
+// todo reevaluate at a future date
 type WarningFilter = string | RegExp | Function;
 function filterWarnings(
   warningsFilter: WarningFilter[],
@@ -200,7 +180,7 @@ function filterWarnings(
   return warnings.filter((warning) => !isWarningFiltered(warning));
 }
 
-export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
+export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -210,17 +190,19 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
       // let plugins consume all the stats
       const allStats = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        allStats.errors.forEach((e) => {
+        allStats?.errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
-      if (stats?.hasWarnings()) {
+      if (allStats && stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
         let warnings = [...allStats.warnings];
 
-        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as WarningFilter[];
+        // todo
+        // @ts-ignore
+        const warningsFilter = (config[0].stats?.warningsFilter ||
+          []) as WarningFilter[];
 
         if (Array.isArray(warningsFilter)) {
           warnings = filterWarnings(warningsFilter, warnings);
@@ -230,15 +212,25 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
           console.warn(warning);
         });
       }
-      resolve(allStats);
+      resolve();
     });
   });
 }
 
 type AssetFolder = 'images' | 'files' | 'medias';
 
+interface Rules {
+  file: (options: {folder: AssetFolder}) => RuleSetRule;
+  url: (options: {folder: AssetFolder}) => RuleSetRule;
+}
+
+interface FileLoaderUtils {
+  loaders: any;
+  rules: Rules;
+}
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): Record<string, any> {
+export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
@@ -253,7 +245,7 @@ export function getFileLoaderUtils(): Record<string, any> {
         options: {
           name: fileLoaderFileName(options.folder),
         },
-      };
+      } as RuleSetRule;
     },
     url: (options: {folder: AssetFolder}) => {
       return {
@@ -263,7 +255,7 @@ export function getFileLoaderUtils(): Record<string, any> {
           name: fileLoaderFileName(options.folder),
           fallback: require.resolve(`file-loader`),
         },
-      };
+      } as RuleSetRule;
     },
 
     // TODO find a better solution to avoid conflicts with the ideal-image plugin
@@ -324,7 +316,7 @@ export function getFileLoaderUtils(): Record<string, any> {
             // We don't want to use SVGR loader for non-React source code
             // ie we don't want to use SVGR for CSS files...
             issuer: {
-              test: /\.(ts|tsx|js|jsx|md|mdx)$/,
+              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
             },
           },
           {
@@ -417,7 +409,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
+export function getMinimizer(): Plugin[] {
   const minimizer = [
     new TerserPlugin({
       cache: true,
@@ -448,43 +440,8 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
         },
       },
     }),
+    new CssMinimizerWebpackPlugin(),
   ];
-
-  if (useSimpleCssMinifier) {
-    minimizer.push(
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: 'default',
-        },
-      }),
-    );
-  } else {
-    minimizer.push(
-      ...[
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorPluginOptions: {
-            preset: CssNanoPreset,
-          },
-        }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessor: CleanCss,
-          cssProcessorOptions: {
-            inline: false,
-            level: {
-              1: {
-                all: false,
-              },
-              2: {
-                all: true,
-                restructureRules: true,
-                removeUnusedAtRules: false,
-              },
-            },
-          },
-        }),
-      ],
-    );
-  }
 
   return minimizer;
 }

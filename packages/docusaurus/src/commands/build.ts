@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import {Configuration, Plugin} from 'webpack';
+import {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
@@ -20,7 +20,7 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {compile, applyConfigureWebpack} from '../webpack/utils';
+import {applyConfigureWebpack, compile} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
@@ -41,15 +41,14 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      const result = await buildLocale({
+      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      return await buildLocale({
         siteDir,
         locale,
         cliOptions,
         forceTerminate,
         isLastLocale,
       });
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
-      return result;
     } catch (e) {
       console.error(`error building locale=${locale}`);
       throw e;
@@ -125,7 +124,9 @@ async function buildLocale({
     generatedFilesDir,
     'client-manifest.json',
   );
+  // @ts-ignore
   let clientConfig: Configuration = merge(
+    // @ts-ignore
     createClientConfig(props, cliOptions.minify),
     {
       plugins: [
@@ -152,6 +153,7 @@ async function buildLocale({
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
   if (fs.existsSync(staticDir)) {
+    // @ts-ignore
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
@@ -193,7 +195,7 @@ async function buildLocale({
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  const finalCompileResult = await compile([clientConfig, serverConfig]);
+  await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
   if (
@@ -215,7 +217,7 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild({...props, stats: finalCompileResult});
+      await plugin.postBuild(props);
     }),
   );
 

@@ -4,16 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+// @ts-nocheck
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
-import {Configuration, Loader} from 'webpack';
+import webpack, {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getBabelLoader,
-  getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
@@ -66,15 +65,12 @@ export function createBaseConfig(
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
-  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
   const fileLoaderUtils = getFileLoaderUtils();
 
   return {
     mode: isProd ? 'production' : 'development',
     output: {
-      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
-      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
       filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
@@ -87,7 +83,7 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: isProd ? false : 'cheap-module-eval-source-map',
+    devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
@@ -109,23 +105,19 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
-      plugins: [PnpWebpackPlugin],
     },
     resolveLoader: {
-      plugins: [PnpWebpackPlugin.moduleLoader(module)],
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled
-        ? getMinimizer(useSimpleCssMinifier)
-        : undefined,
+      minimizer: minimizeEnabled ? getMinimizer() : undefined,
       splitChunks: isServer
         ? false
         : {
-            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+            // Since the chunk name includes all origin chunk names it's recommended for production builds with long term caching to NOT include [name] in the filenames
             name: false,
             cacheGroups: {
               // disable the built-in cacheGroups
@@ -159,7 +151,6 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getCacheLoader(isServer),
             getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
           ].filter(Boolean) as Loader[],
         },
@@ -200,6 +191,7 @@ export function createBaseConfig(
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
+      new webpack.DefinePlugin(process.env),
     ],
   };
 }

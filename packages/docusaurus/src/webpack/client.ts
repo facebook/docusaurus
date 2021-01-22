@@ -23,11 +23,13 @@ export default function createClientConfig(
   const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false, minify);
 
+  // @ts-ignore
   const clientConfig = merge(config, {
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
-      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      // note: the one in ./dev is modified to work with Docusaurus
+      !isProd && require.resolve('./dev/hotDevServer.js'),
       path.resolve(__dirname, '../client/clientEntry.js'),
     ].filter(Boolean) as string[],
     optimization: {
@@ -67,5 +69,5 @@ export default function createClientConfig(
     });
   }
 
-  return clientConfig;
+  return clientConfig as Configuration;
 }

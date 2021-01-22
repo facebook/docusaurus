@@ -113,12 +113,6 @@ class CleanWebpackPlugin {
             https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional`);
     }
 
-    if (options.allowExternal) {
-      throw new Error(
-        'clean-webpack-plugin: `allowExternal` option no longer supported. Use `dangerouslyAllowCleanPatternsOutsideProject`',
-      );
-    }
-
     if (
       options.dangerouslyAllowCleanPatternsOutsideProject === true &&
       options.dry !== true &&
@@ -194,34 +188,17 @@ class CleanWebpackPlugin {
 
     this.outputPath = compiler.options.output.path;
 
-    /**
-     * webpack 4+ comes with a new plugin system.
-     *
-     * Check for hooks in-order to support old plugin system
-     */
     const {hooks} = compiler;
 
     if (this.cleanOnceBeforeBuildPatterns.length !== 0) {
-      if (hooks) {
-        hooks.compile.tap('clean-webpack-plugin', () => {
-          this.handleInitial();
-        });
-      } else {
-        compiler.plugin('compile', () => {
-          this.handleInitial();
-        });
-      }
+      hooks.compile.tap('clean-webpack-plugin', () => {
+        this.handleInitial();
+      });
     }
 
-    if (hooks) {
-      hooks.done.tap('clean-webpack-plugin', (stats) => {
-        this.handleDone(stats);
-      });
-    } else {
-      compiler.plugin('done', (stats) => {
-        this.handleDone(stats);
-      });
-    }
+    hooks.done.tap('clean-webpack-plugin', (stats) => {
+      this.handleDone(stats);
+    });
   }
 
   /**
@@ -258,13 +235,10 @@ class CleanWebpackPlugin {
      * Fetch Webpack's output asset files
      */
     const statsAssets =
-      stats.toJson(
-        {
-          all: false,
-          assets: true,
-        },
-        true,
-      ).assets || [];
+      stats.toJson({
+        all: false,
+        assets: true,
+      }).assets || [];
     const assets = statsAssets.map((asset: {name: string}) => {
       return asset.name;
     });
@@ -275,9 +249,7 @@ class CleanWebpackPlugin {
      * (relies on del's cwd: outputPath option)
      */
     const staleFiles = this.currentAssets.filter((previousAsset) => {
-      const assetCurrent = assets.includes(previousAsset) === false;
-
-      return assetCurrent;
+      return assets.includes(previousAsset) === false;
     });
 
     /**
