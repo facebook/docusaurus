@@ -117,7 +117,7 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {baseUrl, onBrokenLinks},
+    siteConfig: {baseUrl, onBrokenLinks, staticDirectories = [STATIC_DIR_NAME]},
     routes,
   } = props;
 
@@ -150,21 +150,21 @@ async function buildLocale({
     },
   });
 
-  const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
-  if (fs.existsSync(staticDir)) {
-    serverConfig = merge(serverConfig, {
-      plugins: [
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: staticDir,
-              to: outDir,
-            },
-          ],
-        }),
-      ],
-    });
-  }
+  const staticDirectoryConfigurations = staticDirectories
+    .map((dir) => path.resolve(siteDir, dir))
+    .filter((dir) => fs.existsSync(dir))
+    .map((dir) => ({
+      from: dir,
+      to: outDir,
+    }));
+
+  serverConfig = merge(serverConfig, {
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: staticDirectoryConfigurations,
+      }),
+    ],
+  });
 
   // Plugin Lifecycle - configureWebpack.
   plugins.forEach((plugin) => {

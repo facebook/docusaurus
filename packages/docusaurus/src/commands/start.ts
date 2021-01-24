@@ -178,9 +178,12 @@ export default async function start(
       overlay: false,
       host,
       before: (app, server) => {
-        app.use(
-          baseUrl,
-          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
+        const staticDirectories = siteConfig.staticDirectories || [
+          STATIC_DIR_NAME,
+        ];
+
+        staticDirectories.forEach((dir) =>
+          app.use(baseUrl, express.static(path.resolve(siteDir, dir))),
         );
 
         // This lets us fetch source contents from webpack for the error overlay.

@@ -104,6 +104,7 @@ const ConfigSchema = Joi.object({
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
+  staticDirectories: Joi.array().items(Joi.string()),
   projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
