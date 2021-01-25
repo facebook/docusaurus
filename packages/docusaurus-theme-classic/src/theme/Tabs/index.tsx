@@ -82,7 +82,7 @@ function Tabs(props: Props): JSX.Element {
   };
 
   return (
-    <div className="tabs--container">
+    <div className="tabs-container">
       <ul
         role="tablist"
         aria-orientation="horizontal"
