@@ -175,7 +175,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<any, unknown>[];
+  plugins: Plugin<unknown>[];
 }
 
 /**
@@ -199,11 +199,16 @@ export type AllContent = Record<
   >
 >;
 
+/**
+ * The Docusaurus plugin structure.
+ * @typeParam T The type of content the plugin loads.
+ * @typeParam U The plugin's options schema.
+ */
 export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
   validateOptions?(): ValidationResult<U>;
-  validateThemeConfig?(): ValidationResult<any>;
+  validateThemeConfig?(): ValidationResult<unknown>;
   contentLoaded?({
     content,
     actions,

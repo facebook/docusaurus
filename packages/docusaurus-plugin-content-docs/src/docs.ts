@@ -192,9 +192,33 @@ export function processDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
+    tags: readFrontmatterTags(frontMatter),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     sidebar_label,
   };
+}
+
+interface MinimalFrontMatter {
+  tags?: string | readonly string[];
+}
+
+export function readFrontmatterTags(
+  frontMatter: MinimalFrontMatter,
+): readonly string[] {
+  // handle single tag name
+  if (typeof frontMatter.tags === 'string') {
+    return [frontMatter.tags];
+  }
+
+  const tags: readonly string[] = frontMatter.tags ?? [];
+
+  if (Array.isArray(tags) && tags.every((tag) => typeof tag === 'string')) {
+    return tags;
+  }
+
+  throw new Error(
+    `Bad frontmatter document tags.\nTags should be an array of strings.\nExample => 'tags: [tag1, tag2, tag3]'\nActual value=${tags}`,
+  );
 }

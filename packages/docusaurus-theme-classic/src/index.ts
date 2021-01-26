@@ -154,6 +154,7 @@ export default function docusaurusThemeClassic(
 const swizzleAllowedComponents = [
   'CodeBlock',
   'DocSidebar',
+  'DocTagListPage',
   'Footer',
   'NotFound',
   'SearchBar',

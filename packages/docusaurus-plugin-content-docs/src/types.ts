@@ -24,6 +24,7 @@ export type VersionMetadata = {
   versionPath: string; // /baseUrl/docs/1.0.0
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
+  tagsPath: string;
   isLast: boolean;
   docsDirPath: string; // "versioned_docs/version-1.0.0"
   docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
@@ -132,9 +133,20 @@ export type DocMetadataBase = LastUpdateData & {
   description: string;
   source: string;
   slug: string;
-  permalink: string;
   sidebar_label?: string;
+  permalink: string;
   editUrl?: string | null;
+  tags: readonly string[];
+};
+
+export type VersionTag = {
+  name: string; // normalized name/label of the tag
+  docIds: string[]; // all doc ids having this tag
+  permalink: string; // pathname of the tag
+};
+
+export type VersionTags = {
+  [key: string]: VersionTag;
 };
 
 export type DocNavLink = {
@@ -151,12 +163,14 @@ export type DocMetadata = DocMetadataBase & {
 export type SourceToPermalink = {
   [source: string]: string;
 };
+
 export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
   permalinkToSidebar: Record<string, string>;
+  tags: VersionTags;
 };
 
 export type LoadedContent = {

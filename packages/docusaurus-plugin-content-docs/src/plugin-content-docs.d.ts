@@ -61,6 +61,7 @@ declare module '@theme/DocItem' {
     readonly keywords?: readonly string[];
     readonly hide_title?: boolean;
     readonly hide_table_of_contents?: boolean;
+    readonly tags?: string[];
   };
 
   export type Metadata = {

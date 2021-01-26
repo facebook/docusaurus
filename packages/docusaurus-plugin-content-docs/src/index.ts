@@ -37,19 +37,21 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
+  VersionTag,
 } from './types';
 import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {OptionsSchema} from './options';
-import {flatten, keyBy, compact} from 'lodash';
+import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
+import {getVersionTags} from './tags';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -235,10 +237,16 @@ export default function pluginContentDocs(
           }
         }
 
+        const tags = getVersionTags({
+          docs,
+          tagsPath: versionMetadata.tagsPath,
+        });
+
         return {
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
+          tags,
           permalinkToSidebar,
           docs: docs.map(addNavData),
         };
@@ -284,7 +292,39 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
+      async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
+        async function createTagsListRoute() {
+          const tagsProp = mapValues(loadedVersion.tags, (tagValue) => ({
+            name: tagValue.name,
+            permalink: tagValue.permalink,
+            count: tagValue.docIds.length,
+          }));
+          const tagsPropPath = await createData(
+            `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
+            JSON.stringify(tagsProp, null, 2),
+          );
+          addRoute({
+            path: loadedVersion.tagsPath,
+            exact: true,
+            component: '@theme/DocTagsListPage',
+            modules: {
+              tags: aliasedSource(tagsPropPath),
+            },
+          });
+        }
+
+        async function createTagPage(tag: VersionTag) {
+          // TODO
+          console.log(`todo createTagPage for tag=${tag.name}`);
+        }
+
+        await createTagsListRoute();
+        await Promise.all(Object.values(loadedVersion.tags).map(createTagPage));
+      }
+
       async function handleVersion(loadedVersion: LoadedVersion) {
+        await createVersionTagsRoutes(loadedVersion);
+
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
