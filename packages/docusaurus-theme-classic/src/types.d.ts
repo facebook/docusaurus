@@ -237,7 +237,7 @@ declare module '@theme/Layout' {
     noFooter?: boolean;
     description?: string;
     image?: string;
-    keywords?: string[];
+    keywords?: string | string[];
     permalink?: string;
     wrapperClassName?: string;
     searchMetadatas?: {
