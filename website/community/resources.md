@@ -12,7 +12,7 @@ A curated list of interesting Docusaurus community projects.
 
 ## Articles
 
-- [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-28k)
+- [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-ux-at-its-best-2hj1)
 
 ## Showcase
 
