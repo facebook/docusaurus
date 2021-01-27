@@ -81,7 +81,10 @@ export default function LayoutHead(props: Props): JSX.Element {
           <meta property="og:description" content={description} />
         )}
         {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
+          <meta
+            name="keywords"
+            content={Array.isArray(keywords) ? keywords.join(',') : keywords}
+          />
         )}
         {metaImage && <meta property="og:image" content={metaImageUrl} />}
         {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
