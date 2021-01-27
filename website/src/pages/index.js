@@ -82,10 +82,7 @@ function Home() {
   const context = useDocusaurusContext();
   const {siteConfig: {customFields = {}, tagline} = {}} = context;
   return (
-    <Layout
-      permalink="/"
-      title={tagline}
-      description={customFields.description}>
+    <Layout title={tagline} description={customFields.description}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>

@@ -16,6 +16,7 @@ import {
   useTitleFormatter,
   useAlternatePageUtils,
 } from '@docusaurus/theme-common';
+import {useLocation} from '@docusaurus/router';
 
 // Useful for SEO
 // See https://developers.google.com/search/docs/advanced/crawling/localized-versions
@@ -42,6 +43,32 @@ function AlternateLangHeaders(): JSX.Element {
   );
 }
 
+// Default canonical url inferred from current page location pathname
+function useDefaultCanonicalUrl() {
+  const {
+    siteConfig: {url: siteUrl},
+  } = useDocusaurusContext();
+  const {pathname} = useLocation();
+  return siteUrl + useBaseUrl(pathname);
+}
+
+function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
+  const {
+    siteConfig: {url: siteUrl},
+  } = useDocusaurusContext();
+  const defaultCanonicalUrl = useDefaultCanonicalUrl();
+
+  const canonicalUrl = permalink
+    ? `${siteUrl}${permalink}`
+    : defaultCanonicalUrl;
+  return (
+    <Head>
+      <meta property="og:url" content={canonicalUrl} />
+      <link rel="canonical" href={canonicalUrl} />
+    </Head>
+  );
+}
+
 export default function LayoutHead(props: Props): JSX.Element {
   const {
     siteConfig,
@@ -50,16 +77,8 @@ export default function LayoutHead(props: Props): JSX.Element {
   const {
     favicon,
     themeConfig: {image: defaultImage, metadatas},
-    url: siteUrl,
   } = siteConfig;
-  const {
-    title,
-    description,
-    image,
-    keywords,
-    permalink,
-    searchMetadatas,
-  } = props;
+  const {title, description, image, keywords, searchMetadatas} = props;
   const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
@@ -91,10 +110,10 @@ export default function LayoutHead(props: Props): JSX.Element {
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <CanonicalUrlHeaders />
 
       <AlternateLangHeaders />
 

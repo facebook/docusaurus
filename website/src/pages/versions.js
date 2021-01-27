@@ -26,7 +26,6 @@ function Version() {
   return (
     <Layout
       title="Versions"
-      permalink="/versions"
       description="Docusaurus 2 Versions page listing all documented site versions">
       <main className="container margin-vert--lg">
         <h1>Docusaurus documentation versions</h1>
