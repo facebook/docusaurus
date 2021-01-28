@@ -54,11 +54,20 @@ function translateNavbar(
     ...navbar,
     title: navbarTranslations.title?.message ?? navbar.title,
     //  TODO handle properly all the navbar item types here!
-    items: navbar.items.map((item) => ({
-      ...item,
-      label:
-        navbarTranslations[`item.label.${item.label}`]?.message ?? item.label,
-    })),
+    items: navbar.items.map((item) => {
+      const subItems = item.items?.map((subItem) => ({
+        ...subItem,
+        label:
+          navbarTranslations[`item.label.${subItem.label}`]?.message ??
+          subItem.label,
+      }));
+      return {
+        ...item,
+        label:
+          navbarTranslations[`item.label.${item.label}`]?.message ?? item.label,
+        ...(subItems ? {items: subItems} : undefined),
+      };
+    }),
   };
 }
 
