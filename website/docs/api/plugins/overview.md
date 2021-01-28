@@ -3,6 +3,7 @@ id: plugins-overview
 title: 'Docusaurus plugins'
 sidebar_label: Plugins overview
 slug: '/api/plugins'
+tags: 'Plugins'
 ---
 
 We provide official Docusaurus plugins.

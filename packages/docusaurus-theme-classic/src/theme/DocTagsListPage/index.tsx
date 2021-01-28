@@ -52,7 +52,7 @@ function DocTagsListPage({tags}: Props): JSX.Element {
     .filter((item) => item != null);
 
   return (
-    <Layout title="Tags" description="Doc Tags">
+    <Layout title="Docs Tags" description="Docs Tags">
       <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">

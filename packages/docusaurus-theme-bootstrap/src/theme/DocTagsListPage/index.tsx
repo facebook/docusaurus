@@ -27,7 +27,7 @@ function DocTagsListPage(props: Props): JSX.Element {
   );
 
   return (
-    <Layout title="Tags" description="Blog Tags">
+    <Layout title="Docs Tags" description="Docs Tags">
       <div className="container my-3 justify-content-center">
         <h1 className="text-primary">Tags</h1>
         <ul className="my-xl-4 list-inline">{renderAllTags()}</ul>

@@ -314,12 +314,29 @@ export default function pluginContentDocs(
         }
 
         async function createTagPage(tag: VersionTag) {
-          // TODO
-          console.log(`todo createTagPage for tag=${tag.name}`);
+          const tagPropPath = await createData(
+            `${docuHash(`tags-pageof-${tag.name}-prop`)}.json`,
+            JSON.stringify(tag, null, 2),
+          );
+          const docsBaseUrlPropPath = await createData(
+            `${docuHash(`tags-extdata-pageof-${tag.name}-prop`)}.json`,
+            JSON.stringify({versionPath: loadedVersion.versionPath}, null, 2),
+          );
+          addRoute({
+            path: tag.permalink,
+            exact: true,
+            component: '@theme/DocTagDescriptorPage',
+            modules: {
+              tag: aliasedSource(tagPropPath),
+              versionPath: aliasedSource(docsBaseUrlPropPath),
+            },
+          });
         }
 
         await createTagsListRoute();
-        await Promise.all(Object.values(loadedVersion.tags).map(createTagPage));
+        await Promise.all(
+          Object.values(loadedVersion.tags).map((tag) => createTagPage(tag)),
+        );
       }
 
       async function handleVersion(loadedVersion: LoadedVersion) {

@@ -3,6 +3,7 @@ id: docusaurus.config.js
 title: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
 slug: /docusaurus.config.js
+tags: 'API'
 ---
 
 ## Overview
