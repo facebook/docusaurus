@@ -31,10 +31,17 @@ export type VersionMetadata = {
   routePriority: number | undefined; // -1 for the latest docs
 };
 
+export type EditUrlFunction = (editUrlParams: {
+  version: string;
+  versionDocsDirPath: string;
+  docPath: string;
+  locale: string;
+}) => string | undefined;
+
 export type MetadataOptions = {
   routeBasePath: string;
   homePageId?: string;
-  editUrl?: string;
+  editUrl?: string | EditUrlFunction;
   editCurrentVersion: boolean;
   editLocalizedDocs: boolean;
   showLastUpdateTime?: boolean;

@@ -122,12 +122,27 @@ export function processDocMetadata({
 
   const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
 
-  const versionEditUrl =
-    isLocalized && options.editLocalizedDocs
-      ? versionMetadata.versionEditUrlLocalized
-      : versionMetadata.versionEditUrl;
+  function getDocEditUrl() {
+    if (typeof options.editUrl === 'function') {
+      return options.editUrl({
+        version: versionMetadata.versionName,
+        versionDocsDirPath: path.relative(siteDir, versionMetadata.docsDirPath),
+        docPath: relativeFilePath, // good enough doc info for now?
+        locale: context.i18n.currentLocale,
+      });
+    } else if (typeof options.editUrl === 'string') {
+      const versionEditUrl =
+        isLocalized && options.editLocalizedDocs
+          ? versionMetadata.versionEditUrlLocalized
+          : versionMetadata.versionEditUrl;
 
-  const docsEditUrl = getEditUrl(relativeFilePath, versionEditUrl);
+      return getEditUrl(relativeFilePath, versionEditUrl);
+    } else {
+      return undefined;
+    }
+  }
+
+  const docsEditUrl = getDocEditUrl();
 
   const {frontMatter = {}, excerpt} = parseMarkdownString(content);
   const {sidebar_label, custom_edit_url} = frontMatter;

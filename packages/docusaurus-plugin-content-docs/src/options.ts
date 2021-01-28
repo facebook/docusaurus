@@ -52,7 +52,7 @@ const VersionsOptionsSchema = Joi.object()
 
 export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  editUrl: URISchema,
+  editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
   editLocalizedDocs: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedDocs),
   routeBasePath: Joi.string()

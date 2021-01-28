@@ -211,6 +211,12 @@ function getVersionEditUrls({
     return undefined;
   }
 
+  // if the user is using the functional form of editUrl,
+  // he has total freedom and we can't compute a "version edit url"
+  if (typeof editUrl === 'function') {
+    return undefined;
+  }
+
   const editDirPath = editCurrentVersion ? currentVersionPath : docsDirPath;
   const editDirPathLocalized = editCurrentVersion
     ? getDocsDirPathLocalized({
