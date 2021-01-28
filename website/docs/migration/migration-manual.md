@@ -503,7 +503,7 @@ In Docusaurus v1, pages received the `siteConfig` object as props.
 
 In Docusaurus v2, get the `siteConfig` object from `useDocusaurusContext` instead.
 
-In v2, you have to apply the theme layout around each page. The Layout component takes metadata props (`permalink` is important, as it defines the canonical url of your page).
+In v2, you have to apply the theme layout around each page. The Layout component takes metadata props.
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
 
@@ -522,7 +522,6 @@ const MyPage = () => {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      permalink="/"
       title={siteConfig.title}
       description={siteConfig.tagline}>
       <div className="hero text--center">
