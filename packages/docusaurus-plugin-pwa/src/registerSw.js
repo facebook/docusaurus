@@ -20,7 +20,7 @@ async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
   if (debug && registrations.length > 0) {
     console.log(
-      `[Docusaurus-PWA][registerSW]: unregister service workers`,
+      `[Docusaurus-PWA][registerSw]: unregister service workers`,
       registrations,
     );
   }
@@ -58,12 +58,12 @@ function isOfflineModeEnabled() {
     };
     if (enabled) {
       console.log(
-        '[Docusaurus-PWA][registerSW]: offline mode enabled, because of activation strategies',
+        '[Docusaurus-PWA][registerSw]: offline mode enabled, because of activation strategies',
         logObject,
       );
     } else {
       console.log(
-        '[Docusaurus-PWA][registerSW]: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
+        '[Docusaurus-PWA][registerSw]: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
         logObject,
       );
     }
@@ -77,7 +77,7 @@ function createServiceWorkerUrl(params) {
     paramsQueryString,
   )}`;
   if (debug) {
-    console.log(`[Docusaurus-PWA][registerSW]: service worker url`, {
+    console.log(`[Docusaurus-PWA][registerSw]: service worker url`, {
       url,
       params,
     });
@@ -91,7 +91,7 @@ function createServiceWorkerUrl(params) {
   }
 
   if (debug) {
-    console.log('[Docusaurus-PWA][registerSW]: debug mode enabled');
+    console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
   }
 
   if ('serviceWorker' in navigator) {
@@ -108,7 +108,7 @@ function createServiceWorkerUrl(params) {
 
     const handleServiceWorkerWaiting = async () => {
       if (debug) {
-        console.log('[Docusaurus-PWA][registerSW]: handleServiceWorkerWaiting');
+        console.log('[Docusaurus-PWA][registerSw]: handleServiceWorkerWaiting');
       }
       // Immediately load new service worker when files aren't cached
       if (!offlineMode) {
@@ -129,19 +129,19 @@ function createServiceWorkerUrl(params) {
     if (debug) {
       if (registration.active) {
         console.log(
-          '[Docusaurus-PWA][registerSW]: registration.active',
+          '[Docusaurus-PWA][registerSw]: registration.active',
           registration,
         );
       }
       if (registration.installing) {
         console.log(
-          '[Docusaurus-PWA][registerSW]: registration.installing',
+          '[Docusaurus-PWA][registerSw]: registration.installing',
           registration,
         );
       }
       if (registration.waiting) {
         console.log(
-          '[Docusaurus-PWA][registerSW]: registration.waiting',
+          '[Docusaurus-PWA][registerSw]: registration.waiting',
           registration,
         );
       }
@@ -157,7 +157,7 @@ function createServiceWorkerUrl(params) {
     // installing and transitions to waiting state.
     wb.addEventListener('waiting', (event) => {
       if (debug) {
-        console.log('[Docusaurus-PWA][registerSW]: event waiting', event);
+        console.log('[Docusaurus-PWA][registerSw]: event waiting', event);
       }
       handleServiceWorkerWaiting();
     });
@@ -167,7 +167,7 @@ function createServiceWorkerUrl(params) {
     wb.addEventListener('externalwaiting', (event) => {
       if (debug) {
         console.log(
-          '[Docusaurus-PWA][registerSW]: event externalwaiting',
+          '[Docusaurus-PWA][registerSw]: event externalwaiting',
           event,
         );
       }
@@ -176,7 +176,7 @@ function createServiceWorkerUrl(params) {
 
     window.addEventListener('appinstalled', (event) => {
       if (debug) {
-        console.log('[Docusaurus-PWA][registerSW]: event appinstalled', event);
+        console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
       localStorage.setItem(APP_INSTALLED_KEY, true);
 
@@ -189,7 +189,7 @@ function createServiceWorkerUrl(params) {
 
     window.addEventListener('beforeinstallprompt', (event) => {
       if (debug) {
-        console.log('[Docusaurus-PWA][registerSW]: event appinstalled', event);
+        console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
@@ -205,7 +205,7 @@ function createServiceWorkerUrl(params) {
     });
   } else if (debug) {
     console.log(
-      '[Docusaurus-PWA][registerSW]: browser does not support service workers',
+      '[Docusaurus-PWA][registerSw]: browser does not support service workers',
     );
   }
 })();
