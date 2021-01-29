@@ -222,6 +222,8 @@ const MyComponent = () => {
 
 ### `useBaseUrl`
 
+React hook to prepend your site `baseUrl` to a string.
+
 :::caution
 
 **Don't use it for regular links!**
@@ -233,7 +235,7 @@ The `/baseUrl/` prefix is automatically added to all **absolute paths** by defau
 
 :::
 
-React hook to automatically prepend `baseUrl` to a string automatically.
+#### Options
 
 ```ts
 type BaseUrlOptions = {
@@ -242,7 +244,7 @@ type BaseUrlOptions = {
 };
 ```
 
-Example usage:
+#### Example usage:
 
 ```jsx
 import React from 'react';
