@@ -157,7 +157,7 @@ export async function generateBlogPosts(
 
           const contentPathEditUrl = normalizeUrl([
             siteEditUrl,
-            path.relative(siteDir, fileContentPath),
+            posixPath(path.relative(siteDir, fileContentPath)),
           ]);
 
           return getEditUrl(blogPathRelative, contentPathEditUrl);

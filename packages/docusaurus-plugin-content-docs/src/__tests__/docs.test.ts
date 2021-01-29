@@ -320,7 +320,7 @@ describe('simple site', () => {
     expect(editUrlFunction).toHaveBeenCalledWith({
       version: 'current',
       versionDocsDirPath: 'docs',
-      docPath: path.join('foo', 'baz.md'),
+      docPath: path.posix.join('foo', 'baz.md'),
       locale: 'en',
     });
   });
