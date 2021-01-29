@@ -515,15 +515,12 @@ Here's a typical Docusaurus v2 page:
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 
 const MyPage = () => {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <Layout
-      title={siteConfig.title}
-      description={siteConfig.tagline}>
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <div className="hero text--center">
         <div className="container ">
           <div className="padding-vert--md">
@@ -532,7 +529,7 @@ const MyPage = () => {
           </div>
           <div>
             <Link
-              to={useBaseUrl('/docs/get-started')}
+              to="/docs/get-started"
               className="button button--lg button--outline button--primary">
               Get started
             </Link>

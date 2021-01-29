@@ -222,7 +222,20 @@ const MyComponent = () => {
 
 ### `useBaseUrl`
 
-React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+React hook to prepend your site `baseUrl` to a string.
+
+:::caution
+
+**Don't use it for regular links!**
+
+The `/baseUrl/` prefix is automatically added to all **absolute paths** by default:
+
+- Markdown: `[link](/my/path)` will link to `/baseUrl/my/path`
+- React: `<Link to="/my/path/">link</Link>` will link to `/baseUrl/my/path`
+
+:::
+
+#### Options
 
 ```ts
 type BaseUrlOptions = {
@@ -231,41 +244,49 @@ type BaseUrlOptions = {
 };
 ```
 
-Example usage:
+#### Example usage:
 
-```jsx {3,11}
+```jsx
 import React from 'react';
-import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-const Help = () => {
-  return (
-    <div className="col">
-      <h2>Browse the docs</h2>
-      <p>
-        Learn more about Docusaurus using the{' '}
-        <Link to={useBaseUrl('docs/introduction')}>official documentation</Link>
-      </p>
-    </div>
-  );
+const SomeImage = () => {
+  // highlight-start
+  const imgSrc = useBaseUrl('/img/myImage.png');
+  // highlight-end
+  return <img src={imgSrc} />;
 };
 ```
+
+:::tip
+
+In most cases, you don't need `useBaseUrl`.
+
+Prefer a `require()` call for [assets](./guides/markdown-features/markdown-features-assets.mdx):
+
+```jsx
+<img src={require('@site/static/img/myImage.png').default} />
+```
+
+:::
 
 ### `useBaseUrlUtils`
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
-- `withBaseUrl`: useful if you need to add base urls to multiple urls at once
+- `withBaseUrl`: useful if you need to add base urls to multiple urls at once.
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 const Component = () => {
   const urls = ['/a', '/b'];
+  // highlight-start
   const {withBaseUrl} = useBaseUrlUtils();
   const urlsWithBaseUrl = urls.map(withBaseUrl);
-  return <div className="col">{/* ... */}</div>;
+  // highlight-end
+  return <div>{/* ... */}</div>;
 };
 ```
 
