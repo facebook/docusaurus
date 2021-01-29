@@ -39,7 +39,7 @@ async function runSWCustomCode(params) {
  * Gets different possible variations for a request URL. Similar to
  * https://git.io/JvixK
  *
- * @param {String} url
+ * @param {string} url
  */
 function getPossibleURLs(url) {
   const possibleURLs = [];
