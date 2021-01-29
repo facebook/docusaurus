@@ -38,7 +38,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   lastVersion: undefined,
   versions: {},
   editCurrentVersion: false,
-  editLocalizedDocs: false,
+  editLocalizedFiles: false,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -54,7 +54,7 @@ export const OptionsSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
-  editLocalizedDocs: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedDocs),
+  editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""

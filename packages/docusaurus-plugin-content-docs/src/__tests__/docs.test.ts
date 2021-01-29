@@ -738,11 +738,11 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedDocs=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-        editLocalizedDocs: true,
+        editLocalizedFiles: true,
       },
       locale: 'fr',
     });
@@ -770,12 +770,12 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedDocs=true + editCurrentVersion=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
         editCurrentVersion: true,
-        editLocalizedDocs: true,
+        editLocalizedFiles: true,
       },
       locale: 'fr',
     });

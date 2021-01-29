@@ -172,10 +172,10 @@ Reset your translations with the `--override` option.
 
 :::
 
-### Docs edit url
+### Localize edit urls
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 
-Your translations are on Git, and it is safe to use the `editLocalizedDocs: true` option of the docs plugin.
+Your translations are on Git, and you can use the `editLocalizedFiles: true` option of the docs and blog plugins.
 
-If enabled, the edit button will now link to the localized doc: `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.
+The edit button will link to the localized doc at `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.

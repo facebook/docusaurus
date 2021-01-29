@@ -31,11 +31,23 @@ module.exports = {
          */
         path: 'blog',
         /**
-         * URL for editing a blog post.
-         * Example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         * Base url to edit your site.
+         * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
          */
-        editUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        /**
+         * For advanced cases, compute the edit url for each markdown file yourself.
+         */
+        editUrl: ({locale, blogDirPath, blogPath}) => {
+          return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+        },
+        /**
+         * Useful if you commit localized files to git.
+         * When markdown files are localized, the edit url will target the localized file,
+         * instead of the original unlocalized file.
+         * Note: this option is ignored when editUrl is a function
+         */
+        editLocalizedFiles: false,
         /**
          * Blog page title for better SEO
          */

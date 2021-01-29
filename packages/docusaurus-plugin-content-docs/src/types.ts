@@ -43,7 +43,7 @@ export type MetadataOptions = {
   homePageId?: string;
   editUrl?: string | EditUrlFunction;
   editCurrentVersion: boolean;
-  editLocalizedDocs: boolean;
+  editLocalizedFiles: boolean;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
 };

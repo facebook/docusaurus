@@ -120,8 +120,6 @@ export function processDocMetadata({
 
   const relativeFilePath = path.relative(docsDirPath, filePath);
 
-  const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
-
   function getDocEditUrl() {
     if (typeof options.editUrl === 'function') {
       return options.editUrl({
@@ -131,12 +129,12 @@ export function processDocMetadata({
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
-      const versionEditUrl =
-        isLocalized && options.editLocalizedDocs
+      const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
+      const baseVersionEditUrl =
+        isLocalized && options.editLocalizedFiles
           ? versionMetadata.versionEditUrlLocalized
           : versionMetadata.versionEditUrl;
-
-      return getEditUrl(relativeFilePath, versionEditUrl);
+      return getEditUrl(relativeFilePath, baseVersionEditUrl);
     } else {
       return undefined;
     }

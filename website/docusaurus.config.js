@@ -237,8 +237,12 @@ module.exports = {
         blog: {
           // routeBasePath: '/',
           path: '../website-1.x/blog',
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+          editUrl: ({locale, blogDirPath, blogPath}) => {
+            if (locale !== 'en') {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+          },
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
