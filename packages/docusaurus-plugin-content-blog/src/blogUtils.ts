@@ -26,6 +26,7 @@ import {
   aliasedSitePath,
   getEditUrl,
   getFolderContainingFile,
+  posixPath,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {keyBy} from 'lodash';
@@ -143,8 +144,8 @@ export async function generateBlogPosts(
 
         if (typeof siteEditUrl === 'function') {
           return siteEditUrl({
-            blogDirPath: path.relative(siteDir, blogDirPath),
-            blogPath: blogPathRelative, // good enough doc info for now?
+            blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
+            blogPath: posixPath(blogPathRelative),
             locale: i18n.currentLocale,
           });
         } else if (typeof siteEditUrl === 'string') {

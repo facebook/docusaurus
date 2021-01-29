@@ -13,6 +13,7 @@ import {
   getFolderContainingFile,
   normalizeUrl,
   parseMarkdownString,
+  posixPath,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -124,8 +125,10 @@ export function processDocMetadata({
     if (typeof options.editUrl === 'function') {
       return options.editUrl({
         version: versionMetadata.versionName,
-        versionDocsDirPath: path.relative(siteDir, versionMetadata.docsDirPath),
-        docPath: relativeFilePath, // good enough doc info for now?
+        versionDocsDirPath: posixPath(
+          path.relative(siteDir, versionMetadata.docsDirPath),
+        ),
+        docPath: posixPath(relativeFilePath),
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
