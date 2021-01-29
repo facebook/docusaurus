@@ -171,3 +171,11 @@ New translation will be appended, and existing ones will not be overridden.
 Reset your translations with the `--override` option.
 
 :::
+
+### Localize edit urls
+
+When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
+
+Your translations are on Git, and you can use the `editLocalizedFiles: true` option of the docs and blog plugins.
+
+The edit button will link to the localized doc at `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.

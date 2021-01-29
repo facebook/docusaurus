@@ -31,22 +31,30 @@ module.exports = {
          */
         path: 'docs',
         /**
-         * URL for editing a doc in the website repo.
-         * Example: 'https://github.com/facebook/docusaurus/edit/master/website/'
+         * Base url to edit your site.
+         * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
+         * For advanced cases, compute the edit url for each markdown file yourself.
+         */
+        editUrl: function ({locale, version, versionDocsDirPath, docPath}) {
+          return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+        },
+        /**
+         * Useful if you commit localized files to git.
+         * When markdown files are localized, the edit url will target the localized file,
+         * instead of the original unlocalized file.
+         * Note: this option is ignored when editUrl is a function
+         */
+        editLocalizedFiles: false,
+        /**
+         * Useful if you don't want users to submit doc pull-requests to older versions.
          * When docs are versioned, the edit url will link to the doc
          * in current version, instead of the versioned doc.
-         * Useful if you don't want users to submit doc pull-requests to older versions.
+         * Note: this option is ignored when editUrl is a function
          */
         editCurrentVersion: false,
-        /**
-         * When docs are localized, the edit url will target the localized doc,
-         * instead of the original unlocalized doc.
-         * Useful if you commit localized docs to git, instead of using a translation service.
-         */
-        editLocalizedDocs: false,
         /**
          * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.

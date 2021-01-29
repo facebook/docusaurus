@@ -24,6 +24,12 @@ export interface DateLink {
 
 export type FeedType = 'rss' | 'atom';
 
+export type EditUrlFunction = (editUrlParams: {
+  blogDirPath: string;
+  blogPath: string;
+  locale: string;
+}) => string | undefined;
+
 export interface PluginOptions {
   id?: string;
   path: string;
@@ -57,7 +63,8 @@ export interface PluginOptions {
     copyright: string;
     language?: string;
   };
-  editUrl?: string;
+  editUrl?: string | EditUrlFunction;
+  editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
 }
 
