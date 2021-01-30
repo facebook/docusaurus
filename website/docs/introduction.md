@@ -29,7 +29,7 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 **Use [Docusaurus v1](https://docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
-- :x: You prefer stability over modernity (try [Docusaurus 1](https://docusaurus.io/) instead)
+- :x: You prefer stability over modernity
 - :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
