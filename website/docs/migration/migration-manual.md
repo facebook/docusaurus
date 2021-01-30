@@ -4,7 +4,7 @@ title: Manual migration
 slug: /migration/manual
 ---
 
-This manual migration process should be run after the [automated migration prcess](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
+This manual migration process should be run after the [automated migration process](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
 
 ## Project setup
 
