@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useLocation} from 'react-router-dom';
 
 import Head from '../exports/Head';
@@ -63,19 +63,6 @@ document.addEventListener('DOMContentLoaded', renderBanner);
 `;
 }
 
-// Normally if the baseUrl is correct, the banner will already be hidden by the critical CSS
-// But we can still remove it totally from the DOM if it's not useful anymore
-// This is kind of a "double security"
-// It can also prevent the banner to appear if the CSS fails to load due to some network error
-function useBannerRemover() {
-  useLayoutEffect(() => {
-    const banner = document.getElementById(BannerContainerId);
-    if (banner) {
-      banner.remove();
-    }
-  }, []);
-}
-
 function BaseUrlIssueBannerEnabled() {
   const {
     siteConfig: {baseUrl},
@@ -100,7 +87,6 @@ export default function BaseUrlIssueBanner(): JSX.Element | null {
     siteConfig: {baseUrl, baseUrlIssueBanner},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
-  useBannerRemover();
 
   // returns true for the homepage during SRR
   const isHomePage = pathname === baseUrl;
