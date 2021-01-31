@@ -69,7 +69,7 @@ You will have to work with 2 kind of translation files.
 
 This is the main content of your Docusaurus website.
 
-Markdown and MDX documents are translated as a whole, to fully preserve the translation context, instead of splitting each sentance as a separate string.
+Markdown and MDX documents are translated as a whole, to fully preserve the translation context, instead of splitting each sentence as a separate string.
 
 #### JSON files
 
