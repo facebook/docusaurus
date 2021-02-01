@@ -75,7 +75,7 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 
 A `<Root>` theme component is rendered at the very top of your Docusaurus site.
 
-It allows you to wrap your site with additional logic, by creating a file at `website/src/theme/Root.js`:
+It allows you to wrap your site with additional logic, by creating a file at `src/theme/Root.js`:
 
 ```js title="website/src/theme/Root.js"
 import React from 'react';
