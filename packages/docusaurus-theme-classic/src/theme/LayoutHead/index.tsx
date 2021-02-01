@@ -72,12 +72,11 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 export default function LayoutHead(props: Props): JSX.Element {
   const {
     siteConfig,
-    i18n: {currentLocale},
+    i18n: {currentLocale, direction},
   } = useDocusaurusContext();
   const {
     favicon,
     themeConfig: {image: defaultImage, metadatas},
-    direction,
   } = siteConfig;
   const {title, description, image, keywords, searchMetadatas} = props;
   const metaTitle = useTitleFormatter(title);

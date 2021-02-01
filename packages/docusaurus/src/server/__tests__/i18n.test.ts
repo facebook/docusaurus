@@ -28,6 +28,7 @@ describe('loadI18n', () => {
       locales: ['en'],
       currentLocale: 'en',
       localeConfigs: testLocaleConfigsFor(['en']),
+      direction: 'ltr',
     });
   });
 

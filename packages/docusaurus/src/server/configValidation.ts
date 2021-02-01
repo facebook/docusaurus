@@ -20,6 +20,7 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
   locales: [DEFAULT_I18N_LOCALE],
   localeConfigs: {},
+  direction: 'ltr',
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -50,7 +51,6 @@ export const DEFAULT_CONFIG: Pick<
   titleDelimiter: '|',
   noIndex: false,
   baseUrlIssueBanner: true,
-  direction: 'ltr',
 };
 
 const PluginSchema = Joi.alternatives().try(
@@ -81,6 +81,9 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   localeConfigs: Joi.object()
     .pattern(/.*/, LocaleConfigSchema)
     .default(DEFAULT_I18N_CONFIG.localeConfigs),
+  direction: Joi.string()
+    .equal('ltr', 'rtl')
+    .default(DEFAULT_I18N_CONFIG.direction),
 })
   .optional()
   .default(DEFAULT_I18N_CONFIG);
@@ -135,7 +138,6 @@ const ConfigSchema = Joi.object({
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
-  direction: Joi.string().equal('ltr', 'rtl').default(DEFAULT_CONFIG.direction),
 });
 
 // TODO move to @docusaurus/utils-validation

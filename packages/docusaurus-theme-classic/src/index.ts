@@ -64,7 +64,8 @@ export default function docusaurusThemeClassic(
   options,
 ): Plugin<null, unknown> {
   const {
-    siteConfig: {direction, themeConfig},
+    siteConfig: {themeConfig},
+    i18n: {direction},
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
