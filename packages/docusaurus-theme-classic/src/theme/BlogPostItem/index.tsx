@@ -110,9 +110,9 @@ function BlogPostItem(props: Props): JSX.Element {
 
       <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
         {renderPostHeader()}
-        <section className="markdown">
+        <div className="markdown">
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-        </section>
+        </div>
         {(tags.length > 0 || truncated) && (
           <footer className="row margin-vert--lg">
             {tags.length > 0 && (
