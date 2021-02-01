@@ -322,6 +322,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Rematch',
+    description: 'Redux best practices without the boilerplate in less than 2kb',
+    preview: require('./showcase/rematch.png'),
+    website: 'https://rematchjs.org',
+    source: 'https://github.com/rematch/rematch',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
