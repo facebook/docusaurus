@@ -5,35 +5,41 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import sitemap, {Sitemap, SitemapItemOptions} from 'sitemap';
+import {SitemapStream, streamToPromise} from 'sitemap';
 import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
 import {addTrailingSlash} from '@docusaurus/utils';
 
-export default function createSitemap(
+export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
   options: PluginOptions,
-): Sitemap {
+): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('url in docusaurus.config.js cannot be empty/undefined');
   }
-  const {cacheTime, changefreq, priority, trailingSlash} = options;
+  const {changefreq, priority, trailingSlash} = options;
 
-  const urls = routesPaths
-    .filter((route) => !route.endsWith('404.html'))
-    .map(
-      (routePath): SitemapItemOptions => ({
-        url: trailingSlash ? addTrailingSlash(routePath) : routePath,
-        changefreq,
-        priority,
-      }),
-    );
+  try {
+    const sitemapStream = new SitemapStream({
+      hostname,
+    });
 
-  return sitemap.createSitemap({
-    hostname,
-    cacheTime,
-    urls,
-  });
+    routesPaths
+      .filter((route) => !route.endsWith('404.html'))
+      .map((routePath) =>
+        sitemapStream.write({
+          url: trailingSlash ? addTrailingSlash(routePath) : routePath,
+          changefreq,
+          priority,
+        }),
+      );
+
+    sitemapStream.end();
+
+    return await streamToPromise(sitemapStream).then((sm) => sm.toString());
+  } catch (e) {
+    throw new Error(e);
+  }
 }
