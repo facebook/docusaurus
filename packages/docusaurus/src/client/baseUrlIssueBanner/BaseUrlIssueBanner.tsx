@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 
 import Head from '../exports/Head';
@@ -27,7 +27,7 @@ const SuggestionContainerId =
 // - We can't CSR (as it means the baseurl is correct)
 function createInlineHtmlBanner(baseUrl: string) {
   return `
-<div style="border: thick solid red; background-color: rgb(255, 230, 179); margin: 20px; padding: 20px; font-size: 20px;">
+<div id="${BannerContainerId}" style="border: thick solid red; background-color: rgb(255, 230, 179); margin: 20px; padding: 20px; font-size: 20px;">
    <p style="font-weight: bold; font-size: 30px;">Your Docusaurus site did not load properly.</p>
    <p>A very common reason is a wrong site <a href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl" style="font-weight: bold;">baseUrl configuration</a>.</p>
    <p>Current configured baseUrl = <span style="font-weight: bold; color: red;">${baseUrl}</span> ${
@@ -63,16 +63,29 @@ document.addEventListener('DOMContentLoaded', renderBanner);
 `;
 }
 
+// Normally if the baseUrl is correct, the banner will already be hidden by the critical CSS
+// But we can still remove it totally from the DOM if it's not useful anymore
+// This is kind of a "double security"
+// It can also prevent the banner to appear if the CSS fails to load due to some network error
+function useBannerRemover() {
+  useLayoutEffect(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById(BannerContainerId)?.remove();
+    });
+  }, []);
+}
+
 function BaseUrlIssueBannerEnabled() {
   const {
     siteConfig: {baseUrl},
   } = useDocusaurusContext();
+  useBannerRemover();
+
   return (
     <>
       <Head>
         <script>{createInlineScript(baseUrl)}</script>
       </Head>
-      <div id={BannerContainerId} />
     </>
   );
 }
