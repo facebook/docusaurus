@@ -36,6 +36,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'titleDelimiter'
   | 'noIndex'
   | 'baseUrlIssueBanner'
+  | 'direction'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -49,6 +50,7 @@ export const DEFAULT_CONFIG: Pick<
   titleDelimiter: '|',
   noIndex: false,
   baseUrlIssueBanner: true,
+  direction: 'ltr',
 };
 
 const PluginSchema = Joi.alternatives().try(
@@ -133,6 +135,7 @@ const ConfigSchema = Joi.object({
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
+  direction: Joi.string().equal('ltr', 'rtl').default(DEFAULT_CONFIG.direction),
 });
 
 // TODO move to @docusaurus/utils-validation

@@ -14,6 +14,8 @@ import {MergeStrategy} from 'webpack-merge';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
+export type Direction = 'ltr' | 'rtl';
+
 export type ThemeConfig = {
   [key: string]: unknown;
 };
@@ -57,6 +59,7 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
+  direction: Direction;
 }
 
 /**

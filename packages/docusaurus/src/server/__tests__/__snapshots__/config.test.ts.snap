@@ -20,6 +20,7 @@ Object {
   "baseUrl": "/",
   "baseUrlIssueBanner": true,
   "customFields": Object {},
+  "direction": "ltr",
   "favicon": "img/docusaurus.ico",
   "i18n": Object {
     "defaultLocale": "en",

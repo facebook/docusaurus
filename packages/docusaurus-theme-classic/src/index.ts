@@ -64,7 +64,7 @@ export default function docusaurusThemeClassic(
   options,
 ): Plugin<null, unknown> {
   const {
-    siteConfig: {themeConfig},
+    siteConfig: {direction, themeConfig},
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
@@ -94,8 +94,12 @@ export default function docusaurusThemeClassic(
     translateThemeConfig,
 
     getClientModules() {
+      const infimaBundleSuffix = direction === 'rtl' ? '-rtl' : '';
+
       const modules = [
-        require.resolve('infima/dist/css/default/default.css'),
+        require.resolve(
+          `infima/dist/css/default/default${infimaBundleSuffix}.css`,
+        ),
         path.resolve(__dirname, './prism-include-languages'),
       ];
 

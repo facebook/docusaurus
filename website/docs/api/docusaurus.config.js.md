@@ -105,6 +105,20 @@ module.exports = {
 };
 ```
 
+### `direction`
+
+- Type: `'ltr' | 'rtl'`
+
+The base reading direction in which to display website.
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  direction: 'rtl', // Defaults to `ltr`
+};
+```
+
 ### `noIndex`
 
 - Type: `boolean`

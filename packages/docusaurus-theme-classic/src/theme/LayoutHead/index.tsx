@@ -77,6 +77,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   const {
     favicon,
     themeConfig: {image: defaultImage, metadatas},
+    direction,
   } = siteConfig;
   const {title, description, image, keywords, searchMetadatas} = props;
   const metaTitle = useTitleFormatter(title);
@@ -91,7 +92,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   return (
     <>
       <Head>
-        <html lang={htmlLang} />
+        <html lang={htmlLang} dir={direction} />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
