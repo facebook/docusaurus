@@ -24,7 +24,7 @@ id: hello
 title: Hello, World !
 ---
 
-Hi, Endilie here :)
+Hi, EndLine here :)
 ```
 
 When you cut a new version 1.0.0, in Docusaurus v1, `website/versioned_docs/version-1.0.0/hello.md` looks like this:
@@ -36,7 +36,7 @@ title: Hello, World !
 original_id: hello
 ---
 
-Hi, Endilie here :)
+Hi, EndLine here :)
 ```
 
 In comparison, Docusaurus 2 `website/versioned_docs/version-1.0.0/hello.md` looks like this (exactly same as original)
@@ -47,7 +47,7 @@ id: hello
 title: Hello, World !
 ---
 
-Hi, Endilie here :)
+Hi, EndLine here :)
 ```
 
 Since we're going for snapshot and allow people to move (and edit) docs easily inside version. The `id` frontmatter is no longer altered and will remain the same. Internally, it is set as `version-${version}/${id}`.
@@ -61,7 +61,7 @@ Essentially, here are the necessary changes in each versioned_docs file:
 title: Hello, World !
 - original_id: hello
 ---
-Hi, Endilie here :)
+Hi, EndLine here :)
 ```
 
 ## Migrate your `versioned_sidebars`
@@ -89,7 +89,7 @@ title: Hello, World !
 original_id: hello
 ---
 
-Hi, Endilie here :)
+Hi, EndLine here :)
 ```
 
 Since we don't allow `/` in v1 & v2 for frontmatter, conflicts are less likely to occur.
