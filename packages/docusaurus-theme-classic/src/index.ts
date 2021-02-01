@@ -65,7 +65,7 @@ export default function docusaurusThemeClassic(
 ): Plugin<null, unknown> {
   const {
     siteConfig: {themeConfig},
-    i18n: {direction},
+    i18n: {currentLocale, localeConfigs},
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
@@ -95,7 +95,8 @@ export default function docusaurusThemeClassic(
     translateThemeConfig,
 
     getClientModules() {
-      const infimaBundleSuffix = direction === 'rtl' ? '-rtl' : '';
+      const infimaBundleSuffix =
+        localeConfigs[currentLocale].direction === 'rtl' ? '-rtl' : '';
 
       const modules = [
         require.resolve(

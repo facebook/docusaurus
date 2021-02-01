@@ -96,12 +96,13 @@ module.exports = {
     localeConfigs: {
       en: {
         label: 'English',
+        direction: 'rtl', // Defaults to `ltr`
       },
       fr: {
         label: 'Français',
+        direction: 'rtl', // Defaults to `ltr`
       },
     },
-    direction: 'rtl', // Defaults to `ltr`
   },
 };
 ```

@@ -94,13 +94,13 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
+  direction: string;
 };
 
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
   localeConfigs: Record<string, I18nLocaleConfig>;
-  direction: 'ltr' | 'rtl';
 };
 
 export type I18n = I18nConfig & {
