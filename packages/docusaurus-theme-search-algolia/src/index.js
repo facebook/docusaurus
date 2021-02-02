@@ -60,7 +60,7 @@ function theme(context) {
           renderOpenSearchTemplate({
             title,
             url: url + baseUrl,
-            favicon: normalizeUrl([url, favicon]),
+            favicon: normalizeUrl([url, baseUrl, favicon]),
           }),
         );
       } catch (err) {
