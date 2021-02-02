@@ -5,35 +5,43 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
+import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
+function programmaticFocus(el) {
+  el.setAttribute('tabindex', '-1');
+  el.focus();
+  setTimeout(() => el.removeAttribute('tabindex'), 1000);
+}
+
 function SkipToContent(): JSX.Element {
-  const handleSkip = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.keyCode !== 13) {
-      return;
-    }
+  const containerRef = useRef(null);
+  const location = useLocation();
 
-    (document.activeElement as HTMLElement).blur();
+  const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
 
-    const firstMainElement = document.querySelector('main:first-of-type');
+    const targetElement =
+      document.querySelector('main:first-of-type') ||
+      document.querySelector('.main-wrapper');
 
-    if (firstMainElement) {
-      firstMainElement.scrollIntoView();
+    if (targetElement) {
+      programmaticFocus(targetElement);
     }
   };
 
+  useEffect(() => {
+    programmaticFocus(containerRef.current);
+  }, [location.pathname]);
+
   return (
-    <nav aria-label="Skip navigation links">
-      <button
-        type="button"
-        tabIndex={0}
-        className={styles.skipToContent}
-        onKeyDown={handleSkip}>
+    <div ref={containerRef}>
+      <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
         Skip to main content
-      </button>
-    </nav>
+      </a>
+    </div>
   );
 }
 
