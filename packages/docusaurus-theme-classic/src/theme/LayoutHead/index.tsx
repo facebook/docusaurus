@@ -26,6 +26,9 @@ function AlternateLangHeaders(): JSX.Element {
     i18n: {defaultLocale, locales},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+
+  // Note: it is fine to use both "x-default" and "en" to target the same url
+  // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
   return (
     <Head>
       {locales.map((locale) => (
@@ -36,9 +39,17 @@ function AlternateLangHeaders(): JSX.Element {
             locale,
             fullyQualified: true,
           })}
-          hrefLang={locale === defaultLocale ? 'x-default' : locale}
+          hrefLang={locale}
         />
       ))}
+      <link
+        rel="alternate"
+        href={alternatePageUtils.createUrl({
+          locale: defaultLocale,
+          fullyQualified: true,
+        })}
+        hrefLang="x-default"
+      />
     </Head>
   );
 }
