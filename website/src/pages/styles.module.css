@@ -105,7 +105,7 @@
 }
 
 .indexCtas a:last-of-type {
-  margin: 0 36px;
+  margin: 20px 36px;
 }
 
 .indexCtasGitHubButtonWrapper {
@@ -146,8 +146,8 @@
     justify-content: center;
   }
 
-  .indexCtas a:last-of-type {
-    margin-top: 20px;
+  .indexCtas a {
+    margin: 20px 36px;
   }
 
   .indexCtasGitHubButton {
