@@ -31,15 +31,28 @@ function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
 }
 
+function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
+  // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
+  // We can use this method as well to know which folders we should try to extract translations from
+  // Hacky/implicit, but do we want to introduce a new lifecycle method just for that???
+  const codePaths: string[] = plugin.getPathsToWatch?.() ?? [];
+
+  // We also include theme code
+  const themePath = plugin.getThemePath?.();
+  if (themePath) {
+    codePaths.push(themePath);
+  }
+
+  return codePaths;
+}
+
 async function getSourceCodeFilePaths(
   plugins: InitPlugin[],
 ): Promise<string[]> {
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to extract translations from
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const allPathsToWatch = flatten(
-    plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
-  );
+  const allPathsToWatch = flatten(plugins.map(getPluginSourceCodeFilePaths));
 
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)

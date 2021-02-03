@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/DocPaginator';
 
 function DocPaginator(props: Props): JSX.Element {
@@ -19,7 +20,13 @@ function DocPaginator(props: Props): JSX.Element {
           <Link
             className="pagination-nav__link"
             to={metadata.previous.permalink}>
-            <div className="pagination-nav__sublabel">Previous</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.DocPaginator.previous"
+                description="The label used to navigate to the previous doc">
+                Previous
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               &laquo; {metadata.previous.title}
             </div>
@@ -29,7 +36,13 @@ function DocPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {metadata.next && (
           <Link className="pagination-nav__link" to={metadata.next.permalink}>
-            <div className="pagination-nav__sublabel">Next</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.DocPaginator.next"
+                description="The label used to navigate to the next doc">
+                Next
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               {metadata.next.title} &raquo;
             </div>

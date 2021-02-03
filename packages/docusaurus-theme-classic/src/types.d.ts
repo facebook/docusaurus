@@ -92,6 +92,14 @@ declare module '@theme/DocVersionSuggestions' {
   export default DocVersionSuggestions;
 }
 
+declare module '@theme/EditThisPage' {
+  export type Props = {
+    readonly editUrl: string;
+  };
+  const EditThisPage: (props: Props) => JSX.Element;
+  export default EditThisPage;
+}
+
 declare module '@theme/Footer' {
   const Footer: () => JSX.Element | null;
   export default Footer;

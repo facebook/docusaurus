@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
-
+import Translate from '@docusaurus/Translate';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
@@ -133,7 +133,13 @@ function BlogPostItem(props: Props): JSX.Element {
                 <Link
                   to={metadata.permalink}
                   aria-label={`Read more about ${title}`}>
-                  <strong>Read More</strong>
+                  <strong>
+                    <Translate
+                      id="theme.BlogPostItem.readMore"
+                      description="The label used in blog post item excerps to link to full blog posts">
+                      Read More
+                    </Translate>
+                  </strong>
                 </Link>
               </div>
             )}

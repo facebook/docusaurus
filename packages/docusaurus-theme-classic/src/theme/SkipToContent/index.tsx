@@ -6,8 +6,8 @@
  */
 
 import React, {useRef, useEffect} from 'react';
+import Translate from '@docusaurus/Translate';
 import {useLocation} from '@docusaurus/router';
-
 import styles from './styles.module.css';
 
 function programmaticFocus(el) {
@@ -39,7 +39,11 @@ function SkipToContent(): JSX.Element {
   return (
     <div ref={containerRef}>
       <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
-        Skip to main content
+        <Translate
+          id="theme.SkipToContent.skipToMainContent"
+          description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">
+          Skip to main content
+        </Translate>
       </a>
     </div>
   );

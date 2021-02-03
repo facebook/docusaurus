@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 import type {Metadata} from '@theme/BlogListPage';
 
 function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
@@ -18,14 +19,28 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <div className="pagination-nav__label">&laquo; Newer Entries</div>
+            <div className="pagination-nav__label">
+              &laquo;{' '}
+              <Translate
+                id="theme.BlogListPaginator.newerEntries"
+                description="The label used to navigate to the newer blog posts page (previous page)">
+                Newer Entries
+              </Translate>
+            </div>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <div className="pagination-nav__label">Older Entries &raquo;</div>
+            <div className="pagination-nav__label">
+              <Translate
+                id="theme.BlogListPaginator.olderEntries"
+                description="The label used to navigate to the older blog posts page (next page)">
+                Older Entries
+              </Translate>{' '}
+              &raquo;
+            </div>
           </Link>
         )}
       </div>

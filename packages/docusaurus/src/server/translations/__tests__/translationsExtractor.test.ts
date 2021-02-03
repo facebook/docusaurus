@@ -238,21 +238,54 @@ describe('extractPluginsSourceCodeTranslations', () => {
       return {
         name: 'abc',
         getPathsToWatch() {
-          return [path.join(pluginDir, '**/*.{js,jsx,ts,tsx}')];
+          return [path.join(pluginDir, 'subpath', '**/*.{js,jsx,ts,tsx}')];
+        },
+        getThemePath() {
+          return path.join(pluginDir, 'src', 'theme');
         },
       };
     }
 
     const plugin1Dir = await createTmpDir();
-    const plugin1File = path.join(plugin1Dir, 'file.jsx');
-    await fs.ensureDir(path.dirname(plugin1File));
+    const plugin1File1 = path.join(plugin1Dir, 'subpath', 'file1.jsx');
+    await fs.ensureDir(path.dirname(plugin1File1));
     await fs.writeFile(
-      plugin1File,
+      plugin1File1,
       `
 export default function MyComponent() {
   return (
     <div>
-      <input text={translate({id: 'plugin1Id',message: 'plugin1 message',description: 'plugin1 description'})}/>
+      <input text={translate({id: 'plugin1Id1',message: 'plugin1 message 1',description: 'plugin1 description 1'})}/>
+    </div>
+  );
+}
+`,
+    );
+    const plugin1File2 = path.join(plugin1Dir, 'src', 'theme', 'file2.jsx');
+    await fs.ensureDir(path.dirname(plugin1File2));
+    await fs.writeFile(
+      plugin1File2,
+      `
+export default function MyComponent() {
+  return (
+    <div>
+      <input text={translate({id: 'plugin1Id2',message: 'plugin1 message 2',description: 'plugin1 description 2'})}/>
+    </div>
+  );
+}
+`,
+    );
+
+    // This one should not be found! On purpose!
+    const plugin1File3 = path.join(plugin1Dir, 'unscannedFolder', 'file3.jsx');
+    await fs.ensureDir(path.dirname(plugin1File3));
+    await fs.writeFile(
+      plugin1File3,
+      `
+export default function MyComponent() {
+  return (
+    <div>
+      <input text={translate({id: 'plugin1Id3',message: 'plugin1 message 3',description: 'plugin1 description 3'})}/>
     </div>
   );
 }
@@ -261,7 +294,7 @@ export default function MyComponent() {
     const plugin1 = createTestPlugin(plugin1Dir);
 
     const plugin2Dir = await createTmpDir();
-    const plugin2File = path.join(plugin1Dir, 'sub', 'path', 'file.tsx');
+    const plugin2File = path.join(plugin1Dir, 'subpath', 'file.tsx');
     await fs.ensureDir(path.dirname(plugin2File));
     await fs.writeFile(
       plugin2File,
@@ -271,7 +304,7 @@ type Props = {hey: string};
 export default function MyComponent(props: Props) {
   return (
     <div>
-      <input text={translate({id: 'plugin2Id',message: 'plugin2 message',description: 'plugin2 description'})}/>
+      <input text={translate({id: 'plugin2Id1',message: 'plugin2 message 1',description: 'plugin2 description 1'})}/>
       <Translate
         id="plugin2Id2"
         description="plugin2 description 2"
@@ -291,13 +324,17 @@ export default function MyComponent(props: Props) {
       TestBabelOptions,
     );
     expect(translations).toEqual({
-      plugin1Id: {
-        description: 'plugin1 description',
-        message: 'plugin1 message',
+      plugin1Id1: {
+        description: 'plugin1 description 1',
+        message: 'plugin1 message 1',
       },
-      plugin2Id: {
-        description: 'plugin2 description',
-        message: 'plugin2 message',
+      plugin1Id2: {
+        description: 'plugin1 description 2',
+        message: 'plugin1 message 2',
+      },
+      plugin2Id1: {
+        description: 'plugin2 description 1',
+        message: 'plugin2 message 1',
       },
       plugin2Id2: {
         description: 'plugin2 description 2',

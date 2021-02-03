@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-
 import Head from '@docusaurus/Head';
 import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -15,7 +14,7 @@ import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
-import IconEdit from '@theme/IconEdit';
+import EditThisPage from '@theme/EditThisPage';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -107,15 +106,7 @@ function DocItem(props: Props): JSX.Element {
               <div className="margin-vert--xl">
                 <div className="row">
                   <div className="col">
-                    {editUrl && (
-                      <a
-                        href={editUrl}
-                        target="_blank"
-                        rel="noreferrer noopener">
-                        <IconEdit />
-                        Edit this page
-                      </a>
-                    )}
+                    {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
                   {(lastUpdatedAt || lastUpdatedBy) && (
                     <div className="col text--right">
