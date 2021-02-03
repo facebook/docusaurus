@@ -9,7 +9,9 @@ Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, a
 
 :::note
 
-When using this plugin, the images will not render on the developent server. You must create and serve a production build in order to view the images
+You must create and serve a **production build** in order to view the high-quality images.
+
+When using this plugin in **development**, only the low-quality image placeholders will be visible.
 
 :::
 
