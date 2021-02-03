@@ -10,6 +10,7 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
     "build:baseUrl": "cross-env BASE_URL='/build/' yarn build",
     "start:bootstrap": "cross-env DOCUSAURUS_PRESET=bootstrap yarn start",
