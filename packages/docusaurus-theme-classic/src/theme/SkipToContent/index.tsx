@@ -13,7 +13,7 @@ import styles from './styles.module.css';
 function programmaticFocus(el) {
   el.setAttribute('tabindex', '-1');
   el.focus();
-  setTimeout(() => el.removeAttribute('tabindex'), 1000);
+  el.removeAttribute('tabindex');
 }
 
 function SkipToContent(): JSX.Element {
