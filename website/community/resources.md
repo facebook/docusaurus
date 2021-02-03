@@ -29,6 +29,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus2-dotenv](https://github.com/jonnynabors/docusaurus2-dotenv) - A Docusaurus 2 plugin that supports dotenv and other environment variables
 - [posthog-docusaurus](https://github.com/PostHog/posthog-docusaurus) - Integrate [PostHog](https://posthog.com/) product analytics with Docusaurus v2
 - [docusaurus-plugin-moesif](https://github.com/Moesif/docusaurus-plugin-moesif) - Adds [Moesif API Analytics](https://www.moesif.com/) to track user behavior and pinpoint where developers drop off in your activation funnel.
+- [docusaurus-theme-github-codeblock](https://github.com/saucelabs/docusaurus-theme-github-codeblock). A Docusaurus v2 plugin that supports referencing code examples from public GitHub repositories
 
 ## Enterprise usage
 
@@ -37,3 +38,4 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - Stripe
 - Algolia
 - Callstack
+- Sauce Labs
