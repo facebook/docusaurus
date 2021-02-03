@@ -6,6 +6,15 @@ slug: '/api/plugins/@docusaurus/plugin-ideal-image'
 
 Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
+
+:::note
+
+You must create and serve a **production build** in order to view the high-quality images.
+
+When using this plugin in **development**, only the low-quality image placeholders will be visible.
+
+:::
+
 ## Installation
 
 ```bash npm2yarn
