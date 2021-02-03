@@ -19,6 +19,7 @@ const {
   externalCommand,
   serve,
   clear,
+  upgrade,
   writeTranslations,
 } = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
@@ -207,6 +208,17 @@ cli
   });
 
 cli
+  .command('upgrade')
+  .description('Upgrades @docusaurus packages')
+  .option(
+    '-t, --tag <tag>',
+    'Tag of npm to look for upgrading. This option accepts any of: <alpha, beta, next, latest>',
+  )
+  .action(({tag = undefined}) => {
+    wrapCommand(upgrade)({tag});
+  });
+
+cli
   .command('write-translations [siteDir]')
   .description('Extract required translations of your site')
   .option(
@@ -245,6 +257,7 @@ function isInternalCommand(command) {
     'start',
     'build',
     'swizzle',
+    'upgrade',
     'deploy',
     'serve',
     'clear',
