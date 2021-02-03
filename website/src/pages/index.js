@@ -106,11 +106,11 @@ function Home() {
               />
             </h1>
             <div className={styles.indexCtas}>
-              <Link className={styles.indexCtasGetStartedButton} to="/docs">
+              <Link className="button button--primary" to="/docs">
                 <Translate>Get Started</Translate>
               </Link>
               <Link
-                className={styles.indexCtaTryNowButton}
+                className="button button--info"
                 to="https://new.docusaurus.io">
                 <Translate>Playground</Translate>
               </Link>
