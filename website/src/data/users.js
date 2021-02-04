@@ -450,6 +450,15 @@ const users = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    title: 'Hashnode Support',
+    description: 'A help portal for Hashnode users',
+    preview: require('./showcase/hashnode.png'),
+    website: 'https://support.hashnode.com/',
+    source: 'https://github.com/Hashnode/support',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 users.forEach((user) => {
