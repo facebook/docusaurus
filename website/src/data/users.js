@@ -331,6 +331,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Rooks',
+    description: 'Supercharge your components with this collection of React hooks.',
+    preview: require('./showcase/rooks.png'),
+    website: 'https://react-hooks.org/',
+    source: 'https://github.com/imbhargav5/rooks',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
