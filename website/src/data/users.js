@@ -458,7 +458,7 @@ const users = [
     source: 'https://github.com/Wisdom/dev-docs',
     fbOpenSource: false,
     pinned: false,
-  }
+  },
 ];
 
 users.forEach((user) => {
