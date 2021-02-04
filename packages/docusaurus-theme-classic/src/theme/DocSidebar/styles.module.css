@@ -71,6 +71,7 @@
     position: sticky;
     bottom: 0;
     border-radius: 0;
+    border: 1px solid var(--ifm-toc-border-color);
   }
 
   .collapseSidebarButtonIcon {
@@ -80,8 +81,6 @@
 
   html[data-theme='dark'] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
-    border: none;
-    border-left: 1px solid var(--ifm-toc-border-color);
   }
 
   html[data-theme='dark'] .collapseSidebarButton:hover,
