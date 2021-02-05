@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loader} from 'webpack';
+// @ts-nocheck
+
 import {truncate, linkify} from './blogUtils';
 import {parseQuery, getOptions} from 'loader-utils';
 import {BlogMarkdownLoaderOptions} from './types';
 
-const markdownLoader: loader.Loader = function (source) {
+const markdownLoader = function (source) {
   const filePath = this.resourcePath;
   const fileContent = source as string;
   const callback = this.async();

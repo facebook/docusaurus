@@ -65,6 +65,7 @@ const getChunkNamesToLoad = (path: string): string[] => {
 
 const docusaurus = {
   prefetch: (routePath: string): boolean => {
+    /*
     if (!canPrefetch(routePath)) {
       return false;
     }
@@ -91,8 +92,9 @@ const docusaurus = {
         prefetchHelper(chunkAsset);
       }
     });
+    */
 
-    return true;
+    return false;
   },
 
   preload: (routePath: string): boolean => {

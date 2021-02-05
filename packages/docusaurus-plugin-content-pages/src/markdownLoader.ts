@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loader} from 'webpack';
+// @ts-nocheck
 // import {getOptions} from 'loader-utils';
 
-const markdownLoader: loader.Loader = function (fileString) {
+const markdownLoader = function (fileString) {
   const callback = this.async();
 
   // const options = getOptions(this);

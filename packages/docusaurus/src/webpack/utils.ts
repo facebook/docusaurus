@@ -10,13 +10,15 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
-import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
+// import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
+import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
@@ -159,7 +161,7 @@ export function applyConfigureWebpack(
 // @RDIL: the way warnings work was changed in v5, so does this even still work?
 // todo reevaluate at a future date
 type WarningFilter = string | RegExp | Function;
-function filterWarnings(
+export function filterWarnings(
   warningsFilter: WarningFilter[],
   warnings: string[],
 ): string[] {
@@ -200,13 +202,14 @@ export function compile(config: Configuration[]): Promise<void> {
         let warnings = [...allStats.warnings];
 
         // todo
-        // @ts-ignore
+        /*
         const warningsFilter = (config[0].stats?.warningsFilter ||
           []) as WarningFilter[];
 
         if (Array.isArray(warningsFilter)) {
           warnings = filterWarnings(warningsFilter, warnings);
         }
+        */
 
         warnings.forEach((warning) => {
           console.warn(warning);
@@ -411,6 +414,7 @@ function getTerserParallel() {
 
 export function getMinimizer(): Plugin[] {
   const minimizer = [
+    /*
     new TerserPlugin({
       cache: true,
       parallel: getTerserParallel(),
@@ -440,7 +444,17 @@ export function getMinimizer(): Plugin[] {
         },
       },
     }),
-    new CssMinimizerWebpackPlugin(),
+    */
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: CssNanoPreset,
+      },
+    }),
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        cssProcessor: CleanCss,
+      }
+    }),
   ];
 
   return minimizer;

@@ -26,7 +26,7 @@ import {
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from 'joi';
@@ -247,7 +247,7 @@ export default function pluginContentPages(
                     // contentPath,
                   },
                 },
-              ].filter(Boolean) as Loader[],
+              ].filter(Boolean),
             },
           ],
         },

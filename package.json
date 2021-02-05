@@ -69,6 +69,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
     "@crowdin/cli": "^3.5.2",
+    "@types/css-minimizer-webpack-plugin": "^1.1.1",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^9.0.4",
     "@types/inquirer": "^6.5.0",
@@ -139,7 +140,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "echo hello"
     }
   },
   "engines": {

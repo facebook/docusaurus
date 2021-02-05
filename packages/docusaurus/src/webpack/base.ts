@@ -9,7 +9,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import webpack, {Configuration} from 'webpack';
+import {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getBabelLoader,
@@ -191,7 +191,6 @@ export function createBaseConfig(
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
-      new webpack.DefinePlugin(process.env),
     ],
   };
 }

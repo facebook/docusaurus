@@ -129,6 +129,7 @@ async function buildLocale({
     // @ts-ignore
     createClientConfig(props, cliOptions.minify),
     {
+      // @ts-ignore
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),

@@ -7,8 +7,13 @@
 
 /* eslint-disable */
 
-// note(Docusaurus): the above copyright header does not match the rest of the project
-// but must be preserved for license compliance.
+/*
+ * note - Docusaurus: the above copyright header does not match the rest of the project
+ * but must be preserved for license compliance.
+ * Docusaurus's fork of this module changes a couple things:
+ *  - webpack 5 support
+ *  - process.env will not be accessible
+ */
 
 'use strict';
 
@@ -23,8 +28,8 @@
 
 var stripAnsi = require('strip-ansi');
 var url = require('url');
-var launchEditorEndpoint = require('./launchEditorEndpoint');
-var formatWebpackMessages = require('./formatWebpackMessages');
+var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
+var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
@@ -124,29 +129,6 @@ function handleWarnings(warnings) {
   var isHotUpdate = !isFirstCompilation;
   isFirstCompilation = false;
   hasCompileErrors = false;
-
-  function printWarnings() {
-    // Print warnings to the console.
-    var formatted = formatWebpackMessages({
-      warnings: warnings,
-      errors: [],
-    });
-
-    if (typeof console !== 'undefined' && typeof console.warn === 'function') {
-      for (var i = 0; i < formatted.warnings.length; i++) {
-        if (i === 5) {
-          console.warn(
-            'There were more warnings in other files.\n' +
-              'You can find a complete log in the terminal.',
-          );
-          break;
-        }
-        console.warn(stripAnsi(formatted.warnings[i]));
-      }
-    }
-  }
-
-  printWarnings();
 
   // Attempt to apply hot updates or reload.
   if (isHotUpdate) {
@@ -265,18 +247,15 @@ function tryApplyUpdates(onHotUpdateSuccess) {
     }
   }
 
-  // https://webpack.github.io/docs/hot-module-replacement.html#check
+  // https://webpack.js.org/docs/hot-module-replacement.html#check
   var result = module.hot.check(/* autoApply */ true, handleApplyUpdates);
 
-  // // webpack 2 returns a Promise instead of invoking a callback
-  if (result && result.then) {
-    result.then(
-      function (updatedModules) {
-        handleApplyUpdates(null, updatedModules);
-      },
-      function (err) {
-        handleApplyUpdates(err, null);
-      },
-    );
-  }
+  result.then(
+    function (updatedModules) {
+      handleApplyUpdates(null, updatedModules);
+    },
+    function (err) {
+      handleApplyUpdates(err, null);
+    },
+  );
 }
