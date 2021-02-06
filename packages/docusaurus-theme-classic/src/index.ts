@@ -9,6 +9,8 @@ import {Plugin} from '@docusaurus/types';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
+import postcss from 'postcss';
+import rtlcss from 'rtlcss';
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -69,6 +71,7 @@ export default function docusaurusThemeClassic(
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
+  const isRtlLocale = localeConfigs[currentLocale].direction === 'rtl';
 
   return {
     name: 'docusaurus-theme-classic',
@@ -95,12 +98,9 @@ export default function docusaurusThemeClassic(
     translateThemeConfig,
 
     getClientModules() {
-      const infimaBundleSuffix =
-        localeConfigs[currentLocale].direction === 'rtl' ? '-rtl' : '';
-
       const modules = [
         require.resolve(
-          `infima/dist/css/default/default${infimaBundleSuffix}.css`,
+          `infima/dist/css/default/default${isRtlLocale ? '-rtl' : ''}.css`,
         ),
         path.resolve(__dirname, './prism-include-languages'),
       ];
@@ -139,6 +139,27 @@ export default function docusaurusThemeClassic(
           ),
         ],
       };
+    },
+
+    configurePostCss(postCssOptions) {
+      if (isRtlLocale) {
+        postCssOptions.plugins.push(
+          postcss.plugin('RtlCssPlugin', () => {
+            return function (root) {
+              const file = root?.source.input.file;
+
+              // Skip Infima as we are using the its RTL version.
+              if (file.includes('dist/infima')) {
+                return;
+              }
+
+              rtlcss.process(root);
+            };
+          }),
+        );
+      }
+
+      return postCssOptions;
     },
 
     injectHtmlTags() {
