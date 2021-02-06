@@ -8,10 +8,11 @@
 import * as React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
+import Translate from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
-function Playground({children, theme, transformCode, ...props}) {
+export default function Playground({children, theme, transformCode, ...props}) {
   return (
     <LiveProvider
       code={children.replace(/\n$/, '')}
@@ -23,7 +24,11 @@ function Playground({children, theme, transformCode, ...props}) {
           styles.playgroundHeader,
           styles.playgroundEditorHeader,
         )}>
-        Live Editor
+        <Translate
+          id="theme.Playground.liveEditor"
+          description="The live editor label of the live codeblocks">
+          Live Editor
+        </Translate>
       </div>
       <LiveEditor className={styles.playgroundEditor} />
       <div
@@ -31,7 +36,11 @@ function Playground({children, theme, transformCode, ...props}) {
           styles.playgroundHeader,
           styles.playgroundPreviewHeader,
         )}>
-        Result
+        <Translate
+          id="theme.Playground.result"
+          description="The result label of the live codeblocks">
+          Result
+        </Translate>
       </div>
       <div className={styles.playgroundPreview}>
         <LivePreview />
@@ -40,5 +49,3 @@ function Playground({children, theme, transformCode, ...props}) {
     </LiveProvider>
   );
 }
-
-export default Playground;

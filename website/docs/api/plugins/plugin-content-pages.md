@@ -66,3 +66,24 @@ module.exports = {
   ],
 };
 ```
+
+## i18n
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location
+
+- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
+- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-pages-<pluginId>`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
+
+### Example file-system structure
+
+```bash
+website/i18n/<locale>/docusaurus-plugin-content-pages
+│
+│ # translations for website/src/pages
+├── first-markdown-page.md
+└── second-markdown-page.md
+```

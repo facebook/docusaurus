@@ -64,18 +64,20 @@ export function getStyleLoaders(
       // package.json
       loader: require.resolve('postcss-loader'),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 4,
-          }),
-        ],
+        postcssOptions: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          ident: 'postcss',
+          plugins: [
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 4,
+            }),
+          ],
+        },
       },
     },
   ];
@@ -198,22 +200,24 @@ function filterWarnings(
   return warnings.filter((warning) => !isWarningFiltered(warning));
 }
 
-export function compile(config: Configuration[]): Promise<void> {
+export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
         reject(new Error(err.toString()));
       }
+      // let plugins consume all the stats
+      const allStats = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
+        allStats.errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let {warnings} = stats.toJson('errors-warnings');
+        let warnings = [...allStats.warnings];
 
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as WarningFilter[];
@@ -226,7 +230,7 @@ export function compile(config: Configuration[]): Promise<void> {
           console.warn(warning);
         });
       }
-      resolve();
+      resolve(allStats);
     });
   });
 }

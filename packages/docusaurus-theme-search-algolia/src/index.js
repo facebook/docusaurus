@@ -59,8 +59,8 @@ function theme(context) {
           path.join(outDir, OPEN_SEARCH_FILENAME),
           renderOpenSearchTemplate({
             title,
-            url,
-            favicon: normalizeUrl([url, favicon]),
+            url: url + baseUrl,
+            favicon: normalizeUrl([url, baseUrl, favicon]),
           }),
         );
       } catch (err) {

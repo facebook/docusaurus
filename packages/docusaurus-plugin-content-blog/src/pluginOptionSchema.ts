@@ -34,6 +34,7 @@ export const DEFAULT_OPTIONS = {
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
   path: 'blog',
+  editLocalizedFiles: false,
 };
 
 export const PluginOptionSchema = Joi.object({
@@ -67,7 +68,8 @@ export const PluginOptionSchema = Joi.object({
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
-  editUrl: URISchema,
+  editUrl: Joi.alternatives().try(URISchema, Joi.function()),
+  editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,

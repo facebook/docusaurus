@@ -41,6 +41,7 @@ const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
 
 const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
@@ -76,7 +77,12 @@ module.exports = {
       {
         id: 'community',
         path: 'community',
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editUrl: ({locale, versionDocsDirPath, docPath}) => {
+          if (locale !== 'en') {
+            return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+          }
+          return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+        },
         editCurrentVersion: true,
         routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
@@ -204,8 +210,12 @@ module.exports = {
           // routeBasePath: '/',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+          editUrl: ({locale, versionDocsDirPath, docPath}) => {
+            if (locale !== 'en') {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+          },
           editCurrentVersion: true,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
@@ -227,8 +237,12 @@ module.exports = {
         blog: {
           // routeBasePath: '/',
           path: '../website-1.x/blog',
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+          editUrl: ({locale, blogDirPath, blogPath}) => {
+            if (locale !== 'en') {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+          },
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
@@ -313,7 +327,16 @@ module.exports = {
             },
           ],
         },
-        // {type: 'localeDropdown', position: 'right'},
+        {
+          type: 'localeDropdown',
+          position: 'right',
+          dropdownItemsAfter: [
+            {
+              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              label: 'Help Us Translate',
+            },
+          ],
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
@@ -398,6 +421,14 @@ module.exports = {
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
+            },
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
             },
           ],
         },

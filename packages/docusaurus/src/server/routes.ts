@@ -136,7 +136,7 @@ export default async function loadRoutes(
     };
 
     return createRouteCodeString({
-      routePath: routeConfig.path,
+      routePath: routeConfig.path.replace(/'/g, "\\'"),
       routeHash,
       exact,
       subroutesCodeStrings: subroutes?.map(generateRouteCode),

@@ -21,6 +21,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
 
+  // TODO soon: translate hardcoded labels, but factorize them (blog + docs will both have tags)
   return (
     <Layout
       title={`Posts tagged "${tagName}"`}

@@ -49,6 +49,7 @@ function BlogTagsListPage(props: Props): JSX.Element {
     ))
     .filter((item) => item != null);
 
+  // TODO soon: translate hardcoded labels, but factorize them (blog + docs will both have tags)
   return (
     <Layout
       title="Tags"

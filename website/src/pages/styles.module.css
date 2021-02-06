@@ -67,7 +67,6 @@
   color: var(--ifm-color-primary);
 }
 
-
 @keyframes jackInTheBox {
   from {
     opacity: 0;
@@ -98,22 +97,15 @@
 }
 
 .indexCtas {
+  --ifm-button-size-multiplier: 1.6;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-top: 24px;
 }
 
-.indexCtasGetStartedButton {
-  border: 2px solid var(--ifm-color-primary);
-  line-height: 1.2em;
-  text-decoration: none !important;
-  text-transform: uppercase;
-  transition: background 0.3s, color 0.3s;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 18px 36px;
+.indexCtas a:last-of-type {
+  margin: 20px 36px;
 }
 
 .indexCtasGitHubButtonWrapper {
@@ -122,8 +114,11 @@
 
 .indexCtasGitHubButton {
   border: none;
-  margin-left: 24px;
   overflow: hidden;
+}
+
+.indexCtaTryNowButton:hover {
+  color: var(--ifm-color-primary);
 }
 
 @media only screen and (max-width: 768px) {
@@ -149,6 +144,10 @@
 
   .indexCtas {
     justify-content: center;
+  }
+
+  .indexCtas a {
+    margin: 20px 36px;
   }
 
   .indexCtasGitHubButton {

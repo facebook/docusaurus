@@ -15,6 +15,7 @@ import {
   MetadataOptions,
   VersionMetadata,
   PluginOptions,
+  EditUrlFunction,
 } from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -282,6 +283,45 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+    });
+  });
+
+  test('docs with function editUrl', async () => {
+    const hardcodedEditUrl = 'hardcoded-edit-url';
+
+    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        editUrl: editUrlFunction,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
+      version: 'current',
+      id: 'foo/baz',
+      unversionedId: 'foo/baz',
+      isDocsHomePage: false,
+      permalink: '/docs/foo/bazSlug.html',
+      slug: '/foo/bazSlug.html',
+      title: 'baz',
+      editUrl: hardcodedEditUrl,
+      description: 'Images',
+    });
+
+    expect(editUrlFunction).toHaveBeenCalledTimes(1);
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      version: 'current',
+      versionDocsDirPath: 'docs',
+      docPath: path.posix.join('foo', 'baz.md'),
+      locale: 'en',
     });
   });
 
@@ -595,6 +635,47 @@ describe('versioned site', () => {
     );
   });
 
+  test('doc with editUrl function', async () => {
+    const hardcodedEditUrl = 'hardcoded-edit-url';
+
+    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: editUrlFunction,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl: hardcodedEditUrl,
+    });
+
+    expect(editUrlFunction).toHaveBeenCalledTimes(1);
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      version: '1.0.0',
+      versionDocsDirPath: 'versioned_docs/version-1.0.0',
+      docPath: path.join('hello.md'),
+      locale: 'en',
+    });
+  });
+
   test('translated doc with editUrl', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
@@ -657,11 +738,11 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedDocs=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-        editLocalizedDocs: true,
+        editLocalizedFiles: true,
       },
       locale: 'fr',
     });
@@ -689,12 +770,12 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedDocs=true + editCurrentVersion=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
         editCurrentVersion: true,
-        editLocalizedDocs: true,
+        editLocalizedFiles: true,
       },
       locale: 'fr',
     });

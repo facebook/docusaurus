@@ -27,7 +27,7 @@ export async function loadI18n(
 This locale is not in the available locales of your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
         ',',
       )}]
-Note: Docusaurus only support running one local at a time.`,
+Note: Docusaurus only support running one locale at a time.`,
     );
   }
 

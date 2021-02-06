@@ -16,6 +16,8 @@ export {
   FooterLinkItem,
 } from './utils/useThemeConfig';
 
+export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
+
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {isDocsPluginEnabled} from './utils/docsUtils';

@@ -180,10 +180,10 @@ export function createBaseConfig(
               localIdentName: isProd
                 ? `[local]_[hash:base64:4]`
                 : `[local]_[path]`,
+              exportOnlyLocals: isServer,
             },
             importLoaders: 1,
             sourceMap: !isProd,
-            onlyLocals: isServer,
           }),
         },
       ],

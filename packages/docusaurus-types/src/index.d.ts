@@ -7,7 +7,7 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {Loader, Configuration} from 'webpack';
+import {Loader, Configuration, Stats} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
@@ -178,6 +178,13 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   plugins: Plugin<any, unknown>[];
 }
 
+/**
+ * Same as `Props` but also has webpack stats appended.
+ */
+export interface PropsPostBuild extends Props {
+  stats: Stats.ToJsonOutput;
+}
+
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
   createData(name: string, data: any): Promise<string>;
@@ -206,7 +213,7 @@ export interface Plugin<T, U = unknown> {
     actions: PluginContentLoadedActions;
   }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?(props: Props): void;
+  postBuild?(props: PropsPostBuild): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
@@ -224,6 +231,7 @@ export interface Plugin<T, U = unknown> {
     postBodyTags?: HtmlTags;
   };
   getSwizzleComponentList?(): string[];
+  // TODO before/afterDevServer implementation
 
   // translations
   getTranslationFiles?(): Promise<TranslationFiles>;

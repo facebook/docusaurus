@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -193,7 +193,7 @@ async function buildLocale({
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await compile([clientConfig, serverConfig]);
+  const finalCompileResult = await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
   if (
@@ -215,7 +215,7 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      await plugin.postBuild({...props, stats: finalCompileResult});
     }),
   );
 

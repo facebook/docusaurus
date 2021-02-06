@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
   "version": "2.0.0-alpha.70",
-  "description": "Client redirects plugin for Docusaurus",
+  "description": "Client redirects plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -24,7 +24,7 @@
     "chalk": "^3.0.0",
     "eta": "^1.11.0",
     "fs-extra": "^9.0.1",
-    "globby": "^10.0.1",
+    "globby": "^11.0.2",
     "joi": "^17.2.1",
     "lodash": "^4.17.20"
   },

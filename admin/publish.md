@@ -196,7 +196,13 @@ Now that the release is done, **merge the pull request**.
 - Hit the green "Publish release" button
 - Profit! 💰
 
-### 8. Notify people about new release (optional but desirable)
+### 8. Update example projects (optional but desirable)
+
+After a release, update the examples to keep them in sync with the latest release. This will ensure that CodeSandbox playground is able to use the new version at [new.docusaurus.io](https://new.docusaurus.io).
+
+Create a separate branch/PR and run `yarn examples:generate`
+
+### 9. Notify people about new release (optional but desirable)
 
 After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
