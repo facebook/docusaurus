@@ -12,10 +12,16 @@ import {
 } from 'webpack';
 import path from 'path';
 
-import {applyConfigureWebpack, getFileLoaderUtils} from '../utils';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getFileLoaderUtils,
+  getStyleLoaders,
+} from '../utils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
+  ConfigurePostCssFn,
 } from '@docusaurus/types';
 
 describe('extending generated webpack config', () => {
@@ -146,5 +152,44 @@ describe('getFileLoaderUtils()', () => {
         }),
       }),
     );
+  });
+});
+
+describe('extending PostCSS', () => {
+  test('user plugin should be appended in PostCSS loader', () => {
+    let config: Configuration = {
+      output: {
+        path: __dirname,
+        filename: 'bundle.js',
+      },
+      module: {
+        rules: [
+          {
+            test: /\.css$/,
+            use: getStyleLoaders(false),
+          },
+        ],
+      },
+    };
+    const postCssPlugin = jest.fn(() => {
+      return {
+        postcssPlugin: 'appended-plugin',
+      };
+    });
+    const configurePostCss: ConfigurePostCssFn = (postCssConfig) => {
+      postCssConfig.plugins.push(postCssPlugin());
+      return postCssConfig;
+    };
+
+    config = applyConfigurePostCss(configurePostCss, config);
+
+    const postCssLoader = config.module.rules[0].use.slice(-1)[0];
+    const postCssPlugins = postCssLoader.options.postcssOptions.plugins.map(
+      (plugin) => {
+        return plugin.postcssPlugin;
+      },
+    );
+
+    expect(postCssPlugins).toContain('appended-plugin');
   });
 });

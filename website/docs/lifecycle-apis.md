@@ -346,6 +346,41 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
+## `configurePostCss(options)`
+
+Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during generating client bundle. Should return mutated options.
+
+By default, `postcssOptions` looks like this:
+
+```js
+postcssOptions: {
+  ident: 'postcss',
+  plugins: [
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009',
+      },
+      stage: 4,
+    }),
+  ],
+},
+```
+
+Example:
+
+```js {4-11} title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    configurePostCss(options) {
+      // Appends new PostCSS plugin.
+      options.plugins.push(require('postcss-import'));
+      return options;
+    },
+  };
+};
+```
+
 ## `postBuild(props)`
 
 Called when a (production) build finishes.

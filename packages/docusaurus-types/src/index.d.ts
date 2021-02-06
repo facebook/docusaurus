@@ -220,6 +220,7 @@ export interface Plugin<T, U = unknown> {
     isServer: boolean,
     utils: ConfigureWebpackUtils,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  configurePostCss?(options: {[name: string]: any}): Configuration;
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
@@ -253,6 +254,7 @@ export interface Plugin<T, U = unknown> {
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 

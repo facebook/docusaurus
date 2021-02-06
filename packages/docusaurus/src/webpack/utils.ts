@@ -11,6 +11,7 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
+  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -23,7 +24,7 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn} from '@docusaurus/types';
+import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
@@ -172,6 +173,33 @@ export function applyConfigureWebpack(
       return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }
+  return config;
+}
+
+export function applyConfigurePostCss(
+  configurePostCss: ConfigurePostCssFn,
+  config: Configuration,
+): Configuration {
+  const isPostCssLoader = (loader) =>
+    JSON.stringify(loader).includes('postcss-loader');
+  const postCssLoader = getStyleLoaders(false).find((loader) =>
+    isPostCssLoader(loader),
+  ) as NewLoader;
+  const mutatedPostCssOptions = configurePostCss!(
+    postCssLoader?.options?.postcssOptions,
+  );
+
+  config.module?.rules
+    .filter((rule) => rule.test!.toString().includes('.css'))
+    .forEach((rule) => {
+      for (const loader of rule.use as NewLoader[]) {
+        if (isPostCssLoader(loader)) {
+          console.log(1, loader);
+          loader.options!.postcssOptions = mutatedPostCssOptions;
+        }
+      }
+    });
+
   return config;
 }
 
