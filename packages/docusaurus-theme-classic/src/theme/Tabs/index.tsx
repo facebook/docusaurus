@@ -23,10 +23,10 @@ function Tabs(props: Props): JSX.Element {
   const {lazy, block, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
-
   const children = Children.toArray(props.children) as ReactElement<
     TabItemProps
   >[];
+  const tabRefs: (HTMLLIElement | null)[] = [];
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -39,46 +39,35 @@ function Tabs(props: Props): JSX.Element {
     }
   }
 
-  const changeSelectedValue = (newValue) => {
-    setSelectedValue(newValue);
+  const handleTabChange = (event) => {
+    const selectedTab = event.target;
+    const selectedTabIndex = tabRefs.indexOf(selectedTab);
+    const selectedTabValue = children[selectedTabIndex].props.value;
+
+    setSelectedValue(selectedTabValue);
+
     if (groupId != null) {
-      setTabGroupChoices(groupId, newValue);
+      setTabGroupChoices(groupId, selectedTabValue);
     }
   };
 
-  const tabRefs: (HTMLLIElement | null)[] = [];
+  const handleKeydown = (event) => {
+    let focusElement;
 
-  const focusNextTab = (tabs, target) => {
-    const next = tabs.indexOf(target) + 1;
-
-    if (!tabs[next]) {
-      tabs[0].focus();
-    } else {
-      tabs[next].focus();
-    }
-  };
-
-  const focusPreviousTab = (tabs, target) => {
-    const prev = tabs.indexOf(target) - 1;
-
-    if (!tabs[prev]) {
-      tabs[tabs.length - 1].focus();
-    } else {
-      tabs[prev].focus();
-    }
-  };
-
-  const handleKeydown = (tabs, target, event) => {
     switch (event.keyCode) {
       case keys.right:
-        focusNextTab(tabs, target);
+        const nextTab = tabRefs.indexOf(event.target) + 1;
+        focusElement = tabRefs[nextTab] || tabRefs[0];
         break;
       case keys.left:
-        focusPreviousTab(tabs, target);
+        const prevTab = tabRefs.indexOf(event.target) - 1;
+        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
         break;
       default:
         break;
     }
+
+    focusElement?.focus();
   };
 
   return (
@@ -96,20 +85,16 @@ function Tabs(props: Props): JSX.Element {
         {values.map(({value, label}) => (
           <li
             role="tab"
-            tabIndex={0}
+            tabIndex={selectedValue === value ? 0 : -1}
             aria-selected={selectedValue === value}
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
-            onKeyDown={(event) => {
-              handleKeydown(tabRefs, event.target, event);
-            }}
-            onFocus={() => changeSelectedValue(value)}
-            onClick={() => {
-              changeSelectedValue(value);
-            }}>
+            onKeyDown={handleKeydown}
+            onFocus={handleTabChange}
+            onClick={handleTabChange}>
             {label}
           </li>
         ))}
