@@ -18,10 +18,10 @@
 }
 
 .navbarHideable {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
   transition: transform var(--ifm-transition-fast) ease;
 }
 
 .navbarHidden {
-  transform: translateY(calc(var(--ifm-navbar-height) * -1));
+  transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
 }
