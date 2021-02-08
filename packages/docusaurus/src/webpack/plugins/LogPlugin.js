@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 const WebpackBar = require('webpackbar');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const formatWebpackMessages = require('../../server/dev-utils/formatWebpackMessages');
 
 function showError(arr) {
   console.log(`\n\n${arr.join('')}`);

@@ -27,7 +27,7 @@ export default function createClientConfig(
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
-      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      !isProd && require.resolve('../server/dev-utils/webpackHotDevClient'),
       path.resolve(__dirname, '../client/clientEntry.js'),
     ].filter(Boolean) as string[],
     optimization: {

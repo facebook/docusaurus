@@ -6,16 +6,16 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import chalk = require('chalk');
+import chalk from 'chalk';
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import debounce from 'lodash/debounce';
-import openBrowser from 'react-dev-utils/openBrowser';
-import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
-import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import openBrowser from '../server/dev-utils/openBrowser';
+import {prepareUrls} from '../server/dev-utils/WebpackDevServerUtils';
+import errorOverlayMiddleware from '../server/dev-utils/errorOverlayMiddleware';
+import evalSourceMapMiddleware from '../server/dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';

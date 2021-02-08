@@ -87,7 +87,6 @@
     "@types/prismjs": "^1.16.2",
     "@types/prompts": "^2.0.9",
     "@types/react": "^16.9.52",
-    "@types/react-dev-utils": "^9.0.1",
     "@types/react-helmet": "^6.0.0",
     "@types/react-loadable": "^5.5.3",
     "@types/react-router-config": "^5.0.1",
