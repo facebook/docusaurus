@@ -220,6 +220,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Hashnode Support',
+    description: 'A help portal for Hashnode users',
+    preview: require('./showcase/hashnode.png'),
+    website: 'https://support.hashnode.com/',
+    source: 'https://github.com/Hashnode/support',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),
