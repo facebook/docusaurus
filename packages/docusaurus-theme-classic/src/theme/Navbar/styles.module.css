@@ -18,9 +18,10 @@
 }
 
 .navbarHideable {
-  transition: top 0.2s ease-in-out;
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--ifm-transition-fast) ease;
 }
 
 .navbarHidden {
-  top: calc(var(--ifm-navbar-height) * -1) !important;
+  transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
 }
