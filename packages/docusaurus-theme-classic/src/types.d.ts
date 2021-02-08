@@ -312,6 +312,15 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   export default DefaultNavbarItem;
 }
 
+declare module '@theme/NavbarItem/SearchNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export type Props = DefaultNavbarItemProps;
+
+  const SearchNavbarItem: (props: Props) => JSX.Element;
+  export default SearchNavbarItem;
+}
+
 declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';

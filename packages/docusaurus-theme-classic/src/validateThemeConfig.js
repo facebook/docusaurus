@@ -107,6 +107,11 @@ const LocaleDropdownNavbarItemSchema = Joi.object({
   className: Joi.string(),
 });
 
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+  position: NavbarItemPosition,
+});
+
 // Can this be made easier? :/
 const isOfType = (type) => {
   let typeSchema = Joi.string().required();
@@ -138,6 +143,10 @@ const NavbarItemSchema = Joi.object().when({
     {
       is: isOfType('localeDropdown'),
       then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('search'),
+      then: SearchItemSchema,
     },
     {
       is: isOfType(undefined),
