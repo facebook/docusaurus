@@ -4,9 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import WebpackBar from 'webpackbar';
-import webpack from 'webpack';
+const WebpackBar = require('webpackbar');
 /*
+todo support webpack 5
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 function showError(arr) {
@@ -15,7 +15,7 @@ function showError(arr) {
  */
 
 class LogPlugin extends WebpackBar {
-  apply(compiler: webpack.Compiler): void {
+  apply(compiler) {
     super.apply(compiler);
 
     compiler.hooks.done.tap('DocusaurusLogPlugin', (stats) => {
@@ -28,10 +28,10 @@ class LogPlugin extends WebpackBar {
           showError(messages.errors);
         }
          */
-        console.log(stats.toJson('errors-only'))
+        console.log(stats.toJson('errors-only'));
       }
     });
   }
 }
 
-export default LogPlugin
+module.exports = LogPlugin
