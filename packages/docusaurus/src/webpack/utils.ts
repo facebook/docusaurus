@@ -177,28 +177,26 @@ export function applyConfigureWebpack(
 }
 
 export function applyConfigurePostCss(
-  configurePostCss: ConfigurePostCssFn,
+  configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  const isPostCssLoader = (loader) =>
-    JSON.stringify(loader).includes('postcss-loader');
-  const postCssLoader = getStyleLoaders(false).find((loader) =>
-    isPostCssLoader(loader),
-  ) as NewLoader;
-  const mutatedPostCssOptions = configurePostCss!(
-    postCssLoader?.options?.postcssOptions,
-  );
+  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
 
-  config.module?.rules
-    .filter((rule) => rule.test!.toString().includes('.css'))
-    .forEach((rule) => {
-      for (const loader of rule.use as NewLoader[]) {
-        if (isPostCssLoader(loader)) {
-          console.log(1, loader);
-          loader.options!.postcssOptions = mutatedPostCssOptions;
-        }
+  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+    // TODO not ideal heuristic but good enough for our usecase?
+    return !!(loader as any)?.options?.postcssOptions;
+  }
+
+  // Does not handle all edge cases, but good enough for now
+  config.module?.rules.map((rule) => {
+    for (const loader of rule.use as NewLoader[]) {
+      if (isPostCssLoader(loader)) {
+        loader.options.postcssOptions = configurePostCss(
+          loader.options.postcssOptions,
+        );
       }
-    });
+    }
+  });
 
   return config;
 }

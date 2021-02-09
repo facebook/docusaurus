@@ -348,12 +348,14 @@ Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge
 
 ## `configurePostCss(options)`
 
-Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during generating client bundle. Should return mutated options.
+Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during the generation of the client bundle.
+
+Should return the mutated `postcssOptions`.
 
 By default, `postcssOptions` looks like this:
 
 ```js
-postcssOptions: {
+const postcssOptions = {
   ident: 'postcss',
   plugins: [
     require('postcss-preset-env')({
@@ -363,20 +365,22 @@ postcssOptions: {
       stage: 4,
     }),
   ],
-},
+};
 ```
 
 Example:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
-    configurePostCss(options) {
+    // highlight-start
+    configurePostCss(postcssOptions) {
       // Appends new PostCSS plugin.
-      options.plugins.push(require('postcss-import'));
-      return options;
+      postcssOptions.plugins.push(require('postcss-import'));
+      return postcssOptions;
     },
+    // highlight-end
   };
 };
 ```

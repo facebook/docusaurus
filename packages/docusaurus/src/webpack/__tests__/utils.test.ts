@@ -16,12 +16,10 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getFileLoaderUtils,
-  getStyleLoaders,
 } from '../utils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
-  ConfigurePostCssFn,
 } from '@docusaurus/types';
 
 describe('extending generated webpack config', () => {
@@ -157,7 +155,7 @@ describe('getFileLoaderUtils()', () => {
 
 describe('extending PostCSS', () => {
   test('user plugin should be appended in PostCSS loader', () => {
-    let config: Configuration = {
+    let webpackConfig: Configuration = {
       output: {
         path: __dirname,
         filename: 'bundle.js',
@@ -165,31 +163,112 @@ describe('extending PostCSS', () => {
       module: {
         rules: [
           {
-            test: /\.css$/,
-            use: getStyleLoaders(false),
+            test: 'any',
+            use: [
+              {
+                loader: 'some-loader-1',
+                options: {},
+              },
+              {
+                loader: 'some-loader-2',
+                options: {},
+              },
+              {
+                loader: 'postcss-loader-1',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-1-plugin']],
+                  },
+                },
+              },
+              {
+                loader: 'some-loader-3',
+                options: {},
+              },
+            ],
+          },
+          {
+            test: '2nd-test',
+            use: [
+              {
+                loader: 'postcss-loader-2',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-2-plugin']],
+                  },
+                },
+              },
+            ],
           },
         ],
       },
     };
-    const postCssPlugin = jest.fn(() => {
+
+    function createFakePlugin(name: string) {
+      return [name, {}];
+    }
+
+    // Run multiple times: ensure last run does not override previous runs
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
       return {
-        postcssPlugin: 'appended-plugin',
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-1'),
+        ],
       };
-    });
-    const configurePostCss: ConfigurePostCssFn = (postCssConfig) => {
-      postCssConfig.plugins.push(postCssPlugin());
-      return postCssConfig;
-    };
+    }, webpackConfig);
 
-    config = applyConfigurePostCss(configurePostCss, config);
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          createFakePlugin('postcss-plugin-2'),
+          ...postCssOptions.plugins,
+        ],
+      };
+    }, webpackConfig);
 
-    const postCssLoader = config.module.rules[0].use.slice(-1)[0];
-    const postCssPlugins = postCssLoader.options.postcssOptions.plugins.map(
-      (plugin) => {
-        return plugin.postcssPlugin;
-      },
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-3'),
+        ],
+      };
+    }, webpackConfig);
+
+    // @ts-expect-error: relax type
+    const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
+    expect(postCssLoader1.loader).toEqual('postcss-loader-1');
+
+    const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
+      // @ts-expect-error: relax type
+      (p: unknown) => p[0],
     );
+    expect(pluginNames1).toHaveLength(4);
+    expect(pluginNames1).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-1-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
 
-    expect(postCssPlugins).toContain('appended-plugin');
+    // @ts-expect-error: relax type
+    const postCssLoader2 = webpackConfig.module?.rules[1].use[0];
+    expect(postCssLoader2.loader).toEqual('postcss-loader-2');
+
+    const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
+      // @ts-expect-error: relax type
+      (p: unknown) => p[0],
+    );
+    expect(pluginNames2).toHaveLength(4);
+    expect(pluginNames2).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-2-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
   });
 });
