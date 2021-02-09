@@ -42,8 +42,8 @@ export default function (
                     // eslint-disable-next-line
                     adapter: require('@endiliey/responsive-loader/sharp'),
                     name: isProd
-                      ? 'ideal-img/[name].[hash:hex:7].[width].[ext]'
-                      : 'ideal-img/[name].[width].[ext]',
+                      ? 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]'
+                      : 'assets/ideal-img/[name].[width].[ext]',
                     ...options,
                   },
                 },

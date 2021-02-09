@@ -53,6 +53,7 @@ function DocSearch({contextualSearch, ...props}) {
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
+  const searchContainer = useRef(null);
   const searchButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState(null);
@@ -73,12 +74,18 @@ function DocSearch({contextualSearch, ...props}) {
 
   const onOpen = useCallback(() => {
     importDocSearchModalIfNeeded().then(() => {
+      searchContainer.current = document.createElement('div');
+      document.body.insertBefore(
+        searchContainer.current,
+        document.body.firstChild,
+      );
       setIsOpen(true);
     });
   }, [importDocSearchModalIfNeeded, setIsOpen]);
 
   const onClose = useCallback(() => {
     setIsOpen(false);
+    searchContainer.current.remove();
   }, [setIsOpen]);
 
   const onInput = useCallback(
@@ -172,7 +179,7 @@ function DocSearch({contextualSearch, ...props}) {
             {...props}
             searchParameters={searchParameters}
           />,
-          document.body,
+          searchContainer.current,
         )}
     </>
   );

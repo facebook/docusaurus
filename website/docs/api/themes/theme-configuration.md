@@ -395,12 +395,26 @@ module.exports = {
 };
 ```
 
-````
+### Navbar search
+
+If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
+
+However, with this special navbar item type, you can change the default location.
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
         {
-          type: 'localeDropdown',
-          position: 'left',
+          type: 'search',
+          position: 'right',
         },
-        ```
+      ],
+    },
+  },
+};
+```
 
 ### Auto-hide sticky navbar
 
@@ -416,7 +430,7 @@ module.exports = {
     // ...
   },
 };
-````
+```
 
 ### Navbar style
 

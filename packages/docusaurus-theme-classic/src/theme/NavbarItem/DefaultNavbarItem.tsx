@@ -192,7 +192,8 @@ function NavItemMobile({
         role="button"
         className={navLinkClassNames(className, true)}
         {...props}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           setCollapsed((state) => !state);
         }}>
         {props.children ?? props.label}

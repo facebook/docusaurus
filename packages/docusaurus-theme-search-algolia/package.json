@@ -13,14 +13,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docsearch/react": "^3.0.0-alpha.31",
+    "@docsearch/react": "^3.0.0-alpha.32",
     "@docusaurus/core": "2.0.0-alpha.70",
     "@docusaurus/theme-common": "2.0.0-alpha.70",
     "@docusaurus/utils": "2.0.0-alpha.70",
-    "algoliasearch": "^4.0.0",
-    "algoliasearch-helper": "^3.1.1",
+    "algoliasearch": "^4.8.4",
+    "algoliasearch-helper": "^3.3.4",
     "clsx": "^1.1.1",
-    "eta": "^1.11.0",
+    "eta": "^1.12.1",
     "joi": "^17.2.1",
     "lodash": "^4.17.19"
   },

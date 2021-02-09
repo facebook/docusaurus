@@ -15,7 +15,9 @@ You should not have to write your `docusaurus.config.js` from scratch even if yo
 
 However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
 
-The high-level overview of Docusaurus configuration can be categorized into: <TOCInline toc={toc[0].children} />
+The high-level overview of Docusaurus configuration can be categorized into:
+
+<TOCInline toc={toc[0].children} />
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.md).
 

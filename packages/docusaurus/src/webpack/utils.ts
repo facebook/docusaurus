@@ -11,6 +11,7 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
+  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -23,7 +24,7 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn} from '@docusaurus/types';
+import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
@@ -175,6 +176,31 @@ export function applyConfigureWebpack(
   return config;
 }
 
+export function applyConfigurePostCss(
+  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  config: Configuration,
+): Configuration {
+  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+
+  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+    // TODO not ideal heuristic but good enough for our usecase?
+    return !!(loader as any)?.options?.postcssOptions;
+  }
+
+  // Does not handle all edge cases, but good enough for now
+  config.module?.rules.map((rule) => {
+    for (const loader of rule.use as NewLoader[]) {
+      if (isPostCssLoader(loader)) {
+        loader.options.postcssOptions = configurePostCss(
+          loader.options.postcssOptions,
+        );
+      }
+    }
+  });
+
+  return config;
+}
+
 // See https://webpack.js.org/configuration/stats/#statswarningsfilter
 // @slorber: note sure why we have to re-implement this logic
 // just know that legacy had this only partially implemented, so completed it
@@ -235,7 +261,7 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'medias';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): Record<string, any> {
@@ -288,6 +314,13 @@ export function getFileLoaderUtils(): Record<string, any> {
       return {
         use: [loaders.url({folder: 'images'})],
         test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+      };
+    },
+
+    fonts: (): RuleSetRule => {
+      return {
+        use: [loaders.url({folder: 'fonts'})],
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
       };
     },
 

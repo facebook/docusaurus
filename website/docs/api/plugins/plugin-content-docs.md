@@ -116,7 +116,7 @@ module.exports = {
         /**
          * The docusaurus versioning defaults don't make sense for all projects
          * This gives the ability customize the label and path of each version
-         * You may not like that default versin
+         * You may not like that default version
          */
         versions: {
           /*

@@ -12,7 +12,11 @@ import {
 } from 'webpack';
 import path from 'path';
 
-import {applyConfigureWebpack, getFileLoaderUtils} from '../utils';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getFileLoaderUtils,
+} from '../utils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
@@ -146,5 +150,125 @@ describe('getFileLoaderUtils()', () => {
         }),
       }),
     );
+  });
+});
+
+describe('extending PostCSS', () => {
+  test('user plugin should be appended in PostCSS loader', () => {
+    let webpackConfig: Configuration = {
+      output: {
+        path: __dirname,
+        filename: 'bundle.js',
+      },
+      module: {
+        rules: [
+          {
+            test: 'any',
+            use: [
+              {
+                loader: 'some-loader-1',
+                options: {},
+              },
+              {
+                loader: 'some-loader-2',
+                options: {},
+              },
+              {
+                loader: 'postcss-loader-1',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-1-plugin']],
+                  },
+                },
+              },
+              {
+                loader: 'some-loader-3',
+                options: {},
+              },
+            ],
+          },
+          {
+            test: '2nd-test',
+            use: [
+              {
+                loader: 'postcss-loader-2',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-2-plugin']],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    function createFakePlugin(name: string) {
+      return [name, {}];
+    }
+
+    // Run multiple times: ensure last run does not override previous runs
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-1'),
+        ],
+      };
+    }, webpackConfig);
+
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          createFakePlugin('postcss-plugin-2'),
+          ...postCssOptions.plugins,
+        ],
+      };
+    }, webpackConfig);
+
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-3'),
+        ],
+      };
+    }, webpackConfig);
+
+    // @ts-expect-error: relax type
+    const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
+    expect(postCssLoader1.loader).toEqual('postcss-loader-1');
+
+    const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
+      // @ts-expect-error: relax type
+      (p: unknown) => p[0],
+    );
+    expect(pluginNames1).toHaveLength(4);
+    expect(pluginNames1).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-1-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
+
+    // @ts-expect-error: relax type
+    const postCssLoader2 = webpackConfig.module?.rules[1].use[0];
+    expect(postCssLoader2.loader).toEqual('postcss-loader-2');
+
+    const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
+      // @ts-expect-error: relax type
+      (p: unknown) => p[0],
+    );
+    expect(pluginNames2).toHaveLength(4);
+    expect(pluginNames2).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-2-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
   });
 });

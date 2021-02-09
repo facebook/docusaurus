@@ -24,7 +24,11 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getHttpsConfig,
+} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
@@ -134,18 +138,21 @@ export default async function start(
     ],
   });
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      config = applyConfigurePostCss(configurePostCss, config);
     }
 
-    config = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      config,
-      false,
-    );
+    if (configureWebpack) {
+      config = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        config,
+        false,
+      );
+    }
   });
 
   // https://webpack.js.org/configuration/dev-server

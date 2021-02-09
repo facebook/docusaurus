@@ -262,6 +262,16 @@ The Docusaurus v2 website use this strategy:
 
 :::
 
+:::tip
+
+Static hosting providers generally redirect `/unknown/urls` to `/404.html` by convention, always showing an **English 404 page**.
+
+**Localize your 404 pages** by configuring your host to redirect `/fr/*` to `/fr/404.html`.
+
+This is not always possible, and depends on your host: GitHub Pages can't do this, [Netlify](https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling) can.
+
+:::
+
 ### Multi-domain deployment
 
 You can also build your site for a single locale:
@@ -283,3 +293,12 @@ On your [static hosting provider](../deployment.mdx):
 This strategy is **not possible** with Github Pages, as it is only possible to **have a single deployment**.
 
 :::
+
+### Hybrid
+
+It is possible to have some locales using sub-paths, and others using subdomains.
+
+It is also possible to deploy each locale as a separate subdomain, assemble the subdomains in a single unified domain at the CDN level:
+
+- Deploy your site as `fr.docusaurus.io`
+- Configure a CDN to serve it from `docusaurus.io/fr`

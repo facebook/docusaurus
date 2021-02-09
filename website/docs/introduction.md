@@ -29,12 +29,12 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 **Use [Docusaurus v1](https://docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
-- :x: You prefer stability over modernity (try [Docusaurus 1](https://docusaurus.io/) instead)
+- :x: You prefer stability over modernity
 - :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
 
-<img alt="Docusaurus " src={require('@docusaurus/useBaseUrl').default('img/slash-introducing.svg')} />
+![Docusaurus Slash Introduction](/img/slash-introducing.svg)
 
 Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 

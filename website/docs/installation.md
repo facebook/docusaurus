@@ -14,7 +14,7 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 ## Requirements
 
 - [Node.js](https://nodejs.org/en/download/) version >= 10.15.1 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
-- [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
+- [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website
 
@@ -38,7 +38,7 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 npx @docusaurus/init@latest init my-website facebook
 ```
 
-**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following::
+**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following:
 
 ```bash
 npx @docusaurus/init@latest init my-website bootstrap
