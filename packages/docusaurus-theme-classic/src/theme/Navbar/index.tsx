@@ -145,7 +145,12 @@ function Navbar(): JSX.Element {
           <div className="menu">
             <ul className="menu__list">
               {items.map((item, i) => (
-                <NavbarItem mobile {...item} onClick={hideSidebar} key={i} />
+                <NavbarItem
+                  mobile
+                  {...(item as any)} // TODO fix typing
+                  onClick={hideSidebar}
+                  key={i}
+                />
               ))}
             </ul>
           </div>
