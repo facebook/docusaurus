@@ -376,6 +376,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'SGLB Banking Docs',
+    description: 'A doc site for SGLB banking website .',
+    preview: require('./showcase/sglb.png'),
+    website: 'https://gifted-murdock-801453.netlify.app',
+    source: 'https://gifted-murdock-801453.netlify.app',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
