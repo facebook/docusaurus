@@ -137,6 +137,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Console Table',
+    description: 'Printing Pretty Tables on your console.',
+    preview: require('./showcase/console-table.png'),
+    website: 'https://console-table.netlify.app/',
+    source: 'https://github.com/ayonious/console-table-docu',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Datagit',
     description:
       'A persian tutorial website strive to make quality education for everyone.',
