@@ -34,4 +34,4 @@ class LogPlugin extends WebpackBar {
   }
 }
 
-module.exports = LogPlugin
+module.exports = LogPlugin;

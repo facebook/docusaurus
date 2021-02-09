@@ -20,7 +20,11 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {applyConfigureWebpack, compile} from '../webpack/utils';
+import {
+  applyConfigurePostCss,
+  applyConfigureWebpack,
+  compile,
+} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';

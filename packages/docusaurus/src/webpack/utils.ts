@@ -191,7 +191,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (allStats && stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        const { warnings } = allStats;
+        const {warnings} = allStats;
 
         warnings.forEach((warning) => {
           console.warn(warning);
