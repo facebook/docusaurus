@@ -235,7 +235,7 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'medias';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): Record<string, any> {
@@ -288,6 +288,13 @@ export function getFileLoaderUtils(): Record<string, any> {
       return {
         use: [loaders.url({folder: 'images'})],
         test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+      };
+    },
+
+    fonts: (): RuleSetRule => {
+      return {
+        use: [loaders.url({folder: 'fonts'})],
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
       };
     },
 
