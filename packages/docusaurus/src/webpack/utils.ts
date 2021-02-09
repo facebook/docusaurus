@@ -181,15 +181,15 @@ export function applyConfigurePostCss(
 ): Configuration {
   type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
 
+  // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    // TODO not ideal heuristic but good enough for our usecase?
     return !!(loader as any)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
   function overridePostCssOptions(entry) {
     if (isPostCssLoader(entry)) {
-      (entry as LocalPostCSSLoader).options.postcssOptions = configurePostCss(
+      entry.options.postcssOptions = configurePostCss(
         entry.options.postcssOptions,
       );
     } else if (Array.isArray(entry.oneOf)) {
