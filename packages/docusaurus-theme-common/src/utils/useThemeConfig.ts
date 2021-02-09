@@ -8,8 +8,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
-// TODO improve
+// TODO improve types, use unions
 export type NavbarItem = {
+  type?: string | undefined;
   items?: NavbarItem[];
   label?: string;
 };
