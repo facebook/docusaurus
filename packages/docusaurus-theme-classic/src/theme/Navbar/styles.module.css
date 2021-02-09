@@ -11,12 +11,6 @@
   }
 }
 
-@media (max-width: 768px) {
-  .hideLogoText {
-    display: none;
-  }
-}
-
 .navbarHideable {
   transition: transform var(--ifm-transition-fast) ease;
 }
