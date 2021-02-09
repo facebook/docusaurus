@@ -75,6 +75,10 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       return;
     }
 
+    if (!location.hash) {
+      return;
+    }
+
     isFocusedAnchor.current = true;
   }, [location.hash]);
 

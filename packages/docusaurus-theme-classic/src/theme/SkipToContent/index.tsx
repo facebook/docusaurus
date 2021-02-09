@@ -33,7 +33,9 @@ function SkipToContent(): JSX.Element {
   };
 
   useEffect(() => {
-    programmaticFocus(containerRef.current);
+    if (!location.hash) {
+      programmaticFocus(containerRef.current);
+    }
   }, [location.pathname]);
 
   return (

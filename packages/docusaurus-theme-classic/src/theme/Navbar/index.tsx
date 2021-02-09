@@ -83,7 +83,7 @@ function Navbar(): JSX.Element {
         'navbar--primary': style === 'primary',
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
-        [styles.navbarHidden]: !isNavbarVisible,
+        [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">
