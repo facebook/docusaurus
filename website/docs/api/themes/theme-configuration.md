@@ -395,7 +395,7 @@ module.exports = {
 };
 ```
 
-### Navbar search dropdown
+### Navbar search
 
 If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
 
