@@ -145,7 +145,7 @@ export default function docusaurusThemeClassic(
       if (isRtlLocale) {
         postCssOptions.plugins.push(
           postcss.plugin('RtlCssPlugin', () => {
-            return function (root) {
+            return function (root: any) {
               const file = root?.source.input.file;
 
               // Skip Infima as we are using the its RTL version.
