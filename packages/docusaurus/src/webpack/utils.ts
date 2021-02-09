@@ -11,6 +11,7 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
+  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -23,7 +24,7 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn} from '@docusaurus/types';
+import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
@@ -172,6 +173,31 @@ export function applyConfigureWebpack(
       return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }
+  return config;
+}
+
+export function applyConfigurePostCss(
+  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  config: Configuration,
+): Configuration {
+  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+
+  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+    // TODO not ideal heuristic but good enough for our usecase?
+    return !!(loader as any)?.options?.postcssOptions;
+  }
+
+  // Does not handle all edge cases, but good enough for now
+  config.module?.rules.map((rule) => {
+    for (const loader of rule.use as NewLoader[]) {
+      if (isPostCssLoader(loader)) {
+        loader.options.postcssOptions = configurePostCss(
+          loader.options.postcssOptions,
+        );
+      }
+    }
+  });
+
   return config;
 }
 

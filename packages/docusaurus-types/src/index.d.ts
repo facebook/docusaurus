@@ -199,6 +199,9 @@ export type AllContent = Record<
   >
 >;
 
+// TODO improve type (not exposed by postcss-loader)
+export type PostCssOptions = Record<string, any> & {plugins: any[]};
+
 export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
@@ -220,6 +223,7 @@ export interface Plugin<T, U = unknown> {
     isServer: boolean,
     utils: ConfigureWebpackUtils,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  configurePostCss?(options: PostCssOptions): PostCssOptions;
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
@@ -253,6 +257,7 @@ export interface Plugin<T, U = unknown> {
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
