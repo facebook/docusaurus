@@ -197,6 +197,7 @@ async function buildLocale({
 
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
+  console.log("debug marker 2")
 
   // Remove server.bundle.js because it is not needed.
   if (

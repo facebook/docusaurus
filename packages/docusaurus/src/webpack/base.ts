@@ -18,6 +18,7 @@ import {
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
+import {STATIC_ASSETS_DIR_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -87,6 +88,14 @@ export function createBaseConfig(
     resolve: {
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
+      roots: [
+        // Allow resolution of url("/fonts/xyz.ttf") by webpack
+        // See https://webpack.js.org/configuration/resolve/#resolveroots
+        // See https://github.com/webpack-contrib/css-loader/issues/1256
+        path.join(siteDir, STATIC_ASSETS_DIR_NAME),
+        siteDir,
+        process.cwd(),
+      ],
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
@@ -144,6 +153,7 @@ export function createBaseConfig(
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),

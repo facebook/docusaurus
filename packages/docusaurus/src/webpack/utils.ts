@@ -11,14 +11,14 @@ import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
 // import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import CleanCss from 'clean-css';
+// import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+// import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
+// import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
@@ -41,14 +41,8 @@ export function getStyleLoaders(
     ];
   }
 
-  const isProd = process.env.NODE_ENV === 'production';
   return [
-    {
-      loader: MiniCssExtractPlugin.loader,
-      options: {
-        hmr: !isProd,
-      },
-    },
+    MiniCssExtractPlugin.loader,
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
@@ -155,39 +149,12 @@ export function applyConfigureWebpack(
   return config;
 }
 
-// See https://webpack.js.org/configuration/stats/#statswarningsfilter
-// @slorber: not sure why we have to re-implement this logic
-// just know that legacy had this only partially implemented, so completed it
-// @RDIL: the way warnings work was changed in v5, so does this even still work?
-// todo reevaluate at a future date
-type WarningFilter = string | RegExp | Function;
-export function filterWarnings(
-  warningsFilter: WarningFilter[],
-  warnings: string[],
-): string[] {
-  function isWarningFiltered(warning: string): boolean {
-    return warningsFilter.some((warningFilter) => {
-      if (typeof warningFilter === 'string') {
-        return warning.includes(warningFilter);
-      } else if (warningFilter instanceof RegExp) {
-        return !!warning.match(warningFilter);
-      } else if (warningFilter instanceof Function) {
-        return warningFilter(warning);
-      } else {
-        throw new Error(`Unknown warningFilter type = ${typeof warningFilter}`);
-      }
-    });
-  }
-
-  return warnings.filter((warning) => !isWarningFiltered(warning));
-}
-
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        reject(new Error(err.toString()));
+        reject(err);
       }
       // let plugins consume all the stats
       const allStats = stats?.toJson('errors-warnings');
@@ -199,17 +166,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (allStats && stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let warnings = [...allStats.warnings];
-
-        // todo
-        /*
-        const warningsFilter = (config[0].stats?.warningsFilter ||
-          []) as WarningFilter[];
-
-        if (Array.isArray(warningsFilter)) {
-          warnings = filterWarnings(warningsFilter, warnings);
-        }
-        */
+        const { warnings } = allStats;
 
         warnings.forEach((warning) => {
           console.warn(warning);
@@ -220,7 +177,7 @@ export function compile(config: Configuration[]): Promise<void> {
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'medias';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 interface Rules {
   file: (options: {folder: AssetFolder}) => RuleSetRule;
@@ -228,7 +185,7 @@ interface Rules {
 }
 
 interface FileLoaderUtils {
-  loaders: any;
+  loaders: RuleSetRule[];
   rules: Rules;
 }
 
@@ -283,6 +240,13 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       return {
         use: [loaders.url({folder: 'images'})],
         test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+      };
+    },
+
+    fonts: (): RuleSetRule => {
+      return {
+        use: [loaders.url({folder: 'fonts'})],
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
       };
     },
 
@@ -398,6 +362,7 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
   return isHttps;
 }
 
+/*
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
   let terserParallel: boolean | number = true;
@@ -411,6 +376,7 @@ function getTerserParallel() {
   }
   return terserParallel;
 }
+ */
 
 export function getMinimizer(): Plugin[] {
   const minimizer = [
@@ -444,17 +410,17 @@ export function getMinimizer(): Plugin[] {
         },
       },
     }),
-    */
     new CssMinimizerPlugin({
       minimizerOptions: {
         preset: CssNanoPreset,
-      },
+      }
     }),
     new CssMinimizerPlugin({
       minimizerOptions: {
         cssProcessor: CleanCss,
       }
     }),
+     */
   ];
 
   return minimizer;
