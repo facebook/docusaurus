@@ -7,12 +7,17 @@
 
 /*
  * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
+ * 
+ * Requirements for adding of your site in our showcase:
+ * - Your site have a stable domain name (for example, site using Netlify domain are not allowed)
+ * - Code of your site should be publicly available
+ * - Your site should use minimal customization (because we want to avoid places simple Docusaurus websites in showcase)
  *
- * Instructions
- * - add your site in the json array below, in alphabetical order of title
- * - add a local image preview (decent screenshot of your Docusaurus site)
+ * Instructions:
+ * - Add your site in the json array below, in alphabetical order of title
+ * - Add a local image preview (decent screenshot of your Docusaurus site)
  *
- * The image must be added to the Github repository, and use require("image")
+ * The image must be added to the GitHub repository, and use `require("image")`
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
