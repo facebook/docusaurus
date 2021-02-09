@@ -109,14 +109,14 @@ For more information about sidebars and how they relate to doc pages, see [Navba
 
 ## Understanding sidebar items
 
-As the name implies, `SidebarItem` is an item defined in a Sidebar. A sibarItem as a `type` that defines what the item links to.
+As the name implies, `SidebarItem` is an item defined in a Sidebar. A SidebarItem as a `type` that defines what the item links to.
 
 `type` supports the following values
 
 - [Doc](#linking-to-a-doc-page)
 - [Link](#creating-a-generic-link)
 - [Ref](#creating-a-link-to-page-without-sidebar)
-- [Category](#creating-a-hierachy)
+- [Category](#creating-a-hierarchy)
 
 ### Linking to a doc page
 
@@ -144,6 +144,7 @@ Using just the [Document ID](#document-id) is also valid, the following is equiv
 
 ```js
 'doc1'; // string - document id
+
 ```
 
 Using this type will bind the linked doc to current sidebar. This means that if you access the `doc1` page, the sidebar displayed will be the sidebar that contains this doc page.
@@ -204,7 +205,7 @@ Example:
 }
 ```
 
-### Creating a hierachy
+### Creating a hierarchy
 
 The Sidebar item type that creates a hierarchy in the sidebar. Set `type` to `category`.
 

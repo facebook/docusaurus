@@ -4,7 +4,7 @@ title: Manual migration
 slug: /migration/manual
 ---
 
-This manual migration process should be run after the [automated migration prcess](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
+This manual migration process should be run after the [automated migration process](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
 
 ## Project setup
 
@@ -503,7 +503,7 @@ In Docusaurus v1, pages received the `siteConfig` object as props.
 
 In Docusaurus v2, get the `siteConfig` object from `useDocusaurusContext` instead.
 
-In v2, you have to apply the theme layout around each page. The Layout component takes metadata props (`permalink` is important, as it defines the canonical url of your page).
+In v2, you have to apply the theme layout around each page. The Layout component takes metadata props.
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
 
@@ -515,16 +515,12 @@ Here's a typical Docusaurus v2 page:
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 
 const MyPage = () => {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <Layout
-      permalink="/"
-      title={siteConfig.title}
-      description={siteConfig.tagline}>
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <div className="hero text--center">
         <div className="container ">
           <div className="padding-vert--md">
@@ -533,7 +529,7 @@ const MyPage = () => {
           </div>
           <div>
             <Link
-              to={useBaseUrl('/docs/get-started')}
+              to="/docs/get-started"
               className="button button--lg button--outline button--primary">
               Get started
             </Link>

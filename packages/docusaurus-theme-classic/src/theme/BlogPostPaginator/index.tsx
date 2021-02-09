@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogPostPaginator';
 
@@ -17,7 +18,13 @@ function BlogPostPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item">
         {prevItem && (
           <Link className="pagination-nav__link" to={prevItem.permalink}>
-            <div className="pagination-nav__sublabel">Newer Post</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.BlogPostPaginator.newerPost"
+                description="The blog post button label to navigate to the newer/previous post">
+                Newer Post
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               &laquo; {prevItem.title}
             </div>
@@ -27,7 +34,13 @@ function BlogPostPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextItem && (
           <Link className="pagination-nav__link" to={nextItem.permalink}>
-            <div className="pagination-nav__sublabel">Older Post</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.BlogPostPaginator.olderPost"
+                description="The blog post button label to navigate to the older/next post">
+                Older Post
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               {nextItem.title} &raquo;
             </div>

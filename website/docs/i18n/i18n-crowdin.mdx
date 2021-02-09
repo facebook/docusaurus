@@ -409,6 +409,54 @@ Crowdin replaces markdown strings with technical ids such as `crowdin:id12345`, 
 
 :::
 
+### Localize edit urls
+
+When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
+
+You may prefer the edit button to link to the Crowdin interface instead, and can use the `editUrl` function to customize the edit urls on a per-locale basis.
+
+```js title="docusaurus.config.js"
+const DefaultLocale = 'en';
+
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          editUrl: ({locale, versionDocsDirPath, docPath}) => {
+            // Link to Crowdin for French docs
+            if (locale !== DefaultLocale) {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            // Link to Github for English docs
+            return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+          },
+          // highlight-end
+        },
+        blog: {
+          // highlight-start
+          editUrl: ({locale, blogDirPath, blogPath}) => {
+            if (locale !== DefaultLocale) {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+          },
+          // highlight-start
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+It is currently **not possible to link to a specific file** in Crowdin.
+
+:::
+
 ### Example configuration
 
 The **Docusaurus v2 configuration file** is a good example of using versioning and multi-instance:

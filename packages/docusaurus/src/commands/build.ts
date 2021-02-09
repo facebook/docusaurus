@@ -169,24 +169,27 @@ async function buildLocale({
     });
   }
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
     }
 
-    clientConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      clientConfig,
-      false,
-    );
+    if (configureWebpack) {
+      clientConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        clientConfig,
+        false,
+      );
 
-    serverConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      serverConfig,
-      true,
-    );
+      serverConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        serverConfig,
+        true,
+      );
+    }
   });
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
@@ -197,7 +200,6 @@ async function buildLocale({
 
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
-  console.log("debug marker 2")
 
   // Remove server.bundle.js because it is not needed.
   if (

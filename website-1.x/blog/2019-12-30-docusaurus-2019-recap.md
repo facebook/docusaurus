@@ -8,7 +8,7 @@ authorTwitter: yangshunz
 tags: [recap]
 ---
 
-2019 was a great year for Docusaurus - we've made tremendous progress on [Docusaurus 2](https://v2.docusaurus.io/). Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and [migrate](https://v2.docusaurus.io/docs/migrating-from-v1-to-v2) to it! Otherwise we will work with you to make that happen in 2020 :)
+2019 was a great year for Docusaurus - we've made tremendous progress on [Docusaurus 2](https://v2.docusaurus.io/). Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and [migrate](https://v2.docusaurus.io/docs/migration) to it! Otherwise we will work with you to make that happen in 2020 :)
 
 <!--truncate-->
 

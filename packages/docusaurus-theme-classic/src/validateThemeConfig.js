@@ -76,6 +76,7 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  className: Joi.string(),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
@@ -85,6 +86,7 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   dropdownActiveClassDisabled: Joi.boolean(),
   dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
 });
 
 const DocItemSchema = Joi.object({
@@ -94,6 +96,7 @@ const DocItemSchema = Joi.object({
   label: Joi.string(),
   docsPluginId: Joi.string(),
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
+  className: Joi.string(),
 });
 
 const LocaleDropdownNavbarItemSchema = Joi.object({
@@ -101,6 +104,12 @@ const LocaleDropdownNavbarItemSchema = Joi.object({
   position: NavbarItemPosition,
   dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
+});
+
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+  position: NavbarItemPosition,
 });
 
 // Can this be made easier? :/
@@ -134,6 +143,10 @@ const NavbarItemSchema = Joi.object().when({
     {
       is: isOfType('localeDropdown'),
       then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('search'),
+      then: SearchItemSchema,
     },
     {
       is: isOfType(undefined),

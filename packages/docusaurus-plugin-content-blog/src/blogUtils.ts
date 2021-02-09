@@ -26,6 +26,7 @@ import {
   aliasedSitePath,
   getEditUrl,
   getFolderContainingFile,
+  posixPath,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {keyBy} from 'lodash';
@@ -99,7 +100,7 @@ export async function generateBlogFeed(
 
 export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
-  {siteConfig, siteDir}: LoadContext,
+  {siteConfig, siteDir, i18n}: LoadContext,
   options: PluginOptions,
 ): Promise<BlogPost[]> {
   const {
@@ -107,7 +108,7 @@ export async function generateBlogPosts(
     routeBasePath,
     truncateMarker,
     showReadingTime,
-    editUrl,
+    editUrl: siteEditUrl,
   } = options;
 
   if (!fs.existsSync(contentPaths.contentPath)) {
@@ -124,18 +125,47 @@ export async function generateBlogPosts(
   await Promise.all(
     blogSourceFiles.map(async (blogSourceFile: string) => {
       // Lookup in localized folder in priority
-      const contentPath = await getFolderContainingFile(
+      const blogDirPath = await getFolderContainingFile(
         getContentPathList(contentPaths),
         blogSourceFile,
       );
 
-      const source = path.join(contentPath, blogSourceFile);
+      const source = path.join(blogDirPath, blogSourceFile);
+
       const aliasedSource = aliasedSitePath(source, siteDir);
 
-      const relativePath = path.relative(siteDir, source);
       const blogFileName = path.basename(blogSourceFile);
 
-      const editBlogUrl = getEditUrl(relativePath, editUrl);
+      function getBlogEditUrl() {
+        const blogPathRelative = path.relative(
+          blogDirPath,
+          path.resolve(source),
+        );
+
+        if (typeof siteEditUrl === 'function') {
+          return siteEditUrl({
+            blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
+            blogPath: posixPath(blogPathRelative),
+            locale: i18n.currentLocale,
+          });
+        } else if (typeof siteEditUrl === 'string') {
+          const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
+          const fileContentPath =
+            isLocalized && options.editLocalizedFiles
+              ? contentPaths.contentPathLocalized
+              : contentPaths.contentPath;
+
+          const contentPathEditUrl = normalizeUrl([
+            siteEditUrl,
+            posixPath(path.relative(siteDir, fileContentPath)),
+          ]);
+
+          return getEditUrl(blogPathRelative, contentPathEditUrl);
+        } else {
+          return undefined;
+        }
+      }
+      const editBlogUrl = getBlogEditUrl();
 
       const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
 

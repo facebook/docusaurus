@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
