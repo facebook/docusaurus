@@ -7,7 +7,7 @@
 
 /*
  * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
- * 
+ *
  * Requirements for adding of your site in our showcase:
  * - Your site have a stable domain name (for example, site using Netlify domain are not allowed)
  * - Code of your site should be publicly available
@@ -177,7 +177,7 @@ const users = [
     source: 'https://github.com/ataft/flexit-docs',
     fbOpenSource: false,
     pinned: false,
-  },  
+  },
   {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
