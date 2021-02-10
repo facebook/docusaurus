@@ -8,10 +8,10 @@
 /*
  * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
  *
- * Requirements for adding of your site in our showcase:
- * - Your site have a stable domain name (for example, site using Netlify domain are not allowed)
- * - Code of your site should be publicly available
- * - Your site should use minimal customization (because we want to avoid places simple Docusaurus websites in showcase)
+ * Requirements for adding your site to our showcase:
+ * - It is a real site with real content and customizations (different enough from init templates)
+ * - It has a stable domain name (a random Netlify/Vercel domain is not allowed)
+ * - The code is publicly available
  *
  * Instructions:
  * - Add your site in the json array below, in alphabetical order of title
