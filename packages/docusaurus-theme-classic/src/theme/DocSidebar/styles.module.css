@@ -82,7 +82,6 @@
     transform: rotate(0deg);
   }
 
-
   html[data-theme='dark'] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
   }
