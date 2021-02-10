@@ -61,6 +61,12 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
+function getInfimaCSSFile(direction) {
+  return `infima/dist/css/default/default${
+    direction === 'rtl' ? '-rtl' : ''
+  }.css`;
+}
+
 export default function docusaurusThemeClassic(
   context,
   options,
@@ -71,7 +77,7 @@ export default function docusaurusThemeClassic(
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
-  const isRtlLocale = localeConfigs[currentLocale].direction === 'rtl';
+  const {direction} = localeConfigs[currentLocale];
 
   return {
     name: 'docusaurus-theme-classic',
@@ -99,9 +105,7 @@ export default function docusaurusThemeClassic(
 
     getClientModules() {
       const modules = [
-        require.resolve(
-          `infima/dist/css/default/default${isRtlLocale ? '-rtl' : ''}.css`,
-        ),
+        require.resolve(getInfimaCSSFile(direction)),
         path.resolve(__dirname, './prism-include-languages'),
       ];
 
@@ -142,14 +146,24 @@ export default function docusaurusThemeClassic(
     },
 
     configurePostCss(postCssOptions) {
-      if (isRtlLocale) {
+      if (direction === 'rtl') {
         postCssOptions.plugins.push(
           postcss.plugin('RtlCssPlugin', () => {
+            function isInfimaCSSFile(file) {
+              return (
+                file.endsWith(getInfimaCSSFile(direction)) ||
+                // special case for our own monorepo using symlinks!
+                file.endsWith(
+                  'infima/packages/core/dist/css/default/default-rtl.css',
+                )
+              );
+            }
+
             return function (root: any) {
               const file = root?.source.input.file;
 
               // Skip Infima as we are using the its RTL version.
-              if (file.includes('dist/infima')) {
+              if (isInfimaCSSFile(file)) {
                 return;
               }
 
