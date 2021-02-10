@@ -56,7 +56,6 @@ module.exports = {
     localeConfigs: {
       en: {
         label: 'English',
-        direction: 'rtl',
       },
       fr: {
         label: 'Français',
