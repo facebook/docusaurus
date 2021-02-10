@@ -26,7 +26,10 @@ import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
-import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
+import {
+  BABEL_CONFIG_FILE_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -275,7 +278,7 @@ export function getFileLoaderUtils(): Record<string, any> {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
     file: (options: {folder: AssetFolder}) => {
