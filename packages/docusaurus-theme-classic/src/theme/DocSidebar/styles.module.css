@@ -79,7 +79,7 @@
     margin-top: 4px;
   }
   html[dir='rtl'] .collapseSidebarButtonIcon {
-    transform: rotate(0deg);
+    transform: rotate(0);
   }
 
   html[data-theme='dark'] .collapseSidebarButton {
