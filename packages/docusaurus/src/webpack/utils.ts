@@ -11,7 +11,6 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
-  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -182,21 +181,27 @@ export function applyConfigurePostCss(
 ): Configuration {
   type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
 
+  // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    // TODO not ideal heuristic but good enough for our usecase?
     return !!(loader as any)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
-  config.module?.rules.map((rule) => {
-    for (const loader of rule.use as NewLoader[]) {
-      if (isPostCssLoader(loader)) {
-        loader.options.postcssOptions = configurePostCss(
-          loader.options.postcssOptions,
-        );
-      }
+  function overridePostCssOptions(entry) {
+    if (isPostCssLoader(entry)) {
+      entry.options.postcssOptions = configurePostCss(
+        entry.options.postcssOptions,
+      );
+    } else if (Array.isArray(entry.oneOf)) {
+      entry.oneOf.forEach(overridePostCssOptions);
+    } else if (Array.isArray(entry.use)) {
+      entry.use
+        .filter((u) => typeof u === 'object')
+        .forEach(overridePostCssOptions);
     }
-  });
+  }
+
+  config.module?.rules.forEach(overridePostCssOptions);
 
   return config;
 }

@@ -93,7 +93,7 @@ describe('loadI18n', () => {
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français'},
+        fr: {label: 'Français', direction: 'ltr'},
         en: defaultLocaleConfig('en'),
         de: defaultLocaleConfig('de'),
       },

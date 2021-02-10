@@ -33,12 +33,12 @@ The goals of the Docusaurus i18n system are:
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
 - **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
 
 ### i18n goals (TODO)
 
 Features that are **not yet implemented**:
 
-- **RTL support**: one locale should not be harder to use than another.
 - **Contextual translations**: reduce friction to contribute to the translation effort.
 - **Anchor links**: linking should not break when you localize headings.
 - **Advanced configuration options**: customize route paths, file-system paths.

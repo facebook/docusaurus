@@ -44,6 +44,13 @@
     background-color: var(--ifm-color-emphasis-200);
   }
 
+  .expandSidebarButtonIcon {
+    transform: rotate(0);
+  }
+  html[dir='rtl'] .expandSidebarButtonIcon {
+    transform: rotate(180deg);
+  }
+
   html[data-theme='dark'] .collapsedDocSidebar:hover,
   html[data-theme='dark'] .collapsedDocSidebar:focus {
     background-color: var(--collapse-button-bg-color-dark);

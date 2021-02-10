@@ -83,7 +83,7 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 export default function LayoutHead(props: Props): JSX.Element {
   const {
     siteConfig,
-    i18n: {currentLocale},
+    i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const {
     favicon,
@@ -98,11 +98,12 @@ export default function LayoutHead(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
   // const htmlLang = currentLocale.split('-')[0];
   const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
+  const htmlDir = localeConfigs[currentLocale].direction;
 
   return (
     <>
       <Head>
-        <html lang={htmlLang} />
+        <html lang={htmlLang} dir={htmlDir} />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
