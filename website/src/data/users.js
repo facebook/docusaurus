@@ -8,11 +8,16 @@
 /*
  * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
  *
- * Instructions
- * - add your site in the json array below, in alphabetical order of title
- * - add a local image preview (decent screenshot of your Docusaurus site)
+ * Requirements for adding your site to our showcase:
+ * - It is a real site with real content and customizations (different enough from init templates)
+ * - It has a stable domain name (a random Netlify/Vercel domain is not allowed)
+ * - The code is publicly available
  *
- * The image must be added to the Github repository, and use require("image")
+ * Instructions:
+ * - Add your site in the json array below, in alphabetical order of title
+ * - Add a local image preview (decent screenshot of your Docusaurus site)
+ *
+ * The image must be added to the GitHub repository, and use `require("image")`
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
@@ -181,7 +186,7 @@ const users = [
     source: 'https://github.com/ataft/flexit-docs',
     fbOpenSource: false,
     pinned: false,
-  },  
+  },
   {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
