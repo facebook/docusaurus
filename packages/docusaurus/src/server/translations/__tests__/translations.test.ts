@@ -12,11 +12,14 @@ import {
   readTranslationFileContent,
   WriteTranslationsOptions,
   localizePluginTranslationFile,
+  getPluginsDefaultCodeTranslationMessages,
+  applyDefaultCodeTranslations,
 } from '../translations';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
 import {TranslationFile, TranslationFileContent} from '@docusaurus/types';
 import path from 'path';
+import {InitPlugin} from '../../plugins/init';
 
 async function createTmpSiteDir() {
   const {path: siteDirPath} = await tmp.dir({
@@ -459,5 +462,206 @@ describe('localizePluginTranslationFile', () => {
         key4: {message: 'key4 message localized'},
       },
     });
+  });
+});
+
+describe('getPluginsDefaultCodeTranslationMessages', () => {
+  function createTestPlugin(
+    fn: InitPlugin['getDefaultCodeTranslationMessages'],
+  ): InitPlugin {
+    return {getDefaultCodeTranslationMessages: fn} as InitPlugin;
+  }
+
+  test('for empty plugins', async () => {
+    const plugins: InitPlugin[] = [];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({});
+  });
+
+  test('for 1 plugin without lifecycle', async () => {
+    const plugins: InitPlugin[] = [createTestPlugin(undefined)];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({});
+  });
+
+  test('for 1 plugin with lifecycle', async () => {
+    const plugins: InitPlugin[] = [
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      a: '1',
+      b: '2',
+    });
+  });
+
+  test('for 2 plugins with lifecycles', async () => {
+    const plugins: InitPlugin[] = [
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+      createTestPlugin(async () => ({
+        c: '3',
+        d: '4',
+      })),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      a: '1',
+      b: '2',
+      c: '3',
+      d: '4',
+    });
+  });
+
+  test('for realistic use-case', async () => {
+    const plugins: InitPlugin[] = [
+      createTestPlugin(undefined),
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+      createTestPlugin(undefined),
+      createTestPlugin(undefined),
+      createTestPlugin(async () => ({
+        a: '2',
+        d: '4',
+      })),
+      createTestPlugin(async () => ({
+        d: '5',
+      })),
+      createTestPlugin(undefined),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      // merge, last plugin wins
+      b: '2',
+      a: '2',
+      d: '5',
+    });
+  });
+});
+
+describe.only('applyDefaultCodeTranslations', () => {
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation() as any;
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
+
+  test('for no code and message', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {},
+        defaultCodeMessages: {},
+      }),
+    ).toEqual({});
+    expect(consoleSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('for code and message', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id: {
+            message: 'extracted message',
+            description: 'description',
+          },
+        },
+        defaultCodeMessages: {
+          id: 'default message',
+        },
+      }),
+    ).toEqual({
+      id: {
+        message: 'default message',
+        description: 'description',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('for code and message mismatch', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id: {
+            message: 'extracted message',
+            description: 'description',
+          },
+        },
+        defaultCodeMessages: {
+          unknownId: 'default message',
+        },
+      }),
+    ).toEqual({
+      id: {
+        message: 'extracted message',
+        description: 'description',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
+      "[33mUnused default message codes found.[39m
+      [33mPlease report this Docusaurus issue.[39m
+      [33m- unknownId[39m
+      [33m[39m"
+    `);
+  });
+
+  test('for realistic scenario', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id1: {
+            message: 'extracted message 1',
+            description: 'description 1',
+          },
+          id2: {
+            message: 'extracted message 2',
+            description: 'description 2',
+          },
+          id3: {
+            message: 'extracted message 3',
+            description: 'description 3',
+          },
+        },
+        defaultCodeMessages: {
+          id2: 'default message id2',
+          id3: 'default message id3',
+          idUnknown1: 'default message idUnknown1',
+          idUnknown2: 'default message idUnknown2',
+        },
+      }),
+    ).toEqual({
+      id1: {
+        message: 'extracted message 1',
+        description: 'description 1',
+      },
+      id2: {
+        message: 'default message id2',
+        description: 'description 2',
+      },
+      id3: {
+        message: 'default message id3',
+        description: 'description 3',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
+      "[33mUnused default message codes found.[39m
+      [33mPlease report this Docusaurus issue.[39m
+      [33m- idUnknown1[39m
+      [33m- idUnknown2[39m
+      [33m[39m"
+    `);
   });
 });

@@ -602,3 +602,35 @@ export function updateTranslationFileMessages(
     })),
   };
 }
+
+export async function readDefaultCodeTranslationMessages({
+  dirPath,
+  locale,
+}: {
+  dirPath: string;
+  locale: string;
+}): Promise<Record<string, string>> {
+  const fileNamesToTry = [locale];
+
+  if (locale.includes('_')) {
+    const language = locale.split('_')[0];
+    if (language) {
+      fileNamesToTry.push(language);
+    }
+  }
+
+  // Return the content of the first file that match
+  // fr_FR.json => fr.json => nothing
+  for (const fileName of fileNamesToTry) {
+    const filePath = path.resolve(dirPath, `${fileName}.json`);
+
+    // eslint-disable-next-line no-await-in-loop
+    if (await fs.pathExists(filePath)) {
+      // eslint-disable-next-line no-await-in-loop
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      return JSON.parse(fileContent);
+    }
+  }
+
+  return {};
+}

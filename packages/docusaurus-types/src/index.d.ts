@@ -240,6 +240,12 @@ export interface Plugin<T, U = unknown> {
 
   // translations
   getTranslationFiles?(): Promise<TranslationFiles>;
+  getDefaultCodeTranslationMessages?(): Promise<
+    Record<
+      string, // id
+      string // message
+    >
+  >;
   translateContent?({
     content,
     translationFiles,
