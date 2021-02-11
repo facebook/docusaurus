@@ -4,12 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-// @ts-nocheck
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration} from 'webpack';
+import {Configuration, RuleSetRule} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getBabelLoader,
@@ -122,6 +121,7 @@ export function createBaseConfig(
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: minimizeEnabled,
+      // @ts-expect-error webpack type conflicts
       minimizer: minimizeEnabled ? getMinimizer() : undefined,
       splitChunks: isServer
         ? false
@@ -162,7 +162,7 @@ export function createBaseConfig(
           exclude: excludeJS,
           use: [
             getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
-          ].filter(Boolean) as Loader[],
+          ].filter(Boolean) as RuleSetRule[],
         },
         {
           test: CSS_REGEX,

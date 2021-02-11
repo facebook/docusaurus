@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/*
 import {matchRoutes} from 'react-router-config';
 import routesChunkNames from '@generated/routesChunkNames';
 import routes from '@generated/routes';
@@ -65,7 +66,6 @@ const getChunkNamesToLoad = (path: string): string[] => {
 
 const docusaurus = {
   prefetch: (routePath: string): boolean => {
-    /*
     if (!canPrefetch(routePath)) {
       return false;
     }
@@ -92,7 +92,6 @@ const docusaurus = {
         prefetchHelper(chunkAsset);
       }
     });
-    */
 
     return false;
   },
@@ -109,3 +108,7 @@ const docusaurus = {
 };
 
 export default docusaurus;
+*/
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default {prefetch: (routePath: string): boolean => false};

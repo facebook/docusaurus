@@ -17,7 +17,7 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
+import {ConfigurePostCssFn, ConfigureWebpackFn} from '@docusaurus/types';
 // import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {
   BABEL_CONFIG_FILE_NAME,
@@ -156,11 +156,11 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+  type LocalPostCSSLoader = Loader & {options: {postcssOptions?: unknown}};
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as unknown)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
@@ -214,6 +214,11 @@ export function compile(config: Configuration[]): Promise<void> {
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 interface Rules {
+  images: () => RuleSetRule;
+  media: () => RuleSetRule;
+  fonts: () => RuleSetRule;
+  svg: () => RuleSetRule;
+  otherAssets: () => RuleSetRule;
   file: (options: {folder: AssetFolder}) => RuleSetRule;
   url: (options: {folder: AssetFolder}) => RuleSetRule;
 }
@@ -411,7 +416,7 @@ function getTerserParallel() {
 }
 
 export function getMinimizer(): Plugin[] {
-  const minimizer = [
+  return [
     new TerserPlugin({
       parallel: getTerserParallel(),
       terserOptions: {
@@ -452,6 +457,4 @@ export function getMinimizer(): Plugin[] {
     }),
      */
   ];
-
-  return minimizer;
 }
