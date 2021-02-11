@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  validate,
-  Configuration,
-} from 'webpack';
+import {validate, Configuration} from 'webpack';
 import path from 'path';
 
 import {
