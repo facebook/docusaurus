@@ -9,7 +9,7 @@ import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
-import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
+import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-webpack-5';
 import {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
