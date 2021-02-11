@@ -10,7 +10,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
-// import TerserPlugin from 'terser-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 // import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 // import CleanCss from 'clean-css';
 import path from 'path';
@@ -387,7 +387,6 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
   return isHttps;
 }
 
-/*
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
   let terserParallel: boolean | number = true;
@@ -401,15 +400,11 @@ function getTerserParallel() {
   }
   return terserParallel;
 }
- */
 
 export function getMinimizer(): Plugin[] {
   const minimizer = [
-    /*
     new TerserPlugin({
-      cache: true,
       parallel: getTerserParallel(),
-      sourceMap: false,
       terserOptions: {
         parse: {
           // we want uglify-js to parse ecma 8 code. However, we don't want it
@@ -435,6 +430,7 @@ export function getMinimizer(): Plugin[] {
         },
       },
     }),
+    /*
     new CssMinimizerPlugin({
       minimizerOptions: {
         preset: CssNanoPreset,

@@ -104,6 +104,7 @@
     "shelljs": "^0.8.4",
     "std-env": "^2.2.1",
     "strip-ansi": "^6.0.0",
+    "terser-webpack-plugin": "^5.1.1",
     "update-notifier": "^5.1.0",
     "url-loader": "^4.1.1",
     "wait-on": "^5.2.1",
