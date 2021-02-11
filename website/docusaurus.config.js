@@ -41,8 +41,33 @@ const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
 
 const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
+// Special deployment for staging locales until they get enough translations
+// https://app.netlify.com/sites/docusaurus-i18n-staging
+// https://docusaurus-i18n-staging.netlify.app/
+const isI18nStaging = process.env.I18N_STAGING === 'true';
+
+const LocaleConfigs = isI18nStaging
+  ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
+    {
+      en: {
+        label: 'English',
+      },
+      'zh-CN': {
+        label: '简体中文',
+      },
+    }
+  : // Production locales
+    {
+      en: {
+        label: 'English',
+      },
+      fr: {
+        label: 'Français',
+      },
+    };
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
-module.exports = {
+(module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
@@ -52,15 +77,8 @@ module.exports = {
   url: 'https://v2.docusaurus.io',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'fr'],
-    localeConfigs: {
-      en: {
-        label: 'English',
-      },
-      fr: {
-        label: 'Français',
-      },
-    },
+    locales: Object.keys(LocaleConfigs),
+    localeConfigs: LocaleConfigs,
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -441,4 +459,4 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
-};
+});
