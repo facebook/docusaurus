@@ -11,6 +11,7 @@ import {normalizeUrl} from '@docusaurus/utils';
 export function defaultLocaleConfig(locale: string): I18nLocaleConfig {
   return {
     label: locale,
+    direction: 'ltr',
   };
 }
 

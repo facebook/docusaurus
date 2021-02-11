@@ -96,14 +96,19 @@ module.exports = {
     localeConfigs: {
       en: {
         label: 'English',
+        direction: 'ltr',
       },
       fr: {
         label: 'Français',
+        direction: 'ltr',
       },
     },
   },
 };
 ```
+
+- `label`: the label to use for this locale
+- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew...)
 
 ### `noIndex`
 

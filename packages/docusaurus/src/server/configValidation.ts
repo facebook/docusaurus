@@ -71,6 +71,7 @@ const PresetSchema = Joi.alternatives().try(
 
 const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
+  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({

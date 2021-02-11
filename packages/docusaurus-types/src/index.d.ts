@@ -94,6 +94,7 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
+  direction: string;
 };
 
 export type I18nConfig = {

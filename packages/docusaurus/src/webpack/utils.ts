@@ -19,7 +19,10 @@ import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 // import CssNanoPreset from '@docusaurus/cssnano-preset';
-import {BABEL_CONFIG_FILE_NAME, STATIC_ASSETS_DIR_NAME} from '../constants';
+import {
+  BABEL_CONFIG_FILE_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -155,21 +158,27 @@ export function applyConfigurePostCss(
 ): Configuration {
   type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
 
+  // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    // TODO not ideal heuristic but good enough for our usecase?
     return !!(loader as any)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
-  config.module?.rules.map((rule) => {
-    for (const loader of rule.use as NewLoader[]) {
-      if (isPostCssLoader(loader)) {
-        loader.options.postcssOptions = configurePostCss(
-          loader.options.postcssOptions,
-        );
-      }
+  function overridePostCssOptions(entry) {
+    if (isPostCssLoader(entry)) {
+      entry.options.postcssOptions = configurePostCss(
+        entry.options.postcssOptions,
+      );
+    } else if (Array.isArray(entry.oneOf)) {
+      entry.oneOf.forEach(overridePostCssOptions);
+    } else if (Array.isArray(entry.use)) {
+      entry.use
+        .filter((u) => typeof u === 'object')
+        .forEach(overridePostCssOptions);
     }
-  });
+  }
+
+  config.module?.rules.forEach(overridePostCssOptions);
 
   return config;
 }
@@ -221,7 +230,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
     file: (options: {folder: AssetFolder}) => {
