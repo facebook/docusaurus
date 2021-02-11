@@ -551,7 +551,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
   });
 });
 
-describe.only('applyDefaultCodeTranslations', () => {
+describe('applyDefaultCodeTranslations', () => {
   const consoleSpy = jest.spyOn(console, 'warn').mockImplementation() as any;
   beforeEach(() => {
     consoleSpy.mockClear();
@@ -609,12 +609,7 @@ describe.only('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
-      "[33mUnused default message codes found.[39m
-      [33mPlease report this Docusaurus issue.[39m
-      [33m- unknownId[39m
-      [33m[39m"
-    `);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/unknownId/);
   });
 
   test('for realistic scenario', () => {
@@ -656,12 +651,7 @@ describe.only('applyDefaultCodeTranslations', () => {
       },
     });
     expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
-      "[33mUnused default message codes found.[39m
-      [33mPlease report this Docusaurus issue.[39m
-      [33m- idUnknown1[39m
-      [33m- idUnknown2[39m
-      [33m[39m"
-    `);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/idUnknown1/);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/idUnknown2/);
   });
 });
