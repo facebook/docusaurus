@@ -434,6 +434,7 @@ export function getMinimizer(): Plugin[] {
         },
         mangle: {
           safari10: true,
+          reserved: ['jsonpScriptSrc'],
         },
         output: {
           ecma: 5,
