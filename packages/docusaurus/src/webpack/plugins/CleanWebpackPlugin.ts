@@ -33,9 +33,6 @@ import path from 'path';
 import {sync as delSync} from 'del';
 
 export interface Options {
-  /** @deprecated */
-  allowExternal?: unknown;
-
   /**
    * Simulate the removal of files
    *

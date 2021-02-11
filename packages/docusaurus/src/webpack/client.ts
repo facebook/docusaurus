@@ -12,7 +12,7 @@ import merge from 'webpack-merge';
 
 import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
-// import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
+import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
 export default function createClientConfig(
@@ -38,7 +38,7 @@ export default function createClientConfig(
       runtimeChunk: true,
     },
     plugins: [
-      // new ChunkAssetPlugin(),
+      new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
       new LogPlugin({
         name: 'Client',

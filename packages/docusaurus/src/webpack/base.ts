@@ -179,7 +179,7 @@ export function createBaseConfig(
           use: getStyleLoaders(isServer, {
             modules: {
               localIdentName: isProd
-                ? `[local]_[hash:base64:4]`
+                ? `[local]_[contenthash:base64:4]`
                 : `[local]_[path]`,
               exportOnlyLocals: isServer,
             },

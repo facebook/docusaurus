@@ -30,9 +30,7 @@ class ChunkAssetPlugin {
         buf.push(
           // If chunkName is passed, we convert it to chunk id
           // Note that jsonpScriptSrc is an internal webpack function
-          `${
-            mainTemplate.requireFn
-          }.gca = function(chunkId) { chunkId = ${JSON.stringify(
+          `__webpack_require__.gca = function(chunkId) { chunkId = ${JSON.stringify(
             chunkNameToId,
           )}[chunkId]||chunkId; return jsonpScriptSrc(chunkId); };`,
         );

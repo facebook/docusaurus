@@ -6,7 +6,6 @@
  */
 
 import {
-  // @ts-expect-error: seems it's not in the typedefs???
   validate,
   Configuration,
 } from 'webpack';
@@ -55,7 +54,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with user webpack config object', async () => {
@@ -83,7 +82,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with custom strategy', async () => {
