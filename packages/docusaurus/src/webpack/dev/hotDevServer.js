@@ -6,25 +6,14 @@
  */
 
 /* eslint-disable */
-
 /*
- * note - Docusaurus: the above copyright header does not match the rest of the project
- * but must be preserved for license compliance.
+ * note - Docusaurus: the above copyright header must be preserved for license compliance.
  * Docusaurus's fork of this module changes a couple things:
  *  - webpack 5 support
  *  - process.env will not be accessible
  */
 
 'use strict';
-
-// This alternative WebpackDevServer combines the functionality of:
-// https://github.com/webpack/webpack-dev-server/blob/webpack-1/client/index.js
-// https://github.com/webpack/webpack/blob/webpack-1/hot/dev-server.js
-
-// It only supports their simplest configuration (hot updates on same server).
-// It makes some opinionated choices on top, like adding a syntax error overlay
-// that looks similar to our console output. The error overlay is inspired by:
-// https://github.com/glenjamin/webpack-hot-middleware
 
 var stripAnsi = require('strip-ansi');
 var url = require('url');
@@ -70,10 +59,8 @@ if (module.hot && typeof module.hot.dispose === 'function') {
 var connection = new WebSocket(
   url.format({
     protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
-    // fix(RDIL/Docusaurus): process will not be available at runtime
     hostname: window.location.hostname,
     port: window.location.port,
-    // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
     slashes: true,
   }),
@@ -115,24 +102,6 @@ function handleSuccess() {
   // Attempt to apply hot updates or reload.
   if (isHotUpdate) {
     tryApplyUpdates(function onHotUpdateSuccess() {
-      // Only dismiss it when we're sure it's a hot update.
-      // Otherwise it would flicker right before the reload.
-      tryDismissErrorOverlay();
-    });
-  }
-}
-
-// Compilation with warnings (e.g. ESLint).
-function handleWarnings(warnings) {
-  clearOutdatedErrors();
-
-  var isHotUpdate = !isFirstCompilation;
-  isFirstCompilation = false;
-  hasCompileErrors = false;
-
-  // Attempt to apply hot updates or reload.
-  if (isHotUpdate) {
-    tryApplyUpdates(function onSuccessfulHotUpdate() {
       // Only dismiss it when we're sure it's a hot update.
       // Otherwise it would flicker right before the reload.
       tryDismissErrorOverlay();
@@ -195,7 +164,7 @@ connection.onmessage = function (e) {
       window.location.reload();
       break;
     case 'warnings':
-      handleWarnings(message.data);
+      handleSuccess();
       break;
     case 'errors':
       handleErrors(message.data);

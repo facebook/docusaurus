@@ -92,6 +92,7 @@
     "postcss-preset-env": "^6.7.0",
     "prompts": "^2.4.0",
     "react-dev-utils": "^10.2.1",
+    "react-error-overlay": "^6.0.9",
     "react-helmet": "^6.1.0",
     "react-loadable": "^5.5.0",
     "react-loadable-ssr-addon-webpack-5": "^0.4.0",
