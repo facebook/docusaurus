@@ -106,8 +106,8 @@ export async function migrateDocusaurusProject(
     '@docusaurus/core': DOCUSAURUS_VERSION,
     '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
     clsx: '^1.1.1',
-    react: '^16.10.2',
-    'react-dom': '^16.10.2',
+    react: '^17.0.1',
+    'react-dom': '^17.0.1',
   };
   try {
     createClientRedirects(siteConfig, deps, config);
