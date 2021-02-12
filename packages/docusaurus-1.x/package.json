@@ -45,6 +45,8 @@
     "commander": "^4.0.1",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^4.1.10",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "escape-string-regexp": "^2.0.0",
     "express": "^4.17.1",
     "feed": "^4.2.1",
