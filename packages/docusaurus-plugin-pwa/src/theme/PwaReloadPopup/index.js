@@ -33,7 +33,7 @@ export default function PwaReloadPopup({onReload}) {
               onReload();
             }}>
             <Translate
-              id="theme.PwaReloadPopup.buttonText"
+              id="theme.PwaReloadPopup.refreshButtonText"
               description="The text for PWA reload button">
               Refresh
             </Translate>
@@ -41,7 +41,7 @@ export default function PwaReloadPopup({onReload}) {
 
           <button
             aria-label={translate({
-              id: 'theme.PwaReloadPopup.closeAriaLabel',
+              id: 'theme.PwaReloadPopup.closeButtonAriaLabel',
               message: 'Close',
               description:
                 'The ARIA label for close button of PWA reload popup',

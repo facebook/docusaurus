@@ -17,7 +17,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
     <nav
       className="pagination-nav"
       aria-label={translate({
-        id: 'theme.BlogPostPaginator.ariaLabel',
+        id: 'theme.BlogPostPaginator.navAriaLabel',
         message: 'Blog post page navigation',
         description: 'The ARIA label for the blog posts pagination',
       })}>

@@ -241,7 +241,7 @@ export default function CodeBlock({
               ref={button}
               type="button"
               aria-label={translate({
-                id: 'theme.CodeBlock.ariaLabel',
+                id: 'theme.CodeBlock.copyButtonAriaLabel',
                 message: 'Copy code to clipboard',
                 description: 'The ARIA label for copy code blocks button',
               })}

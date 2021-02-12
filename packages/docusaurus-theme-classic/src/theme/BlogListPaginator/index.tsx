@@ -18,7 +18,7 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
     <nav
       className="pagination-nav"
       aria-label={translate({
-        id: 'theme.BlogListPaginator.ariaLabel',
+        id: 'theme.BlogListPaginator.navAriaLabel',
         message: 'Blog list page navigation',
         description: 'The ARIA label for the blog pagination',
       })}>

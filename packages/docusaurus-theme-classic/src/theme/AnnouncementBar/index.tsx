@@ -48,7 +48,7 @@ function AnnouncementBar(): JSX.Element | null {
           className={styles.announcementBarClose}
           onClick={closeAnnouncementBar}
           aria-label={translate({
-            id: 'theme.AnnouncementBar.closeAriaLabel',
+            id: 'theme.AnnouncementBar.closeButtonAriaLabel',
             message: 'Close',
             description: 'The ARIA label for close button of announcement bar',
           })}>
