@@ -474,6 +474,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'WebdriverIO',
+    description:
+      'Next-gen browser and mobile automation test framework for Node.js',
+    preview: require('./showcase/webdriverio.png'),
+    website: 'https://webdriver.io/',
+    source: 'https://github.com/webdriverio/webdriverio',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
