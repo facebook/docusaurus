@@ -112,6 +112,7 @@ function DocItem(props: Props): JSX.Element {
                     <div className="col text--right">
                       <em>
                         <small>
+                          {/* TODO: wait for using interpolation in translation function */}
                           Last updated{' '}
                           {lastUpdatedAt && (
                             <>

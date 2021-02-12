@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import type {Metadata} from '@theme/BlogListPage';
 
 function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
@@ -15,7 +15,13 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
   const {previousPage, nextPage} = metadata;
 
   return (
-    <nav className="pagination-nav" aria-label="Blog list page navigation">
+    <nav
+      className="pagination-nav"
+      aria-label={translate({
+        id: 'theme.BlogListPaginator.ariaLabel',
+        message: 'Blog list page navigation',
+        description: 'The ARIA label for the blog pagination',
+      })}>
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>

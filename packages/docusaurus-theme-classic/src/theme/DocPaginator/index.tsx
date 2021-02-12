@@ -7,14 +7,20 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocPaginator';
 
 function DocPaginator(props: Props): JSX.Element {
   const {metadata} = props;
 
   return (
-    <nav className="pagination-nav" aria-label="Blog list page navigation">
+    <nav
+      className="pagination-nav"
+      aria-label={translate({
+        id: 'theme.DocPaginator.ariaLabel',
+        message: 'Docs pages navigation',
+        description: 'The ARIA label for the docs pagination',
+      })}>
       <div className="pagination-nav__item">
         {metadata.previous && (
           <Link
