@@ -32,7 +32,10 @@ import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
 import {handleDuplicateRoutes} from './duplicateRoutes';
 import {loadI18n, localizePath} from './i18n';
-import {readCodeTranslationFileContent} from './translations/translations';
+import {
+  readCodeTranslationFileContent,
+  getPluginsDefaultCodeTranslationMessages,
+} from './translations/translations';
 import {mapValues} from 'lodash';
 
 type LoadContextOptions = {
@@ -267,10 +270,15 @@ ${Object.keys(registry)
     JSON.stringify(i18n, null, 2),
   );
 
+  const codeTranslationsWithFallbacks: Record<string, string> = {
+    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
+    ...codeTranslations,
+  };
+
   const genCodeTranslations = generate(
     generatedFilesDir,
     'codeTranslations.json',
-    JSON.stringify(codeTranslations, null, 2),
+    JSON.stringify(codeTranslationsWithFallbacks, null, 2),
   );
 
   // Version metadata.

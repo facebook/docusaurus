@@ -1,0 +1,18 @@
+{
+  "theme.NotFound.title": "Page introuvable",
+  "theme.NotFound.p1": "Nous n'avons pas trouvé ce que vous recherchez.",
+  "theme.NotFound.p2": "Veuillez contacter le propriétaire du site qui vous a lié à l'URL d'origine et leur faire savoir que leur lien est cassé.",
+  "theme.BlogListPaginator.newerEntries": "Nouvelles entrées",
+  "theme.BlogListPaginator.olderEntries": "Anciennes entrées",
+  "theme.BlogPostItem.readMore": "Lire plus",
+  "theme.BlogPostPaginator.newerPost": "Article plus récent",
+  "theme.BlogPostPaginator.olderPost": "Article plus ancien",
+  "theme.CodeBlock.copied": "Copié",
+  "theme.CodeBlock.copy": "Copier",
+  "theme.DocPaginator.previous": "Précédent",
+  "theme.DocPaginator.next": "Suivant",
+  "theme.EditThisPage.editThisPage": "Éditer cette page",
+  "theme.SkipToContent.skipToMainContent": "Aller au contenu principal",
+  "theme.Playground.liveEditor": "Éditeur en direct",
+  "theme.Playground.result": "Résultat"
+}
