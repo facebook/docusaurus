@@ -6,7 +6,7 @@
  */
 // @ts-nocheck
 
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
@@ -45,7 +45,7 @@ export function getStyleLoaders(
   }
 
   return [
-    MiniCssExtractPlugin.loader,
+    // MiniCssExtractPlugin.loader,
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
@@ -235,7 +235,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[contenthash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
     file: (options: {folder: AssetFolder}) => {

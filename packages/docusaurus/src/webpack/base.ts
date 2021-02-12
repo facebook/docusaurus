@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import {Configuration, RuleSetRule} from 'webpack';
 import {Props} from '@docusaurus/types';
@@ -190,6 +190,7 @@ export function createBaseConfig(
       ],
     },
     plugins: [
+      /*
       new MiniCssExtractPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
@@ -201,6 +202,7 @@ export function createBaseConfig(
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
+       */
     ],
   };
 }

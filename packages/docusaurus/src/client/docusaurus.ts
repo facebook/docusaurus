@@ -92,7 +92,7 @@ const docusaurus = {
       }
     });
 
-    return false;
+    return true;
   },
 
   preload: (routePath: string): boolean => {
