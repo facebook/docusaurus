@@ -50,6 +50,7 @@
     "@babel/runtime-corejs3": "^7.12.5",
     "@babel/traverse": "^7.12.12",
     "@docusaurus/cssnano-preset": "2.0.0-alpha.70",
+    "@docusaurus/react-loadable": "5.5.0",
     "@docusaurus/types": "2.0.0-alpha.70",
     "@docusaurus/utils": "2.0.0-alpha.70",
     "@docusaurus/utils-validation": "2.0.0-alpha.70",
@@ -86,6 +87,7 @@
     "lodash.isplainobject": "^4.0.6",
     "lodash.isstring": "^4.0.1",
     "mini-css-extract-plugin": "^0.8.0",
+    "module-alias": "^2.2.2",
     "nprogress": "^0.2.0",
     "null-loader": "^4.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
@@ -116,8 +118,8 @@
     "webpackbar": "^5.0.0-3"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=10.15.1"
