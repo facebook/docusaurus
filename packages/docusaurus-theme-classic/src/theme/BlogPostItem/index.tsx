@@ -119,9 +119,9 @@ function BlogPostItem(props: Props): JSX.Element {
               <div className="col">
                 <strong>
                   <Translate
-                    id="theme.BlogPostItem.tags"
-                    description="The label used in blog post item for output tags list">
-                    Tags
+                    id="theme.common.tags"
+                    description="The label used during output tags list">
+                    Tags:
                   </Translate>
                 </strong>
                 {tags.map(({label, permalink: tagPermalink}) => (

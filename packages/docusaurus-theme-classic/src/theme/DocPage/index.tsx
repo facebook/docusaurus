@@ -95,13 +95,13 @@ function DocPageContent({
               <div
                 className={styles.collapsedDocSidebar}
                 title={translate({
-                  id: 'theme.DocPageContent.expandButtonLabel',
+                  id: 'theme.docs.expandButtonTitle',
                   message: 'Expand sidebar',
                   description:
                     'The ARIA label and title attribute for expand button of doc sidebar',
                 })}
                 aria-label={translate({
-                  id: 'theme.DocPageContent.expandButtonLabel',
+                  id: 'theme.docs.expandButtonAriaLabel',
                   message: 'Expand sidebar',
                   description:
                     'The ARIA label and title attribute for expand button of doc sidebar',
@@ -110,15 +110,7 @@ function DocPageContent({
                 role="button"
                 onKeyDown={toggleSidebar}
                 onClick={toggleSidebar}>
-                <IconArrow
-                  aria-label={translate({
-                    id: 'theme.DocPageContent.expandButtonLabel',
-                    message: 'Expand sidebar',
-                    description:
-                      'The ARIA label and title attribute for expand button of doc sidebar',
-                  })}
-                  className={styles.expandSidebarButtonIcon}
-                />
+                <IconArrow className={styles.expandSidebarButtonIcon} />
               </div>
             )}
           </div>

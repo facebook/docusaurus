@@ -286,13 +286,13 @@ function DocSidebar({
         <button
           type="button"
           title={translate({
-            id: 'theme.DocSidebar.collapseButtonLabel',
+            id: 'theme.docs.collapseButtonTitle',
             message: 'Collapse sidebar',
             description:
               'The ARIA label and title attribute for collapse button of doc sidebar',
           })}
           aria-label={translate({
-            id: 'theme.DocSidebar.collapseButtonLabel',
+            id: 'theme.docs.collapseButtonAriaLabel',
             message: 'Collapse sidebar',
             description:
               'The ARIA label and title attribute for collapse button of doc sidebar',
@@ -302,15 +302,7 @@ function DocSidebar({
             styles.collapseSidebarButton,
           )}
           onClick={onCollapse}>
-          <IconArrow
-            className={styles.collapseSidebarButtonIcon}
-            aria-label={translate({
-              id: 'theme.DocSidebar.collapseButtonLabel',
-              message: 'Collapse sidebar',
-              description:
-                'The ARIA label and title attribute for collapse button of doc sidebar',
-            })}
-          />
+          <IconArrow className={styles.collapseSidebarButtonIcon} />
         </button>
       )}
     </div>
