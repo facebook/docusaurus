@@ -35,7 +35,7 @@
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.19",
-    "joi": "^17.2.1",
+    "joi": "^17.4.0",
     "lodash": "^4.17.19",
     "parse-numeric-range": "^1.2.0",
     "postcss": "^7.0.2",
