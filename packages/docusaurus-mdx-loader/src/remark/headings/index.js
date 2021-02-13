@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* Based on remark-slug (https://github.com/remarkjs/remark-slug) */
+/* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 const visit = require('unist-util-visit');
 const toString = require('mdast-util-to-string');
 const slugs = require('github-slugger')();
+
+const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
 
 function slug() {
   const transformer = (ast) => {
@@ -26,11 +28,29 @@ function slug() {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
         );
-        const normalizedHeadingNode =
+        const heading = toString(
           headingTextNodes.length > 0
             ? {children: headingTextNodes}
-            : headingNode;
-        id = slugs.slug(toString(normalizedHeadingNode));
+            : headingNode,
+        );
+
+        // Support explicit heading IDs
+        const customHeadingIdMatches = customHeadingIdRegex.exec(heading);
+
+        if (customHeadingIdMatches) {
+          id = customHeadingIdMatches[2];
+
+          // Remove the custom ID part from the text node
+          if (headingNode.children.length > 1) {
+            headingNode.children.pop();
+          } else {
+            const lastNode =
+              headingNode.children[headingNode.children.length - 1];
+            lastNode.value = customHeadingIdMatches[1] || heading;
+          }
+        } else {
+          id = slugs.slug(heading);
+        }
       }
 
       data.id = id;

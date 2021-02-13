@@ -119,3 +119,5 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 
 </BrowserWindow>
+
+## Custom heading id {#custom}
