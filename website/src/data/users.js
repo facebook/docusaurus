@@ -261,6 +261,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'MikroORM',
+    description: 'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
+    preview: require('./showcase/mikro-orm.png'),
+    website: 'https://mikro-orm.io',
+    source: 'https://github.com/mikro-orm/mikro-orm',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
