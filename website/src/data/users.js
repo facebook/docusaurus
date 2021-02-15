@@ -69,6 +69,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Apache APISIX',
+    description: 'A Dynamic, Real-Time, High-Performance Cloud-Native API Gateway',
+    preview: require('./showcase/apache-apisix.png'),
+    website: 'https://apisix.apache.org/',
+    source: 'https://github.com/apache/apisix-website',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
