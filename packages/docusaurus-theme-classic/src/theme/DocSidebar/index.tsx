@@ -233,13 +233,13 @@ function DocSidebar({
           aria-label={
             showResponsiveSidebar
               ? translate({
-                  id: 'theme.DocSidebar.responsiveCloseButtonLabel',
+                  id: 'theme.docs.sidebar.responsiveCloseButtonLabel',
                   message: 'Close menu',
                   description:
                     'The ARIA label for close button of mobile doc sidebar',
                 })
               : translate({
-                  id: 'theme.DocSidebar.responsiveOpenButtonLabel',
+                  id: 'theme.docs.sidebar.responsiveOpenButtonLabel',
                   message: 'Open menu',
                   description:
                     'The ARIA label for open button of mobile doc sidebar',
@@ -286,13 +286,13 @@ function DocSidebar({
         <button
           type="button"
           title={translate({
-            id: 'theme.docs.collapseButtonTitle',
+            id: 'theme.docs.sidebar.collapseButtonTitle',
             message: 'Collapse sidebar',
             description:
               'The ARIA label and title attribute for collapse button of doc sidebar',
           })}
           aria-label={translate({
-            id: 'theme.docs.collapseButtonAriaLabel',
+            id: 'theme.docs.sidebar.collapseButtonAriaLabel',
             message: 'Collapse sidebar',
             description:
               'The ARIA label and title attribute for collapse button of doc sidebar',

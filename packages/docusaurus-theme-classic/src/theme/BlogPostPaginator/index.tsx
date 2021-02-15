@@ -17,7 +17,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
     <nav
       className="pagination-nav"
       aria-label={translate({
-        id: 'theme.BlogPostPaginator.navAriaLabel',
+        id: 'theme.blog.post.paginator.navAriaLabel',
         message: 'Blog post page navigation',
         description: 'The ARIA label for the blog posts pagination',
       })}>
@@ -26,7 +26,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
           <Link className="pagination-nav__link" to={prevItem.permalink}>
             <div className="pagination-nav__sublabel">
               <Translate
-                id="theme.BlogPostPaginator.newerPost"
+                id="theme.blog.post.paginator.newerPost"
                 description="The blog post button label to navigate to the newer/previous post">
                 Newer Post
               </Translate>
@@ -42,7 +42,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
           <Link className="pagination-nav__link" to={nextItem.permalink}>
             <div className="pagination-nav__sublabel">
               <Translate
-                id="theme.BlogPostPaginator.olderPost"
+                id="theme.blog.post.paginator.olderPost"
                 description="The blog post button label to navigate to the older/next post">
                 Older Post
               </Translate>

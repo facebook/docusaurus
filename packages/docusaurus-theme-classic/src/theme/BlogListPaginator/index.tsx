@@ -18,7 +18,7 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
     <nav
       className="pagination-nav"
       aria-label={translate({
-        id: 'theme.BlogListPaginator.navAriaLabel',
+        id: 'theme.blog.paginator.navAriaLabel',
         message: 'Blog list page navigation',
         description: 'The ARIA label for the blog pagination',
       })}>
@@ -28,7 +28,7 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
             <div className="pagination-nav__label">
               &laquo;{' '}
               <Translate
-                id="theme.BlogListPaginator.newerEntries"
+                id="theme.blog.paginator.newerEntries"
                 description="The label used to navigate to the newer blog posts page (previous page)">
                 Newer Entries
               </Translate>
@@ -41,7 +41,7 @@ function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
           <Link className="pagination-nav__link" to={nextPage}>
             <div className="pagination-nav__label">
               <Translate
-                id="theme.BlogListPaginator.olderEntries"
+                id="theme.blog.paginator.olderEntries"
                 description="The label used to navigate to the older blog posts page (next page)">
                 Older Entries
               </Translate>{' '}

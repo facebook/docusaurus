@@ -16,7 +16,7 @@ export default function EditThisPage({editUrl}: Props): JSX.Element {
     <a href={editUrl} target="_blank" rel="noreferrer noopener">
       <IconEdit />
       <Translate
-        id="theme.EditThisPage.editThisPage"
+        id="theme.common.editThisPage"
         description="The link label to edit the current page">
         Edit this page
       </Translate>

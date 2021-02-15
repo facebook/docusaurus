@@ -119,7 +119,7 @@ function BlogPostItem(props: Props): JSX.Element {
               <div className="col">
                 <strong>
                   <Translate
-                    id="theme.common.tags"
+                    id="theme.blog.tags"
                     description="The label used during output tags list">
                     Tags:
                   </Translate>
@@ -141,7 +141,7 @@ function BlogPostItem(props: Props): JSX.Element {
                   aria-label={`Read more about ${title}`}>
                   <strong>
                     <Translate
-                      id="theme.BlogPostItem.readMore"
+                      id="theme.blog.post.readMore"
                       description="The label used in blog post item excerpts to link to full blog posts">
                       Read More
                     </Translate>
