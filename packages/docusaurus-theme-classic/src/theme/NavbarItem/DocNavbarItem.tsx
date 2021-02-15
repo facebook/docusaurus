@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';

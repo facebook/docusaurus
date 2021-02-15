@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/theme-common",
-  "version": "2.0.0-alpha.69",
-  "description": "Common code for Docusaurus themes",
+  "version": "2.0.0-alpha.70",
+  "description": "Common code for Docusaurus themes.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -18,18 +18,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.69",
-    "@docusaurus/types": "2.0.0-alpha.69"
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.69"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.70"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=10.15.1"

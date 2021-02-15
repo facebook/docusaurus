@@ -29,9 +29,9 @@ To serve as an example page when styling markdown based Docusaurus sites.
 
 ## Emphasis
 
-Emphasis, aka italics, with *asterisks* or _underscores_.
+Emphasis, aka italics, with _asterisks_ or _underscores_.
 
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
+Strong emphasis, aka bold, with **asterisks** or **underscores**.
 
 Combined emphasis with **asterisks and _underscores_**.
 
@@ -43,16 +43,18 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 
 1. First ordered list item
 1. Another item
-   - Unordered sub-list.
+
+- Unordered sub-list.
+
 1. Actual numbers don't matter, just that it's a number
-   1. Ordered sub-list
+1. Ordered sub-list
 1. And another item.
 
-* Unordered list can use asterisks
+- Unordered list can use asterisks
 
-- Or minuses
+* Or minuses
 
-+ Or pluses
+- Or pluses
 
 ---
 
@@ -88,9 +90,9 @@ Reference-style: ![alt text][logo]
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png 'Logo Title Text 2'
 
-Images from any folder can be used by providing path to file. Path should be relative to markdown file.
+Images from any folder can be used by providing path to file. Path should be relative to the original markdown file or absolute to the `/static` folder.
 
-![img](../static/img/logo.svg)
+![img](/img/logo.svg)
 
 ---
 

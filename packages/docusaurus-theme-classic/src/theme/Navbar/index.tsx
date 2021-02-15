@@ -17,6 +17,7 @@ import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import NavbarItem from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
+import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
 
@@ -43,10 +44,7 @@ function Navbar(): JSX.Element {
     navbar: {items, hideOnScroll, style},
     colorMode: {disableSwitch: disableColorModeSwitch},
   } = useThemeConfig();
-
   const [sidebarShown, setSidebarShown] = useState(false);
-  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
@@ -72,6 +70,7 @@ function Navbar(): JSX.Element {
     }
   }, [windowSize]);
 
+  const hasSearchNavbarItem = items.some((item) => item.type === 'search');
   const {leftItems, rightItems} = splitNavItemsByPosition(items);
 
   return (
@@ -82,7 +81,7 @@ function Navbar(): JSX.Element {
         'navbar--primary': style === 'primary',
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
-        [styles.navbarHidden]: !isNavbarVisible,
+        [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">
@@ -94,30 +93,13 @@ function Navbar(): JSX.Element {
               tabIndex={0}
               onClick={showSidebar}
               onKeyDown={showSidebar}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                role="img"
-                focusable="false">
-                <title>Menu</title>
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeMiterlimit="10"
-                  strokeWidth="2"
-                  d="M4 7h22M4 15h22M4 23h22"
-                />
-              </svg>
+              <IconMenu />
             </div>
           )}
           <Logo
             className="navbar__brand"
             imageClassName="navbar__logo"
-            titleClassName={clsx('navbar__title', {
-              [styles.hideLogoText]: isSearchBarExpanded,
-            })}
+            titleClassName={clsx('navbar__title')}
           />
           {leftItems.map((item, i) => (
             <NavbarItem {...item} key={i} />
@@ -135,10 +117,7 @@ function Navbar(): JSX.Element {
               onChange={onToggleChange}
             />
           )}
-          <SearchBar
-            handleSearchBarToggle={setIsSearchBarExpanded}
-            isSearchBarExpanded={isSearchBarExpanded}
-          />
+          {!hasSearchNavbarItem && <SearchBar />}
         </div>
       </div>
       <div
@@ -166,7 +145,12 @@ function Navbar(): JSX.Element {
           <div className="menu">
             <ul className="menu__list">
               {items.map((item, i) => (
-                <NavbarItem mobile {...item} onClick={hideSidebar} key={i} />
+                <NavbarItem
+                  mobile
+                  {...(item as any)} // TODO fix typing
+                  onClick={hideSidebar}
+                  key={i}
+                />
               ))}
             </ul>
           </div>

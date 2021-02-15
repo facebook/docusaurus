@@ -32,7 +32,7 @@ It is not the most performant solution
 Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve). Change port using `--port` and `--host` to change host.
 
 ```bash npm2yarn
-npm run serve --build --port 80 --host 0.0.0.0
+npm run serve -- --build --port 80 --host 0.0.0.0
 ```
 
 ## Deploying to GitHub Pages
@@ -50,9 +50,13 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
+:::info
+
 In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
+
+:::
 
 Example:
 
@@ -90,16 +94,22 @@ Optional parameters, also set as environment variables:
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 | `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
 
+GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment veriable:
+
+| Name          | Description                                     |
+| ------------- | ----------------------------------------------- |
+| `GITHUB_HOST` | The domain name of your GitHub enterprise site. |
+
 ### Deploy
 
 Finally, to deploy your site to GitHub Pages, run:
 
-<Tabs 
+<Tabs
   defaultValue="bash"
-  values={[ 
+  values={[
     { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }, 
-    { label: 'PowerShell', value: 'powershell' } 
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
 ]}>
 <TabItem value="bash">
 

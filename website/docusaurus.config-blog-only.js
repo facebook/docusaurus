@@ -42,6 +42,11 @@ module.exports = {
   ],
   themeConfig: {
     image: 'img/docusaurus-soc.png',
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      contextualSearch: true,
+    },
     navbar: {
       hideOnScroll: true,
       title: 'Docusaurus',

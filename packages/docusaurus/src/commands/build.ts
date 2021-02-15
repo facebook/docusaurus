@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -20,7 +20,11 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {compile, applyConfigureWebpack} from '../webpack/utils';
+import {
+  compile,
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
@@ -29,12 +33,26 @@ import loadConfig from '../server/config';
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
+
+  // TODO what's the purpose of this arg ?
   forceTerminate: boolean = true,
 ): Promise<string> {
-  async function tryToBuildLocale(locale: string, forceTerm) {
+  async function tryToBuildLocale({
+    locale,
+    isLastLocale,
+  }: {
+    locale: string;
+    isLastLocale: boolean;
+  }) {
     try {
-      const result = await buildLocale(siteDir, locale, cliOptions, forceTerm);
-      console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      const result = await buildLocale({
+        siteDir,
+        locale,
+        cliOptions,
+        forceTerminate,
+        isLastLocale,
+      });
+      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
       return result;
     } catch (e) {
       console.error(`error building locale=${locale}`);
@@ -46,13 +64,13 @@ export default async function build(
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
-    return tryToBuildLocale(cliOptions.locale, forceTerminate);
+    return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
   } else {
     if (i18n.locales.length > 1) {
       console.log(
         chalk.yellow(
-          `\nSite will be built with all these locales:
-- ${i18n.locales.join('\n- ')}\n`,
+          `\nSite will be built for all these locales:
+- ${i18n.locales.join('\n- ')}`,
         ),
       );
     }
@@ -67,24 +85,29 @@ export default async function build(
     const results = await mapAsyncSequencial(orderedLocales, (locale) => {
       const isLastLocale =
         i18n.locales.indexOf(locale) === i18n.locales.length - 1;
-      // TODO check why we need forceTerminate
-      const forceTerm = isLastLocale && forceTerminate;
-      return tryToBuildLocale(locale, forceTerm);
+      return tryToBuildLocale({locale, isLastLocale});
     });
     return results[0]!;
   }
 }
 
-async function buildLocale(
-  siteDir: string,
-  locale: string,
-  cliOptions: Partial<BuildCLIOptions> = {},
-  forceTerminate: boolean = true,
-): Promise<string> {
+async function buildLocale({
+  siteDir,
+  locale,
+  cliOptions,
+  forceTerminate,
+  isLastLocale,
+}: {
+  siteDir: string;
+  locale: string;
+  cliOptions: Partial<BuildCLIOptions>;
+  forceTerminate: boolean;
+  isLastLocale: boolean;
+}): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(
-    chalk.blue(`[${locale}] Creating an optimized production build...`),
+    chalk.blue(`\n[${locale}] Creating an optimized production build...`),
   );
 
   const props: Props = await load(siteDir, {
@@ -147,24 +170,27 @@ async function buildLocale(
     });
   }
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
     }
 
-    clientConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      clientConfig,
-      false,
-    );
+    if (configureWebpack) {
+      clientConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        clientConfig,
+        false,
+      );
 
-    serverConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      serverConfig,
-      true,
-    );
+      serverConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        serverConfig,
+        true,
+      );
+    }
   });
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
@@ -174,7 +200,7 @@ async function buildLocale(
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await compile([clientConfig, serverConfig]);
+  const finalCompileResult = await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
   if (
@@ -196,7 +222,7 @@ async function buildLocale(
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      await plugin.postBuild({...props, stats: finalCompileResult});
     }),
   );
 
@@ -208,15 +234,21 @@ async function buildLocale(
     baseUrl,
   });
 
-  const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
-    `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
-      relativeDir,
-    )}. Use ${chalk.greenBright(
-      '`npm run serve`',
-    )} to test your build locally.\n`,
+    `${chalk.green(`Success!`)} Generated static files in ${chalk.cyan(
+      path.relative(process.cwd(), outDir),
+    )}.`,
   );
-  if (forceTerminate && !cliOptions.bundleAnalyzer) {
+
+  if (isLastLocale) {
+    console.log(
+      `\nUse ${chalk.greenBright(
+        '`npm run serve`',
+      )} to test your build locally.\n`,
+    );
+  }
+
+  if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
     process.exit(0);
   }
 

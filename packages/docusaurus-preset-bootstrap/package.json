@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/preset-bootstrap",
-  "version": "2.0.0-alpha.69",
-  "description": "Preset for bootstrap Docusaurus",
+  "version": "2.0.0-alpha.70",
+  "description": "Bootstrap preset for Docusaurus.",
   "main": "src/index.js",
   "license": "MIT",
   "publishConfig": {
@@ -13,15 +13,15 @@
     "directory": "packages/docusaurus-preset-bootstrap"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.69",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.69",
-    "@docusaurus/theme-bootstrap": "2.0.0-alpha.69"
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.70",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.70",
+    "@docusaurus/theme-bootstrap": "2.0.0-alpha.70"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=10.15.1"

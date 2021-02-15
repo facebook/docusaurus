@@ -23,14 +23,45 @@ module.exports = {
       label: 'Guides',
       items: [
         'guides/creating-pages',
-        'styling-layout',
-        'static-assets',
         {
-          Docs: ['docs-introduction', 'markdown-features', 'versioning'],
+          Docs: [
+            'guides/docs/introduction',
+            'guides/docs/create-doc',
+            'guides/docs/sidebar',
+            'guides/docs/versioning',
+            'guides/docs/markdown-features',
+            'guides/docs/multi-instance',
+          ],
         },
         'blog',
+        {
+          type: 'category',
+          label: 'Markdown Features',
+          items: [
+            'guides/markdown-features/introduction',
+            'guides/markdown-features/react',
+            'guides/markdown-features/tabs',
+            'guides/markdown-features/code-blocks',
+            'guides/markdown-features/admonitions',
+            'guides/markdown-features/inline-toc',
+            'guides/markdown-features/assets',
+            'guides/markdown-features/plugins',
+          ],
+        },
+        'styling-layout',
+        'static-assets',
         'search',
         'deployment',
+        {
+          type: 'category',
+          label: 'Internationalization',
+          items: [
+            'i18n/introduction',
+            'i18n/tutorial',
+            'i18n/git',
+            'i18n/crowdin',
+          ],
+        },
       ],
     },
     {

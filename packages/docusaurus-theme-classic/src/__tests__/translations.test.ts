@@ -22,7 +22,13 @@ const ThemeConfigSample: ThemeConfig = {
     style: 'dark',
     hideOnScroll: false,
     items: [
-      {label: 'Dropdown', items: [{label: 'Dropdown item 1', items: []}]},
+      {
+        label: 'Dropdown',
+        items: [
+          {label: 'Dropdown item 1', items: []},
+          {label: 'Dropdown item 2', items: []},
+        ],
+      },
     ],
   },
   footer: {
@@ -85,5 +91,26 @@ describe('translateThemeConfig', () => {
         translationFiles,
       }),
     ).toMatchSnapshot();
+  });
+});
+
+describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
+  function verifyIsomorphism(themeConfig: ThemeConfig) {
+    const translationFiles = getTranslationFiles({themeConfig});
+    const translatedThemeConfig = translateThemeConfig({
+      themeConfig,
+      translationFiles,
+    });
+    expect(translatedThemeConfig).toEqual(themeConfig);
+  }
+
+  test('should be verified for main sample', () => {
+    verifyIsomorphism(ThemeConfigSample);
+  });
+
+  // undefined footer should not make the translation code crash
+  // See https://github.com/facebook/docusaurus/issues/3936
+  test('should be verified for sample without footer', () => {
+    verifyIsomorphism({...ThemeConfigSample, footer: undefined});
   });
 });

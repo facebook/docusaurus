@@ -7,7 +7,7 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {Loader, Configuration} from 'webpack';
+import {Loader, Configuration, Stats} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
@@ -92,9 +92,15 @@ export type TranslationFileContent = Record<string, TranslationMessage>;
 export type TranslationFile = {path: string; content: TranslationFileContent};
 export type TranslationFiles = TranslationFile[];
 
+export type I18nLocaleConfig = {
+  label: string;
+  direction: string;
+};
+
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export type I18n = I18nConfig & {
@@ -173,6 +179,13 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   plugins: Plugin<any, unknown>[];
 }
 
+/**
+ * Same as `Props` but also has webpack stats appended.
+ */
+export interface PropsPostBuild extends Props {
+  stats: Stats.ToJsonOutput;
+}
+
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
   createData(name: string, data: any): Promise<string>;
@@ -186,6 +199,9 @@ export type AllContent = Record<
     unknown // plugin data
   >
 >;
+
+// TODO improve type (not exposed by postcss-loader)
+export type PostCssOptions = Record<string, any> & {plugins: any[]};
 
 export interface Plugin<T, U = unknown> {
   name: string;
@@ -201,13 +217,14 @@ export interface Plugin<T, U = unknown> {
     actions: PluginContentLoadedActions;
   }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?(props: Props): void;
+  postBuild?(props: PropsPostBuild): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  configurePostCss?(options: PostCssOptions): PostCssOptions;
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
@@ -219,9 +236,16 @@ export interface Plugin<T, U = unknown> {
     postBodyTags?: HtmlTags;
   };
   getSwizzleComponentList?(): string[];
+  // TODO before/afterDevServer implementation
 
   // translations
   getTranslationFiles?(): Promise<TranslationFiles>;
+  getDefaultCodeTranslationMessages?(): Promise<
+    Record<
+      string, // id
+      string // message
+    >
+  >;
   translateContent?({
     content,
     translationFiles,
@@ -240,6 +264,7 @@ export interface Plugin<T, U = unknown> {
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
@@ -344,8 +369,8 @@ export interface ValidationSchema<T> {
   append(data: any): ValidationSchema<T>;
 }
 
-export interface MarkdownRightTableOfContents {
+export interface TOCItem {
   readonly value: string;
   readonly id: string;
-  readonly children: MarkdownRightTableOfContents[];
+  readonly children: TOCItem[];
 }

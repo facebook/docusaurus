@@ -28,37 +28,47 @@ describe('docusaurus-plugin-content-pages', () => {
       {
         type: 'jsx',
         permalink: '/',
-        source: path.join('@site', pluginPath, 'index.js'),
+        source: path.posix.join('@site', pluginPath, 'index.js'),
       },
       {
         type: 'jsx',
         permalink: '/typescript',
-        source: path.join('@site', pluginPath, 'typescript.tsx'),
+        source: path.posix.join('@site', pluginPath, 'typescript.tsx'),
       },
       {
         type: 'mdx',
         permalink: '/hello/',
-        source: path.join('@site', pluginPath, 'hello', 'index.md'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'index.md'),
       },
       {
         type: 'mdx',
         permalink: '/hello/mdxPage',
-        source: path.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
       },
       {
         type: 'jsx',
         permalink: '/hello/translatedJs',
-        source: path.join('@site', pluginPath, 'hello', 'translatedJs.js'),
+        source: path.posix.join(
+          '@site',
+          pluginPath,
+          'hello',
+          'translatedJs.js',
+        ),
       },
       {
         type: 'mdx',
         permalink: '/hello/translatedMd',
-        source: path.join('@site', pluginPath, 'hello', 'translatedMd.md'),
+        source: path.posix.join(
+          '@site',
+          pluginPath,
+          'hello',
+          'translatedMd.md',
+        ),
       },
       {
         type: 'jsx',
         permalink: '/hello/world',
-        source: path.join('@site', pluginPath, 'hello', 'world.js'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'world.js'),
       },
     ]);
   });
@@ -81,7 +91,7 @@ describe('docusaurus-plugin-content-pages', () => {
     );
     const pagesMetadatas = (await plugin.loadContent?.())!;
 
-    const frTranslationsPath = path.join(
+    const frTranslationsPath = path.posix.join(
       '@site',
       'i18n',
       'fr',
@@ -92,37 +102,37 @@ describe('docusaurus-plugin-content-pages', () => {
       {
         type: 'jsx',
         permalink: '/',
-        source: path.join('@site', pluginPath, 'index.js'),
+        source: path.posix.join('@site', pluginPath, 'index.js'),
       },
       {
         type: 'jsx',
         permalink: '/typescript',
-        source: path.join('@site', pluginPath, 'typescript.tsx'),
+        source: path.posix.join('@site', pluginPath, 'typescript.tsx'),
       },
       {
         type: 'mdx',
         permalink: '/hello/',
-        source: path.join('@site', pluginPath, 'hello', 'index.md'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'index.md'),
       },
       {
         type: 'mdx',
         permalink: '/hello/mdxPage',
-        source: path.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
       },
       {
         type: 'jsx',
         permalink: '/hello/translatedJs',
-        source: path.join(frTranslationsPath, 'hello', 'translatedJs.js'),
+        source: path.posix.join(frTranslationsPath, 'hello', 'translatedJs.js'),
       },
       {
         type: 'mdx',
         permalink: '/hello/translatedMd',
-        source: path.join(frTranslationsPath, 'hello', 'translatedMd.md'),
+        source: path.posix.join(frTranslationsPath, 'hello', 'translatedMd.md'),
       },
       {
         type: 'jsx',
         permalink: '/hello/world',
-        source: path.join('@site', pluginPath, 'hello', 'world.js'),
+        source: path.posix.join('@site', pluginPath, 'hello', 'world.js'),
       },
     ]);
   });

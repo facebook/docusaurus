@@ -1,5 +1,5 @@
 {
-  "name": "examples-bootstrap",
+  "name": "docusaurus-bootstrap",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -12,8 +12,8 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/preset-bootstrap": "2.0.0-alpha.66",
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/preset-bootstrap": "2.0.0-alpha.70",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
@@ -30,5 +30,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Docusaurus example project (bootstrap template)"
 }

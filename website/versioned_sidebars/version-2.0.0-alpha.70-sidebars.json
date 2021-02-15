@@ -1,0 +1,242 @@
+{
+  "version-2.0.0-alpha.70/docs": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Docusaurus",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/introduction"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/design-principles"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/contributing"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/typescript-support"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/guides/creating-pages"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/styling-layout"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/static-assets"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Docs",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.70/docs-introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.70/docs-sidebar"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.70/markdown-features"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.70/versioning"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/blog"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/search"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/deployment"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Advanced Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/using-plugins"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/using-themes"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/presets"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Migrating from v1 to v2",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/migration/migration-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/migration/migration-automated"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/migration/migration-manual"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/migration/migration-versioned-sites"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/migration/migration-translated-sites"
+        }
+      ]
+    }
+  ],
+  "version-2.0.0-alpha.70/api": [
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.70/cli"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.70/docusaurus-core"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.70/api/docusaurus.config.js"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.70/lifecycle-apis"
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Plugins",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugins-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-content-docs"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-content-blog"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-content-pages"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-client-redirects"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-debug"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-google-analytics"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-google-gtag"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-ideal-image"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-pwa"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/plugins/plugin-sitemap"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Themes",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/themes-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/theme-configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/theme-classic"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/theme-bootstrap"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/theme-live-codeblock"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.70/api/themes/theme-search-algolia"
+        }
+      ]
+    }
+  ]
+}

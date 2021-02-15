@@ -11,6 +11,7 @@ import importFresh from 'import-fresh';
 import {
   Sidebars,
   SidebarItem,
+  SidebarItemBase,
   SidebarItemLink,
   SidebarItemDoc,
   Sidebar,
@@ -20,7 +21,7 @@ import {
 import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 
-type SidebarItemCategoryJSON = {
+type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
   label: string;
   items: SidebarItemJSON[];
@@ -96,7 +97,7 @@ function assertItem<K extends string>(
 function assertIsCategory(
   item: unknown,
 ): asserts item is SidebarItemCategoryJSON {
-  assertItem(item, ['items', 'label', 'collapsed']);
+  assertItem(item, ['items', 'label', 'collapsed', 'customProps']);
   if (typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
@@ -116,7 +117,7 @@ function assertIsCategory(
 }
 
 function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
-  assertItem(item, ['id']);
+  assertItem(item, ['id', 'customProps']);
   if (typeof item.id !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "id" must be a string.`,
@@ -125,7 +126,7 @@ function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
 }
 
 function assertIsLink(item: unknown): asserts item is SidebarItemLink {
-  assertItem(item, ['href', 'label']);
+  assertItem(item, ['href', 'label', 'customProps']);
   if (typeof item.href !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "href" must be a string.`,

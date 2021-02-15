@@ -54,11 +54,20 @@ function translateNavbar(
     ...navbar,
     title: navbarTranslations.title?.message ?? navbar.title,
     //  TODO handle properly all the navbar item types here!
-    items: navbar.items.map((item) => ({
-      ...item,
-      label:
-        navbarTranslations[`item.label.${item.label}`]?.message ?? item.label,
-    })),
+    items: navbar.items.map((item) => {
+      const subItems = item.items?.map((subItem) => ({
+        ...subItem,
+        label:
+          navbarTranslations[`item.label.${subItem.label}`]?.message ??
+          subItem.label,
+      }));
+      return {
+        ...item,
+        label:
+          navbarTranslations[`item.label.${item.label}`]?.message ?? item.label,
+        ...(subItems ? {items: subItems} : undefined),
+      };
+    }),
   };
 }
 
@@ -129,10 +138,17 @@ export function getTranslationFiles({
 }: {
   themeConfig: ThemeConfig;
 }): TranslationFile[] {
-  return [
+  const translationFiles: (TranslationFile | undefined)[] = [
     {path: 'navbar', content: getNavbarTranslationFile(themeConfig.navbar)},
-    {path: 'footer', content: getFooterTranslationFile(themeConfig.footer)},
+    themeConfig.footer
+      ? {
+          path: 'footer',
+          content: getFooterTranslationFile(themeConfig.footer),
+        }
+      : undefined,
   ];
+
+  return translationFiles.filter(Boolean) as TranslationFile[];
 }
 
 export function translateThemeConfig({
@@ -153,9 +169,8 @@ export function translateThemeConfig({
       themeConfig.navbar,
       translationFilesMap.navbar.content,
     ),
-    footer: translateFooter(
-      themeConfig.footer,
-      translationFilesMap.footer.content,
-    ),
+    footer: themeConfig.footer
+      ? translateFooter(themeConfig.footer, translationFilesMap.footer.content)
+      : undefined,
   };
 }

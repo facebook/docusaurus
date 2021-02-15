@@ -12,6 +12,7 @@ import Link from '@docusaurus/Link';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
+import ThemedImage from '@theme/ThemedImage';
 
 function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
   const toUrl = useBaseUrl(to);
@@ -35,15 +36,18 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
   );
 }
 
-const FooterLogo = ({url, alt}) => (
-  <img className="footer__logo" alt={alt} src={url} />
+const FooterLogo = ({sources, alt}) => (
+  <ThemedImage className="footer__logo" alt={alt} sources={sources} />
 );
 
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
 
   const {copyright, links = [], logo = {}} = footer || {};
-  const logoUrl = useBaseUrl(logo.src);
+  const sources = {
+    light: useBaseUrl(logo.src),
+    dark: useBaseUrl(logo.srcDark || logo.src),
+  };
 
   if (!footer) {
     return null;
@@ -90,8 +94,8 @@ function Footer(): JSX.Element | null {
           </div>
         )}
         {(logo || copyright) && (
-          <div className="text--center">
-            {logo && logo.src && (
+          <div className="footer__bottom text--center">
+            {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
                   <a
@@ -99,21 +103,23 @@ function Footer(): JSX.Element | null {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.footerLogoLink}>
-                    <FooterLogo alt={logo.alt} url={logoUrl} />
+                    <FooterLogo alt={logo.alt} sources={sources} />
                   </a>
                 ) : (
-                  <FooterLogo alt={logo.alt} url={logoUrl} />
+                  <FooterLogo alt={logo.alt} sources={sources} />
                 )}
               </div>
             )}
-
-            <div
-              // Developer provided the HTML, so assume it's safe.
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: copyright ?? '',
-              }}
-            />
+            {copyright ? (
+              <div
+                className="footer__copyright"
+                // Developer provided the HTML, so assume it's safe.
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: copyright,
+                }}
+              />
+            ) : null}
           </div>
         )}
       </div>

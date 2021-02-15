@@ -66,19 +66,24 @@
 
   .collapseSidebarButton {
     display: block !important;
-    background: url('~!file-loader!../icons/arrow.svg') no-repeat center center;
     background-color: var(--ifm-button-background-color);
     height: 40px;
     position: sticky;
     bottom: 0;
     border-radius: 0;
+    border: 1px solid var(--ifm-toc-border-color);
+  }
+
+  .collapseSidebarButtonIcon {
     transform: rotate(180deg);
+    margin-top: 4px;
+  }
+  html[dir='rtl'] .collapseSidebarButtonIcon {
+    transform: rotate(0);
   }
 
   html[data-theme='dark'] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
-    border: none;
-    border-left: 1px solid var(--ifm-toc-border-color);
   }
 
   html[data-theme='dark'] .collapseSidebarButton:hover,

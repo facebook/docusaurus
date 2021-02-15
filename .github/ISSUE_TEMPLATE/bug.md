@@ -4,6 +4,18 @@ about: Submit a bug report to help us improve
 labels: 'bug, needs triage'
 ---
 
+<!--
+
+  ! PLEASE HELP US HELP YOU !
+
+  Bugs are fixed faster if you include:
+  - a repro repository to inspect the code
+  - an url to see the problem live (if possible)
+
+  Pro tip: create a reproducible demo of the bug with https://new.docusaurus.io
+
+-->
+
 ## 🐛 Bug Report
 
 (A clear and concise description of what the bug is)
@@ -13,6 +25,8 @@ labels: 'bug, needs triage'
 (Write your answer here.)
 
 ## To Reproduce
+
+If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
 
 (Write your steps here:)
 
@@ -45,13 +59,17 @@ labels: 'bug, needs triage'
 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
+- Public source code:
+- Public site url:
 - Docusaurus version used:
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
 - Operating system and version (desktop or mobile):
 
 ## Reproducible Demo
 
-(Paste the link to an example repo, including a `siteConfig.js`, and exact instructions to reproduce the issue.)
+If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+
+(Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue.)
 
 <!--
   What happens if you skip this step?

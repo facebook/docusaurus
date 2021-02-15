@@ -4,9 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {I18n, DocusaurusConfig} from '@docusaurus/types';
+import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
+
+export function defaultLocaleConfig(locale: string): I18nLocaleConfig {
+  return {
+    label: locale,
+    direction: 'ltr',
+  };
+}
 
 export async function loadI18n(
   config: DocusaurusConfig,
@@ -21,13 +28,26 @@ export async function loadI18n(
 This locale is not in the available locales of your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
         ',',
       )}]
-Note: Docusaurus only support running one local at a time.`,
+Note: Docusaurus only support running one locale at a time.`,
     );
   }
+
+  function getLocaleConfig(locale: string): I18nLocaleConfig {
+    // User provided values
+    const localeConfigOptions: Partial<I18nLocaleConfig> =
+      i18nConfig.localeConfigs[locale];
+
+    return {...defaultLocaleConfig(locale), ...localeConfigOptions};
+  }
+
+  const localeConfigs = i18nConfig.locales.reduce((acc, locale) => {
+    return {...acc, [locale]: getLocaleConfig(locale)};
+  }, {});
 
   return {
     ...i18nConfig,
     currentLocale,
+    localeConfigs,
   };
 }
 

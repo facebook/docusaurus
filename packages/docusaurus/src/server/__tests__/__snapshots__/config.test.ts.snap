@@ -23,6 +23,7 @@ Object {
   "favicon": "img/docusaurus.ico",
   "i18n": Object {
     "defaultLocale": "en",
+    "localeConfigs": Object {},
     "locales": Array [
       "en",
     ],

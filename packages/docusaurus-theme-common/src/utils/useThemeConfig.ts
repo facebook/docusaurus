@@ -8,8 +8,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
-// TODO improve
+// TODO improve types, use unions
 export type NavbarItem = {
+  type?: string | undefined;
   items?: NavbarItem[];
   label?: string;
 };
@@ -46,6 +47,7 @@ export type Footer = {
   logo?: {
     alt?: string;
     src?: string;
+    srcDark?: string;
     href?: string;
   };
   copyright?: string;
@@ -66,7 +68,7 @@ export type ThemeConfig = {
   colorMode: any;
   announcementBar: any;
   prism: any;
-  footer: Footer;
+  footer: Footer | undefined;
   hideableSidebar: any;
 };
 

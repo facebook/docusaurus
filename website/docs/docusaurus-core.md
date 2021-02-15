@@ -125,6 +125,58 @@ const MyComponent = () => {
 };
 ```
 
+### `<Translate/>`
+
+When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage.
+
+The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations) CLI and create a `code.json` translation file in `website/i18n/<locale>`.
+
+:::note
+
+The `<Translate/>` props **must be hardcoded strings**.
+
+It is **not possible to use variables**, or the extraction wouldn't work.
+
+:::
+
+#### Props
+
+- `children`: untranslated string in the default site locale`
+- `id`: optional value to use as key in JSON translation files
+- `description`: optional text to help the translator
+
+#### Example
+
+```jsx title="src/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-start
+import Translate from '@docusaurus/Translate';
+// highlight-end
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1>
+        {/* highlight-start */}
+        <Translate
+          id="homepage.title"
+          description="The homepage welcome message">
+          Welcome to my website
+        </Translate>
+        {/* highlight-end */}
+      </h1>
+      <main>
+        {/* highlight-start */}
+        <Translate>My website content</Translate>
+        {/* highlight-end */}
+      </main>
+    </Layout>
+  );
+}
+```
+
 ## Hooks
 
 ### `useDocusaurusContext`
@@ -170,7 +222,20 @@ const MyComponent = () => {
 
 ### `useBaseUrl`
 
-React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+React hook to prepend your site `baseUrl` to a string.
+
+:::caution
+
+**Don't use it for regular links!**
+
+The `/baseUrl/` prefix is automatically added to all **absolute paths** by default:
+
+- Markdown: `[link](/my/path)` will link to `/baseUrl/my/path`
+- React: `<Link to="/my/path/">link</Link>` will link to `/baseUrl/my/path`
+
+:::
+
+#### Options
 
 ```ts
 type BaseUrlOptions = {
@@ -179,41 +244,49 @@ type BaseUrlOptions = {
 };
 ```
 
-Example usage:
+#### Example usage:
 
-```jsx {3,11}
+```jsx
 import React from 'react';
-import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-const Help = () => {
-  return (
-    <div className="col">
-      <h2>Browse the docs</h2>
-      <p>
-        Learn more about Docusaurus using the{' '}
-        <Link to={useBaseUrl('docs/introduction')}>official documentation</Link>
-      </p>
-    </div>
-  );
+const SomeImage = () => {
+  // highlight-start
+  const imgSrc = useBaseUrl('/img/myImage.png');
+  // highlight-end
+  return <img src={imgSrc} />;
 };
 ```
+
+:::tip
+
+In most cases, you don't need `useBaseUrl`.
+
+Prefer a `require()` call for [assets](./guides/markdown-features/markdown-features-assets.mdx):
+
+```jsx
+<img src={require('@site/static/img/myImage.png').default} />
+```
+
+:::
 
 ### `useBaseUrlUtils`
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
-- `withBaseUrl`: useful if you need to add base urls to multiple urls at once
+- `withBaseUrl`: useful if you need to add base urls to multiple urls at once.
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 const Component = () => {
   const urls = ['/a', '/b'];
+  // highlight-start
   const {withBaseUrl} = useBaseUrlUtils();
   const urlsWithBaseUrl = urls.map(withBaseUrl);
-  return <div className="col">{/* ... */}</div>;
+  // highlight-end
+  return <div>{/* ... */}</div>;
 };
 ```
 
@@ -301,6 +374,54 @@ const MyComponent = () => {
   const myPluginData = allPluginInstancesData['default'];
   return <div>{myPluginData.someAttribute}</div>;
 };
+```
+
+## Functions
+
+### `translate`
+
+The imperative counterpart of the [`<Translate>`](#translate) component.
+
+:::tip
+
+Use the imperative API for the **rare cases** when a **component cannot be used**, such as:
+
+- the `placeholder` props of form input
+- the page `title` metadata
+
+:::
+
+```jsx title="src/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-start
+import {translate} from '@docusaurus/Translate';
+// highlight-end
+
+export default function Home() {
+  return (
+    <Layout
+      // highlight-start
+      title={translate({message: 'My page meta title'})}
+      // highlight-end
+    >
+      <input
+        type="text"
+        placeholder={
+          // highlight-start
+          translate({
+            message: 'Some input placeholder',
+            // Optional
+            id: 'homepage.input.placeholder',
+            description: 'The homepage input placeholder',
+          })
+          // highlight-end
+        }
+      />
+    </Layout>
+  );
+}
 ```
 
 ## Modules

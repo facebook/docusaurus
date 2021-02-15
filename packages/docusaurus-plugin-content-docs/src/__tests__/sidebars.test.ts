@@ -361,6 +361,7 @@ describe('transformSidebarItems', () => {
             collapsed: false,
             label: 'Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
+            customProps: {fakeProp: false},
           },
           {
             type: 'category',
@@ -372,7 +373,9 @@ describe('transformSidebarItems', () => {
                 type: 'category',
                 collapsed: false,
                 label: 'Sub sub category 1',
-                items: [{type: 'doc', id: 'doc3'}],
+                items: [
+                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
+                ],
               },
             ],
           },
@@ -407,6 +410,7 @@ describe('transformSidebarItems', () => {
             collapsed: false,
             label: 'MODIFIED LABEL: Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
+            customProps: {fakeProp: false},
           },
           {
             type: 'category',
@@ -418,7 +422,9 @@ describe('transformSidebarItems', () => {
                 type: 'category',
                 collapsed: false,
                 label: 'MODIFIED LABEL: Sub sub category 1',
-                items: [{type: 'doc', id: 'doc3'}],
+                items: [
+                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
+                ],
               },
             ],
           },

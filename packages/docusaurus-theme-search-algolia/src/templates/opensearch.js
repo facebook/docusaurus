@@ -13,8 +13,8 @@ module.exports = `
   <Description>Search <%= it.title %></Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Image width="16" height="16" type="image/x-icon"><%= it.favicon %></Image>
-  <Url type="text/html" method="get" template="<%= it.url %>/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="<%= it.url %>/opensearch.xml" />
+  <Url type="text/html" method="get" template="<%= it.url %>search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="<%= it.url %>opensearch.xml" />
   <moz:SearchForm><%= it.url %></moz:SearchForm>
 </OpenSearchDescription>
 `;

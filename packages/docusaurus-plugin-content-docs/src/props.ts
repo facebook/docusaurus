@@ -39,6 +39,7 @@ Available document ids=
       type: 'link',
       label: sidebar_label || title,
       href: permalink,
+      customProps: item.customProps,
     };
   };
 

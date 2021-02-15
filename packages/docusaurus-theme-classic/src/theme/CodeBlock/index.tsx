@@ -12,6 +12,7 @@ import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
+import Translate from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import {useThemeConfig} from '@docusaurus/theme-common';
@@ -86,11 +87,11 @@ const highlightDirectiveRegex = (lang) => {
 };
 const codeBlockTitleRegex = /(?:title=")(.*)(?:")/;
 
-export default ({
+export default function CodeBlock({
   children,
   className: languageClassName,
   metastring,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
   const [showCopied, setShowCopied] = useState(false);
@@ -242,11 +243,23 @@ export default ({
               aria-label="Copy code to clipboard"
               className={clsx(styles.copyButton)}
               onClick={handleCopyCode}>
-              {showCopied ? 'Copied' : 'Copy'}
+              {showCopied ? (
+                <Translate
+                  id="theme.CodeBlock.copied"
+                  description="The copied button label on code blocks">
+                  Copied
+                </Translate>
+              ) : (
+                <Translate
+                  id="theme.CodeBlock.copy"
+                  description="The copy button label on code blocks">
+                  Copy
+                </Translate>
+              )}
             </button>
           </div>
         </>
       )}
     </Highlight>
   );
-};
+}

@@ -16,6 +16,8 @@ import {
   docuHash,
   aliasedSitePath,
   reportMessage,
+  posixPath,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
@@ -66,7 +68,7 @@ export default function pluginContentDocs(
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
-    `~docs/${path.relative(pluginDataDirRoot, source)}`;
+    `~docs/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -344,7 +346,9 @@ export default function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         return {
           test: /(\.mdx?)$/,
-          include: flatten(versionsMetadata.map(getDocsDirPaths)),
+          include: flatten(versionsMetadata.map(getDocsDirPaths))
+            // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+            .map(addTrailingPathSeparator),
           use: compact([
             getCacheLoader(isServer),
             getBabelLoader(isServer),

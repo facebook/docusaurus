@@ -14,6 +14,7 @@ import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
 import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
+import {posixPath} from '@docusaurus/utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -30,17 +31,36 @@ function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
 }
 
+function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
+  // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
+  // We can use this method as well to know which folders we should try to extract translations from
+  // Hacky/implicit, but do we want to introduce a new lifecycle method just for that???
+  const codePaths: string[] = plugin.getPathsToWatch?.() ?? [];
+
+  // We also include theme code
+  const themePath = plugin.getThemePath?.();
+  if (themePath) {
+    codePaths.push(themePath);
+  }
+
+  return codePaths;
+}
+
 async function getSourceCodeFilePaths(
   plugins: InitPlugin[],
 ): Promise<string[]> {
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to extract translations from
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const allPathsToWatch = flatten(
-    plugins.map((plugin) => plugin.getPathsToWatch?.() ?? []),
+  const allPathsToWatch = flatten(plugins.map(getPluginSourceCodeFilePaths));
+
+  // Required for Windows support, as paths using \ should not be used by globby
+  // (also using the windows hard drive prefix like c: is not a good idea)
+  const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
+    posixPath(nodePath.relative(process.cwd(), path)),
   );
 
-  const filePaths = await globby(allPathsToWatch);
+  const filePaths = await globby(allRelativePosixPathsToWatch);
 
   return filePaths.filter(isTranslatableSourceCodePath);
 }
@@ -189,14 +209,22 @@ function extractSourceCodeAstTranslations(
         path.node.openingElement.name.type === 'JSXIdentifier' &&
         path.node.openingElement.name.name === 'Translate'
       ) {
-        // TODO support multiple childrens here?
-        if (
-          path.node.children.length === 1 &&
-          t.isJSXText(path.node.children[0])
-        ) {
-          const message = path.node.children[0].value
-            .trim()
-            .replace(/\s+/g, ' ');
+        // We only handle the optimistic case where we have a single non-empty content
+        const singleChildren: NodePath | undefined = path
+          .get('children')
+          // Remove empty/useless text nodes that might be around our translation!
+          // Makes the translation system more reliable to JSX formatting issues
+          .filter(
+            (childrenPath: NodePath) =>
+              !(
+                t.isJSXText(childrenPath.node) &&
+                childrenPath.node.value.replace('\n', '').trim() === ''
+              ),
+          )
+          .pop();
+
+        if (singleChildren && t.isJSXText(singleChildren.node)) {
+          const message = singleChildren.node.value.trim().replace(/\s+/g, ' ');
 
           const id = evaluateJSXProp('id');
           const description = evaluateJSXProp('description');
@@ -206,12 +234,12 @@ function extractSourceCodeAstTranslations(
             ...(description && {description}),
           };
         } else if (
-          path.node.children.length === 1 &&
-          t.isJSXExpressionContainer(path.node.children[0]) &&
-          (path.get('children.0.expression') as NodePath).evaluate().confident
+          singleChildren &&
+          t.isJSXExpressionContainer(singleChildren) &&
+          (singleChildren.get('expression') as NodePath).evaluate().confident
         ) {
-          const message = (path.get(
-            'children.0.expression',
+          const message = (singleChildren.get(
+            'expression',
           ) as NodePath).evaluate().value;
 
           const id = evaluateJSXProp('id');

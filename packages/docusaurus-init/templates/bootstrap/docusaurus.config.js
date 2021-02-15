@@ -1,3 +1,4 @@
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',

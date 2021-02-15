@@ -11,6 +11,8 @@ import {
   writePluginTranslations,
   writeCodeTranslations,
   WriteTranslationsOptions,
+  getPluginsDefaultCodeTranslationMessages,
+  applyDefaultCodeTranslations,
 } from '../server/translations/translations';
 import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
@@ -47,7 +49,7 @@ export default async function writeTranslations(
   siteDir: string,
   options: WriteTranslationsOptions & {locale?: string},
 ): Promise<void> {
-  const context = await loadContext(siteDir);
+  const context = await loadContext(siteDir, {locale: options.locale});
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({
     pluginConfigs,
@@ -68,10 +70,19 @@ Available locales=[${context.i18n.locales.join(',')}]`,
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
   });
-  const codeTranslations = await extractPluginsSourceCodeTranslations(
+  const extractedCodeTranslations = await extractPluginsSourceCodeTranslations(
     plugins,
     babelOptions,
   );
+  const defaultCodeMessages = await getPluginsDefaultCodeTranslationMessages(
+    plugins,
+  );
+
+  const codeTranslations = applyDefaultCodeTranslations({
+    extractedCodeTranslations,
+    defaultCodeMessages,
+  });
+
   await writeCodeTranslations({siteDir, locale}, codeTranslations, options);
 
   await Promise.all(

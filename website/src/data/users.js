@@ -5,8 +5,50 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * ADD YOUR SITE TO DOCUSAURUS SHOWCASE:
+ *
+ * Requirements for adding your site to our showcase:
+ * - It is a real site with real content and customizations (different enough from init templates)
+ * - It has a stable domain name (a random Netlify/Vercel domain is not allowed)
+ * - The code is publicly available
+ *
+ * Instructions:
+ * - Add your site in the json array below, in alphabetical order of title
+ * - Add a local image preview (decent screenshot of your Docusaurus site)
+ *
+ * The image must be added to the GitHub repository, and use `require("image")`
+ *
+ * Example PR: https://github.com/facebook/docusaurus/pull/3976
+ *
+ * If you edit this file through the Github interface, you can:
+ * - Submit first your users.js edit PR
+ * - This will create a branch on your Docusaurus fork (usually "patch-1")
+ * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
+ * - Drag-and-drop an image here to add it to your existing PR
+ *
+ */
+
+// prettier-ignore
 const users = [
-  // Please add in alphabetical order of title.
+  {
+    title: 'AgileTs',
+    description: 'Global State and Logic Framework for reactive Applications',
+    preview: require('./showcase/agilets.png'),
+    website: 'https://agile-ts.org/',
+    source: 'https://github.com/agile-ts/documentation',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'AI-Speaker',
+    description: 'Local, reliable, fast and private Audio and IoT gate.',
+    preview: require('./showcase/aispeaker.png'),
+    website: 'https://ai-speaker.com/',
+    source: 'https://github.com/sviete/AIS-WWW',
+    fbOpenSource: false,
+    pinned: false,
+  },
   {
     title: 'Algolia Docsearch',
     description:
@@ -100,11 +142,48 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Console Table',
+    description: 'Printing Pretty Tables on your console.',
+    preview: require('./showcase/console-table.png'),
+    website: 'https://console-table.netlify.app/',
+    source: 'https://github.com/ayonious/console-table-docu',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Datagit',
+    description:
+      'A persian tutorial website strive to make quality education for everyone.',
+    preview: require('./showcase/datagit.png'),
+    website: 'https://datagit.ir/',
+    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Eightshift Docs',
+    description: 'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
+    preview: require('./showcase/eightshift-docs.png'),
+    website: 'https://infinum.github.io/eightshift-docs/',
+    source: 'https://github.com/infinum/eightshift-docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
     website: 'https://eta.js.org/',
     source: 'https://github.com/eta-dev/eta',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'FlexIt Analytics',
+    description: 'Business Intelligence and Data Analytics platform',
+    preview: require('./showcase/flexit.png'),
+    website: 'https://learn.flexitanalytics.com/',
+    source: 'https://github.com/ataft/flexit-docs',
     fbOpenSource: false,
     pinned: false,
   },
@@ -116,6 +195,15 @@ const users = [
     source: 'https://github.com/facebook/flux',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    title: 'FoalTS',
+    description: 'Node.JS framework for building web applications',
+    preview: require('./showcase/foal.png'),
+    website: 'https://foalts.org/',
+    source: 'https://github.com/FoalTS/foal/tree/master/docs',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'GraphQL Code Generator',
@@ -146,6 +234,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Hashnode Support',
+    description: 'A help portal for Hashnode users',
+    preview: require('./showcase/hashnode.png'),
+    website: 'https://support.hashnode.com/',
+    source: 'https://github.com/Hashnode/support',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),
@@ -160,6 +257,15 @@ const users = [
     preview: require('./showcase/mbt-bundle.png'),
     website: 'https://mbtbundle.org',
     source: 'https://github.com/tienvx/mbt-bundle',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'MikroORM',
+    description: 'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
+    preview: require('./showcase/mikro-orm.png'),
+    website: 'https://mikro-orm.io',
+    source: 'https://github.com/mikro-orm/mikro-orm',
     fbOpenSource: false,
     pinned: false,
   },
@@ -192,11 +298,29 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Nodify',
+    description: 'High-performance WPF node editor component designed for MVVM.',
+    preview: require('./showcase/nodify.png'),
+    website: 'https://miroiu.github.io/nodify/',
+    source: 'https://github.com/miroiu/nodify',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
     website: 'https://oxidizer.rs',
     source: 'https://github.com/oxidizer-rs/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Power\'s Wiki',
+    description: 'An example of personal wiki ',
+    preview: require('./showcase/power.png'),
+    website: 'https://wiki-power.com/',
+    source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
     fbOpenSource: false,
     pinned: false,
   },
@@ -230,11 +354,38 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Rematch',
+    description: 'Redux best practices without the boilerplate in less than 2kb',
+    preview: require('./showcase/rematch.png'),
+    website: 'https://rematchjs.org',
+    source: 'https://github.com/rematch/rematch',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Rooks',
+    description: 'Supercharge your components with this collection of React hooks.',
+    preview: require('./showcase/rooks.png'),
+    website: 'https://react-hooks.org/',
+    source: 'https://github.com/imbhargav5/rooks',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
     website: 'https://runlet.app',
     source: 'https://github.com/runletapp/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'SCI WP Framework',
+    description: 'A PHP framework to create MVC plugins for WordPress',
+    preview: require('./showcase/sciwp.png'),
+    website: 'https://sciwp.com/',
+    source: 'https://github.com/sciwp/sciwp-framework',
     fbOpenSource: false,
     pinned: false,
   },
@@ -332,13 +483,23 @@ const users = [
     pinned: false,
   },
   {
+    title: 'WebdriverIO',
+    description:
+      'Next-gen browser and mobile automation test framework for Node.js',
+    preview: require('./showcase/webdriverio.png'),
+    website: 'https://webdriver.io/',
+    source: 'https://github.com/webdriverio/webdriverio',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
 ];
 

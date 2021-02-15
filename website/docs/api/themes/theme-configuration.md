@@ -117,6 +117,27 @@ module.exports = {
 };
 ```
 
+## i18n
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location
+
+- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
+- **Multi-instance path**: N/A
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **Markdown files**: `N/A
+
+### Example file-system structure
+
+```bash
+website/i18n/<locale>/docusaurus-theme-classic
+│
+│ # translations for the theme
+├── navbar.json
+└── footer.json
+```
+
 ## Hooks
 
 ### `useThemeContext`
@@ -273,10 +294,13 @@ module.exports = {
         // highlight-start
         {
           type: 'doc',
-          position: 'left',
           docId: 'introduction',
+
+          //// Optional
+          position: 'left',
           label: 'Docs',
           activeSidebarClassName: 'navbar__link--active',
+          docsPluginId: 'default',
         },
         // highlight-end
       ],
@@ -287,7 +311,9 @@ module.exports = {
 
 ### Navbar docs version dropdown
 
-If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions. The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
+
+The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
 
 ```js {5-8} title="docusaurus.config.js"
 module.exports = {
@@ -296,14 +322,15 @@ module.exports = {
       items: [
         {
           type: 'docsVersionDropdown',
-          position: 'left',
 
+          //// Optional
+          position: 'left',
           // Add additional dropdown items at the beginning/end of the dropdown.
           dropdownItemsBefore: [],
           dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
-
           // Do not add the link active class when browsing docs.
           dropdownActiveClassDisabled: true,
+          docsPluginId: 'default',
         },
       ],
     },
@@ -323,11 +350,66 @@ module.exports = {
         // highlight-start
         {
           type: 'docsVersion',
+
+          //// Optional
           position: 'left',
-          // to: "/path // by default, link to active/latest version
-          // label: "label" // by default, show active/latest version label
+          to: '/path', // by default, link to active/latest version
+          label: 'label', // by default, show active/latest version label
+          docsPluginId: 'default',
         },
         // highlight-end
+      ],
+    },
+  },
+};
+```
+
+### Navbar locale dropdown
+
+If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
+
+The user will be able to switch from one locale to another, while staying on the same page.
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'localeDropdown',
+
+          //// Optional
+          position: 'left',
+          // Add additional dropdown items at the beginning/end of the dropdown.
+          dropdownItemsBefore: [],
+          dropdownItemsAfter: [
+            {
+              to: 'https://my-site.com/help-us-translate',
+              label: 'Help us translate',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+```
+
+### Navbar search
+
+If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
+
+However, with this special navbar item type, you can change the default location.
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'search',
+          position: 'right',
+        },
       ],
     },
   },
@@ -399,7 +481,7 @@ module.exports = {
 
 :::note
 
-If you use the line highlighting Markdown syntax, you might need to specify a different highlight background color for the dark mode syntax highlighting theme. Refer to the [docs for guidance](markdown-features.mdx#line-highlighting).
+If you use the line highlighting Markdown syntax, you might need to specify a different highlight background color for the dark mode syntax highlighting theme. Refer to the [docs for guidance](../../guides/markdown-features/markdown-features-code-blocks.mdx#line-highlighting).
 
 :::
 

@@ -19,6 +19,7 @@ const DEFAULT_I18N_LOCALE = 'en';
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
   locales: [DEFAULT_I18N_LOCALE],
+  localeConfigs: {},
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -52,7 +53,9 @@ export const DEFAULT_CONFIG: Pick<
 
 const PluginSchema = Joi.alternatives().try(
   Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+  Joi.array()
+    .ordered(Joi.string().required(), Joi.object().required())
+    .length(2),
   Joi.bool().equal(false), // In case of conditional adding of plugins.
 );
 
@@ -66,9 +69,17 @@ const PresetSchema = Joi.alternatives().try(
   Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
 );
 
+const LocaleConfigSchema = Joi.object({
+  label: Joi.string(),
+  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+});
+
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   defaultLocale: Joi.string().required(),
   locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
+  localeConfigs: Joi.object()
+    .pattern(/.*/, LocaleConfigSchema)
+    .default(DEFAULT_I18N_CONFIG.localeConfigs),
 })
   .optional()
   .default(DEFAULT_I18N_CONFIG);

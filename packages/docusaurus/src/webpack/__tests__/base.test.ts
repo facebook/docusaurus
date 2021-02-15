@@ -7,8 +7,15 @@
 
 import path from 'path';
 
-import {excludeJS, clientDir, getDocusaurusAliases} from '../base';
+import {
+  excludeJS,
+  clientDir,
+  getDocusaurusAliases,
+  createBaseConfig,
+} from '../base';
+import * as utils from '../utils';
 import {mapValues} from 'lodash';
+import {posixPath} from '@docusaurus/utils';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {
@@ -64,8 +71,33 @@ describe('getDocusaurusAliases()', () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = mapValues(
       getDocusaurusAliases(),
-      (aliasValue) => path.relative(__dirname, aliasValue),
+      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
+  });
+});
+
+describe('base webpack config', () => {
+  const props = {
+    outDir: '',
+    siteDir: '',
+    baseUrl: '',
+    generatedFilesDir: '',
+    routesPaths: '',
+  };
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test('should use svg rule', () => {
+    const fileLoaderUtils = utils.getFileLoaderUtils();
+    const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
+    jest
+      .spyOn(utils, 'getFileLoaderUtils')
+      .mockImplementation(() => fileLoaderUtils);
+
+    createBaseConfig(props, false, false);
+    expect(mockSvg).toBeCalled();
   });
 });

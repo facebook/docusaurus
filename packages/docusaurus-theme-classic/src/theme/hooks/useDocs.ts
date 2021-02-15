@@ -14,7 +14,13 @@
 try {
   module.exports = require('@theme-init/hooks/useDocs');
 } catch (e) {
-  module.exports = {};
+  // In case the docs plugin is not available, might be useful to stub some methods here
+  // https://github.com/facebook/docusaurus/issues/3947
+  const Empty = {};
+  module.exports = {
+    useAllDocsData: () => Empty,
+    useActivePluginAndVersion: () => undefined,
+  };
 }
 
 /*
