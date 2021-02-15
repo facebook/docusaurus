@@ -38,10 +38,8 @@ describe('lastUpdate', () => {
     );
     expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenCalledWith(
-      new Error(
-        `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFilePath}\nfatal: ambiguous argument '${nonExistingFilePath}': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'`,
-      ),
+    expect(consoleMock.mock.calls[0][0].shortMessage).toContain(
+      `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFilePath}`,
     );
     expect(await getFileLastUpdate(null)).toBeNull();
     expect(await getFileLastUpdate(undefined)).toBeNull();
