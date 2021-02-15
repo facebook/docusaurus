@@ -8,7 +8,6 @@
 import {EnumChangefreq} from 'sitemap';
 
 export interface PluginOptions {
-  cacheTime?: number; // deprecated
   changefreq?: EnumChangefreq;
   priority?: number;
   trailingSlash?: boolean;

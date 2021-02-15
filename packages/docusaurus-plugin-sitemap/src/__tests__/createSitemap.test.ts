@@ -16,7 +16,6 @@ describe('createSitemap', () => {
       } as DocusaurusConfig,
       ['/', '/test'],
       {
-        cacheTime: 600, // not need anymore
         changefreq: 'daily',
         priority: 0.7,
         trailingSlash: false,
