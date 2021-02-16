@@ -58,7 +58,7 @@ export default function createClientConfig(
               ),
             );
 
-            stats.toJson('errors-only').errors.forEach((e) => {
+            stats?.toJson('errors-only')?.errors?.forEach((e) => {
               console.error(e);
             });
 
