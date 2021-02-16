@@ -18,6 +18,7 @@ import {
   getMinimizer,
 } from './utils';
 import {STATIC_DIR_NAME} from '../constants';
+import SharedModuleAliases from './sharedModuleAliases';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -96,6 +97,8 @@ export function createBaseConfig(
         process.cwd(),
       ],
       alias: {
+        ...SharedModuleAliases,
+
         '@site': siteDir,
         '@generated': generatedFilesDir,
 

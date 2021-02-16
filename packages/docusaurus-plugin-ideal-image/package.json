@@ -29,8 +29,8 @@
     "sharp": "^0.27.1"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0",
     "webpack": "5.x"
   },
   "engines": {

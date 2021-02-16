@@ -11,6 +11,7 @@ import path from 'path';
 import Module from 'module';
 import postcss from 'postcss';
 import rtlcss from 'rtlcss';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -102,6 +103,13 @@ export default function docusaurusThemeClassic(
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
+
+    getDefaultCodeTranslationMessages: () => {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+        locale: currentLocale,
+      });
+    },
 
     getClientModules() {
       const modules = [
