@@ -49,7 +49,7 @@ export function getStyleLoaders(
       loader: MiniCssExtractPlugin.loader,
       options: {
         esModule: false,
-      }
+      },
     },
     {
       loader: require.resolve('css-loader'),
