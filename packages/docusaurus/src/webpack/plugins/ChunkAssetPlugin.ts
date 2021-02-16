@@ -25,14 +25,13 @@ class ChunkAssetPlugin {
           chunkNameToId[chunkName] = chunkId;
         });
         const buf = [source];
-        buf.push('');
         buf.push('// function to get chunk assets');
         buf.push(
           // If chunkName is passed, we convert it to chunk id
           // Note that jsonpScriptSrc is an internal webpack function
           `__webpack_require__.gca = function(chunkId) { chunkId = ${JSON.stringify(
             chunkNameToId,
-          )}[chunkId]||chunkId; return jsonpScriptSrc(chunkId); };`,
+          )}[chunkId]||chunkId; return __webpack_require__.p + "" + (chunkId) + ".js"; };`,
         );
         return Template.asString(buf);
       });
