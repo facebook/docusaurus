@@ -6,7 +6,7 @@
  */
 // @ts-nocheck
 
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
@@ -45,7 +45,12 @@ export function getStyleLoaders(
   }
 
   return [
-    // MiniCssExtractPlugin.loader,
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        esModule: false,
+      }
+    },
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
