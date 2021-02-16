@@ -9,6 +9,9 @@ import {Plugin} from '@docusaurus/types';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
+import postcss from 'postcss';
+import rtlcss from 'rtlcss';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
 const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
@@ -59,15 +62,23 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
+function getInfimaCSSFile(direction) {
+  return `infima/dist/css/default/default${
+    direction === 'rtl' ? '-rtl' : ''
+  }.css`;
+}
+
 export default function docusaurusThemeClassic(
   context,
   options,
 ): Plugin<null, unknown> {
   const {
     siteConfig: {themeConfig},
+    i18n: {currentLocale, localeConfigs},
   } = context;
   const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
+  const {direction} = localeConfigs[currentLocale];
 
   return {
     name: 'docusaurus-theme-classic',
@@ -93,9 +104,16 @@ export default function docusaurusThemeClassic(
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
+    getDefaultCodeTranslationMessages: () => {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+        locale: currentLocale,
+      });
+    },
+
     getClientModules() {
       const modules = [
-        require.resolve('infima/dist/css/default/default.css'),
+        require.resolve(getInfimaCSSFile(direction)),
         path.resolve(__dirname, './prism-include-languages'),
       ];
 
@@ -133,6 +151,37 @@ export default function docusaurusThemeClassic(
           ),
         ],
       };
+    },
+
+    configurePostCss(postCssOptions) {
+      if (direction === 'rtl') {
+        postCssOptions.plugins.push(
+          postcss.plugin('RtlCssPlugin', () => {
+            function isInfimaCSSFile(file) {
+              return (
+                file.endsWith(getInfimaCSSFile(direction)) ||
+                // special case for our own monorepo using symlinks!
+                file.endsWith(
+                  'infima/packages/core/dist/css/default/default-rtl.css',
+                )
+              );
+            }
+
+            return function (root: any) {
+              const file = root?.source.input.file;
+
+              // Skip Infima as we are using the its RTL version.
+              if (isInfimaCSSFile(file)) {
+                return;
+              }
+
+              rtlcss.process(root);
+            };
+          }),
+        );
+      }
+
+      return postCssOptions;
     },
 
     injectHtmlTags() {

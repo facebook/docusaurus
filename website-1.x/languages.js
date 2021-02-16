@@ -183,15 +183,20 @@ const languages = [
   },
 ];
 
-const onlyEnglish = [
+const onlyEnglishAndFrench = [
   {
     enabled: true,
     name: 'English',
     tag: 'en',
   },
+  {
+    enabled: true,
+    name: 'Français',
+    tag: 'fr',
+  },
 ];
 
 // We want deploy previews to be fast
 module.exports = require('./netlifyUtils').isDeployPreview
-  ? onlyEnglish
+  ? onlyEnglishAndFrench
   : languages;

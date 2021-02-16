@@ -82,10 +82,7 @@ function Home() {
   const context = useDocusaurusContext();
   const {siteConfig: {customFields = {}, tagline} = {}} = context;
   return (
-    <Layout
-      permalink="/"
-      title={tagline}
-      description={customFields.description}>
+    <Layout title={tagline} description={customFields.description}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
@@ -93,7 +90,7 @@ function Home() {
               <img
                 alt={translate({message: 'Docusaurus with Keytar'})}
                 className={styles.heroLogo}
-                src={useBaseUrl('img/docusaurus_keytar.svg')}
+                src={useBaseUrl('/img/docusaurus_keytar.svg')}
               />
               <span
                 className={styles.heroTitleTextHtml}
@@ -109,10 +106,13 @@ function Home() {
               />
             </h1>
             <div className={styles.indexCtas}>
-              <Link
-                className={styles.indexCtasGetStartedButton}
-                to={useBaseUrl('docs/')}>
+              <Link className="button button--primary" to="/docs">
                 <Translate>Get Started</Translate>
+              </Link>
+              <Link
+                className="button button--info"
+                to="https://new.docusaurus.io">
+                <Translate>Playground</Translate>
               </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
                 <iframe
@@ -129,7 +129,7 @@ function Home() {
         <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
             <Translate>Coming from v1? Check out our</Translate>{' '}
-            <Link to={useBaseUrl('/docs/migration')}>
+            <Link to="/docs/migration">
               <Translate>v1 to v2 migration guide</Translate>
             </Link>
             .
@@ -142,7 +142,7 @@ function Home() {
                 <img
                   className={styles.featureImage}
                   alt="Powered by MDX"
-                  src={useBaseUrl('img/undraw_typewriter.svg')}
+                  src={useBaseUrl('/img/undraw_typewriter.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Powered by Markdown</Translate>
@@ -161,7 +161,7 @@ function Home() {
                 <img
                   alt="Built Using React"
                   className={styles.featureImage}
-                  src={useBaseUrl('img/undraw_react.svg')}
+                  src={useBaseUrl('/img/undraw_react.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Built Using React</Translate>
@@ -178,7 +178,7 @@ function Home() {
                 <img
                   alt="Ready for Translations"
                   className={styles.featureImage}
-                  src={useBaseUrl('img/undraw_around_the_world.svg')}
+                  src={useBaseUrl('/img/undraw_around_the_world.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Ready for Translations</Translate>
@@ -198,7 +198,7 @@ function Home() {
                 <img
                   alt="Document Versioning"
                   className={styles.featureImage}
-                  src={useBaseUrl('img/undraw_version_control.svg')}
+                  src={useBaseUrl('/img/undraw_version_control.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Document Versioning</Translate>
@@ -215,7 +215,7 @@ function Home() {
                 <img
                   alt="Document Search"
                   className={styles.featureImage}
-                  src={useBaseUrl('img/undraw_algolia.svg')}
+                  src={useBaseUrl('/img/undraw_algolia.svg')}
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Content Search</Translate>

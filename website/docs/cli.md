@@ -148,3 +148,15 @@ Serve your built website locally.
 Clear a Docusaurus site's generated assets, caches, build artifacts.
 
 We recommend running this command before reporting bugs, after upgrading versions, or anytime you have issues with your Docusaurus site.
+
+### `docusaurus write-translations`
+
+Write the JSON translation files that you will have to translate.
+
+By default, the files are written in `website/i18n/<defaultLocale>/...`.
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `--locale` | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in |
+| `--override` | `false` | Override existing translation messages |
+| `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |

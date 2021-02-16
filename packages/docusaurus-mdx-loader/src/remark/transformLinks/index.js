@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {posixPath} = require('@docusaurus/utils');
+const {toMessageRelativeFilePath, posixPath} = require('@docusaurus/utils');
 
 const visit = require('unist-util-visit');
 const path = require('path');
@@ -19,19 +19,13 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-// Needed to throw errors with computer-agnostic path messages
-// Absolute paths are too dependant of user FS
-function toRelativePath(filePath) {
-  return path.relative(process.cwd(), filePath);
-}
-
 async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
   const assetExists = await fs.exists(fileSystemAssetPath);
   if (!assetExists) {
     throw new Error(
-      `Asset ${toRelativePath(fileSystemAssetPath)} used in ${toRelativePath(
-        sourceFilePath,
-      )} not found.`,
+      `Asset ${toMessageRelativeFilePath(
+        fileSystemAssetPath,
+      )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
     );
   }
 }
@@ -111,7 +105,7 @@ async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
     const line =
       (node.position && node.position.start && node.position.start.line) || '?';
     throw new Error(
-      `Markdown link url is mandatory. filePath=${toRelativePath(
+      `Markdown link url is mandatory. filePath=${toMessageRelativeFilePath(
         filePath,
       )}, title=${title}, line=${line}`,
     );

@@ -29,6 +29,8 @@ jobs:
       - name: Docusaurus 1 Build
         if: steps.filter.outputs.v1 == 'true'
         run: yarn build:v1
+      - name: Docusaurus Jest Tests
+        run: yarn test
       - name: Docusaurus 2 Build
         run: yarn build:v2
         env:

@@ -17,6 +17,8 @@ import users from '../../data/users';
 const TITLE = 'Showcase';
 const DESCRIPTION =
   'See the awesome websites people are building with Docusaurus';
+const EDIT_URL =
+  'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.js';
 
 function Showcase() {
   return (
@@ -25,6 +27,14 @@ function Showcase() {
         <div className="text--center margin-bottom--xl">
           <h1>{TITLE}</h1>
           <p>{DESCRIPTION}</p>
+          <p>
+            <a
+              className={'button button--primary'}
+              href={EDIT_URL}
+              target={'_blank'}>
+              Add your site!
+            </a>
+          </p>
         </div>
         <div className="row">
           {users.map((user) => (

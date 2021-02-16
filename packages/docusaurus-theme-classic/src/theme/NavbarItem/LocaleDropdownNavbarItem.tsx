@@ -6,50 +6,43 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useLocation} from '@docusaurus/router';
+import {useAlternatePageUtils} from '@docusaurus/theme-common';
 
 export default function LocaleDropdownNavbarItem({
   mobile,
+  dropdownItemsBefore,
+  dropdownItemsAfter,
   ...props
 }: Props): JSX.Element {
   const {
-    siteConfig: {baseUrl},
-    i18n: {defaultLocale, currentLocale, locales, localeConfigs},
+    i18n: {currentLocale, locales, localeConfigs},
   } = useDocusaurusContext();
-  const {pathname} = useLocation();
+  const alternatePageUtils = useAlternatePageUtils();
 
   function getLocaleLabel(locale) {
     return localeConfigs[locale].label;
   }
 
-  //  TODO Docusaurus expose this unlocalized baseUrl more reliably
-  const baseUrlUnlocalized =
-    currentLocale === defaultLocale
-      ? baseUrl
-      : baseUrl.replace(`/${currentLocale}/`, '/');
-
-  const pathnameSuffix = pathname.replace(baseUrl, '');
-
-  function getLocalizedBaseUrl(locale) {
-    return locale === defaultLocale
-      ? `${baseUrlUnlocalized}`
-      : `${baseUrlUnlocalized}${locale}/`;
-  }
-
-  const items = locales.map((locale) => {
-    const to = `${getLocalizedBaseUrl(locale)}${pathnameSuffix}`;
+  const localeItems = locales.map((locale) => {
+    const to = `pathname://${alternatePageUtils.createUrl({
+      locale,
+      fullyQualified: false,
+    })}`;
     return {
       isNavLink: true,
       label: getLocaleLabel(locale),
-      to: `pathname://${to}`,
+      to,
       target: '_self',
       autoAddBaseUrl: false,
       className: locale === currentLocale ? 'dropdown__link--active' : '',
     };
   });
+
+  const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 
   // Mobile is handled a bit differently
   const dropdownLabel = mobile ? 'Languages' : getLocaleLabel(currentLocale);
@@ -57,8 +50,16 @@ export default function LocaleDropdownNavbarItem({
   return (
     <DefaultNavbarItem
       {...props}
+      href="#"
       mobile={mobile}
-      label={dropdownLabel}
+      label={
+        <span>
+          <IconLanguage
+            style={{verticalAlign: 'text-bottom', marginRight: 5}}
+          />
+          <span>{dropdownLabel}</span>
+        </span>
+      }
       items={items}
     />
   );

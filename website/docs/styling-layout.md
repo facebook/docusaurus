@@ -59,6 +59,18 @@ Alternatively, use the following tool to generate the different shades for your 
 
 <ColorGenerator/>
 
+### Dark Mode
+
+To customize the Infima variables for dark mode you can add the following to `src/css/custom.css`.
+
+```css title="/src/css/custom.css"
+html[data-theme='dark'] {
+  --ifm-color-primary: #4e89e8;
+  --ifm-color-primary-dark: #5a91ea;
+  /* any other colors you wish to overwrite */
+}
+```
+
 <!-- TODO need more refinement here -->
 
 ## Styling approaches

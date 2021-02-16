@@ -25,7 +25,7 @@
 
   .docSidebarContainerHidden {
     width: 30px;
-    cursor: e-resize;
+    cursor: pointer;
   }
 
   .collapsedDocSidebar {
@@ -42,6 +42,13 @@
   .collapsedDocSidebar:hover,
   .collapsedDocSidebar:focus {
     background-color: var(--ifm-color-emphasis-200);
+  }
+
+  .expandSidebarButtonIcon {
+    transform: rotate(0);
+  }
+  html[dir='rtl'] .expandSidebarButtonIcon {
+    transform: rotate(180deg);
   }
 
   html[data-theme='dark'] .collapsedDocSidebar:hover,

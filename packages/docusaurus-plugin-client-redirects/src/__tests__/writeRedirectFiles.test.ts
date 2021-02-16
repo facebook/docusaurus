@@ -9,7 +9,37 @@ import path from 'path';
 
 import writeRedirectFiles, {
   toRedirectFilesMetadata,
+  createToUrl,
 } from '../writeRedirectFiles';
+
+// Test to fix toUrl bugs we had:
+// - https://github.com/facebook/docusaurus/issues/3886
+// - https://github.com/facebook/docusaurus/issues/3925
+describe('createToUrl', () => {
+  test('should create appropriate redirect urls', async () => {
+    expect(createToUrl('/', '/docs/something/else')).toEqual(
+      '/docs/something/else',
+    );
+    expect(createToUrl('/', '/docs/something/else/')).toEqual(
+      '/docs/something/else/',
+    );
+    expect(createToUrl('/', 'docs/something/else')).toEqual(
+      '/docs/something/else',
+    );
+  });
+
+  test('should create appropriate redirect urls with baseUrl', async () => {
+    expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
+      '/baseUrl/docs/something/else',
+    );
+    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toEqual(
+      '/baseUrl/docs/something/else/',
+    );
+    expect(createToUrl('/baseUrl/', 'docs/something/else')).toEqual(
+      '/baseUrl/docs/something/else',
+    );
+  });
+});
 
 describe('toRedirectFilesMetadata', () => {
   test('should create appropriate metadatas', async () => {

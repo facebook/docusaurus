@@ -11,36 +11,99 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
-import {DEFAULT_SEARCH_TAG, useTitleFormatter} from '@docusaurus/theme-common';
+import {
+  DEFAULT_SEARCH_TAG,
+  useTitleFormatter,
+  useAlternatePageUtils,
+} from '@docusaurus/theme-common';
+import {useLocation} from '@docusaurus/router';
+
+// Useful for SEO
+// See https://developers.google.com/search/docs/advanced/crawling/localized-versions
+// See https://github.com/facebook/docusaurus/issues/3317
+function AlternateLangHeaders(): JSX.Element {
+  const {
+    i18n: {defaultLocale, locales},
+  } = useDocusaurusContext();
+  const alternatePageUtils = useAlternatePageUtils();
+
+  // Note: it is fine to use both "x-default" and "en" to target the same url
+  // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
+  return (
+    <Head>
+      {locales.map((locale) => (
+        <link
+          key={locale}
+          rel="alternate"
+          href={alternatePageUtils.createUrl({
+            locale,
+            fullyQualified: true,
+          })}
+          hrefLang={locale}
+        />
+      ))}
+      <link
+        rel="alternate"
+        href={alternatePageUtils.createUrl({
+          locale: defaultLocale,
+          fullyQualified: true,
+        })}
+        hrefLang="x-default"
+      />
+    </Head>
+  );
+}
+
+// Default canonical url inferred from current page location pathname
+function useDefaultCanonicalUrl() {
+  const {
+    siteConfig: {url: siteUrl},
+  } = useDocusaurusContext();
+  const {pathname} = useLocation();
+  return siteUrl + useBaseUrl(pathname);
+}
+
+function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
+  const {
+    siteConfig: {url: siteUrl},
+  } = useDocusaurusContext();
+  const defaultCanonicalUrl = useDefaultCanonicalUrl();
+
+  const canonicalUrl = permalink
+    ? `${siteUrl}${permalink}`
+    : defaultCanonicalUrl;
+  return (
+    <Head>
+      <meta property="og:url" content={canonicalUrl} />
+      <link rel="canonical" href={canonicalUrl} />
+    </Head>
+  );
+}
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
     siteConfig,
-    i18n: {currentLocale},
+    i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const {
     favicon,
     themeConfig: {image: defaultImage, metadatas},
-    url: siteUrl,
   } = siteConfig;
-  const {
-    title,
-    description,
-    image,
-    keywords,
-    permalink,
-    searchMetadatas,
-  } = props;
+  const {title, description, image, keywords, searchMetadatas} = props;
   const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const faviconUrl = useBaseUrl(favicon);
 
-  const htmlLang = currentLocale.split('-')[0];
+  // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
+  // const htmlLang = currentLocale.split('-')[0];
+  const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
+  const htmlDir = localeConfigs[currentLocale].direction;
+
   return (
     <>
       <Head>
-        <html lang={htmlLang} />
+        <html lang={htmlLang} dir={htmlDir} />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -49,17 +112,22 @@ export default function LayoutHead(props: Props): JSX.Element {
           <meta property="og:description" content={description} />
         )}
         {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
+          <meta
+            name="keywords"
+            content={Array.isArray(keywords) ? keywords.join(',') : keywords}
+          />
         )}
         {metaImage && <meta property="og:image" content={metaImageUrl} />}
         {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <CanonicalUrlHeaders />
+
+      <AlternateLangHeaders />
 
       <SearchMetadatas
         tag={DEFAULT_SEARCH_TAG}

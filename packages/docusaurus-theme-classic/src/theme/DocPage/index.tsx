@@ -99,7 +99,10 @@ function DocPageContent({
                 role="button"
                 onKeyDown={toggleSidebar}
                 onClick={toggleSidebar}>
-                <IconArrow />
+                <IconArrow
+                  aria-label="Expand sidebar"
+                  className={styles.expandSidebarButtonIcon}
+                />
               </div>
             )}
           </div>

@@ -8,8 +8,12 @@ import path from 'path';
 import fs from 'fs-extra';
 import {InitPlugin} from '../plugins/init';
 import {mapValues, difference} from 'lodash';
-import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
-import {getPluginI18nPath} from '@docusaurus/utils';
+import {
+  TranslationFileContent,
+  TranslationFile,
+  TranslationMessage,
+} from '@docusaurus/types';
+import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import * as Joi from 'joi';
 import chalk from 'chalk';
 
@@ -128,8 +132,10 @@ Maybe you should remove them?
     console.log(
       `${Object.keys(mergedContent)
         .length.toString()
-        .padStart(3, ' ')} translations written at ${path.relative(
-        process.cwd(),
+        .padStart(
+          3,
+          ' ',
+        )} translations will be written at ${toMessageRelativeFilePath(
         filePath,
       )}`,
     );
@@ -256,4 +262,47 @@ export async function localizePluginTranslationFile({
   } else {
     return translationFile;
   }
+}
+
+export async function getPluginsDefaultCodeTranslationMessages(
+  plugins: InitPlugin[],
+): Promise<Record<string, string>> {
+  const pluginsMessages = await Promise.all(
+    plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
+  );
+
+  return pluginsMessages.reduce((allMessages, pluginMessages) => {
+    return {...allMessages, ...pluginMessages};
+  }, {});
+}
+
+export function applyDefaultCodeTranslations({
+  extractedCodeTranslations,
+  defaultCodeMessages,
+}: {
+  extractedCodeTranslations: Record<string, TranslationMessage>;
+  defaultCodeMessages: Record<string, string>;
+}): Record<string, TranslationMessage> {
+  const unusedDefaultCodeMessages = difference(
+    Object.keys(defaultCodeMessages),
+    Object.keys(extractedCodeTranslations),
+  );
+  if (unusedDefaultCodeMessages.length > 0) {
+    console.warn(
+      chalk.yellow(`Unused default message codes found.
+Please report this Docusaurus issue.
+- ${unusedDefaultCodeMessages.join('\n- ')}
+`),
+    );
+  }
+
+  return mapValues(
+    extractedCodeTranslations,
+    (messageTranslation, messageId) => {
+      return {
+        ...messageTranslation,
+        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+      };
+    },
+  );
 }

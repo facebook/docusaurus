@@ -25,10 +25,7 @@ function Feedback() {
   }, []);
 
   return (
-    <Layout
-      permalink="/feedback"
-      title="Feedback"
-      description="Docusaurus 2 Feedback page">
+    <Layout title="Feedback" description="Docusaurus 2 Feedback page">
       <main
         className={clsx(
           'container',

@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import {
   fileToPath,
   simpleHash,
@@ -33,6 +34,7 @@ import {
   findFolderContainingFile,
   getFolderContainingFile,
   updateTranslationFileMessages,
+  readDefaultCodeTranslationMessages,
 } from '../index';
 import {sum} from 'lodash';
 
@@ -45,7 +47,9 @@ describe('load utils', () => {
       'user/docs/test.md': '@site/../docs/test.md',
     };
     Object.keys(asserts).forEach((file) => {
-      expect(aliasedSitePath(file, 'user/website')).toBe(asserts[file]);
+      expect(posixPath(aliasedSitePath(file, 'user/website'))).toBe(
+        asserts[file],
+      );
     });
   });
 
@@ -521,15 +525,15 @@ describe('removePrefix', () => {
 
 describe('getFilePathForRoutePath', () => {
   test('works for /', () => {
-    expect(getFilePathForRoutePath('/')).toEqual('/index.html');
+    expect(posixPath(getFilePathForRoutePath('/'))).toEqual('/index.html');
   });
   test('works for /somePath', () => {
-    expect(getFilePathForRoutePath('/somePath')).toEqual(
+    expect(posixPath(getFilePathForRoutePath('/somePath'))).toEqual(
       '/somePath/index.html',
     );
   });
   test('works for /somePath/', () => {
-    expect(getFilePathForRoutePath('/somePath/')).toEqual(
+    expect(posixPath(getFilePathForRoutePath('/somePath/'))).toEqual(
       '/somePath/index.html',
     );
   });
@@ -714,5 +718,91 @@ describe('updateTranslationFileMessages', () => {
         t3: {message: 'prefix t3 message suffix', description: 't3 desc'},
       },
     });
+  });
+});
+
+describe('readDefaultCodeTranslationMessages', () => {
+  const dirPath = path.resolve(
+    __dirname,
+    '__fixtures__',
+    'defaultCodeTranslations',
+  );
+
+  async function readAsJSON(filename: string) {
+    return JSON.parse(
+      await fs.readFile(path.resolve(dirPath, filename), 'utf8'),
+    );
+  }
+
+  test('for empty locale', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: '',
+        dirPath,
+      }),
+    ).resolves.toEqual({});
+  });
+
+  test('for unexisting locale', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'es',
+        dirPath,
+      }),
+    ).resolves.toEqual({});
+  });
+
+  test('for fr but bad folder', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: '',
+        dirPath: __dirname,
+      }),
+    ).resolves.toEqual({});
+  });
+
+  test('for fr', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'fr',
+        dirPath,
+      }),
+    ).resolves.toEqual(await readAsJSON('fr.json'));
+  });
+
+  test('for fr_FR', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'fr_FR',
+        dirPath,
+      }),
+    ).resolves.toEqual(await readAsJSON('fr_FR.json'));
+  });
+
+  test('for en', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'en',
+        dirPath,
+      }),
+    ).resolves.toEqual(await readAsJSON('en.json'));
+  });
+
+  test('for en_US', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'en_US',
+        dirPath,
+      }),
+    ).resolves.toEqual(await readAsJSON('en.json'));
+  });
+
+  test('for en_WHATEVER', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'en_WHATEVER',
+        dirPath,
+      }),
+    ).resolves.toEqual(await readAsJSON('en.json'));
   });
 });

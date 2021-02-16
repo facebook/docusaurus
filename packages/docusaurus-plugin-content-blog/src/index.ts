@@ -14,6 +14,8 @@ import {
   aliasedSitePath,
   getPluginI18nPath,
   reportMessage,
+  posixPath,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -84,7 +86,7 @@ export default function pluginContentBlog(
   );
   const dataDir = path.join(pluginDataDirRoot, pluginId);
   const aliasedSource = (source: string) =>
-    `~blog/${path.relative(pluginDataDirRoot, source)}`;
+    `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   let blogPosts: BlogPost[] = [];
 
@@ -435,7 +437,9 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths),
+              include: getContentPathList(contentPaths)
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+                .map(addTrailingPathSeparator),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),

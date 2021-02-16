@@ -11,11 +11,7 @@ import {memoize} from 'lodash';
 
 import {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
-import {
-  addTrailingSlash,
-  getFilePathForRoutePath,
-  removeTrailingSlash,
-} from '@docusaurus/utils';
+import {getFilePathForRoutePath, normalizeUrl} from '@docusaurus/utils';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
@@ -23,6 +19,10 @@ export type RedirectFileMetadata = {
   fileAbsolutePath: string;
   fileContent: string;
 };
+
+export function createToUrl(baseUrl: string, to: string) {
+  return normalizeUrl([baseUrl, to]);
+}
 
 export function toRedirectFilesMetadata(
   redirects: RedirectMetadata[],
@@ -40,9 +40,7 @@ export function toRedirectFilesMetadata(
       pluginContext.outDir,
       getFilePathForRoutePath(redirect.from),
     );
-    const toUrl = addTrailingSlash(
-      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
-    );
+    const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {
       ...redirect,

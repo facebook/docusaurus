@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -20,7 +20,11 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {compile, applyConfigureWebpack} from '../webpack/utils';
+import {
+  compile,
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
@@ -166,24 +170,27 @@ async function buildLocale({
     });
   }
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
     }
 
-    clientConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      clientConfig,
-      false,
-    );
+    if (configureWebpack) {
+      clientConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        clientConfig,
+        false,
+      );
 
-    serverConfig = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      serverConfig,
-      true,
-    );
+      serverConfig = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        serverConfig,
+        true,
+      );
+    }
   });
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
@@ -193,7 +200,7 @@ async function buildLocale({
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await compile([clientConfig, serverConfig]);
+  const finalCompileResult = await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
   if (
@@ -215,7 +222,7 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      await plugin.postBuild({...props, stats: finalCompileResult});
     }),
   );
 

@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/utils",
   "version": "2.0.0-alpha.70",
-  "description": "Node utility functions for Docusaurus packages",
+  "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -19,9 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/types": "2.0.0-alpha.70",
-    "chalk": "^3.0.0",
-    "escape-string-regexp": "^2.0.0",
-    "fs-extra": "^9.0.1",
+    "chalk": "^4.1.0",
+    "escape-string-regexp": "^4.0.0",
+    "fs-extra": "^9.1.0",
     "gray-matter": "^4.0.2",
     "lodash": "^4.17.20",
     "lodash.camelcase": "^4.3.0",

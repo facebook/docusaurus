@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {
   useVersions,
   useLatestVersion,

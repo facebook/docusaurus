@@ -123,6 +123,18 @@ class Footer extends React.Component {
               rel="noreferrer noopener">
               Terms
             </a>
+            <a
+              href="https://opensource.facebook.com/legal/data-policy/"
+              target="_blank"
+              rel="noreferrer noopener">
+              Data Policy
+            </a>
+            <a
+              href="https://opensource.facebook.com/legal/cookie-policy/"
+              target="_blank"
+              rel="noreferrer noopener">
+              Cookie Policy
+            </a>
           </div>
           <SocialFooter config={this.props.config} />
         </section>

@@ -14,6 +14,8 @@ There are two main options, you can use [Algolia DocSearch](https://docsearch.al
 
 Algolia DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (i.e., not behind a firewall). The service is free.
 
+If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler. For best results, you may want to use a config file based on the [Docusaurus 2 config](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+
 ### Connecting Algolia
 
 To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.

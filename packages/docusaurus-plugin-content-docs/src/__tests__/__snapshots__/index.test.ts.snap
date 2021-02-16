@@ -936,7 +936,7 @@ Object {
   \\"id\\": \\"version-1.0.0/hello\\",
   \\"isDocsHomePage\\": true,
   \\"title\\": \\"hello\\",
-  \\"description\\": \\"Hello 1.0.0 ! (translated)\\",
+  \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
   \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md\\",
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/1.0.0/\\",

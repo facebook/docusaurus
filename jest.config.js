@@ -7,6 +7,14 @@
 
 const path = require('path');
 
+const isWin = process.platform === 'win32';
+
+const windowsSpecificIgnorePatterns = [
+  // v1 is legacy, not really worth it to invest in making its tests work on Windows
+  '/packages/docusaurus-1.x',
+  '/packages/docusaurus-init-1.x',
+];
+
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
@@ -19,7 +27,7 @@ const ignorePatterns = [
   '/packages/docusaurus-theme-classic/lib',
   '/packages/docusaurus-theme-classic/lib-next',
   '/packages/docusaurus-migrate/lib',
-];
+].concat(isWin ? windowsSpecificIgnorePatterns : []);
 
 module.exports = {
   rootDir: path.resolve(__dirname),

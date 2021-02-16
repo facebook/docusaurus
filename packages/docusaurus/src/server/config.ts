@@ -11,6 +11,7 @@ import path from 'path';
 import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 import {validateConfig} from './configValidation';
+import {toMessageRelativeFilePath} from '@docusaurus/utils';
 
 export default function loadConfig(siteDir: string): DocusaurusConfig {
   // TODO temporary undocumented env variable: we should be able to use a cli option instead!
@@ -21,8 +22,7 @@ export default function loadConfig(siteDir: string): DocusaurusConfig {
 
   if (!fs.existsSync(configPath)) {
     throw new Error(
-      `${CONFIG_FILE_NAME} not found at ${path.relative(
-        process.cwd(),
+      `${CONFIG_FILE_NAME} not found at ${toMessageRelativeFilePath(
         configPath,
       )}`,
     );
