@@ -15,7 +15,6 @@
   "dependencies": {
     "cssnano-preset-advanced": "^4.0.7",
     "postcss": "^7.0.2",
-    "postcss-combine-duplicated-selectors": "^9.1.0",
     "postcss-sort-media-queries": "^1.7.26"
   },
   "devDependencies": {

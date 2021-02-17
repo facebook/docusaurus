@@ -6,14 +6,12 @@
  */
 
 const advancedBasePreset = require('cssnano-preset-advanced');
-const postCssCombineDuplicatedSelectors = require('postcss-combine-duplicated-selectors');
 const postCssSortMediaQueries = require('postcss-sort-media-queries');
 const postCssRemoveOverriddenCustomProperties = require('./src/remove-overridden-custom-properties');
 
 const preset = advancedBasePreset({autoprefixer: {add: true}});
 
 preset.plugins.unshift(
-  [postCssCombineDuplicatedSelectors, {removeDuplicatedValues: true}],
   [postCssSortMediaQueries],
   [postCssRemoveOverriddenCustomProperties],
 );
