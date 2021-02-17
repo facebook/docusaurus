@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2016
+    runs-on: windows-latest
     strategy:
       matrix:
         node: ['12']
