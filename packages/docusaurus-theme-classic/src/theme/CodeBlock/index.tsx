@@ -213,7 +213,8 @@ export default function CodeBlock({
               tabIndex={0}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar', {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
-              })}>
+              })}
+              style={style}>
               <div className={styles.codeBlockLines} style={style}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {

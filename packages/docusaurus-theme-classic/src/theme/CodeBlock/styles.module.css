@@ -58,6 +58,7 @@
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+  width: 1px;
 }
 
 @media print {
