@@ -27,6 +27,7 @@ export type FeedType = 'rss' | 'atom';
 export type EditUrlFunction = (editUrlParams: {
   blogDirPath: string;
   blogPath: string;
+  permalink: string;
   locale: string;
 }) => string | undefined;
 

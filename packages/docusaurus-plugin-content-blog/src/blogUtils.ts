@@ -108,7 +108,7 @@ export async function generateBlogPosts(
     routeBasePath,
     truncateMarker,
     showReadingTime,
-    editUrl: siteEditUrl,
+    editUrl,
   } = options;
 
   if (!fs.existsSync(contentPaths.contentPath)) {
@@ -135,37 +135,6 @@ export async function generateBlogPosts(
       const aliasedSource = aliasedSitePath(source, siteDir);
 
       const blogFileName = path.basename(blogSourceFile);
-
-      function getBlogEditUrl() {
-        const blogPathRelative = path.relative(
-          blogDirPath,
-          path.resolve(source),
-        );
-
-        if (typeof siteEditUrl === 'function') {
-          return siteEditUrl({
-            blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
-            blogPath: posixPath(blogPathRelative),
-            locale: i18n.currentLocale,
-          });
-        } else if (typeof siteEditUrl === 'string') {
-          const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
-          const fileContentPath =
-            isLocalized && options.editLocalizedFiles
-              ? contentPaths.contentPathLocalized
-              : contentPaths.contentPath;
-
-          const contentPathEditUrl = normalizeUrl([
-            siteEditUrl,
-            posixPath(path.relative(siteDir, fileContentPath)),
-          ]);
-
-          return getEditUrl(blogPathRelative, contentPathEditUrl);
-        } else {
-          return undefined;
-        }
-      }
-      const editBlogUrl = getBlogEditUrl();
 
       const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
 
@@ -204,11 +173,44 @@ export async function generateBlogPosts(
         frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
       frontMatter.title = frontMatter.title || linkName;
 
+      const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
+
+      function getBlogEditUrl() {
+        const blogPathRelative = path.relative(
+          blogDirPath,
+          path.resolve(source),
+        );
+
+        if (typeof editUrl === 'function') {
+          return editUrl({
+            blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
+            blogPath: posixPath(blogPathRelative),
+            permalink,
+            locale: i18n.currentLocale,
+          });
+        } else if (typeof editUrl === 'string') {
+          const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
+          const fileContentPath =
+            isLocalized && options.editLocalizedFiles
+              ? contentPaths.contentPathLocalized
+              : contentPaths.contentPath;
+
+          const contentPathEditUrl = normalizeUrl([
+            editUrl,
+            posixPath(path.relative(siteDir, fileContentPath)),
+          ]);
+
+          return getEditUrl(blogPathRelative, contentPathEditUrl);
+        } else {
+          return undefined;
+        }
+      }
+
       blogPosts.push({
         id: frontMatter.slug || frontMatter.title,
         metadata: {
-          permalink: normalizeUrl([baseUrl, routeBasePath, slug]),
-          editUrl: editBlogUrl,
+          permalink,
+          editUrl: getBlogEditUrl(),
           source: aliasedSource,
           description: frontMatter.description || excerpt,
           date,
