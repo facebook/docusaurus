@@ -159,16 +159,11 @@ function DocSidebarItemLink({
           'menu__link--active': isActive,
         })}
         to={href}
-        {...(isInternalUrl(href)
-          ? {
-              isNavLink: true,
-              exact: true,
-              onClick: onItemClick,
-            }
-          : {
-              target: '_blank',
-              rel: 'noreferrer noopener',
-            })}
+        {...(isInternalUrl(href) && {
+          isNavLink: true,
+          exact: true,
+          onClick: onItemClick,
+        })}
         {...props}>
         {label}
       </Link>

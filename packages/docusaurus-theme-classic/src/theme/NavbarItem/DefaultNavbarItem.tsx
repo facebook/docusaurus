@@ -37,8 +37,6 @@ function NavLink({
     <Link
       {...(href
         ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
