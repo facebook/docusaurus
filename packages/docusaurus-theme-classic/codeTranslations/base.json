@@ -24,6 +24,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Collapse sidebar",
   "theme.docs.sidebar.collapseButtonAriaLabel": "Collapse sidebar",
   "theme.common.editThisPage": "Edit this page",
+  "theme.common.headingLinkTitle": "Direct link to heading",
   "theme.common.skipToMainContent": "Skip to main content",
   "theme.SearchPage.existingResultsTitle": "Search results for",
   "theme.SearchPage.emptyResultsTitle": "Search the documentation",
