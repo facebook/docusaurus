@@ -18,6 +18,7 @@ import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import IconMenu from '@theme/IconMenu';
+import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
@@ -229,7 +230,21 @@ function DocSidebar({
           },
         )}>
         <button
-          aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
+          aria-label={
+            showResponsiveSidebar
+              ? translate({
+                  id: 'theme.docs.sidebar.responsiveCloseButtonLabel',
+                  message: 'Close menu',
+                  description:
+                    'The ARIA label for close button of mobile doc sidebar',
+                })
+              : translate({
+                  id: 'theme.docs.sidebar.responsiveOpenButtonLabel',
+                  message: 'Open menu',
+                  description:
+                    'The ARIA label for open button of mobile doc sidebar',
+                })
+          }
           aria-haspopup="true"
           className="button button--secondary button--sm menu__button"
           type="button"
@@ -270,17 +285,24 @@ function DocSidebar({
       {hideableSidebar && (
         <button
           type="button"
-          title="Collapse sidebar"
-          aria-label="Collapse sidebar"
+          title={translate({
+            id: 'theme.docs.sidebar.collapseButtonTitle',
+            message: 'Collapse sidebar',
+            description:
+              'The title attribute for collapse button of doc sidebar',
+          })}
+          aria-label={translate({
+            id: 'theme.docs.sidebar.collapseButtonAriaLabel',
+            message: 'Collapse sidebar',
+            description:
+              'The title attribute for collapse button of doc sidebar',
+          })}
           className={clsx(
             'button button--secondary button--outline',
             styles.collapseSidebarButton,
           )}
           onClick={onCollapse}>
-          <IconArrow
-            className={styles.collapseSidebarButtonIcon}
-            aria-label="Collapse sidebar"
-          />
+          <IconArrow className={styles.collapseSidebarButtonIcon} />
         </button>
       )}
     </div>

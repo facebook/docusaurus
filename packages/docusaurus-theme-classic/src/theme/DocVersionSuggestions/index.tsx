@@ -46,6 +46,7 @@ function DocVersionSuggestions(): JSX.Element {
     <div className="alert alert--warning margin-bottom--md" role="alert">
       {
         // TODO need refactoring
+        // TODO need translate after interpolation appears
         activeVersion.name === 'current' ? (
           <div>
             This is unreleased documentation for {siteTitle}{' '}

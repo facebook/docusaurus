@@ -19,6 +19,7 @@ import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
 import {matchPath} from '@docusaurus/router';
+import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -93,16 +94,23 @@ function DocPageContent({
             {hiddenSidebar && (
               <div
                 className={styles.collapsedDocSidebar}
-                title="Expand sidebar"
-                aria-label="Expand sidebar"
+                title={translate({
+                  id: 'theme.docs.sidebar.expandButtonTitle',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                aria-label={translate({
+                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
                 tabIndex={0}
                 role="button"
                 onKeyDown={toggleSidebar}
                 onClick={toggleSidebar}>
-                <IconArrow
-                  aria-label="Expand sidebar"
-                  className={styles.expandSidebarButtonIcon}
-                />
+                <IconArrow className={styles.expandSidebarButtonIcon} />
               </div>
             )}
           </div>
