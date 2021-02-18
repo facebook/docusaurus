@@ -11,8 +11,8 @@ import merge from 'webpack-merge';
 import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
-// import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-// import CleanCss from 'clean-css';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -455,11 +455,25 @@ export function getMinimizer(): Plugin[] {
         preset: CssNanoPreset,
       }
     }),
+     */
     new CssMinimizerPlugin({
       minimizerOptions: {
-        cssProcessor: CleanCss,
+        minify: async (data, inputMap) => {
+          const [[filename, input]] = Object.entries(data);
+          const minifiedCss = await new CleanCss({ sourceMap: true }).minify({
+            [filename]: {
+              styles: input,
+              sourceMap: inputMap,
+            },
+          });
+
+          return {
+            css: minifiedCss.styles,
+            map: minifiedCss.sourceMap.toJSON(),
+            warnings: minifiedCss.warnings,
+          };
+        },
       }
     }),
-     */
   ];
 }

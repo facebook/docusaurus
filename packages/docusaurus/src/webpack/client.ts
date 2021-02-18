@@ -58,10 +58,6 @@ export default function createClientConfig(
               ),
             );
 
-            stats?.toJson('errors-only')?.errors?.forEach((e) => {
-              console.error(e);
-            });
-
             process.exit(1);
           }
         });
