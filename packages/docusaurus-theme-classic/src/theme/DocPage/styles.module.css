@@ -14,6 +14,11 @@
     display: flex;
   }
 
+  .docMainContainer {
+    flex-grow: 1;
+    max-width: calc(100% - var(--doc-sidebar-width));
+  }
+
   .docSidebarContainer {
     width: var(--doc-sidebar-width);
     margin-top: calc(-1 * var(--ifm-navbar-height));
@@ -56,10 +61,6 @@
     background-color: var(--collapse-button-bg-color-dark);
   }
 
-  .docMainContainer {
-    flex-grow: 1;
-  }
-
   .docItemWrapperEnhanced {
     max-width: calc(var(--ifm-container-width) + var(--doc-sidebar-width));
   }
@@ -76,10 +77,6 @@
 }
 
 @media (min-width: 997px) and (max-width: 1320px) {
-  .docMainContainer {
-    max-width: calc(100% - var(--doc-sidebar-width));
-  }
-
   .docItemWrapper {
     max-width: calc(
       var(--ifm-container-width) - var(--doc-sidebar-width) -
