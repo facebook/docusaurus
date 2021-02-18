@@ -76,6 +76,10 @@
 }
 
 @media (min-width: 997px) and (max-width: 1320px) {
+  .docMainContainer {
+    max-width: calc(100% - var(--doc-sidebar-width));
+  }
+
   .docItemWrapper {
     max-width: calc(
       var(--ifm-container-width) - var(--doc-sidebar-width) -
