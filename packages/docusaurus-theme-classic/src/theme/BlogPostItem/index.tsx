@@ -9,11 +9,10 @@ import React from 'react';
 import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 import Translate from '@docusaurus/Translate';
-import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
+import Seo from '@theme/Seo';
 import type {Props} from '@theme/BlogPostItem';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -47,7 +46,6 @@ function BlogPostItem(props: Props): JSX.Element {
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
   const authorImageURL =
     frontMatter.author_image_url || frontMatter.authorImageURL;
-  const imageUrl = useBaseUrl(image, {absolute: true});
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -91,16 +89,7 @@ function BlogPostItem(props: Props): JSX.Element {
 
   return (
     <>
-      <Head>
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {image && <meta property="og:image" content={imageUrl} />}
-        {image && <meta name="twitter:image" content={imageUrl} />}
-        {image && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
-        )}
-      </Head>
+      <Seo {...{keywords, image}} />
 
       <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
         {renderPostHeader()}

@@ -106,3 +106,15 @@ declare module '@theme/DocPage' {
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
 }
+
+declare module '@theme/Seo' {
+  export type Props = {
+    readonly title?: string;
+    readonly description?: string;
+    readonly keywords?: readonly string[] | string;
+    readonly image?: string;
+  };
+
+  const Seo: (props: Props) => JSX.Element;
+  export default Seo;
+}
