@@ -115,7 +115,10 @@ function DocPageContent({
             )}
           </div>
         )}
-        <main className={styles.docMainContainer}>
+        <main
+          className={clsx(styles.docMainContainer, {
+            [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
+          })}>
           <div
             className={clsx(
               'container padding-vert--lg',

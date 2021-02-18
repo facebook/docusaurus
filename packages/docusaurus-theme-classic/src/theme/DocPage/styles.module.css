@@ -19,6 +19,10 @@
     max-width: calc(100% - var(--doc-sidebar-width));
   }
 
+  .docMainContainerEnhanced {
+    max-width: none;
+  }
+
   .docSidebarContainer {
     width: var(--doc-sidebar-width);
     margin-top: calc(-1 * var(--ifm-navbar-height));
