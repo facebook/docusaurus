@@ -70,21 +70,15 @@ function BlogPostItem(props: Props): JSX.Element {
         </div>
         <div className="avatar margin-vert--md">
           {authorImageURL && (
-            <a
-              className="avatar__photo-link avatar__photo"
-              href={authorURL}
-              target="_blank"
-              rel="noreferrer noopener">
+            <Link className="avatar__photo-link avatar__photo" href={authorURL}>
               <img src={authorImageURL} alt={author} />
-            </a>
+            </Link>
           )}
           <div className="avatar__intro">
             {author && (
               <>
                 <h4 className="avatar__name">
-                  <a href={authorURL} target="_blank" rel="noreferrer noopener">
-                    {author}
-                  </a>
+                  <Link href={authorURL}>{author}</Link>
                 </h4>
                 <small className="avatar__subtitle">{authorTitle}</small>
               </>
