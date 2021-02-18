@@ -69,7 +69,7 @@ module.exports = {
     [
       '@docusaurus/plugin-sitemap',
       {
-        cacheTime: 600 * 1000,
+        changefreq: 'weekly',
       },
     ],
   ],

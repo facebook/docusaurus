@@ -21,7 +21,7 @@
     "algoliasearch-helper": "^3.3.4",
     "clsx": "^1.1.1",
     "eta": "^1.12.1",
-    "joi": "^17.2.1",
+    "joi": "^17.4.0",
     "lodash": "^4.17.19"
   },
   "peerDependencies": {
@@ -29,6 +29,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

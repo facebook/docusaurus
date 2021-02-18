@@ -25,7 +25,7 @@
     "eta": "^1.11.0",
     "fs-extra": "^9.0.1",
     "globby": "^11.0.2",
-    "joi": "^17.2.1",
+    "joi": "^17.4.0",
     "lodash": "^4.17.20"
   },
   "peerDependencies": {

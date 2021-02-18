@@ -20,9 +20,9 @@
   "dependencies": {
     "@docusaurus/utils": "2.0.0-alpha.70",
     "chalk": "^4.1.0",
-    "joi": "^17.2.1"
+    "joi": "^17.4.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }
