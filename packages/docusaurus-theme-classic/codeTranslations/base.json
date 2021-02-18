@@ -17,7 +17,7 @@
   "theme.docs.paginator.navAriaLabel": "Docs pages navigation",
   "theme.docs.paginator.previous": "Previous",
   "theme.docs.paginator.next": "Next",
-  "theme.docs.sidebar.expandButtonTitle":"Expand sidebar",
+  "theme.docs.sidebar.expandButtonTitle": "Expand sidebar",
   "theme.docs.sidebar.expandButtonAriaLabel": "Expand sidebar",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Close menu",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Open menu",

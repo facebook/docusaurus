@@ -289,13 +289,13 @@ function DocSidebar({
             id: 'theme.docs.sidebar.collapseButtonTitle',
             message: 'Collapse sidebar',
             description:
-              'The ARIA label and title attribute for collapse button of doc sidebar',
+              'The title attribute for collapse button of doc sidebar',
           })}
           aria-label={translate({
             id: 'theme.docs.sidebar.collapseButtonAriaLabel',
             message: 'Collapse sidebar',
             description:
-              'The ARIA label and title attribute for collapse button of doc sidebar',
+              'The title attribute for collapse button of doc sidebar',
           })}
           className={clsx(
             'button button--secondary button--outline',
