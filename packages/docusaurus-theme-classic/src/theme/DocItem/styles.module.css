@@ -5,6 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+:root {
+  --doc-item-container-width: 100%;
+}
+
+/* 1476px is maximum page width with content area on desktop (ifm-container-width + doc-sidebar-width + (ifm-spacing-horizontal * 2)) */
+@media (min-width: 997px) and (max-width: 1476px) {
+  :root {
+    --doc-item-container-width: calc(
+      var(--ifm-container-width) - var(--doc-sidebar-width) -
+        var(--ifm-spacing-horizontal) * 2
+    );
+  }
+}
+
 .docTitle {
   font-size: 3rem;
   margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
@@ -13,6 +27,7 @@
 .docItemContainer {
   margin: 0 auto;
   padding: 0 0.5rem;
+  max-width: var(--doc-item-container-width);
 }
 
 @media only screen and (min-width: 997px) {
