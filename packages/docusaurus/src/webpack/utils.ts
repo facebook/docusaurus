@@ -460,7 +460,7 @@ export function getMinimizer(): Plugin[] {
       minimizerOptions: {
         minify: async (data, inputMap) => {
           const [[filename, input]] = Object.entries(data);
-          const minifiedCss = await new CleanCss({ sourceMap: true }).minify({
+          const minifiedCss = await new CleanCss({sourceMap: true}).minify({
             [filename]: {
               styles: input,
               sourceMap: inputMap,
@@ -473,7 +473,7 @@ export function getMinimizer(): Plugin[] {
             warnings: minifiedCss.warnings,
           };
         },
-      }
+      },
     }),
   ];
 }
