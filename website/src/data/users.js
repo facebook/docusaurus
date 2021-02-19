@@ -88,7 +88,7 @@ const users = [
   },
   {
     title: 'Awe framework',
-    description: 'Awe framework, Build light-weight and functional websites quickly'
+    description: 'Awe framework, Build light-weight and functional websites quickly',
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe',
