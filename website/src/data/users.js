@@ -78,6 +78,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Awe framework',
+    description: 'Awe framework, Build light-weight and functional websites quickly',
+    preview: require('./showcase/awe-framework.png'),
+    website: 'https://docs.aweframework.com/',
+    source: 'https://gitlab.com/aweframework/awe',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
