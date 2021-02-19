@@ -279,6 +279,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Mailgo',
+    description: 'A new concept of mailto and tel links',
+    preview: require('./showcase/mailgo.png'),
+    website: 'https://mailgo.dev/',
+    source: 'https://github.com/manzinello/mailgo.dev',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'MikroORM',
     description: 'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
     preview: require('./showcase/mikro-orm.png'),
