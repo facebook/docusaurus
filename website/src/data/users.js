@@ -87,6 +87,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Awe framework',
+    description: 'Awe framework, Build light-weight and functional websites quickly'
+    preview: require('./showcase/awe-framework.png'),
+    website: 'https://docs.aweframework.com/',
+    source: 'https://gitlab.com/aweframework/awe',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
