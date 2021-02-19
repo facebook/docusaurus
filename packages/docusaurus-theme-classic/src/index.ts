@@ -157,14 +157,11 @@ export default function docusaurusThemeClassic(
       if (direction === 'rtl') {
         postCssOptions.plugins.push(
           postcss.plugin('RtlCssPlugin', () => {
+            const resolvedInfimaFile = require.resolve(
+              getInfimaCSSFile(direction),
+            );
             function isInfimaCSSFile(file) {
-              return (
-                file.endsWith(getInfimaCSSFile(direction)) ||
-                // special case for our own monorepo using symlinks!
-                file.endsWith(
-                  'infima/packages/core/dist/css/default/default-rtl.css',
-                )
-              );
+              return file === resolvedInfimaFile;
             }
 
             return function (root: any) {
