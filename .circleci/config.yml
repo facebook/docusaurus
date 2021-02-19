@@ -1,6 +1,6 @@
 aliases:
   - &root-yarn |
-    yarn install --non-interactive --cache-folder ~/.cache/yarn
+    rm -rf node_modules/sharp && yarn install --non-interactive --cache-folder ~/.cache/yarn
 
   - &root-restore-yarn-cache
     keys:
