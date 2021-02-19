@@ -23,8 +23,6 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
       className="footer__link-item"
       {...(href
         ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
@@ -98,13 +96,9 @@ function Footer(): JSX.Element | null {
             {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
-                  <a
-                    href={logo.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.footerLogoLink}>
+                  <Link href={logo.href} className={styles.footerLogoLink}>
                     <FooterLogo alt={logo.alt} sources={sources} />
-                  </a>
+                  </Link>
                 ) : (
                   <FooterLogo alt={logo.alt} sources={sources} />
                 )}

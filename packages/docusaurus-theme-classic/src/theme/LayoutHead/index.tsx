@@ -11,9 +11,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 import SearchMetadatas from '@theme/SearchMetadatas';
+import Seo from '@theme/Seo';
 import {
   DEFAULT_SEARCH_TAG,
-  useTitleFormatter,
   useAlternatePageUtils,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
@@ -90,9 +90,7 @@ export default function LayoutHead(props: Props): JSX.Element {
     themeConfig: {image: defaultImage, metadatas},
   } = siteConfig;
   const {title, description, image, keywords, searchMetadatas} = props;
-  const metaTitle = useTitleFormatter(title);
-  const metaImage = image || defaultImage;
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
+
   const faviconUrl = useBaseUrl(favicon);
 
   // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
@@ -104,26 +102,10 @@ export default function LayoutHead(props: Props): JSX.Element {
     <>
       <Head>
         <html lang={htmlLang} dir={htmlDir} />
-        {metaTitle && <title>{metaTitle}</title>}
-        {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {keywords && keywords.length && (
-          <meta
-            name="keywords"
-            content={Array.isArray(keywords) ? keywords.join(',') : keywords}
-          />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
-        )}
-        <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <Seo {...{title, description, keywords, image: image || defaultImage}} />
 
       <CanonicalUrlHeaders />
 

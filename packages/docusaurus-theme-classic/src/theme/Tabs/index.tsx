@@ -23,9 +23,9 @@ function Tabs(props: Props): JSX.Element {
   const {lazy, block, defaultValue, values, groupId, className} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
-  const children = Children.toArray(props.children) as ReactElement<
-    TabItemProps
-  >[];
+  const children = Children.toArray(
+    props.children,
+  ) as ReactElement<TabItemProps>[];
   const tabRefs: (HTMLLIElement | null)[] = [];
 
   if (groupId != null) {

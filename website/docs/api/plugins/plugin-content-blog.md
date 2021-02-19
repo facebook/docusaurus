@@ -38,7 +38,7 @@ module.exports = {
         /**
          * For advanced cases, compute the edit url for each markdown file yourself.
          */
-        editUrl: ({locale, blogDirPath, blogPath}) => {
+        editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
           return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
         },
         /**

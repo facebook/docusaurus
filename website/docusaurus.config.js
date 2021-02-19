@@ -228,13 +228,15 @@ const LocaleConfigs = isI18nStaging
           // routeBasePath: '/',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: ({locale, versionDocsDirPath, docPath}) => {
+          editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
             }
-            return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+            // We want users to submit doc updates to the upstream/next version!
+            // Otherwise we risk losing the update on the next release.
+            const nextVersionDocsDirPath = 'docs';
+            return `https://github.com/facebook/docusaurus/edit/master/website/${nextVersionDocsDirPath}/${docPath}`;
           },
-          editCurrentVersion: true,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [

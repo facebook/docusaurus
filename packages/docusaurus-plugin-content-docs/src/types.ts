@@ -35,6 +35,7 @@ export type EditUrlFunction = (editUrlParams: {
   version: string;
   versionDocsDirPath: string;
   docPath: string;
+  permalink: string;
   locale: string;
 }) => string | undefined;
 

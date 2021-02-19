@@ -6,12 +6,9 @@
  */
 
 import React from 'react';
-import Head from '@docusaurus/Head';
-import {useTitleFormatter} from '@docusaurus/theme-common';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import Seo from '@theme/Seo';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
@@ -25,26 +22,17 @@ import {
 } from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
-  const {url: siteUrl} = siteConfig;
   const {content: DocContent} = props;
   const {
     metadata,
     frontMatter: {
-      image: metaImage,
+      image,
       keywords,
       hide_title: hideTitle,
       hide_table_of_contents: hideTableOfContents,
     },
   } = DocContent;
-  const {
-    description,
-    title,
-    permalink,
-    editUrl,
-    lastUpdatedAt,
-    lastUpdatedBy,
-  } = metadata;
+  const {description, title, editUrl, lastUpdatedAt, lastUpdatedBy} = metadata;
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
@@ -55,28 +43,9 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  const metaTitle = useTitleFormatter(title);
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
   return (
     <>
-      <Head>
-        <title>{metaTitle}</title>
-        <meta property="og:title" content={metaTitle} />
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
-        )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
-      </Head>
+      <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
         <div
@@ -112,6 +81,7 @@ function DocItem(props: Props): JSX.Element {
                     <div className="col text--right">
                       <em>
                         <small>
+                          {/* TODO: wait for using interpolation in translation function */}
                           Last updated{' '}
                           {lastUpdatedAt && (
                             <>

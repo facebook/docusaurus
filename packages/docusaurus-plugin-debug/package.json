@@ -20,13 +20,13 @@
     "@docusaurus/core": "2.0.0-alpha.70",
     "@docusaurus/types": "2.0.0-alpha.70",
     "@docusaurus/utils": "2.0.0-alpha.70",
-    "react-json-view": "^1.20.4"
+    "react-json-view": "^1.21.1"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

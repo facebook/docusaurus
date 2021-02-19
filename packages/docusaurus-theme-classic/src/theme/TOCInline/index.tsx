@@ -11,8 +11,6 @@ import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 
-const LINK_CLASS_NAME = styles['table-of-contents__link--inline'];
-
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function HeadingsInline({
   toc,
@@ -30,7 +28,6 @@ function HeadingsInline({
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
-            className={LINK_CLASS_NAME}
             // Developer provided the HTML, so assume it's safe.
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}

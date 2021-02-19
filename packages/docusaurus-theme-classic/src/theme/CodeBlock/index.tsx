@@ -12,7 +12,7 @@ import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import {useThemeConfig} from '@docusaurus/theme-common';
@@ -240,7 +240,11 @@ export default function CodeBlock({
             <button
               ref={button}
               type="button"
-              aria-label="Copy code to clipboard"
+              aria-label={translate({
+                id: 'theme.CodeBlock.copyButtonAriaLabel',
+                message: 'Copy code to clipboard',
+                description: 'The ARIA label for copy code blocks button',
+              })}
               className={clsx(styles.copyButton)}
               onClick={handleCopyCode}>
               {showCopied ? (
