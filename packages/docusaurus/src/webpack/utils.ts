@@ -18,7 +18,6 @@ import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
 import {ConfigurePostCssFn, ConfigureWebpackFn} from '@docusaurus/types';
-// import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
@@ -449,13 +448,12 @@ export function getMinimizer(): Plugin[] {
         },
       },
     }),
-    /*
     new CssMinimizerPlugin({
       minimizerOptions: {
-        preset: CssNanoPreset,
-      }
+        // note: require -> import throws
+        preset: () => require('@docusaurus/cssnano-preset'),
+      },
     }),
-     */
     new CssMinimizerPlugin({
       minimizerOptions: {
         minify: async (data, inputMap) => {
