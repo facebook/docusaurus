@@ -26,3 +26,33 @@ I am referencing a [document](doc1.md). Reference to another [document in a fold
 One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
 
 Another benefit, for versioned docs, is that one versioned doc will link to another doc of the exact same version.
+
+
+## Referencing blog posts
+
+If you want to reference a blog post file, you could use the name of the post you want to reference.
+
+For example, if you are in `folder/doc1.md` and you want to reference `blog/2021-01-02-hello-there.md`:
+
+```md
+---
+title: Hello There
+---
+```
+
+You can add a slug to a blog post in its metadata. Consider another blog post named `blog/2021-01-08-bye-everyone.md`:
+
+```md
+---
+title: Bye Everyone
+slug: bye-everyone
+---
+```
+
+I am referencing a blog post in `../../blog/2021/01/02/hello-there`.
+
+Reference to another blog post with a slug in `../../blog/bye-everyone`.
+
+:::caution Be careful that we should convert the address of the blog post without slug from:
+
+`blog/2021-01-02-hello-there` to `blog/2021/01/02/hello-there` :::
