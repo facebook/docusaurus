@@ -37,8 +37,8 @@ const createJSX = (node, pathUrl) => {
   }
 };
 
-async function ensureImageFileExist(imagePath, sourceFilePath) {
-  const imageExists = await fs.exists(imagePath);
+function ensureImageFileExist(imagePath, sourceFilePath) {
+  const imageExists = fs.existsSync(imagePath);
   if (!imageExists) {
     throw new Error(
       `Image ${toMessageRelativeFilePath(
@@ -73,7 +73,7 @@ async function processImageNode(node, {filePath, staticDir}) {
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
-    await ensureImageFileExist(expectedImagePath, filePath);
+    ensureImageFileExist(expectedImagePath, filePath);
     createJSX(node, posixPath(expectedImagePath));
   }
   // We try to convert image urls without protocol to images with require calls

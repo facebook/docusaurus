@@ -7,13 +7,12 @@
 
 // @ts-nocheck
 
-import {getOptions} from 'loader-utils';
 import {linkify} from './linkify';
 
 const markdownLoader = function (source) {
   const fileString = source as string;
   const callback = this.async();
-  const options = getOptions(this);
+  const options = this.getOptions();
   return (
     callback && callback(null, linkify(fileString, this.resourcePath, options))
   );

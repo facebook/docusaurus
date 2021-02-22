@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
@@ -25,7 +24,7 @@ module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);
-  const reqOptions = getOptions(this) || {};
+  const reqOptions = this.getOptions() || {};
   const options = {
     ...reqOptions,
     remarkPlugins: [

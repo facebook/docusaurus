@@ -6,12 +6,11 @@
  */
 
 // @ts-nocheck
-// import {getOptions} from 'loader-utils';
 
 const markdownLoader = function (fileString) {
   const callback = this.async();
 
-  // const options = getOptions(this);
+  // const options = this.getOptions();
 
   // TODO provide additinal md processing here? like interlinking pages?
   // fileString = linkify(fileString)

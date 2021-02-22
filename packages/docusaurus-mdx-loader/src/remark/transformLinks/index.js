@@ -19,8 +19,8 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
-  const assetExists = await fs.exists(fileSystemAssetPath);
+function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
+  const assetExists = fs.existsSync(fileSystemAssetPath);
   if (!assetExists) {
     throw new Error(
       `Asset ${toMessageRelativeFilePath(
@@ -81,16 +81,16 @@ async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
       siteDir,
       assetPath.replace('@site/', ''),
     );
-    await ensureAssetFileExist(fileSystemAssetPath, filePath);
+    ensureAssetFileExist(fileSystemAssetPath, filePath);
     toAssetLinkNode(fileSystemAssetPath);
   } else if (path.isAbsolute(assetPath)) {
     const fileSystemAssetPath = path.join(staticDir, assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (fs.existsSync(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   } else {
     const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (fs.existsSync(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   }

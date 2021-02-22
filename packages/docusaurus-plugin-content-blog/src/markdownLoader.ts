@@ -8,14 +8,14 @@
 // @ts-nocheck
 
 import {truncate, linkify} from './blogUtils';
-import {parseQuery, getOptions} from 'loader-utils';
+import {parseQuery} from 'loader-utils';
 import {BlogMarkdownLoaderOptions} from './types';
 
 const markdownLoader = function (source) {
   const filePath = this.resourcePath;
   const fileContent = source as string;
   const callback = this.async();
-  const markdownLoaderOptions = getOptions(this) as BlogMarkdownLoaderOptions;
+  const markdownLoaderOptions = this.getOptions() as BlogMarkdownLoaderOptions;
 
   // Linkify blog posts
   let finalContent = linkify({

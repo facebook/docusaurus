@@ -25,7 +25,6 @@ import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {DocMetadata, LoadedVersion} from '../types';
 import {toSidebarsProp} from '../props';
 
-// @ts-expect-error: TODO typedefs missing?
 import {validate} from 'webpack';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {
@@ -230,7 +229,7 @@ describe('simple website', () => {
       false,
     );
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('content', async () => {
