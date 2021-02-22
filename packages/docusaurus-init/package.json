@@ -23,11 +23,11 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.0",
-    "commander": "^4.0.1",
+    "commander": "^5.1.0",
     "fs-extra": "^9.1.0",
     "lodash.kebabcase": "^4.1.1",
     "prompts": "^2.4.0",
-    "semver": "^6.3.0",
+    "semver": "^7.3.4",
     "shelljs": "^0.8.4"
   },
   "engines": {

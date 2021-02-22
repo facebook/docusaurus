@@ -23,7 +23,7 @@
     "@docusaurus/utils-validation": "2.0.0-alpha.70",
     "chalk": "^3.0.0",
     "eta": "^1.11.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^9.1.0",
     "globby": "^11.0.2",
     "joi": "^17.4.0",
     "lodash": "^4.17.20"
