@@ -270,6 +270,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Kotest',
+    description: 'Kotlin test framework',
+    preview: require('./showcase/kotest.jpg'),
+    website: 'https://kotest.io',
+    source: 'https://github.com/kotest/kotest',
+    fbOpenSource: false,
+    pinned: false,
+  },  
+  {
     title: 'SICOPE Model',
     description: 'An open source model-based testing tool for web applications',
     preview: require('./showcase/sicope-model.png'),
