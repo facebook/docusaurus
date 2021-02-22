@@ -92,6 +92,7 @@
     "null-loader": "^4.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "pnp-webpack-plugin": "^1.6.4",
+    "postcss": "^8.2.6",
     "postcss-loader": "^4.1.0",
     "postcss-preset-env": "^6.7.0",
     "prompts": "^2.4.0",
