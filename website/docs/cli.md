@@ -116,7 +116,7 @@ Running the command will copy the relevant theme files to your site folder. You 
 
 An example to use `--danger` flag let's consider the below code:
 
-```bash
+```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Logo -- --danger
 ```
 
