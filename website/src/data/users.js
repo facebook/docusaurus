@@ -272,7 +272,7 @@ const users = [
   {
     title: 'Kotest',
     description: 'Kotlin test framework',
-    preview: require('./showcase/kotest.png'),
+    preview: require('./showcase/kotest.jpg'),
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
     fbOpenSource: false,
