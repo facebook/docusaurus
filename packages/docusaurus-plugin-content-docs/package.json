@@ -20,7 +20,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-alpha.70",
     "@types/picomatch": "^2.2.1",
-    "commander": "^5.0.0",
+    "commander": "^5.1.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {

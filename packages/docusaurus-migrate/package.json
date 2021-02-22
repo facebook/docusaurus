@@ -38,7 +38,7 @@
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
-    "semver": "^7.3.2",
+    "semver": "^7.3.4",
     "unified": "^9.2.0",
     "unist-util-visit": "^2.0.2"
   },
