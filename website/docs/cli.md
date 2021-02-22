@@ -92,18 +92,18 @@ We highly discourage swizzling of components until we've reached a Beta stage. T
 
 :::
 
-Change any Docusaurus theme components to your liking with `docusaurus swizzle`.
+Change any Docusaurus theme components to your liking with `npm run swizzle`.
 
-```shell
-docusaurus swizzle [themeName] [componentName] [siteDir]
+```bash npm2yarn
+npm run swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
-docusaurus swizzle @docusaurus/theme-classic DocSidebar
+npm run swizzle @docusaurus/theme-classic DocSidebar
 ```
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
-`docusaurus swizzle` without `themeName` lists all the themes available for swizzling similarly `docusaurus swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+`npm run swizzle` without `themeName` lists all the themes available for swizzling similarly `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
 
 #### Options
 
@@ -113,6 +113,18 @@ Running the command will copy the relevant theme files to your site folder. You 
 | `swizzleComponent` | The name of the component to swizzle.  |
 | `--danger`         | Allow swizzling of unstable components |
 | `--typescript`     | Swizzle TypeScript components          |
+
+An example to use `--danger` flag let's consider the below code:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Logo -- --danger
+```
+
+:::caution
+
+Unstable Components: components that have a higher risk of breaking changes due to internal refactorings.
+
+:::
 
 To unswizzle a component, simply delete the files of the swizzled component.
 
