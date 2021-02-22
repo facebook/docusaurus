@@ -26,12 +26,12 @@
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^9.0.2",
     "responsive-loader-modern": "^1.3.2",
-    "sharp": "^0.27.1"
+    "sharp": "^0.27.1",
+    "webpack": "^5.23.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0",
-    "webpack": "5.x"
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=12.13.0"

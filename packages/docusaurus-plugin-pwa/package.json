@@ -22,7 +22,7 @@
     "core-js": "^2.6.5",
     "joi": "^17.4.0",
     "terser-webpack-plugin": "^5.1.1",
-    "webpack": "^4.44.1",
+    "webpack": "^5.23.0",
     "webpack-merge": "^4.2.2",
     "workbox-build": "^6.1.0",
     "workbox-precaching": "^6.1.0",

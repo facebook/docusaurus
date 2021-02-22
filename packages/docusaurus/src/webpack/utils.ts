@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-// @ts-nocheck
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
@@ -160,10 +159,11 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {options: {postcssOptions?: unknown}};
+  type LocalPostCSSLoader = {} & {options: {postcssOptions?: unknown}};
 
   // TODO not ideal heuristic but good enough for our usecase?
-  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+  function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
+    // @ts-expect-error @types/webpack strikes again
     return !!(loader as unknown)?.options?.postcssOptions;
   }
 
@@ -171,6 +171,7 @@ export function applyConfigurePostCss(
   function overridePostCssOptions(entry) {
     if (isPostCssLoader(entry)) {
       entry.options.postcssOptions = configurePostCss(
+        // @ts-expect-error @types/webpack strikes again
         entry.options.postcssOptions,
       );
     } else if (Array.isArray(entry.oneOf)) {
@@ -182,6 +183,7 @@ export function applyConfigurePostCss(
     }
   }
 
+  // @ts-expect-error @types/webpack strikes again
   config.module?.rules.forEach(overridePostCssOptions);
 
   return config;
@@ -197,7 +199,7 @@ export function compile(config: Configuration[]): Promise<void> {
       // let plugins consume all the stats
       const allStats = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        allStats?.errors.forEach((e) => {
+        allStats?.errors?.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
@@ -206,7 +208,7 @@ export function compile(config: Configuration[]): Promise<void> {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
         const {warnings} = allStats;
 
-        warnings.forEach((warning) => {
+        warnings?.forEach((warning) => {
           console.warn(warning);
         });
       }
@@ -344,6 +346,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     },
   };
 
+  // @ts-expect-error @types/webpack strikes again
   return {loaders, rules};
 }
 
@@ -458,7 +461,22 @@ export function getMinimizer(): Plugin[] {
       minimizerOptions: {
         minify: async (data, inputMap) => {
           const [[filename, input]] = Object.entries(data);
-          const minifiedCss = await new CleanCss({sourceMap: true}).minify({
+          //
+          const minifiedCss = new CleanCss({
+            sourceMap: false,
+            inline: false,
+            level: {
+              1: {
+                all: false,
+              },
+              2: {
+                all: true,
+                restructureRules: true,
+                removeUnusedAtRules: false,
+              },
+            },
+            // @ts-expect-error huh?
+          }).minify({
             [filename]: {
               styles: input,
               sourceMap: inputMap,
@@ -467,7 +485,6 @@ export function getMinimizer(): Plugin[] {
 
           return {
             css: minifiedCss.styles,
-            map: minifiedCss.sourceMap.toJSON(),
             warnings: minifiedCss.warnings,
           };
         },
