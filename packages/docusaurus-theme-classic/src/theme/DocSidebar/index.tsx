@@ -157,6 +157,7 @@ function DocSidebarItemLink({
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,
+          [styles.menuLinkExternal]: !isInternalUrl(href),
         })}
         to={href}
         {...(isInternalUrl(href) && {
