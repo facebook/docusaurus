@@ -67,7 +67,7 @@
     "postcss": "^7.0.23",
     "prismjs": "^1.22.0",
     "react": "^16.8.4",
-    "react-dev-utils": "^9.1.0",
+    "react-dev-utils": "^11.0.1",
     "react-dom": "^16.8.4",
     "remarkable": "^2.0.0",
     "request": "^2.88.0",
