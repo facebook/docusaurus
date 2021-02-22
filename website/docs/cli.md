@@ -94,7 +94,7 @@ We highly discourage swizzling of components until we've reached a Beta stage. T
 
 Change any Docusaurus theme components to your liking with `npm run swizzle`.
 
-```shell
+```bash npm2yarn
 npm run swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
