@@ -422,7 +422,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(): Plugin[] {
+export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
   return [
     new TerserPlugin({
       parallel: getTerserParallel(),
@@ -451,44 +451,47 @@ export function getMinimizer(): Plugin[] {
         },
       },
     }),
-    new CssMinimizerPlugin({
-      minimizerOptions: {
-        // note: require -> import throws
-        preset: () => require('@docusaurus/cssnano-preset'),
-      },
-    }),
-    new CssMinimizerPlugin({
-      minimizerOptions: {
-        minify: async (data, inputMap) => {
-          const [[filename, input]] = Object.entries(data);
-          //
-          const minifiedCss = new CleanCss({
-            sourceMap: false,
-            inline: false,
-            level: {
-              1: {
-                all: false,
-              },
-              2: {
-                all: true,
-                restructureRules: true,
-                removeUnusedAtRules: false,
-              },
-            },
-            // @ts-expect-error huh?
-          }).minify({
-            [filename]: {
-              styles: input,
-              sourceMap: inputMap,
-            },
-          });
-
-          return {
-            css: minifiedCss.styles,
-            warnings: minifiedCss.warnings,
-          };
+    useSimpleCssMinifier && new CssMinimizerPlugin(),
+    !useSimpleCssMinifier &&
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          // note: require -> import throws
+          preset: () => require('@docusaurus/cssnano-preset'),
         },
-      },
-    }),
-  ];
+      }),
+    !useSimpleCssMinifier &&
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          minify: async (data, inputMap) => {
+            const [[filename, input]] = Object.entries(data);
+            //
+            const minifiedCss = new CleanCss({
+              sourceMap: false,
+              inline: false,
+              level: {
+                1: {
+                  all: false,
+                },
+                2: {
+                  all: true,
+                  restructureRules: true,
+                  removeUnusedAtRules: false,
+                },
+              },
+              // @ts-expect-error huh?
+            }).minify({
+              [filename]: {
+                styles: input,
+                sourceMap: inputMap,
+              },
+            });
+
+            return {
+              css: minifiedCss.styles,
+              warnings: minifiedCss.warnings,
+            };
+          },
+        },
+      }),
+  ].filter(Boolean);
 }

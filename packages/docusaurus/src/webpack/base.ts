@@ -66,6 +66,7 @@ export function createBaseConfig(
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
+  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
   const fileLoaderUtils = getFileLoaderUtils();
 
@@ -125,7 +126,9 @@ export function createBaseConfig(
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: minimizeEnabled,
       // @ts-expect-error webpack type conflicts
-      minimizer: minimizeEnabled ? getMinimizer() : undefined,
+      minimizer: minimizeEnabled
+        ? getMinimizer(useSimpleCssMinifier)
+        : undefined,
       splitChunks: isServer
         ? false
         : {
