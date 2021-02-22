@@ -205,10 +205,7 @@ export function compile(config: Configuration[]): Promise<void> {
         reject(new Error('Failed to compile with errors.'));
       }
       if (allStats && stats?.hasWarnings()) {
-        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        const {warnings} = allStats;
-
-        warnings?.forEach((warning) => {
+        allStats.warnings?.forEach((warning) => {
           console.warn(warning);
         });
       }
