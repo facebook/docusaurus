@@ -109,7 +109,7 @@ Docusaurus Themes' components are designed to be replaceable. To make it easier 
 To swizzle a component for a theme, run the following command in your doc site:
 
 ```shell
-docusaurus swizzle <theme name> [component name]
+npm run swizzle <theme name> [component name]
 ```
 
 As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
