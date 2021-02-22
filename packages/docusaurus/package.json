@@ -90,6 +90,7 @@
     "module-alias": "^2.2.2",
     "nprogress": "^0.2.0",
     "null-loader": "^4.0.0",
+    "postcss": "^8.2.6",
     "postcss-loader": "^4.1.0",
     "postcss-preset-env": "^6.7.0",
     "prompts": "^2.4.0",
