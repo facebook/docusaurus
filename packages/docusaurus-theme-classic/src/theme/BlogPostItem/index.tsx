@@ -102,8 +102,8 @@ function BlogPostItem(props: Props): JSX.Element {
               <div className="col">
                 <strong>
                   <Translate
-                    id="theme.blog.tags"
-                    description="The label used during output tags list">
+                    id="theme.tags.tagsListLabel"
+                    description="The label alongside a tag list">
                     Tags:
                   </Translate>
                 </strong>
