@@ -8,9 +8,12 @@
  */
 
 const chalk = require('chalk');
+const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
+const updateNotifier = require('update-notifier');
+const boxen = require('boxen');
 const {
   build,
   swizzle,
@@ -21,15 +24,18 @@ const {
   clear,
   writeTranslations,
 } = require('../lib');
-const requiredVersion = require('../package.json').engines.node;
-const pkg = require('../package.json');
-const updateNotifier = require('update-notifier');
-const boxen = require('boxen');
+const {
+  name,
+  version,
+  engines: {node: requiredVersion},
+} = require('../package.json');
 
-// notify user if @docusaurus/core is outdated
+// notify user if @docusaurus packages is outdated
 const notifier = updateNotifier({
-  pkg,
-  updateCheckInterval: 1000 * 60 * 60 * 24, // one day
+  pkg: {
+    name,
+    version,
+  },
 });
 
 // allow the user to be notified for updates on the first run
@@ -38,6 +44,17 @@ if (notifier.lastUpdateCheck === Date.now()) {
 }
 
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
+  // eslint-disable-next-line import/no-dynamic-require
+  const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
+  const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
+    .filter((p) => p.startsWith('@docusaurus'))
+    .map((p) => p.concat('@latest'))
+    .join(' ');
+  const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
+  const upgradeCommand = isYarnUsed
+    ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
+    : `npm i ${siteDocusaurusPackagesForUpdate}`;
+
   const boxenOptions = {
     padding: 1,
     margin: 1,
@@ -49,9 +66,11 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
   const docusaurusUpdateMessage = boxen(
     `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
       ' → ',
-    )}${chalk.green(`${notifier.update.latest}`)}\nRun ${chalk.cyan(
-      'yarn upgrade @docusaurus/core',
-    )} to update`,
+    )}${chalk.green(
+      `${notifier.update.latest}`,
+    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
+      `${upgradeCommand}`,
+    )}`,
     boxenOptions,
   );
 
