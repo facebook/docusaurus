@@ -8,6 +8,7 @@
  */
 
 const chalk = require('chalk');
+const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
@@ -49,6 +50,10 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
     .filter((p) => p.startsWith('@docusaurus'))
     .map((p) => p.concat('@latest'))
     .join(' ');
+  const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
+  const upgradeCommand = isYarnUsed
+    ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
+    : `npm i ${siteDocusaurusPackagesForUpdate}`;
 
   const boxenOptions = {
     padding: 1,
@@ -64,7 +69,7 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
     )}${chalk.green(
       `${notifier.update.latest}`,
     )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
-      `yarn upgrade ${siteDocusaurusPackagesForUpdate}`,
+      `${upgradeCommand}`,
     )}`,
     boxenOptions,
   );
