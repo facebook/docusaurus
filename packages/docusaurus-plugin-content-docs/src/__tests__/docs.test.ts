@@ -321,6 +321,7 @@ describe('simple site', () => {
       version: 'current',
       versionDocsDirPath: 'docs',
       docPath: path.posix.join('foo', 'baz.md'),
+      permalink: '/docs/foo/bazSlug.html',
       locale: 'en',
     });
   });
@@ -672,6 +673,7 @@ describe('versioned site', () => {
       version: '1.0.0',
       versionDocsDirPath: 'versioned_docs/version-1.0.0',
       docPath: path.join('hello.md'),
+      permalink: '/docs/1.0.0/hello',
       locale: 'en',
     });
   });

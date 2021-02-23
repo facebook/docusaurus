@@ -9,6 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
@@ -46,7 +47,11 @@ function AnnouncementBar(): JSX.Element | null {
           type="button"
           className={styles.announcementBarClose}
           onClick={closeAnnouncementBar}
-          aria-label="Close">
+          aria-label={translate({
+            id: 'theme.AnnouncementBar.closeButtonAriaLabel',
+            message: 'Close',
+            description: 'The ARIA label for close button of announcement bar',
+          })}>
           <span aria-hidden="true">×</span>
         </button>
       ) : null}

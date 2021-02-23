@@ -29,6 +29,6 @@
     "resolve-pathname": "^3.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

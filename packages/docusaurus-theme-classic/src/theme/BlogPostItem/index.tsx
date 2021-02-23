@@ -9,11 +9,10 @@ import React from 'react';
 import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 import Translate from '@docusaurus/Translate';
-import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
+import Seo from '@theme/Seo';
 import type {Props} from '@theme/BlogPostItem';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -47,7 +46,6 @@ function BlogPostItem(props: Props): JSX.Element {
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
   const authorImageURL =
     frontMatter.author_image_url || frontMatter.authorImageURL;
-  const imageUrl = useBaseUrl(image, {absolute: true});
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -70,21 +68,15 @@ function BlogPostItem(props: Props): JSX.Element {
         </div>
         <div className="avatar margin-vert--md">
           {authorImageURL && (
-            <a
-              className="avatar__photo-link avatar__photo"
-              href={authorURL}
-              target="_blank"
-              rel="noreferrer noopener">
+            <Link className="avatar__photo-link avatar__photo" href={authorURL}>
               <img src={authorImageURL} alt={author} />
-            </a>
+            </Link>
           )}
           <div className="avatar__intro">
             {author && (
               <>
                 <h4 className="avatar__name">
-                  <a href={authorURL} target="_blank" rel="noreferrer noopener">
-                    {author}
-                  </a>
+                  <Link href={authorURL}>{author}</Link>
                 </h4>
                 <small className="avatar__subtitle">{authorTitle}</small>
               </>
@@ -97,16 +89,7 @@ function BlogPostItem(props: Props): JSX.Element {
 
   return (
     <>
-      <Head>
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {image && <meta property="og:image" content={imageUrl} />}
-        {image && <meta name="twitter:image" content={imageUrl} />}
-        {image && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
-        )}
-      </Head>
+      <Seo {...{keywords, image}} />
 
       <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
         {renderPostHeader()}
@@ -117,7 +100,13 @@ function BlogPostItem(props: Props): JSX.Element {
           <footer className="row margin-vert--lg">
             {tags.length > 0 && (
               <div className="col">
-                <strong>Tags:</strong>
+                <strong>
+                  <Translate
+                    id="theme.blog.tags"
+                    description="The label used during output tags list">
+                    Tags:
+                  </Translate>
+                </strong>
                 {tags.map(({label, permalink: tagPermalink}) => (
                   <Link
                     key={tagPermalink}
@@ -135,8 +124,8 @@ function BlogPostItem(props: Props): JSX.Element {
                   aria-label={`Read more about ${title}`}>
                   <strong>
                     <Translate
-                      id="theme.BlogPostItem.readMore"
-                      description="The label used in blog post item excerps to link to full blog posts">
+                      id="theme.blog.post.readMore"
+                      description="The label used in blog post item excerpts to link to full blog posts">
                       Read More
                     </Translate>
                   </strong>

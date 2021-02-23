@@ -210,12 +210,12 @@ function extractSourceCodeAstTranslations(
         path.node.openingElement.name.name === 'Translate'
       ) {
         // We only handle the optimistic case where we have a single non-empty content
-        const singleChildren: NodePath | undefined = path
+        const singleChildren = path
           .get('children')
           // Remove empty/useless text nodes that might be around our translation!
           // Makes the translation system more reliable to JSX formatting issues
           .filter(
-            (childrenPath: NodePath) =>
+            (childrenPath) =>
               !(
                 t.isJSXText(childrenPath.node) &&
                 childrenPath.node.value.replace('\n', '').trim() === ''

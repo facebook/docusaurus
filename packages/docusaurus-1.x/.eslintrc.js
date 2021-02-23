@@ -42,6 +42,7 @@ module.exports = {
     'react/forbid-prop-types': OFF, // 1
     'react/require-default-props': OFF, // 1
     'jsx-a11y/control-has-associated-label': OFF, // 1
+    'react/jsx-no-target-blank': OFF, // 1
     'react/jsx-props-no-spreading': OFF, // 2
     'max-classes-per-file': OFF, // 2
     'prefer-object-spread': OFF, // 5

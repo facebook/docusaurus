@@ -24,7 +24,7 @@
     "@docusaurus/utils": "2.0.0-alpha.70",
     "@docusaurus/utils-validation": "2.0.0-alpha.70",
     "globby": "^11.0.2",
-    "joi": "^17.2.1",
+    "joi": "^17.4.0",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.19",
     "minimatch": "^3.0.4",
@@ -37,6 +37,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

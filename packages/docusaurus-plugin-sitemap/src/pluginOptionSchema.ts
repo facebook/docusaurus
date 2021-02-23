@@ -4,19 +4,23 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import * as Joi from 'joi';
 import {EnumChangefreq} from 'sitemap';
 import {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
   trailingSlash: false,
 };
 
 export const PluginOptionSchema = Joi.object({
-  cacheTime: Joi.number().positive().default(DEFAULT_OPTIONS.cacheTime),
+  // TODO temporary (@alpha-71)
+  cacheTime: Joi.forbidden().messages({
+    'any.unknown':
+      'Option `cacheTime` in sitemap config is deprecated. Please remove it.',
+  }),
   changefreq: Joi.string()
     .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),

@@ -287,7 +287,7 @@ const ThemeConfigSchema = Joi.object({
     links: Joi.array()
       .items(
         Joi.object({
-          title: Joi.string(),
+          title: Joi.string().allow(null),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
       )
