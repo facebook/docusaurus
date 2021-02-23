@@ -12,6 +12,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
+import Translate from '@docusaurus/Translate';
 
 function pluralize(count: number, word: string) {
   return count > 1 ? `${word}s` : word;
@@ -37,7 +38,13 @@ function BlogTagsPostPage(props: Props): JSX.Element {
               {count} {pluralize(count, 'post')} tagged with &quot;{tagName}
               &quot;
             </h1>
-            <Link href={allTagsPath}>View All Tags</Link>
+            <Link href={allTagsPath}>
+              <Translate
+                id="theme.tags.tagsPageLink"
+                description="The label of the link targeting the tag list page">
+                View All Tags
+              </Translate>
+            </Link>
             <div className="margin-vert--xl">
               {items.map(({content: BlogPostContent}) => (
                 <BlogPostItem
