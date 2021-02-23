@@ -94,12 +94,13 @@ Optional parameters, also set as environment variables:
 
 Finally, to deploy your site to GitHub Pages, run:
 
-<Tabs 
+````mdx-code-block
+<Tabs
   defaultValue="bash"
-  values={[ 
+  values={[
     { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }, 
-    { label: 'PowerShell', value: 'powershell' } 
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
 ]}>
 <TabItem value="bash">
 
@@ -123,6 +124,7 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 
 </TabItem>
 </Tabs>
+````
 
 ### Triggering deployment with GitHub Actions
 
