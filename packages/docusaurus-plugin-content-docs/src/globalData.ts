@@ -23,5 +23,6 @@ export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
     path: version.versionPath,
     mainDocId: version.mainDocId,
     docs: version.docs.map(toGlobalDataDoc),
+    sidebars: version.sidebars,
   };
 }

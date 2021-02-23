@@ -10,12 +10,44 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
-import {isSamePath} from '@docusaurus/theme-common';
+import {
+  isSamePath,
+  useDocsPreferredVersion,
+  useThemeConfig,
+} from '@docusaurus/theme-common';
 import type {
   NavLinkProps,
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
+import {DocSidebarItem} from '@theme/DocSidebar';
+import {
+  useActivePlugin,
+  useLatestVersion,
+  useActiveDocContext,
+  useActiveDocSidebar,
+} from '@theme/hooks/useDocs';
+
+function DocSidebarNavbarItem({onClick}) {
+  const {sidebarCollapsible} = useThemeConfig();
+  const {pathname} = useLocation();
+  const {pluginId} = useActivePlugin({failfast: true});
+  const {sidebar} = useActiveDocSidebar(pluginId);
+
+  return (
+    <>
+      {sidebar.map((item) => (
+        <DocSidebarItem
+          key={item.label}
+          item={item}
+          collapsible={sidebarCollapsible}
+          activePath={pathname}
+          onItemClick={onClick}
+        />
+      ))}
+    </>
+  );
+}
 
 function NavLink({
   activeBasePath,
@@ -62,6 +94,7 @@ function NavItemDesktop({
   items,
   position,
   className,
+  docId: _docId, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -152,6 +185,7 @@ function NavItemMobile({
   items,
   className,
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  docId,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const menuListRef = useRef<HTMLUListElement>(null);
@@ -169,10 +203,32 @@ function NavItemMobile({
       extraClassName,
     );
 
+  const plugin = useActivePlugin({failfast: false});
+  const pluginId = plugin ? plugin.pluginId : undefined;
+  let showDocSidebar = false;
+
+  const {activeVersion, activeDoc} = useActiveDocContext(pluginId);
+  const {preferredVersion} = useDocsPreferredVersion(pluginId);
+  const latestVersion = useLatestVersion(pluginId);
+  const version = activeVersion ?? preferredVersion ?? latestVersion;
+  const doc = version.docs.find((versionDoc) => versionDoc.id === docId);
+  const isMainDoc =
+    version.mainDocId === docId && activeDoc?.sidebar === doc.sidebar;
+  const firstDocInActiveSidebar = activeVersion?.sidebars[doc?.sidebar]?.some(
+    (i) => i.href === pathname,
+  );
+  showDocSidebar = isMainDoc || firstDocInActiveSidebar;
+
   if (!items) {
     return (
       <li className="menu__list-item">
         <NavLink className={navLinkClassNames(className)} {...props} />
+
+        {showDocSidebar && (
+          <ul className="menu__list">
+            <DocSidebarNavbarItem onClick={props.onClick} />
+          </ul>
+        )}
       </li>
     );
   }

@@ -72,6 +72,6 @@ export function toVersionMetadataProp(
     label: loadedVersion.versionLabel,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
-    permalinkToSidebar: loadedVersion.permalinkToSidebar,
+    // permalinkToSidebar: loadedVersion.permalinkToSidebar,
   };
 }

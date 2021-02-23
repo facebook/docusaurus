@@ -83,6 +83,15 @@ declare module '@theme/DocSidebar' {
     readonly isHidden: boolean;
   };
 
+  export type DocSidebarItemProps = {
+    readonly item: PropSidebarItem;
+    readonly activePath: string;
+    readonly collapsible: boolean;
+    readonly onItemClick: () => void;
+  };
+
+  export const DocSidebarItem: (props: DocSidebarItemProps) => JSX.Element;
+
   const DocSidebar: (props: Props) => JSX.Element;
   export default DocSidebar;
 }
@@ -302,6 +311,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly items?: readonly NavLinkProps[];
     readonly position?: 'left' | 'right';
     readonly className?: string;
+    readonly docId?: string;
   };
 
   export type Props = DesktopOrMobileNavBarItemProps & {
@@ -448,6 +458,13 @@ declare module '@theme/TOC' {
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
   };
+
+  export type HeadingsProps = {
+    readonly toc: readonly TOCItem[];
+    readonly isChild?: boolean;
+  };
+
+  export const Headings: (props: HeadingsProps) => JSX.Element;
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;

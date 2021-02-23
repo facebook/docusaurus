@@ -164,7 +164,7 @@ export type LoadedVersion = VersionMetadata & {
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
-  permalinkToSidebar: Record<string, string>;
+  // permalinkToSidebar: Record<string, string>;
 };
 
 export type LoadedContent = {
@@ -184,6 +184,7 @@ export type GlobalVersion = {
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
+  sidebars: Sidebars;
 };
 
 export type GlobalPluginData = {

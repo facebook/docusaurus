@@ -82,3 +82,19 @@ export const useDocVersionSuggestions = (pluginId: string | undefined) => {
   const {pathname} = useLocation();
   return getDocVersionSuggestions(data, pathname);
 };
+
+export const useActiveDocSidebar = (pluginId: string | undefined) => {
+  const {activeVersion, activeDoc} = useActiveDocContext(pluginId);
+
+  if (activeDoc && activeDoc.sidebar) {
+    return {
+      sidebarName: activeDoc.sidebar,
+      sidebar: activeVersion?.sidebars[activeDoc.sidebar],
+    };
+  }
+
+  return {
+    sidebarName: null,
+    sidebar: [],
+  };
+};

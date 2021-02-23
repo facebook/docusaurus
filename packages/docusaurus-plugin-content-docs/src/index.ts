@@ -37,8 +37,9 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
+  Sidebars,
 } from './types';
-import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
+// import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
@@ -208,12 +209,12 @@ export default function pluginContentDocs(
         });
 
         // TODO really useful? replace with global state logic?
-        const permalinkToSidebar: PermalinkToSidebar = {};
-        Object.values(docs).forEach((doc) => {
-          if (doc.sidebar) {
-            permalinkToSidebar[doc.permalink] = doc.sidebar;
-          }
-        });
+        // const permalinkToSidebar: PermalinkToSidebar = {};
+        // Object.values(docs).forEach((doc) => {
+        //   if (doc.sidebar) {
+        //     permalinkToSidebar[doc.permalink] = doc.sidebar;
+        //   }
+        // });
 
         // The "main doc" is the "version entry point"
         // We browse this doc by clicking on a version:
@@ -239,7 +240,7 @@ export default function pluginContentDocs(
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
-          permalinkToSidebar,
+          // permalinkToSidebar,
           docs: docs.map(addNavData),
         };
       }
@@ -285,15 +286,12 @@ export default function pluginContentDocs(
       };
 
       async function handleVersion(loadedVersion: LoadedVersion) {
+        const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
           )}.json`,
-          JSON.stringify(
-            toVersionMetadataProp(pluginId, loadedVersion),
-            null,
-            2,
-          ),
+          JSON.stringify(versionMetadata, null, 2),
         );
 
         addRoute({
@@ -309,6 +307,11 @@ export default function pluginContentDocs(
           },
           priority: loadedVersion.routePriority,
         });
+
+        //
+        loadedVersion.sidebars = versionMetadata.docsSidebars as Sidebars;
+
+        return loadedVersion;
       }
 
       await Promise.all(loadedVersions.map(handleVersion));

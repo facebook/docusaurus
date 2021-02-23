@@ -128,6 +128,60 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "collapsed": true,
+                    "items": Array [
+                      Object {
+                        "customProps": undefined,
+                        "href": "/docs/foo/bar",
+                        "label": "Bar",
+                        "type": "link",
+                      },
+                      Object {
+                        "customProps": undefined,
+                        "href": "/docs/foo/bazSlug.html",
+                        "label": "baz",
+                        "type": "link",
+                      },
+                    ],
+                    "label": "foo",
+                    "type": "category",
+                  },
+                  Object {
+                    "href": "https://github.com",
+                    "label": "Github",
+                    "type": "link",
+                  },
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/",
+                    "label": "Hello, World !",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/",
+                    "label": "Hello, World !",
+                    "type": "link",
+                  },
+                ],
+                "label": "Guides",
+                "type": "category",
+              },
+            ],
+          },
         },
       ],
     },
@@ -355,11 +409,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"docs\\",
-    \\"/docs/foo/bazSlug.html\\": \\"docs\\",
-    \\"/docs/\\": \\"docs\\"
   }
 }",
 }
@@ -444,6 +493,60 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "collapsed": true,
+                    "items": Array [
+                      Object {
+                        "customProps": undefined,
+                        "href": "/docs/foo/bar",
+                        "label": "Bar",
+                        "type": "link",
+                      },
+                      Object {
+                        "customProps": undefined,
+                        "href": "/docs/foo/bazSlug.html",
+                        "label": "baz",
+                        "type": "link",
+                      },
+                    ],
+                    "label": "foo",
+                    "type": "category",
+                  },
+                  Object {
+                    "href": "https://github.com",
+                    "label": "Github",
+                    "type": "link",
+                  },
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/",
+                    "label": "Hello, World !",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/",
+                    "label": "Hello, World !",
+                    "type": "link",
+                  },
+                ],
+                "label": "Guides",
+                "type": "category",
+              },
+            ],
+          },
         },
       ],
     },
@@ -653,9 +756,6 @@ Object {
         \\"href\\": \\"/community/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/team\\": \\"version-1.0.0/community\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -671,9 +771,6 @@ Object {
         \\"href\\": \\"/community/next/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/next/team\\": \\"community\\"
   }
 }",
 }
@@ -698,6 +795,16 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
+          "sidebars": Object {
+            "community": Array [
+              Object {
+                "customProps": undefined,
+                "href": "/community/next/team",
+                "label": "Team title translated",
+                "type": "link",
+              },
+            ],
+          },
         },
         Object {
           "docs": Array [
@@ -712,6 +819,16 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
+          "sidebars": Object {
+            "version-1.0.0/community": Array [
+              Object {
+                "customProps": undefined,
+                "href": "/community/team",
+                "label": "team",
+                "type": "link",
+              },
+            ],
+          },
         },
       ],
     },
@@ -1141,11 +1258,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/1.0.0/foo/barSlug\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/foo/baz\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/\\": \\"version-1.0.0/docs\\"
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
@@ -1180,10 +1292,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"version-1.0.1/docs\\",
-    \\"/docs/\\": \\"version-1.0.1/docs\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -1218,10 +1326,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/next/foo/barSlug\\": \\"docs\\",
-    \\"/docs/next/\\": \\"docs\\"
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
@@ -1244,9 +1348,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/withSlugs/rootAbsoluteSlug\\": \\"version-1.0.1/docs\\"
   }
 }",
 }
@@ -1296,6 +1397,36 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
+          "sidebars": Object {
+            "docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/next/foo/barSlug",
+                    "label": "bar",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/next/",
+                    "label": "hello",
+                    "type": "link",
+                  },
+                ],
+                "label": "Guides",
+                "type": "category",
+              },
+            ],
+          },
         },
         Object {
           "docs": Array [
@@ -1315,6 +1446,36 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
+          "sidebars": Object {
+            "version-1.0.1/docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/foo/bar",
+                    "label": "bar",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/",
+                    "label": "hello",
+                    "type": "link",
+                  },
+                ],
+                "label": "Guides",
+                "type": "category",
+              },
+            ],
+          },
         },
         Object {
           "docs": Array [
@@ -1339,6 +1500,42 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
+          "sidebars": Object {
+            "version-1.0.0/docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/1.0.0/foo/barSlug",
+                    "label": "bar",
+                    "type": "link",
+                  },
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/1.0.0/foo/baz",
+                    "label": "baz",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/1.0.0/",
+                    "label": "hello",
+                    "type": "link",
+                  },
+                ],
+                "label": "Guides",
+                "type": "category",
+              },
+            ],
+          },
         },
         Object {
           "docs": Array [
@@ -1388,6 +1585,23 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
+          "sidebars": Object {
+            "version-1.0.1/docs": Array [
+              Object {
+                "collapsed": true,
+                "items": Array [
+                  Object {
+                    "customProps": undefined,
+                    "href": "/docs/withSlugs/rootAbsoluteSlug",
+                    "label": "rootAbsoluteSlug",
+                    "type": "link",
+                  },
+                ],
+                "label": "Test",
+                "type": "category",
+              },
+            ],
+          },
         },
       ],
     },

@@ -330,6 +330,7 @@ const LocaleConfigs = isI18nStaging
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {
+          docId: 'support',
           to: '/community/support',
           label: 'Community',
           position: 'left',

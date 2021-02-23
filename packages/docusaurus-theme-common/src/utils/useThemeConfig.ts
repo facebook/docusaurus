@@ -70,6 +70,7 @@ export type ThemeConfig = {
   prism: any;
   footer: Footer | undefined;
   hideableSidebar: any;
+  sidebarCollapsible: any;
 };
 
 export function useThemeConfig(): ThemeConfig {

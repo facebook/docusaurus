@@ -17,12 +17,12 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
-import IconMenu from '@theme/IconMenu';
+// import IconMenu from '@theme/IconMenu';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
-const MOBILE_TOGGLE_SIZE = 24;
+// const MOBILE_TOGGLE_SIZE = 24;
 
 function usePrevious(value) {
   const ref = useRef(value);
@@ -171,7 +171,7 @@ function DocSidebarItemLink({
   );
 }
 
-function DocSidebarItem(props) {
+export function DocSidebarItem(props) {
   switch (props.item.type) {
     case 'category':
       return <DocSidebarItemCategory {...props} />;
@@ -224,7 +224,7 @@ function DocSidebar({
               !isAnnouncementBarClosed && scrollY === 0,
           },
         )}>
-        <button
+        {/* <button
           aria-label={
             showResponsiveSidebar
               ? translate({
@@ -261,7 +261,7 @@ function DocSidebar({
               width={MOBILE_TOGGLE_SIZE}
             />
           )}
-        </button>
+        </button> */}
         <ul className="menu__list">
           {sidebar.map((item) => (
             <DocSidebarItem

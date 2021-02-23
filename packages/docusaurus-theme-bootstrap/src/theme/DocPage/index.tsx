@@ -14,23 +14,20 @@ import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import {matchPath} from '@docusaurus/router';
 import type {Props} from '@theme/DocPage';
-import type {DocumentRoute} from '@theme/DocItem';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+import {useActiveDocSidebar} from '@theme/hooks/useDocs';
 
 type DocPageContentProps = {
-  readonly currentDocRoute: DocumentRoute;
   readonly versionMetadata: PropVersionMetadata;
   readonly children: ReactNode;
 };
 
 function DocPageContent({
-  currentDocRoute,
   versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
-  const {permalinkToSidebar, docsSidebars} = versionMetadata;
-  const sidebarName = permalinkToSidebar[currentDocRoute.path];
-  const sidebar = docsSidebars[sidebarName];
+  const {pluginId} = versionMetadata;
+  const {sidebarName, sidebar} = useActiveDocSidebar(pluginId);
   return (
     <Layout title="Doc page" description="My Doc page">
       <div className="d-flex vh-100">
@@ -60,9 +57,7 @@ function DocPage(props: Props): JSX.Element {
     return <NotFound {...props} />;
   }
   return (
-    <DocPageContent
-      currentDocRoute={currentDocRoute}
-      versionMetadata={versionMetadata}>
+    <DocPageContent versionMetadata={versionMetadata}>
       {renderRoutes(docRoutes)}
     </DocPageContent>
   );

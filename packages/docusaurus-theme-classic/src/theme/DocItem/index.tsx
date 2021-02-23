@@ -5,21 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
-import Seo from '@theme/Seo';
-import type {Props} from '@theme/DocItem';
-import TOC from '@theme/TOC';
-import EditThisPage from '@theme/EditThisPage';
-
+import React, {useState} from 'react';
 import clsx from 'clsx';
-import styles from './styles.module.css';
+
 import {
   useActivePlugin,
   useVersions,
   useActiveVersion,
 } from '@theme/hooks/useDocs';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import DocPaginator from '@theme/DocPaginator';
+import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import Seo from '@theme/Seo';
+import type {Props} from '@theme/DocItem';
+import TOC, {Headings} from '@theme/TOC';
+import EditThisPage from '@theme/EditThisPage';
+import IconMenu from '@theme/IconMenu';
+
+import styles from './styles.module.css';
 
 function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
@@ -42,6 +45,10 @@ function DocItem(props: Props): JSX.Element {
   // we don't show the version badge
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
+
+  const [showMobileToc, setShowMobileToc] = useState(false);
+
+  useLockBodyScroll(showMobileToc);
 
   return (
     <>
@@ -128,6 +135,43 @@ function DocItem(props: Props): JSX.Element {
             <TOC toc={DocContent.toc} />
           </div>
         )}
+      </div>
+
+      <div
+        className={styles.mobileTocOverlay}
+        style={{display: showMobileToc ? 'block' : 'none'}}
+      />
+
+      <div
+        className={clsx(styles.mobileToc, {
+          [styles.mobileTocOpened]: showMobileToc,
+        })}>
+        <div className={styles.mobileTocContainer}>
+          <button
+            type="button"
+            className={clsx(
+              'button button--secondary',
+              styles.mobileTocCloseButton,
+            )}
+            onClick={() => {
+              setShowMobileToc(false);
+            }}>
+            ×
+          </button>
+
+          <div className={styles.mobileTocContent}>
+            <Headings toc={DocContent.toc} />
+          </div>
+
+          <button
+            type="button"
+            className={styles.mobileTocOpenButton}
+            onClick={() => {
+              setShowMobileToc(true);
+            }}>
+            <IconMenu height={24} width={24} />
+          </button>
+        </div>
       </div>
     </>
   );

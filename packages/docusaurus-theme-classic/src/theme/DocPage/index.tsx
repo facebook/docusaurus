@@ -9,6 +9,7 @@ import React, {ReactNode, useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useActiveDocSidebar} from '@theme/hooks/useDocs';
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
@@ -37,9 +38,8 @@ function DocPageContent({
   children,
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {pluginId, permalinkToSidebar, docsSidebars, version} = versionMetadata;
-  const sidebarName = permalinkToSidebar[currentDocRoute.path];
-  const sidebar = docsSidebars[sidebarName];
+  const {pluginId, version} = versionMetadata;
+  const {sidebarName, sidebar} = useActiveDocSidebar(pluginId);
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
@@ -84,9 +84,7 @@ function DocPageContent({
               }
               sidebar={sidebar}
               path={currentDocRoute.path}
-              sidebarCollapsible={
-                siteConfig.themeConfig?.sidebarCollapsible ?? true
-              }
+              sidebarCollapsible={siteConfig.themeConfig.sidebarCollapsible}
               onCollapse={toggleSidebar}
               isHidden={hiddenSidebar}
             />

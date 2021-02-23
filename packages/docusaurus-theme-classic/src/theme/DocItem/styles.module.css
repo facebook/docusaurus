@@ -19,11 +19,88 @@
   .docItemCol {
     max-width: 75% !important;
   }
+
+  .mobileToc {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 996px) {
   .docItemContainer {
     padding: 0 0.3rem;
+  }
+
+  .mobileToc {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: calc(var(--ifm-z-index-fixed) + 2);
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: var(--ifm-global-shadow-md);
+    transform: translate(-50%, -50%) translateX(100%);
+    max-height: 50vh;
+    transition: transform var(--ifm-transition-fast) ease;
+  }
+
+  .mobileTocOpened {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+
+  .mobileTocContainer {
+    position: relative;
+    height: 100%;
+  }
+
+  .mobileTocCloseButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    height: 2rem;
+    width: 2rem;
+    box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+    color: var(--ifm-color-gray-900);
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: var(--ifm-font-weight-bold);
+    line-height: 0.9;
+    text-align: center;
+  }
+
+  .mobileTocOpenButton {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: none;
+    border-radius: 100% 0 0 100%;
+    height: 2.5rem;
+    width: 2.5rem;
+    box-shadow: -3px 3px 4px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+  }
+
+  .mobileTocContent {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .mobileTocContent > ul {
+    font-weight: var(--ifm-font-weight-semibold);
+    font-size: 16px;
+    width: 90%;
+  }
+
+  .mobileTocOverlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    bottom: 0;
+    display: none;
+    left: 0;
+    right: 0;
+    position: fixed;
+    top: 0;
+    z-index: calc(var(--ifm-z-index-fixed) + 1);
   }
 }
 
