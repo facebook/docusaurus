@@ -78,6 +78,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'AttoBot',
+    description: 'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
+    preview: require('./showcase/attobot.png'),
+    website: 'https://attobot.xyz',
+    source: 'https://github.com/attobot-discord/website',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'Awe framework',
     description: 'Awe framework, Build light-weight and functional websites quickly',
     preview: require('./showcase/awe-framework.png'),
