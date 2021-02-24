@@ -420,7 +420,7 @@ function getTerserParallel() {
 }
 
 export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
-  return [
+  const minimizer = [
     new TerserPlugin({
       parallel: getTerserParallel(),
       terserOptions: {
@@ -448,20 +448,21 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
         },
       },
     }),
-    useSimpleCssMinifier && new CssMinimizerPlugin(),
-    !useSimpleCssMinifier &&
+  ];
+  if (useSimpleCssMinifier) {
+    minimizer.push(new CssMinimizerPlugin());
+  } else {
+    minimizer.push(
       new CssMinimizerPlugin({
         minimizerOptions: {
           // note: require -> import throws
           preset: () => require('@docusaurus/cssnano-preset'),
         },
       }),
-    !useSimpleCssMinifier &&
       new CssMinimizerPlugin({
         minimizerOptions: {
-          minify: async (data, inputMap) => {
+          minify: async (data) => {
             const [[filename, input]] = Object.entries(data);
-            //
             const minifiedCss = new CleanCss({
               sourceMap: false,
               inline: false,
@@ -479,7 +480,6 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
             }).minify({
               [filename]: {
                 styles: input,
-                sourceMap: inputMap,
               },
             });
 
@@ -490,5 +490,8 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
           },
         },
       }),
-  ].filter(Boolean);
+    );
+  }
+
+  return minimizer;
 }
