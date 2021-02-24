@@ -32,15 +32,6 @@
 // prettier-ignore
 const users = [
   {
-    title: 'AttoBot',
-    description: 'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
-    preview: require('./showcase/attobot.png'),
-    website: 'https://attobot.xyz',
-    source: 'https://github.com/attobot-discord/website',
-    fbOpenSource: false,
-    pinned: true,
-  },
-  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
@@ -83,6 +74,15 @@ const users = [
     preview: require('./showcase/apache-apisix.png'),
     website: 'https://apisix.apache.org/',
     source: 'https://github.com/apache/apisix-website',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    title: 'AttoBot',
+    description: 'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
+    preview: require('./showcase/attobot.png'),
+    website: 'https://attobot.xyz',
+    source: 'https://github.com/attobot-discord/website',
     fbOpenSource: false,
     pinned: true,
   },
