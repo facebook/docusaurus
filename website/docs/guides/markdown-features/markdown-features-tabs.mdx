@@ -30,6 +30,7 @@ import TabItem from '@theme/TabItem';
 
 And you will get the following:
 
+```mdx-code-block
 <Tabs
   defaultValue="apple"
   values={[
@@ -41,6 +42,7 @@ And you will get the following:
   <TabItem value="orange">This is an orange 🍊</TabItem>
   <TabItem value="banana">This is a banana 🍌</TabItem>
 </Tabs>
+```
 
 :::info
 
@@ -78,6 +80,7 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 </Tabs>
 ```
 
+```mdx-code-block
 <Tabs
   groupId="operating-systems"
   defaultValue="win"
@@ -99,6 +102,7 @@ You may want choices of the same kind of tabs to sync with each other. For examp
   <TabItem value="win">Use Ctrl + V to paste.</TabItem>
   <TabItem value="mac">Use Command + V to paste.</TabItem>
 </Tabs>
+```
 
 For all tab groups that have the same `groupId`, the possible values do not need to be the same. If one tab group with chooses an value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. You can see that from the following example. Try to select Linux, and the above tab groups doesn't change.
 
@@ -117,6 +121,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
 </Tabs>
 ```
 
+```mdx-code-block
 <Tabs
   groupId="operating-systems"
   defaultValue="win"
@@ -129,6 +134,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
   <TabItem value="mac">I am macOS.</TabItem>
   <TabItem value="linux">I am Linux.</TabItem>
 </Tabs>
+```
 
 ---
 
@@ -160,6 +166,7 @@ Tab choices with different `groupId`s will not interfere with each other:
 </Tabs>
 ```
 
+```mdx-code-block
 <Tabs
   groupId="operating-systems"
   defaultValue="win"
@@ -181,6 +188,7 @@ Tab choices with different `groupId`s will not interfere with each other:
   <TabItem value="win">Windows is windows.</TabItem>
   <TabItem value="unix">Unix is unix.</TabItem>
 </Tabs>
+```
 
 ## Customizing tabs
 
@@ -204,6 +212,7 @@ import TabItem from '@theme/TabItem';
 </Tabs>;
 ```
 
+```mdx-code-block
 <Tabs
   className="unique-tabs"
   defaultValue="apple"
@@ -216,3 +225,4 @@ import TabItem from '@theme/TabItem';
   <TabItem value="orange">This is an orange 🍊</TabItem>
   <TabItem value="banana">This is a banana 🍌</TabItem>
 </Tabs>
+```
