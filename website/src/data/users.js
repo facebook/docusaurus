@@ -408,6 +408,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'React Native ARIA',
+    description: 'A library that provides accessible UI primitives for React Native apps.',
+    preview: require('./showcase/reactnative-aria.png'),
+    website: 'https://react-native-aria.geekyants.com',
+    source: 'https://github.com/GeekyAnts/react-native-aria-website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
