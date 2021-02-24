@@ -352,6 +352,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Postgres.ai – Database Lab',
+    description: 'DEPLOY WITH CONFIDENCE. Been stung by a poorly tested database migration? We won\'t let it happen again.',
+    preview: require('./showcase/postgres-ai.png'),
+    website: 'https://postgres.ai/',
+    source: 'https://gitlab.com/postgres-ai/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Power\'s Wiki',
     description: 'An example of personal wiki ',
     preview: require('./showcase/power.png'),
