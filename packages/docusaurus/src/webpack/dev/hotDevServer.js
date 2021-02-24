@@ -8,9 +8,7 @@
 /* eslint-disable */
 /*
  * note - Docusaurus: the above copyright header must be preserved for license compliance.
- * Docusaurus's fork of this module changes a couple things:
- *  - webpack 5 support
- *  - process.env will not be accessible
+ * Docusaurus's fork of this module adds webpack 5 support, makes it work with a typical D2 env, and improves perf.
  */
 
 'use strict';
@@ -18,7 +16,6 @@
 var stripAnsi = require('strip-ansi');
 var url = require('url');
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
-var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
@@ -116,20 +113,12 @@ function handleErrors(errors) {
   isFirstCompilation = false;
   hasCompileErrors = true;
 
-  // "Massage" webpack messages.
-  var formatted = formatWebpackMessages({
-    errors: errors,
-    warnings: [],
-  });
-
   // Only show the first error.
-  ErrorOverlay.reportBuildError(formatted.errors[0]);
+  ErrorOverlay.reportBuildError(errors);
 
   // Also log them to the console.
   if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    for (var i = 0; i < formatted.errors.length; i++) {
-      console.error(stripAnsi(formatted.errors[i]));
-    }
+    console.error(stripAnsi(errors));
   }
 
   // Do not attempt to reload now.
@@ -157,14 +146,12 @@ connection.onmessage = function (e) {
       break;
     case 'still-ok':
     case 'ok':
+    case 'warnings':
       handleSuccess();
       break;
     case 'content-changed':
       // Triggered when a file from `contentBase` changed.
       window.location.reload();
-      break;
-    case 'warnings':
-      handleSuccess();
       break;
     case 'errors':
       handleErrors(message.data);
