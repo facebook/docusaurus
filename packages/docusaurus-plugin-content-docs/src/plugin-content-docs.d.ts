@@ -8,17 +8,12 @@
 /* eslint-disable camelcase */
 
 declare module '@docusaurus/plugin-content-docs-types' {
-  // export type PermalinkToSidebar = {
-  //   [permalink: string]: string;
-  // };
-
   export type PropVersionMetadata = {
     pluginId: string;
     version: string;
     label: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
-    // permalinkToSidebar: PermalinkToSidebar;
   };
 
   type PropsSidebarItemBase = {

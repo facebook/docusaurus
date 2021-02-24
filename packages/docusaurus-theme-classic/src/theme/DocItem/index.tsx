@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import clsx from 'clsx';
 
 import {
@@ -46,7 +46,11 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
+  const showToc = !hideTableOfContents && DocContent.toc;
   const [showMobileToc, setShowMobileToc] = useState(false);
+  const toggleMobileToc = useCallback(() => {
+    setShowMobileToc(!showMobileToc);
+  }, [showMobileToc]);
 
   useLockBodyScroll(showMobileToc);
 
@@ -130,49 +134,51 @@ function DocItem(props: Props): JSX.Element {
             </div>
           </div>
         </div>
-        {!hideTableOfContents && DocContent.toc && (
+        {showToc && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>
         )}
       </div>
 
-      <div
-        className={styles.mobileTocOverlay}
-        style={{display: showMobileToc ? 'block' : 'none'}}
-      />
+      {showToc && (
+        <>
+          {/* TODO: Use Infima styles */}
+          <div
+            role="presentation"
+            className={clsx(styles.mobileTocOverlay, {
+              [styles.mobileTocOverlayOpened]: showMobileToc,
+            })}
+            onClick={toggleMobileToc}
+          />
 
-      <div
-        className={clsx(styles.mobileToc, {
-          [styles.mobileTocOpened]: showMobileToc,
-        })}>
-        <div className={styles.mobileTocContainer}>
-          <button
-            type="button"
-            className={clsx(
-              'button button--secondary',
-              styles.mobileTocCloseButton,
-            )}
-            onClick={() => {
-              setShowMobileToc(false);
-            }}>
-            ×
-          </button>
+          <div
+            className={clsx(styles.mobileToc, {
+              [styles.mobileTocOpened]: showMobileToc,
+            })}>
+            <button
+              type="button"
+              className={clsx(
+                'button button--secondary',
+                styles.mobileTocCloseButton,
+              )}
+              onClick={toggleMobileToc}>
+              ×
+            </button>
 
-          <div className={styles.mobileTocContent}>
-            <Headings toc={DocContent.toc} />
+            <div className={clsx(styles.mobileTocContent, 'thin-scrollbar')}>
+              <Headings toc={DocContent.toc} onClick={toggleMobileToc} />
+            </div>
+
+            <button
+              type="button"
+              className={styles.mobileTocOpenButton}
+              onClick={toggleMobileToc}>
+              <IconMenu height={24} width={24} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            className={styles.mobileTocOpenButton}
-            onClick={() => {
-              setShowMobileToc(true);
-            }}>
-            <IconMenu height={24} width={24} />
-          </button>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }

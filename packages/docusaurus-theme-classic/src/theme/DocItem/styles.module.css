@@ -48,25 +48,18 @@
     transform: translate(-50%, -50%) translateX(0);
   }
 
-  .mobileTocContainer {
-    position: relative;
-    height: 100%;
-  }
-
   .mobileTocCloseButton {
     position: absolute;
     top: 0.5rem;
-    right: 0.5rem;
-    height: 2rem;
-    width: 2rem;
+    right: 1rem;
+    height: 2.5rem;
+    width: 2.5rem;
     box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 100%;
     color: var(--ifm-color-gray-900);
     padding: 0;
-    font-size: 1.5rem;
-    font-weight: var(--ifm-font-weight-bold);
-    line-height: 0.9;
-    text-align: center;
+    font-size: 2rem;
+    line-height: 1;
   }
 
   .mobileTocOpenButton {
@@ -89,18 +82,25 @@
   .mobileTocContent > ul {
     font-weight: var(--ifm-font-weight-semibold);
     font-size: 16px;
-    width: 90%;
+    width: calc(100% - 3.5rem);
   }
 
   .mobileTocOverlay {
-    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
     bottom: 0;
-    display: none;
     left: 0;
     right: 0;
-    position: fixed;
     top: 0;
+    opacity: 0;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: calc(var(--ifm-z-index-fixed) + 1);
+    transition: opacity 100ms ease-in-out;
+  }
+
+  .mobileTocOverlayOpened {
+    opacity: 1;
+    pointer-events: all;
   }
 }
 

@@ -119,5 +119,5 @@
 }
 
 :global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0px !important;
+  height: 0 !important;
 }

@@ -208,14 +208,6 @@ export default function pluginContentDocs(
           sourceToPermalink[source] = permalink;
         });
 
-        // TODO really useful? replace with global state logic?
-        // const permalinkToSidebar: PermalinkToSidebar = {};
-        // Object.values(docs).forEach((doc) => {
-        //   if (doc.sidebar) {
-        //     permalinkToSidebar[doc.permalink] = doc.sidebar;
-        //   }
-        // });
-
         // The "main doc" is the "version entry point"
         // We browse this doc by clicking on a version:
         // - the "home" doc (at '/docs/')
@@ -240,7 +232,6 @@ export default function pluginContentDocs(
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
-          // permalinkToSidebar,
           docs: docs.map(addNavData),
         };
       }

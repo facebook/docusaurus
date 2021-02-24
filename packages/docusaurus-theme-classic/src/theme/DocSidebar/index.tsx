@@ -9,20 +9,16 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
+import useWindowSize from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
-// import IconMenu from '@theme/IconMenu';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
-
-// const MOBILE_TOGGLE_SIZE = 24;
 
 function usePrevious(value) {
   const ref = useRef(value);
@@ -188,22 +184,13 @@ function DocSidebar({
   onCollapse,
   isHidden,
 }: Props): JSX.Element | null {
-  const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();
-
-  useLockBodyScroll(showResponsiveSidebar);
-  const windowSize = useWindowSize();
-
-  useEffect(() => {
-    if (windowSize === windowSizes.desktop) {
-      setShowResponsiveSidebar(false);
-    }
-  }, [windowSize]);
+  const {isDesktop} = useWindowSize();
 
   return (
     <div
@@ -212,71 +199,24 @@ function DocSidebar({
         [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      <div
-        className={clsx(
-          'menu',
-          'menu--responsive',
-          'thin-scrollbar',
-          styles.menu,
-          {
-            'menu--show': showResponsiveSidebar,
+      {isDesktop && (
+        <div
+          className={clsx('menu', 'thin-scrollbar', styles.menu, {
             [styles.menuWithAnnouncementBar]:
               !isAnnouncementBarClosed && scrollY === 0,
-          },
-        )}>
-        {/* <button
-          aria-label={
-            showResponsiveSidebar
-              ? translate({
-                  id: 'theme.docs.sidebar.responsiveCloseButtonLabel',
-                  message: 'Close menu',
-                  description:
-                    'The ARIA label for close button of mobile doc sidebar',
-                })
-              : translate({
-                  id: 'theme.docs.sidebar.responsiveOpenButtonLabel',
-                  message: 'Open menu',
-                  description:
-                    'The ARIA label for open button of mobile doc sidebar',
-                })
-          }
-          aria-haspopup="true"
-          className="button button--secondary button--sm menu__button"
-          type="button"
-          onClick={() => {
-            setShowResponsiveSidebar(!showResponsiveSidebar);
-          }}>
-          {showResponsiveSidebar ? (
-            <span
-              className={clsx(
-                styles.sidebarMenuIcon,
-                styles.sidebarMenuCloseIcon,
-              )}>
-              &times;
-            </span>
-          ) : (
-            <IconMenu
-              className={styles.sidebarMenuIcon}
-              height={MOBILE_TOGGLE_SIZE}
-              width={MOBILE_TOGGLE_SIZE}
-            />
-          )}
-        </button> */}
-        <ul className="menu__list">
-          {sidebar.map((item) => (
-            <DocSidebarItem
-              key={item.label}
-              item={item}
-              onItemClick={(e) => {
-                e.target.blur();
-                setShowResponsiveSidebar(false);
-              }}
-              collapsible={sidebarCollapsible}
-              activePath={path}
-            />
-          ))}
-        </ul>
-      </div>
+          })}>
+          <ul className="menu__list">
+            {sidebar.map((item) => (
+              <DocSidebarItem
+                key={item.label}
+                item={item}
+                collapsible={sidebarCollapsible}
+                activePath={path}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
       {hideableSidebar && (
         <button
           type="button"

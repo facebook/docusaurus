@@ -14,7 +14,7 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
+import useWindowSize from '@theme/hooks/useWindowSize';
 import NavbarItem from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
@@ -47,31 +47,24 @@ function Navbar(): JSX.Element {
   const [sidebarShown, setSidebarShown] = useState(false);
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
-
-  useLockBodyScroll(sidebarShown);
-
-  const showSidebar = useCallback(() => {
-    setSidebarShown(true);
-  }, [setSidebarShown]);
-  const hideSidebar = useCallback(() => {
-    setSidebarShown(false);
-  }, [setSidebarShown]);
-
+  const {isDesktop} = useWindowSize();
+  const toggleSidebar = useCallback(() => {
+    setSidebarShown(!sidebarShown);
+  }, [sidebarShown]);
   const onToggleChange = useCallback(
     (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
-
-  const windowSize = useWindowSize();
-
-  useEffect(() => {
-    if (windowSize === windowSizes.desktop) {
-      setSidebarShown(false);
-    }
-  }, [windowSize]);
-
   const hasSearchNavbarItem = items.some((item) => item.type === 'search');
   const {leftItems, rightItems} = splitNavItemsByPosition(items);
+
+  useEffect(() => {
+    if (isDesktop) {
+      setSidebarShown(false);
+    }
+  }, [isDesktop]);
+
+  useLockBodyScroll(sidebarShown);
 
   return (
     <nav
@@ -91,8 +84,8 @@ function Navbar(): JSX.Element {
               className="navbar__toggle"
               role="button"
               tabIndex={0}
-              onClick={showSidebar}
-              onKeyDown={showSidebar}>
+              onClick={toggleSidebar}
+              onKeyDown={toggleSidebar}>
               <IconMenu />
             </div>
           )}
@@ -123,7 +116,7 @@ function Navbar(): JSX.Element {
       <div
         role="presentation"
         className="navbar-sidebar__backdrop"
-        onClick={hideSidebar}
+        onClick={toggleSidebar}
       />
       <div className="navbar-sidebar">
         <div className="navbar-sidebar__brand">
@@ -131,7 +124,6 @@ function Navbar(): JSX.Element {
             className="navbar__brand"
             imageClassName="navbar__logo"
             titleClassName="navbar__title"
-            onClick={hideSidebar}
           />
           {!disableColorModeSwitch && sidebarShown && (
             <Toggle
@@ -148,7 +140,7 @@ function Navbar(): JSX.Element {
                 <NavbarItem
                   mobile
                   {...(item as any)} // TODO fix typing
-                  onClick={hideSidebar}
+                  onClick={toggleSidebar}
                   key={i}
                 />
               ))}

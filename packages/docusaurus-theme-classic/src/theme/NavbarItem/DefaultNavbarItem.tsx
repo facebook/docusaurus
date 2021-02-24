@@ -34,19 +34,15 @@ function DocSidebarNavbarItem({onClick}) {
   const {pluginId} = useActivePlugin({failfast: true});
   const {sidebar} = useActiveDocSidebar(pluginId);
 
-  return (
-    <>
-      {sidebar.map((item) => (
-        <DocSidebarItem
-          key={item.label}
-          item={item}
-          collapsible={sidebarCollapsible}
-          activePath={pathname}
-          onItemClick={onClick}
-        />
-      ))}
-    </>
-  );
+  return sidebar.map((item) => (
+    <DocSidebarItem
+      key={item.label}
+      item={item}
+      collapsible={sidebarCollapsible}
+      activePath={pathname}
+      onItemClick={onClick}
+    />
+  ));
 }
 
 function NavLink({
@@ -205,7 +201,6 @@ function NavItemMobile({
 
   const plugin = useActivePlugin({failfast: false});
   const pluginId = plugin ? plugin.pluginId : undefined;
-  let showDocSidebar = false;
 
   const {activeVersion, activeDoc} = useActiveDocContext(pluginId);
   const {preferredVersion} = useDocsPreferredVersion(pluginId);
@@ -217,7 +212,7 @@ function NavItemMobile({
   const firstDocInActiveSidebar = activeVersion?.sidebars[doc?.sidebar]?.some(
     (i) => i.href === pathname,
   );
-  showDocSidebar = isMainDoc || firstDocInActiveSidebar;
+  const showDocSidebar = isMainDoc || firstDocInActiveSidebar;
 
   if (!items) {
     return (

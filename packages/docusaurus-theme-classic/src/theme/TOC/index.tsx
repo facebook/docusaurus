@@ -16,7 +16,7 @@ const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-export function Headings({toc, isChild}: HeadingsProps) {
+export function Headings({toc, isChild, onClick}: HeadingsProps) {
   if (!toc.length) {
     return null;
   }
@@ -33,8 +33,9 @@ export function Headings({toc, isChild}: HeadingsProps) {
             // Developer provided the HTML, so assume it's safe.
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
+            onClick={onClick}
           />
-          <Headings isChild toc={heading.children} />
+          <Headings isChild toc={heading.children} onClick={onClick} />
         </li>
       ))}
     </ul>

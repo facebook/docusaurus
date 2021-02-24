@@ -12,40 +12,26 @@ import type {WindowSize} from '@theme/hooks/useWindowSize';
 
 const desktopThresholdWidth = 996;
 
-const windowSizes = {
-  desktop: 'desktop',
-  mobile: 'mobile',
-} as const;
-
-function useWindowSize(): WindowSize | undefined {
-  const isClient = ExecutionEnvironment.canUseDOM;
-
-  function getSize() {
-    if (!isClient) {
-      return undefined;
-    }
-    return window.innerWidth > desktopThresholdWidth
-      ? windowSizes.desktop
-      : windowSizes.mobile;
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
+function useWindowSize(): WindowSize {
+  const getSize = () => window.innerWidth;
+  const [windowSize, setWindowSize] = useState(
+    ExecutionEnvironment.canUseDOM ? getSize : 0,
+  );
+  const isDesktop = windowSize > desktopThresholdWidth;
 
   useEffect(() => {
-    if (!isClient) {
-      return undefined;
-    }
-
-    function handleResize() {
-      setWindowSize(getSize());
-    }
+    const handleResize = () => setWindowSize(getSize());
 
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return windowSize;
+  return {
+    windowSize,
+    isDesktop,
+    isMobile: !isDesktop,
+  };
 }
 
-export {windowSizes};
 export default useWindowSize;

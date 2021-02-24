@@ -229,14 +229,13 @@ declare module '@theme/hooks/useUserPreferencesContext' {
 }
 
 declare module '@theme/hooks/useWindowSize' {
-  export const windowSizes: {
-    desktop: 'desktop';
-    mobile: 'mobile';
+  export type WindowSize = {
+    windowSize: number;
+    isDesktop: boolean;
+    isMobile: boolean;
   };
 
-  export type WindowSize = keyof typeof windowSizes;
-
-  export default function useWindowSize(): WindowSize | undefined;
+  export default function useWindowSize(): WindowSize;
 }
 
 declare module '@theme/hooks/useKeyboardNavigation' {
@@ -462,6 +461,7 @@ declare module '@theme/TOC' {
   export type HeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
+    readonly onClick?: () => void;
   };
 
   export const Headings: (props: HeadingsProps) => JSX.Element;
