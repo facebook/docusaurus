@@ -32,6 +32,15 @@
 // prettier-ignore
 const users = [
   {
+    title: 'AttoBot',
+    description: 'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
+    preview: require('./showcase/attobot.png'),
+    website: 'https://attobot.xyz',
+    source: 'https://github.com/attobot-discord/website',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
