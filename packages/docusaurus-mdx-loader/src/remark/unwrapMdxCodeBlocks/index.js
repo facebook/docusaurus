@@ -18,7 +18,7 @@ function plugin() {
       if (node.lang === 'mdx-code-block') {
         const newChildrens = this.parse(node.value).children;
 
-        // Replace mdx code block the parsed childrens
+        // Replace the mdx code block by its content, parsed
         parent.children.splice(
           parent.children.indexOf(node),
           1,
