@@ -34,11 +34,10 @@ export type TranslateParam<Str extends string> = {
 // Imperative translation API is useful for some edge-cases:
 // - translating page titles (meta)
 // - translating string props (input placeholders, image alt, aria labels...)
-export function translate<Str extends string>({
-  message,
-  id,
-  values,
-}: TranslateParam<Str>): string {
+export function translate<Str extends string>(
+  {message, id}: TranslateParam<Str>,
+  values?: InterpolateValues<Str, string | number>,
+): string {
   const localizedMessage = getLocalizedMessage({message, id}) ?? message;
   return interpolate(localizedMessage, values);
 }

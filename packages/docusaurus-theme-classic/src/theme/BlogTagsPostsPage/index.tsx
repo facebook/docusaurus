@@ -17,18 +17,22 @@ import Translate, {translate} from '@docusaurus/Translate';
 // Very simple pluralization: probably good enough for now
 function pluralizePosts(count: number): string {
   return count === 1
-    ? translate({
-        id: 'theme.blog.post.onePost',
-        description: 'Label to describe one blog post',
-        message: 'One post',
-        values: {count},
-      })
-    : translate({
-        id: 'theme.blog.post.nPosts',
-        description: 'Label to describe multiple blog posts',
-        message: '{{count}} posts',
-        values: {count},
-      });
+    ? translate(
+        {
+          id: 'theme.blog.post.onePost',
+          description: 'Label to describe one blog post',
+          message: 'One post',
+        },
+        {count},
+      )
+    : translate(
+        {
+          id: 'theme.blog.post.nPosts',
+          description: 'Label to describe multiple blog posts',
+          message: '{{count}} posts',
+        },
+        {count},
+      );
 }
 
 function BlogTagsPostPage(props: Props): JSX.Element {

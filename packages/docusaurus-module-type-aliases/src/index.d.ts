@@ -133,12 +133,14 @@ declare module '@docusaurus/Translate' {
     props: TranslateProps<Str>,
   ): JSX.Element;
 
-  export function translate<Str extends string>(param: {
-    message: Str;
-    id?: string;
-    description?: string;
-    values?: InterpolateValues<Str, string | number>;
-  }): string;
+  export function translate<Str extends string>(
+    param: {
+      message: Str;
+      id?: string;
+      description?: string;
+    },
+    values?: InterpolateValues<Str, string | number>,
+  ): string;
 }
 
 declare module '@docusaurus/router' {

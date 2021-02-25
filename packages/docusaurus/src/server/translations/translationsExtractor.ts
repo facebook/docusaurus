@@ -270,7 +270,10 @@ function extractSourceCodeAstTranslations(
         path.node.callee.name === 'translate'
       ) {
         // console.log('CallExpression', path.node);
-        if (path.node.arguments.length === 1) {
+        if (
+          path.node.arguments.length === 1 ||
+          path.node.arguments.length === 2
+        ) {
           const firstArgPath = path.get('arguments.0') as NodePath;
 
           // evaluation allows translate("x" + "y"); to be considered as translate("xy");
@@ -296,7 +299,7 @@ function extractSourceCodeAstTranslations(
           }
         } else {
           warnings.push(
-            `translate() function only takes 1 arg\n${sourceFileWarningPart(
+            `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
               path.node,
             )}\n${generateCode(path.node)}`,
           );
