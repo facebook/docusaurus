@@ -93,6 +93,7 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      content: post.content
     });
   });
 
@@ -231,6 +232,7 @@ export async function generateBlogPosts(
             : undefined,
           truncated: truncateMarker?.test(content) || false,
         },
+        content,
       });
     }),
   );
