@@ -90,17 +90,17 @@ declare module '@docusaurus/Interpolate' {
   // TODO use TS template literal feature to make values typesafe!
   // (requires upgrading TS first)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export type ExtractInterpolateParams<Str extends string> = string;
+  export type ExtractInterpolatePlaceholders<Str extends string> = string;
 
   export type InterpolateValues<
     Str extends string,
     Value extends ReactNode
-  > = Record<ExtractInterpolateParams<Str>, Value>;
+  > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
   // TS function overload: if all the values are plain strings, then interpolate returns a simple string
   export function interpolate<Str extends string>(
     text: Str,
-    values?: InterpolateValues<Str, string>,
+    values?: InterpolateValues<Str, string | number>,
   ): string;
 
   // If values contain any ReactNode, then the return is a ReactNode
@@ -120,7 +120,10 @@ declare module '@docusaurus/Interpolate' {
 }
 
 declare module '@docusaurus/Translate' {
-  import type {InterpolateProps} from '@docusaurus/Interpolate';
+  import type {
+    InterpolateProps,
+    InterpolateValues,
+  } from '@docusaurus/Interpolate';
 
   type TranslateProps<Str extends string> = InterpolateProps<Str> & {
     id?: string;
@@ -130,10 +133,11 @@ declare module '@docusaurus/Translate' {
     props: TranslateProps<Str>,
   ): JSX.Element;
 
-  export function translate(param: {
-    message: string;
+  export function translate<Str extends string>(param: {
+    message: Str;
     id?: string;
     description?: string;
+    values?: InterpolateValues<Str, string | number>;
   }): string;
 }
 

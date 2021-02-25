@@ -12,10 +12,22 @@ import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 
-function pluralize(count: number, word: string) {
-  return count > 1 ? `${word}s` : word;
+function pluralizePosts(count: number): string {
+  return count === 1
+    ? translate({
+        id: 'theme.blog.post.onePost',
+        description: 'Label to describe one blog post',
+        message: 'One post',
+        values: {count},
+      })
+    : translate({
+        id: 'theme.blog.post.nPosts',
+        description: 'Label to describe multiple blog posts',
+        message: '{{count}} posts',
+        values: {count},
+      });
 }
 
 function BlogTagsPostPage(props: Props): JSX.Element {
@@ -35,8 +47,12 @@ function BlogTagsPostPage(props: Props): JSX.Element {
           </div>
           <main className="col col--8">
             <h1>
-              {count} {pluralize(count, 'post')} tagged with &quot;{tagName}
-              &quot;
+              <Translate
+                id="theme.tags.tagsPageLink"
+                description="The label of the link targeting the tag list page"
+                values={{nPosts: pluralizePosts(count), tagName}}>
+                {'{{nPosts}} tagged with "{{tagName}}"'}
+              </Translate>
             </h1>
             <Link href={allTagsPath}>
               <Translate

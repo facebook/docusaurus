@@ -19,17 +19,17 @@ const ValueFoundMarker = '{{}}'; // does not care much
 // TODO use TS template literal feature to make values typesafe!
 // (requires upgrading TS first)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type ExtractInterpolateParams<Str extends string> = string;
+type ExtractInterpolatePlaceholders<Str extends string> = string;
 
 type InterpolateValues<Str extends string, Value extends ReactNode> = Record<
-  ExtractInterpolateParams<Str>,
+  ExtractInterpolatePlaceholders<Str>,
   Value
 >;
 
 // TS function overload: if all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
   text: Str,
-  values?: InterpolateValues<Str, string>,
+  values?: InterpolateValues<Str, string | number>,
 ): string;
 
 // If values contain any ReactNode, then the return is a ReactNode
@@ -49,7 +49,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
     const key = match.substr(
       2,
       match.length - 4,
-    ) as ExtractInterpolateParams<Str>;
+    ) as ExtractInterpolatePlaceholders<Str>;
 
     const value = values?.[key];
 
