@@ -87,10 +87,31 @@ declare module '@docusaurus/Link' {
 declare module '@docusaurus/Interpolate' {
   import type {ReactNode} from 'react';
 
+  // TODO use TS template literal feature to make values typesafe!
+  // (requires upgrading TS first)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export type ExtractInterpolateParams<Str extends string> = string;
+
+  export type InterpolateValues<
+    Str extends string,
+    Value extends ReactNode
+  > = Record<ExtractInterpolateParams<Str>, Value>;
+
+  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  export function interpolate<Str extends string>(
+    text: Str,
+    values?: InterpolateValues<Str, string>,
+  ): string;
+
+  // If values contain any ReactNode, then the return is a ReactNode
+  export function interpolate<Str extends string, Value extends ReactNode>(
+    text: Str,
+    values?: InterpolateValues<Str, Value>,
+  ): ReactNode;
+
   export type InterpolateProps<Str extends string> = {
     children: Str;
-    // TODO use TS template literal feature to make values typesafe!
-    values: Record<string, ReactNode>;
+    values?: InterpolateValues<Str, ReactNode>;
   };
 
   export default function Interpolate<Str extends string>(

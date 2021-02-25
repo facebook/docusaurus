@@ -89,14 +89,14 @@ export function interpolate<Str extends string, Value extends ReactNode>(
   }
 }
 
-export type InterpolateProps<Str extends string, Value extends ReactNode> = {
+export type InterpolateProps<Str extends string> = {
   children: Str;
-  values?: InterpolateValues<Str, Value>;
+  values?: InterpolateValues<Str, ReactNode>;
 };
 
-export default function Interpolate<
-  Str extends string,
-  Value extends ReactNode
->({children, values}: InterpolateProps<Str, Value>) {
+export default function Interpolate<Str extends string>({
+  children,
+  values,
+}: InterpolateProps<Str>) {
   return interpolate(children, values);
 }
