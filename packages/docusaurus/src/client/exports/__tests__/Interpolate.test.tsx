@@ -22,6 +22,20 @@ describe('Interpolate', () => {
     );
   });
 
+  test('placeholders with string values', () => {
+    const text = '{{number}} {{string}} {{object}} {{array}}';
+    const values = {
+      number: 42,
+      string: 'Hello',
+      object: {hello: 'world'},
+      array: ['Hello'],
+    };
+    // Do we need to improve the JS type -> String conversion logic here?
+    expect(interpolate(text, values)).toMatchInlineSnapshot(
+      `"42 Hello [object Object] Hello"`,
+    );
+  });
+
   test('placeholders with string values mismatch', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {{name}} how are you {{unprovidedValue}}?';

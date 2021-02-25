@@ -42,7 +42,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
   text: Str,
   values?: InterpolateValues<Str, Value>,
 ): ReactNode {
-  const elements: Value[] = [];
+  const elements: (Value | string)[] = [];
 
   const processedText = text.replace(ValueRegexp, (match: string) => {
     // remove {{ and }} around the placeholder
@@ -53,12 +53,16 @@ export function interpolate<Str extends string, Value extends ReactNode>(
 
     const value = values?.[key];
 
-    if (React.isValidElement(value) || typeof value === 'string') {
-      elements.push(value);
+    if (value) {
+      const element = React.isValidElement(value)
+        ? value
+        : // For non-React elements: basic primitive->string conversion
+          String(value);
+      elements.push(element);
       return ValueFoundMarker;
+    } else {
+      return match; // no match? add warning?
     }
-
-    return match;
   });
 
   // No interpolation to be done: just return the text
