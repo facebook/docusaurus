@@ -207,7 +207,7 @@ export default function CodeBlock({
               {codeBlockTitle}
             </div>
           )}
-          <div className={styles.codeBlockContent}>
+          <div className={clsx(styles.codeBlockContent, language)}>
             <div
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}

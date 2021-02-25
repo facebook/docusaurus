@@ -78,6 +78,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'AttoBot',
+    description: 'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
+    preview: require('./showcase/attobot.png'),
+    website: 'https://attobot.xyz',
+    source: 'https://github.com/attobot-discord/website',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'Awe framework',
     description: 'Awe framework, Build light-weight and functional websites quickly',
     preview: require('./showcase/awe-framework.png'),
@@ -352,6 +361,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Postgres.ai – Database Lab',
+    description: 'DEPLOY WITH CONFIDENCE. Been stung by a poorly tested database migration? We won\'t let it happen again.',
+    preview: require('./showcase/postgres-ai.png'),
+    website: 'https://postgres.ai/',
+    source: 'https://gitlab.com/postgres-ai/docs',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Power\'s Wiki',
     description: 'An example of personal wiki ',
     preview: require('./showcase/power.png'),
@@ -387,6 +405,15 @@ const users = [
     website: 'https://reactnative.dev',
     source: 'https://github.com/facebook/react-native-website',
     fbOpenSource: true,
+    pinned: false,
+  },
+  {
+    title: 'React Native ARIA',
+    description: 'A library that provides accessible UI primitives for React Native apps.',
+    preview: require('./showcase/reactnative-aria.png'),
+    website: 'https://react-native-aria.geekyants.com',
+    source: 'https://github.com/GeekyAnts/react-native-aria-website',
+    fbOpenSource: false,
     pinned: false,
   },
   {
