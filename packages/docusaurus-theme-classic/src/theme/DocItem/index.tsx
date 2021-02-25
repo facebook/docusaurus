@@ -9,6 +9,7 @@ import React from 'react';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 import Seo from '@theme/Seo';
+import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
@@ -78,42 +79,10 @@ function DocItem(props: Props): JSX.Element {
                     {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
                   {(lastUpdatedAt || lastUpdatedBy) && (
-                    <div className="col text--right">
-                      <em>
-                        <small>
-                          {/* TODO: wait for using interpolation in translation function */}
-                          Last updated{' '}
-                          {lastUpdatedAt && (
-                            <>
-                              on{' '}
-                              <time
-                                dateTime={new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toISOString()}
-                                className={styles.docLastUpdatedAt}>
-                                {new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toLocaleDateString()}
-                              </time>
-                              {lastUpdatedBy && ' '}
-                            </>
-                          )}
-                          {lastUpdatedBy && (
-                            <>
-                              by <strong>{lastUpdatedBy}</strong>
-                            </>
-                          )}
-                          {process.env.NODE_ENV === 'development' && (
-                            <div>
-                              <small>
-                                {' '}
-                                (Simulated during dev for better perf)
-                              </small>
-                            </div>
-                          )}
-                        </small>
-                      </em>
-                    </div>
+                    <LastUpdated
+                      lastUpdatedAt={lastUpdatedAt}
+                      lastUpdatedBy={lastUpdatedBy}
+                    />
                   )}
                 </div>
               </div>

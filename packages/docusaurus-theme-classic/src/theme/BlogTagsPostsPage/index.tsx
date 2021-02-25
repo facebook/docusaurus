@@ -14,6 +14,7 @@ import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
 
+// Very simple pluralization: probably good enough for now
 function pluralizePosts(count: number): string {
   return count === 1
     ? translate({
