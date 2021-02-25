@@ -84,10 +84,30 @@ declare module '@docusaurus/Link' {
   export default Link;
 }
 
+declare module '@docusaurus/Interpolate' {
+  import type {ReactNode} from 'react';
+
+  export type InterpolateProps<Str extends string> = {
+    children: Str;
+    // TODO use TS template literal feature to make values typesafe!
+    values: Record<string, ReactNode>;
+  };
+
+  export default function Interpolate<Str extends string>(
+    props: InterpolateProps<Str>,
+  ): JSX.Element;
+}
+
 declare module '@docusaurus/Translate' {
-  type TranslateProps = {children: string; id?: string; description?: string};
-  const Translate: (props: TranslateProps) => JSX.Element;
-  export default Translate;
+  import type {InterpolateProps} from '@docusaurus/Interpolate';
+
+  type TranslateProps<Str extends string> = InterpolateProps<Str> & {
+    id?: string;
+    description?: string;
+  };
+  export default function Translate<Str extends string>(
+    props: TranslateProps<Str>,
+  ): JSX.Element;
 
   export function translate(param: {
     message: string;

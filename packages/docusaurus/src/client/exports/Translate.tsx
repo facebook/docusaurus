@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Interpolate, {InterpolateProps} from '@docusaurus/Interpolate';
 
 // Can't read it from context, due to exposing imperative API
 import codeTranslations from '@generated/codeTranslations';
@@ -33,16 +34,20 @@ export function translate({message, id}: TranslateParam): string {
   return localizedMessage ?? message;
 }
 
-export type TranslateProps = {
-  children: string;
+export type TranslateProps<Str extends string> = InterpolateProps<Str> & {
   id?: string;
   description?: string;
 };
 
 // Maybe we'll want to improve this component with additional features
 // Like toggling a translation mode that adds a little translation button near the text?
-export default function Translate({children, id}: TranslateProps): JSX.Element {
+export default function Translate<Str extends string>({
+  children,
+  id,
+  values,
+}: TranslateProps<Str>): JSX.Element {
   const localizedMessage: string =
     getLocalizedMessage({message: children, id}) ?? children;
-  return <>{localizedMessage}</>;
+
+  return <Interpolate values={values}>{localizedMessage}</Interpolate>;
 }

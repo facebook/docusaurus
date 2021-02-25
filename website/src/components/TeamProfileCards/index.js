@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Link from '@docusaurus/Link';
 
 function TeamProfileCard({className, name, children, githubUrl, twitterUrl}) {
   return (
@@ -55,38 +57,50 @@ export function ActiveTeamRow() {
       <TeamProfileCardCol
         name="Alexey Pyltsyn"
         githubUrl="https://github.com/lex111">
-        Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
-        Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
+        <Translate id="team.profile.AlexeyPyltsyn.body">
+          Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
+          Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Joel Marcey"
         githubUrl="https://github.com/JoelMarcey"
         twitterUrl="https://twitter.com/joelmarcey">
-        Docusaurus founder and now ever grateful Docusaurus cheerleader to those
-        who actually write code for it.
+        <Translate id="team.profile.JoelMarcey.body">
+          Docusaurus founder and now ever grateful Docusaurus cheerleader to
+          those who actually write code for it.
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Sébastien Lorber"
         githubUrl="https://github.com/slorber"
         twitterUrl="https://twitter.com/sebastienlorber">
-        React lover since 2014. Freelance, helping Facebook ship Docusaurus v2.
-        He writes regularly, on his{' '}
-        <a href="https://sebastienlorber.com/" target="_blank">
-          website
-        </a>{' '}
-        and{' '}
-        <a href="https://dev.to/sebastienlorber" target="_blank">
-          Dev.to
-        </a>
-        .
+        <Translate
+          id="team.profile.SebastienLorber.body"
+          values={{
+            website: (
+              <Link to="https://sebastienlorber.com/">
+                <Translate id="team.profile.SebastienLorber.body.websiteLinkLabel">
+                  website
+                </Translate>
+              </Link>
+            ),
+            devto: <Link to="https://dev.to/sebastienlorber">Dev.to</Link>,
+          }}>
+          {
+            'React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his {{website}} and {{devto}}.'
+          }
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Yangshun Tay"
         githubUrl="https://github.com/yangshun"
         twitterUrl="https://twitter.com/yangshunz">
-        Full Front End Stack developer who likes working on the Jamstack.
-        Working on Docusaurus made him Facebook's unofficial part-time Open
-        Source webmaster, which is an awesome role to be in.
+        <Translate id="team.profile.Yangshun Tay.body">
+          Full Front End Stack developer who likes working on the Jamstack.
+          Working on Docusaurus made him Facebook's unofficial part-time Open
+          Source webmaster, which is an awesome role to be in.
+        </Translate>
       </TeamProfileCardCol>
     </div>
   );
