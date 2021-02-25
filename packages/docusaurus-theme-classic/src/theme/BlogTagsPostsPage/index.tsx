@@ -35,7 +35,6 @@ function BlogTagsPostPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
 
-  // TODO soon: translate hardcoded labels, but factorize them (blog + docs will both have tags)
   return (
     <Layout
       title={`Posts tagged "${tagName}"`}
@@ -49,8 +48,8 @@ function BlogTagsPostPage(props: Props): JSX.Element {
           <main className="col col--8">
             <h1>
               <Translate
-                id="theme.tags.tagsPageLink"
-                description="The label of the link targeting the tag list page"
+                id="theme.blog.tagTitle"
+                description="The title of the page for a blog tag"
                 values={{nPosts: pluralizePosts(count), tagName}}>
                 {'{{nPosts}} tagged with "{{tagName}}"'}
               </Translate>

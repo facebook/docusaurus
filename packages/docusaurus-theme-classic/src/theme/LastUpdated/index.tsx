@@ -16,6 +16,9 @@ function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
       description="The words used to describe on which date a page has been last updated"
       values={{
         // TODO localize this date
+        // If it's the only place we need this, we'd rather keep it simple
+        // Day.js may be a good lightweight option?
+        // https://www.skypack.dev/blog/2021/02/the-best-javascript-date-libraries/
         date: (
           <time
             dateTime={new Date(lastUpdatedAt * 1000).toISOString()}
@@ -54,10 +57,10 @@ export default function LastUpdated({
       <em>
         <small>
           <Translate
-            id="theme.common.lastUpdated.lastUpdatedAtBy"
+            id="theme.lastUpdated.lastUpdatedAtBy"
             description="The sentence used to display when a page has been last updated, and by who"
             values={{
-              on: lastUpdatedAt ? (
+              atDate: lastUpdatedAt ? (
                 <>
                   {' '}
                   <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
@@ -65,7 +68,7 @@ export default function LastUpdated({
               ) : (
                 ''
               ),
-              by: lastUpdatedBy ? (
+              byUser: lastUpdatedBy ? (
                 <>
                   {' '}
                   <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
@@ -74,7 +77,7 @@ export default function LastUpdated({
                 ''
               ),
             }}>
-            {'Last updated{{on}}{{by}}'}
+            {'Last updated{{atDate}}{{byUser}}'}
           </Translate>
           {process.env.NODE_ENV === 'development' && (
             <div>

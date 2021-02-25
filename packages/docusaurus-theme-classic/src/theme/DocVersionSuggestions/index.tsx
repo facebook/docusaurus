@@ -75,7 +75,7 @@ function LatestVersionSuggestionLabel({
       description="The label userd to tell the user that he's browsing an unmaintained doc version"
       values={{
         versionLabel,
-        link: (
+        latestVersionLink: (
           <strong>
             <Link to={to} onClick={onClick}>
               <Translate
@@ -87,7 +87,9 @@ function LatestVersionSuggestionLabel({
           </strong>
         ),
       }}>
-      {'For up-to-date documentation, see the {{link}} ({{versionLabel}}).'}
+      {
+        'For up-to-date documentation, see the {{latestVersionLink}} ({{versionLabel}}).'
+      }
     </Translate>
   );
 }
