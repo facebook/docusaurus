@@ -7,6 +7,12 @@
 
 import React, {ReactNode} from 'react';
 
+/*
+Minimal implementation of a React interpolate component.
+We don't ship a markdown parser nor a feature-complete i18n library on purpose.
+More details here: https://github.com/facebook/docusaurus/pull/4295
+*/
+
 const ValueRegexp = /{{\w+}}/g;
 const ValueFoundMarker = '{{}}'; // does not care much
 
