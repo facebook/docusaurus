@@ -66,7 +66,7 @@ export default function Playground({children, theme, transformCode, ...props}) {
     isHaveHeaderNotesTxt,
     code: sourceCode,
   } = getHeaderNotesTxtToJSONObject(children);
-  const [isShowCode, setShowCode] = React.useState(false);
+  const [isShowCode, setShowCode] = React.useState(props.expand || false);
   return (
     <LiveProvider
       code={sourceCode}
