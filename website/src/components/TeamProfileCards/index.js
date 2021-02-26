@@ -9,6 +9,16 @@ import React from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 
+function WebsiteLink({to, children}) {
+  return (
+    <Link to={to}>
+      {children || (
+        <Translate id="team.profile.websiteLinkLabel">website</Translate>
+      )}
+    </Link>
+  );
+}
+
 function TeamProfileCard({className, name, children, githubUrl, twitterUrl}) {
   return (
     <div className={className}>
@@ -57,7 +67,7 @@ export function ActiveTeamRow() {
       <TeamProfileCardCol
         name="Alexey Pyltsyn"
         githubUrl="https://github.com/lex111">
-        <Translate id="team.profile.AlexeyPyltsyn.body">
+        <Translate id="team.profile.Alexey Pyltsyn.body">
           Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
           Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
         </Translate>
@@ -66,7 +76,7 @@ export function ActiveTeamRow() {
         name="Joel Marcey"
         githubUrl="https://github.com/JoelMarcey"
         twitterUrl="https://twitter.com/joelmarcey">
-        <Translate id="team.profile.JoelMarcey.body">
+        <Translate id="team.profile.Joel Marcey.body">
           Docusaurus founder and now ever grateful Docusaurus cheerleader to
           those who actually write code for it.
         </Translate>
@@ -76,19 +86,13 @@ export function ActiveTeamRow() {
         githubUrl="https://github.com/slorber"
         twitterUrl="https://twitter.com/sebastienlorber">
         <Translate
-          id="team.profile.SebastienLorber.body"
+          id="team.profile.Sebastien Lorber.body"
           values={{
-            website: (
-              <Link to="https://sebastienlorber.com/">
-                <Translate id="team.profile.SebastienLorber.body.websiteLinkLabel">
-                  website
-                </Translate>
-              </Link>
-            ),
+            website: <WebsiteLink to="https://sebastienlorber.com/" />,
             devto: <Link to="https://dev.to/sebastienlorber">Dev.to</Link>,
           }}>
           {
-            'React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his {{website}} and {{devto}}.'
+            'React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his {website} and {devto}.'
           }
         </Translate>
       </TeamProfileCardCol>
@@ -113,14 +117,18 @@ export function HonoraryAlumniTeamRow() {
         name="Endilie Yacop Sucipto"
         githubUrl="https://github.com/endiliey"
         twitterUrl="https://twitter.com/endiliey">
-        Maintainer @docusaurus · 🔥🔥🔥
+        <Translate id="team.profile.Endilie Yacop Sucipto.body">
+          Maintainer @docusaurus · 🔥🔥🔥
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Wei Gao"
         githubUrl="https://github.com/wgao19"
         twitterUrl="https://twitter.com/wgao19">
-        🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes
-        docs and spams this world with many websites.
+        <Translate id="team.profile.Wei Gao.body">
+          🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes
+          docs and spams this world with many websites.
+        </Translate>
       </TeamProfileCardCol>
     </div>
   );
