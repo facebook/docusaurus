@@ -20,7 +20,7 @@
   border-top: 1px solid var(--ifm-color-emphasis-200);
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
   display: flex;
-  opacity: .7;
+  opacity: .5;
   transition: opacity .3s;
   padding: 12px 0;
   justify-content: center;
@@ -56,4 +56,9 @@
   margin-left: 1rem;
   margin-top: .5rem;
   margin-bottom: .5rem;
+}
+
+.playgroundEditor {
+  font-family: var(--ifm-font-family-monospace) !important;
+  direction: ltr;
 }

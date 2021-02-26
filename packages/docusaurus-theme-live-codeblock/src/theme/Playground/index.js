@@ -12,7 +12,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-// see https://icons.getbootstrap.com/icons/code-square/
 function IconCodeSquare(props) {
   return (
     <svg
@@ -20,17 +19,17 @@ function IconCodeSquare(props) {
       width="16"
       height="16"
       fill="currentColor"
-      className={clsx('bi', 'bi-code-slash', styles.playgroundIconCodeSquare)}
-      viewBox="0 0 16 16"
+      className={clsx(styles.playgroundIconCodeSquare)}
+      viewBox="64 64 896 896"
       {...props}>
-      <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
+      <path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" />
     </svg>
   );
 }
 
 // 匹配对应的头部注释信息
 function getHeaderNotesTxtToJSONObject(codeInfo) {
-  const rules = /\/\*\*[\s\S.]+?\*\//g;
+  const rules = /\/\*\*[\s\S.]+?\*\/\s*/g;
   const responJSON = {};
   const headerNotesTxt = rules.exec(codeInfo)?.[0];
   let code = codeInfo;
@@ -51,9 +50,9 @@ function getHeaderNotesTxtToJSONObject(codeInfo) {
     });
   }
   if (isHaveHeaderNotesTxt) {
-    console.log(headerNotesTxt);
-    code = code.replace(headerNotesTxt, '');
+    code = code.substr(headerNotesTxt.length);
   }
+  code = code.replace(/\n$/, '').trim();
   return {
     code,
     isHaveHeaderNotesTxt,
@@ -66,7 +65,7 @@ export default function Playground({children, theme, transformCode, ...props}) {
     params,
     isHaveHeaderNotesTxt,
     code: sourceCode,
-  } = getHeaderNotesTxtToJSONObject(children.replace(/\n$/, ''));
+  } = getHeaderNotesTxtToJSONObject(children);
   const [isShowCode, setShowCode] = React.useState(false);
   return (
     <LiveProvider
@@ -92,7 +91,9 @@ export default function Playground({children, theme, transformCode, ...props}) {
             }}
           />
         </div>
-        {isShowCode ? <LiveEditor /> : undefined}
+        {isShowCode ? (
+          <LiveEditor className={styles.playgroundEditor} />
+        ) : undefined}
       </div>
     </LiveProvider>
   );
