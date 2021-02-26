@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import {LiveProvider, LiveEditor, LivePreview} from 'react-live';
+import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 // import Translate from '@docusaurus/Translate';
 
@@ -77,6 +77,7 @@ export default function Playground({children, theme, transformCode, ...props}) {
       <div className={styles.playgroundContainer}>
         <div className={clsx(styles.playgroundLivePreview)}>
           <LivePreview />
+          <LiveError />
         </div>
         {isHaveHeaderNotesTxt ? (
           <div className={clsx(styles.playgroundMate)}>
