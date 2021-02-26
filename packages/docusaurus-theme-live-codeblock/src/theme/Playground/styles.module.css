@@ -25,10 +25,13 @@
   padding: 12px 0;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   user-select: none;
 }
 
 .playgroundToolbar:hover {
   opacity: 1;
+}
+
+.playgroundIconCodeSquare {
+  cursor: pointer;
 }
