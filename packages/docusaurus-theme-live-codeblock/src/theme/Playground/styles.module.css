@@ -5,33 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.playgroundHeader {
-  letter-spacing: 0.08rem;
-  padding: 0.75rem;
-  text-transform: uppercase;
-  font-weight: bold;
+
+ .playgroundContainer {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+ }
+
+ .playgroundLivePreview {
+  padding: 42px 24px 18px;
+ }
+
+.playgroundToolbar {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  display: flex;
+  opacity: .7;
+  transition: opacity .3s;
+  padding: 12px 0;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
 }
 
-.playgroundEditorHeader {
-  background: var(--ifm-color-emphasis-600);
-  color: var(--ifm-color-content-inverse);
-}
-
-.playgroundPreviewHeader {
-  background: var(--ifm-color-emphasis-200);
-  color: var(--ifm-color-content);
-}
-
-.playgroundEditor {
-  font-family: var(--ifm-font-family-monospace) !important;
-  /*rtl:ignore*/
-  direction: ltr;
-}
-
-.playgroundPreview {
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-bottom-left-radius: var(--ifm-global-radius);
-  border-bottom-right-radius: var(--ifm-global-radius);
-  position: relative;
-  padding: 1rem;
+.playgroundToolbar:hover {
+  opacity: 1;
 }
