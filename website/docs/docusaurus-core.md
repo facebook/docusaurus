@@ -125,9 +125,44 @@ const MyComponent = () => {
 };
 ```
 
+### `<Interpolate/>`
+
+A simple interpolation component for text containing dynamic placeholders.
+
+The placeholders will be replaced with the provided dynamic values and JSX elements of your choice (strings, links, styled elements...).
+
+#### Props
+
+- `children`: text containing interpolation placeholders like `{placeholderName}`
+- `values`: object containing interpolation placeholder values
+
+```jsx
+import React from 'react';
+import Link from '@docusaurus/Link';
+import Interpolate from '@docusaurus/Interpolate';
+
+export default function VisitMyWebsiteMessage() {
+  return (
+    // highlight-start
+    <Interpolate
+      values={{
+        firstName: 'Sébastien',
+        website: (
+          <Link to="https://docusaurus.io" className="my-website-class">
+            website
+          </Link>
+        ),
+      }}>
+      {'Hello, {firstName}! How are you? Take a look at my {website}'}
+    </Interpolate>
+    // highlight-end
+  );
+}
+```
+
 ### `<Translate/>`
 
-When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage.
+When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage. The `<Translate>` component supports [interpolation](#interpolate).
 
 The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations) CLI and create a `code.json` translation file in `website/i18n/<locale>`.
 
@@ -135,15 +170,16 @@ The translation strings will be extracted from your code with the [`docusaurus w
 
 The `<Translate/>` props **must be hardcoded strings**.
 
-It is **not possible to use variables**, or the extraction wouldn't work.
+Apart the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
 
 :::
 
 #### Props
 
-- `children`: untranslated string in the default site locale`
+- `children`: untranslated string in the default site locale (can contain [interpolation placeholders](#interpolate))
 - `id`: optional value to use as key in JSON translation files
 - `description`: optional text to help the translator
+- `values`: optional object containing interpolation placeholder values
 
 #### Example
 
@@ -169,7 +205,9 @@ export default function Home() {
       </h1>
       <main>
         {/* highlight-start */}
-        <Translate>My website content</Translate>
+        <Translate values={{firstName: 'Sébastien'}}>
+          {'Welcome, {firstName}! How are you?'}
+        </Translate>
         {/* highlight-end */}
       </main>
     </Layout>
@@ -378,18 +416,57 @@ const MyComponent = () => {
 
 ## Functions
 
+### `interpolate`
+
+The imperative counterpart of the [`<Interpolate>`](#interpolate) component.
+
+#### Signature
+
+```ts
+// Simple string interpolation
+function interpolate(text: string, values: Record<string, string>): string;
+
+// JSX interpolation
+function interpolate(
+  text: string,
+  values: Record<string, ReactNode>,
+): ReactNode;
+```
+
+#### Example
+
+```jsx
+// highlight-start
+import {interpolate} from '@docusaurus/Interpolate';
+// highlight-end
+
+const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
+```
+
 ### `translate`
 
-The imperative counterpart of the [`<Translate>`](#translate) component.
+The imperative counterpart of the [`<Translate>`](#translate) component. Also supporting [placeholders interpolation](#interpolate).
 
 :::tip
 
-Use the imperative API for the **rare cases** when a **component cannot be used**, such as:
+Use the imperative API for the **rare cases** where a **component cannot be used**, such as:
 
-- the `placeholder` props of form input
 - the page `title` metadata
+- the `placeholder` props of form inputs
+- the `aria-label` props for accessibility
 
 :::
+
+#### Signature
+
+```ts
+function translate(
+  translation: {message: string; id?: string; description?: string},
+  values: Record<string, string>,
+): string;
+```
+
+#### Example
 
 ```jsx title="src/index.js"
 import React from 'react';
@@ -406,16 +483,19 @@ export default function Home() {
       title={translate({message: 'My page meta title'})}
       // highlight-end
     >
-      <input
-        type="text"
-        placeholder={
+      <img
+        src={'https://docusaurus.io/logo.png'}
+        aria-label={
           // highlight-start
-          translate({
-            message: 'Some input placeholder',
-            // Optional
-            id: 'homepage.input.placeholder',
-            description: 'The homepage input placeholder',
-          })
+          translate(
+            {
+              message: 'The logo of site {siteName}',
+              // Optional
+              id: 'homepage.logo.ariaLabel',
+              description: 'The home page logo aria label',
+            },
+            {siteName: 'Docusaurus'},
+          )
           // highlight-end
         }
       />

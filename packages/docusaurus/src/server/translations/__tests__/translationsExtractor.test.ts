@@ -255,7 +255,11 @@ describe('extractPluginsSourceCodeTranslations', () => {
 export default function MyComponent() {
   return (
     <div>
-      <input text={translate({id: 'plugin1Id1',message: 'plugin1 message 1',description: 'plugin1 description 1'})}/>
+      <input
+        text={translate(
+          {id: 'plugin1Id1',message: 'plugin1 message 1',description: 'plugin1 description 1'},
+          {someDynamicValue: 42}
+        )}/>
     </div>
   );
 }

@@ -6,6 +6,7 @@ Object {
   "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",
   "@docusaurus/ExecutionEnvironment": "../../client/exports/ExecutionEnvironment.ts",
   "@docusaurus/Head": "../../client/exports/Head.tsx",
+  "@docusaurus/Interpolate": "../../client/exports/Interpolate.tsx",
   "@docusaurus/Link": "../../client/exports/Link.tsx",
   "@docusaurus/Noop": "../../client/exports/Noop.ts",
   "@docusaurus/Translate": "../../client/exports/Translate.tsx",
