@@ -13,26 +13,76 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
+import {usePluralFormSector} from '@docusaurus/theme-common';
+
+// Not ideal but good enough!
+// See doc of usePluralFormSector for reason!
+const BlogPostPlurals = (count) => ({
+  one: translate(
+    {
+      id: 'theme.blog.post.plurals.one',
+      description: 'Pluralized label for one blog post',
+      message: 'One post (ONE)',
+    },
+    {count},
+  ),
+  two: translate(
+    {
+      id: 'theme.blog.post.plurals.two',
+      description: 'Pluralized label for two blog posts',
+      message: '{count} posts (TWO)',
+    },
+    {count},
+  ),
+  few: translate(
+    {
+      id: 'theme.blog.post.plurals.few',
+      description: 'Pluralized label for few blog posts',
+      message: '{count} posts (FEW)',
+    },
+    {count},
+  ),
+  many: translate(
+    {
+      id: 'theme.blog.post.plurals.many',
+      description: 'Pluralized label for many blog posts',
+      message: '{count} posts (MANY)',
+    },
+    {count},
+  ),
+  other: translate(
+    {
+      id: 'theme.blog.post.plurals.other',
+      description: 'Pluralized label for other blog posts',
+      message: '{count} posts (OTHER)',
+    },
+    {count},
+  ),
+});
 
 // Very simple pluralization: probably good enough for now
-function pluralizePosts(count: number): string {
-  return count === 1
-    ? translate(
-        {
-          id: 'theme.blog.post.onePost',
-          description: 'Label to describe one blog post',
-          message: 'One post',
-        },
-        {count},
-      )
-    : translate(
-        {
-          id: 'theme.blog.post.nPosts',
-          description: 'Label to describe multiple blog posts',
-          message: '{count} posts',
-        },
-        {count},
-      );
+function useBlogPostPlural(count: number): string {
+  const selectPluralForm = usePluralFormSector();
+  const pluralForm = selectPluralForm(count);
+  return BlogPostPlurals(count)[pluralForm];
+}
+
+function BlogTagsPostPageTitle({
+  tagName,
+  count,
+}: {
+  tagName: string;
+  count: number;
+}) {
+  const nPosts = useBlogPostPlural(count);
+  return (
+    <Translate
+      id="theme.blog.tagTitle"
+      description="The title of the page for a blog tag"
+      values={{nPosts, tagName}}>
+      {'{{nPosts}} tagged with "{{tagName}}"'}
+    </Translate>
+  );
 }
 
 function BlogTagsPostPage(props: Props): JSX.Element {
@@ -51,12 +101,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
           </div>
           <main className="col col--8">
             <h1>
-              <Translate
-                id="theme.blog.tagTitle"
-                description="The title of the page for a blog tag"
-                values={{nPosts: pluralizePosts(count), tagName}}>
-                {'{nPosts} tagged with "{tagName}"'}
-              </Translate>
+              <BlogTagsPostPageTitle count={count} tagName={tagName} />
             </h1>
             <Link href={allTagsPath}>
               <Translate
