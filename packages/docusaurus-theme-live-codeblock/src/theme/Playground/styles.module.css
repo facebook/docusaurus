@@ -35,3 +35,25 @@
 .playgroundIconCodeSquare {
   cursor: pointer;
 }
+
+.playgroundMate {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  padding: 8px 0;
+  position: relative;
+}
+
+.playgroundMate > span {
+  position: absolute;
+  left: 1rem;
+  top: -14px;
+  background-color: var(--docsearch-hit-background);
+  color: var(--docsearch-text-color);
+  cursor: none;
+  padding: 0px .4rem;
+}
+
+.playgroundMate > div {
+  margin-left: 1rem;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
