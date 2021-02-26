@@ -18,62 +18,62 @@ import styles from './styles.module.css';
 
 const MONTHS = [
   translate({
-    id: 'common.month.january',
+    id: 'theme.common.month.january',
     description: 'January month translation',
     message: 'January',
   }),
   translate({
-    id: 'common.month.february',
+    id: 'theme.common.month.february',
     description: 'February month translation',
     message: 'February',
   }),
   translate({
-    id: 'common.month.march',
+    id: 'theme.common.month.march',
     description: 'March month translation',
     message: 'March',
   }),
   translate({
-    id: 'common.month.april',
+    id: 'theme.common.month.april',
     description: 'April month translation',
     message: 'April',
   }),
   translate({
-    id: 'common.month.may',
+    id: 'theme.common.month.may',
     description: 'May month translation',
     message: 'May',
   }),
   translate({
-    id: 'common.month.june',
+    id: 'theme.common.month.june',
     description: 'June month translation',
     message: 'June',
   }),
   translate({
-    id: 'common.month.july',
+    id: 'theme.common.month.july',
     description: 'July month translation',
     message: 'July',
   }),
   translate({
-    id: 'common.month.august',
+    id: 'theme.common.month.august',
     description: 'August month translation',
     message: 'August',
   }),
   translate({
-    id: 'common.month.september',
+    id: 'theme.common.month.september',
     description: 'September month translation',
     message: 'September',
   }),
   translate({
-    id: 'common.month.october',
+    id: 'theme.common.month.october',
     description: 'October month translation',
     message: 'October',
   }),
   translate({
-    id: 'common.month.november',
+    id: 'theme.common.month.november',
     description: 'November month translation',
     message: 'November',
   }),
   translate({
-    id: 'common.month.december',
+    id: 'theme.common.month.december',
     description: 'December month translation',
     message: 'December',
   }),
