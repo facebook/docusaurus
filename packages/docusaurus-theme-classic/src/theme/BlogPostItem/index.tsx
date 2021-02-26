@@ -114,7 +114,7 @@ function BlogPostItem(props: Props): JSX.Element {
               id="theme.blog.post.date"
               description="The label to display the blog post date"
               values={{day, month, year}}>
-              {'{{month}} {{day}}, {{year}}'}
+              {'{month} {day}, {year}'}
             </Translate>{' '}
             {readingTime && (
               <>
@@ -125,7 +125,7 @@ function BlogPostItem(props: Props): JSX.Element {
                   values={{
                     readingTime: Math.ceil(readingTime),
                   }}>
-                  {'{{readingTime}} min read'}
+                  {'{readingTime} min read'}
                 </Translate>
               </>
             )}

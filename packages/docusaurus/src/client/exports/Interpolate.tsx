@@ -13,8 +13,8 @@ We don't ship a markdown parser nor a feature-complete i18n library on purpose.
 More details here: https://github.com/facebook/docusaurus/pull/4295
 */
 
-const ValueRegexp = /{{\w+}}/g;
-const ValueFoundMarker = '{{}}'; // does not care much
+const ValueRegexp = /{\w+}/g;
+const ValueFoundMarker = '{}'; // does not care much
 
 // TODO use TS template literal feature to make values typesafe!
 // (requires upgrading TS first)
@@ -47,8 +47,8 @@ export function interpolate<Str extends string, Value extends ReactNode>(
   const processedText = text.replace(ValueRegexp, (match: string) => {
     // remove {{ and }} around the placeholder
     const key = match.substr(
-      2,
-      match.length - 4,
+      1,
+      match.length - 2,
     ) as ExtractInterpolatePlaceholders<Str>;
 
     const value = values?.[key];

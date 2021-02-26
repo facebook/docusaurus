@@ -29,7 +29,7 @@ function pluralizePosts(count: number): string {
         {
           id: 'theme.blog.post.nPosts',
           description: 'Label to describe multiple blog posts',
-          message: '{{count}} posts',
+          message: '{count} posts',
         },
         {count},
       );
@@ -55,7 +55,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
                 id="theme.blog.tagTitle"
                 description="The title of the page for a blog tag"
                 values={{nPosts: pluralizePosts(count), tagName}}>
-                {'{{nPosts}} tagged with "{{tagName}}"'}
+                {'{nPosts} tagged with "{tagName}"'}
               </Translate>
             </h1>
             <Link href={allTagsPath}>

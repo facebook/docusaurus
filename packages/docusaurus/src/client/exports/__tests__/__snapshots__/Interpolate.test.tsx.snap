@@ -13,7 +13,7 @@ Array [
     </span>
   </React.Fragment>,
   <React.Fragment>
-    ? Another {{unprovidedValue}}!
+    ? Another {unprovidedValue}!
   </React.Fragment>,
 ]
 `;

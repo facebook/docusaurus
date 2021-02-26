@@ -27,7 +27,7 @@ function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
           </time>
         ),
       }}>
-      {'on {{date}}'}
+      {'on {date}'}
     </Translate>
   );
 }
@@ -40,7 +40,7 @@ function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
       values={{
         user: <strong>{lastUpdatedBy}</strong>,
       }}>
-      {'by {{user}}'}
+      {'by {user}'}
     </Translate>
   );
 }
@@ -77,7 +77,7 @@ export default function LastUpdated({
                 ''
               ),
             }}>
-            {'Last updated{{atDate}}{{byUser}}'}
+            {'Last updated{atDate}{byUser}'}
           </Translate>
           {process.env.NODE_ENV === 'development' && (
             <div>
