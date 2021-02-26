@@ -1,6 +1,7 @@
 ---
 id: getting-started 
 title: Getting Started 
+slug: /
 ---
 
 import TOCInline from '@theme/TOCInline';
