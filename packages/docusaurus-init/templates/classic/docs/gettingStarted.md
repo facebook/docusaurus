@@ -7,70 +7,28 @@ import TOCInline from '@theme/TOCInline';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This page will help you to get started to build your documentation site with Docusaurus.
+This page will help you to get started with the development process of your Docusaurus project.
 
-## Creating a Docusaurus site
 
-Docusaurus has a command line utility package to help you generate a new documentation project. You can access it without installing anything globally by using `npx` or if you prefer, you can install the package `@docusaurus/init` globally. 
+## Setting up the development environment
 
-### Installing Docusaurus Init CLI (Optional)
+If you haven't setup your development environment. Let's go through a small step-by-step tutorial to get started with your Docusaurus project.
 
-:::caution
-Skip to the next step, if you prefer to use `npx` rather than installing the package globally.
+:::note
+Feel free to edit this page as you follow the tutorial!
 :::
 
-In order to use the initial templates by Docusaurus, you have to install `@docusaurus/init` which is a command line utility to generate packages. Depending on your preferred package manager, install it globally. 
+### Step 1:  Generate a Docusaurus site
 
-<Tabs
-    defaultValue="npm"
-    values={[
-        { label: 'npm', value: 'npm' },
-        { label: 'Yarn', value: 'yarn' },
-    ]}
->
-<TabItem value="npm">
-
-```shell
-    npm install -g @docusaurus/init@latest
-```
-
-</TabItem>
-<TabItem value="yarn">
-
-```shell
-    yarn global add @docusaurus/init@latest
-```
-
-</TabItem>
-</Tabs>
-
-### Create a new Docusaurus site
-
-Currently, we have a few initial templates available to kickstart your Docusaurus site.
-
-- Classic
-- Bootstrap
-- Facebook
-
-In order to generate the template with the command line utility, You can run this command anywhere either in a new empty repository or within an existing repository.
-
-```shell
-npx @docusaurus/init@latest init [name] [template]
-```
-
-Example:
+Let's run a command to generate the classic template. You can run this command anywhere either in a new empty repository or within an existing repository.
 
 ```shell
 npx @docusaurus/init@latest init my-documentation classic
 ```
 
-### Running your Docusaurus site
+### Step 2: Install Dependencies
 
-#### Step 1: Install Dependencies
-
-First, you will need to install the dependencies needed to be able to run Docusaurus.
-
-To install dependencies, run the install command from your preferred package manager in the root directory of the project:
+Don't forget to install the dependencies required, run the install command from your preferred package manager in the root directory of the project:
 
 <Tabs
     defaultValue="npm"
@@ -95,14 +53,18 @@ yarn
 </TabItem>
 </Tabs>
 
-a folder called `node_modules` should be generated if the installation process went correctly.
+### Step 3: Start your Docusaurus site
 
-#### Step 2: Start your Docusaurus site
-
-Let the Docusaurus's development server to start developing and adding content to your documentation site. Open a new terminal inside your Docusaurus project folder and run this command:
+Run this command to start the Docusaurus development server and start developing by adding content to your docusaurus project: 
 
 ```shell
 npx docusaurus start
 ```
 
-If everything is set up correctly, you should be able to see your Docusaurus site running. 
+Open up `gettingStarted.md` in your project folder and try to edit some lines. The site should reload automatically after you save your changes.
+
+### That's it!
+
+Congratulations! You've successfully run and modified your Docusaurus project.
+
+
