@@ -52,6 +52,10 @@
   padding: 0px .4rem;
 }
 
+html[data-theme='dark'] .playgroundMate > span {
+  background-color: var(--ifm-background-color);
+}
+
 .playgroundMate > div {
   margin-left: 1rem;
   margin-top: .5rem;
