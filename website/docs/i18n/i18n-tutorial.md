@@ -65,7 +65,17 @@ Start your localized site in dev mode, using the locale of your choice:
 npm run start -- --locale fr
 ```
 
-Your site is accessible at **`http://localhost:3000/fr/`**, but **falls back to untranslated content**.
+Your site is accessible at **`http://localhost:3000/fr/`**
+
+We haven't provided any translation, and the site is **mostly untranslated**.
+
+:::tip
+
+Docusaurus provides **default translations** for generic theme labels, such as "Next" and "Previous" for the pagination.
+
+Please help us complete those **[default translations](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)**.
+
+:::
 
 :::caution
 
@@ -94,6 +104,8 @@ Open the homepage, and use the [translation APIs](../docusaurus-core.md#translat
 ```jsx title="src/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
+
 // highlight-start
 import Translate, {translate} from '@docusaurus/Translate';
 // highlight-end
@@ -103,13 +115,19 @@ export default function Home() {
     <Layout>
       <h1>
         {/* highlight-start */}
-        <Translate description="The homepage welcome message">
-          Welcome to my website
-        </Translate>
+        <Translate>Welcome to my website</Translate>
         {/* highlight-end */}
       </h1>
+      <main>
+        {/* highlight-start */}
+        <Translate
+          id="homepage.visitMyBlog"
+          description="The homepage message to ask the user to visit my blog"
+          values={{blog: <Link to="https://docusaurus.io/blog">blog</Link>}}>
+          {'You can also visit my {blog}'}
+        </Translate>
+        {/* highlight-end */}
 
-      <div>
         <input
           type="text"
           placeholder={
@@ -121,7 +139,7 @@ export default function Home() {
             // highlight-end
           }
         />
-      </div>
+      </main>
     </Layout>
   );
 }
@@ -129,7 +147,9 @@ export default function Home() {
 
 :::caution
 
-Docusaurus provides a **very simple and lightweight translation runtime**: documentation websites generally don't need advanced i18n features.
+Docusaurus provides a **very small and lightweight translation runtime** on purpose, and only supports basic [placeholders interpolation](../docusaurus-core.md#interpolate), using a subset of the [ICU Message Format](https://formatjs.io/docs/core-concepts/icu-syntax/).
+
+Most documentation websites are generally **static** and don't need advanced i18n features (**plurals**, **genders**...). Use a library like [react-intl](https://www.npmjs.com/package/react-intl) for more advanced use-cases.
 
 :::
 

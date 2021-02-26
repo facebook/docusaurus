@@ -13,20 +13,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
-    "@babel/plugin-proposal-optional-chaining": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
     "@docusaurus/core": "2.0.0-alpha.70",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "clsx": "^1.1.1",
     "core-js": "^2.6.5",
-    "joi": "^17.2.1",
+    "joi": "^17.4.0",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "workbox-build": "^6.0.2",
-    "workbox-precaching": "^6.0.2",
-    "workbox-window": "^6.0.2"
+    "workbox-build": "^6.1.0",
+    "workbox-precaching": "^6.1.0",
+    "workbox-window": "^6.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

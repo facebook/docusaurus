@@ -10,6 +10,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
+import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
 import './styles.css';
@@ -36,7 +37,14 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
           id={id}
         />
         {props.children}
-        <a className="hash-link" href={`#${id}`} title="Direct link to heading">
+        <a
+          className="hash-link"
+          href={`#${id}`}
+          title={translate({
+            id: 'theme.common.headingLinkTitle',
+            message: 'Direct link to heading',
+            description: 'Title for link to heading',
+          })}>
           #
         </a>
       </Tag>

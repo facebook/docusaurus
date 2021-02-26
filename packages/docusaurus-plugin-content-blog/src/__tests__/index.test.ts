@@ -184,26 +184,31 @@ describe('loadBlog', () => {
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
+      permalink: '/blog/date-matter',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'draft.md',
+      permalink: '/blog/draft',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'complex-slug.md',
+      permalink: '/blog/hey/my super path/héllô',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'simple-slug.md',
+      permalink: '/blog/simple/slug',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'i18n/en/docusaurus-plugin-content-blog',
       blogPath: '2018-12-14-Happy-First-Birthday-Slash.md',
+      permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
       locale: 'en',
     });
   });

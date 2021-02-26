@@ -23,7 +23,7 @@
     "docusaurus-migrate": "bin/index.js"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-env": "^7.12.16",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
     "chalk": "^4.1.0",
     "color": "^3.1.3",
@@ -38,7 +38,7 @@
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
-    "semver": "^7.3.2",
+    "semver": "^7.3.4",
     "unified": "^9.2.0",
     "unist-util-visit": "^2.0.2"
   },
