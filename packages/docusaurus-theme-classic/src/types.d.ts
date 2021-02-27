@@ -77,7 +77,7 @@ declare module '@theme/DocSidebar' {
 
   export type Props = {
     readonly path: string;
-    readonly sidebar: any;
+    readonly sidebar: readonly PropSidebarItem[];
     readonly sidebarCollapsible?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
