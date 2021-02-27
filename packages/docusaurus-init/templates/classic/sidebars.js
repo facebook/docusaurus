@@ -9,6 +9,7 @@ module.exports = {
         'create-a-doc',
         'create-a-page',
         'create-a-post',
+        'thank-you',
       ],
     },
   ],
