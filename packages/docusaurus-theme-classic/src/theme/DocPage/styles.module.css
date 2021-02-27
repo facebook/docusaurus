@@ -12,6 +12,7 @@
 @media (min-width: 997px) {
   .docPage {
     display: flex;
+    width: 100%;
   }
 
   .docMainContainer {
