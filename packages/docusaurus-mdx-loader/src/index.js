@@ -12,13 +12,14 @@ const emoji = require('remark-emoji');
 const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
-const rightToc = require('./remark/rightToc');
+const toc = require('./remark/toc');
+const unwrapMdxCodeBlocks = require('./remark/unwrapMdxCodeBlocks');
 const transformImage = require('./remark/transformImage');
 const transformLinks = require('./remark/transformLinks');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [emoji, slug, rightToc],
+  remarkPlugins: [unwrapMdxCodeBlocks, emoji, slug, toc],
 };
 
 module.exports = async function docusaurusMdxLoader(fileString) {

@@ -8,6 +8,52 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
+// TODO improve types, use unions
+export type NavbarItem = {
+  type?: string | undefined;
+  items?: NavbarItem[];
+  label?: string;
+};
+
+export type NavbarLogo = {
+  src: string;
+  srcDark?: string;
+  href?: string;
+  target?: string;
+  alt?: string;
+};
+
+// TODO improve
+export type Navbar = {
+  style: 'dark' | 'primary';
+  hideOnScroll: boolean;
+  title?: string;
+  items: NavbarItem[];
+  logo?: NavbarLogo;
+};
+
+export type FooterLinkItem = {
+  label?: string;
+  to?: string;
+  href?: string;
+  html?: string;
+};
+export type FooterLinks = {
+  title?: string;
+  items: FooterLinkItem[];
+};
+export type Footer = {
+  style: 'light' | 'dark';
+  logo?: {
+    alt?: string;
+    src?: string;
+    srcDark?: string;
+    href?: string;
+  };
+  copyright?: string;
+  links: FooterLinks[];
+};
+
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
@@ -18,11 +64,11 @@ export type ThemeConfig = {
   // and use it in the Joi validation schema?
 
   // TODO temporary types
-  navbar: any;
+  navbar: Navbar;
   colorMode: any;
   announcementBar: any;
   prism: any;
-  footer: any;
+  footer: Footer | undefined;
   hideableSidebar: any;
 };
 

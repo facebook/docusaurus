@@ -47,6 +47,21 @@ declare module '@generated/globalData' {
   export default globalData;
 }
 
+declare module '@generated/i18n' {
+  const i18n: {
+    defaultLocale: string;
+    locales: [string, ...string[]];
+    currentLocale: string;
+    localeConfigs: Record<string, {label: string; direction: string}>;
+  };
+  export default i18n;
+}
+
+declare module '@generated/codeTranslations' {
+  const codeTranslations: Record<string, string>;
+  export default codeTranslations;
+}
+
 declare module '@theme/*';
 
 declare module '@theme-original/*';
@@ -67,6 +82,65 @@ declare module '@docusaurus/Link' {
   };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
+}
+
+declare module '@docusaurus/Interpolate' {
+  import type {ReactNode} from 'react';
+
+  // TODO use TS template literal feature to make values typesafe!
+  // (requires upgrading TS first)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export type ExtractInterpolatePlaceholders<Str extends string> = string;
+
+  export type InterpolateValues<
+    Str extends string,
+    Value extends ReactNode
+  > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
+
+  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  export function interpolate<Str extends string>(
+    text: Str,
+    values?: InterpolateValues<Str, string | number>,
+  ): string;
+
+  // If values contain any ReactNode, then the return is a ReactNode
+  export function interpolate<Str extends string, Value extends ReactNode>(
+    text: Str,
+    values?: InterpolateValues<Str, Value>,
+  ): ReactNode;
+
+  export type InterpolateProps<Str extends string> = {
+    children: Str;
+    values?: InterpolateValues<Str, ReactNode>;
+  };
+
+  export default function Interpolate<Str extends string>(
+    props: InterpolateProps<Str>,
+  ): JSX.Element;
+}
+
+declare module '@docusaurus/Translate' {
+  import type {
+    InterpolateProps,
+    InterpolateValues,
+  } from '@docusaurus/Interpolate';
+
+  type TranslateProps<Str extends string> = InterpolateProps<Str> & {
+    id?: string;
+    description?: string;
+  };
+  export default function Translate<Str extends string>(
+    props: TranslateProps<Str>,
+  ): JSX.Element;
+
+  export function translate<Str extends string>(
+    param: {
+      message: Str;
+      id?: string;
+      description?: string;
+    },
+    values?: InterpolateValues<Str, string | number>,
+  ): string;
 }
 
 declare module '@docusaurus/router' {

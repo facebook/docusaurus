@@ -76,6 +76,7 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  className: Joi.string(),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
@@ -85,6 +86,7 @@ const DocsVersionDropdownNavbarItemSchema = Joi.object({
   dropdownActiveClassDisabled: Joi.boolean(),
   dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
 });
 
 const DocItemSchema = Joi.object({
@@ -94,6 +96,20 @@ const DocItemSchema = Joi.object({
   label: Joi.string(),
   docsPluginId: Joi.string(),
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
+  className: Joi.string(),
+});
+
+const LocaleDropdownNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('localeDropdown').required(),
+  position: NavbarItemPosition,
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
+});
+
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+  position: NavbarItemPosition,
 });
 
 // Can this be made easier? :/
@@ -125,9 +141,17 @@ const NavbarItemSchema = Joi.object().when({
       then: DocItemSchema,
     },
     {
+      is: isOfType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('search'),
+      then: SearchItemSchema,
+    },
+    {
       is: isOfType(undefined),
       then: Joi.forbidden().messages({
-        'any.unknown': 'Bad nav item type {.type}',
+        'any.unknown': 'Bad navbar item type {.type}',
       }),
     },
   ],
@@ -254,15 +278,16 @@ const ThemeConfigSchema = Joi.object({
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string(),
+      srcDark: Joi.string(),
       href: Joi.string(),
     }),
     copyright: Joi.string(),
     links: Joi.array()
       .items(
         Joi.object({
-          title: Joi.string(),
+          title: Joi.string().allow(null),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
       )

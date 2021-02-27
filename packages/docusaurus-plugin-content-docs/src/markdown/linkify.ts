@@ -5,17 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {resolve} from 'url';
 import {
   DocsMarkdownOption,
   VersionMetadata,
   BrokenMarkdownLink,
 } from '../types';
+import {getDocsDirPaths} from '../versions';
+import {aliasedSitePath} from '@docusaurus/utils';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>
-    filePath.startsWith(version.docsDirPath),
+    getDocsDirPaths(version).some((docsDirPath) =>
+      filePath.startsWith(docsDirPath),
+    ),
   );
   if (!versionFound) {
     throw new Error(
@@ -32,7 +35,7 @@ function replaceMarkdownLinks(
   options: DocsMarkdownOption,
 ) {
   const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
-  const {docsDirPath} = version;
+  const {docsDirPath, docsDirPathLocalized} = version;
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;
@@ -53,12 +56,15 @@ function replaceMarkdownLinks(
     while (mdMatch !== null) {
       // Replace it to correct html link.
       const mdLink = mdMatch[1];
-      const targetSource = `${docsDirPath}/${mdLink}`;
+
       const aliasedSource = (source: string) =>
-        `@site/${path.relative(siteDir, source)}`;
+        aliasedSitePath(source, siteDir);
+
       const permalink =
         sourceToPermalink[aliasedSource(resolve(filePath, mdLink))] ||
-        sourceToPermalink[aliasedSource(targetSource)];
+        sourceToPermalink[aliasedSource(`${docsDirPathLocalized}/${mdLink}`)] ||
+        sourceToPermalink[aliasedSource(`${docsDirPath}/${mdLink}`)];
+
       if (permalink) {
         modifiedLine = modifiedLine.replace(mdLink, permalink);
       } else {

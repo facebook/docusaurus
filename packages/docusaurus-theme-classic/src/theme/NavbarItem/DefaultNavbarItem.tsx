@@ -37,8 +37,6 @@ function NavLink({
     <Link
       {...(href
         ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
@@ -119,7 +117,7 @@ function NavItemDesktop({
             setShowDropdown(!showDropdown);
           }
         }}>
-        {props.label}
+        {props.children ?? props.label}
       </NavLink>
       <ul ref={dropdownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
@@ -192,10 +190,11 @@ function NavItemMobile({
         role="button"
         className={navLinkClassNames(className, true)}
         {...props}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           setCollapsed((state) => !state);
         }}>
-        {props.label}
+        {props.children ?? props.label}
       </NavLink>
       <ul
         className="menu__list"

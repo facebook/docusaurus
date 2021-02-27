@@ -8,9 +8,9 @@
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 export function onRouteUpdate({location}: {location: Location}) {
-  console.log('onRouteUpdate', {location});
+  // console.log('onRouteUpdate', {location});
 }
 
 if (ExecutionEnvironment.canUseDOM) {
-  console.log('client module example log');
+  // console.log('client module example log');
 }

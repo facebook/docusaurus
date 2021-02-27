@@ -8,19 +8,28 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
+import webpack, {
+  Configuration,
+  Loader,
+  Plugin,
+  RuleSetRule,
+  Stats,
+} from 'webpack';
+import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanCss from 'clean-css';
-import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn} from '@docusaurus/types';
+import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
-import {STATIC_ASSETS_DIR_NAME} from '../constants';
+import {
+  BABEL_CONFIG_FILE_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -58,18 +67,20 @@ export function getStyleLoaders(
       // package.json
       loader: require.resolve('postcss-loader'),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 4,
-          }),
-        ],
+        postcssOptions: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          ident: 'postcss',
+          plugins: [
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 4,
+            }),
+          ],
+        },
       },
     },
   ];
@@ -93,19 +104,33 @@ export function getCacheLoader(
   };
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): Loader {
-  let options: TransformOptions;
+export function getCustomBabelConfigFilePath(
+  siteDir: string,
+): string | undefined {
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
+  return fs.existsSync(customBabelConfigurationPath)
+    ? customBabelConfigurationPath
+    : undefined;
+}
+
+export function getBabelOptions({
+  isServer,
+  babelOptions,
+}: {
+  isServer?: boolean;
+  babelOptions?: TransformOptions | string;
+} = {}): TransformOptions {
   if (typeof babelOptions === 'string') {
-    options = {
+    return {
       babelrc: false,
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
   } else {
-    options = Object.assign(
+    return Object.assign(
       babelOptions ?? {presets: [require.resolve('../babel/preset')]},
       {
         babelrc: false,
@@ -114,9 +139,15 @@ export function getBabelLoader(
       },
     );
   }
+}
+
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+): Loader {
   return {
     loader: require.resolve('babel-loader'),
-    options,
+    options: getBabelOptions({isServer, babelOptions}),
   };
 }
 
@@ -147,6 +178,37 @@ export function applyConfigureWebpack(
   return config;
 }
 
+export function applyConfigurePostCss(
+  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  config: Configuration,
+): Configuration {
+  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+
+  // TODO not ideal heuristic but good enough for our usecase?
+  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+    return !!(loader as any)?.options?.postcssOptions;
+  }
+
+  // Does not handle all edge cases, but good enough for now
+  function overridePostCssOptions(entry) {
+    if (isPostCssLoader(entry)) {
+      entry.options.postcssOptions = configurePostCss(
+        entry.options.postcssOptions,
+      );
+    } else if (Array.isArray(entry.oneOf)) {
+      entry.oneOf.forEach(overridePostCssOptions);
+    } else if (Array.isArray(entry.use)) {
+      entry.use
+        .filter((u) => typeof u === 'object')
+        .forEach(overridePostCssOptions);
+    }
+  }
+
+  config.module?.rules.forEach(overridePostCssOptions);
+
+  return config;
+}
+
 // See https://webpack.js.org/configuration/stats/#statswarningsfilter
 // @slorber: note sure why we have to re-implement this logic
 // just know that legacy had this only partially implemented, so completed it
@@ -172,22 +234,24 @@ function filterWarnings(
   return warnings.filter((warning) => !isWarningFiltered(warning));
 }
 
-export function compile(config: Configuration[]): Promise<void> {
+export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        reject(err);
+        reject(new Error(err.toString()));
       }
-      if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
+      // let plugins consume all the stats
+      const allStats = stats?.toJson('errors-warnings');
+      if (stats?.hasErrors()) {
+        allStats.errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
-      if (stats.hasWarnings()) {
+      if (stats?.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let {warnings} = stats.toJson('errors-warnings');
+        let warnings = [...allStats.warnings];
 
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as WarningFilter[];
@@ -200,21 +264,21 @@ export function compile(config: Configuration[]): Promise<void> {
           console.warn(warning);
         });
       }
-      resolve();
+      resolve(allStats);
     });
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'medias';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils() {
+export function getFileLoaderUtils(): Record<string, any> {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders = {
     file: (options: {folder: AssetFolder}) => {
@@ -261,6 +325,13 @@ export function getFileLoaderUtils() {
       };
     },
 
+    fonts: (): RuleSetRule => {
+      return {
+        use: [loaders.url({folder: 'fonts'})],
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+      };
+    },
+
     /**
      * Loads audio and video and inlines them via a data URI if they are below
      * the size threshold
@@ -269,6 +340,38 @@ export function getFileLoaderUtils() {
       return {
         use: [loaders.url({folder: 'medias'})],
         test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+      };
+    },
+
+    svg: (): RuleSetRule => {
+      return {
+        test: /\.svg?$/,
+        oneOf: [
+          {
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: {
+                  prettier: false,
+                  svgo: true,
+                  svgoConfig: {
+                    plugins: [{removeViewBox: false}],
+                  },
+                  titleProp: true,
+                  ref: ![path],
+                },
+              },
+            ],
+            // We don't want to use SVGR loader for non-React source code
+            // ie we don't want to use SVGR for CSS files...
+            issuer: {
+              test: /\.(ts|tsx|js|jsx|md|mdx)$/,
+            },
+          },
+          {
+            use: [loaders.url({folder: 'images'})],
+          },
+        ],
       };
     },
 
@@ -355,7 +458,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false) {
+export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
   const minimizer = [
     new TerserPlugin({
       cache: true,
@@ -407,6 +510,7 @@ export function getMinimizer(useSimpleCssMinifier = false) {
         new OptimizeCSSAssetsPlugin({
           cssProcessor: CleanCss,
           cssProcessorOptions: {
+            inline: false,
             level: {
               1: {
                 all: false,
@@ -414,6 +518,7 @@ export function getMinimizer(useSimpleCssMinifier = false) {
               2: {
                 all: true,
                 restructureRules: true,
+                removeUnusedAtRules: false,
               },
             },
           },

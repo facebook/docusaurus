@@ -1,0 +1,15 @@
+# Server redirects for Netlify
+
+# Redirect to fix blog post url typo on publish :'( can be cleaned up soon
+/blog/2020/01/19/docusaurus-2020-recap            /blog/2021/01/19/docusaurus-2020-recap
+/classic/blog/2020/01/19/docusaurus-2020-recap    /classic/blog/2021/01/19/docusaurus-2020-recap
+
+
+# Redirect each country sub-path to appropriate localized 404 file
+# See https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling
+/fr/*         /fr/404.html          404
+
+
+# Redirect Docusaurus v1 blog RSS feed
+/blog/feed.xml   /blog/rss.xml
+

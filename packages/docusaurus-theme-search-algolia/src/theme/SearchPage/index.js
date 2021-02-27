@@ -14,12 +14,14 @@ import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
 
 import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useTitleFormatter} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
-import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
@@ -98,12 +100,11 @@ const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
   );
 };
 
-function Search() {
+function SearchPage() {
   const {
-    siteConfig: {
-      themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
-    } = {},
+    siteConfig: {themeConfig: {algolia: {appId, apiKey, indexName} = {}}} = {},
   } = useDocusaurusContext();
+
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
   const {searchValue, updateSearchPath} = useSearchQuery();
   const [searchQuery, setSearchQuery] = useState(searchValue);
@@ -235,8 +236,16 @@ function Search() {
 
   const getTitle = () =>
     searchQuery
-      ? `Search results for "${searchQuery}"`
-      : 'Search the documentation';
+      ? `${translate({
+          id: 'theme.SearchPage.existingResultsTitle',
+          message: 'Search results for',
+          description: 'The search page title for non-empty query',
+        })} "${searchQuery}"`
+      : translate({
+          id: 'theme.SearchPage.emptyResultsTitle',
+          message: 'Search the documentation',
+          description: 'The search page title for empty query',
+        });
 
   const makeSearch = (page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
@@ -294,8 +303,9 @@ function Search() {
   }, [searchValue]);
 
   return (
-    <Layout title={getTitle()}>
+    <Layout wrapperClassName="search-page-wrapper">
       <Head>
+        <title>{useTitleFormatter(getTitle())}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233
@@ -316,8 +326,16 @@ function Search() {
               type="search"
               name="q"
               className={styles.searchQueryInput}
-              placeholder="Type your search here"
-              aria-label="Search"
+              placeholder={translate({
+                id: 'theme.SearchPage.inputPlaceholder',
+                message: 'Type your search here',
+                description: 'The placeholder for search page input',
+              })}
+              aria-label={translate({
+                id: 'theme.SearchPage.inputLabel',
+                message: 'Search',
+                description: 'The ARIA label for search page input',
+              })}
               onChange={(e) => setSearchQuery(e.target.value)}
               value={searchQuery}
               autoComplete="off"
@@ -347,12 +365,15 @@ function Search() {
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.algolia.com/"
-              aria-label="Search">
+              aria-label={translate({
+                id: 'theme.SearchPage.algoliaLabel',
+                message: 'Search by Algolia',
+                description: 'The ARIA label for Algolia mention',
+              })}>
               <svg
                 viewBox="0 0 168 24"
                 className={styles.algoliaLogo}
-                xmlns="http://www.w3.org/2000/svg"
-                aria-label="Search by Algolia">
+                xmlns="http://www.w3.org/2000/svg">
                 <g fill="none">
                   <path
                     className={styles.algoliaLogoPathFill}
@@ -384,14 +405,23 @@ function Search() {
                   />
 
                   {breadcrumbs.length > 0 && (
-                    <span
-                      className={styles.searchResultItemPath}
-                      // Developer provided the HTML, so assume it's safe.
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: breadcrumbs.join(' › '),
-                      }}
-                    />
+                    <span className={styles.searchResultItemPath}>
+                      {breadcrumbs.map((html, index) => (
+                        <>
+                          {index !== 0 && (
+                            <span
+                              className={styles.searchResultItemPathSeparator}>
+                              ›
+                            </span>
+                          )}
+                          <span
+                            // Developer provided the HTML, so assume it's safe.
+                            // eslint-disable-next-line react/no-danger
+                            dangerouslySetInnerHTML={{__html: html}}
+                          />
+                        </>
+                      ))}
+                    </span>
                   )}
 
                   {summary && (
@@ -409,7 +439,13 @@ function Search() {
         ) : (
           [
             searchQuery && !searchResultState.loading && (
-              <p key="no-results">No results were found</p>
+              <p key="no-results">
+                <Translate
+                  id="theme.SearchPage.noResultsText"
+                  description="The paragraph for empty search result">
+                  No results were found
+                </Translate>
+              </p>
             ),
             !!searchResultState.loading && (
               <div key="spinner" className={styles.loadingSpinner} />
@@ -419,7 +455,13 @@ function Search() {
 
         {searchResultState.hasMore && (
           <div className={styles.loader} ref={setLoaderRef}>
-            <span>Fetching new results...</span>
+            <span>
+              <Translate
+                id="theme.SearchPage.fetchingNewResults"
+                description="The paragraph for fetching new search results">
+                Fetching new results...
+              </Translate>
+            </span>
           </div>
         )}
       </div>
@@ -427,4 +469,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchPage;

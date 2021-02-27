@@ -11,6 +11,7 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import debounce from 'lodash/debounce';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
@@ -23,8 +24,13 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getHttpsConfig,
+} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export default async function start(
   siteDir: string,
@@ -34,8 +40,15 @@ export default async function start(
   process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
+  function loadSite() {
+    return load(siteDir, {
+      locale: cliOptions.locale,
+      localizePath: undefined, // should this be configurable?
+    });
+  }
+
   // Process all related files as a prop.
-  const props = await load(siteDir);
+  const props = await loadSite();
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
 
@@ -53,8 +66,8 @@ export default async function start(
   console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
 
   // Reload files processing.
-  const reload = () => {
-    load(siteDir)
+  const reload = debounce(() => {
+    loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         console.log(
@@ -64,7 +77,7 @@ export default async function start(
       .catch((err) => {
         console.error(chalk.red(err.stack));
       });
-  };
+  }, 500);
   const {siteConfig, plugins = []} = props;
 
   const normalizeToSiteDir = (filepath) => {
@@ -82,7 +95,16 @@ export default async function start(
     )
     .map(normalizeToSiteDir);
 
-  const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
+  const pathsToWatch: string[] = [
+    ...pluginPaths,
+    CONFIG_FILE_NAME,
+    getTranslationsLocaleDirPath({
+      siteDir,
+      locale: props.i18n.currentLocale,
+    }),
+  ];
+
+  const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
     usePolling: !!cliOptions.poll,
@@ -116,18 +138,21 @@ export default async function start(
     ],
   });
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      config = applyConfigurePostCss(configurePostCss, config);
     }
 
-    config = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      config,
-      false,
-    );
+    if (configureWebpack) {
+      config = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        config,
+        false,
+      );
+    }
   });
 
   // https://webpack.js.org/configuration/dev-server

@@ -16,6 +16,9 @@ import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
+import IconArrow from '@theme/IconArrow';
+import IconMenu from '@theme/IconMenu';
+import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
@@ -186,18 +189,14 @@ function DocSidebarItemLink({
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,
+          [styles.menuLinkExternal]: !isInternalUrl(href),
         })}
         to={href}
-        {...(isInternalUrl(href)
-          ? {
-              isNavLink: true,
-              exact: true,
-              onClick: onItemClick,
-            }
-          : {
-              target: '_blank',
-              rel: 'noreferrer noopener',
-            })}
+        {...(isInternalUrl(href) && {
+          isNavLink: true,
+          exact: true,
+          onClick: onItemClick,
+        })}
         {...props}>
         {label}
       </Link>
@@ -259,7 +258,21 @@ function DocSidebar({
           },
         )}>
         <button
-          aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
+          aria-label={
+            showResponsiveSidebar
+              ? translate({
+                  id: 'theme.docs.sidebar.responsiveCloseButtonLabel',
+                  message: 'Close menu',
+                  description:
+                    'The ARIA label for close button of mobile doc sidebar',
+                })
+              : translate({
+                  id: 'theme.docs.sidebar.responsiveOpenButtonLabel',
+                  message: 'Open menu',
+                  description:
+                    'The ARIA label for open button of mobile doc sidebar',
+                })
+          }
           aria-haspopup="true"
           className="button button--secondary button--sm menu__button"
           type="button"
@@ -275,24 +288,11 @@ function DocSidebar({
               &times;
             </span>
           ) : (
-            <svg
-              aria-label="Menu"
+            <IconMenu
               className={styles.sidebarMenuIcon}
-              xmlns="http://www.w3.org/2000/svg"
               height={MOBILE_TOGGLE_SIZE}
               width={MOBILE_TOGGLE_SIZE}
-              viewBox="0 0 32 32"
-              role="img"
-              focusable="false">
-              <title>Menu</title>
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeMiterlimit="10"
-                strokeWidth="2"
-                d="M4 7h22M4 15h22M4 23h22"
-              />
-            </svg>
+            />
           )}
         </button>
         <ul className="menu__list">
@@ -314,14 +314,25 @@ function DocSidebar({
       {hideableSidebar && (
         <button
           type="button"
-          title="Collapse sidebar"
-          aria-label="Collapse sidebar"
+          title={translate({
+            id: 'theme.docs.sidebar.collapseButtonTitle',
+            message: 'Collapse sidebar',
+            description:
+              'The title attribute for collapse button of doc sidebar',
+          })}
+          aria-label={translate({
+            id: 'theme.docs.sidebar.collapseButtonAriaLabel',
+            message: 'Collapse sidebar',
+            description:
+              'The title attribute for collapse button of doc sidebar',
+          })}
           className={clsx(
             'button button--secondary button--outline',
             styles.collapseSidebarButton,
           )}
-          onClick={onCollapse}
-        />
+          onClick={onCollapse}>
+          <IconArrow className={styles.collapseSidebarButtonIcon} />
+        </button>
       )}
     </div>
   );

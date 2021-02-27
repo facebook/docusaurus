@@ -1,15 +1,17 @@
 ---
-name: ❓ Questions/Help
-about: If you have questions, please check Stack Overflow or Discord or Twitter
+name: 🚫 Questions/Help
+about: 🚫 Please ask questions on GitHub discussions, Discord or Stack Overflow
 labels: 'questions, needs triage'
 ---
 
-## ❓ Questions and Help
+## 🚫 Questions and Help
 
-### Please note that this issue tracker is not a help form and this issue will be closed.
+### Please note that this issue tracker is 🚫 NOT a help form 🚫 and this issue will be closed.
 
-Please contact us instead. We have a few channels:
+For beginners questions: ask the Docusaurus community:
 
+- [Discord](https://discord.gg/docusaurus) (most active channel)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus)
 - [Twitter](https://twitter.com/docusaurus)
-- [Discord](https://discord.gg/docusaurus)
+
+For advanced/unanswered questions: ask on [GitHub Discussions](https://github.com/facebook/docusaurus/discussions).

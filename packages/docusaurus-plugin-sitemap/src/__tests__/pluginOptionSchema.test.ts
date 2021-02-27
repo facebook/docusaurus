@@ -26,21 +26,12 @@ describe('normalizeSitemapPluginOptions', () => {
 
   test('should accept correctly defined user options', async () => {
     const userOptions = {
-      cacheTime: 300,
       changefreq: 'yearly',
       priority: 0.9,
       trailingSlash: false,
     };
     const {value} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
-  });
-
-  test('should reject cacheTime inputs with wrong type', () => {
-    expect(() => {
-      normalizePluginOptions({
-        cacheTime: '42',
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`"\\"cacheTime\\" must be a number"`);
   });
 
   test('should reject out-of-range priority inputs', () => {
@@ -59,7 +50,7 @@ describe('normalizeSitemapPluginOptions', () => {
         changefreq: 'annually',
       });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"\\"changefreq\\" must be one of [always, hourly, daily, weekly, monthly, yearly, never]"`,
+      `"\\"changefreq\\" must be one of [daily, monthly, always, hourly, weekly, yearly, never]"`,
     );
   });
 });

@@ -5,6 +5,10 @@ title: Themes
 
 Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
 
+## Available themes
+
+We maintain a [list of official themes](./api/themes/overview.md).
+
 ## Using themes
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
@@ -67,7 +71,30 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 }
 ```
 
-The content plugin remains the same and the only thing you need to change is the theme.
+## Wrapper your site with `<Root>`
+
+A `<Root>` theme component is rendered at the very top of your Docusaurus site.
+
+It allows you to wrap your site with additional logic, by creating a file at `src/theme/Root.js`:
+
+```js title="website/src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+function Root({children}) {
+  return <>{children}</>;
+}
+
+export default Root;
+```
+
+This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
+
+:::tip
+
+Use this component render React Context providers and global stateful logic.
+
+:::
 
 ## Swizzling theme components
 
@@ -81,8 +108,8 @@ Docusaurus Themes' components are designed to be replaceable. To make it easier 
 
 To swizzle a component for a theme, run the following command in your doc site:
 
-```shell
-docusaurus swizzle <theme name> [component name]
+```bash npm2yarn
+npm run swizzle <theme name> [component name]
 ```
 
 As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
@@ -116,6 +143,7 @@ Here is an example to display some text just above the footer, with minimal code
 ```js title="src/theme/Footer.js"
 // Note: importing from "@theme/Footer" would fail due to the file importing itself
 import OriginalFooter from '@theme-original/Footer';
+import React from 'react';
 
 export default function Footer(props) {
   return (
@@ -135,6 +163,7 @@ Here's an example of using this feature to enhance the default theme `CodeBlock`
 
 ```js
 import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
 
 export default function CodeBlock(props) {
   return props.live ? (
@@ -152,66 +181,6 @@ Check the code of `docusaurus-theme-live-codeblock` for details.
 Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`.
 
 :::
-
-## Official themes by Docusaurus
-
-### `@docusaurus/theme-classic`
-
-The classic theme for Docusaurus. You can refer to [classic theme configuration](theme-classic.md) for more details on the configuration.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-classic
-```
-
-:::tip
-
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
-
-:::
-
-### `@docusaurus/theme-bootstrap`
-
-The bootstrap theme for Docusaurus. You can refer to [bootstrap theme configuration](theme-bootstrap.md) for more details on the configuration.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-bootstrap
-```
-
-:::tip
-
-If you have installed `@docusaurus/preset-bootstrap`, you don't need to install it as a dependency.
-
-:::
-
-:::caution
-
-This theme is a work in progress.
-
-:::
-
-### `@docusaurus/theme-search-algolia`
-
-This theme provides a `@theme/SearchBar` component that integrates with Algolia DocSearch easily. Combined with `@docusaurus/theme-classic`, it provides a very easy search integration. You can read more on [search](search.md) documentation.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-search-algolia
-```
-
-This theme also adds search page available at `/search` (as swizzleable `SearchPage` component) path with OpenSearch support.
-
-:::tip
-
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
-
-:::
-
-### `@docusaurus/theme-live-codeblock`
-
-This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](markdown-features.mdx#interactive-code-editor) documentation.
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-live-codeblock
-```
 
 ## Themes design
 

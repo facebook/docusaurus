@@ -21,13 +21,17 @@ declare module '@docusaurus/plugin-content-docs-types' {
     permalinkToSidebar: PermalinkToSidebar;
   };
 
-  export type PropSidebarItemLink = {
+  type PropsSidebarItemBase = {
+    customProps?: object;
+  };
+
+  export type PropSidebarItemLink = PropsSidebarItemBase & {
     type: 'link';
     href: string;
     label: string;
   };
 
-  export type PropSidebarItemCategory = {
+  export type PropSidebarItemCategory = PropsSidebarItemBase & {
     type: 'category';
     label: string;
     items: PropSidebarItem[];
@@ -42,7 +46,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
 }
 
 declare module '@theme/DocItem' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -76,7 +80,7 @@ declare module '@theme/DocItem' {
     readonly content: {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
-      readonly rightToc: readonly MarkdownRightTableOfContents[];
+      readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
   };
@@ -101,4 +105,16 @@ declare module '@theme/DocPage' {
 
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
+}
+
+declare module '@theme/Seo' {
+  export type Props = {
+    readonly title?: string;
+    readonly description?: string;
+    readonly keywords?: readonly string[] | string;
+    readonly image?: string;
+  };
+
+  const Seo: (props: Props) => JSX.Element;
+  export default Seo;
 }

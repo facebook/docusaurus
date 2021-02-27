@@ -28,11 +28,11 @@ export default function pluginSitemap(
 
     async postBuild({siteConfig, routesPaths, outDir}: Props) {
       // Generate sitemap.
-      const generatedSitemap = createSitemap(
+      const generatedSitemap = await createSitemap(
         siteConfig,
         routesPaths,
         options,
-      ).toString();
+      );
 
       // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');

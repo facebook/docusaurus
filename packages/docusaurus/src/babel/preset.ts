@@ -79,4 +79,4 @@ function babelPresets(api: ConfigAPI): TransformOptions {
   return getTransformOptions(callerName === 'server');
 }
 
-export = babelPresets;
+export default babelPresets;

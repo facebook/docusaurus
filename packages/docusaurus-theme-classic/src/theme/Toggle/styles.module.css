@@ -104,7 +104,8 @@
   left: 27px;
 }
 
-:global(.react-toggle--focus .react-toggle-thumb) {
+:global(.react-toggle--focus .react-toggle-thumb),
+:global(.react-toggle:hover .react-toggle-thumb) {
   box-shadow: 0px 0px 2px 3px var(--ifm-color-primary);
 }
 

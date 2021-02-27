@@ -24,6 +24,8 @@
 
 .playgroundEditor {
   font-family: var(--ifm-font-family-monospace) !important;
+  /*rtl:ignore*/
+  direction: ltr;
 }
 
 .playgroundPreview {

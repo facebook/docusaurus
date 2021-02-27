@@ -16,9 +16,11 @@ import {
   getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
+  getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
+import SharedModuleAliases from './sharedModuleAliases';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -36,11 +38,11 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export function getDocusaurusAliases() {
+export function getDocusaurusAliases(): Record<string, string> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: Record<string, string> = {};
+  const aliases = {};
 
   fs.readdirSync(dirPath)
     .filter((fileName) => extensions.includes(path.extname(fileName)))
@@ -68,11 +70,6 @@ export function createBaseConfig(
   const minimizeEnabled = minify && isProd && !isServer;
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
-  const customBabelConfigurationPath = path.join(
-    siteDir,
-    BABEL_CONFIG_FILE_NAME,
-  );
-
   const fileLoaderUtils = getFileLoaderUtils();
 
   return {
@@ -82,8 +79,10 @@ export function createBaseConfig(
       futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:8].js' : '[name].js',
+      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: isProd
+        ? 'assets/js/[name].[contenthash:8].js'
+        : '[name].js',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb
@@ -94,7 +93,17 @@ export function createBaseConfig(
     resolve: {
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
+      roots: [
+        // Allow resolution of url("/fonts/xyz.ttf") by webpack
+        // See https://webpack.js.org/configuration/resolve/#resolveroots
+        // See https://github.com/webpack-contrib/css-loader/issues/1256
+        path.join(siteDir, STATIC_DIR_NAME),
+        siteDir,
+        process.cwd(),
+      ],
       alias: {
+        ...SharedModuleAliases,
+
         '@site': siteDir,
         '@generated': generatedFilesDir,
 
@@ -155,19 +164,16 @@ export function createBaseConfig(
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(
-              isServer,
-              fs.existsSync(customBabelConfigurationPath)
-                ? customBabelConfigurationPath
-                : undefined,
-            ),
+            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
           ].filter(Boolean) as Loader[],
         },
         {
@@ -187,22 +193,22 @@ export function createBaseConfig(
               localIdentName: isProd
                 ? `[local]_[hash:base64:4]`
                 : `[local]_[path]`,
+              exportOnlyLocals: isServer,
             },
             importLoaders: 1,
             sourceMap: !isProd,
-            onlyLocals: isServer,
           }),
-        },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier,+svgo,+titleProp,+ref![path]',
         },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        filename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
+        chunkFilename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
         // remove css order warnings if css imports are not sorted alphabetically
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,

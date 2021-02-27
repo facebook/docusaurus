@@ -13,31 +13,25 @@ import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import isInternalUrl from '@docusaurus/isInternalUrl';
 
 const Logo = (props: Props): JSX.Element => {
   const {isClient} = useDocusaurusContext();
   const {
-    navbar: {title, logo = {}},
+    navbar: {title, logo = {src: ''}},
   } = useThemeConfig();
 
   const {imageClassName, titleClassName, ...propsRest} = props;
   const logoLink = useBaseUrl(logo.href || '/');
-  const logoLinkProps = logo.target
-    ? {target: logo.target}
-    : !isInternalUrl(logoLink)
-    ? {
-        rel: 'noopener noreferrer',
-        target: '_blank',
-      }
-    : {};
   const sources = {
     light: useBaseUrl(logo.src),
     dark: useBaseUrl(logo.srcDark || logo.src),
   };
 
   return (
-    <Link to={logoLink} {...propsRest} {...logoLinkProps}>
+    <Link
+      to={logoLink}
+      {...propsRest}
+      {...(logo.target && {target: logo.target})}>
       {logo.src && (
         <ThemedImage
           key={isClient}

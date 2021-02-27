@@ -7,19 +7,32 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
+import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocPaginator';
 
 function DocPaginator(props: Props): JSX.Element {
   const {metadata} = props;
 
   return (
-    <nav className="pagination-nav" aria-label="Blog list page navigation">
+    <nav
+      className="pagination-nav"
+      aria-label={translate({
+        id: 'theme.docs.paginator.navAriaLabel',
+        message: 'Docs pages navigation',
+        description: 'The ARIA label for the docs pagination',
+      })}>
       <div className="pagination-nav__item">
         {metadata.previous && (
           <Link
             className="pagination-nav__link"
             to={metadata.previous.permalink}>
-            <div className="pagination-nav__sublabel">Previous</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.docs.paginator.previous"
+                description="The label used to navigate to the previous doc">
+                Previous
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               &laquo; {metadata.previous.title}
             </div>
@@ -29,7 +42,13 @@ function DocPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {metadata.next && (
           <Link className="pagination-nav__link" to={metadata.next.permalink}>
-            <div className="pagination-nav__sublabel">Next</div>
+            <div className="pagination-nav__sublabel">
+              <Translate
+                id="theme.docs.paginator.next"
+                description="The label used to navigate to the next doc">
+                Next
+              </Translate>
+            </div>
             <div className="pagination-nav__label">
               {metadata.next.title} &raquo;
             </div>

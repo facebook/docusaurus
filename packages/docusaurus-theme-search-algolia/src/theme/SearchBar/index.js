@@ -15,6 +15,7 @@ import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
+import {translate} from '@docusaurus/Translate';
 
 let DocSearchModal = null;
 
@@ -53,6 +54,7 @@ function DocSearch({contextualSearch, ...props}) {
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
+  const searchContainer = useRef(null);
   const searchButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState(null);
@@ -73,12 +75,18 @@ function DocSearch({contextualSearch, ...props}) {
 
   const onOpen = useCallback(() => {
     importDocSearchModalIfNeeded().then(() => {
+      searchContainer.current = document.createElement('div');
+      document.body.insertBefore(
+        searchContainer.current,
+        document.body.firstChild,
+      );
       setIsOpen(true);
     });
   }, [importDocSearchModalIfNeeded, setIsOpen]);
 
   const onClose = useCallback(() => {
     setIsOpen(false);
+    searchContainer.current.remove();
   }, [setIsOpen]);
 
   const onInput = useCallback(
@@ -92,8 +100,8 @@ function DocSearch({contextualSearch, ...props}) {
   );
 
   const navigator = useRef({
-    navigate({suggestionUrl}) {
-      history.push(suggestionUrl);
+    navigate({itemUrl}) {
+      history.push(itemUrl);
     },
   }).current;
 
@@ -137,6 +145,12 @@ function DocSearch({contextualSearch, ...props}) {
     searchButtonRef,
   });
 
+  const translatedSearchLabel = translate({
+    id: 'theme.SearchBar.label',
+    message: 'Search',
+    description: 'The ARIA label and placeholder for search button',
+  });
+
   return (
     <>
       <Head>
@@ -156,6 +170,10 @@ function DocSearch({contextualSearch, ...props}) {
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
         ref={searchButtonRef}
+        translations={{
+          buttonText: translatedSearchLabel,
+          buttonAriaLabel: translatedSearchLabel,
+        }}
       />
 
       {isOpen &&
@@ -172,7 +190,7 @@ function DocSearch({contextualSearch, ...props}) {
             {...props}
             searchParameters={searchParameters}
           />,
-          document.body,
+          searchContainer.current,
         )}
     </>
   );

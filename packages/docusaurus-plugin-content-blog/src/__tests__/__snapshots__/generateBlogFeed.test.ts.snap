@@ -40,11 +40,11 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
         <summary type=\\"html\\"><![CDATA[date inside front matter]]></summary>
     </entry>
     <entry>
-        <title type=\\"html\\"><![CDATA[Happy 1st Birthday Slash!]]></title>
-        <id>Happy 1st Birthday Slash!</id>
+        <title type=\\"html\\"><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
+        <id>Happy 1st Birthday Slash! (translated)</id>
         <link href=\\"https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash\\"/>
         <updated>2018-12-14T00:00:00.000Z</updated>
-        <summary type=\\"html\\"><![CDATA[pattern name]]></summary>
+        <summary type=\\"html\\"><![CDATA[Happy birthday! (translated)]]></summary>
     </entry>
 </feed>"
 `;
@@ -90,11 +90,11 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
             <description><![CDATA[date inside front matter]]></description>
         </item>
         <item>
-            <title><![CDATA[Happy 1st Birthday Slash!]]></title>
+            <title><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
             <link>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash</link>
-            <guid>Happy 1st Birthday Slash!</guid>
+            <guid>Happy 1st Birthday Slash! (translated)</guid>
             <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
-            <description><![CDATA[pattern name]]></description>
+            <description><![CDATA[Happy birthday! (translated)]]></description>
         </item>
     </channel>
 </rss>"

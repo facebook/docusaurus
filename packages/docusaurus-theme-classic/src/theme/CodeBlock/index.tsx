@@ -12,6 +12,7 @@ import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
+import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import {useThemeConfig} from '@docusaurus/theme-common';
@@ -86,11 +87,11 @@ const highlightDirectiveRegex = (lang) => {
 };
 const codeBlockTitleRegex = /(?:title=")(.*)(?:")/;
 
-export default ({
+export default function CodeBlock({
   children,
   className: languageClassName,
   metastring,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
   const [showCopied, setShowCopied] = useState(false);
@@ -113,9 +114,7 @@ export default ({
   const prismTheme = usePrismTheme();
 
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
-  if (Array.isArray(children)) {
-    children = children.join('');
-  }
+  const content = Array.isArray(children) ? children.join('') : children;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
@@ -133,6 +132,7 @@ export default ({
   let language =
     languageClassName &&
     // Force Prism's language union type to `any` because it does not contain all available languages
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ((languageClassName.replace(/language-/, '') as Language) as any);
 
   if (!language && prism.defaultLanguage) {
@@ -140,12 +140,12 @@ export default ({
   }
 
   // only declaration OR directive highlight can be used for a block
-  let code = children.replace(/\n$/, '');
+  let code = content.replace(/\n$/, '');
   if (highlightLines.length === 0 && language !== undefined) {
     let range = '';
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
-    const lines = children.replace(/\n$/, '').split('\n');
+    const lines = content.replace(/\n$/, '').split('\n');
     let blockStart;
     // loop through lines
     for (let index = 0; index < lines.length; ) {
@@ -207,7 +207,7 @@ export default ({
               {codeBlockTitle}
             </div>
           )}
-          <div className={styles.codeBlockContent}>
+          <div className={clsx(styles.codeBlockContent, language)}>
             <div
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
@@ -240,14 +240,30 @@ export default ({
             <button
               ref={button}
               type="button"
-              aria-label="Copy code to clipboard"
+              aria-label={translate({
+                id: 'theme.CodeBlock.copyButtonAriaLabel',
+                message: 'Copy code to clipboard',
+                description: 'The ARIA label for copy code blocks button',
+              })}
               className={clsx(styles.copyButton)}
               onClick={handleCopyCode}>
-              {showCopied ? 'Copied' : 'Copy'}
+              {showCopied ? (
+                <Translate
+                  id="theme.CodeBlock.copied"
+                  description="The copied button label on code blocks">
+                  Copied
+                </Translate>
+              ) : (
+                <Translate
+                  id="theme.CodeBlock.copy"
+                  description="The copy button label on code blocks">
+                  Copy
+                </Translate>
+              )}
             </button>
           </div>
         </>
       )}
     </Highlight>
   );
-};
+}

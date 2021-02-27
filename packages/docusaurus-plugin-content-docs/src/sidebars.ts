@@ -11,14 +11,17 @@ import importFresh from 'import-fresh';
 import {
   Sidebars,
   SidebarItem,
+  SidebarItemBase,
   SidebarItemLink,
   SidebarItemDoc,
   Sidebar,
+  SidebarItemCategory,
+  SidebarItemType,
 } from './types';
 import {mapValues, flatten, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 
-type SidebarItemCategoryJSON = {
+type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
   label: string;
   items: SidebarItemJSON[];
@@ -94,7 +97,7 @@ function assertItem<K extends string>(
 function assertIsCategory(
   item: unknown,
 ): asserts item is SidebarItemCategoryJSON {
-  assertItem(item, ['items', 'label', 'collapsed']);
+  assertItem(item, ['items', 'label', 'collapsed', 'customProps']);
   if (typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
@@ -114,7 +117,7 @@ function assertIsCategory(
 }
 
 function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
-  assertItem(item, ['id']);
+  assertItem(item, ['id', 'customProps']);
   if (typeof item.id !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "id" must be a string.`,
@@ -123,7 +126,7 @@ function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
 }
 
 function assertIsLink(item: unknown): asserts item is SidebarItemLink {
-  assertItem(item, ['href', 'label']);
+  assertItem(item, ['href', 'label', 'customProps']);
   if (typeof item.href !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "href" must be a string.`,
@@ -213,23 +216,49 @@ export function loadSidebars(sidebarFilePath: string): Sidebars {
   return normalizeSidebars(sidebarJson);
 }
 
-// traverse the sidebar tree in depth to find all doc items, in correct order
-export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
-  function collectRecursive(item: SidebarItem): SidebarItemDoc[] {
-    if (item.type === 'doc') {
-      return [item];
-    }
-    if (item.type === 'category') {
-      return flatten(item.items.map(collectRecursive));
-    }
-    // Refs and links should not be shown in navigation.
-    if (item.type === 'ref' || item.type === 'link') {
-      return [];
-    }
-    throw new Error(`unknown sidebar item type = ${item.type}`);
+function collectSidebarItemsOfType<
+  Type extends SidebarItemType,
+  Item extends SidebarItem & {type: SidebarItemType}
+>(type: Type, sidebar: Sidebar): Item[] {
+  function collectRecursive(item: SidebarItem): Item[] {
+    const currentItemsCollected: Item[] =
+      item.type === type ? [item as Item] : [];
+
+    const childItemsCollected: Item[] =
+      item.type === 'category' ? flatten(item.items.map(collectRecursive)) : [];
+
+    return [...currentItemsCollected, ...childItemsCollected];
   }
 
   return flatten(sidebar.map(collectRecursive));
+}
+
+export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
+  return collectSidebarItemsOfType('doc', sidebar);
+}
+export function collectSidebarCategories(
+  sidebar: Sidebar,
+): SidebarItemCategory[] {
+  return collectSidebarItemsOfType('category', sidebar);
+}
+export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
+  return collectSidebarItemsOfType('link', sidebar);
+}
+
+export function transformSidebarItems(
+  sidebar: Sidebar,
+  updateFn: (item: SidebarItem) => SidebarItem,
+): Sidebar {
+  function transformRecursive(item: SidebarItem): SidebarItem {
+    if (item.type === 'category') {
+      return updateFn({
+        ...item,
+        items: item.items.map(transformRecursive),
+      });
+    }
+    return updateFn(item);
+  }
+  return sidebar.map(transformRecursive);
 }
 
 export function collectSidebarsDocIds(
@@ -240,7 +269,9 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(sidebars: Sidebars) {
+export function createSidebarsUtils(
+  sidebars: Sidebars,
+): Record<string, Function> {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {
@@ -289,7 +320,7 @@ export function createSidebarsUtils(sidebars: Sidebars) {
       throw new Error(
         `Bad sidebars file.
 These sidebar document ids do not exist:
-- ${invalidSidebarDocIds.sort().join('\n- ')}\`,
+- ${invalidSidebarDocIds.sort().join('\n- ')},
 
 Available document ids=
 - ${validDocIds.sort().join('\n- ')}`,

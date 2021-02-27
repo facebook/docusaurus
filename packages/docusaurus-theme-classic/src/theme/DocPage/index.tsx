@@ -17,7 +17,9 @@ import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
+import IconArrow from '@theme/IconArrow';
 import {matchPath} from '@docusaurus/router';
+import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -92,17 +94,31 @@ function DocPageContent({
             {hiddenSidebar && (
               <div
                 className={styles.collapsedDocSidebar}
-                title="Expand sidebar"
-                aria-label="Expand sidebar"
+                title={translate({
+                  id: 'theme.docs.sidebar.expandButtonTitle',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                aria-label={translate({
+                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
                 tabIndex={0}
                 role="button"
                 onKeyDown={toggleSidebar}
-                onClick={toggleSidebar}
-              />
+                onClick={toggleSidebar}>
+                <IconArrow className={styles.expandSidebarButtonIcon} />
+              </div>
             )}
           </div>
         )}
-        <main className={styles.docMainContainer}>
+        <main
+          className={clsx(styles.docMainContainer, {
+            [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
+          })}>
           <div
             className={clsx(
               'container padding-vert--lg',

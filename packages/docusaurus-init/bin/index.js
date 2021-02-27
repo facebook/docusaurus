@@ -39,9 +39,13 @@ program
 program
   .command('init [siteName] [template] [rootDir]')
   .option('--use-npm')
+  .option('--skip-install')
   .description('Initialize website')
-  .action((siteName, template, rootDir = '.', {useNpm}) => {
-    wrapCommand(init)(path.resolve(rootDir), siteName, template, {useNpm});
+  .action((siteName, template, rootDir = '.', {useNpm, skipInstall}) => {
+    wrapCommand(init)(path.resolve(rootDir), siteName, template, {
+      useNpm,
+      skipInstall,
+    });
   });
 
 program.arguments('<command>').action((cmd) => {

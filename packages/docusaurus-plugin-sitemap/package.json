@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.69",
-  "description": "Simple sitemap generation plugin for Docusaurus",
+  "version": "2.0.0-alpha.70",
+  "description": "Simple sitemap generation plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -17,17 +17,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.69",
-    "@docusaurus/types": "2.0.0-alpha.69",
-    "fs-extra": "^9.0.1",
-    "joi": "^17.2.1",
-    "sitemap": "^3.2.2"
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/types": "2.0.0-alpha.70",
+    "@docusaurus/utils": "2.0.0-alpha.70",
+    "fs-extra": "^9.1.0",
+    "joi": "^17.4.0",
+    "sitemap": "^6.3.6"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

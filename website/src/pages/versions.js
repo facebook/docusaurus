@@ -20,18 +20,16 @@ function Version() {
   const pastVersions = versions.filter(
     (version) => version !== latestVersion && version.name !== 'current',
   );
-  const stableVersion = pastVersions.shift();
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
 
   return (
     <Layout
       title="Versions"
-      permalink="/versions"
       description="Docusaurus 2 Versions page listing all documented site versions">
       <main className="container margin-vert--lg">
         <h1>Docusaurus documentation versions</h1>
 
-        {stableVersion && (
+        {latestVersion && (
           <div className="margin-bottom--lg">
             <h3 id="next">Current version (Stable)</h3>
             <p>
@@ -40,12 +38,12 @@ function Version() {
             <table>
               <tbody>
                 <tr>
-                  <th>{stableVersion.name}</th>
+                  <th>{latestVersion.label}</th>
                   <td>
-                    <Link to={stableVersion.path}>Documentation</Link>
+                    <Link to={latestVersion.path}>Documentation</Link>
                   </td>
                   <td>
-                    <a href={`${repoUrl}/releases/tag/v${stableVersion.name}`}>
+                    <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
                       Release Notes
                     </a>
                   </td>
@@ -55,43 +53,26 @@ function Version() {
           </div>
         )}
 
-        <div className="margin-bottom--lg">
-          <h3 id="latest">Next version (Unreleased)</h3>
-          <p>
-            Here you can find the documentation for work-in-process unreleased
-            version.
-          </p>
-          <table>
-            <tbody>
-              <tr>
-                <th>{latestVersion.label}</th>
-                <td>
-                  <Link to={latestVersion.path}>Documentation</Link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
         {currentVersion !== latestVersion && (
           <div className="margin-bottom--lg">
-            <h3 id="next">Next version (Unreleased)</h3>
-            <p>Here you can find the documentation for unreleased version.</p>
+            <h3 id="latest">Next version (Unreleased)</h3>
+            <p>
+              Here you can find the documentation for work-in-process unreleased
+              version.
+            </p>
             <table>
               <tbody>
                 <tr>
-                  <th>master</th>
+                  <th>{currentVersion.label}</th>
                   <td>
                     <Link to={currentVersion.path}>Documentation</Link>
-                  </td>
-                  <td>
-                    <a href={repoUrl}>Source Code</a>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
         )}
+
         {pastVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
