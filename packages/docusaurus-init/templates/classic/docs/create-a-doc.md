@@ -1,6 +1,5 @@
 ---
 title: Create a Document 
-slug: /
 ---
 
 This page will help you to create your first document with Docusaurus.
