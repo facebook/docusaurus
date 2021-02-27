@@ -97,7 +97,7 @@ function assertItem<K extends string>(
 function assertIsCategory(
   item: unknown,
 ): asserts item is SidebarItemCategoryJSON {
-  assertItem(item, ['items', 'label', 'collapsed', 'customProps']);
+  assertItem(item, ['items', 'label', 'collapsed', 'link', 'customProps']);
   if (typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "label" must be a string.`,

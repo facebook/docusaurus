@@ -108,6 +108,7 @@ export type SidebarItemCategory = SidebarItemBase & {
   label: string;
   items: SidebarItem[];
   collapsed: boolean;
+  link?: object;
 };
 
 export type SidebarItem =

@@ -15,14 +15,14 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
-      link: {type: 'doc', id: 'introduction'},
+      link: {type: 'link', href: 'https://google.com'},
       collapsed: false,
       items: ['installation', 'configuration', 'typescript-support'],
     },
     {
       type: 'category',
       label: 'Guides',
-      link: {type: 'doc', id: 'deployment'},
+      link: {type: 'doc', id: 'creating-pages'},
       items: [
         'guides/creating-pages',
         {
@@ -69,7 +69,6 @@ module.exports = {
     {
       type: 'category',
       label: 'Advanced Guides',
-      link: {type: 'doc', id: 'presets'},
       items: ['using-plugins', 'using-themes', 'presets'],
     },
     {

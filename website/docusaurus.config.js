@@ -282,6 +282,7 @@ const LocaleConfigs = isI18nStaging
   ],
   themeConfig: {
     hideableSidebar: true,
+    sidebarCollapsible: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,

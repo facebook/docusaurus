@@ -87,15 +87,19 @@ function DocSidebarItemCategory({
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
-    if (link && !collapsed) {
-      for (const i in items) {
-        if (items.hasOwnProperty(i)) {
-          const childItem = items[i];
-          if (childItem.type === 'link') {
-            if (link.id.includes(childItem.label.toLowerCase())) {
-              setInitialLink(childItem.href);
-            }
-          }
+
+    if (link) {
+      if (Object.hasOwnProperty.call(link, 'type')) {
+        switch (link.type) {
+          case 'doc':
+            setInitialLink(link.id);
+            break;
+          case 'link':
+            setInitialLink(link.href);
+            break;
+          default:
+            setInitialLink('');
+            break;
         }
       }
     }
@@ -132,12 +136,11 @@ function DocSidebarItemCategory({
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible,
+          [styles.menuLinkText]: !collapsible && initialLink === '',
         })}
         {...(isInternalUrl(initialLink)
           ? {
               isNavLink: true,
-              exact: true,
               onClick: onItemClick,
             }
           : {
@@ -300,7 +303,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
-              link={item.link}
+              link={item.type === 'category' ? item.link : ''}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);
