@@ -8,6 +8,7 @@ module.exports = {
         'markdown-features',
         'create-a-doc',
         'create-a-page',
+        'create-a-post',
       ],
     },
   ],
