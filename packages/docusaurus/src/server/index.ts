@@ -40,6 +40,8 @@ import {mapValues} from 'lodash';
 
 type LoadContextOptions = {
   customOutDir?: string;
+  customGeneratedFilesDir?: string;
+  customConfigFilePath?: string;
   locale?: string;
   localizePath?: boolean; // undefined = only non-default locales paths are localized
 };
@@ -48,12 +50,21 @@ export async function loadContext(
   siteDir: string,
   options: LoadContextOptions = {},
 ): Promise<LoadContext> {
-  const {customOutDir, locale} = options;
-  const generatedFilesDir: string = path.resolve(
-    siteDir,
-    GENERATED_FILES_DIR_NAME,
-  );
-  const initialSiteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {
+    customOutDir,
+    locale,
+    customGeneratedFilesDir,
+    customConfigFilePath,
+  } = options;
+  const generatedFilesDir = customGeneratedFilesDir
+    ? path.resolve(customGeneratedFilesDir)
+    : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
+
+  const configPath = customConfigFilePath
+    ? path.resolve(customConfigFilePath)
+    : path.resolve(siteDir, CONFIG_FILE_NAME);
+
+  const initialSiteConfig: DocusaurusConfig = loadConfig(configPath);
   const {ssrTemplate} = initialSiteConfig;
 
   const baseOutDir = customOutDir

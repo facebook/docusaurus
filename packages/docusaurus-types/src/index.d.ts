@@ -131,21 +131,36 @@ export type HostPortCLIOptions = {
   port?: string;
 };
 
-export type StartCLIOptions = HostPortCLIOptions & {
-  hotOnly: boolean;
-  open: boolean;
-  poll: boolean | number;
-  locale?: string;
+export type ConfigOptions = {
+  config: string;
 };
 
-export type ServeCLIOptions = HostPortCLIOptions & {
-  build: boolean;
-  dir: string;
-};
+export type StartCLIOptions = HostPortCLIOptions &
+  ConfigOptions & {
+    hotOnly: boolean;
+    open: boolean;
+    poll: boolean | number;
+    locale?: string;
+  };
 
-export type BuildOptions = {
+export type ServeCLIOptions = HostPortCLIOptions &
+  ConfigOptions & {
+    dir: string;
+  } & (
+    | {
+        build: true;
+        // We only need generatedFilesDir when `build` is true
+        generatedFilesDir: string;
+      }
+    | {
+        build: false;
+      }
+  );
+
+export type BuildOptions = ConfigOptions & {
   bundleAnalyzer: boolean;
   outDir: string;
+  generatedFilesDir: string;
   minify: boolean;
   skipBuild: boolean;
 };

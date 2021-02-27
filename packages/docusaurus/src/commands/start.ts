@@ -42,6 +42,7 @@ export default async function start(
 
   function loadSite() {
     return load(siteDir, {
+      customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
     });
