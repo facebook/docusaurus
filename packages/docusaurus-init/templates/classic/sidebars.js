@@ -1,6 +1,9 @@
 module.exports = {
-  someSidebar: {
-    Docusaurus: ['getting-started'],
-    Features: ['mdx'],
-  },
+  docs: [
+    {
+      type: 'category',
+      label: 'Docusaurus Tutorial',
+      items: ['getting-started', 'markdown-features'],
+    },
+  ],
 };

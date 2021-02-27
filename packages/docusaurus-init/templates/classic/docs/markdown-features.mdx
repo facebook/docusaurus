@@ -2,30 +2,249 @@
 title: Markdown Features
 ---
 
+In this page, we will see some of the tools that will help you to build your documentation site with Docusaurus.
+
+## Markdown headers
+
+You will see markdown headers a lot when you're building your documentations. They define your documentation content in fields. For example:
+
+```md
+---
+id: slash
+title: Slash, Our Mascot!
+hide_title: false
+hide_table_of_contents: false
+sidebar_label: Say Hello to Slash!
+description: We named our mascot Slash because most documentations start with //
+keywords:
+  - docs
+  - docusaurus
+  - mascot
+---
+```
+
+## Referencing other documents
+
+You can reference to another document file that you have in your documentation by using the file name of that documentation.
+
+For example, if you want to reference `create-a-page.md`:
+
+```md
+I am referencing [this](create-a-page.md) tutorial.
+```
+
+## Embedding React components with MDX
+
+Docusaurus allows you to write JSX inside your Markdown files, thanks to `MDX`.
+
+For example, this code below:
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+```
+
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+You can see the effect of the highlight component below!
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">
+  Facebook blue
+</Highlight> are my favorite colors.
+
+## Tabs
+
+Docusaurus provides `<Tabs>` component that you can use to show tabbed contents.
+
+```jsx
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Tabs Example:
+<Tabs
+  defaultValue="react"
+  values={[
+    {label: 'React', value: 'react'},
+    {label: 'Vue', value: 'vue'},
+    {label: 'Angular', value: 'angular'},
+  ]}>
+  <TabItem value="react">
+    This is <em>React</em>
+  </TabItem>
+  <TabItem value="vue">
+    This is <em>Vue</em>
+  </TabItem>
+  <TabItem value="angular">
+    This is <em>Angular</em>
+  </TabItem>
+</Tabs>;
+```
+
+The component above will render the following:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <Tabs
-    defaultValue="npm"
-    values={[
-        { label: 'npm', value: 'npm' },
-        { label: 'Yarn', value: 'yarn' },
-    ]}
->
-<TabItem value="npm">
-
-```shell
-npm install
-```
-
-</TabItem>
-<TabItem value="yarn">
-
-```shell
-yarn
-```
-
-</TabItem>
+  defaultValue="react"
+  values={[
+    {label: 'React', value: 'react'},
+    {label: 'Vue', value: 'vue'},
+    {label: 'Angular', value: 'angular'},
+  ]}>
+  <TabItem value="react">
+    This is <em>React</em>
+  </TabItem>
+  <TabItem value="vue">
+    This is <em>Vue</em>
+  </TabItem>
+  <TabItem value="angular">
+    This is <em>Angular</em>
+  </TabItem>
 </Tabs>
+
+:::info
+
+You can load each tab lazily by passing the `lazy` prop to the `Tabs` component.
+
+:::
+
+## Inline Table of Contents
+
+If you didn't notice already, each markdown document displays a tab of content on the top-right corner.
+
+You can display those table of contents inside a markdown document, inline by using the `<TOCInline>` component.
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />;
+```
+
+will render the following:
+
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />
+
+## Callouts/Admonitions
+
+Docusaurus supports adminitions that you can utilize below:
+
+    :::note
+
+    The content and title *can* include markdown.
+
+    :::
+
+    :::tip You can specify an optional title
+
+    Heads up! Here's a pro-tip.
+
+    :::
+
+    :::info
+
+    Useful information.
+
+    :::
+
+    :::caution
+
+    Warning! You better pay attention!
+
+    :::
+
+    :::danger
+
+    Danger danger, mayday!
+
+    :::
+
+:::note
+
+The content and title _can_ include markdown.
+
+:::
+
+:::tip You can specify an optional title
+
+Heads up! Here's a pro-tip.
+
+:::
+
+:::info
+
+Useful information.
+
+:::
+
+:::caution
+
+Warning! You better pay attention!
+
+:::
+
+:::danger
+
+Danger danger, mayday!
+
+:::
+
+## Code Blocks
+
+You can showcase your code better when you are using code block as it will format and provide syntax highlighting for your code blocks.
+
+    ```jsx title="src/components/HelloDocusaurus.js"
+    function HelloDocusaurus() {
+        return (
+            <h1>Hello, Docusaurus!</h1>
+        )
+    }
+    ```
+
+The markdown above will render the code block with `jsx` syntax highlighting and show the provided title:
+
+```jsx title="src/components/HelloDocusaurus.js"
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+
+## Assets
+
+You can use images, files, and even inline SVGs in Docusaurus.
+
+For example, if we want to render an inline SVG:
+
+```jsx
+import DocusaurusSVG from '/static/img/logo.svg';
+
+<DocusaurusSVG />;
+```
+
+This will render our little mascot friend, _Slash_.
+
+import DocusaurusSVG from '/static/img/logo.svg';
+
+<DocusaurusSVG />
