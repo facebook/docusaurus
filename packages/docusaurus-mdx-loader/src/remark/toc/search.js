@@ -23,17 +23,13 @@ const {toValue} = require('../utils');
  * @property {StringValuedNode[]} children
  */
 
-// Visit all headings. We `slug` all headings (to account for
-// duplicates), but only take h2 and h3 headings.
 /**
- * @param {StringValuedNode} node
+ * @param {StringValuedNode} headingNode
+ * @param {Number} maxDepth
  * @returns {TOC[]}
  */
-function search(node) {
-  /** @type {TOC[]} */
+function search(headingNode, maxDepth) {
   const headings = [];
-  let current = -1;
-  let currentDepth = 0;
 
   /**
    * @param {StringValuedNode} child
@@ -44,28 +40,57 @@ function search(node) {
   const onHeading = (child, index, parent) => {
     const value = toString(child);
 
-    if (parent !== node || !value || child.depth > 3 || child.depth < 2) {
+    if (
+      parent !== headingNode ||
+      !value ||
+      child.depth > maxDepth ||
+      child.depth < 2
+    ) {
       return;
     }
 
-    const entry = {
+    headings.push({
       value: toValue(child),
       id: child.data.id,
       children: [],
-    };
-
-    if (!headings.length || currentDepth >= child.depth) {
-      headings.push(entry);
-      current += 1;
-      currentDepth = child.depth;
-    } else {
-      headings[current].children.push(entry);
-    }
+      // Temporary properties
+      level: child.depth,
+      parentIndex: -1,
+    });
   };
 
-  visit(node, 'heading', onHeading);
+  visit(headingNode, 'heading', onHeading);
 
-  return headings;
+  const findParent = (toc, parentIndex, level) => {
+    while (parentIndex >= 0 && level < toc[parentIndex].level) {
+      parentIndex = toc[parentIndex].parentIndex;
+    }
+    return parentIndex >= 0 ? toc[parentIndex].parentIndex : -1;
+  };
+
+  headings.forEach((node, index) => {
+    const prev = headings[index > 0 ? index - 1 : 0];
+    node.parentIndex =
+      node.level > prev.level
+        ? (node.parentIndex = index - 1)
+        : prev.parentIndex;
+    node.parentIndex =
+      node.level < prev.level
+        ? findParent(headings, node.parentIndex, node.level)
+        : node.parentIndex;
+  });
+
+  const rootNodeIds = [];
+  headings.forEach((node, i) => {
+    if (node.parentIndex >= 0) {
+      rootNodeIds.push(i);
+      headings[node.parentIndex].children.push(node);
+    }
+    delete node.parentIndex;
+    delete node.level;
+  });
+
+  return headings.filter((v, k) => !rootNodeIds.includes(k));
 }
 
 module.exports = search;

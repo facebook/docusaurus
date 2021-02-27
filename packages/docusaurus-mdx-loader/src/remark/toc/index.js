@@ -58,11 +58,12 @@ const getOrCreateExistingTargetIndex = (children, name) => {
   return targetIndex;
 };
 
-const plugin = (options = {}) => {
+const toc = (options = {}) => {
   const name = options.name || 'toc';
+  const maxDepth = options.maxDepth || 3;
 
   const transformer = (node) => {
-    const headings = search(node);
+    const headings = search(node, maxDepth);
     const {children} = node;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
@@ -76,4 +77,4 @@ const plugin = (options = {}) => {
   return transformer;
 };
 
-module.exports = plugin;
+module.exports = toc;

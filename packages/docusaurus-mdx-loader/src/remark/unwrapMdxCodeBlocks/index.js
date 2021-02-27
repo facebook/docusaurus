@@ -12,7 +12,7 @@ const visit = require('unist-util-visit');
 // We wrap the JSX syntax in code blocks so that translation tools don't mess-up with the markup
 // But the JSX inside such code blocks should still be evaluated as JSX
 // See https://github.com/facebook/docusaurus/pull/4278
-function plugin() {
+function unwrapMdxCodeBlocks() {
   const transformer = (root) => {
     visit(root, 'code', (node, _index, parent) => {
       if (node.lang === 'mdx-code-block') {
@@ -31,4 +31,4 @@ function plugin() {
   return transformer;
 }
 
-module.exports = plugin;
+module.exports = unwrapMdxCodeBlocks;

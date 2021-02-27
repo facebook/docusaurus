@@ -23,20 +23,20 @@ const processFixture = async (name, options) => {
 
   return result.toString();
 };
+describe('toc plugin', () => {
+  test('non text phrasing content', async () => {
+    const result = await processFixture('non-text-content');
+    expect(result).toMatchSnapshot();
+  });
 
-test('non text phrasing content', async () => {
-  const result = await processFixture('non-text-content');
-  expect(result).toMatchSnapshot();
-});
+  test('inline code should be escaped', async () => {
+    const result = await processFixture('inline-code');
+    expect(result).toMatchSnapshot();
+  });
 
-test('inline code should be escaped', async () => {
-  const result = await processFixture('inline-code');
-  expect(result).toMatchSnapshot();
-});
-
-test('text content', async () => {
-  const result = await processFixture('just-content');
-  expect(result).toMatchInlineSnapshot(`
+  test('text content', async () => {
+    const result = await processFixture('just-content');
+    expect(result).toMatchInlineSnapshot(`
     "export const toc = [
     	{
     		value: 'Endi',
@@ -78,11 +78,11 @@ test('text content', async () => {
     ## I ♥ unicode.
     "
   `);
-});
+  });
 
-test('should export even with existing name', async () => {
-  const result = await processFixture('name-exist');
-  expect(result).toMatchInlineSnapshot(`
+  test('should export even with existing name', async () => {
+    const result = await processFixture('name-exist');
+    expect(result).toMatchInlineSnapshot(`
     "export const toc = [
     	{
     		value: 'Thanos',
@@ -109,14 +109,14 @@ test('should export even with existing name', async () => {
     ### Avengers
     "
   `);
-});
+  });
 
-test('should export with custom name', async () => {
-  const options = {
-    name: 'customName',
-  };
-  const result = await processFixture('just-content', options);
-  expect(result).toMatchInlineSnapshot(`
+  test('should export with custom name', async () => {
+    const options = {
+      name: 'customName',
+    };
+    const result = await processFixture('just-content', options);
+    expect(result).toMatchInlineSnapshot(`
     "export const customName = [
     	{
     		value: 'Endi',
@@ -158,11 +158,11 @@ test('should export with custom name', async () => {
     ## I ♥ unicode.
     "
   `);
-});
+  });
 
-test('should insert below imports', async () => {
-  const result = await processFixture('insert-below-imports');
-  expect(result).toMatchInlineSnapshot(`
+  test('should insert below imports', async () => {
+    const result = await processFixture('insert-below-imports');
+    expect(result).toMatchInlineSnapshot(`
     "import something from 'something';
 
     import somethingElse from 'something-else';
@@ -195,11 +195,11 @@ test('should insert below imports', async () => {
     Content.
     "
   `);
-});
+  });
 
-test('empty headings', async () => {
-  const result = await processFixture('empty-headings');
-  expect(result).toMatchInlineSnapshot(`
+  test('empty headings', async () => {
+    const result = await processFixture('empty-headings');
+    expect(result).toMatchInlineSnapshot(`
     "export const toc = [];
 
     # Ignore this
@@ -209,4 +209,10 @@ test('empty headings', async () => {
     ## ![](an-image.svg)
     "
   `);
+  });
+
+  test('maximum deeply headings', async () => {
+    const result = await processFixture('maximum-depth-6', {maxDepth: 6});
+    expect(result).toMatchSnapshot();
+  });
 });

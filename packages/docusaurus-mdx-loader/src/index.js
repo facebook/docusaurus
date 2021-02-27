@@ -7,6 +7,7 @@
 
 const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
+const path = require('path');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
 const matter = require('gray-matter');
@@ -17,9 +18,33 @@ const unwrapMdxCodeBlocks = require('./remark/unwrapMdxCodeBlocks');
 const transformImage = require('./remark/transformImage');
 const transformLinks = require('./remark/transformLinks');
 
+const customRemarkPlugins = [unwrapMdxCodeBlocks, slug, toc];
+const customRemarkPluginNames = customRemarkPlugins.map((p) => p.name);
+
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [unwrapMdxCodeBlocks, emoji, slug, toc],
+  remarkPlugins: [emoji].concat(customRemarkPlugins),
+};
+
+const resolveLocalRemarkPlugin = (plugin) => {
+  if (Array.isArray(plugin) && typeof plugin[0] === 'string') {
+    try {
+      plugin = [
+        // eslint-disable-next-line import/no-dynamic-require
+        require(path.resolve(__dirname, `./remark/${plugin[0]}`)),
+        plugin[1],
+      ];
+    } catch (err) {
+      throw new Error(
+        `Remark plugin "${
+          plugin[0]
+        }" not found. Plugins available for configure:\n${customRemarkPluginNames.join(
+          '\n',
+        )}`,
+      );
+    }
+  }
+  return plugin;
 };
 
 module.exports = async function docusaurusMdxLoader(fileString) {
@@ -27,11 +52,24 @@ module.exports = async function docusaurusMdxLoader(fileString) {
 
   const {data, content} = matter(fileString);
   const reqOptions = getOptions(this) || {};
+
+  const userRemarkPlugins = reqOptions.remarkPlugins.map(
+    resolveLocalRemarkPlugin,
+  );
+  const overriddenDefaultRemarkPluginNames = userRemarkPlugins.flatMap((p) =>
+    Array.isArray(p) && customRemarkPluginNames.includes(p[0].name)
+      ? [p[0].name]
+      : [],
+  );
+  const defaultRemarkPlugins = DEFAULT_OPTIONS.remarkPlugins.filter(
+    (p) => !overriddenDefaultRemarkPluginNames.includes(p.name),
+  );
+
   const options = {
     ...reqOptions,
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
-      ...DEFAULT_OPTIONS.remarkPlugins,
+      ...defaultRemarkPlugins,
       [
         transformImage,
         {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
@@ -40,7 +78,7 @@ module.exports = async function docusaurusMdxLoader(fileString) {
         transformLinks,
         {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
       ],
-      ...(reqOptions.remarkPlugins || []),
+      ...userRemarkPlugins,
     ],
     rehypePlugins: [
       ...(reqOptions.beforeDefaultRehypePlugins || []),

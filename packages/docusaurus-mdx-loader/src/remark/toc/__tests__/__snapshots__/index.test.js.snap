@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`inline code should be escaped 1`] = `
+exports[`toc plugin inline code should be escaped 1`] = `
 "export const toc = [
 	{
 		value: '<code>&lt;Head /&gt;</code>',
@@ -42,7 +42,54 @@ exports[`inline code should be escaped 1`] = `
 "
 `;
 
-exports[`non text phrasing content 1`] = `
+exports[`toc plugin maximum deeply headings 1`] = `
+"export const toc = [
+	{
+		value: 'Bravo',
+		id: 'bravo',
+		children: [
+			{
+				value: 'Charlie',
+				id: 'charlie',
+				children: [
+					{
+						value: 'Delta',
+						id: 'delta',
+						children: [
+							{
+								value: 'Echo',
+								id: 'echo',
+								children: [
+									{
+										value: 'Foxtrot',
+										id: 'foxtrot',
+										children: []
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+];
+
+# Alpha
+
+## Bravo
+
+### Charlie
+
+#### Delta
+
+##### Echo
+
+###### Foxtrot
+"
+`;
+
+exports[`toc plugin non text phrasing content 1`] = `
 "export const toc = [
 	{
 		value: '<em>Emphasis</em>',

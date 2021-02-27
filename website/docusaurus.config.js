@@ -241,6 +241,7 @@ const LocaleConfigs = isI18nStaging
           showLastUpdateTime: true,
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+            ['toc', {maxDepth: 4}],
           ],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,

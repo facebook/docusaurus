@@ -54,7 +54,7 @@ const nodeForImport = {
     "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
-module.exports = (options = {}) => {
+module.exports = function npm2Yarn(options = {}) {
   const {sync = false} = options;
   let transformed = false;
   const transformer = (node) => {
