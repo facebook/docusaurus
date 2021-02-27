@@ -1,0 +1,31 @@
+---
+title: Markdown Features
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Tabs Example:
+
+<Tabs
+    defaultValue="npm"
+    values={[
+        { label: 'npm', value: 'npm' },
+        { label: 'Yarn', value: 'yarn' },
+    ]}
+>
+<TabItem value="npm">
+
+```shell
+npm install
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```shell
+yarn
+```
+
+</TabItem>
+</Tabs>
