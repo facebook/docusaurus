@@ -28,6 +28,7 @@
   "theme.blog.post.paginator.navAriaLabel": "Pagination des blog posts",
   "theme.blog.post.paginator.newerPost": "Article plus récent",
   "theme.blog.post.paginator.olderPost": "Article plus ancien",
+  "theme.blog.post.plurals": "Un article|{count} articles",
   "theme.blog.post.readMore": "Lire plus",
   "theme.blog.post.readingTime": "{readingTime} min de lecture",
   "theme.blog.tagTitle": "{nPosts} taggés avec \"{tagName}\"",

@@ -13,58 +13,22 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
-import {usePluralFormSector} from '@docusaurus/theme-common';
-
-// Not ideal but good enough!
-// See doc of usePluralFormSector for reason!
-const BlogPostPlurals = (count) => ({
-  one: translate(
-    {
-      id: 'theme.blog.post.plurals.one',
-      description: 'Pluralized label for one blog post',
-      message: 'One post (ONE)',
-    },
-    {count},
-  ),
-  two: translate(
-    {
-      id: 'theme.blog.post.plurals.two',
-      description: 'Pluralized label for two blog posts',
-      message: '{count} posts (TWO)',
-    },
-    {count},
-  ),
-  few: translate(
-    {
-      id: 'theme.blog.post.plurals.few',
-      description: 'Pluralized label for few blog posts',
-      message: '{count} posts (FEW)',
-    },
-    {count},
-  ),
-  many: translate(
-    {
-      id: 'theme.blog.post.plurals.many',
-      description: 'Pluralized label for many blog posts',
-      message: '{count} posts (MANY)',
-    },
-    {count},
-  ),
-  other: translate(
-    {
-      id: 'theme.blog.post.plurals.other',
-      description: 'Pluralized label for other blog posts',
-      message: '{count} posts (OTHER)',
-    },
-    {count},
-  ),
-});
+import {usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostPlural(count: number): string {
-  const selectPluralForm = usePluralFormSector();
-  const pluralForm = selectPluralForm(count);
-  return BlogPostPlurals(count)[pluralForm];
+  const {selectMessage} = usePluralForm();
+  return selectMessage(
+    count,
+    translate(
+      {
+        id: 'theme.blog.post.plurals',
+        description: 'Pluralized label for one blog post',
+        message: 'One post|{count} posts',
+      },
+      {count},
+    ),
+  );
 }
 
 function BlogTagsPostPageTitle({

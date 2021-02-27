@@ -26,7 +26,7 @@ export {isSamePath} from './utils/pathUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 
-export {usePluralFormSector} from './utils/usePluralForm';
+export {usePluralForm} from './utils/usePluralForm';
 
 export {
   useDocsPreferredVersion,

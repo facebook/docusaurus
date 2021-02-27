@@ -5,14 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback} from 'react';
+import {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-type SelectPluralForm = (count: number) => Intl.LDMLPluralRule;
+type LocalePluralForms = {
+  locale: string;
+  pluralForms: Intl.LDMLPluralRule[];
+  select: (count: number) => Intl.LDMLPluralRule;
+};
 
-// Hardcoded fallback implementation
-const EnglishPluralFormSelector: SelectPluralForm = (count) =>
-  count === 1 ? 'one' : 'other';
+// Hardcoded english/fallback implementation
+const EnglishPluralForms: LocalePluralForms = {
+  locale: 'en',
+  pluralForms: ['one', 'other'],
+  select: (count) => (count === 1 ? 'one' : 'other'),
+};
+
+function createLocalePluralForms(locale: string): LocalePluralForms {
+  const pluralRules = new Intl.PluralRules(locale);
+  return {
+    locale,
+    pluralForms: pluralRules.resolvedOptions().pluralCategories,
+    select: (count) => pluralRules.select(count),
+  };
+}
 
 // Poor man's PluralSelector implementation, using an english fallback.
 // We want a lightweight, future-proof and good-enough solution.
@@ -25,28 +41,57 @@ const EnglishPluralFormSelector: SelectPluralForm = (count) =>
 // - 2021: 92+% Browsers support Intl.PluralRules, and support will increase in the future
 // - NodeJS >= 13 has full ICU support by default
 // - In case of "mismatch" between SSR and Browser ICU support, React keeps working!
-export function usePluralFormSector(): SelectPluralForm {
+function useLocalePluralForms(): LocalePluralForms {
   const {
     i18n: {currentLocale},
   } = useDocusaurusContext();
-  return useCallback(
-    (count) => {
-      if (Intl && Intl.PluralRules) {
-        try {
-          return new Intl.PluralRules(currentLocale).select(count);
-        } catch (e) {
-          console.error(`Failed to use Intl.PluralRules for locale=${currentLocale} and count=${count}.
+  return useMemo(() => {
+    if (Intl && Intl.PluralRules) {
+      try {
+        return createLocalePluralForms(currentLocale);
+      } catch (e) {
+        console.error(`Failed to use Intl.PluralRules for locale=${currentLocale}.
 Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
 `);
-          return EnglishPluralFormSelector(count);
-        }
-      } else {
-        console.error(`Intl.PluralRules not available!
+        return EnglishPluralForms;
+      }
+    } else {
+      console.error(`Intl.PluralRules not available!
 Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
         `);
-        return EnglishPluralFormSelector(count);
-      }
+      return EnglishPluralForms;
+    }
+  }, [currentLocale]);
+}
+
+function selectPluralMessage(
+  pluralMessages: string,
+  count: number,
+  localePluralForms: LocalePluralForms,
+): string {
+  const separator = '|';
+  const parts = pluralMessages.split(separator);
+
+  if (parts.length === 1) {
+    return parts[0];
+  } else {
+    if (parts.length !== localePluralForms.pluralForms.length) {
+      console.warn(
+        `For  locale=${localePluralForms.locale}, ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
+      );
+    }
+    const pluralForm = localePluralForms.select(count);
+    const pluralFormIndex = localePluralForms.pluralForms.indexOf(pluralForm);
+    // In case of not enough plural form messages, we take the last one (other) instead of returning undefined
+    return parts[Math.min(pluralFormIndex, parts.length - 1)];
+  }
+}
+
+export function usePluralForm() {
+  const localePluralForm = useLocalePluralForms();
+  return {
+    selectMessage: (count: number, pluralMessages: string): string => {
+      return selectPluralMessage(pluralMessages, count, localePluralForm);
     },
-    [currentLocale],
-  );
+  };
 }
