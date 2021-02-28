@@ -9,15 +9,21 @@ import * as React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
 
 import styles from './styles.module.css';
 
-export default function Playground({children, theme, transformCode, ...props}) {
+export default function Playground({children, transformCode, ...props}) {
+  const {isClient} = useDocusaurusContext();
+  const prismTheme = usePrismTheme();
+
   return (
     <LiveProvider
-      code={children.replace(/\n$/, '')}
+      key={isClient}
+      code={isClient ? children.replace(/\n$/, '') : ''}
       transformCode={transformCode || ((code) => `${code};`)}
-      theme={theme}
+      theme={prismTheme}
       {...props}>
       <div
         className={clsx(
