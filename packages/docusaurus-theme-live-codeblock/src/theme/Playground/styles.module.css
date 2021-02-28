@@ -14,6 +14,7 @@
   padding: 0.75rem;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: var(--ifm-code-font-size);
 }
 
 .playgroundEditorHeader {
