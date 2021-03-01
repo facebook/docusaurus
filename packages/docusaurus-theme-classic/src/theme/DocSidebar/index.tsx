@@ -32,10 +32,6 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
     return isSamePath(item.href, activePath);
