@@ -14,3 +14,16 @@ npm run build
 ```
 The static files will be generate in the build/ directory.
 
+## Self Hosting
+
+:::warning
+It is not the most performant solution
+:::
+
+
+Docusaurus can be self hosted with docusaurus serve. Change your `--port` and `--host` to match appropriately.
+
+```bash
+npm run serve --build --port 80 --host 0.0.0.0
+```
+
