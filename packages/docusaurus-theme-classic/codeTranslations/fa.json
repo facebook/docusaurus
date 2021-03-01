@@ -59,9 +59,9 @@
   "theme.docs.versions.latestVersionSuggestionLabel": "برای دیدن آخرین نسخه، {latestVersionLink} ({versionLabel}) را ببینید.",
   "theme.docs.versions.unmaintainedVersionLabel": "نسخه {siteTitle} {versionLabel} دیگر بروزرسانی نمی شود.",
   "theme.docs.versions.unreleasedVersionLabel": "نسخه {siteTitle} {versionLabel} هنوز به صورت کامل منتشر نشده است.",
-  "theme.lastUpdated.atDate": "در تاریخ {date}",
-  "theme.lastUpdated.byUser": "توسط {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "آخرین به روزرسانی {atDate} {byUser}",
+  "theme.lastUpdated.atDate": " در تاریخ {date}",
+  "theme.lastUpdated.byUser": " توسط {user}",
+  "theme.lastUpdated.lastUpdatedAtBy": "آخرین به روزرسانی{atDate}{byUser}",
   "theme.tags.tagsListLabel": ":برچسب ها",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب ها",
   "theme.tags.tagsPageTitle": "برچسب ها"
