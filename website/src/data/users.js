@@ -486,6 +486,14 @@ const users = [
     tags: ['highlight', 'design', 'large'],
   },
   {
+    title: 'RactivePlayer',
+    description: 'Interactive videos in React',
+    preview: require('./showcase/ractive-player.png'),
+    website: 'https://ractive-player.org',
+    source: 'https://github.com/ysulyma/ractive-player',
+    tags: [],
+  },
+  {
     title: 'React-Leaflet',
     description: 'React components for Leaflet maps',
     preview: require('./showcase/react-leaflet.png'),
