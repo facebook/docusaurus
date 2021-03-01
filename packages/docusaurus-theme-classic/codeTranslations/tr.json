@@ -59,9 +59,9 @@
   "theme.docs.versions.latestVersionSuggestionLabel": "Güncel belgeler için bkz. {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Bu, {siteTitle} {versionLabel} dokümantasyonudur ve bakımı sonlanmıştır.",
   "theme.docs.versions.unreleasedVersionLabel": "Bu, {siteTitle} {versionLabel} sürümü için yayınlanmamış dokümantasyondur.",
-  "theme.lastUpdated.atDate": "{date}",
-  "theme.lastUpdated.byUser": "{user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "En son {atDate} tarihinde {byUser} tarafından güncellendi",
+  "theme.lastUpdated.atDate": "{date} tarihinde",
+  "theme.lastUpdated.byUser": "{user} tarafından",
+  "theme.lastUpdated.lastUpdatedAtBy": "En son{atDate}{byUser} güncellendi",
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler"
