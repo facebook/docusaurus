@@ -34,6 +34,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropSidebarItemCategory = PropsSidebarItemBase & {
     type: 'category';
     label: string;
+    link?: object;
     items: PropSidebarItem[];
     collapsed?: boolean;
   };
