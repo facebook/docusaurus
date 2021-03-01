@@ -10,16 +10,13 @@
   padding: 0.75rem;
   text-transform: uppercase;
   font-weight: bold;
-}
-
-.playgroundEditorHeader {
-  background: var(--ifm-color-emphasis-600);
-  color: var(--ifm-color-content-inverse);
-}
-
-.playgroundPreviewHeader {
   background: var(--ifm-color-emphasis-200);
   color: var(--ifm-color-content);
+}
+
+.playgroundHeader:first-of-type {
+  background: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-content-inverse);
 }
 
 .playgroundEditor {

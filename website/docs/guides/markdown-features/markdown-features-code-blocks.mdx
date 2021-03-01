@@ -292,6 +292,8 @@ function Clock(props) {
 }
 ```
 
+### Imports
+
 :::caution react-live and imports
 
 It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
@@ -341,6 +343,25 @@ function MyPlayground(props) {
     </div>
   );
 }
+```
+
+### Configuration
+
+You can also configurate `@docusaurus/theme-live-codeblock` plugin with the following parameters:
+
+```jsx title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    liveCodeblock: {
+      // Optional
+      showResultBeforeEditor: false,
+    },
+    // highlight-end
+  },
+};
 ```
 
 ## Multi-language support code blocks
