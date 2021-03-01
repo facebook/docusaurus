@@ -102,17 +102,12 @@ function DocSidebarItemCategory({
   }, [isActive, wasActive, collapsed]);
 
   const handleItemClick = useCallback(
-    async (e) => {
-      if (!collapsed) {
-        e.preventDefault();
-      }
+    (e) => {
+      e.preventDefault();
       if (!menuListHeight) {
         handleMenuListHeight();
       }
-      setCollapsed((state) => {
-        return !state;
-      });
-      await sleep(100);
+      setTimeout(() => setCollapsed((state) => !state), 100);
     },
     [menuListHeight],
   );
