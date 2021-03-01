@@ -12,5 +12,10 @@ module.exports = {
         'thank-you',
       ],
     },
+    {
+      type: 'category',
+      label: 'Extras',
+      items: ['deploy-your-site'],
+    },
   ],
 };
