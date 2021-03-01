@@ -84,7 +84,7 @@ function DocSidebarItemCategory({
       setCollapsed(false);
     }
     if (item.link) {
-	  if (Object.hasOwnProperty.call(item.link, 'type')) {
+      if (Object.hasOwnProperty.call(item.link, 'type')) {
         switch (item.link.type) {
           case 'doc':
             setInitialLink(item.link.id);
@@ -126,7 +126,7 @@ function DocSidebarItemCategory({
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible && initialLink === "",
+          [styles.menuLinkText]: !collapsible && initialLink === '',
         })}
         {...(isInternalUrl(initialLink)
           ? {
@@ -293,7 +293,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
-              link={item.type === 'category' ? item.link: ''}
+              link={item.type === 'category' ? item.link : ''}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);
