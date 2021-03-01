@@ -13,7 +13,7 @@
  }
 
  .playgroundLivePreview {
-  padding: 42px 24px 18px;
+  padding: 42px 24px;
  }
 
 .playgroundToolbar {
@@ -46,9 +46,9 @@
   position: absolute;
   left: 1rem;
   top: -14px;
-  background-color: var(--docsearch-hit-background);
+  background-color: #fff ;
   color: var(--docsearch-text-color);
-  cursor: none;
+  cursor: default;
   padding: 0px .4rem;
 }
 
