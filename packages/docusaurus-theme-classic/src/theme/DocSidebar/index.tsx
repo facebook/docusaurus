@@ -128,15 +128,10 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible && initialLink === '',
         })}
-        {...(isInternalUrl(initialLink)
-          ? {
-              isNavLink: true,
-              onClick: onItemClick,
-            }
-          : {
-              target: '_blank',
-              rel: 'noreferrer noopener',
-            })}
+        {...{
+          isNavLink: true,
+          onClick: onItemClick,
+        }}
         onClick={collapsible ? handleItemClick : undefined}
         {...props}>
         {label}
