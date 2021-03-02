@@ -53,7 +53,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
 
     const value = values?.[key];
 
-    if (value) {
+    if (typeof value !== 'undefined') {
       const element = React.isValidElement(value)
         ? value
         : // For non-React elements: basic primitive->string conversion
