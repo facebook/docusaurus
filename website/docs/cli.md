@@ -78,7 +78,6 @@ Compiles your site for production.
 | `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
-| `--generated-files-dir` | `undefined` | Path to temporary `.docusaurus` folder, default to `[siteDir]/.docusaurus` |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 :::info
@@ -158,7 +157,6 @@ Serve your built website locally.
 | `--dir` | `build` | The full path for the output directory, relative to the current workspace |
 | `--build` | `false` | Build website before serving |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
-| `--generated-files-dir` | `undefined` | Path to temporary `.docusaurus` folder, default to `[siteDir]/.docusaurus`. This is only relevant when `--build` is `true` |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 
 ### `docusaurus clear [siteDir]`

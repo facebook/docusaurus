@@ -26,7 +26,6 @@ export default async function serve(
     dir = await build(
       siteDir,
       {
-        generatedFilesDir: cliOptions.generatedFilesDir,
         config: cliOptions.config,
         outDir: dir,
       },

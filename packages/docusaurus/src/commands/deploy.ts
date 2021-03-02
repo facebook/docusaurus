@@ -8,7 +8,6 @@
 import fs from 'fs-extra';
 import shell from 'shelljs';
 import chalk from 'chalk';
-import {CONFIG_FILE_NAME} from '../constants';
 import {loadContext} from '../server';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
@@ -42,7 +41,7 @@ export default async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir, siteConfig} = await loadContext(siteDir, {
+  const {outDir, siteConfig, siteConfigPath} = await loadContext(siteDir, {
     customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });
@@ -68,7 +67,7 @@ export default async function deploy(
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      `Missing project organization name. Did you forget to define 'organizationName' in ${CONFIG_FILE_NAME}? You may also export it via the ORGANIZATION_NAME environment variable.`,
+      `Missing project organization name. Did you forget to define 'organizationName' in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
@@ -79,7 +78,7 @@ export default async function deploy(
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      `Missing project name. Did you forget to define 'projectName' in ${CONFIG_FILE_NAME}? You may also export it via the PROJECT_NAME environment variable.`,
+      `Missing project name. Did you forget to define 'projectName' in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('projectName:')} ${projectName}`);

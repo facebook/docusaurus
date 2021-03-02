@@ -60,7 +60,6 @@ export default async function build(
   }
   const context = await loadContext(siteDir, {
     customOutDir: cliOptions.outDir,
-    customGeneratedFilesDir: cliOptions.generatedFilesDir,
     customConfigFilePath: cliOptions.config,
     locale: cliOptions.locale,
     localizePath: cliOptions.locale ? false : undefined,
@@ -118,7 +117,6 @@ async function buildLocale({
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
-    customGeneratedFilesDir: cliOptions.generatedFilesDir,
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });

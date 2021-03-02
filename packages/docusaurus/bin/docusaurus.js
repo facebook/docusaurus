@@ -114,10 +114,6 @@ cli
     'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
   )
   .option(
-    '--generated-files-dir <dir>',
-    'Path to temporary `.docusaurus` folder, default to `[siteDir]/.docusaurus`.',
-  )
-  .option(
     '-l, --locale <locale>',
     'Build the site in a specified locale. Build all known locales otherwise.',
   )
@@ -125,21 +121,15 @@ cli
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action(
-    (
-      siteDir = '.',
-      {bundleAnalyzer, config, generatedFilesDir, outDir, locale, minify},
-    ) => {
-      wrapCommand(build)(path.resolve(siteDir), {
-        bundleAnalyzer,
-        outDir,
-        config,
-        generatedFilesDir,
-        locale,
-        minify,
-      });
-    },
-  );
+  .action((siteDir = '.', {bundleAnalyzer, config, outDir, locale, minify}) => {
+    wrapCommand(build)(path.resolve(siteDir), {
+      bundleAnalyzer,
+      outDir,
+      config,
+      locale,
+      minify,
+    });
+  });
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
@@ -230,10 +220,6 @@ cli
     '--config <config>',
     'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
   )
-  .option(
-    '--generated-files-dir <dir>',
-    'Path to temporary `.docusaurus` folder, default to `[siteDir]/.docusaurus`. This is only relevant when `--build` passed in.',
-  )
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'Build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
@@ -246,7 +232,6 @@ cli
         host = 'localhost',
         build: buildSite = false,
         config,
-        generatedFilesDir,
       },
     ) => {
       wrapCommand(serve)(path.resolve(siteDir), {
@@ -254,7 +239,6 @@ cli
         port,
         build: buildSite,
         config,
-        generatedFilesDir,
         host,
       });
     },

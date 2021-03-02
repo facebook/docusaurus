@@ -146,21 +146,12 @@ export type StartCLIOptions = HostPortCLIOptions &
 export type ServeCLIOptions = HostPortCLIOptions &
   ConfigOptions & {
     dir: string;
-  } & (
-    | {
-        build: true;
-        // We only need generatedFilesDir when `build` is true
-        generatedFilesDir: string;
-      }
-    | {
-        build: false;
-      }
-  );
+    build: boolean;
+  };
 
 export type BuildOptions = ConfigOptions & {
   bundleAnalyzer: boolean;
   outDir: string;
-  generatedFilesDir: string;
   minify: boolean;
   skipBuild: boolean;
 };
@@ -173,6 +164,7 @@ export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
+  siteConfigPath: string;
   outDir: string;
   baseUrl: string;
   i18n: I18n;
