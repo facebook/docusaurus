@@ -6,7 +6,6 @@
  */
 
 import Module from 'module';
-import {join} from 'path';
 import importFresh from 'import-fresh';
 import {
   DocusaurusPluginVersionInformation,
@@ -15,7 +14,7 @@ import {
   PluginConfig,
   PluginOptions,
 } from '@docusaurus/types';
-import {CONFIG_FILE_NAME, DEFAULT_PLUGIN_ID} from '../../constants';
+import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {
@@ -40,7 +39,7 @@ export default function initPlugins({
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
   // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
   const createRequire = Module.createRequire || Module.createRequireFromPath;
-  const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
+  const pluginRequire = createRequire(context.siteConfigPath);
 
   const plugins: InitPlugin[] = pluginConfigs
     .map((pluginItem) => {

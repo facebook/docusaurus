@@ -110,6 +110,10 @@ cli
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .option(
+    '--config <config>',
+    'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
+  )
+  .option(
     '-l, --locale <locale>',
     'Build the site in a specified locale. Build all known locales otherwise.',
   )
@@ -117,10 +121,11 @@ cli
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir, locale, minify}) => {
+  .action((siteDir = '.', {bundleAnalyzer, config, outDir, locale, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
+      config,
       locale,
       minify,
     });
@@ -156,11 +161,19 @@ cli
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .option(
+    '--config <config>',
+    'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
+  )
+  .option(
     '--skip-build',
     'Skip building website before deploy it (default: false)',
   )
-  .action((siteDir = '.', {outDir, skipBuild}) => {
-    wrapCommand(deploy)(path.resolve(siteDir), {outDir, skipBuild});
+  .action((siteDir = '.', {outDir, skipBuild, config}) => {
+    wrapCommand(deploy)(path.resolve(siteDir), {
+      outDir,
+      config,
+      skipBuild,
+    });
   });
 
 cli
@@ -173,21 +186,28 @@ cli
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
+  .option(
+    '--config <config>',
+    'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
+  )
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option(
     '--poll [interval]',
     'Use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds.',
   )
-  .action((siteDir = '.', {port, host, locale, hotOnly, open, poll}) => {
-    wrapCommand(start)(path.resolve(siteDir), {
-      port,
-      host,
-      locale,
-      hotOnly,
-      open,
-      poll,
-    });
-  });
+  .action(
+    (siteDir = '.', {port, host, locale, config, hotOnly, open, poll}) => {
+      wrapCommand(start)(path.resolve(siteDir), {
+        port,
+        host,
+        locale,
+        config,
+        hotOnly,
+        open,
+        poll,
+      });
+    },
+  );
 
 cli
   .command('serve [siteDir]')
@@ -195,6 +215,10 @@ cli
   .option(
     '--dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default: build).',
+  )
+  .option(
+    '--config <config>',
+    'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
   )
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'Build website before serving (default: false)')
@@ -207,12 +231,14 @@ cli
         port = 3000,
         host = 'localhost',
         build: buildSite = false,
+        config,
       },
     ) => {
       wrapCommand(serve)(path.resolve(siteDir), {
         dir,
         port,
         build: buildSite,
+        config,
         host,
       });
     },
@@ -237,17 +263,22 @@ cli
     'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden.',
   )
   .option(
+    '--config <config>',
+    'Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js`',
+  )
+  .option(
     '--messagePrefix <messagePrefix>',
     'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI.',
   )
   .action(
     (
       siteDir = '.',
-      {locale = undefined, override = false, messagePrefix = ''},
+      {locale = undefined, override = false, messagePrefix = '', config},
     ) => {
       wrapCommand(writeTranslations)(path.resolve(siteDir), {
         locale,
         override,
+        config,
         messagePrefix,
       });
     },

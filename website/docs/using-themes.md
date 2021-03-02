@@ -143,6 +143,7 @@ Here is an example to display some text just above the footer, with minimal code
 ```js title="src/theme/Footer.js"
 // Note: importing from "@theme/Footer" would fail due to the file importing itself
 import OriginalFooter from '@theme-original/Footer';
+import React from 'react';
 
 export default function Footer(props) {
   return (
@@ -162,6 +163,7 @@ Here's an example of using this feature to enhance the default theme `CodeBlock`
 
 ```js
 import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
 
 export default function CodeBlock(props) {
   return props.live ? (

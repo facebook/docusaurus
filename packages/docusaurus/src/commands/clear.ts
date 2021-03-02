@@ -7,7 +7,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import chalk = require('chalk');
-import {BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
 function removePath(fsPath: string) {
   return fs
@@ -24,7 +24,7 @@ function removePath(fsPath: string) {
 export default async function clear(siteDir: string): Promise<unknown> {
   return Promise.all([
     removePath(path.join(siteDir, GENERATED_FILES_DIR_NAME)),
-    removePath(path.join(siteDir, BUILD_DIR_NAME)),
+    removePath(path.join(siteDir, DEFAULT_BUILD_DIR_NAME)),
     removePath(path.join(siteDir, 'node_modules/.cache/cache-loader')),
   ]);
 }

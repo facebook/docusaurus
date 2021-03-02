@@ -27,7 +27,7 @@ function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
           </time>
         ),
       }}>
-      {'on {date}'}
+      {' on {date}'}
     </Translate>
   );
 }
@@ -40,7 +40,7 @@ function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
       values={{
         user: <strong>{lastUpdatedBy}</strong>,
       }}>
-      {'by {user}'}
+      {' by {user}'}
     </Translate>
   );
 }
@@ -61,18 +61,12 @@ export default function LastUpdated({
             description="The sentence used to display when a page has been last updated, and by who"
             values={{
               atDate: lastUpdatedAt ? (
-                <>
-                  {' '}
-                  <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
-                </>
+                <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
               ) : (
                 ''
               ),
               byUser: lastUpdatedBy ? (
-                <>
-                  {' '}
-                  <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
-                </>
+                <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
               ) : (
                 ''
               ),
