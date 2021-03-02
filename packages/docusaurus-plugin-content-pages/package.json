@@ -29,7 +29,7 @@
     "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
     "slash": "^3.0.0",
-    "webpack": "^5.23.0"
+    "webpack": "^5.24.2"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

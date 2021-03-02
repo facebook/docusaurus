@@ -16,7 +16,7 @@
   "dependencies": {
     "commander": "^5.1.0",
     "querystring": "0.2.0",
-    "webpack": "^5.23.0",
+    "webpack": "^5.24.2",
     "webpack-merge": "^4.2.2"
   }
 }
