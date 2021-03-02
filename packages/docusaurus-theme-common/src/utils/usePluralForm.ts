@@ -8,6 +8,23 @@
 import {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+// We want to ensurer a stable plural form order in all cases
+// It is more convenient and natural to handle "small values" first
+// See https://twitter.com/sebastienlorber/status/1366820663261077510
+const OrderedPluralForms: Intl.LDMLPluralRule[] = [
+  'zero',
+  'one',
+  'two',
+  'few',
+  'many',
+  'other',
+];
+function sortPluralForms(
+  pluralForms: Intl.LDMLPluralRule[],
+): Intl.LDMLPluralRule[] {
+  return OrderedPluralForms.filter((pf) => pluralForms.includes(pf));
+}
+
 type LocalePluralForms = {
   locale: string;
   pluralForms: Intl.LDMLPluralRule[];
@@ -17,7 +34,7 @@ type LocalePluralForms = {
 // Hardcoded english/fallback implementation
 const EnglishPluralForms: LocalePluralForms = {
   locale: 'en',
-  pluralForms: ['one', 'other'],
+  pluralForms: sortPluralForms(['one', 'other']),
   select: (count) => (count === 1 ? 'one' : 'other'),
 };
 
@@ -25,7 +42,9 @@ function createLocalePluralForms(locale: string): LocalePluralForms {
   const pluralRules = new Intl.PluralRules(locale);
   return {
     locale,
-    pluralForms: pluralRules.resolvedOptions().pluralCategories,
+    pluralForms: sortPluralForms(
+      pluralRules.resolvedOptions().pluralCategories,
+    ),
     select: (count) => pluralRules.select(count),
   };
 }
