@@ -236,11 +236,14 @@ function SearchPage() {
 
   const getTitle = () =>
     searchQuery
-      ? `${translate({
+      ? translate({
           id: 'theme.SearchPage.existingResultsTitle',
-          message: 'Search results for',
+          message: 'Search results for "{query}"',
           description: 'The search page title for non-empty query',
-        })} "${searchQuery}"`
+          values: {
+            query: searchQuery,
+          },
+        })
       : translate({
           id: 'theme.SearchPage.emptyResultsTitle',
           message: 'Search the documentation',

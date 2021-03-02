@@ -14,7 +14,7 @@
   "theme.SearchBar.label": "جستجو",
   "theme.SearchPage.algoliaLabel": "جستجو با Algolia",
   "theme.SearchPage.emptyResultsTitle": "جستجو در متن",
-  "theme.SearchPage.existingResultsTitle": "جستجو برای عبارت",
+  "theme.SearchPage.existingResultsTitle": "جستجو برای عبارت \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "در حال دریافت نتایج...",
   "theme.SearchPage.inputLabel": "جستجو",
   "theme.SearchPage.inputPlaceholder": "عبارت مورد نظر را اینجا بنویسید",
