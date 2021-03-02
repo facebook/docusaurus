@@ -9,6 +9,10 @@
   --doc-sidebar-width: 300px;
 }
 
+:global(.main-docs-wrapper) {
+  display: flex;
+}
+
 .docPage,
 .docMainContainer {
   display: flex;

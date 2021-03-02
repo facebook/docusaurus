@@ -11,7 +11,6 @@ import {MDXProvider} from '@mdx-js/react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
-import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
@@ -53,93 +52,87 @@ function DocPageContent({
   }, [hiddenSidebar]);
 
   return (
-    <>
-      <Head>
-        <style>{`.main-wrapper { display: flex; }`}</style>
-      </Head>
-      <Layout
-        key={isClient}
-        searchMetadatas={{
-          version,
-          tag: docVersionSearchTag(pluginId, version),
-        }}>
-        <div className={styles.docPage}>
-          {sidebar && (
-            <div
-              className={clsx(styles.docSidebarContainer, {
-                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-              })}
-              onTransitionEnd={(e) => {
-                if (
-                  !e.currentTarget.classList.contains(
-                    styles.docSidebarContainer,
-                  )
-                ) {
-                  return;
-                }
+    <Layout
+      key={isClient}
+      wrapperClassName="main-docs-wrapper"
+      searchMetadatas={{
+        version,
+        tag: docVersionSearchTag(pluginId, version),
+      }}>
+      <div className={styles.docPage}>
+        {sidebar && (
+          <div
+            className={clsx(styles.docSidebarContainer, {
+              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+            })}
+            onTransitionEnd={(e) => {
+              if (
+                !e.currentTarget.classList.contains(styles.docSidebarContainer)
+              ) {
+                return;
+              }
 
-                if (hiddenSidebarContainer) {
-                  setHiddenSidebar(true);
-                }
-              }}
-              role="complementary">
-              <DocSidebar
-                key={
-                  // Reset sidebar state on sidebar changes
-                  // See https://github.com/facebook/docusaurus/issues/3414
-                  sidebarName
-                }
-                sidebar={sidebar}
-                path={currentDocRoute.path}
-                sidebarCollapsible={
-                  siteConfig.themeConfig?.sidebarCollapsible ?? true
-                }
-                onCollapse={toggleSidebar}
-                isHidden={hiddenSidebar}
-              />
+              if (hiddenSidebarContainer) {
+                setHiddenSidebar(true);
+              }
+            }}
+            role="complementary">
+            <DocSidebar
+              key={
+                // Reset sidebar state on sidebar changes
+                // See https://github.com/facebook/docusaurus/issues/3414
+                sidebarName
+              }
+              sidebar={sidebar}
+              path={currentDocRoute.path}
+              sidebarCollapsible={
+                siteConfig.themeConfig?.sidebarCollapsible ?? true
+              }
+              onCollapse={toggleSidebar}
+              isHidden={hiddenSidebar}
+            />
 
-              {hiddenSidebar && (
-                <div
-                  className={styles.collapsedDocSidebar}
-                  title={translate({
-                    id: 'theme.docs.sidebar.expandButtonTitle',
-                    message: 'Expand sidebar',
-                    description:
-                      'The ARIA label and title attribute for expand button of doc sidebar',
-                  })}
-                  aria-label={translate({
-                    id: 'theme.docs.sidebar.expandButtonAriaLabel',
-                    message: 'Expand sidebar',
-                    description:
-                      'The ARIA label and title attribute for expand button of doc sidebar',
-                  })}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={toggleSidebar}
-                  onClick={toggleSidebar}>
-                  <IconArrow className={styles.expandSidebarButtonIcon} />
-                </div>
-              )}
-            </div>
-          )}
-          <main
-            className={clsx(styles.docMainContainer, {
-              [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
-            })}>
-            <div
-              className={clsx(
-                'container padding-vert--lg',
-                styles.docItemWrapper,
-                {
-                  [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
-                },
-              )}>
-              <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-            </div>
-          </main>
-        </div>
-      </Layout>
-    </>
+            {hiddenSidebar && (
+              <div
+                className={styles.collapsedDocSidebar}
+                title={translate({
+                  id: 'theme.docs.sidebar.expandButtonTitle',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                aria-label={translate({
+                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                tabIndex={0}
+                role="button"
+                onKeyDown={toggleSidebar}
+                onClick={toggleSidebar}>
+                <IconArrow className={styles.expandSidebarButtonIcon} />
+              </div>
+            )}
+          </div>
+        )}
+        <main
+          className={clsx(styles.docMainContainer, {
+            [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
+          })}>
+          <div
+            className={clsx(
+              'container padding-vert--lg',
+              styles.docItemWrapper,
+              {
+                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+              },
+            )}>
+            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+          </div>
+        </main>
+      </div>
+    </Layout>
   );
 }
 
