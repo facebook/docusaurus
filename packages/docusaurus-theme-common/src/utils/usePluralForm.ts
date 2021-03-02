@@ -94,9 +94,9 @@ function selectPluralMessage(
   if (parts.length === 1) {
     return parts[0];
   } else {
-    if (parts.length !== localePluralForms.pluralForms.length) {
-      console.warn(
-        `For  locale=${localePluralForms.locale}, ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
+    if (parts.length > localePluralForms.pluralForms.length) {
+      console.error(
+        `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
       );
     }
     const pluralForm = localePluralForms.select(count);
