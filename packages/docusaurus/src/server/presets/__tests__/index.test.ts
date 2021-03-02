@@ -13,7 +13,7 @@ import {LoadContext} from '@docusaurus/types';
 describe('loadPresets', () => {
   test('no presets', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {},
     } as LoadContext;
     const presets = loadPresets(context);
@@ -27,7 +27,7 @@ describe('loadPresets', () => {
 
   test('string form', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [path.join(__dirname, '__fixtures__/preset-bar.js')],
       },
@@ -52,7 +52,7 @@ describe('loadPresets', () => {
 
   test('string form composite', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           path.join(__dirname, '__fixtures__/preset-bar.js'),
@@ -88,7 +88,7 @@ describe('loadPresets', () => {
 
   test('array form', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
       },
@@ -113,7 +113,7 @@ describe('loadPresets', () => {
 
   test('array form with options', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
@@ -145,7 +145,7 @@ describe('loadPresets', () => {
 
   test('array form composite', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
@@ -191,7 +191,7 @@ describe('loadPresets', () => {
 
   test('mixed form', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
@@ -232,7 +232,7 @@ describe('loadPresets', () => {
 
   test('mixed form with themes', () => {
     const context = {
-      siteDir: __dirname,
+      siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
