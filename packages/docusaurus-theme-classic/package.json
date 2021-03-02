@@ -19,7 +19,8 @@
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
-    "prettier:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
+    "prettier:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\"",
+    "update-code-translations": "node update-code-translations.js"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.70",
@@ -45,7 +46,10 @@
     "prop-types": "^15.7.2",
     "react-router-dom": "^5.2.0",
     "react-toggle": "^4.1.1",
-    "rtlcss": "^2.6.2"
+    "rtlcss": "^2.6.2",
+    "chalk": "^4.1.0",
+    "fs-extra": "^9.1.0",
+    "globby": "^11.0.2"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-alpha.70"

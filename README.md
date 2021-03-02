@@ -19,7 +19,6 @@
   <a href="https://meercode.io/facebook/docusaurus"><img src="https://meercode.io/badge/facebook/docusaurus?type=ci-score" alt="CI Score"></a>
 </p>
 
-
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
 
 ## Introduction

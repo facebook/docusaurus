@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
 import Seo from '@theme/Seo';
@@ -17,18 +17,66 @@ import type {Props} from '@theme/BlogPostItem';
 import styles from './styles.module.css';
 
 const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  translate({
+    id: 'theme.common.month.january',
+    description: 'January month translation',
+    message: 'January',
+  }),
+  translate({
+    id: 'theme.common.month.february',
+    description: 'February month translation',
+    message: 'February',
+  }),
+  translate({
+    id: 'theme.common.month.march',
+    description: 'March month translation',
+    message: 'March',
+  }),
+  translate({
+    id: 'theme.common.month.april',
+    description: 'April month translation',
+    message: 'April',
+  }),
+  translate({
+    id: 'theme.common.month.may',
+    description: 'May month translation',
+    message: 'May',
+  }),
+  translate({
+    id: 'theme.common.month.june',
+    description: 'June month translation',
+    message: 'June',
+  }),
+  translate({
+    id: 'theme.common.month.july',
+    description: 'July month translation',
+    message: 'July',
+  }),
+  translate({
+    id: 'theme.common.month.august',
+    description: 'August month translation',
+    message: 'August',
+  }),
+  translate({
+    id: 'theme.common.month.september',
+    description: 'September month translation',
+    message: 'September',
+  }),
+  translate({
+    id: 'theme.common.month.october',
+    description: 'October month translation',
+    message: 'October',
+  }),
+  translate({
+    id: 'theme.common.month.november',
+    description: 'November month translation',
+    message: 'November',
+  }),
+  translate({
+    id: 'theme.common.month.december',
+    description: 'December month translation',
+    message: 'December',
+  }),
 ];
 
 function BlogPostItem(props: Props): JSX.Element {
@@ -62,8 +110,25 @@ function BlogPostItem(props: Props): JSX.Element {
         </TitleHeading>
         <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year}{' '}
-            {readingTime && <> · {Math.ceil(readingTime)} min read</>}
+            <Translate
+              id="theme.blog.post.date"
+              description="The label to display the blog post date"
+              values={{day, month, year}}>
+              {'{month} {day}, {year}'}
+            </Translate>{' '}
+            {readingTime && (
+              <>
+                {' · '}
+                <Translate
+                  id="theme.blog.post.readingTime"
+                  description="The label to display reading time of the blog post"
+                  values={{
+                    readingTime: Math.ceil(readingTime),
+                  }}>
+                  {'{readingTime} min read'}
+                </Translate>
+              </>
+            )}
           </time>
         </div>
         <div className="avatar margin-vert--md">

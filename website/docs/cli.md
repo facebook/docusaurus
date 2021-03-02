@@ -30,7 +30,7 @@ import TOCInline from "@theme/TOCInline"
 
 Below is a list of Docusaurus CLI commands and their usages:
 
-### `docusaurus start`
+### `docusaurus start [siteDir]`
 
 Builds and serves a preview of your site locally with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).
 
@@ -42,6 +42,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
+| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 
 :::important
@@ -66,7 +67,7 @@ HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 
 4. Open `https://localhost:3000/`
 
-### `docusaurus build`
+### `docusaurus build [siteDir]`
 
 Compiles your site for production.
 
@@ -76,6 +77,7 @@ Compiles your site for production.
 | --- | --- | --- |
 | `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
+| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 :::info
@@ -84,7 +86,7 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::
 
-### `docusaurus swizzle`
+### `docusaurus swizzle [siteDir]`
 
 :::caution
 
@@ -133,7 +135,7 @@ TODO a separate section for swizzle tutorial.
 To learn more about swizzling, check [here](#).
 -->
 
-### `docusaurus deploy`
+### `docusaurus deploy [siteDir]`
 
 Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.mdx#deploying-to-github-pages) for more details.
 
@@ -143,8 +145,9 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
+| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
-### `docusaurus serve`
+### `docusaurus serve [siteDir]`
 
 Serve your built website locally.
 
@@ -153,15 +156,16 @@ Serve your built website locally.
 | `--port` | `3000` | Use specified port |
 | `--dir` | `build` | The full path for the output directory, relative to the current workspace |
 | `--build` | `false` | Build website before serving |
+| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 
-### `docusaurus clear`
+### `docusaurus clear [siteDir]`
 
 Clear a Docusaurus site's generated assets, caches, build artifacts.
 
 We recommend running this command before reporting bugs, after upgrading versions, or anytime you have issues with your Docusaurus site.
 
-### `docusaurus write-translations`
+### `docusaurus write-translations [siteDir]`
 
 Write the JSON translation files that you will have to translate.
 
@@ -171,4 +175,5 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | --- | --- | --- |
 | `--locale` | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in |
 | `--override` | `false` | Override existing translation messages |
+| `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
