@@ -58,7 +58,7 @@
   "theme.docs.versions.latestVersionLinkLabel": "bieżącej wersji",
   "theme.docs.versions.latestVersionSuggestionLabel": "Aby zobaczyć bieżącą dokumentację, przejdź do wersji {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ta dokumentacja dotyczy {siteTitle} w wersji {versionLabel} i nie jest już aktywnie aktualizowana.",
-  "theme.docs.versions.unreleasedVersionLabel": "Ta dokumentacja dotyczy najnowsze i nieopublikowanej jeszce wesji {siteTitle} ({versionLabel}).",
+  "theme.docs.versions.unreleasedVersionLabel": "Ta dokumentacja dotyczy najnowszej i nieopublikowanej jeszce wersji {siteTitle} ({versionLabel}).",
   "theme.lastUpdated.atDate": " dnia {date}",
   "theme.lastUpdated.byUser": " przez {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Ostatnia aktualizacja{atDate}{byUser}",
