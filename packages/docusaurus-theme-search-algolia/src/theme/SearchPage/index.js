@@ -115,7 +115,12 @@ const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
 
 function SearchPage() {
   const {
-    siteConfig: {themeConfig: {algolia: {appId, apiKey, indexName} = {}}} = {},
+    siteConfig: {
+      themeConfig: {
+        algolia: {appId, apiKey, indexName},
+      },
+    },
+    i18n: {currentLocale},
   } = useDocusaurusContext();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
@@ -172,7 +177,7 @@ function SearchPage() {
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: ['docusaurus_tag'],
+    disjunctiveFacets: ['language', 'docusaurus_tag'],
   });
 
   algoliaHelper.on(
@@ -268,6 +273,7 @@ function SearchPage() {
 
   const makeSearch = (page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+    algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
     Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
       ([pluginId, searchVersion]) => {
@@ -425,7 +431,7 @@ function SearchPage() {
                   {breadcrumbs.length > 0 && (
                     <span className={styles.searchResultItemPath}>
                       {breadcrumbs.map((html, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           {index !== 0 && (
                             <span
                               className={styles.searchResultItemPathSeparator}>
@@ -437,7 +443,7 @@ function SearchPage() {
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
-                        </>
+                        </React.Fragment>
                       ))}
                     </span>
                   )}
