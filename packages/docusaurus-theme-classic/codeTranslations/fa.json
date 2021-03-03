@@ -13,6 +13,7 @@
   "theme.PwaReloadPopup.refreshButtonText": "بروزرسانی",
   "theme.SearchBar.label": "جستجو",
   "theme.SearchPage.algoliaLabel": "جستجو با Algolia",
+  "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",
   "theme.SearchPage.emptyResultsTitle": "جستجو در متن",
   "theme.SearchPage.existingResultsTitle": "جستجو برای عبارت \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "در حال دریافت نتایج...",

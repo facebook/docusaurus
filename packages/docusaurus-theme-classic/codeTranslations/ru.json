@@ -13,6 +13,7 @@
   "theme.PwaReloadPopup.refreshButtonText": "Обновить",
   "theme.SearchBar.label": "Поиск",
   "theme.SearchPage.algoliaLabel": "Поиск предоставлен Algolia",
+  "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",
   "theme.SearchPage.emptyResultsTitle": "Поиск по сайту",
   "theme.SearchPage.existingResultsTitle": "Результаты поиска по запросу \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "Загрузка новых результатов поиска...",

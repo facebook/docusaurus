@@ -11,6 +11,16 @@ const fs = require('fs-extra');
 const globby = require('globby');
 const {mapValues, difference} = require('lodash');
 
+const CodeDirPaths = [
+  path.join(__dirname, 'lib-next'),
+  // TODO other themes should rather define their own translations in the future?
+  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
+];
+
+console.log('Will scan folders for code translations:', CodeDirPaths);
+
 function sortObjectKeys(obj) {
   const keys = Object.keys(obj);
   keys.sort();
@@ -38,9 +48,8 @@ async function extractThemeCodeMessages() {
     extractAllSourceCodeFileTranslations,
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const codeDirPaths = [path.join(__dirname, 'lib-next')];
   const filePaths = (
-    await globSourceCodeFilePaths(codeDirPaths)
+    await globSourceCodeFilePaths(CodeDirPaths)
   ).filter((filePath) => ['.js', '.jsx'].includes(path.extname(filePath)));
 
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
@@ -77,7 +86,9 @@ async function readMessagesFile(filePath) {
 
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
-  await fs.writeFile(filePath, JSON.stringify(sortedMessages, null, 2));
+
+  const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
+  await fs.writeFile(filePath, content);
   console.log(
     `${path.basename(filePath)} updated (${
       Object.keys(sortedMessages).length

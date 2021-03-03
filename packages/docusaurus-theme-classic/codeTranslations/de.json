@@ -13,6 +13,7 @@
   "theme.PwaReloadPopup.refreshButtonText": "Aktualisieren",
   "theme.SearchBar.label": "Suche",
   "theme.SearchPage.algoliaLabel": "Suche von Algolia",
+  "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",
   "theme.SearchPage.emptyResultsTitle": "Suche in der Dokumentation",
   "theme.SearchPage.existingResultsTitle": "Suchergebnisse für \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "Neue Ergebnisse abrufen...",
