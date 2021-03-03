@@ -9,6 +9,7 @@ import React from 'react';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
+import ToggleTags from '@site/src/components/ToggleTags';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -35,6 +36,7 @@ function Showcase() {
               Add your site!
             </a>
           </p>
+          {<ToggleTags />}
         </div>
         <div className="row">
           {users.map((user) => (
