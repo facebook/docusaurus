@@ -72,12 +72,7 @@ async function extractThemeCodeMessages() {
     {},
   );
 
-  const translationMessages = mapValues(
-    translations,
-    (translation) => translation.message,
-  );
-
-  return translationMessages;
+  return translations;
 }
 
 async function readMessagesFile(filePath) {
@@ -109,7 +104,11 @@ async function getCodeTranslationFiles() {
 async function updateBaseFile(baseFile) {
   const baseMessages = await readMessagesFile(baseFile);
 
-  const codeMessages = await extractThemeCodeMessages();
+  const codeExtractedTranslations = await extractThemeCodeMessages();
+  const codeMessages = mapValues(
+    codeExtractedTranslations,
+    (translation) => translation.message,
+  );
 
   const unknownMessages = difference(
     Object.keys(baseMessages),
@@ -129,7 +128,22 @@ ${logKeys(unknownMessages)}`),
     ...codeMessages,
   };
 
-  await writeMessagesFile(baseFile, newBaseMessages);
+  const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
+    (acc, [key]) => {
+      return {
+        ...acc,
+        [`${key}___DESCRIPTION`]: codeExtractedTranslations[key].description,
+      };
+    },
+    {},
+  );
+
+  const newBaseMessagesWitDescription = {
+    ...newBaseMessages,
+    ...newBaseMessagesDescriptions,
+  };
+
+  await writeMessagesFile(baseFile, newBaseMessagesWitDescription);
 
   return newBaseMessages;
 }
