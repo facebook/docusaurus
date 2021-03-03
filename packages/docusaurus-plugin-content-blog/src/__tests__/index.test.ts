@@ -236,6 +236,11 @@ describe('loadBlog', () => {
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
     ).birthtime;
+    const formattedDate = Intl.DateTimeFormat('en', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(noDateSourceBirthTime);
 
     expect({
       ...blogPosts.find((v) => v.metadata.title === 'no date')!.metadata,
@@ -248,7 +253,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       date: noDateSourceBirthTime,
-      formattedDate: 'September 23, 2020',
+      formattedDate,
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
