@@ -29,7 +29,7 @@
   "theme.blog.post.paginator.olderPost": "Older Post",
   "theme.blog.post.plurals": "One post|{count} posts",
   "theme.blog.post.readMore": "Read More",
-  "theme.blog.post.readingTime": "{readingTime} min read",
+  "theme.blog.post.readingTime.plurals": "One min read|{readingTime} min read",
   "theme.blog.tagTitle": "{nPosts} tagged with \"{tagName}\"",
   "theme.common.editThisPage": "Edit this page",
   "theme.common.headingLinkTitle": "Direct link to heading",

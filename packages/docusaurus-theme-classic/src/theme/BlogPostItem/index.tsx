@@ -16,6 +16,29 @@ import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 
+import {usePluralForm} from '@docusaurus/theme-common';
+
+// Very simple pluralization: probably good enough for now
+function useReadingTimePlural() {
+  const {selectMessage} = usePluralForm();
+  return (readingTimeFloat: number) => {
+    const readingTime = Math.ceil(readingTimeFloat);
+    return selectMessage(
+      readingTime,
+      translate(
+        {
+          id: 'theme.blog.post.readingTime.plurals',
+          description:
+            'Pluralized label for "{readingTime} min read". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One min read|{readingTime} min read',
+        },
+        {readingTime},
+      ),
+    );
+  };
+}
+
+// TODO we should rely on an Intl api to translate that
 const MONTHS = [
   translate({
     id: 'theme.common.month.january',
@@ -80,6 +103,7 @@ const MONTHS = [
 ];
 
 function BlogPostItem(props: Props): JSX.Element {
+  const readingTimePlural = useReadingTimePlural();
   const {
     children,
     frontMatter,
@@ -119,14 +143,7 @@ function BlogPostItem(props: Props): JSX.Element {
             {readingTime && (
               <>
                 {' · '}
-                <Translate
-                  id="theme.blog.post.readingTime"
-                  description="The label to display reading time of the blog post"
-                  values={{
-                    readingTime: Math.ceil(readingTime),
-                  }}>
-                  {'{readingTime} min read'}
-                </Translate>
+                {readingTimePlural(readingTime)}
               </>
             )}
           </time>

@@ -29,7 +29,7 @@
   "theme.blog.post.paginator.olderPost": "Предыдущий пост",
   "theme.blog.post.plurals": "{count} записи|{count} записей|{count} запись",
   "theme.blog.post.readMore": "Читать дальше",
-  "theme.blog.post.readingTime": "{readingTime} min read",
+  "theme.blog.post.readingTime.plurals": "One min read|{readingTime} min read",
   "theme.blog.tagTitle": "{nPosts} tagged with \"{tagName}\"",
   "theme.common.editThisPage": "Отредактировать эту страницу",
   "theme.common.headingLinkTitle": "Прямая ссылка на этот заголовок",

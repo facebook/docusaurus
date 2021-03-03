@@ -29,7 +29,7 @@
   "theme.blog.post.paginator.olderPost": "Daha Eski Gönderi",
   "theme.blog.post.plurals": "Bir gönderi|{count} gönderi",
   "theme.blog.post.readMore": "Daha Fazla",
-  "theme.blog.post.readingTime": "{readingTime} dakikalık okuma",
+  "theme.blog.post.readingTime.plurals": "{readingTime} dakikalık okuma|{readingTime} dakikalık okuma",
   "theme.blog.tagTitle": "\"{tagName}\" ile etiketlenmiş {nPosts}",
   "theme.common.editThisPage": "Bu sayfayı düzenle",
   "theme.common.headingLinkTitle": "Başlığa doğrudan bağlantı",
