@@ -23,8 +23,6 @@
   "theme.blog.paginator.newerEntries": "مطالب جدیدتر",
   "theme.blog.paginator.olderEntries": "مطالب قدیمی تر",
   "theme.blog.post.date": "{month} {day}, {year}",
-  "theme.blog.post.nPosts": "{count} پست",
-  "theme.blog.post.onePost": "یک پست",
   "theme.blog.post.paginator.navAriaLabel": "کنترل پست های صفحه وبلاگ",
   "theme.blog.post.paginator.newerPost": "پست های جدید تر",
   "theme.blog.post.paginator.olderPost": "پست های قدیمی تر",

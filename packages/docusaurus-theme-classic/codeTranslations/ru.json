@@ -23,8 +23,6 @@
   "theme.blog.paginator.newerEntries": "Следующие записи",
   "theme.blog.paginator.olderEntries": "Предыдущие записи",
   "theme.blog.post.date": "{month} {day}, {year}",
-  "theme.blog.post.nPosts": "{count} posts",
-  "theme.blog.post.onePost": "One post",
   "theme.blog.post.paginator.navAriaLabel": "Навигация по странице поста блога",
   "theme.blog.post.paginator.newerPost": "Следующий пост",
   "theme.blog.post.paginator.olderPost": "Предыдущий пост",

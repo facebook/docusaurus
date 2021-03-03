@@ -23,8 +23,6 @@
   "theme.blog.paginator.newerEntries": "Nouvelles entrées",
   "theme.blog.paginator.olderEntries": "Anciennes entrées",
   "theme.blog.post.date": "{day} {month} {year}",
-  "theme.blog.post.nPosts": "{count} articles",
-  "theme.blog.post.onePost": "Un article",
   "theme.blog.post.paginator.navAriaLabel": "Pagination des blog posts",
   "theme.blog.post.paginator.newerPost": "Article plus récent",
   "theme.blog.post.paginator.olderPost": "Article plus ancien",
