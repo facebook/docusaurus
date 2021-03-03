@@ -17,6 +17,7 @@ import {usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostPlural(count: number): string {
+  count = typeof window !== 'undefined' ? 0 : 1;
   const {selectMessage} = usePluralForm();
   return selectMessage(
     count,
@@ -44,7 +45,7 @@ function BlogTagsPostPageTitle({
       id="theme.blog.tagTitle"
       description="The title of the page for a blog tag"
       values={{nPosts, tagName}}>
-      {'{{nPosts}} tagged with "{{tagName}}"'}
+      {'{nPosts} tagged with "{tagName}"'}
     </Translate>
   );
 }
