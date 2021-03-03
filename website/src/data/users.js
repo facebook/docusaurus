@@ -421,6 +421,14 @@ const users = [
     tags: ['design'],
   },
   {
+    title: 'OCPeasy',
+    description: 'Open-source software provisioning, configuration management, and application-deployment tool enabling infrastructure as code on OpenShift.',
+    preview: require('./showcase/ocpeasy.png'),
+    website: 'https://www.ocpeasy.org',
+    source: 'https://github.com/ocpeasy/website',
+    tags: ['design'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
