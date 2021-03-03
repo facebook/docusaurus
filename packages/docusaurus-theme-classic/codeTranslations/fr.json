@@ -18,7 +18,7 @@
   "theme.SearchPage.existingResultsTitle": "Rechercher des résultats pour \"{query}\"",
   "theme.SearchPage.fetchingNewResults": "Chargement de nouveaux résultats...",
   "theme.SearchPage.inputLabel": "Chercher",
-  "theme.SearchPage.inputPlaceholder": "Tapez vôtre recherche ici",
+  "theme.SearchPage.inputPlaceholder": "Tapez votre recherche ici",
   "theme.SearchPage.noResultsText": "Aucun résultat trouvé",
   "theme.blog.paginator.navAriaLabel": "Pagination de la liste des posts du blog",
   "theme.blog.paginator.newerEntries": "Nouvelles entrées",
