@@ -59,7 +59,11 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     <Layout
       title={`Posts tagged "${tagName}"`}
       description={`Blog | Tagged "${tagName}"`}
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_tags_posts',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">
