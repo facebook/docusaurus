@@ -16,19 +16,21 @@ import Translate, {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
-function useBlogPostPlural(count: number): string {
+function useBlogPostsPlural() {
   const {selectMessage} = usePluralForm();
-  return selectMessage(
-    count,
-    translate(
-      {
-        id: 'theme.blog.post.plurals',
-        description: 'Pluralized label for one blog post',
-        message: 'One post|{count} posts',
-      },
-      {count},
-    ),
-  );
+  return (count: number) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          id: 'theme.blog.post.plurals',
+          description:
+            'Pluralized label for "{count} posts". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One post|{count} posts',
+        },
+        {count},
+      ),
+    );
 }
 
 function BlogTagsPostPageTitle({
@@ -38,12 +40,12 @@ function BlogTagsPostPageTitle({
   tagName: string;
   count: number;
 }) {
-  const nPosts = useBlogPostPlural(count);
+  const blogPostsPlural = useBlogPostsPlural();
   return (
     <Translate
       id="theme.blog.tagTitle"
       description="The title of the page for a blog tag"
-      values={{nPosts, tagName}}>
+      values={{nPosts: blogPostsPlural(count), tagName}}>
       {'{nPosts} tagged with "{tagName}"'}
     </Translate>
   );
