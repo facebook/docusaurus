@@ -64,9 +64,6 @@ const LocaleConfigs = isI18nStaging
       fr: {
         label: 'Français',
       },
-      ru: {
-        label: 'Russian (test)',
-      },
     };
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
