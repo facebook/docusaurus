@@ -80,6 +80,7 @@ describe('loadBlog', () => {
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
+      formattedDate: 'January 1, 2019',
       prevItem: undefined,
       tags: [],
       nextItem: {
@@ -106,6 +107,7 @@ describe('loadBlog', () => {
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
       date: new Date('2018-12-14'),
+      formattedDate: 'December 14, 2018',
       tags: [],
       prevItem: {
         permalink: '/blog/date-matter',
@@ -130,6 +132,7 @@ describe('loadBlog', () => {
         title: 'Simple Slug',
       },
       date: new Date('2020-08-16'),
+      formattedDate: 'August 16, 2020',
       tags: [],
       truncated: false,
     });
@@ -150,6 +153,7 @@ describe('loadBlog', () => {
         title: 'draft',
       },
       date: new Date('2020-08-15'),
+      formattedDate: 'August 15, 2020',
       tags: [],
       truncated: false,
     });
@@ -244,6 +248,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       date: noDateSourceBirthTime,
+      formattedDate: 'September 23, 2020',
       tags: [],
       prevItem: undefined,
       nextItem: undefined,

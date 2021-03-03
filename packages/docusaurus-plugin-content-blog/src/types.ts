@@ -106,6 +106,7 @@ export interface MetaData {
   source: string;
   description: string;
   date: Date;
+  formattedDate: string;
   tags: (Tag | string)[];
   title: string;
   readingTime?: number;

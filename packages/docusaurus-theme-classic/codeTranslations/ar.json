@@ -22,7 +22,6 @@
     "theme.blog.paginator.navAriaLabel": "التنقل في صفحة قائمة المدونة",
     "theme.blog.paginator.newerEntries": "إدخالات أحدث",
     "theme.blog.paginator.olderEntries": "إدخالات أقدم",
-    "theme.blog.post.date": "{day} {month} {year}",
     "theme.blog.post.nPosts": "{count} مقالات",
     "theme.blog.post.onePost": "مقاله واحده",
     "theme.blog.post.paginator.navAriaLabel": "التنقل في صفحة مقالات المدونة",
@@ -33,18 +32,6 @@
     "theme.blog.tagTitle": "{nPosts} موسومة ب \"{tagName}\"",
     "theme.common.editThisPage": "تعديل هذه الصفحة",
     "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان",
-    "theme.common.month.april": "أبريل",
-    "theme.common.month.august": "أغسطس",
-    "theme.common.month.december": "ديسمبر",
-    "theme.common.month.february": "فبراير",
-    "theme.common.month.january": "يناير",
-    "theme.common.month.july": "يوليو",
-    "theme.common.month.june": "يونيو",
-    "theme.common.month.march": "مارس",
-    "theme.common.month.may": "مايو",
-    "theme.common.month.november": "نوفمبر",
-    "theme.common.month.october": "اكتوبر",
-    "theme.common.month.september": "سبتمبر",
     "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",
     "theme.docs.paginator.navAriaLabel": "التنقل بين صفحات المستندات",
     "theme.docs.paginator.next": "التالى",
@@ -66,4 +53,3 @@
     "theme.tags.tagsPageLink": "عرض كل الوسوم",
     "theme.tags.tagsPageTitle": "الوسوم"
   }
-  
