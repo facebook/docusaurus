@@ -210,7 +210,7 @@ describe('loadBlog', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(5);
+    expect(editUrlFunction).toHaveBeenCalledTimes(6);
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
@@ -221,6 +221,12 @@ describe('loadBlog', () => {
       blogDirPath: 'blog',
       blogPath: 'draft.md',
       permalink: '/blog/draft',
+      locale: 'en',
+    });
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      blogDirPath: 'blog',
+      blogPath: 'long-text-r.md',
+      permalink: '/blog/long-text-r',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
