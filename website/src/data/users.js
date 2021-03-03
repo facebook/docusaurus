@@ -16,6 +16,7 @@
  * Instructions:
  * - Add your site in the json array below, in alphabetical order of title
  * - Add a local image preview (decent screenshot of your Docusaurus site)
+ * - Use `tags: []`: it is our responsibility to assign site tags
  *
  * The image must be added to the GitHub repository, and use `require("image")`
  *
@@ -426,7 +427,7 @@ const users = [
     preview: require('./showcase/ocpeasy.png'),
     website: 'https://www.ocpeasy.org',
     source: 'https://github.com/ocpeasy/website',
-    tags: ['design'],
+    tags: [],
   },
   {
     title: 'Oxidizer',
