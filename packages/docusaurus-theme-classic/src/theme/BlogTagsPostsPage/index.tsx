@@ -17,7 +17,6 @@ import {usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostPlural(count: number): string {
-  count = typeof window !== 'undefined' ? 0 : 1;
   const {selectMessage} = usePluralForm();
   return selectMessage(
     count,
