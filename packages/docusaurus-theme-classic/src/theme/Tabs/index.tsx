@@ -67,7 +67,10 @@ function Tabs(props: Props): JSX.Element {
         });
 
         selectedTab.classList.add(styles.tabItemActive);
-        setTimeout(() => selectedTab.classList.add(styles.tabItemActive), 2000);
+        setTimeout(
+          () => selectedTab.classList.remove(styles.tabItemActive),
+          2000,
+        );
       }, 150);
     }
   };
