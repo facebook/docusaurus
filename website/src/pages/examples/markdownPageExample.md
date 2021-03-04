@@ -128,3 +128,62 @@ function Demo() {
   return null;
 }
 ```
+
+## Code block test
+
+```js title="Title"
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+      // highlight-start
+      {/* prettier-ignore */}
+      long long long long long long long long long long long long line
+      {/* prettier-ignore */}
+      // highlight-end
+    </div>
+  );
+}
+```
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+<CodeBlock className="language-yaml" title="test">
+  test
+</CodeBlock>
+
+<code>test</code>
