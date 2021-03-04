@@ -35,7 +35,10 @@
 
 .playgroundPreview {
   border: 1px solid var(--ifm-color-emphasis-200);
+  padding: 1rem;
+}
+
+.playgroundPreview:last-of-type, .playgroundEditor:last-of-type {
   border-bottom-left-radius: var(--ifm-global-radius);
   border-bottom-right-radius: var(--ifm-global-radius);
-  padding: 1rem;
 }

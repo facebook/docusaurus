@@ -18,9 +18,10 @@ module.exports = {
   themeConfig: {
     liveCodeBlock: {
       /**
-       * Display the live playground before/above the code editor
+       * The position of the live playground, above or under the editor
+       * Possible values: "top" | "bottom"
        */
-      showResultBeforeEditor: false,
+      playgroundPosition: 'bottom',
     },
   },
 };

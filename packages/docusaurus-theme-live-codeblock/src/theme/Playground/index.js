@@ -57,7 +57,7 @@ export default function Playground({children, transformCode, ...props}) {
     isClient,
     siteConfig: {
       themeConfig: {
-        liveCodeblock: {showResultBeforeEditor},
+        liveCodeBlock: {playgroundPosition},
       },
     },
   } = useDocusaurusContext();
@@ -71,7 +71,7 @@ export default function Playground({children, transformCode, ...props}) {
         transformCode={transformCode || ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>
-        {showResultBeforeEditor ? (
+        {playgroundPosition === 'top' ? (
           <>
             <ResultWithHeader />
             <EditorWithHeader />

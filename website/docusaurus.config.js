@@ -281,8 +281,8 @@ const LocaleConfigs = isI18nStaging
     ],
   ],
   themeConfig: {
-    liveCodeblock: {
-      showResultBeforeEditor: true,
+    liveCodeBlock: {
+      playgroundPosition: 'bottom',
     },
     hideableSidebar: true,
     colorMode: {

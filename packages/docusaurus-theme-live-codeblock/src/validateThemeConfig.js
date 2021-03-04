@@ -8,17 +8,17 @@
 const Joi = require('joi');
 
 const DEFAULT_CONFIG = {
-  showResultBeforeEditor: false,
+  playgroundPosition: 'bottom',
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const Schema = Joi.object({
-  liveCodeblock: Joi.object({
-    showResultBeforeEditor: Joi.boolean().default(
-      DEFAULT_CONFIG.showResultBeforeEditor,
-    ),
+  liveCodeBlock: Joi.object({
+    playgroundPosition: Joi.string()
+      .equal('top', 'bottom')
+      .default(DEFAULT_CONFIG.playgroundPosition),
   })
-    .label('themeConfig.liveCodeblock')
+    .label('themeConfig.liveCodeBlock')
     .default(DEFAULT_CONFIG),
 });
 exports.Schema = Schema;

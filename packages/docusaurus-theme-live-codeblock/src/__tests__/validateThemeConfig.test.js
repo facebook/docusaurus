@@ -22,22 +22,10 @@ function testValidateThemeConfig(themeConfig) {
 }
 
 describe('validateThemeConfig', () => {
-  test('minimal config', () => {
-    const liveCodeblock = {
-      showResultBeforeEditor: true,
-    };
-    expect(testValidateThemeConfig({liveCodeblock})).toEqual({
-      liveCodeblock: {
-        ...DEFAULT_CONFIG,
-        ...liveCodeblock,
-      },
-    });
-  });
-
-  test('undefined config 1', () => {
-    const liveCodeblock = undefined;
-    expect(testValidateThemeConfig({liveCodeblock})).toEqual({
-      liveCodeblock: {
+  test('undefined config', () => {
+    const liveCodeBlock = undefined;
+    expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
+      liveCodeBlock: {
         ...DEFAULT_CONFIG,
       },
     });
@@ -45,27 +33,59 @@ describe('validateThemeConfig', () => {
 
   test('unexist config', () => {
     expect(testValidateThemeConfig({})).toEqual({
-      liveCodeblock: {
+      liveCodeBlock: {
         ...DEFAULT_CONFIG,
       },
     });
   });
 
   test('empty config', () => {
-    const liveCodeblock = {};
-    expect(testValidateThemeConfig({liveCodeblock})).toEqual({
-      liveCodeblock: {
+    const liveCodeBlock = {};
+    expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
+      liveCodeBlock: {
         ...DEFAULT_CONFIG,
       },
     });
   });
 
-  test('showResultBeforeEditor not a boolean', () => {
-    const liveCodeblock = {showResultBeforeEditor: 'invalid'};
+  test('playgroundPosition top', () => {
+    const liveCodeBlock = {
+      playgroundPosition: 'top',
+    };
+    expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
+      liveCodeBlock: {
+        ...DEFAULT_CONFIG,
+        ...liveCodeBlock,
+      },
+    });
+  });
+
+  test('playgroundPosition bottom', () => {
+    const liveCodeBlock = {
+      playgroundPosition: 'bottom',
+    };
+    expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
+      liveCodeBlock: {
+        ...DEFAULT_CONFIG,
+        ...liveCodeBlock,
+      },
+    });
+  });
+
+  test('playgroundPosition invalid string', () => {
+    const liveCodeBlock = {playgroundPosition: 'invalid'};
     expect(() =>
-      testValidateThemeConfig({liveCodeblock}),
+      testValidateThemeConfig({liveCodeBlock}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"liveCodeblock.showResultBeforeEditor\\" must be a boolean"`,
+      `"\\"liveCodeBlock.playgroundPosition\\" must be one of [top, bottom]"`,
+    );
+  });
+  test('playgroundPosition invalid boolean', () => {
+    const liveCodeBlock = {playgroundPosition: true};
+    expect(() =>
+      testValidateThemeConfig({liveCodeBlock}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"liveCodeBlock.playgroundPosition\\" must be one of [top, bottom]"`,
     );
   });
 });
