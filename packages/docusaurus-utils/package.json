@@ -23,6 +23,8 @@
     "escape-string-regexp": "^4.0.0",
     "fs-extra": "^9.1.0",
     "gray-matter": "^4.0.2",
+    "intl": "^1.2.5",
+    "intl-locales-supported": "^1.8.12",
     "lodash": "^4.17.20",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
