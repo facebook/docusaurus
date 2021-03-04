@@ -9,11 +9,17 @@
   --doc-sidebar-width: 300px;
 }
 
-@media (min-width: 997px) {
-  .docPage {
-    display: flex;
-  }
+:global(.main-docs-wrapper) {
+  display: flex;
+}
 
+.docPage,
+.docMainContainer {
+  display: flex;
+  width: 100%;
+}
+
+@media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;
     max-width: calc(100% - var(--doc-sidebar-width));
@@ -71,10 +77,6 @@
 }
 
 @media (max-width: 996px) {
-  .docPage {
-    display: inherit;
-  }
-
   .docSidebarContainer {
     margin-top: 0;
   }

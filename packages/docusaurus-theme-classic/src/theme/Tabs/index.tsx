@@ -14,6 +14,13 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
+function isInViewport(element: HTMLElement) {
+  const {top, left, bottom, right} = element.getBoundingClientRect();
+  const {innerHeight, innerWidth} = window;
+
+  return top >= 0 && right <= innerWidth && bottom <= innerHeight && left >= 0;
+}
+
 const keys = {
   left: 37,
   right: 39,
@@ -48,6 +55,23 @@ function Tabs(props: Props): JSX.Element {
 
     if (groupId != null) {
       setTabGroupChoices(groupId, selectedTabValue);
+
+      setTimeout(() => {
+        if (isInViewport(selectedTab)) {
+          return;
+        }
+
+        selectedTab.scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        });
+
+        selectedTab.classList.add(styles.tabItemActive);
+        setTimeout(
+          () => selectedTab.classList.remove(styles.tabItemActive),
+          2000,
+        );
+      }, 150);
     }
   };
 

@@ -201,7 +201,7 @@ export default function CodeBlock({
       code={code}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <>
+        <div className={styles.codeBlockContainer}>
           {codeBlockTitle && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
@@ -262,7 +262,7 @@ export default function CodeBlock({
               )}
             </button>
           </div>
-        </>
+        </div>
       )}
     </Highlight>
   );
