@@ -5,7 +5,7 @@ sidebar_label: Introduction
 slug: /i18n/introduction
 ---
 
-It is possible to translate a Docusaurus website through its internationalization support (abbreviated as [i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)).
+It is **easy to translate a Docusaurus website** with its internationalization ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) support.
 
 :::caution
 
@@ -15,7 +15,7 @@ i18n is a new feature (released early 2021), please report any bug you find.
 
 ## Goals
 
-This section should help you understand the design decisions behind the Docusaurus i18n support.
+It is important to understand the **design decisions** behind the Docusaurus i18n support.
 
 For more context, you can read the initial [RFC](https://github.com/facebook/docusaurus/issues/3317) and [PR](https://github.com/facebook/docusaurus/pull/3325).
 
@@ -27,13 +27,14 @@ The goals of the Docusaurus i18n system are:
 - **Flexible translation workflows**: based on Git (monorepo, forks or submodules), SaaS software, FTP...
 - **Flexible deployment options**: single or multiple domains.
 - **Modular**: allow plugin author to provide i18n support.
-- **Low-overhead runtime**: static json/markdown content does not require a heavy i18n JS library.
+- **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
 - **Acceptable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
 - **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
+- **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
 
 ### i18n goals (TODO)
 

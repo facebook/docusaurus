@@ -46,6 +46,19 @@ function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
   return codePaths;
 }
 
+export async function globSourceCodeFilePaths(
+  dirPaths: string[],
+): Promise<string[]> {
+  // Required for Windows support, as paths using \ should not be used by globby
+  // (also using the windows hard drive prefix like c: is not a good idea)
+  const globPaths = dirPaths.map((dirPath) =>
+    posixPath(nodePath.relative(process.cwd(), dirPath)),
+  );
+
+  const filePaths = await globby(globPaths);
+  return filePaths.filter(isTranslatableSourceCodePath);
+}
+
 async function getSourceCodeFilePaths(
   plugins: InitPlugin[],
 ): Promise<string[]> {
@@ -54,15 +67,7 @@ async function getSourceCodeFilePaths(
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
   const allPathsToWatch = flatten(plugins.map(getPluginSourceCodeFilePaths));
 
-  // Required for Windows support, as paths using \ should not be used by globby
-  // (also using the windows hard drive prefix like c: is not a good idea)
-  const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
-    posixPath(nodePath.relative(process.cwd(), path)),
-  );
-
-  const filePaths = await globby(allRelativePosixPathsToWatch);
-
-  return filePaths.filter(isTranslatableSourceCodePath);
+  return globSourceCodeFilePaths(allPathsToWatch);
 }
 
 export async function extractPluginsSourceCodeTranslations(
@@ -109,7 +114,7 @@ type SourceCodeFileTranslations = {
   warnings: string[];
 };
 
-async function extractAllSourceCodeFileTranslations(
+export async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
@@ -265,7 +270,10 @@ function extractSourceCodeAstTranslations(
         path.node.callee.name === 'translate'
       ) {
         // console.log('CallExpression', path.node);
-        if (path.node.arguments.length === 1) {
+        if (
+          path.node.arguments.length === 1 ||
+          path.node.arguments.length === 2
+        ) {
           const firstArgPath = path.get('arguments.0') as NodePath;
 
           // evaluation allows translate("x" + "y"); to be considered as translate("xy");
@@ -291,7 +299,7 @@ function extractSourceCodeAstTranslations(
           }
         } else {
           warnings.push(
-            `translate() function only takes 1 arg\n${sourceFileWarningPart(
+            `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
               path.node,
             )}\n${generateCode(path.node)}`,
           );

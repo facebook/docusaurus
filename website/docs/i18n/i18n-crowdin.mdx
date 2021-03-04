@@ -332,13 +332,67 @@ Crowdin does not support well multiple concurrent uploads/downloads: it is prefe
 
 ### MDX
 
-:::warning
+:::caution
 
-Crowdin does not support the `.mdx` extension, and interpret these files as plain text instead of Markdown, producing a bad translation experience.
+Pay special attention to the JSX fragments in MDX documents!
 
 :::
 
-We temporarily recommend using the `.md` extension (even if the document contains React code), and are in touch with Crowdin to get this solved.
+Crowdin **does not support officially MDX**, but they added **support for the `.mdx` extension**, and interpret such files as Markdown (instead of plain text).
+
+#### MDX problems
+
+Crowdin thinks the JSX syntax is embedded HTML, and can mess-up with the JSX markup when you download the translations, leading to a site that fails to build due to invalid JSX.
+
+Simple JSX fragments using simple string props like `<Username name="Sebastien"/>` will work fine.
+
+More complex JSX fragments using object/array props like `<User person={{name: "Sebastien"}}/>` are more likely to fail due to a syntax that does not look like HTML.
+
+#### MDX solutions
+
+We recommend moving the complex embedded JSX code as separate standalone components.
+
+We also added a `mdx-code-block` escape hatch syntax:
+
+`````text
+# How to deploy Docusaurus
+
+To deploy Docusaurus, run the following command:
+
+````mdx-code-block
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="bash"
+  values={[
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' }
+]}>
+  <TabItem value="bash">
+
+  ```bash
+  GIT_USER=<GITHUB_USERNAME> yarn deploy
+  ```
+
+  </TabItem>
+  <TabItem value="windows">
+
+  ```batch
+  cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
+  ```
+
+  </TabItem>
+</Tabs>
+````
+`````
+
+This will:
+
+- be interpreted by Crowdin as code blocks (and not mess-up with the markup on download)
+- be interpreted by Docusaurus as regular JSX (as if it was not wrapped by any code block)
+- unfortunately opt-out of MDX tooling (IDE syntax highlighting, Prettier...)
 
 ### Docs versioning
 
