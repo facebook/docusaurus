@@ -68,9 +68,8 @@ export function ActiveTeamRow() {
         name="Alexey Pyltsyn"
         githubUrl="https://github.com/lex111">
         <Translate id="team.profile.Alexey Pyltsyn.body">
-          sdsdg Obsessed open-source enthusiast 👋 Eternal amateur at everything
-          🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more
-          🧐
+          Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
+          Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
         </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
