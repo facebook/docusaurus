@@ -13,7 +13,7 @@
   "theme.PwaReloadPopup.refreshButtonText": "更新",
   "theme.SearchBar.label": "検索",
   "theme.SearchPage.algoliaLabel": "Algoliaで検索",
-  "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",
+  "theme.SearchPage.documentsFound.plurals": "{count}件のドキュメントが見つかりました",
   "theme.SearchPage.emptyResultsTitle": "ドキュメントを検索",
   "theme.SearchPage.existingResultsTitle": "『{query}』の検索結果",
   "theme.SearchPage.fetchingNewResults": "新しい検索結果を取得しています...",
