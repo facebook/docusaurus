@@ -119,3 +119,12 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 
 </BrowserWindow>
+
+## Test
+
+```jsx live
+function Demo() {
+  React.useEffect(() => console.log('mount'), []);
+  return null;
+}
+```
