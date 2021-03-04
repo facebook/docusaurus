@@ -15,6 +15,7 @@ import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
 import {posixPath} from '@docusaurus/utils';
+import {SRC_DIR_NAME} from '../../constants';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -29,6 +30,10 @@ const TranslatableSourceCodeExtension = new Set([
 ]);
 function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
+}
+
+function getSiteSourceCodeFilePaths(siteDir): string[] {
+  return [nodePath.join(siteDir, SRC_DIR_NAME)];
 }
 
 function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
@@ -60,17 +65,23 @@ export async function globSourceCodeFilePaths(
 }
 
 async function getSourceCodeFilePaths(
+  siteDir: string,
   plugins: InitPlugin[],
 ): Promise<string[]> {
+  const sitePaths = getSiteSourceCodeFilePaths(siteDir);
+
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to extract translations from
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const allPathsToWatch = flatten(plugins.map(getPluginSourceCodeFilePaths));
+  const pluginsPaths = flatten(plugins.map(getPluginSourceCodeFilePaths));
 
-  return globSourceCodeFilePaths(allPathsToWatch);
+  const allPaths = [...sitePaths, ...pluginsPaths];
+
+  return globSourceCodeFilePaths(allPaths);
 }
 
-export async function extractPluginsSourceCodeTranslations(
+export async function extractSiteSourceCodeTranslations(
+  siteDir: string,
   plugins: InitPlugin[],
   babelOptions: TransformOptions,
 ): Promise<TranslationFileContent> {
@@ -83,7 +94,8 @@ export async function extractPluginsSourceCodeTranslations(
     }, {});
   }
 
-  const sourceCodeFilePaths = await getSourceCodeFilePaths(plugins);
+  const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);
+
   const sourceCodeFilesTranslations = await extractAllSourceCodeFileTranslations(
     sourceCodeFilePaths,
     babelOptions,
