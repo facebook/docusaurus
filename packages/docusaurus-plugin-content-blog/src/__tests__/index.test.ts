@@ -13,12 +13,16 @@ import {PluginOptionSchema} from '../pluginOptionSchema';
 import {PluginOptions, EditUrlFunction} from '../types';
 import Joi from 'joi';
 
-const DefaultI18N: I18n = {
-  currentLocale: 'en',
-  locales: ['en'],
-  defaultLocale: 'en',
-  localeConfigs: {},
-};
+function getI18n(locale: string): I18n {
+  return {
+    currentLocale: locale,
+    locales: [locale],
+    defaultLocale: locale,
+    localeConfigs: {},
+  };
+}
+
+const DefaultI18N: I18n = getI18n('en');
 
 function validateAndNormalize(
   schema: Joi.ObjectSchema,
@@ -40,6 +44,7 @@ describe('loadBlog', () => {
   const getBlogPosts = async (
     siteDir: string,
     pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
   ) => {
     const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
@@ -52,7 +57,7 @@ describe('loadBlog', () => {
         siteDir,
         siteConfig,
         generatedFilesDir,
-        i18n: DefaultI18N,
+        i18n,
       } as LoadContext,
       validateAndNormalize(PluginOptionSchema, {
         path: PluginPath,
@@ -80,6 +85,7 @@ describe('loadBlog', () => {
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
+      formattedDate: 'January 1, 2019',
       prevItem: undefined,
       tags: [],
       nextItem: {
@@ -106,6 +112,7 @@ describe('loadBlog', () => {
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
       date: new Date('2018-12-14'),
+      formattedDate: 'December 14, 2018',
       tags: [],
       prevItem: {
         permalink: '/blog/date-matter',
@@ -130,6 +137,7 @@ describe('loadBlog', () => {
         title: 'Simple Slug',
       },
       date: new Date('2020-08-16'),
+      formattedDate: 'August 16, 2020',
       tags: [],
       truncated: false,
     });
@@ -150,9 +158,31 @@ describe('loadBlog', () => {
         title: 'draft',
       },
       date: new Date('2020-08-15'),
+      formattedDate: 'August 15, 2020',
       tags: [],
       truncated: false,
     });
+  });
+
+  test('simple website blog dates localized', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
+    expect(blogPostsFrench).toHaveLength(5);
+    expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
+      `"16 août 2020"`,
+    );
+    expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
+      `"15 août 2020"`,
+    );
+    expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
+      `"27 février 2020"`,
+    );
+    expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
+      `"14 décembre 2018"`,
+    );
   });
 
   test('edit url with editLocalizedBlogs true', async () => {
@@ -232,6 +262,11 @@ describe('loadBlog', () => {
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
     ).birthtime;
+    const formattedDate = Intl.DateTimeFormat('en', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(noDateSourceBirthTime);
 
     expect({
       ...blogPosts.find((v) => v.metadata.title === 'no date')!.metadata,
@@ -244,6 +279,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       date: noDateSourceBirthTime,
+      formattedDate,
       tags: [],
       prevItem: undefined,
       nextItem: undefined,

@@ -62,7 +62,7 @@
     "cache-loader": "^4.1.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
-    "clean-css": "^5.0.1",
+    "clean-css": "^5.1.1",
     "commander": "^5.1.0",
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^2.6.5",

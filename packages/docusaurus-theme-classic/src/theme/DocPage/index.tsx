@@ -54,6 +54,7 @@ function DocPageContent({
   return (
     <Layout
       key={isClient}
+      wrapperClassName="main-docs-wrapper"
       searchMetadatas={{
         version,
         tag: docVersionSearchTag(pluginId, version),

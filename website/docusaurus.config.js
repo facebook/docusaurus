@@ -281,6 +281,9 @@ const LocaleConfigs = isI18nStaging
     ],
   ],
   themeConfig: {
+    liveCodeblock: {
+      showResultBeforeEditor: true,
+    },
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',

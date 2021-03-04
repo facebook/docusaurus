@@ -10,33 +10,16 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
-export default function Playground({children, theme, transformCode, ...props}) {
-  const {
-    siteConfig: {
-      themeConfig: {liveCodeblock: {showResultBeforeEditor} = {}},
-    } = {},
-  } = useDocusaurusContext();
-
+function Header({translateId, description, text}) {
   return (
-    <LiveProvider
-      code={children.replace(/\n$/, '')}
-      transformCode={transformCode || ((code) => `${code};`)}
-      theme={theme}
-      {...props}>
-      {showResultBeforeEditor ? (
-        <>
-          <ResultWithHeader />
-          <EditorWithHeader />
-        </>
-      ) : (
-        <>
-          <EditorWithHeader />
-          <ResultWithHeader />
-        </>
-      )}
-    </LiveProvider>
+    <div className={clsx(styles.playgroundHeader)}>
+      <Translate id={translateId} description={description}>
+        {text}
+      </Translate>
+    </div>
   );
 }
 
@@ -69,12 +52,37 @@ function EditorWithHeader() {
   );
 }
 
-function Header({translateId, description, text}) {
+export default function Playground({children, transformCode, ...props}) {
+  const {
+    isClient,
+    siteConfig: {
+      themeConfig: {
+        liveCodeblock: {showResultBeforeEditor},
+      },
+    },
+  } = useDocusaurusContext();
+  const prismTheme = usePrismTheme();
+
   return (
-    <div className={clsx(styles.playgroundHeader)}>
-      <Translate id={translateId} description={description}>
-        {text}
-      </Translate>
+    <div className={styles.playgroundContainer}>
+      <LiveProvider
+        key={isClient}
+        code={isClient ? children.replace(/\n$/, '') : ''}
+        transformCode={transformCode || ((code) => `${code};`)}
+        theme={prismTheme}
+        {...props}>
+        {showResultBeforeEditor ? (
+          <>
+            <ResultWithHeader />
+            <EditorWithHeader />
+          </>
+        ) : (
+          <>
+            <EditorWithHeader />
+            <ResultWithHeader />
+          </>
+        )}
+      </LiveProvider>
     </div>
   );
 }
