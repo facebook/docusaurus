@@ -131,19 +131,25 @@ export type HostPortCLIOptions = {
   port?: string;
 };
 
-export type StartCLIOptions = HostPortCLIOptions & {
-  hotOnly: boolean;
-  open: boolean;
-  poll: boolean | number;
-  locale?: string;
+export type ConfigOptions = {
+  config: string;
 };
 
-export type ServeCLIOptions = HostPortCLIOptions & {
-  build: boolean;
-  dir: string;
-};
+export type StartCLIOptions = HostPortCLIOptions &
+  ConfigOptions & {
+    hotOnly: boolean;
+    open: boolean;
+    poll: boolean | number;
+    locale?: string;
+  };
 
-export type BuildOptions = {
+export type ServeCLIOptions = HostPortCLIOptions &
+  ConfigOptions & {
+    dir: string;
+    build: boolean;
+  };
+
+export type BuildOptions = ConfigOptions & {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
@@ -158,6 +164,7 @@ export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
+  siteConfigPath: string;
   outDir: string;
   baseUrl: string;
   i18n: I18n;

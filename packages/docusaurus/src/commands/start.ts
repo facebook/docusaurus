@@ -22,7 +22,7 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
@@ -42,6 +42,7 @@ export default async function start(
 
   function loadSite() {
     return load(siteDir, {
+      customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
     });
@@ -97,7 +98,7 @@ export default async function start(
 
   const pathsToWatch: string[] = [
     ...pluginPaths,
-    CONFIG_FILE_NAME,
+    props.siteConfigPath,
     getTranslationsLocaleDirPath({
       siteDir,
       locale: props.i18n.currentLocale,

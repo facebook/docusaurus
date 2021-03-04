@@ -16,6 +16,7 @@
  * Instructions:
  * - Add your site in the json array below, in alphabetical order of title
  * - Add a local image preview (decent screenshot of your Docusaurus site)
+ * - Use `tags: []`: it is our responsibility to assign site tags
  *
  * The image must be added to the GitHub repository, and use `require("image")`
  *
@@ -421,6 +422,14 @@ const users = [
     tags: ['design'],
   },
   {
+    title: 'OCPeasy',
+    description: 'Open-source software provisioning, configuration management, and application-deployment tool enabling infrastructure as code on OpenShift.',
+    preview: require('./showcase/ocpeasy.png'),
+    website: 'https://www.ocpeasy.org',
+    source: 'https://github.com/ocpeasy/website',
+    tags: [],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -484,6 +493,14 @@ const users = [
     website: 'https://questdb.io',
     source: 'https://github.com/questdb/questdb.io',
     tags: ['highlight', 'design', 'large'],
+  },
+  {
+    title: 'RactivePlayer',
+    description: 'Interactive videos in React',
+    preview: require('./showcase/ractive-player.png'),
+    website: 'https://ractive-player.org',
+    source: 'https://github.com/ysulyma/ractive-player',
+    tags: [],
   },
   {
     title: 'React-Leaflet',

@@ -6,14 +6,13 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
 import shell from 'shelljs';
 import chalk from 'chalk';
-import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadContext} from '../server';
-import loadConfig from '../server/config';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
+import path from 'path';
+import os from 'os';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str) {
@@ -42,10 +41,10 @@ export default async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir} = await loadContext(siteDir, {
+  const {outDir, siteConfig, siteConfigPath} = await loadContext(siteDir, {
+    customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });
-  const tempDir = path.join(siteDir, GENERATED_FILES_DIR_NAME);
 
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
@@ -62,14 +61,13 @@ export default async function deploy(
     process.env.CURRENT_BRANCH ||
     shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
 
-  const siteConfig = loadConfig(siteDir);
   const organizationName =
     process.env.ORGANIZATION_NAME ||
     process.env.CIRCLE_PROJECT_USERNAME ||
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      `Missing project organization name. Did you forget to define 'organizationName' in ${CONFIG_FILE_NAME}? You may also export it via the ORGANIZATION_NAME environment variable.`,
+      `Missing project organization name. Did you forget to define 'organizationName' in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
@@ -80,7 +78,7 @@ export default async function deploy(
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      `Missing project name. Did you forget to define 'projectName' in ${CONFIG_FILE_NAME}? You may also export it via the PROJECT_NAME environment variable.`,
+      `Missing project name. Did you forget to define 'projectName' in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('projectName:')} ${projectName}`);
@@ -141,22 +139,16 @@ export default async function deploy(
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = (outputDirectory) => {
-    if (shell.cd(tempDir).code !== 0) {
-      throw new Error(
-        `Temp dir ${GENERATED_FILES_DIR_NAME} does not exists. Run build website first.`,
-      );
+  const runDeploy = async (outputDirectory) => {
+    const fromPath = outputDirectory;
+    const toPath = await fs.mkdtemp(
+      path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
+    );
+    if (shellExecLog(`git clone ${remoteBranch} ${toPath}`).code !== 0) {
+      throw new Error(`Error: git clone failed in ${toPath}`);
     }
 
-    if (
-      shellExecLog(
-        `git clone ${remoteBranch} ${projectName}-${deploymentBranch}`,
-      ).code !== 0
-    ) {
-      throw new Error('Error: git clone failed');
-    }
-
-    shell.cd(`${projectName}-${deploymentBranch}`);
+    shell.cd(toPath);
 
     // If the default branch is the one we're deploying to, then we'll fail
     // to create it. This is the case of a cross-repo publish, where we clone
@@ -183,63 +175,50 @@ export default async function deploy(
     }
 
     shellExecLog('git rm -rf .');
+    try {
+      await fs.copy(fromPath, toPath);
+    } catch (error) {
+      throw new Error(
+        `Error: Copying build assets from "${fromPath}" to "${toPath}" failed with error '${error}'`,
+      );
+    }
+    shell.cd(toPath);
+    shellExecLog('git add --all');
 
-    shell.cd('../..');
-
-    const fromPath = outputDirectory;
-    const toPath = path.join(
-      GENERATED_FILES_DIR_NAME,
-      `${projectName}-${deploymentBranch}`,
-    );
-
-    fs.copy(fromPath, toPath, (error) => {
-      if (error) {
-        throw new Error(
-          `Error: Copying build assets failed with error '${error}'`,
-        );
+    const commitMessage =
+      process.env.CUSTOM_COMMIT_MESSAGE ||
+      `Deploy website - based on ${currentCommit}`;
+    const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
+    if (
+      shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
+    ) {
+      throw new Error('Error: Git push failed');
+    } else if (commitResults.code === 0) {
+      // The commit might return a non-zero value when site is up to date.
+      let websiteURL = '';
+      if (githubHost === 'github.com') {
+        websiteURL = projectName.includes('.github.io')
+          ? `https://${organizationName}.github.io/`
+          : `https://${organizationName}.github.io/${projectName}/`;
+      } else {
+        // GitHub enterprise hosting.
+        websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
-
-      shell.cd(toPath);
-      shellExecLog('git add --all');
-
-      const commitMessage =
-        process.env.CUSTOM_COMMIT_MESSAGE ||
-        `Deploy website - based on ${currentCommit}`;
-      const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
-      if (
-        shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
-      ) {
-        throw new Error('Error: Git push failed');
-      } else if (commitResults.code === 0) {
-        // The commit might return a non-zero value when site is up to date.
-        let websiteURL = '';
-        if (githubHost === 'github.com') {
-          websiteURL = projectName.includes('.github.io')
-            ? `https://${organizationName}.github.io/`
-            : `https://${organizationName}.github.io/${projectName}/`;
-        } else {
-          // GitHub enterprise hosting.
-          websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
-        }
-        shell.echo(`Website is live at ${websiteURL}`);
-        shell.exit(0);
-      }
-    });
+      shell.echo(`Website is live at ${websiteURL}`);
+      shell.exit(0);
+    }
   };
 
   if (!cliOptions.skipBuild) {
-    // Clear Docusaurus 2 cache dir for deploy consistency.
-    fs.removeSync(tempDir);
-
     // Build static html files, then push to deploymentBranch branch of specified repo.
-    build(siteDir, cliOptions, false)
-      .then(runDeploy)
-      .catch((buildError) => {
-        console.error(buildError);
-        process.exit(1);
-      });
+    try {
+      await runDeploy(await build(siteDir, cliOptions, false));
+    } catch (buildError) {
+      console.error(buildError);
+      process.exit(1);
+    }
   } else {
     // Push current build to deploymentBranch branch of specified repo.
-    runDeploy(outDir);
+    await runDeploy(outDir);
   }
 }

@@ -16,17 +16,30 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useTitleFormatter} from '@docusaurus/theme-common';
+import {useTitleFormatter, usePluralForm} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
-
 import styles from './styles.module.css';
 
-function pluralize(count, word) {
-  return count > 1 ? `${word}s` : word;
+// Very simple pluralization: probably good enough for now
+function useDocumentsFoundPlural() {
+  const {selectMessage} = usePluralForm();
+  return (count) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          id: 'theme.SearchPage.documentsFound.plurals',
+          description:
+            'Pluralized label for "{count} documents found". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One document found|{count} documents found',
+        },
+        {count},
+      ),
+    );
 }
 
 function useDocsSearchVersionsHelpers() {
@@ -102,8 +115,14 @@ const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
 
 function SearchPage() {
   const {
-    siteConfig: {themeConfig: {algolia: {appId, apiKey, indexName} = {}}} = {},
+    siteConfig: {
+      themeConfig: {
+        algolia: {appId, apiKey, indexName},
+      },
+    },
+    i18n: {currentLocale},
   } = useDocusaurusContext();
+  const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
   const {searchValue, updateSearchPath} = useSearchQuery();
@@ -158,7 +177,7 @@ function SearchPage() {
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: ['docusaurus_tag'],
+    disjunctiveFacets: ['language', 'docusaurus_tag'],
   });
 
   algoliaHelper.on(
@@ -236,11 +255,16 @@ function SearchPage() {
 
   const getTitle = () =>
     searchQuery
-      ? `${translate({
-          id: 'theme.SearchPage.existingResultsTitle',
-          message: 'Search results for',
-          description: 'The search page title for non-empty query',
-        })} "${searchQuery}"`
+      ? translate(
+          {
+            id: 'theme.SearchPage.existingResultsTitle',
+            message: 'Search results for "{query}"',
+            description: 'The search page title for non-empty query',
+          },
+          {
+            query: searchQuery,
+          },
+        )
       : translate({
           id: 'theme.SearchPage.emptyResultsTitle',
           message: 'Search the documentation',
@@ -249,6 +273,7 @@ function SearchPage() {
 
   const makeSearch = (page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+    algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
     Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
       ([pluginId, searchVersion]) => {
@@ -354,8 +379,7 @@ function SearchPage() {
           <div className={clsx('col', 'col--8', styles.searchResultsColumn)}>
             {!!searchResultState.totalResults && (
               <strong>
-                {searchResultState.totalResults}{' '}
-                {pluralize(searchResultState.totalResults, 'document')} found
+                {documentsFoundPlural(searchResultState.totalResults)}
               </strong>
             )}
           </div>
@@ -407,7 +431,7 @@ function SearchPage() {
                   {breadcrumbs.length > 0 && (
                     <span className={styles.searchResultItemPath}>
                       {breadcrumbs.map((html, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           {index !== 0 && (
                             <span
                               className={styles.searchResultItemPathSeparator}>
@@ -419,7 +443,7 @@ function SearchPage() {
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
-                        </>
+                        </React.Fragment>
                       ))}
                     </span>
                   )}

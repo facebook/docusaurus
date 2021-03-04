@@ -120,7 +120,14 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 
 </BrowserWindow>
 
----
+## Test
+
+```jsx live
+function Demo() {
+  React.useEffect(() => console.log('mount'), []);
+  return null;
+}
+```
 
 ## Code block test
 
