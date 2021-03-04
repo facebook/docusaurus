@@ -71,13 +71,10 @@ function DocSidebarItemCategory({
         switch (item.link.type) {
           case 'doc':
             return item.link.id;
-            break;
           case 'link':
             return item.link.href;
-            break;
           default:
             return undefined;
-            break;
         }
       } else {
         return undefined;
