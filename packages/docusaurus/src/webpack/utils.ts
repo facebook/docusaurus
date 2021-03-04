@@ -21,6 +21,8 @@ import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from '../constants';
+import cssnano from 'cssnano';
+import CssNanoPreset from '@docusaurus/cssnano-preset';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -37,7 +39,7 @@ export function getStyleLoaders(
             options: cssOptions,
           }
         : {
-            loader: require.resolve('null-loader'),
+            loader: require.resolve('./plugins/SsrCssModulesLoader'),
           },
     ];
   }
@@ -199,9 +201,6 @@ export function compile(config: Configuration[]): Promise<void> {
       // let plugins consume all the stats
       const allStats = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        allStats?.errors?.forEach((e) => {
-          console.error(e);
-        });
         reject(new Error('Failed to compile with errors.'));
       }
       if (allStats && stats?.hasWarnings()) {
@@ -455,12 +454,6 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
     minimizer.push(
       new CssMinimizerPlugin({
         minimizerOptions: {
-          // note: require -> import throws
-          preset: () => require('@docusaurus/cssnano-preset'),
-        },
-      }),
-      new CssMinimizerPlugin({
-        minimizerOptions: {
           minify: async (data) => {
             const [[filename, input]] = Object.entries(data);
             const minifiedCss = new CleanCss({
@@ -484,7 +477,11 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
             });
 
             return {
-              css: minifiedCss.styles,
+              css: cssnano.process(
+                minifiedCss.styles,
+                {},
+                {preset: CssNanoPreset},
+              ).css,
               warnings: minifiedCss.warnings,
             };
           },

@@ -71,6 +71,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
     "@crowdin/cli": "^3.5.3",
+    "@types/cssnano": "^4.0.0",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.20",

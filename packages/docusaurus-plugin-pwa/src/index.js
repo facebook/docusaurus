@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin');
+const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin')
+  .default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
 const path = require('path');
 const webpack = require('webpack');
