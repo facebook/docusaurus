@@ -34,7 +34,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropSidebarItemCategory = PropsSidebarItemBase & {
     type: 'category';
     label: string;
-    link?: object;
+    link?: PropSidebarItemCategoryLink;
     items: PropSidebarItem[];
     collapsed?: boolean;
   };
@@ -44,6 +44,20 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropSidebars = {
     [sidebarId: string]: PropSidebarItem[];
   };
+
+  export type PropSidebarItemCategoryLinkDoc = {
+    type: 'doc';
+    id: string;
+  };
+
+  export type PropSidebarItemCategoryLinkLink = {
+    type: 'link';
+    href: string;
+  };
+
+  export type PropSidebarItemCategoryLink =
+    | PropSidebarItemCategoryLinkLink
+    | PropSidebarItemCategoryLinkDoc;
 }
 
 declare module '@theme/DocItem' {
