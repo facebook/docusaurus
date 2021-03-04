@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
@@ -65,7 +65,27 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
-  const [initialLink, setInitialLink] = useState(undefined);
+  const initialLink = useMemo(() => {
+    if (item.link) {
+      if (Object.hasOwnProperty.call(item.link, 'type')) {
+        switch (item.link.type) {
+          case 'doc':
+            return item.link.id;
+            break;
+          case 'link':
+            return item.link.href;
+            break;
+          default:
+            return undefined;
+            break;
+        }
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }, [item.link]);
 
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
@@ -82,21 +102,6 @@ function DocSidebarItemCategory({
     const justBecameActive = isActive && !wasActive;
     if (justBecameActive && collapsed) {
       setCollapsed(false);
-    }
-    if (item.link) {
-      if (Object.hasOwnProperty.call(item.link, 'type')) {
-        switch (item.link.type) {
-          case 'doc':
-            setInitialLink(item.link.id);
-            break;
-          case 'link':
-            setInitialLink(item.link.href);
-            break;
-          default:
-            setInitialLink(undefined);
-            break;
-        }
-      }
     }
   }, [isActive, wasActive, collapsed]);
 
