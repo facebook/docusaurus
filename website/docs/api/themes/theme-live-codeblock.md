@@ -9,3 +9,19 @@ This theme provides a `@theme/CodeBlock` component that is powered by react-live
 ```bash npm2yarn
 npm install --save @docusaurus/theme-live-codeblock
 ```
+
+### Configuration
+
+```jsx title="docusaurus.config.js"
+module.exports = {
+  plugins: ['@docusaurus/theme-live-codeblock'],
+  themeConfig: {
+    liveCodeBlock: {
+      /**
+       * Display the live playground before/above the code editor
+       */
+      showResultBeforeEditor: false,
+    },
+  },
+};
+```
