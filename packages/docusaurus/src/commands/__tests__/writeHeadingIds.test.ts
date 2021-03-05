@@ -44,6 +44,17 @@ describe('transformMarkdownHeadingLine', () => {
     );
   });
 
+  test('can slugify complex headings', () => {
+    expect(
+      transformMarkdownHeadingLine(
+        '## abc [Hello] How are you %Sébastien_-_$)( ## -56756',
+        new GithubSlugger(),
+      ),
+    ).toEqual(
+      '## abc [Hello] How are you %Sébastien_-_$)( ## -56756 {#abc-hello-how-are-you-sébastien_-_---56756}',
+    );
+  });
+
   test('does not duplicate duplicate id', () => {
     expect(
       transformMarkdownHeadingLine(

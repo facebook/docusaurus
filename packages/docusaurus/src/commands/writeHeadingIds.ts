@@ -9,6 +9,10 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
 import chalk from 'chalk';
+import {loadContext, loadPluginConfigs} from '../server';
+import initPlugins from '../server/plugins/init';
+
+import {flatten} from 'lodash';
 
 export function stripLinks(line) {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/, (match, p1) => p1);
@@ -86,8 +90,21 @@ async function transformMarkdownFile(
   return undefined;
 }
 
+// We only handle the "paths to watch" because these are the paths where the markdown files are
+// Also we don't want to transform the site md docs that do not belong to a content plugin
+// For example ./README.md should not be transformed
+async function getPathsToWatch(siteDir: string): Promise<string[]> {
+  const context = await loadContext(siteDir);
+  const pluginConfigs = loadPluginConfigs(context);
+  const plugins = await initPlugins({
+    pluginConfigs,
+    context,
+  });
+  return flatten(plugins.map((plugin) => plugin?.getPathsToWatch?.() ?? []));
+}
+
 export default async function writeHeadingIds(siteDir: string): Promise<void> {
-  const markdownFiles = await globby(siteDir, {
+  const markdownFiles = await globby(await getPathsToWatch(siteDir), {
     expandDirectories: ['**/*.{md,mdx}'],
   });
 
