@@ -14,19 +14,16 @@
   padding: 0.75rem;
   text-transform: uppercase;
   font-weight: bold;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
   font-size: var(--ifm-code-font-size);
 }
 
-.playgroundEditorHeader {
+.playgroundHeader:first-of-type {
   background: var(--ifm-color-emphasis-600);
   color: var(--ifm-color-content-inverse);
   border-top-left-radius: var(--ifm-global-radius);
   border-top-right-radius: var(--ifm-global-radius);
-}
-
-.playgroundPreviewHeader {
-  background: var(--ifm-color-emphasis-200);
-  color: var(--ifm-color-content);
 }
 
 .playgroundEditor {
@@ -38,7 +35,10 @@
 
 .playgroundPreview {
   border: 1px solid var(--ifm-color-emphasis-200);
+  padding: 1rem;
+}
+
+.playgroundPreview:last-of-type, .playgroundEditor:last-of-type {
   border-bottom-left-radius: var(--ifm-global-radius);
   border-bottom-right-radius: var(--ifm-global-radius);
-  padding: 1rem;
 }

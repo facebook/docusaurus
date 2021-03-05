@@ -281,6 +281,9 @@ const LocaleConfigs = isI18nStaging
     ],
   ],
   themeConfig: {
+    liveCodeBlock: {
+      playgroundPosition: 'bottom',
+    },
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',

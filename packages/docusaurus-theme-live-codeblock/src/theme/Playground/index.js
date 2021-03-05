@@ -11,11 +11,56 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
-
 import styles from './styles.module.css';
 
+function Header({translateId, description, text}) {
+  return (
+    <div className={clsx(styles.playgroundHeader)}>
+      <Translate id={translateId} description={description}>
+        {text}
+      </Translate>
+    </div>
+  );
+}
+
+function ResultWithHeader() {
+  return (
+    <>
+      <Header
+        translateId="theme.Playground.result"
+        description="The result label of the live codeblocks"
+        text="Result"
+      />
+      <div className={styles.playgroundPreview}>
+        <LivePreview />
+        <LiveError />
+      </div>
+    </>
+  );
+}
+
+function EditorWithHeader() {
+  return (
+    <>
+      <Header
+        translateId="theme.Playground.liveEditor"
+        description="The live editor label of the live codeblocks"
+        text="Live Editor"
+      />
+      <LiveEditor className={styles.playgroundEditor} />
+    </>
+  );
+}
+
 export default function Playground({children, transformCode, ...props}) {
-  const {isClient} = useDocusaurusContext();
+  const {
+    isClient,
+    siteConfig: {
+      themeConfig: {
+        liveCodeBlock: {playgroundPosition},
+      },
+    },
+  } = useDocusaurusContext();
   const prismTheme = usePrismTheme();
 
   return (
@@ -26,33 +71,17 @@ export default function Playground({children, transformCode, ...props}) {
         transformCode={transformCode || ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>
-        <div
-          className={clsx(
-            styles.playgroundHeader,
-            styles.playgroundEditorHeader,
-          )}>
-          <Translate
-            id="theme.Playground.liveEditor"
-            description="The live editor label of the live codeblocks">
-            Live Editor
-          </Translate>
-        </div>
-        <LiveEditor className={styles.playgroundEditor} />
-        <div
-          className={clsx(
-            styles.playgroundHeader,
-            styles.playgroundPreviewHeader,
-          )}>
-          <Translate
-            id="theme.Playground.result"
-            description="The result label of the live codeblocks">
-            Result
-          </Translate>
-        </div>
-        <div className={styles.playgroundPreview}>
-          <LivePreview />
-          <LiveError />
-        </div>
+        {playgroundPosition === 'top' ? (
+          <>
+            <ResultWithHeader />
+            <EditorWithHeader />
+          </>
+        ) : (
+          <>
+            <EditorWithHeader />
+            <ResultWithHeader />
+          </>
+        )}
       </LiveProvider>
     </div>
   );
