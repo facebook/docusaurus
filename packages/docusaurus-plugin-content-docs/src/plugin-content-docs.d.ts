@@ -69,6 +69,7 @@ declare module '@theme/DocItem' {
     readonly permalink?: string;
     readonly editUrl?: string;
     readonly lastUpdatedAt?: number;
+    readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
     readonly previous?: {readonly permalink: string; readonly title: string};
