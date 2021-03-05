@@ -36,14 +36,6 @@ The goals of the Docusaurus i18n system are:
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
 - **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
 
-### i18n goals (TODO)
-
-Features that are **not yet implemented**:
-
-- **Contextual translations**: reduce friction to contribute to the translation effort.
-- **Anchor links**: linking should not break when you localize headings.
-- **Advanced configuration options**: customize route paths, file-system paths.
-
 ### i18n non-goals
 
 We don't provide support for:
