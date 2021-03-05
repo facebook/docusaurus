@@ -307,6 +307,7 @@ function isInternalCommand(command) {
     'serve',
     'clear',
     'write-translations',
+    'write-heading-ids',
   ].includes(command);
 }
 
