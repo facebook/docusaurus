@@ -255,6 +255,10 @@ describe('headings plugin', () => {
 
 # With *Bold* {#custom-withbold}
 
+# With *Bold* hello{#custom-withbold-hello}
+
+# With *Bold* hello2 {#custom-withbold-hello2}
+
 # Snake-cased ID {#this_is_custom_id}
 
 # No custom ID
@@ -281,6 +285,14 @@ describe('headings plugin', () => {
       {
         id: 'custom-withbold',
         text: 'With Bold',
+      },
+      {
+        id: 'custom-withbold-hello',
+        text: 'With Bold hello',
+      },
+      {
+        id: 'custom-withbold-hello2',
+        text: 'With Bold hello2',
       },
       {
         id: 'this_is_custom_id',

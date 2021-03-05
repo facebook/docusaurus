@@ -12,7 +12,7 @@ const visit = require('unist-util-visit');
 const toString = require('mdast-util-to-string');
 const slugs = require('github-slugger')();
 
-function slug() {
+function headings() {
   const transformer = (ast) => {
     slugs.reset();
 
@@ -39,12 +39,23 @@ function slug() {
         id = parsedHeading.id || slugs.slug(heading);
 
         if (parsedHeading.id) {
-          // Remove the custom ID part from the text node
+          // When there's an id, it is always in the last child node
+          // Sometimes heading is in multiple "parts" (** syntax creates a child node):
+          // ## part1 *part2* part3 {#id}
+          const lastNode =
+            headingNode.children[headingNode.children.length - 1];
+
           if (headingNode.children.length > 1) {
-            headingNode.children.pop();
+            const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
+            // When last part contains test+id, remove the id
+            if (lastNodeText) {
+              lastNode.value = lastNodeText;
+            }
+            // When last part contains only the id: completely remove that node
+            else {
+              headingNode.children.pop();
+            }
           } else {
-            const lastNode =
-              headingNode.children[headingNode.children.length - 1];
             lastNode.value = parsedHeading.text;
           }
         }
@@ -60,4 +71,4 @@ function slug() {
   return transformer;
 }
 
-module.exports = slug;
+module.exports = headings;
