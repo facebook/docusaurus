@@ -642,3 +642,23 @@ export function getDateTimeFormat(locale: string) {
     : // eslint-disable-next-line @typescript-eslint/no-var-requires
       require('intl').DateTimeFormat;
 }
+
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(
+  heading: string,
+): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
+}

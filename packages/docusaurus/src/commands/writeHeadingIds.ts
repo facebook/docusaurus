@@ -13,6 +13,7 @@ import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
 import {flatten} from 'lodash';
+import {parseMarkdownHeadingId} from '@docusaurus/utils';
 
 export function unwrapMarkdownLinks(line) {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
@@ -39,8 +40,10 @@ export function transformMarkdownHeadingLine(
     throw new Error(`Line is not a markdown heading: ${line}`);
   }
 
-  const alreadyHasId = /\{#[^}]+\}/.test(line);
-  if (alreadyHasId) {
+  const parsedHeading = parseMarkdownHeadingId(line);
+
+  // Do not process if id is already therer
+  if (parsedHeading.id) {
     return line;
   }
   return addHeadingId(line, slugger);
