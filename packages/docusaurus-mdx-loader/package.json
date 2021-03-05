@@ -25,7 +25,6 @@
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^9.1.0",
-    "github-slugger": "^1.3.0",
     "gray-matter": "^4.0.2",
     "loader-utils": "^2.0.0",
     "mdast-util-to-string": "^2.0.0",

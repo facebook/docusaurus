@@ -23,6 +23,7 @@ const {
   serve,
   clear,
   writeTranslations,
+  writeHeadingIds,
 } = require('../lib');
 const {
   name,
@@ -283,6 +284,13 @@ cli
       });
     },
   );
+
+cli
+  .command('write-heading-ids [contentDir]')
+  .description('Generate heading ids in Markdown content')
+  .action((contentDir = '.') => {
+    wrapCommand(writeHeadingIds)(contentDir);
+  });
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();

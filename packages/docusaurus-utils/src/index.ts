@@ -24,6 +24,7 @@ import {
 import resolvePathnameUnsafe from 'resolve-pathname';
 import {mapValues} from 'lodash';
 import areIntlLocalesSupported from 'intl-locales-supported';
+import GithubSlugger from 'github-slugger';
 
 const fileHash = new Map();
 export async function generate(
@@ -641,4 +642,9 @@ export function getDateTimeFormat(locale: string) {
     ? global.Intl.DateTimeFormat
     : // eslint-disable-next-line @typescript-eslint/no-var-requires
       require('intl').DateTimeFormat;
+}
+
+export function slugify(text: string) {
+  const slugger = new GithubSlugger();
+  return slugger.slug(text, true);
 }
