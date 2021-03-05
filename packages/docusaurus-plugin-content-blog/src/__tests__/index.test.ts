@@ -167,20 +167,23 @@ describe('loadBlog', () => {
   test('simple website blog dates localized', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(5);
+    expect(blogPostsFrench).toHaveLength(6);
     expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
-      `"16 août 2020"`,
+      `"5 mars 2021"`,
     );
     expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
-      `"15 août 2020"`,
+      `"16 août 2020"`,
     );
     expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
+      `"15 août 2020"`,
     );
     expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"27 février 2020"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });
@@ -225,8 +228,8 @@ describe('loadBlog', () => {
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
-      blogPath: 'long-text-r.md',
-      permalink: '/blog/long-text-r',
+      blogPath: 'full-r.mdx',
+      permalink: '/blog/full-r',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
