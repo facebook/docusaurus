@@ -7,11 +7,10 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
+const {parseMarkdownHeadingId} = require('@docusaurus/utils');
 const visit = require('unist-util-visit');
 const toString = require('mdast-util-to-string');
 const slugs = require('github-slugger')();
-
-const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
 
 function slug() {
   const transformer = (ast) => {
@@ -35,21 +34,19 @@ function slug() {
         );
 
         // Support explicit heading IDs
-        const customHeadingIdMatches = customHeadingIdRegex.exec(heading);
+        const parsedHeading = parseMarkdownHeadingId(heading);
 
-        if (customHeadingIdMatches) {
-          id = customHeadingIdMatches[2];
+        id = parsedHeading.id || slugs.slug(heading);
 
+        if (parsedHeading.id) {
           // Remove the custom ID part from the text node
           if (headingNode.children.length > 1) {
             headingNode.children.pop();
           } else {
             const lastNode =
               headingNode.children[headingNode.children.length - 1];
-            lastNode.value = customHeadingIdMatches[1] || heading;
+            lastNode.value = parsedHeading.text || heading;
           }
-        } else {
-          id = slugs.slug(heading);
         }
       }
 
