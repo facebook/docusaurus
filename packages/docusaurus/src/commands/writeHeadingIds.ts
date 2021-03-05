@@ -116,12 +116,14 @@ export default async function writeHeadingIds(siteDir: string): Promise<void> {
     console.log(
       chalk.green(`Heading ids added to markdown files (${
         pathsModified.length
-      } / ${markdownFiles.length}):
+      }/${markdownFiles.length} files):
 - ${pathsModified.join('\n- ')}`),
     );
   } else {
     console.log(
-      chalk.yellow(`No heading id had to be added to any markdown file`),
+      chalk.yellow(
+        `${markdownFiles.length} markdown files already have explicit heading ids`,
+      ),
     );
   }
 }
