@@ -292,7 +292,7 @@ describe('headings plugin', () => {
       },
       {
         id: 'id-only',
-        text: '{#id-only}',
+        text: '',
       },
       {
         id: 'text-after-custom-id',

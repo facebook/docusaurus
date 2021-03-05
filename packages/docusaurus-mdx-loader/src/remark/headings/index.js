@@ -45,7 +45,7 @@ function slug() {
           } else {
             const lastNode =
               headingNode.children[headingNode.children.length - 1];
-            lastNode.value = parsedHeading.text || heading;
+            lastNode.value = parsedHeading.text;
           }
         }
       }

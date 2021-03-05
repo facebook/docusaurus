@@ -847,4 +847,11 @@ describe('parseMarkdownHeadingId', () => {
       id: 'id',
     });
   });
+
+  test('can parse heading with only id', () => {
+    expect(parseMarkdownHeadingId('## {#id}')).toEqual({
+      text: '##',
+      id: 'id',
+    });
+  });
 });
