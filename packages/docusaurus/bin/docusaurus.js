@@ -23,6 +23,7 @@ const {
   serve,
   clear,
   writeTranslations,
+  writeHeadingIds,
 } = require('../lib');
 const {
   name,
@@ -284,6 +285,13 @@ cli
     },
   );
 
+cli
+  .command('write-heading-ids [contentDir]')
+  .description('Generate heading ids in Markdown content')
+  .action((siteDir = '.') => {
+    wrapCommand(writeHeadingIds)(siteDir);
+  });
+
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
@@ -299,6 +307,7 @@ function isInternalCommand(command) {
     'serve',
     'clear',
     'write-translations',
+    'write-heading-ids',
   ].includes(command);
 }
 

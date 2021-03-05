@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* Based on remark-slug (https://github.com/remarkjs/remark-slug) */
+/* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 /* eslint-disable no-param-reassign */
 
 import remark from 'remark';
 import u from 'unist-builder';
 import removePosition from 'unist-util-remove-position';
+import toString from 'mdast-util-to-string';
+import visit from 'unist-util-visit';
 import slug from '../index';
 
 function process(doc, plugins = []) {
@@ -27,7 +29,7 @@ function heading(label, id) {
   );
 }
 
-describe('slug plugin', () => {
+describe('headings plugin', () => {
   test('should patch `id`s and `data.hProperties.id', () => {
     const result = process('# Normal\n\n## Table of Contents\n\n# Baz\n');
     const expected = u('root', [
@@ -157,7 +159,7 @@ describe('slug plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should create GitHub slugs', () => {
+  test('should create GitHub-style headings ids', () => {
     const result = process(
       [
         '## I ♥ unicode',
@@ -225,7 +227,7 @@ describe('slug plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should generate slug from only text contents of headings if they contains HTML tags', () => {
+  test('should generate id from only text contents of headings if they contains HTML tags', () => {
     const result = process('# <span class="normal-header">Normal</span>\n');
     const expected = u('root', [
       u(
@@ -243,5 +245,71 @@ describe('slug plugin', () => {
     ]);
 
     expect(result).toEqual(expected);
+  });
+
+  test('should create custom headings ids', () => {
+    const result = process(`
+# Heading One {#custom_h1}
+
+## Heading Two {#custom-heading-two}
+
+# With *Bold* {#custom-withbold}
+
+# With *Bold* hello{#custom-withbold-hello}
+
+# With *Bold* hello2 {#custom-withbold-hello2}
+
+# Snake-cased ID {#this_is_custom_id}
+
+# No custom ID
+
+# {#id-only}
+
+# {#text-after} custom ID
+  `);
+
+    const headers = [];
+    visit(result, 'heading', (node) => {
+      headers.push({text: toString(node), id: node.data.id});
+    });
+
+    expect(headers).toEqual([
+      {
+        id: 'custom_h1',
+        text: 'Heading One',
+      },
+      {
+        id: 'custom-heading-two',
+        text: 'Heading Two',
+      },
+      {
+        id: 'custom-withbold',
+        text: 'With Bold',
+      },
+      {
+        id: 'custom-withbold-hello',
+        text: 'With Bold hello',
+      },
+      {
+        id: 'custom-withbold-hello2',
+        text: 'With Bold hello2',
+      },
+      {
+        id: 'this_is_custom_id',
+        text: 'Snake-cased ID',
+      },
+      {
+        id: 'no-custom-id',
+        text: 'No custom ID',
+      },
+      {
+        id: 'id-only',
+        text: '',
+      },
+      {
+        id: 'text-after-custom-id',
+        text: '{#text-after} custom ID',
+      },
+    ]);
   });
 });
