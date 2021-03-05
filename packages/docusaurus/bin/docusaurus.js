@@ -288,8 +288,8 @@ cli
 cli
   .command('write-heading-ids [contentDir]')
   .description('Generate heading ids in Markdown content')
-  .action((contentDir = '.') => {
-    wrapCommand(writeHeadingIds)(contentDir);
+  .action((siteDir = '.') => {
+    wrapCommand(writeHeadingIds)(siteDir);
   });
 
 cli.arguments('<command>').action((cmd) => {

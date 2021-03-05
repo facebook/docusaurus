@@ -184,6 +184,4 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 
 ### `docusaurus write-heading-ids [siteDir]`
 
-Add explicit heading ids to the Markdown documents of your site instead of generating the ids from the heading text, ensuring anchor links don't break when modifying or translating heading text.
-
-A heading like `## my heading` is transformed into `## my heading {#my-heading}`
+Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.
