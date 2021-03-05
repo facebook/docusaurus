@@ -19,6 +19,11 @@ import {
   TranslationFileContent,
   TranslationFile,
 } from '@docusaurus/types';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import MDX from '@mdx-js/runtime';
+import removeImports from 'remark-mdx-remove-imports';
+import {MDXToHtmlOptions} from './types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
@@ -661,4 +666,19 @@ export function parseMarkdownHeadingId(
   } else {
     return {text: heading, id: undefined};
   }
+}
+
+/**
+ * Transform mdx text to plain html text.
+ * Without import node
+ */
+export function mdxToHtml(
+  mdxStr: string,
+  options: MDXToHtmlOptions = {},
+): string {
+  return ReactDOMServer.renderToString(
+    React.createElement(MDX, {remarkPlugins: [removeImports], ...options}, [
+      mdxStr,
+    ]),
+  );
 }
