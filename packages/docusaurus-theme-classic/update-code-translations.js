@@ -9,7 +9,7 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
-const {mapValues, difference} = require('lodash');
+const {mapValues, pickBy, difference} = require('lodash');
 
 const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
@@ -101,8 +101,14 @@ async function getCodeTranslationFiles() {
   return {baseFile, localesFiles};
 }
 
+const DescriptionSuffix = '___DESCRIPTION';
+
 async function updateBaseFile(baseFile) {
-  const baseMessages = await readMessagesFile(baseFile);
+  const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
+  const baseMessages = pickBy(
+    baseMessagesWithDescriptions,
+    (_, key) => !key.endsWith(DescriptionSuffix),
+  );
 
   const codeExtractedTranslations = await extractThemeCodeMessages();
   const codeMessages = mapValues(
@@ -132,7 +138,8 @@ ${logKeys(unknownMessages)}`),
     (acc, [key]) => {
       return {
         ...acc,
-        [`${key}___DESCRIPTION`]: codeExtractedTranslations[key].description,
+        [`${key}${DescriptionSuffix}`]: codeExtractedTranslations[key]
+          .description,
       };
     },
     {},
