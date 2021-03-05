@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {ConfigOptions} from '@docusaurus/types';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins, {InitPlugin} from '../server/plugins/init';
 
@@ -14,7 +15,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
-import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
+import {extractSiteSourceCodeTranslations} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 
 async function writePluginTranslationFiles({
@@ -47,9 +48,12 @@ async function writePluginTranslationFiles({
 
 export default async function writeTranslations(
   siteDir: string,
-  options: WriteTranslationsOptions & {locale?: string},
+  options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
 ): Promise<void> {
-  const context = await loadContext(siteDir, {locale: options.locale});
+  const context = await loadContext(siteDir, {
+    customConfigFilePath: options.config,
+    locale: options.locale,
+  });
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({
     pluginConfigs,
@@ -70,7 +74,8 @@ Available locales=[${context.i18n.locales.join(',')}]`,
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
   });
-  const extractedCodeTranslations = await extractPluginsSourceCodeTranslations(
+  const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
+    siteDir,
     plugins,
     babelOptions,
   );

@@ -572,6 +572,12 @@ The Docusaurus front matter fields for the blog have been changed from camelCase
 
 The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
 
+## Deployment
+
+The `CNAME` file used by GitHub Pages is not generated anymore, so be sure you have created it in `/static/CNAME` if you use a custom domain.
+
+The blog RSS feed is now hosted at `/blog/rss.xml` instead of `/blog/feed.xml`. You may want to configure server-side redirects so that users' subscriptions keep working.
+
 ## Test your site
 
 After migration, your folder structure should look like this:

@@ -27,6 +27,7 @@ export type FeedType = 'rss' | 'atom';
 export type EditUrlFunction = (editUrlParams: {
   blogDirPath: string;
   blogPath: string;
+  permalink: string;
   locale: string;
 }) => string | undefined;
 
@@ -105,6 +106,7 @@ export interface MetaData {
   source: string;
   description: string;
   date: Date;
+  formattedDate: string;
   tags: (Tag | string)[];
   title: string;
   readingTime?: number;

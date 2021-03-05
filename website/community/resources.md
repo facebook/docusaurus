@@ -39,6 +39,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-pdf](https://github.com/KohheePeace/docusaurus-pdf) - Generate documentation into PDF format
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
 - [docusaurus-plugin-remote-content](https://github.com/rdilweb/docusaurus-plugin-remote-content) - A Docusaurus v2 plugin that allows you to fetch content from remote sources
+- [docusaurus2-graphql-doc-generator](https://github.com/edno/docusaurus2-graphql-doc-generator) - A Docusaurus v2 plugin for generating documentation from a GraphQL schema
 
 ## Enterprise usage
 

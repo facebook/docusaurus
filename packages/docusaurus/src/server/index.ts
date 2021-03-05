@@ -10,8 +10,8 @@ import path, {join} from 'path';
 import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
-  BUILD_DIR_NAME,
-  CONFIG_FILE_NAME,
+  DEFAULT_BUILD_DIR_NAME,
+  DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
   THEME_PATH,
 } from '../constants';
@@ -40,6 +40,7 @@ import {mapValues} from 'lodash';
 
 type LoadContextOptions = {
   customOutDir?: string;
+  customConfigFilePath?: string;
   locale?: string;
   localizePath?: boolean; // undefined = only non-default locales paths are localized
 };
@@ -48,17 +49,23 @@ export async function loadContext(
   siteDir: string,
   options: LoadContextOptions = {},
 ): Promise<LoadContext> {
-  const {customOutDir, locale} = options;
-  const generatedFilesDir: string = path.resolve(
-    siteDir,
-    GENERATED_FILES_DIR_NAME,
-  );
-  const initialSiteConfig: DocusaurusConfig = loadConfig(siteDir);
+  const {customOutDir, locale, customConfigFilePath} = options;
+  const generatedFilesDir = path.isAbsolute(GENERATED_FILES_DIR_NAME)
+    ? GENERATED_FILES_DIR_NAME
+    : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
+
+  const siteConfigPathUnresolved =
+    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
+  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
+    ? siteConfigPathUnresolved
+    : path.resolve(siteDir, siteConfigPathUnresolved);
+
+  const initialSiteConfig: DocusaurusConfig = loadConfig(siteConfigPath);
   const {ssrTemplate} = initialSiteConfig;
 
   const baseOutDir = customOutDir
     ? path.resolve(customOutDir)
-    : path.resolve(siteDir, BUILD_DIR_NAME);
+    : path.resolve(siteDir, DEFAULT_BUILD_DIR_NAME);
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
@@ -93,6 +100,7 @@ export async function loadContext(
     siteDir,
     generatedFilesDir,
     siteConfig,
+    siteConfigPath,
     outDir,
     baseUrl,
     i18n,
@@ -122,6 +130,7 @@ export async function load(
   const {
     generatedFilesDir,
     siteConfig,
+    siteConfigPath,
     outDir,
     baseUrl,
     i18n,
@@ -149,7 +158,7 @@ export async function load(
   // We want the generated config to have been normalized by the plugins!
   const genSiteConfig = generate(
     generatedFilesDir,
-    CONFIG_FILE_NAME,
+    DEFAULT_CONFIG_FILE_NAME,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
@@ -315,6 +324,7 @@ ${Object.keys(registry)
 
   const props: Props = {
     siteConfig,
+    siteConfigPath,
     siteDir,
     outDir,
     baseUrl,

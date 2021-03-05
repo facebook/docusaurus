@@ -9,11 +9,12 @@ import fs from 'fs-extra';
 import tmp from 'tmp-promise';
 import {
   extractSourceCodeFileTranslations,
-  extractPluginsSourceCodeTranslations,
+  extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
 import path from 'path';
 import {InitPlugin} from '../../plugins/init';
+import {SRC_DIR_NAME} from '../../../constants';
 
 const TestBabelOptions = getBabelOptions({
   isServer: true,
@@ -231,8 +232,32 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
   });
 });
 
-describe('extractPluginsSourceCodeTranslations', () => {
+describe('extractSiteSourceCodeTranslations', () => {
   test('should extract translation from all plugins source code', async () => {
+    const siteDir = await createTmpDir();
+
+    const siteComponentFile1 = path.join(
+      siteDir,
+      SRC_DIR_NAME,
+      'site-component-1.jsx',
+    );
+    await fs.ensureDir(path.dirname(siteComponentFile1));
+    await fs.writeFile(
+      siteComponentFile1,
+      `
+export default function MySiteComponent1() {
+  return (
+      <Translate
+        id="siteComponentFileId1"
+        description="site component 1 desc"
+      >
+        site component 1 message
+      </Translate>
+  );
+}
+`,
+    );
+
     function createTestPlugin(pluginDir: string): InitPlugin {
       // @ts-expect-error: good enough for this test
       return {
@@ -255,7 +280,11 @@ describe('extractPluginsSourceCodeTranslations', () => {
 export default function MyComponent() {
   return (
     <div>
-      <input text={translate({id: 'plugin1Id1',message: 'plugin1 message 1',description: 'plugin1 description 1'})}/>
+      <input
+        text={translate(
+          {id: 'plugin1Id1',message: 'plugin1 message 1',description: 'plugin1 description 1'},
+          {someDynamicValue: 42}
+        )}/>
     </div>
   );
 }
@@ -319,11 +348,16 @@ export default function MyComponent(props: Props) {
     const plugin2 = createTestPlugin(plugin2Dir);
 
     const plugins = [plugin1, plugin2];
-    const translations = await extractPluginsSourceCodeTranslations(
+    const translations = await extractSiteSourceCodeTranslations(
+      siteDir,
       plugins,
       TestBabelOptions,
     );
     expect(translations).toEqual({
+      siteComponentFileId1: {
+        description: 'site component 1 desc',
+        message: 'site component 1 message',
+      },
       plugin1Id1: {
         description: 'plugin1 description 1',
         message: 'plugin1 message 1',

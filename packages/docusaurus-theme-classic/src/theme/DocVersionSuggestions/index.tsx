@@ -8,12 +8,91 @@
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 import {
   useActivePlugin,
   useActiveVersion,
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+
+function UnreleasedVersionLabel({
+  siteTitle,
+  versionLabel,
+}: {
+  siteTitle: string;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.unreleasedVersionLabel"
+      description="The label used to tell the user that he's browsing an unreleased doc version"
+      values={{
+        siteTitle,
+        versionLabel: <strong>{versionLabel}</strong>,
+      }}>
+      {
+        'This is unreleased documentation for {siteTitle} {versionLabel} version.'
+      }
+    </Translate>
+  );
+}
+
+function UnmaintainedVersionLabel({
+  siteTitle,
+  versionLabel,
+}: {
+  siteTitle: string;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.unmaintainedVersionLabel"
+      description="The label used to tell the user that he's browsing an unmaintained doc version"
+      values={{
+        siteTitle,
+        versionLabel: <strong>{versionLabel}</strong>,
+      }}>
+      {
+        'This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.'
+      }
+    </Translate>
+  );
+}
+
+function LatestVersionSuggestionLabel({
+  versionLabel,
+  to,
+  onClick,
+}: {
+  to: string;
+  onClick: () => void;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.latestVersionSuggestionLabel"
+      description="The label userd to tell the user that he's browsing an unmaintained doc version"
+      values={{
+        versionLabel,
+        latestVersionLink: (
+          <strong>
+            <Link to={to} onClick={onClick}>
+              <Translate
+                id="theme.docs.versions.latestVersionLinkLabel"
+                description="The label used for the latest version suggestion link label">
+                latest version
+              </Translate>
+            </Link>
+          </strong>
+        ),
+      }}>
+      {
+        'For up-to-date documentation, see the {latestVersionLink} ({versionLabel}).'
+      }
+    </Translate>
+  );
+}
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -44,33 +123,25 @@ function DocVersionSuggestions(): JSX.Element {
 
   return (
     <div className="alert alert--warning margin-bottom--md" role="alert">
-      {
-        // TODO need refactoring
-        activeVersion.name === 'current' ? (
-          <div>
-            This is unreleased documentation for {siteTitle}{' '}
-            <strong>{activeVersion.label}</strong> version.
-          </div>
+      <div>
+        {activeVersion.name === 'current' ? (
+          <UnreleasedVersionLabel
+            siteTitle={siteTitle}
+            versionLabel={activeVersion.label}
+          />
         ) : (
-          <div>
-            This is documentation for {siteTitle}{' '}
-            <strong>{activeVersion.label}</strong>, which is no longer actively
-            maintained.
-          </div>
-        )
-      }
+          <UnmaintainedVersionLabel
+            siteTitle={siteTitle}
+            versionLabel={activeVersion.label}
+          />
+        )}
+      </div>
       <div className="margin-top--md">
-        For up-to-date documentation, see the{' '}
-        <strong>
-          <Link
-            to={latestVersionSuggestedDoc.path}
-            onClick={() =>
-              savePreferredVersionName(latestVersionSuggestion.name)
-            }>
-            latest version
-          </Link>
-        </strong>{' '}
-        ({latestVersionSuggestion.label}).
+        <LatestVersionSuggestionLabel
+          versionLabel={latestVersionSuggestion.label}
+          to={latestVersionSuggestedDoc.path}
+          onClick={() => savePreferredVersionName(latestVersionSuggestion.name)}
+        />
       </div>
     </div>
   );

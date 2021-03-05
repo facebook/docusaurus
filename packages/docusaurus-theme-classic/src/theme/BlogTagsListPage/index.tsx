@@ -11,6 +11,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsListPage';
 import BlogSidebar from '@theme/BlogSidebar';
+import Translate from '@docusaurus/Translate';
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
@@ -49,19 +50,28 @@ function BlogTagsListPage(props: Props): JSX.Element {
     ))
     .filter((item) => item != null);
 
-  // TODO soon: translate hardcoded labels, but factorize them (blog + docs will both have tags)
   return (
     <Layout
       title="Tags"
       description="Blog Tags"
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_tags_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">
             <BlogSidebar sidebar={sidebar} />
           </div>
           <main className="col col--8">
-            <h1>Tags</h1>
+            <h1>
+              <Translate
+                id="theme.tags.tagsPageTitle"
+                description="The title of the tag list page">
+                Tags
+              </Translate>
+            </h1>
             <div className="margin-vert--lg">{tagsSection}</div>
           </main>
         </div>

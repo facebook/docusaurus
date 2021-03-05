@@ -10,3 +10,6 @@
 /fr/*         /fr/404.html          404
 
 
+# Redirect Docusaurus v1 blog RSS feed
+/blog/feed.xml   /blog/rss.xml
+

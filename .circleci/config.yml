@@ -26,7 +26,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/docusaurus
   docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
   resource_class: large
 
 version: 2

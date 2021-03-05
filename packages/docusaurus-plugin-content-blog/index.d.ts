@@ -45,6 +45,7 @@ declare module '@theme/BlogPostPage' {
   export type Metadata = {
     readonly title: string;
     readonly date: string;
+    readonly formattedDate: string;
     readonly permalink: string;
     readonly description?: string;
     readonly editUrl?: string;

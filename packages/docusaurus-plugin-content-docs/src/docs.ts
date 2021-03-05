@@ -119,32 +119,6 @@ export function processDocMetadata({
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const relativeFilePath = path.relative(docsDirPath, filePath);
-
-  function getDocEditUrl() {
-    if (typeof options.editUrl === 'function') {
-      return options.editUrl({
-        version: versionMetadata.versionName,
-        versionDocsDirPath: posixPath(
-          path.relative(siteDir, versionMetadata.docsDirPath),
-        ),
-        docPath: posixPath(relativeFilePath),
-        locale: context.i18n.currentLocale,
-      });
-    } else if (typeof options.editUrl === 'string') {
-      const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
-      const baseVersionEditUrl =
-        isLocalized && options.editLocalizedFiles
-          ? versionMetadata.versionEditUrlLocalized
-          : versionMetadata.versionEditUrl;
-      return getEditUrl(relativeFilePath, baseVersionEditUrl);
-    } else {
-      return undefined;
-    }
-  }
-
-  const docsEditUrl = getDocEditUrl();
-
   const {frontMatter = {}, excerpt} = parseMarkdownString(content);
   const {sidebar_label, custom_edit_url} = frontMatter;
 
@@ -194,6 +168,31 @@ export function processDocMetadata({
 
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 
+  function getDocEditUrl() {
+    const relativeFilePath = path.relative(docsDirPath, filePath);
+
+    if (typeof options.editUrl === 'function') {
+      return options.editUrl({
+        version: versionMetadata.versionName,
+        versionDocsDirPath: posixPath(
+          path.relative(siteDir, versionMetadata.docsDirPath),
+        ),
+        docPath: posixPath(relativeFilePath),
+        permalink,
+        locale: context.i18n.currentLocale,
+      });
+    } else if (typeof options.editUrl === 'string') {
+      const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
+      const baseVersionEditUrl =
+        isLocalized && options.editLocalizedFiles
+          ? versionMetadata.versionEditUrlLocalized
+          : versionMetadata.versionEditUrl;
+      return getEditUrl(relativeFilePath, baseVersionEditUrl);
+    } else {
+      return undefined;
+    }
+  }
+
   // Assign all of object properties during instantiation (if possible) for
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
@@ -207,7 +206,7 @@ export function processDocMetadata({
     source: aliasedSitePath(filePath, siteDir),
     slug: docSlug,
     permalink,
-    editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
+    editUrl: custom_edit_url !== undefined ? custom_edit_url : getDocEditUrl(),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,

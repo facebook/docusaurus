@@ -44,7 +44,7 @@ The ES imports syntax also works:
 
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl)} alt="My image alternative text" />
+<img src={myImageUrl} alt="My image alternative text" />
 ```
 
 This results in displaying the image:
@@ -133,6 +133,7 @@ import ThemedImage from '@theme/ThemedImage';
 />;
 ```
 
+```mdx-code-block
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import ThemedImage from '@theme/ThemedImage';
 
@@ -143,3 +144,4 @@ import ThemedImage from '@theme/ThemedImage';
     dark: useBaseUrl('/img/docusaurus_speed.svg'),
   }}
 />
+```

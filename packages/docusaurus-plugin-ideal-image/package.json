@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.1.0"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.70",
@@ -34,6 +34,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

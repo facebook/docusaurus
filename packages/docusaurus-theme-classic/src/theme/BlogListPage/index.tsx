@@ -26,7 +26,11 @@ function BlogListPage(props: Props): JSX.Element {
     <Layout
       title={title}
       description={blogDescription}
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_posts_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">
