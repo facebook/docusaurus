@@ -33,7 +33,14 @@ function DocItem(props: Props): JSX.Element {
       hide_table_of_contents: hideTableOfContents,
     },
   } = DocContent;
-  const {description, title, editUrl, lastUpdatedAt, lastUpdatedBy} = metadata;
+  const {
+    description,
+    title,
+    editUrl,
+    lastUpdatedAt,
+    formattedLastUpdatedAt,
+    lastUpdatedBy,
+  } = metadata;
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
@@ -81,6 +88,7 @@ function DocItem(props: Props): JSX.Element {
                   {(lastUpdatedAt || lastUpdatedBy) && (
                     <LastUpdated
                       lastUpdatedAt={lastUpdatedAt}
+                      formattedLastUpdatedAt={formattedLastUpdatedAt}
                       lastUpdatedBy={lastUpdatedBy}
                     />
                   )}

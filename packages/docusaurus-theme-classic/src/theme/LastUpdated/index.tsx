@@ -9,21 +9,23 @@ import React from 'react';
 import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
 
-function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
+function LastUpdatedAtDate({
+  lastUpdatedAt,
+  formattedLastUpdatedAt,
+}: {
+  lastUpdatedAt: number;
+  formattedLastUpdatedAt: string;
+}) {
   return (
     <Translate
       id="theme.lastUpdated.atDate"
       description="The words used to describe on which date a page has been last updated"
       values={{
-        // TODO localize this date
-        // If it's the only place we need this, we'd rather keep it simple
-        // Day.js may be a good lightweight option?
-        // https://www.skypack.dev/blog/2021/02/the-best-javascript-date-libraries/
         date: (
           <time
             dateTime={new Date(lastUpdatedAt * 1000).toISOString()}
             className={styles.lastUpdatedDate}>
-            {new Date(lastUpdatedAt * 1000).toLocaleDateString()}
+            {formattedLastUpdatedAt}
           </time>
         ),
       }}>
@@ -47,9 +49,11 @@ function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
 
 export default function LastUpdated({
   lastUpdatedAt,
+  formattedLastUpdatedAt,
   lastUpdatedBy,
 }: {
   lastUpdatedAt: number | undefined;
+  formattedLastUpdatedAt: string | undefined;
   lastUpdatedBy: string | undefined;
 }) {
   return (
@@ -60,11 +64,15 @@ export default function LastUpdated({
             id="theme.lastUpdated.lastUpdatedAtBy"
             description="The sentence used to display when a page has been last updated, and by who"
             values={{
-              atDate: lastUpdatedAt ? (
-                <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
-              ) : (
-                ''
-              ),
+              atDate:
+                lastUpdatedAt && formattedLastUpdatedAt ? (
+                  <LastUpdatedAtDate
+                    lastUpdatedAt={lastUpdatedAt}
+                    formattedLastUpdatedAt={formattedLastUpdatedAt}
+                  />
+                ) : (
+                  ''
+                ),
               byUser: lastUpdatedBy ? (
                 <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
               ) : (

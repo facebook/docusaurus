@@ -14,6 +14,7 @@ import {
   normalizeUrl,
   parseMarkdownString,
   posixPath,
+  getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -113,7 +114,7 @@ export function processDocMetadata({
 }): DocMetadataBase {
   const {source, content, lastUpdate, docsDirPath, filePath} = docFile;
   const {homePageId} = options;
-  const {siteDir} = context;
+  const {siteDir, i18n} = context;
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .
@@ -210,6 +211,11 @@ export function processDocMetadata({
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
+    formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
+      ? getDateTimeFormat(i18n.currentLocale)(i18n.currentLocale).format(
+          lastUpdate.lastUpdatedAt * 1000,
+        )
+      : undefined,
     sidebar_label,
   };
 }
