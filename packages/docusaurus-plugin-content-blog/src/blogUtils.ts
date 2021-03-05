@@ -12,6 +12,7 @@ import path from 'path';
 import {resolve} from 'url';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
+import {keyBy} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
@@ -30,10 +31,15 @@ import {
   getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
-import {keyBy} from 'lodash';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
+}
+
+export function getPostsBySource(
+  blogPosts: BlogPost[],
+): Record<string, BlogPost> {
+  return keyBy(blogPosts, (item) => item.metadata.source);
 }
 
 // YYYY-MM-DD-{name}.mdx?
@@ -247,7 +253,7 @@ export type LinkifyParams = {
   fileContent: string;
 } & Pick<
   BlogMarkdownLoaderOptions,
-  'blogPosts' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
+  'blogPostsBySource' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
 >;
 
 export function linkify({
@@ -255,17 +261,11 @@ export function linkify({
   contentPaths,
   fileContent,
   siteDir,
-  blogPosts,
+  blogPostsBySource,
   onBrokenMarkdownLink,
 }: LinkifyParams): string {
   // TODO temporary, should consider the file being in localized folder!
   const folderPath = contentPaths.contentPath;
-
-  // TODO perf refactor: do this earlier (once for all md files, not per file)
-  const blogPostsBySource: Record<string, BlogPost> = keyBy(
-    blogPosts,
-    (item) => item.metadata.source,
-  );
 
   let fencedBlock = false;
   const lines = fileContent.split('\n').map((line) => {
