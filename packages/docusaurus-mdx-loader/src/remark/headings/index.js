@@ -9,19 +9,21 @@
 
 const visit = require('unist-util-visit');
 const toString = require('mdast-util-to-string');
-const {slugify} = require('@docusaurus/utils');
+const slugs = require('github-slugger')();
 
 const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
 
 function slug() {
   const transformer = (ast) => {
+    slugs.reset();
+
     function visitor(headingNode) {
       const data = headingNode.data || (headingNode.data = {}); // eslint-disable-line
       const properties = data.hProperties || (data.hProperties = {});
       let {id} = properties;
 
       if (id) {
-        id = slugify(id);
+        id = slugs.slug(id, true);
       } else {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
@@ -47,7 +49,7 @@ function slug() {
             lastNode.value = customHeadingIdMatches[1] || heading;
           }
         } else {
-          id = slugify(heading);
+          id = slugs.slug(heading);
         }
       }
 

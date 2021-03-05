@@ -7,16 +7,16 @@
 
 import globby from 'globby';
 import fs from 'fs-extra';
-import {slugify} from '@docusaurus/utils';
+import GithubSlugger from 'github-slugger';
 
 function stripLinks(line) {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/, (match, p1) => p1);
 }
 
-function addHeaderId(line) {
+function addHeaderId(line, slugger) {
   const headingText = line.slice(line.indexOf(' ')).trim();
   const headingLevel = line.slice(0, line.indexOf(' '));
-  return `${headingLevel} ${headingText} {#${slugify(
+  return `${headingLevel} ${headingText} {#${slugger.slug(
     stripLinks(headingText),
   )}}`;
 }
@@ -24,6 +24,7 @@ function addHeaderId(line) {
 function addHeadingIds(lines) {
   let inCode = false;
   const results: string[] = [];
+  const slugger = new GithubSlugger();
 
   lines.forEach((line) => {
     if (line.startsWith('```')) {
@@ -47,7 +48,7 @@ function addHeadingIds(lines) {
       return;
     }
 
-    results.push(addHeaderId(line));
+    results.push(addHeaderId(line, slugger));
   });
 
   return results;
