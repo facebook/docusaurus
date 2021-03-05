@@ -14,8 +14,8 @@ import initPlugins from '../server/plugins/init';
 
 import {flatten} from 'lodash';
 
-export function stripLinks(line) {
-  return line.replace(/\[([^\]]+)\]\([^)]+\)/, (match, p1) => p1);
+export function unwrapMarkdownLinks(line) {
+  return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
 function addHeadingId(line, slugger) {
@@ -26,7 +26,7 @@ function addHeadingId(line, slugger) {
 
   const headingText = line.slice(headingLevel).trimEnd();
   const headingHashes = line.slice(0, headingLevel);
-  const slug = slugger.slug(stripLinks(headingText));
+  const slug = slugger.slug(unwrapMarkdownLinks(headingText));
 
   return `${headingHashes}${headingText} {#${slug}}`;
 }

@@ -44,14 +44,17 @@ describe('transformMarkdownHeadingLine', () => {
     );
   });
 
+  test('unwraps markdown links', () => {
+    const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
+    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
+      `${input} {#hello-facebook-crowdin}`,
+    );
+  });
+
   test('can slugify complex headings', () => {
-    expect(
-      transformMarkdownHeadingLine(
-        '## abc [Hello] How are you %Sébastien_-_$)( ## -56756',
-        new GithubSlugger(),
-      ),
-    ).toEqual(
-      '## abc [Hello] How are you %Sébastien_-_$)( ## -56756 {#abc-hello-how-are-you-sébastien_-_---56756}',
+    const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
+    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
+      `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
 
