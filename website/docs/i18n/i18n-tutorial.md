@@ -165,7 +165,7 @@ JSON translation files are used for everything that is not contained in a Markdo
 Run the [write-translations](../cli.md#docusaurus-write-translations) command:
 
 ```bash npm2yarn
-npm run write-translations -- --locale fr
+npm run docusaurus write-translations -- --locale fr
 ```
 
 It will extract and initialize the JSON translation files that you need to translate.
