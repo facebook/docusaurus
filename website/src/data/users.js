@@ -583,6 +583,14 @@ const users = [
     tags: ['large', 'versioning'],
   },
   {
+    title: 'RSocket',
+    description: 'Application protocol providing Reactive Streams semantics.',
+    preview: require('./showcase/rsocket.png'),
+    website: 'https://rsocket.io/',
+    source: 'https://github.com/rsocket/rsocket-website',
+    tags: [],
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
