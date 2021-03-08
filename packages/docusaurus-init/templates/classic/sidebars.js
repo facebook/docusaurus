@@ -5,10 +5,10 @@ module.exports = {
       label: 'Docusaurus Tutorial',
       items: [
         'getting-started',
-        'markdown-features',
         'create-a-doc',
         'create-a-page',
         'create-a-post',
+        'markdown-features',
         'thank-you',
       ],
     },

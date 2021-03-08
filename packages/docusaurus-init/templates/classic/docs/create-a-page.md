@@ -6,16 +6,19 @@ This page will help you to create standalone pages in Docusaurus, either with Re
 
 ## Creating a React Page
 
-Create a file: `/src/pages/react.js`
+Create a file: `./src/pages/react.js`
 
 ```jsx title="/src/pages/react.js"
 import React from "react";
+import Layout from '@theme/Layout';
 
 function HelloWorld() {
     return (
-        <div>
-            <h1>Hello, World!</h1>
-        </div>
+        <Layout title="Hello!">
+          <div>
+              <h1>Hello, World!</h1>
+          </div>
+        </Layout>
     )
 }
 ```
@@ -30,7 +33,6 @@ Create a file: `/src/pages/markdown.md`
 ---
 title: Hello, World!
 description: This is a page created with Markdown
-hide_table_of_contents: true
 ---
 
 # Hello, World!
@@ -45,6 +47,6 @@ Any JavaScript (React) or Markdown files that you create under `/src/pages` dire
 
 Here are some examples:
 
-- `/src/pages/index.js` -> `<baseUrl>`
-- `/src/pages/foo.js` -> `<baseUrl>/foo`
-- `/src/pages/foo/bar.js` -> `<baseUrl>/foo/bar`
+- `/src/pages/index.js` -> `localhost:3000/`
+- `/src/pages/foo.js` -> `localhost:3000/foo`
+- `/src/pages/foo/bar.js` -> `localhost:3000/foo/bar`
