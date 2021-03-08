@@ -106,6 +106,7 @@ export interface MetaData {
   source: string;
   description: string;
   date: Date;
+  formattedDate: string;
   tags: (Tag | string)[];
   title: string;
   readingTime?: number;
@@ -150,6 +151,6 @@ export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  blogPosts: BlogPost[];
+  blogPostsBySource: Record<string, BlogPost>;
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };

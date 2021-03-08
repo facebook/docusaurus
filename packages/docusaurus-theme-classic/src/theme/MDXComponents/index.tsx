@@ -11,8 +11,6 @@ import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
-import styles from './styles.module.css';
-
 const MDXComponents: MDXComponentsObject = {
   code: (props) => {
     const {children} = props;
@@ -25,7 +23,10 @@ const MDXComponents: MDXComponentsObject = {
     return children;
   },
   a: (props) => <Link {...props} />,
-  pre: (props) => <div className={styles.mdxCodeBlock} {...props} />,
+  pre: (props: any) => {
+    const {children} = props;
+    return <CodeBlock {...children?.props} />;
+  },
   h1: Heading('h1'),
   h2: Heading('h2'),
   h3: Heading('h3'),

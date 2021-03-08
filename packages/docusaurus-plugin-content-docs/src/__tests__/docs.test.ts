@@ -352,6 +352,7 @@ describe('simple site', () => {
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
+      formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
     });
   });

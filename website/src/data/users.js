@@ -583,6 +583,14 @@ const users = [
     tags: ['large', 'versioning'],
   },
   {
+    title: 'RSocket',
+    description: 'Application protocol providing Reactive Streams semantics.',
+    preview: require('./showcase/rsocket.png'),
+    website: 'https://rsocket.io/',
+    source: 'https://github.com/rsocket/rsocket-website',
+    tags: [],
+  },
+  {
     title: 'Runlet',
     description: 'A cloud-based job manager that integrates your devices',
     preview: require('./showcase/runlet.png'),
@@ -636,6 +644,14 @@ const users = [
     website: 'https://johnnycrazy.github.io/SpotifyAPI-NET/',
     source: 'https://github.com/JohnnyCrazy/SpotifyAPI-NET',
     tags: ['versioning'],
+  },
+  {
+    title: 'Stryker Mutator',
+    description: 'Mutation testing for JavaScript, .NET and JVM',
+    preview: require('./showcase/stryker-mutator.png'),
+    website: 'https://stryker-mutator.io',
+    source: 'https://github.com/stryker-mutator/stryker-mutator.github.io',
+    tags: [],
   },
   {
     title: 'Supabase',
@@ -692,6 +708,15 @@ const users = [
     preview: require('./showcase/tourmaline.png'),
     website: 'https://tourmaline.dev',
     source: 'https://github.com/protoncr/tourmaline',
+    tags: [],
+  },
+  {
+    title: 'TRPG Engine',
+    description:
+      'IM Application which build for TRPG, like slack and discord',
+    preview: require('./showcase/trpgengine.png'),
+    website: 'https://trpgdoc.moonrailgun.com/',
+    source: 'https://github.com/TRPGEngine/Client',
     tags: [],
   },
   {

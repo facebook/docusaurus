@@ -43,6 +43,7 @@ module.exports = {
             'guides/markdown-features/tabs',
             'guides/markdown-features/code-blocks',
             'guides/markdown-features/admonitions',
+            'guides/markdown-features/headings',
             'guides/markdown-features/inline-toc',
             'guides/markdown-features/assets',
             'guides/markdown-features/plugins',

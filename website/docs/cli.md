@@ -11,11 +11,15 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 {
   // ...
   "scripts": {
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear"
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
   }
 }
 ```
@@ -177,3 +181,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | `--override` | `false` | Override existing translation messages |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
+
+### `docusaurus write-heading-ids [siteDir]`
+
+Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.
