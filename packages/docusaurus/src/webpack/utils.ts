@@ -73,12 +73,7 @@ export function getStyleLoaders(
           ident: 'postcss',
           plugins: [
             // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 4,
-            }),
+            require('autoprefixer'),
           ],
         },
       },

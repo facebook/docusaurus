@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {linkify, LinkifyParams} from '../blogUtils';
+import {linkify, LinkifyParams, getPostsBySource} from '../blogUtils';
 import {BlogBrokenMarkdownLink, BlogContentPaths, BlogPost} from '../types';
 
 const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -46,7 +46,7 @@ const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
     fileContent,
     siteDir,
     contentPaths,
-    blogPosts,
+    blogPostsBySource: getPostsBySource(blogPosts),
     onBrokenMarkdownLink: (brokenMarkdownLink) => {
       throw new Error(
         `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
