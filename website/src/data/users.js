@@ -646,6 +646,14 @@ const users = [
     tags: ['versioning'],
   },
   {
+    title: 'Stryker Mutator',
+    description: 'Mutation testing for JavaScript, .NET and JVM',
+    preview: require('./showcase/stryker-mutator.png'),
+    website: 'https://stryker-mutator.io',
+    source: 'https://github.com/stryker-mutator/stryker-mutator.github.io',
+    tags: [],
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
