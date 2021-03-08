@@ -38,7 +38,7 @@
     "copy-text-to-clipboard": "^3.0.0",
     "infima": "0.2.0-alpha.19",
     "joi": "^17.4.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "parse-numeric-range": "^1.2.0",
     "postcss": "^7.0.2",
     "prism-react-renderer": "^1.1.1",

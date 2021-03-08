@@ -27,8 +27,6 @@
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.8.12",
     "lodash": "^4.17.20",
-    "lodash.camelcase": "^4.3.0",
-    "lodash.kebabcase": "^4.1.1",
     "resolve-pathname": "^3.0.0"
   },
   "engines": {

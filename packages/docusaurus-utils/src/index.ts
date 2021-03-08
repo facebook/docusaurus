@@ -9,8 +9,7 @@ import chalk from 'chalk';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import camelCase from 'lodash.camelcase';
-import kebabCase from 'lodash.kebabcase';
+import {camelCase, kebabCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -22,7 +21,6 @@ import {
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
-import {mapValues} from 'lodash';
 import areIntlLocalesSupported from 'intl-locales-supported';
 
 const fileHash = new Map();
