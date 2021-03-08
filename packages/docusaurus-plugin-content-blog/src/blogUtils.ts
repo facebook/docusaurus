@@ -29,6 +29,7 @@ import {
   getFolderContainingFile,
   posixPath,
   getDateTimeFormat,
+  mdxToHtml,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -88,7 +89,7 @@ export async function generateBlogFeed(
     copyright: feedOptions.copyright,
   });
 
-  blogPosts.forEach((post) => {
+  for (const post of blogPosts) {
     const {
       id,
       metadata: {title: metadataTitle, permalink, date, description},
@@ -99,8 +100,9 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      content: mdxToHtml(post.content),
     });
-  });
+  }
 
   return feed;
 }
@@ -237,6 +239,7 @@ export async function generateBlogPosts(
             : undefined,
           truncated: truncateMarker?.test(content) || false,
         },
+        content,
       });
     }),
   );

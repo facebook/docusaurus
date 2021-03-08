@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/types": "2.0.0-alpha.70",
+    "@mdx-js/runtime": "^1.6.22",
     "@types/github-slugger": "^1.3.0",
     "chalk": "^4.1.0",
     "escape-string-regexp": "^4.0.0",
@@ -29,9 +30,17 @@
     "lodash": "^4.17.20",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
+    "remark-mdx-remove-imports": "^1.6.22",
     "resolve-pathname": "^3.0.0"
   },
   "engines": {
     "node": ">=12.13.0"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^17.0.1"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   }
 }
