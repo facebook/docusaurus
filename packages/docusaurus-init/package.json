@@ -28,7 +28,8 @@
     "lodash": "^4.17.20",
     "prompts": "^2.4.0",
     "semver": "^7.3.4",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "tslib": "^2.1.0"
   },
   "engines": {
     "node": ">=12.13.0"

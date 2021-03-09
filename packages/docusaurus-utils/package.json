@@ -27,7 +27,8 @@
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.8.12",
     "lodash": "^4.17.20",
-    "resolve-pathname": "^3.0.0"
+    "resolve-pathname": "^3.0.0",
+    "tslib": "^2.1.0"
   },
   "engines": {
     "node": ">=12.13.0"

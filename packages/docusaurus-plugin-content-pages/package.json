@@ -30,6 +30,7 @@
     "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
     "slash": "^3.0.0",
+    "tslib": "^2.1.0",
     "webpack": "^4.44.1"
   },
   "peerDependencies": {

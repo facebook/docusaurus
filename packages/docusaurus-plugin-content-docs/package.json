@@ -39,6 +39,7 @@
     "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4",
+    "tslib": "^2.1.0",
     "utility-types": "^3.10.0",
     "webpack": "^4.44.1"
   },
