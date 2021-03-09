@@ -9,7 +9,7 @@
 
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
-const {toValue} = require('../utils');
+const toValue = require('../utils').toValue;
 
 /** @typedef {import('@docusaurus/types').TOCItem} TOC */
 /** @typedef {import('unist').Node} Node */
