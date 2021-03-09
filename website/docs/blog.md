@@ -3,6 +3,10 @@ id: blog
 title: Blog
 ---
 
+## Duplicate
+
+## Duplicate
+
 ## Initial setup
 
 To setup your site's blog, start by creating a `blog` directory.

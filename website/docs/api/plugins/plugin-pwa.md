@@ -166,7 +166,7 @@ interface PwaReloadPopupProps {
 }
 ```
 
-The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://facebookincubator.github.io/infima/docs/components/alert).
+The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://infima.dev/docs/components/alert).
 
 ![pwa_reload.gif](/img/pwa_reload.gif)
 

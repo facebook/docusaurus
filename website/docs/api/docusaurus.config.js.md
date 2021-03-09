@@ -108,7 +108,7 @@ module.exports = {
 ```
 
 - `label`: the label to use for this locale
-- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew...)
+- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew, etc.)
 
 ### `noIndex`
 
@@ -208,7 +208,7 @@ module.exports = {
 
 - Type: `Object`
 
-The [theme configuration](./themes/theme-configuration.md) object, to customize your site UI: navbar, footer...
+The [theme configuration](./themes/theme-configuration.md) object, to customize your site UI like navbar, footer.
 
 Example:
 
