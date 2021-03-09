@@ -9,21 +9,23 @@ tags: [release, i18n]
 image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 ---
 
-Today, we officially release **[Docusaurus 2 i18n](https://v2.docusaurus.io/docs/i18n/introduction)**, as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
+Today, we officially release **[Docusaurus 2 i18n](https://v2.docusaurus.io/docs/i18n/introduction)** ([internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)), as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
+
+Docusaurus 2 has now reached **full feature parity with Docusaurus 1**, and a first **beta** is on its way.
 
 **We went the extra mile**, and the new i18n support is **even better than in Docusaurus 1**.
 
-Docusaurus 2 has now reached **full feature parity with Docusaurus 1**, and a first **2.0 beta** is on its way.
+In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites** that just went live: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
 
-In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites**: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
+<!--truncate-->
 
 ## Translate your site
 
 You can translate a Docusaurus site in **3 simple steps**:
 
-- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-- **Translate**: put the translation files at the correct file-system location.
-- **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
+2. **Translate**: put the translation files at the correct file-system location.
+3. **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
 The i18n support is **very flexible** and based on the **file-system**.
 
@@ -41,7 +43,7 @@ The goals of the Docusaurus i18n system are:
 - **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
-- **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2.
+- **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
 - **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
@@ -52,9 +54,9 @@ We worked with a few volunteers to **dogfood the i18n support** before releasing
 
 ### Jest: upgrading Docusaurus
 
-An **existing Docusaurus 1 site** using i18n should be **able to upgrade to Docusaurus 2** and still be translated.
+A **translated Docusaurus 1 site** should be **able to upgrade** to Docusaurus 2.
 
-**[Jest](https://jestjs.io)** was one of those sites, and we [**successfully upgraded it to Docusaurus 2**](https://jestjs.io/blog/2021/03/09/jest-website-upgrade).
+**[Jest](https://jestjs.io)** was one of those sites. The Docusaurus 2 migration was successful and the new site is now deployed in production ([announcement post](https://jestjs.io/blog/2021/03/09/jest-website-upgrade)).
 
 [![Jest i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/jest.png)](https://jestjs.io)
 
@@ -66,7 +68,7 @@ They were looking for a solution to create an **internationalized learning platf
 
 [![Redwood i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/redwood.png)](https://learn.redwoodjs.com/)
 
-### Datagit: using Docusaurus LTR support
+### Datagit: using LTR support
 
 The i18n system should work with any language, including **Right-to-Left languages**.
 
@@ -84,7 +86,7 @@ This feature has not been an easy one, and we would like to thank everyone that 
 - [Simen](https://github.com/SimenB) for volunteering and supporting the Jest migration.
 - [Claire](https://github.com/clairefro) for adopting Docusaurus 2 on the new Redwood platform and providing many feedbacks.
 - [Massoud](https://github.com/massoudmaboudi) for reviewing my work on LTR and adopting it on Datagit.
-- [Crowdin](http://crowdin.com/) for their support and willingness to improve their translation SaaS.
+- [Crowdin](https://crowdin.com/) for their support and willingness to improve their translation SaaS.
 - The Docusaurus community for their patience, and providing many useful feedbacks on Github.
 
 Thanks for reading.

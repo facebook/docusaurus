@@ -31,7 +31,7 @@ The goals of the Docusaurus i18n system are:
 - **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
-- **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
+- **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
 - **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
@@ -50,9 +50,9 @@ We don't provide support for:
 
 Overview of the workflow to create a translated Docusaurus website:
 
-- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-- **Translate**: put the translation files at the correct file-system location.
-- **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
+2. **Translate**: put the translation files at the correct file-system location.
+3. **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
 ### Translation files
 
