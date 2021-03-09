@@ -11,7 +11,7 @@ image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 
 Today, we officially release **[Docusaurus 2 i18n](https://v2.docusaurus.io/docs/i18n/introduction)** ([internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)), as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
 
-Docusaurus 2 has now reached **full feature parity with Docusaurus 1**, and a first **beta** is on its way.
+Docusaurus 2 has now reached **full feature parity with Docusaurus 1**. 🎉 And soon, after a few additional infrastructure updates and a bit more testing, the **first Docusaurus 2 beta** will be released.
 
 **We went the extra mile**, and the new i18n support is **even better than in Docusaurus 1**.
 
