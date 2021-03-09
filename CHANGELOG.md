@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.7] - 2021-03-09
+
+#### :house: Internal
+
+- `docusaurus-1.x`
+
+  - [#4270](https://github.com/facebook/docusaurus/pull/4270) chore: upgrade react-dev-utils ([@yangshun](https://github.com/yangshun))
+
+#### Committers: 1
+
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
 ## [1.14.6] - 2020-08-05
 
 #### :bug: Bug Fix
