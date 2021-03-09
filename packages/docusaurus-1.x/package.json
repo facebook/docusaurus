@@ -3,7 +3,7 @@
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "1.14.7",
   "private_comment": "MADE PRIVATE ON PURPOSE! READ V1 PUBLISH GUIDE",
-  "private": false,
+  "private": true,
   "license": "MIT",
   "keywords": [
     "documentation",

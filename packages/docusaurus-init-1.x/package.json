@@ -3,7 +3,7 @@
   "description": "Initialization script for Docusaurus",
   "version": "1.14.7",
   "private_comment": "MADE PRIVATE ON PURPOSE! READ V1 PUBLISH GUIDE",
-  "private": false,
+  "private": true,
   "license": "MIT",
   "preferGlobal": true,
   "keywords": [
