@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - `docusaurus-1.x`
 
-  - [#4270](https://github.com/facebook/docusaurus/pull/4270) chore(v2): upgrade react-dev-utils ([@yangshun](https://github.com/yangshun))
+  - [#4270](https://github.com/facebook/docusaurus/pull/4270) chore: upgrade react-dev-utils ([@yangshun](https://github.com/yangshun))
 
 #### Committers: 1
 

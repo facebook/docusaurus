@@ -265,8 +265,9 @@ Suppose we are at `v1.14.5`, and want to release `v1.14.6`:
 - Run `yarn install`
 - Version the docs: `yarn workspace docusaurus-1-website docusaurus-version 1.14.6`
 - Test the v1 website locally: `yarn start:v1` + `yarn build:v1`
-- Make the v1 package private: false
+- Make the two v1 packages private: false
 - Publish: `yarn workspace docusaurus publish --new-version 1.14.6`
+- Publish: `yarn workspace docusaurus-init publish --new-version 1.14.6`
 - Make the v1 package private: true
 
 The release is now published. It's worth to test it by initializing a new v1 site:
