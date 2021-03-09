@@ -33,10 +33,10 @@ function BlogListPage(props: Props): JSX.Element {
       }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--2">
+          <div className="col col--3">
             <BlogSidebar sidebar={sidebar} />
           </div>
-          <main className="col col--8">
+          <main className="col col--7">
             {items.map(({content: BlogPostContent}) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}

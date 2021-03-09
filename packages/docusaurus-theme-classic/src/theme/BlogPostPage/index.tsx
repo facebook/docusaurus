@@ -28,10 +28,10 @@ function BlogPostPage(props: Props): JSX.Element {
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
-            <div className="col col--2">
+            <div className="col col--3">
               <BlogSidebar sidebar={sidebar} />
             </div>
-            <main className="col col--8">
+            <main className="col col--7">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
