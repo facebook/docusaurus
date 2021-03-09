@@ -286,6 +286,7 @@ Finish the release:
 - Push: `git push origin slorber/release-1.14.6`
 - Run `git tag v1.14.6` (important: the tag is prefixed by **`v`**)
 - Run `git push origin v1.14.6`
+- Ensure you can run `yarn install` (it may fail and need to use v2 versions on the v1 packages...)
 - Open a PR, and merge it
 - Create the [new Github release](https://github.com/facebook/docusaurus/releases/new), paste the changelog
 - The End
