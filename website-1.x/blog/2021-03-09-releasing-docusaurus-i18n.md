@@ -17,7 +17,7 @@ Docusaurus 2 has now reached **full feature parity with Docusaurus 1**. 🎉 And
 
 In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites** that just went live: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
 
-We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and this post is already available in English and French!
+We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and this post is already available in [English](https://v2.docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n) and [French](https://v2.docusaurus.io/fr/blog/2021/03/09/releasing-docusaurus-i18n)!
 
 <!--truncate-->
 
@@ -46,7 +46,7 @@ The goals of the Docusaurus i18n system are:
 - **Localize assets**: an image of your site might contain text that should be translated
 - **No coupling**: not forced to use any SaaS, yet integrations are possible
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2
-- **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
+- **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
 - **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)
 
