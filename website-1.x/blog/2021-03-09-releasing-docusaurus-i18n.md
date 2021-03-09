@@ -17,6 +17,8 @@ Docusaurus 2 has now reached **full feature parity with Docusaurus 1**. 🎉 And
 
 In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites** that just went live: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
 
+We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and this post is already available in English and French!
+
 <!--truncate-->
 
 ## Translate your site
