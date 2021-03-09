@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.70",
+  "version": "2.0.0-alpha.71",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-docs.d.ts",
@@ -18,17 +18,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.70",
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.71",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.1.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.70",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.70",
-    "@docusaurus/types": "2.0.0-alpha.70",
-    "@docusaurus/utils": "2.0.0-alpha.70",
-    "@docusaurus/utils-validation": "2.0.0-alpha.70",
+    "@docusaurus/core": "2.0.0-alpha.71",
+    "@docusaurus/mdx-loader": "2.0.0-alpha.71",
+    "@docusaurus/types": "2.0.0-alpha.71",
+    "@docusaurus/utils": "2.0.0-alpha.71",
+    "@docusaurus/utils-validation": "2.0.0-alpha.71",
     "chalk": "^4.1.0",
     "execa": "^5.0.0",
     "fs-extra": "^9.1.0",
