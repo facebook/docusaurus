@@ -24,10 +24,10 @@ In this post, we will present you the **translation workflow**, explain some **d
 You can translate a Docusaurus site in **3 simple steps**:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-2. **Translate**: put the translation files at the correct file-system location.
-3. **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Translate**: put the translation files at the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location).
+1. **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
-The i18n support is **very flexible** and based on the **file-system**.
+The i18n support is **very flexible** and based on the **filesystem**.
 
 The **[i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial)** is the best way to get started, and we provide help to use **[Git](https://v2.docusaurus.io/docs/i18n/git)** or **[Crowdin](https://v2.docusaurus.io/docs/i18n/crowdin)**.
 
@@ -35,17 +35,17 @@ The **[i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial)** is the best
 
 The goals of the Docusaurus i18n system are:
 
-- **Simple**: just put the translated files in the correct file-system location.
-- **Flexible translation workflows**: based on Git (monorepo, forks, or submodules), SaaS software, FTP...
+- **Simple**: just put the translated files in the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location).
+- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP...
 - **Flexible deployment options**: single, multiple domains, or hybrid.
 - **Modular**: allow plugin authors to provide i18n support.
 - **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
 - **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
-- **No coupling**: not forced to use any SaaS, yet the integration is possible.
+- **No coupling**: not forced to use any SaaS, yet integrations are possible.
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
-- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) are supported and easy to implement.
 - **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
 
 ## Showcase
@@ -54,9 +54,11 @@ We worked with a few volunteers to **dogfood the i18n support** before releasing
 
 ### Jest: upgrading Docusaurus
 
-A **translated Docusaurus 1 site** should be **able to upgrade** to Docusaurus 2.
+We have made it possible to **upgrade** a **translated Docusaurus 1 site** to Docusaurus 2.
 
-**[Jest](https://jestjs.io)** was one of those sites. The Docusaurus 2 migration was successful and the new site is now deployed in production ([announcement post](https://jestjs.io/blog/2021/03/09/jest-website-upgrade)).
+**[Jest](https://jestjs.io)**, using Docusaurus 1 and Crowdin was one of those sites.
+
+The Docusaurus 2 migration was successful and the new site is now deployed in production ([announcement post](https://jestjs.io/blog/2021/03/09/jest-website-upgrade)).
 
 [![Jest i18n screenshot](/img/blog/2021-03-09-releasing-docusaurus-i18n/jest.png)](https://jestjs.io)
 

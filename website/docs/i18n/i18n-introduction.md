@@ -24,16 +24,16 @@ For more context, you can read the initial [RFC](https://github.com/facebook/doc
 The goals of the Docusaurus i18n system are:
 
 - **Simple**: just put the translated files in the correct file-system location.
-- **Flexible translation workflows**: based on Git (monorepo, forks, or submodules), SaaS software, FTP...
+- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP...
 - **Flexible deployment options**: single, multiple domains, or hybrid.
 - **Modular**: allow plugin authors to provide i18n support.
 - **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
 - **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
-- **No coupling**: not forced to use any SaaS, yet the integration is possible.
+- **No coupling**: not forced to use any SaaS, yet integrations are possible.
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
 - **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
-- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) are supported and easy to implement.
 - **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
 
 ### i18n non-goals
@@ -51,8 +51,8 @@ We don't provide support for:
 Overview of the workflow to create a translated Docusaurus website:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-2. **Translate**: put the translation files at the correct file-system location.
-3. **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Translate**: put the translation files at the correct file-system location.
+1. **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
 ### Translation files
 
