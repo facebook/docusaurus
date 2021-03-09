@@ -168,7 +168,7 @@ No actions needed, these configuration fields were not modified.
 
 #### `colors`
 
-Deprecated. We wrote a custom CSS framework for Docusaurus 2 called [Infima](https://facebookincubator.github.io/infima/) which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called [Infima](https://infima.dev/) which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```js {7-9} title="docusaurus.config.js"
 module.exports = {
@@ -505,7 +505,7 @@ In Docusaurus v2, get the `siteConfig` object from `useDocusaurusContext` instea
 
 In v2, you have to apply the theme layout around each page. The Layout component takes metadata props.
 
-`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
+`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://infima.dev/ to see what styles are available).
 
 You can migrate CommonJS to ES6 imports/exports.
 

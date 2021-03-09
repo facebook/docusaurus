@@ -23,9 +23,9 @@ In this post, we will present you the **translation workflow**, explain some **d
 
 You can translate a Docusaurus site in **3 simple steps**:
 
-1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-1. **Translate**: put the translation files at the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location).
-1. **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
+1. **Translate**: put the translation files at the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location)
+1. **Deploy**: build and deploy your site using a single or multi-domain strategy
 
 The i18n support is **very flexible** and based on the **filesystem**.
 
@@ -35,18 +35,18 @@ The **[i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial)** is the best
 
 The goals of the Docusaurus i18n system are:
 
-- **Simple**: just put the translated files in the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location).
-- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP...
-- **Flexible deployment options**: single, multiple domains, or hybrid.
-- **Modular**: allow plugin authors to provide i18n support.
-- **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
-- **Scalable build-times**: allow building and deploying localized sites independently.
-- **Localize assets**: an image of your site might contain text that should be translated.
-- **No coupling**: not forced to use any SaaS, yet integrations are possible.
-- **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2.
-- **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
-- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) are supported and easy to implement.
-- **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
+- **Simple**: just put the translated files in the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location)
+- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP
+- **Flexible deployment options**: single, multiple domains, or hybrid
+- **Modular**: allow plugin authors to provide i18n support
+- **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills
+- **Scalable build-times**: allow building and deploying localized sites independently
+- **Localize assets**: an image of your site might contain text that should be translated
+- **No coupling**: not forced to use any SaaS, yet integrations are possible
+- **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2
+- **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)
 
 ## Showcase
 
@@ -84,12 +84,12 @@ We sincerely hope you will adopt and like the new i18n support.
 
 This feature has not been an easy one, and we would like to thank everyone that got involved in this journey:
 
-- [Alexey](https://github.com/lex111) for his help to make the i18n support exhaustive and even better than v1.
-- [Simen](https://github.com/SimenB) for volunteering and supporting the Jest migration.
-- [Claire](https://github.com/clairefro) for adopting Docusaurus 2 on the new Redwood platform and providing many feedbacks.
-- [Massoud](https://github.com/massoudmaboudi) for reviewing my work on LTR and adopting it on Datagit.
-- [Crowdin](https://crowdin.com/) for their support and willingness to improve their translation SaaS.
-- The Docusaurus community for their patience, and providing many useful feedbacks on Github.
+- [Alexey](https://github.com/lex111) for his help to make the i18n support exhaustive and even better than v1
+- [Simen](https://github.com/SimenB) for volunteering and supporting the Jest migration
+- [Claire](https://github.com/clairefro) for adopting Docusaurus 2 on the new Redwood platform and providing many feedbacks
+- [Massoud](https://github.com/massoudmaboudi) for reviewing my work on LTR and adopting it on Datagit
+- [Crowdin](https://crowdin.com/) for their support and willingness to improve their translation SaaS
+- The Docusaurus community for their patience, and providing many useful feedbacks on Github
 
 Thanks for reading.
 
