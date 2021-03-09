@@ -28,7 +28,7 @@ The goals of the Docusaurus i18n system are:
 - **Flexible deployment options**: single, multiple domains, or hybrid.
 - **Modular**: allow plugin authors to provide i18n support.
 - **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
-- **Acceptable build-times**: allow building and deploying localized sites independently.
+- **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
 - **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.

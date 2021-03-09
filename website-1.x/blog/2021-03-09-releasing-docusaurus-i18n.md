@@ -11,11 +11,11 @@ image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 
 Today, we officially release **[Docusaurus 2 i18n](https://v2.docusaurus.io/docs/i18n/introduction)**, as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
 
+**We went the extra mile**, and the new i18n support is **even better than in Docusaurus 1**.
+
+Docusaurus 2 has now reached **full feature parity with Docusaurus 1**, and a first **2.0 beta** is on its way.
+
 In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites**: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
-
-With i18n, Docusaurus 2 has reached **full feature parity with Docusaurus 1**, and a first **2.0 beta** is on its way.
-
-We believe that **we went the extra mile**, and the i18n support in Docusaurus 2 is **even better than in Docusaurus 1**.
 
 ## Translate your site
 
@@ -25,9 +25,9 @@ You can translate a Docusaurus site in **3 simple steps**:
 - **Translate**: put the translation files at the correct file-system location.
 - **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
-The [i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial) is the best way to get started.
+The i18n support is **very flexible** and based on the **file-system**.
 
-The i18n support is **flexible** and based on the **file-system**. We provide help to use **[Git](https://v2.docusaurus.io/docs/i18n/git)** and **[Crowdin](https://v2.docusaurus.io/docs/i18n/crowdin)**.
+The **[i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial)** is the best way to get started, and we provide help to use **[Git](https://v2.docusaurus.io/docs/i18n/git)** or **[Crowdin](https://v2.docusaurus.io/docs/i18n/crowdin)**.
 
 ## Design decisions
 
@@ -38,7 +38,7 @@ The goals of the Docusaurus i18n system are:
 - **Flexible deployment options**: single, multiple domains, or hybrid.
 - **Modular**: allow plugin authors to provide i18n support.
 - **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
-- **Acceptable build-times**: allow building and deploying localized sites independently.
+- **Scalable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
 - **No coupling**: not forced to use any SaaS, yet the integration is possible.
 - **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2.
@@ -84,8 +84,8 @@ This feature has not been an easy one, and we would like to thank everyone that 
 - [Simen](https://github.com/SimenB) for volunteering and supporting the Jest migration.
 - [Claire](https://github.com/clairefro) for adopting Docusaurus 2 on the new Redwood platform and providing many feedbacks.
 - [Massoud](https://github.com/massoudmaboudi) for reviewing my work on LTR and adopting it on Datagit.
-- The [Crowdin](http://crowdin.com/) team for their support and willingness to improve their translation SaaS for our specific use-cases.
-- The whole Docusaurus community for their patience, and providing many useful feedbacks on Github issues.
+- [Crowdin](http://crowdin.com/) for their support and willingness to improve their translation SaaS.
+- The Docusaurus community for their patience, and providing many useful feedbacks on Github.
 
 Thanks for reading.
 
