@@ -9,11 +9,11 @@ The i18n system of Docusaurus is **decoupled from any translation software**.
 
 You can integrate Docusaurus with the **tools and SaaS of your choice**, as long as you put the **translation files at the correct location**.
 
-We document the usage of [Crowdin](http://crowdin.com/), as **one** possible **integration example**.
+We document the usage of [Crowdin](https://crowdin.com/), as **one** possible **integration example**.
 
 :::caution
 
-This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is used successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
+This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
 
 Refer to the **[Crowdin documentation](https://support.crowdin.com/)** and **[Crowdin support](mailto:support@crowdin.com)** for help.
 
@@ -114,7 +114,7 @@ Your project is created, but it is empty for now. We will upload the files to tr
 This configuration ([doc](https://support.crowdin.com/configuration-file/)) provides a mapping for the Crowdin CLI to understand:
 
 - Where to find the source files to upload (JSON and Markdown)
-- Where to download the files after translation (in `i18n/<locale>`).
+- Where to download the files after translation (in `i18n/<locale>`)
 
 Create `crowdin.yml` in `website`:
 
@@ -182,8 +182,8 @@ You should **not commit** it, and it may be a good idea to create a dedicated **
 
 #### Other configuration fields
 
-- `project_id`: can be hardcoded, and is found on `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api`.
-- `preserve_hierarchy`: preserve the folder's hierarchy of your docs on Crowdin UI instead of flattening everything.
+- `project_id`: can be hardcoded, and is found on `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api`
+- `preserve_hierarchy`: preserve the folder's hierarchy of your docs on Crowdin UI instead of flattening everything
 
 ### Install the Crowdin CLI
 
@@ -294,7 +294,7 @@ Start your site on the French locale:
 npm run start -- --locale fr
 ```
 
-Make sure that your website is now translated in French at `http://localhost:3000/fr/`
+Make sure that your website is now translated in French at `http://localhost:3000/fr/`.
 
 ### Automate with CI
 
@@ -304,7 +304,7 @@ Add `website/i18n` to `.gitignore`.
 
 Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
 
-Create a NPM script to `sync` Crowdin (extract sources, upload sources, download translations):
+Create a npm script to `sync` Crowdin (extract sources, upload sources, download translations):
 
 ```json title="package.json"
 {
@@ -431,9 +431,9 @@ When your sources are refactored, you should use the Crowdin UI to **update your
 
 ![Crowdin UI: renaming a file](/img/crowdin/crowdin-files-rename.png)
 
-### Git / VCS integrations
+### VCS (Git) integrations
 
-Crowdin has multiple VCS integrations for [GitHub](https://support.crowdin.com/github-integration/), GitLab, BitBucket...
+Crowdin has multiple VCS integrations for [GitHub](https://support.crowdin.com/github-integration/), GitLab, Bitbucket.
 
 :::warning
 
@@ -445,7 +445,7 @@ It could have been helpful to be able to edit the translations in both Git and C
 
 In practice, **it didn't work very reliably** for a few reasons:
 
-- The Crowdin -> Git sync works fine (with a pull-request)
+- The Crowdin -> Git sync works fine (with a pull request)
 - The Git -> Crowdin sync is manual (you have to press a button)
 - The heuristics used by Crowdin to match existing Markdown translations to existing Markdown sources are not 100% reliable, and you have to verify the result on Crowdin UI after any sync from Git
 - 2 users concurrently editing on Git and Crowdin can lead to a translation loss

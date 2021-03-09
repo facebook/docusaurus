@@ -12,7 +12,7 @@ A **possible translation strategy** is to **version control the translation file
 This strategy has advantages:
 
 - **Easy to get started**: just add the `i18n` folder to Git
-- **Easy for developers**: Git, GitHub and pull-requests are mainstream developer tools
+- **Easy for developers**: Git, GitHub and pull requests are mainstream developer tools
 - **Free** (or without any additional cost, assuming you already use Git)
 - **Low friction**: does not require signing-up to an external tool
 - **Rewarding**: contributors are happy to have a nice contribution history
@@ -25,7 +25,7 @@ Using Git also present some shortcomings:
 
 :::note
 
-Some **large-scale technical projects** (ReactJS, VueJS, Gatsby, TypeScript, Nuxt...) use Git for translations.
+Some **large-scale technical projects** (React, Vue.js, MDN, TypeScript, Nuxt.js, etc.) use Git for translations.
 
 Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues/3317) for our notes and links studying these systems.
 

@@ -65,7 +65,7 @@ Start your localized site in dev mode, using the locale of your choice:
 npm run start -- --locale fr
 ```
 
-Your site is accessible at **`http://localhost:3000/fr/`**
+Your site is accessible at **`http://localhost:3000/fr/`**.
 
 We haven't provided any translation, and the site is **mostly untranslated**.
 
@@ -149,7 +149,7 @@ export default function Home() {
 
 Docusaurus provides a **very small and lightweight translation runtime** on purpose, and only supports basic [placeholders interpolation](../docusaurus-core.md#interpolate), using a subset of the [ICU Message Format](https://formatjs.io/docs/core-concepts/icu-syntax/).
 
-Most documentation websites are generally **static** and don't need advanced i18n features (**plurals**, **genders**...). Use a library like [react-intl](https://www.npmjs.com/package/react-intl) for more advanced use-cases.
+Most documentation websites are generally **static** and don't need advanced i18n features (**plurals**, **genders**, etc.). Use a library like [react-intl](https://www.npmjs.com/package/react-intl) for more advanced use-cases.
 
 :::
 
@@ -321,7 +321,7 @@ You can also build your site for a single locale:
 npm run build -- --locale fr
 ```
 
-Docusaurus will not add the `/fr/` url prefix.
+Docusaurus will not add the `/fr/` URL prefix.
 
 On your [static hosting provider](../deployment.mdx):
 
