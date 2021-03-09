@@ -243,7 +243,13 @@ https://github.com/facebook/docusaurus/releases/tag/%VER%
 
 **TLDR**: you need to mark them as public, publish, and mark them back as private
 
-v1 packages have been marked as `private: true` on purpose. This is because lerna will publish ALL (v1+v2) packages with the lerna-publish command. Unfortunately it seems therre is no way to tell it to ignore v1 packages while publishing v2. During a long time, we published all these packages using the @next dist tag: `yarn lerna publish 2.0.0-alpha.41 --dist-tag next --exact` But it cause problems because v2 packages will then all need @next during npm/yarn installs, confusing some users (https://github.com/facebook/docusaurus/issues/3755) We made the v1 packages private so that lerna publish won't publish them, so that we can publish v2 packages under latest dist tag, without creating v1 upgrades that people will be notified abut.
+v1 packages have been marked as `private: true` on purpose. This is because lerna will publish ALL (v1+v2) packages with the lerna-publish command.
+
+Unfortunately it seems there is no way to tell it to ignore v1 packages while publishing v2.
+
+During a long time, we published all these packages using the `@next` dist tag: `yarn lerna publish 2.0.0-alpha.41 --dist-tag next --exact`. It caused problems because v2 packages will then all need @next during npm/yarn installs, confusing some users (https://github.com/facebook/docusaurus/issues/3755).
+
+We made the v1 packages private so that lerna publish won't publish them, so that we can publish v2 packages under latest dist tag, without creating v1 upgrades that people will be notified abut.
 
 ### Updated v1 release process
 
