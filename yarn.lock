@@ -3466,15 +3466,10 @@
     "@types/node" "*"
     "@types/webpack" "*"
 
-"@types/lodash@^4.14.168":
+"@types/lodash@^4.14.168", "@types/lodash@^4.14.53":
   version "4.14.168"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
-
-"@types/lodash@^4.14.53":
-  version "4.14.149"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
-  integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
 
 "@types/mdast@^3.0.0":
   version "3.0.3"
@@ -10862,10 +10857,10 @@ infer-owner@^1.0.3, infer-owner@^1.0.4:
   resolved "https://registry.yarnpkg.com/infer-owner/-/infer-owner-1.0.4.tgz#c4cefcaa8e51051c2a40ba2ce8a3d27295af9467"
   integrity sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==
 
-infima@0.2.0-alpha.19:
-  version "0.2.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.19.tgz#037dbb0b03e3aff00fb9b5e39f360b22645da6d6"
-  integrity sha512-3ZWyljOy6xNbOsEXJ2wecj3yXtL2vno4PbAEekTQxsSt6fu4kIOnleZH8RSW9ZLbWnaAokZgoJsAZZk3dI4hcg==
+infima@0.2.0-alpha.20:
+  version "0.2.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.20.tgz#e99f70095e8d16a3333b561772eb9bf891211d3f"
+  integrity sha512-HSAyIW4/iMq85dJC8PircFA530yEsxqSK/3lXjhSZY+4dms84Izi6sKGdl5V0mDxVaikjAt1oexITtj8T4B0KQ==
 
 inflight@^1.0.4:
   version "1.0.6"
