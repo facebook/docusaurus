@@ -23,7 +23,7 @@ For more context, you can read the initial [RFC](https://github.com/facebook/doc
 
 The goals of the Docusaurus i18n system are:
 
-- **Simple**: just put the translated files in the correct file-system location.
+- **Simple**: just put the translated files in the correct filesystem location.
 - **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP...
 - **Flexible deployment options**: single, multiple domains, or hybrid.
 - **Modular**: allow plugin authors to provide i18n support.
@@ -51,7 +51,7 @@ We don't provide support for:
 Overview of the workflow to create a translated Docusaurus website:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-1. **Translate**: put the translation files at the correct file-system location.
+1. **Translate**: put the translation files at the correct filesystem location.
 1. **Deploy**: build and deploy your site using a single or multi-domain strategy.
 
 ### Translation files
@@ -94,7 +94,7 @@ The choice was made for 2 reasons:
 
 ### Translation files location
 
-The translation files should be created at the correct file-system location.
+The translation files should be created at the correct filesystem location.
 
 Each locale and plugin has its own `i18n` subfolder:
 
