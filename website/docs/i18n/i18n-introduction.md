@@ -24,9 +24,9 @@ For more context, you can read the initial [RFC](https://github.com/facebook/doc
 The goals of the Docusaurus i18n system are:
 
 - **Simple**: just put the translated files in the correct file-system location.
-- **Flexible translation workflows**: based on Git (monorepo, forks or submodules), SaaS software, FTP...
-- **Flexible deployment options**: single or multiple domains.
-- **Modular**: allow plugin author to provide i18n support.
+- **Flexible translation workflows**: based on Git (monorepo, forks, or submodules), SaaS software, FTP...
+- **Flexible deployment options**: single, multiple domains, or hybrid.
+- **Modular**: allow plugin authors to provide i18n support.
 - **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
 - **Acceptable build-times**: allow building and deploying localized sites independently.
 - **Localize assets**: an image of your site might contain text that should be translated.
