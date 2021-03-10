@@ -67,6 +67,12 @@ If your browser supports it, you should be able to install a Docusaurus site as 
 
 ![pwa_install.gif](/img/pwa_install.gif)
 
+:::note
+
+App installation requires the https protocol and a valid manifest.
+
+:::
+
 ## Offline mode (precaching)
 
 We enable users to browse a Docusaurus site offline, by using service-worker precaching.
@@ -293,3 +299,15 @@ The module should have a `default` function export, and receives some params.
 Adds an entry before the Docusaurus app so that registration can happen before the app runs. The default `registerSW.js` file is enough for simple registration.
 
 Passing `false` will disable registration entirely.
+
+## Manifest example
+
+The Docusaurus site manifest can serve as an inspiration:
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-json">
+  {JSON.stringify(require("@site/static/manifest.json"),null,2)}
+</CodeBlock>
+```
