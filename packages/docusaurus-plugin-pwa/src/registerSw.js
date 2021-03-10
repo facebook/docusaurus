@@ -165,7 +165,7 @@ function createServiceWorkerUrl(params) {
     // Update service worker if the next one is already in the waiting state.
     // This happens when the user doesn't click on `reload` in the popup.
     if (registration.waiting) {
-      await handleServiceWorkerWaiting();
+      handleServiceWorkerWaiting();
     }
 
     // Update the current service worker when the next one has finished
@@ -193,7 +193,13 @@ function createServiceWorkerUrl(params) {
       if (debug) {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
+
       localStorage.setItem(APP_INSTALLED_KEY, 'true');
+      if (debug) {
+        console.log(
+          "[Docusaurus-PWA][registerSw]: localStorage.setItem(APP_INSTALLED_KEY, 'true');",
+        );
+      }
 
       // After the app is installed, we register a service worker with the path
       // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
@@ -204,21 +210,22 @@ function createServiceWorkerUrl(params) {
 
     window.addEventListener('beforeinstallprompt', (event) => {
       if (debug) {
-        console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
+        console.log(
+          '[Docusaurus-PWA][registerSw]: event beforeinstallprompt',
+          event,
+        );
       }
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
 
-      const appInstalledValue = localStorage.getItem(APP_INSTALLED_KEY);
-
       if (debug) {
         console.log(
           '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_KEY)',
-          {appInstalledValue},
+          localStorage.getItem(APP_INSTALLED_KEY),
         );
       }
 
-      if (appInstalledValue) {
+      if (localStorage.getItem(APP_INSTALLED_KEY)) {
         localStorage.removeItem(APP_INSTALLED_KEY);
 
         if (debug) {
