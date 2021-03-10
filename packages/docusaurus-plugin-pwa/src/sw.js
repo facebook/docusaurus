@@ -71,7 +71,9 @@ function getPossibleURLs(url) {
   const params = parseSwParams();
 
   const precacheManifest = self.__WB_MANIFEST;
-  const controller = new PrecacheController();
+  const controller = new PrecacheController({
+    fallbackToNetwork: true, // safer to turn this true?
+  });
 
   if (params.offlineMode) {
     controller.addToCacheList(precacheManifest);

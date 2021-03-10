@@ -18,15 +18,15 @@ const debug = PWA_DEBUG; // shortcut
 
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
-  if (debug && registrations.length > 0) {
+  if (debug) {
     console.log(
-      `[Docusaurus-PWA][registerSw]: unregister all service worker registrrations`,
+      `[Docusaurus-PWA][registerSw]: will unregister all service worker registrations`,
       registrations,
     );
   }
   await Promise.all(
-    registrations.map((registration) => {
-      const result = registration.registration?.unregister();
+    registrations.map(async (registration) => {
+      const result = await registration?.registration?.unregister();
       if (debug) {
         console.log(
           `[Docusaurus-PWA][registerSw]: unregister() service worker registration`,
@@ -36,6 +36,12 @@ async function clearRegistrations() {
       }
     }),
   );
+  if (debug) {
+    console.log(
+      `[Docusaurus-PWA][registerSw]: unregistered all service worker registrations`,
+      registrations,
+    );
+  }
   window.location.reload();
 }
 
@@ -203,8 +209,23 @@ function createServiceWorkerUrl(params) {
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
 
-      if (localStorage.getItem(APP_INSTALLED_KEY)) {
+      const appInstalledValue = localStorage.getItem(APP_INSTALLED_KEY);
+
+      if (debug) {
+        console.log(
+          '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_KEY)',
+          {appInstalledValue},
+        );
+      }
+
+      if (appInstalledValue) {
         localStorage.removeItem(APP_INSTALLED_KEY);
+
+        if (debug) {
+          console.log(
+            '[Docusaurus-PWA][registerSw]: localStorage.removeItem(APP_INSTALLED_KEY)',
+          );
+        }
 
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We
