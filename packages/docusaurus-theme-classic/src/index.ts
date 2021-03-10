@@ -98,7 +98,7 @@ export default function docusaurusThemeClassic(
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
