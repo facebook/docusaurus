@@ -449,6 +449,7 @@ const users = [
     description: 'Fast, disk space efficient package manager',
     preview: require('./showcase/pnpm.png'),
     website: 'https://pnpm.js.org/',
+    source: 'https://github.com/pnpm/pnpm.github.io/',
     tags: [],
   },
   {
