@@ -25,7 +25,7 @@
     "fs-extra": "^9.1.0",
     "gray-matter": "^4.0.2",
     "intl": "^1.2.5",
-    "intl-locales-supported": "^1.8.12",
+    "intl-locales-supported": "1.8.11",
     "lodash": "^4.17.20",
     "resolve-pathname": "^3.0.0"
   },
