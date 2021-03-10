@@ -445,6 +445,13 @@ const users = [
     tags: [],
   },
   {
+    title: 'pnpm',
+    description: 'Fast, disk space efficient package manager',
+    preview: require('./showcase/pnpm.png'),
+    website: 'https://pnpm.js.org/',
+    tags: [],
+  },
+  {
     title: 'Postgres.ai – Database Lab',
     description: 'DEPLOY WITH CONFIDENCE. Been stung by a poorly tested database migration? We won\'t let it happen again.',
     preview: require('./showcase/postgres-ai.png'),
