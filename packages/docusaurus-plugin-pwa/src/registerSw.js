@@ -159,7 +159,7 @@ function createServiceWorkerUrl(params) {
     // Update service worker if the next one is already in the waiting state.
     // This happens when the user doesn't click on `reload` in the popup.
     if (registration.waiting) {
-      handleServiceWorkerWaiting();
+      await handleServiceWorkerWaiting();
     }
 
     // Update the current service worker when the next one has finished

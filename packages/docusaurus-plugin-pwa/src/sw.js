@@ -90,7 +90,7 @@ function getPossibleURLs(url) {
         event,
       });
     }
-    event.waitUntil(controller.install());
+    event.waitUntil(controller.install(event));
   });
 
   self.addEventListener('activate', (event) => {
@@ -99,7 +99,7 @@ function getPossibleURLs(url) {
         event,
       });
     }
-    event.waitUntil(controller.activate());
+    event.waitUntil(controller.activate(event));
   });
 
   self.addEventListener('fetch', async (event) => {
