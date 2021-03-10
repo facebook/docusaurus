@@ -28,7 +28,6 @@ function createTestHelpers({
 
   function testFail(value: unknown) {
     expect(() => Joi.attempt(value, schema)).toThrowErrorMatchingSnapshot(
-      // @ts-expect-error: seems ok at runtime, but bad typedef
       `for value=${JSON.stringify(value)}`,
     );
   }

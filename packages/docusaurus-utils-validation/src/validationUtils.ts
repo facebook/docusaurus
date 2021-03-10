@@ -38,7 +38,7 @@ export const logValidationBugReportHint = (): void => {
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
   options: unknown,
-) {
+): T {
   // All plugins can be provided an "id" option (multi-instance support)
   // we add schema validation automatically
   const finalSchema = schema.append({
@@ -51,7 +51,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
-      return options;
+      return options as T;
     } else {
       throw error;
     }
@@ -62,7 +62,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
   themeConfig: unknown,
-) {
+): T {
   // A theme should only validate his "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
   // otherwise one theme would fail validating the data of another theme
@@ -76,7 +76,7 @@ export function normalizeThemeConfig<T>(
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
-      return themeConfig;
+      return themeConfig as T;
     } else {
       throw error;
     }

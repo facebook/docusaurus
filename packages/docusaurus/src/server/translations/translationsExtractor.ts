@@ -32,7 +32,7 @@ function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
 }
 
-function getSiteSourceCodeFilePaths(siteDir): string[] {
+function getSiteSourceCodeFilePaths(siteDir: string): string[] {
   return [nodePath.join(siteDir, SRC_DIR_NAME)];
 }
 
@@ -180,7 +180,7 @@ function extractSourceCodeAstTranslations(
     return `File=${sourceCodeFilePath} at line=${node.loc?.start.line}`;
   }
   function generateCode(node: Node) {
-    return generate(node as any).code;
+    return generate(node).code;
   }
 
   const translations: Record<string, TranslationMessage> = {};
