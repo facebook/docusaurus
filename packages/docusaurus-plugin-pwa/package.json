@@ -24,9 +24,9 @@
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "workbox-build": "^6.1.0",
-    "workbox-precaching": "^6.1.0",
-    "workbox-window": "^6.1.0"
+    "workbox-build": "^6.1.1",
+    "workbox-precaching": "^6.1.1",
+    "workbox-window": "^6.1.1"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
