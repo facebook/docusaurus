@@ -16310,10 +16310,10 @@ react-live@^2.2.3:
     react-simple-code-editor "^0.10.0"
     unescape "^1.0.1"
 
-react-loadable-ssr-addon-webpack-5@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon-webpack-5/-/react-loadable-ssr-addon-webpack-5-0.4.0.tgz#15a9633a0ba03657c79400b7c481d8d58cf9609f"
-  integrity sha512-Mq4Zrx21Ysu5O3bB3GTQQGtFanKT/5iMqSz/7NQ7xjlvLMvrNjI3e4BurwM7w4GgP9q9SJHqUTsC5CN2Dy7cYA==
+react-loadable-ssr-addon-webpack-5@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon-webpack-5/-/react-loadable-ssr-addon-webpack-5-1.1.0.tgz#7d470d3c5fcd89d76c6971d5872c5405abcb7a76"
+  integrity sha512-1EScAzxQs1K4dTpxa2mmpM4f2myxhqEzfK065wVx6pUidA3HuUgI6NSjBWRY5Qc6HnIATvaE8hxL5PEhhPS7vg==
   dependencies:
     "@babel/runtime" "^7.10.3"
 
