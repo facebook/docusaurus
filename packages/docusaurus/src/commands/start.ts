@@ -11,7 +11,7 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import debounce from 'lodash/debounce';
+import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
