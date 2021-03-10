@@ -75,15 +75,30 @@ function getPossibleURLs(url) {
 
   if (params.offlineMode) {
     controller.addToCacheList(precacheManifest);
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: addToCacheList', {
+        precacheManifest,
+      });
+    }
   }
 
   await runSWCustomCode(params);
 
   self.addEventListener('install', (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: install event', {
+        event,
+      });
+    }
     event.waitUntil(controller.install());
   });
 
   self.addEventListener('activate', (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: activate event', {
+        event,
+      });
+    }
     event.waitUntil(controller.activate());
   });
 
@@ -95,15 +110,17 @@ function getPossibleURLs(url) {
         const possibleURL = possibleURLs[i];
         const cacheKey = controller.getCacheKeyForURL(possibleURL);
         if (cacheKey) {
+          const cachedResponse = caches.match(cacheKey);
           if (params.debug) {
             console.log('[Docusaurus-PWA][SW]: serving cached asset', {
               requestURL,
               possibleURL,
               possibleURLs,
               cacheKey,
+              cachedResponse,
             });
           }
-          event.respondWith(caches.match(cacheKey));
+          event.respondWith(cachedResponse);
           break;
         }
       }
@@ -111,6 +128,12 @@ function getPossibleURLs(url) {
   });
 
   self.addEventListener('message', async (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: message event', {
+        event,
+      });
+    }
+
     const type = event.data && event.data.type;
 
     if (type === 'SKIP_WAITING') {

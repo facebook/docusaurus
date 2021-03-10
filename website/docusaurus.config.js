@@ -162,7 +162,7 @@ const LocaleConfigs = isI18nStaging
     [
       '@docusaurus/plugin-pwa',
       {
-        debug: false,
+        debug: true,
         offlineModeActivationStrategies: ['appInstalled', 'queryString'],
         // swRegister: false,
         swCustom: path.resolve(__dirname, 'src/sw.js'),

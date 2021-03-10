@@ -10,7 +10,7 @@
 # we build deploy previews with a /build/ baseUrl on purpose
 # permits to test that baseUrl works fine (this often breaks!)
 [context.deploy-preview]
-  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
+  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview:classic -l en"
   publish = "website/netlifyDeployPreview"
 
   # TODO this does not seem to work
