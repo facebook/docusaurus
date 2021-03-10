@@ -16,6 +16,9 @@ const PWA_DEBUG = process.env.PWA_DEBUG;
 
 const debug = PWA_DEBUG; // shortcut
 
+const MAX_MOBILE_WIDTH = 940;
+const APP_INSTALLED_EVENT_FIRED_KEY = 'docusaurus.pwa.event.appInstalled.fired';
+
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
   if (debug) {
@@ -44,9 +47,6 @@ async function clearRegistrations() {
   }
   window.location.reload();
 }
-
-const MAX_MOBILE_WIDTH = 940;
-const APP_INSTALLED_EVENT_FIRED_KEY = 'docusaurus.pwa.event.appInstalled.fired';
 
 /*
 As of 2021:
@@ -136,90 +136,93 @@ function createServiceWorkerUrl(params) {
   return url;
 }
 
-(async () => {
-  if (typeof window === 'undefined') {
-    return;
-  }
+async function registerSW() {
+  const {Workbox} = await import('workbox-window');
+
+  const offlineMode = await isOfflineModeEnabled();
+
+  const url = createServiceWorkerUrl({offlineMode, debug});
+  const wb = new Workbox(url);
+
+  const registration = await wb.register();
+
+  const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});
+
+  const handleServiceWorkerWaiting = async () => {
+    if (debug) {
+      console.log('[Docusaurus-PWA][registerSw]: handleServiceWorkerWaiting');
+    }
+    // Immediately load new service worker when files aren't cached
+    if (!offlineMode) {
+      sendSkipWaiting();
+    } else if (PWA_RELOAD_POPUP) {
+      const renderReloadPopup = (await import('./renderReloadPopup')).default;
+      await renderReloadPopup({
+        onReload() {
+          wb.addEventListener('controlling', () => {
+            window.location.reload();
+          });
+          sendSkipWaiting();
+        },
+      });
+    }
+  };
 
   if (debug) {
-    console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
+    if (registration.active) {
+      console.log(
+        '[Docusaurus-PWA][registerSw]: registration.active',
+        registration,
+      );
+    }
+    if (registration.installing) {
+      console.log(
+        '[Docusaurus-PWA][registerSw]: registration.installing',
+        registration,
+      );
+    }
+    if (registration.waiting) {
+      console.log(
+        '[Docusaurus-PWA][registerSw]: registration.waiting',
+        registration,
+      );
+    }
   }
 
-  if ('serviceWorker' in navigator) {
-    const {Workbox} = await import('workbox-window');
-
-    const offlineMode = await isOfflineModeEnabled();
-
-    const url = createServiceWorkerUrl({offlineMode, debug});
-    const wb = new Workbox(url);
-
-    const registration = await wb.register();
-
-    const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});
-
-    const handleServiceWorkerWaiting = async () => {
-      if (debug) {
-        console.log('[Docusaurus-PWA][registerSw]: handleServiceWorkerWaiting');
-      }
-      // Immediately load new service worker when files aren't cached
-      if (!offlineMode) {
-        sendSkipWaiting();
-      } else if (PWA_RELOAD_POPUP) {
-        const renderReloadPopup = (await import('./renderReloadPopup')).default;
-        await renderReloadPopup({
-          onReload() {
-            wb.addEventListener('controlling', () => {
-              window.location.reload();
-            });
-            sendSkipWaiting();
-          },
-        });
-      }
-    };
-
+  // Update the current service worker when the next one has finished
+  // installing and transitions to waiting state.
+  wb.addEventListener('waiting', (event) => {
     if (debug) {
-      if (registration.active) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: registration.active',
-          registration,
-        );
-      }
-      if (registration.installing) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: registration.installing',
-          registration,
-        );
-      }
-      if (registration.waiting) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: registration.waiting',
-          registration,
-        );
-      }
+      console.log('[Docusaurus-PWA][registerSw]: event waiting', event);
+    }
+    handleServiceWorkerWaiting();
+  });
+
+  // Update current service worker if the next one finishes installing and
+  // moves to waiting state in another tab.
+  wb.addEventListener('externalwaiting', (event) => {
+    if (debug) {
+      console.log('[Docusaurus-PWA][registerSw]: event externalwaiting', event);
+    }
+    handleServiceWorkerWaiting();
+  });
+
+  // Update service worker if the next one is already in the waiting state.
+  // This happens when the user doesn't click on `reload` in the popup.
+  if (registration.waiting) {
+    await handleServiceWorkerWaiting();
+  }
+}
+
+// TODO these events still works in chrome but have been removed from the spec in 2019!
+// See https://github.com/w3c/manifest/pull/836
+function addLegacyAppInstalledEventsListeners() {
+  if (typeof window !== 'undefined') {
+    if (debug) {
+      console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
     }
 
-    // Update the current service worker when the next one has finished
-    // installing and transitions to waiting state.
-    wb.addEventListener('waiting', (event) => {
-      if (debug) {
-        console.log('[Docusaurus-PWA][registerSw]: event waiting', event);
-      }
-      handleServiceWorkerWaiting();
-    });
-
-    // Update current service worker if the next one finishes installing and
-    // moves to waiting state in another tab.
-    wb.addEventListener('externalwaiting', (event) => {
-      if (debug) {
-        console.log(
-          '[Docusaurus-PWA][registerSw]: event externalwaiting',
-          event,
-        );
-      }
-      handleServiceWorkerWaiting();
-    });
-
-    window.addEventListener('appinstalled', (event) => {
+    window.addEventListener('appinstalled', async (event) => {
       if (debug) {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
@@ -235,10 +238,11 @@ function createServiceWorkerUrl(params) {
       // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
       // treated as a new one. The previous registration will need to be
       // cleared, otherwise the reload popup will show.
-      clearRegistrations();
+      await clearRegistrations();
     });
 
-    window.addEventListener('beforeinstallprompt', (event) => {
+    // TODO this event still works in chrome but has been removed from the spec in 2019!!!
+    window.addEventListener('beforeinstallprompt', async (event) => {
       if (debug) {
         console.log(
           '[Docusaurus-PWA][registerSw]: event beforeinstallprompt',
@@ -263,18 +267,31 @@ function createServiceWorkerUrl(params) {
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We
         // need to clear registrations and reload, otherwise the popup will show.
-        clearRegistrations();
+        await clearRegistrations();
       }
     });
 
-    // Update service worker if the next one is already in the waiting state.
-    // This happens when the user doesn't click on `reload` in the popup.
-    if (registration.waiting) {
-      handleServiceWorkerWaiting();
+    if (debug) {
+      console.log(
+        '[Docusaurus-PWA][registerSw]: legacy appinstalled and beforeinstallprompt event listeners installed',
+      );
     }
-  } else if (debug) {
-    console.log(
-      '[Docusaurus-PWA][registerSw]: browser does not support service workers',
-    );
   }
-})();
+}
+
+/*
+Init code to run on the client!
+ */
+if (typeof window !== 'undefined') {
+  if (debug) {
+    console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
+  }
+
+  if ('serviceWorker' in navigator) {
+    // First: add the listeners asap/synchronously
+    addLegacyAppInstalledEventsListeners();
+
+    // Then try to register the SW using lazy/dynamic imports
+    registerSW().catch((e) => console.error('registerSW failed', e));
+  }
+}
