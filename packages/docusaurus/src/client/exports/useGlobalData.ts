@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext} from '@docusaurus/types';
 import useDocusaurusContext from './useDocusaurusContext';
 
 // TODO annoying constant duplication
@@ -14,7 +13,7 @@ import useDocusaurusContext from './useDocusaurusContext';
 // import {DEFAULT_PLUGIN_ID} from '../../constants';
 const DEFAULT_PLUGIN_ID = 'default';
 
-export default function useGlobalData(): DocusaurusContext['globalData'] {
+export default function useGlobalData() {
   const {globalData} = useDocusaurusContext();
   if (!globalData) {
     throw new Error('Docusaurus global data not found');
