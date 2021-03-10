@@ -25,7 +25,11 @@ module.exports = {
       '@docusaurus/plugin-pwa',
       {
         debug: true,
-        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
         pwaHead: [
           {
             tagName: 'link',
@@ -102,11 +106,12 @@ Turn debug mode on:
 ### `offlineModeActivationStrategies`
 
 - Type: `Array<'appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always'>`
-- Default: `['appInstalled','queryString']`
+- Default: `['appInstalled','queryString','standalone']`
 
 Strategies used to turn the offline mode on:
 
-- `appInstalled`: activates for users having installed the site as an app
+- `appInstalled`: activates for users having installed the site as an app (not 100% reliable)
+- `standalone`: activates for users running the app as standalone (often the case once a PWA is installed)
 - `queryString`: activates if queryString contains `offlineMode=true` (convenient for PWA debugging)
 - `mobile`: activates for mobile users (width <= 940px)
 - `saveData`: activates for users with `navigator.connection.saveData === true`
@@ -115,6 +120,16 @@ Strategies used to turn the offline mode on:
 :::caution
 
 Use this carefully: some users may not like to be forced to use the offline mode.
+
+:::
+
+:::danger
+
+It is not possible to detect if an as a PWA in a very reliable way.
+
+The `appinstalled` event has been [removed from the specification](https://github.com/w3c/manifest/pull/836), and the [`navigator.getInstalledRelatedApps()`](https://web.dev/get-installed-related-apps/) API is only supported in recent Chrome versions and require `related_applications` declared in the manifest.
+
+The [`standalone` strategy](https://petelepage.com/blog/2019/07/is-my-pwa-installed/) is a nice fallback to activate the offline mode (at least when running the installed app).
 
 :::
 

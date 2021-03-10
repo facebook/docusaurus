@@ -46,25 +46,61 @@ async function clearRegistrations() {
 }
 
 const MAX_MOBILE_WIDTH = 940;
-const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
+const APP_INSTALLED_EVENT_FIRED_KEY = 'docusaurus.pwa.event.appInstalled.fired';
+
+/*
+As of 2021:
+It is complicated and not very reliable to detect an app is actually installed.
+https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed-pwa-to-homescreen-on-chrome
+
+- appinstalled event is not in the spec anymore and seems to not fire? https://firt.dev/pwa-2021#less-capabilities-%E2%98%B9%EF%B8%8F
+- getInstalledRelatedApps() is only supported in recent Chrome and does not seem to reliable either https://github.com/WICG/get-installed-related-apps
+- display-mode: standalone is not exactly the same concept, but looks like a decent fallback https://petelepage.com/blog/2019/07/is-my-pwa-installed/
+ */
+async function isAppInstalledEventFired() {
+  return localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY) === 'true';
+}
+async function isAppInstalledRelatedApps() {
+  if ('getInstalledRelatedApps' in window.navigator) {
+    const relatedApps = await navigator.getInstalledRelatedApps();
+    return relatedApps.some((app) => app.platform === 'webapp');
+  }
+  return false;
+}
+function isStandaloneDisplayMode() {
+  return window.matchMedia('(display-mode: standalone)').matches;
+}
 
 const OfflineModeActivationStrategiesImplementations = {
   always: () => true,
   mobile: () => window.innerWidth <= MAX_MOBILE_WIDTH,
   saveData: () => !!(navigator.connection && navigator.connection.saveData),
-  appInstalled: () => localStorage.getItem(APP_INSTALLED_KEY) === 'true',
+  appInstalled: async () => {
+    const installedEventFired = await isAppInstalledEventFired();
+    const installedRelatedApps = await isAppInstalledRelatedApps();
+    return installedEventFired || installedRelatedApps;
+  },
+  standalone: () => isStandaloneDisplayMode(),
   queryString: () =>
     new URLSearchParams(window.location.search).get('offlineMode') === 'true',
 };
 
-function isOfflineModeEnabled() {
-  const activeStrategies = PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES.filter(
-    (strategyName) => {
-      const strategyImpl =
-        OfflineModeActivationStrategiesImplementations[strategyName];
-      return strategyImpl();
-    },
+async function isStrategyActive(strategyName) {
+  return OfflineModeActivationStrategiesImplementations[strategyName]();
+}
+
+async function getActiveStrategies() {
+  const activeStrategies = await Promise.all(
+    PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES.map(async (strategyName) => {
+      const isActive = await isStrategyActive(strategyName);
+      return isActive ? strategyName : undefined;
+    }),
   );
+  return activeStrategies.filter(Boolean); // remove undefined values
+}
+
+async function isOfflineModeEnabled() {
+  const activeStrategies = await getActiveStrategies();
   const enabled = activeStrategies.length > 0;
   if (debug) {
     const logObject = {
@@ -112,7 +148,7 @@ function createServiceWorkerUrl(params) {
   if ('serviceWorker' in navigator) {
     const {Workbox} = await import('workbox-window');
 
-    const offlineMode = isOfflineModeEnabled();
+    const offlineMode = await isOfflineModeEnabled();
 
     const url = createServiceWorkerUrl({offlineMode, debug});
     const wb = new Workbox(url);
@@ -188,10 +224,10 @@ function createServiceWorkerUrl(params) {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
 
-      localStorage.setItem(APP_INSTALLED_KEY, 'true');
+      localStorage.setItem(APP_INSTALLED_EVENT_FIRED_KEY, 'true');
       if (debug) {
         console.log(
-          "[Docusaurus-PWA][registerSw]: localStorage.setItem(APP_INSTALLED_KEY, 'true');",
+          "[Docusaurus-PWA][registerSw]: localStorage.setItem(APP_INSTALLED_EVENT_FIRED_KEY, 'true');",
         );
       }
 
@@ -213,15 +249,15 @@ function createServiceWorkerUrl(params) {
       // event.preventDefault();
       if (debug) {
         console.log(
-          '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_KEY)',
-          localStorage.getItem(APP_INSTALLED_KEY),
+          '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY)',
+          localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY),
         );
       }
-      if (localStorage.getItem(APP_INSTALLED_KEY)) {
-        localStorage.removeItem(APP_INSTALLED_KEY);
+      if (localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY)) {
+        localStorage.removeItem(APP_INSTALLED_EVENT_FIRED_KEY);
         if (debug) {
           console.log(
-            '[Docusaurus-PWA][registerSw]: localStorage.removeItem(APP_INSTALLED_KEY)',
+            '[Docusaurus-PWA][registerSw]: localStorage.removeItem(APP_INSTALLED_EVENT_FIRED_KEY)',
           );
         }
         // After uninstalling the app, if the user doesn't clear all data, then
