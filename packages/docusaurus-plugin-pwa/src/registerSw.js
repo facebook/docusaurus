@@ -162,12 +162,6 @@ function createServiceWorkerUrl(params) {
       }
     }
 
-    // Update service worker if the next one is already in the waiting state.
-    // This happens when the user doesn't click on `reload` in the popup.
-    if (registration.waiting) {
-      handleServiceWorkerWaiting();
-    }
-
     // Update the current service worker when the next one has finished
     // installing and transitions to waiting state.
     wb.addEventListener('waiting', (event) => {
@@ -217,29 +211,31 @@ function createServiceWorkerUrl(params) {
       }
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
-
       if (debug) {
         console.log(
           '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_KEY)',
           localStorage.getItem(APP_INSTALLED_KEY),
         );
       }
-
       if (localStorage.getItem(APP_INSTALLED_KEY)) {
         localStorage.removeItem(APP_INSTALLED_KEY);
-
         if (debug) {
           console.log(
             '[Docusaurus-PWA][registerSw]: localStorage.removeItem(APP_INSTALLED_KEY)',
           );
         }
-
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We
         // need to clear registrations and reload, otherwise the popup will show.
         clearRegistrations();
       }
     });
+
+    // Update service worker if the next one is already in the waiting state.
+    // This happens when the user doesn't click on `reload` in the popup.
+    if (registration.waiting) {
+      handleServiceWorkerWaiting();
+    }
   } else if (debug) {
     console.log(
       '[Docusaurus-PWA][registerSw]: browser does not support service workers',
