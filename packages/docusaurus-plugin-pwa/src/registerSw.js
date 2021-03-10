@@ -20,13 +20,22 @@ async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
   if (debug && registrations.length > 0) {
     console.log(
-      `[Docusaurus-PWA][registerSw]: unregister service workers`,
+      `[Docusaurus-PWA][registerSw]: unregister all service worker registrrations`,
       registrations,
     );
   }
-  registrations.forEach((registration) => {
-    registration.registration.unregister();
-  });
+  await Promise.all(
+    registrations.map((registration) => {
+      const result = registration.registration?.unregister();
+      if (debug) {
+        console.log(
+          `[Docusaurus-PWA][registerSw]: unregister() service worker registration`,
+          registrations,
+          result,
+        );
+      }
+    }),
+  );
   window.location.reload();
 }
 
@@ -37,7 +46,7 @@ const OfflineModeActivationStrategiesImplementations = {
   always: () => true,
   mobile: () => window.innerWidth <= MAX_MOBILE_WIDTH,
   saveData: () => !!(navigator.connection && navigator.connection.saveData),
-  appInstalled: () => !!localStorage.getItem(APP_INSTALLED_KEY),
+  appInstalled: () => localStorage.getItem(APP_INSTALLED_KEY) === 'true',
   queryString: () =>
     new URLSearchParams(window.location.search).get('offlineMode') === 'true',
 };
@@ -115,7 +124,7 @@ function createServiceWorkerUrl(params) {
         sendSkipWaiting();
       } else if (PWA_RELOAD_POPUP) {
         const renderReloadPopup = (await import('./renderReloadPopup')).default;
-        renderReloadPopup({
+        await renderReloadPopup({
           onReload() {
             wb.addEventListener('controlling', () => {
               window.location.reload();
@@ -178,7 +187,7 @@ function createServiceWorkerUrl(params) {
       if (debug) {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
-      localStorage.setItem(APP_INSTALLED_KEY, true);
+      localStorage.setItem(APP_INSTALLED_KEY, 'true');
 
       // After the app is installed, we register a service worker with the path
       // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
