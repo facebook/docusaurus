@@ -9,7 +9,8 @@
   "related_applications": [
     {
       "platform": "webapp",
-      "url": "https://deploy-preview-4377--docusaurus-2.netlify.app/classic/manifest.json"
+      "url": "https://deploy-preview-4377--docusaurus-2.netlify.app/classic/",
+      "id": "docusaurus-site"
     }
   ],
   "icons": [
