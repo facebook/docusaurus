@@ -219,7 +219,9 @@ async function registerSW() {
 function addLegacyAppInstalledEventsListeners() {
   if (typeof window !== 'undefined') {
     if (debug) {
-      console.log('[Docusaurus-PWA][registerSw]: debug mode enabled');
+      console.log(
+        '[Docusaurus-PWA][registerSw]: addLegacyAppInstalledEventsListeners',
+      );
     }
 
     window.addEventListener('appinstalled', async (event) => {
