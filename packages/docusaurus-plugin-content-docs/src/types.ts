@@ -8,8 +8,13 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
+import {
+  BrokenMarkdownLink as IBrokenMarkdownLink,
+  ContentPaths,
+} from '@docusaurus/utils/lib/markdownLinks';
+
 export type DocFile = {
-  docsDirPath: string; // /!\ may be localized
+  contentPath: string; // /!\ may be localized
   filePath: string; // /!\ may be localized
   source: string;
   content: string;
@@ -18,15 +23,15 @@ export type DocFile = {
 
 export type VersionName = string;
 
-export type VersionMetadata = {
+export type VersionMetadata = ContentPaths & {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
   isLast: boolean;
-  docsDirPath: string; // "versioned_docs/version-1.0.0"
-  docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
+  // contentPath: string; // "versioned_docs/version-1.0.0"
+  // contentPathLocalized: string; // "i18n/fr/version-1.0.0/default"
   sidebarFilePath: string; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
 };
@@ -192,11 +197,7 @@ export type GlobalPluginData = {
   versions: GlobalVersion[];
 };
 
-export type BrokenMarkdownLink = {
-  filePath: string;
-  version: VersionMetadata;
-  link: string;
-};
+export type BrokenMarkdownLink = IBrokenMarkdownLink<VersionMetadata>;
 
 export type DocsMarkdownOption = {
   versionsMetadata: VersionMetadata[];

@@ -32,23 +32,8 @@ export function linkify(
   return replaceMarkdownLinks(
     fileString,
     filePath,
-    {
-      // TODO: refactor names and we can pass version here
-      contentPath: version.docsDirPath,
-      contentPathLocalized: version.docsDirPathLocalized,
-    },
-    {
-      siteDir: options.siteDir,
-      sourceToPermalink: options.sourceToPermalink,
-      onBrokenMarkdownLink(brokenMarkdownLink) {
-        options.onBrokenMarkdownLink({
-          // TODO: refactor version to contentPaths
-          version,
-          filePath: brokenMarkdownLink.filePath,
-          link: brokenMarkdownLink.link,
-        });
-      },
-    },
+    version,
+    options,
     (permalink) => permalink,
   );
 }

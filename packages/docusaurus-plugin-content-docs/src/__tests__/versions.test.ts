@@ -68,8 +68,8 @@ describe('simple site', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(simpleSiteDir, 'docs'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(simpleSiteDir, 'docs'),
+      contentPathLocalized: path.join(
         simpleSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/current',
       ),
@@ -218,8 +218,8 @@ describe('versioned site, pluginId=default', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'docs'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'docs'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/current',
       ),
@@ -232,8 +232,8 @@ describe('versioned site, pluginId=default', () => {
     };
 
     const v101: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
       ),
@@ -249,8 +249,8 @@ describe('versioned site, pluginId=default', () => {
     };
 
     const v100: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
       ),
@@ -266,11 +266,11 @@ describe('versioned site, pluginId=default', () => {
     };
 
     const vwithSlugs: VersionMetadata = {
-      docsDirPath: path.join(
+      contentPath: path.join(
         versionedSiteDir,
         'versioned_docs/version-withSlugs',
       ),
-      docsDirPathLocalized: path.join(
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
       ),
@@ -615,8 +615,8 @@ describe('versioned site, pluginId=community', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'community'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'community'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs-community/current',
       ),
@@ -629,11 +629,11 @@ describe('versioned site, pluginId=community', () => {
     };
 
     const v100: VersionMetadata = {
-      docsDirPath: path.join(
+      contentPath: path.join(
         versionedSiteDir,
         'community_versioned_docs/version-1.0.0',
       ),
-      docsDirPathLocalized: path.join(
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
       ),
