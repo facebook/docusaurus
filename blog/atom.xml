@@ -2,12 +2,28 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2021-01-19T06:00:00.000Z</updated>
+    <updated>2021-03-09T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2021 Facebook Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[Releasing Docusaurus i18n]]></title>
+        <id>https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n.html</id>
+        <link href="https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n.html"/>
+        <updated>2021-03-09T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Today, we officially release <strong><a href="https://v2.docusaurus.io/docs/i18n/introduction">Docusaurus 2 i18n</a></strong> (<a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">internationalization</a>), as part of <a href="https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71">2.0.0-alpha.71</a>.</p>
+<p>Docusaurus 2 has now reached <strong>full feature parity with Docusaurus 1</strong>. 🎉 And soon, after a few additional infrastructure updates and a bit more testing, the <strong>first Docusaurus 2 beta</strong> will be released.</p>
+<p><strong>We went the extra mile</strong>, and the new i18n support is <strong>even better than in Docusaurus 1</strong>.</p>
+<p>In this post, we will present you the <strong>translation workflow</strong>, explain some <strong>design decisions</strong> and <strong>showcase early adopter sites</strong> that just went live: <a href="https://jestjs.io/">Jest</a>, <a href="https://learn.redwoodjs.com/">Redwood</a>, and <a href="https://datagit.ir/">Datagit</a>.</p>
+<p>We also <strong>dogfood</strong> the i18n support on the <strong>Docusaurus 2 site itself</strong>, and this post is already available in <a href="https://v2.docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n">English</a> and <a href="https://v2.docusaurus.io/fr/blog/2021/03/09/releasing-docusaurus-i18n">French</a>!</p>
+]]></summary>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docusaurus 2020 Recap]]></title>
         <id>https://docusaurus.io/blog/2021/01/19/docusaurus-2020-recap.html</id>

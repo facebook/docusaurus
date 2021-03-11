@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Tue, 19 Jan 2021 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 09 Mar 2021 06:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,18 @@
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2021 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[Releasing Docusaurus i18n]]></title>
+            <link>https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n.html</link>
+            <guid>https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n.html</guid>
+            <pubDate>Tue, 09 Mar 2021 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Today, we officially release <strong><a href="https://v2.docusaurus.io/docs/i18n/introduction">Docusaurus 2 i18n</a></strong> (<a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">internationalization</a>), as part of <a href="https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71">2.0.0-alpha.71</a>.</p>
+<p>Docusaurus 2 has now reached <strong>full feature parity with Docusaurus 1</strong>. 🎉 And soon, after a few additional infrastructure updates and a bit more testing, the <strong>first Docusaurus 2 beta</strong> will be released.</p>
+<p><strong>We went the extra mile</strong>, and the new i18n support is <strong>even better than in Docusaurus 1</strong>.</p>
+<p>In this post, we will present you the <strong>translation workflow</strong>, explain some <strong>design decisions</strong> and <strong>showcase early adopter sites</strong> that just went live: <a href="https://jestjs.io/">Jest</a>, <a href="https://learn.redwoodjs.com/">Redwood</a>, and <a href="https://datagit.ir/">Datagit</a>.</p>
+<p>We also <strong>dogfood</strong> the i18n support on the <strong>Docusaurus 2 site itself</strong>, and this post is already available in <a href="https://v2.docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n">English</a> and <a href="https://v2.docusaurus.io/fr/blog/2021/03/09/releasing-docusaurus-i18n">French</a>!</p>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[Docusaurus 2020 Recap]]></title>
             <link>https://docusaurus.io/blog/2021/01/19/docusaurus-2020-recap.html</link>
