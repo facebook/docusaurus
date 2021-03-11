@@ -88,7 +88,9 @@ jobs:
               yarn run write-translations
 
               # upload translation strings and download translations
-              yarn crowdin-upload
+              # TODO we have a weird Crowdin error "Project already contains the file", trying to resolve that with support
+              # In the meantime we should not block the v1 site deployment
+              yarn crowdin-upload || echo "Crowdin source upload failure, but we'll continue..."
 
               # download only enabled languages
               yarn crowdin-download
