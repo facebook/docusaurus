@@ -95,4 +95,4 @@ This feature has not been an easy one, and we would like to thank everyone that 
 
 Thanks for reading.
 
-🙏 And please, add your brand new i18n sites to our [showcase page](https://v2.docusaurus.io/showcase). We accept any Docusaurus site here, and we are working on a [redesign](https://github.com/facebook/docusaurus/issues/4238) allowing you to filter sites by features.
+🙏 And please, add your brand new i18n sites to our [showcase page](https://v2.docusaurus.io/showcase). We accept any polished Docusaurus site here, and we are working on a [redesign](https://github.com/facebook/docusaurus/issues/4238) allowing you to filter sites by features.
