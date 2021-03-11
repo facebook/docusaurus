@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import chalk from 'chalk';
 import path from 'path';
-import {resolve} from 'url';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {keyBy} from 'lodash';
@@ -18,7 +17,6 @@ import {
   BlogPost,
   DateLink,
   BlogContentPaths,
-  BlogBrokenMarkdownLink,
   BlogMarkdownLoaderOptions,
 } from './types';
 import {
@@ -31,6 +29,7 @@ import {
   getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
+import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -264,59 +263,25 @@ export function linkify({
   blogPostsBySource,
   onBrokenMarkdownLink,
 }: LinkifyParams): string {
-  // TODO temporary, should consider the file being in localized folder!
-  const folderPath = contentPaths.contentPath;
-
-  let fencedBlock = false;
-  const lines = fileContent.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
-    }
-
-    if (fencedBlock) {
-      return line;
-    }
-
-    let modifiedLine = line;
-    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
-    let mdMatch = mdRegex.exec(modifiedLine);
-
-    while (mdMatch !== null) {
-      const mdLink = mdMatch[1];
-
-      const aliasedSource = (source: string) =>
-        aliasedSitePath(source, siteDir);
-
-      const blogPost: BlogPost | undefined =
-        blogPostsBySource[aliasedSource(resolve(filePath, mdLink))] ||
-        blogPostsBySource[
-          aliasedSource(`${contentPaths.contentPathLocalized}/${mdLink}`)
-        ] ||
-        blogPostsBySource[
-          aliasedSource(`${contentPaths.contentPath}/${mdLink}`)
-        ];
-
-      if (blogPost) {
-        modifiedLine = modifiedLine.replace(
-          mdLink,
-          blogPost.metadata.permalink,
-        );
-      } else {
-        const brokenMarkdownLink: BlogBrokenMarkdownLink = {
-          folderPath,
-          filePath,
-          link: mdLink,
-        };
-        onBrokenMarkdownLink(brokenMarkdownLink);
-      }
-
-      mdMatch = mdRegex.exec(modifiedLine);
-    }
-
-    return modifiedLine;
-  });
-
-  return lines.join('\n');
+  return replaceMarkdownLinks(
+    fileContent,
+    filePath,
+    contentPaths,
+    {
+      siteDir,
+      sourceToPermalink: blogPostsBySource,
+      onBrokenMarkdownLink(data) {
+        onBrokenMarkdownLink({
+          // TODO: we should return here all contentPaths as we are checking them anyway
+          // TODO temporary, should consider the file being in localized folder!
+          folderPath: data.contentPaths.contentPath,
+          filePath: data.filePath,
+          link: data.link,
+        });
+      },
+    },
+    (blogPost) => blogPost.metadata.permalink,
+  );
 }
 
 // Order matters: we look in priority in localized folder
