@@ -23,13 +23,14 @@ const TAGS = [
 
 function ToggleTags(props) {
   return (
-    <div>
-      {TAGS.map((tag) => (
-        <div className={styles.tag} key={tag}>
-          <input type="checkbox" id={tag} name={tag} />
-          <label htmlFor={tag}>{tag}</label>
-        </div>
-      ))}
+    <div className={styles.tag}>
+      <input
+        type="checkbox"
+        id={props.tag}
+        name={props.tag}
+        onChange={props.change}
+      />
+      <label htmlFor={props.tag}>{props.tag}</label>
     </div>
   );
 }

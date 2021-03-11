@@ -20,6 +20,33 @@ const DESCRIPTION =
   'See the awesome websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.js';
+const TAGS = [
+  'highlight',
+  'design',
+  'i18n',
+  'versioning',
+  'multi-instance',
+  'large',
+  'facebook',
+  'personal',
+  'rtl',
+];
+let selectedTags = [];
+let filteredUsers = users;
+
+const clickTag = (tag) => {
+  const tagIndex = selectedTags.findIndex((selectedTag) => {
+    return selectedTag === tag;
+  });
+  console.log(tagIndex);
+  if (tagIndex === -1) {
+    selectedTags.push(tag);
+  } else {
+    selectedTags.splice(tagIndex, 1);
+  }
+  console.log(selectedTags);
+  filteredUsers = users.filter((user) => user.tags.includes(selectedTags));
+};
 
 function Showcase() {
   return (
@@ -36,10 +63,13 @@ function Showcase() {
               Add your site!
             </a>
           </p>
-          {<ToggleTags />}
+          {TAGS.map((tag) => (
+            <ToggleTags tag={tag} key={tag} change={() => clickTag(tag)} />
+          ))}
         </div>
         <div className="row">
-          {users.map((user) => (
+          {/* {users.map((user) => ( */}
+          {filteredUsers.map((user) => (
             <div key={user.title} className="col col--4 margin-bottom--lg">
               <div className={clsx('card', styles.showcaseUser)}>
                 <div className="card__image">
