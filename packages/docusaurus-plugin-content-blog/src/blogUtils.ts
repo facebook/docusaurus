@@ -252,7 +252,7 @@ export type LinkifyParams = {
   fileContent: string;
 } & Pick<
   BlogMarkdownLoaderOptions,
-  'blogPostsBySource' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
+  'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
 >;
 
 export function linkify({
@@ -260,7 +260,7 @@ export function linkify({
   contentPaths,
   fileContent,
   siteDir,
-  blogPostsBySource,
+  sourceToPermalink,
   onBrokenMarkdownLink,
 }: LinkifyParams): string {
   return replaceMarkdownLinks(
@@ -269,16 +269,8 @@ export function linkify({
     contentPaths,
     {
       siteDir,
-      sourceToPermalink: blogPostsBySource,
-      onBrokenMarkdownLink(data) {
-        onBrokenMarkdownLink({
-          // TODO: we should return here all contentPaths as we are checking them anyway
-          // TODO temporary, should consider the file being in localized folder!
-          folderPath: data.contentPaths.contentPath,
-          filePath: data.filePath,
-          link: data.link,
-        });
-      },
+      sourceToPermalink,
+      onBrokenMarkdownLink,
     },
     (blogPost) => blogPost.metadata.permalink,
   );

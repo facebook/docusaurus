@@ -416,7 +416,7 @@ export default function pluginContentBlog(
         siteDir,
         contentPaths,
         truncateMarker,
-        blogPostsBySource: getPostsBySource(blogPosts),
+        sourceToPermalink: getPostsBySource(blogPosts),
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (onBrokenMarkdownLinks === 'ignore') {
             return;

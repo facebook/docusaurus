@@ -46,7 +46,7 @@ const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
     fileContent,
     siteDir,
     contentPaths,
-    blogPostsBySource: getPostsBySource(blogPosts),
+    sourceToPermalink: getPostsBySource(blogPosts),
     onBrokenMarkdownLink: (brokenMarkdownLink) => {
       throw new Error(
         `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
@@ -82,12 +82,12 @@ test('report broken markdown links', () => {
   expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(2);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: 'postNotExist1.md',
   } as BlogBrokenMarkdownLink);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: './postNotExist2.mdx',
   } as BlogBrokenMarkdownLink);
 });
