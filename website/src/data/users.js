@@ -769,6 +769,14 @@ const users = [
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['design', 'large'],
   },
+  {
+    title: 'xcent',
+    description: 'xcent web for daxianghezi share.',
+    preview: require('./showcase/wisdom.png'),
+    website: 'https://xcent-blog.vercel.app/',
+    source: 'https://github.com/gongxianjin/xcent-team-blog',
+    tags: ['share', 'xcent'],
+  },
 ];
 
 users.forEach((user) => {
