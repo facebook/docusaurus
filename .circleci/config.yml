@@ -100,7 +100,7 @@ jobs:
               # done
 
               # publish
-              GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
+              GIT_USER=docusaurus-bot USE_SSH=false FORCE_DEPLOY=true yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
