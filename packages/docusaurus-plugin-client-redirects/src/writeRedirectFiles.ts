@@ -20,7 +20,7 @@ export type RedirectFileMetadata = {
   fileContent: string;
 };
 
-export function createToUrl(baseUrl: string, to: string) {
+export function createToUrl(baseUrl: string, to: string): string {
   return normalizeUrl([baseUrl, to]);
 }
 
