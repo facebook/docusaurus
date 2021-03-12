@@ -14,7 +14,6 @@ import {
   normalizeUrl,
   parseMarkdownString,
   posixPath,
-  getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -212,7 +211,7 @@ export function processDocMetadata({
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
-      ? getDateTimeFormat(i18n.currentLocale)(i18n.currentLocale).format(
+      ? new Intl.DateTimeFormat(i18n.currentLocale).format(
           lastUpdate.lastUpdatedAt * 1000,
         )
       : undefined,

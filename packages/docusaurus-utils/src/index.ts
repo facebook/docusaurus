@@ -21,7 +21,6 @@ import {
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
-import areIntlLocalesSupported from 'intl-locales-supported';
 
 const fileHash = new Map();
 export async function generate(
@@ -632,13 +631,6 @@ export async function readDefaultCodeTranslationMessages({
   }
 
   return {};
-}
-
-export function getDateTimeFormat(locale: string) {
-  return areIntlLocalesSupported([locale])
-    ? global.Intl.DateTimeFormat
-    : // eslint-disable-next-line @typescript-eslint/no-var-requires
-      require('intl').DateTimeFormat;
 }
 
 // Input: ## Some heading {#some-heading}
