@@ -2,32 +2,98 @@
 title: Markdown Features
 ---
 
-In this page, we will see some of the tools that will help you to build your documentation site with Docusaurus.
+Docusaurus supports the [Markdown](https://daringfireball.net/projects/markdown/syntax) syntax and has some additional features.
 
-## Frontmatters
+## Front Matter
+
+Markdown documents can have associated metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
 
 ```md
 ---
-id: slash
-title: Slash, Our Mascot!
-hide_title: false
-hide_table_of_contents: false
-sidebar_label: Say Hello to Slash!
-description: We named our mascot Slash because most documentations start with //
-keywords:
-  - docs
-  - docusaurus
-  - mascot
+id: my-doc
+title: My document title
+description: My document description
+sidebar_label: My doc
 ---
+
+Markdown content
 ```
 
-## Referencing other documents
+## Markdown links
+
+Regular Markdown links are supported using url paths or relative file paths.
 
 ```md
-I am referencing [this](/create-a-page.md) tutorial.
+Let's see how to [Create a page](/create-a-page).
 ```
 
-## Embedding React components with MDX
+```md
+Let's see how to [Create a page](./create-a-page.md).
+```
+
+Let's see how to [Create a page](./create-a-page.md).
+
+## Markdown images
+
+Regular Markdown images are supported.
+
+Add an image at `static/img/docusaurus.png` and use this Markdown declaration:
+
+```md
+![Docusaurus logo](/img/docusaurus.png)
+```
+
+![Docusaurus logo](/img/docusaurus.png)
+
+## Code Blocks
+
+Markdown code blocks are supported with Syntax highlighting.
+
+    ```jsx title="src/components/HelloDocusaurus.js"
+    function HelloDocusaurus() {
+        return (
+            <h1>Hello, Docusaurus!</h1>
+        )
+    }
+    ```
+
+```jsx title="src/components/HelloDocusaurus.js"
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+
+## Admonitions
+
+Docusaurus has a special syntax to create admonitions and callouts:
+
+    :::tip My tip
+
+    Use this awesome feature option
+
+    :::
+
+    :::danger Take care
+
+    This action is dangerous
+
+    :::
+
+:::tip My tip
+
+Use this awesome feature option
+
+:::
+
+:::danger Take care
+
+This action is dangerous
+
+:::
+
+## React components
+
+Thanks to [MDX](https://mdxjs.com/), you can make your doc more interactive and use React components inside Markdown:
 
 ```jsx
 export const Highlight = ({children, color}) => (
@@ -35,7 +101,7 @@ export const Highlight = ({children, color}) => (
     style={{
       backgroundColor: color,
       borderRadius: '2px',
-      color: '#fff',
+      color: 'red',
       padding: '0.2rem',
     }}>
     {children}
@@ -60,19 +126,3 @@ export const Highlight = ({children, color}) => (
 <Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">
   Facebook blue
 </Highlight> are my favorite colors.
-
-## Code Blocks
-
-    ```jsx title="src/components/HelloDocusaurus.js"
-    function HelloDocusaurus() {
-        return (
-            <h1>Hello, Docusaurus!</h1>
-        )
-    }
-    ```
-
-```jsx title="src/components/HelloDocusaurus.js"
-function HelloDocusaurus() {
-  return <h1>Hello, Docusaurus!</h1>;
-}
-```

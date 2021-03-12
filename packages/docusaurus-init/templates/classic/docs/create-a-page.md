@@ -2,51 +2,44 @@
 title: Create a Page
 ---
 
-This page will help you to create standalone pages in Docusaurus, either with React or Markdown.
+Any React or Markdown file created under `src/pages` directory is converted into a website page:
 
-## Creating a React Page
+- `src/pages/index.js` -> `localhost:3000/`
+- `src/pages/foo.md` -> `localhost:3000/foo`
+- `src/pages/foo/bar.js` -> `localhost:3000/foo/bar`
 
-Create a file: `./src/pages/react.js`
+## Create a React Page
 
-```jsx title="/src/pages/react.js"
-import React from "react";
+Create a file at `src/pages/my-react-page.js`:
+
+```jsx title="src/pages/my-react-page.js"
+import React from 'react';
 import Layout from '@theme/Layout';
 
 function HelloWorld() {
-    return (
-        <Layout title="Hello!">
-          <div>
-              <h1>Hello, World!</h1>
-          </div>
-        </Layout>
-    )
+  return (
+    <Layout>
+      <h1>My React page</h1>
+      <p>This is a React page</p>
+    </Layout>
+  );
 }
 ```
 
-Save the file, and the development server will automatically reload the changes. Open `http://localhost:3000/react`, to see the page that you just created with React. 
+A new page is now available at `http://localhost:3000/my-react-page`.
 
-## Creating a Markdown Page
+## Create a Markdown Page
 
-Create a file: `/src/pages/markdown.md`
+Create a file at `src/pages/my-markdown-page.md`:
 
-```mdx title="/src/pages/markdown.md"
+```mdx title="src/pages/my-markdown-page.md"
 ---
-title: Hello, World!
-description: This is a page created with Markdown
+title: My Markdown page
 ---
 
-# Hello, World!
+# My Markdown page
 
+This is a Markdown page
 ```
 
-Save the file, and the development server will automatically reload the changes. Open `http://localhost:3000/markdown`, to see the page that you just created with Markdown. 
-
-## Routing
-
-Any JavaScript (React) or Markdown files that you create under `/src/pages` directory will be automatically converted into a website page.
-
-Here are some examples:
-
-- `/src/pages/index.js` -> `localhost:3000/`
-- `/src/pages/foo.js` -> `localhost:3000/foo`
-- `/src/pages/foo/bar.js` -> `localhost:3000/foo/bar`
+A new page is now available at `http://localhost:3000/my-markdown-page`.

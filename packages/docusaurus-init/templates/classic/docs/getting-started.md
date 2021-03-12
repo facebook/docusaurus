@@ -1,30 +1,28 @@
 ---
-title: Getting Started 
+title: Getting Started
 slug: /
 ---
 
-## Setting up the development environment
-
-### Step 1:  Generate a Docusaurus site
+## Step 1: Generate a new Docusaurus site
 
 If you haven't already, generate a new Docusaurus site using the classic template:
 
 ```shell
-npx @docusaurus/init@latest init my-documentation classic
+npx @docusaurus/init@latest init my-website classic
 ```
 
-### Step 2: Start your Docusaurus site
+## Step 2: Start your Docusaurus site
 
-Run the development server:
+Run the development server in the newly created `my-website` folder:
 
 ```shell
+cd my-website
+
 npx docusaurus start
 ```
 
-Open `docs/getting-started.md` and edit some lines. The site should reload automatically and display your changes.
+Open `docs/getting-started.md` and edit some lines. The site reloads automatically and display your changes.
 
-### That's it!
+## That's it!
 
 Congratulations! You've successfully run and modified your Docusaurus project.
-
-
