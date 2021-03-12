@@ -28,12 +28,17 @@ export function linkify(
   filePath: string,
   options: DocsMarkdownOption,
 ): string {
-  const version = getVersion(filePath, options);
-  return replaceMarkdownLinks(
+  const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
+
+  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
+    siteDir,
     fileString,
     filePath,
-    version,
-    options,
-    (permalink) => permalink,
-  );
+    contentPaths: getVersion(filePath, options),
+    sourceToPermalink,
+  });
+
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
+
+  return newContent;
 }

@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {keyBy} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
@@ -35,10 +35,13 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-export function getPostsBySource(
+export function getSourceToPermalink(
   blogPosts: BlogPost[],
-): Record<string, BlogPost> {
-  return keyBy(blogPosts, (item) => item.metadata.source);
+): Record<string, string> {
+  return mapValues(
+    keyBy(blogPosts, (item) => item.metadata.source),
+    (v) => v.metadata.permalink,
+  );
 }
 
 // YYYY-MM-DD-{name}.mdx?
@@ -249,7 +252,7 @@ export async function generateBlogPosts(
 
 export type LinkifyParams = {
   filePath: string;
-  fileContent: string;
+  fileString: string;
 } & Pick<
   BlogMarkdownLoaderOptions,
   'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
@@ -258,22 +261,22 @@ export type LinkifyParams = {
 export function linkify({
   filePath,
   contentPaths,
-  fileContent,
+  fileString,
   siteDir,
   sourceToPermalink,
   onBrokenMarkdownLink,
 }: LinkifyParams): string {
-  return replaceMarkdownLinks(
-    fileContent,
+  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
+    siteDir,
+    fileString,
     filePath,
     contentPaths,
-    {
-      siteDir,
-      sourceToPermalink,
-      onBrokenMarkdownLink,
-    },
-    (blogPost) => blogPost.metadata.permalink,
-  );
+    sourceToPermalink,
+  });
+
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
+
+  return newContent;
 }
 
 // Order matters: we look in priority in localized folder

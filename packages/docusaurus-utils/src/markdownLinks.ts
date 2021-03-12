@@ -19,24 +19,29 @@ export type BrokenMarkdownLink<T extends ContentPaths> = {
   link: string;
 };
 
-export type ReplaceMarkdownLinksParams<
-  T extends ContentPaths,
-  S extends unknown
-> = {
+export type ReplaceMarkdownLinksParams<T extends ContentPaths> = {
   siteDir: string;
-  sourceToPermalink: Record<string, S>;
-  onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink<T>) => void;
+  fileString: string;
+  filePath: string;
+  contentPaths: T;
+  sourceToPermalink: Record<string, string>;
 };
 
-export function replaceMarkdownLinks<T extends ContentPaths, S extends unknown>(
-  fileString: string,
-  filePath: string,
-  contentPaths: T,
-  options: ReplaceMarkdownLinksParams<T, S>,
-  getPermalink: (alias: S) => string,
-): string {
-  const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
+export type ReplaceMarkdownLinksReturn<T extends ContentPaths> = {
+  newContent: string;
+  brokenMarkdownLinks: BrokenMarkdownLink<T>[];
+};
+
+export function replaceMarkdownLinks<T extends ContentPaths>({
+  siteDir,
+  fileString,
+  filePath,
+  contentPaths,
+  sourceToPermalink,
+}: ReplaceMarkdownLinksParams<T>): ReplaceMarkdownLinksReturn<T> {
   const {contentPath, contentPathLocalized} = contentPaths;
+
+  const brokenMarkdownLinks: BrokenMarkdownLink<T>[] = [];
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;
@@ -61,25 +66,28 @@ export function replaceMarkdownLinks<T extends ContentPaths, S extends unknown>(
       const aliasedSource = (source: string) =>
         aliasedSitePath(source, siteDir);
 
-      const permalink =
+      const permalink: string | undefined =
         sourceToPermalink[aliasedSource(resolve(filePath, mdLink))] ||
         sourceToPermalink[aliasedSource(`${contentPathLocalized}/${mdLink}`)] ||
         sourceToPermalink[aliasedSource(`${contentPath}/${mdLink}`)];
 
       if (permalink) {
-        modifiedLine = modifiedLine.replace(mdLink, getPermalink(permalink));
+        modifiedLine = modifiedLine.replace(mdLink, permalink);
       } else {
         const brokenMarkdownLink: BrokenMarkdownLink<T> = {
           contentPaths,
           filePath,
           link: mdLink,
         };
-        onBrokenMarkdownLink(brokenMarkdownLink);
+
+        brokenMarkdownLinks.push(brokenMarkdownLink);
       }
       mdMatch = mdRegex.exec(modifiedLine);
     }
     return modifiedLine;
   });
 
-  return lines.join('\n');
+  const newContent = lines.join('\n');
+
+  return {newContent, brokenMarkdownLinks};
 }
