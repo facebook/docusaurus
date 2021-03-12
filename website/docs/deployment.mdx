@@ -252,6 +252,53 @@ jobs:
           user_email: ${{ env.GIT_EMAIL }}
 ```
 
+While you can have both jobs defined in the same workflow file, the deploy job as configured in the `remote` example will always be listed as skipped in the PR check suite status.
+
+That's added noise providing no value to the review process, and as you cannot share common snippets like the build process (unless you upload and download artifacts across jobs) it can be better to manage as separate workflows instead:
+
+```yaml title="documentation-pr.yml"
+name: 'Docs (PR)'
+
+on:
+  pull:
+    branches:
+      - documentation
+    paths:
+      - '.github/workflows/documentation-pr.yml'
+      - 'website/**'
+
+jobs:
+  verify:
+    name: 'Verify Build'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-website-
+
+      - name: Install dependencies
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
+      - name: Verify docs build successfully
+        working-directory: website
+        run: yarn build
+```
+
 </TabItem>
 <TabItem value="remote">
 
