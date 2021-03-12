@@ -268,6 +268,14 @@ const users = [
     tags: ['highlight', 'design', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Gladys Assistant',
+    description: 'A privacy-first, open-source home assistant',
+    preview: require('./showcase/gladys-assistant.png'),
+    website: 'https://gladysassistant.com/',
+    source: 'https://github.com/GladysAssistant/v4-website',
+    tags: ['i18n'],
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
