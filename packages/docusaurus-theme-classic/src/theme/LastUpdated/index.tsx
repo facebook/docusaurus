@@ -8,6 +8,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
+import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
@@ -15,7 +16,7 @@ function LastUpdatedAtDate({
 }: {
   lastUpdatedAt: number;
   formattedLastUpdatedAt: string;
-}) {
+}): JSX.Element {
   return (
     <Translate
       id="theme.lastUpdated.atDate"
@@ -34,7 +35,11 @@ function LastUpdatedAtDate({
   );
 }
 
-function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
+function LastUpdatedByUser({
+  lastUpdatedBy,
+}: {
+  lastUpdatedBy: string;
+}): JSX.Element {
   return (
     <Translate
       id="theme.lastUpdated.byUser"
@@ -51,11 +56,7 @@ export default function LastUpdated({
   lastUpdatedAt,
   formattedLastUpdatedAt,
   lastUpdatedBy,
-}: {
-  lastUpdatedAt: number | undefined;
-  formattedLastUpdatedAt: string | undefined;
-  lastUpdatedBy: string | undefined;
-}) {
+}: Props): JSX.Element {
   return (
     <div className="col text--right">
       <em>
