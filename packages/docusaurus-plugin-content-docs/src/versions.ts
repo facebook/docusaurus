@@ -165,18 +165,18 @@ function getVersionMetadataPaths({
   options: Pick<PluginOptions, 'id' | 'path' | 'sidebarPath'>;
 }): Pick<
   VersionMetadata,
-  'docsDirPath' | 'docsDirPathLocalized' | 'sidebarFilePath'
+  'contentPath' | 'contentPathLocalized' | 'sidebarFilePath'
 > {
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
 
-  const docsDirPath = isCurrentVersion
+  const contentPath = isCurrentVersion
     ? path.resolve(context.siteDir, options.path)
     : path.join(
         getVersionedDocsDirPath(context.siteDir, options.id),
         `version-${versionName}`,
       );
 
-  const docsDirPathLocalized = getDocsDirPathLocalized({
+  const contentPathLocalized = getDocsDirPathLocalized({
     siteDir: context.siteDir,
     locale: context.i18n.currentLocale,
     pluginId: options.id,
@@ -190,17 +190,17 @@ function getVersionMetadataPaths({
         `version-${versionName}-sidebars.json`,
       );
 
-  return {docsDirPath, docsDirPathLocalized, sidebarFilePath};
+  return {contentPath, contentPathLocalized, sidebarFilePath};
 }
 
 function getVersionEditUrls({
-  docsDirPath,
-  docsDirPathLocalized,
+  contentPath,
+  contentPathLocalized,
   context: {siteDir, i18n},
   options: {id, path: currentVersionPath, editUrl, editCurrentVersion},
 }: {
-  docsDirPath: string;
-  docsDirPathLocalized: string;
+  contentPath: string;
+  contentPathLocalized: string;
   context: Pick<LoadContext, 'siteDir' | 'i18n'>;
   options: Pick<
     PluginOptions,
@@ -217,7 +217,7 @@ function getVersionEditUrls({
     return undefined;
   }
 
-  const editDirPath = editCurrentVersion ? currentVersionPath : docsDirPath;
+  const editDirPath = editCurrentVersion ? currentVersionPath : contentPath;
   const editDirPathLocalized = editCurrentVersion
     ? getDocsDirPathLocalized({
         siteDir,
@@ -225,7 +225,7 @@ function getVersionEditUrls({
         versionName: CURRENT_VERSION_NAME,
         pluginId: id,
       })
-    : docsDirPathLocalized;
+    : contentPathLocalized;
 
   const versionPathSegment = posixPath(
     path.relative(siteDir, path.resolve(siteDir, editDirPath)),
@@ -269,8 +269,8 @@ function createVersionMetadata({
 }): VersionMetadata {
   const {
     sidebarFilePath,
-    docsDirPath,
-    docsDirPathLocalized,
+    contentPath,
+    contentPathLocalized,
   } = getVersionMetadataPaths({
     versionName,
     context,
@@ -298,8 +298,8 @@ function createVersionMetadata({
   ]);
 
   const versionEditUrls = getVersionEditUrls({
-    docsDirPath,
-    docsDirPathLocalized,
+    contentPath,
+    contentPathLocalized,
     context,
     options,
   });
@@ -316,8 +316,8 @@ function createVersionMetadata({
     isLast,
     routePriority,
     sidebarFilePath,
-    docsDirPath,
-    docsDirPathLocalized,
+    contentPath,
+    contentPathLocalized,
   };
 }
 
@@ -328,14 +328,14 @@ function checkVersionMetadataPaths({
   versionMetadata: VersionMetadata;
   context: Pick<LoadContext, 'siteDir'>;
 }) {
-  const {versionName, docsDirPath, sidebarFilePath} = versionMetadata;
+  const {versionName, contentPath, sidebarFilePath} = versionMetadata;
   const {siteDir} = context;
 
-  if (!fs.existsSync(docsDirPath)) {
+  if (!fs.existsSync(contentPath)) {
     throw new Error(
       `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${path.relative(
         siteDir,
-        docsDirPath,
+        contentPath,
       )}`,
     );
   }
@@ -483,8 +483,8 @@ export function readVersionsMetadata({
 export function getDocsDirPaths(
   versionMetadata: Pick<
     VersionMetadata,
-    'docsDirPath' | 'docsDirPathLocalized'
+    'contentPath' | 'contentPathLocalized'
   >,
 ): [string, string] {
-  return [versionMetadata.docsDirPathLocalized, versionMetadata.docsDirPath];
+  return [versionMetadata.contentPathLocalized, versionMetadata.contentPath];
 }

@@ -67,23 +67,23 @@ async function readLastUpdateData(
 export async function readDocFile(
   versionMetadata: Pick<
     VersionMetadata,
-    'docsDirPath' | 'docsDirPathLocalized'
+    'contentPath' | 'contentPathLocalized'
   >,
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const docsDirPath = await getFolderContainingFile(
+  const contentPath = await getFolderContainingFile(
     getDocsDirPaths(versionMetadata),
     source,
   );
 
-  const filePath = path.join(docsDirPath, source);
+  const filePath = path.join(contentPath, source);
 
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),
     readLastUpdateData(filePath, options),
   ]);
-  return {source, content, lastUpdate, docsDirPath, filePath};
+  return {source, content, lastUpdate, contentPath, filePath};
 }
 
 export async function readVersionDocs(
@@ -94,7 +94,7 @@ export async function readVersionDocs(
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
-    cwd: versionMetadata.docsDirPath,
+    cwd: versionMetadata.contentPath,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source, options)),
@@ -112,7 +112,7 @@ export function processDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
 }): DocMetadataBase {
-  const {source, content, lastUpdate, docsDirPath, filePath} = docFile;
+  const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
@@ -170,20 +170,20 @@ export function processDocMetadata({
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 
   function getDocEditUrl() {
-    const relativeFilePath = path.relative(docsDirPath, filePath);
+    const relativeFilePath = path.relative(contentPath, filePath);
 
     if (typeof options.editUrl === 'function') {
       return options.editUrl({
         version: versionMetadata.versionName,
         versionDocsDirPath: posixPath(
-          path.relative(siteDir, versionMetadata.docsDirPath),
+          path.relative(siteDir, versionMetadata.contentPath),
         ),
         docPath: posixPath(relativeFilePath),
         permalink,
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
-      const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
+      const isLocalized = contentPath === versionMetadata.contentPathLocalized;
       const baseVersionEditUrl =
         isLocalized && options.editLocalizedFiles
           ? versionMetadata.versionEditUrlLocalized
