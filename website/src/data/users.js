@@ -583,6 +583,14 @@ const users = [
     tags: [],
   },
   {
+    title: 'Realtime Web Applications Workshop',
+    description: 'A workshop about building realtime web applications with WebSockets and WebRTC.',
+    preview: require('./showcase/realtime-apps-workshop.png'),
+    website: 'https://realtime-apps-iap.github.io',
+    source: 'https://github.com/realtime-apps-iap/realtime-apps-iap.github.io',
+    tags: [],
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
