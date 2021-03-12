@@ -142,6 +142,119 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 
 This workflow assumes your documentation resides in the `documentation` branch of your repository and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch.
 
+Below are two approaches to deploying your docs with GitHub Actions. Follow the example based on if your deployment branch (eg `gh-pages`) is in:
+
+- The **`same`** repository as your documentation source.
+- A **`remote`** repository different from your documentation source.
+
+````mdx-code-block
+<Tabs
+  defaultValue="same"
+  values={[
+    { label: 'Same', value: 'same' },
+    { label: 'Remote', value: 'remote' }
+]}>
+<TabItem value="same">
+
+```yaml title="documentation-push.yml"
+# Appears in various parts of the Github UI usually with the job name appended.
+# (eg Project 'Actions' tab, PR check suite status)
+name: 'Docs (Github Pages)'
+
+on:
+  # Allows you to manually trigger the workflow for a commit
+  # (based on this workflow contents at that commit):
+  workflow_dispatch:
+  # Build docs pushed to the `documentation` branch - *if* the the trigger affects
+  # this workflow or files within the `website` directory:
+  push:
+    branches:
+      - documentation
+    paths:
+      - '.github/workflows/documentation-push.yml'
+      - 'website/**'
+    # OPTIONAL: Build docs when you push a tag with `v<Major>.<Minor>` substring in the tag name
+    # NOTE: branches and paths conditions above have no affect on tags trigger:
+    tags:
+      - 'v[0-9]+.[0-9]+*'
+
+# Jobs will run shell commands from this subdirectory by default:
+defaults:
+  run:
+    working-directory: website
+
+# As this workflow example only uses these credentials once, you could instead inline them where they're used.
+env:
+  # Assign commit authorship to official Github Actions bot when pushing to the `gh-pages` branch:
+  # https://github.com/actions/checkout/issues/13#issuecomment-724415212
+  # https://api.github.com/users/github-actions%5Bbot%5D
+  GIT_USER: 'github-actions[bot]'
+  GIT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
+
+# Jobs run in parallel unless you create a `needs` dependency on another job.
+# Careful of causing race conditions by triggering multiple jobs that could
+# try push to the same branch with conflicting changes.
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-20.04
+    steps:
+      # By default performs a shallow clone (project state from that commit):
+      # (If you need history or other metadata from git, enable `with.fetch-depth: 0`)
+      # Docs: https://github.com/marketplace/actions/checkout
+      - uses: actions/checkout@v2
+
+      # Installs v14 LTS of Node:
+      # (Uses cached version that Github replaces bi-weekly with latest updates for that version of Node)
+      # Docs: https://github.com/marketplace/actions/setup-node-js-environment
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      # Cache the yarn cache dir to speed up builds if dependencies haven't changed:
+      # (Caches are deleted if they've not been used in the past 7 days,
+      # or the total cache limit of 5GB is exceeded (oldest cache data is evicted first)).
+      # Docs: https://github.com/actions/cache
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
+          # OPTIONAL: If the cache key does not have a match, `restore-keys` will check for
+          # previous cache keys with the given prefix and choose the most recent cache:
+          # https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
+          restore-keys: ${{ runner.os }}-website-
+
+      # Install project dependencies, then run the build script from `package.json`:
+      # (Outputs static docs for hosting to `website/build/`)
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+
+      # Popular action to deploy to gh-pages:
+      # Docs: https://github.com/peaceiris/actions-gh-pages
+      - name: 'Deploy to Github Pages'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # Generated per workflow run, provides automatic auth to push:
+          # Docs: https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Build directory contents to publish to the `gh-pages` branch:
+          publish_dir: ./website/build
+          # OPTIONAL: Directory to place `publish_dir` contents on the `gh-pages` branch:
+          # (Defaults to root of project, removes contents at target dir by default)
+          # destination_dir: ${{ env.DOCS_VERSION }}
+          user_name: ${{ env.GIT_USER }}
+          user_email: ${{ env.GIT_EMAIL }}
+```
+
+</TabItem>
+<TabItem value="remote">
+
 1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 2. By default your public key should have been created in `~/.ssh/id_rsa.pub`, or use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
 3. Copy the key to the clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy the file contents if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
@@ -204,6 +317,10 @@ jobs:
           fi
           npm run deploy
 ```
+
+</TabItem>
+</Tabs>
+````
 
 1. Now when a new pull request is made to your repository branch `documentation`, it will automatically ensure that the Docusaurus build is successful.
 2. When a pull request is merged to the `documentation` branch or someone pushes to the `documentation` branch directly it will be built and deployed to the `gh-pages` branch.
