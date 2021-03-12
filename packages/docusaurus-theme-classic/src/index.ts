@@ -10,7 +10,7 @@ import {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
-import postcss, {Root as PostCssRoot} from 'postcss';
+import type {AcceptedPlugin, Result, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
@@ -156,29 +156,22 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions) {
+    configurePostCss(postCssOptions: {plugins: AcceptedPlugin[]}) {
       if (direction === 'rtl') {
-        postCssOptions.plugins.push(
-          postcss.plugin('RtlCssPlugin', () => {
-            const resolvedInfimaFile = require.resolve(
-              getInfimaCSSFile(direction),
-            );
-            function isInfimaCSSFile(file?: string) {
-              return file === resolvedInfimaFile;
+        const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
+        const plugin: PostCssPlugin = {
+          postcssPlugin: 'RtlCssPlugin',
+          prepare: (result: Result) => {
+            const file = result.root?.source?.input?.file;
+            // Skip Infima as we are using the its RTL version.
+            if (file === resolvedInfimaFile) {
+              return {};
             }
+            return rtlcss(result.root);
+          },
+        };
 
-            return function (root: PostCssRoot) {
-              const file = root?.source?.input.file;
-
-              // Skip Infima as we are using the its RTL version.
-              if (isInfimaCSSFile(file)) {
-                return;
-              }
-
-              rtlcss.process(root);
-            };
-          }),
-        );
+        postCssOptions.plugins.push(plugin);
       }
 
       return postCssOptions;
