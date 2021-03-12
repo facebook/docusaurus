@@ -13,7 +13,6 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import {ValidationError} from 'joi';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
 
@@ -89,14 +88,10 @@ export const OptionsSchema = Joi.object({
   versions: VersionsOptionsSchema,
 });
 
-// TODO bad validation function types
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   // TODO remove homePageId before end of 2020
   // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
@@ -118,8 +113,7 @@ export function validateOptions({
     options.includeCurrentVersion = !options.excludeNextVersionDocs;
   }
 
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  const normalizedOptions: PluginOptions = validate(OptionsSchema, options);
+  const normalizedOptions = validate(OptionsSchema, options);
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
@@ -127,6 +121,5 @@ export function validateOptions({
     ]);
   }
 
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
   return normalizedOptions;
 }

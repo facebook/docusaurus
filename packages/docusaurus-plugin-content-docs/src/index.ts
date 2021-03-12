@@ -42,7 +42,6 @@ import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
@@ -54,7 +53,7 @@ import {
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent, typeof OptionsSchema> {
+): Plugin<LoadedContent> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
