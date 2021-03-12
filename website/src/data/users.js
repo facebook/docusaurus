@@ -273,7 +273,7 @@ const users = [
     preview: require('./showcase/gladys-assistant.png'),
     website: 'https://gladysassistant.com/',
     source: 'https://github.com/GladysAssistant/v4-website',
-    tags: ['design', 'large'],
+    tags: ['i18n'],
   },
   {
     title: 'GraphQL Code Generator',
