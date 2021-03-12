@@ -13,6 +13,12 @@ i18n is a new feature (released early 2021), please report any bug you find.
 
 :::
 
+:::caution
+
+i18n requires Node 13+ to build or Node 12 with [full-icu](https://www.npmjs.com/package/full-icu).
+
+:::
+
 ## Goals
 
 It is important to understand the **design decisions** behind the Docusaurus i18n support.
