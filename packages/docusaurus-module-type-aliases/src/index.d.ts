@@ -157,10 +157,34 @@ declare module '@docusaurus/useDocusaurusContext' {
 }
 
 declare module '@docusaurus/useBaseUrl' {
-  export default function (
+  export default function useBaseUrl(
     relativePath: string | undefined,
     opts?: {absolute?: true; forcePrependBaseUrl?: true},
   ): string;
+}
+
+declare module '@docusaurus/ExecutionEnvironment' {
+  const ExecutionEnvironment: {
+    canUseDOM: boolean;
+    canUseEventListeners: boolean;
+    canUseIntersectionObserver: boolean;
+    canUseViewport: boolean;
+  };
+  export default ExecutionEnvironment;
+}
+
+declare module '@docusaurus/BrowserOnly' {
+  export type Props = {
+    children?: () => JSX.Element;
+    fallback?: JSX.Element;
+  };
+  const BrowserOnly: (props: Props) => JSX.Element | null;
+  export default BrowserOnly;
+}
+
+declare module '@docusaurus/isInternalUrl' {
+  export function hasProtocol(url: string): boolean;
+  export default function isInternalUrl(url?: string): boolean;
 }
 
 declare module '*.module.css' {
