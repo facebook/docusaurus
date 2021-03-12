@@ -12,7 +12,7 @@ With an example site deployed, we can now try out one of the killer features of 
 Assume you are happy with the current state of the documentation and want to freeze it as the v1.0.0 docs. First you `cd` to the `website` directory and run the following command.
 
 ```sh
-npm run examples versions
+npm run examples version
 ```
 
 That command generates a `versions.json` file, which will be used to list down all the versions of docs in the project.
