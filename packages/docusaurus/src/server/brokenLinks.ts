@@ -48,7 +48,9 @@ function getPageBrokenLinks({
   }
 
   function isBrokenLink(link: string) {
-    const matchedRoutes = matchRoutes(toReactRouterRoutes(routes), link);
+    const matchedRoutes = [link, decodeURI(link)]
+      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
+      .reduce((prev, cur) => prev.concat(cur));
     return matchedRoutes.length === 0;
   }
 
