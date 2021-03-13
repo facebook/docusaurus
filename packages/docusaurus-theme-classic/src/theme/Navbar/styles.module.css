@@ -18,8 +18,3 @@
 .navbarHidden {
   transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
 }
-
-/* Fix it in new version of Infima */
-:global(.navbar__toggle) {
-  color: inherit;
-}
