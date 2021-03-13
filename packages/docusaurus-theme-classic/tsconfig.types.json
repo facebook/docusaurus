@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "amd",
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "noImplicitAny": false,
+    "jsx": "react",
+    "baseUrl": "src",
+    "outFile": "./.tmp.d.ts"
+  },
+  "include": ["src/"]
+}

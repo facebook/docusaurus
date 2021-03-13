@@ -8,16 +8,21 @@
 import {useState, useCallback, useEffect} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {useThemeReturns} from '@theme/hooks/useTheme';
 import {useThemeConfig} from '@docusaurus/theme-common';
+
+export type useThemeReturns = {
+  readonly isDarkTheme: boolean;
+  readonly setLightTheme: () => void;
+  readonly setDarkTheme: () => void;
+};
 
 const themes = {
   light: 'light',
   dark: 'dark',
-};
+} as const;
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme) => {
+const coerceToTheme = (theme: string | null) => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 

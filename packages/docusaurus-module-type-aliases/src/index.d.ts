@@ -75,7 +75,7 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   type RRLinkProps = Partial<import('react-router-dom').LinkProps>;
-  type LinkProps = RRLinkProps & {
+  export type LinkProps = RRLinkProps & {
     to?: string;
     activeClassName?: string;
     isNavLink?: boolean;

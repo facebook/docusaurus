@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
-import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 
@@ -47,6 +46,10 @@ function Headings({
     </ul>
   );
 }
+
+export type TOCProps = {
+  readonly toc: readonly TOCItem[];
+};
 
 function TOC({toc}: TOCProps): JSX.Element {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);

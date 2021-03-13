@@ -6,17 +6,26 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  NavLinkProps,
+  Props as DefaultNavbarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import {
   useVersions,
   useLatestVersion,
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
-import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
+
+export type Props = DefaultNavbarItemProps & {
+  readonly docsPluginId?: string;
+  readonly dropdownActiveClassDisabled?: boolean;
+  readonly dropdownItemsBefore: NavLinkProps[];
+  readonly dropdownItemsAfter: NavLinkProps[];
+};
 
 export default function DocsVersionDropdownNavbarItem({
   mobile,

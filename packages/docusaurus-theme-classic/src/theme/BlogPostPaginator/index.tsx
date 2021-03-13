@@ -8,7 +8,10 @@
 import React from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
-import type {Props} from '@theme/BlogPostPaginator';
+
+type Item = {readonly title: string; readonly permalink: string};
+
+export type Props = {readonly nextItem?: Item; readonly prevItem?: Item};
 
 function BlogPostPaginator(props: Props): JSX.Element {
   const {nextItem, prevItem} = props;

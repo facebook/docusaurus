@@ -7,14 +7,16 @@
 
 /* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import clsx from 'clsx';
-import type {HeadingType, Props} from '@theme/Heading';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
 import './styles.css';
 import styles from './styles.module.css';
+
+export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type Props = ComponentProps<HeadingType>;
 
 const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {

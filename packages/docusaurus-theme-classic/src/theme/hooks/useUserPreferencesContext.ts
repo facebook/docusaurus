@@ -8,7 +8,13 @@
 import {useContext} from 'react';
 
 import UserPreferencesContext from '@theme/UserPreferencesContext';
-import type {UserPreferencesContextProps} from '@theme/hooks/useUserPreferencesContext';
+
+export type UserPreferencesContextProps = {
+  tabGroupChoices: {readonly [groupId: string]: string};
+  setTabGroupChoices: (groupId: string, newChoice: string) => void;
+  isAnnouncementBarClosed: boolean;
+  closeAnnouncementBar: () => void;
+};
 
 function useUserPreferencesContext(): UserPreferencesContextProps {
   const context = useContext<UserPreferencesContextProps | undefined>(

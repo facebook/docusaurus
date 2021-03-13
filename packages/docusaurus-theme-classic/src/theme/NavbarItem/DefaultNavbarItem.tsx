@@ -5,17 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useEffect} from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ReactNode,
+  ComponentProps,
+} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
 import {isSamePath} from '@docusaurus/theme-common';
-import type {
-  NavLinkProps,
-  DesktopOrMobileNavBarItemProps,
-  Props,
-} from '@theme/NavbarItem/DefaultNavbarItem';
+
+export type NavLinkProps = {
+  activeBasePath?: string;
+  activeBaseRegex?: string;
+  to?: string;
+  exact?: boolean;
+  href?: string;
+  label?: ReactNode;
+  activeClassName?: string;
+  prependBaseUrlToHref?: string;
+  isActive?: () => boolean;
+} & ComponentProps<'a'>;
+
+export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  readonly items?: readonly NavLinkProps[];
+  readonly position?: 'left' | 'right';
+  readonly className?: string;
+};
 
 function NavLink({
   activeBasePath,
@@ -216,6 +235,10 @@ function NavItemMobile({
     </li>
   );
 }
+
+export type Props = DesktopOrMobileNavBarItemProps & {
+  readonly mobile?: boolean;
+};
 
 function DefaultNavbarItem({mobile = false, ...props}: Props): JSX.Element {
   const Comp = mobile ? NavItemMobile : NavItemDesktop;

@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/NavbarItem/SearchNavbarItem';
 import SearchBar from '@theme/SearchBar';
 import styles from './styles.module.css';
+
+export type Props = {readonly mobile?: boolean};
 
 export default function SearchNavbarItem({mobile}: Props): JSX.Element | null {
   if (mobile) {

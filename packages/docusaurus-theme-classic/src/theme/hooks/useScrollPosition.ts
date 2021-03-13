@@ -7,7 +7,8 @@
 
 import {useState, useEffect} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {ScrollPosition} from '@theme/hooks/useScrollPosition';
+
+export type ScrollPosition = {scrollX: number; scrollY: number};
 
 const getScrollPosition = (): ScrollPosition => ({
   scrollX: ExecutionEnvironment.canUseDOM ? window.pageXOffset : 0,
@@ -16,7 +17,7 @@ const getScrollPosition = (): ScrollPosition => ({
 
 const useScrollPosition = (
   effect?: (position: ScrollPosition) => void,
-  deps = [],
+  deps: unknown[] = [],
 ): ScrollPosition => {
   const [scrollPosition, setScrollPosition] = useState(getScrollPosition());
 

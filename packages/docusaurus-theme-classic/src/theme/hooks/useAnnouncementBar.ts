@@ -7,7 +7,11 @@
 
 import {useState, useEffect, useCallback} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnouncementBar';
+
+export type useAnnouncementBarReturns = {
+  readonly isAnnouncementBarClosed: boolean;
+  readonly closeAnnouncementBar: () => void;
+};
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
 const STORAGE_ID_KEY = 'docusaurus.announcement.id';

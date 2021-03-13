@@ -8,8 +8,9 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Translate from '@docusaurus/Translate';
+import type {Props} from '@theme/DocPage';
 
-function NotFound(): JSX.Element {
+function NotFound(_props: Props): JSX.Element {
   return (
     <Layout title="Page Not Found">
       <main className="container margin-vert--xl">

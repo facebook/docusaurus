@@ -6,13 +6,16 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  Props as DefaultNavbarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
-import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
+
+export type Props = DefaultNavbarItemProps & {readonly docsPluginId?: string};
 
 export default function DocsVersionNavbarItem({
   label: staticLabel,

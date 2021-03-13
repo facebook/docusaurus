@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
 import {DocsPreferredVersionContextProvider} from '@docusaurus/theme-common';
-import type {Props} from '@theme/LayoutProviders';
+
+export type Props = {readonly children: ReactNode};
 
 export default function LayoutProviders({children}: Props): JSX.Element {
   return (

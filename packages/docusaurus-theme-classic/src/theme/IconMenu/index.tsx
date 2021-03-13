@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import type {Props} from '@theme/IconMenu';
+import React, {ComponentProps} from 'react';
+
+export type Props = ComponentProps<'svg'>;
 
 const IconMenu = ({
   width = 30,

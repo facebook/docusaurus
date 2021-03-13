@@ -14,11 +14,11 @@ import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
-import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import IconMenu from '@theme/IconMenu';
 import {translate} from '@docusaurus/Translate';
+import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
 
 import styles from './styles.module.css';
 
@@ -181,6 +181,14 @@ function DocSidebarItem(props): JSX.Element {
       return <DocSidebarItemLink {...props} />;
   }
 }
+
+export type Props = {
+  readonly path: string;
+  readonly sidebar: readonly PropSidebarItem[];
+  readonly sidebarCollapsible?: boolean;
+  readonly onCollapse: () => void;
+  readonly isHidden: boolean;
+};
 
 function DocSidebar({
   path,

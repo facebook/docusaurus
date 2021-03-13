@@ -6,10 +6,15 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  Props as DefaultNavbarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
-import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
-import type {Props} from '@theme/NavbarItem';
+import SearchNavbarItem, {
+  Props as SearchNavbarItemProps,
+} from '@theme/NavbarItem/SearchNavbarItem';
+import {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
 
 const NavbarItemComponents = {
   default: () => DefaultNavbarItem,
@@ -38,6 +43,14 @@ const getNavbarItemComponent = (
   }
   return navbarItemComponent();
 };
+
+export type Props =
+  | ({readonly type?: 'default' | undefined} & DefaultNavbarItemProps)
+  | ({
+      readonly type: 'docsVersionDropdown';
+    } & DocsVersionDropdownNavbarItemProps)
+  | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+  | ({readonly type: 'search'} & SearchNavbarItemProps);
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const NavbarItemComponent = getNavbarItemComponent(type);

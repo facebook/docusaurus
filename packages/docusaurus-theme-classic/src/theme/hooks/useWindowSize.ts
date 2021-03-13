@@ -8,7 +8,6 @@
 import {useEffect, useState} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {WindowSize} from '@theme/hooks/useWindowSize';
 
 const desktopThresholdWidth = 996;
 
@@ -16,6 +15,8 @@ const windowSizes = {
   desktop: 'desktop',
   mobile: 'mobile',
 } as const;
+
+export type WindowSize = keyof typeof windowSizes;
 
 function useWindowSize(): WindowSize | undefined {
   const isClient = ExecutionEnvironment.canUseDOM;

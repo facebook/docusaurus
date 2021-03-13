@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import clsx from 'clsx';
 
-import type {Props} from '@theme/IconEdit';
-
 import styles from './styles.module.css';
+
+export type Props = ComponentProps<'svg'>;
 
 const IconEdit = ({className, ...restProps}: Props): JSX.Element => {
   return (

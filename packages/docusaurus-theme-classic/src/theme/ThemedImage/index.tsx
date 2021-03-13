@@ -5,12 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import clsx from 'clsx';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
-import type {Props} from '@theme/ThemedImage';
+
+export type Props = {
+  readonly sources: {
+    readonly light: string;
+    readonly dark: string;
+  };
+} & Omit<ComponentProps<'img'>, 'src'>;
 
 import styles from './styles.module.css';
 

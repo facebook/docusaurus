@@ -6,7 +6,11 @@
  */
 
 import {useState, useCallback, useEffect} from 'react';
-import type {useTabGroupChoiceReturns} from '@theme/hooks/useTabGroupChoice';
+
+export type useTabGroupChoiceReturns = {
+  readonly tabGroupChoices: {readonly [groupId: string]: string};
+  readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
+};
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 

@@ -6,7 +6,10 @@
  */
 
 import {createContext} from 'react';
+import {UserPreferencesContextProps} from '@theme/hooks/useUserPreferencesContext';
 
-const UserPreferencesContext = createContext(undefined);
+const UserPreferencesContext = createContext<
+  UserPreferencesContextProps | undefined
+>(undefined);
 
 export default UserPreferencesContext;

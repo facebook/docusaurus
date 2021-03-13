@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {CSSProperties} from 'react';
+import React, {ComponentProps, CSSProperties} from 'react';
 import Toggle from 'react-toggle';
-import type {Props} from '@theme/Toggle';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -29,6 +28,8 @@ const Light = ({icon, style}: IconProps): JSX.Element => (
     {icon}
   </span>
 );
+
+export type Props = ComponentProps<typeof Toggle>;
 
 export default function (props: Props): JSX.Element {
   const {

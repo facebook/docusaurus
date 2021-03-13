@@ -7,7 +7,6 @@
 
 import React, {useState, cloneElement, Children, ReactElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
@@ -25,6 +24,16 @@ const keys = {
   left: 37,
   right: 39,
 } as const;
+
+export type Props = {
+  readonly lazy?: boolean;
+  readonly block?: boolean;
+  readonly children: readonly ReactElement<TabItemProps>[];
+  readonly defaultValue?: string;
+  readonly values: readonly {value: string; label: string}[];
+  readonly groupId?: string;
+  readonly className?: string;
+};
 
 function Tabs(props: Props): JSX.Element {
   const {lazy, block, defaultValue, values, groupId, className} = props;

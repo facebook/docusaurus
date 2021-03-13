@@ -5,11 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
-import type {MDXComponentsObject} from '@theme/MDXComponents';
+
+export type MDXComponentsObject = {
+  readonly code: typeof CodeBlock;
+  readonly a: (props: ComponentProps<'a'>) => JSX.Element;
+  readonly pre: typeof CodeBlock;
+  readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;
+  readonly h2: (props: ComponentProps<'h2'>) => JSX.Element;
+  readonly h3: (props: ComponentProps<'h3'>) => JSX.Element;
+  readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
+  readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
+  readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
+};
 
 const MDXComponents: MDXComponentsObject = {
   code: (props) => {

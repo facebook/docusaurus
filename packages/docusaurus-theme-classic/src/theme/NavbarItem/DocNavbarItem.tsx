@@ -6,11 +6,18 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  Props as DefaultNavbarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
-import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+
+export type Props = DefaultNavbarItemProps & {
+  readonly docId: string;
+  readonly activeSidebarClassName: string;
+  readonly docsPluginId?: string;
+};
 
 export default function DocNavbarItem({
   docId,

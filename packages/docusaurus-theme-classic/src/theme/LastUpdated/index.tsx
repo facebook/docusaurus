@@ -8,7 +8,6 @@
 import React from 'react';
 import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
-import type {Props} from '@theme/LastUpdated';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
@@ -51,6 +50,12 @@ function LastUpdatedByUser({
     </Translate>
   );
 }
+
+export type Props = {
+  lastUpdatedAt?: number;
+  formattedLastUpdatedAt?: string;
+  lastUpdatedBy?: string;
+};
 
 export default function LastUpdated({
   lastUpdatedAt,

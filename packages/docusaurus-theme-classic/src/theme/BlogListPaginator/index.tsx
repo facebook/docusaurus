@@ -8,7 +8,9 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
-import type {Props} from '@theme/BlogListPaginator';
+import type {Metadata} from '@theme/BlogListPage';
+
+export type Props = {readonly metadata: Metadata};
 
 function BlogListPaginator(props: Props): JSX.Element {
   const {metadata} = props;

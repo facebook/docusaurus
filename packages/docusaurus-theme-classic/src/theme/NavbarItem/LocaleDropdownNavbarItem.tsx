@@ -6,11 +6,18 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  NavLinkProps,
+  Props as DefaultNavbarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import IconLanguage from '@theme/IconLanguage';
-import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
+
+export type Props = DefaultNavbarItemProps & {
+  readonly dropdownItemsBefore: NavLinkProps[];
+  readonly dropdownItemsAfter: NavLinkProps[];
+};
 
 export default function LocaleDropdownNavbarItem({
   mobile,

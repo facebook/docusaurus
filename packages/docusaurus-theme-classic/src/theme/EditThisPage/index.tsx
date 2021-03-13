@@ -8,8 +8,11 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 
-import type {Props} from '@theme/EditThisPage';
 import IconEdit from '@theme/IconEdit';
+
+export type Props = {
+  readonly editUrl: string;
+};
 
 export default function EditThisPage({editUrl}: Props): JSX.Element {
   return (

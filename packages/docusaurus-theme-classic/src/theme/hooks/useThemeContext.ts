@@ -8,7 +8,12 @@
 import {useContext} from 'react';
 
 import ThemeContext from '@theme/ThemeContext';
-import type {ThemeContextProps} from '@theme/hooks/useThemeContext';
+
+export type ThemeContextProps = {
+  isDarkTheme: boolean;
+  setLightTheme: () => void;
+  setDarkTheme: () => void;
+};
 
 function useThemeContext(): ThemeContextProps {
   const context = useContext<ThemeContextProps | undefined>(ThemeContext);

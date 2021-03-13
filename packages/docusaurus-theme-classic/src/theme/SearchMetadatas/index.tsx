@@ -6,9 +6,13 @@
  */
 
 import React from 'react';
-
 import Head from '@docusaurus/Head';
-import type {Props} from '@theme/SearchMetadatas';
+
+export type Props = {
+  locale?: string;
+  version?: string;
+  tag?: string;
+};
 
 // Note: we don't couple this to Algolia/DocSearch on purpose
 // We may want to support other search engine plugins too

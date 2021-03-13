@@ -8,7 +8,12 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
-import type {Props} from '@theme/DocPaginator';
+
+type PageInfo = {readonly permalink: string; readonly title: string};
+
+export type Props = {
+  readonly metadata: {readonly previous?: PageInfo; readonly next?: PageInfo};
+};
 
 function DocPaginator(props: Props): JSX.Element {
   const {metadata} = props;

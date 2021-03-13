@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {TOCInlineProps} from '@theme/TOCInline';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 
@@ -38,6 +37,10 @@ function HeadingsInline({
     </ul>
   );
 }
+
+export type TOCInlineProps = {
+  readonly toc: readonly TOCItem[];
+};
 
 function TOCInline({toc}: TOCInlineProps): JSX.Element {
   return (

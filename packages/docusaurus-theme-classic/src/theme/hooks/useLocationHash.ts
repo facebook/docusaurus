@@ -5,8 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect} from 'react';
-import type {useLocationHashReturns} from '@theme/hooks/useLocationHash';
+import {useState, useEffect, Dispatch, SetStateAction} from 'react';
+
+export type useLocationHashReturns = readonly [
+  string,
+  Dispatch<SetStateAction<string>>,
+];
 
 function useLocationHash(initialHash: string): useLocationHashReturns {
   const [hash, setHash] = useState(initialHash);

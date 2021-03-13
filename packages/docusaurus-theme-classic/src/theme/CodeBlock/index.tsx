@@ -11,11 +11,16 @@ import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
-import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import {useThemeConfig} from '@docusaurus/theme-common';
+
+export type Props = {
+  readonly children: string;
+  readonly className?: string;
+  readonly metastring?: string;
+};
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (

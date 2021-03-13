@@ -16,6 +16,7 @@
   "scripts": {
     "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier:lib-next",
     "watch": "concurrently -n \"lib,lib-next\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\"",
+    "update:types": "tsc -p tsconfig.types.json && node update-types.js && prettier --write \"src/types.d.ts\"",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",

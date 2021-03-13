@@ -12,11 +12,19 @@ import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
 import Seo from '@theme/Seo';
-import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 
 import {usePluralForm} from '@docusaurus/theme-common';
+import {FrontMatter, Metadata} from '@theme/BlogPostPage';
+
+export type Props = {
+  readonly frontMatter: FrontMatter;
+  readonly metadata: Metadata;
+  readonly truncated?: string | boolean;
+  readonly isBlogPostPage?: boolean;
+  readonly children: JSX.Element;
+};
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
