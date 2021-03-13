@@ -188,4 +188,15 @@ function Clock(props) {
 
 <code>test</code>
 
+## direct using of `pre`
+
+<pre>test</pre>
+
+<!-- Multi-line text inside `pre` will turn into one-liner, but it's okay (https://github.com/mdx-js/mdx/issues/1095) -->
+<pre>
+1
+2
+3
+</pre>
+
 ## Custom heading id {#custom}
