@@ -15,6 +15,7 @@ import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
 import {posixPath} from '@docusaurus/utils';
+import {SRC_DIR_NAME} from '../../constants';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -29,6 +30,10 @@ const TranslatableSourceCodeExtension = new Set([
 ]);
 function isTranslatableSourceCodePath(filePath: string): boolean {
   return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
+}
+
+function getSiteSourceCodeFilePaths(siteDir: string): string[] {
+  return [nodePath.join(siteDir, SRC_DIR_NAME)];
 }
 
 function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
@@ -46,26 +51,37 @@ function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
   return codePaths;
 }
 
-async function getSourceCodeFilePaths(
-  plugins: InitPlugin[],
+export async function globSourceCodeFilePaths(
+  dirPaths: string[],
 ): Promise<string[]> {
-  // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
-  // We can use this method as well to know which folders we should try to extract translations from
-  // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const allPathsToWatch = flatten(plugins.map(getPluginSourceCodeFilePaths));
-
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)
-  const allRelativePosixPathsToWatch = allPathsToWatch.map((path) =>
-    posixPath(nodePath.relative(process.cwd(), path)),
+  const globPaths = dirPaths.map((dirPath) =>
+    posixPath(nodePath.relative(process.cwd(), dirPath)),
   );
 
-  const filePaths = await globby(allRelativePosixPathsToWatch);
-
+  const filePaths = await globby(globPaths);
   return filePaths.filter(isTranslatableSourceCodePath);
 }
 
-export async function extractPluginsSourceCodeTranslations(
+async function getSourceCodeFilePaths(
+  siteDir: string,
+  plugins: InitPlugin[],
+): Promise<string[]> {
+  const sitePaths = getSiteSourceCodeFilePaths(siteDir);
+
+  // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
+  // We can use this method as well to know which folders we should try to extract translations from
+  // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
+  const pluginsPaths = flatten(plugins.map(getPluginSourceCodeFilePaths));
+
+  const allPaths = [...sitePaths, ...pluginsPaths];
+
+  return globSourceCodeFilePaths(allPaths);
+}
+
+export async function extractSiteSourceCodeTranslations(
+  siteDir: string,
   plugins: InitPlugin[],
   babelOptions: TransformOptions,
 ): Promise<TranslationFileContent> {
@@ -78,7 +94,8 @@ export async function extractPluginsSourceCodeTranslations(
     }, {});
   }
 
-  const sourceCodeFilePaths = await getSourceCodeFilePaths(plugins);
+  const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);
+
   const sourceCodeFilesTranslations = await extractAllSourceCodeFileTranslations(
     sourceCodeFilePaths,
     babelOptions,
@@ -109,7 +126,7 @@ type SourceCodeFileTranslations = {
   warnings: string[];
 };
 
-async function extractAllSourceCodeFileTranslations(
+export async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
@@ -163,7 +180,7 @@ function extractSourceCodeAstTranslations(
     return `File=${sourceCodeFilePath} at line=${node.loc?.start.line}`;
   }
   function generateCode(node: Node) {
-    return generate(node as any).code;
+    return generate(node).code;
   }
 
   const translations: Record<string, TranslationMessage> = {};
@@ -265,7 +282,10 @@ function extractSourceCodeAstTranslations(
         path.node.callee.name === 'translate'
       ) {
         // console.log('CallExpression', path.node);
-        if (path.node.arguments.length === 1) {
+        if (
+          path.node.arguments.length === 1 ||
+          path.node.arguments.length === 2
+        ) {
           const firstArgPath = path.get('arguments.0') as NodePath;
 
           // evaluation allows translate("x" + "y"); to be considered as translate("xy");
@@ -291,7 +311,7 @@ function extractSourceCodeAstTranslations(
           }
         } else {
           warnings.push(
-            `translate() function only takes 1 arg\n${sourceFileWarningPart(
+            `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
               path.node,
             )}\n${generateCode(path.node)}`,
           );

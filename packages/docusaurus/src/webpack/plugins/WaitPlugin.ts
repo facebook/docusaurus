@@ -21,7 +21,7 @@ export default class WaitPlugin {
     this.filepath = options.filepath;
   }
 
-  apply(compiler: Compiler) {
+  apply(compiler: Compiler): void {
     // Before finishing the compilation step
     compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
       // To prevent 'waitFile' error on waiting non-existing directory

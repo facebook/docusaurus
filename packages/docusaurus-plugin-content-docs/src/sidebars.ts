@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import flatMap from 'lodash.flatmap';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {
@@ -18,7 +17,7 @@ import {
   SidebarItemCategory,
   SidebarItemType,
 } from './types';
-import {mapValues, flatten, difference} from 'lodash';
+import {mapValues, flatten, flatMap, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {

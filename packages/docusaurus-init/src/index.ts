@@ -11,7 +11,7 @@ import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import kebabCase from 'lodash.kebabcase';
+import {kebabCase} from 'lodash';
 
 function hasYarn(): boolean {
   try {

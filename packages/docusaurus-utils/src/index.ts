@@ -9,8 +9,7 @@ import chalk from 'chalk';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import camelCase from 'lodash.camelcase';
-import kebabCase from 'lodash.kebabcase';
+import {camelCase, kebabCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -22,7 +21,7 @@ import {
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
-import {mapValues} from 'lodash';
+import areIntlLocalesSupported from 'intl-locales-supported';
 
 const fileHash = new Map();
 export async function generate(
@@ -633,4 +632,31 @@ export async function readDefaultCodeTranslationMessages({
   }
 
   return {};
+}
+
+export function getDateTimeFormat(locale: string) {
+  return areIntlLocalesSupported([locale])
+    ? global.Intl.DateTimeFormat
+    : // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('intl').DateTimeFormat;
+}
+
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(
+  heading: string,
+): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
 }

@@ -84,16 +84,63 @@ declare module '@docusaurus/Link' {
   export default Link;
 }
 
-declare module '@docusaurus/Translate' {
-  type TranslateProps = {children: string; id?: string; description?: string};
-  const Translate: (props: TranslateProps) => JSX.Element;
-  export default Translate;
+declare module '@docusaurus/Interpolate' {
+  import type {ReactNode} from 'react';
 
-  export function translate(param: {
-    message: string;
+  // TODO use TS template literal feature to make values typesafe!
+  // (requires upgrading TS first)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export type ExtractInterpolatePlaceholders<Str extends string> = string;
+
+  export type InterpolateValues<
+    Str extends string,
+    Value extends ReactNode
+  > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
+
+  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  export function interpolate<Str extends string>(
+    text: Str,
+    values?: InterpolateValues<Str, string | number>,
+  ): string;
+
+  // If values contain any ReactNode, then the return is a ReactNode
+  export function interpolate<Str extends string, Value extends ReactNode>(
+    text: Str,
+    values?: InterpolateValues<Str, Value>,
+  ): ReactNode;
+
+  export type InterpolateProps<Str extends string> = {
+    children: Str;
+    values?: InterpolateValues<Str, ReactNode>;
+  };
+
+  export default function Interpolate<Str extends string>(
+    props: InterpolateProps<Str>,
+  ): JSX.Element;
+}
+
+declare module '@docusaurus/Translate' {
+  import type {
+    InterpolateProps,
+    InterpolateValues,
+  } from '@docusaurus/Interpolate';
+
+  type TranslateProps<Str extends string> = InterpolateProps<Str> & {
     id?: string;
     description?: string;
-  }): string;
+  };
+  export default function Translate<Str extends string>(
+    props: TranslateProps<Str>,
+  ): JSX.Element;
+
+  export function translate<Str extends string>(
+    param: {
+      message: Str;
+      id?: string;
+      description?: string;
+    },
+    values?: InterpolateValues<Str, string | number>,
+  ): string;
 }
 
 declare module '@docusaurus/router' {
@@ -110,10 +157,34 @@ declare module '@docusaurus/useDocusaurusContext' {
 }
 
 declare module '@docusaurus/useBaseUrl' {
-  export default function (
+  export default function useBaseUrl(
     relativePath: string | undefined,
     opts?: {absolute?: true; forcePrependBaseUrl?: true},
   ): string;
+}
+
+declare module '@docusaurus/ExecutionEnvironment' {
+  const ExecutionEnvironment: {
+    canUseDOM: boolean;
+    canUseEventListeners: boolean;
+    canUseIntersectionObserver: boolean;
+    canUseViewport: boolean;
+  };
+  export default ExecutionEnvironment;
+}
+
+declare module '@docusaurus/BrowserOnly' {
+  export type Props = {
+    children?: () => JSX.Element;
+    fallback?: JSX.Element;
+  };
+  const BrowserOnly: (props: Props) => JSX.Element | null;
+  export default BrowserOnly;
+}
+
+declare module '@docusaurus/isInternalUrl' {
+  export function hasProtocol(url: string): boolean;
+  export default function isInternalUrl(url?: string): boolean;
 }
 
 declare module '*.module.css' {

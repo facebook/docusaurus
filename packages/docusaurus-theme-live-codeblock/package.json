@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.70",
+  "version": "2.0.0-alpha.71",
   "description": "Docusaurus live code block component.",
   "main": "src/index.js",
   "publishConfig": {
@@ -13,9 +13,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/core": "2.0.0-alpha.71",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
+    "joi": "^17.4.0",
     "parse-numeric-range": "^1.2.0",
     "prism-react-renderer": "^1.1.1",
     "react-live": "^2.2.3"

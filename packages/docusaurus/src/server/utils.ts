@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import flatMap from 'lodash.flatmap';
+import {flatMap} from 'lodash';
 import {RouteConfig} from '@docusaurus/types';
 
 // Recursively get the final routes (routes with no subroutes)

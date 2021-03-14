@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/init",
-  "version": "2.0.0-alpha.70",
+  "version": "2.0.0-alpha.71",
   "description": "Create Docusaurus apps easily.",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "fs-extra": "^9.1.0",
-    "lodash.kebabcase": "^4.1.1",
+    "lodash": "^4.17.20",
     "prompts": "^2.4.0",
     "semver": "^7.3.4",
     "shelljs": "^0.8.4"

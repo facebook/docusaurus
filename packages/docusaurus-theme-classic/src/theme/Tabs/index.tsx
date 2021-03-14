@@ -14,10 +14,17 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
+function isInViewport(element: HTMLElement): boolean {
+  const {top, left, bottom, right} = element.getBoundingClientRect();
+  const {innerHeight, innerWidth} = window;
+
+  return top >= 0 && right <= innerWidth && bottom <= innerHeight && left >= 0;
+}
+
 const keys = {
   left: 37,
   right: 39,
-};
+} as const;
 
 function Tabs(props: Props): JSX.Element {
   const {lazy, block, defaultValue, values, groupId, className} = props;
@@ -48,6 +55,23 @@ function Tabs(props: Props): JSX.Element {
 
     if (groupId != null) {
       setTabGroupChoices(groupId, selectedTabValue);
+
+      setTimeout(() => {
+        if (isInViewport(selectedTab)) {
+          return;
+        }
+
+        selectedTab.scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        });
+
+        selectedTab.classList.add(styles.tabItemActive);
+        setTimeout(
+          () => selectedTab.classList.remove(styles.tabItemActive),
+          2000,
+        );
+      }, 150);
     }
   };
 
@@ -55,14 +79,16 @@ function Tabs(props: Props): JSX.Element {
     let focusElement;
 
     switch (event.keyCode) {
-      case keys.right:
+      case keys.right: {
         const nextTab = tabRefs.indexOf(event.target) + 1;
         focusElement = tabRefs[nextTab] || tabRefs[0];
         break;
-      case keys.left:
+      }
+      case keys.left: {
         const prevTab = tabRefs.indexOf(event.target) - 1;
         focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
         break;
+      }
       default:
         break;
     }

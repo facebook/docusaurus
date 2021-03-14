@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type BlogContentPaths = {
-  contentPath: string;
-  contentPathLocalized: string;
-};
+import {
+  BrokenMarkdownLink,
+  ContentPaths,
+} from '@docusaurus/utils/lib/markdownLinks';
+
+export type BlogContentPaths = ContentPaths;
 
 export interface BlogContent {
   blogPosts: BlogPost[];
@@ -106,6 +108,7 @@ export interface MetaData {
   source: string;
   description: string;
   date: Date;
+  formattedDate: string;
   tags: (Tag | string)[];
   title: string;
   readingTime?: number;
@@ -141,15 +144,11 @@ export interface TagModule {
   permalink: string;
 }
 
-export type BlogBrokenMarkdownLink = {
-  folderPath: string;
-  filePath: string;
-  link: string;
-};
+export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
 export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  blogPosts: BlogPost[];
+  sourceToPermalink: Record<string, string>;
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };

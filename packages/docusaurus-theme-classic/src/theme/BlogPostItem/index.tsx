@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
 import Seo from '@theme/Seo';
@@ -16,22 +16,30 @@ import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import {usePluralForm} from '@docusaurus/theme-common';
+
+// Very simple pluralization: probably good enough for now
+function useReadingTimePlural() {
+  const {selectMessage} = usePluralForm();
+  return (readingTimeFloat: number) => {
+    const readingTime = Math.ceil(readingTimeFloat);
+    return selectMessage(
+      readingTime,
+      translate(
+        {
+          id: 'theme.blog.post.readingTime.plurals',
+          description:
+            'Pluralized label for "{readingTime} min read". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One min read|{readingTime} min read',
+        },
+        {readingTime},
+      ),
+    );
+  };
+}
 
 function BlogPostItem(props: Props): JSX.Element {
+  const readingTimePlural = useReadingTimePlural();
   const {
     children,
     frontMatter,
@@ -39,7 +47,7 @@ function BlogPostItem(props: Props): JSX.Element {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, permalink, tags, readingTime} = metadata;
+  const {date, formattedDate, permalink, tags, readingTime} = metadata;
   const {author, title, image, keywords} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -49,10 +57,6 @@ function BlogPostItem(props: Props): JSX.Element {
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
-    const match = date.substring(0, 10).split('-');
-    const year = match[0];
-    const month = MONTHS[parseInt(match[1], 10) - 1];
-    const day = parseInt(match[2], 10);
 
     return (
       <header>
@@ -62,8 +66,13 @@ function BlogPostItem(props: Props): JSX.Element {
         </TitleHeading>
         <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year}{' '}
-            {readingTime && <> · {Math.ceil(readingTime)} min read</>}
+            {formattedDate}
+            {readingTime && (
+              <>
+                {' · '}
+                {readingTimePlural(readingTime)}
+              </>
+            )}
           </time>
         </div>
         <div className="avatar margin-vert--md">

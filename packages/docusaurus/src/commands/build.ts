@@ -14,7 +14,7 @@ import {Configuration, Plugin} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
-import {load} from '../server';
+import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {BuildCLIOptions, Props} from '@docusaurus/types';
@@ -28,7 +28,6 @@ import {
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
-import loadConfig from '../server/config';
 
 export default async function build(
   siteDir: string,
@@ -59,8 +58,13 @@ export default async function build(
       throw e;
     }
   }
-
-  const i18n = await loadI18n(loadConfig(siteDir), {
+  const context = await loadContext(siteDir, {
+    customOutDir: cliOptions.outDir,
+    customConfigFilePath: cliOptions.config,
+    locale: cliOptions.locale,
+    localizePath: cliOptions.locale ? false : undefined,
+  });
+  const i18n = await loadI18n(context.siteConfig, {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
@@ -112,6 +116,7 @@ async function buildLocale({
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
+    customConfigFilePath: cliOptions.config,
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });

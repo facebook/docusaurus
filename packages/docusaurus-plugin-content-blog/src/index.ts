@@ -50,6 +50,7 @@ import {
   generateBlogFeed,
   generateBlogPosts,
   getContentPathList,
+  getSourceToPermalink,
 } from './blogUtils';
 
 export default function pluginContentBlog(
@@ -415,7 +416,7 @@ export default function pluginContentBlog(
         siteDir,
         contentPaths,
         truncateMarker,
-        blogPosts,
+        sourceToPermalink: getSourceToPermalink(blogPosts),
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (onBrokenMarkdownLinks === 'ignore') {
             return;

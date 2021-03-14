@@ -9,15 +9,14 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import chalk from 'chalk';
 import path from 'path';
-import {resolve} from 'url';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
+import {keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
   DateLink,
   BlogContentPaths,
-  BlogBrokenMarkdownLink,
   BlogMarkdownLoaderOptions,
 } from './types';
 import {
@@ -27,12 +26,22 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
+  getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
-import {keyBy} from 'lodash';
+import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
+}
+
+export function getSourceToPermalink(
+  blogPosts: BlogPost[],
+): Record<string, string> {
+  return mapValues(
+    keyBy(blogPosts, (item) => item.metadata.source),
+    (v) => v.metadata.permalink,
+  );
 }
 
 // YYYY-MM-DD-{name}.mdx?
@@ -168,6 +177,14 @@ export async function generateBlogPosts(
 
       // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
+      const formattedDate = getDateTimeFormat(i18n.currentLocale)(
+        i18n.currentLocale,
+        {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        },
+      ).format(date);
 
       const slug =
         frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
@@ -214,6 +231,7 @@ export async function generateBlogPosts(
           source: aliasedSource,
           description: frontMatter.description || excerpt,
           date,
+          formattedDate,
           tags: frontMatter.tags,
           title: frontMatter.title,
           readingTime: showReadingTime
@@ -234,79 +252,31 @@ export async function generateBlogPosts(
 
 export type LinkifyParams = {
   filePath: string;
-  fileContent: string;
+  fileString: string;
 } & Pick<
   BlogMarkdownLoaderOptions,
-  'blogPosts' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
+  'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
 >;
 
 export function linkify({
   filePath,
   contentPaths,
-  fileContent,
+  fileString,
   siteDir,
-  blogPosts,
+  sourceToPermalink,
   onBrokenMarkdownLink,
 }: LinkifyParams): string {
-  // TODO temporary, should consider the file being in localized folder!
-  const folderPath = contentPaths.contentPath;
-
-  // TODO perf refactor: do this earlier (once for all md files, not per file)
-  const blogPostsBySource: Record<string, BlogPost> = keyBy(
-    blogPosts,
-    (item) => item.metadata.source,
-  );
-
-  let fencedBlock = false;
-  const lines = fileContent.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
-    }
-
-    if (fencedBlock) {
-      return line;
-    }
-
-    let modifiedLine = line;
-    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
-    let mdMatch = mdRegex.exec(modifiedLine);
-
-    while (mdMatch !== null) {
-      const mdLink = mdMatch[1];
-
-      const aliasedSource = (source: string) =>
-        aliasedSitePath(source, siteDir);
-
-      const blogPost: BlogPost | undefined =
-        blogPostsBySource[aliasedSource(resolve(filePath, mdLink))] ||
-        blogPostsBySource[
-          aliasedSource(`${contentPaths.contentPathLocalized}/${mdLink}`)
-        ] ||
-        blogPostsBySource[
-          aliasedSource(`${contentPaths.contentPath}/${mdLink}`)
-        ];
-
-      if (blogPost) {
-        modifiedLine = modifiedLine.replace(
-          mdLink,
-          blogPost.metadata.permalink,
-        );
-      } else {
-        const brokenMarkdownLink: BlogBrokenMarkdownLink = {
-          folderPath,
-          filePath,
-          link: mdLink,
-        };
-        onBrokenMarkdownLink(brokenMarkdownLink);
-      }
-
-      mdMatch = mdRegex.exec(modifiedLine);
-    }
-
-    return modifiedLine;
+  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
+    siteDir,
+    fileString,
+    filePath,
+    contentPaths,
+    sourceToPermalink,
   });
 
-  return lines.join('\n');
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
+
+  return newContent;
 }
 
 // Order matters: we look in priority in localized folder

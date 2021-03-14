@@ -50,18 +50,21 @@ function BlogTagsListPage(props: Props): JSX.Element {
     ))
     .filter((item) => item != null);
 
-  // TODO soon: translate hardcoded labels, but factorize them (blog + docs will both have tags)
   return (
     <Layout
       title="Tags"
       description="Blog Tags"
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_tags_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--2">
+          <div className="col col--3">
             <BlogSidebar sidebar={sidebar} />
           </div>
-          <main className="col col--8">
+          <main className="col col--7">
             <h1>
               <Translate
                 id="theme.tags.tagsPageTitle"

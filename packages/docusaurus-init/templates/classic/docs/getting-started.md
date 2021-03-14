@@ -1,40 +1,28 @@
 ---
-title: Getting Started 
+title: Getting Started
 slug: /
 ---
 
-This page will help you to get started with the development process of your Docusaurus project.
+## Step 1: Generate a new Docusaurus site
 
-## Setting up the development environment
-
-If you haven't setup your development environment. Let's go through a small step-by-step tutorial to get started with your Docusaurus project.
-
-:::note
-
-Feel free to edit this page as you follow the tutorial!
-
-:::
-
-### Step 1:  Generate a Docusaurus site
-
-Let's run a command to generate the classic template. You can run this command anywhere either in a new empty repository or within an existing repository.
+If you haven't already, generate a new Docusaurus site using the classic template:
 
 ```shell
-npx @docusaurus/init@latest init my-documentation classic
+npx @docusaurus/init@latest init my-website classic
 ```
 
-### Step 2: Start your Docusaurus site
+## Step 2: Start your Docusaurus site
 
-Run this command to start the Docusaurus development server and start developing by adding content to your docusaurus project: 
+Run the development server in the newly created `my-website` folder:
 
 ```shell
+cd my-website
+
 npx docusaurus start
 ```
 
-Open up `getting-started.md` in your project folder and try to edit some lines. The site should reload automatically after you save your changes.
+Open `docs/getting-started.md` and edit some lines. The site reloads automatically and display your changes.
 
-### That's it!
+## That's it!
 
 Congratulations! You've successfully run and modified your Docusaurus project.
-
-

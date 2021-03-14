@@ -119,3 +119,73 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 
 </BrowserWindow>
+
+## Test
+
+```jsx live
+function Demo() {
+  React.useEffect(() => console.log('mount'), []);
+  return null;
+}
+```
+
+## Code block test
+
+```js title="Title"
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+      // highlight-start
+      {/* prettier-ignore */}
+      long long long long long long long long long long long long line
+      {/* prettier-ignore */}
+      // highlight-end
+    </div>
+  );
+}
+```
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+<CodeBlock className="language-yaml" title="test">
+  test
+</CodeBlock>
+
+<code>test</code>
+
+## Custom heading id {#custom}

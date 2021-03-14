@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Props} from '@theme/IconMenu';
+import type {Props} from '@theme/IconMenu';
 
 const IconMenu = ({
   width = 30,
