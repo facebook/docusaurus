@@ -166,7 +166,7 @@ Need help understanding this?
 
 Useful resources:
 https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
-https://github.com/formatjs/formatjs/blob/main/packages/babel-plugin-react-intl/index.ts
+https://github.com/formatjs/formatjs/blob/main/packages/babel-plugin-formatjs/index.ts
 https://github.com/pugjs/babel-walk
  */
 function extractSourceCodeAstTranslations(
@@ -190,20 +190,31 @@ function extractSourceCodeAstTranslations(
 
   traverse(ast, {
     JSXElement(path) {
+      if (
+        !path
+          .get('openingElement')
+          .get('name')
+          .isJSXIdentifier({name: 'Translate'})
+      ) {
+        return;
+      }
       function evaluateJSXProp(propName: string): string | undefined {
         const attributePath = path
           .get('openingElement.attributes')
           .find(
-            (attr) => attr.isJSXAttribute() && attr.node.name.name === propName,
+            (attr) =>
+              attr.isJSXAttribute() &&
+              (attr as NodePath<t.JSXAttribute>)
+                .get('name')
+                .isJSXIdentifier({name: propName}),
           );
 
         if (attributePath) {
           const attributeValue = attributePath.get('value') as NodePath;
 
-          const attributeValueEvaluated =
-            attributeValue.node.type === 'JSXExpressionContainer'
-              ? (attributeValue.get('expression') as NodePath).evaluate()
-              : attributeValue.evaluate();
+          const attributeValueEvaluated = attributeValue.isJSXExpressionContainer()
+            ? (attributeValue.get('expression') as NodePath).evaluate()
+            : attributeValue.evaluate();
 
           if (
             attributeValueEvaluated.confident &&
@@ -222,100 +233,92 @@ function extractSourceCodeAstTranslations(
         return undefined;
       }
 
-      if (
-        path.node.openingElement.name.type === 'JSXIdentifier' &&
-        path.node.openingElement.name.name === 'Translate'
+      // We only handle the optimistic case where we have a single non-empty content
+      const singleChildren = path
+        .get('children')
+        // Remove empty/useless text nodes that might be around our translation!
+        // Makes the translation system more reliable to JSX formatting issues
+        .filter(
+          (childrenPath) =>
+            !(
+              childrenPath.isJSXText() &&
+              childrenPath.node.value.replace('\n', '').trim() === ''
+            ),
+        )
+        .pop();
+
+      if (singleChildren && singleChildren.isJSXText()) {
+        const message = singleChildren.node.value.trim().replace(/\s+/g, ' ');
+
+        const id = evaluateJSXProp('id');
+        const description = evaluateJSXProp('description');
+
+        translations[id ?? message] = {
+          message,
+          ...(description && {description}),
+        };
+      } else if (
+        singleChildren &&
+        singleChildren.isJSXExpressionContainer() &&
+        (singleChildren.get('expression') as NodePath).evaluate().confident
       ) {
-        // We only handle the optimistic case where we have a single non-empty content
-        const singleChildren = path
-          .get('children')
-          // Remove empty/useless text nodes that might be around our translation!
-          // Makes the translation system more reliable to JSX formatting issues
-          .filter(
-            (childrenPath) =>
-              !(
-                t.isJSXText(childrenPath.node) &&
-                childrenPath.node.value.replace('\n', '').trim() === ''
-              ),
-          )
-          .pop();
+        const message = (singleChildren.get(
+          'expression',
+        ) as NodePath).evaluate().value;
 
-        if (singleChildren && t.isJSXText(singleChildren.node)) {
-          const message = singleChildren.node.value.trim().replace(/\s+/g, ' ');
+        const id = evaluateJSXProp('id');
+        const description = evaluateJSXProp('description');
 
-          const id = evaluateJSXProp('id');
-          const description = evaluateJSXProp('description');
-
-          translations[id ?? message] = {
-            message,
-            ...(description && {description}),
-          };
-        } else if (
-          singleChildren &&
-          t.isJSXExpressionContainer(singleChildren) &&
-          (singleChildren.get('expression') as NodePath).evaluate().confident
-        ) {
-          const message = (singleChildren.get(
-            'expression',
-          ) as NodePath).evaluate().value;
-
-          const id = evaluateJSXProp('id');
-          const description = evaluateJSXProp('description');
-
-          translations[id ?? message] = {
-            message,
-            ...(description && {description}),
-          };
-        } else {
-          warnings.push(
-            `${staticTranslateJSXWarningPart}\n${sourceFileWarningPart(
-              path.node,
-            )}\n${generateCode(path.node)}`,
-          );
-        }
+        translations[id ?? message] = {
+          message,
+          ...(description && {description}),
+        };
+      } else {
+        warnings.push(
+          `${staticTranslateJSXWarningPart}\n${sourceFileWarningPart(
+            path.node,
+          )}\n${generateCode(path.node)}`,
+        );
       }
     },
 
     CallExpression(path) {
-      if (
-        path.node.callee.type === 'Identifier' &&
-        path.node.callee.name === 'translate'
-      ) {
-        // console.log('CallExpression', path.node);
+      if (!path.get('callee').isIdentifier({name: 'translate'})) {
+        return;
+      }
+
+      // console.log('CallExpression', path.node);
+      const args = path.get('arguments');
+      if (args.length === 1 || args.length === 2) {
+        const firstArgPath = args[0];
+
+        // evaluation allows translate("x" + "y"); to be considered as translate("xy");
+        const firstArgEvaluated = firstArgPath.evaluate();
+
+        // console.log('firstArgEvaluated', firstArgEvaluated);
+
         if (
-          path.node.arguments.length === 1 ||
-          path.node.arguments.length === 2
+          firstArgEvaluated.confident &&
+          typeof firstArgEvaluated.value === 'object'
         ) {
-          const firstArgPath = path.get('arguments.0') as NodePath;
-
-          // evaluation allows translate("x" + "y"); to be considered as translate("xy");
-          const firstArgEvaluated = firstArgPath.evaluate();
-
-          // console.log('firstArgEvaluated', firstArgEvaluated);
-
-          if (
-            firstArgEvaluated.confident &&
-            typeof firstArgEvaluated.value === 'object'
-          ) {
-            const {message, id, description} = firstArgEvaluated.value;
-            translations[id ?? message] = {
-              message,
-              ...(description && {description}),
-            };
-          } else {
-            warnings.push(
-              `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
-                path.node,
-              )}\n${generateCode(path.node)}`,
-            );
-          }
+          const {message, id, description} = firstArgEvaluated.value;
+          translations[id ?? message] = {
+            message,
+            ...(description && {description}),
+          };
         } else {
           warnings.push(
-            `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
+            `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
               path.node,
             )}\n${generateCode(path.node)}`,
           );
         }
+      } else {
+        warnings.push(
+          `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
+            path.node,
+          )}\n${generateCode(path.node)}`,
+        );
       }
     },
   });

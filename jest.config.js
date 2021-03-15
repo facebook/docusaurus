@@ -39,7 +39,7 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-  setupFiles: ['./jest/stylelint-rule-test.js'],
+  setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
   moduleNameMapper: {
     '@docusaurus/router': 'react-router-dom',
   },

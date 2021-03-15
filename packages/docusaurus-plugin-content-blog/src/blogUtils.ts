@@ -26,7 +26,6 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
-  getDateTimeFormat,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
@@ -177,14 +176,11 @@ export async function generateBlogPosts(
 
       // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
-      const formattedDate = getDateTimeFormat(i18n.currentLocale)(
-        i18n.currentLocale,
-        {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        },
-      ).format(date);
+      const formattedDate = new Intl.DateTimeFormat(i18n.currentLocale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }).format(date);
 
       const slug =
         frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
