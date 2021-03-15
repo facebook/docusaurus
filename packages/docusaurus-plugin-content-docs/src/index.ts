@@ -145,7 +145,7 @@ export default function pluginContentDocs(
               versionMetadata.versionName
             } has no docs! At least one doc should exist at path=[${path.relative(
               siteDir,
-              versionMetadata.docsDirPath,
+              versionMetadata.contentPath,
             )}]`,
           );
         }
@@ -337,7 +337,7 @@ export default function pluginContentDocs(
             return;
           }
           reportMessage(
-            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
+            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
             siteConfig.onBrokenMarkdownLinks,
           );
         },

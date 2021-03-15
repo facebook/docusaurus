@@ -10,7 +10,11 @@ const path = require('path');
 
 const DEFAULT_OPTIONS = {
   debug: false,
-  offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+  offlineModeActivationStrategies: [
+    'appInstalled',
+    'queryString',
+    'standalone',
+  ],
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: undefined,
@@ -23,7 +27,14 @@ exports.PluginOptionSchema = Joi.object({
   offlineModeActivationStrategies: Joi.array()
     .items(
       Joi.string()
-        .valid('appInstalled', 'queryString', 'mobile', 'saveData', 'always')
+        .valid(
+          'appInstalled',
+          'queryString',
+          'standalone',
+          'mobile',
+          'saveData',
+          'always',
+        )
         .required(),
     )
     .default(DEFAULT_OPTIONS.offlineModeActivationStrategies),

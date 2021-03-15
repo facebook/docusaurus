@@ -5,14 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve} from 'url';
-import {
-  DocsMarkdownOption,
-  VersionMetadata,
-  BrokenMarkdownLink,
-} from '../types';
+import {DocsMarkdownOption} from '../types';
 import {getDocsDirPaths} from '../versions';
-import {aliasedSitePath} from '@docusaurus/utils';
+import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>
@@ -28,66 +23,22 @@ function getVersion(filePath: string, options: DocsMarkdownOption) {
   return versionFound;
 }
 
-function replaceMarkdownLinks(
-  fileString: string,
-  filePath: string,
-  version: VersionMetadata,
-  options: DocsMarkdownOption,
-) {
-  const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
-  const {docsDirPath, docsDirPathLocalized} = version;
-
-  // Replace internal markdown linking (except in fenced blocks).
-  let fencedBlock = false;
-  const lines = fileString.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
-    }
-    if (fencedBlock) {
-      return line;
-    }
-
-    let modifiedLine = line;
-    // Replace inline-style links or reference-style links e.g:
-    // This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
-    // [doc1]: doc1.md -> we replace this doc1.md with correct link
-    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
-    let mdMatch = mdRegex.exec(modifiedLine);
-    while (mdMatch !== null) {
-      // Replace it to correct html link.
-      const mdLink = mdMatch[1];
-
-      const aliasedSource = (source: string) =>
-        aliasedSitePath(source, siteDir);
-
-      const permalink =
-        sourceToPermalink[aliasedSource(resolve(filePath, mdLink))] ||
-        sourceToPermalink[aliasedSource(`${docsDirPathLocalized}/${mdLink}`)] ||
-        sourceToPermalink[aliasedSource(`${docsDirPath}/${mdLink}`)];
-
-      if (permalink) {
-        modifiedLine = modifiedLine.replace(mdLink, permalink);
-      } else {
-        const brokenMarkdownLink: BrokenMarkdownLink = {
-          version,
-          filePath,
-          link: mdLink,
-        };
-        onBrokenMarkdownLink(brokenMarkdownLink);
-      }
-      mdMatch = mdRegex.exec(modifiedLine);
-    }
-    return modifiedLine;
-  });
-
-  return lines.join('\n');
-}
-
 export function linkify(
   fileString: string,
   filePath: string,
   options: DocsMarkdownOption,
 ): string {
-  const version = getVersion(filePath, options);
-  return replaceMarkdownLinks(fileString, filePath, version, options);
+  const {siteDir, sourceToPermalink, onBrokenMarkdownLink} = options;
+
+  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
+    siteDir,
+    fileString,
+    filePath,
+    contentPaths: getVersion(filePath, options),
+    sourceToPermalink,
+  });
+
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
+
+  return newContent;
 }

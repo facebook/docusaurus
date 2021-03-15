@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {linkify, LinkifyParams, getPostsBySource} from '../blogUtils';
+import {linkify, LinkifyParams, getSourceToPermalink} from '../blogUtils';
 import {BlogBrokenMarkdownLink, BlogContentPaths, BlogPost} from '../types';
 
 const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -43,10 +43,10 @@ const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const transformedContent = linkify({
     filePath,
-    fileContent,
+    fileString: fileContent,
     siteDir,
     contentPaths,
-    blogPostsBySource: getPostsBySource(blogPosts),
+    sourceToPermalink: getSourceToPermalink(blogPosts),
     onBrokenMarkdownLink: (brokenMarkdownLink) => {
       throw new Error(
         `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
@@ -82,12 +82,12 @@ test('report broken markdown links', () => {
   expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(2);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: 'postNotExist1.md',
   } as BlogBrokenMarkdownLink);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: './postNotExist2.mdx',
   } as BlogBrokenMarkdownLink);
 });

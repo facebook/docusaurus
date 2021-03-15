@@ -15,11 +15,11 @@ import initPlugins from '../server/plugins/init';
 import {flatten} from 'lodash';
 import {parseMarkdownHeadingId} from '@docusaurus/utils';
 
-export function unwrapMarkdownLinks(line) {
+export function unwrapMarkdownLinks(line: string): string {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
-function addHeadingId(line, slugger) {
+function addHeadingId(line: string, slugger: GithubSlugger): string {
   let headingLevel = 0;
   while (line.charAt(headingLevel) === '#') {
     headingLevel += 1;
@@ -35,7 +35,7 @@ function addHeadingId(line, slugger) {
 export function transformMarkdownHeadingLine(
   line: string,
   slugger: GithubSlugger,
-) {
+): string {
   if (!line.startsWith('#')) {
     throw new Error(`Line is not a markdown heading: ${line}`);
   }

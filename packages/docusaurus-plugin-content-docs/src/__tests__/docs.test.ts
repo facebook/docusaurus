@@ -45,7 +45,7 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
-    docsDirPath: 'docs',
+    contentPath: 'docs',
     filePath: source,
   };
 };
@@ -93,7 +93,7 @@ function createTestUtils({
       editUrl: undefined,
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
+        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
         posixPath(docFileSource),
       ),
       ...expectedMetadata,

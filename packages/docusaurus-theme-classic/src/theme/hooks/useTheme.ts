@@ -21,9 +21,9 @@ const coerceToTheme = (theme) => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 
-const getInitialTheme = () => {
+const getInitialTheme = (defaultMode) => {
   if (!ExecutionEnvironment.canUseDOM) {
-    return themes.light; // SSR: we don't care
+    return coerceToTheme(defaultMode);
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
@@ -38,9 +38,9 @@ const storeTheme = (newTheme) => {
 
 const useTheme = (): useThemeReturns => {
   const {
-    colorMode: {disableSwitch, respectPrefersColorScheme},
+    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState(getInitialTheme(defaultMode));
 
   const setLightTheme = useCallback(() => {
     setTheme(themes.light);

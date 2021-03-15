@@ -65,8 +65,8 @@ function useLocalePluralForms(): LocalePluralForms {
     i18n: {currentLocale},
   } = useDocusaurusContext();
   return useMemo(() => {
-    // @ts-expect-error: See above notes
-    if (Intl && Intl.PluralRules) {
+    // @ts-expect-error checking Intl.PluralRules in case browser doesn't have it (e.g Safari 12-)
+    if (Intl.PluralRules) {
       try {
         return createLocalePluralForms(currentLocale);
       } catch (e) {
