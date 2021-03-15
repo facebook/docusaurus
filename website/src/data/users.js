@@ -502,6 +502,15 @@ const users = [
     tags: ['highlight', 'design', 'large'],
   },
   {
+    title: 'QuantCDN',
+    description:
+      'An all-in-one Static Web solution and global Content Delivery Network',
+    preview: require('./showcase/quantcdn.png'),
+    website: 'https://docs.quantcdn.io',
+    source: 'https://github.com/quantcdn/docs',
+    tags: [],
+  },
+  {
     title: 'QuestDB',
     description:
       'An open source SQL database designed to process time series data',
