@@ -39,7 +39,7 @@
     "copy-text-to-clipboard": "^3.0.0",
     "fs-extra": "^9.1.0",
     "globby": "^11.0.2",
-    "infima": "0.2.0-alpha.20",
+    "infima": "0.2.0-alpha.21",
     "joi": "^17.4.0",
     "lodash": "^4.17.20",
     "parse-numeric-range": "^1.2.0",
