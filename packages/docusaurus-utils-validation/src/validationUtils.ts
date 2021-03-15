@@ -37,7 +37,7 @@ export const logValidationBugReportHint = (): void => {
 
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
-  options: unknown,
+  options: Partial<T>,
 ): T {
   // All plugins can be provided an "id" option (multi-instance support)
   // we add schema validation automatically
@@ -61,7 +61,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
 
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
-  themeConfig: unknown,
+  themeConfig: Partial<T>,
 ): T {
   // A theme should only validate his "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
