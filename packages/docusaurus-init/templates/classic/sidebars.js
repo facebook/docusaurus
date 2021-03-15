@@ -15,7 +15,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Extras',
-      items: ['deploy-your-site'],
+      items: ['deploy-your-site', 'translate-your-site'],
     },
   ],
 };
