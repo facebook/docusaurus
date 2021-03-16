@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
 import chalk from 'chalk';
@@ -14,6 +13,7 @@ import initPlugins from '../server/plugins/init';
 
 import {flatten} from 'lodash';
 import {parseMarkdownHeadingId} from '@docusaurus/utils';
+import {safeGlobby} from '../server/utils';
 
 export function unwrapMarkdownLinks(line: string): string {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
@@ -107,7 +107,7 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 }
 
 export default async function writeHeadingIds(siteDir: string): Promise<void> {
-  const markdownFiles = await globby(await getPathsToWatch(siteDir), {
+  const markdownFiles = await safeGlobby(await getPathsToWatch(siteDir), {
     expandDirectories: ['**/*.{md,mdx}'],
   });
 
