@@ -156,14 +156,18 @@ Below are two approaches to deploying your docs with GitHub Actions. Follow the 
 ]}>
 <TabItem value="same">
 
+Add these two workflow files for Github Actions to your project:
+
 ```yaml title=".github/workflows/documentation-push.yml"
 # Appears in various parts of the Github UI usually with the job name appended.
 # (eg Project 'Actions' tab, PR check suite status)
 name: 'Docs (Github Pages)'
 
 on:
-  # Allows you to manually trigger the workflow for a commit
-  # (based on this workflow contents at that commit):
+  # Allows you to manually trigger the workflow from the "Actions" tab.
+  # You can run the workflow against the latest commit of any branch on the project:
+  # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+  # (This is not required to use "re-run" functionality on prior workflow runs)
   workflow_dispatch:
   # Build docs pushed to the `documentation` branch, but only *if* the triggering
   # commit(s) affect files within the `website` directory (docusaurus project):
@@ -258,8 +262,14 @@ That's added noise providing no value to the review process, and as you cannot e
 ```yaml title=".github/workflows/documentation-pr.yml"
 name: 'Docs (PR)'
 
+# Here the `pull_request` event responds to a PR that is
+# `opened`, `reopened` or whenever commits are pushed (`synchronize`),
+# these are the default PR activity types to respond to:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request
 on:
-  pull:
+  pull_request:
+    # The branches here refer to any branch being targeted for a PR to merge into,
+    # Not the source branch name from the PR author.
     branches:
       - documentation
     paths:
