@@ -11,7 +11,15 @@ import {useLocation} from '@docusaurus/router';
 // Permits to obtain the url of the current page in another locale
 // Useful to generate hreflang meta headers etc...
 // See https://developers.google.com/search/docs/advanced/crawling/localized-versions
-export function useAlternatePageUtils() {
+export function useAlternatePageUtils(): {
+  createUrl: ({
+    locale,
+    fullyQualified,
+  }: {
+    locale: string;
+    fullyQualified: boolean;
+  }) => string;
+} {
   const {
     siteConfig: {baseUrl, url},
     i18n: {defaultLocale, currentLocale},

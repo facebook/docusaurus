@@ -15,7 +15,10 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 // Note, the preferredVersion attribute will always be null before mount
 export function useDocsPreferredVersion(
   pluginId: string | undefined = DEFAULT_PLUGIN_ID,
-) {
+): {
+  readonly preferredVersion: any;
+  readonly savePreferredVersionName: (versionName: string) => void;
+} {
   const docsData = useDocsData(pluginId);
   const [state, api] = useDocsPreferredVersionContext();
 
@@ -37,7 +40,7 @@ export function useDocsPreferredVersion(
   return {preferredVersion, savePreferredVersionName} as const;
 }
 
-export function useDocsPreferredVersionByPluginId() {
+export function useDocsPreferredVersionByPluginId(): Record<string, any> {
   const allDocsData = useAllDocsData();
   const [state] = useDocsPreferredVersionContext();
 

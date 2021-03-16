@@ -18,7 +18,7 @@ declare global {
   // eslint-disable-next-line camelcase, @typescript-eslint/no-explicit-any
   const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
-    connection: any;
+    connection: {effectiveType: string; saveData: boolean};
   }
 }
 

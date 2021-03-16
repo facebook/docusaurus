@@ -120,7 +120,10 @@ export function processDocMetadata({
   const docsFileDirName = path.dirname(source);
 
   const {frontMatter = {}, excerpt} = parseMarkdownString(content);
-  const {sidebar_label, custom_edit_url} = frontMatter;
+  const {
+    sidebar_label: sidebarLabel,
+    custom_edit_url: customEditURL,
+  } = frontMatter;
 
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
@@ -206,7 +209,7 @@ export function processDocMetadata({
     source: aliasedSitePath(filePath, siteDir),
     slug: docSlug,
     permalink,
-    editUrl: custom_edit_url !== undefined ? custom_edit_url : getDocEditUrl(),
+    editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
@@ -215,6 +218,6 @@ export function processDocMetadata({
           lastUpdate.lastUpdatedAt * 1000,
         )
       : undefined,
-    sidebar_label,
+    sidebar_label: sidebarLabel,
   };
 }

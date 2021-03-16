@@ -12,6 +12,7 @@
 // see https://github.com/webpack/webpack/issues/7713#issuecomment-467888437
 // note: warning can be filtered: https://github.com/facebook/docusaurus/pull/3382#issuecomment-684966924
 try {
+  // eslint-disable-next-line global-require
   module.exports = require('@theme-init/hooks/useDocs');
 } catch (e) {
   // In case the docs plugin is not available, might be useful to stub some methods here

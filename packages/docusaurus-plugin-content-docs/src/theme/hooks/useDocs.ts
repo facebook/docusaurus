@@ -27,7 +27,7 @@ import {
 export const useAllDocsData = (): Record<string, GlobalPluginData> =>
   useAllPluginInstancesData('docusaurus-plugin-content-docs');
 
-export const useDocsData = (pluginId: string | undefined) =>
+export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>
   usePluginData('docusaurus-plugin-content-docs', pluginId) as GlobalPluginData;
 
 export const useActivePlugin = (

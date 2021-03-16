@@ -94,7 +94,7 @@ export type PluginOptions = MetadataOptions &
   };
 
 export type SidebarItemBase = {
-  customProps?: object;
+  customProps?: Record<string, unknown>;
 };
 
 export type SidebarItemDoc = SidebarItemBase & {
@@ -147,6 +147,7 @@ export type DocMetadataBase = LastUpdateData & {
   source: string;
   slug: string;
   permalink: string;
+  // eslint-disable-next-line camelcase
   sidebar_label?: string;
   editUrl?: string | null;
 };
