@@ -683,7 +683,7 @@ const users = [
     preview: require('./showcase/stylable.png'),
     website: 'https://stylable.io',
     source: 'https://github.com/wixplosives/stylable.io',
-    tags: ['design', 'large'],
+    tags: [],
   },
   {
     title: 'Supabase',
