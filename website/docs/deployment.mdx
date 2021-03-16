@@ -156,7 +156,7 @@ Below are two approaches to deploying your docs with GitHub Actions. Follow the 
 ]}>
 <TabItem value="same">
 
-```yaml title="documentation-push.yml"
+```yaml title=".github/workflows/documentation-push.yml"
 # Appears in various parts of the Github UI usually with the job name appended.
 # (eg Project 'Actions' tab, PR check suite status)
 name: 'Docs (Github Pages)'
@@ -165,16 +165,15 @@ on:
   # Allows you to manually trigger the workflow for a commit
   # (based on this workflow contents at that commit):
   workflow_dispatch:
-  # Build docs pushed to the `documentation` branch - *if* the the trigger affects
-  # this workflow or files within the `website` directory:
+  # Build docs pushed to the `documentation` branch, but only *if* the triggering
+  # commit(s) affect files within the `website` directory (docusaurus project):
   push:
     branches:
       - documentation
     paths:
-      - '.github/workflows/documentation-push.yml'
       - 'website/**'
-    # OPTIONAL: Build docs when you push a tag with `v<Major>.<Minor>` substring in the tag name
-    # NOTE: branches and paths conditions above have no affect on tags trigger:
+    # OPTIONAL: Build docs when you push a tag with `v<Major>.<Minor>` substring in the tag name.
+    # NOTE: The branch and path conditions above have no effect on the tags trigger condition:
     tags:
       - 'v[0-9]+.[0-9]+*'
 
@@ -254,9 +253,9 @@ jobs:
 
 While you can have both jobs defined in the same workflow file, the deploy job as configured in the `remote` example will always be listed as skipped in the PR check suite status.
 
-That's added noise providing no value to the review process, and as you cannot share common snippets like the build process (unless you upload and download artifacts across jobs) it can be better to manage as separate workflows instead:
+That's added noise providing no value to the review process, and as you cannot easily share common snippets like the build process; it is better to manage as separate workflows instead:
 
-```yaml title="documentation-pr.yml"
+```yaml title=".github/workflows/documentation-pr.yml"
 name: 'Docs (PR)'
 
 on:
@@ -264,7 +263,6 @@ on:
     branches:
       - documentation
     paths:
-      - '.github/workflows/documentation-pr.yml'
       - 'website/**'
 
 jobs:
