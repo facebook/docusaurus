@@ -258,9 +258,43 @@ declare module '@theme/Layout' {
   export default Layout;
 }
 
+declare module '@theme/LayoutHead' {
+  import type {Props} from '@theme/Layout';
+
+  const LayoutHead: (props: Props) => JSX.Element;
+  export default LayoutHead;
+}
+
+declare module '@theme/SearchMetadatas' {
+  export type Props = {
+    locale?: string;
+    version?: string;
+    tag?: string;
+  };
+
+  const SearchMetadatas: (props: Props) => JSX.Element;
+  export default SearchMetadatas;
+}
+
+declare module '@theme/LastUpdated' {
+  export type Props = {
+    lastUpdatedAt?: number;
+    formattedLastUpdatedAt?: string;
+    lastUpdatedBy?: string;
+  };
+
+  const LastUpdated: (props: Props) => JSX.Element;
+  export default LastUpdated;
+}
+
+declare module '@theme/SkipToContent' {
+  const SkipToContent: () => JSX.Element;
+  export default SkipToContent;
+}
+
 declare module '@theme/MDXComponents' {
-  import {ComponentProps} from 'react';
-  import CodeBlock from '@theme/CodeBlock';
+  import type {ComponentProps} from 'react';
+  import type CodeBlock from '@theme/CodeBlock';
 
   export type MDXComponentsObject = {
     readonly code: typeof CodeBlock;
@@ -465,10 +499,12 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/Toggle' {
-  import {ComponentProps} from 'react';
-  import ReactToggle from 'react-toggle';
+  import type {ComponentProps} from 'react';
+  import type ReactToggle from 'react-toggle';
 
-  const Toggle: (props: ComponentProps<typeof ReactToggle>) => JSX.Element;
+  export type Props = ComponentProps<typeof ReactToggle>;
+
+  const Toggle: (props: Props) => JSX.Element;
   export default Toggle;
 }
 

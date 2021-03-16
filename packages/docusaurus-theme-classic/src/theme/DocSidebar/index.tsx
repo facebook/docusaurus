@@ -172,7 +172,7 @@ function DocSidebarItemLink({
   );
 }
 
-function DocSidebarItem(props) {
+function DocSidebarItem(props): JSX.Element {
   switch (props.item.type) {
     case 'category':
       return <DocSidebarItemCategory {...props} />;

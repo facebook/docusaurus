@@ -68,10 +68,14 @@ function getInfimaCSSFile(direction) {
   }.css`;
 }
 
+type PluginOptions = {
+  customCss?: string;
+};
+
 export default function docusaurusThemeClassic(
-  context,
-  options,
-): Plugin<null, unknown> {
+  context: any, // TODO: LoadContext is missing some of properties
+  options: PluginOptions,
+): Plugin<void> {
   const {
     siteConfig: {themeConfig},
     i18n: {currentLocale, localeConfigs},
@@ -98,7 +102,7 @@ export default function docusaurusThemeClassic(
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),

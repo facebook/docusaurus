@@ -13,13 +13,13 @@ import {BlogMarkdownLoaderOptions} from './types';
 
 const markdownLoader = function (source) {
   const filePath = this.resourcePath;
-  const fileContent = source as string;
+  const fileString = source as string;
   const callback = this.async();
   const markdownLoaderOptions = this.getOptions() as BlogMarkdownLoaderOptions;
 
   // Linkify blog posts
   let finalContent = linkify({
-    fileContent,
+    fileString,
     filePath,
     ...markdownLoaderOptions,
   });

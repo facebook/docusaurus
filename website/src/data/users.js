@@ -268,6 +268,14 @@ const users = [
     tags: ['highlight', 'design', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Gladys Assistant',
+    description: 'A privacy-first, open-source home assistant',
+    preview: require('./showcase/gladys-assistant.png'),
+    website: 'https://gladysassistant.com/',
+    source: 'https://github.com/GladysAssistant/v4-website',
+    tags: ['i18n'],
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
@@ -445,6 +453,14 @@ const users = [
     tags: [],
   },
   {
+    title: 'pnpm',
+    description: 'Fast, disk space efficient package manager',
+    preview: require('./showcase/pnpm.png'),
+    website: 'https://pnpm.js.org/',
+    source: 'https://github.com/pnpm/pnpm.github.io/',
+    tags: [],
+  },
+  {
     title: 'Postgres.ai – Database Lab',
     description: 'DEPLOY WITH CONFIDENCE. Been stung by a poorly tested database migration? We won\'t let it happen again.',
     preview: require('./showcase/postgres-ai.png'),
@@ -564,6 +580,14 @@ const users = [
     preview: require('./showcase/reactnative-aria.png'),
     website: 'https://react-native-aria.geekyants.com',
     source: 'https://github.com/GeekyAnts/react-native-aria-website',
+    tags: [],
+  },
+  {
+    title: 'Realtime Web Applications Workshop',
+    description: 'A workshop about building realtime web applications with WebSockets and WebRTC.',
+    preview: require('./showcase/realtime-apps-workshop.png'),
+    website: 'https://realtime-apps-iap.github.io',
+    source: 'https://github.com/realtime-apps-iap/realtime-apps-iap.github.io',
     tags: [],
   },
   {

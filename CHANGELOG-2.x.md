@@ -1,5 +1,90 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.72 (2021-03-16)
+
+### :boom: Breaking Change
+
+Starting with this release for a proper work of i18n functionality, you need to either use Node v14+ or in case of using earlier version of Node.js install [`full-icu` package](https://www.npmjs.com/package/full-icu) and set `NODE_ICU_DATA` environment variable in your npm scripts, for example:
+
+```json
+"scripts": {
+  "start": "cross-env NODE_ICU_DATA=node_modules/full-icu docusaurus start"
+}
+```
+
+#### :rocket: New Feature
+
+- `docusaurus-init`
+  - [#4302](https://github.com/facebook/docusaurus/pull/4302) feat(v2): Improve the initial templates ([@ShinteiMai](https://github.com/ShinteiMai))
+- `docusaurus-theme-classic`
+  - [#4390](https://github.com/facebook/docusaurus/pull/4390) feat(v2): Add korean default translations ([@koko8829](https://github.com/koko8829))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#4429](https://github.com/facebook/docusaurus/pull/4429) chore(v2): upgrade Infima to v0.2.0-alpha.21 ([@lex111](https://github.com/lex111))
+  - [#4428](https://github.com/facebook/docusaurus/pull/4428) fix(v2): allow using pre tag in Markdown directly ([@lex111](https://github.com/lex111))
+  - [#4381](https://github.com/facebook/docusaurus/pull/4381) fix(v2): specify proper TS path in classic theme ([@lex111](https://github.com/lex111))
+  - [#4383](https://github.com/facebook/docusaurus/pull/4383) fix(v2): set theme color mode for SSR ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`
+  - [#4424](https://github.com/facebook/docusaurus/pull/4424) fix(v2): add missing peer dep on @babel/core ([@SimenB](https://github.com/SimenB))
+  - [#4377](https://github.com/facebook/docusaurus/pull/4377) fix(v2): PWA issues + improve docs ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#4407](https://github.com/facebook/docusaurus/pull/4407) fix(v2): broken link checker should not report false positives when using encoded chars ([@Harvtronix](https://github.com/Harvtronix))
+- Other
+  - [#4410](https://github.com/facebook/docusaurus/pull/4410) fix(v1): Fix v1 site deployment with Crowdin again... ([@slorber](https://github.com/slorber))
+  - [#4396](https://github.com/facebook/docusaurus/pull/4396) fix(v1): Temp fix v1 site deployment: fail-safe on Crowdin upload translations error ([@slorber](https://github.com/slorber))
+  - [#4395](https://github.com/facebook/docusaurus/pull/4395) fix(v1): fix v1 site deploy issues ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4418](https://github.com/facebook/docusaurus/pull/4418) refactor(v2): correct plugin types ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4405](https://github.com/facebook/docusaurus/pull/4405) refactor(v2): i18n cleanups / refactors ([@longlho](https://github.com/longlho))
+- `docusaurus-module-type-aliases`
+  - [#4387](https://github.com/facebook/docusaurus/pull/4387) refactor(v2): add ExecutionEnvironment, BrowserOnly, isInternalUrl to type aliases ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#4402](https://github.com/facebook/docusaurus/pull/4402) refactor(v2): merge linkify function used in blog and docs and align properties ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-docs`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4382](https://github.com/facebook/docusaurus/pull/4382) refactor(v2): correct some of type errors reported by eslint ([@armano2](https://github.com/armano2))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4385](https://github.com/facebook/docusaurus/pull/4385) refactor(v2): add missing theme-classic types ([@armano2](https://github.com/armano2))
+
+#### :memo: Documentation
+
+- [#4416](https://github.com/facebook/docusaurus/pull/4416) docs(v2): add Realtime Web Applications Workshop to showcase ([@lowenhere](https://github.com/lowenhere))
+- [#4408](https://github.com/facebook/docusaurus/pull/4408) docs(v2): add gladysassistant.com to showcase ([@Pierre-Gilles](https://github.com/Pierre-Gilles))
+- [#4386](https://github.com/facebook/docusaurus/pull/4386) docs(v2): Showcase the pnpm docs ([@zkochan](https://github.com/zkochan))
+- [#4367](https://github.com/facebook/docusaurus/pull/4367) docs(v2): releasing i18n blog post ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- `docusaurus-1.x`
+  - [#4401](https://github.com/facebook/docusaurus/pull/4401) chore(v1): fix CircleCI v1 site deploy ([@slorber](https://github.com/slorber))
+- Other
+  - [#4399](https://github.com/facebook/docusaurus/pull/4399) chore(v2): upgrade example projects ([@slorber](https://github.com/slorber))
+  - [#4398](https://github.com/facebook/docusaurus/pull/4398) chore(v1): trigger v1 site deploy through CI ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4384](https://github.com/facebook/docusaurus/pull/4384) chore(v2): avoid bad publish of intl-locales-supported ([@lex111](https://github.com/lex111))
+
+#### Committers: 14
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Armano ([@armano2](https://github.com/armano2))
+- Harvtronix ([@Harvtronix](https://github.com/Harvtronix))
+- Joon-Ha Lee ([@koko8829](https://github.com/koko8829))
+- Leandro Oriente ([@leandrooriente](https://github.com/leandrooriente))
+- Long Ho ([@longlho](https://github.com/longlho))
+- Lowen ([@lowenhere](https://github.com/lowenhere))
+- Pierre-Gilles Leymarie ([@Pierre-Gilles](https://github.com/Pierre-Gilles))
+- Quan ([@quanengineering](https://github.com/quanengineering))
+- Simen Bekkhus ([@SimenB](https://github.com/SimenB))
+- Steven Hansel ([@ShinteiMai](https://github.com/ShinteiMai))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Zoltan Kochan ([@zkochan](https://github.com/zkochan))
+- [@Rhodanthe1116](https://github.com/Rhodanthe1116)
+
 ## 2.0.0-alpha.71 (2021-03-09)
 
 #### :rocket: New Feature

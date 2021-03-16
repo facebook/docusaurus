@@ -99,6 +99,14 @@ module.exports = {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
             },
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
+            },
           ],
         },
       ],

@@ -41,6 +41,10 @@ const GITHUB_HOST =
   process.env.GITHUB_HOST || siteConfig.githubHost || GITHUB_DOMAIN;
 const CUSTOM_COMMIT_MESSAGE = process.env.CUSTOM_COMMIT_MESSAGE;
 
+// Mostly added to unlock our own Docusaurus v1 site deploy...
+// See https://github.com/facebook/docusaurus/issues/4394
+const FORCE_DEPLOY = process.env.FORCE_DEPLOY;
+
 if (!ORGANIZATION_NAME) {
   shell.echo(
     "Missing project organization name. Did you forget to define 'organizationName' in siteConfig.js? You may also export it via the ORGANIZATION_NAME environment variable.",
@@ -69,7 +73,9 @@ if (USE_SSH === 'true') {
   remoteBranch = `https://${GIT_USER}@${GITHUB_HOST}/${ORGANIZATION_NAME}/${PROJECT_NAME}.git`;
 }
 
-if (IS_PULL_REQUEST) {
+if (FORCE_DEPLOY === 'true') {
+  shell.echo('Force deploy used!');
+} else if (IS_PULL_REQUEST) {
   shell.echo('Skipping deploy on a pull request');
   shell.exit(0);
 }

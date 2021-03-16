@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Props} from '@theme/IconArrow';
+import type {Props} from '@theme/IconArrow';
 
 const IconArrow = (props: Props): JSX.Element => {
   return (

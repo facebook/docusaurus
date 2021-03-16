@@ -21,7 +21,6 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {ValidationError} from 'joi';
 import {flatten, take, kebabCase} from 'lodash';
 
 import {
@@ -50,13 +49,13 @@ import {
   generateBlogFeed,
   generateBlogPosts,
   getContentPathList,
-  getPostsBySource,
+  getSourceToPermalink,
 } from './blogUtils';
 
 export default function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent | null, typeof PluginOptionSchema> {
+): Plugin<BlogContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -416,7 +415,7 @@ export default function pluginContentBlog(
         siteDir,
         contentPaths,
         truncateMarker,
-        blogPostsBySource: getPostsBySource(blogPosts),
+        sourceToPermalink: getSourceToPermalink(blogPosts),
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (onBrokenMarkdownLinks === 'ignore') {
             return;
@@ -560,10 +559,7 @@ export default function pluginContentBlog(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }
