@@ -678,6 +678,14 @@ const users = [
     tags: [],
   },
   {
+    title: 'Stylable',
+    description: 'A CSS preprocessor made for components',
+    preview: require('./showcase/stylable.png'),
+    website: 'https://stylable.io',
+    source: 'https://github.com/wixplosives/stylable.io',
+    tags: [],
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
