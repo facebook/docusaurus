@@ -26,7 +26,7 @@ const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
   file: string,
-  content: any,
+  content: string,
   skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
@@ -57,11 +57,13 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: {[index: string]: any}) {
+export function objectWithKeySorted<T>(
+  obj: Record<string, T>,
+): Record<string, T> {
   // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
   return Object.keys(obj)
     .sort()
-    .reduce((acc: any, key: string) => {
+    .reduce((acc: Record<string, T>, key: string) => {
       acc[key] = obj[key];
       return acc;
     }, {});

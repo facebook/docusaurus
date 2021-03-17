@@ -2,7 +2,7 @@
 title: Create a Document
 ---
 
-Documents are pages with a **sidebar**, a **previous/next navigation** and many other useful features.
+Documents are a **group of pages** connected through a **sidebar**, a **previous/next navigation** and **versioning**.
 
 ## Create a Document
 

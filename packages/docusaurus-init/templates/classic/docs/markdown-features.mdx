@@ -2,11 +2,11 @@
 title: Markdown Features
 ---
 
-Docusaurus supports the [Markdown](https://daringfireball.net/projects/markdown/syntax) syntax and has some additional features.
+Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
 
 ## Front Matter
 
-Markdown documents can have associated metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
+Markdown documents have metadata at the very top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
 
 ```md
 ---
@@ -16,12 +16,14 @@ description: My document description
 sidebar_label: My doc
 ---
 
-Markdown content
+## Markdown heading
+
+Markdown text with [links](./hello.md)
 ```
 
-## Markdown links
+## Links
 
-Regular Markdown links are supported using url paths or relative file paths.
+Regular Markdown links are supported, using url paths or relative file paths.
 
 ```md
 Let's see how to [Create a page](/create-a-page).
@@ -31,13 +33,13 @@ Let's see how to [Create a page](/create-a-page).
 Let's see how to [Create a page](./create-a-page.md).
 ```
 
-Let's see how to [Create a page](./create-a-page.md).
+**Result:** Let's see how to [Create a page](./create-a-page.md).
 
-## Markdown images
+## Images
 
 Regular Markdown images are supported.
 
-Add an image at `static/img/docusaurus.png` and use this Markdown declaration:
+Add an image at `static/img/docusaurus.png` and display it in Markdown:
 
 ```md
 ![Docusaurus logo](/img/docusaurus.png)
@@ -91,38 +93,48 @@ This action is dangerous
 
 :::
 
-## React components
+## MDX and React Components
 
-Thanks to [MDX](https://mdxjs.com/), you can make your doc more interactive and use React components inside Markdown:
+[MDX](https://mdxjs.com/) can make your documentation more **interactive** and allows using any **React components inside Markdown**:
 
 ```jsx
 export const Highlight = ({children, color}) => (
   <span
     style={{
       backgroundColor: color,
-      borderRadius: '2px',
-      color: 'red',
-      padding: '0.2rem',
+      borderRadius: '20px',
+      color: '#fff',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`You clicked the color ${color} with label ${children}`)
     }}>
     {children}
   </span>
 );
 
-<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
+
+This is <Highlight color="#1877F2">Facebook blue</Highlight> !
 ```
 
 export const Highlight = ({children, color}) => (
   <span
     style={{
       backgroundColor: color,
-      borderRadius: '2px',
+      borderRadius: '20px',
       color: '#fff',
-      padding: '0.2rem',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`You clicked the color ${color} with label ${children}`);
     }}>
     {children}
   </span>
 );
 
-<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">
-  Facebook blue
-</Highlight> are my favorite colors.
+This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
+
+This is <Highlight color="#1877F2">Facebook blue</Highlight> !

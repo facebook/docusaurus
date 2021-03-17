@@ -22,12 +22,14 @@
     "@docusaurus/plugin-content-blog": "2.0.0-alpha.72",
     "@docusaurus/plugin-content-docs": "2.0.0-alpha.72",
     "@docusaurus/plugin-content-pages": "2.0.0-alpha.72",
-    "@docusaurus/types": "2.0.0-alpha.72"
+    "@docusaurus/types": "2.0.0-alpha.72",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-alpha.72"
   },
   "peerDependencies": {
+    "prism-react-renderer": "^1.1.1",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },

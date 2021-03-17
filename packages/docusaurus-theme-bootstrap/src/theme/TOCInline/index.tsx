@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-function TOCInline(_props: any): JSX.Element {
+function TOCInline(_props: Record<string, unknown>): JSX.Element {
   return <div>TODO bootstrap toc</div>;
 }
 

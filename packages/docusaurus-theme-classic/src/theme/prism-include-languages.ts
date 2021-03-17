@@ -21,7 +21,7 @@ const prismIncludeLanguages = (PrismObject: typeof PrismNamespace): void => {
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
     });
 
-    delete window.Prism;
+    delete (window as Window & {Prism?: typeof PrismNamespace}).Prism;
   }
 };
 

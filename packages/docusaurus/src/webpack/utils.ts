@@ -6,8 +6,15 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import merge from 'webpack-merge';
-import webpack, {Configuration, RuleSetRule} from 'webpack';
+import merge from 'webpack-merge';                                                                
+import webpack, {
+  Configuration,
+  Loader,
+  NewLoader,
+  Plugin,
+  RuleSetRule,
+  Stats,
+} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -16,7 +23,13 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigurePostCssFn, ConfigureWebpackFn} from '@docusaurus/types';
+import {
+  ConfigureWebpackFn,
+  ConfigurePostCssFn,
+  PostCssOptions,
+} from '@docusaurus/types';
+import CssNanoPreset from '@docusaurus/cssnano-preset';
+import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
@@ -156,12 +169,13 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = {} & {options: {postcssOptions?: unknown}};
+  type LocalPostCSSLoader = Loader & {
+    options: {postcssOptions: PostCssOptions};
+  };
 
   // TODO not ideal heuristic but good enough for our usecase?
-  function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    // @ts-expect-error @types/webpack strikes again
-    return !!(loader as unknown)?.options?.postcssOptions;
+  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+    return !!(loader as NewLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now

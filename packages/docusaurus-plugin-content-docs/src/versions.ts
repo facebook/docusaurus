@@ -427,7 +427,7 @@ function filterVersions(
 ) {
   if (options.onlyIncludeVersions) {
     return versionNamesUnfiltered.filter((name) =>
-      options.onlyIncludeVersions!.includes(name),
+      (options.onlyIncludeVersions || []).includes(name),
     );
   } else {
     return versionNamesUnfiltered;

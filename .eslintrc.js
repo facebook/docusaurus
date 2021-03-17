@@ -90,6 +90,7 @@ module.exports = {
     ],
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
+    '@typescript-eslint/no-empty-function': OFF,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': OFF,
 
@@ -105,7 +106,6 @@ module.exports = {
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
     'no-unused-expressions': WARNING,
-    '@typescript-eslint/no-empty-function': WARNING,
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,

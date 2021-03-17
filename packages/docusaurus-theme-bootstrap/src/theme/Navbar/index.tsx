@@ -62,7 +62,7 @@ function NavItem({
   );
 }
 
-function Navbar() {
+function Navbar(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {navbar: {title = '', items: links = []} = {}},

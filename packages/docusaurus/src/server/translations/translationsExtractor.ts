@@ -11,11 +11,10 @@ import chalk from 'chalk';
 import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
 import {flatten} from 'lodash';
 import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
-import globby from 'globby';
 import nodePath from 'path';
 import {InitPlugin} from '../plugins/init';
-import {posixPath} from '@docusaurus/utils';
 import {SRC_DIR_NAME} from '../../constants';
+import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -54,13 +53,7 @@ function getPluginSourceCodeFilePaths(plugin: InitPlugin): string[] {
 export async function globSourceCodeFilePaths(
   dirPaths: string[],
 ): Promise<string[]> {
-  // Required for Windows support, as paths using \ should not be used by globby
-  // (also using the windows hard drive prefix like c: is not a good idea)
-  const globPaths = dirPaths.map((dirPath) =>
-    posixPath(nodePath.relative(process.cwd(), dirPath)),
-  );
-
-  const filePaths = await globby(globPaths);
+  const filePaths = await safeGlobby(dirPaths);
   return filePaths.filter(isTranslatableSourceCodePath);
 }
 
