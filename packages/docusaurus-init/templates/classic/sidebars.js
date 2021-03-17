@@ -16,7 +16,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Tutorial - Extras',
-      items: ['manage-versions', 'translate-your-site'],
+      items: ['manage-docs-versions', 'translate-your-site'],
     },
   ],
 };

@@ -8,7 +8,7 @@ You have learned the **basics of Docusaurus** and made some changes to the **ini
 
 Docusaurus has **much more to offer**!
 
-Have 5 more minutes? Take a look at **[versioning](./manage-versions.md)** and **[i18n](./translate-your-site.md)**.
+Have 5 more minutes? Take a look at **[versioning](./manage-docs-versions.md)** and **[i18n](./translate-your-site.md)**.
 
 ## What's next?
 

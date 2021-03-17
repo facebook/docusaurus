@@ -1,8 +1,8 @@
 ---
-title: Manage Versions
+title: Manage Docs Versions
 ---
 
-Docusaurus can manage multiple versions of your documentation.
+Docusaurus can manage multiple versions of your docs.
 
 ## Create a docs version
 
