@@ -45,9 +45,9 @@ The docs version dropdown appears in your navbar:
 
 ![Docs Version Dropdown](/img/tutorial/docsVersionDropdown.png)
 
-## Updating an existing version
+## Update an existing version
 
-After creating a version, it is still possible to edit it in its respective folder:
+It is possible to edit versioned docs in their respective folder:
 
 - `versioned_docs/version-1.0/hello.md` updates `http://localhost:3000/docs/hello`
 - `docs/hello.md` updates `http://localhost:3000/docs/next/hello`
