@@ -2,24 +2,52 @@
 title: Manage Versions
 ---
 
-Docusaurus gives you the option to have different versions of your docs, allowing you to update and have previous versions available.
+Docusaurus can manage multiple versions of your documentation.
 
-### Tagging a new version
+## Create a docs version
 
-To tag a new version make sure the content in the `docs` directory is ready to be frozen as a version. Run the following command to tag a version
+Release a version 1.0 of your project:
 
 ```bash
-npm run docusaurus docs:version <version>
+npm run docusaurus docs:version 1.0
 ```
 
-When a new `version` is tagged, the `docs/` directory content will be copied into `versioned_docs/version-<version>/` folder. A [sidebar](https://v2.docusaurus.io/docs/docs-introduction#sidebar) configuration will also be copiend and the version number added to `versions.json`.
+The `docs` directory is copied into `versioned_docs/version-1.0` and `versions.json` is created.
+
+Your docs now have 2 versions:
+
+- `1.0` at `http://localhost:3000/docs/` for the version 1.0 docs
+- `current` at `http://localhost:3000/docs/next/` for the **upcoming, unreleased docs**
+
+## Add a Version Dropdown
+
+To navigate seamlessly across versions, add a version dropdown.
+
+Modify the `docusaurus.config.js` file:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersionDropdown',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+The docs version dropdown appears in your navbar:
+
+![Docs Version Dropdown](/img/tutorial/docsVersionDropdown.png)
 
 ## Updating an existing version
 
-You can edit any version in its specific folder, comit and push changes and it will be published to that version. Example when you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for `version 2.6`
+After creating a version, it is still possible to edit it in its respective folder:
 
-## Deleting an existing version
-
-You can delete an existing version by removing the version from `versions.json` file, deleting the docs directory, Example : `versioned_docs/version-1.8.0` and deleting the versioned sidebar file, Example : `versioned_sidebars/version-1.8.0-sidebars.json`.
-
-After tagging a new version or deleting an existing version, you can restart the site with `yarn restart` or `npm restart`.
+- `versioned_docs/version-1.0/hello.md` updates `http://localhost:3000/docs/hello`
+- `docs/hello.md` updates `http://localhost:3000/docs/next/hello`

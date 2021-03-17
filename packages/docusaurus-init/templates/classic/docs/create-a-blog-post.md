@@ -2,7 +2,7 @@
 title: Create a Blog Post
 ---
 
-This page will help you on how to create blog posts in Docusaurus.
+Docusaurus creates a **page for each blog post**, but also a **blog index page**, a **tag system**, an **RSS** feed...
 
 ## Create a Blog Post
 
@@ -15,6 +15,7 @@ author: Steven Hansel
 author_title: Docusaurus Contributor
 author_url: https://github.com/ShinteiMai
 author_image_url: https://github.com/ShinteiMai.png
+tags: [greetings]
 ---
 
 Congratulations, you have made your first post!

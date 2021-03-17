@@ -2,44 +2,26 @@
 title: Deploy your site
 ---
 
-import Tabs from '@theme/Tabs';
+Docusaurus is a **static-site-generator** (also called [Jamstack](https://jamstack.org/)), and builds your site as **static HTML, JavaScript and CSS files**.
 
-import TabItem from '@theme/TabItem';
+## Build your site
 
-This page will discuss multiple options available when it comes to deploying your docs site. Before even this happens, you need to build the files of your website for production. To do this, run :
+Build your site **for production**:
 
 ```bash
 npm run build
 ```
 
-The static files will be generate in the build/ directory.
+The static files are generated in the `build` directory.
 
-## Self Hosting
+## Deploy your site
 
-:::warning
-
-It is not the most performant solution
-
-:::
-
-Docusaurus can be self hosted with docusaurus serve. Change your `--port` and `--host` to match appropriately.
+Test your production build locally:
 
 ```bash
-npm run serve --build --port 80 --host 0.0.0.0
+npm run serve
 ```
 
-## Deploying to Netlify
+The `build` folder is now served at `http://localhost:3000/`.
 
-One of the fastest ways to deploy is through [Netlify](https://www.netlify.com/). Configure your `docusaurus.config.js`
-
-```js {2-3} title="docusaurus.config.js"
-module.exports = {
-  url: 'https://docusaurus-2.netlify.com', // Url to your site with no trailing slash
-  baseUrl: '/', // Base directory of your site relative to your repo
-  // ...
-};
-```
-
-After you're done, [setup your site with Netlify](https://app.netlify.com/start).
-
-Your site should now automatically deploy when ever you merge into your deploy branch, which defaults to master.
+You can now deploy the `build` folder **almost anywhere** easily, **for free** or very small cost (read the **[Deployment Guide](https://v2.docusaurus.io/docs/deployment)**).
