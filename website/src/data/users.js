@@ -106,6 +106,14 @@ const users = [
     tags: ['design', 'large'],
   },
   {
+    title: 'blog.johnnyreilly.com',
+    description: 'The blog of johnnyreilly',
+    preview: require('./showcase/johnnyreilly.png'),
+    website: 'https://blog.johnnyreilly.com/',
+    source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
+    tags: [],
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
