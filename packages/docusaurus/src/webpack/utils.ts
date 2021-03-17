@@ -6,15 +6,8 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import merge from 'webpack-merge';                                                                
-import webpack, {
-  Configuration,
-  Loader,
-  NewLoader,
-  Plugin,
-  RuleSetRule,
-  Stats,
-} from 'webpack';
+import merge from 'webpack-merge';
+import webpack, {Configuration, RuleSetRule} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -28,8 +21,6 @@ import {
   ConfigurePostCssFn,
   PostCssOptions,
 } from '@docusaurus/types';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
-import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
@@ -169,20 +160,19 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {
+  type LocalPostCSSLoader = unknown & {
     options: {postcssOptions: PostCssOptions};
   };
 
   // TODO not ideal heuristic but good enough for our usecase?
-  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    return !!(loader as NewLoader)?.options?.postcssOptions;
+  function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
+    return !!(loader as any)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
   function overridePostCssOptions(entry) {
     if (isPostCssLoader(entry)) {
       entry.options.postcssOptions = configurePostCss(
-        // @ts-expect-error @types/webpack strikes again
         entry.options.postcssOptions,
       );
     } else if (Array.isArray(entry.oneOf)) {
