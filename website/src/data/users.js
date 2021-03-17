@@ -502,6 +502,15 @@ const users = [
     tags: ['highlight', 'design', 'large'],
   },
   {
+    title: 'QuantCDN',
+    description:
+      'An all-in-one Static Web solution and global Content Delivery Network',
+    preview: require('./showcase/quantcdn.png'),
+    website: 'https://docs.quantcdn.io',
+    source: 'https://github.com/quantcdn/docs',
+    tags: [],
+  },
+  {
     title: 'QuestDB',
     description:
       'An open source SQL database designed to process time series data',
@@ -675,6 +684,14 @@ const users = [
     preview: require('./showcase/stryker-mutator.png'),
     website: 'https://stryker-mutator.io',
     source: 'https://github.com/stryker-mutator/stryker-mutator.github.io',
+    tags: [],
+  },
+  {
+    title: 'Stylable',
+    description: 'A CSS preprocessor made for components',
+    preview: require('./showcase/stylable.png'),
+    website: 'https://stylable.io',
+    source: 'https://github.com/wixplosives/stylable.io',
     tags: [],
   },
   {

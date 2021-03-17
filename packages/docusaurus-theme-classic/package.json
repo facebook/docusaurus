@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.71",
+  "version": "2.0.0-alpha.72",
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/types.d.ts",
@@ -23,14 +23,14 @@
     "update-code-translations": "node update-code-translations.js"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.71",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.71",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.71",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.71",
-    "@docusaurus/theme-common": "2.0.0-alpha.71",
-    "@docusaurus/types": "2.0.0-alpha.71",
-    "@docusaurus/utils": "2.0.0-alpha.71",
-    "@docusaurus/utils-validation": "2.0.0-alpha.71",
+    "@docusaurus/core": "2.0.0-alpha.72",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.72",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.72",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.72",
+    "@docusaurus/theme-common": "2.0.0-alpha.72",
+    "@docusaurus/types": "2.0.0-alpha.72",
+    "@docusaurus/utils": "2.0.0-alpha.72",
+    "@docusaurus/utils-validation": "2.0.0-alpha.72",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@types/react-toggle": "^4.0.2",
@@ -52,7 +52,7 @@
     "rtlcss": "^2.6.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.71"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.72"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
