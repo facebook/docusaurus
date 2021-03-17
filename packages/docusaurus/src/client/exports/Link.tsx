@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
@@ -13,26 +13,13 @@ import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
 
+import type {LinkProps} from '@docusaurus/Link';
+import type docusaurus from '../docusaurus';
+
 declare global {
   interface Window {
-    docusaurus: {
-      prefetch: (routePath: string) => boolean;
-      preload: (routePath: string) => boolean;
-    };
+    docusaurus: typeof docusaurus;
   }
-}
-
-interface Props {
-  readonly isNavLink?: boolean;
-  readonly to?: string;
-  readonly href?: string;
-  readonly activeClassName?: string;
-  readonly children?: ReactNode;
-  readonly isActive?: () => boolean;
-  readonly autoAddBaseUrl?: boolean;
-
-  // escape hatch in case broken links check is annoying for a specific link
-  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -51,7 +38,7 @@ function Link({
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   autoAddBaseUrl = true,
   ...props
-}: Props): JSX.Element {
+}: LinkProps): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
@@ -92,8 +79,8 @@ function Link({
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  let io;
-  const handleIntersection = (el, cb) => {
+  let io: IntersectionObserver;
+  const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
     io = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
@@ -112,7 +99,7 @@ function Link({
     io.observe(el);
   };
 
-  const handleRef = (ref) => {
+  const handleRef = (ref: HTMLAnchorElement | null) => {
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {

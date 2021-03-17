@@ -14,7 +14,9 @@
   "devDependencies": {
     "@types/react": "*",
     "@types/react-helmet": "*",
-    "@types/react-router-dom": "*"
+    "@types/react-loadable": "*",
+    "@types/react-router-dom": "*",
+    "@types/react-router-config": "*"
   },
   "license": "MIT"
 }

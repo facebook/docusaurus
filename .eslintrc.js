@@ -133,6 +133,12 @@ module.exports = {
       },
     },
     {
+      files: ['*.d.ts'],
+      rules: {
+        'import/no-duplicates': OFF,
+      },
+    },
+    {
       files: ['*.js'],
       rules: {
         // Make JS code directly runnable in Node.
