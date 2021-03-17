@@ -273,8 +273,24 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
+type FileLoaderUtils = {
+  loaders: {
+    file: (options: {folder: AssetFolder}) => Loader;
+    url: (options: {folder: AssetFolder}) => Loader;
+    inlineMarkdownImageFileLoader: string;
+    inlineMarkdownLinkFileLoader: string;
+  };
+  rules: {
+    images: () => RuleSetRule;
+    fonts: () => RuleSetRule;
+    media: () => RuleSetRule;
+    svg: () => RuleSetRule;
+    otherAssets: () => RuleSetRule;
+  };
+};
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): Record<string, any> {
+export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 

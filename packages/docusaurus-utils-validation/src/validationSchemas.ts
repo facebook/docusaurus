@@ -8,7 +8,7 @@ import * as Joi from 'joi';
 import {isValidPathname} from '@docusaurus/utils';
 
 export const PluginIdSchema = Joi.string()
-  .regex(/^[a-zA-Z_\-]+$/)
+  .regex(/^[a-zA-Z_-]+$/)
   // duplicate core constant, otherwise cyclic dependency is created :(
   .default('default');
 

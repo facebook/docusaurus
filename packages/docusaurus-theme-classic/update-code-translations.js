@@ -197,6 +197,7 @@ async function updateCodeTranslations() {
   const {baseFile, localesFiles} = await getCodeTranslationFiles();
   const baseFileMessages = await updateBaseFile(baseFile);
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const localeFile of localesFiles) {
     logSection(`Will update ${path.basename(localeFile)}`);
     // eslint-disable-next-line no-await-in-loop
