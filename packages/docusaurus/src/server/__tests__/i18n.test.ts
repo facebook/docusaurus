@@ -5,16 +5,87 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadI18n, localizePath, defaultLocaleConfig} from '../i18n';
+import {
+  loadI18n,
+  localizePath,
+  getDefaultLocaleConfig,
+  shouldWarnAboutNodeVersion,
+} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
+import {NODE_MAJOR_VERSION} from '../../constants';
 
 function testLocaleConfigsFor(locales: string[]) {
-  return chain(locales).keyBy(identity).mapValues(defaultLocaleConfig).value();
+  return chain(locales)
+    .keyBy(identity)
+    .mapValues(getDefaultLocaleConfig)
+    .value();
 }
 
+describe('defaultLocaleConfig', () => {
+  const canComputeLabel = NODE_MAJOR_VERSION >= 14;
+
+  test('returns correct labels', () => {
+    expect(getDefaultLocaleConfig('fr')).toEqual({
+      label: canComputeLabel ? 'français' : 'fr',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('fr-FR')).toEqual({
+      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en')).toEqual({
+      label: canComputeLabel ? 'English' : 'en',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en-US')).toEqual({
+      label: canComputeLabel ? 'American English' : 'en-US',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('zh')).toEqual({
+      label: canComputeLabel ? '中文' : 'en',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('zh-CN')).toEqual({
+      label: canComputeLabel ? '中文（中国）' : 'en',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en-US')).toEqual({
+      label: canComputeLabel ? 'American English' : 'en-US',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('fa')).toEqual({
+      label: canComputeLabel ? 'فارسی' : 'fa',
+      direction: 'rtl',
+    });
+    expect(getDefaultLocaleConfig('fa-IR')).toEqual({
+      label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
+      direction: 'rtl',
+    });
+  });
+});
+
+describe('shouldWarnAboutNodeVersion', () => {
+  test('warns for old NodeJS version and [en,fr]', () => {
+    expect(shouldWarnAboutNodeVersion(12, ['en', 'fr'])).toEqual(true);
+  });
+
+  test('not warn for old NodeJS version and [en]', () => {
+    expect(shouldWarnAboutNodeVersion(12, ['en'])).toEqual(false);
+  });
+
+  test('not warn for recent NodeJS version and [en,fr]', () => {
+    expect(shouldWarnAboutNodeVersion(14, ['en', 'fr'])).toEqual(false);
+  });
+});
+
 describe('loadI18n', () => {
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
+
   test('should load I18n for default config', async () => {
     await expect(
       loadI18n(
@@ -94,26 +165,27 @@ describe('loadI18n', () => {
       currentLocale: 'de',
       localeConfigs: {
         fr: {label: 'Français', direction: 'ltr'},
-        en: defaultLocaleConfig('en'),
-        de: defaultLocaleConfig('de'),
+        en: getDefaultLocaleConfig('en'),
+        de: getDefaultLocaleConfig('de'),
       },
     });
   });
 
-  test('should throw when trying to load undeclared locale', async () => {
-    await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
+  test('should warn when trying to load undeclared locale', async () => {
+    await loadI18n(
+      // @ts-expect-error: enough for this test
+      {
+        i18n: {
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
         },
-        {locale: 'it'},
-      ),
-    ).rejects.toThrowErrorMatchingSnapshot();
+      },
+      {locale: 'it'},
+    );
+    expect(consoleSpy.mock.calls[0][0]).toMatch(
+      /The locale=it was not found in your site configuration/,
+    );
   });
 });
 
