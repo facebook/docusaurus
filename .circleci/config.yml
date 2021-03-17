@@ -19,10 +19,6 @@ aliases:
       only:
         - master
 
-  - &filter-ignore-gh-pages
-    branches:
-      ignore: gh-pages
-
 defaults: &defaults
   working_directory: ~/docusaurus
   docker:
@@ -31,20 +27,6 @@ defaults: &defaults
 
 version: 2
 jobs:
-  lint-prettier:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore-cache: *root-restore-yarn-cache
-      - run: *root-yarn
-      - save-cache: *root-save-yarn-cache
-      - run:
-          name: Check ESLint
-          command: yarn lint
-      - run:
-          name: Check Prettier
-          command: yarn prettier:diff
-
   tests:
     <<: *defaults
     steps:
@@ -112,15 +94,10 @@ jobs:
 workflows:
   version: 2
 
-  lint-prettier:
-    jobs:
-      - lint-prettier:
-          filters: *filter-ignore-gh-pages
-
   tests-and-deploy:
     jobs:
       - tests:
-          filters: *filter-ignore-gh-pages
+          filters: *filter-only-master
       - deploy-website:
           requires:
             - tests

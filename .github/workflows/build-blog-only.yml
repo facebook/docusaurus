@@ -1,0 +1,16 @@
+name: Build blog-only
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installation
+        run: yarn
+      - name: Build blog-only
+        run: yarn workspace docusaurus-2-website build:blogOnly

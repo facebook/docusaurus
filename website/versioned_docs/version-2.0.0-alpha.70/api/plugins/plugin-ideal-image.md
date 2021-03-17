@@ -6,7 +6,6 @@ slug: '/api/plugins/@docusaurus/plugin-ideal-image'
 
 Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
-
 :::note
 
 You must create and serve a **production build** in order to view the high-quality images.

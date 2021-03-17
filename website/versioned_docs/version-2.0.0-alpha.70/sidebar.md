@@ -144,6 +144,7 @@ Using just the [Document ID](#document-id) is also valid, the following is equiv
 
 ```js
 'doc1'; // string - document id
+
 ```
 
 Using this type will bind the linked doc to current sidebar. This means that if you access the `doc1` page, the sidebar displayed will be the sidebar that contains this doc page.

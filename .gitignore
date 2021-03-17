@@ -34,3 +34,5 @@ website-1.x-migrated
 website/i18n/**/*
 #!website/i18n/fr
 #!website/i18n/fr/**/*
+
+.netlify
