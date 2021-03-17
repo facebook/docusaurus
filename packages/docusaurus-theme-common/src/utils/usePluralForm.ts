@@ -107,9 +107,7 @@ function selectPluralMessage(
   }
 }
 
-export function usePluralForm(): {
-  selectMessage: (count: number, pluralMessages: string) => string;
-} {
+export function usePluralForm() {
   const localePluralForm = useLocalePluralForms();
   return {
     selectMessage: (count: number, pluralMessages: string): string => {
