@@ -10,5 +10,4 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-1.x/lib/core/metadata.js
 packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-*/lib-next/
-packages/docusaurus-init/templates/**/*.md
 __fixtures__

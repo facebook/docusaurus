@@ -3,17 +3,21 @@ title: Getting Started
 slug: /
 ---
 
-## Step 1: Generate a new Docusaurus site
+Get started by **creating a new site**
 
-If you haven't already, generate a new Docusaurus site using the classic template:
+Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)** (CodeSandbox).
+
+## Generate a new site
+
+Generate a new Docusaurus site using the **classic template**:
 
 ```shell
 npx @docusaurus/init@latest init my-website classic
 ```
 
-## Step 2: Start your Docusaurus site
+## Start your site
 
-Run the development server in the newly created `my-website` folder:
+Run the development server:
 
 ```shell
 cd my-website
@@ -21,8 +25,6 @@ cd my-website
 npx docusaurus start
 ```
 
-Open `docs/getting-started.md` and edit some lines. The site reloads automatically and display your changes.
+Your site starts at `http://localhost:3000`.
 
-## That's it!
-
-Congratulations! You've successfully run and modified your Docusaurus project.
+Open `docs/getting-started.md` and edit some lines: the site **reloads automatically** and display your changes.
