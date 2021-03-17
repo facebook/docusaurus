@@ -20,7 +20,8 @@
     "@docusaurus/core": "2.0.0-alpha.72",
     "@docusaurus/types": "2.0.0-alpha.72",
     "@docusaurus/utils": "2.0.0-alpha.72",
-    "react-json-view": "^1.21.1"
+    "react-json-view": "^1.21.1",
+    "tslib": "^2.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

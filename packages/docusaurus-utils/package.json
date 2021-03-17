@@ -25,7 +25,8 @@
     "fs-extra": "^9.1.0",
     "gray-matter": "^4.0.2",
     "lodash": "^4.17.20",
-    "resolve-pathname": "^3.0.0"
+    "resolve-pathname": "^3.0.0",
+    "tslib": "^2.1.0"
   },
   "engines": {
     "node": ">=12.13.0"
