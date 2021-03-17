@@ -11,6 +11,7 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
+  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -23,7 +24,11 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
+import {
+  ConfigureWebpackFn,
+  ConfigurePostCssFn,
+  PostCssOptions,
+} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {
@@ -177,11 +182,13 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+  type LocalPostCSSLoader = Loader & {
+    options: {postcssOptions: PostCssOptions};
+  };
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as NewLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
@@ -207,7 +214,7 @@ export function applyConfigurePostCss(
 // See https://webpack.js.org/configuration/stats/#statswarningsfilter
 // @slorber: note sure why we have to re-implement this logic
 // just know that legacy had this only partially implemented, so completed it
-type WarningFilter = string | RegExp | Function;
+type WarningFilter = string | RegExp | ((warning: string) => boolean);
 function filterWarnings(
   warningsFilter: WarningFilter[],
   warnings: string[],

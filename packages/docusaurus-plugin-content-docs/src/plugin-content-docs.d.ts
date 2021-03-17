@@ -22,7 +22,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   type PropsSidebarItemBase = {
-    customProps?: object;
+    customProps?: Record<string, unknown>;
   };
 
   export type PropSidebarItemLink = PropsSidebarItemBase & {

@@ -10,6 +10,8 @@ import {merge} from 'lodash';
 const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
+const theme = require('prism-react-renderer/themes/github');
+const darkTheme = require('prism-react-renderer/themes/dracula');
 
 function testValidateThemeConfig(partialThemeConfig) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -31,8 +33,8 @@ describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme,
+        darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
       },

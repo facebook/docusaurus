@@ -15,7 +15,10 @@ import {useBaseUrlUtils} from './useBaseUrl';
 
 declare global {
   interface Window {
-    docusaurus: any;
+    docusaurus: {
+      prefetch: (routePath: string) => boolean;
+      preload: (routePath: string) => boolean;
+    };
   }
 }
 
@@ -113,13 +116,15 @@ function Link({
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {
-        window.docusaurus.prefetch(targetLink);
+        if (targetLink != null) {
+          window.docusaurus.prefetch(targetLink);
+        }
       });
     }
   };
 
   const onMouseEnter = () => {
-    if (!preloaded.current) {
+    if (!preloaded.current && targetLink != null) {
       window.docusaurus.preload(targetLink);
       preloaded.current = true;
     }
@@ -128,7 +133,9 @@ function Link({
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
     if (!IOSupported && isInternal) {
-      window.docusaurus.prefetch(targetLink);
+      if (targetLink != null) {
+        window.docusaurus.prefetch(targetLink);
+      }
     }
 
     // When unmounting, stop intersection observer from watching.

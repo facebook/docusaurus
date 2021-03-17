@@ -37,7 +37,7 @@ export function useDocsPreferredVersion(
   return {preferredVersion, savePreferredVersionName} as const;
 }
 
-export function useDocsPreferredVersionByPluginId() {
+export function useDocsPreferredVersionByPluginId(): Record<string, any> {
   const allDocsData = useAllDocsData();
   const [state] = useDocsPreferredVersionContext();
 

@@ -43,7 +43,7 @@ declare module '@generated/routesChunkNames' {
 }
 
 declare module '@generated/globalData' {
-  const globalData: any;
+  const globalData: Record<string, unknown>;
   export default globalData;
 }
 

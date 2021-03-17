@@ -91,7 +91,7 @@ export default async function build(
         i18n.locales.indexOf(locale) === i18n.locales.length - 1;
       return tryToBuildLocale({locale, isLastLocale});
     });
-    return results[0]!;
+    return results[0];
   }
 }
 

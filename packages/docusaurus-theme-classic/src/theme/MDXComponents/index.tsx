@@ -23,7 +23,7 @@ const MDXComponents: MDXComponentsObject = {
     return children;
   },
   a: (props) => <Link {...props} />,
-  pre: (props: any) => {
+  pre: (props) => {
     const {children} = props;
     return (
       <CodeBlock
