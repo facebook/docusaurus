@@ -58,8 +58,8 @@ const isI18nStaging = process.env.I18N_STAGING === 'true';
   i18n: {
     defaultLocale: 'en',
     locales: isI18nStaging
-      ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
-        ['en', 'zh-CN']
+      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+        ['en', 'zh-CN', 'ko', 'ja']
       : // Production locales
         ['en', 'fr'],
   },
