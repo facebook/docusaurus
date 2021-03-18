@@ -1,0 +1,33 @@
+name: Test Docusaurus v1
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'packages/docusaurus-1.x'
+      - 'packages/docusaurus-init-1.x'
+      - 'website-1.x'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['12', '14']
+    steps:
+      - run: pwd
+      - run: ls -l
+      - uses: actions/checkout@v2
+      - run: pwd
+      - run: ls -l
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        run: yarn
+      - run: pwd
+      - run: ls -l
+      - name: Test
+        run: yarn test:v1
