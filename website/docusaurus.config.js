@@ -46,26 +46,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 // https://docusaurus-i18n-staging.netlify.app/
 const isI18nStaging = process.env.I18N_STAGING === 'true';
 
-const LocaleConfigs = isI18nStaging
-  ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
-    {
-      en: {
-        label: 'English',
-      },
-      'zh-CN': {
-        label: '简体中文',
-      },
-    }
-  : // Production locales
-    {
-      en: {
-        label: 'English',
-      },
-      fr: {
-        label: 'Français',
-      },
-    };
-
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
   title: 'Docusaurus',
@@ -77,8 +57,11 @@ const LocaleConfigs = isI18nStaging
   url: 'https://v2.docusaurus.io',
   i18n: {
     defaultLocale: 'en',
-    locales: Object.keys(LocaleConfigs),
-    localeConfigs: LocaleConfigs,
+    locales: isI18nStaging
+      ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
+        ['en', 'zh-CN']
+      : // Production locales
+        ['en', 'fr'],
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
