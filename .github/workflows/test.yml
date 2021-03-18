@@ -19,5 +19,6 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Installation
         run: yarn
+      - run: pwd
       - name: Test
         run: yarn test
