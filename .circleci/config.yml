@@ -27,7 +27,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  tests:
+  tests-v1:
     <<: *defaults
     steps:
       - checkout
@@ -36,11 +36,11 @@ jobs:
       - save-cache: *root-save-yarn-cache
       - run:
           name: Run Test Suites
-          command: yarn test
+          command: yarn test:v1
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
-  deploy-website:
+  deploy-website-v1:
     <<: *defaults
     steps:
       - checkout
@@ -94,11 +94,11 @@ jobs:
 workflows:
   version: 2
 
-  tests-and-deploy:
+  tests-and-deploy-v1:
     jobs:
-      - tests:
+      - tests-v1:
           filters: *filter-only-master
-      - deploy-website:
+      - deploy-website-v1:
           requires:
             - tests
           filters: *filter-only-master

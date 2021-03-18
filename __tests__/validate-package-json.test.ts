@@ -17,19 +17,8 @@ type PackageJsonFile = {
   content: any;
 };
 
-console.log('process.cwd()', process.cwd());
-
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await glob('packages/*/package.json');
-
-  console.log('glob', await glob('packages/*/package.json'));
-  console.log('glob2', await glob('packages/*/package.json', {cwd: '..'}));
-  console.log(
-    'glob3',
-    await glob('packages/*/package.json', {cwd: process.cwd()}),
-  );
-
-  console.log('glob4', await glob('*.*'));
 
   return Promise.all(
     files.map(async (file) => {
