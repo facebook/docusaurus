@@ -1,4 +1,4 @@
-name: Lighthouse Report
+name: V2 Lighthouse Report
 
 on: pull_request_target
 
@@ -19,7 +19,7 @@ jobs:
         with:
           urls: |
            https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/classic/
-          configPath: ./.github/workflows/lighthousesrc.json
+          configPath: ./.github/workflows/v2-lighthousesrc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
         env:

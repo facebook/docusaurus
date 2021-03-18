@@ -1,4 +1,4 @@
-name: E2E Test
+name: V2 Tests E2E
 
 on:
   push:
@@ -7,6 +7,10 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   yarn-v1:

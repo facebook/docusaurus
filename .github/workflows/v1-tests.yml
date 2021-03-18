@@ -1,9 +1,13 @@
-name: Test
+name: V1 Tests
 
 on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   test:
@@ -20,4 +24,4 @@ jobs:
       - name: Installation
         run: yarn
       - name: Test
-        run: yarn test
+        run: yarn test:v1

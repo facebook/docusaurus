@@ -1,9 +1,12 @@
-name: Build blog-only
+name: V2 Build Blog-only
 
 on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'website-1.x/blog/**'
+      - 'packages/docusaurus/**'
 
 jobs:
   lint:

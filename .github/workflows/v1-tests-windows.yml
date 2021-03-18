@@ -1,17 +1,17 @@
-name: Test Docusaurus v1
+name: V1 Tests Windows
 
 on:
   pull_request:
     branches:
       - master
     paths:
+      - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
       - 'packages/docusaurus-init-1.x/**'
-      - 'website-1.x/**'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
     strategy:
       matrix:
         node: ['12', '14']
@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
-        run: yarn
-      - name: Test
+        run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
+      - name: Docusaurus 1 Tests
         run: yarn test:v1
+      - name: Docusaurus 1 Build
+        run: yarn build:v1
