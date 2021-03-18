@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "닫기",
   "theme.CodeBlock.copied": "복사했습니다",
@@ -51,5 +57,5 @@
   "theme.lastUpdated.lastUpdatedAtBy": "{atDate}{byUser} 마지막으로 업데이트했습니다.",
   "theme.tags.tagsListLabel": "태그:",
   "theme.tags.tagsPageLink": "모든 태그 보기",
-  "theme.tags.tagsPageTitle": "태그",
+  "theme.tags.tagsPageTitle": "태그"
 }
