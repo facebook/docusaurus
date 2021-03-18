@@ -5,9 +5,9 @@ on:
     branches:
       - master
     paths:
-      - 'packages/docusaurus-1.x'
-      - 'packages/docusaurus-init-1.x'
-      - 'website-1.x'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
+      - 'website-1.x/**'
 
 jobs:
   test:
