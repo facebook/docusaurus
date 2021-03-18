@@ -125,7 +125,7 @@ export default function CodeBlock({
 
   if (metastring && codeBlockTitleRegex.test(metastring)) {
     // Tested above
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, prefer-destructuring
     codeBlockTitle = metastring.match(codeBlockTitleRegex)![1];
   }
 

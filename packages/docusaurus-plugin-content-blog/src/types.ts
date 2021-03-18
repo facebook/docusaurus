@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import {
   BrokenMarkdownLink,
   ContentPaths,
@@ -33,7 +34,7 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
-export interface PluginOptions {
+export interface PluginOptions extends RemarkAndRehypePluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
@@ -47,16 +48,6 @@ export interface PluginOptions {
   blogDescription: string;
   blogSidebarCount: number | 'ALL';
   blogSidebarTitle: string;
-  remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
-  beforeDefaultRehypePlugins: (
-    | [Function, Record<string, unknown>]
-    | Function
-  )[];
-  beforeDefaultRemarkPlugins: (
-    | [Function, Record<string, unknown>]
-    | Function
-  )[];
-  rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {

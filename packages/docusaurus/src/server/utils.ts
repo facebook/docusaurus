@@ -23,7 +23,7 @@ export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
 export async function safeGlobby(
   patterns: string[],
   options?: globby.GlobbyOptions,
-) {
+): Promise<string[]> {
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)
   const globPaths = patterns.map((dirPath) =>
