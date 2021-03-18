@@ -12,7 +12,11 @@ jobs:
       matrix:
         node: ['12', '14']
     steps:
+      - run: pwd
+      - run: ls -l
       - uses: actions/checkout@v2
+      - run: pwd
+      - run: ls -l
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
@@ -20,5 +24,6 @@ jobs:
       - name: Installation
         run: yarn
       - run: pwd
+      - run: ls -l
       - name: Test
         run: yarn test
