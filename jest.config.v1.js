@@ -7,27 +7,19 @@
 
 const path = require('path');
 
-const testMatch = [
-  '**/packages/docusaurus-1.x/**/__tests__/**/*.[jt]s?(x)',
-  '**/packages/docusaurus-1.x/**/?(*.)+(spec|test).[jt]s?(x)',
-  '**/packages/docusaurus-init-1.x/**/__tests__/**/*.[jt]s?(x)',
-  '**/packages/docusaurus-init-1.x/**/?(*.)+(spec|test).[jt]s?(x)',
-];
-
 const ignorePatterns = ['/node_modules/', '__fixtures__'];
 
 module.exports = {
-  rootDir: path.resolve(__dirname),
+  rootDir: path.join(path.resolve(__dirname), 'packages', 'docusaurus-1.x'),
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  testMatch,
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-  setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
+  setupFiles: ['../../jest/stylelint-rule-test.js', '../../jest/polyfills.js'],
   moduleNameMapper: {
     '@docusaurus/router': 'react-router-dom',
   },
