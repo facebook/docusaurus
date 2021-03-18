@@ -34,7 +34,7 @@
 
     /* Use tslib */
     "importHelpers": true,
-    "noEmitHelpers": true,
+    "noEmitHelpers": true
   },
   "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }
