@@ -81,7 +81,6 @@
     "html-webpack-plugin": "^4.5.0",
     "import-fresh": "^3.3.0",
     "is-root": "^2.1.0",
-    "joi": "^17.4.0",
     "leven": "^3.1.0",
     "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^0.8.0",

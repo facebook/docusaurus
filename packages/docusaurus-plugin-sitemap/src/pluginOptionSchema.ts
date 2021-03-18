@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from 'joi';
+import {Joi} from '@docusaurus/utils-validation';
 import {EnumChangefreq} from 'sitemap';
 import {PluginOptions} from './types';
 
