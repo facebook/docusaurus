@@ -14,7 +14,7 @@ import {
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
-import {NODE_MAJOR_VERSION} from '../../constants';
+import {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return chain(locales)
@@ -23,8 +23,19 @@ function testLocaleConfigsFor(locales: string[]) {
     .value();
 }
 
+function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
+  return loadI18n(
+    // @ts-expect-error: enough for this test
+    {
+      i18n: i18nConfig,
+    },
+    {locale},
+  );
+}
+
 describe('defaultLocaleConfig', () => {
-  const canComputeLabel = NODE_MAJOR_VERSION >= 14;
+  // @ts-expect-error: wait for TS support of ES2021 feature
+  const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
 
   test('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
@@ -44,11 +55,11 @@ describe('defaultLocaleConfig', () => {
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
-      label: canComputeLabel ? '中文' : 'en',
+      label: canComputeLabel ? '中文' : 'zh',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
-      label: canComputeLabel ? '中文（中国）' : 'en',
+      label: canComputeLabel ? '中文（中国）' : 'zh-CN',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
@@ -87,14 +98,7 @@ describe('loadI18n', () => {
   });
 
   test('should load I18n for default config', async () => {
-    await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: DEFAULT_I18N_CONFIG,
-        },
-      ),
-    ).resolves.toEqual({
+    await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
@@ -104,16 +108,11 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-lang config', async () => {
     await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
-        },
-      ),
+      loadI18nTest({
+        defaultLocale: 'fr',
+        locales: ['en', 'fr', 'de'],
+        localeConfigs: {},
+      }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       locales: ['en', 'fr', 'de'],
@@ -124,16 +123,13 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-locale config with specified locale', async () => {
     await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
+      loadI18nTest(
         {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
         },
-        {locale: 'de'},
+        'de',
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
@@ -145,19 +141,16 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-locale config with some xcustom locale configs', async () => {
     await expect(
-      loadI18n(
+      loadI18nTest(
         {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {
-              fr: {label: 'Français'},
-              // @ts-expect-error: empty on purpose
-              en: {},
-            },
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {
+            fr: {label: 'Français'},
+            en: {},
           },
         },
-        {locale: 'de'},
+        'de',
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
@@ -172,16 +165,13 @@ describe('loadI18n', () => {
   });
 
   test('should warn when trying to load undeclared locale', async () => {
-    await loadI18n(
-      // @ts-expect-error: enough for this test
+    await loadI18nTest(
       {
-        i18n: {
-          defaultLocale: 'fr',
-          locales: ['en', 'fr', 'de'],
-          localeConfigs: {},
-        },
+        defaultLocale: 'fr',
+        locales: ['en', 'fr', 'de'],
+        localeConfigs: {},
       },
-      {locale: 'it'},
+      'it',
     );
     expect(consoleSpy.mock.calls[0][0]).toMatch(
       /The locale=it was not found in your site configuration/,

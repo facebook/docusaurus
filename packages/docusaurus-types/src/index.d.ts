@@ -101,11 +101,14 @@ export type I18nLocaleConfig = {
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  localeConfigs: Record<string, I18nLocaleConfig>;
+  localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
 };
 
-export type I18n = I18nConfig & {
+export type I18n = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
   currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export interface DocusaurusContext {
