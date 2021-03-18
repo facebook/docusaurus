@@ -1,4 +1,4 @@
-name: V2 Test
+name: V2 Tests
 
 on:
   pull_request:
