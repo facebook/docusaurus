@@ -1,6 +1,13 @@
 name: V2 Lighthouse Report
 
-on: pull_request_target
+on:
+  pull_request_target:
+    branches:
+      - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   build:

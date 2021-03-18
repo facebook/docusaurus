@@ -1,4 +1,4 @@
-name: Migration CLI E2E Test
+name: Migration CLI
 
 on:
   pull_request:

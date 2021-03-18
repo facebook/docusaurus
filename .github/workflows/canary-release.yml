@@ -1,4 +1,4 @@
-name: Canary releases
+name: Canary Release
 
 on:
   push:

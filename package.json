@@ -48,7 +48,7 @@
     "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
-    "test:v1": "cross-env TZ=UTC jest --config jest.config.v1.js",
+    "test:v1": "cross-env TZ=UTC V1_I18N=false jest --config jest.config.v1.js",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel --no-private watch",
     "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec --ignore docusaurus yarn rimraf lib",

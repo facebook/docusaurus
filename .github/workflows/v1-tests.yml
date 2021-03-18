@@ -25,3 +25,4 @@ jobs:
         run: yarn
       - name: Test
         run: yarn test:v1
+      # Not useful to build v1 site because tests already build v1 (packages/docusaurus-1.x/lib/__tests__/build-files.test.js)
