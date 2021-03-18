@@ -5,8 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// /!\ don't remove this export, as we recommend plugin authors to use it
-export {default as Joi} from './Joi';
-
-export * from './validationUtils';
-export * from './validationSchemas';
+export {default} from 'joi';
