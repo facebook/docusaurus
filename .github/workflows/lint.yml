@@ -1,0 +1,21 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Installation
+        run: yarn
+      - name: Lint
+        run: yarn lint
+      - name: Prettier Code
+        run: yarn prettier:diff
+      - name: Prettier Docs
+        run: yarn prettier-docs:diff

@@ -1,6 +1,13 @@
-name: Lighthouse Report
+name: V2 Lighthouse Report
 
-on: pull_request_target
+on:
+  pull_request_target:
+    branches:
+      - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   build:
@@ -18,8 +25,8 @@ jobs:
         uses: treosh/lighthouse-ci-action@v3
         with:
           urls: |
-           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/classic/
-          configPath: ./.github/workflows/lighthousesrc.json
+           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
+          configPath: ./.github/workflows/v2-lighthousesrc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
         env:

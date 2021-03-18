@@ -1,27 +1,14 @@
-name: Canary releases
+name: Canary Release
 
 on:
   push:
     branches:
       - master
+    paths:
+      - 'packages/**'
 
 jobs:
-  checkPackagesHaveChanged:
-    runs-on: ubuntu-latest
-    outputs:
-      packagesHaveChanged: ${{ steps.filter.outputs.packagesHaveChanged }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            packagesHaveChanged:
-              - 'packages/**'
-
   publish-canary:
-    needs: checkPackagesHaveChanged
-    if: ${{ needs.checkPackagesHaveChanged.outputs.packagesHaveChanged == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - name: Prepare git

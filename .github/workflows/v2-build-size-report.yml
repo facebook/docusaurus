@@ -1,5 +1,5 @@
 
-name: Build Size Report
+name: V2 Build Size Report
 
 on:
   # Note! you can't safely use "pull_request_target" here
@@ -10,12 +10,17 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
       - uses: preactjs/compressed-size-action@v2
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'

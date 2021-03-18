@@ -1,0 +1,20 @@
+name: V2 Build Blog-only
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'website-1.x/blog/**'
+      - 'packages/docusaurus/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Installation
+        run: yarn
+      - name: Build blog-only
+        run: yarn workspace docusaurus-2-website build:blogOnly

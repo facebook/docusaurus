@@ -1,4 +1,4 @@
-name: E2E Test
+name: V2 Tests E2E
 
 on:
   push:
@@ -7,6 +7,10 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   yarn-v1:
@@ -17,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
@@ -42,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
