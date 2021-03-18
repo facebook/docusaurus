@@ -5,13 +5,13 @@ description: API reference for Docusaurus configuration file.
 slug: /docusaurus.config.js
 ---
 
-## Overview
+## Overview {#overview}
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-## Required fields
+## Required fields {#required-fields}
 
-### `title`
+### `title` {#title}
 
 - Type: `string`
 
@@ -23,7 +23,7 @@ module.exports = {
 };
 ```
 
-### `favicon`
+### `favicon` {#favicon}
 
 - Type: `string`
 
@@ -54,7 +54,7 @@ module.exports = {
 };
 ```
 
-### `url`
+### `url` {#url}
 
 - Type: `string`
 
@@ -66,7 +66,7 @@ module.exports = {
 };
 ```
 
-### `baseUrl`
+### `baseUrl` {#baseurl}
 
 - Type: `string`
 
@@ -78,9 +78,9 @@ module.exports = {
 };
 ```
 
-## Optional fields
+## Optional fields {#optional-fields}
 
-### `i18n`
+### `i18n` {#i18n}
 
 - Type: `Object`
 
@@ -110,7 +110,7 @@ module.exports = {
 - `label`: the label to use for this locale
 - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew, etc.)
 
-### `noIndex`
+### `noIndex` {#noindex}
 
 - Type: `boolean`
 
@@ -124,7 +124,7 @@ module.exports = {
 };
 ```
 
-### `onBrokenLinks`
+### `onBrokenLinks` {#onbrokenlinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -138,7 +138,7 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
-### `onBrokenMarkdownLinks`
+### `onBrokenMarkdownLinks` {#onbrokenmarkdownlinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -146,7 +146,7 @@ The behavior of Docusaurus, when it detects any broken markdown link.
 
 By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
 
-### `onDuplicateRoutes`
+### `onDuplicateRoutes` {#onduplicateroutes}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -154,7 +154,7 @@ The behavior of Docusaurus when it detects any [duplicate routes](/guides/creati
 
 By default, it displays a warning after you run `yarn start` or `yarn build`.
 
-### `tagline`
+### `tagline` {#tagline}
 
 - Type: `string`
 
@@ -167,7 +167,7 @@ module.exports = {
 };
 ```
 
-### `organizationName`
+### `organizationName` {#organizationname}
 
 - Type: `string`
 
@@ -180,7 +180,7 @@ module.exports = {
 };
 ```
 
-### `projectName`
+### `projectName` {#projectname}
 
 - Type: `string`
 
@@ -192,7 +192,7 @@ module.exports = {
 };
 ```
 
-### `githubHost`
+### `githubHost` {#githubhost}
 
 - Type: `string`
 
@@ -204,7 +204,7 @@ module.exports = {
 };
 ```
 
-### `themeConfig`
+### `themeConfig` {#themeconfig}
 
 - Type: `Object`
 
@@ -273,7 +273,7 @@ module.exports = {
 };
 ```
 
-### `plugins`
+### `plugins` {#plugins}
 
 <!-- TODO: configuration for plugins -->
 
@@ -285,7 +285,7 @@ module.exports = {
 };
 ```
 
-### `themes`
+### `themes` {#themes}
 
 <!-- TODO: configuration for plugins -->
 
@@ -297,7 +297,7 @@ module.exports = {
 };
 ```
 
-### `presets`
+### `presets` {#presets}
 
 <!-- TODO: configuration for presets -->
 
@@ -309,7 +309,7 @@ module.exports = {
 };
 ```
 
-### `customFields`
+### `customFields` {#customfields}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
@@ -330,7 +330,7 @@ Attempting to add unknown field in the config will lead to error in build time:
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
-### `scripts`
+### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
 
@@ -355,7 +355,7 @@ module.exports = {
 };
 ```
 
-### `clientModules`
+### `clientModules` {#clientmodules}
 
 An array of client modules to load globally on your site:
 
@@ -372,7 +372,7 @@ module.exports = {
 
 See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules).
 
-### `ssrTemplate`
+### `ssrTemplate` {#ssrtemplate}
 
 An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from `upstream`.
 
@@ -416,7 +416,7 @@ module.exports = {
 };
 ```
 
-### `stylesheets`
+### `stylesheets` {#stylesheets}
 
 An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
 
@@ -438,7 +438,7 @@ module.exports = {
 };
 ```
 
-### `titleDelimiter`
+### `titleDelimiter` {#titledelimiter}
 
 - Type: `string`
 
@@ -452,7 +452,7 @@ module.exports = {
 };
 ```
 
-### `baseUrlIssueBanner`
+### `baseUrlIssueBanner` {#baseurlissuebanner}
 
 - Type: `boolean`
 

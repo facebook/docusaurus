@@ -6,9 +6,9 @@ slug: '/api/themes/configuration'
 
 This configuration applies to all [main themes](./overview.md).
 
-## Common
+## Common {#common}
 
-### Color mode - dark mode
+### Color mode - dark mode {#color-mode---dark-mode}
 
 The classic theme provides by default light and dark mode support, with a navbar switch for the user.
 
@@ -66,7 +66,7 @@ If you only want to support one color mode, you likely want to ignore user syste
 
 :::
 
-### Meta image
+### Meta image {#meta-image}
 
 You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
 
@@ -82,7 +82,7 @@ module.exports = {
 };
 ```
 
-### Metadatas
+### Metadatas {#metadatas}
 
 You can configure additional html metadatas (and override existing ones).
 
@@ -96,7 +96,7 @@ module.exports = {
 };
 ```
 
-### Announcement bar
+### Announcement bar {#announcement-bar}
 
 Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.
 
@@ -117,18 +117,18 @@ module.exports = {
 };
 ```
 
-## i18n
+## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
 - **Multi-instance path**: N/A
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
 - **Markdown files**: `N/A
 
-### Example file-system structure
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/<locale>/docusaurus-theme-classic
@@ -138,9 +138,9 @@ website/i18n/<locale>/docusaurus-theme-classic
 └── footer.json
 ```
 
-## Hooks
+## Hooks {#hooks}
 
-### `useThemeContext`
+### `useThemeContext` {#usethemecontext}
 
 React hook to access theme context. This context contains functions for setting light and dark mode and boolean property, indicating which mode is currently in use.
 
@@ -175,9 +175,9 @@ function ExamplePage() {
 
 :::
 
-## Navbar
+## Navbar {#navbar}
 
-### Navbar title & logo
+### Navbar title & logo {#navbar-title--logo}
 
 You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
 
@@ -202,7 +202,7 @@ module.exports = {
 };
 ```
 
-### Navbar items
+### Navbar items {#navbar-items}
 
 You can add items to the navbar via `themeConfig.navbar.items`.
 
@@ -250,7 +250,7 @@ React Router should automatically apply active link styling to links, but you ca
 
 Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
-### Navbar dropdown
+### Navbar dropdown {#navbar-dropdown}
 
 Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar items.
 
@@ -282,7 +282,7 @@ module.exports = {
 };
 ```
 
-### Navbar doc link
+### Navbar doc link {#navbar-doc-link}
 
 If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
 
@@ -309,7 +309,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version dropdown
+### Navbar docs version dropdown {#navbar-docs-version-dropdown}
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
 
@@ -338,7 +338,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version
+### Navbar docs version {#navbar-docs-version}
 
 If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current url), and fallback to the latest version.
 
@@ -364,7 +364,7 @@ module.exports = {
 };
 ```
 
-### Navbar locale dropdown
+### Navbar locale dropdown {#navbar-locale-dropdown}
 
 If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
 
@@ -395,7 +395,7 @@ module.exports = {
 };
 ```
 
-### Navbar search
+### Navbar search {#navbar-search}
 
 If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
 
@@ -416,7 +416,7 @@ module.exports = {
 };
 ```
 
-### Auto-hide sticky navbar
+### Auto-hide sticky navbar {#auto-hide-sticky-navbar}
 
 You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
 
@@ -432,7 +432,7 @@ module.exports = {
 };
 ```
 
-### Navbar style
+### Navbar style {#navbar-style}
 
 You can set the static Navbar style without disabling the theme switching ability. The selected style will always apply no matter which theme user have selected.
 
@@ -452,17 +452,17 @@ module.exports = {
 
 <!--
 
-## Footer
+## Footer {#footer}
 
 TODO.
 
 -->
 
-## CodeBlock
+## CodeBlock {#codeblock}
 
 Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
 
-### Theme
+### Theme {#theme}
 
 By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
 
@@ -485,7 +485,7 @@ If you use the line highlighting Markdown syntax, you might need to specify a di
 
 :::
 
-### Default language
+### Default language {#default-language}
 
 You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed, e.g.:
 
@@ -501,7 +501,7 @@ module.exports = {
 };
 ```
 
-## Footer
+## Footer {#footer-1}
 
 You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.md). Logo URL works in the same way of the navbar logo.
 
@@ -517,7 +517,7 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
   }
 ```
 
-## Footer Links
+## Footer Links {#footer-links}
 
 You can add links to the navbar via `themeConfig.footer.links`:
 

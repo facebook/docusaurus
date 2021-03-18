@@ -10,7 +10,7 @@ The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
 You can use React components, or Markdown.
 
-## Add a React page
+## Add a React page {#add-a-react-page}
 
 Create a file `/src/pages/helloReact.js`:
 
@@ -50,7 +50,7 @@ You can also create TypeScript pages with the `.tsx` extension (`helloReact.tsx`
 
 :::
 
-## Add a Markdown page
+## Add a Markdown page {#add-a-markdown-page}
 
 Create a file `/src/pages/helloMarkdown.md`:
 
@@ -78,7 +78,7 @@ You can use the full power of React in Markdown pages too, refer to the [MDX](ht
 
 :::
 
-## Routing
+## Routing {#routing}
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
 
@@ -113,10 +113,10 @@ All JavaScript/TypeScript files within the `src/pages/` directory will have corr
 
 :::
 
-## Using React
+## Using React {#using-react}
 
 React is used as the UI library to create pages. Every page component should export a React component, and you can leverage on the expressiveness of React to build rich and interactive content.
 
-## Duplicate Routes
+## Duplicate Routes {#duplicate-routes}
 
 You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.

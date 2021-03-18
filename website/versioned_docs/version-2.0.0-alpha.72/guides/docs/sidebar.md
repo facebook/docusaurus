@@ -27,7 +27,7 @@ module.exports = {
 };
 ```
 
-## Sidebar object
+## Sidebar object {#sidebar-object}
 
 A sidebar object contains [sidebar items](#understanding-sidebar-items) and it is defined like this:
 
@@ -83,7 +83,7 @@ Shorthand notation relies on the iteration order of JavaScript object keys for t
 
 :::
 
-## Using multiple sidebars
+## Using multiple sidebars {#using-multiple-sidebars}
 
 You can have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
 
@@ -107,7 +107,7 @@ For example, with the above example, when displaying the `doc2` page, the sideba
 
 For more information about sidebars and how they relate to doc pages, see [Navbar doc link](../../api/themes/theme-configuration.md#navbar-doc-link).
 
-## Understanding sidebar items
+## Understanding sidebar items {#understanding-sidebar-items}
 
 As the name implies, `SidebarItem` is an item defined in a Sidebar. A SidebarItem as a `type` that defines what the item links to.
 
@@ -118,7 +118,7 @@ As the name implies, `SidebarItem` is an item defined in a Sidebar. A SidebarIte
 - [Ref](#creating-a-link-to-page-without-sidebar)
 - [Category](#creating-a-hierarchy)
 
-### Linking to a doc page
+### Linking to a doc page {#linking-to-a-doc-page}
 
 Set `type` to `doc` to link to a documentation page. This is the default type.
 
@@ -163,7 +163,7 @@ module.exports = {
 };
 ```
 
-### Creating a generic link
+### Creating a generic link {#creating-a-generic-link}
 
 Set `type` to `link` to link to a non-documentation page. For example, to create an external link.
 
@@ -185,7 +185,7 @@ Example:
 }
 ```
 
-### Creating a link to page without sidebar
+### Creating a link to page without sidebar {#creating-a-link-to-page-without-sidebar}
 
 Set `type` to `ref` to link to a documentation page without binding it to a sidebar. This means the sidebar disappears when the user displays the linked page.
 
@@ -205,7 +205,7 @@ Example:
 }
 ```
 
-### Creating a hierarchy
+### Creating a hierarchy {#creating-a-hierarchy}
 
 The Sidebar item type that creates a hierarchy in the sidebar. Set `type` to `category`.
 
@@ -260,7 +260,7 @@ module.exports = {
 };
 ```
 
-#### Collapsible categories
+#### Collapsible categories {#collapsible-categories}
 
 For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
 
@@ -274,7 +274,7 @@ module.exports = {
 };
 ```
 
-#### Expanded categories by default
+#### Expanded categories by default {#expanded-categories-by-default}
 
 For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
 
@@ -294,7 +294,7 @@ module.exports = {
 };
 ```
 
-## Hideable sidebar
+## Hideable sidebar {#hideable-sidebar}
 
 Using the enabled `themeConfig.hideableSidebar` option, you can make the entire sidebar hidden, allowing you to better focus your users on the content. This is especially useful when content consumption on medium screens (e.g. on tablets).
 
@@ -308,7 +308,7 @@ module.exports = {
 };
 ```
 
-## Passing custom props
+## Passing custom props {#passing-custom-props}
 
 To pass in custom props to a swizzled sidebar item, add the optional `customProps` object to any of the items:
 
