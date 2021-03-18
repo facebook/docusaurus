@@ -100,5 +100,5 @@ workflows:
           filters: *filter-only-master
       - deploy-website-v1:
           requires:
-            - tests
+            - tests-v1
           filters: *filter-only-master
