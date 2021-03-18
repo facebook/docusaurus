@@ -13,7 +13,7 @@ import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import {PluginOptions, EditUrlFunction} from '../types';
-import Joi from 'joi';
+import {Joi} from '@docusaurus/utils-validation';
 
 function getI18n(locale: string): I18n {
   return {

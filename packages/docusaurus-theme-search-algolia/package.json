@@ -17,11 +17,11 @@
     "@docusaurus/core": "2.0.0-alpha.72",
     "@docusaurus/theme-common": "2.0.0-alpha.72",
     "@docusaurus/utils": "2.0.0-alpha.72",
+    "@docusaurus/utils-validation": "2.0.0-alpha.72",
     "algoliasearch": "^4.8.4",
     "algoliasearch-helper": "^3.3.4",
     "clsx": "^1.1.1",
     "eta": "^1.12.1",
-    "joi": "^17.4.0",
     "lodash": "^4.17.20"
   },
   "peerDependencies": {

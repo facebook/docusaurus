@@ -27,6 +27,8 @@ Return validated and normalized options for the plugin. This method is called be
 
 [Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
 
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
+
 :::
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
@@ -76,6 +78,8 @@ Return validated and normalized configuration for the theme.
 :::tip
 
 [Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
+
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
 
 :::
 
