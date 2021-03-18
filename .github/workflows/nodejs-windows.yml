@@ -21,7 +21,7 @@ jobs:
               - 'packages/docusaurus-1.x/**'
               - 'packages/docusaurus-init-1.x/**'
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
