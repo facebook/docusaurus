@@ -48,7 +48,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Das ist die unveröffentlichte Dokumentation für {siteTitle} {versionLabel}.",
   "theme.lastUpdated.atDate": " am {date}",
   "theme.lastUpdated.byUser": " von {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "Letztes Update {atDate}{byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "Letztes Update{atDate}{byUser}",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Alle Tags anzeigen",
   "theme.tags.tagsPageTitle": "Tags"
