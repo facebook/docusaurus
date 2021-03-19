@@ -15,12 +15,7 @@
       "translation",
       "versioning"
     ],
-    "API": [
-      "commands",
-      "doc-markdown",
-      "api-pages",
-      "site-config"
-    ]
+    "API": ["commands", "doc-markdown", "api-pages", "site-config"]
   },
   "tutorial": {
     "Tutorial": [

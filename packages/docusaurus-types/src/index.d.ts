@@ -101,17 +101,20 @@ export type I18nLocaleConfig = {
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  localeConfigs: Record<string, I18nLocaleConfig>;
+  localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
 };
 
-export type I18n = I18nConfig & {
+export type I18n = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
   currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
-  globalData: Record<string, any>;
+  globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
   isClient: boolean;
@@ -184,7 +187,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<any>[];
+  plugins: Plugin<unknown>[];
 }
 
 /**
@@ -196,6 +199,7 @@ export interface PropsPostBuild extends Props {
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createData(name: string, data: any): Promise<string>;
   setGlobalData<T = unknown>(data: T): void;
 }
@@ -209,7 +213,7 @@ export type AllContent = Record<
 >;
 
 // TODO improve type (not exposed by postcss-loader)
-export type PostCssOptions = Record<string, any> & {plugins: any[]};
+export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
 export interface Plugin<T> {
   name: string;

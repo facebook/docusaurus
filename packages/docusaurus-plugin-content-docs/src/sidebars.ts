@@ -78,7 +78,7 @@ function normalizeCategoryShorthand(
 function assertItem<K extends string>(
   item: Record<string, unknown>,
   keys: K[],
-): asserts item is Record<K, any> {
+): asserts item is Record<K, never> {
   const unknownKeys = Object.keys(item).filter(
     // @ts-expect-error: key is always string
     (key) => !keys.includes(key as string) && key !== 'type',
@@ -272,9 +272,7 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(
-  sidebars: Sidebars,
-): Record<string, Function> {
+export function createSidebarsUtils(sidebars: Sidebars) {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {

@@ -19,10 +19,6 @@ aliases:
       only:
         - master
 
-  - &filter-ignore-gh-pages
-    branches:
-      ignore: gh-pages
-
 defaults: &defaults
   working_directory: ~/docusaurus
   docker:
@@ -31,21 +27,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  lint-prettier:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore-cache: *root-restore-yarn-cache
-      - run: *root-yarn
-      - save-cache: *root-save-yarn-cache
-      - run:
-          name: Check ESLint
-          command: yarn lint
-      - run:
-          name: Check Prettier
-          command: yarn prettier:diff
-
-  tests:
+  tests-v1:
     <<: *defaults
     steps:
       - checkout
@@ -54,11 +36,11 @@ jobs:
       - save-cache: *root-save-yarn-cache
       - run:
           name: Run Test Suites
-          command: yarn test
+          command: yarn test:v1
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
-  deploy-website:
+  deploy-website-v1:
     <<: *defaults
     steps:
       - checkout
@@ -112,16 +94,11 @@ jobs:
 workflows:
   version: 2
 
-  lint-prettier:
+  tests-and-deploy-v1:
     jobs:
-      - lint-prettier:
-          filters: *filter-ignore-gh-pages
-
-  tests-and-deploy:
-    jobs:
-      - tests:
-          filters: *filter-ignore-gh-pages
-      - deploy-website:
+      - tests-v1:
+          filters: *filter-only-master
+      - deploy-website-v1:
           requires:
-            - tests
+            - tests-v1
           filters: *filter-only-master

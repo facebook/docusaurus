@@ -49,7 +49,8 @@ export function cliDocsVersionCommand(
 
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
-  if (/[<>:"\/\\|?*\x00-\x1F]/g.test(version)) {
+  // eslint-disable-next-line no-control-regex
+  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0`,
     );

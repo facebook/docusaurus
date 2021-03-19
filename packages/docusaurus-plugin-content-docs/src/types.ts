@@ -8,6 +8,7 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
@@ -72,21 +73,12 @@ export type VersionsOptions = {
 
 export type PluginOptions = MetadataOptions &
   PathOptions &
-  VersionsOptions & {
+  VersionsOptions &
+  RemarkAndRehypePluginOptions & {
     id: string;
     include: string[];
     docLayoutComponent: string;
     docItemComponent: string;
-    remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
-    rehypePlugins: string[];
-    beforeDefaultRemarkPlugins: (
-      | [Function, Record<string, unknown>]
-      | Function
-    )[];
-    beforeDefaultRehypePlugins: (
-      | [Function, Record<string, unknown>]
-      | Function
-    )[];
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     excludeNextVersionDocs?: boolean;

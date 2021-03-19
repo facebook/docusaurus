@@ -17,8 +17,9 @@ const CWD = process.cwd();
 
 const loadConfig = require('../server/config');
 
-const siteConfig = loadConfig(`${CWD}/website-1.x/siteConfig.js`);
-const buildDir = `${CWD}/website-1.x/build`;
+const website1Dir = 'website-1.x';
+const siteConfig = loadConfig(`${CWD}/${website1Dir}/siteConfig.js`);
+const buildDir = `${CWD}/${website1Dir}/build`;
 const docsDir = `${CWD}/docs`;
 
 let inputMarkdownFiles = [];
@@ -26,22 +27,16 @@ let inputAssetsFiles = [];
 let outputHTMLFiles = [];
 let outputAssetsFiles = [];
 
-function generateSite() {
-  shell.cd('website-1.x');
-  shell.exec('yarn build', {silent: true});
-}
-
 function clearBuildFolder() {
   return rimraf(buildDir);
 }
 
 describe('Build files', () => {
-  beforeEach(() => {
-    shell.cd(CWD);
-  });
-
   beforeAll(() => {
-    generateSite();
+    shell.exec(`yarn workspace docusaurus-1-website build`, {
+      // silent: true
+    });
+
     return Promise.all([
       glob(`${docsDir}/**/*.md`),
       glob(`${buildDir}/${siteConfig.projectName}/docs/**/*.html`),
@@ -97,8 +92,12 @@ describe('Build files', () => {
 
 describe('Build files but skip next release', () => {
   beforeAll(() => {
-    shell.cd('website-1.x');
-    shell.exec('yarn build --skip-next-release', {silent: true});
+    shell.exec(
+      `yarn workspace docusaurus-1-website build --skip-next-release`,
+      {
+        // silent: true,
+      },
+    );
   });
 
   afterAll(() => {
