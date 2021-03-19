@@ -6,7 +6,7 @@ slug: '/api/plugins/@docusaurus/plugin-content-docs'
 
 Provides the [Docs](../../guides/docs/docs-introduction.md) functionality and is the default docs plugin for Docusaurus.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-docs
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -148,7 +148,7 @@ module.exports = {
 };
 ```
 
-## Markdown Frontmatter
+## Markdown Frontmatter {#markdown-frontmatter}
 
 Markdown documents can use the following markdown frontmatter metadata fields, enclosed by a line `---` on either side:
 
@@ -183,18 +183,18 @@ slug: /myDoc
 My Document Markdown content
 ```
 
-## i18n
+## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
 - **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
 - **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
 
-### Example file-system structure
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/<locale>/docusaurus-plugin-content-docs

@@ -16,7 +16,7 @@ Most of the time, you don't need versioning as it will just increase your build 
 
 To better understand how versioning works and see if it suits your needs, you can read on below.
 
-## Directory structure
+## Directory structure {#directory-structure}
 
 ```shell
 website
@@ -50,7 +50,7 @@ The table below explains how a versioned file maps to its version and the genera
 | `versioned_docs/version-1.1.0/hello.md` | 1.1.0 (latest) | /docs/hello       |
 | `docs/hello.md`                         | next           | /docs/next/hello  |
 
-### Tagging a new version
+### Tagging a new version {#tagging-a-new-version}
 
 1. First, make sure your content in the `docs` directory is ready to be frozen as a version. A version always should be based from master.
 1. Enter a new version number.
@@ -65,9 +65,9 @@ When tagging a new version, the document versioning mechanism will:
 - Create a versioned sidebars file based from your current [sidebar](docs-introduction.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
 - Append the new version number to `versions.json`.
 
-## Docs
+## Docs {#docs}
 
-### Creating new docs
+### Creating new docs {#creating-new-docs}
 
 1. Place the new file into the corresponding version folder.
 1. Include the reference for the new file into the corresponding sidebar file, according to version number.
@@ -92,7 +92,7 @@ versioned_docs/version-1.0.0/new.md
 versioned_sidebars/version-1.0.0-sidebars.json
 ```
 
-### Linking docs
+### Linking docs {#linking-docs}
 
 - Remember to include the `.md` extension.
 - Files will be linked to correct corresponding version.
@@ -104,11 +104,11 @@ The [@hello](hello.md#paginate) document is great!
 See the [Tutorial](../getting-started/tutorial.md) for more info.
 ```
 
-## Versions
+## Versions {#versions}
 
 Each directory in `versioned_docs/` will represent a documentation version.
 
-### Updating an existing version
+### Updating an existing version {#updating-an-existing-version}
 
 You can update multiple docs versions at the same time because each directory in `versioned_docs/` represents specific routes when published.
 
@@ -118,7 +118,7 @@ You can update multiple docs versions at the same time because each directory in
 
 Example: When you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for version `2.6`.
 
-### Deleting an existing version
+### Deleting an existing version {#deleting-an-existing-version}
 
 You can delete/remove versions as well.
 
@@ -137,9 +137,9 @@ Example:
 2. Delete the versioned docs directory. Example: `versioned_docs/version-1.8.0`.
 3. Delete the versioned sidebars file. Example: `versioned_sidebars/version-1.8.0-sidebars.json`.
 
-## Recommended practices
+## Recommended practices {#recommended-practices}
 
-### Figure out the behavior for the "current" version
+### Figure out the behavior for the "current" version {#figure-out-the-behavior-for-the-current-version}
 
 The "current" version is the version name for the `./docs` folder.
 
@@ -168,17 +168,17 @@ The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, an
 
 See [docs plugin configuration](../../api/plugins/plugin-content-docs.md) for more details.
 
-### Version your documentation only when needed
+### Version your documentation only when needed {#version-your-documentation-only-when-needed}
 
 For example, you are building a documentation for your npm package `foo` and you are currently in version 1.0.0. You then release a patch version for a minor bug fix and it's now 1.0.1.
 
 Should you cut a new documentation version 1.0.1? **You probably shouldn't**. 1.0.1 and 1.0.0 docs shouldn't differ according to semver because there are no new features!. Cutting a new version for it will only just create unnecessary duplicated files.
 
-### Keep the number of versions small
+### Keep the number of versions small {#keep-the-number-of-versions-small}
 
 As a good rule of thumb, try to keep the number of your versions below 10. **It is very likely** that you will have a lot of obsolete versioned documentation that nobody even reads anymore. For example, [Jest](https://jestjs.io/versions) is currently in version `24.9`, and only maintains several latest documentation version with the lowest being `22.X`. Keep it small 😊
 
-### Use absolute import within the docs
+### Use absolute import within the docs {#use-absolute-import-within-the-docs}
 
 Don't use relative paths import within the docs. Because when we cut a version the paths no longer work (the nesting level is different, among other reasons). You can utilize the `@site` alias provided by docusaurus, that points to the `website` directory. Example:
 
@@ -187,7 +187,7 @@ Don't use relative paths import within the docs. Because when we cut a version t
 + import Foo from '@site/src/components/Foo';
 ```
 
-### Global or versioned colocated assets
+### Global or versioned colocated assets {#global-or-versioned-colocated-assets}
 
 You should decide if assets like images and files are per version or shared between versions
 

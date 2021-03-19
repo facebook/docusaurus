@@ -10,7 +10,7 @@ This theme provides a `@theme/CodeBlock` component that is powered by react-live
 npm install --save @docusaurus/theme-live-codeblock
 ```
 
-### Configuration
+### Configuration {#configuration}
 
 ```jsx title="docusaurus.config.js"
 module.exports = {

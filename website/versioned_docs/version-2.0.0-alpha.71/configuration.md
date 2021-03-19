@@ -9,7 +9,7 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize the site.
 
-## What goes into a `docusaurus.config.js`?
+## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
 
 You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` that includes defaults for the common options.
 
@@ -21,19 +21,19 @@ The high-level overview of Docusaurus configuration can be categorized into:
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.md).
 
-### Site metadata
+### Site metadata {#site-metadata}
 
 Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl` and `favicon`.
 
 They are used in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
 
-### Deployment configurations
+### Deployment configurations {#deployment-configurations}
 
 Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with the `deploy` command.
 
 It is recommended to check the [deployment docs](deployment.mdx) for more information.
 
-### Theme, plugin, and preset configurations
+### Theme, plugin, and preset configurations {#theme-plugin-and-preset-configurations}
 
 List the [theme](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
@@ -102,7 +102,7 @@ module.exports = {
 
 For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
 
-### Custom configurations
+### Custom configurations {#custom-configurations}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add custom fields, define them in `customFields`.
 
@@ -121,7 +121,7 @@ module.exports = {
 };
 ```
 
-## Accessing configuration from components
+## Accessing configuration from components {#accessing-configuration-from-components}
 
 Your configuration object will be made available to all the components of your site. And you may access them via React context as `siteConfig`.
 
@@ -148,7 +148,7 @@ If you just want to use those fields on the client side, you could create your o
 
 :::
 
-## Customizing Babel Configuration
+## Customizing Babel Configuration {#customizing-babel-configuration}
 
 For new Docusaurus projects, we automatically generated a `babel.config.js` in project root.
 

@@ -7,7 +7,7 @@ slug: '/api/plugins'
 
 We provide official Docusaurus plugins.
 
-## Content plugins
+## Content plugins {#content-plugins}
 
 These plugins are responsible to load your site's content, and create pages for your theme to render.
 
@@ -15,7 +15,7 @@ These plugins are responsible to load your site's content, and create pages for 
 - [@docusaurus/plugin-content-blog](./plugin-content-blog.md)
 - [@docusaurus/plugin-content-pages](./plugin-content-pages.md)
 
-## Behavior plugins
+## Behavior plugins {#behavior-plugins}
 
 These plugins will add a useful behavior to your Docusaurus site.
 

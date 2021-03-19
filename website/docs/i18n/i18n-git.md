@@ -7,7 +7,7 @@ slug: /i18n/git
 
 A **possible translation strategy** is to **version control the translation files** to Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
 
-## Tradeoffs
+## Tradeoffs {#tradeoffs}
 
 This strategy has advantages:
 
@@ -31,11 +31,11 @@ Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues
 
 :::
 
-## Git tutorial
+## Git tutorial {#git-tutorial}
 
 This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
 
-### Prepare the Docusaurus site
+### Prepare the Docusaurus site {#prepare-the-docusaurus-site}
 
 Initialize a new Docusaurus site:
 
@@ -87,7 +87,7 @@ export default function Home() {
 }
 ```
 
-### Initialize the `i18n` folder
+### Initialize the `i18n` folder {#initialize-the-i18n-folder}
 
 Use the [write-translations](../cli.md#docusaurus-write-translations) CLI command to initialize the JSON translation files for the French locale:
 
@@ -124,7 +124,7 @@ cp -r pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 
 Add all these files to Git.
 
-### Translate the files
+### Translate the files {#translate-the-files}
 
 Translate the Markdown and JSON files in `i18n/fr` and commit the translation.
 
@@ -142,21 +142,21 @@ npm run build
 npm run build -- --locale fr
 ```
 
-### Repeat
+### Repeat {#repeat}
 
 Follow the same process for each locale you need to support.
 
-## Maintain the translations
+## Maintain the translations {#maintain-the-translations}
 
 Keeping translated files **consistent** with the originals **can be challenging**, in particular for Markdown documents.
 
-### Markdown translations
+### Markdown translations {#markdown-translations}
 
 When an untranslated Markdown document is edited, it is **your responsibility to maintain the respective translated files**, and we unfortunately don't have a good way to help you do so.
 
 To keep your translated sites consistent, when the `website/docs/doc1.md` doc is edited, you need **backport these edits** to `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.
 
-### JSON translations
+### JSON translations {#json-translations}
 
 To help you maintain the JSON translation files, it is possible to run again the [write-translations](../cli.md#docusaurus-write-translations) CLI command:
 
@@ -172,7 +172,7 @@ Reset your translations with the `--override` option.
 
 :::
 
-### Localize edit urls
+### Localize edit urls {#localize-edit-urls}
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 

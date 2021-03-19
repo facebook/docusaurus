@@ -6,7 +6,7 @@ slug: '/api/plugins/@docusaurus/plugin-sitemap'
 
 This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-sitemap
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {

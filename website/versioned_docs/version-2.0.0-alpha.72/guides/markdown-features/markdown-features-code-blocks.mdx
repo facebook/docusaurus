@@ -7,7 +7,7 @@ slug: /markdown-features/code-blocks
 
 Code blocks within documentation are super-powered 💪.
 
-## Code title
+## Code title {#code-title}
 
 You can add a title to the code block by adding `title` key after the language (leave a space between them).
 
@@ -23,7 +23,7 @@ function HelloCodeTitle(props) {
 }
 ```
 
-## Syntax highlighting
+## Syntax highlighting {#syntax-highlighting}
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
 
@@ -95,7 +95,7 @@ const prismIncludeLanguages = (Prism) => {
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
-## Line highlighting
+## Line highlighting {#line-highlighting}
 
 You can bring emphasis to certain lines of code by specifying line ranges after the language meta string (leave a space after the language).
 
@@ -220,7 +220,7 @@ Supported commenting syntax:
 
 If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
 
-## Interactive code editor
+## Interactive code editor {#interactive-code-editor}
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
 
@@ -292,7 +292,7 @@ function Clock(props) {
 }
 ```
 
-### Imports
+### Imports {#imports}
 
 :::caution react-live and imports
 
@@ -345,7 +345,7 @@ function MyPlayground(props) {
 }
 ```
 
-## Multi-language support code blocks
+## Multi-language support code blocks {#multi-language-support-code-blocks}
 
 With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.
 
