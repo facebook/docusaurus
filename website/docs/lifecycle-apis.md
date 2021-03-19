@@ -650,7 +650,7 @@ Translate the plugin content, using the localized translation files.
 
 Returns the localized plugin content.
 
-The `translateContent()` lifecycle will be called with the localized plugin content.
+The `contentLoaded()` lifecycle will be called with the localized plugin content returned by `translateContent()`.
 
 Example:
 
