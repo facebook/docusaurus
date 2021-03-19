@@ -79,6 +79,7 @@
     "truncate-html": "^1.0.3"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "filepath": "^1.1.0",
     "front-matter": "^3.0.2",
     "glob-promise": "^3.3.0",

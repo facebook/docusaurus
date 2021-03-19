@@ -61,6 +61,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.16",
     "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.13.10",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
@@ -90,7 +91,6 @@
     "@types/webpack-merge": "^4.1.5",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
-    "babel-eslint": "^10.0.3",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
