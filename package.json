@@ -44,6 +44,7 @@
     "prettier-docs": "prettier --config .prettierrc --write \"**/*.{md,mdx}\"",
     "prettier-docs:diff": "prettier --config .prettierrc --list-different \"**/*.{md,mdx}\"",
     "lint": "yarn lint:js && yarn lint:style",
+    "lint:ci": "yarn lint:js --quiet && yarn lint:style",
     "lint:js": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",

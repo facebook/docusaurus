@@ -14,7 +14,7 @@ jobs:
       - name: Installation
         run: yarn
       - name: Lint
-        run: yarn lint
+        run: yarn lint:ci
       - name: Prettier Code
         run: yarn prettier:diff
       - name: Prettier Docs
