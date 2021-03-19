@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import {Props} from '@theme/DocItem';
 
 function DocItem(props: Props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;

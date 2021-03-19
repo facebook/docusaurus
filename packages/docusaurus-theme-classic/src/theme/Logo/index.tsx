@@ -34,7 +34,7 @@ const Logo = (props: Props): JSX.Element => {
       {...(logo.target && {target: logo.target})}>
       {logo.src && (
         <ThemedImage
-          key={isClient}
+          key={String(isClient)}
           className={imageClassName}
           sources={sources}
           alt={logo.alt || title || 'Logo'}

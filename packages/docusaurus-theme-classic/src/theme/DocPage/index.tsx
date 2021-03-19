@@ -53,7 +53,7 @@ function DocPageContent({
 
   return (
     <Layout
-      key={isClient}
+      key={String(isClient)}
       wrapperClassName="main-docs-wrapper"
       searchMetadatas={{
         version,

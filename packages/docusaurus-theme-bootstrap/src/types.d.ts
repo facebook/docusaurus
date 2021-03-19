@@ -132,7 +132,7 @@ declare module '@theme/hooks/useLogo' {
     readonly logoLink: string;
     readonly logoLinkProps: LogoLinkProps;
     readonly logoImageUrl: string;
-    readonly logoAlt: string;
+    readonly logoAlt?: string;
   };
 
   const useLogo: () => useLogoReturns;

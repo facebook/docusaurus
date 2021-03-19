@@ -10,10 +10,15 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
 
+import {ThemeNavbarLogo} from '@docusaurus/types';
+
 const useLogo = (): useLogoReturns => {
   const {
-    siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
+    siteConfig: {
+      themeConfig: {navbar: {logo = {} as Partial<ThemeNavbarLogo>} = {}} = {},
+    },
   } = useDocusaurusContext();
+
   const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps: LogoLinkProps = {};
 

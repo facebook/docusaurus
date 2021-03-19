@@ -45,6 +45,7 @@ export const DEFAULT_CONFIG: Pick<
   themes: [],
   presets: [],
   customFields: {},
+  // @ts-expect-error TODO: fix me
   themeConfig: {},
   titleDelimiter: '|',
   noIndex: false,

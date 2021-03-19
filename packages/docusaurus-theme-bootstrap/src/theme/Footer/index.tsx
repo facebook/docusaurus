@@ -9,8 +9,9 @@ import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {ThemeFooterLinkItem} from '@docusaurus/types';
 
-function FooterLink({to, href, label, ...props}) {
+function FooterLink({to, href, label, ...props}: ThemeFooterLinkItem) {
   const toUrl = useBaseUrl(to);
 
   return (
@@ -32,11 +33,11 @@ function FooterLink({to, href, label, ...props}) {
 
 function Footer(): JSX.Element {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {themeConfig = {}} = siteConfig;
-  const {footer} = themeConfig;
-
-  const {links} = footer || {};
+  const {
+    siteConfig: {
+      themeConfig: {footer: {links} = {}},
+    },
+  } = context;
 
   return (
     <footer className="container-fluid p-0 align-self-end">

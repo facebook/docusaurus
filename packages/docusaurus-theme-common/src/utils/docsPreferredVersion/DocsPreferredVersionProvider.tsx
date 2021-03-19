@@ -12,7 +12,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
+import {useThemeConfig} from '../useThemeConfig';
+import type {DocsVersionPersistence} from '@docusaurus/types';
 import {isDocsPluginEnabled} from '../docsUtils';
 
 import {useAllDocsData} from '@theme/hooks/useDocs';
