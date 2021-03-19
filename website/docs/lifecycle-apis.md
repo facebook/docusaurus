@@ -606,6 +606,121 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
+## i18n lifecycles {#i18n-lifecycles}
+
+### `getTranslationFiles()` {#get-translation-files}
+
+Plugins declare the JSON translation files they want to use.
+
+Returns translation files `{path: string, content: ChromeI18nJSON}`:
+
+- Path: relative to the plugin localized folder `i18n/<locale>/pluginName`. Extension `.json` is not necessary.
+- Content: using the Chrome i18n JSON format
+
+These files will be written by the [`write-translations` CLI](./cli.md#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translate-content) and [`translateThemeConfig()`](#translate-theme-config)
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    async getTranslationFiles() {
+      return [
+        {
+          path: 'sidebar-labels',
+          content: {
+            someSidebarLabel: {
+              message: 'Some Sidebar Label',
+              description: 'A label used in my plugin in the sidebar',
+            },
+          },
+        },
+      ];
+    },
+    // highlight-end
+  };
+};
+```
+
+### `translateContent({content,translationFiles})` {#translate-content}
+
+Translate the plugin content, using the localized translation files.
+
+Returns the localized plugin content.
+
+The `contentLoaded()` lifecycle will be called with the localized plugin content returned by `translateContent()`.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    translateContent({content, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...content,
+        someContentLabel: myTranslationFile.someContentLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+### `translateThemeConfig({themeConfig,translationFiles})` {#translate-theme-config}
+
+Translate the site `themeConfig` labels, using the localized translation files.
+
+Returns the localized `themeConfig`.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    translateThemeConfig({themeConfig, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...themeConfig,
+        someThemeConfigLabel: myTranslationFile.someThemeConfigLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+### `async getDefaultCodeTranslationMessages()` {#get-default-code-translation-messages}
+
+Themes using the `<Translate>` API can provide default code translation messages.
+
+It should return messages in `Record<string,string`>, where keys are translation ids and values are messages (without the description) localized using the site current locale.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    async getDefaultCodeTranslationMessages() {
+      return readJsonFile(`${context.i18n.currentLocale}.json`);
+    },
+    // highlight-end
+  };
+};
+```
+
 ## Example {#example}
 
 Here's a mind model for a presumptuous plugin implementation.
@@ -686,6 +801,22 @@ module.exports = function (context, opts) {
 
     injectHtmlTags() {
       // Inject head and/or body HTML tags.
+    },
+
+    async getTranslationFiles() {
+      // Return translation files
+    },
+
+    translateContent({content, translationFiles}) {
+      // translate the plugin content here
+    },
+
+    translateThemeConfig({themeConfig, translationFiles}) {
+      // translate the site themeConfig here
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // return default theme translations here
     },
   };
 };
