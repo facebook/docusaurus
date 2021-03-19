@@ -18,7 +18,7 @@ import Footer from '@theme/Footer';
 import type {Props} from '@theme/Layout';
 
 function Layout(props: Props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const {
     favicon,
     themeConfig: {image: defaultImage, metadatas},
@@ -37,7 +37,7 @@ function Layout(props: Props): JSX.Element {
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
-    metaImageUrl = metaImage;
+    metaImageUrl = metaImage!; // TODO: validate this
   }
   const faviconUrl = useBaseUrl(favicon);
 

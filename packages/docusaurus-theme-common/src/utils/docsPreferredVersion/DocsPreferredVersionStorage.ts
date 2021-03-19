@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocsVersionPersistence} from '../useThemeConfig';
+import type {DocsVersionPersistence} from '@docusaurus/types';
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
 

@@ -169,7 +169,10 @@ declare module '@docusaurus/router' {
 }
 
 declare module '@docusaurus/useDocusaurusContext' {
-  export default function (): any;
+  import type {DocusaurusContext} from '@docusaurus/types';
+
+  function useDocusaurusContext(): DocusaurusContext;
+  export default useDocusaurusContext;
 }
 
 declare module '@docusaurus/useBaseUrl' {
@@ -236,6 +239,8 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
+  import type {DocusaurusGlobalData} from '@docusaurus/types';
+
   export function useAllPluginInstancesData<T = unknown>(
     pluginName: string,
   ): Record<string, T>;
@@ -245,7 +250,7 @@ declare module '@docusaurus/useGlobalData' {
     pluginId?: string,
   ): T;
 
-  function useGlobalData(): Record<string, any>;
+  function useGlobalData(): DocusaurusGlobalData;
   export default useGlobalData;
 }
 

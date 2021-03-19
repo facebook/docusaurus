@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export {useThemeConfig} from './utils/useThemeConfig';
+
 export {
-  useThemeConfig,
   ThemeConfig,
-  Navbar,
-  NavbarItem,
-  NavbarLogo,
-  Footer,
-  FooterLinks,
-  FooterLinkItem,
-} from './utils/useThemeConfig';
+  ThemeNavbar as Navbar,
+  ThemeNavbarItem as NavbarItem,
+  ThemeNavbarLogo as NavbarLogo,
+  ThemeFooter as Footer,
+  ThemeFooterLinks as FooterLinks,
+  ThemeFooterLinkItem as FooterLinkItem,
+} from '@docusaurus/types';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 

@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useCallback} from 'react';
-import Link from '@docusaurus/Link';
+import Link, {LinkProps} from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLogo from '@theme/hooks/useLogo';
@@ -18,6 +18,16 @@ import {
   NavItem as NavItemBase,
 } from 'reactstrap';
 
+type NavItemProps = LinkProps & {
+  activeBasePath?: string;
+  activeBaseRegex?: string;
+  href?: string;
+  label?: string;
+  to?: string;
+  activeClassName?: string;
+  prependBaseUrlToHref?: string;
+};
+
 function NavItem({
   activeBasePath,
   activeBaseRegex,
@@ -27,7 +37,7 @@ function NavItem({
   activeClassName = 'nav-link text-info',
   prependBaseUrlToHref,
   ...props
-}) {
+}: NavItemProps) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
@@ -86,7 +96,7 @@ function Navbar(): JSX.Element {
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img
-            key={isClient}
+            key={String(isClient)}
             width="50"
             height="50"
             style={{

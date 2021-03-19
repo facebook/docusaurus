@@ -13,11 +13,11 @@ import type {ParsedUrlQueryInput} from 'querystring';
 import type {MergeStrategy} from 'webpack-merge';
 import type Joi from 'joi';
 
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
+import {ThemeConfig} from './theme-config';
 
-export type ThemeConfig = {
-  [key: string]: unknown;
-};
+export * from './theme-config';
+
+export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -111,10 +111,12 @@ export type I18n = {
   localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
+export type DocusaurusGlobalData = Record<string, any>;
+
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
-  globalData: Record<string, unknown>;
+  globalData: DocusaurusGlobalData;
   i18n: I18n;
   codeTranslations: Record<string, string>;
   isClient: boolean;
@@ -341,7 +343,7 @@ export interface ConfigureWebpackUtils {
   ) => Loader;
 }
 
-interface HtmlTagObject {
+export interface HtmlTagObject {
   /**
    * Attributes of the html tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`

@@ -14,21 +14,21 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 const themes = {
   light: 'light',
   dark: 'dark',
-};
+} as const;
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme) => {
+const coerceToTheme = (theme?: string | null): 'light' | 'dark' => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 
-const getInitialTheme = (defaultMode) => {
+const getInitialTheme = (defaultMode: 'light' | 'dark' | undefined) => {
   if (!ExecutionEnvironment.canUseDOM) {
     return coerceToTheme(defaultMode);
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme) => {
+const storeTheme = (newTheme: 'light' | 'dark') => {
   try {
     localStorage.setItem('theme', coerceToTheme(newTheme));
   } catch (err) {
@@ -77,7 +77,7 @@ const useTheme = (): useThemeReturns => {
 
     window
       .matchMedia('(prefers-color-scheme: dark)')
-      .addListener(({matches}) => {
+      .addEventListener('change', ({matches}) => {
         setTheme(matches ? themes.dark : themes.light);
       });
   }, []);

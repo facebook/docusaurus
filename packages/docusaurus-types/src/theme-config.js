@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// triple slash is important to keep,
-// see https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
-/// <reference types="@docusaurus/module-type-aliases" />
+/* eslint-disable */
+'use strict';
+Object.defineProperty(exports, '__esModule', {value: true});

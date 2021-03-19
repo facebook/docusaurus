@@ -6,7 +6,9 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DefaultNavbarItem, {
+  DesktopOrMobileNavBarItemProps,
+} from '@theme/NavbarItem/DefaultNavbarItem';
 import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -27,7 +29,7 @@ export default function LocaleDropdownNavbarItem({
     return localeConfigs[locale].label;
   }
 
-  const localeItems = locales.map((locale) => {
+  const localeItems = locales.map<DesktopOrMobileNavBarItemProps>((locale) => {
     const to = `pathname://${alternatePageUtils.createUrl({
       locale,
       fullyQualified: false,

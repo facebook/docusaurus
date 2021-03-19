@@ -50,10 +50,10 @@ const FooterLogo = ({
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
 
-  const {copyright, links = [], logo = {}} = footer || {};
+  const {copyright, links = [], logo} = footer || {};
   const sources = {
-    light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark || logo.src),
+    light: useBaseUrl(logo?.src),
+    dark: useBaseUrl(logo?.srcDark || logo?.src),
   };
 
   if (!footer) {

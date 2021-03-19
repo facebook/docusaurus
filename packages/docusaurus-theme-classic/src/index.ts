@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import {DocusaurusContext, Plugin, ThemeColorMode} from '@docusaurus/types';
 import {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
@@ -25,7 +25,10 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
+const noFlashColorMode = ({
+  defaultMode,
+  respectPrefersColorScheme,
+}: ThemeColorMode) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
