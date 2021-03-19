@@ -429,8 +429,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
-    readonly hidden: boolean;
-    readonly className: string;
+    readonly hidden?: boolean;
+    readonly className?: string;
   };
 
   const TabItem: (props: Props) => JSX.Element;
