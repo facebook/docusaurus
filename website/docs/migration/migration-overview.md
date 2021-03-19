@@ -4,12 +4,6 @@ title: Migration overview
 slug: /migration
 ---
 
-:::caution
-
-For v1 translated sites, the migration doc is not available yet.
-
-:::
-
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 
 We try to make this as easy as possible, and provide a migration cli.

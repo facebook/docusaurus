@@ -7,12 +7,6 @@ slug: /i18n/introduction
 
 It is **easy to translate a Docusaurus website** with its internationalization ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) support.
 
-:::caution
-
-i18n is a new feature (released early 2021), please report any bug you find.
-
-:::
-
 ## Goals {#goals}
 
 It is important to understand the **design decisions** behind the Docusaurus i18n support.
