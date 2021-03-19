@@ -6,6 +6,11 @@
  */
 
 import React, {ReactNode} from 'react';
+import type {
+  InterpolateProps,
+  InterpolateValues,
+  ExtractInterpolatePlaceholders,
+} from '@docusaurus/Interpolate';
 
 /*
 Minimal implementation of a React interpolate component.
@@ -15,16 +20,6 @@ More details here: https://github.com/facebook/docusaurus/pull/4295
 
 const ValueRegexp = /{\w+}/g;
 const ValueFoundMarker = '{}'; // does not care much
-
-// TODO use TS template literal feature to make values typesafe!
-// (requires upgrading TS first)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type ExtractInterpolatePlaceholders<Str extends string> = string;
-
-type InterpolateValues<Str extends string, Value extends ReactNode> = Record<
-  ExtractInterpolatePlaceholders<Str>,
-  Value
->;
 
 // TS function overload: if all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
@@ -92,11 +87,6 @@ export function interpolate<Str extends string, Value extends ReactNode>(
       }, []);
   }
 }
-
-export type InterpolateProps<Str extends string> = {
-  children: Str;
-  values?: InterpolateValues<Str, ReactNode>;
-};
 
 export default function Interpolate<Str extends string>({
   children,
