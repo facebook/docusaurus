@@ -46,10 +46,12 @@ function Tabs(props: Props): JSX.Element {
     }
   }
 
-  const handleTabChange = (event) => {
-    const selectedTab = event.target;
+  const handleTabChange = (
+    event: React.FocusEvent<HTMLLIElement> | React.MouseEvent<HTMLLIElement>,
+  ) => {
+    const selectedTab = event.currentTarget;
     const selectedTabIndex = tabRefs.indexOf(selectedTab);
-    const selectedTabValue = children[selectedTabIndex].props.value;
+    const selectedTabValue = values[selectedTabIndex].value;
 
     setSelectedValue(selectedTabValue);
 
