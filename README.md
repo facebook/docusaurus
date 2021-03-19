@@ -21,29 +21,39 @@
 
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
 
+> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
+
 ## Introduction
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+**Tip**: use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
 
 - **Simple to Start**
 
-> Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/en/installation/) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+> Docusaurus is built in a way so that it can [get running](https://v2.docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
 - **Localizable**
 
-> Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation/) via CrowdIn. Empower and grow your international community by translating your documentation.
+> Docusaurus ships with [localization support](https://v2.docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
 
 - **Customizable**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/adding-blog/), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages/) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages/).
+> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://v2.docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://v2.docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://v2.docusaurus.io/docs/styling-layout).
 
 ## Installation
 
-Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/package/docusaurus) on [npm](https://www.npmjs.com).
+Use the initialization cli to create your site:
 
-We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation/) with Docusaurus even easier.
+```bash
+npx @docusaurus/init@latest init [name] [template]
+```
+
+Example:
+
+```bash
+npx @docusaurus/init@latest init my-website classic
+```
 
 ## Contributing
 

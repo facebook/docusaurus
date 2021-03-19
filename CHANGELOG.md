@@ -771,19 +771,19 @@ Thank you to the following contributors who helped with this release:
 
 ### Breaking changes
 
-- This may not affect many users, but if you modified the `en.json` to add your own custom translation strings, we [changed](https://github.com/facebook/docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) how this is handled, and you will need to [follow the instructions here](https://docusaurus.io/docs/en/translation#custom-translation-strings) to modify your setup.
+- This may not affect many users, but if you modified the `en.json` to add your own custom translation strings, we [changed](https://github.com/facebook/docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) how this is handled, and you will need to [follow the instructions here](https://v1.docusaurus.io/docs/en/translation#custom-translation-strings) to modify your setup.
 
 ### Added
 
 - Option to [disable](https://github.com/facebook/docusaurus/commit/62a2c7c1a599ccaf04a86e9ca2ec0fbca5220f5c) live reload during development.
 - Configuration options for [changing](https://github.com/facebook/docusaurus/commit/58fba70dead064e8c6910e07d3523a548258022f) the title of the blog sidebar info.
-- Better support and [documentation](https://docusaurus.io/docs/en/publishing#using-github-pages) for [cross-repo publishing](https://github.com/facebook/docusaurus/commit/fd9a3ffb6deca84b41dc5a3b43b0db1ca4f3143e).
+- Better support and [documentation](https://v1.docusaurus.io/docs/en/publishing#using-github-pages) for [cross-repo publishing](https://github.com/facebook/docusaurus/commit/fd9a3ffb6deca84b41dc5a3b43b0db1ca4f3143e).
 
 ### Fixed/Changed
 
 - 1.2.0 introduced a bug where you could not update documentation metadata without deleting `en.json`. This has been [fixed](https://github.com/facebook/docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) as part of the custom translation string breaking change.
 - Absolute URLs are now [used](https://github.com/facebook/docusaurus/commit/0f01eace8be1be273a63089a14d1e3ea2d2cae57) instead of relative URLs for documentation linking to avoid trailing slash issues.
-- If you have had trouble updating Docusaurus, it may have been your [Babel cache](https://docusaurus.io/docs/en/installation#updating-your-docusaurus-version).
+- If you have had trouble updating Docusaurus, it may have been your [Babel cache](https://v1.docusaurus.io/docs/en/installation#updating-your-docusaurus-version).
 - No more errors if heading anchors are [empty](https://github.com/facebook/docusaurus/commit/371fdda4a8c82b5f29dd5c2dd9f04c8ef28dd025).
 - Fixed bug when [renaming version](https://github.com/facebook/docusaurus/commit/a2b076bdcaf7099e595f2f106b38dd0cabeee1ef) where `sidebars.json` were not getting updated.
 - Table of contents are now [hidden](https://github.com/facebook/docusaurus/commit/7bef1b96dc8de8c42795b0983195f66a7ae78c27) when `onPageNav` is not separate.
@@ -823,12 +823,12 @@ None that we know of. Please let us know if you find any as this is a big releas
 ### Added
 
 - Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of the most [requested features](https://github.com/facebook/docusaurus/pull/705).
-- You can now use [Prism for syntax highlighting](https://github.com/facebook/docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
+- You can now use [Prism for syntax highlighting](https://github.com/facebook/docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://v1.docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
 - URLs can now be ["clean"](https://github.com/facebook/docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773) - no `.html` extension.
 - Scroll to top button [option](https://github.com/facebook/docusaurus/commit/aee255219bedc97b55048cdb4703742cbb7c247e) for your documentation pages.
-- Can now [set title](https://github.com/facebook/docusaurus/commit/72f4f369394a9ccdcd721c4f2fa0ee2913ad98dd) for custom pages. [Documentation](https://docusaurus.io/docs/en/api-pages#titles-for-pages)
+- Can now [set title](https://github.com/facebook/docusaurus/commit/72f4f369394a9ccdcd721c4f2fa0ee2913ad98dd) for custom pages. [Documentation](https://v1.docusaurus.io/docs/en/api-pages#titles-for-pages)
 - On page [navigation](https://github.com/facebook/docusaurus/commit/49c27b733bf62506acff3c55f92143dc0ef3ed86) for blog posts.
-- Travis CI [publishing](https://docusaurus.io/docs/en/publishing#using-travis-ci) guide.
+- Travis CI [publishing](https://v1.docusaurus.io/docs/en/publishing#using-travis-ci) guide.
 - Can now publish to [GitHub Enterprise](https://github.com/facebook/docusaurus/commit/2bd9a148c160a0f0de9ab991c66393c629469c37).
 
 ### Fixed/Changed
@@ -873,7 +873,7 @@ Thank you to the following contributors who helped with this release:
 
 `npm` had an issue where some packages were not being published. This should hopefully be resolved now; publishing a new version just in case.
 
-Also, welcome [TextLint](https://textlint.github.io/) and [Open Power Quality](https://openpowerquality.org/) as new [users](https://docusaurus.io/en/users.html).
+Also, welcome [TextLint](https://textlint.github.io/) and [Open Power Quality](https://openpowerquality.org/) as new [users](https://v1.docusaurus.io/en/users.html).
 
 Thank you to the following contributors who helped with this release:
 
@@ -906,7 +906,7 @@ This is our first major point release. There are three primary reasons for this:
 - We [migrated](https://github.com/facebook/docusaurus/commit/25cf8bb786abf835e4275e2a9975b33bd5fb2b18) to React 16 support (which wasn't as difficult as initially thought :) )
 - The blog now allows for [Facebook-based comments](https://github.com/facebook/docusaurus/commit/aae106c018667a3787726f7744ce14ccb2b68ef1).
 
-There are a lot of other fixes and enhancements as well. Also, we have five new [users](https://docusaurus.io/en/users.html) of Docusaurus within this release as well. Thank you to [WarriorJS](https://warrior.js.org/), [Bemuse](https://bemuse.ninja/project/), [Pyre-Check](https://pyre-check.org/), [Draft.js](https://draftjs.org/) and [CaptainDuckDuck](https://captainduckduck.com/) for using Docusaurus.
+There are a lot of other fixes and enhancements as well. Also, we have five new [users](https://v1.docusaurus.io/en/users.html) of Docusaurus within this release as well. Thank you to [WarriorJS](https://warrior.js.org/), [Bemuse](https://bemuse.ninja/project/), [Pyre-Check](https://pyre-check.org/), [Draft.js](https://draftjs.org/) and [CaptainDuckDuck](https://captainduckduck.com/) for using Docusaurus.
 
 There are also various documentation fixes as well.
 
@@ -947,7 +947,7 @@ Thank you to the following contributors who helped with this release:
 
 ## [1.0.15] - 2018-05-06
 
-This release has a lot of commits, including bug fixes, documentation updates, as well as a bit of new functionality. A new [blog post](https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html) from @caabernathy about how easy it is to create a Docusaurus site, a lot of Windows fixes, the ability to specify the default version shown, and more.
+This release has a lot of commits, including bug fixes, documentation updates, as well as a bit of new functionality. A new [blog post](https://v1.docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html) from @caabernathy about how easy it is to create a Docusaurus site, a lot of Windows fixes, the ability to specify the default version shown, and more.
 
 Thank you to the following contributors who have helped with this release:
 
@@ -973,9 +973,9 @@ N/A
 
 ### Added
 
-- Our Google Analytics support now [allows](https://github.com/facebook/docusaurus/commit/976ae770b530636d1e4805ef285af52aa30a51c1) the use of `gtag` via the new [`gaGtag` site configuration option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
+- Our Google Analytics support now [allows](https://github.com/facebook/docusaurus/commit/976ae770b530636d1e4805ef285af52aa30a51c1) the use of `gtag` via the new [`gaGtag` site configuration option](https://v1.docusaurus.io/docs/en/site-config.html#optional-fields).
 - Anchor links are now [unique](https://github.com/facebook/docusaurus/commit/9c98142fea416492efebf5a462fc0724551732f6) per document.
-- You can now configure what version is shown by [default](https://github.com/facebook/docusaurus/commit/dbc597bfd76879fed60869122397ce6c5a86bf81) via the [`defaultVersionShown` site configuraton option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
+- You can now configure what version is shown by [default](https://github.com/facebook/docusaurus/commit/dbc597bfd76879fed60869122397ce6c5a86bf81) via the [`defaultVersionShown` site configuraton option](https://v1.docusaurus.io/docs/en/site-config.html#optional-fields).
 
 ### Fixed/Changed
 
@@ -1045,7 +1045,7 @@ N/A
 
 This is a general release with additions and documentation updates. We would also like to welcome [React Native Elements](https://react-native-training.github.io/react-native-elements/) as a user of Docusaurus.
 
-https://docusaurus.io has turned on versioning. There are other documentation updates as well.
+https://v1.docusaurus.io has turned on versioning. There are other documentation updates as well.
 
 > We turned on translations, but found a bug. So we turned it off until we fix it.
 
@@ -1147,7 +1147,7 @@ N/A
 
 ### Added
 
-- [Docs for the secondary, on-page navigation option](https://docusaurus.io/docs/en/navigation.html#secondary-on-page-navigation).
+- [Docs for the secondary, on-page navigation option](https://v1.docusaurus.io/docs/en/navigation.html#secondary-on-page-navigation).
 
 ### Fixed/Changed
 
@@ -1170,7 +1170,7 @@ N/A
 - [Add separate, on-page navigation sidebar option so that you can see links to local page topics](https://github.com/facebook/docusaurus/commit/4ff2fe280ebd41c4b491936fdd4ae75b7805ed61), thanks @microbouji.
 - [You can now use a custom `appId` for your Algolia search](https://github.com/facebook/docusaurus/commit/4ea8158c0cf2105b0fec767289fd722ebc6e3a92), thanks @atroncy.
 - [The header navigation now shows the active link clearly](https://github.com/facebook/docusaurus/commit/48ee457ec98b728343196362d5d42c0dc3d1cff9), thanks @microbouji.
-- [Replace CircleCI 1.0 publishing documentation with CircleCI 2.0](https://docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
+- [Replace CircleCI 1.0 publishing documentation with CircleCI 2.0](https://v1.docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
 
 ### Fixed/Changed
 
@@ -1223,12 +1223,12 @@ N/A
 - Option to control number of blog posts in sidebar ([#432](https://github.com/facebook/docusaurus/commit/dfb70e18296fe0feb53ac05e807cba290b5da3d7), thanks @ericnakagawa)
 - `font-family` is now a configurable parameter ([#294](https://github.com/facebook/docusaurus/commit/a241a466697a2bb9fa022df29fba35dd49e29715), thanks @cowlingj)
 - Configurable edit URL link, per doc ([#443](https://github.com/facebook/docusaurus/commit/41750667cd74b66c2bdde00619d290fc293a01d3), thanks @Glavin001)
-- New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/)
+- New Docusaurus [users](https://v1.docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/)
 - Docs section about referencing site documents ([#394](https://github.com/facebook/docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983) )
-- Clarified docs on [publishing to a user/org page](https://docusaurus.io/docs/en/publishing.html#using-github-pages)
-- [Alphabetized site config options](https://docusaurus.io/docs/en/site-config.html) in docs (thanks @haraldur12)
-- Moved [verifying installation](https://docusaurus.io/docs/en/installation.html#verifying-installation) section to the install docs (@thanks @gedeagas)
-- Discord added as a [help and communication](https://docusaurus.io/en/help.html) option
+- Clarified docs on [publishing to a user/org page](https://v1.docusaurus.io/docs/en/publishing.html#using-github-pages)
+- [Alphabetized site config options](https://v1.docusaurus.io/docs/en/site-config.html) in docs (thanks @haraldur12)
+- Moved [verifying installation](https://v1.docusaurus.io/docs/en/installation.html#verifying-installation) section to the install docs (@thanks @gedeagas)
+- Discord added as a [help and communication](https://v1.docusaurus.io/en/help.html) option
 
 ### Fixed/Changed
 

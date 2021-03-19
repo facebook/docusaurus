@@ -8,7 +8,7 @@ authorTwitter: endiliey
 tags: [new, adoption]
 ---
 
-Docusaurus was [officially announced](https://docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
+Docusaurus was [officially announced](https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
 
 There is a saying that the very best software is constantly evolving, and the very worst is not. In case you are not aware, we have been planning and working on the next version of Docusaurus 🎉.
 
@@ -121,7 +121,7 @@ For now, the actual Docusaurus 2 work is still hosted in a private repository. I
 
 ## Final Thoughts
 
-Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan any longer; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
+Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://v1.docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan any longer; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
 
 Docusaurus' mission has always been to make it really easy for you to get a website with documentation up and running out of the box. That mission does not change with Docusaurus 2.
 

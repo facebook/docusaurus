@@ -116,7 +116,7 @@ Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
 ## Populate your `versioned_sidebars` and `versioned_docs` {#populate-your-versioned_sidebars-and-versioned_docs}
 
-In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
+In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://v1.docusaurus.io/docs/en/versioning#fallback-functionality).
 
 For example, if your `versions.json` looks like this in v1
 
