@@ -163,9 +163,9 @@ declare module '@theme/hooks/useScrollPosition' {
   export type ScrollPosition = {scrollX: number; scrollY: number};
 
   const useScrollPosition: (
-    effect?: (position: ScrollPosition) => void,
+    effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
     deps?: unknown[],
-  ) => ScrollPosition;
+  ) => void;
   export default useScrollPosition;
 }
 

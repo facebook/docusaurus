@@ -190,12 +190,15 @@ function DocSidebar({
   isHidden,
 }: Props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
+  const [showAnnouncementBar, setShowAnnouncementBar] = useState(true);
   const {
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
-  const {scrollY} = useScrollPosition();
+  useScrollPosition(({scrollY}) => {
+    setShowAnnouncementBar(scrollY === 0);
+  });
 
   useLockBodyScroll(showResponsiveSidebar);
   const windowSize = useWindowSize();
@@ -222,7 +225,7 @@ function DocSidebar({
           {
             'menu--show': showResponsiveSidebar,
             [styles.menuWithAnnouncementBar]:
-              !isAnnouncementBarClosed && scrollY === 0,
+              !isAnnouncementBarClosed && showAnnouncementBar,
           },
         )}>
         <button
