@@ -5,7 +5,7 @@ title: Presets
 
 Presets are collections of plugins and themes.
 
-## Using presets
+## Using presets {#using-presets}
 
 A preset is usually a npm package, so you install them like other npm packages using npm.
 
@@ -33,7 +33,7 @@ module.exports = {
 };
 ```
 
-## Presets -> themes and plugins
+## Presets -> themes and plugins {#presets---themes-and-plugins}
 
 Presets in some way are a shorthand function to add plugins and themes to your docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
 
@@ -69,9 +69,9 @@ module.exports = {
 
 This is especially useful when some plugins and themes are intended to be used together.
 
-## Official presets
+## Official presets {#official-presets}
 
-### `@docusaurus/preset-classic`
+### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
 The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
 
@@ -133,7 +133,7 @@ module.exports = {
 };
 ```
 
-### `@docusaurus/preset-bootstrap`
+### `@docusaurus/preset-bootstrap` {#docusauruspreset-bootstrap}
 
 The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
 

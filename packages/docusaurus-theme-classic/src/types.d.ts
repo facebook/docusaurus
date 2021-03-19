@@ -259,7 +259,9 @@ declare module '@theme/Layout' {
 }
 
 declare module '@theme/LayoutHead' {
-  import type {Props} from '@theme/Layout';
+  import type {Props as LayoutProps} from '@theme/Layout';
+
+  export type Props = Omit<LayoutProps, 'children'>;
 
   const LayoutHead: (props: Props) => JSX.Element;
   export default LayoutHead;

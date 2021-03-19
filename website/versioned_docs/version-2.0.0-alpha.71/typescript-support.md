@@ -3,7 +3,7 @@ id: typescript-support
 title: TypeScript Support
 ---
 
-## Setup
+## Setup {#setup}
 
 Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
 
@@ -24,7 +24,7 @@ Docusaurus doesn't use this `tsconfig.json` to compile your project. It is added
 
 Now you can start writing TypeScript theme components.
 
-## Swizzling TypeScript theme components
+## Swizzling TypeScript theme components {#swizzling-typescript-theme-components}
 
 For themes that supports TypeScript theme components, you can add the `--typescript` flag to the end of swizzling command to get TypeScript source code. For example, the following command will generate `index.tsx` and `styles.module.css` into `src/theme/Footer`.
 

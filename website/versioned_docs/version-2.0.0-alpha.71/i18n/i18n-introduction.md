@@ -19,13 +19,13 @@ i18n requires Node 13+ to build or Node 12 with [full-icu](https://www.npmjs.com
 
 :::
 
-## Goals
+## Goals {#goals}
 
 It is important to understand the **design decisions** behind the Docusaurus i18n support.
 
 For more context, you can read the initial [RFC](https://github.com/facebook/docusaurus/issues/3317) and [PR](https://github.com/facebook/docusaurus/pull/3325).
 
-### i18n goals
+### i18n goals {#i18n-goals}
 
 The goals of the Docusaurus i18n system are:
 
@@ -42,7 +42,7 @@ The goals of the Docusaurus i18n system are:
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) should be easy to use
 - **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
 
-### i18n non-goals
+### i18n non-goals {#i18n-non-goals}
 
 We don't provide support for:
 
@@ -50,9 +50,9 @@ We don't provide support for:
 - **Translation SaaS software**: you are responsible to understand the external tools of your choice
 - **Translation of slugs**: technically complicated, little SEO value
 
-## Translation workflow
+## Translation workflow {#translation-workflow}
 
-### Overview
+### Overview {#overview}
 
 Overview of the workflow to create a translated Docusaurus website:
 
@@ -60,17 +60,17 @@ Overview of the workflow to create a translated Docusaurus website:
 - **Translate**: put the translation files at the correct file-system location
 - **Deploy**: build and deploy your site using a single or multi-domain strategy
 
-### Translation files
+### Translation files {#translation-files}
 
 You will have to work with 2 kind of translation files.
 
-#### Markdown files
+#### Markdown files {#markdown-files}
 
 This is the main content of your Docusaurus website.
 
 Markdown and MDX documents are translated as a whole, to fully preserve the translation context, instead of splitting each sentence as a separate string.
 
-#### JSON files
+#### JSON files {#json-files}
 
 JSON is used to translate:
 
@@ -98,7 +98,7 @@ The choice was made for 2 reasons:
 - **Description attribute**: to help translators with additional context
 - **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 The translation files should be created at the correct file-system location.
 

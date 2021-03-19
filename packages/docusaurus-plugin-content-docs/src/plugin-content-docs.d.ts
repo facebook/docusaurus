@@ -100,7 +100,7 @@ declare module '@theme/DocPage' {
     readonly route: {
       readonly path: string;
       readonly component: () => JSX.Element;
-      readonly routes: readonly DocumentRoute[];
+      readonly routes: DocumentRoute[];
     };
   };
 

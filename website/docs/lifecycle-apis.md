@@ -11,15 +11,15 @@ This section is a work in progress.
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## `validateOptions({options, validate})`
+## `validateOptions({options, validate})` {#validateoptionsoptions-validate}
 
 Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during initialization.
 
-### `options`
+### `options` {#options}
 
 `validateOptions` is called with `options` passed to plugin for validation and normalization.
 
-### `validate`
+### `validate` {#validate}
 
 `validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
@@ -63,15 +63,15 @@ export function validateOptions({options, validate}) {
 }
 ```
 
-## `validateThemeConfig({themeConfig, validate})`
+## `validateThemeConfig({themeConfig, validate})` {#validatethemeconfigthemeconfig-validate}
 
 Return validated and normalized configuration for the theme.
 
-### `themeConfig`
+### `themeConfig` {#themeconfig}
 
 `validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
-### `validate`
+### `validate` {#validate-1}
 
 `validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
@@ -115,7 +115,7 @@ export function validateThemeConfig({themeConfig, validate}) {
 }
 ```
 
-## `getPathsToWatch()`
+## `getPathsToWatch()` {#getpathstowatch}
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
@@ -134,7 +134,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `async loadContent()`
+## `async loadContent()` {#async-loadcontent}
 
 Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc) or doing some server processing.
 
@@ -152,15 +152,15 @@ module.exports = function (context, options) {
 };
 ```
 
-## `async contentLoaded({content, actions})`
+## `async contentLoaded({content, actions})` {#async-contentloadedcontent-actions}
 
 Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data (optional).
 
-### `content`
+### `content` {#content}
 
 `contentLoaded` will be called _after_ `loadContent` is done, the return value of `loadContent()` will be passed to `contentLoaded` as `content`.
 
-### `actions`
+### `actions` {#actions}
 
 `actions` contain two functions:
 
@@ -279,19 +279,19 @@ export default function friendsPlugin(context, options) {
 }
 ```
 
-## `configureWebpack(config, isServer, utils)`
+## `configureWebpack(config, isServer, utils)` {#configurewebpackconfig-isserver-utils}
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
-### `config`
+### `config` {#config}
 
 `configureWebpack` is called with `config` generated according to client/server build. You may treat this as the base config to be merged with.
 
-### `isServer`
+### `isServer` {#isserver}
 
 `configureWebpack` will be called both in server build and in client build. The server build receives `true` and the client build receives `false` as `isServer`.
 
-### `utils`
+### `utils` {#utils}
 
 The initial call to `configureWebpack` also receives a util object consists of three functions:
 
@@ -326,7 +326,7 @@ module.exports = function (context, options) {
 };
 ```
 
-### Merge strategy
+### Merge strategy {#merge-strategy}
 
 We merge the Webpack configuration parts of plugins into the global Webpack config using [webpack-merge](https://github.com/survivejs/webpack-merge).
 
@@ -350,7 +350,7 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
-## `configurePostCss(options)`
+## `configurePostCss(options)` {#configurepostcssoptions}
 
 Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during the generation of the client bundle.
 
@@ -389,7 +389,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `postBuild(props)`
+## `postBuild(props)` {#postbuildprops}
 
 Called when a (production) build finishes.
 
@@ -427,7 +427,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `extendCli(cli)`
+## `extendCli(cli)` {#extendclicli}
 
 Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
 
@@ -449,7 +449,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `injectHtmlTags()`
+## `injectHtmlTags()` {#injecthtmltags}
 
 Inject head and/or body HTML tags to Docusaurus generated HTML.
 
@@ -516,7 +516,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `getThemePath()`
+## `getThemePath()` {#getthemepath}
 
 Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
@@ -535,7 +535,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `getTypeScriptThemePath()`
+## `getTypeScriptThemePath()` {#gettypescriptthemepath}
 
 Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
 
@@ -561,7 +561,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `getSwizzleComponentList()`
+## `getSwizzleComponentList()` {#getswizzlecomponentlist}
 
 Return a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned then all components are considered unstable, if `undefined` is returned then all component are considered stable.
 
@@ -579,7 +579,7 @@ const swizzleAllowedComponents = [
 module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
 ```
 
-## `getClientModules()`
+## `getClientModules()` {#getclientmodules}
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
 
@@ -606,7 +606,7 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
-## Example
+## Example {#example}
 
 Here's a mind model for a presumptuous plugin implementation.
 

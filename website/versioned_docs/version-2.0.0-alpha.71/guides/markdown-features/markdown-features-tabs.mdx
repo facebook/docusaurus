@@ -50,7 +50,7 @@ By default, tabs are rendered eagerly, but it is possible to load them lazily by
 
 :::
 
-## Syncing tab choices
+## Syncing tab choices {#syncing-tab-choices}
 
 You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that `groupID` are globally-namespaced.
 
@@ -190,7 +190,7 @@ Tab choices with different `groupId`s will not interfere with each other:
 </Tabs>
 ```
 
-## Customizing tabs
+## Customizing tabs {#customizing-tabs}
 
 You might want to customize the appearance of certain set of tabs. To do that you can pass the string in `className` prop and the specified CSS class will be added to the `Tabs` component:
 

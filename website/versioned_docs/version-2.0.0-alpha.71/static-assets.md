@@ -12,13 +12,13 @@ This means that:
 - for site `baseUrl: '/'`, the image `/static/img/docusaurus.png` will be served at `/img/docusaurus.png`.
 - for site `baseUrl: '/subpath/'`, the image `/static/img/docusaurus.png` will be served at `/subpath/img/docusaurus.png`.
 
-## Referencing your static asset
+## Referencing your static asset {#referencing-your-static-asset}
 
 You can reference assets from the `static` folder in your code using absolute paths, but this is not ideal because changing the site `baseUrl` will **break those link**s.
 
 You can `import` / `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
 
-### JSX example
+### JSX example {#jsx-example}
 
 ```jsx title="MyComponent.js"
 import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
@@ -44,7 +44,7 @@ import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
 <DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
 ```
 
-### Markdown example
+### Markdown example {#markdown-example}
 
 Markdown links and images referencing assets of the static folder will be converted to `require("@site/static/assetName.png")"`, and **the site baseUrl will be automatically prepended** for you.
 
@@ -68,7 +68,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 <img alt="Docusaurus with Keytar" src={useBaseUrl('/img/docusaurus_keytar.svg')} />
 ```
 
-### Caveats
+### Caveats {#caveats}
 
 Keep in mind that:
 

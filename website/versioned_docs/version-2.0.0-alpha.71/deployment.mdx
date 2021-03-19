@@ -13,7 +13,7 @@ Once it finishes, the static files will be generated within the `build/` directo
 
 You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/docs/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
-## Testing Build Local
+## Testing Build Local {#testing-build-local}
 
 It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build locally.
 
@@ -21,7 +21,7 @@ It is important to test build before deploying to a production. Docusaurus inclu
 npm run serve
 ```
 
-## Self Hosting
+## Self Hosting {#self-hosting}
 
 :::warning
 
@@ -35,11 +35,11 @@ Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve
 npm run serve -- --build --port 80 --host 0.0.0.0
 ```
 
-## Deploying to GitHub Pages
+## Deploying to GitHub Pages {#deploying-to-github-pages}
 
 Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
 
-### `docusaurus.config.js` settings
+### `docusaurus.config.js` settings {#docusaurusconfigjs-settings}
 
 First, modify your `docusaurus.config.js` and add the required params:
 
@@ -77,7 +77,7 @@ By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.
 
 :::
 
-### Environment settings
+### Environment settings {#environment-settings}
 
 Specify the Git user as an environment variable.
 
@@ -100,7 +100,7 @@ GitHub enterprise installations should work in the same manner as github.com; yo
 | ------------- | ----------------------------------------------- |
 | `GITHUB_HOST` | The domain name of your GitHub enterprise site. |
 
-### Deploy
+### Deploy {#deploy}
 
 Finally, to deploy your site to GitHub Pages, run:
 
@@ -136,7 +136,7 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 </Tabs>
 ````
 
-### Triggering deployment with GitHub Actions
+### Triggering deployment with GitHub Actions {#triggering-deployment-with-github-actions}
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
@@ -209,7 +209,7 @@ jobs:
 1. When pull request is merged to `documentation` branch or someone pushes to `documentation` branch directly it will be built and deployed to `gh-pages` branch.
 1. After this step, your updated documentation will be available on the GitHub pages.
 
-### Triggering deployment with Travis CI
+### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
@@ -237,7 +237,7 @@ script:
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
 
-### Using Azure Pipelines
+### Using Azure Pipelines {#using-azure-pipelines}
 
 1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
 1.  Create an organization and within the organization create a project and connect your repository from GitHub.
@@ -273,7 +273,7 @@ steps:
     displayName: 'yarn install and build'
 ```
 
-### Using Drone
+### Using Drone {#using-drone}
 
 1.  Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
 1.  Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
@@ -307,7 +307,7 @@ trigger:
 
 Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.
 
-## Deploying to Netlify
+## Deploying to Netlify {#deploying-to-netlify}
 
 To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
 
@@ -336,7 +336,7 @@ Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, u
 
 :::
 
-## Deploying to Vercel
+## Deploying to Vercel {#deploying-to-vercel}
 
 Deploying your Docusaurus project to [Vercel](https://vercel.com/) will provide you with [various benefits](https://vercel.com/) in the areas of performance and ease of use.
 
@@ -346,11 +346,11 @@ Import the project into Vercel using the [Import Flow](https://vercel.com/import
 
 After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (commonly "main") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
 
-## Deploying to Render
+## Deploying to Render {#deploying-to-render}
 
 [Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
 
-## Deploying to Surge
+## Deploying to Surge {#deploying-to-surge}
 
 Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from the command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
 
@@ -378,7 +378,7 @@ First-time users of Surge would be prompted to create an account from the comman
 
 Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
 
-### Using your domain
+### Using your domain {#using-your-domain}
 
 If you have a domain name you can deploy your site using surge to your domain using the command:
 
@@ -388,7 +388,7 @@ surge build/ yourdomain.com
 
 Your site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
 
-### Setting up CNAME file
+### Setting up CNAME file {#setting-up-cname-file}
 
 Store your domain in a CNAME file for future deployments with the following command:
 
