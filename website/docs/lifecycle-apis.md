@@ -606,7 +606,7 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
-## i18n lifecycles
+## i18n lifecycles {#i18n-lifecycles}
 
 ### `getTranslationFiles()` {#get-translation-files}
 
