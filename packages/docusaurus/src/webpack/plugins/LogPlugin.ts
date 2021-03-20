@@ -32,4 +32,4 @@ class LogPlugin extends WebpackBar implements Plugin {
   }
 }
 
-export default LogPlugin;
+export = LogPlugin;
