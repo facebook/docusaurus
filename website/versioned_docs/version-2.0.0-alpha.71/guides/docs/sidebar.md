@@ -314,8 +314,8 @@ To pass in custom props to a swizzled sidebar item, add the optional `customProp
 
 ```js
 {
-  type: 'doc';
-  id: 'doc1';
+  type: 'doc',
+  id: 'doc1',
   customProps: {
     /* props */
   }
