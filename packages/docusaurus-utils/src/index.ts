@@ -269,10 +269,11 @@ export function readFrontMatter(
   try {
     const result = matter(markdownString, options);
     result.data = result.data || {};
+    result.content = result.content.trim();
 
     const hasFrontMatter = Object.keys(result.data).length > 0;
 
-    const heading = /^# (.*)[\n\r]/gi.exec(result.content.trim());
+    const heading = /^# (.*)[\n\r]/gi.exec(result.content);
     if (heading) {
       if (removeTitleHeading) {
         result.content = result.content.replace(heading[0], '');
