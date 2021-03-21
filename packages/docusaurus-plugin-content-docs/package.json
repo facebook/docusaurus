@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && yarn build-theme-esm && yarn build-client-esm",
+    "build-theme-esm": "esbuild src/theme/hooks/useDocs.ts > lib/theme/hooks/useDocs.js",
+    "build-client-esm": "esbuild src/client/docsClientUtils.ts > lib/client/docsClientUtils.js",
     "watch": "tsc --watch"
   },
   "publishConfig": {
@@ -21,6 +23,7 @@
     "@docusaurus/module-type-aliases": "2.0.0-alpha.72",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.1.0",
+    "esbuild": "^0.10.2",
     "picomatch": "^2.1.1"
   },
   "dependencies": {

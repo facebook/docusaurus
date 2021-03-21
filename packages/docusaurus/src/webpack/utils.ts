@@ -17,9 +17,10 @@ import webpack, {
   Stats,
 } from 'webpack';
 import fs from 'fs-extra';
-import TerserPlugin from 'terser-webpack-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import CleanCss from 'clean-css';
+// import TerserPlugin from 'terser-webpack-plugin';
+import {ESBuildMinifyPlugin} from 'esbuild-loader';
+// import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+// import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -29,7 +30,7 @@ import {
   ConfigurePostCssFn,
   PostCssOptions,
 } from '@docusaurus/types';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
+// import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {
   BABEL_CONFIG_FILE_NAME,
@@ -143,11 +144,16 @@ export function getBabelOptions({
 
 export function getBabelLoader(
   isServer: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   babelOptions?: TransformOptions | string,
 ): Loader {
   return {
-    loader: require.resolve('babel-loader'),
-    options: getBabelOptions({isServer, babelOptions}),
+    loader: require.resolve('esbuild-loader'),
+    options: {
+      loader: 'tsx',
+      format: isServer ? 'cjs' : 'esm',
+      target: 'es2017',
+    },
   };
 }
 
@@ -463,6 +469,7 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
 }
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getTerserParallel() {
   let terserParallel: boolean | number = true;
   if (process.env.TERSER_PARALLEL === 'false') {
@@ -476,74 +483,7 @@ function getTerserParallel() {
   return terserParallel;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
-  const minimizer = [
-    new TerserPlugin({
-      cache: true,
-      parallel: getTerserParallel(),
-      sourceMap: false,
-      terserOptions: {
-        parse: {
-          // we want uglify-js to parse ecma 8 code. However, we don't want it
-          // to apply any minification steps that turns valid ecma 5 code
-          // into invalid ecma 5 code. This is why the 'compress' and 'output'
-          // sections only apply transformations that are ecma 5 safe
-          // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 8,
-        },
-        compress: {
-          ecma: 5,
-          warnings: false,
-        },
-        mangle: {
-          safari10: true,
-        },
-        output: {
-          ecma: 5,
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
-        },
-      },
-    }),
-  ];
-
-  if (useSimpleCssMinifier) {
-    minimizer.push(
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: 'default',
-        },
-      }),
-    );
-  } else {
-    minimizer.push(
-      ...[
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorPluginOptions: {
-            preset: CssNanoPreset,
-          },
-        }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessor: CleanCss,
-          cssProcessorOptions: {
-            inline: false,
-            level: {
-              1: {
-                all: false,
-              },
-              2: {
-                all: true,
-                restructureRules: true,
-                removeUnusedAtRules: false,
-              },
-            },
-          },
-        }),
-      ],
-    );
-  }
-
-  return minimizer;
+  return [new ESBuildMinifyPlugin({target: 'es2017', css: true})];
 }
