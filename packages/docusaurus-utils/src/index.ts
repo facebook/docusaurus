@@ -264,7 +264,7 @@ export function readFrontMatter(
   markdownString: string,
   source?: string,
   options: Record<string, unknown> = {},
-  removeTitleHeading?: boolean,
+  removeTitleHeading = true,
 ): ParsedMarkdown {
   try {
     const result = matter(markdownString, options);
@@ -275,13 +275,15 @@ export function readFrontMatter(
 
     const heading = /^# (.*)[\n\r]/gi.exec(result.content);
     if (heading) {
-      if (removeTitleHeading) {
-        result.content = result.content.replace(heading[0], '');
-      }
       if (result.data.title) {
-        console.warn(`Duplicate title detected in ${source || 'this file'}`);
+        console.warn(
+          `Duplicate title detected in \`${source || 'this'}\` file`,
+        );
       } else {
         result.data.title = heading[1].trim();
+        if (removeTitleHeading) {
+          result.content = result.content.replace(heading[0], '');
+        }
       }
     }
 
