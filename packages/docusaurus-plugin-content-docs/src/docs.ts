@@ -131,7 +131,7 @@ export function processDocMetadata({
     throw new Error(`Document id [${baseID}] cannot include "/".`);
   }
 
-  // TODO legacy retro-compatibility
+  // TODO legacy retrocompatibility
   // The same doc in 2 distinct version could keep the same id,
   // we just need to namespace the data by version
   const versionIdPart =
@@ -139,8 +139,8 @@ export function processDocMetadata({
       ? ''
       : `version-${versionMetadata.versionName}/`;
 
-  // TODO legacy retro-compatibility
-  // I think it's bad to affect the front-matter id with the dirname
+  // TODO legacy retrocompatibility
+  // I think it's bad to affect the frontmatter id with the dirname
   const dirNameIdPart = docsFileDirName === '.' ? '' : `${docsFileDirName}/`;
 
   // TODO legacy composite id, requires a breaking change to modify this
