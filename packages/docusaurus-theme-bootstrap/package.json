@@ -2,8 +2,8 @@
   "name": "@docusaurus/theme-bootstrap",
   "version": "2.0.0-alpha.72",
   "description": "Bootstrap theme for Docusaurus.",
-  "main": "src/index.js",
-  "types": "src/types.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/types.d.ts",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

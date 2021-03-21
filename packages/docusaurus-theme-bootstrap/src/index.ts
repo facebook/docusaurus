@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import path from 'path';
+import type {Plugin} from '@docusaurus/types';
 
-module.exports = function () {
+export default function docusaurusThemeBootstrap(): Plugin<void> {
   return {
     name: 'docusaurus-theme-bootstrap',
     getThemePath() {
@@ -20,4 +21,4 @@ module.exports = function () {
       return [require.resolve('bootstrap/dist/css/bootstrap.min.css')];
     },
   };
-};
+}
