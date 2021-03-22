@@ -23,7 +23,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 ### Search {#search}
 
 - [docusaurus-plugin-lunr](https://github.com/daldridge/docusaurus-plugin-lunr) - Docusaurus v2 plugin to create a local search index for use with Lunr.js
-- [docusaurus-lunr-search](https://github.com/lelouch77/docusurus-lunr-search) - Offline Search for Docusaurus v2
+- [docusaurus-lunr-search](https://github.com/lelouch77/docusaurus-lunr-search) - Offline Search for Docusaurus v2
 - [docusaurus-search-local](https://github.com/cmfcmf/docusaurus-search-local) - Offline/local search for Docusaurus v2
 - [@easyops-cn/docusaurus-search-local](https://github.com/easyops-cn/docusaurus-search-local) - Offline/local search for Docusaurus v2 (language of zh supported)
 
