@@ -91,8 +91,8 @@ describe('loadBlog', () => {
       prevItem: undefined,
       tags: [],
       nextItem: {
-        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-        title: 'Happy 1st Birthday Slash! (translated)',
+        permalink: '/blog/heading-as-title',
+        title: 'some heading',
       },
       truncated: false,
     });
@@ -117,8 +117,8 @@ describe('loadBlog', () => {
       formattedDate: 'December 14, 2018',
       tags: [],
       prevItem: {
-        permalink: '/blog/date-matter',
-        title: 'date-matter',
+        permalink: '/blog/heading-as-title',
+        title: 'some heading',
       },
       truncated: false,
     });
@@ -164,12 +164,33 @@ describe('loadBlog', () => {
       tags: [],
       truncated: false,
     });
+
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'some heading')!.metadata,
+      prevItem: undefined,
+    }).toEqual({
+      editUrl: `${BaseEditUrl}/blog/heading-as-title.md`,
+      permalink: '/blog/heading-as-title',
+      readingTime: 0,
+      source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
+      title: 'some heading',
+      description: '',
+      date: new Date('2019-01-01'),
+      formattedDate: 'January 1, 2019',
+      prevItem: undefined,
+      tags: [],
+      nextItem: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        title: 'Happy 1st Birthday Slash! (translated)',
+      },
+      truncated: false,
+    });
   });
 
   test('simple website blog dates localized', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(5);
+    expect(blogPostsFrench).toHaveLength(6);
     expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
       `"16 août 2020"`,
     );
@@ -183,6 +204,9 @@ describe('loadBlog', () => {
       `"1 janvier 2019"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });
@@ -212,7 +236,7 @@ describe('loadBlog', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(5);
+    expect(editUrlFunction).toHaveBeenCalledTimes(6);
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
@@ -242,6 +266,12 @@ describe('loadBlog', () => {
       blogPath: '2018-12-14-Happy-First-Birthday-Slash.md',
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
       locale: 'en',
+    });
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      blogDirPath: 'blog',
+      blogPath: 'heading-as-title.md',
+      locale: 'en',
+      permalink: '/blog/heading-as-title',
     });
   });
 

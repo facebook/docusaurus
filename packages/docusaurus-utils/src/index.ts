@@ -273,7 +273,7 @@ export function readFrontMatter(
 
     const hasFrontMatter = Object.keys(result.data).length > 0;
 
-    const heading = /^# (.*)[\n\r]/gi.exec(result.content);
+    const heading = /^# (.*)[\n\r]?/gi.exec(result.content);
     if (heading) {
       if (result.data.title) {
         console.warn(
@@ -283,6 +283,9 @@ export function readFrontMatter(
         result.data.title = heading[1].trim();
         if (removeTitleHeading) {
           result.content = result.content.replace(heading[0], '');
+          if (result.excerpt) {
+            result.excerpt = result.excerpt.replace(heading[1], '');
+          }
         }
       }
     }
