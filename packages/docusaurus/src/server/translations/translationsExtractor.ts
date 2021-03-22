@@ -167,7 +167,7 @@ function extractSourceCodeAstTranslations(
   sourceCodeFilePath: string,
 ): SourceCodeFileTranslations {
   function staticTranslateJSXWarningPart() {
-    return 'Translate content could not be extracted.\nIt has to be a static string, like <Translate>text</Translate>.';
+    return 'Translate content could not be extracted.\nIt has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.';
   }
   function sourceFileWarningPart(node: Node) {
     return `File=${sourceCodeFilePath} at line=${node.loc?.start.line}`;
@@ -268,7 +268,7 @@ function extractSourceCodeAstTranslations(
         };
       } else {
         warnings.push(
-          `${staticTranslateJSXWarningPart}\n${sourceFileWarningPart(
+          `${staticTranslateJSXWarningPart()}\n${sourceFileWarningPart(
             path.node,
           )}\n${generateCode(path.node)}`,
         );

@@ -6,7 +6,7 @@ slug: '/api/plugins/@docusaurus/plugin-content-blog'
 
 Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -118,18 +118,18 @@ module.exports = {
 };
 ```
 
-## i18n
+## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-blog-<pluginId>`
 - **JSON files**: N/A
 - **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 
-### Example file-system structure
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/<locale>/docusaurus-plugin-content-blog

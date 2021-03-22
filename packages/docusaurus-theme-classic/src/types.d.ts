@@ -259,7 +259,9 @@ declare module '@theme/Layout' {
 }
 
 declare module '@theme/LayoutHead' {
-  import type {Props} from '@theme/Layout';
+  import type {Props as LayoutProps} from '@theme/Layout';
+
+  export type Props = Omit<LayoutProps, 'children'>;
 
   const LayoutHead: (props: Props) => JSX.Element;
   export default LayoutHead;
@@ -427,8 +429,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
-    readonly hidden: boolean;
-    readonly className: string;
+    readonly hidden?: boolean;
+    readonly className?: string;
   };
 
   const TabItem: (props: Props) => JSX.Element;

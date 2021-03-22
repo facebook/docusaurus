@@ -65,6 +65,7 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'no-console': OFF,
     'no-else-return': OFF,
+    'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
@@ -100,7 +101,6 @@ module.exports = {
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
-    'no-param-reassign': WARNING,
     'no-template-curly-in-string': WARNING,
     'array-callback-return': WARNING,
     camelcase: WARNING,
@@ -127,6 +127,12 @@ module.exports = {
       ],
       rules: {
         'header/header': OFF,
+      },
+    },
+    {
+      files: ['*.d.ts'],
+      rules: {
+        'import/no-duplicates': OFF,
       },
     },
     {

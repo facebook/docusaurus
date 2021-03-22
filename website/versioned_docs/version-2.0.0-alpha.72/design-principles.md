@@ -15,7 +15,7 @@ This section is a work in progress.
 - **Sensible defaults** - Common and popular performance optimizations and configurations will be done for users but they are given the option to override them.
 - **No vendor-lock in** - Users are not required to use the default plugins or CSS, although they are highly encouraged to. Certain core lower-level infra level pieces like React Loadable, React Router cannot be swapped because we do default performance optimization on them. But not higher level ones, such as choice of Markdown engines, CSS frameworks, CSS methodology will be entirely up to users.
 
-## How Docusaurus works
+## How Docusaurus works {#how-docusaurus-works}
 
 <!-- moved in from how Docusaurus works @yangshun -->
 

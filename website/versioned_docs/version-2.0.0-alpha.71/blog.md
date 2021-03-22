@@ -3,7 +3,7 @@ id: blog
 title: Blog
 ---
 
-## Initial setup
+## Initial setup {#initial-setup}
 
 To setup your site's blog, start by creating a `blog` directory.
 
@@ -24,7 +24,7 @@ module.exports = {
 };
 ```
 
-## Adding posts
+## Adding posts {#adding-posts}
 
 To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-my-blog-post-title.md`. The post date is extracted from the file name.
 
@@ -51,7 +51,7 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-## Header options
+## Header options {#header-options}
 
 The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
 
@@ -66,7 +66,7 @@ The only required field is `title`; however, we provide options to add author in
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
 - `hide_table_of_contents`: Whether to hide the table of contents to the right. By default it is `false`.
 
-## Summary truncation
+## Summary truncation {#summary-truncation}
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
@@ -87,7 +87,7 @@ Not this.
 Or this.
 ```
 
-## Feed
+## Feed {#feed}
 
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
@@ -136,9 +136,9 @@ and for Atom:
 https://{your-domain}/blog/atom.xml
 ```
 
-## Advanced topics
+## Advanced topics {#advanced-topics}
 
-### Blog-only mode
+### Blog-only mode {#blog-only-mode}
 
 You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
@@ -185,7 +185,7 @@ module.exports = {
 };
 ```
 
-### Multiple blogs
+### Multiple blogs {#multiple-blogs}
 
 By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
 

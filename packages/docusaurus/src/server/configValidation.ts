@@ -7,8 +7,8 @@
 
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME} from '../constants';
-import Joi from 'joi';
 import {
+  Joi,
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
   URISchema,

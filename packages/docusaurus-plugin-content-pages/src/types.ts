@@ -5,23 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface PluginOptions {
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+
+export interface PluginOptions extends RemarkAndRehypePluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
   exclude: string[];
   mdxPageComponent: string;
-  remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
-  rehypePlugins: string[];
-  beforeDefaultRemarkPlugins: (
-    | [Function, Record<string, unknown>]
-    | Function
-  )[];
-  beforeDefaultRehypePlugins: (
-    | [Function, Record<string, unknown>]
-    | Function
-  )[];
   admonitions: Record<string, unknown>;
 }
 

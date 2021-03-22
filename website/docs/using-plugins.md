@@ -5,11 +5,11 @@ title: Plugins
 
 Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md).
 
-## Available plugins
+## Available plugins {#available-plugins}
 
 We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins).
 
-## Installing a plugin
+## Installing a plugin {#installing-a-plugin}
 
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
@@ -37,7 +37,7 @@ module.exports = {
 };
 ```
 
-## Configuring plugins
+## Configuring plugins {#configuring-plugins}
 
 For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin.
 
@@ -76,7 +76,7 @@ module.exports = {
 };
 ```
 
-## Multi-instance plugins and plugin ids
+## Multi-instance plugins and plugin ids {#multi-instance-plugins-and-plugin-ids}
 
 All Docusaurus content plugins can support multiple plugin instances.
 
@@ -113,15 +113,15 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 :::
 
-## Plugins design
+## Plugins design {#plugins-design}
 
 Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.
 
-## Creating plugins
+## Creating plugins {#creating-plugins}
 
 A plugin is a module which exports a function that takes two parameters and returns an object when executed.
 
-### Module definition
+### Module definition {#module-definition}
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
@@ -154,7 +154,7 @@ module.exports = function (context, options) {
 
 The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
-#### `context`
+#### `context` {#context}
 
 `context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
 
@@ -168,10 +168,10 @@ interface LoadContext {
 }
 ```
 
-#### `options`
+#### `options` {#options}
 
 `options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
 
-#### Return value
+#### Return value {#return-value}
 
 The returned object value should implement the [lifecycle APIs](lifecycle-apis.md).

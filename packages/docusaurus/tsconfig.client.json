@@ -7,7 +7,7 @@
     "tsBuildInfoFile": "./lib/client/.tsbuildinfo",
     "outDir": "lib/client",
     "noImplicitAny": false,
-    "jsx": "react",
+    "jsx": "react"
   },
   "include": ["src/client"]
 }

@@ -18,6 +18,8 @@ const windowsSpecificIgnorePatterns = [
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
+  '/packages/docusaurus-1.x',
+  '/packages/docusaurus-init-1.x',
   '/packages/docusaurus/lib',
   '/packages/docusaurus-utils/lib',
   '/packages/docusaurus-utils-validation/lib',

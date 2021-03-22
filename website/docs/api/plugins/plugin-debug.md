@@ -16,7 +16,7 @@ If you don't have any sensitive information, you can keep it on in production [l
 
 :::
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-debug
@@ -30,7 +30,7 @@ By default, it's enabled in dev, and disabled in prod, to avoid exposing potenti
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {

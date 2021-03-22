@@ -11,11 +11,11 @@ We will add **French** translations to a **newly initialized English Docusaurus 
 
 Initialize a new site with `npx @docusaurus/init@latest init website classic` (like [this one](https://github.com/facebook/docusaurus/tree/master/examples/classic)).
 
-## Configure your site
+## Configure your site {#configure-your-site}
 
 Modify `docusaurus.config.js` to add the i18n support for the French language.
 
-### Site configuration
+### Site configuration {#site-configuration}
 
 Use the [site i18n configuration](./../api/docusaurus.config.js.md#i18n) to declare the i18n locales:
 
@@ -36,7 +36,7 @@ module.exports = {
 };
 ```
 
-### Theme configuration
+### Theme configuration {#theme-configuration}
 
 Add a **navbar item** of type `localeDropdown` so that users can select the locale they want:
 
@@ -57,7 +57,7 @@ module.exports = {
 };
 ```
 
-### Start your site
+### Start your site {#start-your-site}
 
 Start your localized site in dev mode, using the locale of your choice:
 
@@ -83,7 +83,7 @@ Each locale is a **distinct standalone single-page-application**: it is not poss
 
 :::
 
-## Translate your site
+## Translate your site {#translate-your-site}
 
 The French translations will be added in `website/i18n/fr`.
 
@@ -97,7 +97,7 @@ Hot-reload will work better when editing existing files.
 
 :::
 
-### Use the translation APIs
+### Use the translation APIs {#use-the-translation-apis}
 
 Open the homepage, and use the [translation APIs](../docusaurus-core.md#translate):
 
@@ -153,7 +153,7 @@ Most documentation websites are generally **static** and don't need advanced i18
 
 :::
 
-### Translate JSON files
+### Translate JSON files {#translate-json-files}
 
 JSON translation files are used for everything that is not contained in a Markdown document:
 
@@ -210,11 +210,11 @@ Plugins and themes will also write their own **JSON translation files**, such as
 
 Translate the `message` attribute in the JSON files of `i18n/fr`, and your site layout and homepage should now be translated.
 
-### Translate Markdown files
+### Translate Markdown files {#translate-markdown-files}
 
 Official Docusaurus content plugins extensively use Markdown/MDX files, and allow you to translate them.
 
-#### Translate the docs
+#### Translate the docs {#translate-the-docs}
 
 Copy your docs Markdown files to `i18n/fr/docusaurus-plugin-content-docs/current`, and translate them:
 
@@ -229,7 +229,7 @@ cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
 
 :::
 
-#### Translate the blog
+#### Translate the blog {#translate-the-blog}
 
 Copy your blog Markdown files to `i18n/fr/docusaurus-plugin-content-blog`, and translate them:
 
@@ -238,7 +238,7 @@ mkdir -p i18n/fr/docusaurus-plugin-content-blog
 cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
 ```
 
-#### Translate the pages
+#### Translate the pages {#translate-the-pages}
 
 Copy your pages Markdown files to `i18n/fr/docusaurus-plugin-content-pages`, and translate them:
 
@@ -254,7 +254,7 @@ We only copy `.md` and `.mdx` files, as pages React components are translated th
 
 :::
 
-### Use explicit heading ids
+### Use explicit heading ids {#use-explicit-heading-ids}
 
 By default, a Markdown heading `### Hello World` will have a generated id `hello-world`.
 
@@ -275,11 +275,11 @@ For localized sites, it is recommended to use **[explicit heading ids](../guides
 
 :::
 
-## Deploy your site
+## Deploy your site {#deploy-your-site}
 
 You can choose to deploy your site under a **single domain**, or use **multiple (sub)domains**.
 
-### Single-domain deployment
+### Single-domain deployment {#single-domain-deployment}
 
 Run the following command:
 
@@ -313,7 +313,7 @@ This is not always possible, and depends on your host: GitHub Pages can't do thi
 
 :::
 
-### Multi-domain deployment
+### Multi-domain deployment {#multi-domain-deployment}
 
 You can also build your site for a single locale:
 
@@ -335,7 +335,7 @@ This strategy is **not possible** with Github Pages, as it is only possible to *
 
 :::
 
-### Hybrid
+### Hybrid {#hybrid}
 
 It is possible to have some locales using sub-paths, and others using subdomains.
 

@@ -147,7 +147,7 @@ export function posixPath(str: string): string {
 // This way, Jest tests can run more reliably on any computer/CI
 // on both Unix/Windows
 // For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
-export function toMessageRelativeFilePath(filePath: string) {
+export function toMessageRelativeFilePath(filePath: string): string {
   return posixPath(path.relative(process.cwd(), filePath));
 }
 
@@ -208,6 +208,7 @@ export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileString.trimLeft().split('\n');
 
   /* eslint-disable no-continue */
+  // eslint-disable-next-line no-restricted-syntax
   for (const fileLine of fileLines) {
     // Skip empty line.
     if (!fileLine.trim()) {
@@ -491,6 +492,7 @@ export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
@@ -503,6 +505,7 @@ export async function findAsyncSequential<T>(
   array: T[],
   predicate: (t: T) => Promise<boolean>,
 ): Promise<T | undefined> {
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
@@ -621,6 +624,7 @@ export async function readDefaultCodeTranslationMessages({
 
   // Return the content of the first file that match
   // fr_FR.json => fr.json => nothing
+  // eslint-disable-next-line no-restricted-syntax
   for (const fileName of fileNamesToTry) {
     const filePath = path.resolve(dirPath, `${fileName}.json`);
 

@@ -8,7 +8,7 @@
  */
 
 const OFF = 0;
-const WARNING = 1;
+// const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     jest: true,
     node: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     allowImportExportEverywhere: true,
   },

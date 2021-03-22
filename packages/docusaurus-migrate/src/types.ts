@@ -21,6 +21,14 @@ export type ClassicPresetEntries = {
   theme: {[key: string]: unknown};
 };
 
+export type SidebarEntry =
+  | string
+  | {
+      type: string;
+      label: string;
+      ids: string[];
+    };
+
 export type SidebarEntries = {
   [key: string]:
     | Record<string, unknown>
@@ -97,10 +105,10 @@ export type VersionOneConfig = {
   organizationName?: string;
   projectName?: string;
   noIndex?: boolean;
-  headerLinks?: Array<any>;
+  headerLinks?: Array<{doc: string; href: string; label: string; page: string}>;
   headerIcon?: string;
   favicon?: string;
-  colors?: any;
+  colors?: {primaryColor: string};
   copyright?: string;
   editUrl?: string;
   customDocsPath?: string;

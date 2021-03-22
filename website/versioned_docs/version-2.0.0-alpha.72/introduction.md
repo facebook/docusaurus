@@ -5,7 +5,7 @@ description: Docusaurus was designed from the ground up to be easily installed a
 slug: /
 ---
 
-## Disclaimer
+## Disclaimer {#disclaimer}
 
 Docusaurus v2 is **still alpha** (since mid-2019) but already quite stable.
 
@@ -32,7 +32,7 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 - :x: You prefer stability over modernity
 - :x: You need support for IE11
 
-## A better Docusaurus is coming to town
+## A better Docusaurus is coming to town {#a-better-docusaurus-is-coming-to-town}
 
 ![Docusaurus Slash Introduction](/img/slash-introducing.svg)
 
@@ -42,7 +42,7 @@ Beyond that, Docusaurus 2 is a **performant static site generator** and can be u
 
 While our main focus will still be helping you get your documentations right and well, it is possible to build any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
 
-## Features
+## Features {#features}
 
 Docusaurus is built with high attention to your experience building your site and maintaining it with your collaborators and contributors.
 
@@ -76,13 +76,13 @@ Docusaurus 2 is born to be compassionately accessible to all your users, and lig
 - ⚡️ **Lightning fast** - Docusaurus 2 follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
 - 🦖 **Accessible** - Attention to accessibility, making your site equally accessible to all users
 
-## Comparison with other tools
+## Comparison with other tools {#comparison-with-other-tools}
 
 Across all static site generators, Docusaurus has a unique focus on doc sites and has out-of-the-box structure you need.
 
 We've also studied other main static site generators and would like to share our insights on the comparison, hopefully to help you navigate through the prismatic choices out there.
 
-### Gatsby
+### Gatsby {#gatsby}
 
 Gatsby is packed with a lot of features, has a rich ecosystem of plugins and is capable of doing everything that Docusaurus does. Naturally, that comes at a cost of a higher learning curve. Gatsby does many things well and is suitable for building many types of websites. On the other hand, Docusaurus tries to do one thing super well - be the best tool for writing and publishing content.
 
@@ -90,31 +90,31 @@ GraphQL is also pretty core to Gatsby, although you don't necessarily need Graph
 
 Many aspects of Docusaurus 2 were inspired by the best things about Gatsby and it's a great alternative.
 
-### GitBook
+### GitBook {#gitbook}
 
 GitBook has very clean design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's documentation site. As a result, many have turned to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
 
 Currently, GitBook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
 
-### Jekyll
+### Jekyll {#jekyll}
 
 Jekyll is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! It is extremely simple to get started. We want to bring a similar developer experience as building a static site with Jekyll.
 
 In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. Using modern JavaScript ecosystem tooling, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
 
-### VuePress
+### VuePress {#vuepress}
 
 VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you want a Vue-based solution, VuePress would be a decent choice.
 
 <!-- TODO: Add a Next.js comparison -->
 
-## Staying informed
+## Staying informed {#staying-informed}
 
 - [GitHub](https://github.com/facebook/docusaurus)
 - [Twitter](https://twitter.com/docusaurus)
 - [Blog](/blog)
 
-## Something missing?
+## Something missing? {#something-missing}
 
 If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://twitter.com/docusaurus) Twitter account.
 

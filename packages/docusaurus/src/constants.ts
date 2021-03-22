@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export const NODE_MAJOR_VERSION = parseInt(
+  process.versions.node.split('.')[0],
+  10,
+);
+
 // Can be overridden with cli option --out-dir
 export const DEFAULT_BUILD_DIR_NAME = 'build';
 
