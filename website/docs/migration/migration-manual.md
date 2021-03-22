@@ -420,10 +420,10 @@ In v1, all pages were available with or without the `.html` extension.
 
 For example, these 2 pages exist:
 
-- [https://docusaurus.io/docs/en/installation](https://docusaurus.io/docs/en/installation)
-- [https://docusaurus.io/docs/en/installation.html](https://docusaurus.io/docs/en/installation.html)
+- [https://v1.docusaurus.io/docs/en/installation](https://v1.docusaurus.io/docs/en/installation)
+- [https://v1.docusaurus.io/docs/en/installation.html](https://v1.docusaurus.io/docs/en/installation.html)
 
-If [`cleanUrl`](https://docusaurus.io/docs/en/site-config#cleanurl-boolean) was:
+If [`cleanUrl`](https://v1.docusaurus.io/docs/en/site-config#cleanurl-boolean) was:
 
 - `true`: links would target `/installation`
 - `false`: links would target `/installation.html`
