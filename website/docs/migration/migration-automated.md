@@ -46,7 +46,7 @@ yarn start
 
 :::danger
 
-The migration CLI updates existing files. Be sure to have commited them first!
+The migration CLI updates existing files. Be sure to have committed them first!
 
 :::
 

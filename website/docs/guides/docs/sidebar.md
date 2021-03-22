@@ -64,7 +64,7 @@ In this example, notice the following:
 
 - The key `docs` is the id of the sidebar. The id can be any value, not necessarily `docs`.
 - `Getting Started` is a category within the sidebar.
-- `greeting` and `doc1` are both [sidebar item](#sidebar-item).
+- `greeting` and `doc1` are both [sidebar item](#understanding-sidebar-items).
 
 Shorthand notation can also be used:
 
@@ -314,8 +314,8 @@ To pass in custom props to a swizzled sidebar item, add the optional `customProp
 
 ```js
 {
-  type: 'doc';
-  id: 'doc1';
+  type: 'doc',
+  id: 'doc1',
   customProps: {
     /* props */
   }

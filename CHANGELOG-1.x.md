@@ -1112,7 +1112,7 @@ N/A
 
 ## [1.0.10] - 2018-04-09
 
-This is a general release with mostly bug fixes and documentation updates (which are already live on docusuarus.io).
+This is a general release with mostly bug fixes and documentation updates (which are already live on docusaurus.io).
 
 ### Breaking Changes
 
@@ -1287,7 +1287,7 @@ This is generally a bug fix release, with some code refactoring. Total commits i
 - Links on landing page in `docusaurus-init` test site do not 404 any longer.
 - Refactoring how we check for translations and versioning (PRs #322/#316 and friends).
 - Refactored the example `index.js` page (PR #293).
-- Link errors, typos and grammatical errors in the docusuarus.io documentation.
+- Link errors, typos and grammatical errors in the docusaurus.io documentation.
 
 ### Removed
 
