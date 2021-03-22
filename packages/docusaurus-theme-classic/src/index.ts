@@ -139,14 +139,7 @@ export default function docusaurusThemeClassic(
         .map((lang) => `prism-${lang}`)
         .join('|');
 
-      // See https://github.com/facebook/docusaurus/pull/3382
-      const useDocsWarningFilter = (warning: string) =>
-        warning.includes("Can't resolve '@theme-init/hooks/useDocs");
-
       return {
-        stats: {
-          warningsFilter: useDocsWarningFilter,
-        },
         plugins: [
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
