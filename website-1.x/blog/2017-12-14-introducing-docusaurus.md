@@ -21,9 +21,9 @@ We created [Docusaurus](https://docusaurus.io) for the following reasons:
 
 <!--truncate-->
 
-Docusaurus is a tool designed to make it easy for teams to publish documentation websites without having to worry about the infrastructure and design details. At its core, all a user has to provide are documentation files written in markdown, customization of a provided home page written in React, and a few configuration modifications. Docusaurus handles the rest by providing default styles, site formatting, and simple document navigation. Getting started is easy, as users can [install](https://docusaurus.io/docs/en/installation.html) it using `npm` or `yarn` via a simple initialization script that [creates a working example website out of the box](https://docusaurus.io/docs/en/site-preparation.html).
+Docusaurus is a tool designed to make it easy for teams to publish documentation websites without having to worry about the infrastructure and design details. At its core, all a user has to provide are documentation files written in markdown, customization of a provided home page written in React, and a few configuration modifications. Docusaurus handles the rest by providing default styles, site formatting, and simple document navigation. Getting started is easy, as users can [install](https://v1.docusaurus.io/docs/en/installation.html) it using `npm` or `yarn` via a simple initialization script that [creates a working example website out of the box](https://v1.docusaurus.io/docs/en/site-preparation.html).
 
-Docusaurus also provides core website and documentation features out-of-the-box including [blog support](https://docusaurus.io/docs/en/blog.html), [internationalization](https://docusaurus.io/docs/en/translation.html), [search](https://docusaurus.io/docs/en/search.html), and [versioning](https://docusaurus.io/docs/en/versioning.html). While some projects may not require any of these features, enabling them is generally a matter of updating configuration options instead of having to add the infrastructure from the ground up. As more features get added to Docusaurus, users just can easily update to the latest version. This can be done by simply running npm or yarn update and updating configuration options. Users or teams will no longer need to manually rework their entire website infrastructure each time a new feature gets added.
+Docusaurus also provides core website and documentation features out-of-the-box including [blog support](https://v1.docusaurus.io/docs/en/blog.html), [internationalization](https://v1.docusaurus.io/docs/en/translation.html), [search](https://v1.docusaurus.io/docs/en/search.html), and [versioning](https://v1.docusaurus.io/docs/en/versioning.html). While some projects may not require any of these features, enabling them is generally a matter of updating configuration options instead of having to add the infrastructure from the ground up. As more features get added to Docusaurus, users just can easily update to the latest version. This can be done by simply running npm or yarn update and updating configuration options. Users or teams will no longer need to manually rework their entire website infrastructure each time a new feature gets added.
 
 ## The Birth of docusaurus
 
@@ -45,7 +45,7 @@ At Facebook, Docusaurus allows us to quickly get different projects up and runni
 
 ![Slash Up and Running](/img/slash-upandrunning.png)
 
-At its core, we wanted sites running Docusaurus to be simple to use. With one [installation](https://docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
+At its core, we wanted sites running Docusaurus to be simple to use. With one [installation](https://v1.docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://v1.docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
 
 When you run `docusaurus-init`, you will see a structure similar to:
 
@@ -71,7 +71,7 @@ root-of-repo
 │   └── static
 ```
 
-With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
+With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://v1.docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://v1.docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://v1.docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://v1.docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
 
 ## How does Docusaurus work?
 
@@ -139,7 +139,7 @@ We welcome your [contributions](https://github.com/facebook/docusaurus/blob/mast
 
 Docusaurus wouldn't exist without the work of the rest of the core Docusaurus team: [Eric Nakagawa](http://twitter.com/ericnakagawa), [Hector Ramos](https://twitter.com/hectorramos), [Eric Vicenti](https://twitter.com/EricVicenti) and [Frank Li](https://github.com/deltice) — a former intern at Facebook who implemented the core technology and features.
 
-Special thanks also goes out to our earliest [adopters](https://docusaurus.io/en/users.html) of Docusaurus:
+Special thanks also goes out to our earliest [adopters](https://v1.docusaurus.io/en/users.html) of Docusaurus:
 
 - [BuckleScript](https://bucklescript.github.io/)
 - [FastText](https://fasttext.cc)
@@ -154,7 +154,7 @@ Without their dedication to creating or migrating their websites over to the pla
 
 ## Resources
 
-- [Read our documentation](https://docusaurus.io)
+- [Read our documentation](https://v1.docusaurus.io)
 - [Follow our Twitter feed](https://twitter.com/docusaurus)
 - [Follow us on GitHub](https://github.com/facebook/docusaurus)
-- [About Slash, the Docusaurus mascot](https://docusaurus.io/about-slash.html)
+- [About Slash, the Docusaurus mascot](https://v1.docusaurus.io/about-slash.html)

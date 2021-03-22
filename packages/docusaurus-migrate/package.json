@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/migrate",
   "version": "2.0.0-alpha.72",
-  "description": "A CLI tool to migrate from older versions of Docusuarus.",
+  "description": "A CLI tool to migrate from older versions of Docusaurus.",
   "main": "lib/index.js",
   "license": "MIT",
   "engines": {

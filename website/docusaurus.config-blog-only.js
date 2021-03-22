@@ -11,7 +11,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',

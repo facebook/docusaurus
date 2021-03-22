@@ -30,7 +30,7 @@ module.exports = {
       apiKey: 'YOUR_API_KEY',
       indexName: 'YOUR_INDEX_NAME',
 
-      // Optional: see doc section bellow
+      // Optional: see doc section below
       contextualSearch: true,
 
       // Optional: Algolia search parameters

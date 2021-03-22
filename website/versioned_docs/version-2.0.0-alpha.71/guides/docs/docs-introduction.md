@@ -51,7 +51,7 @@ It is possible to use:
 
 ## Home page docs {#home-page-docs}
 
-If you want a document to be available at the root, and have a path like `https://v2.docusaurus.io/docs/`, you can use the slug frontmatter:
+If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug frontmatter:
 
 ```yml
 ---

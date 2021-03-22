@@ -26,7 +26,7 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 
 :::
 
-**Use [Docusaurus v1](https://docusaurus.io/) if:**
+**Use [Docusaurus v1](https://v1.docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
 - :x: You prefer stability over modernity

@@ -298,8 +298,8 @@ You can now [deploy](../deployment.mdx) the `build` folder to the static hosting
 
 The Docusaurus v2 website use this strategy:
 
-- [https://v2.docusaurus.io](https://v2.docusaurus.io)
-- [https://v2.docusaurus.io/fr](https://v2.docusaurus.io/fr)
+- [https://docusaurus.io](https://docusaurus.io)
+- [https://docusaurus.io/fr](https://docusaurus.io/fr)
 
 :::
 
