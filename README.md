@@ -19,7 +19,9 @@
   <a href="https://meercode.io/facebook/docusaurus"><img src="https://meercode.io/badge/facebook/docusaurus?type=ci-score" alt="CI Score"></a>
 </p>
 
-> **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
+> **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://docusaurus.io/) for more details.**
+
+> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
 
 > Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
 
@@ -31,15 +33,15 @@ Docusaurus is a project for building, deploying, and maintaining open source pro
 
 - **Simple to Start**
 
-> Docusaurus is built in a way so that it can [get running](https://v2.docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+> Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
 - **Localizable**
 
-> Docusaurus ships with [localization support](https://v2.docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
+> Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
 
 - **Customizable**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://v2.docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://v2.docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://v2.docusaurus.io/docs/styling-layout).
+> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
 
 ## Installation
 

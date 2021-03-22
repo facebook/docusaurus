@@ -2955,7 +2955,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Add missing dependencies on `@docusaurus/preset-classic`
 - New plugin `@docusaurus/plugin-ideal-image` to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
 - Better Twitter/discord image preview. Previously the size is too zoomed
-- Allow prism syntax highlighting theme customization. Refer to https://v2.docusaurus.io/docs/markdown-features#syntax-highlighting
+- Allow prism syntax highlighting theme customization. Refer to https://docusaurus.io/docs/markdown-features#syntax-highlighting
 - CSS is now autoprefixed using postcss
 - Faster, lighter webpack bundle size
 - `@docusaurus/theme-live-codeblock` is now much smaller in size and no longer only load on viewport
