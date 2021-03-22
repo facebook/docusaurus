@@ -59,7 +59,7 @@
             <guid>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html</guid>
             <pubDate>Fri, 14 Dec 2018 06:00:00 GMT</pubDate>
             <description><![CDATA[<p><img src="/img/docusaurus-slash-first-birthday.svg" alt="First Birthday Slash"></p>
-<p>Docusaurus <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">went live</a> on December 14, 2017. At the time, we had <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus#acknowledgements">8 early adopters</a>.</p>
+<p>Docusaurus <a href="https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus">went live</a> on December 14, 2017. At the time, we had <a href="https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus#acknowledgements">8 early adopters</a>.</p>
 ]]></description>
         </item>
         <item>
@@ -67,7 +67,7 @@
             <link>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</link>
             <guid>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</guid>
             <pubDate>Tue, 11 Sep 2018 06:00:00 GMT</pubDate>
-            <description><![CDATA[<p>Docusaurus was <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
+            <description><![CDATA[<p>Docusaurus was <a href="https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
 <p>There is a saying that the very best software is constantly evolving, and the very worst is not. In case you are not aware, we have been planning and working on the next version of Docusaurus 🎉.</p>
 ]]></description>
         </item>
