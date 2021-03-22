@@ -91,8 +91,8 @@ describe('loadBlog', () => {
       prevItem: undefined,
       tags: [],
       nextItem: {
-        permalink: '/blog/heading-as-title',
-        title: 'some heading',
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        title: 'Happy 1st Birthday Slash! (translated)',
       },
       truncated: false,
     });
@@ -117,8 +117,8 @@ describe('loadBlog', () => {
       formattedDate: 'December 14, 2018',
       tags: [],
       prevItem: {
-        permalink: '/blog/heading-as-title',
-        title: 'some heading',
+        permalink: '/blog/date-matter',
+        title: 'date-matter',
       },
       truncated: false,
     });
@@ -175,13 +175,13 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
       title: 'some heading',
       description: '',
-      date: new Date('2019-01-01'),
-      formattedDate: 'January 1, 2019',
+      date: new Date('2019-01-02'),
+      formattedDate: 'January 2, 2019',
       prevItem: undefined,
       tags: [],
       nextItem: {
-        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-        title: 'Happy 1st Birthday Slash! (translated)',
+        permalink: '/blog/date-matter',
+        title: 'date-matter',
       },
       truncated: false,
     });
@@ -201,7 +201,7 @@ describe('loadBlog', () => {
       `"27 février 2020"`,
     );
     expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"2 janvier 2019"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
       `"1 janvier 2019"`,
