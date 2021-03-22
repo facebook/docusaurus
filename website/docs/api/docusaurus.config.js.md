@@ -31,7 +31,7 @@ URL for site favicon. Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  favicon: 'https://v2.docusaurus.io/favicon.ico',
+  favicon: 'https://docusaurus.io/favicon.ico',
 };
 ```
 

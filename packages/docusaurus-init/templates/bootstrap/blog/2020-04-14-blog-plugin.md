@@ -12,4 +12,4 @@ You can use our blog plugin to do your posts
 
 <!--truncate-->
 
-If you want add your own component, you can use the `swizzle` command. Check more at our [doc](https://v2.docusaurus.io/docs/using-themes#swizzling-theme-components)
+If you want add your own component, you can use the `swizzle` command. Check more at our [doc](https://docusaurus.io/docs/using-themes#swizzling-theme-components)

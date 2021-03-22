@@ -54,7 +54,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   projectName: 'docusaurus',
   baseUrl,
   baseUrlIssueBanner: true,
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   i18n: {
     defaultLocale: 'en',
     locales: isI18nStaging
