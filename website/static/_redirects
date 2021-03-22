@@ -1,5 +1,9 @@
 # Server redirects for Netlify
 
+# v2.docusaurus.io domain redirect after we put v2 on docusaurus.io
+https://v2.docusaurus.io/*      https://docusaurus.io/:splat 301!
+
+
 # Redirect to fix blog post url typo on publish :'( can be cleaned up soon
 /blog/2020/01/19/docusaurus-2020-recap            /blog/2021/01/19/docusaurus-2020-recap
 /classic/blog/2020/01/19/docusaurus-2020-recap    /classic/blog/2021/01/19/docusaurus-2020-recap
