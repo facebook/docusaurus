@@ -118,7 +118,7 @@ There is no ultimate guide we could write to fix these errors, but common errors
 
 - Not marking enough strings as "hidden strings" in Crowdin, leading to pre-translation trying to translate these strings.
 - Having bad v1 translations, leading to invalid markup in v2: bad html elements inside translations and unclosed tags
-- Anything rejected by the MDX parser, like using HTML elements instead of JSX elements (use the [MDX plaground](https://mdxjs.com/playground/) for debugging)
+- Anything rejected by the MDX parser, like using HTML elements instead of JSX elements (use the [MDX playground](https://mdxjs.com/playground/) for debugging)
 
 You might want to repeat this pre-translation process, eventually trying the "Perfect" option and limiting pre-translation only some languages/files.
 

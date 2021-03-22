@@ -1,6 +1,6 @@
 # `@docusaurus/migrate`
 
-A CLI tool to migrate from older versions of Docusuarus.
+A CLI tool to migrate from older versions of Docusaurus.
 
 ## Usage
 
