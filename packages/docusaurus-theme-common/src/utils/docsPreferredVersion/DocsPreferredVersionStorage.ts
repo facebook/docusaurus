@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createStorageSlot} from '@docusaurus/core/src/localStorage';
 import {DocsVersionPersistence} from '../useThemeConfig';
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
@@ -18,7 +19,7 @@ const DocsPreferredVersionStorage = {
     if (persistence === 'none') {
       // noop
     } else {
-      window.localStorage.setItem(storageKey(pluginId), versionName);
+      createStorageSlot(storageKey(pluginId))?.set(versionName);
     }
   },
 
@@ -29,7 +30,7 @@ const DocsPreferredVersionStorage = {
     if (persistence === 'none') {
       return null;
     } else {
-      return window.localStorage.getItem(storageKey(pluginId));
+      return createStorageSlot(storageKey(pluginId))?.get() ?? null;
     }
   },
 
@@ -37,7 +38,7 @@ const DocsPreferredVersionStorage = {
     if (persistence === 'none') {
       // noop
     } else {
-      window.localStorage.removeItem(storageKey(pluginId));
+      createStorageSlot(storageKey(pluginId))?.del();
     }
   },
 };

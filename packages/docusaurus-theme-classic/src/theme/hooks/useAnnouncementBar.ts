@@ -8,6 +8,7 @@
 import {useState, useEffect, useCallback} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnouncementBar';
+import {createStorageSlot} from '@docusaurus/core/src/localStorage';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
 const STORAGE_ID_KEY = 'docusaurus.announcement.id';
@@ -17,8 +18,11 @@ const useAnnouncementBar = (): useAnnouncementBarReturns => {
 
   const [isClosed, setClosed] = useState(true);
 
+  const dismissStorage = createStorageSlot(STORAGE_DISMISS_KEY);
+  const idStorage = createStorageSlot(STORAGE_ID_KEY);
+
   const handleClose = useCallback(() => {
-    localStorage.setItem(STORAGE_DISMISS_KEY, 'true');
+    dismissStorage?.set('true');
     setClosed(true);
   }, []);
 
@@ -28,7 +32,7 @@ const useAnnouncementBar = (): useAnnouncementBarReturns => {
     }
     const {id} = announcementBar;
 
-    let viewedId = localStorage.getItem(STORAGE_ID_KEY);
+    let viewedId = idStorage?.get();
 
     // retrocompatibility due to spelling mistake of default id
     // see https://github.com/facebook/docusaurus/issues/3338
@@ -38,16 +42,13 @@ const useAnnouncementBar = (): useAnnouncementBarReturns => {
 
     const isNewAnnouncement = id !== viewedId;
 
-    localStorage.setItem(STORAGE_ID_KEY, id);
+    idStorage?.set(id);
 
     if (isNewAnnouncement) {
-      localStorage.setItem(STORAGE_DISMISS_KEY, 'false');
+      dismissStorage?.set('false');
     }
 
-    if (
-      isNewAnnouncement ||
-      localStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
-    ) {
+    if (isNewAnnouncement || dismissStorage?.get() === 'false') {
       setClosed(false);
     }
   }, []);

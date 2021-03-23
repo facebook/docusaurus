@@ -10,6 +10,7 @@ import {useState, useCallback, useEffect} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {useThemeReturns} from '@theme/hooks/useTheme';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import {createStorageSlot} from '@docusaurus/core/src/localStorage';
 
 const themes = {
   light: 'light',
@@ -31,11 +32,7 @@ const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
 };
 
 const storeTheme = (newTheme: Themes) => {
-  try {
-    localStorage.setItem('theme', coerceToTheme(newTheme));
-  } catch (err) {
-    console.error(err);
-  }
+  createStorageSlot('theme')?.set(coerceToTheme(newTheme));
 };
 
 const useTheme = (): useThemeReturns => {
@@ -63,7 +60,7 @@ const useTheme = (): useThemeReturns => {
     }
 
     try {
-      const localStorageTheme = localStorage.getItem('theme');
+      const localStorageTheme = createStorageSlot('theme')?.get();
       if (localStorageTheme !== null) {
         setTheme(coerceToTheme(localStorageTheme));
       }
