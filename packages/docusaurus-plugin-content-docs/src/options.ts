@@ -38,6 +38,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   versions: {},
   editCurrentVersion: false,
   editLocalizedFiles: false,
+  includeFrontMatterInGlobals: false,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -54,6 +55,9 @@ export const OptionsSchema = Joi.object({
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
+  includeFrontMatterInGlobals: Joi.boolean().default(
+    DEFAULT_OPTIONS.includeFrontMatterInGlobals,
+  ),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""
