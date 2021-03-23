@@ -339,6 +339,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
             {
+              to: 'https://v1.docusaurus.io',
+              label: '1.x.x',
+            },
+            {
               to: '/versions',
               label: 'All versions',
             },
