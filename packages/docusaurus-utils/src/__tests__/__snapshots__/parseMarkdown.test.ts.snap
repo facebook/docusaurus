@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load utils: parseMarkdown parseMarkdownString should delete only first heading 1`] = `
+Object {
+  "content": "
+test test test test test test
+test test test # test bar
+# test
+### test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown parseMarkdownString should ignore heading if its not a first text 1`] = `
+Object {
+  "content": "foo
+# test",
+  "excerpt": "foo",
+  "frontMatter": Object {},
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown parseMarkdownString should parse first heading as title 1`] = `
+Object {
+  "content": "",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown parseMarkdownString should preserve front-matter title and warn about duplication 1`] = `
+Object {
+  "content": "# test",
+  "excerpt": "test",
+  "frontMatter": Object {
+    "title": "title",
+  },
+  "hasFrontMatter": true,
+}
+`;
+
+exports[`load utils: parseMarkdown parseMarkdownString should read front matter 1`] = `
+Object {
+  "content": "",
+  "excerpt": undefined,
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": true,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should delete only first heading 1`] = `
+Object {
+  "content": "test test test # test bar
+# test
+### test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should ignore heading if its not a first text 1`] = `
+Object {
+  "content": "foo
+# test",
+  "excerpt": "",
+  "frontMatter": Object {},
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should parse first heading as title 1`] = `
+Object {
+  "content": "",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should parse first heading as title and keep it in content 1`] = `
+Object {
+  "content": "# test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": false,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should parse front-matter and ignore h2 1`] = `
+Object {
+  "content": "## test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "title",
+  },
+  "hasFrontMatter": true,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should preserve front-matter title and warn about duplication 1`] = `
+Object {
+  "content": "# test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "title",
+  },
+  "hasFrontMatter": true,
+}
+`;
+
+exports[`load utils: parseMarkdown readFrontMatter should read front matter 1`] = `
+Object {
+  "content": "",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "test",
+  },
+  "hasFrontMatter": true,
+}
+`;
