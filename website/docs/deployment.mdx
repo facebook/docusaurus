@@ -159,57 +159,27 @@ Below are two approaches to deploying your docs with GitHub Actions. Follow the 
 Add these two workflow files for Github Actions to your project:
 
 ```yaml title=".github/workflows/documentation-push.yml"
-# Appears in various parts of the Github UI usually with the job name appended.
-# (eg Project 'Actions' tab, PR check suite status)
 name: 'Docs (Github Pages)'
 
 on:
-  # Allows you to manually trigger the workflow from the "Actions" tab.
-  # You can run the workflow against the latest commit of any branch on the project:
-  # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
-  # (This is not required to use "re-run" functionality on prior workflow runs)
   workflow_dispatch:
-  # Build docs pushed to the `documentation` branch, but only *if* the triggering
-  # commit(s) affect files within the `website` directory (docusaurus project):
   push:
     branches:
       - documentation
     paths:
       - 'website/**'
-    # OPTIONAL: Build docs when you push a tag with `v<Major>.<Minor>` substring in the tag name.
-    # NOTE: The branch and path conditions above have no effect on the tags trigger condition:
-    tags:
-      - 'v[0-9]+.[0-9]+*'
 
-# Jobs will run shell commands from this subdirectory by default:
 defaults:
   run:
     working-directory: website
 
-# As this workflow example only uses these credentials once, you could instead inline them where they're used.
-env:
-  # Assign commit authorship to official Github Actions bot when pushing to the `gh-pages` branch:
-  # https://github.com/actions/checkout/issues/13#issuecomment-724415212
-  # https://api.github.com/users/github-actions%5Bbot%5D
-  GIT_USER: 'github-actions[bot]'
-  GIT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
-
-# Jobs run in parallel unless you create a `needs` dependency on another job.
-# Careful of causing race conditions by triggering multiple jobs that could
-# try push to the same branch with conflicting changes.
 jobs:
   deploy:
     name: 'Deploy'
     runs-on: ubuntu-20.04
     steps:
-      # By default performs a shallow clone (project state from that commit):
-      # (If you need history or other metadata from git, enable `with.fetch-depth: 0`)
-      # Docs: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
 
-      # Installs v14 LTS of Node:
-      # (Uses cached version that Github replaces bi-weekly with latest updates for that version of Node)
-      # Docs: https://github.com/marketplace/actions/setup-node-js-environment
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -219,40 +189,28 @@ jobs:
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      # Cache the yarn cache dir to speed up builds if dependencies haven't changed:
-      # (Caches are deleted if they've not been used in the past 7 days,
-      # or the total cache limit of 5GB is exceeded (oldest cache data is evicted first)).
-      # Docs: https://github.com/actions/cache
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
-          # OPTIONAL: If the cache key does not have a match, `restore-keys` will check for
-          # previous cache keys with the given prefix and choose the most recent cache:
-          # https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
           restore-keys: ${{ runner.os }}-website-
 
-      # Install project dependencies, then run the build script from `package.json`:
-      # (Outputs static docs for hosting to `website/build/`)
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
-      # Popular action to deploy to gh-pages:
+      # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages
-      - name: 'Deploy to Github Pages'
+      - name: 'Deploy to GitHub Pages'
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # Generated per workflow run, provides automatic auth to push:
-          # Docs: https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build directory contents to publish to the `gh-pages` branch:
           publish_dir: ./website/build
-          # OPTIONAL: Directory to place `publish_dir` contents on the `gh-pages` branch:
-          # (Defaults to root of project, removes contents at target dir by default)
-          # destination_dir: ${{ env.DOCS_VERSION }}
-          user_name: ${{ env.GIT_USER }}
-          user_email: ${{ env.GIT_EMAIL }}
+          # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:
+          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
 ```
 
 While you can have both jobs defined in the same workflow file, the deploy job as configured in the `remote` example will always be listed as skipped in the PR check suite status.
@@ -262,14 +220,8 @@ That's added noise providing no value to the review process, and as you cannot e
 ```yaml title=".github/workflows/documentation-pr.yml"
 name: 'Docs (PR)'
 
-# Here the `pull_request` event responds to a PR that is
-# `opened`, `reopened` or whenever commits are pushed (`synchronize`),
-# these are the default PR activity types to respond to:
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request
 on:
   pull_request:
-    # The branches here refer to any branch being targeted for a PR to merge into,
-    # Not the source branch name from the PR author.
     branches:
       - documentation
     paths:
