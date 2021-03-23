@@ -99,6 +99,24 @@ function Version() {
             </table>
           </div>
         )}
+        <div className="margin-bottom--lg">
+          <h3 id="legacy">Docusaurus v1 (Legacy)</h3>
+          <p>
+            Here you can find documentation for legacy version of Docusaurus.
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <th>1.x</th>
+                <td>
+                  <a href={`https://v1.docusaurus.io/docs/en/installation`}>
+                    Documentation
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </Layout>
   );
