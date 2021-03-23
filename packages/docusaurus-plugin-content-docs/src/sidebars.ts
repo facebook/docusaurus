@@ -125,7 +125,7 @@ function assertIsDoc(
     );
   }
 
-  if (typeof item.label !== 'string') {
+  if (item.label && typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
     );
