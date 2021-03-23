@@ -111,7 +111,7 @@ export default async function choosePort(
             )}\n\nWould you like to run the app on another port instead?`,
             initial: true,
           };
-          prompts(question).then((answer: any) => {
+          prompts(question).then((answer) => {
             if (answer.shouldChangePort === true) {
               resolve(port);
             } else {

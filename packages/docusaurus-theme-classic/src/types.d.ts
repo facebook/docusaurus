@@ -163,9 +163,9 @@ declare module '@theme/hooks/useScrollPosition' {
   export type ScrollPosition = {scrollX: number; scrollY: number};
 
   const useScrollPosition: (
-    effect?: (position: ScrollPosition) => void,
+    effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
     deps?: unknown[],
-  ) => ScrollPosition;
+  ) => void;
   export default useScrollPosition;
 }
 
@@ -258,14 +258,50 @@ declare module '@theme/Layout' {
   export default Layout;
 }
 
+declare module '@theme/LayoutHead' {
+  import type {Props as LayoutProps} from '@theme/Layout';
+
+  export type Props = Omit<LayoutProps, 'children'>;
+
+  const LayoutHead: (props: Props) => JSX.Element;
+  export default LayoutHead;
+}
+
+declare module '@theme/SearchMetadatas' {
+  export type Props = {
+    locale?: string;
+    version?: string;
+    tag?: string;
+  };
+
+  const SearchMetadatas: (props: Props) => JSX.Element;
+  export default SearchMetadatas;
+}
+
+declare module '@theme/LastUpdated' {
+  export type Props = {
+    lastUpdatedAt?: number;
+    formattedLastUpdatedAt?: string;
+    lastUpdatedBy?: string;
+  };
+
+  const LastUpdated: (props: Props) => JSX.Element;
+  export default LastUpdated;
+}
+
+declare module '@theme/SkipToContent' {
+  const SkipToContent: () => JSX.Element;
+  export default SkipToContent;
+}
+
 declare module '@theme/MDXComponents' {
-  import {ComponentProps} from 'react';
-  import CodeBlock from '@theme/CodeBlock';
+  import type {ComponentProps} from 'react';
+  import type CodeBlock from '@theme/CodeBlock';
 
   export type MDXComponentsObject = {
     readonly code: typeof CodeBlock;
     readonly a: (props: ComponentProps<'a'>) => JSX.Element;
-    readonly pre: (props: ComponentProps<'div'>) => JSX.Element;
+    readonly pre: typeof CodeBlock;
     readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;
     readonly h2: (props: ComponentProps<'h2'>) => JSX.Element;
     readonly h3: (props: ComponentProps<'h3'>) => JSX.Element;
@@ -393,8 +429,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
-    readonly hidden: boolean;
-    readonly className: string;
+    readonly hidden?: boolean;
+    readonly className?: string;
   };
 
   const TabItem: (props: Props) => JSX.Element;
@@ -465,10 +501,12 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/Toggle' {
-  import {ComponentProps} from 'react';
-  import ReactToggle from 'react-toggle';
+  import type {ComponentProps} from 'react';
+  import type ReactToggle from 'react-toggle';
 
-  const Toggle: (props: ComponentProps<typeof ReactToggle>) => JSX.Element;
+  export type Props = ComponentProps<typeof ReactToggle>;
+
+  const Toggle: (props: Props) => JSX.Element;
   export default Toggle;
 }
 

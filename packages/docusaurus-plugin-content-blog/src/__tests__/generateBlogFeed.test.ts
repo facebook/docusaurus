@@ -7,8 +7,15 @@
 
 import path from 'path';
 import {generateBlogFeed} from '../blogUtils';
-import {LoadContext} from '@docusaurus/types';
+import {LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptions, BlogContentPaths} from '../types';
+
+const DefaultI18N: I18n = {
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
+  localeConfigs: {},
+};
 
 function getBlogContentPaths(siteDir: string): BlogContentPaths {
   return {
@@ -39,6 +46,7 @@ describe('blogFeed', () => {
           {
             siteDir,
             siteConfig,
+            i18n: DefaultI18N,
           } as LoadContext,
           {
             path: 'invalid-blog-path',
@@ -71,6 +79,7 @@ describe('blogFeed', () => {
             siteDir,
             siteConfig,
             generatedFilesDir,
+            i18n: DefaultI18N,
           } as LoadContext,
           {
             path: 'blog',

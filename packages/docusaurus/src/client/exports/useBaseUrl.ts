@@ -7,11 +7,7 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 import {hasProtocol} from './isInternalUrl';
-
-type BaseUrlOptions = Partial<{
-  forcePrependBaseUrl: boolean;
-  absolute: boolean;
-}>;
+import type {BaseUrlOptions, BaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 function addBaseUrl(
   siteUrl: string | undefined,
@@ -44,10 +40,6 @@ function addBaseUrl(
 
   return absolute ? siteUrl + basePath : basePath;
 }
-
-export type BaseUrlUtils = {
-  withBaseUrl: (url: string, options?: BaseUrlOptions) => string;
-};
 
 export function useBaseUrlUtils(): BaseUrlUtils {
   const {

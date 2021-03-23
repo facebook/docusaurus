@@ -23,6 +23,7 @@ const {
   serve,
   clear,
   writeTranslations,
+  writeHeadingIds,
 } = require('../lib');
 const {
   name,
@@ -44,7 +45,7 @@ if (notifier.lastUpdateCheck === Date.now()) {
 }
 
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
-  // eslint-disable-next-line import/no-dynamic-require
+  // eslint-disable-next-line import/no-dynamic-require, global-require
   const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
   const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
     .filter((p) => p.startsWith('@docusaurus'))
@@ -284,6 +285,13 @@ cli
     },
   );
 
+cli
+  .command('write-heading-ids [contentDir]')
+  .description('Generate heading ids in Markdown content')
+  .action((siteDir = '.') => {
+    wrapCommand(writeHeadingIds)(siteDir);
+  });
+
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
@@ -299,6 +307,7 @@ function isInternalCommand(command) {
     'serve',
     'clear',
     'write-translations',
+    'write-heading-ids',
   ].includes(command);
 }
 

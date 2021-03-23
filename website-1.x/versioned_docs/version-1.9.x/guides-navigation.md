@@ -6,7 +6,7 @@ original_id: navigation
 
 ## Referencing Site Documents
 
-If you want to reference another document in your `docs` directory (or the location you set via the [optional `customDocsPath`](https://docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
+If you want to reference another document in your `docs` directory (or the location you set via the [optional `customDocsPath`](https://v1.docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
 
 For example, if you are in `doc2.md` and you want to reference `doc1.md`:
 

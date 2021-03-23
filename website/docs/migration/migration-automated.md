@@ -46,11 +46,11 @@ yarn start
 
 :::danger
 
-The migration CLI updates existing files. Be sure to have commited them first!
+The migration CLI updates existing files. Be sure to have committed them first!
 
 :::
 
-#### Options
+#### Options {#options}
 
 You can add option flags to the migration CLI to automatically migrate Markdown content and pages to v2. It is likely that you will still need to make some manual changes to achieve your desired result.
 

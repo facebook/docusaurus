@@ -35,6 +35,7 @@ import {
   getFolderContainingFile,
   updateTranslationFileMessages,
   readDefaultCodeTranslationMessages,
+  parseMarkdownHeadingId,
 } from '../index';
 import {sum} from 'lodash';
 
@@ -804,5 +805,53 @@ describe('readDefaultCodeTranslationMessages', () => {
         dirPath,
       }),
     ).resolves.toEqual(await readAsJSON('en.json'));
+  });
+});
+
+describe('parseMarkdownHeadingId', () => {
+  test('can parse simple heading without id', () => {
+    expect(parseMarkdownHeadingId('## Some heading')).toEqual({
+      text: '## Some heading',
+      id: undefined,
+    });
+  });
+
+  test('can parse simple heading with id', () => {
+    expect(parseMarkdownHeadingId('## Some heading {#custom-_id}')).toEqual({
+      text: '## Some heading',
+      id: 'custom-_id',
+    });
+  });
+
+  test('can parse heading not ending with the id', () => {
+    expect(parseMarkdownHeadingId('## {#custom-_id} Some heading')).toEqual({
+      text: '## {#custom-_id} Some heading',
+      id: undefined,
+    });
+  });
+
+  test('can parse heading with multiple id', () => {
+    expect(parseMarkdownHeadingId('## Some heading {#id1} {#id2}')).toEqual({
+      text: '## Some heading {#id1}',
+      id: 'id2',
+    });
+  });
+
+  test('can parse heading with link and id', () => {
+    expect(
+      parseMarkdownHeadingId(
+        '## Some heading [facebook](https://facebook.com) {#id}',
+      ),
+    ).toEqual({
+      text: '## Some heading [facebook](https://facebook.com)',
+      id: 'id',
+    });
+  });
+
+  test('can parse heading with only id', () => {
+    expect(parseMarkdownHeadingId('## {#id}')).toEqual({
+      text: '##',
+      id: 'id',
+    });
   });
 });

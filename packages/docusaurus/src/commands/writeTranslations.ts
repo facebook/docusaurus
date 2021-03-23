@@ -15,7 +15,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
-import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
+import {extractSiteSourceCodeTranslations} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 
 async function writePluginTranslationFiles({
@@ -74,7 +74,8 @@ Available locales=[${context.i18n.locales.join(',')}]`,
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
   });
-  const extractedCodeTranslations = await extractPluginsSourceCodeTranslations(
+  const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
+    siteDir,
     plugins,
     babelOptions,
   );

@@ -9,7 +9,10 @@ const advancedBasePreset = require('cssnano-preset-advanced');
 const postCssSortMediaQueries = require('postcss-sort-media-queries');
 const postCssRemoveOverriddenCustomProperties = require('./src/remove-overridden-custom-properties');
 
-const preset = advancedBasePreset({autoprefixer: {add: true}});
+const preset = advancedBasePreset({
+  autoprefixer: {add: false},
+  discardComments: {removeAll: true},
+});
 
 preset.plugins.unshift(
   [postCssSortMediaQueries],

@@ -11,6 +11,7 @@ import merge from 'webpack-merge';
 import webpack, {
   Configuration,
   Loader,
+  NewLoader,
   Plugin,
   RuleSetRule,
   Stats,
@@ -23,7 +24,11 @@ import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
+import {
+  ConfigureWebpackFn,
+  ConfigurePostCssFn,
+  PostCssOptions,
+} from '@docusaurus/types';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 import {
@@ -73,12 +78,7 @@ export function getStyleLoaders(
           ident: 'postcss',
           plugins: [
             // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 4,
-            }),
+            require('autoprefixer'),
           ],
         },
       },
@@ -182,11 +182,13 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+  type LocalPostCSSLoader = Loader & {
+    options: {postcssOptions: PostCssOptions};
+  };
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as NewLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
@@ -212,7 +214,7 @@ export function applyConfigurePostCss(
 // See https://webpack.js.org/configuration/stats/#statswarningsfilter
 // @slorber: note sure why we have to re-implement this logic
 // just know that legacy had this only partially implemented, so completed it
-type WarningFilter = string | RegExp | Function;
+type WarningFilter = string | RegExp | ((warning: string) => boolean);
 function filterWarnings(
   warningsFilter: WarningFilter[],
   warnings: string[],
@@ -271,8 +273,24 @@ export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
+type FileLoaderUtils = {
+  loaders: {
+    file: (options: {folder: AssetFolder}) => Loader;
+    url: (options: {folder: AssetFolder}) => Loader;
+    inlineMarkdownImageFileLoader: string;
+    inlineMarkdownLinkFileLoader: string;
+  };
+  rules: {
+    images: () => RuleSetRule;
+    fonts: () => RuleSetRule;
+    media: () => RuleSetRule;
+    svg: () => RuleSetRule;
+    otherAssets: () => RuleSetRule;
+  };
+};
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): Record<string, any> {
+export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 

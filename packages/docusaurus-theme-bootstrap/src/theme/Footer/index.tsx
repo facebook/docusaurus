@@ -30,7 +30,7 @@ function FooterLink({to, href, label, ...props}) {
   );
 }
 
-function Footer() {
+function Footer(): JSX.Element {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const {themeConfig = {}} = siteConfig;

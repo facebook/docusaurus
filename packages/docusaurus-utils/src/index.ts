@@ -9,8 +9,7 @@ import chalk from 'chalk';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import camelCase from 'lodash.camelcase';
-import kebabCase from 'lodash.kebabcase';
+import {camelCase, kebabCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -22,13 +21,12 @@ import {
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
-import {mapValues} from 'lodash';
 
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
   file: string,
-  content: any,
+  content: string,
   skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
@@ -59,11 +57,13 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: {[index: string]: any}) {
+export function objectWithKeySorted<T>(
+  obj: Record<string, T>,
+): Record<string, T> {
   // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
   return Object.keys(obj)
     .sort()
-    .reduce((acc: any, key: string) => {
+    .reduce((acc: Record<string, T>, key: string) => {
       acc[key] = obj[key];
       return acc;
     }, {});
@@ -147,7 +147,7 @@ export function posixPath(str: string): string {
 // This way, Jest tests can run more reliably on any computer/CI
 // on both Unix/Windows
 // For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
-export function toMessageRelativeFilePath(filePath: string) {
+export function toMessageRelativeFilePath(filePath: string): string {
   return posixPath(path.relative(process.cwd(), filePath));
 }
 
@@ -208,6 +208,7 @@ export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileString.trimLeft().split('\n');
 
   /* eslint-disable no-continue */
+  // eslint-disable-next-line no-restricted-syntax
   for (const fileLine of fileLines) {
     // Skip empty line.
     if (!fileLine.trim()) {
@@ -491,6 +492,7 @@ export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
@@ -503,6 +505,7 @@ export async function findAsyncSequential<T>(
   array: T[],
   predicate: (t: T) => Promise<boolean>,
 ): Promise<T | undefined> {
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
@@ -621,6 +624,7 @@ export async function readDefaultCodeTranslationMessages({
 
   // Return the content of the first file that match
   // fr_FR.json => fr.json => nothing
+  // eslint-disable-next-line no-restricted-syntax
   for (const fileName of fileNamesToTry) {
     const filePath = path.resolve(dirPath, `${fileName}.json`);
 
@@ -633,4 +637,24 @@ export async function readDefaultCodeTranslationMessages({
   }
 
   return {};
+}
+
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(
+  heading: string,
+): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
 }

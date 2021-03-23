@@ -32,7 +32,7 @@ function createInlineHtmlBanner(baseUrl: string) {
   return `
 <div id="${BannerId}" style="border: thick solid red; background-color: rgb(255, 230, 179); margin: 20px; padding: 20px; font-size: 20px;">
    <p style="font-weight: bold; font-size: 30px;">Your Docusaurus site did not load properly.</p>
-   <p>A very common reason is a wrong site <a href="https://v2.docusaurus.io/docs/docusaurus.config.js/#baseurl" style="font-weight: bold;">baseUrl configuration</a>.</p>
+   <p>A very common reason is a wrong site <a href="https://docusaurus.io/docs/docusaurus.config.js/#baseurl" style="font-weight: bold;">baseUrl configuration</a>.</p>
    <p>Current configured baseUrl = <span style="font-weight: bold; color: red;">${baseUrl}</span> ${
     baseUrl === '/' ? ' (default value)' : ''
   }</p>

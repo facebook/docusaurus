@@ -7,7 +7,7 @@
     "rootDir": "src",
     "outDir": "lib",
     "noImplicitAny": false,
-    "jsx": "react",
+    "jsx": "react"
   },
   "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*", "src/client"]
 }

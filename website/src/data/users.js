@@ -16,6 +16,7 @@
  * Instructions:
  * - Add your site in the json array below, in alphabetical order of title
  * - Add a local image preview (decent screenshot of your Docusaurus site)
+ * - Use `tags: []`: it is our responsibility to assign site tags
  *
  * The image must be added to the GitHub repository, and use `require("image")`
  *
@@ -103,6 +104,14 @@ const users = [
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos',
     tags: ['design', 'large'],
+  },
+  {
+    title: 'blog.johnnyreilly.com',
+    description: 'The blog of johnnyreilly',
+    preview: require('./showcase/johnnyreilly.png'),
+    website: 'https://blog.johnnyreilly.com/',
+    source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
+    tags: [],
   },
   {
     title: 'Botonic',
@@ -267,6 +276,14 @@ const users = [
     tags: ['highlight', 'design', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Gladys Assistant',
+    description: 'A privacy-first, open-source home assistant',
+    preview: require('./showcase/gladys-assistant.png'),
+    website: 'https://gladysassistant.com/',
+    source: 'https://github.com/GladysAssistant/v4-website',
+    tags: ['i18n'],
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
@@ -421,6 +438,14 @@ const users = [
     tags: ['design'],
   },
   {
+    title: 'OCPeasy',
+    description: 'Open-source software provisioning, configuration management, and application-deployment tool enabling infrastructure as code on OpenShift.',
+    preview: require('./showcase/ocpeasy.png'),
+    website: 'https://www.ocpeasy.org',
+    source: 'https://github.com/ocpeasy/website',
+    tags: [],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -433,6 +458,14 @@ const users = [
     description: 'Paubox API Documentation',
     preview: require('./showcase/paubox.png'),
     website: 'https://docs.paubox.com/',
+    tags: [],
+  },
+  {
+    title: 'pnpm',
+    description: 'Fast, disk space efficient package manager',
+    preview: require('./showcase/pnpm.png'),
+    website: 'https://pnpm.js.org/',
+    source: 'https://github.com/pnpm/pnpm.github.io/',
     tags: [],
   },
   {
@@ -475,6 +508,15 @@ const users = [
     website: 'https://samsung.github.io/qaboard/',
     source: 'https://github.com/Samsung/qaboard',
     tags: ['highlight', 'design', 'large'],
+  },
+  {
+    title: 'QuantCDN',
+    description:
+      'An all-in-one Static Web solution and global Content Delivery Network',
+    preview: require('./showcase/quantcdn.png'),
+    website: 'https://docs.quantcdn.io',
+    source: 'https://github.com/quantcdn/docs',
+    tags: [],
   },
   {
     title: 'QuestDB',
@@ -558,6 +600,14 @@ const users = [
     tags: [],
   },
   {
+    title: 'Realtime Web Applications Workshop',
+    description: 'A workshop about building realtime web applications with WebSockets and WebRTC.',
+    preview: require('./showcase/realtime-apps-workshop.png'),
+    website: 'https://realtime-apps-iap.github.io',
+    source: 'https://github.com/realtime-apps-iap/realtime-apps-iap.github.io',
+    tags: [],
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
@@ -572,6 +622,14 @@ const users = [
     website: 'https://react-hooks.org/',
     source: 'https://github.com/imbhargav5/rooks',
     tags: ['large', 'versioning'],
+  },
+  {
+    title: 'RSocket',
+    description: 'Application protocol providing Reactive Streams semantics.',
+    preview: require('./showcase/rsocket.png'),
+    website: 'https://rsocket.io/',
+    source: 'https://github.com/rsocket/rsocket-website',
+    tags: [],
   },
   {
     title: 'Runlet',
@@ -629,6 +687,22 @@ const users = [
     tags: ['versioning'],
   },
   {
+    title: 'Stryker Mutator',
+    description: 'Mutation testing for JavaScript, .NET and JVM',
+    preview: require('./showcase/stryker-mutator.png'),
+    website: 'https://stryker-mutator.io',
+    source: 'https://github.com/stryker-mutator/stryker-mutator.github.io',
+    tags: [],
+  },
+  {
+    title: 'Stylable',
+    description: 'A CSS preprocessor made for components',
+    preview: require('./showcase/stylable.png'),
+    website: 'https://stylable.io',
+    source: 'https://github.com/wixplosives/stylable.io',
+    tags: [],
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
@@ -683,6 +757,15 @@ const users = [
     preview: require('./showcase/tourmaline.png'),
     website: 'https://tourmaline.dev',
     source: 'https://github.com/protoncr/tourmaline',
+    tags: [],
+  },
+  {
+    title: 'TRPG Engine',
+    description:
+      'IM Application which build for TRPG, like slack and discord',
+    preview: require('./showcase/trpgengine.png'),
+    website: 'https://trpgdoc.moonrailgun.com/',
+    source: 'https://github.com/TRPGEngine/Client',
     tags: [],
   },
   {

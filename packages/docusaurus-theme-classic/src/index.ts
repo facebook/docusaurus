@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Plugin} from '@docusaurus/types';
+import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
-import postcss from 'postcss';
+import postcss, {Root as PostCssRoot} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
@@ -68,15 +69,20 @@ function getInfimaCSSFile(direction) {
   }.css`;
 }
 
+type PluginOptions = {
+  customCss?: string;
+};
+
 export default function docusaurusThemeClassic(
-  context,
-  options,
-): Plugin<null, unknown> {
+  context: DocusaurusContext, // TODO: LoadContext is missing some of properties
+  options: PluginOptions,
+): Plugin<void> {
   const {
-    siteConfig: {themeConfig},
+    siteConfig: {themeConfig: roughlyTypedThemeConfig},
     i18n: {currentLocale, localeConfigs},
   } = context;
-  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
+  const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
+  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig;
   const {customCss} = options || {};
   const {direction} = localeConfigs[currentLocale];
 
@@ -98,7 +104,7 @@ export default function docusaurusThemeClassic(
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
@@ -139,10 +145,7 @@ export default function docusaurusThemeClassic(
 
       return {
         stats: {
-          warningsFilter: [
-            // The TS def does not allow function for array item :(
-            useDocsWarningFilter as any,
-          ],
+          warningsFilter: useDocsWarningFilter,
         },
         plugins: [
           new ContextReplacementPlugin(
@@ -160,12 +163,12 @@ export default function docusaurusThemeClassic(
             const resolvedInfimaFile = require.resolve(
               getInfimaCSSFile(direction),
             );
-            function isInfimaCSSFile(file) {
+            function isInfimaCSSFile(file?: string) {
               return file === resolvedInfimaFile;
             }
 
-            return function (root: any) {
-              const file = root?.source.input.file;
+            return function (root: PostCssRoot) {
+              const file = root?.source?.input.file;
 
               // Skip Infima as we are using the its RTL version.
               if (isInfimaCSSFile(file)) {

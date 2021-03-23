@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {TOCProps} from '@theme/TOC';
+import type {TOCInlineProps} from '@theme/TOCInline';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 
@@ -39,7 +39,7 @@ function HeadingsInline({
   );
 }
 
-function TOCInline({toc}: TOCProps): JSX.Element {
+function TOCInline({toc}: TOCInlineProps): JSX.Element {
   return (
     <div className={clsx(styles.tableOfContentsInline)}>
       <HeadingsInline toc={toc} />

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import isPlainObject from 'lodash.isplainobject';
+import {isPlainObject} from 'lodash';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';

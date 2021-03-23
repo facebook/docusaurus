@@ -14,21 +14,23 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 const themes = {
   light: 'light',
   dark: 'dark',
-};
+} as const;
+
+type Themes = typeof themes[keyof typeof themes];
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme) => {
+const coerceToTheme = (theme?: string | null): Themes => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 
-const getInitialTheme = () => {
+const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
   if (!ExecutionEnvironment.canUseDOM) {
-    return themes.light; // SSR: we don't care
+    return coerceToTheme(defaultMode);
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme) => {
+const storeTheme = (newTheme: Themes) => {
   try {
     localStorage.setItem('theme', coerceToTheme(newTheme));
   } catch (err) {
@@ -38,9 +40,9 @@ const storeTheme = (newTheme) => {
 
 const useTheme = (): useThemeReturns => {
   const {
-    colorMode: {disableSwitch, respectPrefersColorScheme},
+    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState(getInitialTheme(defaultMode));
 
   const setLightTheme = useCallback(() => {
     setTheme(themes.light);

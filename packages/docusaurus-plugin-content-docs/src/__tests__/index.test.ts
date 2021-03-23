@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
@@ -42,8 +44,8 @@ const defaultDocMetadata: Partial<DocMetadata> = {
 
 const createFakeActions = (contentDir: string) => {
   const routeConfigs: RouteConfig[] = [];
-  const dataContainer: any = {};
-  const globalDataContainer: any = {};
+  const dataContainer: Record<string, unknown> = {};
+  const globalDataContainer: {pluginName?: {pluginId: unknown}} = {};
 
   const actions = {
     addRoute: (config: RouteConfig) => {
@@ -53,7 +55,7 @@ const createFakeActions = (contentDir: string) => {
       dataContainer[name] = content;
       return path.join(contentDir, name);
     },
-    setGlobalData: (data: any) => {
+    setGlobalData: (data: unknown) => {
       globalDataContainer.pluginName = {pluginId: data};
     },
   };
@@ -254,7 +256,7 @@ describe('simple website', () => {
       sidebar: 'docs',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
+        posixPath(path.relative(siteDir, currentVersion.contentPath)),
         'hello.md',
       ),
       title: 'Hello, World !',
@@ -276,7 +278,7 @@ describe('simple website', () => {
       sidebar: 'docs',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
+        posixPath(path.relative(siteDir, currentVersion.contentPath)),
         'foo',
         'bar.md',
       ),
@@ -424,7 +426,7 @@ describe('versioned website', () => {
       slug: '/foo/barSlug',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
+        posixPath(path.relative(siteDir, currentVersion.contentPath)),
         'foo',
         'bar.md',
       ),
@@ -446,7 +448,7 @@ describe('versioned website', () => {
       slug: '/',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, currentVersion.docsDirPath)),
+        posixPath(path.relative(siteDir, currentVersion.contentPath)),
         'hello.md',
       ),
       title: 'hello',
@@ -467,7 +469,7 @@ describe('versioned website', () => {
       slug: '/',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, version101.docsDirPath)),
+        posixPath(path.relative(siteDir, version101.contentPath)),
         'hello.md',
       ),
       title: 'hello',
@@ -488,7 +490,7 @@ describe('versioned website', () => {
       slug: '/foo/baz',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, version100.docsDirPath)),
+        posixPath(path.relative(siteDir, version100.contentPath)),
         'foo',
         'baz.md',
       ),
@@ -649,7 +651,7 @@ describe('versioned website (community)', () => {
       slug: '/team',
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, version100.docsDirPath)),
+        posixPath(path.relative(siteDir, version100.contentPath)),
         'team.md',
       ),
       title: 'team',
