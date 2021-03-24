@@ -96,6 +96,23 @@ describe('load utils: parseMarkdown', () => {
       ).toMatchSnapshot();
       expect(warn).not.toBeCalled();
     });
+    test('should not warn about duplicated title', () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      expect(
+        readFrontMatter(
+          dedent`
+          ---
+          title: title
+          ---
+          # test
+          `,
+          undefined,
+          {},
+          false,
+        ),
+      ).toMatchSnapshot();
+      expect(warn).not.toBeCalled();
+    });
   });
 
   describe('parseMarkdownString', () => {
