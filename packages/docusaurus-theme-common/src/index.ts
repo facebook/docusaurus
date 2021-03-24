@@ -32,3 +32,5 @@ export {
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
+
+export {ThemeClassnames} from './utils/ThemeClassnames';

@@ -13,6 +13,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
+import {ThemeClassnames} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function pluralizePosts(count: number): string {
@@ -43,7 +44,8 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     <Layout
       title={`Posts tagged "${tagName}"`}
       description={`Blog | Tagged "${tagName}"`}
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      pageClassName={ThemeClassnames.page.blogTagsPostPage}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">

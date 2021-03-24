@@ -13,6 +13,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
 import BlogSidebar from '@theme/BlogSidebar';
+import {ThemeClassnames} from '@docusaurus/theme-common';
 
 function BlogListPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
@@ -26,7 +27,8 @@ function BlogListPage(props: Props): JSX.Element {
     <Layout
       title={title}
       description={blogDescription}
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      pageClassName={ThemeClassnames.page.blogListPage}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">

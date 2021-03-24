@@ -18,7 +18,7 @@ import useKeyboardNavigation from '@theme/hooks/useKeyboardNavigation';
 import './styles.css';
 
 function Layout(props: Props): JSX.Element {
-  const {children, noFooter, wrapperClassName} = props;
+  const {children, noFooter, wrapperClassName, pageClassName} = props;
 
   useKeyboardNavigation();
 
@@ -32,7 +32,9 @@ function Layout(props: Props): JSX.Element {
 
       <Navbar />
 
-      <div className={clsx('main-wrapper', wrapperClassName)}>{children}</div>
+      <div className={clsx('main-wrapper', wrapperClassName, pageClassName)}>
+        {children}
+      </div>
 
       {!noFooter && <Footer />}
     </LayoutProviders>

@@ -12,6 +12,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsListPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate from '@docusaurus/Translate';
+import {ThemeClassnames} from '@docusaurus/theme-common';
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
@@ -54,7 +55,8 @@ function BlogTagsListPage(props: Props): JSX.Element {
     <Layout
       title="Tags"
       description="Blog Tags"
-      wrapperClassName="blog-wrapper">
+      wrapperClassName="blog-wrapper"
+      pageClassName={ThemeClassnames.page.blogTagsListPage}>
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--2">
