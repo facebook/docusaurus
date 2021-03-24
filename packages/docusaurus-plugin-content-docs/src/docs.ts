@@ -119,7 +119,7 @@ export function processDocMetadata({
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const {frontMatter = {}, excerpt} = parseMarkdownString(content);
+  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
   const {
     sidebar_label: sidebarLabel,
     custom_edit_url: customEditURL,
