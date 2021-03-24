@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    timeout-minutes: 30
     runs-on: windows-latest
     strategy:
       matrix:
