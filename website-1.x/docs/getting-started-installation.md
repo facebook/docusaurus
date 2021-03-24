@@ -6,7 +6,7 @@ description: Docusaurus was designed from the ground up to be easily installed a
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 
-> **Important Note:** we highly encourage you to use [Docusaurus 2](https://v2.docusaurus.io) instead.
+> **Important Note:** we highly encourage you to use [Docusaurus 2](https://docusaurus.io) instead.
 
 ## Installing Docusaurus
 

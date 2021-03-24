@@ -9,7 +9,7 @@ tags: [release, i18n]
 image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 ---
 
-Today, we officially release **[Docusaurus 2 i18n](https://v2.docusaurus.io/docs/i18n/introduction)** ([internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)), as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
+Today, we officially release **[Docusaurus 2 i18n](https://docusaurus.io/docs/i18n/introduction)** ([internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)), as part of [2.0.0-alpha.71](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.71).
 
 Docusaurus 2 has now reached **full feature parity with Docusaurus 1**. 🎉 And soon, after a few additional infrastructure updates and a bit more testing, the **first Docusaurus 2 beta** will be released.
 
@@ -17,7 +17,7 @@ Docusaurus 2 has now reached **full feature parity with Docusaurus 1**. 🎉 And
 
 In this post, we will present you the **translation workflow**, explain some **design decisions** and **showcase early adopter sites** that just went live: [Jest](https://jestjs.io/), [Redwood](https://learn.redwoodjs.com/), and [Datagit](https://datagit.ir/).
 
-We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and this post is already available in [English](https://v2.docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n) and [French](https://v2.docusaurus.io/fr/blog/2021/03/09/releasing-docusaurus-i18n)!
+We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and this post is already available in [English](https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n) and [French](https://docusaurus.io/fr/blog/2021/03/09/releasing-docusaurus-i18n)!
 
 <!--truncate-->
 
@@ -26,18 +26,18 @@ We also **dogfood** the i18n support on the **Docusaurus 2 site itself**, and th
 You can translate a Docusaurus site in **3 simple steps**:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
-1. **Translate**: put the translation files at the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location)
+1. **Translate**: put the translation files at the [correct filesystem location](https://docusaurus.io/docs/next/i18n/introduction#translation-files-location)
 1. **Deploy**: build and deploy your site using a single or multi-domain strategy
 
 The i18n support is **very flexible** and based on the **filesystem**.
 
-The **[i18n tutorial](https://v2.docusaurus.io/docs/i18n/tutorial)** is the best way to get started, and we provide help to use **[Git](https://v2.docusaurus.io/docs/i18n/git)** or **[Crowdin](https://v2.docusaurus.io/docs/i18n/crowdin)**.
+The **[i18n tutorial](https://docusaurus.io/docs/i18n/tutorial)** is the best way to get started, and we provide help to use **[Git](https://docusaurus.io/docs/i18n/git)** or **[Crowdin](https://docusaurus.io/docs/i18n/crowdin)**.
 
 ## Design decisions
 
 The goals of the Docusaurus i18n system are:
 
-- **Simple**: just put the translated files in the [correct filesystem location](https://v2.docusaurus.io/docs/next/i18n/introduction#translation-files-location)
+- **Simple**: just put the translated files in the [correct filesystem location](https://docusaurus.io/docs/next/i18n/introduction#translation-files-location)
 - **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP
 - **Flexible deployment options**: single, multiple domains, or hybrid
 - **Modular**: allow plugin authors to provide i18n support
@@ -95,4 +95,4 @@ This feature has not been an easy one, and we would like to thank everyone that 
 
 Thanks for reading.
 
-🙏 And please, add your brand new i18n sites to our [showcase page](https://v2.docusaurus.io/showcase). We accept any all polished Docusaurus site here, and we are working on a [redesign](https://github.com/facebook/docusaurus/issues/4238) allowing you to filter sites by features.
+🙏 And please, add your brand new i18n sites to our [showcase page](https://docusaurus.io/showcase). We accept any all polished Docusaurus site here, and we are working on a [redesign](https://github.com/facebook/docusaurus/issues/4238) allowing you to filter sites by features.

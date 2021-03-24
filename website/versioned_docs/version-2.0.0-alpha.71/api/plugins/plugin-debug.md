@@ -12,7 +12,7 @@ It is mostly useful for plugin authors, that will be able to inspect more easily
 
 If you report a bug, we will probably ask you to have this plugin turned on in the production, so that we can inspect your deployment config more easily.
 
-If you don't have any sensitive information, you can keep it on in production [like we do](http://v2.docusaurus.io/__docusaurus/debug).
+If you don't have any sensitive information, you can keep it on in production [like we do](http://docusaurus.io/__docusaurus/debug).
 
 :::
 

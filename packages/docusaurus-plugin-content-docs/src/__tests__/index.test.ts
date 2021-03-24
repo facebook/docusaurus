@@ -211,6 +211,7 @@ describe('simple website', () => {
     expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
     expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
     expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
+    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toEqual(true);
     expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
     expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
     expect(isMatch('hello.md', matchPattern)).toEqual(false);

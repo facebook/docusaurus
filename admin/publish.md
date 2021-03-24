@@ -89,7 +89,7 @@ Generate the changelog with:
 GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 ```
 
-Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
+Copy the generated contents and paste them in `CHANGELOG.md`.
 
 **Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)).
 
@@ -261,7 +261,7 @@ Suppose we are at `v1.14.5`, and want to release `v1.14.6`:
 - Be on master (up-to-date): `git co master && git pull`
 - Create a new branch: `git co -b slorber/release-1.14.6`
 - Get the changelog from last release: `git fetch --tags && GITHUB_AUTH=<myToken> yarn changelog --from=v1.14.5`
-- Update [CHANGELOG.md](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), but remove the v2-related items manually.
+- Update [CHANGELOG-1.x.md](https://github.com/facebook/docusaurus/blob/master/CHANGELOG-1.x.md), but remove the v2-related items manually.
 - Run `yarn install`
 - Version the docs: `yarn workspace docusaurus-1-website docusaurus-version 1.14.6`
 - Test the v1 website locally: `yarn start:v1` + `yarn build:v1`
@@ -294,7 +294,7 @@ Finish the release:
 ### Historical v1 release process
 
 1. Bump version number in [`package.json`](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/package.json).
-1. Update the [changelog](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), including at the reference links at the bottom.
+1. Update the [CHANGELOG-1.x.md](https://github.com/facebook/docusaurus/blob/master/CHANGELOG-1.x.md), including at the reference links at the bottom.
 1. Do this always, but particularly important if there were any `package.json` changes in this release:
    1. If there is no `node_modules` directory in you local Docusaurus version, run `yarn install` and `npm install`.
    1. Run `yarn upgrade` to update `yarn.lock` and `npm update` to update `package-lock.json`.

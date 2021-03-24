@@ -3,7 +3,7 @@ id: contributing
 title: Contributing
 ---
 
-[Docusaurus 2](https://v2.docusaurus.io/) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
+[Docusaurus 2](https://docusaurus.io/) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
@@ -48,7 +48,7 @@ We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our pu
 
 If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
 
-You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md/)
+You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature). If you see anything you'd like to be implemented, create an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?assignees=&labels=feature%2C+needs+triage&template=feature.md)
 
 ### Reporting security bugs {#reporting-security-bugs}
 
@@ -124,9 +124,9 @@ We have a list of [beginner friendly issues](https://github.com/facebook/docusau
 
 ### Proposing a change {#proposing-a-change}
 
-If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md/).
+If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?assignees=&labels=feature%2C+needs+triage&template=feature.md).
 
-If you intend to change the public API (e.g., something in `docusaurus.config.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
+If you intend to change the public API (e.g., something in `docusaurus.config.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?assignees=&labels=proposal%2C+needs+triage&template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
 
 If you're only fixing a bug, it's fine to submit a pull request right away but we still recommend to file an issue detailing what you're fixing. This is helpful in case we don't accept that specific fix but want to keep track of the issue.
 

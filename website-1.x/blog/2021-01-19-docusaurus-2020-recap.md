@@ -11,9 +11,9 @@ image: /img/docusaurus-2020-recap.png
 
 **2020 was great for Docusaurus**, despite [a regrettable start](https://docusaurus.io/blog/2020/01/07/tribute-to-endi) and a tumultuous year for everyone.
 
-We continued to invest in [Docusaurus 2](https://v2.docusaurus.io/), and made it reach **full feature parity** with [Docusaurus 1](https://v1.docusaurus.io/).
+We continued to invest in [Docusaurus 2](https://docusaurus.io/), and made it reach **full feature parity** with [Docusaurus 1](https://v1.docusaurus.io/).
 
-We now **recommend Docusaurus 2** as the **default choice** to start a new Docusaurus project and encourage v1 users to [migrate to Docusaurus 2](https://v2.docusaurus.io/docs/migration).
+We now **recommend Docusaurus 2** as the **default choice** to start a new Docusaurus project and encourage v1 users to [migrate to Docusaurus 2](https://docusaurus.io/docs/migration).
 
 We are **still in alpha**, but expect **some good news very soon**!
 
@@ -25,7 +25,7 @@ We are **still in alpha**, but expect **some good news very soon**!
 
 We have worked on many features this year, and would like to highlight the most significant ones:
 
-- **i18n**: easily translate your Docusaurus site, released soon! ([preview](https://github.com/facebook/docusaurus/pull/3325), [doc](https://v2.docusaurus.io/docs/next/i18n/introduction))
+- **i18n**: easily translate your Docusaurus site, released soon! ([preview](https://github.com/facebook/docusaurus/pull/3325), [doc](https://docusaurus.io/docs/next/i18n/introduction))
 - **Version dropdown**: enable contextual version switch
 - **Versioning options**: solving the most common pain-points users had with versioning
 - **Contextual search**: search in the current version, use the brand-new DocSearch 3 experience
@@ -46,7 +46,7 @@ The plan to [rebuild Docusaurus from scratch in 2019](https://docusaurus.io/blog
 
 ![Docusaurus v1 vs v2 npm trends](/img/blog/2020-recap/docusaurus-npm-trends.png)
 
-Notable **projects, startups, large companies, and individuals** adopted Docusaurus 2 ([showcase](https://v2.docusaurus.io/showcase)):
+Notable **projects, startups, large companies, and individuals** adopted Docusaurus 2 ([showcase](https://docusaurus.io/showcase)):
 
 - [Supabase](https://supabase.io)
 - [React Navigation](https://reactnavigation.org)
@@ -111,7 +111,7 @@ Many blog posts have been published:
 
 The Docusaurus community continues to grow, the [Discord](https://discord.gg/docusaurus) server is quite active, and [Stack Overflow questions](https://stackoverflow.com/questions/tagged/docusaurus) keep being posted.
 
-The **modular architecture** of Docusaurus 2 allowed the community to build and publish [third-party plugins](https://v2.docusaurus.io/community/resources#community-plugins-). As we would like to federate better our community, if you are building a plugin, please [let us know](https://github.com/facebook/docusaurus/discussions/4025).
+The **modular architecture** of Docusaurus 2 allowed the community to build and publish [third-party plugins](https://docusaurus.io/community/resources#community-plugins-). As we would like to federate better our community, if you are building a plugin, please [let us know](https://github.com/facebook/docusaurus/discussions/4025).
 
 ## What's next?
 
