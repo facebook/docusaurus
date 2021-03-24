@@ -81,6 +81,17 @@ Object {
 }
 `;
 
+exports[`load utils: parseMarkdown readFrontMatter should not warn about duplicated title 1`] = `
+Object {
+  "content": "# test",
+  "excerpt": "",
+  "frontMatter": Object {
+    "title": "title",
+  },
+  "hasFrontMatter": true,
+}
+`;
+
 exports[`load utils: parseMarkdown readFrontMatter should parse first heading as title 1`] = `
 Object {
   "content": "",

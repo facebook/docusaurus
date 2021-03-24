@@ -276,9 +276,11 @@ export function readFrontMatter(
     const heading = /^# (.*)[\n\r]?/gi.exec(result.content);
     if (heading) {
       if (result.data.title) {
-        console.warn(
-          `Duplicate title detected in \`${source || 'this'}\` file`,
-        );
+        if (removeTitleHeading) {
+          console.warn(
+            `Duplicate title detected in \`${source || 'this'}\` file`,
+          );
+        }
       } else {
         result.data.title = heading[1].trim();
         if (removeTitleHeading) {
