@@ -91,7 +91,6 @@
     "pnp-webpack-plugin": "^1.6.4",
     "postcss": "^8.2.7",
     "postcss-loader": "^4.1.0",
-    "postcss-preset-env": "^6.7.0",
     "prompts": "^2.4.0",
     "react-dev-utils": "^11.0.1",
     "react-helmet": "^6.1.0",
