@@ -13,7 +13,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
       - name: Installation
-        run: yarn
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
       - name: Lint
         run: yarn lint:ci
       - name: Prettier Code
