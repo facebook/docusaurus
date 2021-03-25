@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths-ignore:
+      - 'website/docs/**'
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
       - 'packages/docusaurus-init-1.x/**'
