@@ -23,6 +23,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
-        run: yarn
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
       - name: Test
         run: yarn test
