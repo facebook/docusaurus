@@ -142,7 +142,7 @@ Example:
 }
 ```
 
-The sidebar_label in the markdown frontformatter has a higher precedence over the label key in `SidebarItemDoc`. Using just the [Document ID](#document-id) is also valid, the following is equivalent to the above:
+The `sidebar_label` in the markdown frontmatter has a higher precedence over the `label` key in `SidebarItemDoc`. Using just the [Document ID](#document-id) is also valid, the following is equivalent to the above:
 
 ```js
 'doc1'; // string - document id
