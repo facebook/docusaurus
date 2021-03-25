@@ -17,7 +17,7 @@
     "commander": "^5.1.0",
     "joi": "^17.4.0",
     "querystring": "0.2.0",
-    "webpack": "^5.24.2",
+    "webpack": "^5.28.0",
     "webpack-merge": "^4.2.2"
   }
 }
