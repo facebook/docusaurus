@@ -61,8 +61,14 @@ export function createBaseConfig(
   isServer: boolean,
   minify: boolean = true,
 ): Configuration {
-  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
-
+  const {
+    outDir,
+    siteDir,
+    baseUrl,
+    generatedFilesDir,
+    routesPaths,
+    siteMetadata,
+  } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
@@ -70,8 +76,24 @@ export function createBaseConfig(
 
   const fileLoaderUtils = getFileLoaderUtils();
 
+  const name = isServer ? 'server' : 'client';
+  const mode = isProd ? 'production' : 'development';
+
   return {
-    mode: isProd ? 'production' : 'development',
+    mode,
+    name,
+    cache: {
+      type: 'filesystem',
+      name: `${name}-${mode}-${props.i18n.currentLocale}`,
+      version: siteMetadata.docusaurusVersion,
+      buildDependencies: {
+        // When one of dependencies change, cache is invalidated
+        config: [
+          __filename,
+          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+        ],
+      },
+    },
     output: {
       pathinfo: false,
       path: outDir,

@@ -84,6 +84,12 @@ describe('base webpack config', () => {
     baseUrl: '',
     generatedFilesDir: '',
     routesPaths: '',
+    i18n: {
+      currentLocale: 'en',
+    },
+    siteMetadata: {
+      docusaurusVersion: '2.0.0-alpha.70',
+    },
   };
 
   afterEach(() => {
