@@ -40,7 +40,6 @@ describe('normalizeDocsPluginOptions', () => {
       disableVersioning: true,
       editCurrentVersion: true,
       editLocalizedFiles: true,
-      includeFrontMatterInGlobals: true,
       versions: {
         current: {
           path: 'next',

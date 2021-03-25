@@ -219,6 +219,6 @@ export function processDocMetadata({
         )
       : undefined,
     sidebar_label: sidebarLabel,
-    frontMatter: options.includeFrontMatterInGlobals ? frontMatter : undefined,
+    frontMatter,
   };
 }
