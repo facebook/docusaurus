@@ -9,7 +9,7 @@ const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
-const matter = require('gray-matter');
+const {readFrontMatter} = require('@docusaurus/utils');
 const stringifyObject = require('stringify-object');
 const headings = require('./remark/headings');
 const toc = require('./remark/toc');
@@ -24,9 +24,15 @@ const DEFAULT_OPTIONS = {
 
 module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
-
-  const {data, content} = matter(fileString);
   const reqOptions = getOptions(this) || {};
+
+  const {frontMatter, content, hasFrontMatter} = readFrontMatter(
+    fileString,
+    this.resourcePath,
+    {},
+    reqOptions.removeTitleHeading,
+  );
+
   const options = {
     ...reqOptions,
     remarkPlugins: [
@@ -58,7 +64,7 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     return callback(err);
   }
 
-  let exportStr = `export const frontMatter = ${stringifyObject(data)};`;
+  let exportStr = `export const frontMatter = ${stringifyObject(frontMatter)};`;
 
   // Read metadata for this MDX and export it.
   if (options.metadataPath && typeof options.metadataPath === 'function') {
@@ -77,10 +83,7 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     options.forbidFrontMatter &&
     typeof options.forbidFrontMatter === 'function'
   ) {
-    if (
-      options.forbidFrontMatter(this.resourcePath) &&
-      Object.keys(data).length > 0
-    ) {
+    if (options.forbidFrontMatter(this.resourcePath) && hasFrontMatter) {
       return callback(new Error(`Front matter is forbidden in this file`));
     }
   }
