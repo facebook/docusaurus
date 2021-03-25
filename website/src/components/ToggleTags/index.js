@@ -9,18 +9,6 @@ import React from 'react';
 
 import styles from './styles.module.css';
 
-const TAGS = [
-  'highlight',
-  'design',
-  'i18n',
-  'versioning',
-  'multi-instance',
-  'large',
-  'facebook',
-  'personal',
-  'rtl',
-];
-
 function ToggleTags(props) {
   return (
     <div className={styles.tag}>

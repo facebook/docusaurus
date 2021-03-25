@@ -38,13 +38,11 @@ const clickTag = (tag) => {
   const tagIndex = selectedTags.findIndex((selectedTag) => {
     return selectedTag === tag;
   });
-  console.log(tagIndex);
   if (tagIndex === -1) {
     selectedTags.push(tag);
   } else {
     selectedTags.splice(tagIndex, 1);
   }
-  console.log(selectedTags);
   filteredUsers = users.filter((user) => user.tags.includes(selectedTags));
 };
 
