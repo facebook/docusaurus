@@ -25,6 +25,6 @@ export default async function clear(siteDir: string): Promise<unknown> {
   return Promise.all([
     removePath(path.join(siteDir, GENERATED_FILES_DIR_NAME)),
     removePath(path.join(siteDir, DEFAULT_BUILD_DIR_NAME)),
-    removePath(path.join(siteDir, 'node_modules/.cache/cache-loader')),
+    removePath(path.join(siteDir, 'node_modules', '.cache')),
   ]);
 }
