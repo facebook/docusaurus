@@ -79,12 +79,18 @@ export function createBaseConfig(
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
+  console.log(
+    'cacheDirectory',
+    path.join(siteDir, 'node_modules', '.cache', 'webpack'),
+  );
+
   return {
     mode,
     name,
     cache: {
       type: 'filesystem',
       name: `${name}-${mode}-${props.i18n.currentLocale}`,
+      cacheDirectory: path.join(siteDir, 'node_modules', '.cache', 'webpack'),
       version: siteMetadata.docusaurusVersion,
       buildDependencies: {
         // When one of dependencies change, cache is invalidated
