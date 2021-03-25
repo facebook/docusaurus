@@ -13,3 +13,9 @@
   command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
   publish = "website/build"
 
+
+
+[[plugins]]
+package = "netlify-plugin-cache"
+  [plugins.inputs]
+  paths = ["node_modules/.cache"]
