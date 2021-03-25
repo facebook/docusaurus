@@ -68,6 +68,11 @@ Object {
               "sidebar": "docs",
             },
             Object {
+              "id": "headingAsTitle",
+              "path": "/docs/headingAsTitle",
+              "sidebar": undefined,
+            },
+            Object {
               "id": "hello",
               "path": "/docs/",
               "sidebar": "docs",
@@ -172,6 +177,17 @@ Object {
     \\"title\\": \\"Hello, World !\\",
     \\"permalink\\": \\"/docs/\\"
   }
+}",
+  "site-docs-heading-as-title-md-c6d.json": "{
+  \\"unversionedId\\": \\"headingAsTitle\\",
+  \\"id\\": \\"headingAsTitle\\",
+  \\"isDocsHomePage\\": false,
+  \\"title\\": \\"My heading as title\\",
+  \\"description\\": \\"\\",
+  \\"source\\": \\"@site/docs/headingAsTitle.md\\",
+  \\"slug\\": \\"/headingAsTitle\\",
+  \\"permalink\\": \\"/docs/headingAsTitle\\",
+  \\"version\\": \\"current\\"
 }",
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
@@ -384,6 +400,11 @@ Object {
               "sidebar": "docs",
             },
             Object {
+              "id": "headingAsTitle",
+              "path": "/docs/headingAsTitle",
+              "sidebar": undefined,
+            },
+            Object {
               "id": "hello",
               "path": "/docs/",
               "sidebar": "docs",
@@ -498,6 +519,14 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
+          "content": "@site/docs/headingAsTitle.md",
+        },
+        "path": "/docs/headingAsTitle",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
           "content": "@site/docs/rootResolvedSlug.md",
         },
         "path": "/docs/hey/rootResolvedSlug",
@@ -579,6 +608,7 @@ These sidebar document ids do not exist:
 Available document ids=
 - foo/bar
 - foo/baz
+- headingAsTitle
 - hello
 - ipsum
 - lorem

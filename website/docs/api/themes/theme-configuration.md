@@ -193,7 +193,7 @@ module.exports = {
         alt: 'Site Logo',
         src: 'img/logo.svg',
         srcDark: 'img/logo_dark.svg', // Default to `logo.src`.
-        href: 'https://v2.docusaurus.io/', // Default to `siteConfig.baseUrl`.
+        href: 'https://docusaurus.io/', // Default to `siteConfig.baseUrl`.
         target: '_self', // By default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one).
       },
     },

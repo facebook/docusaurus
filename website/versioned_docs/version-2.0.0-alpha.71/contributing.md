@@ -3,7 +3,7 @@ id: contributing
 title: Contributing
 ---
 
-[Docusaurus 2](https://v2.docusaurus.io/) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
+[Docusaurus 2](https://docusaurus.io/) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 

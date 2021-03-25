@@ -59,7 +59,7 @@ export default function initPlugins({
         throw new TypeError(`You supplied a wrong type of plugin.
 A plugin should be either string or [importPath: string, options?: object].
 
-For more information, visit https://v2.docusaurus.io/docs/using-plugins.`);
+For more information, visit https://docusaurus.io/docs/using-plugins.`);
       }
 
       if (!pluginModuleImport) {

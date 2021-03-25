@@ -54,7 +54,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   projectName: 'docusaurus',
   baseUrl,
   baseUrlIssueBanner: true,
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   i18n: {
     defaultLocale: 'en',
     locales: isI18nStaging
@@ -278,10 +278,17 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       respectPrefersColorScheme: true,
     },
     announcementBar: {
+      id: 'v1-new-domain',
+      content:
+        '➡️ Docusaurus v1 documentation has moved to <a target="_blank" rel="noopener noreferrer" href="https://v1.docusaurus.io/">v1.docusaurus.io</a>! 🔄',
+    },
+    /*
+    announcementBar: {
       id: 'supportus',
       content:
         '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
     },
+     */
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
@@ -331,6 +338,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            {
+              to: 'https://v1.docusaurus.io',
+              label: '1.x.x',
+            },
             {
               to: '/versions',
               label: 'All versions',

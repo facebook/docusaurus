@@ -67,8 +67,8 @@ npm run version 1.0.1
 
 Version 1.0.0 remains available as a past version. You can view it by adding `1.0.0` to the URL, http://localhost:3000/docusaurus-tutorial/docs/1.0.0/doc1. Also, a link to version 1.0.0 appears on the versions page.
 
-Go ahead and [publish](https://docusaurus.io/docs/en/next/tutorial-publish-site) your versioned site with the `publish-gh-pages` script!
+Go ahead and [publish](https://v1.docusaurus.io/docs/en/next/tutorial-publish-site) your versioned site with the `publish-gh-pages` script!
 
 ## Wrap Up
 
-That's all folks! In this short tutorial, you have experienced how easy it is to create a documentation website from scratch and make versions for them. There are many more things you can do with Docusaurus, such as adding a blog, search and translations. Check out the [Guides](https://docusaurus.io/docs/en/next/versioning) section for more.
+That's all folks! In this short tutorial, you have experienced how easy it is to create a documentation website from scratch and make versions for them. There are many more things you can do with Docusaurus, such as adding a blog, search and translations. Check out the [Guides](https://v1.docusaurus.io/docs/en/next/versioning) section for more.

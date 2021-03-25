@@ -71,7 +71,7 @@ class Index extends React.Component {
             </div>
             <div>
               We now recommend using{' '}
-              <a href="https://v2.docusaurus.io">Docusaurus 2</a> instead!
+              <a href="https://docusaurus.io">Docusaurus 2</a> instead!
             </div>
           </div>
         </div>

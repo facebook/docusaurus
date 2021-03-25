@@ -160,6 +160,7 @@ describe('simple site', () => {
         'rootRelativeSlug.md',
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
+        'headingAsTitle.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',

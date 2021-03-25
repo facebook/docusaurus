@@ -128,10 +128,21 @@ function Home() {
         </div>
         <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
-            <Translate>Coming from v1? Check out our</Translate>{' '}
-            <Link to="/docs/migration">
-              <Translate>v1 to v2 migration guide</Translate>
-            </Link>
+            <Translate
+              values={{
+                docusaurusV1Link: (
+                  <Link to="https://v1.docusaurus.io/">
+                    <Translate>Docusaurus v1</Translate>
+                  </Link>
+                ),
+                migrationGuideLink: (
+                  <Link to="/docs/migration">
+                    <Translate>v1 to v2 migration guide</Translate>
+                  </Link>
+                ),
+              }}>
+              {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}`}
+            </Translate>
             .
           </div>
         </div>
