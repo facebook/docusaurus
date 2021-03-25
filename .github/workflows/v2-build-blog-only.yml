@@ -9,7 +9,7 @@ on:
       - 'packages/docusaurus/**'
 
 jobs:
-  lint:
+  build:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
