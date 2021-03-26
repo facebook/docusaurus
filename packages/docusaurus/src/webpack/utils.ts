@@ -207,7 +207,6 @@ export function compile(config: Configuration[]): Promise<void> {
           console.warn(warning);
         });
       }
-
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
@@ -217,6 +216,7 @@ export function compile(config: Configuration[]): Promise<void> {
           );
           reject(errClose);
         } else {
+          console.log('Webpack compiler closed successfully');
           resolve();
         }
       });

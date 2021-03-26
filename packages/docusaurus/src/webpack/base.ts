@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration, RuleSetRule} from 'webpack';
+import webpack, {Configuration, RuleSetRule} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getBabelLoader,
@@ -85,12 +85,17 @@ export function createBaseConfig(
   );
 
   return {
+    stats: {
+      logging: 'verbose',
+      loggingDebug: true,
+      loggingTrace: true,
+    },
     mode,
     name,
     cache: {
       type: 'filesystem',
       name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      cacheDirectory: path.join(siteDir, 'node_modules', '.cache', 'webpack'),
+      cacheDirectory: path.join(siteDir, 'node_modules', '.cache', 'webpack'), // TODO temporary
       version: siteMetadata.docusaurusVersion,
       buildDependencies: {
         // When one of dependencies change, cache is invalidated
@@ -224,6 +229,15 @@ export function createBaseConfig(
       ],
     },
     plugins: [
+      // TODO temporary
+      new webpack.ProgressPlugin({
+        profile: true,
+        handler(percent, message, ...args) {
+          if (message && message.includes('cache')) {
+            console.log(message, ...args);
+          }
+        },
+      }),
       new MiniCssExtractPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
