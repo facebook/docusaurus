@@ -90,7 +90,7 @@ export function createBaseConfig(
     cache: {
       type: 'filesystem',
       name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      cacheDirectory: path.join(siteDir, 'MY_WEBPACK_CACHE'), // TODO temporary
+      // cacheDirectory: path.join(siteDir, 'MY_WEBPACK_CACHE'), // TODO temporary
       version: siteMetadata.docusaurusVersion,
       buildDependencies: {
         // When one of dependencies change, cache is invalidated
