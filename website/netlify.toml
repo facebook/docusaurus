@@ -20,5 +20,7 @@ package = "netlify-plugin-cache"
   [plugins.inputs]
   paths = [
     #"/opt/build/repo/website/node_modules/.cache",
-    "./node_modules/.cache"
+    "./node_modules/.cache",
+    "../node_modules/.cache",
+    "../../node_modules/.cache"
   ]
