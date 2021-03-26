@@ -6,7 +6,7 @@
   command = "yarn build"
   publish = "build"
 
-[context.deploy-preview]
+[context.production]
   command = "yarn netlify:build:production"
 
 # we build deploy previews with a /build/ baseUrl on purpose
