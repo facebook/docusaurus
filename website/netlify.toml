@@ -20,5 +20,5 @@ package = "netlify-plugin-cache"
   paths = [
     # /!\ It seems path must be relative to monorepo root (not base dir or netlify.toml)
     # See https://github.com/netlify/build/issues/2483
-    "website/node_modules/.cache",
+    "website/node_modules/.cache/webpack",
   ]
