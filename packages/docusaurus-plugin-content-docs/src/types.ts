@@ -91,6 +91,7 @@ export type SidebarItemBase = {
 
 export type SidebarItemDoc = SidebarItemBase & {
   type: 'doc' | 'ref';
+  label?: string;
   id: string;
 };
 

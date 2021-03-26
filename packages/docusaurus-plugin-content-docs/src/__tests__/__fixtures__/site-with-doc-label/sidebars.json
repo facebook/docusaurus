@@ -1,0 +1,14 @@
+{
+  "docs": [
+    {
+      "id": "hello-1",
+      "type": "doc",
+      "label": "Hello One"
+    },
+    {
+      "id": "hello-2",
+      "type": "doc",
+      "label": "Hello Two"
+    }
+  ]
+}

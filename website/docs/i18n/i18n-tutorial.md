@@ -1,7 +1,6 @@
 ---
 id: tutorial
 title: i18n - Tutorial
-sidebar_label: Tutorial
 slug: /i18n/tutorial
 ---
 

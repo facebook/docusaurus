@@ -118,10 +118,16 @@ function assertIsCategory(
 function assertIsDoc(
   item: Record<string, unknown>,
 ): asserts item is SidebarItemDoc {
-  assertItem(item, ['id', 'customProps']);
+  assertItem(item, ['id', 'label', 'customProps']);
   if (typeof item.id !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "id" must be a string.`,
+    );
+  }
+
+  if (item.label && typeof item.label !== 'string') {
+    throw new Error(
+      `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
     );
   }
 }

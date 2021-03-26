@@ -677,3 +677,39 @@ describe('versioned website (community)', () => {
     utils.expectSnapshot();
   });
 });
+
+describe('site with doc label', () => {
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        path: 'docs',
+        sidebarPath,
+        homePageId: 'hello-1',
+      }),
+    );
+
+    const content = await plugin.loadContent();
+
+    return {content};
+  }
+
+  test('label in sidebar.json is used', async () => {
+    const {content} = await loadSite();
+    const loadedVersion = content.loadedVersions[0];
+    const sidebarProps = toSidebarsProp(loadedVersion);
+
+    expect(sidebarProps.docs[0].label).toBe('Hello One');
+  });
+
+  test('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+    const {content} = await loadSite();
+    const loadedVersion = content.loadedVersions[0];
+    const sidebarProps = toSidebarsProp(loadedVersion);
+
+    expect(sidebarProps.docs[1].label).toBe('Hello 2 From Doc');
+  });
+});

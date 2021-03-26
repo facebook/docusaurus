@@ -37,7 +37,7 @@ Available document ids=
 
     return {
       type: 'link',
-      label: sidebarLabel || title,
+      label: sidebarLabel || item.label || title,
       href: permalink,
       customProps: item.customProps,
     };

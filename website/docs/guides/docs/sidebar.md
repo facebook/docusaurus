@@ -128,6 +128,7 @@ type SidebarItemDoc =
   | {
       type: 'doc';
       id: string;
+      label: string; // Sidebar label text
     };
 ```
 
@@ -137,10 +138,11 @@ Example:
 {
   type: 'doc',
   id: 'doc1', // string - document id
+  label: 'Getting started' // Sidebar label text
 }
 ```
 
-Using just the [Document ID](#document-id) is also valid, the following is equivalent to the above:
+The `sidebar_label` in the markdown frontmatter has a higher precedence over the `label` key in `SidebarItemDoc`. Using just the [Document ID](#document-id) is also valid, the following is equivalent to the above:
 
 ```js
 'doc1'; // string - document id
