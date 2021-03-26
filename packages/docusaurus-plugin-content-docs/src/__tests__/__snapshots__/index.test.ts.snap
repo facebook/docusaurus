@@ -152,6 +152,11 @@ Object {
   \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"id\\": \\"bar\\",
+    \\"title\\": \\"Bar\\",
+    \\"description\\": \\"This is custom description\\"
+  },
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
     \\"title\\": \\"baz\\",
@@ -168,6 +173,11 @@ Object {
   \\"slug\\": \\"/foo/bazSlug.html\\",
   \\"permalink\\": \\"/docs/foo/bazSlug.html\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"id\\": \\"baz\\",
+    \\"title\\": \\"baz\\",
+    \\"slug\\": \\"bazSlug.html\\"
+  },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"Bar\\",
@@ -187,7 +197,10 @@ Object {
   \\"source\\": \\"@site/docs/headingAsTitle.md\\",
   \\"slug\\": \\"/headingAsTitle\\",
   \\"permalink\\": \\"/docs/headingAsTitle\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"title\\": \\"My heading as title\\"
+  }
 }",
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
@@ -199,6 +212,10 @@ Object {
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"id\\": \\"hello\\",
+    \\"title\\": \\"Hello, World !\\"
+  },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz\\",
@@ -215,7 +232,10 @@ Object {
   \\"slug\\": \\"/ipsum\\",
   \\"permalink\\": \\"/docs/ipsum\\",
   \\"editUrl\\": null,
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"custom_edit_url\\": null
+  }
 }",
   "site-docs-lorem-md-b27.json": "{
   \\"unversionedId\\": \\"lorem\\",
@@ -227,7 +247,11 @@ Object {
   \\"slug\\": \\"/lorem\\",
   \\"permalink\\": \\"/docs/lorem\\",
   \\"editUrl\\": \\"https://github.com/customUrl/docs/lorem.md\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"custom_edit_url\\": \\"https://github.com/customUrl/docs/lorem.md\\",
+    \\"unrelated_frontmatter\\": \\"won't be part of metadata\\"
+  }
 }",
   "site-docs-root-absolute-slug-md-db5.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
@@ -238,7 +262,10 @@ Object {
   \\"source\\": \\"@site/docs/rootAbsoluteSlug.md\\",
   \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/rootAbsoluteSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/rootAbsoluteSlug\\"
+  }
 }",
   "site-docs-root-relative-slug-md-3dd.json": "{
   \\"unversionedId\\": \\"rootRelativeSlug\\",
@@ -249,7 +276,10 @@ Object {
   \\"source\\": \\"@site/docs/rootRelativeSlug.md\\",
   \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/rootRelativeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"rootRelativeSlug\\"
+  }
 }",
   "site-docs-root-resolved-slug-md-4d1.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
@@ -260,7 +290,10 @@ Object {
   \\"source\\": \\"@site/docs/rootResolvedSlug.md\\",
   \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/hey/rootResolvedSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
+  }
 }",
   "site-docs-root-try-to-escape-slug-md-9ee.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
@@ -271,7 +304,10 @@ Object {
   \\"source\\": \\"@site/docs/rootTryToEscapeSlug.md\\",
   \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/rootTryToEscapeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
+  }
 }",
   "site-docs-slugs-absolute-slug-md-4e8.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
@@ -282,7 +318,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/absoluteSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/absoluteSlug\\"
+  }
 }",
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -293,7 +332,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/slugs/relativeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"relativeSlug\\"
+  }
 }",
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -304,7 +346,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/slugs/hey/resolvedSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
+  }
 }",
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -315,7 +360,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/tryToEscapeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
+  }
 }",
   "version-current-metadata-prop-751.json": "{
   \\"pluginId\\": \\"default\\",
@@ -656,6 +704,7 @@ Object {
   \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/team\\",
   \\"version\\": \\"1.0.0\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/community\\"
 }",
   "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
@@ -668,6 +717,9 @@ Object {
   \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/next/team\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"title\\": \\"Team title translated\\"
+  },
   \\"sidebar\\": \\"community\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
@@ -895,6 +947,9 @@ Object {
   \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/next/foo/barSlug\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"barSlug\\"
+  },
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
     \\"title\\": \\"hello\\",
@@ -911,6 +966,7 @@ Object {
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/next/\\",
   \\"version\\": \\"current\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -926,7 +982,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/next/absoluteSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/absoluteSlug\\"
+  }
 }",
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -937,7 +996,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/relativeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"relativeSlug\\"
+  }
 }",
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -948,7 +1010,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/hey/resolvedSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
+  }
 }",
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -959,7 +1024,10 @@ Object {
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
-  \\"version\\": \\"current\\"
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
+  }
 }",
   "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": "{
   \\"unversionedId\\": \\"hello\\",
@@ -971,6 +1039,7 @@ Object {
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/1.0.0/\\",
   \\"version\\": \\"1.0.0\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz\\",
@@ -987,6 +1056,9 @@ Object {
   \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/barSlug\\",
   \\"version\\": \\"1.0.0\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"barSlug\\"
+  },
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"next\\": {
     \\"title\\": \\"baz\\",
@@ -1003,6 +1075,7 @@ Object {
   \\"slug\\": \\"/foo/baz\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/baz\\",
   \\"version\\": \\"1.0.0\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -1023,6 +1096,7 @@ Object {
   \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
   \\"version\\": \\"1.0.1\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.1/docs\\",
   \\"next\\": {
     \\"title\\": \\"hello\\",
@@ -1039,6 +1113,7 @@ Object {
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
   \\"version\\": \\"1.0.1\\",
+  \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.1/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -1055,6 +1130,9 @@ Object {
   \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
   \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/rootAbsoluteSlug\\"
+  },
   \\"sidebar\\": \\"version-1.0.1/docs\\"
 }",
   "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": "{
@@ -1066,7 +1144,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootRelativeSlug.md\\",
   \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootRelativeSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"rootRelativeSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
@@ -1077,7 +1158,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootResolvedSlug.md\\",
   \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/hey/rootResolvedSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
@@ -1088,7 +1172,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md\\",
   \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootTryToEscapeSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
@@ -1099,7 +1186,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/absoluteSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/absoluteSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -1110,7 +1200,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/relativeSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"relativeSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -1121,7 +1214,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/hey/resolvedSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
+  }
 }",
   "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -1132,7 +1228,10 @@ Object {
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/tryToEscapeSlug\\",
-  \\"version\\": \\"withSlugs\\"
+  \\"version\\": \\"withSlugs\\",
+  \\"frontMatter\\": {
+    \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
+  }
 }",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"default\\",

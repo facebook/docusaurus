@@ -219,5 +219,6 @@ export function processDocMetadata({
         )
       : undefined,
     sidebar_label: sidebarLabel,
+    frontMatter,
   };
 }
