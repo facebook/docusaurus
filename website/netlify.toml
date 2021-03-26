@@ -21,4 +21,6 @@ package = "netlify-plugin-cache"
   paths = [
     #"/opt/build/repo/website/node_modules/.cache",
     "MY_WEBPACK_CACHE",
+    "website/MY_WEBPACK_CACHE",
+    "../MY_WEBPACK_CACHE",
   ]
