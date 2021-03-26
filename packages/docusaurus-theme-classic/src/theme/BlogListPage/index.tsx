@@ -28,7 +28,7 @@ function BlogListPage(props: Props): JSX.Element {
       title={title}
       description={blogDescription}
       wrapperClassName="blog-wrapper"
-      pageClassName={ThemeClassnames.page.blogListPage}>
+      pageClassName={ThemeClassnames.page.blogListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',
