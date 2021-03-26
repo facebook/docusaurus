@@ -180,7 +180,6 @@ export type GlobalDoc = {
   id: string;
   path: string;
   sidebar: string | undefined;
-  frontMatter?: FrontMatter;
 };
 
 export type GlobalVersion = {
