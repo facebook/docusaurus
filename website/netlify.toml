@@ -3,15 +3,16 @@
 
 # default/production build
 [build]
-  base = "/"
-  command = "yarn workspace docusaurus-2-website netlify:build:production"
-  publish = "website/build"
+  command = "yarn build"
+  publish = "build"
+
+[context.deploy-preview]
+  command = "yarn netlify:build:production"
 
 # we build deploy previews with a /build/ baseUrl on purpose
 # permits to test that baseUrl works fine (this often breaks!)
 [context.deploy-preview]
-  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
-  publish = "website/build"
+  command = "yarn netlify:build:deployPreview"
 
 
 
@@ -19,7 +20,5 @@
 package = "netlify-plugin-cache"
   [plugins.inputs]
   paths = [
-    # /!\ It seems path must be relative to monorepo root (not base dir or netlify.toml)
-    # See https://github.com/netlify/build/issues/2483
-    "website/node_modules/.cache",
+    "node_modules/.cache",
   ]

@@ -216,7 +216,6 @@ export function compile(config: Configuration[]): Promise<void> {
           );
           reject(errClose);
         } else {
-          console.log('Webpack compiler closed successfully');
           resolve();
         }
       });
