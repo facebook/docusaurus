@@ -9,6 +9,7 @@ import Module from 'module';
 import importFresh from 'import-fresh';
 import {
   DocusaurusPluginVersionInformation,
+  ImportedPluginModule,
   LoadContext,
   Plugin,
   PluginConfig,
@@ -58,7 +59,7 @@ export default function initPlugins({
         throw new TypeError(`You supplied a wrong type of plugin.
 A plugin should be either string or [importPath: string, options?: object].
 
-For more information, visit https://v2.docusaurus.io/docs/using-plugins.`);
+For more information, visit https://docusaurus.io/docs/using-plugins.`);
       }
 
       if (!pluginModuleImport) {
@@ -68,7 +69,7 @@ For more information, visit https://v2.docusaurus.io/docs/using-plugins.`);
       // The pluginModuleImport value is any valid
       // module identifier - npm package or locally-resolved path.
       const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      const pluginModule: any = importFresh(pluginPath);
+      const pluginModule: ImportedPluginModule = importFresh(pluginPath);
       const pluginVersion = getPluginVersion(pluginPath, context.siteDir);
 
       const plugin = pluginModule.default || pluginModule;
@@ -114,7 +115,7 @@ For more information, visit https://v2.docusaurus.io/docs/using-plugins.`);
         version: pluginVersion,
       };
     })
-    .filter(Boolean);
+    .filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
 
   ensureUniquePluginInstanceIds(plugins);
 

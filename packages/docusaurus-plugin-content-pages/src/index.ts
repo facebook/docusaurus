@@ -29,7 +29,6 @@ import {
 import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from 'joi';
 import {
   DEFAULT_PLUGIN_ID,
   STATIC_DIR_NAME,
@@ -53,7 +52,7 @@ const isMarkdownSource = (source: string) =>
 export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
+): Plugin<LoadedContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions || {}],
@@ -224,6 +223,7 @@ export default function pluginContentPages(
                     rehypePlugins,
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
+                    removeTitleHeading: false,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
@@ -260,10 +260,7 @@ export default function pluginContentPages(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

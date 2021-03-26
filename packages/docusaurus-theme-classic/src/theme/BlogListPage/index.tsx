@@ -29,12 +29,16 @@ function BlogListPage(props: Props): JSX.Element {
       description={blogDescription}
       wrapperClassName="blog-wrapper"
       pageClassName={ThemeClassnames.page.blogListPage}>
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_posts_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--2">
+          <div className="col col--3">
             <BlogSidebar sidebar={sidebar} />
           </div>
-          <main className="col col--8">
+          <main className="col col--7">
             {items.map(({content: BlogPostContent}) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}

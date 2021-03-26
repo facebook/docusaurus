@@ -1,0 +1,40 @@
+name: Canary Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/**'
+
+jobs:
+  publish-canary:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Prepare git
+        run: |
+          git config --global user.name "Docusaurus Canary"
+          git config --global user.email "canary@docusaurus.io"
+          git fetch
+          git checkout master
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+          cat .npmrc
+          echo "npm whoami"
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Installation
+        run: yarn
+      - name: Publish Canary release
+        run: |
+          yarn canary
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

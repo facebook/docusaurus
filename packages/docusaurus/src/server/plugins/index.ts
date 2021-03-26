@@ -69,7 +69,7 @@ export async function loadPlugins({
 }): Promise<{
   plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
-  globalData: any;
+  globalData: unknown;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.

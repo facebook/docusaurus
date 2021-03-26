@@ -7,8 +7,8 @@
 
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME} from '../constants';
-import Joi from 'joi';
 import {
+  Joi,
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
   URISchema,
@@ -164,7 +164,7 @@ export function validateConfig(
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) [${unknownFields}] are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`
+      ? `${formattedError}These field(s) [${unknownFields}] are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://docusaurus.io/docs/docusaurus.config.js/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {

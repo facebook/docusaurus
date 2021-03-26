@@ -9,7 +9,7 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {Plugin, LoadContext, PluginConfig} from '@docusaurus/types';
+import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 import {partition} from 'lodash';
 import {THEME_PATH} from '../constants';
@@ -31,9 +31,8 @@ export function getPluginNames(plugins: PluginConfig[]): string[] {
     if (packagePath === '.') {
       return pluginPath;
     }
-    return (importFresh(path.join(packagePath, 'package.json')) as {
-      name: string;
-    }).name as string;
+    return importFresh<{name: string}>(path.join(packagePath, 'package.json'))
+      .name;
   });
 }
 
@@ -66,7 +65,7 @@ function readComponent(themePath: string) {
 // load components from theme based on configurations
 function getComponentName(
   themePath: string,
-  plugin: any,
+  plugin: ImportedPluginModule,
   danger: boolean,
 ): Array<string> {
   // support both commonjs and ES style exports
@@ -82,7 +81,10 @@ function getComponentName(
   return readComponent(themePath);
 }
 
-function themeComponents(themePath: string, plugin: Plugin<unknown>): string {
+function themeComponents(
+  themePath: string,
+  plugin: ImportedPluginModule,
+): string {
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
@@ -103,7 +105,10 @@ function formattedThemeNames(themeNames: string[]): string {
   return `Themes available for swizzle:\n${themeNames.join('\n')}`;
 }
 
-function colorCode(themePath: string, plugin: any): Array<string> {
+function colorCode(
+  themePath: string,
+  plugin: ImportedPluginModule,
+): Array<string> {
   // support both commonjs and ES style exports
   const getSwizzleComponentList =
     plugin.default?.getSwizzleComponentList ?? plugin.getSwizzleComponentList;
@@ -148,11 +153,9 @@ export default async function swizzle(
     process.exit(1);
   }
 
-  let pluginModule;
+  let pluginModule: ImportedPluginModule;
   try {
-    pluginModule = importFresh(themeName) as (
-      context: LoadContext,
-    ) => Plugin<unknown>;
+    pluginModule = importFresh(themeName);
   } catch {
     let suggestion;
     themeNames.forEach((name) => {
@@ -170,10 +173,7 @@ export default async function swizzle(
     process.exit(1);
   }
 
-  const plugin = pluginModule.default ?? pluginModule;
-  const validateOptions =
-    pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
-  let pluginOptions;
+  let pluginOptions = {};
   const resolvedThemeName = require.resolve(themeName);
   // find the plugin from list of plugin and get options if specified
   pluginConfigs.forEach((pluginConfig) => {
@@ -188,6 +188,9 @@ export default async function swizzle(
     }
   });
 
+  // support both commonjs and ES style exports
+  const validateOptions =
+    pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
   if (validateOptions) {
     pluginOptions = validateOptions({
       validate: normalizePluginOptions,
@@ -195,6 +198,8 @@ export default async function swizzle(
     });
   }
 
+  // support both commonjs and ES style exports
+  const plugin = pluginModule.default ?? pluginModule;
   const pluginInstance = plugin(context, pluginOptions);
   const themePath = typescript
     ? pluginInstance.getTypeScriptThemePath?.()

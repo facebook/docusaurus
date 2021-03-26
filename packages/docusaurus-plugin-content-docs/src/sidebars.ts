@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import flatMap from 'lodash.flatmap';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {
@@ -18,7 +17,7 @@ import {
   SidebarItemCategory,
   SidebarItemType,
 } from './types';
-import {mapValues, flatten, difference} from 'lodash';
+import {mapValues, flatten, flatMap, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
@@ -77,9 +76,9 @@ function normalizeCategoryShorthand(
  * Check that item contains only allowed keys.
  */
 function assertItem<K extends string>(
-  item: any,
+  item: Record<string, unknown>,
   keys: K[],
-): asserts item is Record<K, any> {
+): asserts item is Record<K, never> {
   const unknownKeys = Object.keys(item).filter(
     // @ts-expect-error: key is always string
     (key) => !keys.includes(key as string) && key !== 'type',
@@ -95,7 +94,7 @@ function assertItem<K extends string>(
 }
 
 function assertIsCategory(
-  item: unknown,
+  item: Record<string, unknown>,
 ): asserts item is SidebarItemCategoryJSON {
   assertItem(item, ['items', 'label', 'collapsed', 'customProps']);
   if (typeof item.label !== 'string') {
@@ -116,7 +115,9 @@ function assertIsCategory(
   }
 }
 
-function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
+function assertIsDoc(
+  item: Record<string, unknown>,
+): asserts item is SidebarItemDoc {
   assertItem(item, ['id', 'customProps']);
   if (typeof item.id !== 'string') {
     throw new Error(
@@ -125,7 +126,9 @@ function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
   }
 }
 
-function assertIsLink(item: unknown): asserts item is SidebarItemLink {
+function assertIsLink(
+  item: Record<string, unknown>,
+): asserts item is SidebarItemLink {
   assertItem(item, ['href', 'label', 'customProps']);
   if (typeof item.href !== 'string') {
     throw new Error(
@@ -269,9 +272,7 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(
-  sidebars: Sidebars,
-): Record<string, Function> {
+export function createSidebarsUtils(sidebars: Sidebars) {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {

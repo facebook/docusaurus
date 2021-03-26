@@ -66,23 +66,23 @@ async function readLastUpdateData(
 export async function readDocFile(
   versionMetadata: Pick<
     VersionMetadata,
-    'docsDirPath' | 'docsDirPathLocalized'
+    'contentPath' | 'contentPathLocalized'
   >,
   source: string,
   options: LastUpdateOptions,
 ): Promise<DocFile> {
-  const docsDirPath = await getFolderContainingFile(
+  const contentPath = await getFolderContainingFile(
     getDocsDirPaths(versionMetadata),
     source,
   );
 
-  const filePath = path.join(docsDirPath, source);
+  const filePath = path.join(contentPath, source);
 
   const [content, lastUpdate] = await Promise.all([
     fs.readFile(filePath, 'utf-8'),
     readLastUpdateData(filePath, options),
   ]);
-  return {source, content, lastUpdate, docsDirPath, filePath};
+  return {source, content, lastUpdate, contentPath, filePath};
 }
 
 export async function readVersionDocs(
@@ -93,7 +93,7 @@ export async function readVersionDocs(
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
-    cwd: versionMetadata.docsDirPath,
+    cwd: versionMetadata.contentPath,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source, options)),
@@ -111,16 +111,19 @@ export function processDocMetadata({
   context: LoadContext;
   options: MetadataOptions;
 }): DocMetadataBase {
-  const {source, content, lastUpdate, docsDirPath, filePath} = docFile;
+  const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {homePageId} = options;
-  const {siteDir} = context;
+  const {siteDir, i18n} = context;
 
   // ex: api/myDoc -> api
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const {frontMatter = {}, excerpt} = parseMarkdownString(content);
-  const {sidebar_label, custom_edit_url} = frontMatter;
+  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
+  const {
+    sidebar_label: sidebarLabel,
+    custom_edit_url: customEditURL,
+  } = frontMatter;
 
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
@@ -169,20 +172,20 @@ export function processDocMetadata({
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 
   function getDocEditUrl() {
-    const relativeFilePath = path.relative(docsDirPath, filePath);
+    const relativeFilePath = path.relative(contentPath, filePath);
 
     if (typeof options.editUrl === 'function') {
       return options.editUrl({
         version: versionMetadata.versionName,
         versionDocsDirPath: posixPath(
-          path.relative(siteDir, versionMetadata.docsDirPath),
+          path.relative(siteDir, versionMetadata.contentPath),
         ),
         docPath: posixPath(relativeFilePath),
         permalink,
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
-      const isLocalized = docsDirPath === versionMetadata.docsDirPathLocalized;
+      const isLocalized = contentPath === versionMetadata.contentPathLocalized;
       const baseVersionEditUrl =
         isLocalized && options.editLocalizedFiles
           ? versionMetadata.versionEditUrlLocalized
@@ -206,10 +209,15 @@ export function processDocMetadata({
     source: aliasedSitePath(filePath, siteDir),
     slug: docSlug,
     permalink,
-    editUrl: custom_edit_url !== undefined ? custom_edit_url : getDocEditUrl(),
+    editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
-    sidebar_label,
+    formattedLastUpdatedAt: lastUpdate.lastUpdatedAt
+      ? new Intl.DateTimeFormat(i18n.currentLocale).format(
+          lastUpdate.lastUpdatedAt * 1000,
+        )
+      : undefined,
+    sidebar_label: sidebarLabel,
   };
 }

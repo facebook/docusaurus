@@ -7,78 +7,64 @@ slug: /i18n/introduction
 
 It is **easy to translate a Docusaurus website** with its internationalization ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) support.
 
-:::caution
-
-i18n is a new feature (released early 2021), please report any bug you find.
-
-:::
-
-## Goals
+## Goals {#goals}
 
 It is important to understand the **design decisions** behind the Docusaurus i18n support.
 
 For more context, you can read the initial [RFC](https://github.com/facebook/docusaurus/issues/3317) and [PR](https://github.com/facebook/docusaurus/pull/3325).
 
-### i18n goals
+### i18n goals {#i18n-goals}
 
 The goals of the Docusaurus i18n system are:
 
-- **Simple**: just put the translated files in the correct file-system location.
-- **Flexible translation workflows**: based on Git (monorepo, forks or submodules), SaaS software, FTP...
-- **Flexible deployment options**: single or multiple domains.
-- **Modular**: allow plugin author to provide i18n support.
-- **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills.
-- **Acceptable build-times**: allow building and deploying localized sites independently.
-- **Localize assets**: an image of your site might contain text that should be translated.
-- **No coupling**: not forced to use any SaaS, yet the integration is possible.
-- **Easy to use with [Crowdin](http://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2.
-- **Good SEO defaults**: setting useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you.
-- **RTL support**: locales reading right-to-left (Arabic, Hebrew...) should be easy to use.
-- **Default translations**: theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations).
+- **Simple**: just put the translated files in the correct filesystem location
+- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP
+- **Flexible deployment options**: single, multiple domains, or hybrid
+- **Modular**: allow plugin authors to provide i18n support
+- **Low-overhead runtime**: documentation is mostly static and does not require a heavy JS library or polyfills
+- **Scalable build-times**: allow building and deploying localized sites independently
+- **Localize assets**: an image of your site might contain text that should be translated
+- **No coupling**: not forced to use any SaaS, yet integrations are possible
+- **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2
+- **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)
 
-### i18n goals (TODO)
-
-Features that are **not yet implemented**:
-
-- **Contextual translations**: reduce friction to contribute to the translation effort.
-- **Anchor links**: linking should not break when you localize headings.
-- **Advanced configuration options**: customize route paths, file-system paths.
-
-### i18n non-goals
+### i18n non-goals {#i18n-non-goals}
 
 We don't provide support for:
 
-- **Automatic locale detection**: opinionated, and best done on the [server](../deployment.mdx).
-- **Translation SaaS software**: you are responsible to understand the external tools of your choice.
-- **Translation of slugs**: technically complicated, little SEO value.
+- **Automatic locale detection**: opinionated, and best done on the [server](../deployment.mdx)
+- **Translation SaaS software**: you are responsible to understand the external tools of your choice
+- **Translation of slugs**: technically complicated, little SEO value
 
-## Translation workflow
+## Translation workflow {#translation-workflow}
 
-### Overview
+### Overview {#overview}
 
 Overview of the workflow to create a translated Docusaurus website:
 
-- **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`.
-- **Translate**: put the translation files at the correct file-system location.
-- **Deploy**: build and deploy your site using a single or multi-domain strategy.
+1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
+1. **Translate**: put the translation files at the correct filesystem location
+1. **Deploy**: build and deploy your site using a single or multi-domain strategy
 
-### Translation files
+### Translation files {#translation-files}
 
 You will have to work with 2 kind of translation files.
 
-#### Markdown files
+#### Markdown files {#markdown-files}
 
 This is the main content of your Docusaurus website.
 
 Markdown and MDX documents are translated as a whole, to fully preserve the translation context, instead of splitting each sentence as a separate string.
 
-#### JSON files
+#### JSON files {#json-files}
 
 JSON is used to translate:
 
 - your React code: using the `<Translate>` component
-- your theme: the navbar, footer...
-- your plugins: the docs sidebar category labels...
+- your theme: the navbar, footer
+- your plugins: the docs sidebar category labels
 
 The JSON format used is called **Chrome i18n**:
 
@@ -97,12 +83,12 @@ The JSON format used is called **Chrome i18n**:
 
 The choice was made for 2 reasons:
 
-- **Description attribute**: to help translators with additional context.
-- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)...
+- **Description attribute**: to help translators with additional context
+- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
-The translation files should be created at the correct file-system location.
+The translation files should be created at the correct filesystem location.
 
 Each locale and plugin has its own `i18n` subfolder:
 
@@ -139,7 +125,7 @@ website/i18n
 
 The JSON files are initialized with the [`docusaurus write-translations`](../cli.md#docusaurus-write-translations) CLI command.
 
-The `code.json` file is extracted from React components using the `<Translate>` api.
+The `code.json` file is extracted from React components using the `<Translate>` API.
 
 :::info
 

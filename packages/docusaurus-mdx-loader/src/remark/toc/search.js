@@ -9,7 +9,9 @@
 
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
-const {toValue} = require('../utils');
+// Destructuring require tslib
+// eslint-disable-next-line prefer-destructuring
+const toValue = require('../utils').toValue;
 
 /** @typedef {import('@docusaurus/types').TOCItem} TOC */
 /** @typedef {import('unist').Node} Node */

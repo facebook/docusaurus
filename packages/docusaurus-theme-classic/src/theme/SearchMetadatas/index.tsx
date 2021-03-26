@@ -8,12 +8,7 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-
-type SearchTagMetaProps = {
-  locale?: string;
-  version?: string;
-  tag?: string;
-};
+import type {Props} from '@theme/SearchMetadatas';
 
 // Note: we don't couple this to Algolia/DocSearch on purpose
 // We may want to support other search engine plugins too
@@ -22,7 +17,7 @@ export default function SearchMetadatas({
   locale,
   version,
   tag,
-}: SearchTagMetaProps): JSX.Element {
+}: Props): JSX.Element {
   return (
     <Head>
       {locale && <meta name="docusaurus_locale" content={`${locale}`} />}

@@ -552,7 +552,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
 });
 
 describe('applyDefaultCodeTranslations', () => {
-  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation() as any;
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
   beforeEach(() => {
     consoleSpy.mockClear();
   });

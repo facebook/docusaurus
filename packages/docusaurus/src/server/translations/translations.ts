@@ -14,7 +14,7 @@ import {
   TranslationMessage,
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
-import * as Joi from 'joi';
+import {Joi} from '@docusaurus/utils-validation';
 import chalk from 'chalk';
 
 export type WriteTranslationsOptions = {

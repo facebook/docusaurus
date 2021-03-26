@@ -13,7 +13,8 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    max-height: 100vh;
+    height: 100%;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);

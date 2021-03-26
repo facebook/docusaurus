@@ -42,7 +42,6 @@ import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
@@ -54,7 +53,7 @@ import {
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent, typeof OptionsSchema> {
+): Plugin<LoadedContent> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
@@ -145,7 +144,7 @@ export default function pluginContentDocs(
               versionMetadata.versionName
             } has no docs! At least one doc should exist at path=[${path.relative(
               siteDir,
-              versionMetadata.docsDirPath,
+              versionMetadata.contentPath,
             )}]`,
           );
         }
@@ -337,7 +336,7 @@ export default function pluginContentDocs(
             return;
           }
           reportMessage(
-            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
+            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
             siteConfig.onBrokenMarkdownLinks,
           );
         },

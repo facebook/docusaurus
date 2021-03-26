@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Props} from '@theme/IconLanguage';
+import type {Props} from '@theme/IconLanguage';
 
 const IconLanguage = ({
   width = 20,

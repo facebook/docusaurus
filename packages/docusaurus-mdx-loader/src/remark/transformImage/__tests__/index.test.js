@@ -10,13 +10,13 @@ import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '../index';
-import slug from '../../slug/index';
+import headings from '../../headings/index';
 
 const processFixture = async (name, options) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
-    .use(slug)
+    .use(headings)
     .use(mdx)
     .use(plugin, {...options, filePath: path})
     .process(file);

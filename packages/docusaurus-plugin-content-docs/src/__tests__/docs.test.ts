@@ -45,7 +45,7 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
-    docsDirPath: 'docs',
+    contentPath: 'docs',
     filePath: source,
   };
 };
@@ -93,7 +93,7 @@ function createTestUtils({
       editUrl: undefined,
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
+        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
         posixPath(docFileSource),
       ),
       ...expectedMetadata,
@@ -160,6 +160,7 @@ describe('simple site', () => {
         'rootRelativeSlug.md',
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
+        'headingAsTitle.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -352,6 +353,7 @@ describe('simple site', () => {
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
+      formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
     });
   });

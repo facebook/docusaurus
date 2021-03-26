@@ -18,6 +18,7 @@ const BrowserOnlyReactJson = (props) => {
   return (
     <BrowserOnly>
       {() => {
+        // eslint-disable-next-line global-require
         const ReactJson = require('react-json-view').default;
         return <ReactJson {...props} />;
       }}
