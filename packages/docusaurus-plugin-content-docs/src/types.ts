@@ -147,7 +147,7 @@ export type DocMetadataBase = LastUpdateData & {
   // eslint-disable-next-line camelcase
   sidebar_label?: string;
   editUrl?: string | null;
-  frontMatter?: FrontMatter;
+  frontMatter: FrontMatter;
 };
 
 export type DocNavLink = {
