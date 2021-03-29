@@ -23,7 +23,6 @@ export default function createClientConfig(
   const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false, minify);
 
-  // @ts-ignore
   const clientConfig = merge(config, {
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
@@ -65,5 +64,5 @@ export default function createClientConfig(
     });
   }
 
-  return clientConfig as Configuration;
+  return clientConfig;
 }

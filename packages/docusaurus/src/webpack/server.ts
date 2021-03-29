@@ -42,7 +42,6 @@ export default function createServerConfig({
     routesLocation[ssgPath] = str;
     return ssgPath;
   });
-  // @ts-ignore
   const serverConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
@@ -84,6 +83,5 @@ export default function createServerConfig({
       }),
     ],
   });
-  // todo webpack merge update
-  return serverConfig as Configuration;
+  return serverConfig;
 }
