@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-nocheck
+// TODO temporary until Webpack5 export this type
+// see https://github.com/webpack/webpack/issues/11630
+interface Loader extends Function {
+  (this: any, source: string): string | Buffer | void | undefined;
+}
 
-const markdownLoader = function (fileString) {
+const markdownLoader: Loader = function (fileString) {
   const callback = this.async();
 
   // const options = this.getOptions();
