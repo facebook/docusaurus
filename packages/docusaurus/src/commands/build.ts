@@ -133,12 +133,9 @@ async function buildLocale({
     generatedFilesDir,
     'client-manifest.json',
   );
-  // @ts-ignore
   let clientConfig: Configuration = merge(
-    // @ts-ignore
     createClientConfig(props, cliOptions.minify),
     {
-      // @ts-ignore
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
@@ -148,7 +145,7 @@ async function buildLocale({
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(Boolean) as Plugin[],
+      ].filter(Boolean),
     },
   );
 
@@ -162,8 +159,7 @@ async function buildLocale({
   });
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
-  if (fs.existsSync(staticDir)) {
-    // @ts-ignore
+  if (await fs.pathExists(staticDir)) {
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
@@ -203,8 +199,8 @@ async function buildLocale({
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
   // the one from previous builds.
-  if (fs.existsSync(clientManifestPath)) {
-    fs.unlinkSync(clientManifestPath);
+  if (await fs.pathExists(clientManifestPath)) {
+    await fs.unlink(clientManifestPath);
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
@@ -217,11 +213,9 @@ async function buildLocale({
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then((exist) => {
-      if (exist) {
-        fs.unlink(serverBundle);
-      }
-    });
+    if (await fs.pathExists(serverBundle)) {
+      await fs.unlink(serverBundle);
+    }
   }
 
   // Plugin Lifecycle - postBuild.
