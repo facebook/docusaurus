@@ -118,7 +118,6 @@ export default async function start(
     fsWatcher.on(event, reload),
   );
 
-  // @ts-ignore
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
@@ -138,7 +137,7 @@ export default async function start(
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),
     ],
-  }) as webpack.Configuration;
+  });
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
@@ -192,14 +191,10 @@ export default async function start(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
         );
-
         // This lets us fetch source contents from webpack for the error overlay.
         app.use(evalSourceMapMiddleware(server));
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
-
-        // todo(RDIL): Reevaluate this todo
-        // TODO: add plugins beforeDevServer and afterDevServer hook
       },
     },
   };
@@ -214,7 +209,7 @@ export default async function start(
       process.exit(0);
     });
   }
-  // @ts-ignore
+
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {
