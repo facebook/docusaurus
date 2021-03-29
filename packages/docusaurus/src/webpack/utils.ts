@@ -229,20 +229,21 @@ export function compile(config: Configuration[]): Promise<void> {
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
-interface Rules {
-  images: () => RuleSetRule;
-  media: () => RuleSetRule;
-  fonts: () => RuleSetRule;
-  svg: () => RuleSetRule;
-  otherAssets: () => RuleSetRule;
-  file: (options: {folder: AssetFolder}) => RuleSetRule;
-  url: (options: {folder: AssetFolder}) => RuleSetRule;
-}
-
-interface FileLoaderUtils {
-  loaders: RuleSetRule[];
-  rules: Rules;
-}
+type FileLoaderUtils = {
+  loaders: {
+    file: (options: {folder: AssetFolder}) => RuleSetRule;
+    url: (options: {folder: AssetFolder}) => RuleSetRule;
+    inlineMarkdownImageFileLoader: string;
+    inlineMarkdownLinkFileLoader: string;
+  };
+  rules: {
+    images: () => RuleSetRule;
+    fonts: () => RuleSetRule;
+    media: () => RuleSetRule;
+    svg: () => RuleSetRule;
+    otherAssets: () => RuleSetRule;
+  };
+};
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
@@ -253,14 +254,14 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   const fileLoaderFileName = (folder: AssetFolder) =>
     `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
-  const loaders = {
+  const loaders: FileLoaderUtils['loaders'] = {
     file: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
           name: fileLoaderFileName(options.folder),
         },
-      } as RuleSetRule;
+      };
     },
     url: (options: {folder: AssetFolder}) => {
       return {
@@ -270,7 +271,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
           name: fileLoaderFileName(options.folder),
           fallback: require.resolve(`file-loader`),
         },
-      } as RuleSetRule;
+      };
     },
 
     // TODO find a better solution to avoid conflicts with the ideal-image plugin
@@ -286,19 +287,19 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     )}!`,
   };
 
-  const rules = {
+  const rules: FileLoaderUtils['rules'] = {
     /**
      * Loads image assets, inlines images via a data URI if they are below
      * the size threshold
      */
-    images: (): RuleSetRule => {
+    images: () => {
       return {
         use: [loaders.url({folder: 'images'})],
         test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
       };
     },
 
-    fonts: (): RuleSetRule => {
+    fonts: () => {
       return {
         use: [loaders.url({folder: 'fonts'})],
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -309,14 +310,14 @@ export function getFileLoaderUtils(): FileLoaderUtils {
      * Loads audio and video and inlines them via a data URI if they are below
      * the size threshold
      */
-    media: (): RuleSetRule => {
+    media: () => {
       return {
         use: [loaders.url({folder: 'medias'})],
         test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
       };
     },
 
-    svg: (): RuleSetRule => {
+    svg: () => {
       return {
         test: /\.svg?$/,
         oneOf: [
@@ -348,7 +349,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       };
     },
 
-    otherAssets: (): RuleSetRule => {
+    otherAssets: () => {
       return {
         use: [loaders.file({folder: 'files'})],
         test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
@@ -356,7 +357,6 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     },
   };
 
-  // @ts-expect-error @types/webpack strikes again
   return {loaders, rules};
 }
 
