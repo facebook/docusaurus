@@ -374,16 +374,13 @@ export default function pluginContentDocs(
         };
       }
 
-      // Suppress warnings about non-existing of versions file.
-      const stats = {
-        warningsFilter: [VERSIONS_JSON_FILE],
-      };
-
       return {
-        stats,
-        devServer: {
-          stats,
-        },
+        ignoreWarnings: [
+          // Suppress warnings about non-existing of versions file.
+          (e) =>
+            e.message.includes("Can't resolve") &&
+            e.message.includes(VERSIONS_JSON_FILE),
+        ],
         resolve: {
           alias: {
             '~docs': pluginDataDirRoot,
