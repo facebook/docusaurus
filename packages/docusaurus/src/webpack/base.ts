@@ -147,7 +147,6 @@ export function createBaseConfig(
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: minimizeEnabled,
-      // @ts-expect-error webpack type conflicts
       minimizer: minimizeEnabled
         ? getMinimizer(useSimpleCssMinifier)
         : undefined,

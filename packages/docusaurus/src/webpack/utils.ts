@@ -7,7 +7,11 @@
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
-import webpack, {Configuration, RuleSetRule} from 'webpack';
+import webpack, {
+  Configuration,
+  RuleSetRule,
+  WebpackPluginInstance,
+} from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -428,7 +432,9 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
+export function getMinimizer(
+  useSimpleCssMinifier = false,
+): WebpackPluginInstance[] {
   const minimizer = [
     new TerserPlugin({
       parallel: getTerserParallel(),
