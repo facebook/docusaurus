@@ -405,7 +405,6 @@ type Props = {
   postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
-  stats: Stats.ToJsonOutput;
 };
 ```
 
@@ -415,13 +414,11 @@ Example:
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
-    async postBuild({siteConfig = {}, routesPaths = [], outDir, stats}) {
+    async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
       // Print out to console all the rendered routes.
       routesPaths.map((route) => {
         console.log(route);
       });
-      // Print out to console all the webpack stats.
-      console.log(stats);
     },
   };
 };
