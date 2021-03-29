@@ -5,13 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-nocheck
-
 import {truncate, linkify} from './blogUtils';
 import {parseQuery} from 'loader-utils';
 import {BlogMarkdownLoaderOptions} from './types';
 
-const markdownLoader = function (source) {
+// TODO temporary until Webpack5 export this type
+// see https://github.com/webpack/webpack/issues/11630
+interface Loader extends Function {
+  (this: any, source: string): string | Buffer | void | undefined;
+}
+
+const markdownLoader: Loader = function (source) {
   const filePath = this.resourcePath;
   const fileString = source as string;
   const callback = this.async();
@@ -25,8 +29,8 @@ const markdownLoader = function (source) {
   });
 
   // Truncate content if requested (e.g: file.md?truncated=true).
-  const truncated: string | undefined = this.resourceQuery
-    ? parseQuery(this.resourceQuery).truncated
+  const truncated: boolean | undefined = this.resourceQuery
+    ? !!parseQuery(this.resourceQuery).truncated
     : undefined;
 
   if (truncated) {
