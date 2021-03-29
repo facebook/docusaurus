@@ -188,8 +188,7 @@ export function applyConfigurePostCss(
     }
   }
 
-  // @ts-expect-error @types/webpack strikes again
-  config.module?.rules.forEach(overridePostCssOptions);
+  config.module?.rules?.forEach(overridePostCssOptions);
 
   return config;
 }
