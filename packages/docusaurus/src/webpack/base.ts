@@ -109,6 +109,7 @@ export function createBaseConfig(
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
+      unsafeCache: false, // not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
       roots: [
