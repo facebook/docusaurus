@@ -2,8 +2,8 @@
 # Note: this file's config overrides the Netlify UI admin config
 
 [build]
-  command = "yarn --cwd .. build && yarn build"
-  publish = "build"
+  command = "yarn --cwd .. build:packages && yarn build"
+  publish = "website/build"
 
 [build.environment]
   NETLIFY_USE_YARN = "true"
@@ -11,10 +11,10 @@
   NODE_VERSION = "14"
 
 [context.production]
-  command = "yarn --cwd .. build && yarn netlify:build:production"
+  command = "yarn --cwd .. build:packages && yarn netlify:build:production"
 
 [context.deploy-preview]
-  command = "yarn --cwd .. build && yarn netlify:build:deployPreview"
+  command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
 
 [[plugins]]
