@@ -319,7 +319,7 @@ export default function pluginContentDocs(
     },
 
     configureWebpack(_config, isServer, utils) {
-      const {getBabelLoader} = utils;
+      const {getJSLoader} = utils;
       const {
         rehypePlugins,
         remarkPlugins,
@@ -349,7 +349,7 @@ export default function pluginContentDocs(
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
           use: compact([
-            getBabelLoader(isServer),
+            getJSLoader({isServer}),
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: {

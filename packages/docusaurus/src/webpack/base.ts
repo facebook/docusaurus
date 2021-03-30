@@ -11,7 +11,7 @@ import path from 'path';
 import {Configuration, RuleSetRule} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
-  getBabelLoader,
+  getJSLoader,
   getStyleLoaders,
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
@@ -188,7 +188,10 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
+            getJSLoader({
+              isServer,
+              babelOptions: getCustomBabelConfigFilePath(siteDir),
+            }),
           ].filter(Boolean) as RuleSetRule[],
         },
         {

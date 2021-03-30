@@ -24,6 +24,7 @@ import {
   ConfigureWebpackFn,
   ConfigurePostCssFn,
   PostCssOptions,
+  ConfigureWebpackUtils,
 } from '@docusaurus/types';
 import {
   BABEL_CONFIG_FILE_NAME,
@@ -31,6 +32,7 @@ import {
 } from '../constants';
 import cssnano from 'cssnano';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
+import {memoize} from 'lodash';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -120,14 +122,48 @@ export function getBabelOptions({
   }
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): RuleSetRule {
+// Name is generic on purpose
+// we want to support multiple js loader implementations (babel + esbuild)
+export function getJSLoader({
+  isServer,
+  babelOptions,
+}: {
+  isServer: boolean;
+  babelOptions?: TransformOptions | string;
+}): RuleSetRule {
   return {
     loader: require.resolve('babel-loader'),
     options: getBabelOptions({isServer, babelOptions}),
   };
+}
+
+// TODO remove this before end of 2021?
+const warnBabelLoaderOnce = memoize(function () {
+  console.warn(
+    chalk.yellow(
+      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): getBabelLoader(isServer) is now deprecated in favor of getJSLoader({isServer})',
+    ),
+  );
+});
+const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+) {
+  warnBabelLoaderOnce();
+  return getJSLoader({isServer, babelOptions});
+};
+
+// TODO remove this before end of 2021 ?
+const warnCacheLoaderOnce = memoize(function () {
+  console.warn(
+    chalk.yellow(
+      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated',
+    ),
+  );
+});
+function getCacheLoaderDeprecated() {
+  warnCacheLoaderOnce();
+  return undefined;
 }
 
 /**
@@ -143,17 +179,15 @@ export function applyConfigureWebpack(
   isServer: boolean,
 ): Configuration {
   // Export some utility functions
-  const utils = {
+  const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
-    getBabelLoader,
+    getJSLoader,
+    getBabelLoader: getBabelLoaderDeprecated,
+    getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    // todo Updating webpack-merge would be breaking, so we just
-    // todo use aggressive persuasion.
-    // @ts-ignore
     const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
-      // @ts-ignore
       return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }

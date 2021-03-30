@@ -325,13 +325,21 @@ export interface ConfigureWebpackUtils {
       [key: string]: unknown;
     },
   ) => Loader[];
+  getJSLoader: (options: {
+    isServer: boolean;
+    babelOptions?: Record<string, unknown>;
+  }) => Loader;
+
+  // TODO deprecated: remove before end of 2021?
   getCacheLoader: (
     isServer: boolean,
     cacheOptions?: Record<string, unknown>,
   ) => Loader | null;
+
+  // TODO deprecated: remove before end of 2021?
   getBabelLoader: (
     isServer: boolean,
-    babelOptions?: Record<string, unknown>,
+    options?: Record<string, unknown>,
   ) => Loader;
 }
 
