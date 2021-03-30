@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration, RuleSetRule} from 'webpack';
+import {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getJSLoader,
@@ -192,7 +192,7 @@ export function createBaseConfig(
               isServer,
               babelOptions: getCustomBabelConfigFilePath(siteDir),
             }),
-          ].filter(Boolean) as RuleSetRule[],
+          ],
         },
         {
           test: CSS_REGEX,
