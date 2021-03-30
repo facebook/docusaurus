@@ -7,6 +7,7 @@
 
 [build.environment]
   NETLIFY_USE_YARN = "true"
+  NODE_VERSION = "14"
 
 [context.production]
   command = "yarn netlify:build:production"
