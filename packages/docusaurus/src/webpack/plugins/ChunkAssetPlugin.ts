@@ -36,9 +36,7 @@ class ChunkAssetPlugin {
           //
           // Note: __webpack_require__.gca() is called in docusaurus.ts for prefetching
           // Note: we previously used jsonpScriptSrc (Webpack 4)
-          `${
-            mainTemplate.requireFn
-          }.gca = function(chunkId) { chunkId = ${JSON.stringify(
+          `__webpack_require__.gca = function(chunkId) { chunkId = ${JSON.stringify(
             chunkNameToId,
           )}[chunkId]||chunkId; return __webpack_require__.p + __webpack_require__.u(chunkId); };`,
         );
