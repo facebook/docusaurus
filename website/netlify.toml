@@ -1,6 +1,9 @@
 
 # Note: this file's config overrides the Netlify UI admin config
 
+# /!\ due to using a monorepo it can be a bit messy to configure Netlify
+# See also https://github.com/netlify/build/issues/2483
+
 [build]
   command = "yarn --cwd .. build:packages && yarn build"
   publish = "website/build"
