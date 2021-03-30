@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
@@ -31,22 +31,27 @@ const TAGS = [
   'personal',
   'rtl',
 ];
-let selectedTags = [];
 let filteredUsers = users;
 
-const clickTag = (tag) => {
-  const tagIndex = selectedTags.findIndex((selectedTag) => {
-    return selectedTag === tag;
-  });
-  if (tagIndex === -1) {
-    selectedTags.push(tag);
-  } else {
-    selectedTags.splice(tagIndex, 1);
-  }
-  filteredUsers = users.filter((user) => user.tags.includes(selectedTags));
-};
-
 function Showcase() {
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const clickTag = (tag) => {
+    const tagIndex = selectedTags.findIndex((selectedTag) => {
+      return selectedTag === tag;
+    });
+    let selectedTagsUpdate = [...selectedTags];
+    if (tagIndex === -1) {
+      selectedTagsUpdate.push(tag);
+    } else {
+      selectedTagsUpdate.splice(tagIndex, 1);
+    }
+    setSelectedTags(selectedTagsUpdate);
+    filteredUsers = users.filter((user) => {
+      user.tags.includes(selectedTags);
+    });
+  };
+
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
       <main className="container margin-vert--lg">
