@@ -16,12 +16,9 @@
 [context.deploy-preview]
   command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
-
 [[plugins]]
 package = "netlify-plugin-cache"
   [plugins.inputs]
   paths = [
-    # /!\ It seems path must be relative to monorepo root (not base dir or netlify.toml)
-    # See https://github.com/netlify/build/issues/2483
     "node_modules/.cache/webpack",
   ]
