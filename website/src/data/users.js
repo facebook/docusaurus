@@ -769,6 +769,15 @@ const users = [
     tags: [],
   },
   {
+    title: 'Tuist',
+    description:
+      'A tool to maintain and interact with Xcode projects at scale',
+    preview: require('./showcase/tuist.png'),
+    website: 'https://docs.tuist.io/',
+    source: 'https://github.com/tuist/tuist',
+    tags: [],
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
