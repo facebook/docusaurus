@@ -232,15 +232,21 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
+        console.error(err.stack || err);
+        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
+        if (err.details) {
+          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
+          console.error(err.details);
+        }
         reject(err);
       }
       // let plugins consume all the stats
-      const allStats = stats?.toJson('errors-warnings');
+      const errorsWarnings = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
         reject(new Error('Failed to compile with errors.'));
       }
-      if (allStats && stats?.hasWarnings()) {
-        allStats.warnings?.forEach((warning) => {
+      if (errorsWarnings && stats?.hasWarnings()) {
+        errorsWarnings.warnings?.forEach((warning) => {
           console.warn(warning);
         });
       }
