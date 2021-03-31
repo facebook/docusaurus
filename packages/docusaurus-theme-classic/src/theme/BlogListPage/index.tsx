@@ -13,7 +13,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
 import BlogSidebar from '@theme/BlogSidebar';
-import {ThemeClassnames} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogListPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
@@ -28,7 +28,7 @@ function BlogListPage(props: Props): JSX.Element {
       title={title}
       description={blogDescription}
       wrapperClassName="blog-wrapper"
-      pageClassName={ThemeClassnames.page.blogListPage}
+      pageClassName={ThemeClassNames.page.blogListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',

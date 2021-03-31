@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const ThemeClassnames = {
+export const ThemeClassNames = {
   page: {
     blogListPage: 'blog-list-page',
     blogPostPage: 'blog-post-page',

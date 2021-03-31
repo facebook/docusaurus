@@ -13,7 +13,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
-import {ThemeClassnames, usePluralForm} from '@docusaurus/theme-common';
+import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -60,7 +60,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
       title={`Posts tagged "${tagName}"`}
       description={`Blog | Tagged "${tagName}"`}
       wrapperClassName="blog-wrapper"
-      pageClassName={ThemeClassnames.page.blogTagsPostPage}
+      pageClassName={ThemeClassNames.page.blogTagsPostPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',

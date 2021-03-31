@@ -12,7 +12,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsListPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate from '@docusaurus/Translate';
-import {ThemeClassnames} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
@@ -56,7 +56,7 @@ function BlogTagsListPage(props: Props): JSX.Element {
       title="Tags"
       description="Blog Tags"
       wrapperClassName="blog-wrapper"
-      pageClassName={ThemeClassnames.page.blogTagsListPage}
+      pageClassName={ThemeClassNames.page.blogTagsListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_list',

@@ -13,7 +13,7 @@ import type {Props} from '@theme/BlogPostPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
-import {ThemeClassnames} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
@@ -26,7 +26,7 @@ function BlogPostPage(props: Props): JSX.Element {
       title={title}
       description={description}
       wrapperClassName="blog-wrapper"
-      pageClassName={ThemeClassnames.page.blogPostPage}>
+      pageClassName={ThemeClassNames.page.blogPostPage}>
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
