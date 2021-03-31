@@ -170,7 +170,7 @@ export function createBaseConfig(
               // See https://github.com/facebook/docusaurus/issues/2006
               styles: {
                 name: 'styles',
-                test: /\.css$/,
+                type: 'css/mini-extract',
                 chunks: `all`,
                 enforce: true,
                 priority: 50,
