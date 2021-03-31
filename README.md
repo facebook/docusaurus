@@ -23,8 +23,6 @@
 
 > Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
 
-> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
-
 ## Introduction
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.

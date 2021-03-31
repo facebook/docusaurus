@@ -182,6 +182,11 @@ describe('simple site', () => {
       slug: '/foo/bar',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
@@ -192,6 +197,10 @@ describe('simple site', () => {
       slug: '/hello',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+      },
     });
   });
 
@@ -216,6 +225,10 @@ describe('simple site', () => {
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+      },
     });
   });
 
@@ -240,6 +253,11 @@ describe('simple site', () => {
       slug: '/',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
   });
 
@@ -268,6 +286,11 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+      },
     });
   });
 
@@ -284,6 +307,10 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
     });
   });
 
@@ -315,6 +342,11 @@ describe('simple site', () => {
       title: 'baz',
       editUrl: hardcodedEditUrl,
       description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+      },
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -352,6 +384,10 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
@@ -518,6 +554,7 @@ describe('versioned site', () => {
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
+      frontMatter: {slug: 'barSlug'},
       version: 'current',
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
@@ -528,6 +565,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello next !',
+      frontMatter: {},
       version: 'current',
     });
   });
@@ -543,6 +581,7 @@ describe('versioned site', () => {
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'Bar 1.0.0 !',
+      frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
@@ -553,6 +592,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -566,6 +606,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -576,6 +617,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
   });
 
@@ -664,6 +706,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -703,6 +746,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -734,6 +778,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -766,6 +811,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -799,6 +845,7 @@ describe('versioned site', () => {
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',

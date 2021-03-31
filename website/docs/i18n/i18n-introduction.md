@@ -1,7 +1,6 @@
 ---
 id: introduction
 title: i18n - Introduction
-sidebar_label: Introduction
 slug: /i18n/introduction
 ---
 

@@ -361,14 +361,7 @@ By default, `postcssOptions` looks like this:
 ```js
 const postcssOptions = {
   ident: 'postcss',
-  plugins: [
-    require('postcss-preset-env')({
-      autoprefixer: {
-        flexbox: 'no-2009',
-      },
-      stage: 4,
-    }),
-  ],
+  plugins: [require('autoprefixer')],
 };
 ```
 
