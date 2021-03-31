@@ -14,4 +14,8 @@ export const ThemeClassNames = {
     docPage: 'doc-page',
     mdxPage: 'mdx-page',
   },
+  wrapper: {
+    blogPage: 'main-docs-wrapper',
+    docPage: 'blog-wrapper',
+  },
 };
