@@ -23,7 +23,7 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {docVersionSearchTag} from '@docusaurus/theme-common';
+import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -55,6 +55,7 @@ function DocPageContent({
     <Layout
       key={isClient}
       wrapperClassName="main-docs-wrapper"
+      pageClassName={ThemeClassNames.page.docPage}
       searchMetadatas={{
         version,
         tag: docVersionSearchTag(pluginId, version),

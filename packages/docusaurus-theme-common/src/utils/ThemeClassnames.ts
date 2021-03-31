@@ -11,5 +11,7 @@ export const ThemeClassNames = {
     blogPostPage: 'blog-post-page',
     blogTagsListPage: 'blog-tags-list-page',
     blogTagsPostPage: 'blog-tags-post-page',
+    docPage: 'doc-page',
+    mdxPage: 'mdx-page',
   },
 };
