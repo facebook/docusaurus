@@ -34,6 +34,7 @@ export interface DocusaurusConfig {
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
+  githubPort?: string;
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];

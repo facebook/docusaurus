@@ -97,22 +97,23 @@ export default async function deploy(
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
+  const useSSH = process.env.USE_SSH;
+
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
-  const githubPort =
-    process.env.GITHUB_PORT || siteConfig.githubPort || (useSSH && useSSH.toLowerCase() === 'true'
-      ? '22'
-      : '433');
-  
-  const useSSH = process.env.USE_SSH;
+  const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
+
   const gitPass: string | undefined = process.env.GIT_PASS;
   let gitCredentials = `${gitUser}`;
   if (gitPass) {
     gitCredentials = `${gitCredentials}:${gitPass}`;
   }
 
-  const sshRemoteBranch: string = `git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
-  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  const githubAddress = `${githubHost}${githubPort ? ':' + githubPort : ''}`;
+  const githubPath = `${organizationName}/${projectName}`;
+
+  const sshRemoteBranch: string = `ssh://git@${githubAddress}/${githubPath}.git`;
+  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubAddress}/${githubPath}.git`;
 
   const remoteBranch =
     useSSH && useSSH.toLowerCase() === 'true'

@@ -204,6 +204,18 @@ module.exports = {
 };
 ```
 
+### `githubPort` {#githubPort}
+
+- Type: `string`
+
+The port of your server. Useful if you are using GitHub Enterprise.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  githubPort: '22',
+};
+```
+
 ### `themeConfig` {#themeconfig}
 
 - Type: `Object`
