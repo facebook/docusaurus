@@ -48,8 +48,10 @@ export function getStyleLoaders(
             loader: require.resolve('css-loader'),
             options: cssOptions,
           }
-        : {
-            loader: require.resolve('./plugins/SsrCssModulesLoader'),
+        : // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-380796867
+          // See https://github.com/facebook/docusaurus/pull/1388
+          {
+            loader: require.resolve('./plugins/NullLoader'),
           },
     ];
   }

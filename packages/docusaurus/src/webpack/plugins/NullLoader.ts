@@ -5,5 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// literally null-loader but inlined to stop deprecation warnings
+// equivalent of the deprecated null-loader
+// see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811986530
 export default (): string => '';
