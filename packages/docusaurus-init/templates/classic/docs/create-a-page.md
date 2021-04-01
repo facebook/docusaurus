@@ -24,6 +24,8 @@ function HelloWorld() {
     </Layout>
   );
 }
+
+export default HelloWorld;
 ```
 
 A new page is now available at `http://localhost:3000/my-react-page`.
