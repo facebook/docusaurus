@@ -110,7 +110,7 @@ npm run swizzle @docusaurus/theme-classic DocSidebar
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
-`npm run swizzle` without `themeName` lists all the themes available for swizzling similarly `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
 
 #### Options {#options-2}
 
