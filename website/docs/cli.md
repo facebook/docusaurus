@@ -2,6 +2,7 @@
 id: cli
 ---
 
+
 # CLI
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website.
