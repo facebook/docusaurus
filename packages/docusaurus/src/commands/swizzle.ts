@@ -123,8 +123,8 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(component)),
-    ...redComponents.map((component) => chalk.red(component)),
+    ...greenComponents.map((component) => chalk.green(`safe: ${component}`)),
+    ...redComponents.map((component) => chalk.red(`unsafe: ${component}`)),
   ];
 }
 
