@@ -1,10 +1,18 @@
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) 2015-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 /* eslint-disable */
+/*
+ * THIS FILE IS MODIFIED FOR DOCUSAURUS
+ * the above copyright header must be preserved for license compliance.
+ */
+
+/*
+Implementation based on comment: https://github.com/facebook/create-react-app/issues/9994#issuecomment-811289191
+ */
 
 function base64SourceMap(source) {
   const base64 = Buffer.from(JSON.stringify(source.map()), 'utf8').toString(
@@ -13,9 +21,9 @@ function base64SourceMap(source) {
   return `data:application/json;charset=utf-8;base64,${base64}`;
 }
 
+// modified for Docusaurus => remove webpack 5 deprecation warnings
+// See https://github.com/facebook/create-react-app/issues/9994#issuecomment-811289191
 function getSourceById(server, id) {
-  // Modified for Docusaurus: https://github.com/facebook/create-react-app/issues/9994#issuecomment-811289191
-  // const module = server._stats.compilation.modules.find((m) => m.id == id);
   const module = Array.from(server._stats.compilation.modules).find(
     (m) => server._stats.compilation.chunkGraph.getModuleId(m) == id,
   );

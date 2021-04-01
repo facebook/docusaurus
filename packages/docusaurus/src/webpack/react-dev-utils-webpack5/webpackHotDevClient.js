@@ -4,18 +4,25 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 /* eslint-disable */
 /*
- * note - Docusaurus: the above copyright header must be preserved for license compliance.
- * Docusaurus's fork of this module adds webpack 5 support, makes it work with a typical D2 env, and improves perf.
+ * THIS FILE IS MODIFIED FOR DOCUSAURUS
+ * the above copyright header must be preserved for license compliance.
  */
 
-'use strict';
+// This alternative WebpackDevServer combines the functionality of:
+// https://github.com/webpack/webpack-dev-server/blob/webpack-1/client/index.js
+// https://github.com/webpack/webpack/blob/webpack-1/hot/dev-server.js
+
+// It only supports their simplest configuration (hot updates on same server).
+// It makes some opinionated choices on top, like adding a syntax error overlay
+// that looks similar to our console output. The error overlay is inspired by:
+// https://github.com/glenjamin/webpack-hot-middleware
 
 var stripAnsi = require('strip-ansi');
 var url = require('url');
-var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
+var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint'); // modified for Docusaurus
+var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
@@ -56,8 +63,10 @@ if (module.hot && typeof module.hot.dispose === 'function') {
 var connection = new WebSocket(
   url.format({
     protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
+    // modified for Docusaurus => avoid "ReferenceError: process is not defined"
     hostname: window.location.hostname,
     port: window.location.port,
+    // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
     slashes: true,
   }),
@@ -106,6 +115,47 @@ function handleSuccess() {
   }
 }
 
+// Compilation with warnings (e.g. ESLint).
+function handleWarnings(warnings) {
+  clearOutdatedErrors();
+
+  var isHotUpdate = !isFirstCompilation;
+  isFirstCompilation = false;
+  hasCompileErrors = false;
+
+  function printWarnings() {
+    // Print warnings to the console.
+    var formatted = formatWebpackMessages({
+      warnings: warnings,
+      errors: [],
+    });
+
+    if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+      for (var i = 0; i < formatted.warnings.length; i++) {
+        if (i === 5) {
+          console.warn(
+            'There were more warnings in other files.\n' +
+              'You can find a complete log in the terminal.',
+          );
+          break;
+        }
+        console.warn(stripAnsi(formatted.warnings[i]));
+      }
+    }
+  }
+
+  printWarnings();
+
+  // Attempt to apply hot updates or reload.
+  if (isHotUpdate) {
+    tryApplyUpdates(function onSuccessfulHotUpdate() {
+      // Only dismiss it when we're sure it's a hot update.
+      // Otherwise it would flicker right before the reload.
+      tryDismissErrorOverlay();
+    });
+  }
+}
+
 // Compilation with errors (e.g. syntax error or missing modules).
 function handleErrors(errors) {
   clearOutdatedErrors();
@@ -113,12 +163,20 @@ function handleErrors(errors) {
   isFirstCompilation = false;
   hasCompileErrors = true;
 
+  // "Massage" webpack messages.
+  var formatted = formatWebpackMessages({
+    errors: errors,
+    warnings: [],
+  });
+
   // Only show the first error.
-  ErrorOverlay.reportBuildError(errors);
+  ErrorOverlay.reportBuildError(formatted.errors[0]);
 
   // Also log them to the console.
   if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(stripAnsi(errors));
+    for (var i = 0; i < formatted.errors.length; i++) {
+      console.error(stripAnsi(formatted.errors[i]));
+    }
   }
 
   // Do not attempt to reload now.
@@ -146,12 +204,14 @@ connection.onmessage = function (e) {
       break;
     case 'still-ok':
     case 'ok':
-    case 'warnings':
       handleSuccess();
       break;
     case 'content-changed':
       // Triggered when a file from `contentBase` changed.
       window.location.reload();
+      break;
+    case 'warnings':
+      handleWarnings(message.data);
       break;
     case 'errors':
       handleErrors(message.data);
@@ -187,7 +247,12 @@ function tryApplyUpdates(onHotUpdateSuccess) {
   }
 
   function handleApplyUpdates(err, updatedModules) {
-    if (err || !updatedModules || hadRuntimeError) {
+    // NOTE: This var is injected by Webpack's DefinePlugin, and is a boolean instead of string.
+    // const hasReactRefresh = process.env.FAST_REFRESH;
+    const hasReactRefresh = true; // modified for Docusaurus => avoid "ReferenceError: process is not defined"
+    const wantsForcedReload = err || !updatedModules || hadRuntimeError;
+    // React refresh can handle hot-reloading over errors.
+    if (!hasReactRefresh && wantsForcedReload) {
       window.location.reload();
       return;
     }
@@ -203,15 +268,18 @@ function tryApplyUpdates(onHotUpdateSuccess) {
     }
   }
 
-  // https://webpack.js.org/docs/hot-module-replacement.html#check
+  // https://webpack.github.io/docs/hot-module-replacement.html#check
   var result = module.hot.check(/* autoApply */ true, handleApplyUpdates);
 
-  result.then(
-    function (updatedModules) {
-      handleApplyUpdates(null, updatedModules);
-    },
-    function (err) {
-      handleApplyUpdates(err, null);
-    },
-  );
+  // // webpack 2 returns a Promise instead of invoking a callback
+  if (result && result.then) {
+    result.then(
+      function (updatedModules) {
+        handleApplyUpdates(null, updatedModules);
+      },
+      function (err) {
+        handleApplyUpdates(err, null);
+      },
+    );
+  }
 }
