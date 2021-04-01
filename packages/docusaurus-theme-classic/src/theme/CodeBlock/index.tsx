@@ -85,7 +85,7 @@ const highlightDirectiveRegex = (lang) => {
       return getHighlightDirectiveRegex();
   }
 };
-const codeBlockTitleRegex = /(?:title=")(.*)(?:")/;
+const codeBlockTitleRegex = /(?:title=")(.*?)(?:")/;
 
 export default function CodeBlock({
   children,
