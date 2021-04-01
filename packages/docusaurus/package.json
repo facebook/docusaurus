@@ -112,7 +112,7 @@
     "webpack": "^5.28.0",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^4.2.2",
+    "webpack-merge": "^5.7.3",
     "webpackbar": "^5.0.0-3"
   },
   "peerDependencies": {

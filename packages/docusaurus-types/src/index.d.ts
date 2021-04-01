@@ -10,8 +10,14 @@
 import type {Loader, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
-import type {MergeStrategy} from 'webpack-merge';
 import type Joi from 'joi';
+import type {CustomizeRule} from 'webpack-merge';
+
+// Convert enum to union type
+// For type retrocompatible webpack-merge upgrade: we used string literals before)
+// see https://github.com/survivejs/webpack-merge/issues/179
+// see https://stackoverflow.com/a/52396706/82609
+type MergeStrategy = `${CustomizeRule}`;
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 

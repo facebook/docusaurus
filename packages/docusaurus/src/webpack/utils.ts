@@ -6,7 +6,12 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import merge from 'webpack-merge';
+import {
+  mergeWithCustomize,
+  customizeArray,
+  customizeObject,
+  CustomizeRule,
+} from 'webpack-merge';
 import webpack, {
   Configuration,
   RuleSetRule,
@@ -190,7 +195,12 @@ export function applyConfigureWebpack(
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
-      return merge.strategy(mergeStrategy ?? {})(config, res);
+      // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
+      const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
+      return mergeWithCustomize({
+        customizeArray: customizeArray(customizeRules),
+        customizeObject: customizeObject(customizeRules),
+      })(config, res);
     }
   }
   return config;
