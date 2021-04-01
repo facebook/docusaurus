@@ -99,7 +99,11 @@ export default async function deploy(
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
-
+  const githubPort =
+    process.env.GITHUB_PORT || siteConfig.githubPort || (useSSH && useSSH.toLowerCase() === 'true'
+      ? '22'
+      : '433');
+  
   const useSSH = process.env.USE_SSH;
   const gitPass: string | undefined = process.env.GIT_PASS;
   let gitCredentials = `${gitUser}`;
@@ -107,8 +111,8 @@ export default async function deploy(
     gitCredentials = `${gitCredentials}:${gitPass}`;
   }
 
-  const sshRemoteBranch: string = `git@${githubHost}:${organizationName}/${projectName}.git`;
-  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
+  const sshRemoteBranch: string = `git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
 
   const remoteBranch =
     useSSH && useSSH.toLowerCase() === 'true'
