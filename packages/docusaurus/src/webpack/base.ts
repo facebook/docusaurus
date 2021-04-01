@@ -84,6 +84,9 @@ export function createBaseConfig(
     name,
     cache: {
       type: 'filesystem',
+      // Can we share the same cache across locales?
+      // Exploring that question at https://github.com/webpack/webpack/issues/13034
+      // name: `${name}-${mode}`,
       name: `${name}-${mode}-${props.i18n.currentLocale}`,
       version: siteMetadata.docusaurusVersion,
       buildDependencies: {
