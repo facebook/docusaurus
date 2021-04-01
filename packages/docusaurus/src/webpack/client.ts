@@ -30,7 +30,8 @@ export default function createClientConfig(
       // like CRA to bring better experience.
       // note: the one in ./dev is modified to work with Docusaurus
       // !isProd && require.resolve('react-dev-utils/hotDevServer.js'),
-      !isProd && require.resolve('./react-dev-utils-webpack5/hotDevServer.js'),
+      !isProd &&
+        require.resolve('./react-dev-utils-webpack5/webpackHotDevClient.js'),
       path.resolve(__dirname, '../client/clientEntry.js'),
     ].filter(Boolean) as string[],
     optimization: {
