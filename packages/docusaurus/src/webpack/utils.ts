@@ -47,18 +47,27 @@ export function getStyleLoaders(
   } = {},
 ): RuleSetRule[] {
   if (isServer) {
-    return [
-      cssOptions.modules
-        ? {
+    return cssOptions.modules
+      ? [
+          {
             loader: require.resolve('css-loader'),
             options: cssOptions,
-          }
-        : // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-380796867
-          // See https://github.com/facebook/docusaurus/pull/1388
-          {
-            loader: require.resolve('./plugins/NullLoader'),
           },
-    ];
+        ]
+      : [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // Don't emit CSS files for SSR (previously used null-loader)
+              // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811991738
+              emit: false,
+            },
+          },
+          {
+            loader: require.resolve('css-loader'),
+            options: cssOptions,
+          },
+        ];
   }
 
   return [

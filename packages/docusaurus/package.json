@@ -82,7 +82,7 @@
     "is-root": "^2.1.0",
     "leven": "^3.1.0",
     "lodash": "^4.17.20",
-    "mini-css-extract-plugin": "^1.3.9",
+    "mini-css-extract-plugin": "^1.4.0",
     "module-alias": "^2.2.2",
     "nprogress": "^0.2.0",
     "postcss": "^8.2.7",

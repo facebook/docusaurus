@@ -20,7 +20,7 @@ export default class LogPlugin extends WebpackBar {
     // TODO can't this be done in compile(configs) alongside the warnings???
     compiler.hooks.done.tap('DocusaurusLogPlugin', (stats) => {
       if (stats.hasErrors()) {
-        const messages = formatWebpackMessages(stats.toJson('errors-only'));
+        const messages = formatWebpackMessages(stats.toJson('errors-warnings'));
         if (messages.errors.length) {
           showError(messages.errors);
         }
