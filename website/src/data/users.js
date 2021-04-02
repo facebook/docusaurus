@@ -131,14 +131,6 @@ const users = [
     tags: [],
   },
   {
-    title: 'Channel.js',
-    description: 'The missing constructor for creating safe async iterators',
-    preview: require('./showcase/channeljs.png'),
-    website: 'https://repeater.js.org/',
-    source: 'https://github.com/repeaterjs/repeater',
-    tags: [],
-  },
-  {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
@@ -614,6 +606,14 @@ const users = [
     website: 'https://rematchjs.org',
     source: 'https://github.com/rematch/rematch',
     tags: ['highlight', 'design', 'large'],
+  },
+  {
+    title: 'Repeater.js',
+    description: 'The missing constructor for creating safe async iterators',
+    preview: require('./showcase/repeaterjs.png'),
+    website: 'https://repeater.js.org/',
+    source: 'https://github.com/repeaterjs/repeater',
+    tags: [],
   },
   {
     title: 'Rooks',
