@@ -27,11 +27,9 @@ export default function DocNavbarItem({
 
   const doc = version.docs.find((versionDoc) => versionDoc.id === docId);
   if (!doc) {
-    const docIds = version.docs.map((versionDoc) => versionDoc.id).join('\n- ')
+    const docIds = version.docs.map((versionDoc) => versionDoc.id).join('\n- ');
     throw new Error(
-      `DocNavbarItem: couldn't find any doc with id=${docId} in version ${
-        version.name
-      }.
+      `DocNavbarItem: couldn't find any doc with id=${docId} in version ${version.name}.
 Available docIds=\n- ${docIds}`,
     );
   }
