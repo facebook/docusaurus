@@ -153,7 +153,7 @@ JSON translation files are used for everything that is not contained in a Markdo
 - Docs sidebar category labels
 - ...
 
-Run the [write-translations](../cli.md#docusaurus-write-translations) command:
+Run the [write-translations](../cli.md#docusaurus-write-translations-sitedir) command:
 
 ```bash npm2yarn
 npm run write-translations -- --locale fr
