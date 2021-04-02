@@ -131,9 +131,9 @@ const users = [
     tags: [],
   },
   {
-    title: 'Channel.js',
+    title: 'Repeater.js',
     description: 'The missing constructor for creating safe async iterators',
-    preview: require('./showcase/channeljs.png'),
+    preview: require('./showcase/repeaterjs.png'),
     website: 'https://repeater.js.org/',
     source: 'https://github.com/repeaterjs/repeater',
     tags: [],
