@@ -1289,6 +1289,13 @@
   dependencies:
     prop-types "^15.6.2"
 
+"@docusaurus/responsive-loader@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@docusaurus/responsive-loader/-/responsive-loader-1.4.0.tgz#dea284e15133570f5ef09be414881c65c42e43d9"
+  integrity sha512-qkVjSEUM4dVNmgOWkjbuRetZegOiCnzGPOzS1FPmxMrc9jCI70Rusx67EYdYPyAu47F2cvUf8PwX0o6AUzfNTQ==
+  dependencies:
+    loader-utils "^2.0.0"
+
 "@endiliey/react-ideal-image@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@endiliey/react-ideal-image/-/react-ideal-image-0.0.11.tgz#dc3803d04e1409cf88efa4bba0f67667807bdf27"
@@ -17083,13 +17090,6 @@ responselike@1.0.2, responselike@^1.0.2:
   integrity sha1-kYcg7ztjHFZCvgaPFa3lpG9Loec=
   dependencies:
     lowercase-keys "^1.0.0"
-
-responsive-loader-modern@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/responsive-loader-modern/-/responsive-loader-modern-1.3.2.tgz#68646f3192704ab3be4f67aee373e3922a698c66"
-  integrity sha512-lGWFuwV7EmLWk7L5bq6V4nIuocGPvK2CX8bjqtz6ixv0WwESttQ2nd1gQSeP9JoH6L2a9kxTVVOz2v93bRS7Yg==
-  dependencies:
-    loader-utils "^2.0.0"
 
 restore-cursor@^2.0.0:
   version "2.0.0"
