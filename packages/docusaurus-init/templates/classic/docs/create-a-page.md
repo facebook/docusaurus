@@ -16,7 +16,7 @@ Create a file at `src/pages/my-react-page.js`:
 import React from 'react';
 import Layout from '@theme/Layout';
 
-function HelloWorld() {
+export default function MyReactPage() {
   return (
     <Layout>
       <h1>My React page</h1>
@@ -24,8 +24,6 @@ function HelloWorld() {
     </Layout>
   );
 }
-
-export default HelloWorld;
 ```
 
 A new page is now available at `http://localhost:3000/my-react-page`.
