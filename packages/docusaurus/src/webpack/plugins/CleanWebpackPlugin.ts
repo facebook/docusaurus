@@ -27,6 +27,7 @@
 
 // Forked from https://github.com/johnagan/clean-webpack-plugin
 // Modified to optimize performance for Docusaurus specific use case
+// More context: https://github.com/facebook/docusaurus/pull/1839
 
 import {Compiler, Stats} from 'webpack';
 import path from 'path';
