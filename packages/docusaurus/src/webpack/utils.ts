@@ -74,7 +74,7 @@ export function getStyleLoaders(
     {
       loader: MiniCssExtractPlugin.loader,
       options: {
-        esModule: false,
+        esModule: true,
       },
     },
     {
