@@ -827,6 +827,14 @@ const users = [
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['design', 'large'],
   },
+  {
+    title: '前端进阶导航（2021版）',
+    description: '系统化学习前端技术，从小白进阶大神。',
+    preview: require('./showcase/feAdvanced.png'),
+    website: 'https://h5.itdongdong.com/',
+    source: 'https://github.com/coder-study-room/Front-end-Advanced-Route',
+    tags: ['design', 'large'],
+  },
 ];
 
 users.forEach((user) => {
