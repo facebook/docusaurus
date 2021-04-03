@@ -17,6 +17,7 @@ function ToggleTags(props) {
         id={props.tag}
         name={props.tag}
         onChange={props.change}
+        checked={props.selectedTags.includes(props.tag)}
       />
       <label htmlFor={props.tag}>{props.tag}</label>
     </div>

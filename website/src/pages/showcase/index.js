@@ -36,7 +36,7 @@ let filteredUsers = users;
 function Showcase() {
   const [selectedTags, setSelectedTags] = useState([]);
 
-  const clickTag = (tag) => {
+  const toggleTag = (tag) => {
     const tagIndex = selectedTags.findIndex((selectedTag) => {
       return selectedTag === tag;
     });
@@ -67,7 +67,12 @@ function Showcase() {
             </a>
           </p>
           {TAGS.map((tag) => (
-            <ToggleTags tag={tag} key={tag} change={() => clickTag(tag)} />
+            <ToggleTags
+              tag={tag}
+              key={tag}
+              change={() => toggleTag(tag)}
+              selectedTags={selectedTags}
+            />
           ))}
         </div>
         <div className="row">
