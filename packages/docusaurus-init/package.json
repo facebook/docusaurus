@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.0",
+    "colorette": "^1.2.2",
     "commander": "^5.1.0",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.20",
