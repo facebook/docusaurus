@@ -13,6 +13,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {If} from 'react-if';
 import styles from './styles.module.css';
 
 const features = [
@@ -52,11 +53,11 @@ function Feature({imageUrl, title, description}) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
     <div className={clsx('col col--4', styles.feature)}>
-      {imgUrl && (
+      <If condition={imgUrl}>
         <div className="text--center">
           <img className={styles.featureImage} src={imgUrl} alt={title} />
         </div>
-      )}
+      </If>
       <h3>{title}</h3>
       <p>{description}</p>
     </div>
@@ -87,7 +88,7 @@ export default function Home() {
         </div>
       </header>
       <main>
-        {features && features.length > 0 && (
+        <If condition={features?.length}>
           <section className={styles.features}>
             <div className="container">
               <div className="row">
@@ -102,7 +103,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-        )}
+        </If>
       </main>
     </Layout>
   );

@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import colorette from 'colorette';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import {kebabCase} from 'lodash';
+import type {CliOptions} from './types/index';
 
 function hasYarn(): boolean {
   try {
@@ -22,8 +23,8 @@ function hasYarn(): boolean {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl: string): boolean {
-  return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item));
+function isValidGitRepoUrl(gitRepoUrl?: string): boolean {
+  return /^((https|git):\/\/)|(git@)/g.test(gitRepoUrl ?? '');
 }
 
 async function updatePkg(
@@ -41,26 +42,21 @@ export default async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,
-  cliOptions: Partial<{
-    useNpm: boolean;
-    skipInstall: boolean;
-  }> = {},
+  cliOptions: CliOptions = {},
 ): Promise<void> {
-  const useYarn = !cliOptions.useNpm ? hasYarn() : false;
+  const useYarn = !cliOptions.useNpm && hasYarn();
   const templatesDir = path.resolve(__dirname, '../templates');
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
-
-  function makeNameAndValueChoice(value: string): Choice {
-    return {title: value, value} as Choice;
+  const templates = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const entry of await fs.opendir(templatesDir)) {
+    if (entry.isDirectory()) {
+      templates.push(entry.name);
+    }
   }
 
-  const gitChoice = makeNameAndValueChoice('Git repository');
-  const templateChoices = [
-    ...templates.map((template) => makeNameAndValueChoice(template)),
-    gitChoice,
-  ];
+  function makeChoice(value: string): Choice {
+    return {title: value, value} as Choice;
+  }
 
   let name = siteName;
 
@@ -76,12 +72,12 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error(chalk.red('A site name is required'));
+    throw new Error(colorette.red('A site name is required'));
   }
 
   const dest = path.resolve(rootDir, name);
   if (fs.existsSync(dest)) {
-    throw new Error(`Directory already exists at ${dest} !`);
+    throw new Error(`Directory already exists at ${dest}!`);
   }
 
   let template = reqTemplate;
@@ -91,9 +87,12 @@ export default async function init(
       type: 'select',
       name: 'template',
       message: 'Select a template below...',
-      choices: templateChoices,
+      choices: [
+        ...templates.map((templateDir) => makeChoice(templateDir)),
+        makeChoice('Git repository'),
+      ],
     });
-    template = templatePrompt.template;
+    template = templatePrompt.template as string;
   }
 
   // If user choose Git repository, we'll prompt for the url.
@@ -102,36 +101,36 @@ export default async function init(
       type: 'text',
       name: 'gitRepoUrl',
       validate: (url?: string) => {
-        if (url && isValidGitRepoUrl(url)) {
+        if (isValidGitRepoUrl(url)) {
           return true;
         }
-        return chalk.red(`Invalid repository URL`);
+        return colorette.red(`Invalid repository URL`);
       },
       message:
-        'Enter a repository URL from GitHub, BitBucket, GitLab, or any other public repo. \n(e.g: https://github.com/ownerName/repoName.git)',
+        'Enter a repository URL from GitHub, BitBucket, GitLab, or any other public repo.\n(e.g: https://github.com/owner/repo.git)',
     });
-    template = repoPrompt.gitRepoUrl;
+    template = repoPrompt.gitRepoUrl as string;
   }
 
-  console.log();
-  console.log(chalk.cyan('Creating new Docusaurus project ...'));
-  console.log();
+  console.log(`\n${colorette.cyan('Creating new Docusaurus project ...')}\n`);
 
-  if (template && isValidGitRepoUrl(template)) {
-    console.log(`Cloning Git template: ${chalk.cyan(template)}`);
+  if (isValidGitRepoUrl(template)) {
+    console.log(`Cloning Git template: ${colorette.cyan(template)}`);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(chalk.red(`Cloning Git template: ${template} failed!`));
+      throw new Error(
+        colorette.red(`Cloning Git template: ${template} failed!`),
+      );
     }
-  } else if (template && templates.includes(template)) {
+  } else if (templates?.includes(template)) {
     // Docusaurus templates.
     try {
       await fs.copy(path.resolve(templatesDir, template), dest);
     } catch (err) {
       console.log(
-        `Copying Docusaurus template: ${chalk.cyan(template)} failed!`,
+        `Copying Docusaurus template: ${colorette.cyan(template)} failed!`,
       );
       throw err;
     }
@@ -147,7 +146,7 @@ export default async function init(
       private: true,
     });
   } catch (err) {
-    console.log(chalk.red('Failed to update package.json'));
+    console.log(colorette.red('Failed to update package.json'));
     throw err;
   }
 
@@ -164,41 +163,33 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
+    console.log(`Installing dependencies with: ${colorette.cyan(pkgManager)}`);
 
     try {
       shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
     } catch (err) {
-      console.log(chalk.red('Installation failed'));
+      console.log(colorette.red('Installation failed'));
       throw err;
     }
   }
-  console.log();
-
   // Display the most elegant way to cd.
   const cdpath =
     path.join(process.cwd(), name) === dest
       ? name
       : path.relative(process.cwd(), name);
 
-  console.log();
-  console.log(`Success! Created ${chalk.cyan(cdpath)}`);
-  console.log('Inside that directory, you can run several commands:');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} start`));
-  console.log('    Starts the development server.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`));
+  console.log(`\n\nSuccess! Created ${colorette.cyan(cdpath)}`);
+  console.log('Inside that directory, you can run several commands:\n');
+  console.log(`  ${colorette.cyan(`${pkgManager} start`)}`);
+  console.log('    Starts the development server.\n');
+  console.log(
+    `  ${colorette.cyan(`${pkgManager} ${!useYarn && 'run '}build`)}`,
+  );
   console.log('    Bundles the app into static files for production.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} deploy`));
-  console.log('    Publish website to GitHub pages.');
-  console.log();
-  console.log('We suggest that you begin by typing:');
-  console.log();
-  console.log(chalk.cyan('  cd'), cdpath);
-  console.log(`  ${chalk.cyan(`${pkgManager} start`)}`);
-
-  console.log();
+  console.log(`  ${colorette.cyan(`${pkgManager} deploy`)}`);
+  console.log('    Publish website to GitHub pages.\n');
+  console.log('We suggest that you begin by typing:\n');
+  console.log(`  ${colorette.cyan('cd')} ${cdpath}`);
+  console.log(`  ${colorette.cyan(`${pkgManager} start`)}\n`);
   console.log('Happy hacking!');
 }

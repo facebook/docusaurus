@@ -19,7 +19,8 @@
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-if": "^4.0.1"
   },
   "browserslist": {
     "production": [
