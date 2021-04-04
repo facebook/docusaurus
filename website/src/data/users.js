@@ -600,6 +600,14 @@ const users = [
     tags: [],
   },
   {
+    title: 'Redis Labs Developer Site',
+    description: 'The Home of Redis Developers',
+    preview: require('./showcase/redis-developer.png'),
+    website: 'https://developer.redislabs.com',
+    source: 'https://github.com/redis-developer/redis-developer.github.io',
+    tags: [],
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
