@@ -68,7 +68,7 @@ module.exports = {
 
 Translate the homepage:
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
