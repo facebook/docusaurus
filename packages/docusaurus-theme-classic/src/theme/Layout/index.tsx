@@ -15,6 +15,7 @@ import LayoutProviders from '@theme/LayoutProviders';
 import LayoutHead from '@theme/LayoutHead';
 import type {Props} from '@theme/Layout';
 import useKeyboardNavigation from '@theme/hooks/useKeyboardNavigation';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import './styles.css';
 
 function Layout(props: Props): JSX.Element {
@@ -32,7 +33,12 @@ function Layout(props: Props): JSX.Element {
 
       <Navbar />
 
-      <div className={clsx('main-wrapper', wrapperClassName, pageClassName)}>
+      <div
+        className={clsx(
+          ThemeClassNames.wrapper.main,
+          wrapperClassName,
+          pageClassName,
+        )}>
         {children}
       </div>
 
