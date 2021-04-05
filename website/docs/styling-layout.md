@@ -101,6 +101,29 @@ function MyComponent() {
 }
 ```
 
+#### Theme Class Names
+
+`@docusarus/theme-common` provides some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
+
+```ts
+export const ThemeClassNames = {
+  page: {
+    blogListPage: 'blog-list-page',
+    blogPostPage: 'blog-post-page',
+    blogTagsListPage: 'blog-tags-list-page',
+    blogTagsPostPage: 'blog-tags-post-page',
+    docPage: 'doc-page',
+    mdxPage: 'mdx-page',
+  },
+  wrapper: {
+    main: 'main-wrapper',
+    blogPages: 'blog-wrapper',
+    docPages: 'main-docs-wrapper',
+    mdxPages: 'mdx-wrapper',
+  },
+};
+```
+
 ### CSS modules {#css-modules}
 
 To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
