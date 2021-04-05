@@ -25,7 +25,7 @@ function BlogPostPage(props: Props): JSX.Element {
     <Layout
       title={title}
       description={description}
-      wrapperClassName={ThemeClassNames.wrapper.blogPage}
+      wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogPostPage}>
       {BlogPostContents && (
         <div className="container margin-vert--lg">
