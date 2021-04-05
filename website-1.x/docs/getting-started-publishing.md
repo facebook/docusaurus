@@ -255,7 +255,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
 1.  Create an organization and within the organization create a project and connect your repository from GitHub.
 1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with repository scope.
-1.  In the project page (which looks like https://dev.azure.com/ORG_NAME/REPO_NAME/_build) create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at yout repository root.
+1.  In the project page (which looks like https://dev.azure.com/ORG_NAME/REPO_NAME/_build) create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
 
 ```yaml
 # azure-pipelines.yml
