@@ -687,6 +687,14 @@ const users = [
     tags: ['design'],
   },
   {
+    title: 'social-embed',
+    description: 'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
+    preview: require('./showcase/social-embed.png'),
+    website: 'https://social-embed.git-pull.com/',
+    source: 'https://github.com/social-embed/social-embed',
+    tags: [],
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
