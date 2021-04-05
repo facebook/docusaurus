@@ -30,7 +30,7 @@ function MDXPage(props: Props): JSX.Element {
       title={title}
       description={description}
       permalink={permalink}
-      wrapperClassName={wrapperClassName}
+      wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
       pageClassName={ThemeClassNames.page.mdxPage}>
       <main>
         <div className="container container--fluid">

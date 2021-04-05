@@ -18,5 +18,6 @@ export const ThemeClassNames = {
     main: 'main-wrapper',
     blogPages: 'blog-wrapper',
     docPages: 'main-docs-wrapper',
+    mdxPages: 'mdx-wrapper',
   },
 };
