@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import colorette from 'colorette';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -51,7 +51,7 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      // console.log(colorette.green(`Site successfully built in locale=${locale}`));
       return result;
     } catch (e) {
       console.error(`error building locale=${locale}`);
@@ -72,7 +72,7 @@ export default async function build(
   } else {
     if (i18n.locales.length > 1) {
       console.log(
-        chalk.yellow(
+        colorette.yellow(
           `\nSite will be built for all these locales:
 - ${i18n.locales.join('\n- ')}`,
         ),
@@ -111,7 +111,7 @@ async function buildLocale({
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(
-    chalk.blue(`\n[${locale}] Creating an optimized production build...`),
+    colorette.blue(`\n[${locale}] Creating an optimized production build...`),
   );
 
   const props: Props = await load(siteDir, {
@@ -240,14 +240,14 @@ async function buildLocale({
   });
 
   console.log(
-    `${chalk.green(`Success!`)} Generated static files in ${chalk.cyan(
+    `${colorette.green(`Success!`)} Generated static files in ${colorette.cyan(
       path.relative(process.cwd(), outDir),
     )}.`,
   );
 
   if (isLastLocale) {
     console.log(
-      `\nUse ${chalk.greenBright(
+      `\nUse ${colorette.greenBright(
         '`npm run serve`',
       )} to test your build locally.\n`,
     );

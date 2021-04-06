@@ -22,7 +22,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import {TransformOptions} from '@babel/core';
 import {
   ConfigureWebpackFn,
@@ -413,7 +413,9 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`,
+      `The certificate "${colorette.yellow(crtFile)}" is invalid.\n${
+        err.message
+      }`,
     );
   }
 
@@ -422,7 +424,7 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
+      `The certificate key "${colorette.yellow(keyFile)}" is invalid.\n${
         err.message
       }`,
     );
@@ -433,9 +435,9 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
 function readEnvFile(file, type) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${chalk.cyan(
+      `You specified ${colorette.cyan(
         type,
-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`,
+      )} in your env, but the file "${colorette.yellow(file)}" can't be found.`,
     );
   }
   return fs.readFileSync(file);

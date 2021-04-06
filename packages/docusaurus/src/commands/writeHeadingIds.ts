@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
@@ -117,14 +117,14 @@ export default async function writeHeadingIds(siteDir: string): Promise<void> {
 
   if (pathsModified.length) {
     console.log(
-      chalk.green(`Heading ids added to markdown files (${
+      colorette.green(`Heading ids added to markdown files (${
         pathsModified.length
       }/${markdownFiles.length} files):
 - ${pathsModified.join('\n- ')}`),
     );
   } else {
     console.log(
-      chalk.yellow(
+      colorette.yellow(
         `${markdownFiles.length} markdown files already have explicit heading ids`,
       ),
     );

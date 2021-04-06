@@ -6,14 +6,14 @@
  */
 import fs from 'fs-extra';
 import path from 'path';
-import chalk = require('chalk');
+import colorette from 'colorette';
 import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
 function removePath(fsPath: string) {
   return fs
     .remove(path.join(fsPath))
     .then(() => {
-      console.log(`${chalk.green(`Removing ${fsPath}`)}`);
+      console.log(`${colorette.green(`Removing ${fsPath}`)}`);
     })
     .catch((err) => {
       console.error(`Could not remove ${fsPath}`);

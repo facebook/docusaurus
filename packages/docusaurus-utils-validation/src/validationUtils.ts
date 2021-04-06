@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import Joi from './Joi';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import {PluginIdSchema} from './validationSchemas';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
@@ -19,7 +19,7 @@ export const isValidationDisabledEscapeHatch =
 
 if (isValidationDisabledEscapeHatch) {
   console.error(
-    chalk.red(
+    colorette.red(
       'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed',
     ),
   );
@@ -27,7 +27,7 @@ if (isValidationDisabledEscapeHatch) {
 
 export const logValidationBugReportHint = (): void => {
   console.log(
-    `\n${chalk.red('A validation error occured.')}${chalk.cyanBright(
+    `\n${colorette.red('A validation error occured.')}${colorette.cyanBright(
       '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +
         '\nWe may have made some mistakes.' +
         '\nIf you think your configuration is valid and should keep working, please open a bug report.',

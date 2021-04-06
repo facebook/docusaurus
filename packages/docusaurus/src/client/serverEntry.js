@@ -26,7 +26,7 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import chalk from 'chalk';
+import colorette from 'colorette';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
@@ -46,7 +46,7 @@ export default async function render(locals) {
     return await doRender(locals);
   } catch (e) {
     console.error(
-      chalk.red(
+      colorette.red(
         `Docusaurus Node/SSR could not render static page with path=${locals.path} because of error: ${e.message}`,
       ),
     );
@@ -147,7 +147,7 @@ async function doRender(locals) {
       e.message.includes("Cannot read property 'replace' of undefined")
     ) {
       console.error(
-        chalk.red(
+        colorette.red(
           '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
         ),
       );

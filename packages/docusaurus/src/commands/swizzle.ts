@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import colorette from 'colorette';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
@@ -88,14 +88,14 @@ function themeComponents(
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${chalk.red('No component to swizzle')}`;
+    return `${colorette.red('No component to swizzle')}`;
   }
 
   return `
-${chalk.cyan('Theme components available for swizzle')}
+${colorette.cyan('Theme components available for swizzle')}
 
-${chalk.green('green  =>')} recommended: lower breaking change risk
-${chalk.red('red    =>')} internal: higher breaking change risk
+${colorette.green('green  =>')} recommended: lower breaking change risk
+${colorette.red('red    =>')} internal: higher breaking change risk
 
 ${components.join('\n')}
 `;
@@ -123,8 +123,8 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(component)),
-    ...redComponents.map((component) => chalk.red(component)),
+    ...greenComponents.map((component) => colorette.green(component)),
+    ...redComponents.map((component) => colorette.red(component)),
   ];
 }
 
@@ -163,7 +163,7 @@ export default async function swizzle(
         suggestion = name;
       }
     });
-    chalk.red(
+    colorette.red(
       `Theme ${themeName} not found. ${
         suggestion
           ? `Did you mean "${suggestion}" ?`
@@ -207,7 +207,7 @@ export default async function swizzle(
 
   if (!themePath) {
     console.warn(
-      chalk.yellow(
+      colorette.yellow(
         typescript
           ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
           : `${themeName} does not provide any theme code.`,
@@ -245,8 +245,8 @@ export default async function swizzle(
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
       console.log(
-        chalk.red(`Component "${componentName}" doesn't exists.`),
-        chalk.yellow(
+        colorette.red(`Component "${componentName}" doesn't exists.`),
+        colorette.yellow(
           `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
         ),
       );
@@ -271,7 +271,9 @@ export default async function swizzle(
           suggestion = name;
         }
       });
-      console.warn(chalk.red(`Component ${mostSuitableComponent} not found.`));
+      console.warn(
+        colorette.red(`Component ${mostSuitableComponent} not found.`),
+      );
       console.warn(
         suggestion
           ? `Did you mean "${suggestion}"?`
@@ -283,7 +285,7 @@ export default async function swizzle(
 
   if (!components.includes(mostSuitableComponent) && !danger) {
     console.warn(
-      chalk.red(
+      colorette.red(
         `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
       ),
     );
@@ -293,12 +295,14 @@ export default async function swizzle(
   await fs.copy(fromPath, toPath);
 
   const relativeDir = path.relative(process.cwd(), toPath);
-  const fromMsg = chalk.blue(
+  const fromMsg = colorette.blue(
     mostSuitableComponent
-      ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
+      ? `${themeName} ${colorette.yellow(mostSuitableComponent)}`
       : themeName,
   );
-  const toMsg = chalk.cyan(relativeDir);
+  const toMsg = colorette.cyan(relativeDir);
 
-  console.log(`\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
+  console.log(
+    `\n${colorette.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
+  );
 }

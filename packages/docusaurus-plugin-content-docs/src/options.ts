@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import admonitions from 'remark-admonitions';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
@@ -96,7 +96,7 @@ export function validateOptions({
   // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
     console.log(
-      chalk.red(
+      colorette.red(
         `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
       ),
     );
@@ -104,7 +104,7 @@ export function validateOptions({
 
   if (typeof options.excludeNextVersionDocs !== 'undefined') {
     console.log(
-      chalk.red(
+      colorette.red(
         `The docs plugin option excludeNextVersionDocs=${
           options.excludeNextVersionDocs
         } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,

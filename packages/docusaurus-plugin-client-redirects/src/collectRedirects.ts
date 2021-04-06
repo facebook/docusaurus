@@ -18,7 +18,7 @@ import {
 } from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
 
-import chalk from 'chalk';
+import colorette from 'colorette';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
@@ -75,7 +75,7 @@ function filterUnwantedRedirects(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
         console.error(
-          chalk.red(
+          colorette.red(
             `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
 It is not possible to redirect the same pathname to multiple destinations:
 - ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
@@ -93,7 +93,7 @@ It is not possible to redirect the same pathname to multiple destinations:
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
-      chalk.red(
+      colorette.red(
         `@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
 - ${redirectsOverridingExistingPath.map((r) => JSON.stringify(r)).join('\n- ')}
 `,

@@ -7,7 +7,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+const colorette = require('colorette');
 const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
@@ -65,11 +65,11 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(
+    `Update available ${colorette.dim(
+      `${notifier.update.current}`,
+    )}${colorette.reset(' → ')}${colorette.green(
       `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
+    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${colorette.cyan(
       `${upgradeCommand}`,
     )}`,
     boxenOptions,
@@ -81,8 +81,8 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
 // notify user if node version needs to be updated
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum Node version not met :(`) +
-      chalk.yellow(
+    colorette.red(`\nMinimum Node version not met :(`) +
+      colorette.yellow(
         `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
       ),
   );
@@ -92,7 +92,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
-      console.error(chalk.red(err.stack));
+      console.error(colorette.red(err.stack));
       process.exitCode = 1;
     });
 }
@@ -294,7 +294,9 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
+  console.log(
+    `  ${colorette.red(`\n  Unknown command ${colorette.yellow(cmd)}.`)}`,
+  );
   console.log();
 });
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import colorette from 'colorette';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
@@ -76,7 +76,7 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error(chalk.red('A site name is required'));
+    throw new Error(colorette.red('A site name is required'));
   }
 
   const dest = path.resolve(rootDir, name);
@@ -105,7 +105,7 @@ export default async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }
-        return chalk.red(`Invalid repository URL`);
+        return colorette.red(`Invalid repository URL`);
       },
       message:
         'Enter a repository URL from GitHub, BitBucket, GitLab, or any other public repo. \n(e.g: https://github.com/ownerName/repoName.git)',
@@ -114,16 +114,18 @@ export default async function init(
   }
 
   console.log();
-  console.log(chalk.cyan('Creating new Docusaurus project ...'));
+  console.log(colorette.cyan('Creating new Docusaurus project ...'));
   console.log();
 
   if (template && isValidGitRepoUrl(template)) {
-    console.log(`Cloning Git template: ${chalk.cyan(template)}`);
+    console.log(`Cloning Git template: ${colorette.cyan(template)}`);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(chalk.red(`Cloning Git template: ${template} failed!`));
+      throw new Error(
+        colorette.red(`Cloning Git template: ${template} failed!`),
+      );
     }
   } else if (template && templates.includes(template)) {
     // Docusaurus templates.
@@ -131,7 +133,7 @@ export default async function init(
       await fs.copy(path.resolve(templatesDir, template), dest);
     } catch (err) {
       console.log(
-        `Copying Docusaurus template: ${chalk.cyan(template)} failed!`,
+        `Copying Docusaurus template: ${colorette.cyan(template)} failed!`,
       );
       throw err;
     }
@@ -147,7 +149,7 @@ export default async function init(
       private: true,
     });
   } catch (err) {
-    console.log(chalk.red('Failed to update package.json'));
+    console.log(colorette.red('Failed to update package.json'));
     throw err;
   }
 
@@ -164,12 +166,12 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
+    console.log(`Installing dependencies with: ${colorette.cyan(pkgManager)}`);
 
     try {
       shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
     } catch (err) {
-      console.log(chalk.red('Installation failed'));
+      console.log(colorette.red('Installation failed'));
       throw err;
     }
   }
@@ -182,22 +184,22 @@ export default async function init(
       : path.relative(process.cwd(), name);
 
   console.log();
-  console.log(`Success! Created ${chalk.cyan(cdpath)}`);
+  console.log(`Success! Created ${colorette.cyan(cdpath)}`);
   console.log('Inside that directory, you can run several commands:');
   console.log();
-  console.log(chalk.cyan(`  ${pkgManager} start`));
+  console.log(colorette.cyan(`  ${pkgManager} start`));
   console.log('    Starts the development server.');
   console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`));
+  console.log(colorette.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`));
   console.log('    Bundles the app into static files for production.');
   console.log();
-  console.log(chalk.cyan(`  ${pkgManager} deploy`));
+  console.log(colorette.cyan(`  ${pkgManager} deploy`));
   console.log('    Publish website to GitHub pages.');
   console.log();
   console.log('We suggest that you begin by typing:');
   console.log();
-  console.log(chalk.cyan('  cd'), cdpath);
-  console.log(`  ${chalk.cyan(`${pkgManager} start`)}`);
+  console.log(colorette.cyan('  cd'), cdpath);
+  console.log(`  ${colorette.cyan(`${pkgManager} start`)}`);
 
   console.log();
   console.log('Happy hacking!');

@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import globby from 'globby';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
@@ -152,7 +152,7 @@ export async function generateBlogPosts(
 
       if (frontMatter.id) {
         console.warn(
-          chalk.yellow(
+          colorette.yellow(
             `${blogFileName} - 'id' header option is deprecated. Please use 'slug' option instead.`,
           ),
         );

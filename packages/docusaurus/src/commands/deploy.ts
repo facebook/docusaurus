@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import shell from 'shelljs';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import {loadContext} from '../server';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
@@ -26,13 +26,13 @@ function shellExecLog(cmd) {
   try {
     const result = shell.exec(cmd);
     console.log(
-      `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
+      `${colorette.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${colorette.cyan(
         `(code=${result.code})`,
       )}`,
     );
     return result;
   } catch (e) {
-    console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
+    console.log(`${colorette.red('CMD:')} ${obfuscateGitPass(cmd)}`);
     throw e;
   }
 }
@@ -70,7 +70,7 @@ export default async function deploy(
       `Missing project organization name. Did you forget to define 'organizationName' in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
+  console.log(`${colorette.cyan('organizationName:')} ${organizationName}`);
 
   const projectName =
     process.env.PROJECT_NAME ||
@@ -81,7 +81,7 @@ export default async function deploy(
       `Missing project name. Did you forget to define 'projectName' in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('projectName:')} ${projectName}`);
+  console.log(`${colorette.cyan('projectName:')} ${projectName}`);
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -95,7 +95,7 @@ export default async function deploy(
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH ||
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
-  console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
+  console.log(`${colorette.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
@@ -116,7 +116,7 @@ export default async function deploy(
       : nonSshRemoteBranch;
 
   console.log(
-    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
+    `${colorette.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
   );
 
   // Check if this is a cross-repo publish.

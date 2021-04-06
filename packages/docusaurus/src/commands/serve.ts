@@ -8,7 +8,7 @@
 import http from 'http';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import path from 'path';
 
 import build from './build';
@@ -48,7 +48,7 @@ export default async function serve(
   });
   console.log(
     boxen(
-      `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
+      `${colorette.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
         cliOptions.host
       }:${port}`,
       {

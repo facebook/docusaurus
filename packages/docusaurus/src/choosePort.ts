@@ -13,7 +13,7 @@
 import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
@@ -69,10 +69,10 @@ function getProcessForPort(port: number): string | null {
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
     return (
-      chalk.cyan(command) +
-      chalk.grey(` (pid ${processId})\n`) +
-      chalk.blue('  in ') +
-      chalk.cyan(directory)
+      colorette.cyan(command) +
+      colorette.gray(` (pid ${processId})\n`) +
+      colorette.blue('  in ') +
+      colorette.cyan(directory)
     );
   } catch (e) {
     return null;
@@ -104,7 +104,7 @@ export default async function choosePort(
           const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
-            message: `${chalk.yellow(
+            message: `${colorette.yellow(
               `${message}${
                 existingProcess ? ` Probably:\n  ${existingProcess}` : ''
               }`,
@@ -119,16 +119,16 @@ export default async function choosePort(
             }
           });
         } else {
-          console.log(chalk.red(message));
+          console.log(colorette.red(message));
           resolve(null);
         }
         return null;
       }),
     (err) => {
       throw new Error(
-        `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: ${err.message}` || err
-        }\n`,
+        `${colorette.red(
+          `Could not find an open port at ${colorette.bold(host)}.`,
+        )}\n${`Network error message: ${err.message}` || err}\n`,
       );
     },
   );

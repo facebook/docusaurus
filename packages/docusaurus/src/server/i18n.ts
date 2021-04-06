@@ -9,7 +9,7 @@ import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
 import {NODE_MAJOR_VERSION} from '../constants';
-import chalk from 'chalk';
+import colorette from 'colorette';
 
 function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
@@ -45,7 +45,7 @@ export async function loadI18n(
 
   if (!i18nConfig.locales.includes(currentLocale)) {
     console.warn(
-      chalk.yellow(
+      colorette.yellow(
         `The locale=${currentLocale} was not found in your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
           ',',
         )}]
@@ -60,7 +60,7 @@ Note: Docusaurus only support running one locale at a time.`,
 
   if (shouldWarnAboutNodeVersion(NODE_MAJOR_VERSION, locales)) {
     console.warn(
-      chalk.yellow(
+      colorette.yellow(
         `To use Docusaurus i18n, it is strongly advised to use NodeJS >= 14 (instead of ${NODE_MAJOR_VERSION})`,
       ),
     );

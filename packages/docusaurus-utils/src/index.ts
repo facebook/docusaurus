@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import colorette from 'colorette';
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
@@ -588,13 +588,19 @@ export function reportMessage(
     case 'ignore':
       break;
     case 'log':
-      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      console.log(
+        colorette.bold(colorette.blue('info ')) + colorette.blue(message),
+      );
       break;
     case 'warn':
-      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      console.warn(
+        colorette.bold(colorette.yellow('warn ')) + colorette.yellow(message),
+      );
       break;
     case 'error':
-      console.error(chalk.bold.red('error ') + chalk.red(message));
+      console.error(
+        colorette.bold(colorette.red('error ')) + colorette.red(message),
+      );
       break;
     case 'throw':
       throw new Error(message);

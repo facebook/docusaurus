@@ -7,7 +7,7 @@
 import fs from 'fs-extra';
 import traverse, {Node} from '@babel/traverse';
 import generate from '@babel/generator';
-import chalk from 'chalk';
+import colorette from 'colorette';
 import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
 import {flatten} from 'lodash';
 import {TranslationFileContent, TranslationMessage} from '@docusaurus/types';
@@ -105,7 +105,7 @@ function logSourceCodeFileTranslationsWarnings(
   sourceCodeFilesTranslations.forEach(({sourceCodeFilePath, warnings}) => {
     if (warnings.length > 0) {
       console.warn(
-        `Translation extraction warnings for file path=${sourceCodeFilePath}:\n- ${chalk.yellow(
+        `Translation extraction warnings for file path=${sourceCodeFilePath}:\n- ${colorette.yellow(
           warnings.join('\n\n- '),
         )}`,
       );

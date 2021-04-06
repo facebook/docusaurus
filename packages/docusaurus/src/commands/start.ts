@@ -6,7 +6,7 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import chalk = require('chalk');
+import colorette from 'colorette';
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -38,7 +38,7 @@ export default async function start(
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  console.log(chalk.blue('Starting the development server...'));
+  console.log(colorette.blue('Starting the development server...'));
 
   function loadSite() {
     return load(siteDir, {
@@ -64,7 +64,9 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
+  console.log(
+    colorette.cyanBright(`Docusaurus website is running at: ${openUrl}`),
+  );
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -72,11 +74,13 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         console.log(
-          chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
+          colorette.cyanBright(
+            `Docusaurus website is running at: ${newOpenUrl}`,
+          ),
         );
       })
       .catch((err) => {
-        console.error(chalk.red(err.stack));
+        console.error(colorette.red(err.stack));
       });
   }, 500);
   const {siteConfig, plugins = []} = props;
