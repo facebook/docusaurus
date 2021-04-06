@@ -97,6 +97,7 @@ ${colorette.cyan('Theme components available for swizzle')}
 ${colorette.green('green  =>')} recommended: lower breaking change risk
 ${colorette.red('red    =>')} internal: higher breaking change risk
 
+
 ${components.join('\n')}
 `;
 }
