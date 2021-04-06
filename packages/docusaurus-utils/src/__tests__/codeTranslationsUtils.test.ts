@@ -12,7 +12,7 @@ import {
 } from '../codeTranslationsUtils';
 
 describe('codeTranslationLocalesToTry', () => {
-  test('should return appropriate locale lists', async () => {
+  test('should return appropriate locale lists', () => {
     expect(codeTranslationLocalesToTry('fr')).toEqual(['fr', 'fr-FR']);
     expect(codeTranslationLocalesToTry('fr-FR')).toEqual(['fr-FR', 'fr']);
     // Note: "pt" is expanded into "pt-BR", not "pt-PT", as "pt-BR" is more widely used!
