@@ -22,6 +22,8 @@ import {
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
 
+export * from './codeTranslationsUtils';
+
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
@@ -640,39 +642,6 @@ export function updateTranslationFileMessages(
       message: updateMessage(translation.message),
     })),
   };
-}
-
-export async function readDefaultCodeTranslationMessages({
-  dirPath,
-  locale,
-}: {
-  dirPath: string;
-  locale: string;
-}): Promise<Record<string, string>> {
-  const fileNamesToTry = [locale];
-
-  if (locale.includes('_')) {
-    const language = locale.split('_')[0];
-    if (language) {
-      fileNamesToTry.push(language);
-    }
-  }
-
-  // Return the content of the first file that match
-  // fr_FR.json => fr.json => nothing
-  // eslint-disable-next-line no-restricted-syntax
-  for (const fileName of fileNamesToTry) {
-    const filePath = path.resolve(dirPath, `${fileName}.json`);
-
-    // eslint-disable-next-line no-await-in-loop
-    if (await fs.pathExists(filePath)) {
-      // eslint-disable-next-line no-await-in-loop
-      const fileContent = await fs.readFile(filePath, 'utf8');
-      return JSON.parse(fileContent);
-    }
-  }
-
-  return {};
 }
 
 // Input: ## Some heading {#some-heading}
