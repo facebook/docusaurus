@@ -18,10 +18,10 @@ const MarkdownPluginsSchema = Joi.array()
     Joi.function(),
     Joi.object(),
   )
-  .default([])
   .messages({
-    'array.base': 'This is a temporary test message',
-  });
+    'array.includes': 'remarkPlugins must be the type of function or object',
+  })
+  .default([]);
 
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
