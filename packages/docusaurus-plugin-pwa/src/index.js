@@ -128,7 +128,7 @@ function plugin(context, options) {
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom,
+            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
           }),
           new LogPlugin({
             name: 'Service Worker',
