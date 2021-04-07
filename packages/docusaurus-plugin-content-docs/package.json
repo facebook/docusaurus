@@ -30,6 +30,7 @@
     "@docusaurus/utils": "2.0.0-alpha.72",
     "@docusaurus/utils-validation": "2.0.0-alpha.72",
     "chalk": "^4.1.0",
+    "combine-promises": "^1.1.0",
     "execa": "^5.0.0",
     "fs-extra": "^9.1.0",
     "globby": "^11.0.2",

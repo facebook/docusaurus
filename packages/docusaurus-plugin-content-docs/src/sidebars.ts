@@ -24,6 +24,7 @@ import {
 } from './types';
 import {mapValues, flatten, flatMap, difference} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
+import combinePromises from 'combine-promises';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -249,32 +250,6 @@ export function loadSidebars(sidebarFilePath: string): UnprocessedSidebars {
   const sidebarJson = importFresh(sidebarFilePath) as SidebarsJSON;
   return normalizeSidebars(sidebarJson);
 }
-
-// TODO move to utils + add tests (or create a separate standalone package?
-// converts {a: Promise<B>} to Promise<{a: B}>
-type UnwrapPromise<P extends Promise<unknown>> = P extends PromiseLike<infer V>
-  ? V
-  : never;
-export const combinePromises = <
-  Obj extends Record<string | number | symbol, Promise<unknown>>
->(
-  obj: Obj,
-): Promise<
-  {
-    [P in keyof Obj]: UnwrapPromise<Obj[P]>;
-  }
-> => {
-  const keys = Object.keys(obj);
-  const values = Object.values(obj);
-  return Promise.all(values).then((results) => {
-    const combinedResult: any = {};
-    results.forEach((result, i) => {
-      const key = keys[i];
-      combinedResult[key] = result;
-    });
-    return combinedResult;
-  });
-};
 
 export async function processSidebar(
   unprocessedSidebar: UnprocessedSidebar,
