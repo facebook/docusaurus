@@ -86,7 +86,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         },
         editCurrentVersion: true,
         routeBasePath: 'community',
-        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        // sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
