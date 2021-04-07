@@ -30,6 +30,7 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 import {getDocsDirPaths} from './versions';
+import {stripNumberPrefix} from './numberPrefix';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -115,9 +116,15 @@ export function processDocMetadata({
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
-  // ex: api/myDoc -> api
+  // ex: api/plugins/myDoc -> api/plugins
   // ex: myDoc -> .
-  const docsFileDirName = path.dirname(source);
+  const sourceDirName = path.dirname(source);
+  // ex: api/plugins/myDoc -> myDoc
+  // ex: myDoc -> myDoc
+  const sourceFileNameWithoutExtension = path.basename(
+    source,
+    path.extname(source),
+  );
 
   const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
   const {
@@ -126,7 +133,7 @@ export function processDocMetadata({
   } = frontMatter;
 
   const baseID: string =
-    frontMatter.id || path.basename(source, path.extname(source));
+    frontMatter.id || stripNumberPrefix(sourceFileNameWithoutExtension);
   if (baseID.includes('/')) {
     throw new Error(`Document id [${baseID}] cannot include "/".`);
   }
@@ -141,7 +148,7 @@ export function processDocMetadata({
 
   // TODO legacy retrocompatibility
   // I think it's bad to affect the frontmatter id with the dirname
-  const dirNameIdPart = docsFileDirName === '.' ? '' : `${docsFileDirName}/`;
+  const dirNameIdPart = sourceDirName === '.' ? '' : `${sourceDirName}/`;
 
   // TODO legacy composite id, requires a breaking change to modify this
   const id = `${versionIdPart}${dirNameIdPart}${baseID}`;
@@ -160,7 +167,7 @@ export function processDocMetadata({
     ? '/'
     : getSlug({
         baseID,
-        dirName: docsFileDirName,
+        dirName: sourceDirName,
         frontmatterSlug: frontMatter.slug,
       });
 
@@ -207,6 +214,7 @@ export function processDocMetadata({
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),
+    sourceDirName,
     slug: docSlug,
     permalink,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),

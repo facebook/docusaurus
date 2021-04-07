@@ -30,7 +30,7 @@ class BlogPostLayout extends React.Component {
 
   renderSocialButtons() {
     const post = this.props.metadata;
-    post.path = utils.getPath(post.path, this.props.config.cleanUrl);
+    post.dirPath = utils.getPath(post.path, this.props.config.cleanUrl);
 
     const fbComment = this.props.config.facebookAppId &&
       this.props.config.facebookComments && (
@@ -93,7 +93,7 @@ class BlogPostLayout extends React.Component {
   render() {
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
     const post = this.props.metadata;
-    post.path = utils.getPath(post.path, this.props.config.cleanUrl);
+    post.dirPath = utils.getPath(post.path, this.props.config.cleanUrl);
     const blogSidebarTitleConfig = this.props.config.blogSidebarTitle || {};
     return (
       <Site
