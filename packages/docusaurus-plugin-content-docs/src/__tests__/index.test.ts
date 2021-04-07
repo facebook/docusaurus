@@ -247,6 +247,7 @@ describe('simple website', () => {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
@@ -273,6 +274,7 @@ describe('simple website', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       next: {
         title: 'baz',
@@ -431,6 +433,7 @@ describe('versioned website', () => {
       ...defaultDocMetadata,
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
@@ -456,6 +459,7 @@ describe('versioned website', () => {
       ...defaultDocMetadata,
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/next/',
       slug: '/',
@@ -478,6 +482,7 @@ describe('versioned website', () => {
       ...defaultDocMetadata,
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
@@ -500,6 +505,7 @@ describe('versioned website', () => {
       ...defaultDocMetadata,
       id: 'version-1.0.0/foo/baz',
       unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       slug: '/foo/baz',
@@ -648,6 +654,7 @@ describe('versioned website (community)', () => {
       ...defaultDocMetadata,
       id: 'team',
       unversionedId: 'team',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
@@ -663,6 +670,7 @@ describe('versioned website (community)', () => {
       ...defaultDocMetadata,
       id: 'version-1.0.0/team',
       unversionedId: 'team',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/community/team',
       slug: '/team',
@@ -709,7 +717,7 @@ describe('site with doc label', () => {
       }),
     );
 
-    const content = await plugin.loadContent();
+    const content = (await plugin.loadContent?.())!;
 
     return {content};
   }

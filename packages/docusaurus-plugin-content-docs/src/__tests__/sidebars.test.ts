@@ -14,6 +14,7 @@ import {
   collectSidebarCategories,
   collectSidebarLinks,
   transformSidebarItems,
+  DefaultSidebars,
 } from '../sidebars';
 import {Sidebar, Sidebars} from '../types';
 
@@ -124,7 +125,7 @@ describe('loadSidebars', () => {
     );
      */
     // See https://github.com/facebook/docusaurus/issues/3366
-    expect(loadSidebars('badpath')).toEqual({});
+    expect(loadSidebars('badpath')).toEqual(DefaultSidebars);
   });
 
   test('undefined path', () => {
