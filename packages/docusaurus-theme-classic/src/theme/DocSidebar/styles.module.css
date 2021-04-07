@@ -5,8 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:root {
+ :root {
   --collapse-button-bg-color-dark: #2e333a;
+}
+
+@media (max-width: 996px) {
+  #sidebar__responsive-button:not(:checked) ~ .menu {
+    display: none;
+  }
+  
+  #sidebar__responsive-button:checked ~ .menu {
+    background: var(--ifm-background-surface-color);
+    bottom: 0;
+    left: 0;
+    overscroll-behavior: contain;
+    padding: 1rem;
+    position: fixed;
+    right: 0;
+    -ms-scroll-chaining: none;
+    top: 0;
+    z-index: var(--ifm-z-index-overlay);
+  }
 }
 
 @media (min-width: 997px) {
@@ -113,26 +132,116 @@
   width: 24px;
 }
 
-:global(.menu__list) :global(.menu__list) {
+/****************************************************/
+/* make checkbox hacks invisible */
+#sidebar__responsive-button, .drawer__checkbox-hack {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+/* responsive menu button */
+
+.sidebar__menu-button {
+  bottom: 2rem;
+  display: inherit;
+  font: 400 13.3333px Arial;
+  position: fixed;
+  right: 1rem;
+  transition: opacity var(--ifm-transition-fast) linear;
+  z-index: calc(var(--ifm-z-index-overlay) + 1);
+}
+.sidebar__menu-button--close, #sidebar__responsive-button:checked ~ .sidebar__menu-button--open {
+  opacity: 0;
+  visibility: hidden;
+}
+.sidebar__menu-button--open, #sidebar__responsive-button:checked ~ .sidebar__menu-button--close {
+  opacity: 1;
+  visibility: visible;
+}
+/* */
+
+/************************************************/
+
+/* apply focus outline to labels */
+.drawer__checkbox-hack:focus ~ .drawer__label {
+  outline: auto;
+}
+
+/* indent nested categories */
+.drawer__list .drawer__list {
+  margin-left: var(--ifm-menu-link-padding-horizontal);
+}
+
+/* menu item styling */
+.drawer__list {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0;
+}
+.drawer__list-item {
+  margin: 0.25rem 0;
+}
+
+/* make hidden items unfocusable */
+.drawer__checkbox-hack:not(:checked) ~ .drawer__list-wrapper .drawer__list-item {
+  visibility: hidden;
+}
+
+/* constant size and location (mostly) category dropdown arrows */
+.drawer__list {
+  overflow-x: hidden;
+}
+.drawer__list, .drawer__checkbox-hack ~ .drawer__label > :global(.menu__link) {
+  width: 100%;
+  word-break: break-word;
+}
+
+/* category dropdown arrow */
+.drawer__checkbox-hack ~ .drawer__label > :global(.menu__link)::after {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem;
+  content: ' ';
+  display: inline-block;
+  filter: var(--ifm-menu-link-sublist-icon-filter);
+  min-width: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+  transform: rotate(180deg);
+  transition: transform var(--ifm-transition-fast) linear;
+}
+.drawer__checkbox-hack:not(:checked) ~ .drawer__label > :global(.menu__link)::after {
+  transform: rotateZ(90deg);
+}
+
+/* category toggle open/close with transition */
+.drawer__list-wrapper {
+  display: flex;
   overflow-y: hidden;
-  will-change: height;
+}
+.drawer__list-wrapper:after {
+  content: '';
+  height: 0;
+  max-height: calc(20px + 2 * var(--ifm-menu-link-padding-vertical));
   transition: height var(--ifm-transition-fast) linear;
 }
-
-:global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0 !important;
+.drawer__checkbox-hack:checked ~ .drawer__list-wrapper:after {
+  height: calc(20px + 2 * var(--ifm-menu-link-padding-vertical));
+  max-height: 0;
+  transition: height var(--ifm-transition-fast) linear, max-height 0s var(--ifm-transition-fast) linear;
 }
-
-.menuLinkExternal {
-  align-items: center;
+.drawer__list .drawer__list {
+  margin-bottom: -100vh;
+  max-height: 0;
+  transition: margin-bottom var(--ifm-transition-fast) cubic-bezier(1,0,1,1),
+              visibility 0s var(--ifm-transition-fast), max-height 0s var(--ifm-transition-fast);
+  visibility: hidden;
 }
-.menuLinkExternal:after {
-  content: '';
-  height: 1.15rem;
-  width: 1.15rem;
-  min-width: 1.15rem;
-  margin: 0 auto 0 3%;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(0,0,0,0.5)' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'/%3E%3C/svg%3E")
-    no-repeat;
-  filter: var(--ifm-menu-link-sublist-icon-filter);
+.drawer__checkbox-hack:checked ~ .drawer__list-wrapper > .drawer__list {
+  margin-bottom: 0;
+  max-height: 1000000vh; /* bad */
+  transition: margin-bottom var(--ifm-transition-fast) cubic-bezier(0,0,0,1);
+  visibility: visible;
 }
