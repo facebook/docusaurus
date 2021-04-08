@@ -30,7 +30,7 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 import {getDocsDirPaths} from './versions';
-import {stripNumberPrefix} from './numberPrefix';
+import {stripNumberPrefix, stripPathNumberPrefixes} from './numberPrefix';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -116,9 +116,15 @@ export function processDocMetadata({
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
-  // ex: api/plugins/myDoc -> api/plugins
-  // ex: myDoc -> .
-  const sourceDirName = path.dirname(source);
+  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
+  const {
+    sidebar_label: sidebarLabel,
+    custom_edit_url: customEditURL,
+    // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
+    // but ability to disable this behavior with frontmatterr
+    stripNumberPrefixes = true,
+  } = frontMatter;
+
   // ex: api/plugins/myDoc -> myDoc
   // ex: myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -126,14 +132,14 @@ export function processDocMetadata({
     path.extname(source),
   );
 
-  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
-  const {
-    sidebar_label: sidebarLabel,
-    custom_edit_url: customEditURL,
-  } = frontMatter;
+  // ex: api/plugins/myDoc -> api/plugins
+  // ex: myDoc -> .
+  const sourceDirName = path.dirname(source);
 
   const baseID: string =
-    frontMatter.id || stripNumberPrefix(sourceFileNameWithoutExtension);
+    frontMatter.id || stripNumberPrefixes
+      ? stripNumberPrefix(sourceFileNameWithoutExtension)
+      : sourceFileNameWithoutExtension;
   if (baseID.includes('/')) {
     throw new Error(`Document id [${baseID}] cannot include "/".`);
   }
@@ -141,19 +147,30 @@ export function processDocMetadata({
   // TODO legacy retrocompatibility
   // The same doc in 2 distinct version could keep the same id,
   // we just need to namespace the data by version
-  const versionIdPart =
+  const versionIdPrefix =
     versionMetadata.versionName === CURRENT_VERSION_NAME
-      ? ''
-      : `version-${versionMetadata.versionName}/`;
+      ? undefined
+      : `version-${versionMetadata.versionName}`;
 
   // TODO legacy retrocompatibility
-  // I think it's bad to affect the frontmatter id with the dirname
-  const dirNameIdPart = sourceDirName === '.' ? '' : `${sourceDirName}/`;
+  // I think it's bad to affect the frontmatter id with the dirname?
+  function computeDirNameIdPrefix() {
+    if (sourceDirName === '.') {
+      return undefined;
+    }
+    // Eventually remove the number prefixes from intermediate directories
+    return stripNumberPrefixes
+      ? stripPathNumberPrefixes(sourceDirName)
+      : sourceDirName;
+  }
 
-  // TODO legacy composite id, requires a breaking change to modify this
-  const id = `${versionIdPart}${dirNameIdPart}${baseID}`;
+  const unversionedId = [computeDirNameIdPrefix(), baseID]
+    .filter(Boolean)
+    .join('/');
 
-  const unversionedId = `${dirNameIdPart}${baseID}`;
+  // TODO is versioning the id very useful in practice?
+  // legacy versioned id, requires a breaking change to modify this
+  const id = [versionIdPrefix, unversionedId].filter(Boolean).join('/');
 
   // TODO remove soon, deprecated homePageId
   const isDocsHomePage = unversionedId === (homePageId ?? '_index');
@@ -169,6 +186,7 @@ export function processDocMetadata({
         baseID,
         dirName: sourceDirName,
         frontmatterSlug: frontMatter.slug,
+        stripDirNumberPrefixes: stripNumberPrefixes,
       });
 
   // Default title is the id.

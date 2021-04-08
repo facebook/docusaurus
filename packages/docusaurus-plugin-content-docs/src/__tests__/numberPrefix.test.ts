@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {stripNumberPrefix} from '../numberPrefix';
+import {stripNumberPrefix, stripPathNumberPrefixes} from '../numberPrefix';
 
 describe('stripNumberPrefix', () => {
   test('should strip number prefix if present', () => {
@@ -50,5 +50,15 @@ describe('stripNumberPrefix', () => {
     badPatterns.forEach((badPattern) => {
       expect(stripNumberPrefix(badPattern)).toEqual(badPattern);
     });
+  });
+});
+
+describe('stripPathNumberPrefix', () => {
+  test('should strip number prefixes in paths', () => {
+    expect(
+      stripPathNumberPrefixes(
+        '0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3',
+      ),
+    ).toEqual('MyRootFolder0/MySubFolder1/MyDeepFolder2/MyDoc3');
   });
 });
