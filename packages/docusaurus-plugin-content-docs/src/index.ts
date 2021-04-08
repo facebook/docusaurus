@@ -174,7 +174,11 @@ export default function pluginContentDocs(
           (doc) => doc.id,
         );
 
-        const sidebars = await processSidebars(unprocessedSidebars, docsBase);
+        const sidebars = await processSidebars({
+          unprocessedSidebars,
+          docs: docsBase,
+          version: versionMetadata,
+        });
 
         const sidebarsUtils = createSidebarsUtils(sidebars);
 
