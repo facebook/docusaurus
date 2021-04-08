@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
@@ -35,6 +35,18 @@ let filteredUsers = users;
 
 function Showcase() {
   const [selectedTags, setSelectedTags] = useState([]);
+  const filteredUsers = useMemo(
+    () =>
+      users.filter((user) => {
+        for (let i = 0; i < selectedTags.length; i++) {
+          if (!user.tags.includes(selectedTags[i])) {
+            return false;
+          }
+        }
+        return true;
+      }),
+    [selectedTags, users],
+  );
 
   const toggleTag = (tag) => {
     const tagIndex = selectedTags.findIndex((selectedTag) => {
@@ -47,9 +59,6 @@ function Showcase() {
       selectedTagsUpdate.splice(tagIndex, 1);
     }
     setSelectedTags(selectedTagsUpdate);
-    filteredUsers = users.filter((user) => {
-      user.tags.includes(selectedTags);
-    });
   };
 
   return (
@@ -76,7 +85,6 @@ function Showcase() {
           ))}
         </div>
         <div className="row">
-          {/* {users.map((user) => ( */}
           {filteredUsers.map((user) => (
             <div key={user.title} className="col col--4 margin-bottom--lg">
               <div className={clsx('card', styles.showcaseUser)}>
