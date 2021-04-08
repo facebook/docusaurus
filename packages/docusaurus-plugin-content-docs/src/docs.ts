@@ -137,9 +137,10 @@ export function processDocMetadata({
   const sourceDirName = path.dirname(source);
 
   const baseID: string =
-    frontMatter.id || stripNumberPrefixes
+    frontMatter.id ||
+    (stripNumberPrefixes
       ? stripNumberPrefix(sourceFileNameWithoutExtension)
-      : sourceFileNameWithoutExtension;
+      : sourceFileNameWithoutExtension);
   if (baseID.includes('/')) {
     throw new Error(`Document id [${baseID}] cannot include "/".`);
   }
