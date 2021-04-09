@@ -619,7 +619,7 @@ module.exports = function (context, options) {
   return {
     name: 'my-plugin',
     // highlight-start
-    async getTranslationFiles() {
+    async getTranslationFiles({content}) {
       return [
         {
           path: 'sidebar-labels',
@@ -628,6 +628,7 @@ module.exports = function (context, options) {
               message: 'Some Sidebar Label',
               description: 'A label used in my plugin in the sidebar',
             },
+            someLabelFromContent: content.myLabel,
           },
         },
       ];
