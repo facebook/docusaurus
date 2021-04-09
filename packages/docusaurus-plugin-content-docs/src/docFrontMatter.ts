@@ -23,7 +23,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   description: Joi.string(),
   slug: Joi.string(),
   sidebar_label: Joi.string(),
-  custom_edit_url: Joi.string(),
+  custom_edit_url: Joi.string().allow(null),
 }).unknown();
 
 export function assertDocFrontMatter(

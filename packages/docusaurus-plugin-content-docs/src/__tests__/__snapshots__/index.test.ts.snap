@@ -198,9 +198,7 @@ Object {
   \\"slug\\": \\"/headingAsTitle\\",
   \\"permalink\\": \\"/docs/headingAsTitle\\",
   \\"version\\": \\"current\\",
-  \\"frontMatter\\": {
-    \\"title\\": \\"My heading as title\\"
-  }
+  \\"frontMatter\\": {}
 }",
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
