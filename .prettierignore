@@ -14,3 +14,6 @@ __fixtures__
 
 website-1.x/translated_docs
 website/i18n
+
+examples/**/package.json
+examples/**/sandbox.config.json

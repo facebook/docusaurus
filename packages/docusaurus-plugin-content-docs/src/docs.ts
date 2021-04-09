@@ -31,6 +31,7 @@ import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 import {getDocsDirPaths} from './versions';
 import {stripNumberPrefix, stripPathNumberPrefixes} from './numberPrefix';
+import {assertDocFrontMatter} from './docFrontMatter';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -116,13 +117,18 @@ export function processDocMetadata({
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
-  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
+  const {frontMatter, contentTitle, excerpt} = parseMarkdownString(content, {
+    source,
+  });
+  assertDocFrontMatter(frontMatter);
+
   const {
     sidebar_label: sidebarLabel,
     custom_edit_url: customEditURL,
+
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
     // but ability to disable this behavior with frontmatterr
-    stripNumberPrefixes = true,
+    strip_number_prefixes: stripNumberPrefixes,
   } = frontMatter;
 
   // ex: api/plugins/myDoc -> myDoc
@@ -191,9 +197,9 @@ export function processDocMetadata({
       });
 
   // Default title is the id.
-  const title: string = frontMatter.title || baseID;
+  const title: string = frontMatter.title ?? contentTitle ?? baseID;
 
-  const description: string = frontMatter.description || excerpt;
+  const description: string = frontMatter.description ?? excerpt ?? '';
 
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 

@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import fs from 'fs-extra';
 import {
   fileToPath,
   simpleHash,
@@ -19,7 +18,6 @@ import {
   posixPath,
   objectWithKeySorted,
   aliasedSitePath,
-  createExcerpt,
   isValidPathname,
   addTrailingSlash,
   removeTrailingSlash,
@@ -34,7 +32,6 @@ import {
   findFolderContainingFile,
   getFolderContainingFile,
   updateTranslationFileMessages,
-  readDefaultCodeTranslationMessages,
   parseMarkdownHeadingId,
 } from '../index';
 import {sum} from 'lodash';
@@ -374,81 +371,6 @@ describe('load utils', () => {
     );
   });
 
-  test('createExcerpt', () => {
-    const asserts = [
-      // Regular content
-      {
-        input: `
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
-      },
-      // Content with imports/exports declarations and Markdown markup, as well as Emoji
-      {
-        input: `
-          import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
-          import './styles.css';
-
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
-
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
-
-          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~molestie~ et sagittis ut, varius ac justo :wink:.
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
-      },
-      // Content beginning with admonitions
-      {
-        input: `
-          import Component from '@site/src/components/Component'
-
-          :::caution
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-          :::
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-      // Content beginning with heading
-      {
-        input: `
-          ## Lorem ipsum dolor sit amet
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output: 'Lorem ipsum dolor sit amet',
-      },
-      // Content beginning with blockquote
-      {
-        input: `
-          > Lorem ipsum dolor sit amet
-        `,
-        output: 'Lorem ipsum dolor sit amet',
-      },
-      // Content beginning with image (eg. blog post)
-      {
-        input: `
-          ![Lorem ipsum](/img/lorem-ipsum.svg)
-        `,
-        output: 'Lorem ipsum',
-      },
-    ];
-
-    asserts.forEach((testCase) => {
-      expect(createExcerpt(testCase.input)).toEqual(testCase.output);
-    });
-  });
-
   test('isValidPathname', () => {
     expect(isValidPathname('/')).toBe(true);
     expect(isValidPathname('/hey')).toBe(true);
@@ -719,92 +641,6 @@ describe('updateTranslationFileMessages', () => {
         t3: {message: 'prefix t3 message suffix', description: 't3 desc'},
       },
     });
-  });
-});
-
-describe('readDefaultCodeTranslationMessages', () => {
-  const dirPath = path.resolve(
-    __dirname,
-    '__fixtures__',
-    'defaultCodeTranslations',
-  );
-
-  async function readAsJSON(filename: string) {
-    return JSON.parse(
-      await fs.readFile(path.resolve(dirPath, filename), 'utf8'),
-    );
-  }
-
-  test('for empty locale', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: '',
-        dirPath,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for unexisting locale', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'es',
-        dirPath,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for fr but bad folder', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: '',
-        dirPath: __dirname,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for fr', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'fr',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('fr.json'));
-  });
-
-  test('for fr_FR', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'fr_FR',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('fr_FR.json'));
-  });
-
-  test('for en', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
-  });
-
-  test('for en_US', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en_US',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
-  });
-
-  test('for en_WHATEVER', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en_WHATEVER',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
   });
 });
 

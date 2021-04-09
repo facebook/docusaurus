@@ -104,8 +104,8 @@ export default function pluginContentDocs(
         });
     },
 
-    async getTranslationFiles() {
-      return getLoadedContentTranslationFiles(await this.loadContent!());
+    async getTranslationFiles({content}) {
+      return getLoadedContentTranslationFiles(content);
     },
 
     getClientModules() {

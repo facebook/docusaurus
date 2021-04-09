@@ -9,7 +9,10 @@ const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
-const {readFrontMatter} = require('@docusaurus/utils');
+const {
+  parseFrontMatter,
+  parseMarkdownContentTitle,
+} = require('@docusaurus/utils');
 const stringifyObject = require('stringify-object');
 const headings = require('./remark/headings');
 const toc = require('./remark/toc');
@@ -26,12 +29,14 @@ module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
   const reqOptions = getOptions(this) || {};
 
-  const {frontMatter, content, hasFrontMatter} = readFrontMatter(
-    fileString,
-    this.resourcePath,
-    {},
-    reqOptions.removeTitleHeading,
-  );
+  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+
+  // By default, will remove the markdown title from the content
+  const {content} = parseMarkdownContentTitle(contentWithTitle, {
+    keepContentTitle: reqOptions.keepContentTitle,
+  });
+
+  const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   const options = {
     ...reqOptions,
