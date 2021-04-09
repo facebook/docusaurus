@@ -601,7 +601,7 @@ For example, the in docusaurus-plugin-content-docs:
 
 ## i18n lifecycles {#i18n-lifecycles}
 
-### `getTranslationFiles()` {#get-translation-files}
+### `getTranslationFiles({content})` {#get-translation-files}
 
 Plugins declare the JSON translation files they want to use.
 
