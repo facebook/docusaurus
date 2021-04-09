@@ -23,6 +23,7 @@ import resolvePathnameUnsafe from 'resolve-pathname';
 
 export * from './codeTranslationsUtils';
 export * from './markdownParser';
+export * from './markdownLinks';
 
 const fileHash = new Map();
 export async function generate(

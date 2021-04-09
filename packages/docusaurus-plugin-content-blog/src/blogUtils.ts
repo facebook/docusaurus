@@ -26,9 +26,9 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
+  replaceMarkdownLinks,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
-import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
 import {assertBlogPostFrontMatter} from './blogFrontMatter';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
