@@ -123,7 +123,7 @@ describe('createExcerpt', () => {
   });
 });
 
-describe.only('parseMarkdownContentTitle', () => {
+describe('parseMarkdownContentTitle', () => {
   test('Should parse markdown h1 title at the top', () => {
     const markdown = dedent`
 
@@ -167,7 +167,7 @@ describe.only('parseMarkdownContentTitle', () => {
     });
   });
 
-  test.only('Should parse title-only', () => {
+  test('Should parse title-only', () => {
     const markdown = '# Document With Only A Title ';
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: '',
@@ -395,7 +395,7 @@ describe('parseMarkdownString', () => {
     ).toMatchInlineSnapshot(`
       Object {
         "content": "# Markdown Title",
-        "contentTitle": "Markdown",
+        "contentTitle": "Markdown Title",
         "excerpt": undefined,
         "frontMatter": Object {},
       }
@@ -473,14 +473,27 @@ describe('parseMarkdownString', () => {
   });
 
   test('should parse title only', () => {
+    expect(parseMarkdownString('# test')).toMatchInlineSnapshot(`
+      Object {
+        "content": "",
+        "contentTitle": "test",
+        "excerpt": undefined,
+        "frontMatter": Object {},
+      }
+    `);
+    expectNoWarning();
+  });
+
+  test('should parse title only alternate', () => {
     expect(
       parseMarkdownString(dedent`
-        # test
+        test
+        ===
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "# test",
-        "contentTitle": undefined,
+        "content": "",
+        "contentTitle": "test",
         "excerpt": undefined,
         "frontMatter": Object {},
       }
@@ -498,7 +511,7 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "# test",
+        "content": "",
         "contentTitle": "test",
         "excerpt": undefined,
         "frontMatter": Object {
