@@ -189,9 +189,11 @@ export async function generateBlogPosts(
         year: 'numeric',
       }).format(date);
 
+      const title = frontMatter.title ?? contentTitle ?? linkName;
+      const description = frontMatter.description ?? excerpt ?? '';
+
       const slug =
         frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
-      frontMatter.title = frontMatter.title || linkName;
 
       const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
 
@@ -227,16 +229,16 @@ export async function generateBlogPosts(
       }
 
       blogPosts.push({
-        id: frontMatter.slug || frontMatter.title,
+        id: frontMatter.slug ?? title,
         metadata: {
           permalink,
           editUrl: getBlogEditUrl(),
           source: aliasedSource,
-          description: frontMatter.description ?? excerpt ?? '',
+          title,
+          description,
           date,
           formattedDate,
           tags: frontMatter.tags ?? [],
-          title: frontMatter.title ?? contentTitle,
           readingTime: showReadingTime
             ? readingTime(content).minutes
             : undefined,

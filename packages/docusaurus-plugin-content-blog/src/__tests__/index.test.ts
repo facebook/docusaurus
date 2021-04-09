@@ -12,8 +12,25 @@ import path from 'path';
 import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions, EditUrlFunction} from '../types';
+import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
 import {Joi} from '@docusaurus/utils-validation';
+
+function findByTitle(
+  blogPosts: BlogPost[],
+  title: string,
+): BlogPost | undefined {
+  return blogPosts.find((v) => v.metadata.title === title);
+}
+function getByTitle(blogPosts: BlogPost[], title: string): BlogPost {
+  const post = findByTitle(blogPosts, title);
+  if (!post) {
+    throw new Error(`can't find blog post with title ${title}.
+Available blog post titles are:\n- ${blogPosts
+      .map((p) => p.metadata.title)
+      .join('\n- ')}`);
+  }
+  return post;
+}
 
 function getI18n(locale: string): I18n {
   return {
@@ -77,7 +94,7 @@ describe('loadBlog', () => {
     const blogPosts = await getBlogPosts(siteDir);
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'date-matter')!.metadata,
+      ...getByTitle(blogPosts, 'date-matter').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/date-matter.md`,
@@ -98,9 +115,7 @@ describe('loadBlog', () => {
     });
 
     expect(
-      blogPosts.find(
-        (v) => v.metadata.title === 'Happy 1st Birthday Slash! (translated)',
-      )!.metadata,
+      getByTitle(blogPosts, 'Happy 1st Birthday Slash! (translated)').metadata,
     ).toEqual({
       editUrl: `${BaseEditUrl}/blog/2018-12-14-Happy-First-Birthday-Slash.md`,
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
@@ -124,7 +139,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'Complex Slug')!.metadata,
+      ...getByTitle(blogPosts, 'Complex Slug').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/complex-slug.md`,
@@ -145,7 +160,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'Simple Slug')!.metadata,
+      ...getByTitle(blogPosts, 'Simple Slug').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/simple-slug.md`,
@@ -166,7 +181,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'some heading')!.metadata,
+      ...getByTitle(blogPosts, 'some heading').metadata,
       prevItem: undefined,
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/heading-as-title.md`,
@@ -301,7 +316,7 @@ describe('loadBlog', () => {
     }).format(noDateSourceBirthTime);
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'no date')!.metadata,
+      ...getByTitle(blogPosts, 'no date').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/no date.md`,
