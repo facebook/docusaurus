@@ -5,20 +5,44 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function buildUrl(githubHost: string, githubPort: string | undefined, gitCredentials: string | undefined, organizationName: string, projectName: string, useSSH: boolean | undefined) {
+export function buildUrl(
+  githubHost: string,
+  githubPort: string | undefined,
+  gitCredentials: string | undefined,
+  organizationName: string,
+  projectName: string,
+  useSSH: boolean | undefined,
+) {
   return useSSH
-      ? buildSshUrl(githubHost, organizationName, projectName, githubPort)
-      : buildHttpsUrl(gitCredentials, githubHost, organizationName, projectName, githubPort);
+    ? buildSshUrl(githubHost, organizationName, projectName, githubPort)
+    : buildHttpsUrl(
+        gitCredentials,
+        githubHost,
+        organizationName,
+        projectName,
+        githubPort,
+      );
 }
 
-function buildSshUrl(githubHost: string, organizationName: string, projectName: string, githubPort: string | undefined) {
+function buildSshUrl(
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort: string | undefined,
+) {
   if (githubPort) {
     return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
   }
   return `git@${githubHost}:${organizationName}/${projectName}.git`;
 }
 
-function buildHttpsUrl(gitCredentials: string | undefined, githubHost: string, organizationName: string, projectName: string, githubPort: string | undefined) {
+function buildHttpsUrl(
+  gitCredentials: string | undefined,
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort: string | undefined,
+) {
   if (githubPort) {
     return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
   }

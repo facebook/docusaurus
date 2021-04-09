@@ -13,7 +13,7 @@ import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
-import { buildUrl } from './buildRemoteBranchUrl';
+import {buildUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str) {
@@ -37,7 +37,6 @@ function shellExecLog(cmd) {
     throw e;
   }
 }
-
 
 export default async function deploy(
   siteDir: string,
@@ -99,7 +98,6 @@ export default async function deploy(
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
-
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
@@ -117,7 +115,8 @@ export default async function deploy(
     gitCredentials,
     organizationName,
     projectName,
-    (useSSH !== undefined && useSSH.toLowerCase() === 'true'));
+    useSSH !== undefined && useSSH.toLowerCase() === 'true',
+  );
 
   console.log(
     `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
