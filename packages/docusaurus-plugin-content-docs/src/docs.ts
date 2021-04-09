@@ -30,6 +30,7 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 import {getDocsDirPaths} from './versions';
+import {assertDocFrontMatter} from './docFrontMatter';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -115,11 +116,15 @@ export function processDocMetadata({
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
+  const {frontMatter, contentTitle, excerpt} = parseMarkdownString(content, {
+    source,
+  });
+  assertDocFrontMatter(frontMatter);
+
   // ex: api/myDoc -> api
   // ex: myDoc -> .
   const docsFileDirName = path.dirname(source);
 
-  const {frontMatter = {}, excerpt} = parseMarkdownString(content, source);
   const {
     sidebar_label: sidebarLabel,
     custom_edit_url: customEditURL,
@@ -165,9 +170,9 @@ export function processDocMetadata({
       });
 
   // Default title is the id.
-  const title: string = frontMatter.title || baseID;
+  const title: string = frontMatter.title ?? contentTitle ?? baseID;
 
-  const description: string = frontMatter.description || excerpt;
+  const description: string = frontMatter.description ?? excerpt ?? '';
 
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 

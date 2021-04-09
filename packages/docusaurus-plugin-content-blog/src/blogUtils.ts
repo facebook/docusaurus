@@ -29,6 +29,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {replaceMarkdownLinks} from '@docusaurus/utils/lib/markdownLinks';
+import {assertBlogPostFrontMatter} from './blogFrontMatter';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -140,11 +141,17 @@ export async function generateBlogPosts(
 
       const source = path.join(blogDirPath, blogSourceFile);
 
+      const {
+        frontMatter,
+        content,
+        contentTitle,
+        excerpt,
+      } = await parseMarkdownFile(source);
+      assertBlogPostFrontMatter(frontMatter);
+
       const aliasedSource = aliasedSitePath(source, siteDir);
 
       const blogFileName = path.basename(blogSourceFile);
-
-      const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
 
       if (frontMatter.draft && process.env.NODE_ENV === 'production') {
         return;
@@ -225,11 +232,11 @@ export async function generateBlogPosts(
           permalink,
           editUrl: getBlogEditUrl(),
           source: aliasedSource,
-          description: frontMatter.description || excerpt,
+          description: frontMatter.description ?? excerpt ?? '',
           date,
           formattedDate,
-          tags: frontMatter.tags,
-          title: frontMatter.title,
+          tags: frontMatter.tags ?? [],
+          title: frontMatter.title ?? contentTitle,
           readingTime: showReadingTime
             ? readingTime(content).minutes
             : undefined,
