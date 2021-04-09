@@ -13,6 +13,7 @@ import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
+import { buildUrl } from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str) {
@@ -36,6 +37,7 @@ function shellExecLog(cmd) {
     throw e;
   }
 }
+
 
 export default async function deploy(
   siteDir: string,
@@ -97,7 +99,6 @@ export default async function deploy(
     (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
-  const useSSH = process.env.USE_SSH;
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
@@ -109,16 +110,14 @@ export default async function deploy(
     gitCredentials = `${gitCredentials}:${gitPass}`;
   }
 
-  const githubAddress = `${githubHost}${githubPort ? ':' + githubPort : ''}`;
-  const githubPath = `${organizationName}/${projectName}`;
-
-  const sshRemoteBranch: string = `ssh://git@${githubAddress}/${githubPath}.git`;
-  const nonSshRemoteBranch: string = `https://${gitCredentials}@${githubAddress}/${githubPath}.git`;
-
-  const remoteBranch =
-    useSSH && useSSH.toLowerCase() === 'true'
-      ? sshRemoteBranch
-      : nonSshRemoteBranch;
+  const useSSH = process.env.USE_SSH;
+  const remoteBranch = buildUrl(
+    githubHost,
+    githubPort,
+    gitCredentials,
+    organizationName,
+    projectName,
+    (useSSH !== undefined && useSSH.toLowerCase() === 'true'));
 
   console.log(
     `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
