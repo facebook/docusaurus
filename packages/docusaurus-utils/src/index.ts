@@ -7,7 +7,6 @@
 
 import chalk from 'chalk';
 import path from 'path';
-import matter from 'gray-matter';
 import {createHash} from 'crypto';
 import {camelCase, kebabCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
@@ -23,6 +22,8 @@ import {
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 export * from './codeTranslationsUtils';
+export * from './markdownParser';
+export * from './markdownLinks';
 
 const fileHash = new Map();
 export async function generate(
@@ -204,135 +205,6 @@ export function getSubFolder(file: string, refDir: string): string | null {
   );
   const match = regexSubFolder.exec(file);
   return match && match[1];
-}
-
-export function createExcerpt(fileString: string): string | undefined {
-  const fileLines = fileString.trimLeft().split('\n');
-
-  /* eslint-disable no-continue */
-  // eslint-disable-next-line no-restricted-syntax
-  for (const fileLine of fileLines) {
-    // Skip empty line.
-    if (!fileLine.trim()) {
-      continue;
-    }
-
-    // Skip import/export declaration.
-    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
-      continue;
-    }
-
-    const cleanedLine = fileLine
-      // Remove HTML tags.
-      .replace(/<[^>]*>/g, '')
-      // Remove ATX-style headers.
-      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
-      // Remove emphasis and strikethroughs.
-      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
-      // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
-      // Remove inline links.
-      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
-      // Remove inline code.
-      .replace(/`(.+?)`/g, '$1')
-      // Remove blockquotes.
-      .replace(/^\s{0,3}>\s?/g, '')
-      // Remove admonition definition.
-      .replace(/(:{3}.*)/, '')
-      // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?(:(::|[^:\n])+:)/g, '')
-      .trim();
-
-    if (cleanedLine) {
-      return cleanedLine;
-    }
-  }
-
-  return undefined;
-}
-
-type ParsedMarkdown = {
-  // Returned by gray-matter
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  frontMatter: Record<string, any>;
-  content: string;
-  excerpt: string | undefined;
-  hasFrontMatter: boolean;
-};
-
-export function readFrontMatter(
-  markdownString: string,
-  source?: string,
-  options: Record<string, unknown> = {},
-  removeTitleHeading = true,
-): ParsedMarkdown {
-  try {
-    const result = matter(markdownString, options);
-    result.data = result.data || {};
-    result.content = result.content.trim();
-
-    const hasFrontMatter = Object.keys(result.data).length > 0;
-
-    const heading = /^# (.*)[\n\r]?/gi.exec(result.content);
-    if (heading) {
-      if (result.data.title) {
-        if (removeTitleHeading) {
-          console.warn(
-            `Duplicate title detected in \`${source || 'this'}\` file`,
-          );
-        }
-      } else {
-        result.data.title = heading[1].trim();
-        if (removeTitleHeading) {
-          result.content = result.content.replace(heading[0], '');
-          if (result.excerpt) {
-            result.excerpt = result.excerpt.replace(heading[1], '');
-          }
-        }
-      }
-    }
-
-    return {
-      frontMatter: result.data,
-      content: result.content,
-      excerpt: result.excerpt,
-      hasFrontMatter,
-    };
-  } catch (e) {
-    throw new Error(`Error while parsing markdown front matter.
-This can happen if you use special characters like : in frontmatter values (try using "" around that value)
-${e.message}`);
-  }
-}
-
-export function parseMarkdownString(
-  markdownString: string,
-  source?: string,
-): ParsedMarkdown {
-  return readFrontMatter(markdownString, source, {
-    excerpt: (file: matter.GrayMatterFile<string>): void => {
-      // Hacky way of stripping out import statements from the excerpt
-      // TODO: Find a better way to do so, possibly by compiling the Markdown content,
-      // stripping out HTML tags and obtaining the first line.
-      file.excerpt = createExcerpt(file.content);
-    },
-  });
-}
-
-export async function parseMarkdownFile(
-  source: string,
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString, source);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing markdown file ${source}
-${e.message}`,
-    );
-  }
 }
 
 export function normalizeUrl(rawUrls: string[]): string {
