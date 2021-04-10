@@ -1,3 +1,3 @@
 # Installation
 
-Installation text text
+Installation text

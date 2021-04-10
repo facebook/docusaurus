@@ -128,7 +128,7 @@ export function processDocMetadata({
 
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
     // but ability to disable this behavior with frontmatterr
-    strip_number_prefixes: stripNumberPrefixes,
+    strip_number_prefixes: stripNumberPrefixes = true,
   } = frontMatter;
 
   // ex: api/plugins/myDoc -> myDoc
