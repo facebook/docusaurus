@@ -12,10 +12,10 @@ import {
   DocMetadataBase,
   SidebarItemsGenerator,
 } from './types';
-import {sortBy, take, last} from 'lodash';
+import {sortBy, take, last, orderBy} from 'lodash';
 import {addTrailingSlash} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import {stripNumberPrefix} from './numberPrefix';
+import {extractNumberPrefix} from './numberPrefix';
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs-extra';
@@ -27,6 +27,9 @@ type CategoryMetadatasFile = {
   label?: string;
   position?: number; // TODO handle it! sort category items
 };
+
+type WithPosition = {position?: number};
+type SidebarItemWithPosition = SidebarItem & WithPosition;
 
 const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
   label: Joi.string().optional(),
@@ -86,7 +89,7 @@ function parseBreadcrumb(
 
 // TODO allow to customize this logic (docs cfg+sidebar.js)
 // TODO define and document proper API surface
-export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
+export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   item,
   docs: allDocs,
   version,
@@ -168,12 +171,17 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
   );
    */
 
-  function createDocSidebarItem(doc: DocMetadataBase): SidebarItemDoc {
+  function createDocSidebarItem(
+    doc: DocMetadataBase,
+  ): SidebarItemDoc & WithPosition {
     return {
       type: 'doc',
       id: doc.id,
       ...(doc.frontMatter.sidebar_label && {
         label: doc.frontMatter.sidebar_label,
+      }),
+      ...(typeof doc.position !== 'undefined' && {
+        position: doc.position,
       }),
     };
   }
@@ -182,9 +190,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
     breadcrumb,
   }: {
     breadcrumb: string[];
-  }): Promise<SidebarItemCategory> {
-    // TODO read metadata file from the directory for additional config?
-
+  }): Promise<SidebarItemCategory & WithPosition> {
     const categoryDirPath = path.join(
       version.contentPath,
       breadcrumb.join(BreadcrumbSeparator),
@@ -194,16 +200,23 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
 
     const {tail} = parseBreadcrumb(breadcrumb);
 
+    const {filename, numberPrefix} = extractNumberPrefix(tail);
+
+    const position = categoryMetadatas?.position ?? numberPrefix;
+
     return {
       type: 'category',
-      label: categoryMetadatas?.label ?? stripNumberPrefix(tail),
+      label: categoryMetadatas?.label ?? filename,
       items: [],
       collapsed: true, // TODO use default value
+      ...(typeof position !== 'undefined' && {position}),
     };
   }
 
   // Not sure how to simplify this algorithm :/
-  async function autogenerateSidebarItems(): Promise<SidebarItem[]> {
+  async function autogenerateSidebarItems(): Promise<
+    SidebarItemWithPosition[]
+  > {
     const sidebarItems: SidebarItem[] = []; // mutable result
 
     const categoriesByBreadcrumb: Record<string, SidebarItemCategory> = {}; // mutable cache of categories already created
@@ -270,5 +283,38 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
     return sidebarItems;
   }
 
-  return autogenerateSidebarItems();
+  const sidebarItems = await autogenerateSidebarItems();
+
+  /*
+  console.log({
+    unsorted: sidebarItems,
+    sorted: sortSidebarItems(sidebarItems),
+  });
+
+   */
+
+  return sortSidebarItems(sidebarItems);
 };
+
+// Recursively sort the categories/docs + remove the "position" attribute from final output
+function sortSidebarItems(
+  sidebarItems: SidebarItemWithPosition[],
+): SidebarItem[] {
+  const processedSidebarItems = sidebarItems.map((item) => {
+    if (item.type === 'category') {
+      return {
+        ...item,
+        items: sortSidebarItems(item.items),
+      };
+    }
+    return item;
+  });
+
+  const sortedSidebarItems = orderBy(
+    processedSidebarItems,
+    (item) => item.position,
+    ['asc'],
+  );
+
+  return sortedSidebarItems.map(({position: _removed, ...item}) => item);
+}

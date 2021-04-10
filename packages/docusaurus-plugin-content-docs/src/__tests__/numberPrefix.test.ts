@@ -69,6 +69,10 @@ describe('stripPathNumberPrefix', () => {
 
 describe('extractNumberPrefix', () => {
   test('should extract number prefix if present', () => {
+    expect(extractNumberPrefix('0-My Doc')).toEqual({
+      filename: 'My Doc',
+      numberPrefix: 0,
+    });
     expect(extractNumberPrefix('1-My Doc')).toEqual({
       filename: 'My Doc',
       numberPrefix: 1,

@@ -173,6 +173,7 @@ export type DocMetadataBase = LastUpdateData & {
   permalink: string;
   // eslint-disable-next-line camelcase
   sidebar_label?: string;
+  position?: number;
   editUrl?: string | null;
   frontMatter: FrontMatter;
 };
