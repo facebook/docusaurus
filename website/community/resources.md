@@ -40,6 +40,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
 - [docusaurus-plugin-remote-content](https://github.com/rdilweb/docusaurus-plugin-remote-content) - A Docusaurus v2 plugin that allows you to fetch content from remote sources
 - [docusaurus2-graphql-doc-generator](https://github.com/edno/docusaurus2-graphql-doc-generator) - A Docusaurus v2 plugin for generating documentation from a GraphQL schema
+- [docusaurus-protobuffet](https://github.com/protobuffet/docusaurus-protobuffet) - Docusaurus toolset for Protobuf contract documentation
 
 ## Enterprise usage {#enterprise-usage}
 
