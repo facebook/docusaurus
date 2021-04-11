@@ -519,7 +519,7 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
 
 ## Footer Links {#footer-links}
 
-You can add links to the navbar via `themeConfig.footer.links`:
+You can add links to the footer via `themeConfig.footer.links`:
 
 ```js {5-15} title="docusaurus.config.js"
 module.exports = {
