@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
@@ -49,6 +49,7 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
+  link,
   ...props
 }) {
   const {items, label} = item;
@@ -64,6 +65,24 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
+  const initialLink = useMemo(() => {
+    if (item.link) {
+      if (Object.hasOwnProperty.call(item.link, 'type')) {
+        switch (item.link.type) {
+          case 'doc':
+            return item.link.id;
+          case 'link':
+            return item.link.href;
+          default:
+            return undefined;
+        }
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }, [item.link]);
 
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
@@ -86,11 +105,9 @@ function DocSidebarItemCategory({
   const handleItemClick = useCallback(
     (e) => {
       e.preventDefault();
-
       if (!menuListHeight) {
         handleMenuListHeight();
       }
-
       setTimeout(() => setCollapsed((state) => !state), 100);
     },
     [menuListHeight],
@@ -106,17 +123,21 @@ function DocSidebarItemCategory({
         'menu__list-item--collapsed': collapsed,
       })}
       key={label}>
-      <a
+      <Link
+        to={initialLink}
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible,
+          [styles.menuLinkText]: !collapsible && initialLink === undefined,
         })}
+        {...{
+          isNavLink: true,
+          onClick: onItemClick,
+        }}
         onClick={collapsible ? handleItemClick : undefined}
-        href={collapsible ? '#!' : undefined}
         {...props}>
         {label}
-      </a>
+      </Link>
       <ul
         className="menu__list"
         ref={menuListRef}
@@ -132,6 +153,7 @@ function DocSidebarItemCategory({
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
+            link={link}
             item={childItem}
             onItemClick={onItemClick}
             collapsible={collapsible}
@@ -271,6 +293,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
+              link={item.type === 'category' ? item.link : undefined}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);
