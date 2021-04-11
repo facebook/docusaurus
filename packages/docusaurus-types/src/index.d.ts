@@ -34,6 +34,7 @@ export interface DocusaurusConfig {
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
+  githubPort?: string;
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
@@ -215,14 +216,14 @@ export type AllContent = Record<
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
-export interface Plugin<T> {
+export interface Plugin<Content> {
   name: string;
-  loadContent?(): Promise<T>;
+  loadContent?(): Promise<Content>;
   contentLoaded?({
     content,
     actions,
   }: {
-    content: T; // the content loaded by this plugin instance
+    content: Content; // the content loaded by this plugin instance
     allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
   }): void;
@@ -248,7 +249,11 @@ export interface Plugin<T> {
   // TODO before/afterDevServer implementation
 
   // translations
-  getTranslationFiles?(): Promise<TranslationFiles>;
+  getTranslationFiles?({
+    content,
+  }: {
+    content: Content;
+  }): Promise<TranslationFiles>;
   getDefaultCodeTranslationMessages?(): Promise<
     Record<
       string, // id
@@ -259,9 +264,9 @@ export interface Plugin<T> {
     content,
     translationFiles,
   }: {
-    content: T; // the content loaded by this plugin instance
+    content: Content; // the content loaded by this plugin instance
     translationFiles: TranslationFiles;
-  }): T;
+  }): Content;
   translateThemeConfig?({
     themeConfig,
     translationFiles,

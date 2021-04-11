@@ -57,10 +57,26 @@ module.exports = {
           type: 'category',
           label: 'Internationalization',
           items: [
-            'i18n/introduction',
-            'i18n/tutorial',
-            'i18n/git',
-            'i18n/crowdin',
+            {
+              type: 'doc',
+              id: 'i18n/introduction',
+              label: 'Introduction',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/tutorial',
+              label: 'Tutorial',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/git',
+              label: 'Using Git',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/crowdin',
+              label: 'Using Crowdin',
+            },
           ],
         },
       ],

@@ -12,8 +12,25 @@ import path from 'path';
 import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions, EditUrlFunction} from '../types';
+import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
 import {Joi} from '@docusaurus/utils-validation';
+
+function findByTitle(
+  blogPosts: BlogPost[],
+  title: string,
+): BlogPost | undefined {
+  return blogPosts.find((v) => v.metadata.title === title);
+}
+function getByTitle(blogPosts: BlogPost[], title: string): BlogPost {
+  const post = findByTitle(blogPosts, title);
+  if (!post) {
+    throw new Error(`can't find blog post with title ${title}.
+Available blog post titles are:\n- ${blogPosts
+      .map((p) => p.metadata.title)
+      .join('\n- ')}`);
+  }
+  return post;
+}
 
 function getI18n(locale: string): I18n {
   return {
@@ -77,7 +94,7 @@ describe('loadBlog', () => {
     const blogPosts = await getBlogPosts(siteDir);
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'date-matter')!.metadata,
+      ...getByTitle(blogPosts, 'date-matter').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/date-matter.md`,
@@ -98,9 +115,7 @@ describe('loadBlog', () => {
     });
 
     expect(
-      blogPosts.find(
-        (v) => v.metadata.title === 'Happy 1st Birthday Slash! (translated)',
-      )!.metadata,
+      getByTitle(blogPosts, 'Happy 1st Birthday Slash! (translated)').metadata,
     ).toEqual({
       editUrl: `${BaseEditUrl}/blog/2018-12-14-Happy-First-Birthday-Slash.md`,
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
@@ -124,7 +139,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'Complex Slug')!.metadata,
+      ...getByTitle(blogPosts, 'Complex Slug').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/complex-slug.md`,
@@ -145,7 +160,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'Simple Slug')!.metadata,
+      ...getByTitle(blogPosts, 'Simple Slug').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/simple-slug.md`,
@@ -164,12 +179,33 @@ describe('loadBlog', () => {
       tags: [],
       truncated: false,
     });
+
+    expect({
+      ...getByTitle(blogPosts, 'some heading').metadata,
+      prevItem: undefined,
+    }).toEqual({
+      editUrl: `${BaseEditUrl}/blog/heading-as-title.md`,
+      permalink: '/blog/heading-as-title',
+      readingTime: 0,
+      source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
+      title: 'some heading',
+      description: '',
+      date: new Date('2019-01-02'),
+      formattedDate: 'January 2, 2019',
+      prevItem: undefined,
+      tags: [],
+      nextItem: {
+        permalink: '/blog/date-matter',
+        title: 'date-matter',
+      },
+      truncated: false,
+    });
   });
 
   test('simple website blog dates localized', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(5);
+    expect(blogPostsFrench).toHaveLength(6);
     expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
       `"16 août 2020"`,
     );
@@ -180,9 +216,12 @@ describe('loadBlog', () => {
       `"27 février 2020"`,
     );
     expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"2 janvier 2019"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });
@@ -212,7 +251,7 @@ describe('loadBlog', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(5);
+    expect(editUrlFunction).toHaveBeenCalledTimes(6);
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
@@ -243,6 +282,12 @@ describe('loadBlog', () => {
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
       locale: 'en',
     });
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      blogDirPath: 'blog',
+      blogPath: 'heading-as-title.md',
+      locale: 'en',
+      permalink: '/blog/heading-as-title',
+    });
   });
 
   test('draft blog post not exists in production build', async () => {
@@ -271,7 +316,7 @@ describe('loadBlog', () => {
     }).format(noDateSourceBirthTime);
 
     expect({
-      ...blogPosts.find((v) => v.metadata.title === 'no date')!.metadata,
+      ...getByTitle(blogPosts, 'no date').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/no date.md`,

@@ -211,6 +211,7 @@ describe('simple website', () => {
     expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
     expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
     expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
+    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toEqual(true);
     expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
     expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
     expect(isMatch('hello.md', matchPattern)).toEqual(false);
@@ -261,6 +262,10 @@ describe('simple website', () => {
       ),
       title: 'Hello, World !',
       description: 'Hi, Endilie here :)',
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+      },
     });
 
     expect(findDocById(currentVersion, 'foo/bar')).toEqual({
@@ -284,6 +289,11 @@ describe('simple website', () => {
       ),
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
 
     expect(currentVersion.sidebars).toMatchSnapshot();
@@ -432,6 +442,9 @@ describe('versioned website', () => {
       ),
       title: 'bar',
       description: 'This is next version of bar.',
+      frontMatter: {
+        slug: 'barSlug',
+      },
       version: 'current',
       sidebar: 'docs',
       next: {
@@ -453,6 +466,7 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello next !',
+      frontMatter: {},
       version: 'current',
       sidebar: 'docs',
       previous: {
@@ -474,6 +488,7 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello 1.0.1 !',
+      frontMatter: {},
       version: '1.0.1',
       sidebar: 'version-1.0.1/docs',
       previous: {
@@ -497,6 +512,7 @@ describe('versioned website', () => {
       title: 'baz',
       description:
         'Baz 1.0.0 ! This will be deleted in next subsequent versions.',
+      frontMatter: {},
       version: '1.0.0',
       sidebar: 'version-1.0.0/docs',
       next: {
@@ -641,6 +657,7 @@ describe('versioned website (community)', () => {
       description: 'Team current version (translated)',
       version: 'current',
       sidebar: 'community',
+      frontMatter: {title: 'Team title translated'},
     });
     expect(findDocById(version100, 'team')).toEqual({
       ...defaultDocMetadata,
@@ -658,6 +675,7 @@ describe('versioned website (community)', () => {
       description: 'Team 1.0.0',
       version: '1.0.0',
       sidebar: 'version-1.0.0/community',
+      frontMatter: {},
     });
 
     expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
@@ -674,5 +692,41 @@ describe('versioned website (community)', () => {
     utils.checkVersionMetadataPropCreated(version100);
 
     utils.expectSnapshot();
+  });
+});
+
+describe('site with doc label', () => {
+  async function loadSite() {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        path: 'docs',
+        sidebarPath,
+        homePageId: 'hello-1',
+      }),
+    );
+
+    const content = await plugin.loadContent();
+
+    return {content};
+  }
+
+  test('label in sidebar.json is used', async () => {
+    const {content} = await loadSite();
+    const loadedVersion = content.loadedVersions[0];
+    const sidebarProps = toSidebarsProp(loadedVersion);
+
+    expect(sidebarProps.docs[0].label).toBe('Hello One');
+  });
+
+  test('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+    const {content} = await loadSite();
+    const loadedVersion = content.loadedVersions[0];
+    const sidebarProps = toSidebarsProp(loadedVersion);
+
+    expect(sidebarProps.docs[1].label).toBe('Hello 2 From Doc');
   });
 });

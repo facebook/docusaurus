@@ -131,14 +131,6 @@ const users = [
     tags: [],
   },
   {
-    title: 'Channel.js',
-    description: 'The missing constructor for creating safe async iterators',
-    preview: require('./showcase/channeljs.png'),
-    website: 'https://repeater.js.org/',
-    source: 'https://github.com/repeaterjs/repeater',
-    tags: [],
-  },
-  {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
@@ -608,12 +600,28 @@ const users = [
     tags: [],
   },
   {
+    title: 'Redis Labs Developer Site',
+    description: 'The Home of Redis Developers',
+    preview: require('./showcase/redis-developer.png'),
+    website: 'https://developer.redislabs.com',
+    source: 'https://github.com/redis-developer/redis-developer.github.io',
+    tags: [],
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
     website: 'https://rematchjs.org',
     source: 'https://github.com/rematch/rematch',
     tags: ['highlight', 'design', 'large'],
+  },
+  {
+    title: 'Repeater.js',
+    description: 'The missing constructor for creating safe async iterators',
+    preview: require('./showcase/repeaterjs.png'),
+    website: 'https://repeater.js.org/',
+    source: 'https://github.com/repeaterjs/repeater',
+    tags: [],
   },
   {
     title: 'Rooks',
@@ -677,6 +685,14 @@ const users = [
     website: 'https://docs.shabados.com',
     source: 'https://github.com/shabados/docs',
     tags: ['design'],
+  },
+  {
+    title: 'social-embed',
+    description: 'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
+    preview: require('./showcase/social-embed.png'),
+    website: 'https://social-embed.git-pull.com/',
+    source: 'https://github.com/social-embed/social-embed',
+    tags: [],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -766,6 +782,15 @@ const users = [
     preview: require('./showcase/trpgengine.png'),
     website: 'https://trpgdoc.moonrailgun.com/',
     source: 'https://github.com/TRPGEngine/Client',
+    tags: [],
+  },
+  {
+    title: 'Tuist',
+    description:
+      'A tool to maintain and interact with Xcode projects at scale',
+    preview: require('./showcase/tuist.png'),
+    website: 'https://docs.tuist.io/',
+    source: 'https://github.com/tuist/tuist',
     tags: [],
   },
   {

@@ -101,7 +101,7 @@ Hot-reload will work better when editing existing files.
 
 Open the homepage, and use the [translation APIs](../docusaurus-core.md#translate):
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';

@@ -10,6 +10,7 @@ Create a file at `blog/2021-02-28-greetings.md`:
 
 ```md title="blog/2021-02-28-greetings.md"
 ---
+slug: greetings
 title: Greetings!
 author: Steven Hansel
 author_title: Docusaurus Contributor

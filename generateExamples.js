@@ -65,6 +65,10 @@ function generateTemplateExample(template) {
       hardReloadOnChange: true,
       view: 'browser',
       template: 'docusaurus',
+      node: '14',
+      container: {
+        node: '14',
+      },
     };
 
     writeFileSync(

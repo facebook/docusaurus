@@ -1,7 +1,6 @@
 ---
 id: tutorial
 title: i18n - Tutorial
-sidebar_label: Tutorial
 slug: /i18n/tutorial
 ---
 
@@ -93,7 +92,7 @@ Hot-reload will work better when editing existing files.
 
 Open the homepage, and use the [translation APIs](../docusaurus-core.md#translate):
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -154,7 +153,7 @@ JSON translation files are used for everything that is not contained in a Markdo
 - Docs sidebar category labels
 - ...
 
-Run the [write-translations](../cli.md#docusaurus-write-translations) command:
+Run the [write-translations](../cli.md#docusaurus-write-translations-sitedir) command:
 
 ```bash npm2yarn
 npm run write-translations -- --locale fr
