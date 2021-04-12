@@ -48,7 +48,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "यह {siteTitle} {versionLabel} वर्जन के लिए प्रकाशित डॉक्यूमेंटेशन है।",
   "theme.lastUpdated.atDate": " {date} पर",
   "theme.lastUpdated.byUser": " {user} द्वारा",
-  "theme.lastUpdated.lastUpdatedAtBy": "आखरी अपडेट {atDate} पर {byUser} द्वारा",
+  "theme.lastUpdated.lastUpdatedAtBy": "आखरी अपडेट{atDate}{byUser}",
   "theme.tags.tagsListLabel": "टैग:",
   "theme.tags.tagsPageLink": "सारे टैग देखें",
   "theme.tags.tagsPageTitle": "टैग"
