@@ -73,11 +73,11 @@ declare module '@theme/DocPaginator' {
 }
 
 declare module '@theme/DocSidebar' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+  // import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
 
   export type Props = {
     readonly path: string;
-    readonly sidebar: readonly PropSidebarItem[];
+    readonly sidebar: any;
     readonly sidebarCollapsible?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;

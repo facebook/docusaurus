@@ -32,6 +32,10 @@ function usePrevious(value) {
   return ref.current;
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
     return isSamePath(item.href, activePath);
@@ -49,6 +53,7 @@ function DocSidebarItemCategory({
   onItemClick,
   collapsible,
   activePath,
+  link,
   ...props
 }) {
   const {items, label} = item;
@@ -64,6 +69,7 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
+  const [initialLink, setInitialLink] = useState('');
 
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
@@ -81,17 +87,32 @@ function DocSidebarItemCategory({
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
+    if (link && !collapsed) {
+      for (const i in items) {
+        if (items.hasOwnProperty(i)) {
+          const childItem = items[i];
+          if (childItem.type === 'link') {
+            if (link.id.includes(childItem.label.toLowerCase())) {
+              setInitialLink(childItem.href);
+            }
+          }
+        }
+      }
+    }
   }, [isActive, wasActive, collapsed]);
 
   const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
-
+    async (e) => {
+      if (!collapsed) {
+        e.preventDefault();
+      }
       if (!menuListHeight) {
         handleMenuListHeight();
       }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
+      setCollapsed((state) => {
+        return !state;
+      });
+      await sleep(100);
     },
     [menuListHeight],
   );
@@ -106,17 +127,27 @@ function DocSidebarItemCategory({
         'menu__list-item--collapsed': collapsed,
       })}
       key={label}>
-      <a
+      <Link
+        to={initialLink}
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
+        {...(isInternalUrl(initialLink)
+          ? {
+              isNavLink: true,
+              exact: true,
+              onClick: onItemClick,
+            }
+          : {
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            })}
         onClick={collapsible ? handleItemClick : undefined}
-        href={collapsible ? '#!' : undefined}
         {...props}>
         {label}
-      </a>
+      </Link>
       <ul
         className="menu__list"
         ref={menuListRef}
@@ -132,6 +163,7 @@ function DocSidebarItemCategory({
           <DocSidebarItem
             tabIndex={collapsed ? '-1' : '0'}
             key={childItem.label}
+            link={link}
             item={childItem}
             onItemClick={onItemClick}
             collapsible={collapsible}
@@ -271,6 +303,7 @@ function DocSidebar({
             <DocSidebarItem
               key={item.label}
               item={item}
+              link={item.link}
               onItemClick={(e) => {
                 e.target.blur();
                 setShowResponsiveSidebar(false);
