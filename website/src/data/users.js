@@ -482,7 +482,7 @@ const users = [
     preview: require('./showcase/pptxgenjs.png'),
     website: 'https://gitbrent.github.io/pptxgenjs/',
     source: 'https://github.com/gitbrent/PptxGenJS/tree/gh-pages',
-    tags: [''],
+    tags: [],
   },
   {
     title: 'Profilo',
