@@ -6,5 +6,5 @@
  */
 
 .enhancedAnchor {
-  top: calc(var(--ifm-navbar-height) * -1);
+  top: calc(var(--ifm-navbar-height) * -1 - 0.5rem);
 }
