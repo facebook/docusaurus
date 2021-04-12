@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useCallback, useEffect, useRef, useMemo} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
@@ -209,6 +209,27 @@ function DocSidebar({
     }
   }, [windowSize]);
 
+  const closeResponsiveSidebar = useCallback(
+    (e) => {
+      e.target.blur();
+      setShowResponsiveSidebar(false);
+    },
+    [setShowResponsiveSidebar],
+  );
+  const sidebarItems = useMemo(
+    () =>
+      sidebar.map((item) => (
+        <DocSidebarItem
+          key={item.label}
+          item={item}
+          onItemClick={closeResponsiveSidebar}
+          collapsible={sidebarCollapsible}
+          activePath={path}
+        />
+      )),
+    [sidebar, sidebarCollapsible, path, closeResponsiveSidebar],
+  );
+
   return (
     <div
       className={clsx(styles.sidebar, {
@@ -266,20 +287,7 @@ function DocSidebar({
             />
           )}
         </button>
-        <ul className="menu__list">
-          {sidebar.map((item) => (
-            <DocSidebarItem
-              key={item.label}
-              item={item}
-              onItemClick={(e) => {
-                e.target.blur();
-                setShowResponsiveSidebar(false);
-              }}
-              collapsible={sidebarCollapsible}
-              activePath={path}
-            />
-          ))}
-        </ul>
+        <ul className="menu__list">{sidebarItems}</ul>
       </div>
       {hideableSidebar && (
         <button
