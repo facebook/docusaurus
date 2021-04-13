@@ -4,36 +4,52 @@ sidebar_position: 3
 
 # Create a Document
 
-Documents are a **group of pages** connected through a **sidebar**, a **previous/next navigation** and **versioning**.
+Documents are **groups of pages** connected through:
 
-## Create a Document
+- a **sidebar**
+- **previous/next navigation**
+- **versioning**
 
-Create a markdown file at `docs/my-doc.md`:
+## Create your first Doc
 
-```mdx title="docs/hello.md"
----
-title: Hello, World!
----
+Create a markdown file at `docs/hello.md`:
 
-## Hello, World!
+```md title="docs/hello.md"
+# Hello
 
-This is your first document in **Docusaurus**, Congratulations!
+This is my **first Docusaurus document**!
 ```
 
 A new document is now available at `http://localhost:3000/docs/hello`.
 
-## Add your document to the sidebar
+## Configure the Sidebar
 
-Add `hello` to the `sidebars.js` file:
+Docusaurus automatically **creates a sidebar** from the `docs` folder.
+
+Add metadatas to customize the sidebar label and position:
+
+```diff title="sidebars.js"
++ ---
++ sidebar_label: "Hi!"
++ sidebar_position: 3
++ ---
+
+
+# Hello
+
+This is my **first Docusaurus document**!
+```
+
+It is also possible to create your sidebar explicitly in `sidebars.js`:
 
 ```diff title="sidebars.js"
 module.exports = {
-  docs: [
+  tutorialSidebar: [
     {
       type: 'category',
-      label: 'Docusaurus Tutorial',
--     items: ['getting-started', 'create-a-doc', ...],
-+     items: ['getting-started', 'create-a-doc', 'hello', ...],
+      label: 'Tutorial',
+-     items: [...],
++     items: ['hello'],
     },
   ],
 };

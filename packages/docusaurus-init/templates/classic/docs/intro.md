@@ -1,13 +1,17 @@
 ---
 slug: /
-sidebar_position: 1
+sidebar_position: 0
 ---
 
-# Getting Started
+# Tutorial Intro
 
-Get started by **creating a new site**
+Let's discover **Docusaurus in less than 5 minutes**.
 
-Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)** (CodeSandbox).
+## Getting Started
+
+Get started by **creating a new site**.
+
+Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)**.
 
 ## Generate a new site
 
