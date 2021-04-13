@@ -112,7 +112,6 @@ function Navbar(): JSX.Element {
           {!disableColorModeSwitch && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
-              aria-label="Dark mode toggle"
               checked={isDarkTheme}
               onChange={onToggleChange}
             />
@@ -134,11 +133,7 @@ function Navbar(): JSX.Element {
             onClick={hideSidebar}
           />
           {!disableColorModeSwitch && sidebarShown && (
-            <Toggle
-              aria-label="Dark mode toggle in sidebar"
-              checked={isDarkTheme}
-              onChange={onToggleChange}
-            />
+            <Toggle checked={isDarkTheme} onChange={onToggleChange} />
           )}
         </div>
         <div className="navbar-sidebar__items">
