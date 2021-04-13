@@ -261,7 +261,6 @@ export function loadSidebars(sidebarFilePath: string): UnprocessedSidebars {
   // No sidebars file: by default we use the file-system structure to generate the sidebar
   // See https://github.com/facebook/docusaurus/pull/4582
   if (!fs.existsSync(sidebarFilePath)) {
-    // TODO temporary: we should throw instead! Default sidebars is when sidebarPath is not configured!
     return DefaultSidebars;
   }
 

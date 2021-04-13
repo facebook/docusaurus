@@ -434,6 +434,7 @@ function filterVersions(
   }
 }
 
+// TODO make this async (requires plugin init to be async)
 export function readVersionsMetadata({
   context,
   options,
