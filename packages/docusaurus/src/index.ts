@@ -14,4 +14,3 @@ export {default as serve} from './commands/serve';
 export {default as clear} from './commands/clear';
 export {default as writeTranslations} from './commands/writeTranslations';
 export {default as writeHeadingIds} from './commands/writeHeadingIds';
-export {createStorageSlot, listStorageKeys} from './localStorage';

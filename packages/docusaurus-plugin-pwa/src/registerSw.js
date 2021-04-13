@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {createStorageSlot} from '@docusaurus/theme-common';
 
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
@@ -17,8 +18,10 @@ const PWA_DEBUG = process.env.PWA_DEBUG;
 const debug = PWA_DEBUG; // shortcut
 
 const MAX_MOBILE_WIDTH = 940;
-const APP_INSTALLED_EVENT_FIRED_KEY = 'docusaurus.pwa.event.appInstalled.fired';
-import {createStorageSlot} from '@docusaurus/core/src/localStorage';
+
+const AppInstalledEventFiredStorage = createStorageSlot(
+  'docusaurus.pwa.event.appInstalled.fired',
+);
 
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
@@ -59,7 +62,7 @@ https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed
 - display-mode: standalone is not exactly the same concept, but looks like a decent fallback https://petelepage.com/blog/2019/07/is-my-pwa-installed/
  */
 async function isAppInstalledEventFired() {
-  return createStorageSlot(APP_INSTALLED_EVENT_FIRED_KEY)?.get() === 'true';
+  return AppInstalledEventFiredStorage.get() === 'true';
 }
 async function isAppInstalledRelatedApps() {
   if ('getInstalledRelatedApps' in window.navigator) {
@@ -230,10 +233,10 @@ function addLegacyAppInstalledEventsListeners() {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
 
-      createStorageSlot(APP_INSTALLED_EVENT_FIRED_KEY)?.set('true');
+      AppInstalledEventFiredStorage.set('true');
       if (debug) {
         console.log(
-          "[Docusaurus-PWA][registerSw]: createStorageSlot(APP_INSTALLED_EVENT_FIRED_KEY)?.set('true');",
+          "[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.set('true')",
         );
       }
 
@@ -246,7 +249,6 @@ function addLegacyAppInstalledEventsListeners() {
 
     // TODO this event still works in chrome but has been removed from the spec in 2019!!!
     window.addEventListener('beforeinstallprompt', async (event) => {
-      const storageSlot = createStorageSlot(APP_INSTALLED_EVENT_FIRED_KEY);
       if (debug) {
         console.log(
           '[Docusaurus-PWA][registerSw]: event beforeinstallprompt',
@@ -257,14 +259,16 @@ function addLegacyAppInstalledEventsListeners() {
       // event.preventDefault();
       if (debug) {
         console.log(
-          '[Docusaurus-PWA][registerSw]: storageSlot?.get()',
-          storageSlot?.get(),
+          '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.get()',
+          AppInstalledEventFiredStorage.get(),
         );
       }
-      if (storageSlot?.get()) {
-        storageSlot.del();
+      if (AppInstalledEventFiredStorage.get()) {
+        AppInstalledEventFiredStorage.del();
         if (debug) {
-          console.log('[Docusaurus-PWA][registerSw]: storageSlot.del();');
+          console.log(
+            '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.del()',
+          );
         }
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We

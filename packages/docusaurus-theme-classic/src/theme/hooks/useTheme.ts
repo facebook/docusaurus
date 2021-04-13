@@ -9,8 +9,9 @@ import {useState, useCallback, useEffect} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {useThemeReturns} from '@theme/hooks/useTheme';
-import {useThemeConfig} from '@docusaurus/theme-common';
-import {createStorageSlot} from '@docusaurus/core/src/localStorage';
+import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
+
+const ThemeStorage = createStorageSlot('theme');
 
 const themes = {
   light: 'light',
@@ -32,7 +33,7 @@ const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
 };
 
 const storeTheme = (newTheme: Themes) => {
-  createStorageSlot('theme')?.set(coerceToTheme(newTheme));
+  createStorageSlot('theme').set(coerceToTheme(newTheme));
 };
 
 const useTheme = (): useThemeReturns => {
@@ -60,9 +61,9 @@ const useTheme = (): useThemeReturns => {
     }
 
     try {
-      const localStorageTheme = createStorageSlot('theme')?.get();
-      if (localStorageTheme !== null) {
-        setTheme(coerceToTheme(localStorageTheme));
+      const storedTheme = ThemeStorage.get();
+      if (storedTheme !== null) {
+        setTheme(coerceToTheme(storedTheme));
       }
     } catch (err) {
       console.error(err);
