@@ -15,6 +15,7 @@ import {
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
+import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -38,6 +39,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   versions: {},
   editCurrentVersion: false,
   editLocalizedFiles: false,
+  sidebarItemsGenerator: DefaultSidebarItemsGenerator,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -86,6 +88,9 @@ export const OptionsSchema = Joi.object({
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
+  sidebarItemsGenerator: Joi.function().default(
+    () => DEFAULT_OPTIONS.sidebarItemsGenerator,
+  ),
 });
 
 export function validateOptions({

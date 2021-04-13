@@ -20,7 +20,6 @@ import {
   addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
-
 import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
@@ -175,6 +174,7 @@ export default function pluginContentDocs(
         );
 
         const sidebars = await processSidebars({
+          sidebarItemsGenerator: options.sidebarItemsGenerator,
           unprocessedSidebars,
           docs: docsBase,
           version: versionMetadata,
