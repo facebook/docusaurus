@@ -28,7 +28,7 @@ Docusaurus automatically **creates a sidebar** from the `docs` folder.
 
 Add metadatas to customize the sidebar label and position:
 
-```diff title="sidebars.js"
+```diff title="docs/hello.md"
 + ---
 + sidebar_label: "Hi!"
 + sidebar_position: 3
