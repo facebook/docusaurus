@@ -48,6 +48,7 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
+import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -126,6 +127,7 @@ export default function pluginContentDocs(
               ),
             ),
           ),
+          `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
       }
 

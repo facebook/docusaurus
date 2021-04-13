@@ -24,6 +24,9 @@ import Yaml from 'js-yaml';
 
 const BreadcrumbSeparator = '/';
 
+export const CategoryMetadataFilenameBase = '_category_';
+export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
+
 type CategoryMetadatasFile = {
   label?: string;
   sidebar_position?: number;
@@ -71,13 +74,11 @@ async function readCategoryMetadatasFile(
     return null;
   }
 
-  const baseFilename = '_category_'; // should this be configurable?
-
   return (
-    (await tryReadFile(`${baseFilename}.json`, JSON.parse)) ??
-    (await tryReadFile(`${baseFilename}.yml`, Yaml.load)) ??
+    (await tryReadFile(`${CategoryMetadataFilenameBase}.json`, JSON.parse)) ??
+    (await tryReadFile(`${CategoryMetadataFilenameBase}.yml`, Yaml.load)) ??
     // eslint-disable-next-line no-return-await
-    (await tryReadFile(`${baseFilename}.yaml`, Yaml.load))
+    (await tryReadFile(`${CategoryMetadataFilenameBase}.yaml`, Yaml.load))
   );
 }
 
