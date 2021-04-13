@@ -23,6 +23,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: 'sidebars.json', // Path to sidebar configuration for showing a list of markdown pages.
+  sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
@@ -39,7 +40,6 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   versions: {},
   editCurrentVersion: false,
   editLocalizedFiles: false,
-  sidebarItemsGenerator: DefaultSidebarItemsGenerator,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -63,6 +63,9 @@ export const OptionsSchema = Joi.object({
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
+  sidebarItemsGenerator: Joi.function().default(
+    () => DEFAULT_OPTIONS.sidebarItemsGenerator,
+  ),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
@@ -88,9 +91,6 @@ export const OptionsSchema = Joi.object({
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
-  sidebarItemsGenerator: Joi.function().default(
-    () => DEFAULT_OPTIONS.sidebarItemsGenerator,
-  ),
 });
 
 export function validateOptions({
