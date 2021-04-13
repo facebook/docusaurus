@@ -16,7 +16,7 @@ type DocFrontMatter = {
   sidebar_label?: string;
   position?: number;
   custom_edit_url?: string;
-  strip_number_prefixes: boolean;
+  strip_number_prefixes?: boolean;
 };
 
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
