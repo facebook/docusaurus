@@ -174,7 +174,7 @@ export type DocMetadataBase = LastUpdateData & {
   permalink: string;
   // eslint-disable-next-line camelcase
   sidebar_label?: string;
-  position?: number;
+  sidebarPosition?: number;
   editUrl?: string | null;
   frontMatter: FrontMatter;
 };

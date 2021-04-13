@@ -1,6 +1,6 @@
 ---
 id: guide1
-position: 1
+sidebar_position: 1
 ---
 
 # Guide 1

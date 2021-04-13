@@ -25,7 +25,7 @@ const BreadcrumbSeparator = '/';
 
 type CategoryMetadatasFile = {
   label?: string;
-  position?: number; // TODO handle it! sort category items
+  sidebar_position?: number;
 };
 
 type WithPosition = {position?: number};
@@ -33,7 +33,7 @@ type SidebarItemWithPosition = SidebarItem & WithPosition;
 
 const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
   label: Joi.string().optional(),
-  position: Joi.number().optional(),
+  sidebar_position: Joi.number().optional(),
 });
 
 async function readCategoryMetadatasFile(
@@ -180,8 +180,8 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       ...(doc.frontMatter.sidebar_label && {
         label: doc.frontMatter.sidebar_label,
       }),
-      ...(typeof doc.position !== 'undefined' && {
-        position: doc.position,
+      ...(typeof doc.sidebarPosition !== 'undefined' && {
+        position: doc.sidebarPosition,
       }),
     };
   }
@@ -202,7 +202,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
 
     const {filename, numberPrefix} = extractNumberPrefix(tail);
 
-    const position = categoryMetadatas?.position ?? numberPrefix;
+    const position = categoryMetadatas?.sidebar_position ?? numberPrefix;
 
     return {
       type: 'category',
