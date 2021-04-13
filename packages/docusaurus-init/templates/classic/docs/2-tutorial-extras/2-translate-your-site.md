@@ -1,6 +1,4 @@
----
-title: Translate your site
----
+# Translate your site
 
 Let's translate `docs/getting-started.md` to French.
 

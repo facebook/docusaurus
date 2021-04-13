@@ -1,6 +1,4 @@
----
-title: Create a Document
----
+# Create a Document
 
 Documents are a **group of pages** connected through a **sidebar**, a **previous/next navigation** and **versioning**.
 

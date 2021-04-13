@@ -1,6 +1,4 @@
----
-title: Markdown Features
----
+# Markdown Features
 
 Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
 
@@ -10,10 +8,12 @@ Markdown documents have metadata at the very top called [Front Matter](https://j
 
 ```md
 ---
-id: my-doc
+id: my-doc-id
 title: My document title
 description: My document description
+slug: /my-custom-url
 sidebar_label: My doc
+sidebar_position: 3
 ---
 
 ## Markdown heading
@@ -30,10 +30,10 @@ Let's see how to [Create a page](/create-a-page).
 ```
 
 ```md
-Let's see how to [Create a page](./create-a-page.md).
+Let's see how to [Create a page](./2-create-a-page.md).
 ```
 
-**Result:** Let's see how to [Create a page](./create-a-page.md).
+**Result:** Let's see how to [Create a page](./2-create-a-page.md).
 
 ## Images
 

@@ -1,6 +1,4 @@
----
-title: Congratulations!
----
+# Congratulations!
 
 Congratulations on making it this far!
 
@@ -8,7 +6,7 @@ You have learned the **basics of Docusaurus** and made some changes to the **ini
 
 Docusaurus has **much more to offer**!
 
-Have 5 more minutes? Take a look at **[versioning](./manage-docs-versions.md)** and **[i18n](./translate-your-site.md)**.
+Have 5 more minutes? Take a look at **[versioning](./../2-tutorial-extras/1-manage docs-versions.md)** and **[i18n](./../2-tutorial-extras/2-translate-your-site.md)**.
 
 ## What's next?
 

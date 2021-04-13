@@ -1,7 +1,8 @@
 ---
-title: Getting Started
 slug: /
 ---
+
+# Getting Started
 
 Get started by **creating a new site**
 
