@@ -215,6 +215,7 @@ describe('simple website', () => {
         "sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
         "docs/**/*.{md,mdx}",
+        "docs/**/_category_.{json,yml,yaml}",
       ]
     `);
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
@@ -382,15 +383,19 @@ describe('versioned website', () => {
         "sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
         "docs/**/*.{md,mdx}",
+        "docs/**/_category_.{json,yml,yaml}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+        "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
         "versioned_sidebars/version-1.0.0-sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
         "versioned_sidebars/version-withSlugs-sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
         "versioned_docs/version-withSlugs/**/*.{md,mdx}",
+        "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
       ]
     `);
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
@@ -629,9 +634,11 @@ describe('versioned website (community)', () => {
         "community_sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
         "community/**/*.{md,mdx}",
+        "community/**/_category_.{json,yml,yaml}",
         "community_versioned_sidebars/version-1.0.0-sidebars.json",
         "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
         "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
       ]
     `);
     expect(isMatch('community/team.md', matchPattern)).toEqual(true);
