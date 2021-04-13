@@ -24,12 +24,12 @@ jobs:
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
-        run: yarn workspace docusaurus-2-website build
+        run: yarn workspace docusaurus-2-website build --locale en
         timeout-minutes: 10
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
-        run: yarn workspace docusaurus-2-website build
+        run: yarn workspace docusaurus-2-website build --locale en
         timeout-minutes: 10
 
     # TODO post a Github comment with build with perf warnings?
