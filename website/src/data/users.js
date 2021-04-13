@@ -481,7 +481,7 @@ const users = [
     description: 'PowerPoint JavaScript Library',
     preview: require('./showcase/pptxgenjs.png'),
     website: 'https://gitbrent.github.io/PptxGenJS/',
-    source: 'https://github.com/gitbrent/PptxGenJS/tree/gh-pages',
+    source: 'https://github.com/gitbrent/PptxGenJS',
     tags: [],
   },
   {
