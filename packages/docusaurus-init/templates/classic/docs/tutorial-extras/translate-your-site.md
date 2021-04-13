@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Translate your site
 
 Let's translate `docs/getting-started.md` to French.
