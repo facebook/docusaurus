@@ -29,7 +29,7 @@ export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
 
 type CategoryMetadatasFile = {
   label?: string;
-  sidebar_position?: number;
+  position?: number;
   collapsed: boolean;
 };
 
@@ -38,7 +38,7 @@ type SidebarItemWithPosition = SidebarItem & WithPosition;
 
 const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
   label: Joi.string().optional(),
-  sidebar_position: Joi.number().optional(),
+  position: Joi.number().optional(),
   collapsed: Joi.boolean().default(DefaultCategoryCollapsedValue),
 });
 
@@ -186,7 +186,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
 
     const {filename, numberPrefix} = extractNumberPrefix(tail);
 
-    const position = categoryMetadatas?.sidebar_position ?? numberPrefix;
+    const position = categoryMetadatas?.position ?? numberPrefix;
 
     return {
       type: 'category',
