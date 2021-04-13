@@ -17,6 +17,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
     "@docusaurus/core": "2.0.0-alpha.72",
+    "@docusaurus/theme-common": "2.0.0-alpha.72",
     "@docusaurus/utils-validation": "2.0.0-alpha.72",
     "babel-loader": "^8.2.2",
     "clsx": "^1.1.1",

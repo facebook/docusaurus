@@ -82,15 +82,13 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
-    siteConfig,
+    siteConfig: {
+      favicon,
+      themeConfig: {metadatas},
+    },
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
-  const {
-    favicon,
-    themeConfig: {image: defaultImage, metadatas},
-  } = siteConfig;
   const {title, description, image, keywords, searchMetadatas} = props;
-
   const faviconUrl = useBaseUrl(favicon);
 
   // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
@@ -105,7 +103,7 @@ export default function LayoutHead(props: Props): JSX.Element {
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
       </Head>
 
-      <Seo {...{title, description, keywords, image: image || defaultImage}} />
+      <Seo {...{title, description, keywords, image}} />
 
       <CanonicalUrlHeaders />
 

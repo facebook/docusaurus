@@ -477,6 +477,14 @@ const users = [
     tags: ['large', 'personal'],
   },
   {
+    title: 'PptxGenJS',
+    description: 'PowerPoint JavaScript Library',
+    preview: require('./showcase/pptxgenjs.png'),
+    website: 'https://gitbrent.github.io/PptxGenJS/',
+    source: 'https://github.com/gitbrent/PptxGenJS',
+    tags: [],
+  },
+  {
     title: 'Profilo',
     description: 'An Android performance library',
     preview: require('./showcase/profolo.png'),

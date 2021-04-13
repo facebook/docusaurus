@@ -71,7 +71,7 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 }
 ```
 
-## Wrapper your site with `<Root>` {#wrapper-your-site-with-root}
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
 A `<Root>` theme component is rendered at the very top of your Docusaurus site.
 
@@ -92,7 +92,7 @@ This component is applied above the router and the theme `<Layout>`, and will **
 
 :::tip
 
-Use this component render React Context providers and global stateful logic.
+Use this component to render React Context providers and global stateful logic.
 
 :::
 

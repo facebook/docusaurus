@@ -16,6 +16,8 @@ export {
   FooterLinkItem,
 } from './utils/useThemeConfig';
 
+export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
+
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
