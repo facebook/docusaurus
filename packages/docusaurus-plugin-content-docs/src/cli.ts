@@ -96,7 +96,7 @@ export function cliDocsVersionCommand(
   if (fs.existsSync(sidebarPath)) {
     const loadedSidebars = loadSidebars(sidebarPath);
 
-    // TODO @slorber: this "version prefis" in versioned sidebars looks like a bad idea to me
+    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
     // TODO try to get rid of it
     // Transform id in original sidebar to versioned id.
     const normalizeItem = (
