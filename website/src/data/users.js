@@ -37,7 +37,7 @@ const users = [
     preview: require('./showcase/agilets.png'),
     website: 'https://agile-ts.org/',
     source: 'https://github.com/agile-ts/documentation',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'AI-Speaker',
@@ -54,7 +54,7 @@ const users = [
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
     source: 'https://github.com/algolia/docsearch-website',
-    tags: ['highlight', 'design'],
+    tags: ['Highlight', 'Design'],
   },
   {
     title: 'Amphora Data',
@@ -62,7 +62,7 @@ const users = [
     preview: require('./showcase/amphora.png'),
     website: 'https://www.amphoradata.com/',
     source: 'https://github.com/amphoradata/amphoradata.github.io',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Apache APISIX',
@@ -94,7 +94,7 @@ const users = [
     preview: require('./showcase/axioms.png'),
     website: 'https://developer.axioms.io/',
     source: 'https://github.com/axioms-io/developer',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Benthos',
@@ -102,7 +102,7 @@ const users = [
     preview: require('./showcase/benthos.png'),
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Botonic',
@@ -110,7 +110,7 @@ const users = [
     preview: require('./showcase/botonic.png'),
     website: 'https://botonic.io/',
     source: 'https://github.com/hubtype/botonic',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Build Tracker',
@@ -135,7 +135,7 @@ const users = [
     preview: require('./showcase/clutch.png'),
     website: 'https://clutch.sh/',
     source: 'https://github.com/lyft/clutch',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Component Kit',
@@ -143,7 +143,7 @@ const users = [
     preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
     source: 'https://github.com/facebook/componentkit',
-    tags: ['highlight', 'facebook'],
+    tags: ['Highlight', 'Facebook Projects'],
   },
   {
     title: 'ConfigCat Feature Flags',
@@ -151,7 +151,7 @@ const users = [
     preview: require('./showcase/configcat.png'),
     website: 'https://configcat.com/docs/',
     source: 'https://github.com/configcat/docs',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Console Table',
@@ -167,7 +167,7 @@ const users = [
     preview: require('./showcase/create-react-app.png'),
     website: 'https://facebook.github.io/create-react-app/',
     source: 'https://github.com/facebook/create-react-app',
-    tags: ['highlight', 'design', 'large', 'facebook'],
+    tags: ['Highlight', 'Design', 'Large', 'Facebook Projects'],
   },
   {
     title: 'Datagit',
@@ -176,7 +176,7 @@ const users = [
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
     source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
-    tags: ['rtl'],
+    tags: ['With RTL direction'],
   },
   {
     title: 'DevSpace',
@@ -192,7 +192,7 @@ const users = [
     preview: require('./showcase/diem.png'),
     website: 'https://developers.libra.org',
     source: 'https://github.com/diem/diem',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Draft.js',
@@ -208,7 +208,7 @@ const users = [
     preview: require('./showcase/eightshift-docs.png'),
     website: 'https://infinum.github.io/eightshift-docs/',
     source: 'https://github.com/infinum/eightshift-docs',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Erxes',
@@ -216,7 +216,7 @@ const users = [
     preview: require('./showcase/erxes.png'),
     website: 'https://docs.erxes.io/',
     source: 'https://github.com/erxes/erxes',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Eta',
@@ -224,7 +224,7 @@ const users = [
     preview: require('./showcase/eta.png'),
     website: 'https://eta.js.org/',
     source: 'https://github.com/eta-dev/eta',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'FBT',
@@ -232,7 +232,7 @@ const users = [
     preview: require('./showcase/fbt.png'),
     website: 'https://facebookincubator.github.io/fbt/',
     source: 'https://github.com/facebook/fbt',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'Flipper',
@@ -240,7 +240,7 @@ const users = [
     preview: require('./showcase/flipper.png'),
     website: 'https://fbflipper.com',
     source: 'https://github.com/facebook/flipper',
-    tags: ['design', 'facebook'],
+    tags: ['Design', 'Facebook Projects'],
   },
   {
     title: 'FlexIt Analytics',
@@ -248,7 +248,7 @@ const users = [
     preview: require('./showcase/flexit.png'),
     website: 'https://learn.flexitanalytics.com/',
     source: 'https://github.com/ataft/flexit-docs',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Flux',
@@ -256,7 +256,7 @@ const users = [
     preview: require('./showcase/flux.png'),
     website: 'https://facebook.github.io/flux/',
     source: 'https://github.com/facebook/flux',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'FoalTS',
@@ -264,7 +264,7 @@ const users = [
     preview: require('./showcase/foal.png'),
     website: 'https://foalts.org/',
     source: 'https://github.com/FoalTS/foal/tree/master/docs',
-    tags: ['highlight', 'design', 'large', 'versioning', 'i18n'],
+    tags: ['Highlight', 'Design', 'Large', 'Versioning', 'i18n'],
   },
   {
     title: 'GraphQL Code Generator',
@@ -273,7 +273,7 @@ const users = [
     preview: require('./showcase/graphql-codegen.png'),
     website: 'https://graphql-code-generator.com/',
     source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'GraphQL Inspector',
@@ -281,7 +281,7 @@ const users = [
     preview: require('./showcase/graphql-inspector.png'),
     website: 'https://graphql-inspector.com',
     source: 'https://github.com/kamilkisiela/graphql-inspector',
-    tags: ['highlight', 'design'],
+    tags: ['Highlight', 'Design'],
   },
   {
     title: 'GraphQL Mesh',
@@ -289,7 +289,7 @@ const users = [
     preview: require('./showcase/graphql-mesh.png'),
     website: 'https://graphql-mesh.com',
     source: 'https://github.com/urigo/graphql-mesh',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Gulp',
@@ -297,7 +297,7 @@ const users = [
     preview: require('./showcase/gulp.png'),
     website: 'https://gulpjs.com',
     source: 'https://github.com/gulpjs/gulp',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Hashnode Support',
@@ -305,7 +305,7 @@ const users = [
     preview: require('./showcase/hashnode.png'),
     website: 'https://support.hashnode.com/',
     source: 'https://github.com/Hashnode/support',
-    tags: ['highlight', 'large'],
+    tags: ['Highlight', 'Large'],
   },
   {
     title: 'Hermes',
@@ -313,7 +313,7 @@ const users = [
     preview: require('./showcase/hermes.png'),
     website: 'https://hermesengine.dev',
     source: 'https://github.com/facebook/hermes',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'Home Assistant',
@@ -321,7 +321,7 @@ const users = [
     preview: require('./showcase/home-assistant.png'),
     website: 'https://developers.home-assistant.io/',
     source: 'https://github.com/home-assistant/core',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Idb',
@@ -329,7 +329,7 @@ const users = [
     preview: require('./showcase/idb.png'),
     website: 'https://www.fbidb.io/',
     source: 'https://github.com/facebook/idb',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'mailgo',
@@ -337,7 +337,7 @@ const users = [
     preview: require('./showcase/mailgo.png'),
     website: 'https://mailgo.js.org/',
     source: 'https://github.com/manzinello/mailgo',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Metro',
@@ -345,7 +345,7 @@ const users = [
     preview: require('./showcase/metro.png'),
     website: 'https://facebook.github.io/metro/',
     source: 'https://github.com/facebook/metro',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'Kotest',
@@ -353,7 +353,7 @@ const users = [
     preview: require('./showcase/kotest.jpg'),
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'SICOPE Model',
@@ -377,7 +377,7 @@ const users = [
     preview: require('./showcase/mikro-orm.png'),
     website: 'https://mikro-orm.io',
     source: 'https://github.com/mikro-orm/mikro-orm',
-    tags: ['highlight', 'large', 'versioning'],
+    tags: ['Highlight', 'Large', 'Versioning'],
   },
   {
     title: 'Motion Layout',
@@ -386,7 +386,7 @@ const users = [
     preview: require('./showcase/motion-layout.png'),
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Neutron JS',
@@ -394,7 +394,7 @@ const users = [
     preview: require('./showcase/neutronjs.png'),
     website: 'https://www.neutronjs.com/',
     source: 'https://github.com/neutronjs/neutron-cli',
-    tags: ['versioning'],
+    tags: ['Versioning'],
   },
   {
     title: 'NextAuth.js',
@@ -402,7 +402,7 @@ const users = [
     preview: require('./showcase/nextauthjs.png'),
     website: 'https://next-auth.js.org/',
     source: 'https://github.com/nextauthjs/next-auth',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Node SerialPort',
@@ -410,7 +410,7 @@ const users = [
     preview: require('./showcase/node-serialport.png'),
     website: 'https://serialport.io',
     source: 'https://github.com/serialport/node-serialport',
-    tags: ['large', 'versioning'],
+    tags: ['Large', 'Versioning'],
   },
   {
     title: 'Nodify',
@@ -418,7 +418,7 @@ const users = [
     preview: require('./showcase/nodify.png'),
     website: 'https://miroiu.github.io/nodify/',
     source: 'https://github.com/miroiu/nodify',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Oxidizer',
@@ -426,7 +426,7 @@ const users = [
     preview: require('./showcase/oxidizer.png'),
     website: 'https://oxidizer.rs',
     source: 'https://github.com/oxidizer-rs/website',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Paubox',
@@ -441,7 +441,7 @@ const users = [
     preview: require('./showcase/postgres-ai.png'),
     website: 'https://postgres.ai/',
     source: 'https://gitlab.com/postgres-ai/docs',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Power\'s Wiki',
@@ -449,7 +449,7 @@ const users = [
     preview: require('./showcase/power.png'),
     website: 'https://wiki-power.com/',
     source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
-    tags: ['large', 'personal'],
+    tags: ['Large', 'Personal Sites'],
   },
   {
     title: 'Profilo',
@@ -457,7 +457,7 @@ const users = [
     preview: require('./showcase/profolo.png'),
     website: 'https://facebookincubator.github.io/profilo/',
     source: 'https://github.com/facebookincubator/profilo',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'Pyre',
@@ -465,7 +465,7 @@ const users = [
     preview: require('./showcase/pyre.png'),
     website: 'https://pyre-check.org',
     source: 'https://github.com/facebook/pyre-check',
-    tags: ['facebook', 'large'],
+    tags: ['Facebook Projects', 'Large'],
   },
   {
     title: 'QA-Board',
@@ -474,7 +474,7 @@ const users = [
     preview: require('./showcase/qa-board.png'),
     website: 'https://samsung.github.io/qaboard/',
     source: 'https://github.com/Samsung/qaboard',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'QuestDB',
@@ -483,7 +483,7 @@ const users = [
     preview: require('./showcase/questdb.png'),
     website: 'https://questdb.io',
     source: 'https://github.com/questdb/questdb.io',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'RactivePlayer',
@@ -507,7 +507,7 @@ const users = [
     preview: require('./showcase/reactnative.png'),
     website: 'https://reactnative.dev',
     source: 'https://github.com/facebook/react-native-website',
-    tags: ['facebook', 'large', 'highlight', 'design', 'versioning'],
+    tags: ['Facebook Projects', 'Large', 'Highlight', 'Design', 'Versioning'],
   },
   {
     title: 'React Native Elements',
@@ -515,7 +515,7 @@ const users = [
     preview: require('./showcase/react-native-elements.png'),
     website: 'https://react-native-training.github.io/react-native-elements/',
     source: 'https://github.com/react-native-elements/react-native-elements',
-    tags: ['large', 'highlight', 'design', 'versioning'],
+    tags: ['Large', 'Highlight', 'Design', 'Versioning'],
   },
   {
     title: 'react-native-ios-kit',
@@ -539,7 +539,7 @@ const users = [
     preview: require('./showcase/react-redux.png'),
     website: 'https://react-redux.js.org',
     source: 'https://www.github.com/reduxjs/react-redux',
-    tags: ['highlight', 'large', 'versioning'],
+    tags: ['Highlight', 'Large', 'Versioning'],
   },
   {
     title: 'Redux',
@@ -547,7 +547,7 @@ const users = [
     preview: require('./showcase/redux.png'),
     website: 'https://redux.js.org/',
     source: 'https://www.github.com/reduxjs/redux',
-    tags: ['highlight', 'large'],
+    tags: ['Highlight', 'Large'],
   },
   {
     title: 'React Native ARIA',
@@ -563,7 +563,7 @@ const users = [
     preview: require('./showcase/rematch.png'),
     website: 'https://rematchjs.org',
     source: 'https://github.com/rematch/rematch',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Rooks',
@@ -571,7 +571,7 @@ const users = [
     preview: require('./showcase/rooks.png'),
     website: 'https://react-hooks.org/',
     source: 'https://github.com/imbhargav5/rooks',
-    tags: ['large', 'versioning'],
+    tags: ['Large', 'Versioning'],
   },
   {
     title: 'Runlet',
@@ -579,7 +579,7 @@ const users = [
     preview: require('./showcase/runlet.png'),
     website: 'https://runlet.app',
     source: 'https://github.com/runletapp/website',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Saleor',
@@ -587,7 +587,7 @@ const users = [
     preview: require('./showcase/saleor.png'),
     website: 'https://docs.getsaleor.com/',
     source: 'https://github.com/mirumee/saleor-docs',
-    tags: ['design', 'large', 'versioning'],
+    tags: ['Design', 'Large', 'Versioning'],
   },
   {
     title: 'SCI WP Framework',
@@ -595,7 +595,7 @@ const users = [
     preview: require('./showcase/sciwp.png'),
     website: 'https://sciwp.com/',
     source: 'https://github.com/sciwp/sciwp-framework',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'single-spa',
@@ -603,14 +603,14 @@ const users = [
     preview: require('./showcase/single-spa.png'),
     website: 'https://single-spa.js.org/',
     source: 'https://github.com/single-spa/single-spa',
-    tags: ['highlight', 'large', 'versioning', 'i18n'],
+    tags: ['Highlight', 'Large', 'Versioning', 'i18n'],
   },
   {
     title: 'smash.gg',
     description: 'Turning passions into careers',
     preview: require('./showcase/smashgg.png'),
     website: 'https://developer.smash.gg',
-    tags: ['large'],
+    tags: ['Large'],
   },
   {
     title: 'Shabad OS Docs',
@@ -618,7 +618,7 @@ const users = [
     preview: require('./showcase/shabados.png'),
     website: 'https://docs.shabados.com',
     source: 'https://github.com/shabados/docs',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -626,7 +626,7 @@ const users = [
     preview: require('./showcase/spotifyapi-net.png'),
     website: 'https://johnnycrazy.github.io/SpotifyAPI-NET/',
     source: 'https://github.com/JohnnyCrazy/SpotifyAPI-NET',
-    tags: ['versioning'],
+    tags: ['Versioning'],
   },
   {
     title: 'Supabase',
@@ -634,7 +634,7 @@ const users = [
     preview: require('./showcase/supabase.png'),
     website: 'https://www.supabase.io/',
     source: 'https://github.com/supabase/monorepo',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'T-Regx',
@@ -642,7 +642,7 @@ const users = [
     preview: require('./showcase/t-regx.png'),
     website: 'https://t-regx.com/',
     source: 'https://github.com/T-Regx/T-Regx',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Taro',
@@ -650,7 +650,7 @@ const users = [
     preview: require('./showcase/docs-taro-zone.png'),
     website: 'https://docs.taro.zone/',
     source: 'https://github.com/NervJS/taro',
-    tags: ['versioning', 'large'],
+    tags: ['Versioning', 'Large'],
   },
   {
     title: 'Testing Library',
@@ -658,7 +658,7 @@ const users = [
     preview: require('./showcase/testing-library.png'),
     website: 'https://testing-library.com/',
     source: 'https://github.com/testing-library/testing-library-docs',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Tasit',
@@ -674,7 +674,7 @@ const users = [
     description: 'A Podcast from Facebook Open Source',
     preview: require('./showcase/the-diff.png'),
     website: 'https://thediffpodcast.com',
-    tags: ['facebook'],
+    tags: ['Facebook Projects'],
   },
   {
     title: 'Tourmaline',
@@ -691,7 +691,7 @@ const users = [
     preview: require('./showcase/uniforms.png'),
     website: 'https://uniforms.tools/',
     source: 'https://github.com/vazco/uniforms',
-    tags: ['design', 'large', 'highlight'],
+    tags: ['Design', 'Large', 'Highlight'],
   },
   {
     title: 'Vector',
@@ -699,7 +699,7 @@ const users = [
     preview: require('./showcase/vector.png'),
     website: 'https://vector.dev/',
     source: 'https://github.com/timberio/vector',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'Vue NodeGui',
@@ -707,7 +707,7 @@ const users = [
     preview: require('./showcase/vue-nodegui.png'),
     website: 'https://vue.nodegui.org/',
     source: 'https://github.com/nodegui/vue-nodegui',
-    tags: ['design'],
+    tags: ['Design'],
   },
   {
     title: 'Wasp',
@@ -716,7 +716,7 @@ const users = [
     preview: require('./showcase/wasp.png'),
     website: 'https://wasp-lang.dev/',
     source: 'https://github.com/wasp-lang/wasp',
-    tags: ['highlight', 'design', 'large'],
+    tags: ['Highlight', 'Design', 'Large'],
   },
   {
     title: 'WebdriverIO',
@@ -725,7 +725,7 @@ const users = [
     preview: require('./showcase/webdriverio.png'),
     website: 'https://webdriver.io/',
     source: 'https://github.com/webdriverio/webdriverio',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
   {
     title: 'Wisdom',
@@ -733,7 +733,7 @@ const users = [
     preview: require('./showcase/wisdom.png'),
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
-    tags: ['design', 'large'],
+    tags: ['Design', 'Large'],
   },
 ];
 
