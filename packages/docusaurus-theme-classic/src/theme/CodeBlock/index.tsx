@@ -15,7 +15,8 @@ import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
-import {useThemeConfig} from '@docusaurus/theme-common';
+
+import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (
@@ -85,7 +86,6 @@ const highlightDirectiveRegex = (lang) => {
       return getHighlightDirectiveRegex();
   }
 };
-const codeBlockTitleRegex = /(?:title=")(.*)(?:")/;
 
 export default function CodeBlock({
   children,
@@ -109,7 +109,7 @@ export default function CodeBlock({
 
   const button = useRef(null);
   let highlightLines: number[] = [];
-  let codeBlockTitle = '';
+  const codeBlockTitle = parseCodeBlockTitle(metastring);
 
   const prismTheme = usePrismTheme();
 
@@ -121,12 +121,6 @@ export default function CodeBlock({
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
-  }
-
-  if (metastring && codeBlockTitleRegex.test(metastring)) {
-    // Tested above
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, prefer-destructuring
-    codeBlockTitle = metastring.match(codeBlockTitleRegex)![1];
   }
 
   let language =
