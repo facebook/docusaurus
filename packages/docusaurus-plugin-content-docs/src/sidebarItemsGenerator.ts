@@ -12,7 +12,6 @@ import {
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
 } from './types';
-import {DefaultCategoryCollapsedValue} from './sidebars';
 import {sortBy, take, last, orderBy} from 'lodash';
 import {addTrailingSlash} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
@@ -21,16 +20,17 @@ import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
+import {DefaultCategoryCollapsedValue} from './sidebars';
 
 const BreadcrumbSeparator = '/';
 
 export const CategoryMetadataFilenameBase = '_category_';
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
 
-type CategoryMetadatasFile = {
+export type CategoryMetadatasFile = {
   label?: string;
   position?: number;
-  collapsed: boolean;
+  collapsed?: boolean;
 };
 
 type WithPosition = {position?: number};
@@ -39,7 +39,7 @@ type SidebarItemWithPosition = SidebarItem & WithPosition;
 const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
   label: Joi.string().optional(),
   position: Joi.number().optional(),
-  collapsed: Joi.boolean().default(DefaultCategoryCollapsedValue),
+  collapsed: Joi.boolean().optional(),
 });
 
 async function readCategoryMetadatasFile(
@@ -192,7 +192,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
       type: 'category',
       label: categoryMetadatas?.label ?? filename,
       items: [],
-      collapsed: true, // TODO use default value
+      collapsed: categoryMetadatas?.collapsed ?? DefaultCategoryCollapsedValue,
       ...(typeof position !== 'undefined' && {position}),
     };
   }
