@@ -13,7 +13,7 @@ import {
   SidebarItemsGeneratorDoc,
 } from './types';
 import {sortBy, take, last, orderBy} from 'lodash';
-import {addTrailingSlash} from '@docusaurus/utils';
+import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import {extractNumberPrefix} from './numberPrefix';
 import chalk from 'chalk';
@@ -56,7 +56,9 @@ async function readCategoryMetadatasFile(
     parse: (content: string) => unknown,
   ): Promise<CategoryMetadatasFile | null> {
     // Simpler to use only posix paths for mocking file metadatas in tests
-    const filePath = path.posix.join(categoryDirPath, fileNameWithExtension);
+    const filePath = posixPath(
+      path.join(categoryDirPath, fileNameWithExtension),
+    );
     if (await fs.pathExists(filePath)) {
       const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
       const unsafeContent: unknown = parse(contentString);
