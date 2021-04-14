@@ -136,3 +136,15 @@
     no-repeat;
   filter: var(--ifm-menu-link-sublist-icon-filter);
 }
+
+li.onlycss > ul {
+  display: none;
+}
+
+li.onlycss:focus-within > ul {
+  display: block;
+}
+
+li.onlycss:focus-within :global(.menu__list) {
+  height: auto !important;
+}

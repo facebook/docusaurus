@@ -65,6 +65,8 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
 
+  const [enableCSSStyles, setEnableCSSStyles] = useState(true);
+
   const menuListRef = useRef<HTMLUListElement>(null);
   const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
     undefined,
@@ -78,6 +80,7 @@ function DocSidebarItemCategory({
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
+    setEnableCSSStyles(false);
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
@@ -104,6 +107,7 @@ function DocSidebarItemCategory({
     <li
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
+        [styles.onlycss]: enableCSSStyles,
       })}
       key={label}>
       <a
