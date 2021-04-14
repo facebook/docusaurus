@@ -15,9 +15,8 @@ import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
-import {useThemeConfig} from '@docusaurus/theme-common';
 
-import parseCodeBlockTitle from './parseCodeBlockTitle';
+import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (

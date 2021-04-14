@@ -18,6 +18,8 @@ export {
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
+export {parseCodeBlockTitle} from './utils/codeBlockUtils';
+
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {isDocsPluginEnabled} from './utils/docsUtils';
