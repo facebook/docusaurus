@@ -23,7 +23,7 @@ docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdacci
 yarn build:packages
 
 # Publish the monorepo
-npx --no-install lerna publish --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
+npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
 
 # Revert version changes
 git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
