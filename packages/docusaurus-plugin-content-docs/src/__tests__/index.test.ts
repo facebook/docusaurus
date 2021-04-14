@@ -1504,16 +1504,23 @@ describe('site with custom sidebar items generator', () => {
     const customSidebarItemsGeneratorMock = jest.fn(
       async (_arg: GeneratorArg) => [],
     );
-    await loadSite(customSidebarItemsGeneratorMock);
-
-    // Make test pass even if docs are not read in a deterministic order
-    function sorted(arg: GeneratorArg): GeneratorArg {
-      return {...arg, docs: orderBy(arg.docs, 'id')};
-    }
+    const {siteDir} = await loadSite(customSidebarItemsGeneratorMock);
 
     const generatorArg: GeneratorArg =
       customSidebarItemsGeneratorMock.mock.calls[0][0];
 
-    expect(sorted(generatorArg)).toMatchSnapshot();
+    // Make test pass even if docs are in different order and paths are absolutes
+    function makeDeterministic(arg: GeneratorArg): GeneratorArg {
+      return {
+        ...arg,
+        docs: orderBy(arg.docs, 'id'),
+        version: {
+          ...arg.version,
+          contentPath: path.relative(siteDir, arg.version.contentPath),
+        },
+      };
+    }
+
+    expect(makeDeterministic(generatorArg)).toMatchSnapshot();
   });
 });
