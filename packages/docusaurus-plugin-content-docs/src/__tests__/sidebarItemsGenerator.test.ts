@@ -12,7 +12,6 @@ import {
 import {DefaultCategoryCollapsedValue} from '../sidebars';
 import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
-import {posixPath} from '@docusaurus/utils';
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(
@@ -36,19 +35,12 @@ describe('DefaultSidebarItemsGenerator', () => {
     categoryMetadataFiles: Record<string, Partial<CategoryMetadatasFile>>,
   ) {
     jest.spyOn(fs, 'pathExists').mockImplementation((metadataFilePath) => {
-      console.log('pathExists', metadataFilePath);
-
-      return (
-        typeof categoryMetadataFiles[posixPath(metadataFilePath)] !==
-        'undefined'
-      );
+      return typeof categoryMetadataFiles[metadataFilePath] !== 'undefined';
     });
     jest.spyOn(fs, 'readFile').mockImplementation(
       // @ts-expect-error: annoying TS error due to overrides
-      (metadataFilePath: string) => {
-        return Promise.resolve(
-          JSON.stringify(categoryMetadataFiles[posixPath(metadataFilePath)]),
-        )!;
+      async (metadataFilePath: string) => {
+        return JSON.stringify(categoryMetadataFiles[metadataFilePath]);
       },
     );
   }

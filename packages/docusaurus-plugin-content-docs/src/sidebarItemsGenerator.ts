@@ -55,7 +55,8 @@ async function readCategoryMetadatasFile(
     fileNameWithExtension: string,
     parse: (content: string) => unknown,
   ): Promise<CategoryMetadatasFile | null> {
-    const filePath = path.join(categoryDirPath, fileNameWithExtension);
+    // Simpler to use only posix paths for mocking file metadatas in tests
+    const filePath = path.posix.join(categoryDirPath, fileNameWithExtension);
     if (await fs.pathExists(filePath)) {
       const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
       const unsafeContent: unknown = parse(contentString);
