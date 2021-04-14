@@ -341,6 +341,14 @@ const users = [
     tags: ['facebook'],
   },
   {
+    title: 'IntelAGENT Billing',
+    description: 'OHIP Billing Agent',
+    preview: require('./showcase/intelagent.png'),
+    website: 'https://www.intelagent.ca/',
+    source: 'https://github.com/intelagentbilling/docs',
+    tags: [''],
+  },
+  {
     title: 'mailgo',
     description: 'A new concept of mailto and tel links',
     preview: require('./showcase/mailgo.png'),
