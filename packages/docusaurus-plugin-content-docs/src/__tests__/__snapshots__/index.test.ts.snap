@@ -726,6 +726,16 @@ Object {
     },
     Object {
       "frontMatter": Object {
+        "id": "guide2.5",
+        "sidebar_position": 2.5,
+      },
+      "id": "Guides/guide2.5",
+      "sidebarPosition": 2.5,
+      "source": "@site/docs/Guides/0-guide2.5.md",
+      "sourceDirName": "Guides",
+    },
+    Object {
+      "frontMatter": Object {
         "id": "guide3",
         "sidebar_position": 3,
       },
