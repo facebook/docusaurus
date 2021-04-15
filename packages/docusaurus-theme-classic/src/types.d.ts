@@ -501,10 +501,13 @@ declare module '@theme/TOCInline' {
 }
 
 declare module '@theme/Toggle' {
-  import type {ComponentProps} from 'react';
-  import type ReactToggle from 'react-toggle';
+  import type {SyntheticEvent} from 'react';
 
-  export type Props = ComponentProps<typeof ReactToggle>;
+  export type Props = {
+    readonly className?: string;
+    readonly checked: boolean;
+    readonly onChange: (e: SyntheticEvent) => void;
+  };
 
   const Toggle: (props: Props) => JSX.Element;
   export default Toggle;
