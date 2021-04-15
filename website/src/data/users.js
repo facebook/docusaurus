@@ -859,6 +859,14 @@ const users = [
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['design', 'large'],
   },
+  {
+    title: 'KubeVela',
+    description: 'KubeVela is a modern application engine that adapts to your application\'s needs, not the other way around.',
+    preview: require('./showcase/kubevela.png'),
+    website: 'https://kubevela.io/',
+    source: 'https://github.com/oam-dev/kubevela.io',
+    tags: ['versioning', 'i18n'],
+  },
 ];
 
 users.forEach((user) => {
