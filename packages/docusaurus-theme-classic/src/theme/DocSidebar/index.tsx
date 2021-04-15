@@ -228,7 +228,7 @@ function useResponsiveSidebar() {
 
   const toggleResponsiveSidebar = useCallback(() => {
     setShowResponsiveSidebar(!showResponsiveSidebar);
-  }, [setShowResponsiveSidebar]);
+  }, [setShowResponsiveSidebar, showResponsiveSidebar]);
 
   return {
     showResponsiveSidebar,
