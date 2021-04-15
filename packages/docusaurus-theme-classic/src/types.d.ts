@@ -249,6 +249,7 @@ declare module '@theme/Layout' {
     keywords?: string | string[];
     permalink?: string;
     wrapperClassName?: string;
+    pageClassName?: string;
     searchMetadatas?: {
       version?: string;
       tag?: string;
