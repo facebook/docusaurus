@@ -104,8 +104,7 @@ function DocSidebarItemCategory({
     <li
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
-      })}
-      key={label}>
+      })}>
       <a
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
@@ -128,16 +127,13 @@ function DocSidebarItemCategory({
             handleMenuListHeight(false);
           }
         }}>
-        {items.map((childItem) => (
-          <DocSidebarItem
-            tabIndex={collapsed ? '-1' : '0'}
-            key={childItem.label}
-            item={childItem}
-            onItemClick={onItemClick}
-            collapsible={collapsible}
-            activePath={activePath}
-          />
-        ))}
+        <DocSidebarItems
+          items={items}
+          tabIndex={collapsed ? '-1' : '0'}
+          onItemClick={onItemClick}
+          collapsible={collapsible}
+          activePath={activePath}
+        />
       </ul>
     </li>
   );
@@ -182,6 +178,16 @@ function DocSidebarItem(props): JSX.Element {
   }
 }
 
+function DocSidebarItems({items, ...props}): JSX.Element {
+  return items.map((item, index) => (
+    <DocSidebarItem
+      key={index} // sidebar is static, the index does not change
+      item={item}
+      {...props}
+    />
+  ));
+}
+
 function DocSidebar({
   path,
   sidebar,
@@ -217,16 +223,14 @@ function DocSidebar({
     [setShowResponsiveSidebar],
   );
   const sidebarItems = useMemo(
-    () =>
-      sidebar.map((item) => (
-        <DocSidebarItem
-          key={item.label}
-          item={item}
-          onItemClick={closeResponsiveSidebar}
-          collapsible={sidebarCollapsible}
-          activePath={path}
-        />
-      )),
+    () => (
+      <DocSidebarItems
+        items={sidebar}
+        onItemClick={closeResponsiveSidebar}
+        collapsible={sidebarCollapsible}
+        activePath={path}
+      />
+    ),
     [sidebar, sidebarCollapsible, path, closeResponsiveSidebar],
   );
 
