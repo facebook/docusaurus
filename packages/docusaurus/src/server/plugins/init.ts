@@ -44,113 +44,111 @@ export default function initPlugins({
   const pluginRequire = createRequire(context.siteConfigPath);
 
   const plugins: InitPlugin[] = pluginConfigs
-  .map((pluginItem) => {
-    let pluginModuleImport: string | undefined;
-    let pluginOptions: PluginOptions = {};
-    let plugin: PluginModule | undefined;
-    let validateOptions;
-    let pluginModule: ImportedPluginModule | undefined;
-    let pluginVersion: DocusaurusPluginVersionInformation;
+    .map((pluginItem) => {
+      let pluginModuleImport: string | undefined;
+      let pluginOptions: PluginOptions = {};
+      let plugin: PluginModule | undefined;
+      let validateOptions;
+      let pluginModule: ImportedPluginModule | undefined;
+      let pluginVersion: DocusaurusPluginVersionInformation;
 
+      if (!pluginItem) {
+        return null;
+      }
 
-    if (!pluginItem) {
-      return null;
-    }
-
-
-    if (typeof pluginItem === 'string') {
-      pluginModuleImport = pluginItem;
-    } else if (Array.isArray(pluginItem) && typeof pluginItem[0] === 'string') {
-      [pluginModuleImport, pluginOptions = {}] = pluginItem;
-
-    } else if (typeof pluginItem === 'function') {
-      plugin = pluginItem;
-    } else if (Array.isArray(pluginItem) && typeof pluginItem[0] == 'function') {
-      [plugin, pluginOptions = {}] = pluginItem;
-    }
-    else {
-      throw new TypeError(`You supplied a wrong type of plugin.
+      if (typeof pluginItem === 'string') {
+        pluginModuleImport = pluginItem;
+      } else if (
+        Array.isArray(pluginItem) &&
+        typeof pluginItem[0] === 'string'
+      ) {
+        [pluginModuleImport, pluginOptions = {}] = pluginItem;
+      } else if (typeof pluginItem === 'function') {
+        plugin = pluginItem;
+      } else if (
+        Array.isArray(pluginItem) &&
+        typeof pluginItem[0] === 'function'
+      ) {
+        [plugin, pluginOptions = {}] = pluginItem;
+      } else {
+        throw new TypeError(`You supplied a wrong type of plugin.
 A plugin should be either string or [importPath: string, options?: object].
 
 For more information, visit https://docusaurus.io/docs/using-plugins.`);
-    }
-
-    if (!pluginModuleImport && !plugin) {
-      throw new Error('The path to the plugin is either undefined or null.');
-    }
-
-    // pluginItem is a path
-    if (pluginModuleImport) {
-      // The pluginModuleImport value is any valid
-      // module identifier - npm package or locally-resolved path.
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      pluginModule = importFresh(pluginPath);
-      pluginVersion = getPluginVersion(pluginPath, context.siteDir);
-
-      plugin = pluginModule?.default || pluginModule;
-
-      // support both commonjs and ES modules
-      validateOptions =
-        pluginModule?.default?.validateOptions ?? pluginModule?.validateOptions;
-
-      // pluginItem is a function
-    } else {
-      if (typeof pluginItem == "function") {
-        console.log(pluginItem?.validateOptions)
       }
-      validateOptions = plugin?.validateOptions;
-      pluginVersion = { type: 'local' }
-    }
 
+      if (!pluginModuleImport && !plugin) {
+        throw new Error('The path to the plugin is either undefined or null.');
+      }
 
+      // pluginItem is a path
+      if (pluginModuleImport) {
+        // The pluginModuleImport value is any valid
+        // module identifier - npm package or locally-resolved path.
+        const pluginPath = pluginRequire.resolve(pluginModuleImport);
+        pluginModule = importFresh(pluginPath);
+        pluginVersion = getPluginVersion(pluginPath, context.siteDir);
 
+        plugin = pluginModule?.default || pluginModule;
 
+        // support both commonjs and ES modules
+        validateOptions =
+          pluginModule?.default?.validateOptions ??
+          pluginModule?.validateOptions;
 
-    if (validateOptions) {
-      pluginOptions = validateOptions({
-        validate: normalizePluginOptions,
+        // pluginItem is a function
+      } else {
+        validateOptions = plugin?.validateOptions;
+        pluginVersion = {type: 'local'};
+      }
+
+      if (validateOptions) {
+        pluginOptions = validateOptions({
+          validate: normalizePluginOptions,
+          options: pluginOptions,
+        });
+      } else {
+        // Important to ensure all plugins have an id
+        // as we don't go through the Joi schema that adds it
+        pluginOptions = {
+          ...pluginOptions,
+          id: pluginOptions.id ?? DEFAULT_PLUGIN_ID,
+        };
+      }
+
+      // pluginItem is a path
+      // support both commonjs and ES modules and Functional plugins
+      let validateThemeConfig;
+      if (pluginModule) {
+        validateThemeConfig =
+          pluginModule.default?.validateThemeConfig ??
+          pluginModule.validateThemeConfig;
+      } else {
+        validateThemeConfig = plugin?.validateOptions;
+      }
+
+      if (validateThemeConfig) {
+        const normalizedThemeConfig = validateThemeConfig({
+          validate: normalizeThemeConfig,
+          themeConfig: context.siteConfig.themeConfig,
+        });
+
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...normalizedThemeConfig,
+        };
+      }
+      // pluginItem is a function
+      if (!plugin) {
+        return null;
+      }
+
+      return {
+        ...plugin(context, pluginOptions),
         options: pluginOptions,
-      });
-    } else {
-      // Important to ensure all plugins have an id
-      // as we don't go through the Joi schema that adds it
-      pluginOptions = {
-        ...pluginOptions,
-        id: pluginOptions.id ?? DEFAULT_PLUGIN_ID,
+        version: pluginVersion,
       };
-    }
-
-    // pluginItem is a path
-    // support both commonjs and ES modules and Functional plugins
-    let validateThemeConfig;
-    if (pluginModule) {
-      validateThemeConfig =
-        pluginModule.default?.validateThemeConfig ??
-        pluginModule.validateThemeConfig;
-    } else {
-      validateThemeConfig = plugin?.validateOptions
-    }
-
-    if (validateThemeConfig) {
-      const normalizedThemeConfig = validateThemeConfig({
-        validate: normalizeThemeConfig,
-        themeConfig: context.siteConfig.themeConfig,
-      });
-
-      context.siteConfig.themeConfig = {
-        ...context.siteConfig.themeConfig,
-        ...normalizedThemeConfig,
-      };
-    }
-    // pluginItem is a function
-    if (!plugin) return null;
-
-    return {
-      ...plugin(context, pluginOptions),
-      options: pluginOptions,
-      version: pluginVersion,
-    };
-  })
+    })
     .filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
 
   ensureUniquePluginInstanceIds(plugins);
