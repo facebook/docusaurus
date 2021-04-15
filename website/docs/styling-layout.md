@@ -105,13 +105,18 @@ function MyComponent() {
 
 We provide some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
 
-import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts'; import CodeBlock from '@theme/CodeBlock';
+```mdx-code-block
+import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
+
+import CodeBlock from '@theme/CodeBlock';
 
 <CodeBlock className="language-ts">
   {ThemeClassNamesCode
+    // remove source comments
     .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
     .trim()}
 </CodeBlock>
+```
 
 ### CSS modules {#css-modules}
 
