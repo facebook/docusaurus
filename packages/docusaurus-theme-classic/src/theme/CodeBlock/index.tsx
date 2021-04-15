@@ -108,9 +108,13 @@ export default function CodeBlock({
     setMounted(true);
   }, []);
 
+  // TODO: the title is provided by MDX as props automatically
+  // so we probably don't need to parse the metastring
+  // (note: title="xyz" => title prop still has the quotes)
+  const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
+
   const button = useRef(null);
   let highlightLines: number[] = [];
-  const codeBlockTitle = title ?? parseCodeBlockTitle(metastring);
 
   const prismTheme = usePrismTheme();
 
