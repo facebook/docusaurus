@@ -1,8 +1,12 @@
 ---
-title: Deploy your site
+sidebar_position: 5
 ---
 
-Docusaurus is a **static-site-generator** (also called [Jamstack](https://jamstack.org/)), and builds your site as **static HTML, JavaScript and CSS files**.
+# Deploy your site
+
+Docusaurus is a **static-site-generator** (also called **[Jamstack](https://jamstack.org/)**).
+
+It builds your site as simple **static HTML, JavaScript and CSS files**.
 
 ## Build your site
 
@@ -12,7 +16,7 @@ Build your site **for production**:
 npm run build
 ```
 
-The static files are generated in the `build` directory.
+The static files are generated in the `build` folder.
 
 ## Deploy your site
 

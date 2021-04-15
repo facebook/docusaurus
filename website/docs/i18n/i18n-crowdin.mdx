@@ -514,13 +514,15 @@ It is currently **not possible to link to a specific file** in Crowdin.
 
 The **Docusaurus v2 configuration file** is a good example of using versioning and multi-instance:
 
+```mdx-code-block
 import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
 import CodeBlock from '@theme/CodeBlock';
 
-<CodeBlock className="language-yaml" title="test">
+<CodeBlock className="language-yaml" title="crowdin.yml">
   {CrowdinConfigV2.split('\n')
     // remove comments
     .map((line) => !line.startsWith('#') && line)
     .filter(Boolean)
     .join('\n')}
 </CodeBlock>
+```

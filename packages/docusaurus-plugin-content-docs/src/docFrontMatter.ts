@@ -14,7 +14,9 @@ type DocFrontMatter = {
   description?: string;
   slug?: string;
   sidebar_label?: string;
+  sidebar_position?: number;
   custom_edit_url?: string;
+  strip_number_prefixes?: boolean;
 };
 
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
@@ -23,7 +25,9 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   description: Joi.string(),
   slug: Joi.string(),
   sidebar_label: Joi.string(),
+  sidebar_position: Joi.number(),
   custom_edit_url: Joi.string().allow(null),
+  strip_number_prefixes: Joi.boolean(),
 }).unknown();
 
 export function assertDocFrontMatter(

@@ -1,14 +1,16 @@
 ---
-title: Create a Page
+sidebar_position: 1
 ---
 
-Add **Markdown or React** files to `src/pages` to create **standalone pages**:
+# Create a Page
+
+Add **Markdown or React** files to `src/pages` to create a **standalone page**:
 
 - `src/pages/index.js` -> `localhost:3000/`
 - `src/pages/foo.md` -> `localhost:3000/foo`
 - `src/pages/foo/bar.js` -> `localhost:3000/foo/bar`
 
-## Create a React Page
+## Create your first React Page
 
 Create a file at `src/pages/my-react-page.js`:
 
@@ -28,15 +30,11 @@ export default function MyReactPage() {
 
 A new page is now available at `http://localhost:3000/my-react-page`.
 
-## Create a Markdown Page
+## Create your first Markdown Page
 
 Create a file at `src/pages/my-markdown-page.md`:
 
 ```mdx title="src/pages/my-markdown-page.md"
----
-title: My Markdown page
----
-
 # My Markdown page
 
 This is a Markdown page

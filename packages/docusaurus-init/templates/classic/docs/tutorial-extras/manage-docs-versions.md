@@ -1,6 +1,8 @@
 ---
-title: Manage Docs Versions
+sidebar_position: 1
 ---
+
+# Manage Docs Versions
 
 Docusaurus can manage multiple versions of your docs.
 
@@ -12,7 +14,7 @@ Release a version 1.0 of your project:
 npm run docusaurus docs:version 1.0
 ```
 
-The `docs` directory is copied into `versioned_docs/version-1.0` and `versions.json` is created.
+The `docs` folder is copied into `versioned_docs/version-1.0` and `versions.json` is created.
 
 Your docs now have 2 versions:
 

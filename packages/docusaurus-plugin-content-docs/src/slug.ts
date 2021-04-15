@@ -11,23 +11,31 @@ import {
   isValidPathname,
   resolvePathname,
 } from '@docusaurus/utils';
+import {stripPathNumberPrefixes} from './numberPrefix';
 
 export default function getSlug({
   baseID,
   frontmatterSlug,
   dirName,
+  stripDirNumberPrefixes = true,
 }: {
   baseID: string;
   frontmatterSlug?: string;
   dirName: string;
+  stripDirNumberPrefixes?: boolean;
 }): string {
   const baseSlug = frontmatterSlug || baseID;
   let slug: string;
   if (baseSlug.startsWith('/')) {
     slug = baseSlug;
   } else {
+    const dirNameStripped = stripDirNumberPrefixes
+      ? stripPathNumberPrefixes(dirName)
+      : dirName;
     const resolveDirname =
-      dirName === '.' ? '/' : addLeadingSlash(addTrailingSlash(dirName));
+      dirName === '.'
+        ? '/'
+        : addLeadingSlash(addTrailingSlash(dirNameStripped));
     slug = resolvePathname(baseSlug, resolveDirname);
   }
 

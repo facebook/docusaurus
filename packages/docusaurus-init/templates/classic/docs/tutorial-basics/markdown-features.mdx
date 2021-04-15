@@ -1,20 +1,24 @@
 ---
-title: Markdown Features
+sidebar_position: 4
 ---
+
+# Markdown Features
 
 Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
 
 ## Front Matter
 
-Markdown documents have metadata at the very top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
+Markdown documents have metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
 
-```md
+```text title="my-doc.md"
+// highlight-start
 ---
-id: my-doc
+id: my-doc-id
 title: My document title
 description: My document description
-sidebar_label: My doc
+slug: /my-custom-url
 ---
+// highlight-end
 
 ## Markdown heading
 

@@ -15,13 +15,15 @@ import {
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
+import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: 'sidebars.json', // Path to sidebar configuration for showing a list of markdown pages.
+  sidebarPath: 'sidebars.json', // Path to the sidebars configuration file
+  sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
@@ -61,6 +63,9 @@ export const OptionsSchema = Joi.object({
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
+  sidebarItemsGenerator: Joi.function().default(
+    () => DEFAULT_OPTIONS.sidebarItemsGenerator,
+  ),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),

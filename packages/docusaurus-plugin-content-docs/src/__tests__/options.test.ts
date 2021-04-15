@@ -7,6 +7,7 @@
 
 import {OptionsSchema, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
@@ -26,6 +27,7 @@ describe('normalizeDocsPluginOptions', () => {
       homePageId: 'home', // Document id for docs home page.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
+      sidebarItemsGenerator: DefaultSidebarItemsGenerator,
       docLayoutComponent: '@theme/DocPage',
       docItemComponent: '@theme/DocItem',
       remarkPlugins: [markdownPluginsObjectStub],

@@ -1,6 +1,8 @@
 ---
-title: Translate your site
+sidebar_position: 2
 ---
+
+# Translate your site
 
 Let's translate `docs/getting-started.md` to French.
 
@@ -19,7 +21,7 @@ module.exports = {
 
 ## Translate a doc
 
-Copy the `docs/getting-started.md` file to the `i18n/fr` directory:
+Copy the `docs/getting-started.md` file to the `i18n/fr` folder:
 
 ```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-docs/current/
@@ -39,7 +41,7 @@ npm run start -- --locale fr
 
 Your localized site is accessible at `http://localhost:3000/fr/` and the `Getting Started` page is translated.
 
-:::warning
+:::caution
 
 In development, you can only use one locale at a same time.
 
