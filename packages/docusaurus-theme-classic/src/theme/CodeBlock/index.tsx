@@ -91,6 +91,7 @@ export default function CodeBlock({
   children,
   className: languageClassName,
   metastring,
+  title,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
@@ -109,7 +110,7 @@ export default function CodeBlock({
 
   const button = useRef(null);
   let highlightLines: number[] = [];
-  const codeBlockTitle = parseCodeBlockTitle(metastring);
+  const codeBlockTitle = title ?? parseCodeBlockTitle(metastring);
 
   const prismTheme = usePrismTheme();
 

@@ -4,11 +4,19 @@ title: Creating Pages
 slug: /creating-pages
 ---
 
-In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
+In this section, we will learn about creating pages in Docusaurus.
+
+This is useful for creating **one-off standalone pages** like a showcase page, playground page or support page.
 
 The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
 You can use React components, or Markdown.
+
+:::note
+
+Pages do not have sidebars, only [docs](./docs/docs-introduction.md) have.
+
+:::
 
 ## Add a React page {#add-a-react-page}
 

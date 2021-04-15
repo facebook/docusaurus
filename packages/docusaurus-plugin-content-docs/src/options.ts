@@ -22,7 +22,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: 'sidebars.json', // Path to sidebar configuration for showing a list of markdown pages.
+  sidebarPath: 'sidebars.json', // Path to the sidebars configuration file
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
