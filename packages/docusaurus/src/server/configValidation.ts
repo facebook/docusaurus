@@ -52,6 +52,9 @@ export const DEFAULT_CONFIG: Pick<
 };
 
 const PluginSchema = Joi.alternatives().try(
+  Joi.function(),
+  Joi.array()
+    .ordered(Joi.function().required(), Joi.object().required()),
   Joi.string(),
   Joi.array()
     .ordered(Joi.string().required(), Joi.object().required())
