@@ -103,26 +103,15 @@ function MyComponent() {
 
 #### Theme Class Names
 
-`@docusarus/theme-common` provides some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
+We provide some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
 
-```ts
-export const ThemeClassNames = {
-  page: {
-    blogListPage: 'blog-list-page',
-    blogPostPage: 'blog-post-page',
-    blogTagsListPage: 'blog-tags-list-page',
-    blogTagsPostPage: 'blog-tags-post-page',
-    docPage: 'doc-page',
-    mdxPage: 'mdx-page',
-  },
-  wrapper: {
-    main: 'main-wrapper',
-    blogPages: 'blog-wrapper',
-    docPages: 'main-docs-wrapper',
-    mdxPages: 'mdx-wrapper',
-  },
-};
-```
+import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts'; import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-ts">
+  {ThemeClassNamesCode
+    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
+    .trim()}
+</CodeBlock>
 
 ### CSS modules {#css-modules}
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// These class names are used to style layouts in Docusaurus
 export const ThemeClassNames = {
   page: {
     blogListPage: 'blog-list-page',
