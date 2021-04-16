@@ -119,7 +119,8 @@ function DocPageContent({
         )}
         <main
           className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
+            [styles.docMainContainerEnhanced]:
+              hiddenSidebarContainer || !sidebar,
           })}>
           <div
             className={clsx(
