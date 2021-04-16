@@ -76,7 +76,9 @@ export const OptionsSchema = Joi.object({
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
-  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  admonitions: Joi.alternatives()
+    .try(AdmonitionsSchema, Joi.boolean().invalid(true))
+    .default(DEFAULT_OPTIONS.admonitions),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
