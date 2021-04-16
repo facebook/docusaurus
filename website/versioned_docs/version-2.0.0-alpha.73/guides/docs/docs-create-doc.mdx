@@ -1,0 +1,79 @@
+---
+id: create-doc
+title: Create a doc
+description: Create a Markdown Document
+slug: /create-doc
+---
+
+Create a markdown file, `greeting.md`, and place it under the `docs` directory.
+
+```bash
+website # root directory of your site
+├── docs
+│   └── greeting.md
+├── src
+│   └── pages
+├── docusaurus.config.js
+├── ...
+```
+
+At the top of the file, specify `id` and `title` in the front matter, so that Docusaurus will pick them up correctly when generating your site.
+
+```yml
+---
+id: greeting
+title: Hello
+---
+
+## Hello from Docusaurus
+
+Are you ready to create the documentation site for your open source project?
+
+### Headers
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+### Only h2 and h3 will be in the toc
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
+
+### Custom id headers {#custom-id}
+
+With `{#custom-id}` syntax you can set your own header id.
+```
+
+This will render in the browser as follows:
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+<BrowserWindow url="http://localhost:3000">
+
+<h2>Hello from Docusaurus</h2>
+
+Are you ready to create the documentation site for your open source project?
+
+<h3>Headers</h3>
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+<h3>Only h2 and h3 will be in the toc</h3>
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
+
+</BrowserWindow>
