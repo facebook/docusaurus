@@ -30,7 +30,10 @@ async function writePluginTranslationFiles({
   options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
-    const translationFiles = await plugin.getTranslationFiles();
+    const content = await plugin.loadContent?.();
+    const translationFiles = await plugin.getTranslationFiles({
+      content,
+    });
 
     await Promise.all(
       translationFiles.map(async (translationFile) => {

@@ -200,3 +200,25 @@ function Clock(props) {
 </pre>
 
 ## Custom heading id {#custom}
+
+## Children elements inside pre/code elements
+
+See https://github.com/facebook/docusaurus/pull/1584
+
+<pre><code>
+  <BrowserWindow url="http://localhost:3000" >
+    Lol bro
+  </BrowserWindow>
+</code></pre>
+
+<code>
+  <BrowserWindow url="http://localhost:3000" >
+    Lol bro
+  </BrowserWindow>
+</code>
+
+## Pipe
+
+Code tag + double pipe: <code>&#124;&#124;</code>
+
+Code tag + double pipe: <code>||</code>

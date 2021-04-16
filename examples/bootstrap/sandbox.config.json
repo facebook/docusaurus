@@ -2,5 +2,9 @@
   "infiniteLoopProtection": true,
   "hardReloadOnChange": true,
   "view": "browser",
-  "template": "docusaurus"
+  "template": "docusaurus",
+  "node": "14",
+  "container": {
+    "node": "14"
+  }
 }

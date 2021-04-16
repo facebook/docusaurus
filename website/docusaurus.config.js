@@ -57,11 +57,14 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   url: 'https://docusaurus.io',
   i18n: {
     defaultLocale: 'en',
-    locales: isI18nStaging
+    locales: isDeployPreview
+      ? // Deploy preview: keep it fast!
+        ['en']
+      : isI18nStaging
       ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-        ['en', 'zh-CN', 'ko', 'ja']
+        ['en', 'ja']
       : // Production locales
-        ['en', 'fr'],
+        ['en', 'fr', 'ko', 'zh-CN'],
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
