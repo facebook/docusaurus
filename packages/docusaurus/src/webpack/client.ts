@@ -24,7 +24,7 @@ export default function createClientConfig(
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
-    target: 'browserslist',
+    // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
