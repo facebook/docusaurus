@@ -48,7 +48,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Ito ay hindi pa nailalabas na dokumentasyón para sa bersiyón na {siteTitle} {versionLabel}.",
   "theme.lastUpdated.atDate": " noong {date}",
   "theme.lastUpdated.byUser": " ni {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "Huling inapdeyt {atDate}{byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "Huling inapdeyt{atDate}{byUser}",
   "theme.tags.tagsListLabel": "Mga Tag:",
   "theme.tags.tagsPageLink": "Tingnan Lahat ng mga Tag",
   "theme.tags.tagsPageTitle": "Mga Tag"
