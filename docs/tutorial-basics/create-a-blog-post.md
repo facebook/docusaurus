@@ -1,20 +1,24 @@
 ---
-title: Create a Blog Post
+sidebar_position: 3
 ---
 
-This page will help you on how to create blog posts in Docusaurus.
+# Create a Blog Post
 
-## Create a Blog Post
+Docusaurus creates a **page for each blog post**, but also a **blog index page**, a **tag system**, an **RSS** feed...
+
+## Create your first Post
 
 Create a file at `blog/2021-02-28-greetings.md`:
 
 ```md title="blog/2021-02-28-greetings.md"
 ---
+slug: greetings
 title: Greetings!
 author: Steven Hansel
 author_title: Docusaurus Contributor
 author_url: https://github.com/ShinteiMai
 author_image_url: https://github.com/ShinteiMai.png
+tags: [greetings]
 ---
 
 Congratulations, you have made your first post!
