@@ -20,7 +20,6 @@ import webpack, {
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import CleanCss from 'clean-css';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -35,7 +34,6 @@ import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from '../constants';
-import cssnano from 'cssnano';
 import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {memoize} from 'lodash';
 
@@ -528,40 +526,33 @@ export function getMinimizer(
     minimizer.push(new CssMinimizerPlugin());
   } else {
     minimizer.push(
+      // Using the array syntax to add 2 minimizers
+      // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
       new CssMinimizerPlugin({
-        minimizerOptions: {
-          minify: async (data) => {
-            const [[filename, input]] = Object.entries(data);
-            const minifiedCss = new CleanCss({
-              sourceMap: false,
-              inline: false,
-              level: {
-                1: {
-                  all: false,
-                },
-                2: {
-                  all: true,
-                  restructureRules: true,
-                  removeUnusedAtRules: false,
-                },
-              },
-              // @ts-expect-error huh?
-            }).minify({
-              [filename]: {
-                styles: input,
-              },
-            });
-
-            return {
-              css: cssnano.process(
-                minifiedCss.styles,
-                {},
-                {preset: CssNanoPreset},
-              ).css,
-              warnings: minifiedCss.warnings,
-            };
+        minimizerOptions: [
+          // CssNano options
+          {
+            preset: CssNanoPreset,
           },
-        },
+          // CleanCss options
+          {
+            inline: false,
+            level: {
+              1: {
+                all: false,
+              },
+              2: {
+                all: true,
+                restructureRules: true,
+                removeUnusedAtRules: false,
+              },
+            },
+          },
+        ],
+        minify: [
+          CssMinimizerPlugin.cleanCssMinify,
+          CssMinimizerPlugin.cssnanoMinify,
+        ],
       }),
     );
   }
