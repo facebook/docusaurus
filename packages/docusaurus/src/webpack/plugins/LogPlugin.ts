@@ -10,7 +10,7 @@ import {Compiler} from 'webpack';
 import formatWebpackMessages from '../react-dev-utils-webpack5/formatWebpackMessages';
 
 function showError(arr) {
-  console.log(`\n\n${arr.join('')}`);
+  console.log(`\n\n${arr.join('\n')}`);
 }
 
 export default class LogPlugin extends WebpackBar {
