@@ -550,8 +550,8 @@ export function getMinimizer(
           },
         ],
         minify: [
-          CssMinimizerPlugin.cleanCssMinify,
           CssMinimizerPlugin.cssnanoMinify,
+          CssMinimizerPlugin.cleanCssMinify,
         ],
       }),
     );
