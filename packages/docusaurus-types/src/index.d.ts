@@ -7,17 +7,15 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type {Loader, Configuration} from 'webpack';
+import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
-import type {CustomizeRule} from 'webpack-merge';
 
-// Convert enum to union type
-// For type retrocompatible webpack-merge upgrade: we used string literals before)
+// Convert webpack-merge webpack-merge enum to union type
+// For type retro-compatible webpack-merge upgrade: we used string literals before)
 // see https://github.com/survivejs/webpack-merge/issues/179
-// see https://stackoverflow.com/a/52396706/82609
-type MergeStrategy = `${CustomizeRule}`;
+type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -335,23 +333,23 @@ export interface ConfigureWebpackUtils {
     cssOptions: {
       [key: string]: unknown;
     },
-  ) => Loader[];
+  ) => RuleSetRule[];
   getJSLoader: (options: {
     isServer: boolean;
     babelOptions?: Record<string, unknown>;
-  }) => Loader;
+  }) => RuleSetRule;
 
   // TODO deprecated: remove before end of 2021?
   getCacheLoader: (
     isServer: boolean,
     cacheOptions?: Record<string, unknown>,
-  ) => Loader | null;
+  ) => RuleSetRule | null;
 
   // TODO deprecated: remove before end of 2021?
   getBabelLoader: (
     isServer: boolean,
     options?: Record<string, unknown>,
-  ) => Loader;
+  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {

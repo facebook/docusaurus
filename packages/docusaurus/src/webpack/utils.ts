@@ -177,7 +177,7 @@ const warnCacheLoaderOnce = memoize(function () {
 });
 function getCacheLoaderDeprecated() {
   warnCacheLoaderOnce();
-  return undefined;
+  return null;
 }
 
 /**
