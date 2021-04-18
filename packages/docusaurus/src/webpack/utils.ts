@@ -34,7 +34,6 @@ import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from '../constants';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
 import {memoize} from 'lodash';
 
 // Utility method to get style loaders
@@ -532,7 +531,7 @@ export function getMinimizer(
         minimizerOptions: [
           // CssNano options
           {
-            preset: CssNanoPreset,
+            preset: require.resolve('@docusaurus/cssnano-preset'),
           },
           // CleanCss options
           {
