@@ -74,6 +74,27 @@ describe('normalizeDocsPluginOptions', () => {
     expect(error).toBe(undefined);
   });
 
+  test('should accept admonitions false', async () => {
+    const admonitionsFalse = {
+      ...DEFAULT_OPTIONS,
+      admonitions: false,
+    };
+    const {value, error} = OptionsSchema.validate(admonitionsFalse);
+    expect(value).toEqual(admonitionsFalse);
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject admonitions true', async () => {
+    const admonitionsTrue = {
+      ...DEFAULT_OPTIONS,
+      admonitions: true,
+    };
+    const {error} = OptionsSchema.validate(admonitionsTrue);
+    expect(error).toMatchInlineSnapshot(
+      `[ValidationError: "admonitions" contains an invalid value]`,
+    );
+  });
+
   test('should reject invalid remark plugin options', () => {
     expect(() => {
       normalizePluginOptions(OptionsSchema, {
