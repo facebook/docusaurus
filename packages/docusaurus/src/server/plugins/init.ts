@@ -45,52 +45,112 @@ export default function initPlugins({
 
   const plugins: InitPlugin[] = pluginConfigs
     .map((pluginItem) => {
-      let pluginModuleImport: string | undefined;
+      // let pluginModuleImport: string | undefined;
       let pluginOptions: PluginOptions = {};
-      let plugin: PluginModule | undefined;
+      // let plugin: PluginModule | undefined;
       let validateOptions;
-      let pluginModule: ImportedPluginModule | undefined;
+      // let pluginModule: ImportedPluginModule | undefined;
       let pluginVersion: DocusaurusPluginVersionInformation;
 
       if (!pluginItem) {
         return null;
       }
 
-      if (typeof pluginItem === 'string') {
-        pluginModuleImport = pluginItem;
-      } else if (
-        Array.isArray(pluginItem) &&
-        typeof pluginItem[0] === 'string'
+      function getPlugin(): PluginModule {
+        if (typeof pluginItem === 'function') {
+          return pluginItem;
+        } else if (
+          Array.isArray(pluginItem) &&
+          typeof pluginItem[0] === 'function'
+        ) {
+          return pluginItem[0];
+        } else if (typeof pluginItem === 'string') {
+          const pluginModuleImport = pluginItem;
+          const pluginPath = pluginRequire.resolve(pluginModuleImport);
+          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+          return pluginModule?.default || pluginModule;
+          // [path : string, options : {}]
+        } else {
+          const pluginModuleImport = pluginItem[0];
+          const pluginPath = pluginRequire.resolve(pluginModuleImport);
+          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+          return pluginModule?.default || pluginModule;
+        }
+      }
+
+      function getPluginModuleImport(): string | null {
+        if (typeof pluginItem === 'string') {
+          return pluginItem;
+        } else if (
+          Array.isArray(pluginItem) &&
+          typeof pluginItem[0] === 'string'
+        ) {
+          return pluginItem[0];
+        }
+
+        return null;
+      }
+
+      function getPluginModule() {
+        if (typeof pluginItem === 'string') {
+          const pluginModuleImport = pluginItem;
+          const pluginPath = pluginRequire.resolve(pluginModuleImport);
+          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+          return pluginModule;
+          // [path : string, options : {}]
+        } else if (
+          Array.isArray(pluginItem) &&
+          typeof pluginItem[0] === 'string'
+        ) {
+          const pluginModuleImport = pluginItem[0];
+          const pluginPath = pluginRequire.resolve(pluginModuleImport);
+          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+          return pluginModule;
+        }
+
+        return null;
+      }
+
+      function getPluginOptions() {
+        // [path : string, options : {}]
+        if (Array.isArray(pluginItem) && pluginItem[1]) {
+          return pluginItem[1];
+        }
+
+        return {};
+      }
+
+      if (
+        typeof pluginItem === 'string' ||
+        (Array.isArray(pluginItem) && typeof pluginItem[0] === 'string') ||
+        typeof pluginItem === 'function' ||
+        (Array.isArray(pluginItem) && typeof pluginItem[0] === 'function')
       ) {
-        [pluginModuleImport, pluginOptions = {}] = pluginItem;
-      } else if (typeof pluginItem === 'function') {
-        plugin = pluginItem;
-      } else if (
-        Array.isArray(pluginItem) &&
-        typeof pluginItem[0] === 'function'
-      ) {
-        [plugin, pluginOptions = {}] = pluginItem;
       } else {
         throw new TypeError(`You supplied a wrong type of plugin.
-A plugin should be either string or [importPath: string, options?: object].
+A plugin should be either string, function or [importPath: string : function, options?: object].
 
 For more information, visit https://docusaurus.io/docs/using-plugins.`);
       }
 
-      if (!pluginModuleImport && !plugin) {
+      const pluginModuleImport = getPluginModuleImport();
+      const plugin = getPlugin();
+      pluginOptions = getPluginOptions();
+      const pluginModule = getPluginModule();
+
+      if (!plugin) {
         throw new Error('The path to the plugin is either undefined or null.');
       }
 
-      // pluginItem is a path
+      // get plugin version
       if (pluginModuleImport) {
-        // The pluginModuleImport value is any valid
-        // module identifier - npm package or locally-resolved path.
         const pluginPath = pluginRequire.resolve(pluginModuleImport);
-        pluginModule = importFresh(pluginPath);
         pluginVersion = getPluginVersion(pluginPath, context.siteDir);
+      } else {
+        pluginVersion = {type: 'local'};
+      }
 
-        plugin = pluginModule?.default || pluginModule;
-
+      if (pluginModuleImport) {
         // support both commonjs and ES modules
         validateOptions =
           pluginModule?.default?.validateOptions ??
@@ -116,7 +176,6 @@ For more information, visit https://docusaurus.io/docs/using-plugins.`);
         };
       }
 
-      // pluginItem is a path
       // support both commonjs and ES modules and Functional plugins
       let validateThemeConfig;
       if (pluginModule) {
@@ -137,10 +196,6 @@ For more information, visit https://docusaurus.io/docs/using-plugins.`);
           ...context.siteConfig.themeConfig,
           ...normalizedThemeConfig,
         };
-      }
-      // pluginItem is a function
-      if (!plugin) {
-        return null;
       }
 
       return {
