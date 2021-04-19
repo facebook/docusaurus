@@ -152,6 +152,22 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should parse markdown h1 title at the top and next one after it', () => {
+    const markdown = dedent`
+
+          # Markdown Title
+
+          ## Heading 2
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: '## Heading 2\n\nLorem Ipsum',
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   test('Should parse markdown h1 alternate title', () => {
     const markdown = dedent`
 
