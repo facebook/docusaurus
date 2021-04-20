@@ -56,7 +56,7 @@ export default function initPlugins({
         return null;
       }
 
-      function getPlugin(): PluginModule {
+      function getPlugin(): PluginModule | null {
         if (typeof pluginItem === 'function') {
           return pluginItem;
         } else if (
@@ -70,12 +70,17 @@ export default function initPlugins({
           const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
           return pluginModule?.default || pluginModule;
           // [path : string, options : {}]
-        } else {
+        } else if (
+          Array.isArray(pluginItem) &&
+          typeof pluginItem[0] === 'string'
+        ) {
           const pluginModuleImport = pluginItem[0];
           const pluginPath = pluginRequire.resolve(pluginModuleImport);
           const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
           return pluginModule?.default || pluginModule;
         }
+
+        return null;
       }
 
       function getPluginModuleImport(): string | null {

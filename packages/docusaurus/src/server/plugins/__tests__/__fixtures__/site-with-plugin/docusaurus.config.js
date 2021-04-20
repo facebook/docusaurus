@@ -11,5 +11,9 @@ module.exports = {
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
-  plugins: [function (context, params) { }, [function (context, params) { }, { it: 'should work' }]]
+  plugins: [
+    function (context, params) { return { name: 'first-plugin' } },
+    [function (context, params) { return { name: 'second-plugin' } }, { it: 'should work' }],
+    "./myPlugin.js"
+  ]
 };
