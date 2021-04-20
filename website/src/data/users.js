@@ -565,7 +565,7 @@ const users = [
     preview: require('./showcase/reactnativeboilerplate.png'),
     website: 'https://thecodingmachine.github.io/react-native-boilerplate/',
     source: 'https://github.com/thecodingmachine/react-native-boilerplate',
-    tags: ['thecodingmachine', 'redux', 'react-native', 'architecture', 'fastlane', 'boilerplates', 'react-native-boilerplate', 'redux-toolkit'],
+    tags: [],
   },
   {
     title: 'React Native Elements',
