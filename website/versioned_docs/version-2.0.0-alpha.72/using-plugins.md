@@ -154,6 +154,30 @@ module.exports = function (context, options) {
 
 The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
+### Functional definition {#functional-definition}
+
+A functional plugin is like a module plugin except its a function.
+
+Functional plugins have the same contract as module plugins as such they take two parameters : `context` and `options`.
+
+````js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [function(contex, options) {
+    // ...
+    return {
+      name: 'my-docusaurus-plugin',
+      async loadContent() {
+        /* ... */
+      },
+      async contentLoaded({content, actions}) {
+        /* ... */
+      },
+      /* other lifecycle API */
+    };
+  }],
+};
+
 #### `context` {#context}
 
 `context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
@@ -166,7 +190,7 @@ interface LoadContext {
   outDir: string;
   baseUrl: string;
 }
-```
+````
 
 #### `options` {#options}
 
