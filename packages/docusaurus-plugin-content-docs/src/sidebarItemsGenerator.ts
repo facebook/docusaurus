@@ -186,6 +186,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
   }): Promise<SidebarItemCategory & WithPosition> {
     const categoryDirPath = path.join(
       version.contentPath,
+      item.dirName, // fix https://github.com/facebook/docusaurus/issues/4638
       breadcrumb.join(BreadcrumbSeparator),
     );
 
