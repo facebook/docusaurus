@@ -20,8 +20,7 @@ import {
   addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
-
-import {loadSidebars, createSidebarsUtils} from './sidebars';
+import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
@@ -49,6 +48,7 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
+import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -127,6 +127,7 @@ export default function pluginContentDocs(
               ),
             ),
           ),
+          `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
       }
 
@@ -162,8 +163,9 @@ export default function pluginContentDocs(
       async function loadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const sidebars = loadSidebars(versionMetadata.sidebarFilePath);
-        const sidebarsUtils = createSidebarsUtils(sidebars);
+        const unprocessedSidebars = loadSidebars(
+          versionMetadata.sidebarFilePath,
+        );
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
@@ -172,6 +174,15 @@ export default function pluginContentDocs(
           docsBase,
           (doc) => doc.id,
         );
+
+        const sidebars = await processSidebars({
+          sidebarItemsGenerator: options.sidebarItemsGenerator,
+          unprocessedSidebars,
+          docs: docsBase,
+          version: versionMetadata,
+        });
+
+        const sidebarsUtils = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
         sidebarsUtils.checkSidebarsDocIds(validDocIds);

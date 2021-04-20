@@ -1,0 +1,316 @@
+{
+  "version-2.0.0-alpha.73/docs": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Docusaurus",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/introduction"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/design-principles"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/contributing"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/typescript-support"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/guides/creating-pages"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Docs",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/create-doc"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/sidebar"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/versioning"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/markdown-features"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/docs/multi-instance"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/blog"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Markdown Features",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/react"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/tabs"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/code-blocks"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/admonitions"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/headings"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/inline-toc"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/assets"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/guides/markdown-features/plugins"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/styling-layout"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/static-assets"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/search"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/deployment"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Internationalization",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/i18n/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/i18n/tutorial"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/i18n/git"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.73/i18n/crowdin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Advanced Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/using-plugins"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/using-themes"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/presets"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Migrating from v1 to v2",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/migration/migration-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/migration/migration-automated"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/migration/migration-manual"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/migration/migration-versioned-sites"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/migration/migration-translated-sites"
+        }
+      ]
+    }
+  ],
+  "version-2.0.0-alpha.73/api": [
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.73/cli"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.73/docusaurus-core"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.73/api/docusaurus.config.js"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-alpha.73/lifecycle-apis"
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Plugins",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugins-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-content-docs"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-content-blog"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-content-pages"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-client-redirects"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-debug"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-google-analytics"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-google-gtag"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-ideal-image"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-pwa"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/plugins/plugin-sitemap"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Themes",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/themes-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/theme-configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/theme-classic"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/theme-bootstrap"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/theme-live-codeblock"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.73/api/themes/theme-search-algolia"
+        }
+      ]
+    }
+  ]
+}

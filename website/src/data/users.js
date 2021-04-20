@@ -341,6 +341,14 @@ const users = [
     tags: ['facebook'],
   },
   {
+    title: 'IntelAGENT Billing',
+    description: 'OHIP Billing Agent',
+    preview: require('./showcase/intelagent.png'),
+    website: 'https://www.intelagent.ca/',
+    source: 'https://github.com/intelagentbilling/docs',
+    tags: [''],
+  },
+  {
     title: 'mailgo',
     description: 'A new concept of mailto and tel links',
     preview: require('./showcase/mailgo.png'),
@@ -475,6 +483,14 @@ const users = [
     website: 'https://wiki-power.com/',
     source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
     tags: ['large', 'personal'],
+  },
+  {
+    title: 'PptxGenJS',
+    description: 'PowerPoint JavaScript Library',
+    preview: require('./showcase/pptxgenjs.png'),
+    website: 'https://gitbrent.github.io/PptxGenJS/',
+    source: 'https://github.com/gitbrent/PptxGenJS',
+    tags: [],
   },
   {
     title: 'Profilo',
@@ -842,6 +858,14 @@ const users = [
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['design', 'large'],
+  },
+  {
+    title: 'KubeVela',
+    description: 'KubeVela is a modern application engine that adapts to your application\'s needs, not the other way around.',
+    preview: require('./showcase/kubevela.png'),
+    website: 'https://kubevela.io/',
+    source: 'https://github.com/oam-dev/kubevela.io',
+    tags: ['versioning', 'i18n'],
   },
 ];
 

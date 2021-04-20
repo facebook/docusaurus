@@ -9,7 +9,7 @@
   --doc-sidebar-width: 300px;
 }
 
-:global(.main-docs-wrapper) {
+:global(.docs-wrapper) {
   display: flex;
 }
 

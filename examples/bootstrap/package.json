@@ -15,8 +15,8 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.72",
-    "@docusaurus/preset-bootstrap": "2.0.0-alpha.72",
+    "@docusaurus/core": "2.0.0-alpha.73",
+    "@docusaurus/preset-bootstrap": "2.0.0-alpha.73",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "react": "^17.0.1",
