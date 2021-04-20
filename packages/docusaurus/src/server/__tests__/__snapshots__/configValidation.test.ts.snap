@@ -35,11 +35,6 @@ exports[`normalizeConfig should throw error if plugins is not a string and it's 
 "
 `;
 
-exports[`normalizeConfig should throw error if plugins is not a string and it's not an array #2 for the input of: [[Function anonymous]] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
-"
-`;
-
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
 "\\"plugins[0]\\" does not match any of the allowed types
 "
@@ -52,11 +47,6 @@ exports[`normalizeConfig should throw error if plugins is not an array of [strin
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
 "\\"plugins[0]\\" does not match any of the allowed types
-"
-`;
-
-exports[`normalizeConfig should throw error if plugins is not array for the input of: [Function anonymous] 1`] = `
-"\\"plugins\\" must be an array
 "
 `;
 

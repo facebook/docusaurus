@@ -1,5 +1,5 @@
 module.exports = function (context, options) {
-    return {
-        name: "third-plugin"
-    }
-}
+  return {
+    name: 'third-plugin',
+  };
+};

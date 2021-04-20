@@ -7,31 +7,29 @@
 
 import path from 'path';
 
-import {loadContext} from '@docusaurus/core/src/server/index';
+import {loadContext, loadPluginConfigs} from '../../index';
+import initPlugins from '../init';
 
 describe('functional plugin', () => {
   async function loadSite() {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
     const context = await loadContext(siteDir);
+    const pluginConfigs = loadPluginConfigs(context);
+    const plugins = initPlugins({
+      pluginConfigs,
+      context,
+    });
 
-    return {siteDir, context};
+    return {siteDir, context, plugins};
   }
 
-  test('plugin gets parsed correctly and loads', async () => {
-    const {context} = await loadSite();
-    expect(context.siteConfig.plugins.length).toBe(3);
-  });
+  test('plugins gets parsed correctly and loads in correct order', async () => {
+    const {context, plugins} = await loadSite();
+    expect(context.siteConfig.plugins?.length).toBe(3);
+    expect(plugins.length).toBe(3);
 
-  test('plugin should load in order', async () => {
-    const {context} = await loadSite();
-    const {plugins} = context.siteConfig;
-    expect(
-      typeof plugins[0] === 'function' ? plugins[0](context, {}).name : null,
-    ).toBe('first-plugin');
-    expect(
-      typeof plugins[1][0] === 'function'
-        ? plugins[1][0](context, {}).name
-        : null,
-    ).toBe('second-plugin');
+    expect(plugins[0].name).toBe('first-plugin');
+    expect(plugins[1].name).toBe('second-plugin');
+    expect(plugins[2].name).toBe('third-plugin');
   });
 });
