@@ -36,6 +36,17 @@ const IgnoredNumberPrefixPatterns = [
   '01-2021 - Doc',
   '01_2021 - Doc',
   '01.2021 - Doc',
+  // date patterns without suffix
+  '2021-01-31',
+  '2021-01',
+  '21-01-31',
+  '21-01',
+  '2021_01_31',
+  '2021_01',
+  '21_01_31',
+  '21_01',
+  '01_31',
+  '01',
   '2021',
   '01',
   // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
