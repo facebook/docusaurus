@@ -5,11 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
+import {
+  JoiFrontMatter as Joi, // Custom instance for frontmatter
+  validateFrontMatter,
+} from '@docusaurus/utils-validation';
 import {Tag} from './types';
 
 // TODO complete this frontmatter + add unit tests
-type BlogPostFrontMatter = {
+export type BlogPostFrontMatter = {
   id?: string;
   title?: string;
   description?: string;
@@ -19,6 +22,10 @@ type BlogPostFrontMatter = {
   date?: string;
 };
 
+// NOTE: we don't add any default value on purpose here
+// We don't want default values to magically appear in doc metadatas and props
+// While the user did not provide those values explicitly
+// We use default values in code instead
 const BlogTagSchema = Joi.alternatives().try(
   Joi.string().required(),
   Joi.object<Tag>({
@@ -29,15 +36,16 @@ const BlogTagSchema = Joi.alternatives().try(
 
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),
-  title: Joi.string(),
-  description: Joi.string(),
+  title: Joi.string().allow(''),
+  description: Joi.string().allow(''),
   tags: Joi.array().items(BlogTagSchema),
   slug: Joi.string(),
   draft: Joi.boolean(),
+  date: Joi.string().allow(''), // TODO validate the date better!
 }).unknown();
 
-export function assertBlogPostFrontMatter(
+export function validateBlogPostFrontMatter(
   frontMatter: Record<string, unknown>,
-): asserts frontMatter is BlogPostFrontMatter {
-  Joi.attempt(frontMatter, BlogFrontMatterSchema);
+): BlogPostFrontMatter {
+  return validateFrontMatter(frontMatter, BlogFrontMatterSchema);
 }
