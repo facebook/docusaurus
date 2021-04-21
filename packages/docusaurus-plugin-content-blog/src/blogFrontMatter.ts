@@ -6,6 +6,7 @@
  */
 
 import {Joi} from '@docusaurus/utils-validation';
+import chalk from 'chalk';
 import {Tag} from './types';
 
 // TODO complete this frontmatter + add unit tests
@@ -39,5 +40,10 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
 export function assertBlogPostFrontMatter(
   frontMatter: Record<string, unknown>,
 ): asserts frontMatter is BlogPostFrontMatter {
-  Joi.attempt(frontMatter, BlogFrontMatterSchema);
+  try {
+    Joi.attempt(frontMatter, BlogFrontMatterSchema, {convert: true});
+  } catch (e) {
+    console.error(chalk.red(`bad frontmatter: ${JSON.stringify(frontMatter)}`));
+    throw e;
+  }
 }

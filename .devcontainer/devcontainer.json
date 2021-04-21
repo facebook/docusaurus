@@ -1,6 +1,6 @@
 {
   "name": "Docusaurus Dev Container",
-  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-10-buster",
+  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:12-buster",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
