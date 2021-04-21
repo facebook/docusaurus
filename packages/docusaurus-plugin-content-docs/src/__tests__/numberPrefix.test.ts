@@ -14,6 +14,7 @@ import {
 
 const IgnoredNumberPrefixPatterns = [
   // Patterns without number prefix
+  'MyDoc',
   'a1-My Doc',
   'My Doc-000',
   'My Doc - 1',
@@ -35,6 +36,8 @@ const IgnoredNumberPrefixPatterns = [
   '01-2021 - Doc',
   '01_2021 - Doc',
   '01.2021 - Doc',
+  '2021',
+  '01',
   // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
   '8.0',
   '8.0.0',
