@@ -560,6 +560,14 @@ const users = [
     tags: ['facebook', 'large', 'highlight', 'design', 'versioning'],
   },
   {
+    title: 'React Native Boilerplate',
+    description: 'A React Native project template for building solid applications through separation of concerns between the UI, state management and business logic.',
+    preview: require('./showcase/reactnativeboilerplate.png'),
+    website: 'https://thecodingmachine.github.io/react-native-boilerplate/',
+    source: 'https://github.com/thecodingmachine/react-native-boilerplate',
+    tags: [],
+  },
+  {
     title: 'React Native Elements',
     description: 'Cross Platform React Native UI Toolkit',
     preview: require('./showcase/react-native-elements.png'),

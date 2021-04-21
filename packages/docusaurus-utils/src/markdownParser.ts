@@ -86,10 +86,10 @@ export function parseMarkdownContentTitle(
 
   const content = contentUntrimmed.trim();
 
-  const regularTitleMatch = /^(?<pattern>#\s*(?<title>[^#\n]*)+[ \t]*#?\n*?)/g.exec(
+  const regularTitleMatch = /^(?:import\s.*(from.*)?;?|\n)*?(?<pattern>#\s*(?<title>[^#\n]*)+[ \t]*#?\n*?)/g.exec(
     content,
   );
-  const alternateTitleMatch = /^(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/g.exec(
+  const alternateTitleMatch = /^(?:import\s.*(from.*)?;?|\n)*?(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/g.exec(
     content,
   );
 

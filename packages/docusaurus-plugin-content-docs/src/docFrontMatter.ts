@@ -16,9 +16,13 @@ type DocFrontMatter = {
   sidebar_label?: string;
   sidebar_position?: number;
   custom_edit_url?: string;
-  strip_number_prefixes?: boolean;
+  parse_number_prefixes?: boolean;
 };
 
+// NOTE: we don't add any default value on purpose here
+// We don't want default values to magically appear in doc metadatas and props
+// While the user did not provide those values explicitly
+// We use default values in code instead
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   id: Joi.string(),
   title: Joi.string(),
@@ -27,11 +31,14 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
   custom_edit_url: Joi.string().allow(null),
-  strip_number_prefixes: Joi.boolean(),
-}).unknown();
+  parse_number_prefixes: Joi.boolean(),
+});
 
-export function assertDocFrontMatter(
+export function validateDocFrontMatter(
   frontMatter: Record<string, unknown>,
-): asserts frontMatter is DocFrontMatter {
-  Joi.attempt(frontMatter, DocFrontMatterSchema);
+): DocFrontMatter {
+  return Joi.attempt(frontMatter, DocFrontMatterSchema, {
+    convert: true,
+    allowUnknown: true,
+  });
 }

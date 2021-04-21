@@ -16,6 +16,10 @@ import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
+import {
+  DefaultNumberPrefixParser,
+  DisabledNumberPrefixParser,
+} from './numberPrefix';
 
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -24,6 +28,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: 'sidebars.json', // Path to the sidebars configuration file
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
+  numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
@@ -66,6 +71,17 @@ export const OptionsSchema = Joi.object({
   sidebarItemsGenerator: Joi.function().default(
     () => DEFAULT_OPTIONS.sidebarItemsGenerator,
   ),
+  numberPrefixParser: Joi.alternatives()
+    .try(
+      Joi.function(),
+      // Convert boolean values to functions
+      Joi.alternatives().conditional(Joi.boolean(), {
+        then: Joi.custom((val) =>
+          val ? DefaultNumberPrefixParser : DisabledNumberPrefixParser,
+        ),
+      }),
+    )
+    .default(() => DEFAULT_OPTIONS.numberPrefixParser),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
