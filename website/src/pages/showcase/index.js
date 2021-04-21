@@ -21,15 +21,17 @@ const DESCRIPTION =
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.js';
 const TAGS = [
-  'Highlight',
-  'Design',
+  'highlight',
+  'design',
   'i18n',
-  'Versioning',
-  'Large',
-  'Facebook Projects',
-  'Personal Sites',
-  'With RTL direction',
+  'versioning',
+  'multi-instance',
+  'large',
+  'facebook',
+  'personal',
+  'rtl',
 ];
+let filteredUsers = users;
 
 function Showcase() {
   const [selectedTags, setSelectedTags] = useState([]);
