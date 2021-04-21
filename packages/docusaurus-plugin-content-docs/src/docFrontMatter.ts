@@ -5,17 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
+import {
+  JoiFrontMatter as Joi, // Custom instance for frontmatter
+  validateFrontMatter,
+} from '@docusaurus/utils-validation';
 
 // TODO complete this frontmatter + add unit tests
-type DocFrontMatter = {
+export type DocFrontMatter = {
   id?: string;
   title?: string;
   description?: string;
   slug?: string;
   sidebar_label?: string;
   sidebar_position?: number;
-  custom_edit_url?: string;
+  custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
 };
 
@@ -25,8 +28,8 @@ type DocFrontMatter = {
 // We use default values in code instead
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   id: Joi.string(),
-  title: Joi.string(),
-  description: Joi.string(),
+  title: Joi.string().allow(''), // see https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
@@ -37,8 +40,5 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
 export function validateDocFrontMatter(
   frontMatter: Record<string, unknown>,
 ): DocFrontMatter {
-  return Joi.attempt(frontMatter, DocFrontMatterSchema, {
-    convert: true,
-    allowUnknown: true,
-  });
+  return validateFrontMatter(frontMatter, DocFrontMatterSchema);
 }

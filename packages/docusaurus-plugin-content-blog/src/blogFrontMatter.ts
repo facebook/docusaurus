@@ -22,6 +22,10 @@ export type BlogPostFrontMatter = {
   date?: string;
 };
 
+// NOTE: we don't add any default value on purpose here
+// We don't want default values to magically appear in doc metadatas and props
+// While the user did not provide those values explicitly
+// We use default values in code instead
 const BlogTagSchema = Joi.alternatives().try(
   Joi.string().required(),
   Joi.object<Tag>({
