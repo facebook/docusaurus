@@ -13,14 +13,16 @@ import {
 } from '../numberPrefix';
 
 const IgnoredNumberPrefixPatterns = [
+  // Patterns without number prefix
   'a1-My Doc',
   'My Doc-000',
+  'My Doc - 1',
+  'My Doc - 02',
+  'Hey - 03 - My Doc',
   '00abc01-My Doc',
   'My 001- Doc',
   'My -001 Doc',
-
-  // By default, we try to ignore common date-like pattern number-prefix patterns
-  // See https://github.com/facebook/docusaurus/issues/4640
+  // ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
   '2021-01-31 - Doc',
   '31-01-2021 - Doc',
   '2021_01_31 - Doc',
@@ -33,6 +35,19 @@ const IgnoredNumberPrefixPatterns = [
   '01-2021 - Doc',
   '01_2021 - Doc',
   '01.2021 - Doc',
+  // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
+  '8.0',
+  '8.0.0',
+  '14.2.16',
+  '18.2',
+  '8.0 - Doc',
+  '8.0.0 - Doc',
+  '8_0',
+  '8_0_0',
+  '14_2_16',
+  '18_2',
+  '8.0 - Doc',
+  '8.0.0 - Doc',
 ];
 
 describe('stripNumberPrefix', () => {

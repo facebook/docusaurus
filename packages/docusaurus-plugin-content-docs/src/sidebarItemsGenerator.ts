@@ -40,20 +40,22 @@ type WithPosition = {position?: number};
 type SidebarItemWithPosition = SidebarItem & WithPosition;
 
 const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
-  label: Joi.string().optional(),
-  position: Joi.number().optional(),
-  collapsed: Joi.boolean().optional(),
+  label: Joi.string(),
+  position: Joi.number(),
+  collapsed: Joi.boolean(),
 });
 
+// TODO I now believe we should read all the category metadata files ahead of time: we may need this metadata to customize docs metadata
+// Example use-case being able to disable number prefix parsing at the folder level, or customize the default route path segment for an intermediate directory...
 // TODO later if there is `CategoryFolder/index.md`, we may want to read the metadata as yaml on it
 // see https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
 async function readCategoryMetadatasFile(
   categoryDirPath: string,
 ): Promise<CategoryMetadatasFile | null> {
-  function assertCategoryMetadataFile(
+  function validateCategoryMetadataFile(
     content: unknown,
-  ): asserts content is CategoryMetadatasFile {
-    Joi.attempt(content, CategoryMetadatasFileSchema);
+  ): CategoryMetadatasFile {
+    return Joi.attempt(content, CategoryMetadatasFileSchema);
   }
 
   async function tryReadFile(
@@ -68,8 +70,7 @@ async function readCategoryMetadatasFile(
       const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
       const unsafeContent: unknown = parse(contentString);
       try {
-        assertCategoryMetadataFile(unsafeContent);
-        return unsafeContent;
+        return validateCategoryMetadataFile(unsafeContent);
       } catch (e) {
         console.error(
           chalk.red(
