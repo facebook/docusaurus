@@ -35,7 +35,8 @@ describe('validateFrontMatter', () => {
     );
   });
 
-  // Fix Yaml trying to auto-convert strings to numbers automatically
+  // Fix Yaml trying to convert strings to numbers automatically
+  // We only want to deal with a single type in the final frontmatter (not string | number)
   test('should convert number values to string when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),
@@ -46,7 +47,8 @@ describe('validateFrontMatter', () => {
     expect(validateFrontMatter(frontMatter, schema)).toEqual({test: '42'});
   });
 
-  // Helps to fix Yaml trying to auto-convert strings to dates automatically
+  // Helps to fix Yaml trying to convert strings to dates automatically
+  // We only want to deal with a single type in the final frontmatter (not string | Date)
   test('should convert date values when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),
