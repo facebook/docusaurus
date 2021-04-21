@@ -9,12 +9,18 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
-import ThemedImage from '@theme/ThemedImage';
+import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
+function FooterLink({
+  to,
+  href,
+  label,
+  prependBaseUrlToHref,
+  ...props
+}: FooterLinkItem) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -34,7 +40,10 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
   );
 }
 
-const FooterLogo = ({sources, alt}) => (
+const FooterLogo = ({
+  sources,
+  alt,
+}: Pick<ThemedImageProps, 'sources' | 'alt'>) => (
   <ThemedImage className="footer__logo" alt={alt} sources={sources} />
 );
 

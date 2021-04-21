@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from 'joi';
+import Joi from './Joi';
 import chalk from 'chalk';
 import {PluginIdSchema} from './validationSchemas';
 
@@ -37,8 +37,8 @@ export const logValidationBugReportHint = (): void => {
 
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
-  options: unknown,
-) {
+  options: Partial<T>,
+): T {
   // All plugins can be provided an "id" option (multi-instance support)
   // we add schema validation automatically
   const finalSchema = schema.append({
@@ -51,7 +51,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
-      return options;
+      return options as T;
     } else {
       throw error;
     }
@@ -61,8 +61,8 @@ export function normalizePluginOptions<T extends {id?: string}>(
 
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
-  themeConfig: unknown,
-) {
+  themeConfig: Partial<T>,
+): T {
   // A theme should only validate his "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
   // otherwise one theme would fail validating the data of another theme
@@ -76,10 +76,51 @@ export function normalizeThemeConfig<T>(
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
-      return themeConfig;
+      return themeConfig as T;
     } else {
       throw error;
     }
   }
   return value;
+}
+
+// Enhance the default Joi.string() type so that it can convert number to strings
+// If user use frontmatter "tag: 2021", we shouldn't need to ask the user to write "tag: '2021'"
+// Also yaml tries to convert patterns like "2019-01-01" to dates automatically
+// see https://github.com/facebook/docusaurus/issues/4642
+// see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
+const JoiFrontMatterString: Joi.Extension = {
+  type: 'string',
+  base: Joi.string(),
+  // Fix Yaml that tries to auto-convert many things to string out of the box
+  prepare: (value) => {
+    if (typeof value === 'number' || value instanceof Date) {
+      return {value: value.toString()};
+    }
+    return {value};
+  },
+};
+export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);
+
+export function validateFrontMatter<T>(
+  frontMatter: Record<string, unknown>,
+  schema: Joi.ObjectSchema<T>,
+): T {
+  try {
+    return JoiFrontMatter.attempt(frontMatter, schema, {
+      convert: true,
+      allowUnknown: true,
+    });
+  } catch (e) {
+    console.error(
+      chalk.red(
+        `FrontMatter contains invalid values: ${JSON.stringify(
+          frontMatter,
+          null,
+          2,
+        )}`,
+      ),
+    );
+    throw e;
+  }
 }

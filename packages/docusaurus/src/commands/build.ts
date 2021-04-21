@@ -88,10 +88,10 @@ export default async function build(
 
     const results = await mapAsyncSequencial(orderedLocales, (locale) => {
       const isLastLocale =
-        i18n.locales.indexOf(locale) === i18n.locales.length - 1;
+        orderedLocales.indexOf(locale) === orderedLocales.length - 1;
       return tryToBuildLocale({locale, isLastLocale});
     });
-    return results[0]!;
+    return results[0];
   }
 }
 

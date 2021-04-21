@@ -12,6 +12,7 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogTagsListPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import Translate from '@docusaurus/Translate';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
@@ -54,13 +55,18 @@ function BlogTagsListPage(props: Props): JSX.Element {
     <Layout
       title="Tags"
       description="Blog Tags"
-      wrapperClassName="blog-wrapper">
+      wrapperClassName={ThemeClassNames.wrapper.blogPages}
+      pageClassName={ThemeClassNames.page.blogTagsListPage}
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_tags_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--2">
+          <div className="col col--3">
             <BlogSidebar sidebar={sidebar} />
           </div>
-          <main className="col col--8">
+          <main className="col col--7">
             <h1>
               <Translate
                 id="theme.tags.tagsPageTitle"

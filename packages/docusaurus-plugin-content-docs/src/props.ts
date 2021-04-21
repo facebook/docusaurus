@@ -33,11 +33,11 @@ Available document ids=
       );
     }
 
-    const {title, permalink, sidebar_label} = docMetadata;
+    const {title, permalink, sidebar_label: sidebarLabel} = docMetadata;
 
     return {
       type: 'link',
-      label: sidebar_label || title,
+      label: sidebarLabel || item.label || title,
       href: permalink,
       customProps: item.customProps,
     };

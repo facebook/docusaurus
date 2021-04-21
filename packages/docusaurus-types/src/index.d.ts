@@ -7,10 +7,11 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {Loader, Configuration, Stats} from 'webpack';
-import {Command} from 'commander';
-import {ParsedUrlQueryInput} from 'querystring';
-import {MergeStrategy} from 'webpack-merge';
+import type {Loader, Configuration, Stats} from 'webpack';
+import type {Command} from 'commander';
+import type {ParsedUrlQueryInput} from 'querystring';
+import type {MergeStrategy} from 'webpack-merge';
+import type Joi from 'joi';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -33,6 +34,7 @@ export interface DocusaurusConfig {
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
+  githubPort?: string;
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
@@ -100,17 +102,20 @@ export type I18nLocaleConfig = {
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  localeConfigs: Record<string, I18nLocaleConfig>;
+  localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
 };
 
-export type I18n = I18nConfig & {
+export type I18n = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
   currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
-  globalData: Record<string, any>;
+  globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
   isClient: boolean;
@@ -183,7 +188,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<any, unknown>[];
+  plugins: Plugin<unknown>[];
 }
 
 /**
@@ -195,6 +200,7 @@ export interface PropsPostBuild extends Props {
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createData(name: string, data: any): Promise<string>;
   setGlobalData<T = unknown>(data: T): void;
 }
@@ -208,18 +214,16 @@ export type AllContent = Record<
 >;
 
 // TODO improve type (not exposed by postcss-loader)
-export type PostCssOptions = Record<string, any> & {plugins: any[]};
+export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
-export interface Plugin<T, U = unknown> {
+export interface Plugin<Content> {
   name: string;
-  loadContent?(): Promise<T>;
-  validateOptions?(): ValidationResult<U>;
-  validateThemeConfig?(): ValidationResult<any>;
+  loadContent?(): Promise<Content>;
   contentLoaded?({
     content,
     actions,
   }: {
-    content: T; // the content loaded by this plugin instance
+    content: Content; // the content loaded by this plugin instance
     allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
   }): void;
@@ -242,11 +246,14 @@ export interface Plugin<T, U = unknown> {
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
   };
-  getSwizzleComponentList?(): string[];
   // TODO before/afterDevServer implementation
 
   // translations
-  getTranslationFiles?(): Promise<TranslationFiles>;
+  getTranslationFiles?({
+    content,
+  }: {
+    content: Content;
+  }): Promise<TranslationFiles>;
   getDefaultCodeTranslationMessages?(): Promise<
     Record<
       string, // id
@@ -257,9 +264,9 @@ export interface Plugin<T, U = unknown> {
     content,
     translationFiles,
   }: {
-    content: T; // the content loaded by this plugin instance
+    content: Content; // the content loaded by this plugin instance
     translationFiles: TranslationFiles;
-  }): T;
+  }): Content;
   translateThemeConfig?({
     themeConfig,
     translationFiles,
@@ -268,6 +275,17 @@ export interface Plugin<T, U = unknown> {
     translationFiles: TranslationFiles;
   }): ThemeConfig;
 }
+
+export type PluginModule = {
+  <T, X>(context: LoadContext, options: T): Plugin<X>;
+  validateOptions?<T>(data: OptionValidationContext<T>): T;
+  validateThemeConfig?<T>(data: ThemeConfigValidationContext<T>): T;
+  getSwizzleComponentList?(): string[];
+};
+
+export type ImportedPluginModule = PluginModule & {
+  default?: PluginModule;
+};
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
@@ -346,34 +364,23 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export interface ValidationResult<T, E extends Error = Error> {
-  error?: E;
-  value: T;
-}
+export type ValidationResult<T> = T;
 
-export type Validate<T, E extends Error = Error> = (
+export type ValidationSchema<T> = Joi.ObjectSchema<T>;
+
+export type Validate<T> = (
   validationSchema: ValidationSchema<T>,
   options: Partial<T>,
-) => ValidationResult<T, E>;
+) => ValidationResult<T>;
 
-export interface OptionValidationContext<T, E extends Error = Error> {
-  validate: Validate<T, E>;
+export interface OptionValidationContext<T> {
+  validate: Validate<T>;
   options: Partial<T>;
 }
 
-export interface ThemeConfigValidationContext<T, E extends Error = Error> {
-  validate: Validate<T, E>;
+export interface ThemeConfigValidationContext<T> {
+  validate: Validate<T>;
   themeConfig: Partial<T>;
-}
-
-// TODO we should use a Joi type here
-export interface ValidationSchema<T> {
-  validate(
-    options: Partial<T>,
-    opt: Record<string, unknown>,
-  ): ValidationResult<T>;
-  unknown(): ValidationSchema<T>;
-  append(data: any): ValidationSchema<T>;
 }
 
 export interface TOCItem {

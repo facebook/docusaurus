@@ -4,4 +4,4 @@ Create Docusaurus apps easily.
 
 ## Usage
 
-Please see the [installation documentation](https://v2.docusaurus.io/docs/installation).
+Please see the [installation documentation](https://docusaurus.io/docs/installation).

@@ -14,7 +14,6 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   const location = useLocation();
   const [isNavbarVisible, setIsNavbarVisible] = useState(hideOnScroll);
   const isFocusedAnchor = useRef(false);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const navbarRef = useCallback((node: HTMLElement | null) => {
     if (node !== null) {
@@ -23,7 +22,7 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   }, []);
 
   useScrollPosition(
-    ({scrollY: scrollTop}) => {
+    ({scrollY: scrollTop}, {scrollY: lastScrollTop}) => {
       if (!hideOnScroll) {
         return;
       }
@@ -36,7 +35,6 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       if (isFocusedAnchor.current) {
         isFocusedAnchor.current = false;
         setIsNavbarVisible(false);
-        setLastScrollTop(scrollTop);
         return;
       }
 
@@ -53,18 +51,12 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       } else if (scrollTop + windowHeight < documentHeight) {
         setIsNavbarVisible(true);
       }
-
-      setLastScrollTop(scrollTop);
     },
-    [lastScrollTop, navbarHeight, isFocusedAnchor],
+    [navbarHeight, isFocusedAnchor],
   );
 
   useEffect(() => {
     if (!hideOnScroll) {
-      return;
-    }
-
-    if (!lastScrollTop) {
       return;
     }
 

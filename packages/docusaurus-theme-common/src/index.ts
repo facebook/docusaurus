@@ -16,7 +16,11 @@ export {
   FooterLinkItem,
 } from './utils/useThemeConfig';
 
+export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
+
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
+
+export {parseCodeBlockTitle} from './utils/codeBlockUtils';
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
@@ -26,9 +30,13 @@ export {isSamePath} from './utils/pathUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 
+export {usePluralForm} from './utils/usePluralForm';
+
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
+
+export {ThemeClassNames} from './utils/ThemeClassNames';

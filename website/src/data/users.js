@@ -16,6 +16,7 @@
  * Instructions:
  * - Add your site in the json array below, in alphabetical order of title
  * - Add a local image preview (decent screenshot of your Docusaurus site)
+ * - Use `tags: []`: it is our responsibility to assign site tags
  *
  * The image must be added to the GitHub repository, and use `require("image")`
  *
@@ -105,6 +106,14 @@ const users = [
     tags: ['Design', 'Large'],
   },
   {
+    title: 'blog.johnnyreilly.com',
+    description: 'The blog of johnnyreilly',
+    preview: require('./showcase/johnnyreilly.png'),
+    website: 'https://blog.johnnyreilly.com/',
+    source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
+    tags: [],
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
@@ -119,14 +128,6 @@ const users = [
     preview: require('./showcase/build-tracker.png'),
     website: 'https://buildtracker.dev',
     source: 'https://github.com/paularmstrong/build-tracker',
-    tags: [],
-  },
-  {
-    title: 'Channel.js',
-    description: 'The missing constructor for creating safe async iterators',
-    preview: require('./showcase/channeljs.png'),
-    website: 'https://repeater.js.org/',
-    source: 'https://github.com/repeaterjs/repeater',
     tags: [],
   },
   {
@@ -267,6 +268,14 @@ const users = [
     tags: ['Highlight', 'Design', 'Large', 'Versioning', 'i18n'],
   },
   {
+    title: 'Gladys Assistant',
+    description: 'A privacy-first, open-source home assistant',
+    preview: require('./showcase/gladys-assistant.png'),
+    website: 'https://gladysassistant.com/',
+    source: 'https://github.com/GladysAssistant/v4-website',
+    tags: ['i18n'],
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
@@ -330,6 +339,14 @@ const users = [
     website: 'https://www.fbidb.io/',
     source: 'https://github.com/facebook/idb',
     tags: ['Facebook Projects'],
+  },
+  {
+    title: 'IntelAGENT Billing',
+    description: 'OHIP Billing Agent',
+    preview: require('./showcase/intelagent.png'),
+    website: 'https://www.intelagent.ca/',
+    source: 'https://github.com/intelagentbilling/docs',
+    tags: [''],
   },
   {
     title: 'mailgo',
@@ -421,6 +438,14 @@ const users = [
     tags: ['Design'],
   },
   {
+    title: 'OCPeasy',
+    description: 'Open-source software provisioning, configuration management, and application-deployment tool enabling infrastructure as code on OpenShift.',
+    preview: require('./showcase/ocpeasy.png'),
+    website: 'https://www.ocpeasy.org',
+    source: 'https://github.com/ocpeasy/website',
+    tags: [],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -433,6 +458,14 @@ const users = [
     description: 'Paubox API Documentation',
     preview: require('./showcase/paubox.png'),
     website: 'https://docs.paubox.com/',
+    tags: [],
+  },
+  {
+    title: 'pnpm',
+    description: 'Fast, disk space efficient package manager',
+    preview: require('./showcase/pnpm.png'),
+    website: 'https://pnpm.js.org/',
+    source: 'https://github.com/pnpm/pnpm.github.io/',
     tags: [],
   },
   {
@@ -450,6 +483,14 @@ const users = [
     website: 'https://wiki-power.com/',
     source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
     tags: ['Large', 'Personal Sites'],
+  },
+  {
+    title: 'PptxGenJS',
+    description: 'PowerPoint JavaScript Library',
+    preview: require('./showcase/pptxgenjs.png'),
+    website: 'https://gitbrent.github.io/PptxGenJS/',
+    source: 'https://github.com/gitbrent/PptxGenJS',
+    tags: [],
   },
   {
     title: 'Profilo',
@@ -475,6 +516,15 @@ const users = [
     website: 'https://samsung.github.io/qaboard/',
     source: 'https://github.com/Samsung/qaboard',
     tags: ['Highlight', 'Design', 'Large'],
+  },
+  {
+    title: 'QuantCDN',
+    description:
+      'An all-in-one Static Web solution and global Content Delivery Network',
+    preview: require('./showcase/quantcdn.png'),
+    website: 'https://docs.quantcdn.io',
+    source: 'https://github.com/quantcdn/docs',
+    tags: [],
   },
   {
     title: 'QuestDB',
@@ -508,6 +558,14 @@ const users = [
     website: 'https://reactnative.dev',
     source: 'https://github.com/facebook/react-native-website',
     tags: ['Facebook Projects', 'Large', 'Highlight', 'Design', 'Versioning'],
+  },
+  {
+    title: 'React Native Boilerplate',
+    description: 'A React Native project template for building solid applications through separation of concerns between the UI, state management and business logic.',
+    preview: require('./showcase/reactnativeboilerplate.png'),
+    website: 'https://thecodingmachine.github.io/react-native-boilerplate/',
+    source: 'https://github.com/thecodingmachine/react-native-boilerplate',
+    tags: [],
   },
   {
     title: 'React Native Elements',
@@ -558,6 +616,22 @@ const users = [
     tags: [],
   },
   {
+    title: 'Realtime Web Applications Workshop',
+    description: 'A workshop about building realtime web applications with WebSockets and WebRTC.',
+    preview: require('./showcase/realtime-apps-workshop.png'),
+    website: 'https://realtime-apps-iap.github.io',
+    source: 'https://github.com/realtime-apps-iap/realtime-apps-iap.github.io',
+    tags: [],
+  },
+  {
+    title: 'Redis Labs Developer Site',
+    description: 'The Home of Redis Developers',
+    preview: require('./showcase/redis-developer.png'),
+    website: 'https://developer.redislabs.com',
+    source: 'https://github.com/redis-developer/redis-developer.github.io',
+    tags: [],
+  },
+  {
     title: 'Rematch',
     description: 'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
@@ -566,12 +640,28 @@ const users = [
     tags: ['Highlight', 'Design', 'Large'],
   },
   {
+    title: 'Repeater.js',
+    description: 'The missing constructor for creating safe async iterators',
+    preview: require('./showcase/repeaterjs.png'),
+    website: 'https://repeater.js.org/',
+    source: 'https://github.com/repeaterjs/repeater',
+    tags: [],
+  },
+  {
     title: 'Rooks',
     description: 'Supercharge your components with this collection of React hooks.',
     preview: require('./showcase/rooks.png'),
     website: 'https://react-hooks.org/',
     source: 'https://github.com/imbhargav5/rooks',
     tags: ['Large', 'Versioning'],
+  },
+  {
+    title: 'RSocket',
+    description: 'Application protocol providing Reactive Streams semantics.',
+    preview: require('./showcase/rsocket.png'),
+    website: 'https://rsocket.io/',
+    source: 'https://github.com/rsocket/rsocket-website',
+    tags: [],
   },
   {
     title: 'Runlet',
@@ -621,12 +711,36 @@ const users = [
     tags: ['Design'],
   },
   {
+    title: 'social-embed',
+    description: 'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
+    preview: require('./showcase/social-embed.png'),
+    website: 'https://social-embed.git-pull.com/',
+    source: 'https://github.com/social-embed/social-embed',
+    tags: [],
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
     website: 'https://johnnycrazy.github.io/SpotifyAPI-NET/',
     source: 'https://github.com/JohnnyCrazy/SpotifyAPI-NET',
     tags: ['Versioning'],
+  },
+  {
+    title: 'Stryker Mutator',
+    description: 'Mutation testing for JavaScript, .NET and JVM',
+    preview: require('./showcase/stryker-mutator.png'),
+    website: 'https://stryker-mutator.io',
+    source: 'https://github.com/stryker-mutator/stryker-mutator.github.io',
+    tags: [],
+  },
+  {
+    title: 'Stylable',
+    description: 'A CSS preprocessor made for components',
+    preview: require('./showcase/stylable.png'),
+    website: 'https://stylable.io',
+    source: 'https://github.com/wixplosives/stylable.io',
+    tags: [],
   },
   {
     title: 'Supabase',
@@ -686,6 +800,24 @@ const users = [
     tags: [],
   },
   {
+    title: 'TRPG Engine',
+    description:
+      'IM Application which build for TRPG, like slack and discord',
+    preview: require('./showcase/trpgengine.png'),
+    website: 'https://trpgdoc.moonrailgun.com/',
+    source: 'https://github.com/TRPGEngine/Client',
+    tags: [],
+  },
+  {
+    title: 'Tuist',
+    description:
+      'A tool to maintain and interact with Xcode projects at scale',
+    preview: require('./showcase/tuist.png'),
+    website: 'https://docs.tuist.io/',
+    source: 'https://github.com/tuist/tuist',
+    tags: [],
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
@@ -734,6 +866,14 @@ const users = [
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['Design', 'Large'],
+  },
+  {
+    title: 'KubeVela',
+    description: 'KubeVela is a modern application engine that adapts to your application\'s needs, not the other way around.',
+    preview: require('./showcase/kubevela.png'),
+    website: 'https://kubevela.io/',
+    source: 'https://github.com/oam-dev/kubevela.io',
+    tags: ['versioning', 'i18n'],
   },
 ];
 
