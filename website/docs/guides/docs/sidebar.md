@@ -544,20 +544,22 @@ module.exports = {
 
 :::tip
 
-Instead of writing a generator from scratch, try to **re-use and enhance the default generator** to customize the generated sidebar slice with your own logic.
+**Re-use and enhance the default generator** instead of writing a generator from scratch
 
-**Add, update, filter, re-order** the sidebar items to according to your use-case:
+**Add, update, filter, re-order** the sidebar items according to your use-case:
 
 ```js title="docusaurus.config.js"
-// Reverse the sidebar items ordering (including nested category items)
 // highlight-start
+// Reverse the sidebar items ordering (including nested category items)
 function reverseSidebarItems(items) {
+  // Reverse items in categories
   const result = items.map((item) => {
     if (item.type === 'category') {
       return {...item, items: reverseSidebarItems(item.items)};
     }
     return item;
   });
+  // Reverse items at current level
   result.reverse();
   return result;
 }
