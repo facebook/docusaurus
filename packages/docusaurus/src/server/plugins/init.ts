@@ -57,27 +57,22 @@ export default function initPlugins({
       }
 
       function getPlugin(): PluginModule | null {
-        if (typeof pluginItem === 'function') {
-          return pluginItem;
-        } else if (
-          Array.isArray(pluginItem) &&
-          typeof pluginItem[0] === 'function'
-        ) {
-          return pluginItem[0];
+        if (Array.isArray(pluginItem)) {
+          if (typeof pluginItem[0] === 'string') {
+            const pluginModuleImport = pluginItem[0];
+            const pluginPath = pluginRequire.resolve(pluginModuleImport);
+            const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+            return pluginModule?.default || pluginModule;
+          } else if (typeof pluginItem[0] === 'function') {
+            return pluginItem[0];
+          }
         } else if (typeof pluginItem === 'string') {
           const pluginModuleImport = pluginItem;
           const pluginPath = pluginRequire.resolve(pluginModuleImport);
           const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
           return pluginModule?.default || pluginModule;
-          // [path : string, options : {}]
-        } else if (
-          Array.isArray(pluginItem) &&
-          typeof pluginItem[0] === 'string'
-        ) {
-          const pluginModuleImport = pluginItem[0];
-          const pluginPath = pluginRequire.resolve(pluginModuleImport);
-          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-          return pluginModule?.default || pluginModule;
+        } else if (typeof pluginItem === 'function') {
+          return pluginItem;
         }
 
         return null;
