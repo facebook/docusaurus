@@ -177,6 +177,7 @@ export default function pluginContentDocs(
 
         const sidebars = await processSidebars({
           sidebarItemsGenerator: options.sidebarItemsGenerator,
+          numberPrefixParser: options.numberPrefixParser,
           unprocessedSidebars,
           docs: docsBase,
           version: versionMetadata,

@@ -30,8 +30,8 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import globby from 'globby';
 import {getDocsDirPaths} from './versions';
-import {extractNumberPrefix, stripPathNumberPrefixes} from './numberPrefix';
-import {assertDocFrontMatter} from './docFrontMatter';
+import {stripPathNumberPrefixes} from './numberPrefix';
+import {validateDocFrontMatter} from './docFrontMatter';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -117,18 +117,22 @@ export function processDocMetadata({
   const {homePageId} = options;
   const {siteDir, i18n} = context;
 
-  const {frontMatter, contentTitle, excerpt} = parseMarkdownString(content, {
+  const {
+    frontMatter: unsafeFrontMatter,
+    contentTitle,
+    excerpt,
+  } = parseMarkdownString(content, {
     source,
   });
-  assertDocFrontMatter(frontMatter);
+  const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
   const {
     sidebar_label: sidebarLabel,
     custom_edit_url: customEditURL,
 
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
-    // but ability to disable this behavior with frontmatterr
-    strip_number_prefixes: stripNumberPrefixes = true,
+    // but allow to disable this behavior with frontmatterr
+    parse_number_prefixes = true,
   } = frontMatter;
 
   // ex: api/plugins/myDoc -> myDoc
@@ -142,8 +146,8 @@ export function processDocMetadata({
   // ex: myDoc -> .
   const sourceDirName = path.dirname(source);
 
-  const {filename: unprefixedFileName, numberPrefix} = stripNumberPrefixes
-    ? extractNumberPrefix(sourceFileNameWithoutExtension)
+  const {filename: unprefixedFileName, numberPrefix} = parse_number_prefixes
+    ? options.numberPrefixParser(sourceFileNameWithoutExtension)
     : {filename: sourceFileNameWithoutExtension, numberPrefix: undefined};
 
   const baseID: string = frontMatter.id ?? unprefixedFileName;
@@ -170,8 +174,8 @@ export function processDocMetadata({
       return undefined;
     }
     // Eventually remove the number prefixes from intermediate directories
-    return stripNumberPrefixes
-      ? stripPathNumberPrefixes(sourceDirName)
+    return parse_number_prefixes
+      ? stripPathNumberPrefixes(sourceDirName, options.numberPrefixParser)
       : sourceDirName;
   }
 
@@ -197,7 +201,8 @@ export function processDocMetadata({
         baseID,
         dirName: sourceDirName,
         frontmatterSlug: frontMatter.slug,
-        stripDirNumberPrefixes: stripNumberPrefixes,
+        stripDirNumberPrefixes: parse_number_prefixes,
+        numberPrefixParser: options.numberPrefixParser,
       });
 
   // Default title is the id.
