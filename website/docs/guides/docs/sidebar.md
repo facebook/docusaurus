@@ -544,7 +544,7 @@ module.exports = {
 
 :::tip
 
-**Re-use and enhance the default generator** instead of writing a generator from scratch
+**Re-use and enhance the default generator** instead of writing a generator from scratch.
 
 **Add, update, filter, re-order** the sidebar items according to your use-case:
 
