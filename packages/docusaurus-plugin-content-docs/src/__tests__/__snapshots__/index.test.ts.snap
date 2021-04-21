@@ -662,6 +662,7 @@ Array [
 
 exports[`site with custom sidebar items generator sidebarItemsGenerator is called with appropriate data 1`] = `
 Object {
+  "defaultSidebarItemsGenerator": [Function],
   "docs": Array [
     Object {
       "frontMatter": Object {},

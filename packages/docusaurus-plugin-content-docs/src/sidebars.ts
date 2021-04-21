@@ -21,14 +21,15 @@ import {
   UnprocessedSidebar,
   DocMetadataBase,
   VersionMetadata,
-  SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
   SidebarItemsGeneratorVersion,
   NumberPrefixParser,
+  SidebarItemsGeneratorOption,
 } from './types';
 import {mapValues, flatten, flatMap, difference, pick, memoize} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
+import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -295,7 +296,7 @@ export async function processSidebar({
   docs,
   version,
 }: {
-  sidebarItemsGenerator: SidebarItemsGenerator;
+  sidebarItemsGenerator: SidebarItemsGeneratorOption;
   numberPrefixParser: NumberPrefixParser;
   unprocessedSidebar: UnprocessedSidebar;
   docs: DocMetadataBase[];
@@ -322,6 +323,7 @@ export async function processSidebar({
       return sidebarItemsGenerator({
         item,
         numberPrefixParser,
+        defaultSidebarItemsGenerator: DefaultSidebarItemsGenerator,
         ...getSidebarItemsGeneratorDocsAndVersion(),
       });
     }
@@ -338,7 +340,7 @@ export async function processSidebars({
   docs,
   version,
 }: {
-  sidebarItemsGenerator: SidebarItemsGenerator;
+  sidebarItemsGenerator: SidebarItemsGeneratorOption;
   numberPrefixParser: NumberPrefixParser;
   unprocessedSidebars: UnprocessedSidebars;
   docs: DocMetadataBase[];
