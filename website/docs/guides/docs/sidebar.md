@@ -544,7 +544,9 @@ module.exports = {
 
 :::tip
 
-Re-use and enhance the default `sidebarItemsGenerator` logic provided by Docusaurus to customize or re-order the generated sidebar
+Instead of writing a generator from scratch, try to **re-use and enhance the default generator** to customize the generated sidebar slice with your own logic.
+
+**Add, update, filter, re-order** the sidebar items to according to your use-case:
 
 ```js title="docusaurus.config.js"
 // Reverse the sidebar items ordering (including nested category items)
