@@ -152,6 +152,22 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should parse markdown h1 title at the top and next one after it', () => {
+    const markdown = dedent`
+
+          # Markdown Title
+
+          ## Heading 2
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: '## Heading 2\n\nLorem Ipsum',
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   test('Should parse markdown h1 alternate title', () => {
     const markdown = dedent`
 
@@ -163,6 +179,41 @@ describe('parseMarkdownContentTitle', () => {
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: 'Lorem Ipsum',
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 title placed after import declarations', () => {
+    const markdown = dedent`
+          import Component from '@site/src/components/Component';
+          import Component from '@site/src/components/Component'
+          import './styles.css';
+
+          # Markdown Title
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: `import Component from '@site/src/components/Component';\nimport Component from '@site/src/components/Component'\nimport './styles.css';\n\n\n\nLorem Ipsum`,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 alternate title placed after import declarations', () => {
+    const markdown = dedent`
+          import Component from '@site/src/components/Component';
+          import Component from '@site/src/components/Component'
+          import './styles.css';
+
+          Markdown Title
+          ==============
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: `import Component from '@site/src/components/Component';\nimport Component from '@site/src/components/Component'\nimport './styles.css';\n\nLorem Ipsum`,
       contentTitle: 'Markdown Title',
     });
   });

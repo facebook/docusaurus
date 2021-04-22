@@ -29,7 +29,7 @@ import {
   replaceMarkdownLinks,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
-import {assertBlogPostFrontMatter} from './blogFrontMatter';
+import {validateBlogPostFrontMatter} from './blogFrontMatter';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -142,12 +142,12 @@ export async function generateBlogPosts(
       const source = path.join(blogDirPath, blogSourceFile);
 
       const {
-        frontMatter,
+        frontMatter: unsafeFrontMatter,
         content,
         contentTitle,
         excerpt,
       } = await parseMarkdownFile(source);
-      assertBlogPostFrontMatter(frontMatter);
+      const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
 
       const aliasedSource = aliasedSitePath(source, siteDir);
 
