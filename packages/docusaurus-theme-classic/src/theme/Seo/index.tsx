@@ -24,8 +24,8 @@ export default function Seo({
 
   return (
     <Head>
-      <title>{pageTitle}</title>
-      <meta property="og:title" content={pageTitle} />
+      {title && <title>{pageTitle}</title>}
+      {title && <meta property="og:title" content={pageTitle} />}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
