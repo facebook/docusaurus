@@ -12,8 +12,8 @@ import {sortBy, difference} from '../utils/jsUtils';
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
  *
  * Requirements for adding your site to our showcase:
- * - It is NOT a work-in-progress
  * - It is a production-ready site with real content and decent customizations (different from the init templates)
+ * - It is NOT a work-in-progress with empty pages
  * - It has a stable domain name (a Netlify/Vercel deploy preview is not allowed)
  *
  * Instructions:

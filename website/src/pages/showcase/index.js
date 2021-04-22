@@ -111,10 +111,13 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
     <div className="margin-top--l margin-bottom--md container">
       <div className="row">
         {TagList.map((tag) => {
-          const {label, icon} = Tags[tag];
+          const {label, description, icon} = Tags[tag];
           return (
             <div key={tag} className="col col--2">
               <ShowcaseCheckbox
+                // TODO add a proper tooltip
+                title={`${label}: ${description}`}
+                aria-label={`${label}: ${description}`}
                 name={tag}
                 label={
                   icon ? (
@@ -163,7 +166,7 @@ function ShowcaseCards({filteredUsers}) {
           </div>
         ) : (
           <div className={clsx('padding-vert--md text--center')}>
-            <h3>No result :(</h3>
+            <h3>No result</h3>
           </div>
         )}
       </div>

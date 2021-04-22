@@ -6,13 +6,21 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-function ShowcaseCheckbox({name, label, onChange, checked}) {
+function ShowcaseCheckbox({
+  className,
+  name,
+  label,
+  onChange,
+  checked,
+  ...props
+}) {
   const id = `showcase_checkbox_id_${name};`;
   return (
-    <div className={styles.checkboxContainer}>
+    <div className={clsx(props.className, styles.checkboxContainer)} {...props}>
       <input
         type="checkbox"
         id={id}

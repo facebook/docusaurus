@@ -13,13 +13,14 @@ import Image from '@theme/IdealImage';
 import {Tags, TagList} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
-function TagIcon({tagObject}) {
+function TagIcon({label, description, icon}) {
   return (
     <span
       className={styles.tagIcon}
-      title={tagObject.label}
-      aria-label={tagObject.label}>
-      {tagObject.icon}
+      // TODO add a proper tooltip
+      title={`${label}: ${description}`}
+      aria-label={`${label}: ${description}`}>
+      {icon}
     </span>
   );
 }
@@ -35,7 +36,7 @@ function ShowcaseCardTagIcons({tags}) {
   );
 
   return tagObjectsSorted.map((tagObject, index) => (
-    <TagIcon key={index} tagObject={tagObject} />
+    <TagIcon key={index} {...tagObject} />
   ));
 }
 
