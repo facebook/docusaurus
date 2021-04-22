@@ -75,7 +75,7 @@ function ShowcaseHeader() {
           className={'button button--primary'}
           href={EDIT_URL}
           target={'_blank'}>
-          Add your site now!
+          🙏 Add your site now!
         </a>
       </p>
     </div>
@@ -123,22 +123,27 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
 
 function ShowcaseCards({filteredUsers}) {
   return (
-    <div>
-      {filteredUsers.length > 0 ? (
-        <div className="row">
-          {filteredUsers.map((user) => (
-            <ShowcaseCard
-              key={user.title} // Title should be unique
-              user={user}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className={clsx('padding-vert--xl text--center')}>
-          <h2>No result :(</h2>
-        </div>
-      )}
-    </div>
+    <section className="container margin-top--lg">
+      <h2>
+        {filteredUsers.length} site{filteredUsers.length > 1 ? 's' : ''}
+      </h2>
+      <div className="margin-top--lg">
+        {filteredUsers.length > 0 ? (
+          <div className="row">
+            {filteredUsers.map((user) => (
+              <ShowcaseCard
+                key={user.title} // Title should be unique
+                user={user}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className={clsx('padding-vert--md text--center')}>
+            <h3>No result :(</h3>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 
