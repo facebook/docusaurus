@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useCallback, memo, useEffect} from 'react';
+import React, {useState, useMemo, useCallback, useEffect} from 'react';
 
 import Layout from '@theme/Layout';
 import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
