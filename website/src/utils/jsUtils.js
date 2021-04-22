@@ -14,3 +14,14 @@ export function sortBy(array, getter) {
   sortedArray.sort(compareBy(getter));
   return sortedArray;
 }
+
+export function toggleListItem(list, item) {
+  const itemIndex = list.indexOf(item);
+  if (itemIndex === -1) {
+    return list.concat(item);
+  } else {
+    const newList = [...list];
+    newList.splice(itemIndex, 1);
+    return newList;
+  }
+}

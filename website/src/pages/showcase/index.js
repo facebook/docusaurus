@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useCallback, memo} from 'react';
+import React, {useState, useMemo, useCallback, memo, useEffect} from 'react';
 
 import Layout from '@theme/Layout';
 import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
@@ -13,6 +13,9 @@ import ShowcaseSelect from '@site/src/components/showcase/ShowcaseSelect';
 import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
 import clsx from 'clsx';
 
+import {useHistory, useLocation} from '@docusaurus/router';
+
+import {toggleListItem} from '../../utils/jsUtils';
 import {SortedUsers, Tags, TagList} from '../../data/users';
 
 const TITLE = 'Docusaurus Site Showcase';
@@ -44,24 +47,45 @@ function useFilteredUsers(users, selectedTags, operator) {
   ]);
 }
 
+const TagQueryStringKey = 'tags';
+
+function readSearchTags(search) {
+  return new URLSearchParams(search).getAll(TagQueryStringKey);
+}
+
+function replaceSearchTags(search, newTags) {
+  const searchParams = new URLSearchParams(search);
+  searchParams.delete(TagQueryStringKey);
+  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
+  return searchParams.toString();
+}
+
 function useSelectedTags() {
+  // The search query-string is the source of truth!
+  const location = useLocation();
+  const {push} = useHistory();
+
+  // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState([]);
 
+  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
+  useEffect(() => {
+    const tags = readSearchTags(location.search);
+    setSelectedTags(tags);
+  }, [location, setSelectedTags]);
+
+  // Update the QS value
   const toggleTag = useCallback(
     (tag) => {
-      setSelectedTags((tags) => {
-        const tagIndex = tags.indexOf(tag);
-        if (tagIndex === -1) {
-          return tags.concat(tag);
-        } else {
-          const newTags = [...tags];
-          newTags.splice(tagIndex, 1);
-          return newTags;
-        }
-      });
+      const tags = readSearchTags(location.search);
+      const newTags = toggleListItem(tags, tag);
+      const newSearch = replaceSearchTags(location.search, newTags);
+      push({...location, search: newSearch});
+      // no need to call setSelectedTags, useEffect will do the sync
     },
-    [setSelectedTags],
+    [location, push],
   );
+
   return {selectedTags, toggleTag};
 }
 
