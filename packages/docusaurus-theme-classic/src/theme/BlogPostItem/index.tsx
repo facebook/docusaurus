@@ -98,7 +98,7 @@ function BlogPostItem(props: Props): JSX.Element {
 
   return (
     <>
-      <Seo {...{title, keywords, image}} />
+      <Seo {...{keywords, image}} />
 
       <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
         {renderPostHeader()}
