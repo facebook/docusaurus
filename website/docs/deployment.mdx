@@ -351,6 +351,50 @@ After your project has been imported, all subsequent pushes to branches will gen
 
 [Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
 
+## Deploying to Hostman {#deploying-to-hostman}
+
+[Hostman](https://hostman.com/) allows you to host static websites for free. Hostman automates everything, you just need to connect your repository and follow easy steps:
+
+Step 1. Create a service
+To deploy a Docusaurus static website, click Create in the top-left corner of your [Dashboard](https://dashboard.hostman.com/) and choose Front-end app or static website.
+
+Step 2. Select the project to deploy
+If you are logged in to Hostman with your GitHub, GitLab or Bitbucket account, at this point you will see the repository with your projects, including the private ones.
+
+Choose the project you want to deploy. It must contain the directory with the project’s files (usually it is website or my-website).
+
+To access a different repository, click Connect another repository.
+
+If you didn’t use your Git account credentials to log in, you’ll be able to access the necessary account now, and then select the project.
+
+Step 3. Configure the build settings
+Next, the Website customization window will appear.
+
+Choose the Static website option from the list of frameworks.
+
+The Directory with app points at the directory that will contain the project's files after the build. You can leave it empty if during Step 2 you selected the repository with the contents of the website (or my_website) directory.
+
+The standard build command for Docusaurus will be:
+
+```bash
+yarn run build
+```
+
+You can modify the build command if needed. You can enter multiple commands separated by &&.
+
+Step 4. Deploy
+Click Deploy to start the build process.
+
+Once it starts, you will enter the deployment log. If there are any issues with the code, you will get warning or error messages in the log, specifying the cause of the problem.
+
+Usually the log contains all the debugging data you'll need, but we are also here to help you solve the issues, so do not hesitate to contact us via chat.
+
+When the deployment is complete, you will receive an e-mail notification and also see a log entry.
+
+All done!
+
+Your project is up and ready.
+
 ## Deploying to Surge {#deploying-to-surge}
 
 Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from the command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
