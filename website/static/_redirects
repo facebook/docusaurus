@@ -3,14 +3,15 @@
 # v2.docusaurus.io domain redirect after we put v2 on docusaurus.io
 https://v2.docusaurus.io/*      https://docusaurus.io/:splat 301!
 
-# Redirect older Docusaurus v1 links (unfortunately there is not always a v2 equivalent, can't use :splat safely)
-https://docusaurus.io/docs/en/*       https://docusaurus.io/
-https://docusaurus.io/docs/fr/*       https://docusaurus.io/
-https://docusaurus.io/docs/ko/*       https://docusaurus.io/
-https://docusaurus.io/docs/ro/*       https://docusaurus.io/
-https://docusaurus.io/docs/ru/*       https://docusaurus.io/
-https://docusaurus.io/docs/pt-br/*    https://docusaurus.io/
-https://docusaurus.io/docs/zh-cn/*    https://docusaurus.io/
+
+# Redirect older Docusaurus v1 links that do not exist anymore in v2
+https://docusaurus.io/docs/en/*         https://v1.docusaurus.io/docs/en/:splat
+https://docusaurus.io/docs/fr/*         https://v1.docusaurus.io/docs/fr/:splat
+https://docusaurus.io/docs/ko/*         https://v1.docusaurus.io/docs/ko/:splat
+https://docusaurus.io/docs/ro/*         https://v1.docusaurus.io/docs/ro/:splat
+https://docusaurus.io/docs/ru/*         https://v1.docusaurus.io/docs/ru/:splat
+https://docusaurus.io/docs/pt-br/*      https://v1.docusaurus.io/docs/pt-br/:splat
+https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:splat
 
 
 # Redirect to fix blog post url typo on publish :'( can be cleaned up soon
