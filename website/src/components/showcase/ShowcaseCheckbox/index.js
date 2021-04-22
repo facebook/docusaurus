@@ -9,19 +9,20 @@ import React from 'react';
 
 import styles from './styles.module.css';
 
-function ToggleTags(props) {
+function ShowcaseCheckbox({name, label, onChange, checked}) {
+  const id = `showcase_checkbox_id_${name};`;
   return (
-    <div className={styles.tag}>
+    <div className={styles.checkboxContainer}>
       <input
         type="checkbox"
-        id={props.tag}
-        name={props.tag}
-        onChange={props.change}
-        checked={props.selectedTags.includes(props.tag)}
+        id={id}
+        name={name}
+        onChange={onChange}
+        checked={checked}
       />
-      <label htmlFor={props.tag}>{props.tag}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 }
 
-export default ToggleTags;
+export default ShowcaseCheckbox;
