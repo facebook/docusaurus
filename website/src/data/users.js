@@ -198,7 +198,7 @@ const Users = [
     preview: require('./showcase/benthos.png'),
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource', 'large'],
   },
   {
     title: 'blog.johnnyreilly.com',
@@ -206,7 +206,7 @@ const Users = [
     preview: require('./showcase/johnnyreilly.png'),
     website: 'https://blog.johnnyreilly.com/',
     source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
-    tags: ['opensource'],
+    tags: ['opensource','personal','large'],
   },
   {
     title: 'Botonic',
@@ -214,7 +214,7 @@ const Users = [
     preview: require('./showcase/botonic.png'),
     website: 'https://botonic.io/',
     source: 'https://github.com/hubtype/botonic',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Build Tracker',
@@ -231,7 +231,7 @@ const Users = [
     preview: require('./showcase/clutch.png'),
     website: 'https://clutch.sh/',
     source: 'https://github.com/lyft/clutch',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Component Kit',
@@ -247,7 +247,7 @@ const Users = [
     preview: require('./showcase/configcat.png'),
     website: 'https://configcat.com/docs/',
     source: 'https://github.com/configcat/docs',
-    tags: ['opensource', 'large'],
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Console Table',
@@ -263,7 +263,7 @@ const Users = [
     preview: require('./showcase/create-react-app.png'),
     website: 'https://facebook.github.io/create-react-app/',
     source: 'https://github.com/facebook/create-react-app',
-    tags: ['opensource', 'favorite', 'design', 'large', 'facebook'],
+    tags: ['opensource', 'facebook'],
   },
   {
     title: 'Datagit',
@@ -272,7 +272,7 @@ const Users = [
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
     source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
-    tags: ['opensource', 'rtl'],
+    tags: ['opensource', 'favorite', 'rtl'],
   },
   {
     title: 'DevSpace',
@@ -287,7 +287,7 @@ const Users = [
     description:
       'A decentralized, programmable database which provides a financial infrastructure that can empower billions of people.',
     preview: require('./showcase/diem.png'),
-    website: 'https://developers.libra.org',
+    website: 'https://dip.diem.com/',
     source: 'https://github.com/diem/diem',
     tags: ['opensource', 'favorite', 'design', 'large', 'facebook'],
   },
@@ -297,7 +297,7 @@ const Users = [
     preview: require('./showcase/draftjs.png'),
     website: 'https://draftjs.org/',
     source: 'https://github.com/facebook/draft-js',
-    tags: ['opensource'],
+    tags: ['opensource','facebook'],
   },
   {
     title: 'Eightshift Docs',
@@ -306,7 +306,7 @@ const Users = [
     preview: require('./showcase/eightshift-docs.png'),
     website: 'https://infinum.github.io/eightshift-docs/',
     source: 'https://github.com/infinum/eightshift-docs',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource', 'favorite', 'design'],
   },
   {
     title: 'Erxes',
@@ -315,7 +315,7 @@ const Users = [
     preview: require('./showcase/erxes.png'),
     website: 'https://docs.erxes.io/',
     source: 'https://github.com/erxes/erxes',
-    tags: ['opensource','design'],
+    tags: ['opensource'],
   },
   {
     title: 'Eta',
@@ -323,7 +323,7 @@ const Users = [
     preview: require('./showcase/eta.png'),
     website: 'https://eta.js.org/',
     source: 'https://github.com/eta-dev/eta',
-    tags: ['opensource', 'design'],
+    tags: ['opensource'],
   },
   {
     title: 'FBT',
@@ -347,7 +347,7 @@ const Users = [
     preview: require('./showcase/flexit.png'),
     website: 'https://learn.flexitanalytics.com/',
     source: 'https://github.com/ataft/flexit-docs',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource','product'],
   },
   {
     title: 'Flux',
@@ -363,7 +363,7 @@ const Users = [
     preview: require('./showcase/foal.png'),
     website: 'https://foalts.org/',
     source: 'https://github.com/FoalTS/foal/tree/master/docs',
-    tags: ['opensource', 'favorite', 'design', 'large', 'versioning', 'i18n'],
+    tags: ['opensource', 'design', 'versioning', 'i18n'],
   },
   {
     title: 'Gladys Assistant',
@@ -380,7 +380,7 @@ const Users = [
     preview: require('./showcase/graphql-codegen.png'),
     website: 'https://graphql-code-generator.com/',
     source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource','design'],
   },
   {
     title: 'GraphQL Inspector',
@@ -388,7 +388,7 @@ const Users = [
     preview: require('./showcase/graphql-inspector.png'),
     website: 'https://graphql-inspector.com',
     source: 'https://github.com/kamilkisiela/graphql-inspector',
-    tags: ['opensource', 'favorite', 'design'],
+    tags: ['opensource', 'design','product'],
   },
   {
     title: 'GraphQL Mesh',
@@ -396,7 +396,7 @@ const Users = [
     preview: require('./showcase/graphql-mesh.png'),
     website: 'https://graphql-mesh.com',
     source: 'https://github.com/urigo/graphql-mesh',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Gulp',
@@ -404,7 +404,7 @@ const Users = [
     preview: require('./showcase/gulp.png'),
     website: 'https://gulpjs.com',
     source: 'https://github.com/gulpjs/gulp',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource', 'large'],
   },
   {
     title: 'Hashnode Support',
@@ -412,7 +412,7 @@ const Users = [
     preview: require('./showcase/hashnode.png'),
     website: 'https://support.hashnode.com/',
     source: 'https://github.com/Hashnode/support',
-    tags: ['opensource', 'favorite', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Hermes',
@@ -428,7 +428,7 @@ const Users = [
     preview: require('./showcase/home-assistant.png'),
     website: 'https://developers.home-assistant.io/',
     source: 'https://github.com/home-assistant/core',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Idb',
@@ -444,23 +444,7 @@ const Users = [
     preview: require('./showcase/intelagent.png'),
     website: 'https://www.intelagent.ca/',
     source: 'https://github.com/intelagentbilling/docs',
-    tags: ['opensource'],
-  },
-  {
-    title: 'mailgo',
-    description: 'A new concept of mailto and tel links',
-    preview: require('./showcase/mailgo.png'),
-    website: 'https://mailgo.js.org/',
-    source: 'https://github.com/manzinello/mailgo',
-    tags: ['opensource', 'design', 'large'],
-  },
-  {
-    title: 'Metro',
-    description: 'The JavaScript bundler for React Native',
-    preview: require('./showcase/metro.png'),
-    website: 'https://facebook.github.io/metro/',
-    source: 'https://github.com/facebook/metro',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource','product'],
   },
   {
     title: 'Kotest',
@@ -468,7 +452,7 @@ const Users = [
     preview: require('./showcase/kotest.jpg'),
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'SICOPE Model',
@@ -487,13 +471,21 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Metro',
+    description: 'The JavaScript bundler for React Native',
+    preview: require('./showcase/metro.png'),
+    website: 'https://facebook.github.io/metro/',
+    source: 'https://github.com/facebook/metro',
+    tags: ['opensource', 'facebook'],
+  },
+  {
     title: 'MikroORM',
     description:
       'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
     preview: require('./showcase/mikro-orm.png'),
     website: 'https://mikro-orm.io',
     source: 'https://github.com/mikro-orm/mikro-orm',
-    tags: ['opensource', 'favorite', 'large', 'versioning'],
+    tags: ['opensource', 'large', 'versioning'],
   },
   {
     title: 'Motion Layout',
@@ -502,7 +494,7 @@ const Users = [
     preview: require('./showcase/motion-layout.png'),
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
-    tags: ['opensource', 'design'],
+    tags: ['opensource'],
   },
   {
     title: 'Neutron JS',
@@ -518,7 +510,7 @@ const Users = [
     preview: require('./showcase/nextauthjs.png'),
     website: 'https://next-auth.js.org/',
     source: 'https://github.com/nextauthjs/next-auth',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource','design'],
   },
   {
     title: 'Node SerialPort',
@@ -526,7 +518,7 @@ const Users = [
     preview: require('./showcase/node-serialport.png'),
     website: 'https://serialport.io',
     source: 'https://github.com/serialport/node-serialport',
-    tags: ['opensource','large', 'versioning'],
+    tags: ['opensource','versioning'],
   },
   {
     title: 'Nodify',
@@ -552,7 +544,7 @@ const Users = [
     preview: require('./showcase/oxidizer.png'),
     website: 'https://oxidizer.rs',
     source: 'https://github.com/oxidizer-rs/website',
-    tags: ['opensource', 'design'],
+    tags: ['opensource'],
   },
   {
     title: 'Paubox',
@@ -560,7 +552,7 @@ const Users = [
     preview: require('./showcase/paubox.png'),
     website: 'https://docs.paubox.com/',
     source: null,
-    tags: [],
+    tags: ["product"],
   },
   {
     title: 'pnpm',
@@ -568,16 +560,16 @@ const Users = [
     preview: require('./showcase/pnpm.png'),
     website: 'https://pnpm.js.org/',
     source: 'https://github.com/pnpm/pnpm.github.io/',
-    tags: ['opensource'],
+    tags: ['opensource','i18n'],
   },
   {
     title: 'Postgres.ai – Database Lab',
     description:
-      "DEPLOY WITH CONFIDENCE. Been stung by a poorly tested database migration? We won't let it happen again.",
+      "Deploy with confidence. Been stung by a poorly tested database migration? We won't let it happen again.",
     preview: require('./showcase/postgres-ai.png'),
     website: 'https://postgres.ai/',
     source: 'https://gitlab.com/postgres-ai/docs',
-    tags: ['opensource', 'large'],
+    tags: ['opensource', 'product'],
   },
   {
     title: "Power's Wiki",
@@ -593,7 +585,7 @@ const Users = [
     preview: require('./showcase/pptxgenjs.png'),
     website: 'https://gitbrent.github.io/PptxGenJS/',
     source: 'https://github.com/gitbrent/PptxGenJS',
-    tags: ['opensource'],
+    tags: ['opensource','design'],
   },
   {
     title: 'Profilo',
@@ -609,7 +601,7 @@ const Users = [
     preview: require('./showcase/pyre.png'),
     website: 'https://pyre-check.org',
     source: 'https://github.com/facebook/pyre-check',
-    tags: ['opensource', 'facebook', 'large'],
+    tags: ['opensource', 'facebook'],
   },
   {
     title: 'QA-Board',
@@ -618,7 +610,7 @@ const Users = [
     preview: require('./showcase/qa-board.png'),
     website: 'https://samsung.github.io/qaboard/',
     source: 'https://github.com/Samsung/qaboard',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'QuantCDN',
@@ -627,7 +619,7 @@ const Users = [
     preview: require('./showcase/quantcdn.png'),
     website: 'https://docs.quantcdn.io',
     source: 'https://github.com/quantcdn/docs',
-    tags: ['opensource'],
+    tags: ['opensource','product'],
   },
   {
     title: 'QuestDB',
@@ -684,10 +676,10 @@ const Users = [
     preview: require('./showcase/react-native-elements.png'),
     website: 'https://react-native-training.github.io/react-native-elements/',
     source: 'https://github.com/react-native-elements/react-native-elements',
-    tags: ['opensource', 'large', 'favorite', 'design', 'versioning'],
+    tags: ['opensource'],
   },
   {
-    title: 'react-native-ios-kit',
+    title: 'React Native iOS Kit',
     description: 'The missing React Native UI Kit for iOS.',
     preview: require('./showcase/react-native-ios-kit.png'),
     website: 'https://callstack.github.io/react-native-ios-kit',
@@ -708,7 +700,7 @@ const Users = [
     preview: require('./showcase/react-redux.png'),
     website: 'https://react-redux.js.org',
     source: 'https://www.github.com/reduxjs/react-redux',
-    tags: ['opensource', 'favorite', 'large', 'versioning'],
+    tags: ['opensource'],
   },
   {
     title: 'Redux',
@@ -716,7 +708,7 @@ const Users = [
     preview: require('./showcase/redux.png'),
     website: 'https://redux.js.org/',
     source: 'https://www.github.com/reduxjs/redux',
-    tags: ['opensource', 'favorite', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'React Native ARIA',
@@ -742,7 +734,7 @@ const Users = [
     preview: require('./showcase/redis-developer.png'),
     website: 'https://developer.redislabs.com',
     source: 'https://github.com/redis-developer/redis-developer.github.io',
-    tags: ['opensource'],
+    tags: ['opensource','product'],
   },
   {
     title: 'Rematch',
@@ -751,7 +743,7 @@ const Users = [
     preview: require('./showcase/rematch.png'),
     website: 'https://rematchjs.org',
     source: 'https://github.com/rematch/rematch',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Repeater.js',
@@ -768,7 +760,7 @@ const Users = [
     preview: require('./showcase/rooks.png'),
     website: 'https://react-hooks.org/',
     source: 'https://github.com/imbhargav5/rooks',
-    tags: ['opensource', 'large', 'versioning'],
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'RSocket',
@@ -784,7 +776,7 @@ const Users = [
     preview: require('./showcase/runlet.png'),
     website: 'https://runlet.app',
     source: 'https://github.com/runletapp/website',
-    tags: ['opensource', 'design'],
+    tags: ['opensource'],
   },
   {
     title: 'Saleor',
@@ -792,7 +784,7 @@ const Users = [
     preview: require('./showcase/saleor.png'),
     website: 'https://docs.getsaleor.com/',
     source: 'https://github.com/mirumee/saleor-docs',
-    tags: ['opensource', 'design', 'large', 'versioning'],
+    tags: ['opensource', 'product', 'versioning'],
   },
   {
     title: 'SCI WP Framework',
@@ -800,15 +792,15 @@ const Users = [
     preview: require('./showcase/sciwp.png'),
     website: 'https://sciwp.com/',
     source: 'https://github.com/sciwp/sciwp-framework',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
-    title: 'single-spa',
+    title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
     website: 'https://single-spa.js.org/',
     source: 'https://github.com/single-spa/single-spa',
-    tags: ['opensource', 'favorite', 'large', 'versioning', 'i18n'],
+    tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
     title: 'smash.gg',
@@ -816,7 +808,7 @@ const Users = [
     preview: require('./showcase/smashgg.png'),
     website: 'https://developer.smash.gg',
     source: 'https://github.com/smashgg/developer-portal',
-    tags: ['opensource', 'large'],
+    tags: ['opensource','product'],
   },
   {
     title: 'Shabad OS Docs',
@@ -866,7 +858,7 @@ const Users = [
     preview: require('./showcase/supabase.png'),
     website: 'https://www.supabase.io/',
     source: 'https://github.com/supabase/monorepo',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource', 'favorite', 'design', 'large','product'],
   },
   {
     title: 'T-Regx',
@@ -874,7 +866,7 @@ const Users = [
     preview: require('./showcase/t-regx.png'),
     website: 'https://t-regx.com/',
     source: 'https://github.com/T-Regx/T-Regx',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Taro',
@@ -891,7 +883,7 @@ const Users = [
     preview: require('./showcase/testing-library.png'),
     website: 'https://testing-library.com/',
     source: 'https://github.com/testing-library/testing-library-docs',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Tasit',
@@ -909,15 +901,6 @@ const Users = [
     website: 'https://thediffpodcast.com',
     source: null,
     tags: [ 'facebook'],
-  },
-  {
-    title: 'Tourmaline',
-    description:
-      'Fast and performant Telegram bot framework for the Crystal programming language',
-    preview: require('./showcase/tourmaline.png'),
-    website: 'https://tourmaline.dev',
-    source: 'https://github.com/protoncr/tourmaline',
-    tags: ['opensource'],
   },
   {
     title: 'TRPG Engine',
@@ -941,7 +924,7 @@ const Users = [
     preview: require('./showcase/uniforms.png'),
     website: 'https://uniforms.tools/',
     source: 'https://github.com/vazco/uniforms',
-    tags: ['opensource', 'design', 'large', 'favorite'],
+    tags: ['opensource'],
   },
   {
     title: 'Vector',
@@ -957,7 +940,7 @@ const Users = [
     preview: require('./showcase/vue-nodegui.png'),
     website: 'https://vue.nodegui.org/',
     source: 'https://github.com/nodegui/vue-nodegui',
-    tags: ['opensource', 'design'],
+    tags: ['opensource'],
   },
   {
     title: 'Wasp',
@@ -966,7 +949,7 @@ const Users = [
     preview: require('./showcase/wasp.png'),
     website: 'https://wasp-lang.dev/',
     source: 'https://github.com/wasp-lang/wasp',
-    tags: ['opensource', 'favorite', 'design', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'WebdriverIO',
@@ -975,7 +958,7 @@ const Users = [
     preview: require('./showcase/webdriverio.png'),
     website: 'https://webdriver.io/',
     source: 'https://github.com/webdriverio/webdriverio',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource', 'design', 'large','favorite'],
   },
   {
     title: 'Wisdom',
@@ -983,7 +966,7 @@ const Users = [
     preview: require('./showcase/wisdom.png'),
     website: 'https://developers.getwisdom.io/',
     source: 'https://github.com/Wisdom/dev-docs',
-    tags: ['opensource', 'design', 'large'],
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'KubeVela',
@@ -1003,7 +986,7 @@ function sortUsers() {
   result = sortBy(result, (user) => user.title.toLowerCase());
   // Sort by favorite tag, favorites first
   result = sortBy(result, (user) => !user.tags.includes('favorite'));
-  return Users;
+  return result;
 }
 
 export const SortedUsers = sortUsers();
