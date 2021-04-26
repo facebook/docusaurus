@@ -20,7 +20,7 @@ function normalizeLocation<T extends Location>(location: T): T {
 
   let pathname = location.pathname || '/';
   pathname = pathname.trim().replace(/\/index\.html$/, '');
-
+  pathname = pathname.replace(/\/$/, '');
   if (pathname === '') {
     pathname = '/';
   }

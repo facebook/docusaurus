@@ -67,4 +67,26 @@ describe('normalizeLocation', () => {
       pathname: '/',
     });
   });
+
+  test('remove trailing /, unless only a /', () => {
+    expect(
+      normalizeLocation({
+        pathname: '/docs/introduction/',
+        search: '',
+        hash: '#features',
+      }),
+    ).toEqual({
+      pathname: '/docs/introduction',
+      search: '',
+      hash: '#features',
+    });
+
+    expect(
+      normalizeLocation({
+        pathname: '/',
+      }),
+    ).toEqual({
+      pathname: '/',
+    });
+  });
 });
