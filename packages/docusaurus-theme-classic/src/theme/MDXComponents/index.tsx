@@ -14,17 +14,28 @@ import type {MDXComponentsObject} from '@theme/MDXComponents';
 const MDXComponents: MDXComponentsObject = {
   code: (props) => {
     const {children} = props;
-    if (typeof children === 'string') {
-      if (!children.includes('\n')) {
-        return <code {...props} />;
-      }
-      return <CodeBlock {...props} />;
+
+    // For retrocompatibility purposes (pretty rare use case)
+    // See https://github.com/facebook/docusaurus/pull/1584
+    if (isValidElement(children)) {
+      return children;
     }
-    return children;
+
+    return !children.includes('\n') ? (
+      <code {...props} />
+    ) : (
+      <CodeBlock {...props} />
+    );
   },
   a: (props) => <Link {...props} />,
   pre: (props) => {
-    const {children} = props;
+    const {children} = props as {children: any};
+
+    // See comment for `code` above
+    if (isValidElement(children?.props?.children)) {
+      return children?.props.children;
+    }
+
     return (
       <CodeBlock
         {...((isValidElement(children)

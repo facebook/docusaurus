@@ -10,6 +10,9 @@ const path = require('path');
 const fs = require('fs-extra');
 const {mapValues, pickBy} = require('lodash');
 
+// Seems the 5s default timeout fails sometimes
+jest.setTimeout(15000);
+
 describe('update-code-translations', () => {
   test(`to have base.json contain all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-classic update-code-translations" to keep base.json up-to-date.`, async () => {
     const baseMessages = pickBy(

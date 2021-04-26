@@ -1,5 +1,205 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.73 (2021-04-16)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#4624](https://github.com/facebook/docusaurus/pull/4624) feat(v2): Add Filipino default translations to theme ([@gumacahin](https://github.com/gumacahin))
+  - [#4596](https://github.com/facebook/docusaurus/pull/4596) feat(v2): theme default translations hindi ([@lisa761](https://github.com/lisa761))
+  - [#4536](https://github.com/facebook/docusaurus/pull/4536) feat(v2): add pt-PT translations for docusaurus-theme-classic ([@tiago-rr](https://github.com/tiago-rr))
+  - [#4525](https://github.com/facebook/docusaurus/pull/4525) feat(v2): add Brazilian Portuguese translation for docusaurus-theme-classic ([@thiagog3](https://github.com/thiagog3))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4511](https://github.com/facebook/docusaurus/pull/4511) feat(v2): add unique page/wrapper className to each theme pages ([@ShinteiMai](https://github.com/ShinteiMai))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4582](https://github.com/facebook/docusaurus/pull/4582) feat(v2): auto-generated sidebars, frontmatter-less sites ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+  - [#4545](https://github.com/facebook/docusaurus/pull/4545) feat(v2): docusaurus deploy: ability to configure port in git url ([@talesporto](https://github.com/talesporto))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#4590](https://github.com/facebook/docusaurus/pull/4590) feat(v2): various markdown string parsing improvements/fixes ([@slorber](https://github.com/slorber))
+  - [#4485](https://github.com/facebook/docusaurus/pull/4485) feat(v2): frontmatter-less: read first heading as title and use it in front-matter ([@armano2](https://github.com/armano2))
+- `docusaurus-utils`
+  - [#4581](https://github.com/facebook/docusaurus/pull/4581) feat(v2): default theme translations: locale "pt" should load "pt-BR" translations ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#4495](https://github.com/facebook/docusaurus/pull/4495) feat(v2): include frontmatter in loadedContent doc metadatas ([@kaytwo](https://github.com/kaytwo))
+  - [#4500](https://github.com/facebook/docusaurus/pull/4500) feat(v2): provide doc sidebar_label through sidebars.js ([@besemuna](https://github.com/besemuna))
+- `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#4449](https://github.com/facebook/docusaurus/pull/4449) feat(v2): infer default i18n locale config from locale code ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4619](https://github.com/facebook/docusaurus/pull/4619) refactor(v2): rename class main-docs-wrapper to docs-wrapper ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4582](https://github.com/facebook/docusaurus/pull/4582) feat(v2): auto-generated sidebars, frontmatter-less sites ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#4627](https://github.com/facebook/docusaurus/pull/4627) chore(v2): update Infima to alpha.22 ([@slorber](https://github.com/slorber))
+  - [#4621](https://github.com/facebook/docusaurus/pull/4621) fix(v2): center align content if no sidebar exists ([@lex111](https://github.com/lex111))
+  - [#4620](https://github.com/facebook/docusaurus/pull/4620) fix(v2): restore toggle responsive sidebar button ([@lex111](https://github.com/lex111))
+  - [#4598](https://github.com/facebook/docusaurus/pull/4598) fix(v2): render escaped HTML entities inside code properly ([@lex111](https://github.com/lex111))
+  - [#4554](https://github.com/facebook/docusaurus/pull/4554) fix: DocNavbarItem error message ([@serut](https://github.com/serut))
+  - [#4468](https://github.com/facebook/docusaurus/pull/4468) fix(v2): select correct tab when items are incorrectly ordered ([@armano2](https://github.com/armano2))
+  - [#4461](https://github.com/facebook/docusaurus/pull/4461) fix(v2): Fix i18n staging deployment due to json typo ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4541](https://github.com/facebook/docusaurus/pull/4541) fix(v2): fix code block title parsing, support multiple metastring attributes ([@duanwilliam](https://github.com/duanwilliam))
+  - [#4600](https://github.com/facebook/docusaurus/pull/4600) fix(v2): use page title from config if not set ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4501](https://github.com/facebook/docusaurus/pull/4501) fix(v2): fail-safe usage of browser storage (localStorage/sessionStorage) when access is denied ([@jknoxville](https://github.com/jknoxville))
+- `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#4593](https://github.com/facebook/docusaurus/pull/4593) fix(v2): i18n perf issue: getTranslationFile() should not load content again ([@slorber](https://github.com/slorber))
+- Other
+  - [#4574](https://github.com/facebook/docusaurus/pull/4574) fix(v2): examples should use Node 14 by default on CodeSandbox + regen with alpha72 ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#4547](https://github.com/facebook/docusaurus/pull/4547) feat(v2) : use symbols to denote swizzle safety ([@besemuna](https://github.com/besemuna))
+  - [#4575](https://github.com/facebook/docusaurus/pull/4575) fix(v2): fix i18n isLastLocale bug preventing docusaurus from building some locales ([@slorber](https://github.com/slorber))
+  - [#4506](https://github.com/facebook/docusaurus/pull/4506) fix(v2): remove no longer used postcss-present-env from dependencies ([@armano2](https://github.com/armano2))
+  - [#4444](https://github.com/facebook/docusaurus/pull/4444) fix(v2): Fix writeHeadingIds on Windows due to non-posix paths ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4507](https://github.com/facebook/docusaurus/pull/4507) fix(v2): do not warn about duplicated title for pages ([@armano2](https://github.com/armano2))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#4466](https://github.com/facebook/docusaurus/pull/4466) fix(v2): i18n fixes ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4459](https://github.com/facebook/docusaurus/pull/4459) fix(v2): Export Joi from validation-utils package ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4626](https://github.com/facebook/docusaurus/pull/4626) refactor(v2): toggleResponsiveSidebar => more stable callback ([@slorber](https://github.com/slorber))
+  - [#4617](https://github.com/facebook/docusaurus/pull/4617) refactor(v2): simplify and optimize sidebar ([@slorber](https://github.com/slorber))
+  - [#4608](https://github.com/facebook/docusaurus/pull/4608) refactor(v2): replace react-toggle with own implementation ([@lex111](https://github.com/lex111))
+  - [#4601](https://github.com/facebook/docusaurus/pull/4601) refactor(v2): increase heading anchor offset ([@lex111](https://github.com/lex111))
+  - [#4467](https://github.com/facebook/docusaurus/pull/4467) refactor(v2): add missing types to theme-classic useTheme ([@armano2](https://github.com/armano2))
+  - [#4448](https://github.com/facebook/docusaurus/pull/4448) polish(v2): Add german translations ([@miku86](https://github.com/miku86))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4619](https://github.com/facebook/docusaurus/pull/4619) refactor(v2): rename class main-docs-wrapper to docs-wrapper ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus`
+  - [#4451](https://github.com/facebook/docusaurus/pull/4451) refactor(v2): correct client types and type aliases ([@armano2](https://github.com/armano2))
+- `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4450](https://github.com/facebook/docusaurus/pull/4450) chore(v2): Fix more linter warnings ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4442](https://github.com/facebook/docusaurus/pull/4442) chore(v2): Fix linter warnings ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4375](https://github.com/facebook/docusaurus/pull/4375) refactor(v2): TS config update: reduce the size of npm modules ([@RDIL](https://github.com/RDIL))
+
+#### :memo: Documentation
+
+- Other
+  - [#4616](https://github.com/facebook/docusaurus/pull/4616) docs(v2): add showcase: kubevela ([@sunny0826](https://github.com/sunny0826))
+  - [#4612](https://github.com/facebook/docusaurus/pull/4612) docs(v2): Added IntelAGENT website to showcase. ([@akepecs](https://github.com/akepecs))
+  - [#4609](https://github.com/facebook/docusaurus/pull/4609) docs(v2): add clarity to tip in versioned using-themes page ([@dickwyn](https://github.com/dickwyn))
+  - [#4606](https://github.com/facebook/docusaurus/pull/4606) docs(v2): heading typo ([@arturcarvalho](https://github.com/arturcarvalho))
+  - [#4604](https://github.com/facebook/docusaurus/pull/4604) docs(v2): add clarity to tip in using-themes page ([@dickwyn](https://github.com/dickwyn))
+  - [#4602](https://github.com/facebook/docusaurus/pull/4602) docs(v2): Add "PptxGenJS" to showcase ([@gitbrent](https://github.com/gitbrent))
+  - [#4599](https://github.com/facebook/docusaurus/pull/4599) docs(v2): i18n site: enable ko + zh-CN locales ([@slorber](https://github.com/slorber))
+  - [#4595](https://github.com/facebook/docusaurus/pull/4595) docs(v2): fix typo theme-configuration.md ([@forresst](https://github.com/forresst))
+  - [#4594](https://github.com/facebook/docusaurus/pull/4594) docs(v2): Include docusaurus-protobuffet to community plugins ([@AnthonyBobsin](https://github.com/AnthonyBobsin))
+  - [#4558](https://github.com/facebook/docusaurus/pull/4558) docs(v2): fixed broken link in i18n-tutorial.md ([@covalentbond](https://github.com/covalentbond))
+  - [#4573](https://github.com/facebook/docusaurus/pull/4573) docs: update README badges ([@slorber](https://github.com/slorber))
+  - [#4559](https://github.com/facebook/docusaurus/pull/4559) docs(v2): fixed the directory of index.js ([@covalentbond](https://github.com/covalentbond))
+  - [#4568](https://github.com/facebook/docusaurus/pull/4568) docs(v2): add social-embed to showcase ([@tony](https://github.com/tony))
+  - [#4570](https://github.com/facebook/docusaurus/pull/4570) docs(v2): Add Redis Labs Developer Site to docusaurus showcase page ([@ajeetraina](https://github.com/ajeetraina))
+  - [#4543](https://github.com/facebook/docusaurus/pull/4543) docs(v2): fix run-on sentence ([@duanwilliam](https://github.com/duanwilliam))
+  - [#4539](https://github.com/facebook/docusaurus/pull/4539) docs(v2): fix typo deployment.mdx ([@forresst](https://github.com/forresst))
+  - [#4538](https://github.com/facebook/docusaurus/pull/4538) Add Tuist to the list of projects that use Docusaurus ([@pepibumur](https://github.com/pepibumur))
+  - [#4531](https://github.com/facebook/docusaurus/pull/4531) docs(v2): remove duplicate line on v1 docs ([@loozhengyuan](https://github.com/loozhengyuan))
+  - [#4524](https://github.com/facebook/docusaurus/pull/4524) docs(v2): config for self-hosted docsearch crawler ([@loozhengyuan](https://github.com/loozhengyuan))
+  - [#4526](https://github.com/facebook/docusaurus/pull/4526) docs(v2): fix markdown headings level 4 ([@forresst](https://github.com/forresst))
+  - [#4505](https://github.com/facebook/docusaurus/pull/4505) docs(v2): add more links to v1: announcementBar, versionDropdown, homepage ([@slorber](https://github.com/slorber))
+  - [#4497](https://github.com/facebook/docusaurus/pull/4497) docs: fix link to issue template ([@forresst](https://github.com/forresst))
+  - [#4481](https://github.com/facebook/docusaurus/pull/4481) docs(v2): fix grammar and improve wording ([@aehrea](https://github.com/aehrea))
+  - [#4472](https://github.com/facebook/docusaurus/pull/4472) docs(v2): fixed broken link in sidebar documentation ([@covalentbond](https://github.com/covalentbond))
+  - [#4470](https://github.com/facebook/docusaurus/pull/4470) docs(v2): Add missing i18n docs: API lifecycles + Crowdin migration guide ([@slorber](https://github.com/slorber))
+  - [#4460](https://github.com/facebook/docusaurus/pull/4460) docs(v2): use explicit heading IDs ([@lex111](https://github.com/lex111))
+  - [#4446](https://github.com/facebook/docusaurus/pull/4446) docs(v2): Add blog.johnnyreilly.com to showcase ([@johnnyreilly](https://github.com/johnnyreilly))
+  - [#4430](https://github.com/facebook/docusaurus/pull/4430) docs(v2): add Deploy with QuandCDN ([@steveworley](https://github.com/steveworley))
+  - [#4441](https://github.com/facebook/docusaurus/pull/4441) docs(v2): add stylable site to users showcase list ([@tomrav](https://github.com/tomrav))
+- `docusaurus-init`
+  - [#4561](https://github.com/facebook/docusaurus/pull/4561) docs(v2): add a missing slug from the initial template ([@Foxeye-Rinx](https://github.com/Foxeye-Rinx))
+  - [#4560](https://github.com/facebook/docusaurus/pull/4560) docs(v2): fixed typos ([@covalentbond](https://github.com/covalentbond))
+  - [#4546](https://github.com/facebook/docusaurus/pull/4546) docs(v2): add a missing "export" from the initial template ([@Foxeye-Rinx](https://github.com/Foxeye-Rinx))
+  - [#4320](https://github.com/facebook/docusaurus/pull/4320) feat(v2): Improve the initial templates #4302 ([@besemuna](https://github.com/besemuna))
+- `docusaurus-migrate`, `docusaurus`
+  - [#4479](https://github.com/facebook/docusaurus/pull/4479) docs(v2): fixed typos ([@covalentbond](https://github.com/covalentbond))
+
+#### :house: Internal
+
+- `docusaurus-theme-classic`
+  - [#4627](https://github.com/facebook/docusaurus/pull/4627) chore(v2): update Infima to alpha.22 ([@slorber](https://github.com/slorber))
+  - [#4463](https://github.com/facebook/docusaurus/pull/4463) chore: fb json header commit typo ([@slorber](https://github.com/slorber))
+- Other
+  - [#4613](https://github.com/facebook/docusaurus/pull/4613) chore(v2): fix yarn2 end2end test by using lerna publish --exact ([@slorber](https://github.com/slorber))
+  - [#4611](https://github.com/facebook/docusaurus/pull/4611) chore(v2): CI: do not build all locales when monitoring build time perf ([@slorber](https://github.com/slorber))
+  - [#4486](https://github.com/facebook/docusaurus/pull/4486) ci: enable yarn install cache ([@armano2](https://github.com/armano2))
+  - [#4508](https://github.com/facebook/docusaurus/pull/4508) ci: change default actions timeout from 6h to 30m ([@armano2](https://github.com/armano2))
+  - [#4488](https://github.com/facebook/docusaurus/pull/4488) chore(v2): fix typo in classic init template ([@clarus](https://github.com/clarus))
+  - [#4471](https://github.com/facebook/docusaurus/pull/4471) chore: fix GH actions lint problem matchers issue in PR ([@slorber](https://github.com/slorber))
+  - [#4458](https://github.com/facebook/docusaurus/pull/4458) chore(v2): enable staging locales: ko ja ([@slorber](https://github.com/slorber))
+  - [#4457](https://github.com/facebook/docusaurus/pull/4457) chore(v2): remove docs for alpha v70 ([@lex111](https://github.com/lex111))
+  - [#4452](https://github.com/facebook/docusaurus/pull/4452) chore(v2): update typescript-eslint to v4.18.0 ([@armano2](https://github.com/armano2))
+- `docusaurus`
+  - [#4516](https://github.com/facebook/docusaurus/pull/4516) ci(v2): fail CI if build takes too much time ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#4490](https://github.com/facebook/docusaurus/pull/4490) chore: rename v2.docusaurus.io urls after domain switch + redirect + cleanups ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`
+  - [#4475](https://github.com/facebook/docusaurus/pull/4475) chore: prepare v1-v2 domain switch ([@slorber](https://github.com/slorber))
+  - [#4447](https://github.com/facebook/docusaurus/pull/4447) chore: simplify CI setup ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init`
+  - [#4453](https://github.com/facebook/docusaurus/pull/4453) chore(v2): migrate babel-eslint to @babel/eslint-parser ([@armano2](https://github.com/armano2))
+- `docusaurus-utils-validation`
+  - [#4464](https://github.com/facebook/docusaurus/pull/4464) chore(v2): Joi cyclic dep warning ([@slorber](https://github.com/slorber))
+- `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4462](https://github.com/facebook/docusaurus/pull/4462) chore: json files should be linted ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-theme-classic`
+  - [#4626](https://github.com/facebook/docusaurus/pull/4626) refactor(v2): toggleResponsiveSidebar => more stable callback ([@slorber](https://github.com/slorber))
+  - [#4603](https://github.com/facebook/docusaurus/pull/4603) perf(v2): avoid rerender of sidebar items while scrolling ([@lex111](https://github.com/lex111))
+  - [#4473](https://github.com/facebook/docusaurus/pull/4473) perf(v2): reduce amount of component updates while scrolling ([@armano2](https://github.com/armano2))
+
+#### Committers: 37
+
+- Ajeet Singh Raina, Docker Captain, RedisLabs ([@ajeetraina](https://github.com/ajeetraina))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Anthony Bobsin ([@AnthonyBobsin](https://github.com/AnthonyBobsin))
+- Arijit Kundu ([@covalentbond](https://github.com/covalentbond))
+- Armano ([@armano2](https://github.com/armano2))
+- Artur Carvalho ([@arturcarvalho](https://github.com/arturcarvalho))
+- Brent Ely ([@gitbrent](https://github.com/gitbrent))
+- Chris Kanich ([@kaytwo](https://github.com/kaytwo))
+- Dennis Thompson ([@atomicpages](https://github.com/atomicpages))
+- Dick Wyn Yong ([@dickwyn](https://github.com/dickwyn))
+- Forresst ([@forresst](https://github.com/forresst))
+- Guillaume Claret ([@clarus](https://github.com/clarus))
+- John Knox ([@jknoxville](https://github.com/jknoxville))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Lisa Chandra ([@lisa761](https://github.com/lisa761))
+- Lucas Alves ([@lucalves](https://github.com/lucalves))
+- Marco Enrico ([@gumacahin](https://github.com/gumacahin))
+- Pedro Piñera Buendía ([@pepibumur](https://github.com/pepibumur))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Steve ([@steveworley](https://github.com/steveworley))
+- Steven Hansel ([@ShinteiMai](https://github.com/ShinteiMai))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tales Porto ([@talesporto](https://github.com/talesporto))
+- Thiago Sciotta ([@thiagog3](https://github.com/thiagog3))
+- Tiago Ribeiro ([@tiago-rr](https://github.com/tiago-rr))
+- Tom Raviv ([@tomrav](https://github.com/tomrav))
+- Tony Narlock ([@tony](https://github.com/tony))
+- ZhengYuan Loo ([@loozhengyuan](https://github.com/loozhengyuan))
+- [@Foxeye-Rinx](https://github.com/Foxeye-Rinx)
+- [@aehrea](https://github.com/aehrea)
+- [@akepecs](https://github.com/akepecs)
+- [@besemuna](https://github.com/besemuna)
+- [@duanwilliam](https://github.com/duanwilliam)
+- [@miku86](https://github.com/miku86)
+- [@serut](https://github.com/serut)
+- guoxudong ([@sunny0826](https://github.com/sunny0826))
+
 ## 2.0.0-alpha.72 (2021-03-16)
 
 ### :boom: Breaking Change

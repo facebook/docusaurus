@@ -92,7 +92,7 @@ This component is applied above the router and the theme `<Layout>`, and will **
 
 :::tip
 
-Use this component render React Context providers and global stateful logic.
+Use this component to render React Context providers and global stateful logic.
 
 :::
 

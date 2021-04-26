@@ -183,7 +183,7 @@ Apart the `values` prop used for interpolation, it is **not possible to use vari
 
 #### Example {#example}
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -468,7 +468,7 @@ function translate(
 
 #### Example {#example-2}
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 

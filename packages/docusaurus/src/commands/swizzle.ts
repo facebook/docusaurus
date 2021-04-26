@@ -94,8 +94,8 @@ function themeComponents(
   return `
 ${chalk.cyan('Theme components available for swizzle')}
 
-${chalk.green('green  =>')} recommended: lower breaking change risk
-${chalk.red('red    =>')} internal: higher breaking change risk
+${chalk.green('green  =>')} safe: lower breaking change risk
+${chalk.red('red    =>')} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
@@ -123,8 +123,8 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(component)),
-    ...redComponents.map((component) => chalk.red(component)),
+    ...greenComponents.map((component) => chalk.green(`safe: ${component}`)),
+    ...redComponents.map((component) => chalk.red(`unsafe: ${component}`)),
   ];
 }
 

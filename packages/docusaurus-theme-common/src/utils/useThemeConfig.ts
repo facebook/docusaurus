@@ -100,6 +100,7 @@ export type ThemeConfig = {
   prism: PrismConfig;
   footer?: Footer;
   hideableSidebar: boolean;
+  image: string;
 };
 
 export function useThemeConfig(): ThemeConfig {

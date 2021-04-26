@@ -23,7 +23,7 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {docVersionSearchTag} from '@docusaurus/theme-common';
+import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -54,7 +54,8 @@ function DocPageContent({
   return (
     <Layout
       key={isClient}
-      wrapperClassName="main-docs-wrapper"
+      wrapperClassName={ThemeClassNames.wrapper.docPages}
+      pageClassName={ThemeClassNames.page.docPage}
       searchMetadatas={{
         version,
         tag: docVersionSearchTag(pluginId, version),
@@ -118,7 +119,8 @@ function DocPageContent({
         )}
         <main
           className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]: hiddenSidebarContainer,
+            [styles.docMainContainerEnhanced]:
+              hiddenSidebarContainer || !sidebar,
           })}>
           <div
             className={clsx(
