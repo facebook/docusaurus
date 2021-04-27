@@ -33,7 +33,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
-  custom_edit_url: Joi.string().allow(null),
+  custom_edit_url: Joi.string().allow('', null),
   parse_number_prefixes: Joi.boolean(),
 });
 
