@@ -1,5 +1,68 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.74 (2021-04-27)
+
+#### :rocket: New Feature
+
+- Other
+  - [#4515](https://github.com/facebook/docusaurus/pull/4515) feat(v2): add tag filters to showcase page ([@lisa761](https://github.com/lisa761))
+- `docusaurus-plugin-content-docs`
+  - [#4658](https://github.com/facebook/docusaurus/pull/4658) feat(v2): allow user to customize/enhance the default sidebar items generator ([@slorber](https://github.com/slorber))
+  - [#4655](https://github.com/facebook/docusaurus/pull/4655) feat(v2): docs, make numberPrefixParser configurable, better defaults, minor breaking-changes ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#4688](https://github.com/facebook/docusaurus/pull/4688) fix(v2): fix title logic (meta vs heading) + ignore fixed anchor id syntax ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#4689](https://github.com/facebook/docusaurus/pull/4689) chore(v2): update infima to alpha 23 ([@slorber](https://github.com/slorber))
+  - [#4667](https://github.com/facebook/docusaurus/pull/4667) fix(v2): Unbreak blog post title by handling title fallback in `LayoutHead` ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`
+  - [#4687](https://github.com/facebook/docusaurus/pull/4687) fix(v2): accept empty/null custom_edit_url docs frontmatter for retrocompat ([@slorber](https://github.com/slorber))
+  - [#4651](https://github.com/facebook/docusaurus/pull/4651) fix(v2): sidebar autogen from subfolder should read category metadata correctly ([@slorber](https://github.com/slorber))
+  - [#4629](https://github.com/facebook/docusaurus/pull/4629) fix(v2): fix validation rejecting admonitions false ([@kazk](https://github.com/kazk))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils-validation`
+  - [#4654](https://github.com/facebook/docusaurus/pull/4654) fix(v2): fix too strict markdown frontmatter validation ([@johnnyreilly](https://github.com/johnnyreilly))
+- `docusaurus-utils`
+  - [#4646](https://github.com/facebook/docusaurus/pull/4646) fix(v2): ignore imports when h1 heading parsing ([@lex111](https://github.com/lex111))
+  - [#4641](https://github.com/facebook/docusaurus/pull/4641) fix(v2): parse headings directly after h1 properly ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4682](https://github.com/facebook/docusaurus/pull/4682) refactor(v2): align external icon on right ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#4496](https://github.com/facebook/docusaurus/pull/4496) docs(v2): Add Qovery to deployment doc ([@arnaudjnn](https://github.com/arnaudjnn))
+- [#4680](https://github.com/facebook/docusaurus/pull/4680) docs(v2): Fix urls in deployment.md ([@luism3861](https://github.com/luism3861))
+- [#4668](https://github.com/facebook/docusaurus/pull/4668) docs(v2): Add Hostman to deployment doc ([@alena-ko](https://github.com/alena-ko))
+- [#4676](https://github.com/facebook/docusaurus/pull/4676) docs(v2): Add Daily Digest - COVID-19 IN FRANCE to showcase ([@MisterFISHUP](https://github.com/MisterFISHUP))
+- [#4643](https://github.com/facebook/docusaurus/pull/4643) docs(v2): Fix typo in installation.md ([@react-learner](https://github.com/react-learner))
+- [#4649](https://github.com/facebook/docusaurus/pull/4649) docs(v2): Add new showcase user ([@JeremyDolle](https://github.com/JeremyDolle))
+
+#### :house: Internal
+
+- Other
+  - [#4670](https://github.com/facebook/docusaurus/pull/4670) chore: add some redirects to v1.docusaurus.io ([@slorber](https://github.com/slorber))
+- `docusaurus-init`
+  - [#4631](https://github.com/facebook/docusaurus/pull/4631) chore(v2): update examples to use alpha73 ([@slorber](https://github.com/slorber))
+
+#### Committers: 12
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Arnaud Jeannin ([@arnaudjnn](https://github.com/arnaudjnn))
+- DOLLE ([@JeremyDolle](https://github.com/JeremyDolle))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Lisa Chandra ([@lisa761](https://github.com/lisa761))
+- Luis Medina Huerta ([@luism3861](https://github.com/luism3861))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tommy ([@react-learner](https://github.com/react-learner))
+- [@MisterFISHUP](https://github.com/MisterFISHUP)
+- [@alena-ko](https://github.com/alena-ko)
+- kazk ([@kazk](https://github.com/kazk))
+
 ## 2.0.0-alpha.73 (2021-04-16)
 
 #### :rocket: New Feature
