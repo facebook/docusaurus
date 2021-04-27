@@ -203,8 +203,10 @@ export function processDocMetadata({
         numberPrefixParser: options.numberPrefixParser,
       });
 
-  // Default title is the id.
-  const title: string = frontMatter.title ?? contentTitle ?? baseID;
+  // TODO expose both headingTitle+metaTitle to theme! Different fallbacks order on purpose!
+  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
+  const headingTitle: string = contentTitle ?? frontMatter.title ?? baseID;
+  // const metaTitle: string = frontMatter.title ?? contentTitle  ?? baseID;
 
   const description: string = frontMatter.description ?? excerpt ?? '';
 
@@ -243,7 +245,7 @@ export function processDocMetadata({
     unversionedId,
     id,
     isDocsHomePage,
-    title,
+    title: headingTitle,
     description,
     source: aliasedSitePath(filePath, siteDir),
     sourceDirName,
