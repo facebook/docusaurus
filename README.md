@@ -86,6 +86,11 @@ We have a few channels for contact:
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
 
+
+### Contributor over time
+
+[![Contributor over time](https://contributor-graph-api.apiseven.com/contributors-svg?repo=facebook/docusaurus)](https://www.apiseven.com/en/contributor-graph?repo=facebook/docusaurus)
+
 ## Backers
 
 Thank you to all our backers! 🙏 [Become a backer](https://opencollective.com/Docusaurus#backer)
