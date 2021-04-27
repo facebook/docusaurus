@@ -38,7 +38,7 @@
     "copy-text-to-clipboard": "^3.0.0",
     "fs-extra": "^9.1.0",
     "globby": "^11.0.2",
-    "infima": "0.2.0-alpha.22",
+    "infima": "0.2.0-alpha.23",
     "lodash": "^4.17.20",
     "parse-numeric-range": "^1.2.0",
     "postcss": "^7.0.2",
