@@ -208,6 +208,30 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should not parse title that is not at the top', () => {
+    const markdown = dedent`
+
+          Lorem Ipsum
+
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+
+          Lorem Ipsum
+
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `,
+      contentTitle: undefined,
+    });
+  });
+
   test('Should parse markdown h1 alternate title', () => {
     const markdown = dedent`
 
@@ -337,20 +361,6 @@ describe('parseMarkdownContentTitle', () => {
 });
 
 describe('parseMarkdownString', () => {
-  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => {
-    warn.mockReset();
-  });
-
-  function expectDuplicateTitleWarning() {
-    expect(warn).toBeCalledWith(
-      expect.stringMatching(/Duplicate title found in this file/),
-    );
-  }
-  function expectNoWarning() {
-    expect(warn).not.toBeCalled();
-  }
-
   test('parse markdown with frontmatter', () => {
     expect(
       parseMarkdownString(dedent`
@@ -370,7 +380,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse first heading as contentTitle', () => {
@@ -388,7 +397,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should warn about duplicate titles (frontmatter + markdown)', () => {
@@ -412,7 +420,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should warn about duplicate titles (frontmatter + markdown alternate)', () => {
@@ -437,7 +444,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should not warn for duplicate title if keepContentTitle=true', () => {
@@ -466,7 +472,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should not warn for duplicate title if markdown title is not at the top', () => {
@@ -492,7 +497,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse markdown title and keep it in content', () => {
@@ -511,7 +515,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should delete only first heading', () => {
@@ -537,7 +540,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse front-matter and ignore h2', () => {
@@ -560,7 +562,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should read front matter only', () => {
@@ -580,7 +581,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse title only', () => {
@@ -592,7 +592,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse title only alternate', () => {
@@ -609,7 +608,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should warn about duplicate titles', () => {
@@ -630,7 +628,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should ignore markdown title if its not a first text', () => {
@@ -648,7 +645,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should delete only first heading', () => {
@@ -674,6 +670,5 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 });

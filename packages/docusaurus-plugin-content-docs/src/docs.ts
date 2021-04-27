@@ -121,9 +121,7 @@ export function processDocMetadata({
     frontMatter: unsafeFrontMatter,
     contentTitle,
     excerpt,
-  } = parseMarkdownString(content, {
-    source,
-  });
+  } = parseMarkdownString(content);
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
   const {
