@@ -15,6 +15,7 @@ export type NavbarItem = {
   type?: string | undefined;
   items?: NavbarItem[];
   label?: string;
+  position?: 'left' | 'right';
 };
 
 export type NavbarLogo = {
