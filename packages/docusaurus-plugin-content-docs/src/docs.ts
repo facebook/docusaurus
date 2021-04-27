@@ -203,7 +203,8 @@ export function processDocMetadata({
         numberPrefixParser: options.numberPrefixParser,
       });
 
-  // TODO expose both headingTitle+metaTitle to theme! Different fallbacks order on purpose!
+  // TODO expose both headingTitle+metaTitle to theme?
+  // Different fallbacks order on purpose!
   // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
   const headingTitle: string = contentTitle ?? frontMatter.title ?? baseID;
   // const metaTitle: string = frontMatter.title ?? contentTitle  ?? baseID;
