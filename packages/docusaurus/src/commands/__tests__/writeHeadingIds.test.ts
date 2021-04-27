@@ -72,9 +72,11 @@ describe('transformMarkdownContent', () => {
   test('transform the headings', () => {
     const input = `
 
-# Hello world
+# Ignorerd title
 
 ## abc
+
+### Hello world
 
 \`\`\`
 # Heading in code block
@@ -95,9 +97,11 @@ describe('transformMarkdownContent', () => {
     // not sure how to implement that atm
     const expected = `
 
-# Hello world {#hello-world}
+# Ignorerd title
 
 ## abc {#abc}
+
+### Hello world {#hello-world}
 
 \`\`\`
 # Heading in code block

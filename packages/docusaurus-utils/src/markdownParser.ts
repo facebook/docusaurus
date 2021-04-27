@@ -86,7 +86,7 @@ export function parseMarkdownContentTitle(
 
   const content = contentUntrimmed.trim();
 
-  const regularTitleMatch = /^(?:import\s.*(from.*)?;?|\n)*?(?<pattern>#\s*(?<title>[^#\n]*)+[ \t]*#?\n*?)/g.exec(
+  const regularTitleMatch = /^(?:import\s.*(from.*)?;?|\n)*?(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/g.exec(
     content,
   );
   const alternateTitleMatch = /^(?:import\s.*(from.*)?;?|\n)*?(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/g.exec(
@@ -120,12 +120,10 @@ type ParsedMarkdown = {
 export function parseMarkdownString(
   markdownFileContent: string,
   options?: {
-    source?: string;
     keepContentTitle?: boolean;
   },
 ): ParsedMarkdown {
   try {
-    const sourceOption = options?.source;
     const keepContentTitle = options?.keepContentTitle ?? false;
 
     const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
@@ -140,20 +138,6 @@ export function parseMarkdownString(
     );
 
     const excerpt = createExcerpt(content);
-
-    // TODO not sure this is a good place for this warning
-    if (
-      frontMatter.title &&
-      contentTitle &&
-      !keepContentTitle &&
-      !(process.env.DOCUSAURUS_NO_DUPLICATE_TITLE_WARNING === 'false')
-    ) {
-      console.warn(
-        chalk.yellow(`Duplicate title found in ${sourceOption ?? 'this'} file.
-Use either a frontmatter title or a markdown title, not both.
-If this is annoying you, use env DOCUSAURUS_NO_DUPLICATE_TITLE_WARNING=false`),
-      );
-    }
 
     return {
       frontMatter,
@@ -175,7 +159,7 @@ export async function parseMarkdownFile(
 ): Promise<ParsedMarkdown> {
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
-    return parseMarkdownString(markdownString, {source});
+    return parseMarkdownString(markdownString);
   } catch (e) {
     throw new Error(
       `Error while parsing markdown file ${source}

@@ -181,7 +181,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
-      title: 'Bar',
+      title: 'Remarkable',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
@@ -255,7 +255,7 @@ describe('simple site', () => {
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
-      title: 'Bar',
+      title: 'Remarkable',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
