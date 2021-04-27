@@ -266,6 +266,15 @@ const Users = [
     tags: ['opensource', 'facebook'],
   },
   {
+    title: 'Daily Digest - COVID-19 IN FRANCE',
+    description:
+      'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
+    preview: require('./showcase/daily-digest-covid-19-in-france.png'),
+    website: 'https://covid-fr.misterfishup.com/en/',
+    source: 'https://github.com/MisterFISHUP/covid-19-in-france',
+    tags: ['opensource', 'i18n', 'large'],
+  },
+  {
     title: 'Datagit',
     description:
       'A persian tutorial website strive to make quality education for everyone.',

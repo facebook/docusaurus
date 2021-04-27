@@ -146,7 +146,7 @@ Object {
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
   \\"isDocsHomePage\\": false,
-  \\"title\\": \\"Bar\\",
+  \\"title\\": \\"Remarkable\\",
   \\"description\\": \\"This is custom description\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
   \\"sourceDirName\\": \\"foo\\",
@@ -182,7 +182,7 @@ Object {
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
-    \\"title\\": \\"Bar\\",
+    \\"title\\": \\"Remarkable\\",
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
@@ -396,7 +396,7 @@ Object {
             \\"items\\": [
               {
                 \\"type\\": \\"link\\",
-                \\"label\\": \\"Bar\\",
+                \\"label\\": \\"Remarkable\\",
                 \\"href\\": \\"/docs/foo/bar\\"
               },
               {
