@@ -309,7 +309,7 @@ describe('simple website', () => {
         'foo',
         'bar.md',
       ),
-      title: 'Bar',
+      title: 'Remarkable',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
