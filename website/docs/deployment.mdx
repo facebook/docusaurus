@@ -216,7 +216,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
 1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+1. Open your Travis CI dashboard. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
 1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
 1. Create a `.travis.yml` on the root of your repository with the following:
 
@@ -243,7 +243,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
 1.  Create an organization and within the organization create a project and connect your repository from GitHub.
 1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
-1.  In the project page (which looks like https://dev.azure.com/ORG_NAME/REPO_NAME/_build) create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
+1.  In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build` create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
 
 ```yaml title="azure-pipelines.yml"
 trigger:
@@ -278,8 +278,8 @@ steps:
 
 1.  Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
 1.  Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-1.  Go to https://github.com/USERNAME/REPO/settings/keys and add a new deploy key by pasting in our public key you just generated.
-1.  Open your Drone.io dashboard and login. The URL looks like https://cloud.drone.io/USERNAME/REPO.
+1.  Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in our public key you just generated.
+1.  Open your Drone.io dashboard and login. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
 1.  Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
 1.  Create a `.drone.yml` on the root of your repository with below text.
 
