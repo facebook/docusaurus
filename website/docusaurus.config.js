@@ -52,6 +52,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
+  staticDirectories: [
+    path.resolve(__dirname, './static'),
+    path.resolve(__dirname, './test'),
+  ],
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
