@@ -108,6 +108,7 @@ export function createBaseConfig(
       chunkFilename: isProd
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
+      assetModuleFilename: 'assets/[hash][ext][query]',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb
@@ -191,7 +192,7 @@ export function createBaseConfig(
         fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
         fileLoaderUtils.rules.svg(),
-        fileLoaderUtils.rules.otherAssets(),
+        fileLoaderUtils.rules.files(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,

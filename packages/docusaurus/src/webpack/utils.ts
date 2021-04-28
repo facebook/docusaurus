@@ -284,9 +284,11 @@ export function compile(config: Configuration[]): Promise<void> {
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias' | 'svgs' | 'other';
 
 type FileLoaderUtils = {
+  assetQuery: string;
+  prependAssetQueryRules: (configuration: Configuration) => Configuration;
   loaders: {
     file: (options: {folder: AssetFolder}) => RuleSetRule;
     url: (options: {folder: AssetFolder}) => RuleSetRule;
@@ -298,34 +300,66 @@ type FileLoaderUtils = {
     fonts: () => RuleSetRule;
     media: () => RuleSetRule;
     svg: () => RuleSetRule;
-    otherAssets: () => RuleSetRule;
+    files: () => RuleSetRule;
   };
 };
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < 10kb will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = 10000;
+  // Asset queries are used to force the usage of the file as an asset
+  // In some case we want to opt-out o
+  // - converting an image to an ideal-image
+  // - converting an SVG to a React component
+  // - other cases
+  const assetQuery = 'asset';
+  const assetQueryRegex = /asset/;
+
+  // Threshold for datauri/file (previously set on url-loader)
+  // files/images < 10kb will be inlined as base64 strings directly in the JS bundle
+  // See https://webpack.js.org/guides/asset-modules/#general-asset-type
+  const dataUrlMaxSize = 10000;
 
   // defines the path/pattern of the assets handled by webpack
-  const fileLoaderFileName = (folder: AssetFolder) =>
+  const generatedFileName = (folder: AssetFolder) =>
     `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
+  function fileNameGenerator(folder: AssetFolder) {
+    return {
+      filename: generatedFileName(folder),
+    };
+  }
+
+  function baseAssetRule(folder: AssetFolder): RuleSetRule {
+    return {
+      parser: {
+        dataUrlCondition: {
+          // Threshold for datauri/file (previously set on url-loader)
+          // files/images < 10kb will be inlined as base64 strings directly in the JS bundle
+          // See https://webpack.js.org/guides/asset-modules/#general-asset-type
+          maxSize: dataUrlMaxSize,
+        },
+      },
+      generator: fileNameGenerator(folder),
+    };
+  }
+
   const loaders: FileLoaderUtils['loaders'] = {
+    // TODO deprecated
     file: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
-          name: fileLoaderFileName(options.folder),
+          name: generatedFileName(options.folder),
         },
       };
     },
     url: (options: {folder: AssetFolder}) => {
+      // TODO deprecated
       return {
         loader: require.resolve(`url-loader`),
         options: {
-          limit: urlLoaderLimit,
-          name: fileLoaderFileName(options.folder),
+          limit: dataUrlMaxSize,
+          name: generatedFileName(options.folder),
           fallback: require.resolve(`file-loader`),
         },
       };
@@ -336,85 +370,115 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     // Maybe with the ideal image plugin, all md images should be "ideal"?
     // This is used to force url-loader+file-loader on markdown images
     // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
+    inlineMarkdownImageFileLoader: `!url-loader?limit=${dataUrlMaxSize}&name=${generatedFileName(
       'images',
     )}&fallback=file-loader!`,
-    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
+    inlineMarkdownLinkFileLoader: `!file-loader?name=${generatedFileName(
       'files',
     )}!`,
   };
 
-  const rules: FileLoaderUtils['rules'] = {
-    /**
-     * Loads image assets, inlines images via a data URI if they are below
-     * the size threshold
-     */
-    images: () => {
-      return {
-        use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
-      };
-    },
+  function imageAssetRule(): RuleSetRule {
+    return {
+      ...baseAssetRule('images'),
+      test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+    };
+  }
 
-    fonts: () => {
-      return {
-        use: [loaders.url({folder: 'fonts'})],
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-      };
-    },
+  function fontAssetRule(): RuleSetRule {
+    return {
+      ...baseAssetRule('fonts'),
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+    };
+  }
 
-    /**
-     * Loads audio and video and inlines them via a data URI if they are below
-     * the size threshold
-     */
-    media: () => {
-      return {
-        use: [loaders.url({folder: 'medias'})],
-        test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
-      };
-    },
+  function mediaAssetRule(): RuleSetRule {
+    return {
+      ...baseAssetRule('medias'),
+      test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+    };
+  }
 
-    svg: () => {
-      return {
-        test: /\.svg?$/,
-        oneOf: [
-          {
-            use: [
-              {
-                loader: '@svgr/webpack',
-                options: {
-                  prettier: false,
-                  svgo: true,
-                  svgoConfig: {
-                    plugins: [{removeViewBox: false}],
-                  },
-                  titleProp: true,
-                  ref: ![path],
+  function fileAssetRule(): RuleSetRule {
+    return {
+      ...baseAssetRule('files'),
+      test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
+      type: 'asset/resource',
+    };
+  }
+
+  function svgAssetRule(): RuleSetRule {
+    return {
+      ...baseAssetRule('svgs'),
+      test: /\.svg?$/,
+    };
+  }
+
+  // We convert SVG to React component when required from code only
+  // We don't convert SVG to React components when referenced in CSS
+  function svgComponentOrAssetRule(): RuleSetRule {
+    return {
+      test: /\.svg?$/,
+      oneOf: [
+        {
+          // only convert for those extensions
+          issuer: /\.(ts|tsx|js|jsx|md|mdx)$/,
+          use: [
+            {
+              loader: '@svgr/webpack',
+              options: {
+                prettier: false,
+                svgo: true,
+                svgoConfig: {
+                  plugins: [{removeViewBox: false}],
                 },
+                titleProp: true,
+                ref: ![path],
               },
-            ],
-            // We don't want to use SVGR loader for non-React source code
-            // ie we don't want to use SVGR for CSS files...
-            issuer: {
-              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
             },
-          },
-          {
-            use: [loaders.url({folder: 'images'})],
-          },
-        ],
-      };
-    },
+          ],
+        },
+        svgAssetRule(),
+      ],
+    };
+  }
 
-    otherAssets: () => {
-      return {
-        use: [loaders.file({folder: 'files'})],
-        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
-      };
-    },
+  const rules: FileLoaderUtils['rules'] = {
+    images: imageAssetRule,
+    fonts: fontAssetRule,
+    media: mediaAssetRule,
+    svg: svgComponentOrAssetRule,
+    files: fileAssetRule,
   };
 
-  return {loaders, rules};
+  // Those rules are  triggered conditionally when using ?asset
+  // They must be added at the very beginning of the rules array
+  // Even before the rules prepended by other plugins
+  // This is a replacement for Webpack 4 file/url-loader webpack queries
+  function prependAssetQueryRules(configuration: Configuration): Configuration {
+    return mergeWithCustomize({
+      customizeArray: customizeArray({
+        'module.rules': CustomizeRule.Prepend,
+      }),
+    })(configuration, {
+      module: {
+        rules: [
+          {...imageAssetRule(), resourceQuery: assetQueryRegex},
+          {...fontAssetRule(), resourceQuery: assetQueryRegex},
+          {...mediaAssetRule(), resourceQuery: assetQueryRegex},
+          {...svgAssetRule(), resourceQuery: assetQueryRegex},
+          // Fallback when ?asset is used but the file is unknown
+          {
+            type: 'asset/resource',
+            resourceQuery: assetQueryRegex,
+            generator: fileNameGenerator('files'),
+          },
+        ],
+      },
+    } as Configuration);
+  }
+
+  return {loaders, rules, assetQuery, prependAssetQueryRules};
 }
 
 // Ensure the certificate and key provided are valid and if not

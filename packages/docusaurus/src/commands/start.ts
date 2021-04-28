@@ -29,6 +29,7 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getHttpsConfig,
+  getFileLoaderUtils,
 } from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
@@ -156,6 +157,10 @@ export default async function start(
       );
     }
   });
+
+  // Add the very high-priority rules triggered by using a resourceQuery like ?asset
+  const {prependAssetQueryRules} = getFileLoaderUtils();
+  config = prependAssetQueryRules(config);
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {

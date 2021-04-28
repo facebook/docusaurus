@@ -31,7 +31,11 @@ export default function (
         module: {
           rules: [
             {
-              test: /\.(png|jpe?g|gif)$/i,
+              test: /\.(png|jpe?g)$/i,
+              type: 'javascript/auto',
+              generator: {
+                emit: !isServer,
+              },
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
