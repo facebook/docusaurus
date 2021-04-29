@@ -456,6 +456,14 @@ const Users = [
     tags: ['opensource','product'],
   },
   {
+    title: 'Kosko',
+    description: 'Organize Kubernetes manifests in JavaScript',
+    preview: require('./showcase/kosko.png'),
+    website: 'https://kosko.dev',
+    source: 'https://github.com/tommy351/kosko',
+    tags: ['opensource']
+  },
+  {
     title: 'Kotest',
     description: 'Kotlin test framework',
     preview: require('./showcase/kotest.jpg'),
