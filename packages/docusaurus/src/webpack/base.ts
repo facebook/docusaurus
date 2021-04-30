@@ -83,7 +83,11 @@ export function createBaseConfig(
     mode,
     name,
     cache: {
-      type: 'filesystem',
+      // TODO temporary env variable to reduce risk of Webpack 5 release
+      // maybe expose an official api, once this is solved? https://github.com/webpack/webpack/issues/13034
+      type:
+        (process.env.DOCUSAURUS_WEBPACK_CACHE_TYPE as 'filesystem') ||
+        'filesystem',
       // Can we share the same cache across locales?
       // Exploring that question at https://github.com/webpack/webpack/issues/13034
       // name: `${name}-${mode}`,
