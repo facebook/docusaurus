@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  // @ts-expect-error: seems it's not in the typedefs???
-  validate,
-  Configuration,
-} from 'webpack';
+import {validate, Configuration} from 'webpack';
 import path from 'path';
 
 import {
@@ -55,7 +51,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with user webpack config object', async () => {
@@ -83,7 +79,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with custom strategy', async () => {

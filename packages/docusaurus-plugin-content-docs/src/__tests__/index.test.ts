@@ -33,7 +33,6 @@ import {
 } from '../types';
 import {toSidebarsProp} from '../props';
 
-// @ts-expect-error: TODO typedefs missing?
 import {validate} from 'webpack';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 
@@ -253,7 +252,7 @@ describe('simple website', () => {
       false,
     );
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('content', async () => {

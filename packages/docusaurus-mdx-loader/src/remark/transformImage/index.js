@@ -38,7 +38,7 @@ const createJSX = (node, pathUrl) => {
 };
 
 async function ensureImageFileExist(imagePath, sourceFilePath) {
-  const imageExists = await fs.exists(imagePath);
+  const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
     throw new Error(
       `Image ${toMessageRelativeFilePath(

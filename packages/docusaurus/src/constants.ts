@@ -9,6 +9,10 @@ export const NODE_MAJOR_VERSION = parseInt(
   process.versions.node.split('.')[0],
   10,
 );
+export const NODE_MINOR_VERSION = parseInt(
+  process.versions.node.split('.')[1],
+  10,
+);
 
 // Can be overridden with cli option --out-dir
 export const DEFAULT_BUILD_DIR_NAME = 'build';

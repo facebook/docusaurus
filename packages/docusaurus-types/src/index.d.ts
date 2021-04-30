@@ -7,11 +7,15 @@
 
 // ESLint doesn't understand types dependencies in d.ts
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type {Loader, Configuration, Stats} from 'webpack';
+import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
-import type {MergeStrategy} from 'webpack-merge';
 import type Joi from 'joi';
+
+// Convert webpack-merge webpack-merge enum to union type
+// For type retro-compatible webpack-merge upgrade: we used string literals before)
+// see https://github.com/survivejs/webpack-merge/issues/179
+type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -186,16 +190,10 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
+  siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
   plugins: Plugin<unknown>[];
-}
-
-/**
- * Same as `Props` but also has webpack stats appended.
- */
-export interface PropsPostBuild extends Props {
-  stats: Stats.ToJsonOutput;
 }
 
 export interface PluginContentLoadedActions {
@@ -228,7 +226,7 @@ export interface Plugin<Content> {
     actions: PluginContentLoadedActions;
   }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?(props: PropsPostBuild): void;
+  postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
@@ -335,15 +333,23 @@ export interface ConfigureWebpackUtils {
     cssOptions: {
       [key: string]: unknown;
     },
-  ) => Loader[];
+  ) => RuleSetRule[];
+  getJSLoader: (options: {
+    isServer: boolean;
+    babelOptions?: Record<string, unknown>;
+  }) => RuleSetRule;
+
+  // TODO deprecated: remove before end of 2021?
   getCacheLoader: (
     isServer: boolean,
     cacheOptions?: Record<string, unknown>,
-  ) => Loader | null;
+  ) => RuleSetRule | null;
+
+  // TODO deprecated: remove before end of 2021?
   getBabelLoader: (
     isServer: boolean,
-    babelOptions?: Record<string, unknown>,
-  ) => Loader;
+    options?: Record<string, unknown>,
+  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {

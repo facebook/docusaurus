@@ -31,6 +31,7 @@
 
     /* Advanced Options */
     "resolveJsonModule": true,
+    "skipLibCheck": true, // @types/webpack and webpack/types.d.ts are not the same thing
 
     /* Use tslib */
     "importHelpers": true,

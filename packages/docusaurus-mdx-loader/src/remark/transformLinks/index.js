@@ -20,7 +20,7 @@ const {
 } = getFileLoaderUtils();
 
 async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
-  const assetExists = await fs.exists(fileSystemAssetPath);
+  const assetExists = await fs.pathExists(fileSystemAssetPath);
   if (!assetExists) {
     throw new Error(
       `Asset ${toMessageRelativeFilePath(
@@ -85,12 +85,12 @@ async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
     toAssetLinkNode(fileSystemAssetPath);
   } else if (path.isAbsolute(assetPath)) {
     const fileSystemAssetPath = path.join(staticDir, assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (await fs.pathExists(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   } else {
     const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (await fs.pathExists(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   }

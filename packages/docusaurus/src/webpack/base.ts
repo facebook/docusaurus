@@ -7,13 +7,11 @@
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
-  getBabelLoader,
-  getCacheLoader,
+  getJSLoader,
   getStyleLoaders,
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
@@ -63,8 +61,14 @@ export function createBaseConfig(
   isServer: boolean,
   minify: boolean = true,
 ): Configuration {
-  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
-
+  const {
+    outDir,
+    siteDir,
+    baseUrl,
+    generatedFilesDir,
+    routesPaths,
+    siteMetadata,
+  } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
@@ -72,11 +76,32 @@ export function createBaseConfig(
 
   const fileLoaderUtils = getFileLoaderUtils();
 
+  const name = isServer ? 'server' : 'client';
+  const mode = isProd ? 'production' : 'development';
+
   return {
-    mode: isProd ? 'production' : 'development',
+    mode,
+    name,
+    cache: {
+      // TODO temporary env variable to reduce risk of Webpack 5 release
+      // maybe expose an official api, once this is solved? https://github.com/webpack/webpack/issues/13034
+      type:
+        (process.env.DOCUSAURUS_WEBPACK_CACHE_TYPE as 'filesystem') ||
+        'filesystem',
+      // Can we share the same cache across locales?
+      // Exploring that question at https://github.com/webpack/webpack/issues/13034
+      // name: `${name}-${mode}`,
+      name: `${name}-${mode}-${props.i18n.currentLocale}`,
+      version: siteMetadata.docusaurusVersion,
+      buildDependencies: {
+        // When one of dependencies change, cache is invalidated
+        config: [
+          __filename,
+          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+        ],
+      },
+    },
     output: {
-      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
-      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
       filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
@@ -89,8 +114,9 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: isProd ? false : 'cheap-module-eval-source-map',
+    devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
+      unsafeCache: false, // not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
       roots: [
@@ -121,10 +147,8 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
-      plugins: [PnpWebpackPlugin],
     },
     resolveLoader: {
-      plugins: [PnpWebpackPlugin.moduleLoader(module)],
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
@@ -137,7 +161,7 @@ export function createBaseConfig(
       splitChunks: isServer
         ? false
         : {
-            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+            // Since the chunk name includes all origin chunk names it's recommended for production builds with long term caching to NOT include [name] in the filenames
             name: false,
             cacheGroups: {
               // disable the built-in cacheGroups
@@ -153,7 +177,7 @@ export function createBaseConfig(
               // See https://github.com/facebook/docusaurus/issues/2006
               styles: {
                 name: 'styles',
-                test: /\.css$/,
+                type: 'css/mini-extract',
                 chunks: `all`,
                 enforce: true,
                 priority: 50,
@@ -172,9 +196,11 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getCacheLoader(isServer),
-            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
-          ].filter(Boolean) as Loader[],
+            getJSLoader({
+              isServer,
+              babelOptions: getCustomBabelConfigFilePath(siteDir),
+            }),
+          ],
         },
         {
           test: CSS_REGEX,
@@ -191,7 +217,7 @@ export function createBaseConfig(
           use: getStyleLoaders(isServer, {
             modules: {
               localIdentName: isProd
-                ? `[local]_[hash:base64:4]`
+                ? `[local]_[contenthash:base64:4]`
                 : `[local]_[path]`,
               exportOnlyLocals: isServer,
             },

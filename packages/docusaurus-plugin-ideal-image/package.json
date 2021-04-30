@@ -24,11 +24,11 @@
     "@docusaurus/lqip-loader": "2.0.0-alpha.74",
     "@docusaurus/types": "2.0.0-alpha.74",
     "@endiliey/react-ideal-image": "^0.0.11",
-    "@endiliey/responsive-loader": "^1.3.2",
     "react-waypoint": "^9.0.2",
+    "@docusaurus/responsive-loader": "1.4.0",
     "sharp": "^0.27.1",
     "tslib": "^2.1.0",
-    "webpack": "^4.44.1"
+    "webpack": "^5.28.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

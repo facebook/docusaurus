@@ -44,7 +44,7 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import {
   generateBlogFeed,
   generateBlogPosts,
@@ -401,7 +401,7 @@ export default function pluginContentBlog(
     configureWebpack(
       _config: Configuration,
       isServer: boolean,
-      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+      {getJSLoader}: ConfigureWebpackUtils,
     ) {
       const {
         rehypePlugins,
@@ -441,8 +441,7 @@ export default function pluginContentBlog(
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getCacheLoader(isServer),
-                getBabelLoader(isServer),
+                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
@@ -466,7 +465,7 @@ export default function pluginContentBlog(
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: markdownLoaderOptions,
                 },
-              ].filter(Boolean) as Loader[],
+              ].filter(Boolean),
             },
           ],
         },

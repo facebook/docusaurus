@@ -15,7 +15,8 @@ import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
@@ -191,16 +192,12 @@ export default async function start(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
         );
-
         // This lets us fetch source contents from webpack for the error overlay.
         app.use(evalSourceMapMiddleware(server));
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
-
-        // TODO: add plugins beforeDevServer and afterDevServer hook
       },
     },
-    ...config.devServer,
   };
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
@@ -213,6 +210,7 @@ export default async function start(
       process.exit(0);
     });
   }
+
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {

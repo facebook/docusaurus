@@ -14,6 +14,7 @@ import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
+import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '../constants';
 
 export default function createServerConfig({
   props,
@@ -43,6 +44,7 @@ export default function createServerConfig({
     return ssgPath;
   });
   const serverConfig = merge(config, {
+    target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
@@ -52,7 +54,6 @@ export default function createServerConfig({
       // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
       globalObject: 'this',
     },
-    target: 'node',
     plugins: [
       // Wait until manifest from client bundle is generated
       new WaitPlugin({

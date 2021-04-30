@@ -27,6 +27,6 @@ jobs:
       - name: Docusaurus Jest Tests
         run: yarn test
       - name: Docusaurus Build
-        run: yarn build:v2
+        run: yarn build:v2 --locale en
         env:
           CI: true
