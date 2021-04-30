@@ -491,7 +491,7 @@ const Users = [
     title: 'Meli',
     description: 'Platform to deploy static sites, frontend applications and hosted forms',
     preview: require('./showcase/meli.png'),
-    website: 'https://github.com/getmeli/meli',
+    website: 'https://docs.meli.sh/',
     source: 'https://github.com/getmeli/meli',
     tags: ['opensource'],
   },
