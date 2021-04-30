@@ -32,10 +32,6 @@ export default function (
           rules: [
             {
               test: /\.(png|jpe?g)$/i,
-              type: 'javascript/auto',
-              generator: {
-                emit: !isServer,
-              },
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
@@ -44,9 +40,8 @@ export default function (
                     emitFile: !isServer, // don't emit for server-side rendering
                     disable: !isProd,
                     adapter: require('@docusaurus/responsive-loader/sharp'),
-                    name: isProd
-                      ? 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]'
-                      : 'assets/ideal-img/[name].[width].[ext]',
+                    name:
+                      'assets/ideal-img/[name].[contenthash:8].[width].[ext]',
                     ...options,
                   },
                 },
