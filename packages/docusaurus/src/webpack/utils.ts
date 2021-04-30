@@ -18,8 +18,9 @@ import webpack, {
   WebpackPluginInstance,
 } from 'webpack';
 import fs from 'fs-extra';
-import TerserPlugin from 'terser-webpack-plugin';
+// import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import {ESBuildMinifyPlugin} from 'esbuild-loader';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
@@ -139,14 +140,19 @@ export function getBabelOptions({
 // we want to support multiple js loader implementations (babel + esbuild)
 export function getJSLoader({
   isServer,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   babelOptions,
 }: {
   isServer: boolean;
   babelOptions?: TransformOptions | string;
 }): RuleSetRule {
   return {
-    loader: require.resolve('babel-loader'),
-    options: getBabelOptions({isServer, babelOptions}),
+    loader: require.resolve('esbuild-loader'),
+    options: {
+      loader: 'tsx',
+      format: isServer ? 'cjs' : undefined,
+      target: isServer ? 'node12' : 'es2017',
+    },
   };
 }
 
@@ -476,6 +482,7 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
 }
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getTerserParallel() {
   let terserParallel: boolean | number = true;
   if (process.env.TERSER_PARALLEL === 'false') {
@@ -489,38 +496,12 @@ function getTerserParallel() {
   return terserParallel;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getMinimizer(
   useSimpleCssMinifier = false,
 ): WebpackPluginInstance[] {
-  const minimizer = [
-    new TerserPlugin({
-      parallel: getTerserParallel(),
-      terserOptions: {
-        parse: {
-          // we want uglify-js to parse ecma 8 code. However, we don't want it
-          // to apply any minification steps that turns valid ecma 5 code
-          // into invalid ecma 5 code. This is why the 'compress' and 'output'
-          // sections only apply transformations that are ecma 5 safe
-          // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 8,
-        },
-        compress: {
-          ecma: 5,
-          warnings: false,
-        },
-        mangle: {
-          safari10: true,
-        },
-        output: {
-          ecma: 5,
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
-        },
-      },
-    }),
-  ];
+  const minimizer = [new ESBuildMinifyPlugin({target: 'es2017'})];
+
   if (useSimpleCssMinifier) {
     minimizer.push(new CssMinimizerPlugin());
   } else {
