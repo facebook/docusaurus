@@ -289,12 +289,6 @@ type AssetFolder = 'images' | 'files' | 'fonts' | 'medias' | 'svgs';
 type FileLoaderUtils = {
   assetQuery: string;
   prependAssetQueryRules: (configuration: Configuration) => Configuration;
-  loaders: {
-    file: (options: {folder: AssetFolder}) => RuleSetRule;
-    url: (options: {folder: AssetFolder}) => RuleSetRule;
-    inlineMarkdownImageFileLoader: string;
-    inlineMarkdownLinkFileLoader: string;
-  };
   rules: {
     images: () => RuleSetRule;
     fonts: () => RuleSetRule;
@@ -316,18 +310,10 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   // Can this be removed? see https://github.com/facebook/docusaurus/commit/2f21d306bdd4d286cc5d25c81adaea2fc77f0474#commitcomment-50223144)
   const notAssetResourceQuery: RuleSetRule['resourceQuery'] = {not: [/asset/]};
 
-  // Threshold for datauri/file (previously set on url-loader)
-  // files/images < 10kb will be inlined as base64 strings directly in the JS bundle
-  // See https://webpack.js.org/guides/asset-modules/#general-asset-type
-  const dataUrlMaxSize = 10000;
-
   // defines the path/pattern of the assets handled by webpack
-  const generatedFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash][ext]`;
-
   function fileNameGenerator(folder: AssetFolder) {
     return {
-      filename: generatedFileName(folder),
+      filename: `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash][ext]`,
     };
   }
 
@@ -339,48 +325,13 @@ export function getFileLoaderUtils(): FileLoaderUtils {
           // Threshold for datauri/file (previously set on url-loader)
           // files/images < 10kb will be inlined as base64 strings directly in the JS bundle
           // See https://webpack.js.org/guides/asset-modules/#general-asset-type
-          maxSize: dataUrlMaxSize,
+          maxSize: 10 * 1024,
         },
       },
       generator: fileNameGenerator(folder),
       resourceQuery: notAssetResourceQuery,
     };
   }
-
-  const loaders: FileLoaderUtils['loaders'] = {
-    // TODO deprecated
-    file: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`file-loader`),
-        options: {
-          name: generatedFileName(options.folder),
-        },
-      };
-    },
-    url: (options: {folder: AssetFolder}) => {
-      // TODO deprecated
-      return {
-        loader: require.resolve(`url-loader`),
-        options: {
-          limit: dataUrlMaxSize,
-          name: generatedFileName(options.folder),
-          fallback: require.resolve(`file-loader`),
-        },
-      };
-    },
-
-    // TODO find a better solution to avoid conflicts with the ideal-image plugin
-    // TODO this may require a little breaking change for ideal-image users?
-    // Maybe with the ideal image plugin, all md images should be "ideal"?
-    // This is used to force url-loader+file-loader on markdown images
-    // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!url-loader?limit=${dataUrlMaxSize}&name=${generatedFileName(
-      'images',
-    )}&fallback=file-loader!`,
-    inlineMarkdownLinkFileLoader: `!file-loader?name=${generatedFileName(
-      'files',
-    )}!`,
-  };
 
   function imageAssetRule(): RuleSetRule {
     return {
@@ -483,7 +434,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     } as Configuration);
   }
 
-  return {loaders, rules, assetQuery, prependAssetQueryRules};
+  return {rules, assetQuery, prependAssetQueryRules};
 }
 
 // Ensure the certificate and key provided are valid and if not
