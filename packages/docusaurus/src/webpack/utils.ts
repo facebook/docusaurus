@@ -333,6 +333,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   function baseAssetRule(folder: AssetFolder): RuleSetRule {
     return {
+      type: 'asset',
       parser: {
         dataUrlCondition: {
           // Threshold for datauri/file (previously set on url-loader)
