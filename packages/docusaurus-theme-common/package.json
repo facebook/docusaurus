@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-common",
-  "version": "2.0.0-alpha.74",
+  "version": "2.0.0-alpha.75",
   "description": "Common code for Docusaurus themes.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,15 +18,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.74",
-    "@docusaurus/plugin-content-blog": "2.0.0-alpha.74",
-    "@docusaurus/plugin-content-docs": "2.0.0-alpha.74",
-    "@docusaurus/plugin-content-pages": "2.0.0-alpha.74",
-    "@docusaurus/types": "2.0.0-alpha.74",
+    "@docusaurus/core": "2.0.0-alpha.75",
+    "@docusaurus/plugin-content-blog": "2.0.0-alpha.75",
+    "@docusaurus/plugin-content-docs": "2.0.0-alpha.75",
+    "@docusaurus/plugin-content-pages": "2.0.0-alpha.75",
+    "@docusaurus/types": "2.0.0-alpha.75",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.74"
+    "@docusaurus/module-type-aliases": "2.0.0-alpha.75"
   },
   "peerDependencies": {
     "prism-react-renderer": "^1.1.1",

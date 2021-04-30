@@ -1,5 +1,24 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.75 (2021-04-30)
+
+#### :boom: Breaking Change
+
+- `docusaurus-cssnano-preset`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`, `docusaurus`, `lqip-loader`
+  - [#4089](https://github.com/facebook/docusaurus/pull/4089) feat(v2): Webpack 5, PostCSS 8 ([@RDIL](https://github.com/RDIL))
+
+#### :memo: Documentation
+
+- [#4704](https://github.com/facebook/docusaurus/pull/4704) docs(v2): showcase meli ([@gempain](https://github.com/gempain))
+- [#4699](https://github.com/facebook/docusaurus/pull/4699) docs(v2): Add Kosko to showcase ([@tommy351](https://github.com/tommy351))
+
+#### Committers: 4
+
+- Geoffroy Empain ([@gempain](https://github.com/gempain))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tommy Chen ([@tommy351](https://github.com/tommy351))
+
 ## 2.0.0-alpha.74 (2021-04-27)
 
 #### :rocket: New Feature
