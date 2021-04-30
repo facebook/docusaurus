@@ -41,7 +41,7 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${relativeRequireAssetPath}?${assetQuery}').default`;
+  const href = `require('${relativeRequireAssetPath}?${assetQuery}')`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 

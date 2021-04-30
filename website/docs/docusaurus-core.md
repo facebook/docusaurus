@@ -303,7 +303,7 @@ In most cases, you don't need `useBaseUrl`.
 Prefer a `require()` call for [assets](./guides/markdown-features/markdown-features-assets.mdx):
 
 ```jsx
-<img src={require('@site/static/img/myImage.png').default} />
+<img src={require('@site/static/img/myImage.png')} />
 ```
 
 :::

@@ -19,7 +19,7 @@ const createJSX = (node, pathUrl) => {
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
-    node.url ? `src={require("${pathUrl}?${assetQuery}").default}` : ''
+    node.url ? `src={require("${pathUrl}?${assetQuery}")}` : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
   if (jsxNode.url) {

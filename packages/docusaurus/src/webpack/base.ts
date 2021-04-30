@@ -108,7 +108,7 @@ export function createBaseConfig(
       chunkFilename: isProd
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
-      assetModuleFilename: 'assets/[hash][ext][query]',
+      assetModuleFilename: 'assets/[name]-[hash][ext]',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb

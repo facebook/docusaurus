@@ -32,6 +32,13 @@ export default function (
           rules: [
             {
               test: /\.(png|jpe?g)$/i,
+              resourceQuery: {
+                not: [/asset/],
+              },
+              type: 'javascript/auto',
+              generator: {
+                emit: !isServer,
+              },
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
@@ -41,7 +48,7 @@ export default function (
                     disable: !isProd,
                     adapter: require('@docusaurus/responsive-loader/sharp'),
                     name:
-                      'assets/ideal-img/[name].[contenthash:8].[width].[ext]',
+                      'assets/ideal-img/[name]-[contenthash:8].[width].[ext]',
                     ...options,
                   },
                 },

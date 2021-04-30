@@ -284,7 +284,7 @@ export function compile(config: Configuration[]): Promise<void> {
   });
 }
 
-type AssetFolder = 'images' | 'files' | 'fonts' | 'medias' | 'svgs' | 'other';
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias' | 'svgs';
 
 type FileLoaderUtils = {
   assetQuery: string;
@@ -312,7 +312,9 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   // - converting an SVG to a React component
   // - other cases
   const assetQuery = 'asset';
-  const assetQueryRegex = /asset/;
+  const assetResourceQuery = /asset/;
+  // Can this be removed? see https://github.com/facebook/docusaurus/commit/2f21d306bdd4d286cc5d25c81adaea2fc77f0474#commitcomment-50223144)
+  const notAssetResourceQuery: RuleSetRule['resourceQuery'] = {not: [/asset/]};
 
   // Threshold for datauri/file (previously set on url-loader)
   // files/images < 10kb will be inlined as base64 strings directly in the JS bundle
@@ -321,7 +323,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const generatedFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash][ext]`;
 
   function fileNameGenerator(folder: AssetFolder) {
     return {
@@ -340,6 +342,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
         },
       },
       generator: fileNameGenerator(folder),
+      resourceQuery: notAssetResourceQuery,
     };
   }
 
@@ -419,6 +422,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   function svgComponentOrAssetRule(): RuleSetRule {
     return {
       test: /\.svg?$/,
+      resourceQuery: notAssetResourceQuery,
       oneOf: [
         {
           // only convert for those extensions
@@ -463,14 +467,14 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     })(configuration, {
       module: {
         rules: [
-          {...imageAssetRule(), resourceQuery: assetQueryRegex},
-          {...fontAssetRule(), resourceQuery: assetQueryRegex},
-          {...mediaAssetRule(), resourceQuery: assetQueryRegex},
-          {...svgAssetRule(), resourceQuery: assetQueryRegex},
+          {...imageAssetRule(), resourceQuery: assetResourceQuery},
+          {...fontAssetRule(), resourceQuery: assetResourceQuery},
+          {...mediaAssetRule(), resourceQuery: assetResourceQuery},
+          {...svgAssetRule(), resourceQuery: assetResourceQuery},
           // Fallback when ?asset is used but the file is unknown
           {
             type: 'asset/resource',
-            resourceQuery: assetQueryRegex,
+            resourceQuery: assetResourceQuery,
             generator: fileNameGenerator('files'),
           },
         ],
