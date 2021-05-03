@@ -30,7 +30,7 @@ if (ExecutionEnvironment.canUseDOM) {
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
-      <BrowserRouter>
+      <BrowserRouter basename={window.DOCUSAURUS_ROUTER_BASE_NAME}>
         <App />
       </BrowserRouter>,
       document.getElementById('__docusaurus'),
