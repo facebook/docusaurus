@@ -335,6 +335,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: "Evan Tay's Personal Website",
+    description: "A Software Engineer's blog, documentation and project portfolio.",
+    preview: require('./showcase/evantay.png'),
+    website: 'https://evantay.com/',
+    source: 'https://github.com/DigiPie/kaya-folio',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'FBT',
     description: 'An internationalization framework',
     preview: require('./showcase/fbt.png'),
