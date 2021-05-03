@@ -19,6 +19,7 @@ import type docusaurus from '../docusaurus';
 declare global {
   interface Window {
     docusaurus: typeof docusaurus;
+    DOCUSAURUS_ROUTER_BASE_NAME: string;
   }
 }
 
