@@ -340,7 +340,7 @@ const Users = [
     preview: require('./showcase/evantay.png'),
     website: 'https://evantay.com/',
     source: 'https://github.com/DigiPie/kaya-folio',
-    tags: ['design', 'opensource', 'personal'],
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'FBT',
