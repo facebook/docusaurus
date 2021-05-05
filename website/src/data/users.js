@@ -234,6 +234,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'CodeYourFuture',
+    description: 'The syllabus for CodeYourFuture - a free code school for refugees, asylum seekers and disadvantaged people',
+    preview: require('./showcase/codeyourfuture.png'),
+    website: 'https://syllabus.codeyourfuture.io/',
+    source: 'https://github.com/CodeYourFuture/syllabus',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Component Kit',
     description: 'A declarative UI framework for iOS',
     preview: require('./showcase/componentkit.png'),
