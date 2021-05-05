@@ -235,7 +235,7 @@ const Users = [
   },
   {
     title: 'CodeYourFuture',
-    description: 'The syllabus for CodeYourFuture - a code school for refugees, asylum seekers and disadvantaged people',
+    description: 'The syllabus for CodeYourFuture - a free code school for refugees, asylum seekers and disadvantaged people',
     preview: require('./showcase/codeyourfuture.png'),
     website: 'https://syllabus.codeyourfuture.io/',
     source: 'https://github.com/CodeYourFuture/syllabus',
