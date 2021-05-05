@@ -359,7 +359,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  test('Test', () => {
+  test('Should parse markdown h1 title placed after multiple import declarations', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
           import Component2 from '@site/src/components/Component2';
@@ -383,7 +383,6 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
 
-    // remove the useless line breaks? Does not matter too much
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: dedent`
           import Component1 from '@site/src/components/Component1';
