@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const {Translations} = require('@crowdin/crowdin-api-client');
 
 /*
@@ -27,26 +34,10 @@ async function delay(ms) {
 
 async function hasBuildInProgress() {
   const projectBuilds = await translations.listProjectBuilds(projectId);
-  return projectBuilds.data.some(
-    (build) => build.data.status === 'in-progress',
-  );
+  return projectBuilds.data.some((build) => build.data.status === 'inProgress');
 }
 
 async function run() {
-  // We delay a bit the i18n staging deployment
-  // Because sometimes, prod + i18n-staging call this script at the exact same time
-  // And then both try to dl the translations at the same time, and then we have a 409 error
-  // This delay makes sure prod starts to dl the translations in priority
-  if (
-    process.env.NETLIFY === 'true' &&
-    process.env.SITE_NAME === 'docusaurus-i18n-staging'
-  ) {
-    console.log(
-      '[Crowdin] Delaying the docusaurus-i18n-staging deployment to avoid 409 errors',
-    );
-    await delay(30000);
-  }
-
   const timeBefore = Date.now();
   while (true) {
     if (Date.now() - timeBefore > timeout) {
