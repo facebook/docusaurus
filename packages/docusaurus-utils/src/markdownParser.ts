@@ -86,12 +86,20 @@ export function parseMarkdownContentTitle(
 
   const content = contentUntrimmed.trim();
 
-  const regularTitleMatch = /^(?:import\s+\S+(\s+from\s+\S+)?;?|\n)*?(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/g.exec(
-    content,
-  );
-  const alternateTitleMatch = /^(?:import\s+\S+(\s+from\s+\S+)?;?|\n)*?(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/g.exec(
-    content,
-  );
+  const IMPORT_STATEMENT = /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/
+    .source;
+  const REGULAR_TITLE = /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
+    .source;
+  const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
+
+  const regularTitleMatch = new RegExp(
+    `^(?:${IMPORT_STATEMENT})*?${REGULAR_TITLE}`,
+    'g',
+  ).exec(content);
+  const alternateTitleMatch = new RegExp(
+    `^(?:${IMPORT_STATEMENT})*?${ALTERNATE_TITLE}`,
+    'g',
+  ).exec(content);
 
   const titleMatch = regularTitleMatch ?? alternateTitleMatch;
   const {pattern, title} = titleMatch?.groups ?? {};
