@@ -12,8 +12,6 @@ describe('posixPath', () => {
     const asserts: Record<string, string> = {
       'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
       'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
-      'D:\\a\\docusaurus\\docusaurus\\website\\static\\dogfooding\\新控制器空间\\图片.png':
-        'D:/a/docusaurus/docusaurus/website/static/dogfooding/新控制器空间/图片.png',
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
       'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
       'foo\\bar': 'foo/bar',
