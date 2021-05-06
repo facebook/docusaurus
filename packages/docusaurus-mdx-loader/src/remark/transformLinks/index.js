@@ -43,7 +43,9 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
+  const href = `require('${inlineMarkdownLinkFileLoader}${encodeURI(
+    relativeRequireAssetPath,
+  )}').default`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 

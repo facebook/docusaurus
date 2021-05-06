@@ -22,7 +22,9 @@ const createJSX = (node, pathUrl) => {
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
     node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${pathUrl}").default}`
+      ? `src={require("${inlineMarkdownImageFileLoader}${encodeURI(
+          pathUrl,
+        )}").default}`
       : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
