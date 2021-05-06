@@ -1246,6 +1246,13 @@
   dependencies:
     shelljs "^0.8.4"
 
+"@crowdin/crowdin-api-client@^1.10.6":
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/@crowdin/crowdin-api-client/-/crowdin-api-client-1.10.6.tgz#d9cd6f340ced065b8020865b9ded69f86e8d5b30"
+  integrity sha512-6bT9WF1yJFgUCuP9q+7RH//vcULmMxmZhhmKaWLlPPRdkTEasQFednb6ITIPX0UnBvSd5r0CBSa6UqEXbBQPUQ==
+  dependencies:
+    axios "^0.21.1"
+
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
