@@ -33,6 +33,20 @@ async function hasBuildInProgress() {
 }
 
 async function run() {
+  // We delay a bit the i18n staging deployment
+  // Because sometimes, prod + i18n-staging call this script at the exact same time
+  // And then both try to dl the translations at the same time, and then we have a 409 error
+  // This delay makes sure prod starts to dl the translations in priority
+  if (
+    process.env.NETLIFY === 'true' &&
+    process.env.SITE_NAME === 'docusaurus-i18n-staging'
+  ) {
+    console.log(
+      '[Crowdin] Delaying the docusaurus-i18n-staging deployment to avoid 409 errors',
+    );
+    await delay(30000);
+  }
+
   const timeBefore = Date.now();
   while (true) {
     if (Date.now() - timeBefore > timeout) {
