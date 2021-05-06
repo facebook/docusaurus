@@ -11,19 +11,22 @@ const url = require('url');
 const fs = require('fs-extra');
 const escapeHtml = require('escape-html');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
-const {posixPath, toMessageRelativeFilePath} = require('@docusaurus/utils');
+const {
+  posixPath,
+  escapePath,
+  toMessageRelativeFilePath,
+} = require('@docusaurus/utils');
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
 const createJSX = (node, pathUrl) => {
-  console.log('createJSX', {pathUrl});
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
     node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${JSON.stringify(
+      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
           pathUrl,
         )}").default}`
       : ''
@@ -77,7 +80,6 @@ async function processImageNode(node, {filePath, staticDir}) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
-    console.log('expectedImagePath abs', {expectedImagePath});
     createJSX(node, posixPath(expectedImagePath));
   }
   // We try to convert image urls without protocol to images with require calls
@@ -86,7 +88,6 @@ async function processImageNode(node, {filePath, staticDir}) {
     // relative paths are resolved against the source file's folder
     const expectedImagePath = path.join(path.dirname(filePath), node.url);
     await ensureImageFileExist(expectedImagePath, filePath);
-    console.log('expectedImagePath rel', {expectedImagePath});
     createJSX(node, node.url.startsWith('./') ? node.url : `./${node.url}`);
   }
 }

@@ -28,6 +28,7 @@ export const posixPath = posixPathImport;
 export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
+export * from './escapePath';
 
 const fileHash = new Map();
 export async function generate(
