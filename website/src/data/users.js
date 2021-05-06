@@ -147,7 +147,7 @@ const Users = [
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
     source: 'https://github.com/algolia/docsearch-website',
-    tags: ['opensource', 'product'],
+    tags: ['favorite', 'opensource', 'product'],
   },
   {
     title: 'Amphora Data',
@@ -247,7 +247,7 @@ const Users = [
     preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
     source: 'https://github.com/facebook/componentkit',
-    tags: ['opensource', 'favorite', 'facebook'],
+    tags: ['opensource', 'facebook'],
   },
   {
     title: 'ConfigCat Feature Flags',
@@ -298,15 +298,6 @@ const Users = [
     website: 'https://devspace.sh/cli/docs/',
     source: 'https://github.com/loft-sh/devspace',
     tags: ['opensource'],
-  },
-  {
-    title: 'Diem',
-    description:
-      'A decentralized, programmable database which provides a financial infrastructure that can empower billions of people.',
-    preview: require('./showcase/diem.png'),
-    website: 'https://dip.diem.com/',
-    source: 'https://github.com/diem/diem',
-    tags: ['opensource', 'favorite', 'design', 'large', 'facebook'],
   },
   {
     title: 'Draft.js',
@@ -391,6 +382,14 @@ const Users = [
     tags: ['opensource', 'design', 'versioning', 'i18n'],
   },
   {
+    title: 'FormatJS',
+    description: 'Internationalize your web apps on the client & server.',
+    preview: require('./showcase/formatjs.png'),
+    website: 'https://formatjs.io/',
+    source: 'https://github.com/formatjs/formatjs/tree/main/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Gladys Assistant',
     description: 'A privacy-first, open-source home assistant',
     preview: require('./showcase/gladys-assistant.png'),
@@ -405,7 +404,7 @@ const Users = [
     preview: require('./showcase/graphql-codegen.png'),
     website: 'https://graphql-code-generator.com/',
     source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['opensource','design'],
+    tags: ['favorite', 'opensource','design'],
   },
   {
     title: 'GraphQL Inspector',
@@ -470,6 +469,14 @@ const Users = [
     website: 'https://www.intelagent.ca/',
     source: 'https://github.com/intelagentbilling/docs',
     tags: ['opensource','product'],
+  },
+  {
+    title: 'Jest',
+    description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
+    preview: require('./showcase/intelagent.png'),
+    website: 'https://jestjs.io/',
+    source: 'https://github.com/facebook/jest/tree/master/website',
+    tags: ['favorite','opensource','design','i18n','versioning'],
   },
   {
     title: 'Kosko',
@@ -711,6 +718,15 @@ const Users = [
     ],
   },
   {
+    title: 'React Native ARIA',
+    description:
+      'A library that provides accessible UI primitives for React Native apps.',
+    preview: require('./showcase/reactnative-aria.png'),
+    website: 'https://react-native-aria.geekyants.com',
+    source: 'https://github.com/GeekyAnts/react-native-aria-website',
+    tags: ['opensource'],
+  },
+  {
     title: 'React Native Boilerplate',
     description:
       'A React Native project template for building solid applications through separation of concerns between the UI, state management and business logic.',
@@ -736,6 +752,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'React Native Reanimated',
+    description: 'React Native\'s Animated library reimplemented',
+    preview: require('./showcase/react-native-reanimated.png'),
+    website: 'https://docs.swmansion.com/react-native-reanimated/',
+    source: 'https://github.com/software-mansion/react-native-reanimated/tree/master/docs',
+    tags: ['opensource','design','versioning'],
+  },
+  {
     title: 'React Native Testing Library',
     description: 'Helps you to write better tests with less effort.',
     preview: require('./showcase/react-native-testing-library.png'),
@@ -744,28 +768,19 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'React Navigation',
+    description: 'Routing and navigation for your React Native apps',
+    preview: require('./showcase/react-navigation.png'),
+    website: 'https://reactnavigation.org/',
+    source: 'https://github.com/react-navigation/react-navigation.github.io',
+    tags: ['opensource','design','versioning'],
+  },
+  {
     title: 'React Redux',
     description: 'Official React bindings for Redux',
     preview: require('./showcase/react-redux.png'),
     website: 'https://react-redux.js.org',
     source: 'https://www.github.com/reduxjs/react-redux',
-    tags: ['opensource'],
-  },
-  {
-    title: 'Redux',
-    description: 'A Predictable State Container for JS Apps',
-    preview: require('./showcase/redux.png'),
-    website: 'https://redux.js.org/',
-    source: 'https://www.github.com/reduxjs/redux',
-    tags: ['opensource'],
-  },
-  {
-    title: 'React Native ARIA',
-    description:
-      'A library that provides accessible UI primitives for React Native apps.',
-    preview: require('./showcase/reactnative-aria.png'),
-    website: 'https://react-native-aria.geekyants.com',
-    source: 'https://github.com/GeekyAnts/react-native-aria-website',
     tags: ['opensource'],
   },
   {
@@ -778,12 +793,20 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Redux',
+    description: 'A Predictable State Container for JS Apps',
+    preview: require('./showcase/redux.png'),
+    website: 'https://redux.js.org/',
+    source: 'https://www.github.com/reduxjs/redux',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
     website: 'https://developer.redislabs.com',
     source: 'https://github.com/redis-developer/redis-developer.github.io',
-    tags: ['opensource','product'],
+    tags: ['opensource','product','design','favorite'],
   },
   {
     title: 'Rematch',
@@ -793,6 +816,22 @@ const Users = [
     website: 'https://rematchjs.org',
     source: 'https://github.com/rematch/rematch',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Relay',
+    description: 'The GraphQL client that scales with you',
+    preview: require('./showcase/relay.png'),
+    website: 'https://relay.dev/',
+    source: 'https://github.com/facebook/relay/tree/master/website',
+    tags: ['opensource','favorite','design','versioning'],
+  },
+  {
+    title: 'Remotion',
+    description: 'Write videos programmatically in React',
+    preview: require('./showcase/remotion.png'),
+    website: 'https://www.remotion.dev/',
+    source: 'https://github.com/JonnyBurger/remotion/tree/main/packages/docs',
+    tags: ['opensource','product'],
   },
   {
     title: 'Repeater.js',
