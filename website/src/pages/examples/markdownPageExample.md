@@ -227,4 +227,18 @@ Code tag + double pipe: <code>||</code>
 
 ![](/dogfooding/新控制器空间/图片.png)
 
+![](../../../static/dogfooding/新控制器空间/图片.png)
+
+![](./../../../static/dogfooding/新控制器空间/图片.png)
+
+![](/dogfooding/4/图片.png)
+
+![](../../../static/dogfooding/4/图片.png)
+
+![](./../../../static/dogfooding/4/图片.png)
+
 ![](/dogfooding/4/docu.png)
+
+![](../../../static/dogfooding/4/docu.png)
+
+![](./../../../static/dogfooding/4/docu.png)
