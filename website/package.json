@@ -20,13 +20,15 @@
     "build:blogOnly": "cross-env yarn build --config=docusaurus.config-blog-only.js",
     "netlify:build:production": "yarn docusaurus write-translations && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",
     "netlify:build:deployPreview": "yarn docusaurus write-translations --locale fr --messagePrefix '(fr) ' && yarn build",
-    "netlify:crowdin:downloadTranslations": "yarn --cwd .. crowdin:download:v2",
-    "netlify:crowdin:downloadTranslationsFailSafe": "yarn --cwd .. crowdin:download:v2 || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)'",
+    "netlify:crowdin:wait": "node waitForCrowdin.js",
+    "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:v2",
+    "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:v2 || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
     "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:v2",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
     "@crowdin/cli": "^3.5.2",
+    "@crowdin/crowdin-api-client": "^1.10.6",
     "@docusaurus/core": "2.0.0-alpha.75",
     "@docusaurus/plugin-client-redirects": "2.0.0-alpha.75",
     "@docusaurus/plugin-ideal-image": "2.0.0-alpha.75",
