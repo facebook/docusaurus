@@ -278,6 +278,53 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should parse markdown h1 title placed after various import declarations', () => {
+    const markdown = `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+# Markdown Title
+
+Lorem Ipsum
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+
+
+Lorem Ipsum
+        `.trim(),
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   test('Should parse markdown h1 alternate title placed after import declarations', () => {
     const markdown = dedent`
           import Component from '@site/src/components/Component';
