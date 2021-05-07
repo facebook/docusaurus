@@ -553,6 +553,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Netdata Learn',
+    description: 'An educational site for monitoring and troubleshooting systems',
+    preview: require('./showcase/netdata.png'),
+    website: 'https://learn.netdata.cloud',
+    source: 'https://github.com/netdata/netdata-learn-docusaurus',
+    tags: ['opensource', 'product', 'large'],
+  },
+  {
     title: 'Neutron JS',
     description: 'An open source CLI to work with Redux + Redux Saga',
     preview: require('./showcase/neutronjs.png'),
