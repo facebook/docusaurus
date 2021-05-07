@@ -473,7 +473,7 @@ const Users = [
   {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
-    preview: require('./showcase/intelagent.png'),
+    preview: require('./showcase/jest.png'),
     website: 'https://jestjs.io/',
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite','opensource','design','i18n','versioning'],
