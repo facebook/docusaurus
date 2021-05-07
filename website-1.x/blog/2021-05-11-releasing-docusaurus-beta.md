@@ -17,7 +17,9 @@ We believe Docusaurus 2 is ready for **mainstream adoption**!
 
 ## Docusaurus adoption
 
-**Don't be afraid by the beta tag!** Docusaurus 2 is **widely adopted** and growing fast:
+**Don't be afraid by the beta tag!**
+
+Docusaurus 2 is **widely adopted** and growing fast:
 
 ![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/trend.png)
 
