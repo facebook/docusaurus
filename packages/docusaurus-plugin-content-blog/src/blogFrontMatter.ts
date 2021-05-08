@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable camelcase */
+
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {Tag} from './types';
 
-// TODO complete this frontmatter + add unit tests
 export type BlogPostFrontMatter = {
   id?: string;
   title?: string;
@@ -20,6 +21,18 @@ export type BlogPostFrontMatter = {
   slug?: string;
   draft?: boolean;
   date?: string;
+
+  author?: string;
+  authorTitle?: string;
+  author_title?: string;
+  authorURL?: string;
+  author_url?: string;
+  authorImageURL?: string;
+  author_image_url?: string;
+
+  image?: string;
+  keywords?: string[];
+  hide_table_of_contents?: boolean;
 };
 
 // NOTE: we don't add any default value on purpose here
@@ -39,9 +52,22 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   title: Joi.string().allow(''),
   description: Joi.string().allow(''),
   tags: Joi.array().items(BlogTagSchema),
-  slug: Joi.string(),
   draft: Joi.boolean(),
-  date: Joi.string().allow(''), // TODO validate the date better!
+  date: Joi.date().raw(),
+
+  author: Joi.string(),
+  authorTitle: Joi.string(),
+  author_title: Joi.string(),
+
+  authorURL: Joi.string().uri(),
+  author_url: Joi.string().uri(),
+  authorImageURL: Joi.string().uri(),
+  author_image_url: Joi.string().uri(),
+  slug: Joi.string(),
+  image: Joi.string().uri({relativeOnly: true}),
+
+  keywords: Joi.array().items(Joi.string().required()),
+  hide_table_of_contents: Joi.boolean(),
 }).unknown();
 
 export function validateBlogPostFrontMatter(

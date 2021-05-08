@@ -31,7 +31,7 @@ describe('validateFrontMatter', () => {
       validateFrontMatter(frontMatter, schema),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"test\\" must be a string"`);
     expect(consoleError).toHaveBeenCalledWith(
-      expect.stringContaining('FrontMatter contains invalid values: '),
+      expect.stringContaining('The following FrontMatter'),
     );
   });
 
