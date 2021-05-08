@@ -21,7 +21,7 @@ On old browsers, the JS will use unsupported (too recent) JS syntax, causing Rea
 
 Websites initialized with the default classic template has the following in `package.json`:
 
-```json {4-15} title="package.json"
+```json {4-11} title="package.json"
 {
   "name": "docusaurus",
   // ...
