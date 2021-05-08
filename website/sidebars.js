@@ -52,6 +52,7 @@ module.exports = {
         'styling-layout',
         'static-assets',
         'search',
+        'browser-support',
         'deployment',
         {
           type: 'category',
