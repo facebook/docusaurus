@@ -3,17 +3,17 @@ id: browser-support
 title: Browser support
 ---
 
-Docusaurus allows doc sites to define the list of supported browsers through some [configuration](https://github.com/browserslist/browserslist).
+Docusaurus allows sites to define the list of supported browsers through some [configuration](https://github.com/browserslist/browserslist).
 
 ## Purpose {#purpose}
 
-Websites need to balance between backward compatibility and bundle size. As old browsers do not support modern APIs or syntax, more code is needed to implement the same functionality, penalizing all other users with increased site load times. As a tradeoff, the Docusaurus bundler only supports browser versions defined in the browser list.
+Websites need to balance between backward compatibility and bundle size. As old browsers do not support modern APIs or syntax, more code is needed to implement the same functionality, penalizing all other users with increased site load time. As a tradeoff, the Docusaurus bundler only supports browser versions defined in the browser list.
 
 The browser list by default is provided through the `package.json` file as a root `browserslist` field.
 
 :::caution
 
-On old browsers, the JS will use unsupported (too recent) JS syntax, causing React to fail to initialize and ending up with a static website with only HTML/CSS and no JS.
+On old browsers, the compiled output will use unsupported (too recent) JS syntax, causing React to fail to initialize and ending up with a static website with only HTML/CSS and no JS.
 
 :::
 
@@ -47,7 +47,7 @@ And browsers used in development are:
 
 - The latest version of Chrome _or_ Firefox _or_ Safari.
 
-You can "eval" any config with the `browserlist` cli to obtain the actual list:
+You can "evaluate" any config with the `browserlist` cli to obtain the actual list:
 
 ```bash
 yarn browserslist --env="production"
@@ -74,7 +74,11 @@ samsung 13.0
 
 ## Accepted values {#accepted-values}
 
+:::info
+
 This section is adopted from [the browserslist documentation](https://github.com/browserslist/browserslist/blob/main/README.md#queries).
+
+:::
 
 - `defaults`: Browserslist’s default browsers (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 - `> 5%`: browsers versions selected by global usage statistics. `>=`, `<` and `<=` work too.
@@ -114,7 +118,11 @@ A `not` combiner performs a relative complement: `> 0.5%, not dead` eliminates t
 
 ## Choosing a value {#choosing-a-value}
 
+:::info
+
 This section is adopted from [the browserslist documentation](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices).
+
+:::
 
 - If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`. This is because `last n versions` on its own does not add popular old versions, while only using a percentage above `0.2%` will in the long run make popular browsers even more popular. We might run into a monopoly and stagnation situation, as we had with Internet Explorer 6. Please use this setting with caution.
 - Select browsers directly (`last 2 Chrome versions`) only if you are making a web app for a kiosk with one browser (which is very unlikely for users of Docusaurus). There are a lot of browsers on the market. If you are making general web app you should respect browsers diversity.
