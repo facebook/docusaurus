@@ -3,8 +3,7 @@ id: browser-support
 title: Browser support
 ---
 
-Docusaurus allows doc sites to define the list of supported browsers through some config:
-https://github.com/browserslist/browserslist
+Docusaurus allows doc sites to define the list of supported browsers through some [configuration](https://github.com/browserslist/browserslist).
 
 ## Purpose {#purpose}
 
@@ -27,17 +26,13 @@ Websites initialized with the default classic template has the following in `pac
   "name": "docusaurus",
   // ...
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
+  }
   // ...
 }
 ```
@@ -102,8 +97,7 @@ This section is adopted from [the browserslist documentation](https://github.com
   - `ie 6-8`: selects an inclusive range of versions.
   - `Firefox ESR`: the latest [Firefox Extended Support Release](https://support.mozilla.org/en-US/kb/choosing-firefox-update-channel).
   - `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar to PhantomJS runtime.
-- `extends browserslist-config-mycompany`: take queries from
-  `browserslist-config-mycompany` npm package.
+- `extends browserslist-config-mycompany`: take queries from `browserslist-config-mycompany` npm package.
 - `supports es6-module`: browsers with support for specific features. `es6-module` here is the `feat` parameter at the URL of the [Can I Use] page. A list of all available features can be found at [`caniuse-lite/data/features`](https://github.com/ben-eb/caniuse-lite/tree/master/data/regions).
 - `browserslist config`: the browsers defined in Browserslist config. Useful in Differential Serving to modify user’s config like `browserslist config and supports es6-module`.
 - `since 2015` or `last 2 years`: all versions released since year 2015 (also `since 2015-03` and `since 2015-03-10`).
