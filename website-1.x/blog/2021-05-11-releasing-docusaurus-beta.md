@@ -29,7 +29,7 @@ Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, t
 
 [![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
 
-## Why being in alpha for so long?
+## Why was Docusaurus v2 in alpha for so long?
 
 The first alpha release [v2.0.0-alpha.0](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.0) was **2 years ago** 😅.
 
