@@ -45,7 +45,7 @@ We will use the beta phase to **improve our theming system**.
 
 We want to make it:
 
-- **easier to implement a custom theme**, including for ourselves. We want to provide [multiple official themes](https://github.com/facebook/docusaurus/issues/3522) (including [Tailwind](https://github.com/facebook/docusaurus/issues/2961)) for a long time.
+- **easier to implement a custom theme**, including for ourselves. We want to provide [multiple official themes](https://github.com/facebook/docusaurus/issues/3522) (including [Tailwind CSS](https://github.com/facebook/docusaurus/issues/2961)) for a long time.
 
 - **safer to extend an existing theme**: it is sometimes painful to upgrade a **highly customized** Docusaurus site, as customizations can **conflict with internal changes**. We need to make the theme public API surface more explicit, and make it clear what is safe to customize.
 
