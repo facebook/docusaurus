@@ -62,7 +62,7 @@ In case you missed it, we recently shipped 2 major improvements:
 
 ## What's next?
 
-We will continue to **fix bugs** and implement the **most awaited features**, some of them are:
+We will continue to **fix bugs** and implement the **most wanted features**, some of them are:
 
 - [Sidebar category index pages](https://github.com/facebook/docusaurus/issues/2643)
 - [Proper CSS-in-JS support](https://github.com/facebook/docusaurus/issues/3236)
