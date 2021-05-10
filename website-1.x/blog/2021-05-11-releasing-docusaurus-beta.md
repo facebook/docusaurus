@@ -39,7 +39,7 @@ Docusaurus 2 has reached **feature parity** with Docusaurus 1 with **[i18n](http
 
 We can now confidently say that the **core features** of Docusaurus 2 are **stable enough** to be in beta.
 
-## What does being in beta mean?
+## What are the goals of the beta?
 
 We will use the beta phase to **improve our theming system**.
 
