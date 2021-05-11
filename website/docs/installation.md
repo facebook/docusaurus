@@ -126,8 +126,8 @@ Please update to the latest Docusaurus 2 version shown at the top of the page, n
 
 ```json title="package.json"
 "dependencies": {
-  "@docusaurus/core": "^2.0.0-alpha.49",
-  "@docusaurus/preset-classic": "^2.0.0-alpha.49",
+  "@docusaurus/core": "^2.0.0-beta.0",
+  "@docusaurus/preset-classic": "^2.0.0-beta.0",
   // ...
 }
 ```
@@ -149,7 +149,7 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```bash
-yarn upgrade @docusaurus/core@2.0.0-alpha.49 @docusaurus/preset-classic@2.0.0-alpha.49
+yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
 ```
 
 ## Problems? {#problems}

@@ -24,15 +24,15 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -   "docusaurus": "^1.x.x",
-+   "@docusaurus/core": "^2.0.0-alpha.48",
-+   "@docusaurus/preset-classic": "^2.0.0-alpha.48",
++   "@docusaurus/core": "^2.0.0-beta.0",
++   "@docusaurus/preset-classic": "^2.0.0-beta.0",
   }
 }
 ```
 
 :::tip
 
-Please use the most recent Docusaurus 2 alpha version, which you can check out [here](https://www.npmjs.com/package/@docusaurus/core) (it's tagged `next`).
+Please use the most recent Docusaurus 2 version, which you can check out [here](https://www.npmjs.com/package/@docusaurus/core) (using the `latest` tag).
 
 :::
 
@@ -68,8 +68,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "clear": "docusaurus clear"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.66",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.66",
+    "@docusaurus/core": "^2.0.0-beta.0",
+    "@docusaurus/preset-classic": "^2.0.0-beta.0",
     "clsx": "^1.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
