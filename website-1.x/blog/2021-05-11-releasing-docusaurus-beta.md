@@ -77,7 +77,7 @@ This is an exciting time for Docusaurus.
 
 We read a lot of **positive feedbacks** about Docusaurus, and discover **new sites online** every single day.
 
-We hope that removing the **alpha label** will be reassuring for the community, and **increase adoption** even more.
+We are so excited for this release, and hope that by moving from alpha to beta the community is assured on quality and stability, which, in turn, continues to increase the adoption of Docusaurus. And, for those that have been on the fence from migrating an existing site to Docusaurus 2, it is a great time to upgrade so that you are running on the latest infrastructure when we deprecate Docusaurus 1 at the end of this beta period.
 
 **Docusaurus 1 will be deprecated** at the end of the beta phase: it is a good time to schedule an **upgrade to Docusaurus 2**!
 
