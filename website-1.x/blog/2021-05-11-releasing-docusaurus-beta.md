@@ -40,7 +40,9 @@ We're now quite confident that the core features of Docusaurus 2 are stable enou
 
 ## What are the goals of the beta?
 
-We will use the beta phase to **improve our theming system**.
+Now that Docusaurus 2 is stable and major feature complete, the goal of the beta is to inspire confidence in new users on the production-readiness of Docusaurus 2, migrate more remaining Docusaurus 1 users to version 2, and officially deprecate Docusaurus 1. We will, of course, continue to resolve any issues and bugs that may be discovered. 
+
+In addition, we will use the beta phase to **improve our theming system**.
 
 We want to make it:
 
