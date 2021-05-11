@@ -17,7 +17,7 @@ With the announcement of this beta, the team is even more confident that Docusau
 
 ## Docusaurus adoption
 
-**Don't be afraid of the beta tag!**
+**Don't fear the beta tag!**
 
 Docusaurus 2 is widely adopted and growing fast:
 
