@@ -73,7 +73,7 @@ We will continue to **fix bugs** and implement the **most wanted features**, som
 
 ## Conclusion
 
-This is an **exciting time for Docusaurus**.
+This is an exciting time for Docusaurus.
 
 We read a lot of **positive feedbacks** about Docusaurus, and discover **new sites online** every single day.
 
