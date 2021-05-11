@@ -9,7 +9,7 @@ tags: [release, beta]
 # image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 ---
 
-Today, we officially release the first **Docusaurus 2 beta**, after a **very long alpha period**.
+After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first **Docusaurus 2 beta**.
 
 We believe Docusaurus 2 is ready for **mainstream adoption**!
 
