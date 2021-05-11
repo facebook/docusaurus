@@ -1,5 +1,5 @@
 ---
-title: Releasing Docusaurus 2 beta
+title: Announcing Docusaurus 2 Beta
 author: Sébastien Lorber
 authorTitle: Docusaurus maintainer
 authorURL: https://sebastienlorber.com
