@@ -46,7 +46,7 @@ We want to make it:
 
 - **easier to implement a custom theme**, including for ourselves. We want to provide [multiple official themes](https://github.com/facebook/docusaurus/issues/3522) (including [Tailwind CSS](https://github.com/facebook/docusaurus/issues/2961)) for a long time.
 
-- **safer to extend an existing theme**: it can be painful to upgrade a **highly customized** Docusaurus site, as customizations can **conflict with internal changes**. We need to make the theme public API surface more explicit, and make it clear what is safe to customize.
+- **safer to extend an existing theme**: it can be painful to upgrade a highly customized Docusaurus site, as customizations can conflict with internal changes. We need to make the theme public API surface more explicit, and make it clear what is safe to customize.
 
 We will build a better **theming infrastructure** and refactor the classic theme to use it.
 
