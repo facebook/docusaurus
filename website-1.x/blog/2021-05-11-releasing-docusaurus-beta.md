@@ -25,7 +25,7 @@ Docusaurus 2 is widely adopted and growing fast:
 
 Our new [showcase](https://docusaurus.io/showcase) page allows you to **filter Docusaurus sites by features**: get inspired by real-world production sites with a similar use-case!
 
-Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, they all **stand out** with something unique:
+Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, they all stand out with something unique:
 
 [![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
 
