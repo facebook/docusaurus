@@ -19,7 +19,7 @@ With the announcement of this beta, the team is even more confident that Docusau
 
 **Don't be afraid of the beta tag!**
 
-Docusaurus 2 is **widely adopted** and growing fast:
+Docusaurus 2 is widely adopted and growing fast:
 
 ![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/trend.png)
 
