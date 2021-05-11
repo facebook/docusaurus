@@ -134,6 +134,7 @@ const ConfigSchema = Joi.object({
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
+  getCustomJSLoader: Joi.function(),
 });
 
 // TODO move to @docusaurus/utils-validation

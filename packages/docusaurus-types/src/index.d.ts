@@ -63,6 +63,7 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
+  getCustomJSLoader?: (isServer: boolean) => RuleSetRule;
 }
 
 /**

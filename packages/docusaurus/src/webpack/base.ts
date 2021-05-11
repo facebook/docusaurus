@@ -11,7 +11,7 @@ import path from 'path';
 import {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
-  getJSLoader,
+  getCustomizableJSLoader,
   getStyleLoaders,
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
@@ -64,6 +64,7 @@ export function createBaseConfig(
   const {
     outDir,
     siteDir,
+    siteConfig,
     baseUrl,
     generatedFilesDir,
     routesPaths,
@@ -196,7 +197,7 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getJSLoader({
+            getCustomizableJSLoader(siteConfig.getCustomJSLoader)({
               isServer,
               babelOptions: getCustomBabelConfigFilePath(siteDir),
             }),

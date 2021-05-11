@@ -137,7 +137,7 @@ export function getBabelOptions({
 
 // Name is generic on purpose
 // we want to support multiple js loader implementations (babel + esbuild)
-export function getJSLoader({
+function getDefaultBabelLoader({
   isServer,
   babelOptions,
 }: {
@@ -149,6 +149,19 @@ export function getJSLoader({
     options: getBabelOptions({isServer, babelOptions}),
   };
 }
+
+export const getCustomizableJSLoader = (
+  getCustomJSLoader?: (isServer: boolean) => RuleSetRule,
+) => ({
+  isServer,
+  babelOptions,
+}: {
+  isServer: boolean;
+  babelOptions?: TransformOptions | string;
+}): RuleSetRule =>
+  getCustomJSLoader
+    ? getCustomJSLoader(isServer)
+    : getDefaultBabelLoader({isServer, babelOptions});
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(function () {
@@ -163,7 +176,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
   babelOptions?: TransformOptions | string,
 ) {
   warnBabelLoaderOnce();
-  return getJSLoader({isServer, babelOptions});
+  return getDefaultBabelLoader({isServer, babelOptions});
 };
 
 // TODO remove this before end of 2021 ?
@@ -190,11 +203,12 @@ export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
+  getCustomJSLoader?: (isServer: boolean) => RuleSetRule,
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
-    getJSLoader,
+    getJSLoader: getCustomizableJSLoader(getCustomJSLoader),
     getBabelLoader: getBabelLoaderDeprecated,
     getCacheLoader: getCacheLoaderDeprecated,
   };
