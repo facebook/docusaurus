@@ -63,7 +63,9 @@ In case you missed it, we recently shipped two major improvements:
 
 ## What's next?
 
-We will continue to **fix bugs** and implement the **most wanted features**, some of them are:
+Shipping the official 2.0 release! 
+
+To get there, we will continue to **fix bugs** and implement the **most wanted features**, including:
 
 - [Sidebar category index pages](https://github.com/facebook/docusaurus/issues/2643)
 - [Proper CSS-in-JS support](https://github.com/facebook/docusaurus/issues/3236)
