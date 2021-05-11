@@ -31,7 +31,7 @@ Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, t
 
 ## Why was Docusaurus v2 in alpha for so long?
 
-The first alpha release [v2.0.0-alpha.0](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.0) was **2 years ago** 😅.
+It's hard to believe that the first alpha release [v2.0.0-alpha.0](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.0) was 2 years ago 😳 , unusually long for a software alpha.
 
 It was definitively a very long and unusual alpha period.
 
