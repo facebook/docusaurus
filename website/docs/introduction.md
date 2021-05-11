@@ -5,13 +5,48 @@ description: Docusaurus was designed from the ground up to be easily installed a
 slug: /
 ---
 
+Docusaurus will help you ship a **beautiful documentation site in no time**.
+
+Instead of building a custom tech stack, **focus on your content** and just write Markdown files.
+
+You stay in control and can **customize** your site deeply: check the [most beautiful Docusaurus sites](/showcase?tags=design) for inspirations.
+
+Technically, Docusaurus is a **static-site generator**. It builds a **single-page application** with a fast client-side navigation, leveraging the full power of **React** to make your site interactive. It provides useful documentation features, but can be used to create **any kind of site** (personal website, product, blog, marketing landing pages, etc).
+
+![Docusaurus Slash Introduction](/img/slash-introducing.svg)
+
+## Fast Track {#fast-track}
+
+Understand Docusaurus in **less than 5 minutes**!
+
+Install [Node.js](https://nodejs.org/en/download/), then create a new Docusaurus site:
+
+```bash
+npx @docusaurus/init@latest init my-website classic
+```
+
+Start the site:
+
+```bash
+cd my-website
+npx docusaurus start
+```
+
+Open `http://localhost:3000` and follow the 5min tutorial that comes with the default template.
+
+:::tip
+
+Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
+
+:::
+
 ## Disclaimer {#disclaimer}
 
-Docusaurus v2 is **still alpha** (since mid-2019) but already quite stable.
+Docusaurus v2 is **beta** but already quite stable.
 
-We highly encourage you to **use Docusaurus v2 over Docusaurus v1**.
+We highly encourage you to **use Docusaurus v2 over Docusaurus v1**, as Docusaurus v1 will be deprecated soon.
 
-Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)), including [React Native](https://reactnative.dev), [Redux](https://redux.js.org/) and [many others](/showcase).
+A [lot of users](/showcase) are already using Docusaurus v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)).
 
 **Use Docusaurus v2 if:**
 
@@ -20,27 +55,10 @@ Most users are already using v2 ([trends](https://www.npmtrends.com/docusaurus-v
 - :white_check_mark: You want the full power of React and MDX
 - :white_check_mark: You do not need support for IE11
 
-:::tip
-
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
-
-:::
-
 **Use [Docusaurus v1](https://v1.docusaurus.io/) if:**
 
 - :x: You don't want a single-page application (SPA)
-- :x: You prefer stability over modernity
 - :x: You need support for IE11
-
-## A better Docusaurus is coming to town {#a-better-docusaurus-is-coming-to-town}
-
-![Docusaurus Slash Introduction](/img/slash-introducing.svg)
-
-Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
-
-Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
-
-While our main focus will still be helping you get your documentations right and well, it is possible to build any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
 
 ## Features {#features}
 
@@ -48,7 +66,7 @@ Docusaurus is built with high attention to your experience building your site an
 
 - ⚛️ **Built with 💚 and React**
   - Extend and customize with React
-  - Gain full control of your site's browsing experience by `swizzling` in your own components
+  - Gain full control of your site's browsing experience by providing your own React components
 - **Pluggable**
   - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community
   - Open source your plugins to share with your fellow documentarians, because sharing is caring
@@ -59,7 +77,7 @@ Docusaurus is built with high attention to your experience building your site an
   - Route-based code and data splitting
   - Publish to GitHub Pages, Netlify, and other deployment services with ease
 
-Our shared goal — to help your users find what they need fast, and understand your products better. With the experience of Docusaurus 1, we share with you our best practices to help you build your doc site right and well.
+Our shared goal — to help your users find what they need fast, and understand your products better. We share with you our best practices to help you build your doc site right and well.
 
 - 🎯 **SEO friendly**
   - HTML files are statically generated for every possible path
@@ -76,9 +94,31 @@ Docusaurus 2 is born to be compassionately accessible to all your users, and lig
 - ⚡️ **Lightning fast** - Docusaurus 2 follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
 - 🦖 **Accessible** - Attention to accessibility, making your site equally accessible to all users
 
+## Design principles {#design-principles}
+
+- **Little to learn** - Docusaurus should be easy to learn and use as the API is quite small. Most things will still be achievable by users, even if it takes them more code and more time to write. Not having abstractions is better than having the wrong abstractions, and we don't want users to have to hack around the wrong abstractions. Mandatory talk - [Minimal API Surface Area](https://www.youtube.com/watch?v=4anAwXYqLG8).
+- **Intuitive** - Users will not feel overwhelmed when looking at the project directory of a Docusaurus project or adding new features. It should look intuitive and easy to build on top of, using approaches they are familiar with.
+- **Layered architecture** - The separations of concerns between each layer of our stack (content/theming/styling) should be clear - well-abstracted and modular.
+- **Sensible defaults** - Common and popular performance optimizations and configurations will be done for users but they are given the option to override them.
+- **No vendor-lock in** - Users are not required to use the default plugins or CSS, although they are highly encouraged to. Certain core lower-level infra level pieces like React Loadable, React Router cannot be swapped because we do default performance optimization on them. But not higher level ones, such as choice of Markdown engines, CSS frameworks, CSS methodology will be entirely up to users.
+
+We believe that as developers, knowing how a library works is helpful in allowing us to become better at using it. Hence we're dedicating effort into explaining the architecture and various components of Docusaurus with the hope that users reading it will gain a deeper understanding of the tool and be even more proficient in using it.
+
+<!--
+
+Explain the principles that guide the development of Docusaurus.
+
+References
+---
+- https://www.gatsbyjs.org/docs/behind-the-scenes/
+- https://reactjs.org/docs/design-principles.html
+- https://v1.vuepress.vuejs.org/miscellaneous/design-concepts.html
+
+-->
+
 ## Comparison with other tools {#comparison-with-other-tools}
 
-Across all static site generators, Docusaurus has a unique focus on doc sites and has out-of-the-box structure you need.
+Across all static site generators, Docusaurus has a unique focus on documentation sites and has out-of-the-box features.
 
 We've also studied other main static site generators and would like to share our insights on the comparison, hopefully to help you navigate through the prismatic choices out there.
 
@@ -113,6 +153,7 @@ VuePress has many similarities with Docusaurus - both focus heavily on content-c
 - [GitHub](https://github.com/facebook/docusaurus)
 - [Twitter](https://twitter.com/docusaurus)
 - [Blog](/blog)
+- [Discord](https://discord.gg/Je6Ash6)
 
 ## Something missing? {#something-missing}
 

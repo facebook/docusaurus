@@ -3,11 +3,11 @@ id: installation
 title: Installation
 ---
 
-Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages) that can be installed over npm.
+Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages).
 
 :::tip
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
 
 :::
 

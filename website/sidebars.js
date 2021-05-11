@@ -7,11 +7,7 @@
 
 module.exports = {
   docs: [
-    {
-      type: 'category',
-      label: 'Docusaurus',
-      items: ['introduction', 'design-principles', 'contributing'],
-    },
+    'introduction',
     {
       type: 'category',
       label: 'Getting Started',
