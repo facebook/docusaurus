@@ -33,7 +33,6 @@ Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, t
 
 It's hard to believe that the first alpha release [v2.0.0-alpha.0](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.0) was 2 years ago 😳 , unusually long for a software alpha.
 
-It was definitively a very long and unusual alpha period.
 
 Docusaurus 2 has reached **feature parity** with Docusaurus 1 with **[i18n](https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n)**, and it has been **successfully adopted** by many Docusaurus sites (see [i18n showcase](https://docusaurus.io/showcase?tags=i18n)).
 
