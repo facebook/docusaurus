@@ -6,12 +6,14 @@ authorURL: https://sebastienlorber.com
 authorImageURL: https://github.com/slorber.png
 authorTwitter: sebastienlorber
 tags: [release, beta]
-# image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
+image: /img/blog/2021-05-12-announcing-docusaurus-two-beta/social-card.png
 ---
 
 After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first **Docusaurus 2 beta**.
 
 With the announcement of this beta, the team is even more confident that Docusaurus 2 is **ready for mainstream adoption**!
+
+![Docusaurus beta party](/img/blog/2021-05-12-announcing-docusaurus-two-beta/image_cropped.png)
 
 <!--truncate-->
 
@@ -21,18 +23,17 @@ With the announcement of this beta, the team is even more confident that Docusau
 
 Docusaurus 2 is widely adopted and growing fast:
 
-![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/trend.png)
+[![Docusaurus growth](/img/blog/2021-05-12-announcing-docusaurus-two-beta/trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 To get a fuller understanding of the quality of current Docusaurus 2 sites, our new [showcase](https://docusaurus.io/showcase) page allows you to filter Docusaurus sites by features, so you may get inspired by real-world production sites with a similar use-case as yours!
 
 Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites, they all stand out with something unique:
 
-[![Docusaurus growth](/img/blog/2021-05-11-releasing-docusaurus-beta/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
+[![Docusaurus growth](/img/blog/2021-05-12-announcing-docusaurus-two-beta/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
 
 ## Why was Docusaurus v2 in alpha for so long?
 
 It's hard to believe that the first alpha release [v2.0.0-alpha.0](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-alpha.0) was 2 years ago 😳 , unusually long for a software alpha.
-
 
 As this was a substantial re-architecture of the code base, we wanted to ensure that we had confidence in the stability and features of Docusaurus 2 before moving on to a beta stage, since beta suggests a high level of quality. We are happy to say that Docusaurus 2 has reached **feature parity** with Docusaurus 1 with **[i18n](https://docusaurus.io/blog/2021/03/09/releasing-docusaurus-i18n)**, and it has been **successfully adopted** by many Docusaurus sites (see [i18n showcase](https://docusaurus.io/showcase?tags=i18n)).
 
@@ -40,7 +41,7 @@ We're now quite confident that the core features of Docusaurus 2 are stable enou
 
 ## What are the goals of the beta?
 
-Now that Docusaurus 2 is stable and major feature complete, the goal of the beta is to inspire confidence in new users on the production-readiness of Docusaurus 2, migrate more remaining Docusaurus 1 users to version 2, and officially deprecate Docusaurus 1. We will, of course, continue to resolve any issues and bugs that may be discovered. 
+Now that Docusaurus 2 is stable and major feature complete, the goal of the beta is to inspire confidence in new users on the production-readiness of Docusaurus 2, migrate more remaining Docusaurus 1 users to version 2, and officially deprecate Docusaurus 1. We will, of course, continue to resolve any issues and bugs that may be discovered.
 
 In addition, we will use the beta phase to **improve our theming system**.
 
@@ -63,12 +64,13 @@ In case you missed it, we recently shipped two major improvements:
 
 ## What's next?
 
-Shipping the official 2.0 release! 
+Shipping the official 2.0 release!
 
 To get there, we will continue to **fix bugs** and implement the **most wanted features**, including:
 
 - [Sidebar category index pages](https://github.com/facebook/docusaurus/issues/2643)
 - [Proper CSS-in-JS support](https://github.com/facebook/docusaurus/issues/3236)
+- [Improve build time performance](https://github.com/facebook/docusaurus/issues/4765)
 - [Extend Docusaurus plugins, CMS integration](https://github.com/facebook/docusaurus/issues/4138)
 - [Fix trailing slashes and relative link issues](https://github.com/facebook/docusaurus/issues/3372)
 - [Better compatibility with CommonMark](https://github.com/facebook/docusaurus/issues/3018)
@@ -81,6 +83,5 @@ This is an exciting time for Docusaurus.
 We read a lot of positive feedback about Docusaurus, and discover new sites online every single day.
 
 We are so excited for this release, and hope that by moving from alpha to beta the community is assured on quality and stability, which, in turn, continues to increase the adoption of Docusaurus. And, for those that have been on the fence from migrating an existing site to Docusaurus 2, it is a great time to upgrade so that you are running on the latest infrastructure when we deprecate Docusaurus 1 at the end of this beta period.
-
 
 Thank you to everyone for reading and to the entire community who supports Docusaurus. 🤗
