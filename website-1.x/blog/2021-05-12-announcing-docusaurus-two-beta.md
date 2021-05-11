@@ -80,7 +80,7 @@ To get there, we will continue to **fix bugs** and implement the **most wanted f
 
 This is an exciting time for Docusaurus.
 
-We read a lot of positive feedback about Docusaurus, and discover new sites online every single day.
+We read a [**lot** of positive feedback](https://twitter.com/sebastienlorber/timelines/1392048416872706049) about Docusaurus, and discover new sites online every single day.
 
 We are so excited for this release, and hope that by moving from alpha to beta the community is assured on quality and stability, which, in turn, continues to increase the adoption of Docusaurus. And, for those that have been on the fence from migrating an existing site to Docusaurus 2, it is a great time to upgrade so that you are running on the latest infrastructure when we deprecate Docusaurus 1 at the end of this beta period.
 
