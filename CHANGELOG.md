@@ -4,6 +4,8 @@
 
 Read the [2.0.0 beta blog post](https://docusaurus.io/blog/2021/05/12/announcing-docusaurus-two-beta)!
 
+**Note**: this first beta release does not contain any new major feature. We are removing the alpha label, as we are confident Docusaurus 2 is stable enough.
+
 #### :rocket: New Feature
 
 - `docusaurus-theme-classic`

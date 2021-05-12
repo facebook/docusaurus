@@ -9,7 +9,7 @@ tags: [release, beta]
 image: /img/blog/2021-05-12-announcing-docusaurus-two-beta/social-card.png
 ---
 
-After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first **Docusaurus 2 beta**.
+After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first **[Docusaurus 2 beta](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.0)**.
 
 With the announcement of this beta, the team is even more confident that Docusaurus 2 is **ready for mainstream adoption**!
 
@@ -82,6 +82,6 @@ This is an exciting time for Docusaurus.
 
 We are inspired by the [positive feedback](https://twitter.com/sebastienlorber/timelines/1392048416872706049) about Docusaurus, and discover new sites online every single day.
 
-We are so excited for this release, and hope, by moving from alpha to beta, the community is assured on quality and stability, which, in turn, continues to increase the adoption of Docusaurus. And, for those that have been on the fence from migrating an existing Docusaurus site to Docusaurus 2, it is a great time to upgrade so that you are running on the latest infrastructure when we deprecate Docusaurus 1 at the end of this beta period.
+We are so excited for this beta release. We strove for quality and stability while continuing to try to increase the adoption of Docusaurus. For those that have been on the fence from migrating an existing Docusaurus site to Docusaurus 2, it is a great time to upgrade. We want you running on the latest infrastructure when we deprecate Docusaurus 1 at the end of this beta period. Let us know how we can help.
 
 Thank you to everyone for reading and to the entire community who supports Docusaurus. 🤗
