@@ -8,21 +8,18 @@
 const path = require('path');
 const versions = require('./versions.json');
 
-// This probably only makes sense for the alpha phase, temporary
-function getNextAlphaVersionName() {
-  const expectedPrefix = '2.0.0-alpha.';
+// This probably only makes sense for the beta phase, temporary
+function getNextBetaVersionName() {
+  const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
   if (!lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
-      'this code is only meant to be used during the 2.0 alpha phase.',
+      'this code is only meant to be used during the 2.0 beta phase.',
     );
   }
-  const alphaBuild = parseInt(
-    lastReleasedVersion.replace(expectedPrefix, ''),
-    10,
-  );
-  return `${expectedPrefix}${alphaBuild + 1}`;
+  const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
+  return `${expectedPrefix}${version + 1}`;
 }
 
 const allDocHomesPaths = [
@@ -81,6 +78,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       {
         id: 'community',
         path: 'community',
+        routeBasePath: 'community',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -88,7 +86,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -240,7 +237,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} 🚧`,
+              label: `${getNextBetaVersionName()} 🚧`,
             },
           },
         },
