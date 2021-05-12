@@ -64,7 +64,7 @@
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
     "portfinder": "^1.0.28",
-    "postcss": "^7.0.23",
+    "postcss": "^8.2.10",
     "prismjs": "^1.22.0",
     "react": "^16.8.4",
     "react-dev-utils": "^11.0.1",
