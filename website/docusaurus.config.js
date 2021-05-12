@@ -81,6 +81,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       {
         id: 'community',
         path: 'community',
+        routeBasePath: 'community',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -88,7 +89,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,

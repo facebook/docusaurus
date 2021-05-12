@@ -100,7 +100,7 @@ Use this component to render React Context providers and global stateful logic.
 
 :::caution
 
-We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+We discourage swizzling of components during the Docusaurus 2 beta phase. The theme components APIs are likely to evolve and have breaking changes. If possible, stick with the default appearance for now.
 
 :::
 

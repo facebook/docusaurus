@@ -95,7 +95,7 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::caution
 
-We highly discourage swizzling of components until we've reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+We discourage swizzling of components during the Docusaurus 2 beta phase. The theme components APIs are likely to evolve and have breaking changes. If possible, stick with the default appearance for now.
 
 :::
 
