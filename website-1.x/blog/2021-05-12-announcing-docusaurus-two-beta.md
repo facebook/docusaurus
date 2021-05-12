@@ -69,7 +69,9 @@ Shipping the official 2.0 release!
 To get there, we will continue to **fix bugs** and implement the **most wanted features**, including:
 
 - [Sidebar category index pages](https://github.com/facebook/docusaurus/issues/2643)
-- [Proper CSS-in-JS support](https://github.com/facebook/docusaurus/issues/3236)
+- [Better mobile navigation UX](https://github.com/facebook/docusaurus/issues/2220)
+- [Better admonition design](https://github.com/facebookincubator/infima/issues/55)
+- [CSS-in-JS support](https://github.com/facebook/docusaurus/issues/3236)
 - [Improve build time performance](https://github.com/facebook/docusaurus/issues/4765)
 - [Extend Docusaurus plugins, CMS integration](https://github.com/facebook/docusaurus/issues/4138)
 - [Fix trailing slashes and relative link issues](https://github.com/facebook/docusaurus/issues/3372)
