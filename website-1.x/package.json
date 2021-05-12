@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-1-website",
-  "version": "2.0.0-alpha.75",
+  "version": "2.0.0-beta.0",
   "private": true,
   "scripts": {
     "start": "docusaurus-start",
@@ -15,6 +15,6 @@
     "netlify:build": "yarn crowdin-download && yarn build"
   },
   "dependencies": {
-    "docusaurus": "2.0.0-alpha.75"
+    "docusaurus": "2.0.0-beta.0"
   }
 }
