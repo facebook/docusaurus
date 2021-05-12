@@ -117,8 +117,8 @@ mkdir -p i18n/fr/docusaurus-plugin-content-blog
 cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
 
 mkdir -p i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.md i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 ```
 
 Add all these files to Git.
