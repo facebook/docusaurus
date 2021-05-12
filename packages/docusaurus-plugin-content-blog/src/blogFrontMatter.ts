@@ -23,16 +23,18 @@ export type BlogPostFrontMatter = {
   date?: string;
 
   author?: string;
-  authorTitle?: string;
   author_title?: string;
-  authorURL?: string;
   author_url?: string;
-  authorImageURL?: string;
   author_image_url?: string;
 
   image?: string;
   keywords?: string[];
   hide_table_of_contents?: boolean;
+
+  /** @deprecated */
+  authorTitle?: string;
+  authorURL?: string;
+  authorImageURL?: string;
 };
 
 // NOTE: we don't add any default value on purpose here
@@ -56,19 +58,29 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   date: Joi.date().raw(),
 
   author: Joi.string(),
-  authorTitle: Joi.string(),
   author_title: Joi.string(),
-
-  authorURL: Joi.string().uri(),
   author_url: Joi.string().uri(),
-  authorImageURL: Joi.string().uri(),
   author_image_url: Joi.string().uri(),
   slug: Joi.string(),
   image: Joi.string().uri({relativeOnly: true}),
-
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
-}).unknown();
+
+  authorURL: Joi.string().uri().warning('deprecate.error', {
+    alternative: '"author_url"',
+  }),
+  authorTitle: Joi.string().warning('deprecate.error', {
+    alternative: '"author_title"',
+  }),
+  authorImageURL: Joi.string().uri().warning('deprecate.error', {
+    alternative: '"author_image_url"',
+  }),
+})
+  .unknown()
+  .messages({
+    'deprecate.error':
+      '{#label} field is deprecated. Please use {#alternative} one instead.',
+  });
 
 export function validateBlogPostFrontMatter(
   frontMatter: Record<string, unknown>,

@@ -56,9 +56,9 @@ A whole bunch of exploration to follow.
 The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
 
 - `author`: The author name to be displayed.
-- `author_url`/`authorURL`: The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.
-- `author_image_url`/`authorImageURL`: The URL to the author's thumbnail image.
-- `author_title`/`authorTitle`: A description of the author.
+- `author_url`: The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.
+- `author_image_url`: The URL to the author's thumbnail image.
+- `author_title`: A description of the author.
 - `title`: The blog post title.
 - `slug`: Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.
 - `date`: The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. By default, it is the markdown file creation time.
