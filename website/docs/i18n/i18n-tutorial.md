@@ -235,8 +235,8 @@ Copy your pages Markdown files to `i18n/fr/docusaurus-plugin-content-pages`, and
 
 ```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.md i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 ```
 
 :::caution

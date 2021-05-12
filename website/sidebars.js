@@ -7,11 +7,7 @@
 
 module.exports = {
   docs: [
-    {
-      type: 'category',
-      label: 'Docusaurus',
-      items: ['introduction', 'design-principles', 'contributing'],
-    },
+    'introduction',
     {
       type: 'category',
       label: 'Getting Started',
@@ -52,6 +48,7 @@ module.exports = {
         'styling-layout',
         'static-assets',
         'search',
+        'browser-support',
         'deployment',
         {
           type: 'category',

@@ -8,6 +8,16 @@ This doc guides you through migrating an existing Docusaurus 1 site to Docusauru
 
 We try to make this as easy as possible, and provide a migration cli.
 
+## Main differences
+
+Docusaurus 1 is a pure documentation site generator, using React as a server-side template engine, but not loading React on the browser.
+
+Docusaurus 2 is rebuilt it from the ground up, generates a single-page-application, using the full power of React in the browser. It allows for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n.
+
+Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
+
+While our main focus will still be helping you get your documentations right and well, it is possible to build any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
+
 ## Docusaurus 1 structure {#docusaurus-1-structure}
 
 Your Docusaurus 1 site should have the following structure:
