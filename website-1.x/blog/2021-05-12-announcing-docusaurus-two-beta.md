@@ -53,7 +53,7 @@ We want to make it:
 
 We will build a better **theming infrastructure** and refactor the classic theme to use it.
 
-If you don't customize your Docusaurus site much, you can consider Docusaurus stable.
+If you customize your site, you may find these planned improvements quite valuable.
 
 ## What's new?
 
