@@ -29,6 +29,15 @@ describe('customize JS loader', () => {
     );
   });
 
+  test('getCustomizableJSLoader accepts loaders with preset', () => {
+    expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+    expect(getCustomizableJSLoader('babel')({isServer: false}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+  });
+
   test('getCustomizableJSLoader allows customization', () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',

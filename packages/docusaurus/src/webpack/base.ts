@@ -197,7 +197,7 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.getCustomJSLoader)({
+            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
               isServer,
               babelOptions: getCustomBabelConfigFilePath(siteDir),
             }),

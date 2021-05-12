@@ -134,7 +134,11 @@ const ConfigSchema = Joi.object({
   tagline: Joi.string().allow(''),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
-  getCustomJSLoader: Joi.function(),
+  webpack: Joi.object({
+    jsLoader: Joi.alternatives()
+      .try(Joi.string().equal('babel'), Joi.function())
+      .optional(),
+  }).optional(),
 });
 
 // TODO move to @docusaurus/utils-validation

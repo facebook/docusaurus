@@ -151,7 +151,7 @@ function getDefaultBabelLoader({
 }
 
 export const getCustomizableJSLoader = (
-  getCustomJSLoader?: (isServer: boolean) => RuleSetRule,
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel',
 ) => ({
   isServer,
   babelOptions,
@@ -159,9 +159,9 @@ export const getCustomizableJSLoader = (
   isServer: boolean;
   babelOptions?: TransformOptions | string;
 }): RuleSetRule =>
-  getCustomJSLoader
-    ? getCustomJSLoader(isServer)
-    : getDefaultBabelLoader({isServer, babelOptions});
+  jsLoader === 'babel'
+    ? getDefaultBabelLoader({isServer, babelOptions})
+    : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(function () {
@@ -197,18 +197,19 @@ function getCacheLoaderDeprecated() {
  * @param configureWebpack a webpack config or a function to modify config
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
+ * @param jsLoader custom js loader config
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
-  getCustomJSLoader?: (isServer: boolean) => RuleSetRule,
+  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
-    getJSLoader: getCustomizableJSLoader(getCustomJSLoader),
+    getJSLoader: getCustomizableJSLoader(jsLoader),
     getBabelLoader: getBabelLoaderDeprecated,
     getCacheLoader: getCacheLoaderDeprecated,
   };

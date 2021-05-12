@@ -63,7 +63,9 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
-  getCustomJSLoader?: (isServer: boolean) => RuleSetRule;
+  webpack?: {
+    jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
+  };
 }
 
 /**
