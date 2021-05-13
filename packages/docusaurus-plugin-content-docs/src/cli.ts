@@ -93,7 +93,10 @@ export function cliDocsVersionCommand(
   }
 
   // Load current sidebar and create a new versioned sidebars file.
-  if (fs.existsSync(sidebarPath)) {
+  if (
+    sidebarPath === undefined ||
+    (typeof sidebarPath === 'string' && fs.existsSync(sidebarPath))
+  ) {
     const loadedSidebars = loadSidebars(sidebarPath);
 
     // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me

@@ -124,17 +124,96 @@ Entries created:
   };
 };
 
-test('site with wrong sidebar file', async () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
-  const context = await loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
-  const plugin = pluginContentDocs(
-    context,
-    normalizePluginOptions(OptionsSchema, {
-      sidebarPath,
-    }),
-  );
-  await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+describe('sidebar', () => {
+  test('site with wrong sidebar content', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath,
+      }),
+    );
+    await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test('site with wrong sidebar file path', async () => {
+    const consoleLog = jest.spyOn(console, 'log').mockImplementation();
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath: 'wrong-path-sidebar.json',
+      }),
+    );
+    const result = await plugin.loadContent!();
+
+    expect(result.loadedVersions).toHaveLength(1);
+    expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
+          Object {
+            "defaultSidebar": Array [
+              Object {
+                "id": "hello-1",
+                "type": "doc",
+              },
+              Object {
+                "id": "hello-2",
+                "label": "Hello 2 From Doc",
+                "type": "doc",
+              },
+            ],
+          }
+      `);
+    expect(consoleLog).toHaveBeenCalledWith(
+      expect.stringContaining('the sidebar file does not exist'),
+    );
+  });
+
+  test('site with undefined sidebar', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath: undefined,
+      }),
+    );
+    const result = await plugin.loadContent!();
+
+    expect(result.loadedVersions).toHaveLength(1);
+    expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
+          Object {
+            "defaultSidebar": Array [
+              Object {
+                "id": "hello-1",
+                "type": "doc",
+              },
+              Object {
+                "id": "hello-2",
+                "label": "Hello 2 From Doc",
+                "type": "doc",
+              },
+            ],
+          }
+      `);
+  });
+
+  test('site with disable sidebar', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath: false,
+      }),
+    );
+    const result = await plugin.loadContent!();
+
+    expect(result.loadedVersions).toHaveLength(1);
+    expect(result.loadedVersions[0].sidebars).toBeUndefined();
+  });
 });
 
 describe('empty/no docs website', () => {

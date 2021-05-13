@@ -30,6 +30,7 @@ import {mapValues, flatten, flatMap, difference, pick, memoize} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
+import chalk from 'chalk';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -255,14 +256,22 @@ export const DefaultSidebars: UnprocessedSidebars = {
 };
 
 // TODO refactor: make async
-export function loadSidebars(sidebarFilePath: string): UnprocessedSidebars {
-  if (!sidebarFilePath) {
-    throw new Error(`sidebarFilePath not provided: ${sidebarFilePath}`);
+export function loadSidebars(
+  sidebarFilePath: string | false | undefined,
+): UnprocessedSidebars {
+  // See https://github.com/facebook/docusaurus/pull/
+  if (typeof sidebarFilePath !== 'string') {
+    return DefaultSidebars;
   }
 
-  // No sidebars file: by default we use the file-system structure to generate the sidebar
-  // See https://github.com/facebook/docusaurus/pull/4582
   if (!fs.existsSync(sidebarFilePath)) {
+    console.log(
+      chalk.yellow(
+        `The path [${sidebarFilePath}] to the sidebar file does not exist. Please try again or set the [sidebarFilePath] field in your config file to:
+- false: to disable the sidebar
+- undefined: for Docusaurus generates it automatically`,
+      ),
+    );
     return DefaultSidebars;
   }
 

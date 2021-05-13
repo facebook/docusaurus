@@ -21,12 +21,11 @@ import {
   DisabledNumberPrefixParser,
 } from './numberPrefix';
 
-export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: 'sidebars.json', // Path to the sidebars configuration file
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
@@ -67,7 +66,10 @@ export const OptionsSchema = Joi.object({
     .default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
-  sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
+  sidebarPath: Joi.alternatives().try(
+    Joi.boolean().invalid(true),
+    Joi.string(),
+  ),
   sidebarItemsGenerator: Joi.function().default(
     () => DEFAULT_OPTIONS.sidebarItemsGenerator,
   ),

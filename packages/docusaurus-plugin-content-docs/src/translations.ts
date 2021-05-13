@@ -160,7 +160,7 @@ function getSidebarsTranslations(
   version: LoadedVersion,
 ): TranslationFileContent {
   return mergeTranslations(
-    Object.entries(version.sidebars).map(([sidebarName, sidebar]) => {
+    Object.entries(version.sidebars ?? {}).map(([sidebarName, sidebar]) => {
       const normalizedSidebarName = getNormalizedSidebarName({
         sidebarName,
         versionName: version.versionName,

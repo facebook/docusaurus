@@ -24,7 +24,6 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {difference} from 'lodash';
-import chalk from 'chalk';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -183,7 +182,9 @@ function getVersionMetadataPaths({
     versionName,
   });
 
-  const sidebarFilePath = isCurrentVersion
+  const sidebarFilePath = !options.sidebarPath
+    ? options.sidebarPath
+    : isCurrentVersion
     ? path.resolve(context.siteDir, options.sidebarPath)
     : path.join(
         getVersionedSidebarsDirPath(context.siteDir, options.id),
@@ -328,7 +329,7 @@ function checkVersionMetadataPaths({
   versionMetadata: VersionMetadata;
   context: Pick<LoadContext, 'siteDir'>;
 }) {
-  const {versionName, contentPath, sidebarFilePath} = versionMetadata;
+  const {versionName, contentPath} = versionMetadata;
   const {siteDir} = context;
 
   if (!fs.existsSync(contentPath)) {
@@ -337,15 +338,6 @@ function checkVersionMetadataPaths({
         siteDir,
         contentPath,
       )}`,
-    );
-  }
-
-  // See https://github.com/facebook/docusaurus/issues/3366
-  if (!fs.existsSync(sidebarFilePath)) {
-    console.log(
-      chalk.yellow(
-        `The sidebar file of docs version [${versionName}] does not exist. It is optional, but should rather be provided at ${sidebarFilePath}`,
-      ),
     );
   }
 }

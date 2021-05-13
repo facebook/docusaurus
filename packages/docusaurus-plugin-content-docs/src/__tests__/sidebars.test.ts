@@ -127,35 +127,20 @@ describe('loadSidebars', () => {
   });
 
   test('unexisting path', () => {
-    /*
-    expect(() => loadSidebars('badpath')).toThrowErrorMatchingInlineSnapshot(
-      `"No sidebar file exist at path: badpath"`,
-    );
-     */
+    const consoleLog = jest.spyOn(console, 'log').mockImplementation();
     // See https://github.com/facebook/docusaurus/issues/3366
     expect(loadSidebars('badpath')).toEqual(DefaultSidebars);
+    expect(consoleLog).toHaveBeenCalledWith(
+      expect.stringContaining('the sidebar file does not exist'),
+    );
   });
 
   test('undefined path', () => {
-    expect(() =>
-      loadSidebars(
-        // @ts-expect-error: bad arg
-        undefined,
-      ),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"sidebarFilePath not provided: undefined"`,
-    );
+    expect(loadSidebars(undefined)).toEqual(DefaultSidebars);
   });
 
-  test('null path', () => {
-    expect(() =>
-      loadSidebars(
-        // @ts-expect-error: bad arg
-        null,
-      ),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"sidebarFilePath not provided: null"`,
-    );
+  test('literal false path', () => {
+    expect(loadSidebars(false)).toEqual(DefaultSidebars);
   });
 
   test('sidebars with category.collapsed property', async () => {
