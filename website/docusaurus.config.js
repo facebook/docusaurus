@@ -63,6 +63,16 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       : // Production locales
         ['en', 'fr', 'ko', 'zh-CN'],
   },
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('esbuild-loader'),
+      options: {
+        loader: 'tsx',
+        format: isServer ? 'cjs' : undefined,
+        target: isServer ? 'node12' : 'es2017',
+      },
+    }),
+  },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
