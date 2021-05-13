@@ -45,9 +45,9 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${escapePath(
+  const href = `new URL('${escapePath(
     relativeRequireAssetPath,
-  )}?${assetQuery}')`;
+  )}?${assetQuery}', import.meta.url).toString()`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 

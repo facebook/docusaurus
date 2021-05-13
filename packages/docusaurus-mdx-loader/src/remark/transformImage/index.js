@@ -23,7 +23,10 @@ const createJSX = (node, pathUrl) => {
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
-    node.url ? `src={require("${escapePath(pathUrl)}?${assetQuery}")}` : ''
+    node.url
+      ? // see https://github.com/facebook/docusaurus/pull/4708#discussion_r624515715
+        `src={new URL("${escapePath(pathUrl)}?${assetQuery}", import.meta.url)}`
+      : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
   if (jsxNode.url) {

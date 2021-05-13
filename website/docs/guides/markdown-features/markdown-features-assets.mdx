@@ -75,7 +75,10 @@ or
 
 <a
   target="_blank"
-  href={require('../../assets/docusaurus-asset-example-pdf.pdf')}>
+  href={new URL(
+    '../../assets/docusaurus-asset-example-pdf.pdf',
+    import.meta.url,
+  ).toString()}>
   Download this PDF
 </a>
 
