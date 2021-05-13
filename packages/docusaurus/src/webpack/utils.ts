@@ -336,28 +336,28 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   function imageAssetRule(): RuleSetRule {
     return {
       ...baseAssetRule('images'),
-      test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+      test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/i,
     };
   }
 
   function fontAssetRule(): RuleSetRule {
     return {
       ...baseAssetRule('fonts'),
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf)$/i,
     };
   }
 
   function mediaAssetRule(): RuleSetRule {
     return {
       ...baseAssetRule('medias'),
-      test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+      test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
     };
   }
 
   function fileAssetRule(): RuleSetRule {
     return {
       ...baseAssetRule('files'),
-      test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
+      test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/i,
       type: 'asset/resource',
     };
   }
@@ -365,7 +365,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   function svgAssetRule(): RuleSetRule {
     return {
       ...baseAssetRule('svgs'),
-      test: /\.svg?$/,
+      test: /\.svg?$/i,
     };
   }
 
@@ -373,7 +373,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   // We don't convert SVG to React components when referenced in CSS
   function svgComponentOrAssetRule(): RuleSetRule {
     return {
-      test: /\.svg?$/,
+      test: /\.svg?$/i,
       resourceQuery: notAssetResourceQuery,
       oneOf: [
         {
