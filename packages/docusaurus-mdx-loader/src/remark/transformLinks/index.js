@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {toMessageRelativeFilePath, posixPath} = require('@docusaurus/utils');
+const {
+  toMessageRelativeFilePath,
+  posixPath,
+  escapePath,
+} = require('@docusaurus/utils');
 
 const visit = require('unist-util-visit');
 const path = require('path');
@@ -41,7 +45,9 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${relativeRequireAssetPath}?${assetQuery}')`;
+  const href = `require('${escapePath(
+    relativeRequireAssetPath,
+  )}?${assetQuery}')`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 

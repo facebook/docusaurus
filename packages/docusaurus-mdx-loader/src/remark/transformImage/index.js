@@ -11,7 +11,11 @@ const url = require('url');
 const fs = require('fs-extra');
 const escapeHtml = require('escape-html');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
-const {posixPath, toMessageRelativeFilePath} = require('@docusaurus/utils');
+const {
+  posixPath,
+  escapePath,
+  toMessageRelativeFilePath,
+} = require('@docusaurus/utils');
 
 const {assetQuery} = getFileLoaderUtils();
 
@@ -19,7 +23,7 @@ const createJSX = (node, pathUrl) => {
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
-    node.url ? `src={require("${pathUrl}?${assetQuery}")}` : ''
+    node.url ? `src={require("${escapePath(pathUrl)}?${assetQuery}")}` : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
   if (jsxNode.url) {

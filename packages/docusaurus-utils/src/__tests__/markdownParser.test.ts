@@ -278,6 +278,53 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should parse markdown h1 title placed after various import declarations', () => {
+    const markdown = `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+# Markdown Title
+
+Lorem Ipsum
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+
+
+Lorem Ipsum
+        `.trim(),
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   test('Should parse markdown h1 alternate title placed after import declarations', () => {
     const markdown = dedent`
           import Component from '@site/src/components/Component';
@@ -356,6 +403,57 @@ describe('parseMarkdownContentTitle', () => {
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: markdown,
       contentTitle: undefined,
+    });
+  });
+
+  test('Should parse markdown h1 title placed after multiple import declarations', () => {
+    const markdown = dedent`
+          import Component1 from '@site/src/components/Component1';
+          import Component2 from '@site/src/components/Component2';
+          import Component3 from '@site/src/components/Component3';
+          import Component4 from '@site/src/components/Component4';
+          import Component5 from '@site/src/components/Component5';
+          import Component6 from '@site/src/components/Component6';
+          import Component7 from '@site/src/components/Component7';
+          import Component8 from '@site/src/components/Component8';
+          import Component9 from '@site/src/components/Component9';
+          import Component10 from '@site/src/components/Component10';
+          import Component11 from '@site/src/components/Component11';
+          import Component12 from '@site/src/components/Component12';
+          import Component13 from '@site/src/components/Component13';
+          import Component14 from '@site/src/components/Component14';
+          import Component15 from '@site/src/components/Component15';
+
+          # Markdown Title
+
+          Lorem Ipsum
+
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+          import Component1 from '@site/src/components/Component1';
+          import Component2 from '@site/src/components/Component2';
+          import Component3 from '@site/src/components/Component3';
+          import Component4 from '@site/src/components/Component4';
+          import Component5 from '@site/src/components/Component5';
+          import Component6 from '@site/src/components/Component6';
+          import Component7 from '@site/src/components/Component7';
+          import Component8 from '@site/src/components/Component8';
+          import Component9 from '@site/src/components/Component9';
+          import Component10 from '@site/src/components/Component10';
+          import Component11 from '@site/src/components/Component11';
+          import Component12 from '@site/src/components/Component12';
+          import Component13 from '@site/src/components/Component13';
+          import Component14 from '@site/src/components/Component14';
+          import Component15 from '@site/src/components/Component15';
+
+
+
+          Lorem Ipsum
+
+        `,
+      contentTitle: 'Markdown Title',
     });
   });
 });
