@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {
-  useThemeConfig,
+export {useThemeConfig} from './utils/useThemeConfig';
+
+export type {
   ThemeConfig,
   Navbar,
   NavbarItem,
