@@ -10,11 +10,6 @@ body {
   height: 100%;
 }
 
-body {
-  margin: 0;
-  transition: var(--ifm-transition-fast) ease color;
-}
-
 #__docusaurus {
   min-height: 100%;
   display: flex;
