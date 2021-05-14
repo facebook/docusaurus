@@ -259,7 +259,8 @@ export const DefaultSidebars: UnprocessedSidebars = {
 export function loadSidebars(
   sidebarFilePath: string | false | undefined,
 ): UnprocessedSidebars {
-  // See https://github.com/facebook/docusaurus/pull/
+  // In case false value, we have to set to DefaultSidebars first to generate navigation link
+  // See https://github.com/facebook/docusaurus/pull/4775
   if (typeof sidebarFilePath !== 'string') {
     return DefaultSidebars;
   }
@@ -267,7 +268,7 @@ export function loadSidebars(
   if (!fs.existsSync(sidebarFilePath)) {
     console.log(
       chalk.yellow(
-        `The path [${sidebarFilePath}] to the sidebar file does not exist. Please try again or set the [sidebarFilePath] field in your config file to:
+        `The path [${sidebarFilePath}] to the sidebar file does not exist. Please try again or set the [sidebarPath] field in your config file to:
 - false: to disable the sidebar
 - undefined: for Docusaurus generates it automatically`,
       ),
