@@ -1004,7 +1004,7 @@ const Users = [
     preview: require('./showcase/tinaeldevresse.png'),
     website: 'https://tinaeldevresse.eu/',
     source: 'https://github.com/hunteroi/tinaeldevresse.eu',
-    tags: ['personal', 'opensource', 'i18n']
+    tags: ['personal', 'opensource']
   },
   {
     title: 'TRPG Engine',
