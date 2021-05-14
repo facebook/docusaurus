@@ -24,6 +24,14 @@ const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
 
+const LibrariesToTranspile = [
+  'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
+];
+
+const LibrariesToTranspileRegex = new RegExp(
+  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
+);
+
 export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
   if (modulePath.startsWith(clientDir)) {
@@ -32,7 +40,8 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     /node_modules/.test(modulePath) &&
-    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath) &&
+    !LibrariesToTranspileRegex.test(modulePath)
   );
 }
 
