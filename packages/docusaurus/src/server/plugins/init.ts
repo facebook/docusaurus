@@ -24,6 +24,78 @@ import {
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
 
+type NormalizedPluginConfig = {
+  plugin: PluginModule;
+  options: PluginOptions;
+  // Only available when a string is provided in config
+  pluginModule?: {
+    path: string;
+    module: ImportedPluginModule;
+  };
+};
+
+function normalizePluginConfig(
+  pluginConfig: PluginConfig,
+  pluginRequire: NodeRequire,
+): NormalizedPluginConfig {
+  // plugins: ['./plugin']
+  if (typeof pluginConfig === 'string') {
+    const pluginModuleImport = pluginConfig;
+    const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    return {
+      plugin: pluginModule?.default ?? pluginModule,
+      options: {},
+      pluginModule: {
+        path: pluginModuleImport,
+        module: pluginModule,
+      },
+    };
+  }
+
+  // plugins: [function plugin() { }]
+  if (typeof pluginConfig === 'function') {
+    return {
+      plugin: pluginConfig,
+      options: {},
+    };
+  }
+
+  if (Array.isArray(pluginConfig)) {
+    // plugins: [
+    //   ['./plugin',options],
+    // ]
+    if (typeof pluginConfig[0] === 'string') {
+      const pluginModuleImport = pluginConfig[0];
+      const pluginPath = pluginRequire.resolve(pluginModuleImport);
+      const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+      return {
+        plugin: pluginModule?.default ?? pluginModule,
+        options: pluginConfig[1] ?? {},
+        pluginModule: {
+          path: pluginModuleImport,
+          module: pluginModule,
+        },
+      };
+    }
+    // plugins: [
+    //   [function plugin() { },options],
+    // ]
+    if (typeof pluginConfig[0] === 'function') {
+      return {
+        plugin: pluginConfig[0],
+        options: pluginConfig[1] ?? {},
+      };
+    }
+  }
+
+  throw new Error(
+    `Unexpected: cant load plugin for plugin config = ${JSON.stringify(
+      pluginConfig,
+    )}`,
+  );
+}
+
 export type InitPlugin = Plugin<unknown> & {
   readonly options: PluginOptions;
   readonly version: DocusaurusPluginVersionInformation;
@@ -43,112 +115,41 @@ export default function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(context.siteConfigPath);
 
+  function doGetPluginVersion(
+    pluginModuleImport: string | undefined,
+  ): DocusaurusPluginVersionInformation {
+    // get plugin version
+    if (pluginModuleImport) {
+      const pluginPath = pluginRequire.resolve(pluginModuleImport);
+      return getPluginVersion(pluginPath, context.siteDir);
+    } else {
+      return {type: 'local'};
+    }
+  }
+
   const plugins: InitPlugin[] = pluginConfigs
-    .map((pluginItem) => {
-      // let pluginModuleImport: string | undefined;
+    .map((pluginConfig) => {
       let pluginOptions: PluginOptions = {};
-      // let plugin: PluginModule | undefined;
       let validateOptions;
-      // let pluginModule: ImportedPluginModule | undefined;
-      let pluginVersion: DocusaurusPluginVersionInformation;
 
-      if (!pluginItem) {
+      if (!pluginConfig) {
         return null;
       }
 
-      function getPlugin(): PluginModule | null {
-        if (Array.isArray(pluginItem)) {
-          if (typeof pluginItem[0] === 'string') {
-            const pluginModuleImport = pluginItem[0];
-            const pluginPath = pluginRequire.resolve(pluginModuleImport);
-            const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-            return pluginModule?.default || pluginModule;
-          } else if (typeof pluginItem[0] === 'function') {
-            return pluginItem[0];
-          }
-        } else if (typeof pluginItem === 'string') {
-          const pluginModuleImport = pluginItem;
-          const pluginPath = pluginRequire.resolve(pluginModuleImport);
-          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-          return pluginModule?.default || pluginModule;
-        } else if (typeof pluginItem === 'function') {
-          return pluginItem;
-        }
+      const normalizedPluginConfig = normalizePluginConfig(
+        pluginConfig,
+        pluginRequire,
+      );
 
-        return null;
-      }
+      // TODO not proud of this legacy code, need more refactors!
+      pluginOptions = normalizedPluginConfig.options;
+      const {plugin} = normalizedPluginConfig;
+      const pluginModuleImport = normalizedPluginConfig.pluginModule?.path;
+      const pluginModule = normalizedPluginConfig.pluginModule?.module;
 
-      function getPluginModuleImport(): string | null {
-        if (typeof pluginItem === 'string') {
-          return pluginItem;
-        } else if (
-          Array.isArray(pluginItem) &&
-          typeof pluginItem[0] === 'string'
-        ) {
-          return pluginItem[0];
-        }
-
-        return null;
-      }
-
-      function getPluginModule() {
-        if (typeof pluginItem === 'string') {
-          const pluginModuleImport = pluginItem;
-          const pluginPath = pluginRequire.resolve(pluginModuleImport);
-          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-          return pluginModule;
-          // [path : string, options : {}]
-        } else if (
-          Array.isArray(pluginItem) &&
-          typeof pluginItem[0] === 'string'
-        ) {
-          const pluginModuleImport = pluginItem[0];
-          const pluginPath = pluginRequire.resolve(pluginModuleImport);
-          const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-          return pluginModule;
-        }
-
-        return null;
-      }
-
-      function getPluginOptions() {
-        // [path : string, options : {}]
-        if (Array.isArray(pluginItem) && pluginItem[1]) {
-          return pluginItem[1];
-        }
-
-        return {};
-      }
-
-      if (
-        typeof pluginItem === 'string' ||
-        (Array.isArray(pluginItem) && typeof pluginItem[0] === 'string') ||
-        typeof pluginItem === 'function' ||
-        (Array.isArray(pluginItem) && typeof pluginItem[0] === 'function')
-      ) {
-      } else {
-        throw new TypeError(`You supplied a wrong type of plugin.
-A plugin should be either string, function or [importPath: string : function, options?: object].
-
-For more information, visit https://docusaurus.io/docs/using-plugins.`);
-      }
-
-      const pluginModuleImport = getPluginModuleImport();
-      const plugin = getPlugin();
-      pluginOptions = getPluginOptions();
-      const pluginModule = getPluginModule();
-
-      if (!plugin) {
-        throw new Error('The path to the plugin is either undefined or null.');
-      }
-
-      // get plugin version
-      if (pluginModuleImport) {
-        const pluginPath = pluginRequire.resolve(pluginModuleImport);
-        pluginVersion = getPluginVersion(pluginPath, context.siteDir);
-      } else {
-        pluginVersion = {type: 'local'};
-      }
+      const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
+        pluginModuleImport,
+      );
 
       if (pluginModuleImport) {
         // support both commonjs and ES modules
@@ -159,7 +160,6 @@ For more information, visit https://docusaurus.io/docs/using-plugins.`);
         // pluginItem is a function
       } else {
         validateOptions = plugin?.validateOptions;
-        pluginVersion = {type: 'local'};
       }
 
       if (validateOptions) {
