@@ -81,6 +81,7 @@ describe('base webpack config', () => {
   const props = {
     outDir: '',
     siteDir: '',
+    siteConfig: {},
     baseUrl: '',
     generatedFilesDir: '',
     routesPaths: '',

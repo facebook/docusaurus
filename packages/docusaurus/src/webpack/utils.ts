@@ -137,7 +137,7 @@ export function getBabelOptions({
 
 // Name is generic on purpose
 // we want to support multiple js loader implementations (babel + esbuild)
-export function getJSLoader({
+function getDefaultBabelLoader({
   isServer,
   babelOptions,
 }: {
@@ -149,6 +149,19 @@ export function getJSLoader({
     options: getBabelOptions({isServer, babelOptions}),
   };
 }
+
+export const getCustomizableJSLoader = (
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel',
+) => ({
+  isServer,
+  babelOptions,
+}: {
+  isServer: boolean;
+  babelOptions?: TransformOptions | string;
+}): RuleSetRule =>
+  jsLoader === 'babel'
+    ? getDefaultBabelLoader({isServer, babelOptions})
+    : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(function () {
@@ -163,7 +176,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
   babelOptions?: TransformOptions | string,
 ) {
   warnBabelLoaderOnce();
-  return getJSLoader({isServer, babelOptions});
+  return getDefaultBabelLoader({isServer, babelOptions});
 };
 
 // TODO remove this before end of 2021 ?
@@ -184,17 +197,19 @@ function getCacheLoaderDeprecated() {
  * @param configureWebpack a webpack config or a function to modify config
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
+ * @param jsLoader custom js loader config
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
+  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
-    getJSLoader,
+    getJSLoader: getCustomizableJSLoader(jsLoader),
     getBabelLoader: getBabelLoaderDeprecated,
     getCacheLoader: getCacheLoaderDeprecated,
   };

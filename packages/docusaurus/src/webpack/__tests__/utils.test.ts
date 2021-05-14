@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate, Configuration} from 'webpack';
+import {validate, Configuration, RuleSetRule} from 'webpack';
 import path from 'path';
 
 import {
+  getCustomizableJSLoader,
   applyConfigureWebpack,
   applyConfigurePostCss,
   getFileLoaderUtils,
@@ -17,6 +18,40 @@ import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
 } from '@docusaurus/types';
+
+describe('customize JS loader', () => {
+  test('getCustomizableJSLoader defaults to babel loader', () => {
+    expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+    expect(getCustomizableJSLoader()({isServer: false}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+  });
+
+  test('getCustomizableJSLoader accepts loaders with preset', () => {
+    expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+    expect(getCustomizableJSLoader('babel')({isServer: false}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+  });
+
+  test('getCustomizableJSLoader allows customization', () => {
+    const customJSLoader = (isServer: boolean): RuleSetRule => ({
+      loader: 'my-fast-js-loader',
+      options: String(isServer),
+    });
+
+    expect(getCustomizableJSLoader(customJSLoader)({isServer: true})).toEqual(
+      customJSLoader(true),
+    );
+    expect(getCustomizableJSLoader(customJSLoader)({isServer: false})).toEqual(
+      customJSLoader(false),
+    );
+  });
+});
 
 describe('extending generated webpack config', () => {
   test('direct mutation on generated webpack config object', async () => {

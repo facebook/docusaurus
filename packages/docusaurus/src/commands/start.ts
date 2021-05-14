@@ -153,6 +153,7 @@ export default async function start(
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
+        props.siteConfig.webpack?.jsLoader,
       );
     }
   });

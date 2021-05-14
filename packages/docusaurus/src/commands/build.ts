@@ -187,12 +187,14 @@ async function buildLocale({
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         clientConfig,
         false,
+        props.siteConfig.webpack?.jsLoader,
       );
 
       serverConfig = applyConfigureWebpack(
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         serverConfig,
         true,
+        props.siteConfig.webpack?.jsLoader,
       );
     }
   });
