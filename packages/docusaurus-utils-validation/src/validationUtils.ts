@@ -114,7 +114,7 @@ export function validateFrontMatter<T>(
 
   if (error) {
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
-    const errorDetails = (error as Joi.ValidationError).details;
+    const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
     const errorMessages = errorDetails
       .map(({message}) => ` - ${message}`)

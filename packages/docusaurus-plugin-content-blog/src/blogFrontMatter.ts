@@ -20,7 +20,7 @@ export type BlogPostFrontMatter = {
   tags?: (string | Tag)[];
   slug?: string;
   draft?: boolean;
-  date?: string;
+  date?: Date;
 
   author?: string;
   author_title?: string;
@@ -66,18 +66,13 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
 
-  /*
-  TODO re-enable later, our v1 blog posts use those frontmatter fields
-  authorURL: Joi.string().uri().warning('deprecate.error', {
-    alternative: '"author_url"',
-  }),
-  authorTitle: Joi.string().warning('deprecate.error', {
-    alternative: '"author_title"',
-  }),
-  authorImageURL: Joi.string().uri().warning('deprecate.error', {
-    alternative: '"author_image_url"',
-  }),
-   */
+  // TODO re-enable warnings later, our v1 blog posts use those older frontmatter fields
+  authorURL: Joi.string().uri(),
+  // .warning('deprecate.error', { alternative: '"author_url"'}),
+  authorTitle: Joi.string(),
+  // .warning('deprecate.error', { alternative: '"author_title"'}),
+  authorImageURL: Joi.string().uri(),
+  // .warning('deprecate.error', { alternative: '"author_image_url"'}),
 })
   .unknown()
   .messages({
