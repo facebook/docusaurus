@@ -999,6 +999,14 @@ const Users = [
     tags: [ 'facebook'],
   },
   {
+    title: 'Tinaël Devresse',
+    description: 'Personal website of Tinaël Devresse, a blog about anything that cross my mind which I think could interest y\'all.',
+    preview: require('./showcase/tinaeldevresse.png'),
+    website: 'https://tinaeldevresse.eu/',
+    source: 'https://github.com/hunteroi/tinaeldevresse.eu',
+    tags: ['personal', 'opensource']
+  },
+  {
     title: 'TRPG Engine',
     description: 'IM Application which build for TRPG, like slack and discord',
     preview: require('./showcase/trpgengine.png'),
