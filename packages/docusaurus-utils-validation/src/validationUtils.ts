@@ -83,3 +83,61 @@ export function normalizeThemeConfig<T>(
   }
   return value;
 }
+
+// Enhance the default Joi.string() type so that it can convert number to strings
+// If user use frontmatter "tag: 2021", we shouldn't need to ask the user to write "tag: '2021'"
+// Also yaml tries to convert patterns like "2019-01-01" to dates automatically
+// see https://github.com/facebook/docusaurus/issues/4642
+// see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
+const JoiFrontMatterString: Joi.Extension = {
+  type: 'string',
+  base: Joi.string(),
+  // Fix Yaml that tries to auto-convert many things to string out of the box
+  prepare: (value) => {
+    if (typeof value === 'number' || value instanceof Date) {
+      return {value: value.toString()};
+    }
+    return {value};
+  },
+};
+export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);
+
+export function validateFrontMatter<T>(
+  frontMatter: Record<string, unknown>,
+  schema: Joi.ObjectSchema<T>,
+): T {
+  const {value, error, warning} = schema.validate(frontMatter, {
+    convert: true,
+    allowUnknown: true,
+    abortEarly: false,
+  });
+
+  if (error) {
+    const frontMatterString = JSON.stringify(frontMatter, null, 2);
+    const errorDetails = error.details;
+    const invalidFields = errorDetails.map(({path}) => path).join(', ');
+    const errorMessages = errorDetails
+      .map(({message}) => ` - ${message}`)
+      .join('\n');
+
+    logValidationBugReportHint();
+
+    console.error(
+      chalk.red(
+        `The following FrontMatter:\n${chalk.yellow(
+          frontMatterString,
+        )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
+      ),
+    );
+    throw error;
+  }
+
+  if (warning) {
+    const warningMessages = warning.details
+      .map(({message}) => message)
+      .join('\n');
+    console.log(chalk.yellow(warningMessages));
+  }
+
+  return value;
+}

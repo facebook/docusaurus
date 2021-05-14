@@ -3,11 +3,13 @@ id: installation
 title: Installation
 ---
 
-Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages) that can be installed over npm.
+Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages).
 
 :::tip
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
+
+Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
 
 :::
 
@@ -93,7 +95,7 @@ my-website
 
 ## Running the development server {#running-the-development-server}
 
-To preview your changes as you edit the files, you can run a local development server that will serve your website and it will reflect the latest changes.
+To preview your changes as you edit the files, you can run a local development server that will serve your website and reflect the latest changes.
 
 ```bash npm2yarn
 cd my-website
@@ -126,8 +128,8 @@ Please update to the latest Docusaurus 2 version shown at the top of the page, n
 
 ```json title="package.json"
 "dependencies": {
-  "@docusaurus/core": "^2.0.0-alpha.49",
-  "@docusaurus/preset-classic": "^2.0.0-alpha.49",
+  "@docusaurus/core": "^2.0.0-beta.0",
+  "@docusaurus/preset-classic": "^2.0.0-beta.0",
   // ...
 }
 ```
@@ -149,7 +151,7 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```bash
-yarn upgrade @docusaurus/core@2.0.0-alpha.49 @docusaurus/preset-classic@2.0.0-alpha.49
+yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
 ```
 
 ## Problems? {#problems}

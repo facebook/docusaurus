@@ -21,9 +21,14 @@ import {
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
 
+import {posixPath as posixPathImport} from './posixPath';
+
+export const posixPath = posixPathImport;
+
 export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
+export * from './escapePath';
 
 const fileHash = new Map();
 export async function generate(
@@ -127,20 +132,6 @@ export function genComponentName(pagePath: string): string {
   }
   const pageHash = docuHash(pagePath);
   return upperFirst(camelCase(pageHash));
-}
-
-/**
- * Convert Windows backslash paths to posix style paths.
- * E.g: endi\\lie -> endi/lie
- */
-export function posixPath(str: string): string {
-  const isExtendedLengthPath = /^\\\\\?\\/.test(str);
-  const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
-
-  if (isExtendedLengthPath || hasNonAscii) {
-    return str;
-  }
-  return str.replace(/\\/g, '/');
 }
 
 // When you want to display a path in a message/warning/error,

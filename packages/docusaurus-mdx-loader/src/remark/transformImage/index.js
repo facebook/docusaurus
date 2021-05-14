@@ -11,7 +11,11 @@ const url = require('url');
 const fs = require('fs-extra');
 const escapeHtml = require('escape-html');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
-const {posixPath, toMessageRelativeFilePath} = require('@docusaurus/utils');
+const {
+  posixPath,
+  escapePath,
+  toMessageRelativeFilePath,
+} = require('@docusaurus/utils');
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -22,7 +26,9 @@ const createJSX = (node, pathUrl) => {
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
     node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${pathUrl}").default}`
+      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
+          pathUrl,
+        )}").default}`
       : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
@@ -38,7 +44,7 @@ const createJSX = (node, pathUrl) => {
 };
 
 async function ensureImageFileExist(imagePath, sourceFilePath) {
-  const imageExists = await fs.exists(imagePath);
+  const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
     throw new Error(
       `Image ${toMessageRelativeFilePath(

@@ -325,6 +325,7 @@ ${Object.keys(registry)
   const props: Props = {
     siteConfig,
     siteConfigPath,
+    siteMetadata,
     siteDir,
     outDir,
     baseUrl,

@@ -138,6 +138,20 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
+  test('Should parse markdown h1 title with fixed anchor-id syntax', () => {
+    const markdown = dedent`
+
+          # Markdown Title {#my-anchor-id}
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: 'Lorem Ipsum',
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   test('Should parse markdown h1 title at the top (atx style with closing #)', () => {
     const markdown = dedent`
 
@@ -152,7 +166,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  test('Should parse markdown h1 title at the top and next one after it', () => {
+  test('Should parse markdown h1 title at the top  followed by h2 title', () => {
     const markdown = dedent`
 
           # Markdown Title
@@ -163,8 +177,58 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: '## Heading 2\n\nLorem Ipsum',
+      content: dedent`
+          ## Heading 2
+
+          Lorem Ipsum
+
+        `,
       contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse only first h1 title', () => {
+    const markdown = dedent`
+
+          # Markdown Title
+
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should not parse title that is not at the top', () => {
+    const markdown = dedent`
+
+          Lorem Ipsum
+
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+
+          Lorem Ipsum
+
+          # Markdown Title 2
+
+          Lorem Ipsum
+
+        `,
+      contentTitle: undefined,
     });
   });
 
@@ -179,6 +243,108 @@ describe('parseMarkdownContentTitle', () => {
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: 'Lorem Ipsum',
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 title placed after import declarations', () => {
+    const markdown = dedent`
+          import Component1 from '@site/src/components/Component1';
+
+          import Component2 from '@site/src/components/Component2'
+          import Component3 from '@site/src/components/Component3'
+          import './styles.css';
+
+          # Markdown Title
+
+          Lorem Ipsum
+
+        `;
+
+    // remove the useless line breaks? Does not matter too much
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+          import Component1 from '@site/src/components/Component1';
+
+          import Component2 from '@site/src/components/Component2'
+          import Component3 from '@site/src/components/Component3'
+          import './styles.css';
+
+
+
+          Lorem Ipsum
+        `,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 title placed after various import declarations', () => {
+    const markdown = `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+# Markdown Title
+
+Lorem Ipsum
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: `
+import DefaultComponent from '@site/src/components/Component1';
+import DefaultComponent2 from '../relative/path/Component2';
+import * as EntireComponent from './relative/path/Component3';
+
+import { Component4 }   from    "double-quote-module-name";
+import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
+import { Component6 as AliasComponent6 } from "module-name";
+import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
+import DefaultComponent9,    * as EntireComponent9 from "module-name";
+import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
+
+import './styles.css';
+import _ from 'underscore';
+import "module-name"
+
+
+
+Lorem Ipsum
+        `.trim(),
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 alternate title placed after import declarations', () => {
+    const markdown = dedent`
+          import Component from '@site/src/components/Component';
+          import Component from '@site/src/components/Component'
+          import './styles.css';
+
+          Markdown Title
+          ==============
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+          import Component from '@site/src/components/Component';
+          import Component from '@site/src/components/Component'
+          import './styles.css';
+
+          Lorem Ipsum
+        `,
       contentTitle: 'Markdown Title',
     });
   });
@@ -239,23 +405,60 @@ describe('parseMarkdownContentTitle', () => {
       contentTitle: undefined,
     });
   });
+
+  test('Should parse markdown h1 title placed after multiple import declarations', () => {
+    const markdown = dedent`
+          import Component1 from '@site/src/components/Component1';
+          import Component2 from '@site/src/components/Component2';
+          import Component3 from '@site/src/components/Component3';
+          import Component4 from '@site/src/components/Component4';
+          import Component5 from '@site/src/components/Component5';
+          import Component6 from '@site/src/components/Component6';
+          import Component7 from '@site/src/components/Component7';
+          import Component8 from '@site/src/components/Component8';
+          import Component9 from '@site/src/components/Component9';
+          import Component10 from '@site/src/components/Component10';
+          import Component11 from '@site/src/components/Component11';
+          import Component12 from '@site/src/components/Component12';
+          import Component13 from '@site/src/components/Component13';
+          import Component14 from '@site/src/components/Component14';
+          import Component15 from '@site/src/components/Component15';
+
+          # Markdown Title
+
+          Lorem Ipsum
+
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: dedent`
+          import Component1 from '@site/src/components/Component1';
+          import Component2 from '@site/src/components/Component2';
+          import Component3 from '@site/src/components/Component3';
+          import Component4 from '@site/src/components/Component4';
+          import Component5 from '@site/src/components/Component5';
+          import Component6 from '@site/src/components/Component6';
+          import Component7 from '@site/src/components/Component7';
+          import Component8 from '@site/src/components/Component8';
+          import Component9 from '@site/src/components/Component9';
+          import Component10 from '@site/src/components/Component10';
+          import Component11 from '@site/src/components/Component11';
+          import Component12 from '@site/src/components/Component12';
+          import Component13 from '@site/src/components/Component13';
+          import Component14 from '@site/src/components/Component14';
+          import Component15 from '@site/src/components/Component15';
+
+
+
+          Lorem Ipsum
+
+        `,
+      contentTitle: 'Markdown Title',
+    });
+  });
 });
 
 describe('parseMarkdownString', () => {
-  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => {
-    warn.mockReset();
-  });
-
-  function expectDuplicateTitleWarning() {
-    expect(warn).toBeCalledWith(
-      expect.stringMatching(/Duplicate title found in this file/),
-    );
-  }
-  function expectNoWarning() {
-    expect(warn).not.toBeCalled();
-  }
-
   test('parse markdown with frontmatter', () => {
     expect(
       parseMarkdownString(dedent`
@@ -275,7 +478,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse first heading as contentTitle', () => {
@@ -293,7 +495,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should warn about duplicate titles (frontmatter + markdown)', () => {
@@ -317,7 +518,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should warn about duplicate titles (frontmatter + markdown alternate)', () => {
@@ -342,7 +542,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should not warn for duplicate title if keepContentTitle=true', () => {
@@ -371,7 +570,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should not warn for duplicate title if markdown title is not at the top', () => {
@@ -397,7 +595,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse markdown title and keep it in content', () => {
@@ -416,7 +613,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should delete only first heading', () => {
@@ -442,7 +638,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse front-matter and ignore h2', () => {
@@ -465,7 +660,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should read front matter only', () => {
@@ -485,7 +679,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse title only', () => {
@@ -497,7 +690,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should parse title only alternate', () => {
@@ -514,7 +706,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should warn about duplicate titles', () => {
@@ -535,7 +726,6 @@ describe('parseMarkdownString', () => {
         },
       }
     `);
-    expectDuplicateTitleWarning();
   });
 
   test('should ignore markdown title if its not a first text', () => {
@@ -553,7 +743,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 
   test('should delete only first heading', () => {
@@ -579,6 +768,5 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
-    expectNoWarning();
   });
 });

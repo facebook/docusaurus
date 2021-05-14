@@ -53,7 +53,8 @@ export function transformMarkdownLine(
   line: string,
   slugger: GithubSlugger,
 ): string {
-  if (line.startsWith('#')) {
+  // Ignore h1 headings on purpose, as we don't create anchor links for those
+  if (line.startsWith('##')) {
     return transformMarkdownHeadingLine(line, slugger);
   } else {
     return line;

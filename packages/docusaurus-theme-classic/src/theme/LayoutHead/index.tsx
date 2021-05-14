@@ -14,6 +14,7 @@ import SearchMetadatas from '@theme/SearchMetadatas';
 import Seo from '@theme/Seo';
 import {
   DEFAULT_SEARCH_TAG,
+  useTitleFormatter,
   useAlternatePageUtils,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
@@ -90,6 +91,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   } = useDocusaurusContext();
   const {title, description, image, keywords, searchMetadatas} = props;
   const faviconUrl = useBaseUrl(favicon);
+  const pageTitle = useTitleFormatter(title);
 
   // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
   // const htmlLang = currentLocale.split('-')[0];
@@ -101,9 +103,11 @@ export default function LayoutHead(props: Props): JSX.Element {
       <Head>
         <html lang={htmlLang} dir={htmlDir} />
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+        <title>{pageTitle}</title>
+        <meta property="og:title" content={pageTitle} />
       </Head>
 
-      <Seo {...{title, description, keywords, image}} />
+      <Seo {...{description, keywords, image}} />
 
       <CanonicalUrlHeaders />
 

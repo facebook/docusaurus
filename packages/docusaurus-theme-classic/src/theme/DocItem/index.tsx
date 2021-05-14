@@ -24,15 +24,13 @@ import {
 
 function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
+  const {metadata, frontMatter} = DocContent;
   const {
-    metadata,
-    frontMatter: {
-      image,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
+    image,
+    keywords,
+    hide_title: hideTitle,
+    hide_table_of_contents: hideTableOfContents,
+  } = frontMatter;
   const {
     description,
     title,
@@ -51,9 +49,13 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
+  // For meta title, using frontMatter.title in priority over a potential # title found in markdown
+  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
+  const metaTitle = frontMatter.title || title;
+
   return (
     <>
-      <Seo {...{title, description, keywords, image}} />
+      <Seo {...{title: metaTitle, description, keywords, image}} />
 
       <div className="row">
         <div

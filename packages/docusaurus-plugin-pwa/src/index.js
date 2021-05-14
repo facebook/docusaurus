@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin');
+const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin')
+  .default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
 const path = require('path');
 const webpack = require('webpack');
@@ -127,7 +128,7 @@ function plugin(context, options) {
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom,
+            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
           }),
           new LogPlugin({
             name: 'Service Worker',

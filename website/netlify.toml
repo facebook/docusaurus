@@ -1,15 +1,27 @@
 
-# Note: this file's config override the Netlify UI admin config
+# Note: this file's config overrides the Netlify UI admin config
 
-# default/production build
+# /!\ due to using a monorepo it can be a bit messy to configure Netlify
+# See also https://github.com/netlify/build/issues/2483
+
 [build]
-  base = "/"
-  command = "yarn workspace docusaurus-2-website netlify:build:production"
+  command = "yarn --cwd .. build:packages && yarn build"
   publish = "website/build"
 
-# we build deploy previews with a /build/ baseUrl on purpose
-# permits to test that baseUrl works fine (this often breaks!)
+[build.environment]
+  NETLIFY_USE_YARN = "true"
+  YARN_VERSION = "1.22.5"
+  NODE_VERSION = "14"
+
+[context.production]
+  command = "yarn --cwd .. build:packages && yarn netlify:build:production"
+
 [context.deploy-preview]
-  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
-  publish = "website/build"
+  command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
+[[plugins]]
+package = "netlify-plugin-cache"
+  [plugins.inputs]
+  paths = [
+    "node_modules/.cache/webpack",
+  ]

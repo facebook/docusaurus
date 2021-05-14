@@ -38,7 +38,7 @@ import {sum} from 'lodash';
 
 describe('load utils', () => {
   test('aliasedSitePath', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       'user/website/docs/asd.md': '@site/docs/asd.md',
       'user/website/versioned_docs/foo/bar.md':
         '@site/versioned_docs/foo/bar.md',
@@ -51,23 +51,8 @@ describe('load utils', () => {
     });
   });
 
-  test('posixPath', () => {
-    const asserts = {
-      'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
-      '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
-      'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'foo\\bar': 'foo/bar',
-      'foo\\bar/lol': 'foo/bar/lol',
-      'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(posixPath(file)).toBe(asserts[file]);
-    });
-  });
-
   test('genComponentName', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       '/': 'index',
       '/foo-bar': 'FooBar096',
       '/foo/bar': 'FooBar1Df',
@@ -99,7 +84,7 @@ describe('load utils', () => {
   });
 
   test('docuHash', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       '': '-d41',
       '/': 'index',
       '/foo-bar': 'foo-bar-096',
@@ -115,7 +100,7 @@ describe('load utils', () => {
   });
 
   test('fileToPath', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       'index.md': '/',
       'hello/index.md': '/hello/',
       'foo.md': '/foo',
@@ -166,7 +151,7 @@ describe('load utils', () => {
   });
 
   test('genChunkName', () => {
-    const firstAssert = {
+    const firstAssert: Record<string, string> = {
       '/docs/adding-blog': 'docs-adding-blog-062',
       '/docs/versioning': 'docs-versioning-8a8',
       '/': 'index',
@@ -186,7 +171,7 @@ describe('load utils', () => {
     );
 
     // Even with same preferred name, still different chunk name for different path
-    const secondAssert = {
+    const secondAssert: Record<string, string> = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
@@ -195,7 +180,7 @@ describe('load utils', () => {
     });
 
     // Only generate short unique id
-    const thirdAssert = {
+    const thirdAssert: Record<string, string> = {
       a: '0cc175b9',
       b: '92eb5ffe',
       c: '4a8a08f0',
