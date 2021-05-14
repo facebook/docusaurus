@@ -12,15 +12,16 @@ module.exports = {
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   plugins: [
-    function (context, params) {
+    function (context, options) {
       return {name: 'first-plugin'};
     },
     [
-      function (context, params) {
+      function (context, options) {
         return {name: 'second-plugin'};
       },
       {it: 'should work'},
     ],
-    './myPlugin.js',
+    './plugin3.js',
+    ['./plugin4.js', {}],
   ],
 };

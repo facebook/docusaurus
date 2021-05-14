@@ -10,7 +10,7 @@ import path from 'path';
 import {loadContext, loadPluginConfigs} from '../../index';
 import initPlugins from '../init';
 
-describe('functional plugin', () => {
+describe('initPlugins', () => {
   async function loadSite() {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
     const context = await loadContext(siteDir);
@@ -25,11 +25,12 @@ describe('functional plugin', () => {
 
   test('plugins gets parsed correctly and loads in correct order', async () => {
     const {context, plugins} = await loadSite();
-    expect(context.siteConfig.plugins?.length).toBe(3);
-    expect(plugins.length).toBe(3);
+    expect(context.siteConfig.plugins?.length).toBe(4);
+    expect(plugins.length).toBe(4);
 
     expect(plugins[0].name).toBe('first-plugin');
     expect(plugins[1].name).toBe('second-plugin');
     expect(plugins[2].name).toBe('third-plugin');
+    expect(plugins[3].name).toBe('fourth-plugin');
   });
 });
