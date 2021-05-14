@@ -46,7 +46,7 @@ export function getSourceToPermalink(
 
 // YYYY-MM-DD-{name}.mdx?
 // Prefer named capture, but older Node versions do not support it.
-const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
+const DATE_FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}: DateLink) {
   return `${date
@@ -165,24 +165,24 @@ export async function generateBlogPosts(
         );
       }
 
-      let date;
+      let date: Date | undefined;
       // Extract date and title from filename.
-      const match = blogFileName.match(FILENAME_PATTERN);
+      const dateFilenameMatch = blogFileName.match(DATE_FILENAME_PATTERN);
       let linkName = blogFileName.replace(/\.mdx?$/, '');
 
-      if (match) {
-        const [, dateString, name] = match;
+      if (dateFilenameMatch) {
+        const [, dateString, name] = dateFilenameMatch;
         date = new Date(dateString);
         linkName = name;
       }
 
       // Prefer user-defined date.
       if (frontMatter.date) {
-        date = new Date(frontMatter.date);
+        date = frontMatter.date;
       }
 
       // Use file create time for blog.
-      date = date || (await fs.stat(source)).birthtime;
+      date = date ?? (await fs.stat(source)).birthtime;
       const formattedDate = new Intl.DateTimeFormat(i18n.currentLocale, {
         day: 'numeric',
         month: 'long',
@@ -193,7 +193,8 @@ export async function generateBlogPosts(
       const description = frontMatter.description ?? excerpt ?? '';
 
       const slug =
-        frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
+        frontMatter.slug ||
+        (dateFilenameMatch ? toUrl({date, link: linkName}) : linkName);
 
       const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
 

@@ -106,21 +106,38 @@ export function validateFrontMatter<T>(
   frontMatter: Record<string, unknown>,
   schema: Joi.ObjectSchema<T>,
 ): T {
-  try {
-    return JoiFrontMatter.attempt(frontMatter, schema, {
-      convert: true,
-      allowUnknown: true,
-    });
-  } catch (e) {
+  const {value, error, warning} = schema.validate(frontMatter, {
+    convert: true,
+    allowUnknown: true,
+    abortEarly: false,
+  });
+
+  if (error) {
+    const frontMatterString = JSON.stringify(frontMatter, null, 2);
+    const errorDetails = error.details;
+    const invalidFields = errorDetails.map(({path}) => path).join(', ');
+    const errorMessages = errorDetails
+      .map(({message}) => ` - ${message}`)
+      .join('\n');
+
+    logValidationBugReportHint();
+
     console.error(
       chalk.red(
-        `FrontMatter contains invalid values: ${JSON.stringify(
-          frontMatter,
-          null,
-          2,
-        )}`,
+        `The following FrontMatter:\n${chalk.yellow(
+          frontMatterString,
+        )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
       ),
     );
-    throw e;
+    throw error;
   }
+
+  if (warning) {
+    const warningMessages = warning.details
+      .map(({message}) => message)
+      .join('\n');
+    console.log(chalk.yellow(warningMessages));
+  }
+
+  return value;
 }
