@@ -1002,7 +1002,7 @@ const Users = [
     title: 'Tinaël Devresse',
     description: 'Personal website of Tinaël Devresse, a blog about anything that cross my mind which I think could interest y\'all.',
     preview: require('./showcase/tinaeldevresse.png'),
-    website: 'https://tinaeldevress.eu',
+    website: 'https://tinaeldevresse.eu/',
     source: 'https://github.com/hunteroi/tinaeldevresse.eu',
     tags: ['personal', 'opensource', 'i18n']
   },
