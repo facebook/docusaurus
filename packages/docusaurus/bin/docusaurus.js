@@ -44,7 +44,7 @@ if (notifier.lastUpdateCheck === Date.now()) {
   notifier.lastUpdateCheck = 0;
 }
 
-if (notifier.update && notifier.update.current !== notifier.update.latest) {
+if (notifier.update && semver.gt(this.update.latest, this.update.current)) {
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
   const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
