@@ -11,22 +11,18 @@
 // TODO this is not ideal and produce a warning!
 // see https://github.com/webpack/webpack/issues/7713#issuecomment-467888437
 // note: warning can be filtered: https://github.com/facebook/docusaurus/pull/3382#issuecomment-684966924
-function getExport() {
-  try {
-    // eslint-disable-next-line global-require
-    return require('@theme-init/hooks/useDocs');
-  } catch (e) {
-    // In case the docs plugin is not available, might be useful to stub some methods here
-    // https://github.com/facebook/docusaurus/issues/3947
-    const Empty = {};
-    return {
-      useAllDocsData: () => Empty,
-      useActivePluginAndVersion: () => undefined,
-    };
-  }
+try {
+  // eslint-disable-next-line global-require
+  module.exports = require('@theme-init/hooks/useDocs');
+} catch (e) {
+  // In case the docs plugin is not available, might be useful to stub some methods here
+  // https://github.com/facebook/docusaurus/issues/3947
+  const Empty = {};
+  module.exports = {
+    useAllDocsData: () => Empty,
+    useActivePluginAndVersion: () => undefined,
+  };
 }
-
-export default getExport();
 
 /*
 throw new Error(
