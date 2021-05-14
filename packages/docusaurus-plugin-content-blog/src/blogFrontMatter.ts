@@ -66,6 +66,8 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
 
+  /*
+  TODO re-enable later, our v1 blog posts use those frontmatter fields
   authorURL: Joi.string().uri().warning('deprecate.error', {
     alternative: '"author_url"',
   }),
@@ -75,11 +77,12 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   authorImageURL: Joi.string().uri().warning('deprecate.error', {
     alternative: '"author_image_url"',
   }),
+   */
 })
   .unknown()
   .messages({
     'deprecate.error':
-      '{#label} field is deprecated. Please use {#alternative} one instead.',
+      '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
   });
 
 export function validateBlogPostFrontMatter(
