@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initPlugins plugins with bad values throw user-friendly error message 1`] = `
+" => Bad Docusaurus plugin value as path [plugins,0].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
+
+ => Bad Docusaurus plugin value as path [plugins,1].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
+
+"
+`;
