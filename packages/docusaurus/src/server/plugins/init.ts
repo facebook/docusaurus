@@ -96,6 +96,34 @@ function normalizePluginConfig(
   );
 }
 
+function getOptionValidationFunction(
+  normalizedPluginConfig: NormalizedPluginConfig,
+): PluginModule['validateOptions'] {
+  if (normalizedPluginConfig.pluginModule) {
+    // support both commonjs and ES modules
+    return (
+      normalizedPluginConfig.pluginModule.module?.default?.validateOptions ??
+      normalizedPluginConfig.pluginModule.module?.validateOptions
+    );
+  } else {
+    return normalizedPluginConfig.plugin.validateOptions;
+  }
+}
+
+function getThemeValidationFunction(
+  normalizedPluginConfig: NormalizedPluginConfig,
+): PluginModule['validateThemeConfig'] {
+  if (normalizedPluginConfig.pluginModule) {
+    // support both commonjs and ES modules
+    return (
+      normalizedPluginConfig.pluginModule.module.default?.validateThemeConfig ??
+      normalizedPluginConfig.pluginModule.module.validateThemeConfig
+    );
+  } else {
+    return normalizedPluginConfig.plugin.validateThemeConfig;
+  }
+}
+
 export type InitPlugin = Plugin<unknown> & {
   readonly options: PluginOptions;
   readonly version: DocusaurusPluginVersionInformation;
@@ -116,90 +144,81 @@ export default function initPlugins({
   const pluginRequire = createRequire(context.siteConfigPath);
 
   function doGetPluginVersion(
-    pluginModuleImport: string | undefined,
+    normalizedPluginConfig: NormalizedPluginConfig,
   ): DocusaurusPluginVersionInformation {
     // get plugin version
-    if (pluginModuleImport) {
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    if (normalizedPluginConfig.pluginModule?.path) {
+      const pluginPath = pluginRequire.resolve(
+        normalizedPluginConfig.pluginModule?.path,
+      );
       return getPluginVersion(pluginPath, context.siteDir);
     } else {
       return {type: 'local'};
     }
   }
 
+  function doValidateThemeConfig(
+    normalizedPluginConfig: NormalizedPluginConfig,
+  ) {
+    const validateThemeConfig = getThemeValidationFunction(
+      normalizedPluginConfig,
+    );
+    if (validateThemeConfig) {
+      return validateThemeConfig({
+        validate: normalizeThemeConfig,
+        themeConfig: context.siteConfig.themeConfig,
+      });
+    } else {
+      return context.siteConfig.themeConfig;
+    }
+  }
+
+  function doValidatePluginOptions(
+    normalizedPluginConfig: NormalizedPluginConfig,
+  ) {
+    const validateOptions = getOptionValidationFunction(normalizedPluginConfig);
+    if (validateOptions) {
+      return validateOptions({
+        validate: normalizePluginOptions,
+        options: normalizedPluginConfig.options,
+      });
+    } else {
+      // Important to ensure all plugins have an id
+      // as we don't go through the Joi schema that adds it
+      return {
+        ...normalizedPluginConfig.options,
+        id: normalizedPluginConfig.options.id ?? DEFAULT_PLUGIN_ID,
+      };
+    }
+  }
+
   const plugins: InitPlugin[] = pluginConfigs
     .map((pluginConfig) => {
-      let pluginOptions: PluginOptions = {};
-      let validateOptions;
-
       if (!pluginConfig) {
         return null;
       }
-
       const normalizedPluginConfig = normalizePluginConfig(
         pluginConfig,
         pluginRequire,
       );
-
-      // TODO not proud of this legacy code, need more refactors!
-      pluginOptions = normalizedPluginConfig.options;
-      const {plugin} = normalizedPluginConfig;
-      const pluginModuleImport = normalizedPluginConfig.pluginModule?.path;
-      const pluginModule = normalizedPluginConfig.pluginModule?.module;
-
       const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
-        pluginModuleImport,
+        normalizedPluginConfig,
+      );
+      const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
+
+      // Side-effect: merge the normalized theme config in the original one
+      context.siteConfig.themeConfig = {
+        ...context.siteConfig.themeConfig,
+        ...doValidateThemeConfig(normalizedPluginConfig),
+      };
+
+      const pluginInstance = normalizedPluginConfig.plugin(
+        context,
+        pluginOptions,
       );
 
-      if (pluginModuleImport) {
-        // support both commonjs and ES modules
-        validateOptions =
-          pluginModule?.default?.validateOptions ??
-          pluginModule?.validateOptions;
-
-        // pluginItem is a function
-      } else {
-        validateOptions = plugin?.validateOptions;
-      }
-
-      if (validateOptions) {
-        pluginOptions = validateOptions({
-          validate: normalizePluginOptions,
-          options: pluginOptions,
-        });
-      } else {
-        // Important to ensure all plugins have an id
-        // as we don't go through the Joi schema that adds it
-        pluginOptions = {
-          ...pluginOptions,
-          id: pluginOptions.id ?? DEFAULT_PLUGIN_ID,
-        };
-      }
-
-      // support both commonjs and ES modules and Functional plugins
-      let validateThemeConfig;
-      if (pluginModule) {
-        validateThemeConfig =
-          pluginModule.default?.validateThemeConfig ??
-          pluginModule.validateThemeConfig;
-      } else {
-        validateThemeConfig = plugin?.validateOptions;
-      }
-
-      if (validateThemeConfig) {
-        const normalizedThemeConfig = validateThemeConfig({
-          validate: normalizeThemeConfig,
-          themeConfig: context.siteConfig.themeConfig,
-        });
-
-        context.siteConfig.themeConfig = {
-          ...context.siteConfig.themeConfig,
-          ...normalizedThemeConfig,
-        };
-      }
-
       return {
-        ...plugin(context, pluginOptions),
+        ...pluginInstance,
         options: pluginOptions,
         version: pluginVersion,
       };

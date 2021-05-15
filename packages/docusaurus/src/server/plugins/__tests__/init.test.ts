@@ -7,13 +7,13 @@
 
 import path from 'path';
 
-import {loadContext, loadPluginConfigs} from '../../index';
+import {loadContext, LoadContextOptions, loadPluginConfigs} from '../../index';
 import initPlugins from '../init';
 
 describe('initPlugins', () => {
-  async function loadSite() {
+  async function loadSite(options: LoadContextOptions = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
-    const context = await loadContext(siteDir);
+    const context = await loadContext(siteDir, options);
     const pluginConfigs = loadPluginConfigs(context);
     const plugins = initPlugins({
       pluginConfigs,
@@ -32,5 +32,13 @@ describe('initPlugins', () => {
     expect(plugins[1].name).toBe('second-plugin');
     expect(plugins[2].name).toBe('third-plugin');
     expect(plugins[3].name).toBe('fourth-plugin');
+  });
+
+  test('plugins with bad values throw user-friendly error message', async () => {
+    await expect(() =>
+      loadSite({
+        customConfigFilePath: 'badPlugins.docusaurus.config.js',
+      }),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

@@ -38,7 +38,7 @@ import {
 } from './translations/translations';
 import {mapValues} from 'lodash';
 
-type LoadContextOptions = {
+export type LoadContextOptions = {
   customOutDir?: string;
   customConfigFilePath?: string;
   locale?: string;
