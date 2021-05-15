@@ -11,6 +11,7 @@ import {
   DocusaurusPluginVersionInformation,
   ImportedPluginModule,
   LoadContext,
+  PluginModule,
   Plugin,
   PluginConfig,
   PluginOptions,
@@ -22,6 +23,106 @@ import {
   normalizePluginOptions,
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
+
+type NormalizedPluginConfig = {
+  plugin: PluginModule;
+  options: PluginOptions;
+  // Only available when a string is provided in config
+  pluginModule?: {
+    path: string;
+    module: ImportedPluginModule;
+  };
+};
+
+function normalizePluginConfig(
+  pluginConfig: PluginConfig,
+  pluginRequire: NodeRequire,
+): NormalizedPluginConfig {
+  // plugins: ['./plugin']
+  if (typeof pluginConfig === 'string') {
+    const pluginModuleImport = pluginConfig;
+    const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    return {
+      plugin: pluginModule?.default ?? pluginModule,
+      options: {},
+      pluginModule: {
+        path: pluginModuleImport,
+        module: pluginModule,
+      },
+    };
+  }
+
+  // plugins: [function plugin() { }]
+  if (typeof pluginConfig === 'function') {
+    return {
+      plugin: pluginConfig,
+      options: {},
+    };
+  }
+
+  if (Array.isArray(pluginConfig)) {
+    // plugins: [
+    //   ['./plugin',options],
+    // ]
+    if (typeof pluginConfig[0] === 'string') {
+      const pluginModuleImport = pluginConfig[0];
+      const pluginPath = pluginRequire.resolve(pluginModuleImport);
+      const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+      return {
+        plugin: pluginModule?.default ?? pluginModule,
+        options: pluginConfig[1] ?? {},
+        pluginModule: {
+          path: pluginModuleImport,
+          module: pluginModule,
+        },
+      };
+    }
+    // plugins: [
+    //   [function plugin() { },options],
+    // ]
+    if (typeof pluginConfig[0] === 'function') {
+      return {
+        plugin: pluginConfig[0],
+        options: pluginConfig[1] ?? {},
+      };
+    }
+  }
+
+  throw new Error(
+    `Unexpected: cant load plugin for plugin config = ${JSON.stringify(
+      pluginConfig,
+    )}`,
+  );
+}
+
+function getOptionValidationFunction(
+  normalizedPluginConfig: NormalizedPluginConfig,
+): PluginModule['validateOptions'] {
+  if (normalizedPluginConfig.pluginModule) {
+    // support both commonjs and ES modules
+    return (
+      normalizedPluginConfig.pluginModule.module?.default?.validateOptions ??
+      normalizedPluginConfig.pluginModule.module?.validateOptions
+    );
+  } else {
+    return normalizedPluginConfig.plugin.validateOptions;
+  }
+}
+
+function getThemeValidationFunction(
+  normalizedPluginConfig: NormalizedPluginConfig,
+): PluginModule['validateThemeConfig'] {
+  if (normalizedPluginConfig.pluginModule) {
+    // support both commonjs and ES modules
+    return (
+      normalizedPluginConfig.pluginModule.module.default?.validateThemeConfig ??
+      normalizedPluginConfig.pluginModule.module.validateThemeConfig
+    );
+  } else {
+    return normalizedPluginConfig.plugin.validateThemeConfig;
+  }
+}
 
 export type InitPlugin = Plugin<unknown> & {
   readonly options: PluginOptions;
@@ -42,75 +143,82 @@ export default function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(context.siteConfigPath);
 
-  const plugins: InitPlugin[] = pluginConfigs
-    .map((pluginItem) => {
-      let pluginModuleImport: string | undefined;
-      let pluginOptions: PluginOptions = {};
+  function doGetPluginVersion(
+    normalizedPluginConfig: NormalizedPluginConfig,
+  ): DocusaurusPluginVersionInformation {
+    // get plugin version
+    if (normalizedPluginConfig.pluginModule?.path) {
+      const pluginPath = pluginRequire.resolve(
+        normalizedPluginConfig.pluginModule?.path,
+      );
+      return getPluginVersion(pluginPath, context.siteDir);
+    } else {
+      return {type: 'local'};
+    }
+  }
 
-      if (!pluginItem) {
+  function doValidateThemeConfig(
+    normalizedPluginConfig: NormalizedPluginConfig,
+  ) {
+    const validateThemeConfig = getThemeValidationFunction(
+      normalizedPluginConfig,
+    );
+    if (validateThemeConfig) {
+      return validateThemeConfig({
+        validate: normalizeThemeConfig,
+        themeConfig: context.siteConfig.themeConfig,
+      });
+    } else {
+      return context.siteConfig.themeConfig;
+    }
+  }
+
+  function doValidatePluginOptions(
+    normalizedPluginConfig: NormalizedPluginConfig,
+  ) {
+    const validateOptions = getOptionValidationFunction(normalizedPluginConfig);
+    if (validateOptions) {
+      return validateOptions({
+        validate: normalizePluginOptions,
+        options: normalizedPluginConfig.options,
+      });
+    } else {
+      // Important to ensure all plugins have an id
+      // as we don't go through the Joi schema that adds it
+      return {
+        ...normalizedPluginConfig.options,
+        id: normalizedPluginConfig.options.id ?? DEFAULT_PLUGIN_ID,
+      };
+    }
+  }
+
+  const plugins: InitPlugin[] = pluginConfigs
+    .map((pluginConfig) => {
+      if (!pluginConfig) {
         return null;
       }
+      const normalizedPluginConfig = normalizePluginConfig(
+        pluginConfig,
+        pluginRequire,
+      );
+      const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
+        normalizedPluginConfig,
+      );
+      const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
-      if (typeof pluginItem === 'string') {
-        pluginModuleImport = pluginItem;
-      } else if (Array.isArray(pluginItem)) {
-        [pluginModuleImport, pluginOptions = {}] = pluginItem;
-      } else {
-        throw new TypeError(`You supplied a wrong type of plugin.
-A plugin should be either string or [importPath: string, options?: object].
+      // Side-effect: merge the normalized theme config in the original one
+      context.siteConfig.themeConfig = {
+        ...context.siteConfig.themeConfig,
+        ...doValidateThemeConfig(normalizedPluginConfig),
+      };
 
-For more information, visit https://docusaurus.io/docs/using-plugins.`);
-      }
-
-      if (!pluginModuleImport) {
-        throw new Error('The path to the plugin is either undefined or null.');
-      }
-
-      // The pluginModuleImport value is any valid
-      // module identifier - npm package or locally-resolved path.
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      const pluginModule: ImportedPluginModule = importFresh(pluginPath);
-      const pluginVersion = getPluginVersion(pluginPath, context.siteDir);
-
-      const plugin = pluginModule.default || pluginModule;
-
-      // support both commonjs and ES modules
-      const validateOptions =
-        pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
-
-      if (validateOptions) {
-        pluginOptions = validateOptions({
-          validate: normalizePluginOptions,
-          options: pluginOptions,
-        });
-      } else {
-        // Important to ensure all plugins have an id
-        // as we don't go through the Joi schema that adds it
-        pluginOptions = {
-          ...pluginOptions,
-          id: pluginOptions.id ?? DEFAULT_PLUGIN_ID,
-        };
-      }
-
-      // support both commonjs and ES modules
-      const validateThemeConfig =
-        pluginModule.default?.validateThemeConfig ??
-        pluginModule.validateThemeConfig;
-
-      if (validateThemeConfig) {
-        const normalizedThemeConfig = validateThemeConfig({
-          validate: normalizeThemeConfig,
-          themeConfig: context.siteConfig.themeConfig,
-        });
-
-        context.siteConfig.themeConfig = {
-          ...context.siteConfig.themeConfig,
-          ...normalizedThemeConfig,
-        };
-      }
+      const pluginInstance = normalizedPluginConfig.plugin(
+        context,
+        pluginOptions,
+      );
 
       return {
-        ...plugin(context, pluginOptions),
+        ...pluginInstance,
         options: pluginOptions,
         version: pluginVersion,
       };

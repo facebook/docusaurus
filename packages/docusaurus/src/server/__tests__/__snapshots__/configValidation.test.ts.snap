@@ -31,32 +31,66 @@ exports[`normalizeConfig should throw error if css doesn't have href 1`] = `
 `;
 
 exports[`normalizeConfig should throw error if plugins is not a string and it's not an array #1 for the input of: [123] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
-"
-`;
+" => Bad Docusaurus plugin value as path [plugins,0].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
 
-exports[`normalizeConfig should throw error if plugins is not a string and it's not an array #2 for the input of: [[Function anonymous]] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
 "
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
+" => Bad Docusaurus plugin value as path [plugins,0].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
+
 "
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
+" => Bad Docusaurus plugin value as path [plugins,0].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
+
 "
 `;
 
 exports[`normalizeConfig should throw error if plugins is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
-"\\"plugins[0]\\" does not match any of the allowed types
-"
-`;
+" => Bad Docusaurus plugin value as path [plugins,0].
+Example valid plugin config:
+{
+  plugins: [
+    [\\"@docusaurus/plugin-content-docs\\",options],
+    \\"./myPlugin\\",
+    [\\"./myPlugin\\",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
 
-exports[`normalizeConfig should throw error if plugins is not array for the input of: [Function anonymous] 1`] = `
-"\\"plugins\\" must be an array
 "
 `;
 

@@ -18,22 +18,34 @@ import initPlugins from '../server/plugins/init';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 export function getPluginNames(plugins: PluginConfig[]): string[] {
-  return plugins.map((plugin) => {
-    const pluginPath = Array.isArray(plugin) ? plugin[0] : plugin;
-    let packagePath = path.dirname(pluginPath);
-    while (packagePath) {
-      if (fs.existsSync(path.join(packagePath, 'package.json'))) {
-        break;
-      } else {
-        packagePath = path.dirname(packagePath);
+  return plugins
+    .filter(
+      (plugin) =>
+        typeof plugin === 'string' ||
+        (Array.isArray(plugin) && typeof plugin[0] === 'string'),
+    )
+    .map((plugin) => {
+      const pluginPath = Array.isArray(plugin) ? plugin[0] : plugin;
+      if (typeof pluginPath === 'string') {
+        let packagePath = path.dirname(pluginPath);
+        while (packagePath) {
+          if (fs.existsSync(path.join(packagePath, 'package.json'))) {
+            break;
+          } else {
+            packagePath = path.dirname(packagePath);
+          }
+        }
+        if (packagePath === '.') {
+          return pluginPath;
+        }
+        return importFresh<{name: string}>(
+          path.join(packagePath, 'package.json'),
+        ).name;
       }
-    }
-    if (packagePath === '.') {
-      return pluginPath;
-    }
-    return importFresh<{name: string}>(path.join(packagePath, 'package.json'))
-      .name;
-  });
+
+      return '';
+    })
+    .filter((plugin) => plugin !== '');
 }
 
 function walk(dir: string): Array<string> {
@@ -178,7 +190,7 @@ export default async function swizzle(
   // find the plugin from list of plugin and get options if specified
   pluginConfigs.forEach((pluginConfig) => {
     // plugin can be a [string], [string,object] or string.
-    if (Array.isArray(pluginConfig)) {
+    if (Array.isArray(pluginConfig) && typeof pluginConfig[0] === 'string') {
       if (require.resolve(pluginConfig[0]) === resolvedThemeName) {
         if (pluginConfig.length === 2) {
           const [, options] = pluginConfig;

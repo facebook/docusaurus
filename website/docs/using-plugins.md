@@ -119,28 +119,62 @@ Docusaurus' implementation of the plugins system provides us with a convenient w
 
 ## Creating plugins {#creating-plugins}
 
-A plugin is a module which exports a function that takes two parameters and returns an object when executed.
+A plugin is a function that takes two parameters: `context` and `options`.
 
-### Module definition {#module-definition}
+It returns a plugin instance object, containing plugin [lifecycle APIs](./lifecycle-apis.md).
 
-The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
+It can be defined as a function or a module.
 
-For example if you have a reference to a local folder such as this in your `docusaurus.config.js`:
+### Functional definition {#functional-definition}
+
+You can use a plugin as a function, directly in the Docusaurus config file:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   // ...
-  plugins: [path.resolve(__dirname, 'my-plugin')],
+  plugins: [
+    // highligh-start
+    function myPlugin(contex, options) {
+      // ...
+      return {
+        name: 'my-plugin',
+        async loadContent() {
+          // ...
+        },
+        async contentLoaded({content, actions}) {
+          // ...
+        },
+        /* other lifecycle API */
+      };
+    },
+    // highlight-end
+  ],
+};
+```
+
+### Module definition {#module-definition}
+
+You can use a plugin as a module, loading it from a separate file or NPM package:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // without options:
+    './my-plugin',
+    // or with options:
+    ['./my-plugin', options],
+  ],
 };
 ```
 
 Then in the folder `my-plugin` you can create an index.js such as this
 
-```js title="index.js"
-module.exports = function (context, options) {
+```js title="my-plugin.js"
+module.exports = function myPlugin(context, options) {
   // ...
   return {
-    name: 'my-docusaurus-plugin',
+    name: 'my-plugin',
     async loadContent() {
       /* ... */
     },
@@ -152,11 +186,9 @@ module.exports = function (context, options) {
 };
 ```
 
-The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
-
 #### `context` {#context}
 
-`context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
+`context` is plugin-agnostic, and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
 
 ```ts
 interface LoadContext {

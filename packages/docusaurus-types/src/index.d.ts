@@ -294,7 +294,12 @@ export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
-export type PluginConfig = [string, PluginOptions] | [string] | string;
+export type PluginConfig =
+  | [string, PluginOptions]
+  | [string]
+  | string
+  | [PluginModule, PluginOptions]
+  | PluginModule;
 
 export interface ChunkRegistry {
   loader: string;

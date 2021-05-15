@@ -51,13 +51,36 @@ export const DEFAULT_CONFIG: Pick<
   baseUrlIssueBanner: true,
 };
 
-const PluginSchema = Joi.alternatives().try(
-  Joi.string(),
-  Joi.array()
-    .ordered(Joi.string().required(), Joi.object().required())
-    .length(2),
-  Joi.bool().equal(false), // In case of conditional adding of plugins.
-);
+const PluginSchema = Joi.alternatives()
+  .try(
+    Joi.function(),
+    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
+    Joi.string(),
+    Joi.array()
+      .ordered(Joi.string().required(), Joi.object().required())
+      .length(2),
+    Joi.bool().equal(false), // In case of conditional adding of plugins.
+  )
+  // TODO isn't there a simpler way to customize the default Joi error message???
+  // Not sure why Joi makes it complicated to add a custom error message...
+  // See https://stackoverflow.com/a/54657686/82609
+  .error((errors) => {
+    errors.forEach((error) => {
+      error.message = ` => Bad Docusaurus plugin value as path [${error.path}].
+Example valid plugin config:
+{
+  plugins: [
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
+    function myPlugin() { },
+    [function myPlugin() { },options]
+  ],
+};
+`;
+    });
+    return errors as any;
+  });
 
 const ThemeSchema = Joi.alternatives().try(
   Joi.string(),

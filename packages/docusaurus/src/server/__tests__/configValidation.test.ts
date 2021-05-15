@@ -91,22 +91,8 @@ describe('normalizeConfig', () => {
   test.each([
     ['should throw error if plugins is not array', {}],
     [
-      'should throw error if plugins is not array',
-      function () {
-        console.log('noop');
-      },
-    ],
-    [
       "should throw error if plugins is not a string and it's not an array #1",
       [123],
-    ],
-    [
-      "should throw error if plugins is not a string and it's not an array #2",
-      [
-        function () {
-          console.log('noop');
-        },
-      ],
     ],
     [
       'should throw error if plugins is not an array of [string, object][] #1',
@@ -152,6 +138,11 @@ describe('normalizeConfig', () => {
         ['plain', {it: 'should work'}],
         ['this/should/work', {too: 'yes'}],
       ],
+    ],
+    ['should accept function for plugin', [function (_context, _options) {}]],
+    [
+      'should accept [function, object] for plugin',
+      [[function (_context, _options) {}, {it: 'should work'}]],
     ],
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
