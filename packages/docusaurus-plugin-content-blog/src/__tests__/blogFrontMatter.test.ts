@@ -251,9 +251,10 @@ describe('validateBlogPostFrontMatter', () => {
   testField({
     fieldName: 'date',
     validFrontMatters: [
-      // @ts-expect-error: number for test
       {date: new Date('2020-01-01')},
+      // @ts-expect-error: string for test
       {date: '2020-01-01'},
+      // @ts-expect-error: string for test
       {date: '2020'},
     ],
     invalidFrontMatters: [
