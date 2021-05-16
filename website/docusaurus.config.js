@@ -337,7 +337,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {
-          docId: 'support',
           to: '/community/support',
           label: 'Community',
           position: 'left',

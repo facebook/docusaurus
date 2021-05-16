@@ -18,3 +18,56 @@
 .navbarHidden {
   transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
 }
+
+:global(.navbar-sidebar__items) {
+  padding: 0;
+}
+
+:global(.navbar-sidebar) {
+  overflow-x: hidden;
+}
+
+.menuWrapper {
+  display: flex;
+  width: calc(var(--ifm-navbar-sidebar-width));
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0) !important;
+}
+
+.menuWrapperDocShown {
+  transform: translate3d(
+    calc((var(--ifm-navbar-sidebar-width)) * -1),
+    0,
+    0
+  ) !important;
+}
+
+.menuWrapper > div {
+  flex-shrink: 0;
+  width: calc(var(--ifm-navbar-sidebar-width));
+  font-weight: var(--ifm-font-weight-semibold);
+  padding: 0.5rem;
+}
+
+.backButton {
+  width: calc(100% + 1rem);
+  margin-left: -0.5rem;
+  border-radius: 0;
+  text-align: left;
+  font-size: 15px;
+  color: inherit !important;
+  border: none;
+}
+
+html[data-theme='dark'] .backButton {
+  background-color: #2e333a;
+}
+
+html[data-theme='dark'] .backButton:hover,
+html[data-theme='dark'] .backButton:focus {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.docSidebarMenu {
+  padding-top: 0 !important;
+}

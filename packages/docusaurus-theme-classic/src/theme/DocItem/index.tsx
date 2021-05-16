@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
+import React, {useRef} from 'react';
 import clsx from 'clsx';
 
 import {
@@ -13,7 +13,8 @@ import {
   useVersions,
   useActiveVersion,
 } from '@theme/hooks/useDocs';
-import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useCollapse from '@theme/hooks/useCollapse';
+import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 import Seo from '@theme/Seo';
@@ -21,7 +22,6 @@ import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC, {Headings} from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
-import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
 
@@ -57,12 +57,10 @@ function DocItem(props: Props): JSX.Element {
   const metaTitle = frontMatter.title || title;
 
   const showToc = !hideTableOfContents && DocContent.toc;
-  const [showMobileToc, setShowMobileToc] = useState(false);
-  const toggleMobileToc = useCallback(() => {
-    setShowMobileToc(!showMobileToc);
-  }, [showMobileToc]);
 
-  useLockBodyScroll(showMobileToc);
+  const {isDesktop} = useWindowSize();
+  const mobileTocRef = useRef(null);
+  const [collapsed, setCollapsed] = useCollapse(true, mobileTocRef);
 
   return (
     <>
@@ -81,6 +79,25 @@ function DocItem(props: Props): JSX.Element {
                   <span className="badge badge--secondary">
                     Version: {version.label}
                   </span>
+                </div>
+              )}
+              {!isDesktop && showToc && (
+                <div
+                  className={clsx('margin-vert--md', styles.mobileToc, {
+                    [styles.mobileTocExpanded]: !collapsed,
+                  })}>
+                  <button
+                    type="button"
+                    className={styles.mobileTocButton}
+                    onClick={() => setCollapsed(!collapsed)}>
+                    Contents of this page
+                  </button>
+
+                  <div
+                    ref={mobileTocRef}
+                    className={clsx(styles.mobileTocContent)}>
+                    <Headings toc={DocContent.toc} />
+                  </div>
                 </div>
               )}
               {!hideTitle && (
@@ -113,51 +130,12 @@ function DocItem(props: Props): JSX.Element {
             </div>
           </div>
         </div>
-        {showToc && (
+        {showToc && isDesktop && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>
         )}
       </div>
-
-      {showToc && (
-        <>
-          {/* TODO: Use Infima styles */}
-          <div
-            role="presentation"
-            className={clsx(styles.mobileTocOverlay, {
-              [styles.mobileTocOverlayOpened]: showMobileToc,
-            })}
-            onClick={toggleMobileToc}
-          />
-
-          <div
-            className={clsx(styles.mobileToc, {
-              [styles.mobileTocOpened]: showMobileToc,
-            })}>
-            <button
-              type="button"
-              className={clsx(
-                'button button--secondary',
-                styles.mobileTocCloseButton,
-              )}
-              onClick={toggleMobileToc}>
-              ×
-            </button>
-
-            <div className={clsx(styles.mobileTocContent, 'thin-scrollbar')}>
-              <Headings toc={DocContent.toc} onClick={toggleMobileToc} />
-            </div>
-
-            <button
-              type="button"
-              className={styles.mobileTocOpenButton}
-              onClick={toggleMobileToc}>
-              <IconMenu height={24} width={24} />
-            </button>
-          </div>
-        </>
-      )}
     </>
   );
 }

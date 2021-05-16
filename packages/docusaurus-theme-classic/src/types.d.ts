@@ -348,7 +348,6 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly items?: readonly NavLinkProps[];
     readonly position?: 'left' | 'right';
     readonly className?: string;
-    readonly docId?: string;
   };
 
   export type Props = DesktopOrMobileNavBarItemProps & {

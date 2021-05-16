@@ -19,10 +19,6 @@
   .docItemCol {
     max-width: 75% !important;
   }
-
-  .mobileToc {
-    display: none;
-  }
 }
 
 @media only screen and (max-width: 996px) {
@@ -31,75 +27,53 @@
   }
 
   .mobileToc {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    z-index: calc(var(--ifm-z-index-fixed) + 2);
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: var(--ifm-global-shadow-md);
-    transform: translate(-50%, -50%) translateX(100%);
-    max-height: 50vh;
-    transition: transform var(--ifm-transition-fast) ease;
+    background-color: var(--ifm-menu-color-background-active);
+    border-radius: var(--ifm-global-radius);
   }
 
-  .mobileTocOpened {
-    transform: translate(-50%, -50%) translateX(0);
-  }
-
-  .mobileTocCloseButton {
-    position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-    height: 2.5rem;
-    width: 2.5rem;
-    box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 100%;
-    color: var(--ifm-color-gray-900);
-    padding: 0;
-    font-size: 2rem;
-    line-height: 1;
-  }
-
-  .mobileTocOpenButton {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .mobileTocButton {
+    background: none;
     border: none;
-    border-radius: 100% 0 0 100%;
-    height: 2.5rem;
-    width: 2.5rem;
-    box-shadow: -3px 3px 4px rgba(0, 0, 0, 0.1);
-    transform: translateX(-100%);
+    font-size: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    width: 100%;
+    color: inherit;
+  }
+
+  .mobileTocButton:after {
+    content: '';
+    background: var(--ifm-menu-link-sublist-icon) 50% 50% / 2rem 2rem no-repeat;
+    filter: var(--ifm-menu-link-sublist-icon-filter);
+    height: 1.25rem;
+    width: 1.25rem;
+    transform: rotate(180deg);
+    transition: transform var(--ifm-transition-fast);
   }
 
   .mobileTocContent {
-    height: 100%;
-    overflow-y: auto;
+    height: 0;
+    overflow: hidden;
   }
 
   .mobileTocContent > ul {
-    font-weight: var(--ifm-font-weight-semibold);
-    font-size: 16px;
-    width: calc(100% - 3.5rem);
+    border-left: none;
+    border-top: 1px solid var(--ifm-color-emphasis-300);
+    padding: 0.2rem 0;
+    font-size: 15px;
   }
 
-  .mobileTocOverlay {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    opacity: 0;
-    pointer-events: none;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: calc(var(--ifm-z-index-fixed) + 1);
-    transition: opacity 100ms ease-in-out;
+  .mobileTocContent ul li {
+    margin: 0.4rem 0.8rem;
   }
 
-  .mobileTocOverlayOpened {
-    opacity: 1;
-    pointer-events: all;
+  .mobileTocExpanded .mobileTocButton:after {
+    transform: none;
+  }
+
+  .mobileTocExpanded .mobileTocContent {
+    height: auto;
   }
 }

@@ -44,7 +44,6 @@ Available docIds=\n- ${docIds}`,
       })}
       label={staticLabel ?? doc.id}
       to={doc.path}
-      docId={docId}
     />
   );
 }
