@@ -11,6 +11,7 @@ import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
@@ -29,7 +30,8 @@ function MDXPage(props: Props): JSX.Element {
       title={title}
       description={description}
       permalink={permalink}
-      wrapperClassName={wrapperClassName}>
+      wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
+      pageClassName={ThemeClassNames.page.mdxPage}>
       <main>
         <div className="container container--fluid">
           <div className="margin-vert--lg padding-vert--lg">

@@ -6,11 +6,11 @@ slug: /migration/manual
 
 This manual migration process should be run after the [automated migration process](./migration-automated.md), to complete the missing parts, or debug issues in the migration CLI output.
 
-## Project setup
+## Project setup {#project-setup}
 
-### `package.json`
+### `package.json` {#packagejson}
 
-#### Scoped package names
+#### Scoped package names {#scoped-package-names}
 
 In Docusaurus 2, we use scoped package names:
 
@@ -24,19 +24,19 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -   "docusaurus": "^1.x.x",
-+   "@docusaurus/core": "^2.0.0-alpha.48",
-+   "@docusaurus/preset-classic": "^2.0.0-alpha.48",
++   "@docusaurus/core": "^2.0.0-beta.0",
++   "@docusaurus/preset-classic": "^2.0.0-beta.0",
   }
 }
 ```
 
 :::tip
 
-Please use the most recent Docusaurus 2 alpha version, which you can check out [here](https://www.npmjs.com/package/@docusaurus/core) (it's tagged `next`).
+Please use the most recent Docusaurus 2 version, which you can check out [here](https://www.npmjs.com/package/@docusaurus/core) (using the `latest` tag).
 
 :::
 
-#### CLI commands
+#### CLI commands {#cli-commands}
 
 Meanwhile, CLI commands are renamed to `docusaurus <command>` (instead of `docusaurus-command`).
 
@@ -68,8 +68,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "clear": "docusaurus clear"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.66",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.66",
+    "@docusaurus/core": "^2.0.0-beta.0",
+    "@docusaurus/preset-classic": "^2.0.0-beta.0",
     "clsx": "^1.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -85,7 +85,7 @@ A typical Docusaurus 2 `package.json` may look like this:
 }
 ```
 
-### Update references to the `build` directory
+### Update references to the `build` directory {#update-references-to-the-build-directory}
 
 In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`.
 
@@ -93,7 +93,7 @@ In Docusaurus 2, it is now moved to just `website/build`. Make sure that you upd
 
 If you are deploying to GitHub pages, make sure to run `yarn deploy` instead of `yarn publish-gh-pages` script.
 
-### `.gitignore`
+### `.gitignore` {#gitignore}
 
 The `.gitignore` in your `website` should contain:
 
@@ -120,13 +120,13 @@ yarn-debug.log*
 yarn-error.log*
 ```
 
-### `README`
+### `README` {#readme}
 
 The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-init/templates/classic/README.md).
 
-## Site configurations
+## Site configurations {#site-configurations}
 
-### `docusaurus.config.js`
+### `docusaurus.config.js` {#docusaurusconfigjs}
 
 Rename `siteConfig.js` to `docusaurus.config.js`.
 
@@ -160,15 +160,15 @@ If you are migrating your Docusaurus v1 website, and there are pending documenta
 
 Refer to migration guide below for each field in `siteConfig.js`.
 
-### Updated fields
+### Updated fields {#updated-fields}
 
-#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets`
+#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets` {#baseurl-tagline-title-url-favicon-organizationname-projectname-githubhost-scripts-stylesheets}
 
 No actions needed, these configuration fields were not modified.
 
-#### `colors`
+#### `colors` {#colors}
 
-Deprecated. We wrote a custom CSS framework for Docusaurus 2 called [Infima](https://facebookincubator.github.io/infima/) which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called [Infima](https://infima.dev/) which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```js {7-9} title="docusaurus.config.js"
 module.exports = {
@@ -212,7 +212,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 <ColorGenerator/>
 
-#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible`
+#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible` {#footericon-copyright-ogimage-twitterimage-docssidenavcollapsible}
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
@@ -236,7 +236,7 @@ module.exports = {
 };
 ```
 
-#### `headerIcon`, `headerLinks`
+#### `headerIcon`, `headerLinks` {#headericon-headerlinks}
 
 In Docusaurus 1, header icon and header links were root fields in `siteConfig`:
 
@@ -278,7 +278,7 @@ module.exports = {
 };
 ```
 
-#### `algolia`
+#### `algolia` {#algolia}
 
 ```jsx {4-8} title="docusaurus.config.js"
 module.exports = {
@@ -294,7 +294,7 @@ module.exports = {
 };
 ```
 
-#### `blogSidebarCount`
+#### `blogSidebarCount` {#blogsidebarcount}
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
@@ -315,11 +315,11 @@ module.exports = {
 };
 ```
 
-#### `cname`
+#### `cname` {#cname}
 
 Deprecated. Create a `CNAME` file in your `static` folder instead with your custom domain. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
 
-#### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
+#### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime` {#customdocspath-docsurl-editurl-enableupdateby-enableupdatetime}
 
 **BREAKING**: `editUrl` should point to (website) Docusaurus project instead of `docs` directory.
 
@@ -354,7 +354,7 @@ module.exports = {
 };
 ```
 
-#### `gaTrackingId`
+#### `gaTrackingId` {#gatrackingid}
 
 ```jsx {5} title="docusaurus.config.js"
 module.exports = {
@@ -368,7 +368,7 @@ module.exports = {
 };
 ```
 
-#### `gaGtag`
+#### `gaGtag` {#gagtag}
 
 ```jsx {5} title="docusaurus.config.js"
 module.exports = {
@@ -382,7 +382,7 @@ module.exports = {
 };
 ```
 
-### Removed fields
+### Removed fields {#removed-fields}
 
 The following fields are all deprecated, you may remove from your configuration file.
 
@@ -414,16 +414,16 @@ The following fields are all deprecated, you may remove from your configuration 
 
 We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
-## Urls
+## Urls {#urls}
 
 In v1, all pages were available with or without the `.html` extension.
 
 For example, these 2 pages exist:
 
-- [https://docusaurus.io/docs/en/installation](https://docusaurus.io/docs/en/installation)
-- [https://docusaurus.io/docs/en/installation.html](https://docusaurus.io/docs/en/installation.html)
+- [https://v1.docusaurus.io/docs/en/installation](https://v1.docusaurus.io/docs/en/installation)
+- [https://v1.docusaurus.io/docs/en/installation.html](https://v1.docusaurus.io/docs/en/installation.html)
 
-If [`cleanUrl`](https://docusaurus.io/docs/en/site-config#cleanurl-boolean) was:
+If [`cleanUrl`](https://v1.docusaurus.io/docs/en/site-config#cleanurl-boolean) was:
 
 - `true`: links would target `/installation`
 - `false`: links would target `/installation.html`
@@ -451,9 +451,9 @@ module.exports = {
 
 If you want to keep the `.html` extension as the canonical url of a page, docs can declare a `slug: installation.html` frontmatter.
 
-## Components
+## Components {#components}
 
-### Sidebar
+### Sidebar {#sidebar}
 
 In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](../guides/docs/sidebar.md#understanding-sidebar-items) other than document.
 
@@ -469,7 +469,7 @@ You'll have to migrate your sidebar if it contains category type. Rename `subcat
 },
 ```
 
-### Footer
+### Footer {#footer}
 
 `website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by Docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
 
@@ -495,7 +495,7 @@ module.exports = {
 };
 ```
 
-### Pages
+### Pages {#pages}
 
 Please refer to [creating pages](guides/creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, notice that you have to move `pages/en` files in v1 to `src/pages` instead.
 
@@ -505,7 +505,7 @@ In Docusaurus v2, get the `siteConfig` object from `useDocusaurusContext` instea
 
 In v2, you have to apply the theme layout around each page. The Layout component takes metadata props.
 
-`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
+`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://infima.dev/ to see what styles are available).
 
 You can migrate CommonJS to ES6 imports/exports.
 
@@ -548,13 +548,13 @@ The following code could be helpful for migration of various pages:
 - Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js/) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js/), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js/)
 - Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js/), [Flux](http://facebook.github.io/flux/support)
 
-## Content
+## Content {#content}
 
-### Replace AUTOGENERATED_TABLE_OF_CONTENTS
+### Replace AUTOGENERATED_TABLE_OF_CONTENTS {#replace-autogenerated_table_of_contents}
 
 This feature is replaced by [inline table of content](../guides/markdown-features/markdown-features-inline-toc.mdx)
 
-### Update Markdown syntax to be MDX-compatible
+### Update Markdown syntax to be MDX-compatible {#update-markdown-syntax-to-be-mdx-compatible}
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
@@ -562,23 +562,23 @@ Frontmatter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-mat
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 
-### Language-specific code tabs
+### Language-specific code tabs {#language-specific-code-tabs}
 
 Refer to the [multi-language support code blocks](../guides/markdown-features/markdown-features-code-blocks.mdx#multi-language-support-code-blocks) section.
 
-### Front matter
+### Front matter {#front-matter}
 
 The Docusaurus front matter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
 
 The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
 
-## Deployment
+## Deployment {#deployment}
 
 The `CNAME` file used by GitHub Pages is not generated anymore, so be sure you have created it in `/static/CNAME` if you use a custom domain.
 
 The blog RSS feed is now hosted at `/blog/rss.xml` instead of `/blog/feed.xml`. You may want to configure server-side redirects so that users' subscriptions keep working.
 
-## Test your site
+## Test your site {#test-your-site}
 
 After migration, your folder structure should look like this:
 

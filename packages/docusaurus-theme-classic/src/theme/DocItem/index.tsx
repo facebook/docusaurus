@@ -17,6 +17,7 @@ import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 import Seo from '@theme/Seo';
+import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC, {Headings} from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
@@ -26,16 +27,21 @@ import styles from './styles.module.css';
 
 function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
+  const {metadata, frontMatter} = DocContent;
   const {
-    metadata,
-    frontMatter: {
-      image,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
-  const {description, title, editUrl, lastUpdatedAt, lastUpdatedBy} = metadata;
+    image,
+    keywords,
+    hide_title: hideTitle,
+    hide_table_of_contents: hideTableOfContents,
+  } = frontMatter;
+  const {
+    description,
+    title,
+    editUrl,
+    lastUpdatedAt,
+    formattedLastUpdatedAt,
+    lastUpdatedBy,
+  } = metadata;
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
@@ -45,6 +51,10 @@ function DocItem(props: Props): JSX.Element {
   // we don't show the version badge
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
+
+  // For meta title, using frontMatter.title in priority over a potential # title found in markdown
+  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
+  const metaTitle = frontMatter.title || title;
 
   const showToc = !hideTableOfContents && DocContent.toc;
   const [showMobileToc, setShowMobileToc] = useState(false);
@@ -56,7 +66,7 @@ function DocItem(props: Props): JSX.Element {
 
   return (
     <>
-      <Seo {...{title, description, keywords, image}} />
+      <Seo {...{title: metaTitle, description, keywords, image}} />
 
       <div className="row">
         <div
@@ -89,42 +99,11 @@ function DocItem(props: Props): JSX.Element {
                     {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
                   {(lastUpdatedAt || lastUpdatedBy) && (
-                    <div className="col text--right">
-                      <em>
-                        <small>
-                          {/* TODO: wait for using interpolation in translation function */}
-                          Last updated{' '}
-                          {lastUpdatedAt && (
-                            <>
-                              on{' '}
-                              <time
-                                dateTime={new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toISOString()}
-                                className={styles.docLastUpdatedAt}>
-                                {new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toLocaleDateString()}
-                              </time>
-                              {lastUpdatedBy && ' '}
-                            </>
-                          )}
-                          {lastUpdatedBy && (
-                            <>
-                              by <strong>{lastUpdatedBy}</strong>
-                            </>
-                          )}
-                          {process.env.NODE_ENV === 'development' && (
-                            <div>
-                              <small>
-                                {' '}
-                                (Simulated during dev for better perf)
-                              </small>
-                            </div>
-                          )}
-                        </small>
-                      </em>
-                    </div>
+                    <LastUpdated
+                      lastUpdatedAt={lastUpdatedAt}
+                      formattedLastUpdatedAt={formattedLastUpdatedAt}
+                      lastUpdatedBy={lastUpdatedBy}
+                    />
                   )}
                 </div>
               </div>

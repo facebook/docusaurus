@@ -1,0 +1,33 @@
+name: Migration CLI
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - packages/docusaurus-migration/**
+      - website-1.x/**
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['12', '14']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
+      - name: Migrate D1 website
+        run: yarn test:v1Migration:migrate
+      - name: Build D1 migrated website
+        run: yarn test:v1Migration:build
+        env:
+          CI: true

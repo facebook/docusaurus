@@ -52,14 +52,6 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   });
 }
 
-export type AllPluginsTranslationFiles = Record<
-  string, // plugin name
-  Record<
-    string, // plugin id
-    TranslationFiles
-  >
->;
-
 export async function loadPlugins({
   pluginConfigs,
   context,
@@ -69,7 +61,7 @@ export async function loadPlugins({
 }): Promise<{
   plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
-  globalData: any;
+  globalData: unknown;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
@@ -96,7 +88,9 @@ export async function loadPlugins({
   const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
     contentLoadedPlugins.map(async (contentLoadedPlugin) => {
       const translationFiles =
-        (await contentLoadedPlugin.plugin?.getTranslationFiles?.()) ?? [];
+        (await contentLoadedPlugin.plugin?.getTranslationFiles?.({
+          content: contentLoadedPlugin.content,
+        })) ?? [];
       const localizedTranslationFiles = await Promise.all(
         translationFiles.map((translationFile) =>
           localizePluginTranslationFile({

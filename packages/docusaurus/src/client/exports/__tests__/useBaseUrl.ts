@@ -19,7 +19,7 @@ describe('useBaseUrl', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/',
-        url: 'https://v2.docusaurus.io',
+        url: 'https://docusaurus.io',
       },
     }));
 
@@ -38,7 +38,7 @@ describe('useBaseUrl', () => {
       'https://site.com',
     );
     expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
-      'https://v2.docusaurus.io/hello/byebye',
+      'https://docusaurus.io/hello/byebye',
     );
     expect(useBaseUrl('#hello')).toEqual('#hello');
   });
@@ -47,7 +47,7 @@ describe('useBaseUrl', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/docusaurus/',
-        url: 'https://v2.docusaurus.io',
+        url: 'https://docusaurus.io',
       },
     }));
 
@@ -66,7 +66,7 @@ describe('useBaseUrl', () => {
       'https://site.com',
     );
     expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
-      'https://v2.docusaurus.io/docusaurus/hello/byebye',
+      'https://docusaurus.io/docusaurus/hello/byebye',
     );
     expect(useBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
     expect(useBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');
@@ -79,7 +79,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/',
-        url: 'https://v2.docusaurus.io',
+        url: 'https://docusaurus.io',
       },
     }));
     const {withBaseUrl} = useBaseUrlUtils();
@@ -99,7 +99,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       'https://site.com',
     );
     expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
-      'https://v2.docusaurus.io/hello/byebye',
+      'https://docusaurus.io/hello/byebye',
     );
     expect(withBaseUrl('#hello')).toEqual('#hello');
   });
@@ -108,7 +108,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/docusaurus/',
-        url: 'https://v2.docusaurus.io',
+        url: 'https://docusaurus.io',
       },
     }));
     const {withBaseUrl} = useBaseUrlUtils();
@@ -128,7 +128,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       'https://site.com',
     );
     expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
-      'https://v2.docusaurus.io/docusaurus/hello/byebye',
+      'https://docusaurus.io/docusaurus/hello/byebye',
     );
     expect(withBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
     expect(withBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');

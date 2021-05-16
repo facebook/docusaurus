@@ -20,8 +20,7 @@ import {
   addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
-
-import {loadSidebars, createSidebarsUtils} from './sidebars';
+import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
@@ -43,7 +42,6 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {OptionsSchema} from './options';
 import {flatten, keyBy, compact} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
@@ -51,11 +49,12 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
+import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent, typeof OptionsSchema> {
+): Plugin<LoadedContent> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
@@ -106,8 +105,8 @@ export default function pluginContentDocs(
         });
     },
 
-    async getTranslationFiles() {
-      return getLoadedContentTranslationFiles(await this.loadContent!());
+    async getTranslationFiles({content}) {
+      return getLoadedContentTranslationFiles(content);
     },
 
     getClientModules() {
@@ -129,6 +128,7 @@ export default function pluginContentDocs(
               ),
             ),
           ),
+          `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
       }
 
@@ -146,7 +146,7 @@ export default function pluginContentDocs(
               versionMetadata.versionName
             } has no docs! At least one doc should exist at path=[${path.relative(
               siteDir,
-              versionMetadata.docsDirPath,
+              versionMetadata.contentPath,
             )}]`,
           );
         }
@@ -164,8 +164,9 @@ export default function pluginContentDocs(
       async function loadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const sidebars = loadSidebars(versionMetadata.sidebarFilePath);
-        const sidebarsUtils = createSidebarsUtils(sidebars);
+        const unprocessedSidebars = loadSidebars(
+          versionMetadata.sidebarFilePath,
+        );
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
@@ -174,6 +175,16 @@ export default function pluginContentDocs(
           docsBase,
           (doc) => doc.id,
         );
+
+        const sidebars = await processSidebars({
+          sidebarItemsGenerator: options.sidebarItemsGenerator,
+          numberPrefixParser: options.numberPrefixParser,
+          unprocessedSidebars,
+          docs: docsBase,
+          version: versionMetadata,
+        });
+
+        const sidebarsUtils = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
         sidebarsUtils.checkSidebarsDocIds(validDocIds);
@@ -314,7 +325,7 @@ export default function pluginContentDocs(
     },
 
     configureWebpack(_config, isServer, utils) {
-      const {getBabelLoader, getCacheLoader} = utils;
+      const {getJSLoader} = utils;
       const {
         rehypePlugins,
         remarkPlugins,
@@ -331,7 +342,7 @@ export default function pluginContentDocs(
             return;
           }
           reportMessage(
-            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.version.versionName}`,
+            `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
             siteConfig.onBrokenMarkdownLinks,
           );
         },
@@ -344,8 +355,7 @@ export default function pluginContentDocs(
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
           use: compact([
-            getCacheLoader(isServer),
-            getBabelLoader(isServer),
+            getJSLoader({isServer}),
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
               options: {
@@ -370,16 +380,13 @@ export default function pluginContentDocs(
         };
       }
 
-      // Suppress warnings about non-existing of versions file.
-      const stats = {
-        warningsFilter: [VERSIONS_JSON_FILE],
-      };
-
       return {
-        stats,
-        devServer: {
-          stats,
-        },
+        ignoreWarnings: [
+          // Suppress warnings about non-existing of versions file.
+          (e) =>
+            e.message.includes("Can't resolve") &&
+            e.message.includes(VERSIONS_JSON_FILE),
+        ],
         resolve: {
           alias: {
             '~docs': pluginDataDirRoot,

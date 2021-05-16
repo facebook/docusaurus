@@ -3,7 +3,7 @@ id: blog
 title: Blog
 ---
 
-## Initial setup
+## Initial setup {#initial-setup}
 
 To setup your site's blog, start by creating a `blog` directory.
 
@@ -24,7 +24,7 @@ module.exports = {
 };
 ```
 
-## Adding posts
+## Adding posts {#adding-posts}
 
 To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-my-blog-post-title.md`. The post date is extracted from the file name.
 
@@ -42,7 +42,7 @@ description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
 ---
-Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
+Welcome to this blog. This blog is created with [**Docusaurus 2**](https://docusaurus.io/).
 
 <!--truncate-->
 
@@ -51,22 +51,25 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-## Header options
+## Header options {#header-options}
 
 The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
 
-- `author` - The author name to be displayed.
-- `author_url` - The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.
-- `author_image_url` - The URL to the author's thumbnail image.
-- `author_title` - A description of the author.
-- `title` - The blog post title.
-- `tags` - A list of strings to tag to your post.
-- `draft` - A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
+- `author`: The author name to be displayed.
+- `author_url`: The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.
+- `author_image_url`: The URL to the author's thumbnail image.
+- `author_title`: A description of the author.
+- `title`: The blog post title.
+- `slug`: Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.
+- `date`: The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. By default, it is the markdown file creation time.
+- `tags`: A list of strings or objects of two string fields `label` and `permalink` to tag to your post.
+- `draft`: A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
 - `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
+- `keywords`: Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines.
 - `image`: Cover or thumbnail image that will be used when displaying the link to your post.
-- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default it is `false`.
+- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default, it is `false`.
 
-## Summary truncation
+## Summary truncation {#summary-truncation}
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
@@ -87,7 +90,7 @@ Not this.
 Or this.
 ```
 
-## Feed
+## Feed {#feed}
 
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
@@ -136,9 +139,9 @@ and for Atom:
 https://{your-domain}/blog/atom.xml
 ```
 
-## Advanced topics
+## Advanced topics {#advanced-topics}
 
-### Blog-only mode
+### Blog-only mode {#blog-only-mode}
 
 You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
@@ -185,7 +188,7 @@ module.exports = {
 };
 ```
 
-### Multiple blogs
+### Multiple blogs {#multiple-blogs}
 
 By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
 

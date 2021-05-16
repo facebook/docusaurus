@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/migrate",
-  "version": "2.0.0-alpha.70",
-  "description": "A CLI tool to migrate from older versions of Docusuarus.",
+  "version": "2.0.0-beta.0",
+  "description": "A CLI tool to migrate from older versions of Docusaurus.",
   "main": "lib/index.js",
   "license": "MIT",
   "engines": {
@@ -38,7 +38,8 @@
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
-    "semver": "^7.3.2",
+    "semver": "^7.3.4",
+    "tslib": "^2.1.0",
     "unified": "^9.2.0",
     "unist-util-visit": "^2.0.2"
   },

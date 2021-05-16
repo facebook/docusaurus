@@ -39,6 +39,7 @@ export default function LocaleDropdownNavbarItem({
       target: '_self',
       autoAddBaseUrl: false,
       className: locale === currentLocale ? 'dropdown__link--active' : '',
+      style: {textTransform: 'capitalize'},
     };
   });
 

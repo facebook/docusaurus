@@ -9,26 +9,25 @@ import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
-import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import {Configuration, Plugin} from 'webpack';
+import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
+import {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
-import {load} from '../server';
+import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
-  compile,
-  applyConfigureWebpack,
   applyConfigurePostCss,
+  applyConfigureWebpack,
+  compile,
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
-import loadConfig from '../server/config';
 
 export default async function build(
   siteDir: string,
@@ -45,22 +44,26 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      const result = await buildLocale({
+      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      return await buildLocale({
         siteDir,
         locale,
         cliOptions,
         forceTerminate,
         isLastLocale,
       });
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
-      return result;
     } catch (e) {
       console.error(`error building locale=${locale}`);
       throw e;
     }
   }
-
-  const i18n = await loadI18n(loadConfig(siteDir), {
+  const context = await loadContext(siteDir, {
+    customOutDir: cliOptions.outDir,
+    customConfigFilePath: cliOptions.config,
+    locale: cliOptions.locale,
+    localizePath: cliOptions.locale ? false : undefined,
+  });
+  const i18n = await loadI18n(context.siteConfig, {
     locale: cliOptions.locale,
   });
   if (cliOptions.locale) {
@@ -84,10 +87,10 @@ export default async function build(
 
     const results = await mapAsyncSequencial(orderedLocales, (locale) => {
       const isLastLocale =
-        i18n.locales.indexOf(locale) === i18n.locales.length - 1;
+        orderedLocales.indexOf(locale) === orderedLocales.length - 1;
       return tryToBuildLocale({locale, isLastLocale});
     });
-    return results[0]!;
+    return results[0];
   }
 }
 
@@ -112,6 +115,7 @@ async function buildLocale({
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
+    customConfigFilePath: cliOptions.config,
     locale,
     localizePath: cliOptions.locale ? false : undefined,
   });
@@ -141,7 +145,7 @@ async function buildLocale({
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(Boolean) as Plugin[],
+      ].filter(Boolean),
     },
   );
 
@@ -155,7 +159,7 @@ async function buildLocale({
   });
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
-  if (fs.existsSync(staticDir)) {
+  if (await fs.pathExists(staticDir)) {
     serverConfig = merge(serverConfig, {
       plugins: [
         new CopyWebpackPlugin({
@@ -183,24 +187,26 @@ async function buildLocale({
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         clientConfig,
         false,
+        props.siteConfig.webpack?.jsLoader,
       );
 
       serverConfig = applyConfigureWebpack(
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         serverConfig,
         true,
+        props.siteConfig.webpack?.jsLoader,
       );
     }
   });
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
   // the one from previous builds.
-  if (fs.existsSync(clientManifestPath)) {
-    fs.unlinkSync(clientManifestPath);
+  if (await fs.pathExists(clientManifestPath)) {
+    await fs.unlink(clientManifestPath);
   }
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  const finalCompileResult = await compile([clientConfig, serverConfig]);
+  await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
   if (
@@ -209,11 +215,9 @@ async function buildLocale({
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then((exist) => {
-      if (exist) {
-        fs.unlink(serverBundle);
-      }
-    });
+    if (await fs.pathExists(serverBundle)) {
+      await fs.unlink(serverBundle);
+    }
   }
 
   // Plugin Lifecycle - postBuild.
@@ -222,7 +226,7 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild({...props, stats: finalCompileResult});
+      await plugin.postBuild(props);
     }),
   );
 

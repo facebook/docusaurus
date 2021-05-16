@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
@@ -39,6 +39,32 @@ const isActiveSidebarItem = (item, activePath) => {
   }
   return false;
 };
+
+// Optimize sidebar at each "level"
+// TODO this item should probably not receive the "activePath" props
+// TODO this triggers whole sidebar re-renders on navigation
+const DocSidebarItems = memo(function DocSidebarItems({
+  items,
+  ...props
+}: any): JSX.Element {
+  return items.map((item, index) => (
+    <DocSidebarItem
+      key={index} // sidebar is static, the index does not change
+      item={item}
+      {...props}
+    />
+  ));
+});
+
+export function DocSidebarItem(props): JSX.Element {
+  switch (props.item.type) {
+    case 'category':
+      return <DocSidebarItemCategory {...props} />;
+    case 'link':
+    default:
+      return <DocSidebarItemLink {...props} />;
+  }
+}
 
 function DocSidebarItemCategory({
   item,
@@ -100,8 +126,7 @@ function DocSidebarItemCategory({
     <li
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
-      })}
-      key={label}>
+      })}>
       <a
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
@@ -124,16 +149,13 @@ function DocSidebarItemCategory({
             handleMenuListHeight(false);
           }
         }}>
-        {items.map((childItem) => (
-          <DocSidebarItem
-            tabIndex={collapsed ? '-1' : '0'}
-            key={childItem.label}
-            item={childItem}
-            onItemClick={onItemClick}
-            collapsible={collapsible}
-            activePath={activePath}
-          />
-        ))}
+        <DocSidebarItems
+          items={items}
+          tabIndex={collapsed ? '-1' : '0'}
+          onItemClick={onItemClick}
+          collapsible={collapsible}
+          activePath={activePath}
+        />
       </ul>
     </li>
   );
@@ -153,6 +175,7 @@ function DocSidebarItemLink({
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,
+          [styles.menuLinkExternal]: !isInternalUrl(href),
         })}
         to={href}
         {...(isInternalUrl(href) && {
@@ -167,14 +190,41 @@ function DocSidebarItemLink({
   );
 }
 
-export function DocSidebarItem(props) {
-  switch (props.item.type) {
-    case 'category':
-      return <DocSidebarItemCategory {...props} />;
-    case 'link':
-    default:
-      return <DocSidebarItemLink {...props} />;
-  }
+function useShowAnnouncementBar() {
+  const {isAnnouncementBarClosed} = useUserPreferencesContext();
+  const [showAnnouncementBar, setShowAnnouncementBar] = useState(
+    !isAnnouncementBarClosed,
+  );
+  useScrollPosition(({scrollY}) => {
+    if (!isAnnouncementBarClosed) {
+      setShowAnnouncementBar(scrollY === 0);
+    }
+  });
+  return showAnnouncementBar;
+}
+
+function HideableSidebarButton({onClick}) {
+  return (
+    <button
+      type="button"
+      title={translate({
+        id: 'theme.docs.sidebar.collapseButtonTitle',
+        message: 'Collapse sidebar',
+        description: 'The title attribute for collapse button of doc sidebar',
+      })}
+      aria-label={translate({
+        id: 'theme.docs.sidebar.collapseButtonAriaLabel',
+        message: 'Collapse sidebar',
+        description: 'The title attribute for collapse button of doc sidebar',
+      })}
+      className={clsx(
+        'button button--secondary button--outline',
+        styles.collapseSidebarButton,
+      )}
+      onClick={onClick}>
+      <IconArrow className={styles.collapseSidebarButtonIcon} />
+    </button>
+  );
 }
 
 function DocSidebar({
@@ -184,12 +234,12 @@ function DocSidebar({
   onCollapse,
   isHidden,
 }: Props): JSX.Element | null {
+  const showAnnouncementBar = useShowAnnouncementBar();
   const {
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
-  const {scrollY} = useScrollPosition();
   const {isDesktop} = useWindowSize();
 
   return (
@@ -203,43 +253,18 @@ function DocSidebar({
         <div
           className={clsx('menu', 'thin-scrollbar', styles.menu, {
             [styles.menuWithAnnouncementBar]:
-              !isAnnouncementBarClosed && scrollY === 0,
+              !isAnnouncementBarClosed && showAnnouncementBar,
           })}>
           <ul className="menu__list">
-            {sidebar.map((item) => (
-              <DocSidebarItem
-                key={item.label}
-                item={item}
-                collapsible={sidebarCollapsible}
-                activePath={path}
-              />
-            ))}
+            <DocSidebarItems
+              items={sidebar}
+              collapsible={sidebarCollapsible}
+              activePath={path}
+            />
           </ul>
         </div>
       )}
-      {hideableSidebar && (
-        <button
-          type="button"
-          title={translate({
-            id: 'theme.docs.sidebar.collapseButtonTitle',
-            message: 'Collapse sidebar',
-            description:
-              'The title attribute for collapse button of doc sidebar',
-          })}
-          aria-label={translate({
-            id: 'theme.docs.sidebar.collapseButtonAriaLabel',
-            message: 'Collapse sidebar',
-            description:
-              'The title attribute for collapse button of doc sidebar',
-          })}
-          className={clsx(
-            'button button--secondary button--outline',
-            styles.collapseSidebarButton,
-          )}
-          onClick={onCollapse}>
-          <IconArrow className={styles.collapseSidebarButtonIcon} />
-        </button>
-      )}
+      {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
     </div>
   );
 }

@@ -1,0 +1,305 @@
+{
+  "version-2.0.0-beta.0/docs": [
+    {
+      "type": "doc",
+      "id": "version-2.0.0-beta.0/introduction"
+    },
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/typescript-support"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/guides/creating-pages"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Docs",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/create-doc"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/sidebar"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/versioning"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/markdown-features"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/docs/multi-instance"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/blog"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Markdown Features",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/react"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/tabs"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/code-blocks"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/admonitions"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/headings"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/inline-toc"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/assets"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/guides/markdown-features/plugins"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/styling-layout"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/static-assets"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/search"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/browser-support"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/deployment"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Internationalization",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/i18n/introduction"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/i18n/tutorial"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/i18n/git"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-beta.0/i18n/crowdin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Advanced Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/using-plugins"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/using-themes"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/presets"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Migrating from v1 to v2",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/migration/migration-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/migration/migration-automated"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/migration/migration-manual"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/migration/migration-versioned-sites"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/migration/migration-translated-sites"
+        }
+      ]
+    }
+  ],
+  "version-2.0.0-beta.0/api": [
+    {
+      "type": "doc",
+      "id": "version-2.0.0-beta.0/cli"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-beta.0/docusaurus-core"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-beta.0/api/docusaurus.config.js"
+    },
+    {
+      "type": "doc",
+      "id": "version-2.0.0-beta.0/lifecycle-apis"
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Plugins",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugins-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-content-docs"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-content-blog"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-content-pages"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-client-redirects"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-debug"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-google-analytics"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-google-gtag"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-ideal-image"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-pwa"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/plugins/plugin-sitemap"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Themes",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/themes-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/theme-configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/theme-classic"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/theme-bootstrap"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/theme-live-codeblock"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-beta.0/api/themes/theme-search-algolia"
+        }
+      ]
+    }
+  ]
+}

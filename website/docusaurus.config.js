@@ -8,21 +8,18 @@
 const path = require('path');
 const versions = require('./versions.json');
 
-// This probably only makes sense for the alpha phase, temporary
-function getNextAlphaVersionName() {
-  const expectedPrefix = '2.0.0-alpha.';
+// This probably only makes sense for the beta phase, temporary
+function getNextBetaVersionName() {
+  const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
   if (!lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
-      'this code is only meant to be used during the 2.0 alpha phase.',
+      'this code is only meant to be used during the 2.0 beta phase.',
     );
   }
-  const alphaBuild = parseInt(
-    lastReleasedVersion.replace(expectedPrefix, ''),
-    10,
-  );
-  return `${expectedPrefix}${alphaBuild + 1}`;
+  const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
+  return `${expectedPrefix}${version + 1}`;
 }
 
 const allDocHomesPaths = [
@@ -39,32 +36,12 @@ const isDeployPreview =
 const baseUrl = process.env.BASE_URL || '/';
 const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
 
-const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
-
 // Special deployment for staging locales until they get enough translations
 // https://app.netlify.com/sites/docusaurus-i18n-staging
 // https://docusaurus-i18n-staging.netlify.app/
 const isI18nStaging = process.env.I18N_STAGING === 'true';
 
-const LocaleConfigs = isI18nStaging
-  ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
-    {
-      en: {
-        label: 'English',
-      },
-      'zh-CN': {
-        label: '简体中文',
-      },
-    }
-  : // Production locales
-    {
-      en: {
-        label: 'English',
-      },
-      fr: {
-        label: 'Français',
-      },
-    };
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
@@ -74,11 +51,27 @@ const LocaleConfigs = isI18nStaging
   projectName: 'docusaurus',
   baseUrl,
   baseUrlIssueBanner: true,
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   i18n: {
     defaultLocale: 'en',
-    locales: Object.keys(LocaleConfigs),
-    localeConfigs: LocaleConfigs,
+    locales: isDeployPreview
+      ? // Deploy preview: keep it fast!
+        ['en']
+      : isI18nStaging
+      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+        ['en', 'ja']
+      : // Production locales
+        ['en', 'fr', 'ko', 'zh-CN'],
+  },
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('esbuild-loader'),
+      options: {
+        loader: 'tsx',
+        format: isServer ? 'cjs' : undefined,
+        target: isServer ? 'node12' : 'es2017',
+      },
+    }),
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -95,6 +88,7 @@ const LocaleConfigs = isI18nStaging
       {
         id: 'community',
         path: 'community',
+        routeBasePath: 'community',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -102,7 +96,6 @@ const LocaleConfigs = isI18nStaging
           return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -162,8 +155,12 @@ const LocaleConfigs = isI18nStaging
     [
       '@docusaurus/plugin-pwa',
       {
-        debug: false,
-        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        debug: isDeployPreview,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
         // swRegister: false,
         swCustom: path.resolve(__dirname, 'src/sw.js'),
         pwaHead: [
@@ -250,7 +247,7 @@ const LocaleConfigs = isI18nStaging
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} 🚧`,
+              label: `${getNextBetaVersionName()} 🚧`,
             },
           },
         },
@@ -281,6 +278,9 @@ const LocaleConfigs = isI18nStaging
     ],
   ],
   themeConfig: {
+    liveCodeBlock: {
+      playgroundPosition: 'bottom',
+    },
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
@@ -288,10 +288,17 @@ const LocaleConfigs = isI18nStaging
       respectPrefersColorScheme: true,
     },
     announcementBar: {
+      id: 'v1-new-domain',
+      content:
+        '➡️ Docusaurus v1 documentation has moved to <a target="_blank" rel="noopener noreferrer" href="https://v1.docusaurus.io/">v1.docusaurus.io</a>! 🔄',
+    },
+    /*
+    announcementBar: {
       id: 'supportus',
       content:
         '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
     },
+     */
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
@@ -342,6 +349,10 @@ const LocaleConfigs = isI18nStaging
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            {
+              to: 'https://v1.docusaurus.io',
+              label: '1.x.x',
+            },
             {
               to: '/versions',
               label: 'All versions',

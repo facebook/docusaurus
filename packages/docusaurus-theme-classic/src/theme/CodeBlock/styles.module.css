@@ -5,18 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.codeBlockContainer {
+  margin-bottom: var(--ifm-leading);
+}
+
 .codeBlockContent {
   position: relative;
+  /*rtl:ignore*/
+  direction: ltr;
 }
 
 .codeBlockTitle {
   border-top-left-radius: var(--ifm-global-radius);
   border-top-right-radius: var(--ifm-global-radius);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
-  font-family: var(--ifm-font-family-monospace);
-  font-weight: bold;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  font-size: var(--ifm-code-font-size);
+  font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
-  width: 100%;
 }
 
 .codeBlock {
@@ -51,9 +56,8 @@
 }
 
 .codeBlockLines {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: inherit;
-  line-height: var(--ifm-pre-line-height);
+  font: var(--ifm-code-font-size) / var(--ifm-pre-line-height)
+    var(--ifm-font-family-monospace);
   white-space: pre;
   float: left;
   min-width: 100%;

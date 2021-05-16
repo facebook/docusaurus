@@ -10,20 +10,20 @@ import Translate from '@docusaurus/Translate';
 import {useLocation} from '@docusaurus/router';
 import styles from './styles.module.css';
 
-function programmaticFocus(el) {
+function programmaticFocus(el: HTMLElement) {
   el.setAttribute('tabindex', '-1');
   el.focus();
   el.removeAttribute('tabindex');
 }
 
 function SkipToContent(): JSX.Element {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    const targetElement =
+    const targetElement: HTMLElement | null =
       document.querySelector('main:first-of-type') ||
       document.querySelector('.main-wrapper');
 
@@ -33,7 +33,7 @@ function SkipToContent(): JSX.Element {
   };
 
   useEffect(() => {
-    if (!location.hash) {
+    if (!location.hash && containerRef.current) {
       programmaticFocus(containerRef.current);
     }
   }, [location.pathname]);

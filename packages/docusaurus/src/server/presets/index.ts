@@ -6,9 +6,7 @@
  */
 
 import Module from 'module';
-import {join} from 'path';
 import importFresh from 'import-fresh';
-import {CONFIG_FILE_NAME} from '../../constants';
 import {
   LoadContext,
   PluginConfig,
@@ -27,7 +25,7 @@ export default function loadPresets(
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
   // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
   const createRequire = Module.createRequire || Module.createRequireFromPath;
-  const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
+  const pluginRequire = createRequire(context.siteConfigPath);
 
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: PluginConfig[][] = [];
@@ -44,9 +42,15 @@ export default function loadPresets(
       throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule: any = importFresh(
-      pluginRequire.resolve(presetModuleImport),
-    );
+    type PresetInitializeFunction = (
+      context: LoadContext,
+      presetOptions: Record<string, unknown>,
+    ) => Preset;
+    const presetModule = importFresh<
+      PresetInitializeFunction & {
+        default?: PresetInitializeFunction;
+      }
+    >(pluginRequire.resolve(presetModuleImport));
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,

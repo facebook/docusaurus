@@ -17,7 +17,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   type PropsSidebarItemBase = {
-    customProps?: object;
+    customProps?: Record<string, unknown>;
   };
 
   export type PropSidebarItemLink = PropsSidebarItemBase & {
@@ -64,6 +64,7 @@ declare module '@theme/DocItem' {
     readonly permalink?: string;
     readonly editUrl?: string;
     readonly lastUpdatedAt?: number;
+    readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
     readonly previous?: {readonly permalink: string; readonly title: string};
@@ -94,7 +95,7 @@ declare module '@theme/DocPage' {
     readonly route: {
       readonly path: string;
       readonly component: () => JSX.Element;
-      readonly routes: readonly DocumentRoute[];
+      readonly routes: DocumentRoute[];
     };
   };
 

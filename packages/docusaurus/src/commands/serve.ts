@@ -19,11 +19,14 @@ export default async function serve(
   siteDir: string,
   cliOptions: ServeCLIOptions,
 ): Promise<void> {
-  let dir = path.join(siteDir, cliOptions.dir);
+  let dir = path.isAbsolute(cliOptions.dir)
+    ? cliOptions.dir
+    : path.join(siteDir, cliOptions.dir);
   if (cliOptions.build) {
     dir = await build(
       siteDir,
       {
+        config: cliOptions.config,
         outDir: dir,
       },
       false,

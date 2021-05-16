@@ -12,7 +12,11 @@ import {
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import {Sidebars, PathOptions, SidebarItem} from './types';
+import {
+  PathOptions,
+  UnprocessedSidebarItem,
+  UnprocessedSidebars,
+} from './types';
 import {loadSidebars} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
@@ -49,7 +53,8 @@ export function cliDocsVersionCommand(
 
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
-  if (/[<>:"\/\\|?*\x00-\x1F]/g.test(version)) {
+  // eslint-disable-next-line no-control-regex
+  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0`,
     );
@@ -89,10 +94,14 @@ export function cliDocsVersionCommand(
 
   // Load current sidebar and create a new versioned sidebars file.
   if (fs.existsSync(sidebarPath)) {
-    const loadedSidebars: Sidebars = loadSidebars(sidebarPath);
+    const loadedSidebars = loadSidebars(sidebarPath);
 
+    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
+    // TODO try to get rid of it
     // Transform id in original sidebar to versioned id.
-    const normalizeItem = (item: SidebarItem): SidebarItem => {
+    const normalizeItem = (
+      item: UnprocessedSidebarItem,
+    ): UnprocessedSidebarItem => {
       switch (item.type) {
         case 'category':
           return {...item, items: item.items.map(normalizeItem)};
@@ -107,14 +116,13 @@ export function cliDocsVersionCommand(
       }
     };
 
-    const versionedSidebar: Sidebars = Object.entries(loadedSidebars).reduce(
-      (acc: Sidebars, [sidebarId, sidebarItems]) => {
-        const newVersionedSidebarId = `version-${version}/${sidebarId}`;
-        acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
-        return acc;
-      },
-      {},
-    );
+    const versionedSidebar: UnprocessedSidebars = Object.entries(
+      loadedSidebars,
+    ).reduce((acc: UnprocessedSidebars, [sidebarId, sidebarItems]) => {
+      const newVersionedSidebarId = `version-${version}/${sidebarId}`;
+      acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
+      return acc;
+    }, {});
 
     const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(

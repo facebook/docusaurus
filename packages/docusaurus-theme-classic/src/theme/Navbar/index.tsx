@@ -79,15 +79,15 @@ function Navbar(): JSX.Element {
       <div className="navbar__inner">
         <div className="navbar__items">
           {items != null && items.length !== 0 && (
-            <div
+            <button
               aria-label="Navigation bar toggle"
               className="navbar__toggle"
-              role="button"
+              type="button"
               tabIndex={0}
               onClick={toggleSidebar}
               onKeyDown={toggleSidebar}>
               <IconMenu />
-            </div>
+            </button>
           )}
           <Logo
             className="navbar__brand"
@@ -105,7 +105,6 @@ function Navbar(): JSX.Element {
           {!disableColorModeSwitch && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
-              aria-label="Dark mode toggle"
               checked={isDarkTheme}
               onChange={onToggleChange}
             />
@@ -126,11 +125,7 @@ function Navbar(): JSX.Element {
             titleClassName="navbar__title"
           />
           {!disableColorModeSwitch && sidebarShown && (
-            <Toggle
-              aria-label="Dark mode toggle in sidebar"
-              checked={isDarkTheme}
-              onChange={onToggleChange}
-            />
+            <Toggle checked={isDarkTheme} onChange={onToggleChange} />
           )}
         </div>
         <div className="navbar-sidebar__items">

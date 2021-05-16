@@ -14,6 +14,7 @@ declare module '@theme/MDXPage' {
         readonly title: string;
         readonly description: string;
         readonly wrapperClassName?: string;
+        // eslint-disable-next-line camelcase
         readonly hide_table_of_contents?: string;
       };
       readonly metadata: {readonly permalink: string};

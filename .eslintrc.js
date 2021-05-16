@@ -65,6 +65,7 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'no-console': OFF,
     'no-else-return': OFF,
+    'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
@@ -90,6 +91,7 @@ module.exports = {
     ],
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
+    '@typescript-eslint/no-empty-function': OFF,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
@@ -102,13 +104,11 @@ module.exports = {
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
-    'no-param-reassign': WARNING,
     'no-template-curly-in-string': WARNING,
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
     'no-unused-expressions': WARNING,
-    '@typescript-eslint/no-empty-function': WARNING,
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
@@ -130,6 +130,12 @@ module.exports = {
       ],
       rules: {
         'header/header': OFF,
+      },
+    },
+    {
+      files: ['*.d.ts'],
+      rules: {
+        'import/no-duplicates': OFF,
       },
     },
     {

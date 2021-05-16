@@ -6,30 +6,35 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import env from 'std-env';
-import merge from 'webpack-merge';
+import {
+  mergeWithCustomize,
+  customizeArray,
+  customizeObject,
+  CustomizeRule,
+} from 'webpack-merge';
 import webpack, {
   Configuration,
-  Loader,
-  Plugin,
   RuleSetRule,
-  Stats,
+  WebpackPluginInstance,
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import CleanCss from 'clean-css';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
 import chalk from 'chalk';
 import {TransformOptions} from '@babel/core';
-import {ConfigureWebpackFn, ConfigurePostCssFn} from '@docusaurus/types';
-import CssNanoPreset from '@docusaurus/cssnano-preset';
-import {version as cacheLoaderVersion} from 'cache-loader/package.json';
+import {
+  ConfigureWebpackFn,
+  ConfigurePostCssFn,
+  PostCssOptions,
+  ConfigureWebpackUtils,
+} from '@docusaurus/types';
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from '../constants';
+import {memoize} from 'lodash';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -37,24 +42,36 @@ export function getStyleLoaders(
   cssOptions: {
     [key: string]: unknown;
   } = {},
-): Loader[] {
+): RuleSetRule[] {
   if (isServer) {
-    return [
-      cssOptions.modules
-        ? {
+    return cssOptions.modules
+      ? [
+          {
             loader: require.resolve('css-loader'),
             options: cssOptions,
-          }
-        : require.resolve('null-loader'),
-    ];
+          },
+        ]
+      : [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // Don't emit CSS files for SSR (previously used null-loader)
+              // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811991738
+              emit: false,
+            },
+          },
+          {
+            loader: require.resolve('css-loader'),
+            options: cssOptions,
+          },
+        ];
   }
 
-  const isProd = process.env.NODE_ENV === 'production';
-  const loaders = [
+  return [
     {
       loader: MiniCssExtractPlugin.loader,
       options: {
-        hmr: !isProd,
+        esModule: true,
       },
     },
     {
@@ -73,35 +90,12 @@ export function getStyleLoaders(
           ident: 'postcss',
           plugins: [
             // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 4,
-            }),
+            require('autoprefixer'),
           ],
         },
       },
     },
   ];
-  return loaders;
-}
-
-export function getCacheLoader(
-  isServer: boolean,
-  cacheOptions?: {[key: string]: unknown},
-): Loader | null {
-  if (env.ci || env.test) {
-    return null;
-  }
-
-  return {
-    loader: require.resolve('cache-loader'),
-    options: {
-      cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      ...cacheOptions,
-    },
-  };
 }
 
 export function getCustomBabelConfigFilePath(
@@ -141,14 +135,61 @@ export function getBabelOptions({
   }
 }
 
-export function getBabelLoader(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-): Loader {
+// Name is generic on purpose
+// we want to support multiple js loader implementations (babel + esbuild)
+function getDefaultBabelLoader({
+  isServer,
+  babelOptions,
+}: {
+  isServer: boolean;
+  babelOptions?: TransformOptions | string;
+}): RuleSetRule {
   return {
     loader: require.resolve('babel-loader'),
     options: getBabelOptions({isServer, babelOptions}),
   };
+}
+
+export const getCustomizableJSLoader = (
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel',
+) => ({
+  isServer,
+  babelOptions,
+}: {
+  isServer: boolean;
+  babelOptions?: TransformOptions | string;
+}): RuleSetRule =>
+  jsLoader === 'babel'
+    ? getDefaultBabelLoader({isServer, babelOptions})
+    : jsLoader(isServer);
+
+// TODO remove this before end of 2021?
+const warnBabelLoaderOnce = memoize(function () {
+  console.warn(
+    chalk.yellow(
+      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): getBabelLoader(isServer) is now deprecated in favor of getJSLoader({isServer})',
+    ),
+  );
+});
+const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+) {
+  warnBabelLoaderOnce();
+  return getDefaultBabelLoader({isServer, babelOptions});
+};
+
+// TODO remove this before end of 2021 ?
+const warnCacheLoaderOnce = memoize(function () {
+  console.warn(
+    chalk.yellow(
+      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated',
+    ),
+  );
+});
+function getCacheLoaderDeprecated() {
+  warnCacheLoaderOnce();
+  return null;
 }
 
 /**
@@ -156,23 +197,31 @@ export function getBabelLoader(
  * @param configureWebpack a webpack config or a function to modify config
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
+ * @param jsLoader custom js loader config
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
+  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
 ): Configuration {
   // Export some utility functions
-  const utils = {
+  const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
-    getCacheLoader,
-    getBabelLoader,
+    getJSLoader: getCustomizableJSLoader(jsLoader),
+    getBabelLoader: getBabelLoaderDeprecated,
+    getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
-      return merge.strategy(mergeStrategy ?? {})(config, res);
+      // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
+      const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
+      return mergeWithCustomize({
+        customizeArray: customizeArray(customizeRules),
+        customizeObject: customizeObject(customizeRules),
+      })(config, res);
     }
   }
   return config;
@@ -182,10 +231,12 @@ export function applyConfigurePostCss(
   configurePostCss: NonNullable<ConfigurePostCssFn>,
   config: Configuration,
 ): Configuration {
-  type LocalPostCSSLoader = Loader & {options: {postcssOptions: any}};
+  type LocalPostCSSLoader = unknown & {
+    options: {postcssOptions: PostCssOptions};
+  };
 
   // TODO not ideal heuristic but good enough for our usecase?
-  function isPostCssLoader(loader: Loader): loader is LocalPostCSSLoader {
+  function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as any)?.options?.postcssOptions;
   }
 
@@ -204,75 +255,70 @@ export function applyConfigurePostCss(
     }
   }
 
-  config.module?.rules.forEach(overridePostCssOptions);
+  config.module?.rules?.forEach(overridePostCssOptions);
 
   return config;
 }
 
-// See https://webpack.js.org/configuration/stats/#statswarningsfilter
-// @slorber: note sure why we have to re-implement this logic
-// just know that legacy had this only partially implemented, so completed it
-type WarningFilter = string | RegExp | Function;
-function filterWarnings(
-  warningsFilter: WarningFilter[],
-  warnings: string[],
-): string[] {
-  function isWarningFiltered(warning: string): boolean {
-    return warningsFilter.some((warningFilter) => {
-      if (typeof warningFilter === 'string') {
-        return warning.includes(warningFilter);
-      } else if (warningFilter instanceof RegExp) {
-        return !!warning.match(warningFilter);
-      } else if (warningFilter instanceof Function) {
-        return warningFilter(warning);
-      } else {
-        throw new Error(`Unknown warningFilter type = ${typeof warningFilter}`);
-      }
-    });
-  }
-
-  return warnings.filter((warning) => !isWarningFiltered(warning));
-}
-
-export function compile(config: Configuration[]): Promise<Stats.ToJsonOutput> {
+export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        reject(new Error(err.toString()));
+        console.error(err.stack || err);
+        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
+        if (err.details) {
+          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
+          console.error(err.details);
+        }
+        reject(err);
       }
       // let plugins consume all the stats
-      const allStats = stats?.toJson('errors-warnings');
+      const errorsWarnings = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        allStats.errors.forEach((e) => {
-          console.error(e);
-        });
         reject(new Error('Failed to compile with errors.'));
       }
-      if (stats?.hasWarnings()) {
-        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let warnings = [...allStats.warnings];
-
-        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as WarningFilter[];
-
-        if (Array.isArray(warningsFilter)) {
-          warnings = filterWarnings(warningsFilter, warnings);
-        }
-
-        warnings.forEach((warning) => {
+      if (errorsWarnings && stats?.hasWarnings()) {
+        errorsWarnings.warnings?.forEach((warning) => {
           console.warn(warning);
         });
       }
-      resolve(allStats);
+      // Webpack 5 requires calling close() so that persistent caching works
+      // See https://github.com/webpack/webpack.js.org/pull/4775
+      compiler.close((errClose) => {
+        if (errClose) {
+          console.error(
+            chalk.red('Error while closing Webpack compiler', errClose),
+          );
+          reject(errClose);
+        } else {
+          resolve();
+        }
+      });
     });
   });
 }
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 
+type FileLoaderUtils = {
+  loaders: {
+    file: (options: {folder: AssetFolder}) => RuleSetRule;
+    url: (options: {folder: AssetFolder}) => RuleSetRule;
+    inlineMarkdownImageFileLoader: string;
+    inlineMarkdownLinkFileLoader: string;
+  };
+  rules: {
+    images: () => RuleSetRule;
+    fonts: () => RuleSetRule;
+    media: () => RuleSetRule;
+    svg: () => RuleSetRule;
+    otherAssets: () => RuleSetRule;
+  };
+};
+
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): Record<string, any> {
+export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < 10kb will be inlined as base64 strings directly in the html
   const urlLoaderLimit = 10000;
 
@@ -280,7 +326,7 @@ export function getFileLoaderUtils(): Record<string, any> {
   const fileLoaderFileName = (folder: AssetFolder) =>
     `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
-  const loaders = {
+  const loaders: FileLoaderUtils['loaders'] = {
     file: (options: {folder: AssetFolder}) => {
       return {
         loader: require.resolve(`file-loader`),
@@ -313,19 +359,19 @@ export function getFileLoaderUtils(): Record<string, any> {
     )}!`,
   };
 
-  const rules = {
+  const rules: FileLoaderUtils['rules'] = {
     /**
      * Loads image assets, inlines images via a data URI if they are below
      * the size threshold
      */
-    images: (): RuleSetRule => {
+    images: () => {
       return {
         use: [loaders.url({folder: 'images'})],
         test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
       };
     },
 
-    fonts: (): RuleSetRule => {
+    fonts: () => {
       return {
         use: [loaders.url({folder: 'fonts'})],
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -336,14 +382,14 @@ export function getFileLoaderUtils(): Record<string, any> {
      * Loads audio and video and inlines them via a data URI if they are below
      * the size threshold
      */
-    media: (): RuleSetRule => {
+    media: () => {
       return {
         use: [loaders.url({folder: 'medias'})],
         test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
       };
     },
 
-    svg: (): RuleSetRule => {
+    svg: () => {
       return {
         test: /\.svg?$/,
         oneOf: [
@@ -365,7 +411,7 @@ export function getFileLoaderUtils(): Record<string, any> {
             // We don't want to use SVGR loader for non-React source code
             // ie we don't want to use SVGR for CSS files...
             issuer: {
-              test: /\.(ts|tsx|js|jsx|md|mdx)$/,
+              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
             },
           },
           {
@@ -375,7 +421,7 @@ export function getFileLoaderUtils(): Record<string, any> {
       };
     },
 
-    otherAssets: (): RuleSetRule => {
+    otherAssets: () => {
       return {
         use: [loaders.file({folder: 'files'})],
         test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
@@ -458,12 +504,12 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
+export function getMinimizer(
+  useSimpleCssMinifier = false,
+): WebpackPluginInstance[] {
   const minimizer = [
     new TerserPlugin({
-      cache: true,
       parallel: getTerserParallel(),
-      sourceMap: false,
       terserOptions: {
         parse: {
           // we want uglify-js to parse ecma 8 code. However, we don't want it
@@ -490,26 +536,20 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
       },
     }),
   ];
-
   if (useSimpleCssMinifier) {
-    minimizer.push(
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: 'default',
-        },
-      }),
-    );
+    minimizer.push(new CssMinimizerPlugin());
   } else {
     minimizer.push(
-      ...[
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorPluginOptions: {
-            preset: CssNanoPreset,
+      // Using the array syntax to add 2 minimizers
+      // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
+      new CssMinimizerPlugin({
+        minimizerOptions: [
+          // CssNano options
+          {
+            preset: require.resolve('@docusaurus/cssnano-preset'),
           },
-        }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessor: CleanCss,
-          cssProcessorOptions: {
+          // CleanCss options
+          {
             inline: false,
             level: {
               1: {
@@ -522,8 +562,12 @@ export function getMinimizer(useSimpleCssMinifier = false): Plugin[] {
               },
             },
           },
-        }),
-      ],
+        ],
+        minify: [
+          CssMinimizerPlugin.cssnanoMinify,
+          CssMinimizerPlugin.cleanCssMinify,
+        ],
+      }),
     );
   }
 

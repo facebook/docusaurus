@@ -4,11 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from 'joi';
+import Joi from './Joi';
 import {isValidPathname} from '@docusaurus/utils';
 
 export const PluginIdSchema = Joi.string()
-  .regex(/^[a-zA-Z_\-]+$/)
+  .regex(/^[a-zA-Z_-]+$/)
   // duplicate core constant, otherwise cyclic dependency is created :(
   .default('default');
 

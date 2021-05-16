@@ -15,6 +15,23 @@ describe('getSlug', () => {
     );
   });
 
+  test('can strip dir number prefixes', () => {
+    expect(
+      getSlug({
+        baseID: 'doc',
+        dirName: '/001-dir1/002-dir2',
+        stripDirNumberPrefixes: true,
+      }),
+    ).toEqual('/dir1/dir2/doc');
+    expect(
+      getSlug({
+        baseID: 'doc',
+        dirName: '/001-dir1/002-dir2',
+        stripDirNumberPrefixes: false,
+      }),
+    ).toEqual('/001-dir1/002-dir2/doc');
+  });
+
   // See https://github.com/facebook/docusaurus/issues/3223
   test('should handle special chars in doc path', () => {
     expect(

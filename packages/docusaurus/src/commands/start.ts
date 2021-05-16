@@ -11,18 +11,19 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import debounce from 'lodash/debounce';
+import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
@@ -42,6 +43,7 @@ export default async function start(
 
   function loadSite() {
     return load(siteDir, {
+      customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
     });
@@ -97,7 +99,7 @@ export default async function start(
 
   const pathsToWatch: string[] = [
     ...pluginPaths,
-    CONFIG_FILE_NAME,
+    props.siteConfigPath,
     getTranslationsLocaleDirPath({
       siteDir,
       locale: props.i18n.currentLocale,
@@ -151,6 +153,7 @@ export default async function start(
         configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
+        props.siteConfig.webpack?.jsLoader,
       );
     }
   });
@@ -190,16 +193,12 @@ export default async function start(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
         );
-
         // This lets us fetch source contents from webpack for the error overlay.
         app.use(evalSourceMapMiddleware(server));
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
-
-        // TODO: add plugins beforeDevServer and afterDevServer hook
       },
     },
-    ...config.devServer,
   };
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
@@ -212,6 +211,7 @@ export default async function start(
       process.exit(0);
     });
   }
+
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {

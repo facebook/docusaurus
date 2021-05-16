@@ -121,7 +121,7 @@ export const getActiveDocContext = (
     data.versions.forEach((version) => {
       version.docs.forEach((doc) => {
         if (doc.id === docId) {
-          result[version.name!] = doc;
+          result[version.name] = doc;
         }
       });
     });
@@ -157,7 +157,7 @@ export const getDocVersionSuggestions = (
   const isNotOnLatestVersion = activeDocContext.activeVersion !== latestVersion;
 
   const latestDocSuggestion: GlobalDoc | undefined = isNotOnLatestVersion
-    ? activeDocContext?.alternateDocVersions[latestVersion.name!]
+    ? activeDocContext?.alternateDocVersions[latestVersion.name]
     : undefined;
 
   const latestVersionSuggestion = isNotOnLatestVersion

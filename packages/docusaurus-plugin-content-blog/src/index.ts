@@ -21,7 +21,6 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {ValidationError} from 'joi';
 import {flatten, take, kebabCase} from 'lodash';
 
 import {
@@ -45,17 +44,18 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import {
   generateBlogFeed,
   generateBlogPosts,
   getContentPathList,
+  getSourceToPermalink,
 } from './blogUtils';
 
 export default function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent | null, typeof PluginOptionSchema> {
+): Plugin<BlogContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -401,7 +401,7 @@ export default function pluginContentBlog(
     configureWebpack(
       _config: Configuration,
       isServer: boolean,
-      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+      {getJSLoader}: ConfigureWebpackUtils,
     ) {
       const {
         rehypePlugins,
@@ -415,7 +415,7 @@ export default function pluginContentBlog(
         siteDir,
         contentPaths,
         truncateMarker,
-        blogPosts,
+        sourceToPermalink: getSourceToPermalink(blogPosts),
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (onBrokenMarkdownLinks === 'ignore') {
             return;
@@ -441,8 +441,7 @@ export default function pluginContentBlog(
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getCacheLoader(isServer),
-                getBabelLoader(isServer),
+                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
@@ -466,7 +465,7 @@ export default function pluginContentBlog(
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: markdownLoaderOptions,
                 },
-              ].filter(Boolean) as Loader[],
+              ].filter(Boolean),
             },
           ],
         },
@@ -560,10 +559,7 @@ export default function pluginContentBlog(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('joi');
-const {URISchema} = require('@docusaurus/utils-validation');
+const {Joi, URISchema} = require('@docusaurus/utils-validation');
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -288,7 +287,7 @@ const ThemeConfigSchema = Joi.object({
     links: Joi.array()
       .items(
         Joi.object({
-          title: Joi.string(),
+          title: Joi.string().allow(null),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
       )
