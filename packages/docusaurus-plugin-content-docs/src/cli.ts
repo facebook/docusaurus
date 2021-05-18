@@ -20,6 +20,67 @@ import {
 import {loadSidebars} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
+function createVersionedSidebarFile({
+  siteDir,
+  pluginId,
+  sidebarPath,
+  version,
+}: {
+  siteDir: string;
+  pluginId: string;
+  sidebarPath: string | false | undefined;
+  version: string;
+}) {
+  // Load current sidebar and create a new versioned sidebars file (if needed).
+  const loadedSidebars = loadSidebars(sidebarPath);
+
+  // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
+  const shouldCreateVersionedSidebarFile =
+    Object.keys(loadedSidebars).length > 0;
+
+  if (shouldCreateVersionedSidebarFile) {
+    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
+    // TODO try to get rid of it
+    // Transform id in original sidebar to versioned id.
+    const normalizeItem = (
+      item: UnprocessedSidebarItem,
+    ): UnprocessedSidebarItem => {
+      switch (item.type) {
+        case 'category':
+          return {...item, items: item.items.map(normalizeItem)};
+        case 'ref':
+        case 'doc':
+          return {
+            type: item.type,
+            id: `version-${version}/${item.id}`,
+          };
+        default:
+          return item;
+      }
+    };
+
+    const versionedSidebar: UnprocessedSidebars = Object.entries(
+      loadedSidebars,
+    ).reduce((acc: UnprocessedSidebars, [sidebarId, sidebarItems]) => {
+      const newVersionedSidebarId = `version-${version}/${sidebarId}`;
+      acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
+      return acc;
+    }, {});
+
+    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
+    const newSidebarFile = path.join(
+      versionedSidebarsDir,
+      `version-${version}-sidebars.json`,
+    );
+    fs.ensureDirSync(path.dirname(newSidebarFile));
+    fs.writeFileSync(
+      newSidebarFile,
+      `${JSON.stringify(versionedSidebar, null, 2)}\n`,
+      'utf8',
+    );
+  }
+}
+
 // Tests depend on non-default export for mocking.
 // eslint-disable-next-line import/prefer-default-export
 export function cliDocsVersionCommand(
@@ -92,50 +153,7 @@ export function cliDocsVersionCommand(
     throw new Error(`${pluginIdLogPrefix}There is no docs to version !`);
   }
 
-  // Load current sidebar and create a new versioned sidebars file.
-  if (fs.existsSync(sidebarPath)) {
-    const loadedSidebars = loadSidebars(sidebarPath);
-
-    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
-    // TODO try to get rid of it
-    // Transform id in original sidebar to versioned id.
-    const normalizeItem = (
-      item: UnprocessedSidebarItem,
-    ): UnprocessedSidebarItem => {
-      switch (item.type) {
-        case 'category':
-          return {...item, items: item.items.map(normalizeItem)};
-        case 'ref':
-        case 'doc':
-          return {
-            type: item.type,
-            id: `version-${version}/${item.id}`,
-          };
-        default:
-          return item;
-      }
-    };
-
-    const versionedSidebar: UnprocessedSidebars = Object.entries(
-      loadedSidebars,
-    ).reduce((acc: UnprocessedSidebars, [sidebarId, sidebarItems]) => {
-      const newVersionedSidebarId = `version-${version}/${sidebarId}`;
-      acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
-      return acc;
-    }, {});
-
-    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
-    const newSidebarFile = path.join(
-      versionedSidebarsDir,
-      `version-${version}-sidebars.json`,
-    );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
-      newSidebarFile,
-      `${JSON.stringify(versionedSidebar, null, 2)}\n`,
-      'utf8',
-    );
-  }
+  createVersionedSidebarFile({siteDir, pluginId, version, sidebarPath});
 
   // Update versions.json file.
   versions.unshift(version);

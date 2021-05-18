@@ -35,6 +35,7 @@ import {toSidebarsProp} from '../props';
 
 import {validate} from 'webpack';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DisabledSidebars} from '../sidebars';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {
   return version.docs.find((item) => item.unversionedId === unversionedId);
@@ -124,17 +125,84 @@ Entries created:
   };
 };
 
-test('site with wrong sidebar file', async () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
-  const context = await loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
-  const plugin = pluginContentDocs(
-    context,
-    normalizePluginOptions(OptionsSchema, {
-      sidebarPath,
-    }),
-  );
-  await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+describe('sidebar', () => {
+  test('site with wrong sidebar content', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+    const context = await loadContext(siteDir);
+    const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath,
+      }),
+    );
+    await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test('site with wrong sidebar file path', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+
+    await expect(async () => {
+      const plugin = pluginContentDocs(
+        context,
+        normalizePluginOptions(OptionsSchema, {
+          sidebarPath: 'wrong-path-sidebar.json',
+        }),
+      );
+      await plugin.loadContent!();
+    }).rejects.toThrowErrorMatchingInlineSnapshot(`
+            "The path to the sidebar file does not exist at [wrong-path-sidebar.json].
+            Please set the docs [sidebarPath] field in your config file to:
+            - a sidebars path that exists
+            - false: to disable the sidebar
+            - undefined: for Docusaurus generates it automatically"
+          `);
+  });
+
+  test('site with undefined sidebar', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath: undefined,
+      }),
+    );
+    const result = await plugin.loadContent!();
+
+    expect(result.loadedVersions).toHaveLength(1);
+    expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
+          Object {
+            "defaultSidebar": Array [
+              Object {
+                "id": "hello-1",
+                "type": "doc",
+              },
+              Object {
+                "id": "hello-2",
+                "label": "Hello 2 From Doc",
+                "type": "doc",
+              },
+            ],
+          }
+      `);
+  });
+
+  test('site with disabled sidebar', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
+    const context = await loadContext(siteDir);
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions(OptionsSchema, {
+        sidebarPath: false,
+      }),
+    );
+    const result = await plugin.loadContent!();
+
+    expect(result.loadedVersions).toHaveLength(1);
+    expect(result.loadedVersions[0].sidebars).toEqual(DisabledSidebars);
+  });
 });
 
 describe('empty/no docs website', () => {

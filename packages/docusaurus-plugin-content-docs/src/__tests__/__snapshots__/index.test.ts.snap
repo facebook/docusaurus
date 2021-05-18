@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`sidebar site with wrong sidebar content 1`] = `
+"Bad sidebars file.
+These sidebar document ids do not exist:
+- goku,
+
+Available document ids=
+- foo/bar
+- foo/baz
+- headingAsTitle
+- hello
+- ipsum
+- lorem
+- rootAbsoluteSlug
+- rootRelativeSlug
+- rootResolvedSlug
+- rootTryToEscapeSlug
+- slugs/absoluteSlug
+- slugs/relativeSlug
+- slugs/resolvedSlug
+- slugs/tryToEscapeSlug"
+`;
+
 exports[`simple website content 1`] = `
 Object {
   "docs": Array [
@@ -788,28 +810,6 @@ Object {
     "versionName": "current",
   },
 }
-`;
-
-exports[`site with wrong sidebar file 1`] = `
-"Bad sidebars file.
-These sidebar document ids do not exist:
-- goku,
-
-Available document ids=
-- foo/bar
-- foo/baz
-- headingAsTitle
-- hello
-- ipsum
-- lorem
-- rootAbsoluteSlug
-- rootRelativeSlug
-- rootResolvedSlug
-- rootTryToEscapeSlug
-- slugs/absoluteSlug
-- slugs/relativeSlug
-- slugs/resolvedSlug
-- slugs/tryToEscapeSlug"
 `;
 
 exports[`versioned website (community) content: 100 version sidebars 1`] = `

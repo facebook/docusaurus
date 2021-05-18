@@ -118,8 +118,7 @@ export default function pluginContentDocs(
 
     getPathsToWatch() {
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
-        return [
-          version.sidebarFilePath,
+        const result = [
           ...flatten(
             options.include.map((pattern) =>
               getDocsDirPaths(version).map(
@@ -129,6 +128,10 @@ export default function pluginContentDocs(
           ),
           `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
         ];
+        if (typeof version.sidebarFilePath === 'string') {
+          result.unshift(version.sidebarFilePath);
+        }
+        return result;
       }
 
       return flatten(versionsMetadata.map(getVersionPathsToWatch));

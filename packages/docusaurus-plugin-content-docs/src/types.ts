@@ -31,9 +31,7 @@ export type VersionMetadata = ContentPaths & {
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
   isLast: boolean;
-  // contentPath: string; // "versioned_docs/version-1.0.0"
-  // contentPathLocalized: string; // "i18n/fr/version-1.0.0/default"
-  sidebarFilePath: string; // versioned_sidebars/1.0.0.json
+  sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
 };
 
@@ -58,7 +56,7 @@ export type MetadataOptions = {
 
 export type PathOptions = {
   path: string;
-  sidebarPath: string;
+  sidebarPath?: string | false | undefined;
 };
 
 export type VersionOptions = {
