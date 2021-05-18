@@ -26,7 +26,7 @@
     "@docusaurus/types": "2.0.0-beta.0",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^9.0.2",
-    "sharp": "^0.27.1",
+    "sharp": "^0.28.2",
     "tslib": "^2.1.0",
     "webpack": "^5.28.0"
   },
