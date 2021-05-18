@@ -30,7 +30,6 @@ import {mapValues, flatten, flatMap, difference, pick, memoize} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
-import chalk from 'chalk';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -261,7 +260,7 @@ export const DisabledSidebars: UnprocessedSidebars = {};
 export function loadSidebars(
   sidebarFilePath: string | false | undefined,
 ): UnprocessedSidebars {
-  // false => no sidebar
+  // false => no sidebars
   if (sidebarFilePath === false) {
     return DisabledSidebars;
   }
@@ -271,15 +270,11 @@ export function loadSidebars(
     return DefaultSidebars;
   }
 
+  // unexisting sidebars file: no sidebars
+  // Note: this edge case can happen on versioned docs, not current version
+  // We avoid creating empty versioned sidebars file with the CLI
   if (!fs.existsSync(sidebarFilePath)) {
-    console.log(
-      chalk.yellow(
-        `The path [${sidebarFilePath}] to the sidebar file does not exist. Please try again or set the [sidebarPath] field in your config file to:
-- false: to disable the sidebar
-- undefined: for Docusaurus to generate it automatically`,
-      ),
-    );
-    return DefaultSidebars;
+    return DisabledSidebars;
   }
 
   // We don't want sidebars to be cached because of hot reloading.

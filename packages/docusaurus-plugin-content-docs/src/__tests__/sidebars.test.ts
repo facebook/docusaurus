@@ -14,8 +14,9 @@ import {
   collectSidebarCategories,
   collectSidebarLinks,
   transformSidebarItems,
-  DefaultSidebars,
   processSidebars,
+  DefaultSidebars,
+  DisabledSidebars,
 } from '../sidebars';
 import {
   Sidebar,
@@ -127,12 +128,7 @@ describe('loadSidebars', () => {
   });
 
   test('unexisting path', () => {
-    const consoleLog = jest.spyOn(console, 'log').mockImplementation();
-    // See https://github.com/facebook/docusaurus/issues/3366
-    expect(loadSidebars('badpath')).toEqual(DefaultSidebars);
-    expect(consoleLog).toHaveBeenCalledWith(
-      expect.stringContaining('the sidebar file does not exist'),
-    );
+    expect(loadSidebars('badpath')).toEqual(DisabledSidebars);
   });
 
   test('undefined path', () => {
@@ -140,7 +136,7 @@ describe('loadSidebars', () => {
   });
 
   test('literal false path', () => {
-    expect(loadSidebars(false)).toEqual({});
+    expect(loadSidebars(false)).toEqual(DisabledSidebars);
   });
 
   test('sidebars with category.collapsed property', async () => {
