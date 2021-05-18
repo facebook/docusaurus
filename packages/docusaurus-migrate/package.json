@@ -25,10 +25,10 @@
   "dependencies": {
     "@babel/preset-env": "^7.12.16",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "color": "^3.1.3",
     "commander": "^5.1.0",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "glob": "^7.1.6",
     "hast-util-to-string": "^1.0.4",
     "hast-util-to-text": "^2.0.1",
@@ -39,8 +39,8 @@
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
     "semver": "^7.3.4",
-    "tslib": "^2.1.0",
-    "unified": "^9.2.0",
+    "tslib": "^2.2.0",
+    "unified": "^9.2.1",
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {

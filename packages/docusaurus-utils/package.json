@@ -20,13 +20,13 @@
   "dependencies": {
     "@docusaurus/types": "2.0.0-beta.0",
     "@types/github-slugger": "^1.3.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "escape-string-regexp": "^4.0.0",
-    "fs-extra": "^9.1.0",
-    "gray-matter": "^4.0.2",
+    "fs-extra": "^10.0.0",
+    "gray-matter": "^4.0.3",
     "lodash": "^4.17.20",
     "resolve-pathname": "^3.0.0",
-    "tslib": "^2.1.0"
+    "tslib": "^2.2.0"
   },
   "engines": {
     "node": ">=12.13.0"

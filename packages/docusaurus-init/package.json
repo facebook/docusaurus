@@ -22,14 +22,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "commander": "^5.1.0",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
-    "prompts": "^2.4.0",
+    "prompts": "^2.4.1",
     "semver": "^7.3.4",
     "shelljs": "^0.8.4",
-    "tslib": "^2.1.0"
+    "tslib": "^2.2.0"
   },
   "engines": {
     "node": ">=12.13.0"
