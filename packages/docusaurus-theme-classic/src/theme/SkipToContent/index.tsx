@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import Translate from '@docusaurus/Translate';
-import {useLocation} from '@docusaurus/router';
+import {useChangeRoute} from '@docusaurus/theme-common';
+
 import styles from './styles.module.css';
 
 function programmaticFocus(el: HTMLElement) {
@@ -18,8 +19,6 @@ function programmaticFocus(el: HTMLElement) {
 
 function SkipToContent(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
@@ -32,11 +31,11 @@ function SkipToContent(): JSX.Element {
     }
   };
 
-  useEffect(() => {
-    if (!location.hash && containerRef.current) {
+  useChangeRoute(() => {
+    if (containerRef.current) {
       programmaticFocus(containerRef.current);
     }
-  }, [location.pathname]);
+  });
 
   return (
     <div ref={containerRef}>
