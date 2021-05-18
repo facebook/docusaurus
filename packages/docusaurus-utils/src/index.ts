@@ -199,7 +199,7 @@ export function getSubFolder(file: string, refDir: string): string | null {
 }
 
 export function normalizeUrl(rawUrls: string[]): string {
-  const urls = rawUrls;
+  const urls = [...rawUrls];
   const resultArray = [];
 
   let hasStartingSlash = false;
