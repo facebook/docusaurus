@@ -140,7 +140,7 @@ describe('loadSidebars', () => {
   });
 
   test('literal false path', () => {
-    expect(loadSidebars(false)).toEqual(DefaultSidebars);
+    expect(loadSidebars(false)).toEqual({});
   });
 
   test('sidebars with category.collapsed property', async () => {

@@ -222,7 +222,7 @@ export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;
   docs: DocMetadata[];
-  sidebars?: Sidebars;
+  sidebars: Sidebars;
   permalinkToSidebar: Record<string, string>;
 };
 

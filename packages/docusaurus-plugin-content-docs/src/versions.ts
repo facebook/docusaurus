@@ -182,16 +182,24 @@ function getVersionMetadataPaths({
     versionName,
   });
 
-  const sidebarFilePath = !options.sidebarPath
-    ? options.sidebarPath
-    : isCurrentVersion
-    ? path.resolve(context.siteDir, options.sidebarPath)
-    : path.join(
+  function getSidebarFilePath() {
+    if (isCurrentVersion) {
+      return options.sidebarPath
+        ? path.resolve(context.siteDir, options.sidebarPath)
+        : options.sidebarPath;
+    } else {
+      return path.join(
         getVersionedSidebarsDirPath(context.siteDir, options.id),
         `version-${versionName}-sidebars.json`,
       );
+    }
+  }
 
-  return {contentPath, contentPathLocalized, sidebarFilePath};
+  return {
+    contentPath,
+    contentPathLocalized,
+    sidebarFilePath: getSidebarFilePath(),
+  };
 }
 
 function getVersionEditUrls({
@@ -329,8 +337,9 @@ function checkVersionMetadataPaths({
   versionMetadata: VersionMetadata;
   context: Pick<LoadContext, 'siteDir'>;
 }) {
-  const {versionName, contentPath} = versionMetadata;
+  const {versionName, contentPath, sidebarFilePath} = versionMetadata;
   const {siteDir} = context;
+  const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
 
   if (!fs.existsSync(contentPath)) {
     throw new Error(
@@ -339,6 +348,25 @@ function checkVersionMetadataPaths({
         contentPath,
       )}`,
     );
+  }
+
+  // If the current version defines a path to a sidebar file  that does not exist, we throw!
+  // Note: for versioned sidebars, the file may not exist (as we prefer to not create it rather than to create an empty file)
+  // See https://github.com/facebook/docusaurus/issues/3366
+  // See https://github.com/facebook/docusaurus/pull/4775
+  if (
+    isCurrentVersion &&
+    typeof sidebarFilePath === 'string' &&
+    !fs.existsSync(sidebarFilePath)
+  ) {
+    throw new Error(`The path to the sidebar file does not exist at [${path.relative(
+      siteDir,
+      sidebarFilePath,
+    )}].
+Please set the docs [sidebarPath] field in your config file to:
+- a sidebars path that exists
+- false: to disable the sidebar
+- undefined: for Docusaurus generates it automatically`);
   }
 }
 

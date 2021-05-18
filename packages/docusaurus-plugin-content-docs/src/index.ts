@@ -252,8 +252,7 @@ export default function pluginContentDocs(
         return {
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
-          sidebars:
-            versionMetadata.sidebarFilePath === false ? undefined : sidebars,
+          sidebars,
           permalinkToSidebar,
           docs: docs.map(addNavData),
         };
