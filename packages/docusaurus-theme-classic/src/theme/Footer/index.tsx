@@ -71,7 +71,7 @@ function Footer(): JSX.Element | null {
             {links.map((linkItem, i) => (
               <div key={i} className="col footer__col">
                 {linkItem.title != null ? (
-                  <h4 className="footer__title">{linkItem.title}</h4>
+                  <div className="footer__title">{linkItem.title}</div>
                 ) : null}
                 {linkItem.items != null &&
                 Array.isArray(linkItem.items) &&
