@@ -30,10 +30,10 @@
     "@docusaurus/types": "2.0.0-beta.0",
     "@docusaurus/utils": "2.0.0-beta.0",
     "@docusaurus/utils-validation": "2.0.0-beta.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "combine-promises": "^1.1.0",
     "execa": "^5.0.0",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
     "import-fresh": "^3.2.2",
     "js-yaml": "^4.0.0",
@@ -41,9 +41,9 @@
     "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4",
-    "tslib": "^2.1.0",
+    "tslib": "^2.2.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.28.0"
+    "webpack": "^5.37.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
