@@ -1,0 +1,105 @@
+---
+id: math-equations
+title: Math Equations
+description: Writing LaTeX Math Equations
+slug: /markdown-features/math-equations
+---
+
+Mathematical equations can be rendered using [KaTeX](https://katex.org). To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
+
+```bash npm2yarn
+npm install --save remark-math@3
+npm install --save rehype-katex
+```
+
+:::caution
+
+Note that the latest versin of `remark-math 4` is not compatible with current version of `docusaurus 2` yet. Therefore, `remark-math@3` is used.
+
+:::
+
+You need to include following configuration changes in `docusaurus.config.js`. First, import the plugins at the top of `docusaurus.config.js`:
+
+```js
+const math = require('remark-math');
+const katex = require('rehype-katex');
+```
+
+Add them to `@docusaurus/preset-classic` in options in `docusaurus.config.js`:
+
+```js
+remarkPlugins: [math],
+rehypePlugins: [katex],
+```
+
+And finally, add include custom `stylesheets` under `module.exports` for KaTeX:
+
+```js
+stylesheets: [
+    {
+        href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
+        type: "text/css",
+        integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+        crossorigin: "anonymous",
+    },
+],
+```
+
+Overall the changes will look like:
+
+```js title="docusaurus.config.js"
+// highlight-start
+const math = require("remark-math");
+const katex = require("rehype-katex");
+// highlight-end
+(module.exports = {
+  title: 'Docusaurus',
+  tagline: 'Build optimized websites quickly, focus on your content',
+  organizationName: 'facebook',
+  projectName: 'docusaurus',
+  ...
+  presets: [
+    [
+      isBootstrapPreset
+        ? '@docusaurus/preset-bootstrap'
+        : '@docusaurus/preset-classic',
+      {
+        debug: true, // force debug plugin usage
+        docs: {
+          // routeBasePath: '/',
+          path: 'docs',
+          sidebarPath: require.resolve('./sidebars.js'),
+          // highlight-start
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+          // highlight-end
+          ...
+        },
+      }
+      ...
+    ],
+  ],
+  // highlight-start
+  stylesheets: [
+  {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
+      type: "text/css",
+      integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+      crossorigin: "anonymous",
+  },
+  ],
+  // highlight-end
+});
+```
+
+Now you can write inline math equations in your markdown pages by wrapping LaTeX equations between `$$` e.g., `$$\pi$$`. For equation block or display mode, use line breaks for wrapping `$$`:
+
+```mdx
+Text with inline math $$\psi(x)$$.
+
+$$
+I = \int_0^{2\pi} \sin(x) dx
+$$
+
+More text follows.
+```
