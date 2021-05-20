@@ -594,7 +594,7 @@ Using the enabled `themeConfig.hideableSidebar` option, you can make the entire 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    // highlight-starrt
+    // highlight-start
     hideableSidebar: true,
     // highlight-end
   },
