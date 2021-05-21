@@ -33,6 +33,7 @@ import {
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
+  STATIC_DIR_NAME,
 } from '../constants';
 import {memoize} from 'lodash';
 
@@ -122,6 +123,7 @@ export function getBabelOptions({
       babelrc: false,
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
+      exclude: new RegExp(`"/${STATIC_DIR_NAME}/"`), // exclude static dir
     };
   } else {
     return Object.assign(
