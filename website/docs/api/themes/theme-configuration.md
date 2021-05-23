@@ -14,7 +14,7 @@ The classic theme provides by default light and dark mode support, with a navbar
 
 It is possible to customize the color mode support with the following configuration:
 
-```js {6-35} title="docusaurus.config.js"
+```js {6-36} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
