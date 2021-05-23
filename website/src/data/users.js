@@ -877,7 +877,7 @@ const Users = [
     {
     title: 'Runiac',
     description: 'Run IaC Anywhere with Ease',
-    //preview: require('./showcase/runlet.png'),
+    preview: require('./showcase/runiac.png'),
     website: 'https://runiac.io',
     source: 'https://github.com/runiac/website',
     tags: ['opensource'],
