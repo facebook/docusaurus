@@ -535,6 +535,14 @@ const Users = [
     tags: ['opensource', 'facebook'],
   },
   {
+    title: 'Mia-Platform',
+    description: 'Mia-Platform is the simplest way to develop and operate modern applications on Kubernetes. Don\'t waste time to set up your platform, just push the code!',
+    preview: require('./showcase/mia-platform.png'),
+    website: 'https://docs.mia-platform.eu/',
+    source: null,
+    tags: ['product', 'large', 'versioning'],
+  },
+  {
     title: 'MikroORM',
     description:
       'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
