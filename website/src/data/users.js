@@ -1097,6 +1097,14 @@ const Users = [
     source: 'https://github.com/oam-dev/kubevela.io',
     tags: ['opensource', 'versioning', 'i18n'],
   },
+  {
+    title: 'Leon',
+    description: 'Your open-source personal assistant.',
+    preview: require('./showcase/leon.png'),
+    website: 'https://docs.getleon.ai',
+    source: 'https://github.com/leon-ai/docs.getleon.ai',
+    tags: ['opensource', 'versioning', 'i18n'],
+  },
 ];
 
 export const TagList = Object.keys(Tags);
