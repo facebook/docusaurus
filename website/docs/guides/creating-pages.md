@@ -14,7 +14,7 @@ You can use React components, or Markdown.
 
 :::note
 
-Pages do not have sidebars, only [docs](./docs/docs-introduction.md) have.
+Pages do not have sidebars, only [docs](./docs/docs-introduction.md) do.
 
 :::
 
