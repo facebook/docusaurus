@@ -302,6 +302,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
+      additionalLanguages: ['java'],
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
