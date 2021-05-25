@@ -32,7 +32,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 ### Features {#features}
 
 - [docusaurus-theme-github-codeblock](https://github.com/saucelabs/docusaurus-theme-github-codeblock). A Docusaurus v2 plugin that supports referencing code examples from public GitHub repositories
-- [docusaurus-pdf](https://github.com/KohheePeace/docusaurus-pdf) - Generate documentation into PDF format
+- [mr-pdf](https://github.com/kohheepeace/mr-pdf) - Generate documentation into PDF format, suitable for Docusaurus v1 and v2 (including beta versions)
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
 - [docusaurus-plugin-remote-content](https://github.com/rdilweb/docusaurus-plugin-remote-content) - A Docusaurus v2 plugin that allows you to fetch content from remote sources
 - [docusaurus2-graphql-doc-generator](https://github.com/edno/docusaurus2-graphql-doc-generator) - A Docusaurus v2 plugin for generating documentation from a GraphQL schema
