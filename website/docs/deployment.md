@@ -1,6 +1,7 @@
 ---
 id: deployment
 title: Deployment
+tags: [test-tag, myOtherTag]
 ---
 
 To build the static files of your website for production, run:

@@ -292,8 +292,27 @@ export default function pluginContentDocs(
         }
 
         async function createTagPage(tag: VersionTag) {
+          /**
+           * To create a page per Tag for relevant Docs
+           */
           // TODO
           console.log(`todo createTagPage for tag=${tag.name}`);
+          console.log(`tags information is, = ${JSON.stringify(loadedVersion.tags)}`);
+
+          const tagsPath = await createData(
+            `${docuHash(`${tag.permalink}`)}.json`,
+            JSON.stringify(tag, null, 2),
+          );
+
+          addRoute({
+            path: tag.permalink,
+            component: '@theme/DocTagsPage',
+            exact: true,
+            modules: {
+              tag: aliasedSource(tagsPath),
+            }
+          });
+
         }
 
         await createTagsListRoute();

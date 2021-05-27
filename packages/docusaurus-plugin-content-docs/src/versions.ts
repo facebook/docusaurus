@@ -202,6 +202,8 @@ function createVersionMetadata({
   // Because /docs/:route` should always be after `/docs/versionName/:route`.
   const routePriority = versionPathPart === '' ? -1 : undefined;
 
+  // the path that will be used to refer the docs tags
+  // example below will be using /docs/tags
   const tagsPath = normalizeUrl([versionPath, 'tags']);
 
   return {
