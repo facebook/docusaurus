@@ -4,6 +4,8 @@ title: baz
 slug: bazSlug.html
 ---
 
+# Baz markdown title
+
 ## Images
 
 Like links, Images also have a footnote style syntax
