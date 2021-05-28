@@ -16,6 +16,7 @@ import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
 import {translate} from '@docusaurus/Translate';
+import styles from './styles.module.css';
 
 let DocSearchModal = null;
 
@@ -164,34 +165,36 @@ function DocSearch({contextualSearch, ...props}) {
         />
       </Head>
 
-      <DocSearchButton
-        onTouchStart={importDocSearchModalIfNeeded}
-        onFocus={importDocSearchModalIfNeeded}
-        onMouseOver={importDocSearchModalIfNeeded}
-        onClick={onOpen}
-        ref={searchButtonRef}
-        translations={{
-          buttonText: translatedSearchLabel,
-          buttonAriaLabel: translatedSearchLabel,
-        }}
-      />
+      <div className={styles.searchBox}>
+        <DocSearchButton
+          onTouchStart={importDocSearchModalIfNeeded}
+          onFocus={importDocSearchModalIfNeeded}
+          onMouseOver={importDocSearchModalIfNeeded}
+          onClick={onOpen}
+          ref={searchButtonRef}
+          translations={{
+            buttonText: translatedSearchLabel,
+            buttonAriaLabel: translatedSearchLabel,
+          }}
+        />
 
-      {isOpen &&
-        createPortal(
-          <DocSearchModal
-            onClose={onClose}
-            initialScrollY={window.scrollY}
-            initialQuery={initialQuery}
-            navigator={navigator}
-            transformItems={transformItems}
-            hitComponent={Hit}
-            resultsFooterComponent={resultsFooterComponent}
-            transformSearchClient={transformSearchClient}
-            {...props}
-            searchParameters={searchParameters}
-          />,
-          searchContainer.current,
-        )}
+        {isOpen &&
+          createPortal(
+            <DocSearchModal
+              onClose={onClose}
+              initialScrollY={window.scrosllY}
+              initialQuery={initialQuery}
+              navigator={navigator}
+              transformItems={transformItems}
+              hitComponent={Hit}
+              resultsFooterComponent={resultsFooterComponent}
+              transformSearchClient={transformSearchClient}
+              {...props}
+              searchParameters={searchParameters}
+            />,
+            searchContainer.current,
+          )}
+      </div>
     </>
   );
 }
