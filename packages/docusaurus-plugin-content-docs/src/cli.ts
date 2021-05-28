@@ -145,6 +145,7 @@ export function cliDocsVersionCommand(
 
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
+
   if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
     const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
@@ -153,7 +154,18 @@ export function cliDocsVersionCommand(
     throw new Error(`${pluginIdLogPrefix}There is no docs to version !`);
   }
 
-  createVersionedSidebarFile({siteDir, pluginId, version, sidebarPath});
+  // Create sidebar file.
+  const normalizedSidebarPath =
+    sidebarPath && !path.isAbsolute(sidebarPath)
+      ? path.join(siteDir, sidebarPath)
+      : sidebarPath;
+
+  createVersionedSidebarFile({
+    siteDir,
+    pluginId,
+    version,
+    sidebarPath: normalizedSidebarPath,
+  });
 
   // Update versions.json file.
   versions.unshift(version);
