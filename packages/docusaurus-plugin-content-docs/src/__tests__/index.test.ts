@@ -57,7 +57,6 @@ const defaultDocMetadata: Partial<DocMetadata> = {
   editUrl: undefined,
   lastUpdatedAt: undefined,
   lastUpdatedBy: undefined,
-  sidebar_label: undefined,
   formattedLastUpdatedAt: undefined,
 };
 

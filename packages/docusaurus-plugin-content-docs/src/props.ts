@@ -33,7 +33,11 @@ Available document ids=
       );
     }
 
-    const {title, permalink, sidebar_label: sidebarLabel} = docMetadata;
+    const {
+      title,
+      permalink,
+      frontMatter: {sidebar_label: sidebarLabel},
+    } = docMetadata;
 
     return {
       type: 'link',
