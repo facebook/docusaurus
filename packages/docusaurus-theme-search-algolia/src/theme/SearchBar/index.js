@@ -177,24 +177,24 @@ function DocSearch({contextualSearch, ...props}) {
             buttonAriaLabel: translatedSearchLabel,
           }}
         />
-
-        {isOpen &&
-          createPortal(
-            <DocSearchModal
-              onClose={onClose}
-              initialScrollY={window.scrosllY}
-              initialQuery={initialQuery}
-              navigator={navigator}
-              transformItems={transformItems}
-              hitComponent={Hit}
-              resultsFooterComponent={resultsFooterComponent}
-              transformSearchClient={transformSearchClient}
-              {...props}
-              searchParameters={searchParameters}
-            />,
-            searchContainer.current,
-          )}
       </div>
+
+      {isOpen &&
+        createPortal(
+          <DocSearchModal
+            onClose={onClose}
+            initialScrollY={window.scrollY}
+            initialQuery={initialQuery}
+            navigator={navigator}
+            transformItems={transformItems}
+            hitComponent={Hit}
+            resultsFooterComponent={resultsFooterComponent}
+            transformSearchClient={transformSearchClient}
+            {...props}
+            searchParameters={searchParameters}
+          />,
+          searchContainer.current,
+        )}
     </>
   );
 }
