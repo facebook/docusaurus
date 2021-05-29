@@ -1105,6 +1105,14 @@ const Users = [
     source: 'https://github.com/leon-ai/docs.getleon.ai',
     tags: ['opensource', 'versioning', 'i18n'],
   },
+  {
+    title: 'Joel PO',
+    description: 'A minimalist personal website',
+    preview: require('./showcase/joelpo.png'),
+    website: 'https://joelpo.github.io',
+    source: 'https://github.com/Joelpo/joelpo.github.io',
+    tags: ['personal', 'opensource']
+  },
 ];
 
 export const TagList = Object.keys(Tags);
