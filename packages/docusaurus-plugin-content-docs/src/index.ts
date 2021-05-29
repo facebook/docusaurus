@@ -277,6 +277,7 @@ export default function pluginContentDocs(
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
+          console.log(`version tags  info, ${JSON.stringify(loadedVersion)}`);
           const tagsPropPath = await createData(
             `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
             JSON.stringify(tagsProp, null, 2),
@@ -297,11 +298,16 @@ export default function pluginContentDocs(
            */
           // TODO
           console.log(`todo createTagPage for tag=${tag.name}`);
-          console.log(`tags information is, = ${JSON.stringify(loadedVersion.tags)}`);
+          console.log(
+            `tags information is, = ${JSON.stringify(loadedVersion.tags)}`,
+          );
+
+          const copiedTag = JSON.parse(JSON.stringify(tag));
+          copiedTag.allTagsPath = loadedVersion.tagsPath;
 
           const tagsPath = await createData(
             `${docuHash(`${tag.permalink}`)}.json`,
-            JSON.stringify(tag, null, 2),
+            JSON.stringify(copiedTag, null, 2),
           );
 
           addRoute({
@@ -310,9 +316,8 @@ export default function pluginContentDocs(
             exact: true,
             modules: {
               tag: aliasedSource(tagsPath),
-            }
+            },
           });
-
         }
 
         await createTagsListRoute();
