@@ -312,8 +312,19 @@ function isInternalCommand(command) {
 }
 
 async function run() {
-  if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, path.resolve('.'));
+  const commandName = process.argv.slice(2)[0];
+
+  if (!isInternalCommand(commandName)) {
+    try {
+      await externalCommand(cli, path.resolve('.'));
+    } catch (err) {
+      console.log(
+        chalk.red(
+          `Running external '${commandName}' command failed.\n\n${err}`,
+        ),
+      );
+      process.exit(1);
+    }
   }
 
   cli.parse(process.argv);
