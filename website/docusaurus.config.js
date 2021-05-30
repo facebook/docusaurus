@@ -305,7 +305,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       additionalLanguages: ['java'],
     },
     image: 'img/docusaurus-soc.png',
-    // metadatas: [{name: 'twitter:card', content: 'summary'}],
+    metadatas: [{name: 'twitter:card', content: 'summary'}],
     gtag: {
       trackingID: 'UA-141789564-1',
     },
