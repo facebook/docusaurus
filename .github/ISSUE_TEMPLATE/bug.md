@@ -22,6 +22,7 @@ labels: 'bug, needs triage'
 
 <!--
 IMPORTANT: Please meet all following the preconditions before submitting an issue.
+Put an X between the brackets on each line to confirm you have completed them.
 -->
 
 - [ ] Are you using the latest version of Docusaurus?
@@ -29,7 +30,7 @@ IMPORTANT: Please meet all following the preconditions before submitting an issu
 
 ### Description
 
-(A clear and concise description of what the bug is)
+(A clear and concise description of what the bug is.)
 
 ### Have you read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
