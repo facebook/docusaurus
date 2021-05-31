@@ -18,6 +18,17 @@ labels: 'bug, needs triage'
 
 ## 🐛 Bug Report
 
+### Prerequisites
+
+<!--
+IMPORTANT: Please meet all following the preconditions before submitting an issue.
+-->
+
+- [ ] Are you using the latest version of Docusaurus?
+- [ ] Have you tried running the `yarn clear` command?
+
+### Description
+
 (A clear and concise description of what the bug is)
 
 ### Have you read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
@@ -63,7 +74,7 @@ If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible 
 - Public site url:
 - Docusaurus version used:
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
-- Operating system and version (desktop or mobile):
+- Operating system and version (e.g. Ubuntu 20.04.2 LTS):
 
 ## Reproducible Demo
 
