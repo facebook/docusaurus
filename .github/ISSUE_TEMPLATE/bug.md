@@ -21,12 +21,13 @@ labels: 'bug, needs triage'
 ### Prerequisites
 
 <!--
-IMPORTANT: Please meet all following the preconditions before submitting an issue.
-Put an X between the brackets on each line to confirm you have completed them.
+IMPORTANT: Please check the following items before creating a issue.
+Mark the checkbox by putting an X between the bracket.
+This way we know you've done these steps first.
 -->
 
-- [ ] Are you using the latest version of Docusaurus?
-- [ ] Have you tried running the `yarn clear` command?
+- [ ] I'm using the latest version of Docusaurus.
+- [ ] I have tried the `yarn clear` command.
 
 ### Description
 
