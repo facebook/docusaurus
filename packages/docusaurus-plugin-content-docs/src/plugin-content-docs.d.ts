@@ -82,6 +82,7 @@ declare module '@theme/DocItem' {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
       readonly toc: readonly TOCItem[];
+      readonly contentTitle: string | undefined;
       (): JSX.Element;
     };
   };

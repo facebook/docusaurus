@@ -357,22 +357,6 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title at the top but keep it in content', () => {
-    const markdown = dedent`
-
-          # Markdown Title
-
-          Lorem Ipsum
-
-        `;
-    expect(
-      parseMarkdownContentTitle(markdown, {keepContentTitle: true}),
-    ).toEqual({
-      content: markdown.trim(),
-      contentTitle: 'Markdown Title',
-    });
-  });
-
   test('Should not parse markdown h1 title in the middle of a doc', () => {
     const markdown = dedent`
 
@@ -544,34 +528,6 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should not warn for duplicate title if keepContentTitle=true', () => {
-    expect(
-      parseMarkdownString(
-        dedent`
-        ---
-        title: Frontmatter title
-        ---
-
-        # Markdown Title
-
-        Some text
-        `,
-        {keepContentTitle: true},
-      ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      Some text",
-        "contentTitle": "Markdown Title",
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
-  });
-
   test('should not warn for duplicate title if markdown title is not at the top', () => {
     expect(
       parseMarkdownString(dedent`
@@ -593,24 +549,6 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {
           "title": "Frontmatter title",
         },
-      }
-    `);
-  });
-
-  test('should parse markdown title and keep it in content', () => {
-    expect(
-      parseMarkdownString(
-        dedent`
-          # Markdown Title
-          `,
-        {keepContentTitle: true},
-      ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title",
-        "contentTitle": "Markdown Title",
-        "excerpt": undefined,
-        "frontMatter": Object {},
       }
     `);
   });

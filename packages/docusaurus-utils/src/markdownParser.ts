@@ -78,12 +78,17 @@ export function parseFrontMatter(
   };
 }
 
+// Unwrap possible inline code blocks (# `config.js`)
+function cleanContentTitle(contentTitle: string): string {
+  if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
+    return contentTitle.substring(1, contentTitle.length - 1);
+  }
+  return contentTitle;
+}
+
 export function parseMarkdownContentTitle(
   contentUntrimmed: string,
-  options?: {keepContentTitle?: boolean},
 ): {content: string; contentTitle: string | undefined} {
-  const keepContentTitleOption = options?.keepContentTitle ?? false;
-
   const content = contentUntrimmed.trim();
 
   const IMPORT_STATEMENT = /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/
@@ -106,16 +111,12 @@ export function parseMarkdownContentTitle(
 
   if (!pattern || !title) {
     return {content, contentTitle: undefined};
+  } else {
+    return {
+      content,
+      contentTitle: cleanContentTitle(title.trim()).trim(),
+    };
   }
-
-  const newContent = keepContentTitleOption
-    ? content
-    : content.replace(pattern, '');
-
-  return {
-    content: newContent.trim(),
-    contentTitle: title.trim(),
-  };
 }
 
 type ParsedMarkdown = {
@@ -127,22 +128,14 @@ type ParsedMarkdown = {
 
 export function parseMarkdownString(
   markdownFileContent: string,
-  options?: {
-    keepContentTitle?: boolean;
-  },
 ): ParsedMarkdown {
   try {
-    const keepContentTitle = options?.keepContentTitle ?? false;
-
     const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
       markdownFileContent,
     );
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
-      {
-        keepContentTitle,
-      },
     );
 
     const excerpt = createExcerpt(content);

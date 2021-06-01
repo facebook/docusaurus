@@ -16,7 +16,21 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import './styles.css';
 import styles from './styles.module.css';
 
-const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
+type HeadingComponent = (props: Props) => JSX.Element;
+
+export const MainHeading: HeadingComponent = function MainHeading({...props}) {
+  return (
+    <header>
+      <h1 {...props} className={styles.h1Heading}>
+        {props.children}
+      </h1>
+    </header>
+  );
+};
+
+const createAnchorHeading = (
+  Tag: HeadingType,
+): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {
     const {
       navbar: {hideOnScroll},
@@ -50,5 +64,9 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
       </Tag>
     );
   };
+
+const Heading = (headingType: HeadingType): ((props: Props) => JSX.Element) => {
+  return headingType === 'h1' ? MainHeading : createAnchorHeading(headingType);
+};
 
 export default Heading;
