@@ -73,7 +73,7 @@ If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
 - Public source code:
-- Public site url:
+- Public site URL:
 - Docusaurus version used:
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
 - Operating system and version (e.g. Ubuntu 20.04.2 LTS):
