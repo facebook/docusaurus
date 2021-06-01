@@ -123,13 +123,9 @@ function DocPageContent({
               hiddenSidebarContainer || !sidebar,
           })}>
           <div
-            className={clsx(
-              'container padding-vert--lg',
-              styles.docItemWrapper,
-              {
-                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
-              },
-            )}>
+            className={clsx('container', styles.docItemWrapper, {
+              [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+            })}>
             <MDXProvider components={MDXComponents}>{children}</MDXProvider>
           </div>
         </main>

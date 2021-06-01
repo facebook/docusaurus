@@ -20,7 +20,7 @@
 }
 
 .docItemWrapper {
-  padding-top: 0.5rem !important;
+  padding: 0.5rem 0 2rem 0;
 }
 
 @media (min-width: 997px) {
