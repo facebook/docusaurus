@@ -121,6 +121,14 @@ describe('createExcerpt', () => {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
+
+  test('should create excerpt for heading specified with anchor-id syntax', () => {
+    expect(
+      createExcerpt(dedent`
+          ## Markdown title {#my-anchor-id}
+        `),
+    ).toEqual('Markdown title');
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {
