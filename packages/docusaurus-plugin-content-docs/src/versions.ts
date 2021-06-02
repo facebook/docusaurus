@@ -24,6 +24,7 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {difference} from 'lodash';
+import {resolveSidebarPathOption} from './sidebars';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
@@ -184,9 +185,7 @@ function getVersionMetadataPaths({
 
   function getSidebarFilePath() {
     if (isCurrentVersion) {
-      return options.sidebarPath
-        ? path.resolve(context.siteDir, options.sidebarPath)
-        : options.sidebarPath;
+      return resolveSidebarPathOption(context.siteDir, options.sidebarPath);
     } else {
       return path.join(
         getVersionedSidebarsDirPath(context.siteDir, options.id),

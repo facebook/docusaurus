@@ -235,7 +235,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         docs: {
           // routeBasePath: '/',
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: 'sidebars.js',
           editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
