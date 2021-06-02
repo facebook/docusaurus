@@ -130,7 +130,7 @@ const Users = [
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
     source: 'https://github.com/AideJeune',
-    tags: ['young', 'help', 'french', 'discord', 'bullying'],
+    tags: ['favorite', 'product'],
   },
   {
     title: 'AgileTs',
