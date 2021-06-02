@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/LastUpdated';
@@ -58,37 +59,33 @@ export default function LastUpdated({
   lastUpdatedBy,
 }: Props): JSX.Element {
   return (
-    <div className="col text--right">
-      <em>
-        <small>
-          <Translate
-            id="theme.lastUpdated.lastUpdatedAtBy"
-            description="The sentence used to display when a page has been last updated, and by who"
-            values={{
-              atDate:
-                lastUpdatedAt && formattedLastUpdatedAt ? (
-                  <LastUpdatedAtDate
-                    lastUpdatedAt={lastUpdatedAt}
-                    formattedLastUpdatedAt={formattedLastUpdatedAt}
-                  />
-                ) : (
-                  ''
-                ),
-              byUser: lastUpdatedBy ? (
-                <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
-              ) : (
-                ''
-              ),
-            }}>
-            {'Last updated{atDate}{byUser}'}
-          </Translate>
-          {process.env.NODE_ENV === 'development' && (
-            <div>
-              <small> (Simulated during dev for better perf)</small>
-            </div>
-          )}
-        </small>
-      </em>
+    <div className={clsx('col', styles.lastUpdated)}>
+      <Translate
+        id="theme.lastUpdated.lastUpdatedAtBy"
+        description="The sentence used to display when a page has been last updated, and by who"
+        values={{
+          atDate:
+            lastUpdatedAt && formattedLastUpdatedAt ? (
+              <LastUpdatedAtDate
+                lastUpdatedAt={lastUpdatedAt}
+                formattedLastUpdatedAt={formattedLastUpdatedAt}
+              />
+            ) : (
+              ''
+            ),
+          byUser: lastUpdatedBy ? (
+            <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
+          ) : (
+            ''
+          ),
+        }}>
+        {'Last updated{atDate}{byUser}'}
+      </Translate>
+      {process.env.NODE_ENV === 'development' && (
+        <div>
+          <small> (Simulated during dev for better perf)</small>
+        </div>
+      )}
     </div>
   );
 }

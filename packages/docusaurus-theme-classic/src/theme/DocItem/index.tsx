@@ -82,22 +82,20 @@ function DocItem(props: Props): JSX.Element {
               </div>
             </article>
             {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className="margin-vert--xl">
-                <div className="row">
-                  <div className="col">
-                    {editUrl && <EditThisPage editUrl={editUrl} />}
-                  </div>
-                  {(lastUpdatedAt || lastUpdatedBy) && (
-                    <LastUpdated
-                      lastUpdatedAt={lastUpdatedAt}
-                      formattedLastUpdatedAt={formattedLastUpdatedAt}
-                      lastUpdatedBy={lastUpdatedBy}
-                    />
-                  )}
+              <div className={clsx('row', styles.docUpdateDetails)}>
+                <div className="col">
+                  {editUrl && <EditThisPage editUrl={editUrl} />}
                 </div>
+                {(lastUpdatedAt || lastUpdatedBy) && (
+                  <LastUpdated
+                    lastUpdatedAt={lastUpdatedAt}
+                    formattedLastUpdatedAt={formattedLastUpdatedAt}
+                    lastUpdatedBy={lastUpdatedBy}
+                  />
+                )}
               </div>
             )}
-            <div className="margin-vert--lg">
+            <div className={styles.docPaginator}>
               <DocPaginator metadata={metadata} />
             </div>
           </div>

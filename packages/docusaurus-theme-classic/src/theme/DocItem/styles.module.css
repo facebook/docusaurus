@@ -15,6 +15,11 @@
   padding: 0 0.5rem;
 }
 
+.docUpdateDetails,
+.docPaginator {
+  margin-top: 3rem;
+}
+
 @media only screen and (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
