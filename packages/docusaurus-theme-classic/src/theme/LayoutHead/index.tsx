@@ -83,7 +83,10 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
-    siteConfig: {favicon},
+    siteConfig: {
+      favicon,
+      themeConfig: {metadatas, image: defaultImage},
+    },
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const {title, description, image, keywords, searchMetadatas} = props;
@@ -102,6 +105,10 @@ export default function LayoutHead(props: Props): JSX.Element {
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
+        {image ||
+          (defaultImage && (
+            <meta name="twitter:card" content="summary_large_image" />
+          ))}
       </Head>
 
       <Seo {...{description, keywords, image}} />
@@ -115,6 +122,18 @@ export default function LayoutHead(props: Props): JSX.Element {
         locale={currentLocale}
         {...searchMetadatas}
       />
+
+      <Head
+      // it's important to have an additional <Head> element here,
+      // as it allows react-helmet to override values set in previous <Head>
+      // ie we can override default metadatas such as "twitter:card"
+      // In same Head, the same meta would appear twice instead of overriding
+      // See react-helmet doc
+      >
+        {metadatas.map((metadata, i) => (
+          <meta key={`metadata_${i}`} {...metadata} />
+        ))}
+      </Head>
     </>
   );
 }
