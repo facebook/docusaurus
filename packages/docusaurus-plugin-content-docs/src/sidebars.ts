@@ -25,11 +25,13 @@ import {
   SidebarItemsGeneratorVersion,
   NumberPrefixParser,
   SidebarItemsGeneratorOption,
+  PluginOptions,
 } from './types';
 import {mapValues, flatten, flatMap, difference, pick, memoize} from 'lodash';
 import {getElementsAround} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
+import path from 'path';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -256,7 +258,19 @@ export const DefaultSidebars: UnprocessedSidebars = {
 
 export const DisabledSidebars: UnprocessedSidebars = {};
 
+// If a path is provided, make it absolute
+// use this before loadSidebars()
+export function resolveSidebarPathOption(
+  siteDir: string,
+  sidebarPathOption: PluginOptions['sidebarPath'],
+): PluginOptions['sidebarPath'] {
+  return sidebarPathOption
+    ? path.resolve(siteDir, sidebarPathOption)
+    : sidebarPathOption;
+}
+
 // TODO refactor: make async
+// Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export function loadSidebars(
   sidebarFilePath: string | false | undefined,
 ): UnprocessedSidebars {
@@ -279,6 +293,7 @@ export function loadSidebars(
 
   // We don't want sidebars to be cached because of hot reloading.
   const sidebarJson = importFresh(sidebarFilePath) as SidebarsJSON;
+
   return normalizeSidebars(sidebarJson);
 }
 

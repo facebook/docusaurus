@@ -17,7 +17,7 @@ import {
   UnprocessedSidebarItem,
   UnprocessedSidebars,
 } from './types';
-import {loadSidebars} from './sidebars';
+import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 function createVersionedSidebarFile({
@@ -154,17 +154,11 @@ export function cliDocsVersionCommand(
     throw new Error(`${pluginIdLogPrefix}There is no docs to version !`);
   }
 
-  // Create sidebar file.
-  const normalizedSidebarPath =
-    sidebarPath && !path.isAbsolute(sidebarPath)
-      ? path.join(siteDir, sidebarPath)
-      : sidebarPath;
-
   createVersionedSidebarFile({
     siteDir,
     pluginId,
     version,
-    sidebarPath: normalizedSidebarPath,
+    sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
   });
 
   // Update versions.json file.
