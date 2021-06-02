@@ -5,34 +5,67 @@ description: Writing LaTeX Math Equations
 slug: /markdown-features/math-equations
 ---
 
-Mathematical equations can be rendered using [KaTeX](https://katex.org). To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
+Mathematical equations can be rendered using [KaTeX](https://katex.org).
+
+## Usage
+
+Please read [KaTeX](https://katex.org) documentation for more details.
+
+### Inline
+
+Write inline math equations by wrapping LaTeX equations between `$`:
+
+```mdx
+Let $f:[a,b] \to \R$ be Riemann integrable. Let $F:[a,b]\to\R$ be $F(x)=
+\int_{a}^{x}f(t)dt$. Then $$F$$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
+```
+
+Let $f:[a,b] \to \R$ be Riemann integrable. Let $F:[a,b]\to\R$ be $F(x)=
+\int_{a}^{x}f(t)dt$. Then $F$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
+
+### Blocks
+
+For equation block or display mode, use line breaks and `$$`:
+
+```mdx
+$$
+I = \int_0^{2\pi} \sin(x) dx
+$$
+```
+
+$$
+I = \int_0^{2\pi} \sin(x) dx
+$$
+
+## Configuration
+
+To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
 ```bash npm2yarn
-npm install --save remark-math@3
-npm install --save rehype-katex
+npm install --save remark-math@3 rehype-katex@4 hast-util-is-element@1.1.0
 ```
 
 :::caution
 
-Note that the latest versin of `remark-math 4` is not compatible with current version of `docusaurus 2` yet. Therefore, `remark-math@3` is used.
+Use the exact same versions. The latest versions are incompatible with Docusaurus 2.
 
 :::
 
-You need to include following configuration changes in `docusaurus.config.js`. First, import the plugins at the top of `docusaurus.config.js`:
+Import the plugins in `docusaurus.config.js`:
 
 ```js
 const math = require('remark-math');
 const katex = require('rehype-katex');
 ```
 
-Add them to `@docusaurus/preset-classic` in options in `docusaurus.config.js`:
+Add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
 
 ```js
 remarkPlugins: [math],
 rehypePlugins: [katex],
 ```
 
-And finally, add include custom `stylesheets` under `module.exports` for KaTeX:
+Include the KaTeX CSS in your config under `stylesheets`:
 
 ```js
 stylesheets: [
@@ -45,61 +78,42 @@ stylesheets: [
 ],
 ```
 
-Overall the changes will look like:
+Overall the changes look like:
 
-```js title="docusaurus.config.js"
+```diff title="docusaurus.config.js"
 // highlight-start
-const math = require("remark-math");
-const katex = require("rehype-katex");
++ const math = require('remark-math');
++ const katex = require('rehype-katex');
 // highlight-end
-(module.exports = {
+
+
+module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
-  organizationName: 'facebook',
-  projectName: 'docusaurus',
-  ...
   presets: [
     [
-      isBootstrapPreset
-        ? '@docusaurus/preset-bootstrap'
-        : '@docusaurus/preset-classic',
+      '@docusaurus/preset-classic',
       {
-        debug: true, // force debug plugin usage
         docs: {
-          // routeBasePath: '/',
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
           // highlight-start
-          remarkPlugins: [math],
-          rehypePlugins: [katex],
++         remarkPlugins: [math],
++         rehypePlugins: [katex],
           // highlight-end
-          ...
         },
-      }
-      ...
+      },
     ],
   ],
   // highlight-start
-  stylesheets: [
-  {
-      href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
-      type: "text/css",
-      integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
-      crossorigin: "anonymous",
-  },
-  ],
++ stylesheets: [
++   {
++     href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
++     type: 'text/css',
++     integrity:
++       'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
++     crossorigin: 'anonymous',
++   },
++ ],
   // highlight-end
-});
-```
-
-Now you can write inline math equations in your markdown pages by wrapping LaTeX equations between `$$` e.g., `$$\pi$$`. For equation block or display mode, use line breaks for wrapping `$$`:
-
-```mdx
-Text with inline math $$\psi(x)$$.
-
-$$
-I = \int_0^{2\pi} \sin(x) dx
-$$
-
-More text follows.
+};
 ```
