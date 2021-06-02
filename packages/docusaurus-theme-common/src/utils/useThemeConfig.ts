@@ -102,6 +102,7 @@ export type ThemeConfig = {
   footer?: Footer;
   hideableSidebar: boolean;
   image: string;
+  metadatas: Array<Record<string, string>>;
 };
 
 export function useThemeConfig(): ThemeConfig {
