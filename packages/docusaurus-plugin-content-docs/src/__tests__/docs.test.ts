@@ -76,7 +76,7 @@ function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
@@ -89,7 +89,6 @@ function createTestUtils({
     expect(metadata).toEqual({
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
-      sidebar_label: undefined,
       editUrl: undefined,
       source: path.posix.join(
         '@site',
