@@ -286,7 +286,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
-      title: 'baz',
+      title: 'Baz markdown title',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
@@ -345,7 +345,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
-      title: 'baz',
+      title: 'Baz markdown title',
       editUrl: hardcodedEditUrl,
       description: 'Images',
       frontMatter: {

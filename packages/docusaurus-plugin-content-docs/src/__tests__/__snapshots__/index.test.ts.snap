@@ -190,7 +190,7 @@ Object {
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"foo/baz\\",
   \\"isDocsHomePage\\": false,
-  \\"title\\": \\"baz\\",
+  \\"title\\": \\"Baz markdown title\\",
   \\"description\\": \\"Images\\",
   \\"source\\": \\"@site/docs/foo/baz.md\\",
   \\"sourceDirName\\": \\"foo\\",
@@ -204,7 +204,7 @@ Object {
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
-    \\"title\\": \\"Remarkable\\",
+    \\"title\\": \\"Bar\\",
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
@@ -423,7 +423,7 @@ Object {
               },
               {
                 \\"type\\": \\"link\\",
-                \\"label\\": \\"baz\\",
+                \\"label\\": \\"Baz markdown title\\",
                 \\"href\\": \\"/docs/foo/bazSlug.html\\"
               }
             ]
