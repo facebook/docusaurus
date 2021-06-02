@@ -28,7 +28,7 @@ This way we know you've done these steps first.
 
 - [ ] I'm using the latest version of Docusaurus.
 - [ ] I have tried the `npm run clear` or `yarn clear` command.
-- [ ] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages
+- [ ] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
 
 ### Description
 
