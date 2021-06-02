@@ -53,7 +53,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      console.error(`error building locale=${locale}`);
+      console.error(`Unable to build website for locale ${locale}.`);
       throw e;
     }
   }
