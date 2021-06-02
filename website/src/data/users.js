@@ -125,6 +125,14 @@ export const Tags = {
 // prettier-ignore
 const Users = [
   {
+    title: 'Aide Jeune',
+    description: 'French Discord server that helps young people who have been bullied or feel bad about themselves',
+    preview: require('./showcase/aide_jeune.png'),
+    website: 'https://aidejeune.fr',
+    source: 'https://github.com/AideJeune',
+    tags: ['opensource'],
+  },
+  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
