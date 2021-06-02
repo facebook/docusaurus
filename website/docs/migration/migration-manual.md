@@ -294,6 +294,14 @@ module.exports = {
 };
 ```
 
+:::caution
+
+Your Algolia DocSearch v1 config (found [here](https://github.com/algolia/docsearch-configs/blob/master/configs)) should be updated for Docusaurus v2 ([example](https://github.com/algolia/docsearch-configs/tree/master/configs/docusaurus-2.json)).
+
+You can contact the DocSearch team (@shortcuts, @s-pace) for support. They can update it for you and trigger a recrawl of your site to restore the search (otherwise you will have to wait up to 24h for the next scheduled crawl)
+
+:::
+
 #### `blogSidebarCount` {#blogsidebarcount}
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
