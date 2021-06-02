@@ -7,6 +7,8 @@
 
 const path = require('path');
 const versions = require('./versions.json');
+const math = require('remark-math');
+const katex = require('rehype-katex');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -52,6 +54,15 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
+    },
+  ],
   i18n: {
     defaultLocale: 'en',
     locales: isDeployPreview
@@ -237,8 +248,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [
+            math,
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
+          rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:

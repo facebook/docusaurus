@@ -43,6 +43,7 @@ module.exports = {
             'guides/markdown-features/inline-toc',
             'guides/markdown-features/assets',
             'guides/markdown-features/plugins',
+            'guides/markdown-features/math-equations',
           ],
         },
         'styling-layout',
