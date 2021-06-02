@@ -21,5 +21,10 @@ module.exports = {
       href: '/feedback',
       label: 'Feedback',
     },
+    {
+      type: 'link',
+      label: 'Chat with us on Discord',
+      href: 'https://discord.gg/docusaurus',
+    },
   ],
 };
