@@ -234,6 +234,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'ClarityChallenge',
+    description: 'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
+    preview: require('./showcase/claritychallenge.png'),
+    website: 'https://claritychallenge.github.io/clarity_CEC1_doc',
+    source: 'https://github.com/claritychallenge/clarity_CEC1_doc',
+    tags: ['opensource'],
+  },
+  {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
