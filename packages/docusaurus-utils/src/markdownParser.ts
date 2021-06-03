@@ -169,10 +169,11 @@ This can happen if you use special characters like : in frontmatter values (try 
 
 export async function parseMarkdownFile(
   source: string,
+  options?: {removeContentTitle?: boolean},
 ): Promise<ParsedMarkdown> {
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
-    return parseMarkdownString(markdownString);
+    return parseMarkdownString(markdownString, options);
   } catch (e) {
     throw new Error(
       `Error while parsing markdown file ${source}
