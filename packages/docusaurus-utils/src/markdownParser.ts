@@ -92,7 +92,10 @@ function toTextContentTitle(contentTitle: string): string {
 
 export function parseMarkdownContentTitle(
   contentUntrimmed: string,
+  options?: {removeContentTitle?: boolean},
 ): {content: string; contentTitle: string | undefined} {
+  const removeContentTitleOption = options?.removeContentTitle ?? false;
+
   const content = contentUntrimmed.trim();
 
   const IMPORT_STATEMENT = /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/
@@ -116,8 +119,11 @@ export function parseMarkdownContentTitle(
   if (!pattern || !title) {
     return {content, contentTitle: undefined};
   } else {
+    const newContent = removeContentTitleOption
+      ? content.replace(pattern, '')
+      : content;
     return {
-      content,
+      content: newContent.trim(),
       contentTitle: toTextContentTitle(title.trim()).trim(),
     };
   }
@@ -132,6 +138,7 @@ type ParsedMarkdown = {
 
 export function parseMarkdownString(
   markdownFileContent: string,
+  options?: {removeContentTitle?: boolean},
 ): ParsedMarkdown {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
@@ -140,6 +147,7 @@ export function parseMarkdownString(
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
+      options,
     );
 
     const excerpt = createExcerpt(content);

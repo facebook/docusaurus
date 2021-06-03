@@ -31,7 +31,9 @@ module.exports = async function docusaurusMdxLoader(fileString) {
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
-  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle);
+  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
+    removeContentTitle: reqOptions.removeContentTitle,
+  });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 

@@ -459,6 +459,9 @@ export default function pluginContentBlog(
                         `${docuHash(aliasedPath)}.json`,
                       );
                     },
+                    // For blog posts a title in markdown is always removed
+                    // Blog posts title are rendered separately
+                    removeContentTitle: true,
                   },
                 },
                 {
