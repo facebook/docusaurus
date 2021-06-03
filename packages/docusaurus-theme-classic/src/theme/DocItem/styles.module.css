@@ -10,6 +10,10 @@
   padding: 0 0.5rem;
 }
 
+.docItemContainer header + * {
+  margin-top: 0;
+}
+
 .docUpdateDetails,
 .docPaginator {
   margin-top: 3rem;
