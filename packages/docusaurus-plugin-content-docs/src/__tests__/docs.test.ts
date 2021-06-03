@@ -180,7 +180,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
-      title: 'Remarkable',
+      title: 'Bar',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
@@ -254,7 +254,7 @@ describe('simple site', () => {
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
-      title: 'Remarkable',
+      title: 'Bar',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
@@ -286,7 +286,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
-      title: 'Baz markdown title',
+      title: 'baz',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
@@ -345,7 +345,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
-      title: 'Baz markdown title',
+      title: 'baz',
       editUrl: hardcodedEditUrl,
       description: 'Images',
       frontMatter: {
