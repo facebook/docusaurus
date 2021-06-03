@@ -89,14 +89,6 @@ if (!semver.satisfies(process.version, requiredVersion)) {
   process.exit(1);
 }
 
-function wrapCommand(fn) {
-  return (...args) =>
-    fn(...args).catch((err) => {
-      console.error(chalk.red(err.stack));
-      process.exitCode = 1;
-    });
-}
-
 cli.version(require('../package.json').version).usage('<command> [options]');
 
 cli
@@ -123,7 +115,7 @@ cli
     'Build website without minimizing JS bundles (default: false)',
   )
   .action((siteDir = '.', {bundleAnalyzer, config, outDir, locale, minify}) => {
-    wrapCommand(build)(path.resolve(siteDir), {
+    build(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
       config,
@@ -141,7 +133,7 @@ cli
   )
   .option('--danger', 'Enable swizzle for internal component of themes')
   .action((themeName, componentName, siteDir = '.', {typescript, danger}) => {
-    wrapCommand(swizzle)(
+    swizzle(
       path.resolve(siteDir),
       themeName,
       componentName,
@@ -170,7 +162,7 @@ cli
     'Skip building website before deploy it (default: false)',
   )
   .action((siteDir = '.', {outDir, skipBuild, config}) => {
-    wrapCommand(deploy)(path.resolve(siteDir), {
+    deploy(path.resolve(siteDir), {
       outDir,
       config,
       skipBuild,
@@ -198,7 +190,7 @@ cli
   )
   .action(
     (siteDir = '.', {port, host, locale, config, hotOnly, open, poll}) => {
-      wrapCommand(start)(path.resolve(siteDir), {
+      start(path.resolve(siteDir), {
         port,
         host,
         locale,
@@ -235,7 +227,7 @@ cli
         config,
       },
     ) => {
-      wrapCommand(serve)(path.resolve(siteDir), {
+      serve(path.resolve(siteDir), {
         dir,
         port,
         build: buildSite,
@@ -249,7 +241,7 @@ cli
   .command('clear [siteDir]')
   .description('Remove build artifacts')
   .action((siteDir = '.') => {
-    wrapCommand(clear)(path.resolve(siteDir));
+    clear(path.resolve(siteDir));
   });
 
 cli
@@ -276,7 +268,7 @@ cli
       siteDir = '.',
       {locale = undefined, override = false, messagePrefix = '', config},
     ) => {
-      wrapCommand(writeTranslations)(path.resolve(siteDir), {
+      writeTranslations(path.resolve(siteDir), {
         locale,
         override,
         config,
@@ -289,7 +281,7 @@ cli
   .command('write-heading-ids [contentDir]')
   .description('Generate heading ids in Markdown content')
   .action((siteDir = '.') => {
-    wrapCommand(writeHeadingIds)(siteDir);
+    writeHeadingIds(siteDir);
   });
 
 cli.arguments('<command>').action((cmd) => {
@@ -324,3 +316,8 @@ async function run() {
 }
 
 run();
+
+process.on('unhandledRejection', (err) => {
+  console.error(chalk.red(err.stack));
+  process.exit(1);
+});

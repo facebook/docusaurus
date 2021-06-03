@@ -125,7 +125,6 @@ export function processDocMetadata({
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
   const {
-    sidebar_label: sidebarLabel,
     custom_edit_url: customEditURL,
 
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
@@ -256,7 +255,6 @@ export function processDocMetadata({
           lastUpdate.lastUpdatedAt * 1000,
         )
       : undefined,
-    sidebar_label: sidebarLabel,
     sidebarPosition,
     frontMatter,
   };

@@ -198,7 +198,6 @@ export type DocMetadataBase = LastUpdateData & {
   slug: string;
   permalink: string;
   // eslint-disable-next-line camelcase
-  sidebar_label?: string;
   sidebarPosition?: number;
   editUrl?: string | null;
   frontMatter: FrontMatter;

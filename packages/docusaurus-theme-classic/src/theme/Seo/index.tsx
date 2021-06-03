@@ -41,7 +41,6 @@ export default function Seo({
 
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
-      {pageImage && <meta name="twitter:card" content="summary_large_image" />}
     </Head>
   );
 }

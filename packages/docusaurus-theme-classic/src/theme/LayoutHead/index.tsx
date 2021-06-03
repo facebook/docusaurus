@@ -85,7 +85,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   const {
     siteConfig: {
       favicon,
-      themeConfig: {metadatas},
+      themeConfig: {metadatas, image: defaultImage},
     },
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
@@ -105,6 +105,10 @@ export default function LayoutHead(props: Props): JSX.Element {
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
+        {image ||
+          (defaultImage && (
+            <meta name="twitter:card" content="summary_large_image" />
+          ))}
       </Head>
 
       <Seo {...{description, keywords, image}} />

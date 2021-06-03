@@ -5,6 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.lastUpdated {
+  margin-top: 0.2rem;
+  font-style: italic;
+  font-size: smaller;
+}
+
+@media only screen and (min-width: 997px) {
+  .lastUpdated {
+    text-align: right;
+  }
+}
+
 .lastUpdatedDate {
   font-weight: bold;
 }

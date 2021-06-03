@@ -9,6 +9,7 @@ import {isPlainObject} from 'lodash';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
+import escapeHTML from 'escape-html';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (!isPlainObject(val)) {
@@ -41,7 +42,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return `${attributeName}="${tagAttributes[attributeName]}"`;
+      return `${attributeName}="${escapeHTML(tagAttributes[attributeName])}"`;
     });
   return `<${[tagDefinition.tagName].concat(attributes).join(' ')}>${
     (!isVoidTag && tagDefinition.innerHTML) || ''

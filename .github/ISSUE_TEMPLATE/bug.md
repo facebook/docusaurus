@@ -18,7 +18,21 @@ labels: 'bug, needs triage'
 
 ## 🐛 Bug Report
 
-(A clear and concise description of what the bug is)
+### Prerequisites
+
+<!--
+IMPORTANT: Please check the following items before creating a issue.
+Mark the checkbox by putting an X between the bracket.
+This way we know you've done these steps first.
+-->
+
+- [ ] I'm using the latest version of Docusaurus.
+- [ ] I have tried the `npm run clear` or `yarn clear` command.
+- [ ] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
+
+### Description
+
+(A clear and concise description of what the bug is.)
 
 ### Have you read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
@@ -60,10 +74,10 @@ If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
 - Public source code:
-- Public site url:
+- Public site URL:
 - Docusaurus version used:
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
-- Operating system and version (desktop or mobile):
+- Operating system and version (e.g. Ubuntu 20.04.2 LTS):
 
 ## Reproducible Demo
 

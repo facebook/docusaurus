@@ -55,6 +55,8 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/(:{3}.*)/, '')
       // Remove Emoji names within colons include preceding whitespace.
       .replace(/\s?(:(::|[^:\n])+:)/g, '')
+      // Remove custom Markdown heading id.
+      .replace(/{#*[\w-]+}/, '')
       .trim();
 
     if (cleanedLine) {
