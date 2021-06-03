@@ -80,11 +80,21 @@ export function parseFrontMatter(
   };
 }
 
+// Try to convert markdown heading as text
+// Does not need to be perfect, it is only used as a fallback when frontMatter.title is not provided
+// For now, we just unwrap possible inline code blocks (# `config.js`)
+function toTextContentTitle(contentTitle: string): string {
+  if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
+    return contentTitle.substring(1, contentTitle.length - 1);
+  }
+  return contentTitle;
+}
+
 export function parseMarkdownContentTitle(
   contentUntrimmed: string,
-  options?: {keepContentTitle?: boolean},
+  options?: {removeContentTitle?: boolean},
 ): {content: string; contentTitle: string | undefined} {
-  const keepContentTitleOption = options?.keepContentTitle ?? false;
+  const removeContentTitleOption = options?.removeContentTitle ?? false;
 
   const content = contentUntrimmed.trim();
 
@@ -108,16 +118,15 @@ export function parseMarkdownContentTitle(
 
   if (!pattern || !title) {
     return {content, contentTitle: undefined};
+  } else {
+    const newContent = removeContentTitleOption
+      ? content.replace(pattern, '')
+      : content;
+    return {
+      content: newContent.trim(),
+      contentTitle: toTextContentTitle(title.trim()).trim(),
+    };
   }
-
-  const newContent = keepContentTitleOption
-    ? content
-    : content.replace(pattern, '');
-
-  return {
-    content: newContent.trim(),
-    contentTitle: title.trim(),
-  };
 }
 
 type ParsedMarkdown = {
@@ -129,22 +138,16 @@ type ParsedMarkdown = {
 
 export function parseMarkdownString(
   markdownFileContent: string,
-  options?: {
-    keepContentTitle?: boolean;
-  },
+  options?: {removeContentTitle?: boolean},
 ): ParsedMarkdown {
   try {
-    const keepContentTitle = options?.keepContentTitle ?? false;
-
     const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
       markdownFileContent,
     );
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
-      {
-        keepContentTitle,
-      },
+      options,
     );
 
     const excerpt = createExcerpt(content);
@@ -166,10 +169,11 @@ This can happen if you use special characters like : in frontmatter values (try 
 
 export async function parseMarkdownFile(
   source: string,
+  options?: {removeContentTitle?: boolean},
 ): Promise<ParsedMarkdown> {
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
-    return parseMarkdownString(markdownString);
+    return parseMarkdownString(markdownString, options);
   } catch (e) {
     throw new Error(
       `Error while parsing markdown file ${source}

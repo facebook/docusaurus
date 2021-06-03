@@ -202,11 +202,9 @@ export function processDocMetadata({
         numberPrefixParser: options.numberPrefixParser,
       });
 
-  // TODO expose both headingTitle+metaTitle to theme?
-  // Different fallbacks order on purpose!
-  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
-  const headingTitle: string = contentTitle ?? frontMatter.title ?? baseID;
-  // const metaTitle: string = frontMatter.title ?? contentTitle  ?? baseID;
+  // Note: the title is used by default for page title, sidebar label, pagination buttons...
+  // frontMatter.title should be used in priority over contentTitle (because it can contain markdown/JSX syntax)
+  const title: string = frontMatter.title ?? contentTitle ?? baseID;
 
   const description: string = frontMatter.description ?? excerpt ?? '';
 
@@ -245,7 +243,7 @@ export function processDocMetadata({
     unversionedId,
     id,
     isDocsHomePage,
-    title: headingTitle,
+    title,
     description,
     source: aliasedSitePath(filePath, siteDir),
     sourceDirName,

@@ -114,6 +114,7 @@ declare module '@theme/Heading' {
 
   const Heading: (Tag: HeadingType) => (props: Props) => JSX.Element;
   export default Heading;
+  export const MainHeading: (props: Props) => JSX.Element;
 }
 
 declare module '@theme/hooks/useAnnouncementBar' {

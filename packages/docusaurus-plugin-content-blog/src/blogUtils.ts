@@ -146,7 +146,7 @@ export async function generateBlogPosts(
         content,
         contentTitle,
         excerpt,
-      } = await parseMarkdownFile(source);
+      } = await parseMarkdownFile(source, {removeContentTitle: true});
       const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
 
       const aliasedSource = aliasedSitePath(source, siteDir);

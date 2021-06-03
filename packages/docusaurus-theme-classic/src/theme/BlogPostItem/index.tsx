@@ -47,8 +47,8 @@ function BlogPostItem(props: Props): JSX.Element {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, formattedDate, permalink, tags, readingTime} = metadata;
-  const {author, title, image, keywords} = frontMatter;
+  const {date, formattedDate, permalink, tags, readingTime, title} = metadata;
+  const {author, image, keywords} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;

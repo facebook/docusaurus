@@ -8,3 +8,8 @@
 .enhancedAnchor {
   top: calc(var(--ifm-navbar-height) * -1 - 0.5rem);
 }
+
+.h1Heading {
+  font-size: 3rem;
+  margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
+}

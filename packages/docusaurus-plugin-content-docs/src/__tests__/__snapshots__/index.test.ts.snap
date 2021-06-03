@@ -168,7 +168,7 @@ Object {
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
   \\"isDocsHomePage\\": false,
-  \\"title\\": \\"Remarkable\\",
+  \\"title\\": \\"Bar\\",
   \\"description\\": \\"This is custom description\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
   \\"sourceDirName\\": \\"foo\\",
@@ -190,7 +190,7 @@ Object {
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"foo/baz\\",
   \\"isDocsHomePage\\": false,
-  \\"title\\": \\"Baz markdown title\\",
+  \\"title\\": \\"baz\\",
   \\"description\\": \\"Images\\",
   \\"source\\": \\"@site/docs/foo/baz.md\\",
   \\"sourceDirName\\": \\"foo\\",
@@ -418,12 +418,12 @@ Object {
             \\"items\\": [
               {
                 \\"type\\": \\"link\\",
-                \\"label\\": \\"Remarkable\\",
+                \\"label\\": \\"Bar\\",
                 \\"href\\": \\"/docs/foo/bar\\"
               },
               {
                 \\"type\\": \\"link\\",
-                \\"label\\": \\"Baz markdown title\\",
+                \\"label\\": \\"baz\\",
                 \\"href\\": \\"/docs/foo/bazSlug.html\\"
               }
             ]

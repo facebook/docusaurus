@@ -13,6 +13,7 @@ import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
+import {MainHeading} from '@theme/Heading';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -49,13 +50,15 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  // For meta title, using frontMatter.title in priority over a potential # title found in markdown
-  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
-  const metaTitle = frontMatter.title || title;
+  // We only add a title if:
+  // - user asks to hide it with frontmatter
+  // - the markdown content does not already contain a top-level h1 heading
+  const shouldAddTitle =
+    !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   return (
     <>
-      <Seo {...{title: metaTitle, description, keywords, image}} />
+      <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
         <div
@@ -72,12 +75,13 @@ function DocItem(props: Props): JSX.Element {
                   </span>
                 </div>
               )}
-              {!hideTitle && (
-                <header>
-                  <h1 className={styles.docTitle}>{title}</h1>
-                </header>
-              )}
               <div className="markdown">
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
                 <DocContent />
               </div>
             </article>
