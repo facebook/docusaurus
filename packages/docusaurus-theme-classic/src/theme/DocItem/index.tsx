@@ -75,8 +75,13 @@ function DocItem(props: Props): JSX.Element {
                   </span>
                 </div>
               )}
-              {shouldAddTitle && <MainHeading>{title}</MainHeading>}
               <div className="markdown">
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
                 <DocContent />
               </div>
             </article>
