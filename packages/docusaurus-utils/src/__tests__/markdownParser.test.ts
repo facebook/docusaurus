@@ -141,8 +141,52 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: 'Lorem Ipsum',
+      content: markdown,
       contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 title at the top and unwrap inline code block', () => {
+    const markdown = dedent`
+
+          # \`Markdown Title\`
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse markdown h1 title and trim content', () => {
+    const markdown = `
+
+# Markdown Title
+
+Lorem Ipsum
+
+
+
+`;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown.trim(),
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  test('Should parse not parse markdown h1 title and trim content', () => {
+    const markdown = `
+
+Lorem Ipsum
+
+`;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown.trim(),
+      contentTitle: undefined,
     });
   });
 
@@ -155,7 +199,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: 'Lorem Ipsum',
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -169,7 +213,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: 'Lorem Ipsum',
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -185,12 +229,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-          ## Heading 2
-
-          Lorem Ipsum
-
-        `,
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -206,12 +245,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-          # Markdown Title 2
-
-          Lorem Ipsum
-
-        `,
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -227,15 +261,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-
-          Lorem Ipsum
-
-          # Markdown Title 2
-
-          Lorem Ipsum
-
-        `,
+      content: markdown,
       contentTitle: undefined,
     });
   });
@@ -250,7 +276,7 @@ describe('parseMarkdownContentTitle', () => {
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: 'Lorem Ipsum',
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -271,17 +297,7 @@ describe('parseMarkdownContentTitle', () => {
 
     // remove the useless line breaks? Does not matter too much
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-          import Component1 from '@site/src/components/Component1';
-
-          import Component2 from '@site/src/components/Component2'
-          import Component3 from '@site/src/components/Component3'
-          import './styles.css';
-
-
-
-          Lorem Ipsum
-        `,
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -306,35 +322,17 @@ import "module-name"
 # Markdown Title
 
 Lorem Ipsum
-        `;
+`;
 
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: `
-import DefaultComponent from '@site/src/components/Component1';
-import DefaultComponent2 from '../relative/path/Component2';
-import * as EntireComponent from './relative/path/Component3';
-
-import { Component4 }   from    "double-quote-module-name";
-import { Component51,   Component52, \n Component53, \n\t\t Component54 } from "double-quote-module-name";
-import { Component6 as AliasComponent6 } from "module-name";
-import DefaultComponent8,   { DefaultComponent81 ,\nDefaultComponent82 } from "module-name";
-import DefaultComponent9,    * as EntireComponent9 from "module-name";
-import {Component71,\nComponent72 as AliasComponent72,\nComponent73\n} \nfrom "module-name";
-
-import './styles.css';
-import _ from 'underscore';
-import "module-name"
-
-
-
-Lorem Ipsum
-        `.trim(),
+      content: markdown.trim(),
       contentTitle: 'Markdown Title',
     });
   });
 
   test('Should parse markdown h1 alternate title placed after import declarations', () => {
     const markdown = dedent`
+
           import Component from '@site/src/components/Component';
           import Component from '@site/src/components/Component'
           import './styles.css';
@@ -346,21 +344,15 @@ Lorem Ipsum
 
         `;
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-          import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
-          import './styles.css';
-
-          Lorem Ipsum
-        `,
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
 
   test('Should parse title-only', () => {
-    const markdown = '# Document With Only A Title ';
+    const markdown = '# Document With Only A Title';
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: '',
+      content: markdown,
       contentTitle: 'Document With Only A Title',
     });
   });
@@ -423,28 +415,7 @@ Lorem Ipsum
         `;
 
     expect(parseMarkdownContentTitle(markdown)).toEqual({
-      content: dedent`
-          import Component1 from '@site/src/components/Component1';
-          import Component2 from '@site/src/components/Component2';
-          import Component3 from '@site/src/components/Component3';
-          import Component4 from '@site/src/components/Component4';
-          import Component5 from '@site/src/components/Component5';
-          import Component6 from '@site/src/components/Component6';
-          import Component7 from '@site/src/components/Component7';
-          import Component8 from '@site/src/components/Component8';
-          import Component9 from '@site/src/components/Component9';
-          import Component10 from '@site/src/components/Component10';
-          import Component11 from '@site/src/components/Component11';
-          import Component12 from '@site/src/components/Component12';
-          import Component13 from '@site/src/components/Component13';
-          import Component14 from '@site/src/components/Component14';
-          import Component15 from '@site/src/components/Component15';
-
-
-
-          Lorem Ipsum
-
-        `,
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -481,7 +452,9 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "Some text",
+        "content": "# Markdown Title
+
+      Some text",
         "contentTitle": "Markdown Title",
         "excerpt": "Some text",
         "frontMatter": Object {},
@@ -502,7 +475,9 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "Some text",
+        "content": "# Markdown Title
+
+      Some text",
         "contentTitle": "Markdown Title",
         "excerpt": "Some text",
         "frontMatter": Object {
@@ -526,7 +501,10 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "Some text",
+        "content": "Markdown Title alternate
+      ================
+
+      Some text",
         "contentTitle": "Markdown Title alternate",
         "excerpt": "Some text",
         "frontMatter": Object {
@@ -574,7 +552,9 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "test test test # test bar
+        "content": "# Markdown Title
+
+      test test test # test bar
 
       # Markdown Title 2
 
@@ -630,7 +610,7 @@ describe('parseMarkdownString', () => {
   test('should parse title only', () => {
     expect(parseMarkdownString('# test')).toMatchInlineSnapshot(`
       Object {
-        "content": "",
+        "content": "# test",
         "contentTitle": "test",
         "excerpt": undefined,
         "frontMatter": Object {},
@@ -646,7 +626,8 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "",
+        "content": "test
+      ===",
         "contentTitle": "test",
         "excerpt": undefined,
         "frontMatter": Object {},
@@ -664,7 +645,7 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "",
+        "content": "# test",
         "contentTitle": "test",
         "excerpt": undefined,
         "frontMatter": Object {
@@ -704,7 +685,9 @@ describe('parseMarkdownString', () => {
         `),
     ).toMatchInlineSnapshot(`
       Object {
-        "content": "test test test test test test
+        "content": "# test
+
+      test test test test test test
       test test test # test bar
       # test2
       ### test

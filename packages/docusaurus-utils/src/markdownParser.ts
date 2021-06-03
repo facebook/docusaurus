@@ -80,8 +80,10 @@ export function parseFrontMatter(
   };
 }
 
-// Unwrap possible inline code blocks (# `config.js`)
-function cleanContentTitle(contentTitle: string): string {
+// Try to convert markdown heading as text
+// Does not need to be perfect, it is only used as a fallback when frontMatter.title is not provided
+// For now, we just unwrap possible inline code blocks (# `config.js`)
+function toTextContentTitle(contentTitle: string): string {
   if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
     return contentTitle.substring(1, contentTitle.length - 1);
   }
@@ -116,7 +118,7 @@ export function parseMarkdownContentTitle(
   } else {
     return {
       content,
-      contentTitle: cleanContentTitle(title.trim()).trim(),
+      contentTitle: toTextContentTitle(title.trim()).trim(),
     };
   }
 }
