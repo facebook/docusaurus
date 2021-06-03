@@ -202,7 +202,10 @@ export function processDocMetadata({
         numberPrefixParser: options.numberPrefixParser,
       });
 
+  // Note: the title is used by default for page title, sidebar label, pagination buttons...
+  // frontMatter.title should be used in priority over contentTitle (because it can contain markdown/JSX syntax)
   const title: string = frontMatter.title ?? contentTitle ?? baseID;
+
   const description: string = frontMatter.description ?? excerpt ?? '';
 
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);

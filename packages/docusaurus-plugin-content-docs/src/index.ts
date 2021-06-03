@@ -199,11 +199,7 @@ export default function pluginContentDocs(
             nextId,
           } = sidebarsUtils.getDocNavigation(doc.id);
           const toDocNavLink = (navDocId: string): DocNavLink => ({
-            // Use frontMatter.title in priority over a potential # title found in markdown
-            // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
-            title:
-              docsBaseById[navDocId].frontMatter.title ||
-              docsBaseById[navDocId].title,
+            title: docsBaseById[navDocId].title,
             permalink: docsBaseById[navDocId].permalink,
           });
           return {
