@@ -21,7 +21,10 @@ type HeadingComponent = (props: Props) => JSX.Element;
 export const MainHeading: HeadingComponent = function MainHeading({...props}) {
   return (
     <header>
-      <h1 {...props} className={styles.h1Heading}>
+      <h1
+        {...props}
+        id={undefined} // h1 headings do not need an id because they don't appear in the TOC
+        className={styles.h1Heading}>
         {props.children}
       </h1>
     </header>
