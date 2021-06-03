@@ -238,7 +238,7 @@ const Users = [
     description: 'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
     preview: require('./showcase/claritychallenge.png'),
     website: 'https://claritychallenge.github.io/clarity_CEC1_doc',
-    source: 'https://https://github.com/claritychallenge/clarity_CEC1_doc',
+    source: 'https://github.com/claritychallenge/clarity_CEC1_doc',
     tags: ['opensource'],
   },
   {
