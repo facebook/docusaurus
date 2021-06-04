@@ -134,7 +134,7 @@ module.exports = {
   // ...
   plugins: [
     // highligh-start
-    function myPlugin(contex, options) {
+    function myPlugin(context, options) {
       // ...
       return {
         name: 'my-plugin',
