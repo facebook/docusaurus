@@ -8,6 +8,7 @@
 import React, {useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
+import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
@@ -20,6 +21,23 @@ declare global {
   interface Window {
     docusaurus: typeof docusaurus;
   }
+}
+
+export function applyLinkTrailingSlashConfig(
+  path: string,
+  trailingSlash: boolean | undefined,
+): string {
+  function addTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str : `${str}/`;
+  }
+  function removeTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str.slice(0, -1) : str;
+  }
+  // undefined = legacy retrocompatible behavior
+  if (typeof trailingSlash === 'undefined') {
+    return path;
+  }
+  return trailingSlash ? addTrailingSlash(path) : removeTrailingSlash(path);
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -39,6 +57,9 @@ function Link({
   autoAddBaseUrl = true,
   ...props
 }: LinkProps): JSX.Element {
+  const {
+    siteConfig: {trailingSlash},
+  } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
@@ -71,7 +92,10 @@ function Link({
   // Automatically apply base url in links that start with /
   const targetLink =
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
-      ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
+      ? applyLinkTrailingSlashConfig(
+          maybeAddBaseUrl(targetLinkWithoutPathnameProtocol),
+          trailingSlash,
+        )
       : undefined;
 
   const preloaded = useRef(false);

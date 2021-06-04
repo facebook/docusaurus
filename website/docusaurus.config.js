@@ -54,6 +54,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  trailingSlash: true,
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',

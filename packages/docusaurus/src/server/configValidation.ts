@@ -117,6 +117,7 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: URISchema.required(),
+  trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')

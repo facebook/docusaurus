@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {
+  addTrailingSlash,
+  generate,
+  removeTrailingSlash,
+} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -50,6 +54,31 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   routeConfigs.forEach((routeConfig) => {
     routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
   });
+}
+
+function applyRouteTrailingSlashConfig(
+  route: RouteConfig,
+  trailingSlash: boolean | undefined,
+) {
+  function getNewRoutePath() {
+    // undefined = legacy retrocompatible behavior
+    if (typeof trailingSlash === 'undefined') {
+      return route.path;
+    }
+    return trailingSlash
+      ? addTrailingSlash(route.path)
+      : removeTrailingSlash(route.path);
+  }
+
+  return {
+    ...route,
+    path: getNewRoutePath(),
+    ...(route.routes && {
+      routes: route.routes.map((subroute) =>
+        applyRouteTrailingSlashConfig(subroute, trailingSlash),
+      ),
+    }),
+  };
 }
 
 export async function loadPlugins({
@@ -136,8 +165,16 @@ export async function loadPlugins({
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
         const dataDir = path.join(dataDirRoot, pluginId);
 
-        const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
-          pluginsRouteConfigs.push(config);
+        const addRoute: PluginContentLoadedActions['addRoute'] = (
+          initialRouteConfig,
+        ) => {
+          // Trailing slash behavior is handled in a generic way for all plugins
+          const finalRouteConfig = applyRouteTrailingSlashConfig(
+            initialRouteConfig,
+            context.siteConfig.trailingSlash,
+          );
+          pluginsRouteConfigs.push(finalRouteConfig);
+        };
 
         const createData: PluginContentLoadedActions['createData'] = async (
           name,
