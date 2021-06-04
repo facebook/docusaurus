@@ -117,6 +117,7 @@ export default function pluginContentBlog(
       const {postsPerPage, routeBasePath} = options;
 
       blogPosts = await generateBlogPosts(contentPaths, context, options);
+
       if (!blogPosts.length) {
         return null;
       }
@@ -506,9 +507,14 @@ export default function pluginContentBlog(
     },
 
     injectHtmlTags() {
+      if (!blogPosts.length) {
+        return {};
+      }
+
       if (!options.feedOptions?.type) {
         return {};
       }
+
       const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
