@@ -67,38 +67,41 @@ function DocItem(props: Props): JSX.Element {
           })}>
           <DocVersionSuggestions />
           <div className={styles.docItemContainer}>
-            <article>
+            <article className="markdown">
               {showVersionBadge && (
-                <div>
-                  <span className="badge badge--secondary">
-                    Version: {version.label}
-                  </span>
-                </div>
+                <span className="badge badge--secondary">
+                  Version: {version.label}
+                </span>
               )}
-              <div className="markdown">
-                {/*
-                Title can be declared inside md content or declared through frontmatter and added manually
-                To make both cases consistent, the added title is added under the same div.markdown block
-                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
-                */}
-                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
-                <DocContent />
-              </div>
+
+              {/*
+              Title can be declared inside md content or declared through frontmatter and added manually
+              To make both cases consistent, the added title is added under the same div.markdown block
+              See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+              */}
+              {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
+              <DocContent />
+
+              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
+                <footer className={clsx('row', styles.docUpdateDetails)}>
+                  <div className="col">
+                    {editUrl && <EditThisPage editUrl={editUrl} />}
+                  </div>
+
+                  <div className={clsx('col', styles.lastUpdated)}>
+                    {(lastUpdatedAt || lastUpdatedBy) && (
+                      <LastUpdated
+                        lastUpdatedAt={lastUpdatedAt}
+                        formattedLastUpdatedAt={formattedLastUpdatedAt}
+                        lastUpdatedBy={lastUpdatedBy}
+                      />
+                    )}
+                  </div>
+                </footer>
+              )}
             </article>
-            {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className={clsx('row', styles.docUpdateDetails)}>
-                <div className="col">
-                  {editUrl && <EditThisPage editUrl={editUrl} />}
-                </div>
-                {(lastUpdatedAt || lastUpdatedBy) && (
-                  <LastUpdated
-                    lastUpdatedAt={lastUpdatedAt}
-                    formattedLastUpdatedAt={formattedLastUpdatedAt}
-                    lastUpdatedBy={lastUpdatedBy}
-                  />
-                )}
-              </div>
-            )}
+
             <div className={styles.docPaginator}>
               <DocPaginator metadata={metadata} />
             </div>
