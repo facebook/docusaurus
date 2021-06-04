@@ -204,11 +204,10 @@ export async function load(
       );
       const scriptsTags = scripts.map((source) =>
         typeof source === 'string'
-          ? `<script type="text/javascript" src="${source}"></script>`
+          ? `<script src="${source}"></script>`
           : {
               tagName: 'script',
               attributes: {
-                type: 'text/javascript',
                 ...source,
               },
             },
