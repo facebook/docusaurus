@@ -174,6 +174,10 @@ export default function docusaurusThemeClassic(
     },
 
     injectHtmlTags() {
+      if (colorMode.disableSwitch) {
+        return {};
+      }
+
       return {
         preBodyTags: [
           {
