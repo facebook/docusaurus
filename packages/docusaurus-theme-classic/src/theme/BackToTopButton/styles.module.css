@@ -39,3 +39,8 @@
   opacity: 1;
   transform: scale(1);
 }
+
+/* Temporary, for test on mobiles */
+:global(.menu--responsive .menu__button) {
+  display: none !important;
+}
