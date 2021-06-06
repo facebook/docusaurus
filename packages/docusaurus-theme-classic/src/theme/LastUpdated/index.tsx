@@ -46,7 +46,7 @@ function LastUpdatedByUser({
       id="theme.lastUpdated.byUser"
       description="The words used to describe by who the page has been last updated"
       values={{
-        user: <strong>{lastUpdatedBy}</strong>,
+        user: <b>{lastUpdatedBy}</b>,
       }}>
       {' by {user}'}
     </Translate>
