@@ -9,7 +9,7 @@ web:
                         WORKDIR /app
                         COPY ./examples/facebook/package.json ./examples/facebook/yarn.lock ./
                         RUN yarn
-                        COPY . .
+                        COPY ./examples/facebook .
                         RUN yarn build
     output:
         type: static
