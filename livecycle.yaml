@@ -1,0 +1,17 @@
+version: v1alpha1
+
+web:
+    build:
+        type: Dockerfile    
+        dockerfile:
+            contents: |
+                        FROM node:14-buster as build
+                        WORKDIR /app
+                        COPY ./examples/facebook/package.json ./examples/facebook/yarn.lock ./
+                        RUN yarn
+                        COPY . .
+                        RUN yarn build
+    output:
+        type: static
+        static:
+            path: /app/build
