@@ -6,6 +6,7 @@
  */
 
 import http from 'http';
+import httpProxy from 'http-proxy';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
@@ -13,7 +14,10 @@ import path from 'path';
 
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {loadContext} from '../server';
 import {ServeCLIOptions} from '@docusaurus/types';
+
+const defaultBaseUrl = '/';
 
 export default async function serve(
   siteDir: string,
@@ -22,6 +26,7 @@ export default async function serve(
   let dir = path.isAbsolute(cliOptions.dir)
     ? cliOptions.dir
     : path.join(siteDir, cliOptions.dir);
+
   if (cliOptions.build) {
     dir = await build(
       siteDir,
@@ -40,17 +45,33 @@ export default async function serve(
     process.exit();
   }
 
+  const {baseUrl} = await loadContext(siteDir, {
+    customOutDir: cliOptions.dir,
+    customConfigFilePath: cliOptions.config,
+  });
+
+  const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
+  const proxyServer = httpProxy.createProxyServer({
+    target: `${servingUrl + defaultBaseUrl}`,
+  });
   const server = http.createServer((req, res) => {
-    serveHandler(req, res, {
+    if (baseUrl !== defaultBaseUrl && req.url?.startsWith(baseUrl)) {
+      req.url = req.url?.replace(baseUrl, defaultBaseUrl);
+
+      return proxyServer.web(req, res);
+    }
+
+    return serveHandler(req, res, {
       cleanUrls: true,
       public: dir,
     });
   });
+
   console.log(
     boxen(
-      `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
-        cliOptions.host
-      }:${port}`,
+      `${chalk.green(
+        `Serving "${cliOptions.dir}" directory at ${servingUrl + baseUrl}`,
+      )}`,
       {
         borderColor: 'green',
         padding: 1,
