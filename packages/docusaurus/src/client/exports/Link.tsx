@@ -37,7 +37,13 @@ export function applyLinkTrailingSlashConfig(
   if (typeof trailingSlash === 'undefined') {
     return path;
   }
-  return trailingSlash ? addTrailingSlash(path) : removeTrailingSlash(path);
+
+  // The trailing slash should be handled before the querystring/hash !
+  const [pathname] = path.split(/[#?]/);
+  const newPathname = trailingSlash
+    ? addTrailingSlash(pathname)
+    : removeTrailingSlash(pathname);
+  return path.replace(pathname, newPathname);
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -90,13 +96,13 @@ function Link({
 
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
-  const targetLink =
+  let targetLink =
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
-      ? applyLinkTrailingSlashConfig(
-          maybeAddBaseUrl(targetLinkWithoutPathnameProtocol),
-          trailingSlash,
-        )
+      ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
+  if (isInternal) {
+    targetLink = applyLinkTrailingSlashConfig(targetLink, trailingSlash);
+  }
 
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
