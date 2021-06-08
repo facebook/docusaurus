@@ -13,6 +13,7 @@ import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
+import applyTrailingSlash from './applyTrailingSlash';
 
 import type {LinkProps} from '@docusaurus/Link';
 import type docusaurus from '../docusaurus';
@@ -21,29 +22,6 @@ declare global {
   interface Window {
     docusaurus: typeof docusaurus;
   }
-}
-
-export function applyLinkTrailingSlashConfig(
-  path: string,
-  trailingSlash: boolean | undefined,
-): string {
-  function addTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str : `${str}/`;
-  }
-  function removeTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str.slice(0, -1) : str;
-  }
-  // undefined = legacy retrocompatible behavior
-  if (typeof trailingSlash === 'undefined') {
-    return path;
-  }
-
-  // The trailing slash should be handled before the querystring/hash !
-  const [pathname] = path.split(/[#?]/);
-  const newPathname = trailingSlash
-    ? addTrailingSlash(pathname)
-    : removeTrailingSlash(pathname);
-  return path.replace(pathname, newPathname);
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -100,8 +78,9 @@ function Link({
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
+
   if (targetLink && isInternal) {
-    targetLink = applyLinkTrailingSlashConfig(targetLink, trailingSlash);
+    targetLink = applyTrailingSlash(targetLink, trailingSlash);
   }
 
   const preloaded = useRef(false);
