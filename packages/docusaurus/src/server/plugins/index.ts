@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  addTrailingSlash,
-  generate,
-  removeTrailingSlash,
-} from '@docusaurus/utils';
+import {generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -26,6 +22,7 @@ import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
+import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -54,36 +51,6 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   routeConfigs.forEach((routeConfig) => {
     routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
   });
-}
-
-function applyRouteTrailingSlashConfig(
-  route: RouteConfig,
-  trailingSlash: boolean | undefined,
-) {
-  // Never transform "/" to "" => cause router issues ("" catch everything)
-  if (route.path === '/') {
-    return route;
-  }
-
-  function getNewRoutePath() {
-    // undefined = legacy retrocompatible behavior
-    if (typeof trailingSlash === 'undefined') {
-      return route.path;
-    }
-    return trailingSlash
-      ? addTrailingSlash(route.path)
-      : removeTrailingSlash(route.path);
-  }
-
-  return {
-    ...route,
-    path: getNewRoutePath(),
-    ...(route.routes && {
-      routes: route.routes.map((subroute) =>
-        applyRouteTrailingSlashConfig(subroute, trailingSlash),
-      ),
-    }),
-  };
 }
 
 export async function loadPlugins({
@@ -174,7 +141,7 @@ export async function loadPlugins({
           initialRouteConfig,
         ) => {
           // Trailing slash behavior is handled in a generic way for all plugins
-          const finalRouteConfig = applyRouteTrailingSlashConfig(
+          const finalRouteConfig = applyRouteTrailingSlash(
             initialRouteConfig,
             context.siteConfig.trailingSlash,
           );

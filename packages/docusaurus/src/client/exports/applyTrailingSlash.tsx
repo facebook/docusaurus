@@ -20,7 +20,7 @@ export default function applyTrailingSlash(
     return path;
   }
 
-  // The trailing slash should be handled before the querystring/hash !
+  // The trailing slash should be handled before the ?search#hash !
   const [pathname] = path.split(/[#?]/);
   const newPathname = trailingSlash
     ? addTrailingSlash(pathname)
