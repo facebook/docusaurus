@@ -100,7 +100,7 @@ function Link({
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
-  if (isInternal) {
+  if (targetLink && isInternal) {
     targetLink = applyLinkTrailingSlashConfig(targetLink, trailingSlash);
   }
 
