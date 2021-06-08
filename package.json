@@ -15,6 +15,7 @@
     "start:v2:baseUrl": "yarn workspace docusaurus-2-website start:baseUrl",
     "start:v2:bootstrap": "yarn workspace docusaurus-2-website start:bootstrap",
     "start:v2:blogOnly": "yarn workspace docusaurus-2-website start:blogOnly",
+    "start:v2:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace docusaurus-2-website start",
     "examples:generate": "node generateExamples",
     "build": "yarn build:packages && yarn build:v2",
     "build:packages": "lerna run build --no-private",
