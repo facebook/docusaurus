@@ -60,6 +60,11 @@ function applyRouteTrailingSlashConfig(
   route: RouteConfig,
   trailingSlash: boolean | undefined,
 ) {
+  // Never transform "/" to "" => cause router issues ("" catch everything)
+  if (route.path === '/') {
+    return route;
+  }
+
   function getNewRoutePath() {
     // undefined = legacy retrocompatible behavior
     if (typeof trailingSlash === 'undefined') {
