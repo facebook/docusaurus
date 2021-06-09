@@ -150,7 +150,7 @@ const ConfigSchema = Joi.object({
     Joi.string(),
     Joi.object({
       href: Joi.string().required(),
-      type: Joi.string().required(),
+      type: Joi.string(),
     }).unknown(),
   ),
   clientModules: Joi.array().items(Joi.string()),

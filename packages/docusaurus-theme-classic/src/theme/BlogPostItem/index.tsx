@@ -109,13 +109,13 @@ function BlogPostItem(props: Props): JSX.Element {
           <footer className="row margin-vert--lg">
             {tags.length > 0 && (
               <div className="col">
-                <strong>
+                <b>
                   <Translate
                     id="theme.tags.tagsListLabel"
                     description="The label alongside a tag list">
                     Tags:
                   </Translate>
-                </strong>
+                </b>
                 {tags.map(({label, permalink: tagPermalink}) => (
                   <Link
                     key={tagPermalink}
@@ -131,13 +131,13 @@ function BlogPostItem(props: Props): JSX.Element {
                 <Link
                   to={metadata.permalink}
                   aria-label={`Read more about ${title}`}>
-                  <strong>
+                  <b>
                     <Translate
                       id="theme.blog.post.readMore"
                       description="The label used in blog post item excerpts to link to full blog posts">
                       Read More
                     </Translate>
-                  </strong>
+                  </b>
                 </Link>
               </div>
             )}
