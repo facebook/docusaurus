@@ -46,6 +46,24 @@ export type LoadContextOptions = {
   localizePath?: boolean; // undefined = only non-default locales paths are localized
 };
 
+export async function loadSiteConfig({
+  siteDir,
+  customConfigFilePath,
+}: {
+  siteDir: string;
+  customConfigFilePath?: string;
+}) {
+  const siteConfigPathUnresolved =
+    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
+
+  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
+    ? siteConfigPathUnresolved
+    : path.resolve(siteDir, siteConfigPathUnresolved);
+
+  const siteConfig = await loadConfig(siteConfigPath);
+  return {siteConfig, siteConfigPath};
+}
+
 export async function loadContext(
   siteDir: string,
   options: LoadContextOptions = {},
@@ -55,13 +73,10 @@ export async function loadContext(
     ? GENERATED_FILES_DIR_NAME
     : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
-  const siteConfigPathUnresolved =
-    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
-  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
-    ? siteConfigPathUnresolved
-    : path.resolve(siteDir, siteConfigPathUnresolved);
-
-  const initialSiteConfig: DocusaurusConfig = loadConfig(siteConfigPath);
+  const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
+    siteDir,
+    customConfigFilePath,
+  });
   const {ssrTemplate} = initialSiteConfig;
 
   const baseOutDir = customOutDir
