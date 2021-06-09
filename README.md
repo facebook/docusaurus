@@ -20,6 +20,16 @@
   <a href="https://meercode.io/facebook/docusaurus"><img src="https://meercode.io/badge/facebook/docusaurus?type=ci-score" alt="CI Score"></a>
 </p>
 
+## DOCUSAURUS-V1 BRANCH
+
+Important: this is the archive branch containing the Docusaurus v1 code.
+
+It also contains Docusaurus v2, because when we created the branch, both v1 and v2 lived on master.
+
+As v1 is not active anymore, we didn't do the cleanup of this branch.
+
+---
+
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://docusaurus.io/) for more details.**
 
 > Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
