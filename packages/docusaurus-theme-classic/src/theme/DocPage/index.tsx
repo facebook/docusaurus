@@ -32,6 +32,9 @@ type DocPageContentProps = {
 };
 
 function getSidebar({versionMetadata, currentDocRoute}) {
+  function addTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str : `${str}/`;
+  }
   function removeTrailingSlash(str: string): string {
     return str.endsWith('/') ? str.slice(0, -1) : str;
   }
@@ -43,6 +46,7 @@ function getSidebar({versionMetadata, currentDocRoute}) {
   // trailingSlash is handled globally at the framework level, not plugin level
   const sidebarName =
     permalinkToSidebar[currentDocRoute.path] ||
+    permalinkToSidebar[addTrailingSlash(currentDocRoute.path)] ||
     permalinkToSidebar[removeTrailingSlash(currentDocRoute.path)];
 
   const sidebar = docsSidebars[sidebarName];
