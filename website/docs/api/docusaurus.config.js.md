@@ -406,7 +406,7 @@ module.exports = {
       <%~ metaAttribute %>
     <% }); %>
     <% it.stylesheets.forEach((stylesheet) => { %>
-      <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
+      <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
@@ -421,7 +421,7 @@ module.exports = {
       <span>Custom markup</span>
     </div>
     <% it.scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+      <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
@@ -445,7 +445,6 @@ module.exports = {
     // Object format.
     {
       href: 'http://mydomain.com/style.css',
-      type: 'text/css',
     },
   ],
 };
