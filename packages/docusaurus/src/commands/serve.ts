@@ -10,9 +10,9 @@ import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import path from 'path';
+import {loadSiteConfig} from '../server';
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {loadSiteConfig} from '../server';
 import {ServeCLIOptions} from '@docusaurus/types';
 
 export default async function serve(
@@ -50,11 +50,6 @@ export default async function serve(
 
   const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
 
-  /*
-  const proxyServer = httpProxy.createProxyServer({
-    target: `${servingUrl + defaultBaseUrl}`,
-  });
-   */
   const server = http.createServer((req, res) => {
     // Automatically redirect requests to /baseUrl/
     if (!req.url?.startsWith(baseUrl)) {
