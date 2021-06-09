@@ -54,6 +54,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
@@ -128,30 +132,34 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      {
-        fromExtensions: ['html'],
-        createRedirects: function (path) {
-          // redirect to /docs from /docs/introduction,
-          // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
-          }
-        },
-        redirects: [
-          {
-            from: ['/docs/support', '/docs/next/support'],
-            to: '/community/support',
+      isDeployPreview
+        ? // Plugin is disabled for deploy preview because we use trailing slashes on deploy previews
+          // This plugin is sensitive to trailing slashes, and we don't care much about making it work on deploy previews
+          {}
+        : {
+            fromExtensions: ['html'],
+            createRedirects: function (path) {
+              // redirect to /docs from /docs/introduction,
+              // as introduction has been made the home doc
+              if (allDocHomesPaths.includes(path)) {
+                return [`${path}/introduction`];
+              }
+            },
+            redirects: [
+              {
+                from: ['/docs/support', '/docs/next/support'],
+                to: '/community/support',
+              },
+              {
+                from: ['/docs/team', '/docs/next/team'],
+                to: '/community/team',
+              },
+              {
+                from: ['/docs/resources', '/docs/next/resources'],
+                to: '/community/resources',
+              },
+            ],
           },
-          {
-            from: ['/docs/team', '/docs/next/team'],
-            to: '/community/team',
-          },
-          {
-            from: ['/docs/resources', '/docs/next/resources'],
-            to: '/community/resources',
-          },
-        ],
-      },
     ],
     [
       '@docusaurus/plugin-ideal-image',

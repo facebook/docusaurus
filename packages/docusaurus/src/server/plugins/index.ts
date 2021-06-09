@@ -22,6 +22,7 @@ import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
+import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -136,8 +137,16 @@ export async function loadPlugins({
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
         const dataDir = path.join(dataDirRoot, pluginId);
 
-        const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
-          pluginsRouteConfigs.push(config);
+        const addRoute: PluginContentLoadedActions['addRoute'] = (
+          initialRouteConfig,
+        ) => {
+          // Trailing slash behavior is handled in a generic way for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(
+            initialRouteConfig,
+            context.siteConfig.trailingSlash,
+          );
+          pluginsRouteConfigs.push(finalRouteConfig);
+        };
 
         const createData: PluginContentLoadedActions['createData'] = async (
           name,

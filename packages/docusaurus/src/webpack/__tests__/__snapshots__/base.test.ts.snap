@@ -10,6 +10,7 @@ Object {
   "@docusaurus/Link": "../../client/exports/Link.tsx",
   "@docusaurus/Noop": "../../client/exports/Noop.ts",
   "@docusaurus/Translate": "../../client/exports/Translate.tsx",
+  "@docusaurus/applyTrailingSlash": "../../client/exports/applyTrailingSlash.tsx",
   "@docusaurus/constants": "../../client/exports/constants.ts",
   "@docusaurus/context": "../../client/exports/context.ts",
   "@docusaurus/isInternalUrl": "../../client/exports/isInternalUrl.ts",
