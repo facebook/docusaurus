@@ -18,6 +18,7 @@ import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import IconMenu from '@theme/IconMenu';
+import IconExternalLink from '@theme/IconExternalLink';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
@@ -179,7 +180,6 @@ function DocSidebarItemLink({
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,
-          [styles.menuLinkExternal]: !isInternalUrl(href),
         })}
         to={href}
         {...(isInternalUrl(href) && {
@@ -188,7 +188,14 @@ function DocSidebarItemLink({
           onClick: onItemClick,
         })}
         {...props}>
-        {label}
+        {isInternalUrl(href) ? (
+          label
+        ) : (
+          <span>
+            {label}
+            <IconExternalLink />
+          </span>
+        )}
       </Link>
     </li>
   );

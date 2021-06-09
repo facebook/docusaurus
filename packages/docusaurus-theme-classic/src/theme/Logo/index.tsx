@@ -40,7 +40,7 @@ const Logo = (props: Props): JSX.Element => {
           alt={logo.alt || title || 'Logo'}
         />
       )}
-      {title != null && <strong className={titleClassName}>{title}</strong>}
+      {title != null && <b className={titleClassName}>{title}</b>}
     </Link>
   );
 };

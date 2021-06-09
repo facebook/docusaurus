@@ -13,10 +13,10 @@ function ShowcaseSelect({tag, label, onChange, value, children}) {
   const id = `showcase_select_id_${tag};`;
   return (
     <div className={styles.selectContainer}>
+      <label htmlFor={id}>{label}</label>
       <select id={id} name={tag} onChange={onChange} value={value}>
         {children}
       </select>
-      <label htmlFor={id}>{label}</label>
     </div>
   );
 }
