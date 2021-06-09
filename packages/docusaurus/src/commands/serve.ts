@@ -57,14 +57,14 @@ export default async function serve(
         Location: baseUrl,
       });
       res.end();
-      return res;
+      return;
     }
 
     // Remove baseUrl before calling serveHandler
     // Reason: /baseUrl/ should serve /build/index.html, not /build/baseUrl/index.html (does not exist)
     req.url = req.url?.replace(baseUrl, '/');
 
-    return serveHandler(req, res, {
+    serveHandler(req, res, {
       cleanUrls: true,
       public: dir,
     });
