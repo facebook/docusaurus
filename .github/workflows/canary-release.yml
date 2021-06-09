@@ -3,7 +3,7 @@ name: Canary Release
 on:
   push:
     branches:
-      - master
+      - docusaurus-v1
     paths:
       - 'packages/**'
 

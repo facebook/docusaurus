@@ -3,7 +3,7 @@ name: Lint
 on:
   pull_request:
     branches:
-      - master
+      - docusaurus-v1
 
 jobs:
   lint:

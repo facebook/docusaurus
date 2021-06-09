@@ -3,7 +3,7 @@ name: V1 Tests
 on:
   pull_request:
     branches:
-      - master
+      - docusaurus-v1
     paths:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'

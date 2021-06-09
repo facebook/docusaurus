@@ -3,7 +3,7 @@ name: Migration CLI
 on:
   pull_request:
     branches:
-      - master
+      - docusaurus-v1
     paths:
       - packages/docusaurus-migration/**
       - website-1.x/**
