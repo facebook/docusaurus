@@ -6,7 +6,7 @@
  */
 
 import http from 'http';
-import httpProxy from 'http-proxy';
+// import httpProxy from 'http-proxy';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
@@ -17,7 +17,7 @@ import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {loadSiteConfig} from '../server';
 import {ServeCLIOptions} from '@docusaurus/types';
 
-const defaultBaseUrl = '/';
+// const defaultBaseUrl = '/';
 
 export default async function serve(
   siteDir: string,
@@ -53,15 +53,32 @@ export default async function serve(
   });
 
   const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
+
+  /*
   const proxyServer = httpProxy.createProxyServer({
     target: `${servingUrl + defaultBaseUrl}`,
   });
+   */
   const server = http.createServer((req, res) => {
-    if (baseUrl !== defaultBaseUrl && req.url?.startsWith(baseUrl)) {
-      req.url = req.url?.replace(baseUrl, defaultBaseUrl);
-
-      return proxyServer.web(req, res);
+    // Automatically redirect requests to /baseUrl/
+    if (!req.url?.startsWith(baseUrl)) {
+      res.writeHead(302, {
+        Location: baseUrl,
+      });
+      res.end();
+      return res;
     }
+
+    /*
+      if (baseUrl !== defaultBaseUrl && req.url?.startsWith(baseUrl)) {
+        req.url = req.url?.replace(baseUrl, defaultBaseUrl);
+
+        return proxyServer.web(req, res);
+      }
+    */
+
+    // Remove baseUrl before calling serveHandler
+    req.url = req.url?.replace(baseUrl, '/');
 
     return serveHandler(req, res, {
       cleanUrls: true,
