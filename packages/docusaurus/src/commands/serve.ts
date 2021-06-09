@@ -42,7 +42,7 @@ export default async function serve(
   }
 
   const {
-    siteConfig: {baseUrl},
+    siteConfig: {baseUrl, trailingSlash},
   } = await loadSiteConfig({
     siteDir,
     customConfigFilePath: cliOptions.config,
@@ -67,6 +67,7 @@ export default async function serve(
     serveHandler(req, res, {
       cleanUrls: true,
       public: dir,
+      trailingSlash,
     });
   });
 
