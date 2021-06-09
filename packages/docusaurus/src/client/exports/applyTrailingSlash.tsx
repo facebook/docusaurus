@@ -9,6 +9,11 @@ export default function applyTrailingSlash(
   path: string,
   trailingSlash: boolean | undefined,
 ): string {
+  // Never apply trailing slash to an anchor link
+  if (path.startsWith('#')) {
+    return path;
+  }
+
   function addTrailingSlash(str: string): string {
     return str.endsWith('/') ? str : `${str}/`;
   }

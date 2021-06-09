@@ -20,6 +20,15 @@ describe('applyTrailingSlash', () => {
     expect(applyTrailingSlash('/', undefined)).toEqual('/');
   });
 
+  test('should not apply to #anchor links ', () => {
+    expect(applyTrailingSlash('#', true)).toEqual('#');
+    expect(applyTrailingSlash('#', false)).toEqual('#');
+    expect(applyTrailingSlash('#', undefined)).toEqual('#');
+    expect(applyTrailingSlash('#anchor', true)).toEqual('#anchor');
+    expect(applyTrailingSlash('#anchor', false)).toEqual('#anchor');
+    expect(applyTrailingSlash('#anchor', undefined)).toEqual('#anchor');
+  });
+
   test('should apply to simple paths', () => {
     expect(applyTrailingSlash('abc', true)).toEqual('abc/');
     expect(applyTrailingSlash('abc', false)).toEqual('abc');
