@@ -79,7 +79,6 @@
     "html-minifier-terser": "^5.1.1",
     "html-tags": "^3.1.0",
     "html-webpack-plugin": "^5.3.1",
-    "http-proxy": "^1.18.1",
     "import-fresh": "^3.3.0",
     "is-root": "^2.1.0",
     "leven": "^3.1.0",

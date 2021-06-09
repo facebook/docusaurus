@@ -6,18 +6,14 @@
  */
 
 import http from 'http';
-// import httpProxy from 'http-proxy';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import path from 'path';
-
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {loadSiteConfig} from '../server';
 import {ServeCLIOptions} from '@docusaurus/types';
-
-// const defaultBaseUrl = '/';
 
 export default async function serve(
   siteDir: string,
@@ -69,15 +65,8 @@ export default async function serve(
       return res;
     }
 
-    /*
-      if (baseUrl !== defaultBaseUrl && req.url?.startsWith(baseUrl)) {
-        req.url = req.url?.replace(baseUrl, defaultBaseUrl);
-
-        return proxyServer.web(req, res);
-      }
-    */
-
     // Remove baseUrl before calling serveHandler
+    // Reason: /baseUrl/ should serve /build/index.html, not /build/baseUrl/index.html (does not exist)
     req.url = req.url?.replace(baseUrl, '/');
 
     return serveHandler(req, res, {
