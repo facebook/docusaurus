@@ -81,6 +81,24 @@ module.exports = {
 
 ## Optional fields {#optional-fields}
 
+### `trailingSlash` {#trailing-slash}
+
+- Type: `boolean | undefined`
+
+Allow to customize the presence/absence of a trailing slash at the end of URLs/links, and how static HTML files are generated:
+
+- `undefined` (default): keeps URLs untouched, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `true`: add trailing slashes to URLs/links, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `false`: remove trailing slashes from URLs/links, and emit `/docs/myDoc.html` for `/docs/myDoc.md`
+
+:::tip
+
+Each static hosting provider serve static files differently (this behavior may even change over time).
+
+Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
+
+:::
+
 ### `i18n` {#i18n}
 
 - Type: `Object`
