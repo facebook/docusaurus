@@ -117,7 +117,6 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
               <ShowcaseCheckbox
                 // TODO add a proper tooltip
                 title={`${label}: ${description}`}
-                aria-label={`${label}: ${description}`}
                 name={tag}
                 label={
                   icon ? (
@@ -137,6 +136,7 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
         <div className="col col--2">
           <ShowcaseSelect
             name="operator"
+            label="Filter: "
             value={operator}
             onChange={(e) => setOperator(e.target.value)}>
             <option value="OR">OR</option>

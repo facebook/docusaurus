@@ -67,7 +67,7 @@ export async function generateBlogFeed(
   }
   const {siteConfig} = context;
   const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  if (blogPosts == null) {
+  if (!blogPosts.length) {
     return null;
   }
 

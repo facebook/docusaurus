@@ -105,7 +105,7 @@ module.exports = {
 
 By default, DocSearch comes with a fine-tuned theme that was designed for accessibility, making sure that colors and contrasts respect standards.
 
-Still, you can reuse the [Infima CSS variables](styling-layout#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
+Still, you can reuse the [Infima CSS variables](styling-layout.md#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
 html[data-theme='light'] .DocSearch {

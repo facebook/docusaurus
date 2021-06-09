@@ -15,7 +15,7 @@ jobs:
       - name: Installation
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn install --immutable # Fails if yarn.lock is modified
+          install-command: yarn install --frozen-lockfile # Fails if yarn.lock is modified
       - name: Lint
         run: yarn lint:ci
       - name: Prettier Code

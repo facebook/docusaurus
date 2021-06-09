@@ -19,9 +19,19 @@
   margin-top: 3rem;
 }
 
+.lastUpdated {
+  margin-top: 0.2rem;
+  font-style: italic;
+  font-size: smaller;
+}
+
 @media only screen and (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
+  }
+
+  .lastUpdated {
+    text-align: right;
   }
 }
 
