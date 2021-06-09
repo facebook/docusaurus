@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import ExecutionEnvironment from './ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function BrowserOnly({
@@ -18,11 +17,11 @@ function BrowserOnly({
 }): JSX.Element | null {
   const {isClient} = useDocusaurusContext();
 
-  if (!ExecutionEnvironment.canUseDOM || children == null) {
-    return fallback || null;
+  if (isClient && children != null) {
+    return <>{children()}</>;
   }
 
-  return isClient ? <>{children()}</> : null;
+  return fallback || null;
 }
 
 export default BrowserOnly;
