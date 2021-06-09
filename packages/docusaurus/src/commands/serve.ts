@@ -14,7 +14,7 @@ import path from 'path';
 
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {loadContext} from '../server';
+import {loadSiteConfig} from '../server';
 import {ServeCLIOptions} from '@docusaurus/types';
 
 const defaultBaseUrl = '/';
@@ -45,8 +45,10 @@ export default async function serve(
     process.exit();
   }
 
-  const {baseUrl} = await loadContext(siteDir, {
-    customOutDir: cliOptions.dir,
+  const {
+    siteConfig: {baseUrl},
+  } = await loadSiteConfig({
+    siteDir,
     customConfigFilePath: cliOptions.config,
   });
 
