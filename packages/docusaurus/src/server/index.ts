@@ -24,6 +24,7 @@ import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
+  HtmlTagObject,
   LoadContext,
   PluginConfig,
   Props,
@@ -194,23 +195,23 @@ export async function load(
       const stylesheetsTags = stylesheets.map((source) =>
         typeof source === 'string'
           ? `<link rel="stylesheet" href="${source}">`
-          : {
+          : ({
               tagName: 'link',
               attributes: {
                 rel: 'stylesheet',
                 ...source,
               },
-            },
+            } as HtmlTagObject),
       );
       const scriptsTags = scripts.map((source) =>
         typeof source === 'string'
           ? `<script src="${source}"></script>`
-          : {
+          : ({
               tagName: 'script',
               attributes: {
                 ...source,
               },
-            },
+            } as HtmlTagObject),
       );
       return {
         headTags: [...stylesheetsTags, ...scriptsTags],
