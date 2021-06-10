@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// TODO remove when fixed: https://github.com/Stuk/eslint-plugin-header/issues/39
+/* eslint-disable header/header */
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
