@@ -273,7 +273,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl: ({locale, blogDirPath, blogPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
