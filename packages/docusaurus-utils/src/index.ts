@@ -8,7 +8,7 @@
 import chalk from 'chalk';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, kebabCase, mapValues} from 'lodash';
+import {camelCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -22,6 +22,8 @@ import {
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
+import {simpleHash} from './pathUtils';
+import {docuHash} from './docuHash';
 
 export const posixPath = posixPathImport;
 
@@ -29,6 +31,8 @@ export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export * from './docuHash';
+export {simpleHash} from './pathUtils';
 
 const fileHash = new Map();
 export async function generate(
@@ -96,62 +100,6 @@ export function encodePath(userpath: string): string {
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
-}
-
-export function simpleHash(str: string, length: number): string {
-  return createHash('md5').update(str).digest('hex').substr(0, length);
-}
-
-/**
- * Given an input string, convert to kebab-case and append a hash.
- * Avoid str collision.
- * Also removes part of the string if its larger than the allowed
- * filename per OS. Avoids ERRNAMETOOLONG error.
- */
-
-// MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars, Others = 255 bytes
-const MAX_PATH_SEGMENT_CHARS = 255;
-const MAX_PATH_SEGMENT_BYTES = 255;
-// Space for appending things to the string like file extensions and so on
-const SPACE_FOR_APPENDING = 10;
-
-const isMacOs = process.platform === `darwin`;
-const isWindows = process.platform === `win32`;
-
-const isNameTooLong = (str: string): boolean =>
-  isMacOs || isWindows
-    ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
-    : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
-
-const shortName = (str: string): string => {
-  if (isMacOs || isWindows) {
-    const overflowingChars = str.length - MAX_PATH_SEGMENT_CHARS;
-    return str.slice(
-      0,
-      str.length - overflowingChars - SPACE_FOR_APPENDING - 1,
-    );
-  }
-  const strBuffer = Buffer.from(str);
-  const overflowingBytes =
-    Buffer.byteLength(strBuffer) - MAX_PATH_SEGMENT_BYTES;
-  return strBuffer
-    .slice(
-      0,
-      Buffer.byteLength(strBuffer) - overflowingBytes - SPACE_FOR_APPENDING - 1,
-    )
-    .toString();
-};
-
-export function docuHash(str: string): string {
-  if (str === '/') {
-    return 'index';
-  }
-  const shortHash = simpleHash(str, 3);
-  const parsedPath = `${kebabCase(str)}-${shortHash}`;
-  if (isNameTooLong(parsedPath)) {
-    return `${shortName(kebabCase(str))}-${shortHash}`;
-  }
-  return parsedPath;
 }
 
 /**
