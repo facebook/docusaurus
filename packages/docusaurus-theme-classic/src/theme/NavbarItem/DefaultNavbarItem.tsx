@@ -16,6 +16,9 @@ import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
+import IconExternalLink from '@theme/IconExternalLink';
+
+const dropdownLinkActiveClass = 'dropdown__link--active';
 
 function NavLink({
   activeBasePath,
@@ -32,6 +35,8 @@ function NavLink({
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
+  const isExternalLink = label && href && href !== '#';
+  const isDropdownLink = activeClassName === dropdownLinkActiveClass;
 
   return (
     <Link
@@ -53,7 +58,14 @@ function NavLink({
               : null),
           })}
       {...props}>
-      {label}
+      {isExternalLink ? (
+        <span>
+          {label}
+          <IconExternalLink {...(isDropdownLink && {width: 12, height: 12})} />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
@@ -137,7 +149,7 @@ function NavItemDesktop({
                   }
                 }
               }}
-              activeClassName="dropdown__link--active"
+              activeClassName={dropdownLinkActiveClass}
               className={navLinkClassNames(childItemClassName, true)}
               {...childItemProps}
             />

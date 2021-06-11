@@ -6,15 +6,19 @@
  */
 
 import React from 'react';
+import type {Props} from '@theme/IconExternalLink';
 
 import styles from './styles.module.css';
 
-const IconExternalLink = (): JSX.Element => {
+const IconExternalLink = ({
+  width = 13.5,
+  height = 13.5,
+}: Props): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
+      width={width}
+      height={height}
       role="img"
       viewBox="0 0 24 24"
       className={styles.iconExternalLink}>
