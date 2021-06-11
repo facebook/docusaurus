@@ -9,6 +9,7 @@ import {SitemapStream, streamToPromise} from 'sitemap';
 import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
 import {addTrailingSlash} from '@docusaurus/utils';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
@@ -25,11 +26,21 @@ export default async function createSitemap(
     hostname,
   });
 
+  function applySitemapTrailingSlash(routePath: string): string {
+    // kept for retrocompatibility
+    // TODO remove deprecated trailingSlash option before 2022
+    if (options.trailingSlash) {
+      return addTrailingSlash(routePath);
+    } else {
+      return applyTrailingSlash(routePath, trailingSlash);
+    }
+  }
+
   routesPaths
     .filter((route) => !route.endsWith('404.html'))
     .map((routePath) =>
       sitemapStream.write({
-        url: trailingSlash ? addTrailingSlash(routePath) : routePath,
+        url: applySitemapTrailingSlash(routePath),
         changefreq,
         priority,
       }),

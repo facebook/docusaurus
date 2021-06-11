@@ -35,6 +35,15 @@ export const logValidationBugReportHint = (): void => {
   );
 };
 
+function printWarning(warning?: Joi.ValidationError) {
+  if (warning) {
+    const warningMessages = warning.details
+      .map(({message}) => message)
+      .join('\n');
+    console.log(chalk.yellow(warningMessages));
+  }
+}
+
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
   options: Partial<T>,
@@ -44,9 +53,12 @@ export function normalizePluginOptions<T extends {id?: string}>(
   const finalSchema = schema.append({
     id: PluginIdSchema,
   });
-  const {error, value} = finalSchema.validate(options, {
+  const {error, warning, value} = finalSchema.validate(options, {
     convert: false,
   });
+
+  printWarning(warning);
+
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
@@ -56,6 +68,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
       throw error;
     }
   }
+
   return value;
 }
 
@@ -68,9 +81,11 @@ export function normalizeThemeConfig<T>(
   // otherwise one theme would fail validating the data of another theme
   const finalSchema = schema.unknown();
 
-  const {error, value} = finalSchema.validate(themeConfig, {
+  const {error, warning, value} = finalSchema.validate(themeConfig, {
     convert: false,
   });
+
+  printWarning(warning);
 
   if (error) {
     logValidationBugReportHint();
@@ -112,6 +127,8 @@ export function validateFrontMatter<T>(
     abortEarly: false,
   });
 
+  printWarning(warning);
+
   if (error) {
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
@@ -130,13 +147,6 @@ export function validateFrontMatter<T>(
       ),
     );
     throw error;
-  }
-
-  if (warning) {
-    const warningMessages = warning.details
-      .map(({message}) => message)
-      .join('\n');
-    console.log(chalk.yellow(warningMessages));
   }
 
   return value;
