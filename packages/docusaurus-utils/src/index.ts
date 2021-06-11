@@ -313,13 +313,15 @@ export function resolvePathname(to: string, from?: string): string {
 export function addLeadingSlash(str: string): string {
   return str.startsWith('/') ? str : `/${str}`;
 }
-export function addTrailingSlash(str: string): string {
-  return str.endsWith('/') ? str : `${str}/`;
-}
+
 export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
 }
 
+// TODO deduplicate: also present in @docusaurus/utils-common
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
