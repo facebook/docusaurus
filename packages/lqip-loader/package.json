@@ -16,7 +16,7 @@
     "file-loader": "^6.2.0",
     "lodash": "^4.17.20",
     "node-vibrant": "^3.1.5",
-    "sharp": "^0.27.1"
+    "sharp": "^0.28.2"
   },
   "engines": {
     "node": ">=12.13.0"

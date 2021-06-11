@@ -75,7 +75,7 @@ describe('simple site', () => {
       ),
       isLast: true,
       routePriority: -1,
-      sidebarFilePath: path.join(simpleSiteDir, 'sidebars.json'),
+      sidebarFilePath: undefined,
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
@@ -138,6 +138,9 @@ describe('simple site', () => {
         versionPath: '/myBaseUrl/docs/current-path',
         versionLabel: 'current-label',
         routePriority: undefined,
+        sidebarFilePath: undefined,
+        versionEditUrl: undefined,
+        versionEditUrlLocalized: undefined,
       },
     ]);
   });
@@ -210,6 +213,7 @@ describe('versioned site, pluginId=default', () => {
     const defaultOptions: PluginOptions = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
+      sidebarPath: 'sidebars.json',
     };
     const defaultContext = {
       siteDir: versionedSiteDir,
@@ -607,6 +611,7 @@ describe('versioned site, pluginId=community', () => {
       id: 'community',
       path: 'community',
       routeBasePath: 'communityBasePath',
+      sidebarPath: 'sidebars.json',
     };
     const defaultContext = {
       siteDir: versionedSiteDir,

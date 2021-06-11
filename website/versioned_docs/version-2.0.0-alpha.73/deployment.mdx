@@ -150,6 +150,12 @@ This workflow assumes your documentation resided in `documentation` branch of yo
 1. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with name `GH_PAGES_DEPLOY`. Copy file content if the command line doesn't work for you. Save your secret.
 1. Create you [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
 
+:::warning
+
+Please make sure that you replace `actions@github.com` with your GitHub email and `gh-actions` with your name.
+
+:::
+
 ```yaml title="documentation.yml"
 name: documentation
 

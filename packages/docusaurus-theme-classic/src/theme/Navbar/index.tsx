@@ -96,6 +96,10 @@ function Navbar(): JSX.Element {
   }, [isDesktop]);
 
   useEffect(() => {
+    if (!showDocSidebar) {
+      return;
+    }
+
     if (!sidebarShown) {
       setMainMenuShown(false);
     }

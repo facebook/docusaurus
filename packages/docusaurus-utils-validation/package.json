@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "2.0.0-beta.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "joi": "^17.4.0",
     "tslib": "^2.1.0"
   },

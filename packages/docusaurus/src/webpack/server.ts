@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import StaticSiteGeneratorPlugin from '@endiliey/static-site-generator-webpack-plugin';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
@@ -15,6 +14,9 @@ import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '../constants';
+
+// Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
+import StaticSiteGeneratorPlugin from '@slorber/static-site-generator-webpack-plugin';
 
 export default function createServerConfig({
   props,
@@ -31,7 +33,7 @@ export default function createServerConfig({
     preBodyTags,
     postBodyTags,
     ssrTemplate,
-    siteConfig: {noIndex},
+    siteConfig: {noIndex, trailingSlash},
   } = props;
   const config = createBaseConfig(props, true);
 
@@ -75,6 +77,7 @@ export default function createServerConfig({
           noIndex,
         },
         paths: ssgPaths,
+        preferFoldersOutput: trailingSlash,
       }),
 
       // Show compilation progress bar.

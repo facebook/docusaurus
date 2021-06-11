@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/LastUpdated';
 
@@ -23,11 +22,11 @@ function LastUpdatedAtDate({
       description="The words used to describe on which date a page has been last updated"
       values={{
         date: (
-          <time
-            dateTime={new Date(lastUpdatedAt * 1000).toISOString()}
-            className={styles.lastUpdatedDate}>
-            {formattedLastUpdatedAt}
-          </time>
+          <b>
+            <time dateTime={new Date(lastUpdatedAt * 1000).toISOString()}>
+              {formattedLastUpdatedAt}
+            </time>
+          </b>
         ),
       }}>
       {' on {date}'}
@@ -45,7 +44,7 @@ function LastUpdatedByUser({
       id="theme.lastUpdated.byUser"
       description="The words used to describe by who the page has been last updated"
       values={{
-        user: <strong>{lastUpdatedBy}</strong>,
+        user: <b>{lastUpdatedBy}</b>,
       }}>
       {' by {user}'}
     </Translate>
@@ -58,37 +57,33 @@ export default function LastUpdated({
   lastUpdatedBy,
 }: Props): JSX.Element {
   return (
-    <div className="col text--right">
-      <em>
-        <small>
-          <Translate
-            id="theme.lastUpdated.lastUpdatedAtBy"
-            description="The sentence used to display when a page has been last updated, and by who"
-            values={{
-              atDate:
-                lastUpdatedAt && formattedLastUpdatedAt ? (
-                  <LastUpdatedAtDate
-                    lastUpdatedAt={lastUpdatedAt}
-                    formattedLastUpdatedAt={formattedLastUpdatedAt}
-                  />
-                ) : (
-                  ''
-                ),
-              byUser: lastUpdatedBy ? (
-                <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
-              ) : (
-                ''
-              ),
-            }}>
-            {'Last updated{atDate}{byUser}'}
-          </Translate>
-          {process.env.NODE_ENV === 'development' && (
-            <div>
-              <small> (Simulated during dev for better perf)</small>
-            </div>
-          )}
-        </small>
-      </em>
-    </div>
+    <>
+      <Translate
+        id="theme.lastUpdated.lastUpdatedAtBy"
+        description="The sentence used to display when a page has been last updated, and by who"
+        values={{
+          atDate:
+            lastUpdatedAt && formattedLastUpdatedAt ? (
+              <LastUpdatedAtDate
+                lastUpdatedAt={lastUpdatedAt}
+                formattedLastUpdatedAt={formattedLastUpdatedAt}
+              />
+            ) : (
+              ''
+            ),
+          byUser: lastUpdatedBy ? (
+            <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
+          ) : (
+            ''
+          ),
+        }}>
+        {'Last updated{atDate}{byUser}'}
+      </Translate>
+      {process.env.NODE_ENV === 'development' && (
+        <div>
+          <small> (Simulated during dev for better perf)</small>
+        </div>
+      )}
+    </>
   );
 }

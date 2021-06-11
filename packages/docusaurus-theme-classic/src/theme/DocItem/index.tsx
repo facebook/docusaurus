@@ -22,6 +22,7 @@ import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC, {Headings} from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
+import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
 
@@ -52,9 +53,11 @@ function DocItem(props: Props): JSX.Element {
   // See https://github.com/facebook/docusaurus/issues/3362
   const showVersionBadge = versions.length > 1;
 
-  // For meta title, using frontMatter.title in priority over a potential # title found in markdown
-  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
-  const metaTitle = frontMatter.title || title;
+  // We only add a title if:
+  // - user asks to hide it with frontmatter
+  // - the markdown content does not already contain a top-level h1 heading
+  const shouldAddTitle =
+    !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const showToc = !hideTableOfContents && DocContent.toc;
 
@@ -64,7 +67,7 @@ function DocItem(props: Props): JSX.Element {
 
   return (
     <>
-      <Seo {...{title: metaTitle, description, keywords, image}} />
+      <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
         <div
@@ -75,12 +78,11 @@ function DocItem(props: Props): JSX.Element {
           <div className={styles.docItemContainer}>
             <article>
               {showVersionBadge && (
-                <div>
-                  <span className="badge badge--secondary">
-                    Version: {version.label}
-                  </span>
-                </div>
+                <span className="badge badge--secondary">
+                  Version: {version.label}
+                </span>
               )}
+
               {!isDesktop && showToc && (
                 <div
                   className={clsx('margin-vert--md', styles.mobileToc, {
@@ -100,32 +102,38 @@ function DocItem(props: Props): JSX.Element {
                   </div>
                 </div>
               )}
-              {!hideTitle && (
-                <header>
-                  <h1 className={styles.docTitle}>{title}</h1>
-                </header>
-              )}
+
               <div className="markdown">
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
                 <DocContent />
               </div>
-            </article>
-            {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className="margin-vert--xl">
-                <div className="row">
+
+              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
+                <footer className={clsx('row', styles.docUpdateDetails)}>
                   <div className="col">
                     {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
-                  {(lastUpdatedAt || lastUpdatedBy) && (
-                    <LastUpdated
-                      lastUpdatedAt={lastUpdatedAt}
-                      formattedLastUpdatedAt={formattedLastUpdatedAt}
-                      lastUpdatedBy={lastUpdatedBy}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-            <div className="margin-vert--lg">
+
+                  <div className={clsx('col', styles.lastUpdated)}>
+                    {(lastUpdatedAt || lastUpdatedBy) && (
+                      <LastUpdated
+                        lastUpdatedAt={lastUpdatedAt}
+                        formattedLastUpdatedAt={formattedLastUpdatedAt}
+                        lastUpdatedBy={lastUpdatedBy}
+                      />
+                    )}
+                  </div>
+                </footer>
+              )}
+            </article>
+
+            <div className={styles.docPaginator}>
               <DocPaginator metadata={metadata} />
             </div>
           </div>

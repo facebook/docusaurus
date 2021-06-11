@@ -50,6 +50,14 @@ By default, tabs are rendered eagerly, but it is possible to load them lazily by
 
 :::
 
+## Displaying a default tab
+
+Set the `defaultValue` property in the `Tabs` component to the label value of your choice to show the matching tab by default.
+
+For example, in the example above, `defaultValue="apple"` forces the `Apple` tab to be open by default.
+
+If the `defaultValue` property is not provided or refers to an non-existing value, only the tab headings appear until the user clicks on a tab.
+
 ## Syncing tab choices {#syncing-tab-choices}
 
 You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that `groupID` are globally-namespaced.

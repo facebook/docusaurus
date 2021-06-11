@@ -117,6 +117,7 @@ export default function pluginContentBlog(
       const {postsPerPage, routeBasePath} = options;
 
       blogPosts = await generateBlogPosts(contentPaths, context, options);
+
       if (!blogPosts.length) {
         return null;
       }
@@ -288,7 +289,7 @@ export default function pluginContentBlog(
             component: blogPostComponent,
             exact: true,
             modules: {
-              sidebar: sidebarProp,
+              sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
             },
           });
@@ -312,7 +313,7 @@ export default function pluginContentBlog(
             component: blogListComponent,
             exact: true,
             modules: {
-              sidebar: sidebarProp,
+              sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) => {
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
@@ -360,7 +361,7 @@ export default function pluginContentBlog(
             component: blogTagsPostsComponent,
             exact: true,
             modules: {
-              sidebar: sidebarProp,
+              sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) => {
                 const metadata = blogItemsToMetadata[postID];
                 return {
@@ -391,7 +392,7 @@ export default function pluginContentBlog(
           component: blogTagsListComponent,
           exact: true,
           modules: {
-            sidebar: sidebarProp,
+            sidebar: aliasedSource(sidebarProp),
             tags: aliasedSource(tagsListPath),
           },
         });
@@ -459,6 +460,9 @@ export default function pluginContentBlog(
                         `${docuHash(aliasedPath)}.json`,
                       );
                     },
+                    // For blog posts a title in markdown is always removed
+                    // Blog posts title are rendered separately
+                    removeContentTitle: true,
                   },
                 },
                 {
@@ -503,9 +507,14 @@ export default function pluginContentBlog(
     },
 
     injectHtmlTags() {
+      if (!blogPosts.length) {
+        return {};
+      }
+
       if (!options.feedOptions?.type) {
         return {};
       }
+
       const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},

@@ -16,15 +16,12 @@ const IconMenu = ({
 }: Props): JSX.Element => {
   return (
     <svg
-      aria-label="Menu"
       className={className}
       width={width}
       height={height}
       viewBox="0 0 30 30"
-      role="img"
-      focusable="false"
+      aria-hidden="true"
       {...restProps}>
-      <title>Menu</title>
       <path
         stroke="currentColor"
         strokeLinecap="round"

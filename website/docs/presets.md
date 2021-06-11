@@ -135,7 +135,7 @@ module.exports = {
 
 ### `@docusaurus/preset-bootstrap` {#docusauruspreset-bootstrap}
 
-The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
+An alternative preset that uses Bootstrap styling.
 
 | Themes                        | Plugins                            |
 | ----------------------------- | ---------------------------------- |

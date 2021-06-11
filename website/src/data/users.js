@@ -125,6 +125,14 @@ export const Tags = {
 // prettier-ignore
 const Users = [
   {
+    title: 'Aide Jeune',
+    description: 'French Discord server that helps young people who have been bullied or feel bad about themselves',
+    preview: require('./showcase/aide_jeune.png'),
+    website: 'https://aidejeune.fr',
+    source: 'https://github.com/AideJeune',
+    tags: ['opensource'],
+  },
+  {
     title: 'AgileTs',
     description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
@@ -223,6 +231,14 @@ const Users = [
     preview: require('./showcase/build-tracker.png'),
     website: 'https://buildtracker.dev',
     source: 'https://github.com/paularmstrong/build-tracker',
+    tags: ['opensource'],
+  },
+  {
+    title: 'ClarityChallenge',
+    description: 'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
+    preview: require('./showcase/claritychallenge.png'),
+    website: 'https://claritychallenge.github.io/clarity_CEC1_doc',
+    source: 'https://github.com/claritychallenge/clarity_CEC1_doc',
     tags: ['opensource'],
   },
   {
@@ -348,6 +364,14 @@ const Users = [
     website: 'https://facebookincubator.github.io/fbt/',
     source: 'https://github.com/facebook/fbt',
     tags: ['opensource', 'facebook'],
+  },
+  {
+    title: 'FireCMS',
+    description: 'Firebase/Firestore based headless CMS',
+    preview: require('./showcase/firecms.png'),
+    website: 'https://firecms.co',
+    source: 'https://github.com/Camberi/firecms',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Flipper',
@@ -533,6 +557,14 @@ const Users = [
     website: 'https://facebook.github.io/metro/',
     source: 'https://github.com/facebook/metro',
     tags: ['opensource', 'facebook'],
+  },
+  {
+    title: 'Mia-Platform',
+    description: 'Mia-Platform is the simplest way to develop and operate modern applications on Kubernetes. Don\'t waste time to set up your platform, just push the code!',
+    preview: require('./showcase/mia-platform.png'),
+    website: 'https://docs.mia-platform.eu/',
+    source: null,
+    tags: ['product', 'large', 'versioning'],
   },
   {
     title: 'MikroORM',
@@ -874,6 +906,14 @@ const Users = [
     source: 'https://github.com/runletapp/website',
     tags: ['opensource'],
   },
+    {
+    title: 'Runiac',
+    description: 'Run IaC Anywhere with Ease',
+    preview: require('./showcase/runiac.png'),
+    website: 'https://runiac.io',
+    source: 'https://github.com/runiac/website',
+    tags: ['opensource'],
+  },
   {
     title: 'Saleor',
     description: 'Saleor Documentation',
@@ -1000,11 +1040,11 @@ const Users = [
   },
   {
     title: 'Tinaël Devresse',
-    description: 'Personal website of Tinaël Devresse, a blog about anything that cross my mind which I think could interest y\'all.',
+    description: 'Personal website of Tinaël Devresse, a blog about anything that crosses my mind which I think could interest y\'all.',
     preview: require('./showcase/tinaeldevresse.png'),
     website: 'https://tinaeldevresse.eu/',
     source: 'https://github.com/hunteroi/tinaeldevresse.eu',
-    tags: ['personal', 'opensource']
+    tags: ['personal', 'opensource', 'i18n']
   },
   {
     title: 'TRPG Engine',
@@ -1080,6 +1120,22 @@ const Users = [
     website: 'https://kubevela.io/',
     source: 'https://github.com/oam-dev/kubevela.io',
     tags: ['opensource', 'versioning', 'i18n'],
+  },
+  {
+    title: 'Leon',
+    description: 'Your open-source personal assistant.',
+    preview: require('./showcase/leon.png'),
+    website: 'https://docs.getleon.ai',
+    source: 'https://github.com/leon-ai/docs.getleon.ai',
+    tags: ['opensource', 'versioning', 'i18n'],
+  },
+  {
+    title: 'Joel PO',
+    description: 'A minimalist personal website',
+    preview: require('./showcase/joelpo.png'),
+    website: 'https://joelpo.github.io',
+    source: 'https://github.com/Joelpo/joelpo.github.io',
+    tags: ['personal', 'opensource']
   },
 ];
 

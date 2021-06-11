@@ -33,6 +33,8 @@ export {useTitleFormatter} from './utils/generalUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
+export {useChangeRoute} from './utils/useChangeRoute';
+
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,

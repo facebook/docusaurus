@@ -67,7 +67,7 @@ export async function generateBlogFeed(
   }
   const {siteConfig} = context;
   const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  if (blogPosts == null) {
+  if (!blogPosts.length) {
     return null;
   }
 
@@ -146,7 +146,7 @@ export async function generateBlogPosts(
         content,
         contentTitle,
         excerpt,
-      } = await parseMarkdownFile(source);
+      } = await parseMarkdownFile(source, {removeContentTitle: true});
       const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
 
       const aliasedSource = aliasedSitePath(source, siteDir);

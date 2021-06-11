@@ -72,9 +72,11 @@ export default async function start(
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
-        console.log(
-          chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
-        );
+        if (newOpenUrl !== openUrl) {
+          console.log(
+            chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
+          );
+        }
       })
       .catch((err) => {
         console.error(chalk.red(err.stack));

@@ -69,7 +69,7 @@ describe('load utils', () => {
   });
 
   test('simpleHash', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       '': 'd41',
       '/foo-bar': '096',
       '/foo/bar': '1df',
@@ -230,7 +230,9 @@ describe('load utils', () => {
     });
     expect(idx(obj, ['translation', 'enabled'])).toEqual(true);
     expect(
-      idx(obj, ['translation', variable]).map((lang) => lang.tag),
+      idx(obj, ['translation', variable]).map(
+        (lang: {tag: string}) => lang.tag,
+      ),
     ).toEqual(['en', 'ja']);
     expect(idx(test, ['arr', 0])).toEqual(1);
     expect(idx(undefined)).toBeUndefined();
@@ -350,6 +352,7 @@ describe('load utils', () => {
     });
 
     expect(() =>
+      // @ts-expect-error undefined for test
       normalizeUrl(['http:example.com', undefined]),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Url must be a string. Received undefined"`,

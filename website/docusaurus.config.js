@@ -7,6 +7,8 @@
 
 const path = require('path');
 const versions = require('./versions.json');
+const math = require('remark-math');
+const katex = require('rehype-katex');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -52,6 +54,18 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      integrity:
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
+    },
+  ],
   i18n: {
     defaultLocale: 'en',
     locales: isDeployPreview
@@ -118,30 +132,34 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      {
-        fromExtensions: ['html'],
-        createRedirects: function (path) {
-          // redirect to /docs from /docs/introduction,
-          // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
-          }
-        },
-        redirects: [
-          {
-            from: ['/docs/support', '/docs/next/support'],
-            to: '/community/support',
+      isDeployPreview
+        ? // Plugin is disabled for deploy preview because we use trailing slashes on deploy previews
+          // This plugin is sensitive to trailing slashes, and we don't care much about making it work on deploy previews
+          {}
+        : {
+            fromExtensions: ['html'],
+            createRedirects: function (path) {
+              // redirect to /docs from /docs/introduction,
+              // as introduction has been made the home doc
+              if (allDocHomesPaths.includes(path)) {
+                return [`${path}/introduction`];
+              }
+            },
+            redirects: [
+              {
+                from: ['/docs/support', '/docs/next/support'],
+                to: '/community/support',
+              },
+              {
+                from: ['/docs/team', '/docs/next/team'],
+                to: '/community/team',
+              },
+              {
+                from: ['/docs/resources', '/docs/next/resources'],
+                to: '/community/resources',
+              },
+            ],
           },
-          {
-            from: ['/docs/team', '/docs/next/team'],
-            to: '/community/team',
-          },
-          {
-            from: ['/docs/resources', '/docs/next/resources'],
-            to: '/community/resources',
-          },
-        ],
-      },
     ],
     [
       '@docusaurus/plugin-ideal-image',
@@ -224,7 +242,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         docs: {
           // routeBasePath: '/',
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: 'sidebars.js',
           editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -237,8 +255,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [
+            math,
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
+          rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
@@ -253,7 +273,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl: ({locale, blogDirPath, blogPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -302,6 +322,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
+      additionalLanguages: ['java'],
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],

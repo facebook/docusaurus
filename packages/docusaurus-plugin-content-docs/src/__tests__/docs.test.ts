@@ -76,7 +76,7 @@ function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
@@ -89,7 +89,6 @@ function createTestUtils({
     expect(metadata).toEqual({
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
-      sidebar_label: undefined,
       editUrl: undefined,
       source: path.posix.join(
         '@site',
@@ -181,7 +180,7 @@ describe('simple site', () => {
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
-      title: 'Remarkable',
+      title: 'Bar',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',
@@ -255,7 +254,7 @@ describe('simple site', () => {
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
-      title: 'Remarkable',
+      title: 'Bar',
       description: 'This is custom description',
       frontMatter: {
         description: 'This is custom description',

@@ -29,7 +29,7 @@ function UnreleasedVersionLabel({
       description="The label used to tell the user that he's browsing an unreleased doc version"
       values={{
         siteTitle,
-        versionLabel: <strong>{versionLabel}</strong>,
+        versionLabel: <b>{versionLabel}</b>,
       }}>
       {
         'This is unreleased documentation for {siteTitle} {versionLabel} version.'
@@ -51,7 +51,7 @@ function UnmaintainedVersionLabel({
       description="The label used to tell the user that he's browsing an unmaintained doc version"
       values={{
         siteTitle,
-        versionLabel: <strong>{versionLabel}</strong>,
+        versionLabel: <b>{versionLabel}</b>,
       }}>
       {
         'This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.'
@@ -76,7 +76,7 @@ function LatestVersionSuggestionLabel({
       values={{
         versionLabel,
         latestVersionLink: (
-          <strong>
+          <b>
             <Link to={to} onClick={onClick}>
               <Translate
                 id="theme.docs.versions.latestVersionLinkLabel"
@@ -84,7 +84,7 @@ function LatestVersionSuggestionLabel({
                 latest version
               </Translate>
             </Link>
-          </strong>
+          </b>
         ),
       }}>
       {
