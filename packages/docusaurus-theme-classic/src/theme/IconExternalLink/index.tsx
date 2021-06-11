@@ -12,10 +12,9 @@ import styles from './styles.module.css';
 const IconExternalLink = (): JSX.Element => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       width="14"
       height="14"
-      role="img"
+      aria-hidden="true"
       viewBox="0 0 24 24"
       className={styles.iconExternalLink}>
       <path

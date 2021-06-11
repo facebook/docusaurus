@@ -60,20 +60,18 @@ function BlogPostItem(props: Props): JSX.Element {
 
     return (
       <header>
-        <TitleHeading
-          className={clsx('margin-bottom--sm', styles.blogPostTitle)}>
+        <TitleHeading className={styles.blogPostTitle}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-vert--md">
-          <time dateTime={date} className={styles.blogPostDate}>
-            {formattedDate}
-            {readingTime && (
-              <>
-                {' · '}
-                {readingTimePlural(readingTime)}
-              </>
-            )}
-          </time>
+        <div className={clsx(styles.blogPostData, 'margin-vert--md')}>
+          <time dateTime={date}>{formattedDate}</time>
+
+          {readingTime && (
+            <>
+              {' · '}
+              {readingTimePlural(readingTime)}
+            </>
+          )}
         </div>
         <div className="avatar margin-vert--md">
           {authorImageURL && (

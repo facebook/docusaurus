@@ -17,7 +17,9 @@ export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
   }
   return (
     <div className={clsx(styles.sidebar, 'thin-scrollbar')}>
-      <h3 className={styles.sidebarItemTitle}>{sidebar.title}</h3>
+      <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
+        {sidebar.title}
+      </div>
       <ul className={styles.sidebarItemList}>
         {sidebar.items.map((item) => {
           return (
