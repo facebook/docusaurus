@@ -326,9 +326,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
