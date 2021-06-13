@@ -17,18 +17,15 @@ const {
   toMessageRelativeFilePath,
 } = require('@docusaurus/utils');
 
-const {
-  loaders: {inlineMarkdownImageFileLoader},
-} = getFileLoaderUtils();
+const {assetQuery} = getFileLoaderUtils();
 
 const createJSX = (node, pathUrl) => {
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
     node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
-          pathUrl,
-        )}").default}`
+      ? // see https://github.com/facebook/docusaurus/pull/4708#discussion_r624515715
+        `src={new URL("${escapePath(pathUrl)}?${assetQuery}", import.meta.url)}`
       : ''
   }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 

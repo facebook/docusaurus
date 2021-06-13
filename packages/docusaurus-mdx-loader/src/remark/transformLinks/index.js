@@ -19,9 +19,7 @@ const escapeHtml = require('escape-html');
 const {toValue} = require('../utils');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
 
-const {
-  loaders: {inlineMarkdownLinkFileLoader},
-} = getFileLoaderUtils();
+const {assetQuery} = getFileLoaderUtils();
 
 async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
   const assetExists = await fs.pathExists(fileSystemAssetPath);
@@ -47,9 +45,9 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
+  const href = `new URL('${escapePath(
     relativeRequireAssetPath,
-  )}').default`;
+  )}?${assetQuery}', import.meta.url).toString()`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 

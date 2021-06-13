@@ -27,7 +27,7 @@ import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
 ```
 
 ```jsx title="MyComponent.js"
-<img src={require('@site/static/img/docusaurus.png').default} />
+<img src={require('@site/static/img/docusaurus.png')} />
 ```
 
 ```jsx title="MyComponent.js"

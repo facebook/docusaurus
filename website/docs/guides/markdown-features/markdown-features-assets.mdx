@@ -28,7 +28,7 @@ You can use images in Markdown, or by requiring them and using a JSX image tag:
 # My Markdown page
 
 <img
-  src={require('./assets/docusaurus-asset-example-banner.png').default}
+  src={require('./assets/docusaurus-asset-example-banner.png')}
   alt="Example banner"
 />
 
@@ -64,9 +64,7 @@ In the same way, you can link to existing assets by requiring them and using the
 ```mdx
 # My Markdown page
 
-<a
-  target="_blank"
-  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+<a target="_blank" href={require('./assets/docusaurus-asset-example-pdf.pdf')}>
   Download this PDF
 </a>
 
@@ -77,7 +75,10 @@ or
 
 <a
   target="_blank"
-  href={require('../../assets/docusaurus-asset-example-pdf.pdf').default}>
+  href={new URL(
+    '../../assets/docusaurus-asset-example-pdf.pdf',
+    import.meta.url,
+  ).toString()}>
   Download this PDF
 </a>
 

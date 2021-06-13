@@ -24,6 +24,7 @@ import {
   applyConfigurePostCss,
   applyConfigureWebpack,
   compile,
+  getFileLoaderUtils,
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
@@ -198,6 +199,11 @@ async function buildLocale({
       );
     }
   });
+
+  // Add the very high-priority rules triggered by using a resourceQuery like ?asset
+  const {prependAssetQueryRules} = getFileLoaderUtils();
+  clientConfig = prependAssetQueryRules(clientConfig);
+  serverConfig = prependAssetQueryRules(serverConfig);
 
   // Make sure generated client-manifest is cleaned first so we don't reuse
   // the one from previous builds.
