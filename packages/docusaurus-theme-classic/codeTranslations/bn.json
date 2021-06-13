@@ -29,6 +29,7 @@
   "theme.blog.post.plurals": "একটি পোস্ট|{count} পোস্টস",
   "theme.blog.post.readMore": "আরও পড়ুন",
   "theme.blog.post.readingTime.plurals": "এক মিনিট পড়া|{readingTime} মিনিট পড়া",
+  "theme.blog.sidebar.navAriaLabel": "Blog recent posts navigation",
   "theme.blog.tagTitle": "{nPosts} সঙ্গে ট্যাগ্গেড \"{tagName}\" ",
   "theme.common.editThisPage": "এই পেজটি এডিট করুন",
   "theme.common.headingLinkTitle": "হেডিং এর সঙ্গে সরাসরি লিংকড",

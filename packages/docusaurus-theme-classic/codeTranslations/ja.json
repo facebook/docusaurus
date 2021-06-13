@@ -29,6 +29,7 @@
   "theme.blog.post.plurals": "{count}件",
   "theme.blog.post.readMore": "もっと見る",
   "theme.blog.post.readingTime.plurals": "約{readingTime}分",
+  "theme.blog.sidebar.navAriaLabel": "Blog recent posts navigation",
   "theme.blog.tagTitle": "「{tagName}」タグの記事が{nPosts}あります",
   "theme.common.editThisPage": "このページを編集",
   "theme.common.headingLinkTitle": "見出しへの直接リンク",

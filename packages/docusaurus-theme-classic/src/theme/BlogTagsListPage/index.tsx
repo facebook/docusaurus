@@ -63,9 +63,9 @@ function BlogTagsListPage(props: Props): JSX.Element {
       }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--3">
+          <aside className="col col--3">
             <BlogSidebar sidebar={sidebar} />
-          </div>
+          </aside>
           <main className="col col--7">
             <h1>
               <Translate

@@ -29,6 +29,7 @@
   "theme.blog.post.plurals": "Uma postagem|{count} postagens",
   "theme.blog.post.readMore": "Leia Mais",
   "theme.blog.post.readingTime.plurals": "Leitura de um minuto|Leitura de {readingTime} minutos",
+  "theme.blog.sidebar.navAriaLabel": "Blog recent posts navigation",
   "theme.blog.tagTitle": "{nPosts} marcadas com \"{tagName}\"",
   "theme.common.editThisPage": "Editar essa página",
   "theme.common.headingLinkTitle": "Link direto para o título",
