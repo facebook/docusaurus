@@ -374,6 +374,14 @@ const Users = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Flagsmith',
+    description: 'Open Source Feature Flag and Remote Config Service',
+    preview: require('./showcase/flagsmith.png'),
+    website: 'https://docs.flagsmith.com',
+    source: 'https://github.com/Flagsmith/flagsmith-docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'Flipper',
     description: 'Extensible mobile app debugger',
     preview: require('./showcase/flipper.png'),
