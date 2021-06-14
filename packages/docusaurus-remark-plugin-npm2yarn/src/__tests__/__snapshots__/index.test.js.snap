@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`npm2yarn plugin test: already imported tabs components are not re-imported 1`] = `
+exports[`npm2yarn plugin test: already imported tabs components above are not re-imported 1`] = `
 "import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
@@ -25,6 +25,34 @@ import TabItem from '@theme/TabItem';
 
 </TabItem>
 </Tabs>
+"
+`;
+
+exports[`npm2yarn plugin test: already imported tabs components below are not re-imported 1`] = `
+"<Tabs defaultValue=\\"npm\\" values={[
+    { label: 'npm', value: 'npm', },
+    { label: 'Yarn', value: 'yarn', },
+  ]}
+>
+<TabItem value=\\"npm\\">
+
+\`\`\`bash
+  $ npm install --global docusaurus
+\`\`\`
+
+</TabItem>
+<TabItem value=\\"yarn\\">
+
+\`\`\`bash
+  $ yarn add --global docusaurus
+\`\`\`
+
+</TabItem>
+</Tabs>
+
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
 "
 `;
 
