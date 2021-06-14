@@ -86,4 +86,25 @@ describe('applyTrailingSlash', () => {
       '/abc/?search#anchor',
     );
   });
+
+  test('should apply to fully qualified urls', () => {
+    expect(
+      applyTrailingSlash('https://xyz.com/abc?search#anchor', true),
+    ).toEqual('https://xyz.com/abc/?search#anchor');
+    expect(
+      applyTrailingSlash('https://xyz.com/abc?search#anchor', false),
+    ).toEqual('https://xyz.com/abc?search#anchor');
+    expect(
+      applyTrailingSlash('https://xyz.com/abc?search#anchor', undefined),
+    ).toEqual('https://xyz.com/abc?search#anchor');
+    expect(
+      applyTrailingSlash('https://xyz.com/abc/?search#anchor', true),
+    ).toEqual('https://xyz.com/abc/?search#anchor');
+    expect(
+      applyTrailingSlash('https://xyz.com/abc/?search#anchor', false),
+    ).toEqual('https://xyz.com/abc?search#anchor');
+    expect(
+      applyTrailingSlash('https://xyz.com/abc/?search#anchor', undefined),
+    ).toEqual('https://xyz.com/abc/?search#anchor');
+  });
 });

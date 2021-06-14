@@ -13,7 +13,7 @@ import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
-import applyTrailingSlash from './applyTrailingSlash';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 import type {LinkProps} from '@docusaurus/Link';
 import type docusaurus from '../docusaurus';
