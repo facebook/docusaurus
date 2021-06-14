@@ -50,4 +50,12 @@ describe('npm2yarn plugin', () => {
 
     expect(result).toMatchSnapshot();
   });
+
+  test('test: already imported tabs components are not re-imported', async () => {
+    const result = await processFixture('import-tabs', {
+      staticDir,
+    });
+
+    expect(result).toMatchSnapshot();
+  });
 });
