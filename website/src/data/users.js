@@ -190,7 +190,7 @@ const Users = [
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe',
-    tags: ['opensource','versioning'],
+    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'Axioms',
