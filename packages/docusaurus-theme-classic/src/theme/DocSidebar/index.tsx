@@ -346,8 +346,8 @@ function DocSidebar({
           },
         )}
         aria-label={translate({
-          id: 'theme.docs.sidebar.menuLabel',
-          message: 'Docs navigation',
+          id: 'theme.docs.sidebar.navAriaLabel',
+          message: 'Sidebar navigation',
           description: 'The ARIA label for documentation menu',
         })}>
         <ResponsiveSidebarButton
