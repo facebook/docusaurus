@@ -471,6 +471,15 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'hCaptcha.com Docs',
+    description: 'hCaptcha.com anti-bot service docs',
+    preview: require('./showcase/hcaptcha.png'),
+    website: 'https://docs.hcaptcha.com/',
+    source: null,
+    tags: ['product'],
+  },
+
+  {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),
