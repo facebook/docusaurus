@@ -17,6 +17,7 @@ import type {
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
 import IconExternalLink from '@theme/IconExternalLink';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 
@@ -35,7 +36,7 @@ function NavLink({
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
-  const isExternalLink = label && href && href !== '#';
+  const isExternalLink = label && href && !isInternalUrl(href);
   const isDropdownLink = activeClassName === dropdownLinkActiveClass;
 
   return (
