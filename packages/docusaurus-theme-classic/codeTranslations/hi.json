@@ -29,6 +29,7 @@
   "theme.blog.post.plurals": "एक पोस्ट|{count} पोस्ट",
   "theme.blog.post.readMore": "और पढ़ें",
   "theme.blog.post.readingTime.plurals": "एक मिनट में पढ़ें|{readingTime} मिनट में पढ़ें",
+  "theme.blog.sidebar.navAriaLabel": "Blog recent posts navigation",
   "theme.blog.tagTitle": "{nPosts} पोस्ट \"{tagName}\" टैग के साथ",
   "theme.common.editThisPage": "इस पेज को बदलें",
   "theme.common.headingLinkTitle": "शीर्षक का सीधा लिंक",

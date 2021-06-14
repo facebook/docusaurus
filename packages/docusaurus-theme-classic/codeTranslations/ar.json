@@ -29,6 +29,7 @@
   "theme.blog.post.plurals": "مقاله واحده|{count} مقالات",
   "theme.blog.post.readMore": "اقرأ المزيد",
   "theme.blog.post.readingTime.plurals": "{readingTime} دقائق قراءة|{readingTime} دقائق قراءة",
+  "theme.blog.sidebar.navAriaLabel": "Blog recent posts navigation",
   "theme.blog.tagTitle": "{nPosts} موسومة ب \"{tagName}\"",
   "theme.common.editThisPage": "تعديل هذه الصفحة",
   "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان",
