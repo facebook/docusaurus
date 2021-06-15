@@ -72,6 +72,40 @@ Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore,
 
 :::
 
+## Importing code snippets {#importing-code-snippets}
+
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/).
+
+```jsx title="myMarkdownFile.mdx"
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!./myComponent';
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
+```
+
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+
+<BrowserWindow url="http://localhost:3000">
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>
+
+<br />
+
+:::note
+
+You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want JSX to insert the imported text here.
+
+:::
+
+:::warning
+
+This feature is experimental and might be subject to API breaking changes in the future.
+
+:::
+
 ## Importing Markdown {#importing-markdown}
 
 You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Below we are importing from [another file](./markdown-features-intro.mdx) and inserting it as a component.
@@ -82,9 +116,9 @@ import Intro from './markdown-features-intro.mdx';
 <Intro />;
 ```
 
-<BrowserWindow url="http://localhost:3000">
-
 import Intro from './markdown-features-intro.mdx';
+
+<BrowserWindow url="http://localhost:3000">
 
 <Intro />
 
