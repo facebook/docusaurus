@@ -68,7 +68,7 @@ describe('blogFeed', () => {
         const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
         const siteConfig = {
           title: 'Hello',
-          baseUrl: '/',
+          baseUrl: '/myBaseUrl/',
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };

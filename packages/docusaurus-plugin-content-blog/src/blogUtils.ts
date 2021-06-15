@@ -72,8 +72,8 @@ export async function generateBlogFeed(
   }
 
   const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, routeBasePath]);
+  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
+  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated =
     (blogPosts[0] && blogPosts[0].metadata.date) ||
@@ -86,7 +86,7 @@ export async function generateBlogFeed(
     language: feedOptions.language,
     link: blogBaseUrl,
     description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: normalizeUrl([siteUrl, favicon]),
+    favicon: normalizeUrl([siteUrl, baseUrl, favicon]),
     copyright: feedOptions.copyright,
   });
 
