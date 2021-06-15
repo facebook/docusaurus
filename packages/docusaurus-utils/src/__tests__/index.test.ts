@@ -8,8 +8,6 @@
 import path from 'path';
 import {
   fileToPath,
-  simpleHash,
-  docuHash,
   genComponentName,
   genChunkName,
   idx,
@@ -65,37 +63,6 @@ describe('load utils', () => {
     };
     Object.keys(asserts).forEach((file) => {
       expect(genComponentName(file)).toBe(asserts[file]);
-    });
-  });
-
-  test('simpleHash', () => {
-    const asserts: Record<string, string> = {
-      '': 'd41',
-      '/foo-bar': '096',
-      '/foo/bar': '1df',
-      '/endi/lie': '9fa',
-      '/endi-lie': 'fd3',
-      '/yangshun/tay': '48d',
-      '/yangshun-tay': 'f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(simpleHash(file, 3)).toBe(asserts[file]);
-    });
-  });
-
-  test('docuHash', () => {
-    const asserts: Record<string, string> = {
-      '': '-d41',
-      '/': 'index',
-      '/foo-bar': 'foo-bar-096',
-      '/foo/bar': 'foo-bar-1df',
-      '/endi/lie': 'endi-lie-9fa',
-      '/endi-lie': 'endi-lie-fd3',
-      '/yangshun/tay': 'yangshun-tay-48d',
-      '/yangshun-tay': 'yangshun-tay-f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(docuHash(file)).toBe(asserts[file]);
     });
   });
 
