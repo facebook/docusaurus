@@ -12,6 +12,7 @@ import {
   logValidationBugReportHint,
   isValidationDisabledEscapeHatch,
   URISchema,
+  printWarning,
 } from '@docusaurus/utils-validation';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -107,8 +108,20 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
+  try {
+    const {pathname} = new URL(value);
+    if (pathname !== '/') {
+      helpers.warn('docusaurus.configValidationWarning', {
+        warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
+      });
+    }
+  } catch (e) {}
+  return value;
+}, 'siteUrlCustomValidation');
+
 // TODO move to @docusaurus/utils-validation
-const ConfigSchema = Joi.object({
+export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
     .regex(new RegExp('/$', 'm'))
@@ -116,7 +129,7 @@ const ConfigSchema = Joi.object({
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
-  url: URISchema.required(),
+  url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
@@ -163,15 +176,21 @@ const ConfigSchema = Joi.object({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
+}).messages({
+  'docusaurus.configValidationWarning':
+    'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
 });
 
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: Partial<DocusaurusConfig>,
 ): DocusaurusConfig {
-  const {error, value} = ConfigSchema.validate(config, {
+  const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });
+
+  printWarning(warning);
+
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {

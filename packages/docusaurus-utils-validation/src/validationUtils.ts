@@ -35,7 +35,7 @@ export const logValidationBugReportHint = (): void => {
   );
 };
 
-function printWarning(warning?: Joi.ValidationError) {
+export function printWarning(warning?: Joi.ValidationError) {
   if (warning) {
     const warningMessages = warning.details
       .map(({message}) => message)
