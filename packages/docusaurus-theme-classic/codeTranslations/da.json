@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Sammenlæg sidenavigation",
   "theme.docs.sidebar.expandButtonAriaLabel": "Udvid sidenavigation",
   "theme.docs.sidebar.expandButtonTitle": "Udvid sidenavigation",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Luk menu",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Åben menu",
   "theme.docs.versions.latestVersionLinkLabel": "seneste version",

@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "사이드바 숨기기",
   "theme.docs.sidebar.expandButtonAriaLabel": "사이드바 열기",
   "theme.docs.sidebar.expandButtonTitle": "사이드바 열기",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "메뉴 닫기",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "메뉴 열기",
   "theme.docs.versions.latestVersionLinkLabel": "최신 버전",

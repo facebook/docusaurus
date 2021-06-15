@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "סגור",
   "theme.docs.sidebar.expandButtonAriaLabel": "פתח",
   "theme.docs.sidebar.expandButtonTitle": "פתח",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "סגור תפריט",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "פתח תפריט",
   "theme.docs.versions.latestVersionLinkLabel": "גרסא אחרונה",

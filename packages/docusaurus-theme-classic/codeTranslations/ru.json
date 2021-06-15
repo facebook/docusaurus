@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Свернуть сайдбар",
   "theme.docs.sidebar.expandButtonAriaLabel": "Развернуть сайдбар",
   "theme.docs.sidebar.expandButtonTitle": "Развернуть сайдбар",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Закрыть меню",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Открыть меню",
   "theme.docs.versions.latestVersionLinkLabel": "последней версии",

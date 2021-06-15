@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Fechar sidebar",
   "theme.docs.sidebar.expandButtonAriaLabel": "Expandir sidebar",
   "theme.docs.sidebar.expandButtonTitle": "Expandir sidebar",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Fechar menu",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Abrir menu",
   "theme.docs.versions.latestVersionLinkLabel": "última versão",

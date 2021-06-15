@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Seitenleiste einklappen",
   "theme.docs.sidebar.expandButtonAriaLabel": "Seitenleiste ausklappen",
   "theme.docs.sidebar.expandButtonTitle": "Seitenleiste ausklappen",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Menü schließen",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Menü öffenen",
   "theme.docs.versions.latestVersionLinkLabel": "letzte Version",

@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "بستن نوار کناری",
   "theme.docs.sidebar.expandButtonAriaLabel": "بزرگ کردن نوار کناری",
   "theme.docs.sidebar.expandButtonTitle": "بزرگ کردن نوار کناری",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "بستن منو",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "باز کردن منو",
   "theme.docs.versions.latestVersionLinkLabel": "آخرین نسخه",

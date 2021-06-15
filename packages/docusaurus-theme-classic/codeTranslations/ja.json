@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "サイドバーを隠す",
   "theme.docs.sidebar.expandButtonAriaLabel": "サイドバーを開く",
   "theme.docs.sidebar.expandButtonTitle": "サイドバーを開く",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "メニューを閉じる",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "メニューを開く",
   "theme.docs.versions.latestVersionLinkLabel": "最新バージョン",

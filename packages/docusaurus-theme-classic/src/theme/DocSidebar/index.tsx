@@ -333,7 +333,7 @@ function DocSidebar({
         [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      <div
+      <nav
         className={clsx(
           'menu',
           'menu--responsive',
@@ -344,11 +344,17 @@ function DocSidebar({
             [styles.menuWithAnnouncementBar]:
               !isAnnouncementBarClosed && showAnnouncementBar,
           },
-        )}>
+        )}
+        aria-label={translate({
+          id: 'theme.docs.sidebar.navAriaLabel',
+          message: 'Sidebar navigation',
+          description: 'The ARIA label for documentation menu',
+        })}>
         <ResponsiveSidebarButton
           responsiveSidebarOpened={showResponsiveSidebar}
           onClick={toggleResponsiveSidebar}
         />
+
         <ul className="menu__list">
           <DocSidebarItems
             items={sidebar}
@@ -357,7 +363,7 @@ function DocSidebar({
             activePath={path}
           />
         </ul>
-      </div>
+      </nav>
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
     </div>
   );

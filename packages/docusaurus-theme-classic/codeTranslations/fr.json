@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Réduire le menu latéral",
   "theme.docs.sidebar.expandButtonAriaLabel": "Déplier le menu latéral",
   "theme.docs.sidebar.expandButtonTitle": "Déplier le menu latéral",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Fermer le menu latéral",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Ouvrir le menu latéral",
   "theme.docs.versions.latestVersionLinkLabel": "dernière version",

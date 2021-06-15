@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "收起侧边栏",
   "theme.docs.sidebar.expandButtonAriaLabel": "展开侧边栏",
   "theme.docs.sidebar.expandButtonTitle": "展开侧边栏",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "关闭菜单",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "打开菜单",
   "theme.docs.versions.latestVersionLinkLabel": "最新版本",

@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "طي الشريط الجانبي",
   "theme.docs.sidebar.expandButtonAriaLabel": "توسيع الشريط الجانبي",
   "theme.docs.sidebar.expandButtonTitle": "توسيع الشريط الجانبي",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "إغلاق القائمة",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "فتح القائمة",
   "theme.docs.versions.latestVersionLinkLabel": "احدث اصدار",

@@ -41,6 +41,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "Thu gọn thanh bên",
   "theme.docs.sidebar.expandButtonAriaLabel": "Mở rộng thanh bên",
   "theme.docs.sidebar.expandButtonTitle": "Mở rộng thanh bên",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Đóng menu",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Mở menu",
   "theme.docs.versions.latestVersionLinkLabel": "phiên bản mới nhất",

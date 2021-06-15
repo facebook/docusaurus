@@ -83,6 +83,8 @@
   "theme.docs.sidebar.expandButtonAriaLabel___DESCRIPTION": "The ARIA label and title attribute for expand button of doc sidebar",
   "theme.docs.sidebar.expandButtonTitle": "Expand sidebar",
   "theme.docs.sidebar.expandButtonTitle___DESCRIPTION": "The ARIA label and title attribute for expand button of doc sidebar",
+  "theme.docs.sidebar.navAriaLabel": "Sidebar navigation",
+  "theme.docs.sidebar.navAriaLabel___DESCRIPTION": "The ARIA label for documentation menu",
   "theme.docs.sidebar.responsiveCloseButtonLabel": "Close menu",
   "theme.docs.sidebar.responsiveCloseButtonLabel___DESCRIPTION": "The ARIA label for close button of mobile doc sidebar",
   "theme.docs.sidebar.responsiveOpenButtonLabel": "Open menu",
