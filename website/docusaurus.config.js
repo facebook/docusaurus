@@ -363,11 +363,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'left',
           activeBaseRegex: `/community/`,
         },
-        {
-          href: 'https://github.com/facebook/docusaurus/releases',
-          label: 'Releases',
-          position: 'left',
-        },
         // right
         {
           type: 'docsVersionDropdown',
