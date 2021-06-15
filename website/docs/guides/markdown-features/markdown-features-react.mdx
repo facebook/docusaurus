@@ -7,6 +7,8 @@ slug: /markdown-features/react
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
+## Using JSX in Markdown {#using-jsx-in-markdown}
+
 Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
 :::note
@@ -67,5 +69,33 @@ You can also import your own components defined in other files or third-party co
 :::caution
 
 Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+
+:::
+
+## Importing Markdown {#importing-markdown}
+
+You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Below we are importing from [another file](./markdown-features-intro.mdx) and inserting it as a component.
+
+```jsx
+import Intro from './markdown-features-intro.mdx';
+
+<Intro />;
+```
+
+<BrowserWindow url="http://localhost:3000">
+
+import Intro from './markdown-features-intro.mdx';
+
+<Intro />
+
+</BrowserWindow>
+
+<br />
+
+This way, you can reuse contents among multiple pages and avoid duplicating materials.
+
+:::caution
+
+The table-of-contents does not currently contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
 
 :::
