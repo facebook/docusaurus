@@ -208,7 +208,7 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"Hello, World !\\",
+    \\"title\\": \\"Hello sidebar_label\\",
     \\"permalink\\": \\"/docs/\\"
   }
 }",
@@ -238,7 +238,8 @@ Object {
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"hello\\",
-    \\"title\\": \\"Hello, World !\\"
+    \\"title\\": \\"Hello, World !\\",
+    \\"sidebar_label\\": \\"Hello sidebar_label\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -435,7 +436,7 @@ Object {
           },
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]
@@ -447,7 +448,7 @@ Object {
         \\"items\\": [
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]

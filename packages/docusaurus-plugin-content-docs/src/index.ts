@@ -198,10 +198,13 @@ export default function pluginContentDocs(
             previousId,
             nextId,
           } = sidebarsUtils.getDocNavigation(doc.id);
-          const toDocNavLink = (navDocId: string): DocNavLink => ({
-            title: docsBaseById[navDocId].title,
-            permalink: docsBaseById[navDocId].permalink,
-          });
+          const toDocNavLink = (navDocId: string): DocNavLink => {
+            const navDoc = docsBaseById[navDocId];
+            return {
+              title: navDoc.frontMatter.sidebar_label ?? navDoc.title,
+              permalink: navDoc.permalink,
+            };
+          };
           return {
             ...doc,
             sidebar: sidebarName,
