@@ -16,10 +16,10 @@ npm install --save @docusaurus/plugin-ideal-image
 
 Modify your `docusaurus.config.js`
 
-```diff
+```js {3}
 module.exports = {
   ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: ['@docusaurus/plugin-ideal-image'],
   ...
 }
 ```

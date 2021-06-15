@@ -79,12 +79,11 @@ stylesheets: [
 
 Overall the changes look like:
 
-```diff title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 // highlight-start
-+ const math = require('remark-math');
-+ const katex = require('rehype-katex');
+const math = require('remark-math');
+const katex = require('rehype-katex');
 // highlight-end
-
 
 module.exports = {
   title: 'Docusaurus',
@@ -96,22 +95,22 @@ module.exports = {
         docs: {
           path: 'docs',
           // highlight-start
-+         remarkPlugins: [math],
-+         rehypePlugins: [katex],
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
           // highlight-end
         },
       },
     ],
   ],
   // highlight-start
-+ stylesheets: [
-+   {
-+     href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
-+     integrity:
-+       'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
-+     crossorigin: 'anonymous',
-+   },
-+ ],
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      integrity:
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
+    },
+  ],
   // highlight-end
 };
 ```

@@ -442,12 +442,11 @@ If the generated sidebar does not look good, you can assign additional metadatas
 
 **For docs**: use additional frontmatter:
 
-```diff title="docs/tutorials/tutorial-easy.md"
-+ ---
-+ sidebar_label: Easy
-+ sidebar_position: 2
-+ ---
-
+```md title="docs/tutorials/tutorial-easy.md" {1-4}
+---
+sidebar_label: Easy
+sidebar_position: 2
+---
 
 # Easy Tutorial
 
