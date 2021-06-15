@@ -1,6 +1,7 @@
 ---
 id: hello
 title: Hello, World !
+sidebar_label: Hello sidebar_label
 ---
 
 Hi, Endilie here :)

@@ -181,9 +181,19 @@ export type LastUpdateData = {
   lastUpdatedBy?: string;
 };
 
-export type FrontMatter = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+export type DocFrontMatter = {
+  id?: string;
+  title?: string;
+  hide_title?: boolean;
+  hide_table_of_contents?: boolean;
+  keywords?: string[];
+  image?: string;
+  description?: string;
+  slug?: string;
+  sidebar_label?: string;
+  sidebar_position?: number;
+  custom_edit_url?: string | null;
+  parse_number_prefixes?: boolean;
 };
 
 export type DocMetadataBase = LastUpdateData & {
@@ -200,7 +210,7 @@ export type DocMetadataBase = LastUpdateData & {
   // eslint-disable-next-line camelcase
   sidebarPosition?: number;
   editUrl?: string | null;
-  frontMatter: FrontMatter;
+  frontMatter: DocFrontMatter & Record<string, unknown>;
 };
 
 export type DocNavLink = {
