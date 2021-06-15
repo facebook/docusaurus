@@ -189,7 +189,10 @@ export default function pluginContentDocs(
         const sidebarsUtils = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
-        sidebarsUtils.checkSidebarsDocIds(validDocIds);
+        sidebarsUtils.checkSidebarsDocIds(
+          validDocIds,
+          versionMetadata.sidebarFilePath as string,
+        );
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {

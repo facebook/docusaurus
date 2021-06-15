@@ -28,7 +28,7 @@ import {
   PluginOptions,
 } from './types';
 import {mapValues, flatten, flatMap, difference, pick, memoize} from 'lodash';
-import {getElementsAround} from '@docusaurus/utils';
+import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
 import path from 'path';
@@ -480,12 +480,12 @@ export function createSidebarsUtils(sidebars: Sidebars) {
     }
   }
 
-  function checkSidebarsDocIds(validDocIds: string[]) {
+  function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
     const allSidebarDocIds = flatten(Object.values(sidebarNameToDocIds));
     const invalidSidebarDocIds = difference(allSidebarDocIds, validDocIds);
     if (invalidSidebarDocIds.length > 0) {
       throw new Error(
-        `Bad sidebars file.
+        `Bad sidebar file at '${toMessageRelativeFilePath(sidebarFilePath)}'.
 These sidebar document ids do not exist:
 - ${invalidSidebarDocIds.sort().join('\n- ')},
 
