@@ -250,8 +250,8 @@ const ThemeConfigSchema = Joi.object({
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
-    backgroundColor: Joi.string().default('#fff'),
-    textColor: Joi.string().default('#000'),
+    backgroundColor: Joi.string(),
+    textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({

@@ -20,7 +20,7 @@ export default function SearchMetadatas({
 }: Props): JSX.Element {
   return (
     <Head>
-      {locale && <meta name="docusaurus_locale" content={`${locale}`} />}
+      {locale && <meta name="docusaurus_locale" content={locale} />}
       {version && <meta name="docusaurus_version" content={version} />}
       {tag && <meta name="docusaurus_tag" content={tag} />}
     </Head>
