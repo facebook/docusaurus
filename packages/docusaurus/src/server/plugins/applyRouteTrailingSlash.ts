@@ -12,11 +12,6 @@ export default function applyRouteTrailingSlash(
   route: RouteConfig,
   trailingSlash: boolean | undefined,
 ) {
-  // Never transform "/" to "" => cause router issues ("" catch everything)
-  if (route.path === '/') {
-    return route;
-  }
-
   return {
     ...route,
     path: applyTrailingSlash(route.path, trailingSlash),

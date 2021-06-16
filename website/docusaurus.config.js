@@ -132,34 +132,30 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      isDeployPreview
-        ? // Plugin is disabled for deploy preview because we use trailing slashes on deploy previews
-          // This plugin is sensitive to trailing slashes, and we don't care much about making it work on deploy previews
-          {}
-        : {
-            fromExtensions: ['html'],
-            createRedirects: function (path) {
-              // redirect to /docs from /docs/introduction,
-              // as introduction has been made the home doc
-              if (allDocHomesPaths.includes(path)) {
-                return [`${path}/introduction`];
-              }
-            },
-            redirects: [
-              {
-                from: ['/docs/support', '/docs/next/support'],
-                to: '/community/support',
-              },
-              {
-                from: ['/docs/team', '/docs/next/team'],
-                to: '/community/team',
-              },
-              {
-                from: ['/docs/resources', '/docs/next/resources'],
-                to: '/community/resources',
-              },
-            ],
+      {
+        fromExtensions: ['html'],
+        createRedirects: function (path) {
+          // redirect to /docs from /docs/introduction,
+          // as introduction has been made the home doc
+          if (allDocHomesPaths.includes(path)) {
+            return [`${path}/introduction`];
+          }
+        },
+        redirects: [
+          {
+            from: ['/docs/support', '/docs/next/support'],
+            to: '/community/support',
           },
+          {
+            from: ['/docs/team', '/docs/next/team'],
+            to: '/community/team',
+          },
+          {
+            from: ['/docs/resources', '/docs/next/resources'],
+            to: '/community/resources',
+          },
+        ],
+      },
     ],
     [
       '@docusaurus/plugin-ideal-image',

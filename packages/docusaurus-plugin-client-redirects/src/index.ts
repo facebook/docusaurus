@@ -15,12 +15,27 @@ import writeRedirectFiles, {
   RedirectFileMetadata,
 } from './writeRedirectFiles';
 import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
+import chalk from 'chalk';
 
 export default function pluginClientRedirectsPages(
-  _context: LoadContext,
+  context: LoadContext,
   opts: UserPluginOptions,
 ): Plugin<unknown> {
+  const {trailingSlash} = context.siteConfig;
+
   const options = normalizePluginOptions(opts);
+
+  // Special case, when using trailingSlash=false we output /xyz.html files instead of /xyz/index.html
+  // It makes no sense to use option fromExtensions=["html"]: the redirect files would be the same as the original files
+  if (options.fromExtensions.includes('html') && trailingSlash === false) {
+    console.warn(
+      chalk.yellow(`Using the Docusaurus redirect plugin with fromExtensions=['html'] and siteConfig.trailingSlash=false is prevented.
+It would lead the redirect plugin to override all the page.html files created by Docusaurus.`),
+    );
+    options.fromExtensions = options.fromExtensions.filter(
+      (ext) => ext !== 'html',
+    );
+  }
 
   return {
     name: 'docusaurus-plugin-client-redirects',
@@ -34,11 +49,15 @@ export default function pluginClientRedirectsPages(
         options,
       };
 
-      const redirects: RedirectMetadata[] = collectRedirects(pluginContext);
+      const redirects: RedirectMetadata[] = collectRedirects(
+        pluginContext,
+        trailingSlash,
+      );
 
       const redirectFiles: RedirectFileMetadata[] = toRedirectFilesMetadata(
         redirects,
         pluginContext,
+        trailingSlash,
       );
 
       // Write files only at the end: make code more easy to test without IO

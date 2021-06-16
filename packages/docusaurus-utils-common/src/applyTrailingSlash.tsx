@@ -9,8 +9,8 @@ export default function applyTrailingSlash(
   path: string,
   trailingSlash: boolean | undefined,
 ): string {
-  // Never apply trailing slash to an anchor link
   if (path.startsWith('#')) {
+    // Never apply trailing slash to an anchor link
     return path;
   }
 
@@ -29,8 +29,13 @@ export default function applyTrailingSlash(
 
   // The trailing slash should be handled before the ?search#hash !
   const [pathname] = path.split(/[#?]/);
-  const newPathname = trailingSlash
-    ? addTrailingSlash(pathname)
-    : removeTrailingSlash(pathname);
+
+  // Never transform '/' to ''
+  const newPathname =
+    pathname === '/'
+      ? '/'
+      : trailingSlash
+      ? addTrailingSlash(pathname)
+      : removeTrailingSlash(pathname);
   return path.replace(pathname, newPathname);
 }

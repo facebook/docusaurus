@@ -27,6 +27,7 @@ import {docuHash} from './docuHash';
 
 export const posixPath = posixPathImport;
 
+export * from './getFilePathForRoutePath';
 export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
@@ -323,12 +324,6 @@ export function removeSuffix(str: string, suffix: string): string {
 
 export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
-}
-
-export function getFilePathForRoutePath(routePath: string): string {
-  const fileName = path.basename(routePath);
-  const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}/index.html`);
 }
 
 export function getElementsAround<T extends unknown>(
