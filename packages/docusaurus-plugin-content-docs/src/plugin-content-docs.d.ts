@@ -43,6 +43,11 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropSidebars = {
     [sidebarId: string]: PropSidebarItem[];
   };
+
+  export type {
+    GlobalVersion as GlobalDataVersion,
+    GlobalDoc as GlobalDataDoc,
+  } from './types';
 }
 
 declare module '@theme/DocItem' {
