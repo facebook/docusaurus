@@ -49,6 +49,7 @@ import {
   getLoadedContentTranslationFiles,
 } from './translations';
 import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
+import chalk from 'chalk';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -163,7 +164,7 @@ export default function pluginContentDocs(
         return Promise.all(docFiles.map(processVersionDoc));
       }
 
-      async function loadVersion(
+      async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
         const unprocessedSidebars = loadSidebars(
@@ -267,6 +268,19 @@ export default function pluginContentDocs(
         };
       }
 
+      async function loadVersion(versionMetadata: VersionMetadata) {
+        try {
+          return await doLoadVersion(versionMetadata);
+        } catch (e) {
+          console.error(
+            chalk.red(
+              `Loading of version failed for version "${versionMetadata.versionName}"`,
+            ),
+          );
+          throw e;
+        }
+      }
+
       return {
         loadedVersions: await Promise.all(versionsMetadata.map(loadVersion)),
       };
@@ -307,7 +321,7 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
-      async function handleVersion(loadedVersion: LoadedVersion) {
+      async function doCreateVersionRoutes(loadedVersion: LoadedVersion) {
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
@@ -334,7 +348,20 @@ export default function pluginContentDocs(
         });
       }
 
-      await Promise.all(loadedVersions.map(handleVersion));
+      async function createVersionRoutes(loadedVersion: LoadedVersion) {
+        try {
+          return await doCreateVersionRoutes(loadedVersion);
+        } catch (e) {
+          console.error(
+            chalk.red(
+              `Can't create version routes for version "${loadedVersion.versionName}"`,
+            ),
+          );
+          throw e;
+        }
+      }
+
+      await Promise.all(loadedVersions.map(createVersionRoutes));
 
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
