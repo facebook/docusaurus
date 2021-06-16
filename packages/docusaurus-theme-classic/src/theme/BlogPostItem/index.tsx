@@ -68,20 +68,18 @@ function BlogPostItem(props: Props): JSX.Element {
 
     return (
       <header>
-        <TitleHeading
-          className={clsx('margin-bottom--sm', styles.blogPostTitle)}>
+        <TitleHeading className={styles.blogPostTitle}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-vert--md">
-          <time dateTime={date} className={styles.blogPostDate}>
-            {formattedDate}
-            {readingTime && (
-              <>
-                {' · '}
-                {readingTimePlural(readingTime)}
-              </>
-            )}
-          </time>
+        <div className={clsx(styles.blogPostData, 'margin-vert--md')}>
+          <time dateTime={date}>{formattedDate}</time>
+
+          {readingTime && (
+            <>
+              {' · '}
+              {readingTimePlural(readingTime)}
+            </>
+          )}
         </div>
         <div className="avatar margin-vert--md">
           {authorImageURL && (
@@ -120,13 +118,13 @@ function BlogPostItem(props: Props): JSX.Element {
             })}>
             {tags.length > 0 && (
               <div className="col">
-                <strong>
+                <b>
                   <Translate
                     id="theme.tags.tagsListLabel"
                     description="The label alongside a tag list">
                     Tags:
                   </Translate>
-                </strong>
+                </b>
                 {tags.map(({label, permalink: tagPermalink}) => (
                   <Link
                     key={tagPermalink}
@@ -149,13 +147,13 @@ function BlogPostItem(props: Props): JSX.Element {
                 <Link
                   to={metadata.permalink}
                   aria-label={`Read more about ${title}`}>
-                  <strong>
+                  <b>
                     <Translate
                       id="theme.blog.post.readMore"
                       description="The label used in blog post item excerpts to link to full blog posts">
                       Read More
                     </Translate>
-                  </strong>
+                  </b>
                 </Link>
               </div>
             )}

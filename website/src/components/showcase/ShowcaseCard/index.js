@@ -18,8 +18,7 @@ function TagIcon({label, description, icon}) {
     <span
       className={styles.tagIcon}
       // TODO add a proper tooltip
-      title={`${label}: ${description}`}
-      aria-label={`${label}: ${description}`}>
+      title={`${label}: ${description}`}>
       {icon}
     </span>
   );

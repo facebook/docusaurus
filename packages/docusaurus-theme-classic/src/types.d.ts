@@ -599,3 +599,12 @@ declare module '@theme/IconLanguage' {
   const IconLanguage: (props: Props) => JSX.Element;
   export default IconLanguage;
 }
+
+declare module '@theme/IconExternalLink' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  const IconExternalLink: (props: Props) => JSX.Element;
+  export default IconExternalLink;
+}

@@ -99,7 +99,7 @@ function Navbar(): JSX.Element {
           <Logo
             className="navbar__brand"
             imageClassName="navbar__logo"
-            titleClassName={clsx('navbar__title')}
+            titleClassName="navbar__title"
           />
           {leftItems.map((item, i) => (
             <NavbarItem {...item} key={i} />

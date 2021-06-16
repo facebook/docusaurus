@@ -67,9 +67,8 @@ export default async function writeTranslations(
 
   if (!context.i18n.locales.includes(locale)) {
     throw new Error(
-      `Can't write-translation for locale that is not in the locale configuration file.
-Unknown locale=[${locale}].
-Available locales=[${context.i18n.locales.join(',')}]`,
+      `Can't write-translation for locale "${locale}" that is not in the locale configuration file.
+Available locales are: ${context.i18n.locales.join(',')}.`,
     );
   }
 

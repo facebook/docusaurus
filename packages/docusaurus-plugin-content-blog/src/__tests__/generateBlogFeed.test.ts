@@ -32,7 +32,7 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 describe('blogFeed', () => {
   (['atom', 'rss'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
-      test('can show feed without posts', async () => {
+      test('should not show feed without posts', async () => {
         const siteDir = __dirname;
         const siteConfig = {
           title: 'Hello',
@@ -68,7 +68,7 @@ describe('blogFeed', () => {
         const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
         const siteConfig = {
           title: 'Hello',
-          baseUrl: '/',
+          baseUrl: '/myBaseUrl/',
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };

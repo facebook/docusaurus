@@ -10,29 +10,27 @@ import {removeSuffix} from '@docusaurus/utils';
 import {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
-  "If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option.";
+  'If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option.';
 
 const validateExtension = (ext: string) => {
   if (!ext) {
     throw new Error(
-      `Extension=['${String(
-        ext,
-      )}'] is not allowed. ${ExtensionAdditionalMessage}`,
+      `Extension "${ext}" is not allowed.\n${ExtensionAdditionalMessage}`,
     );
   }
   if (ext.includes('.')) {
     throw new Error(
-      `Extension=['${ext}'] contains a . (dot) and is not allowed. ${ExtensionAdditionalMessage}`,
+      `Extension "${ext}" contains a "." (dot) which is not allowed.\n${ExtensionAdditionalMessage}`,
     );
   }
   if (ext.includes('/')) {
     throw new Error(
-      `Extension=['${ext}'] contains a / and is not allowed. ${ExtensionAdditionalMessage}`,
+      `Extension "${ext}" contains a "/" (slash) which is not allowed.\n${ExtensionAdditionalMessage}`,
     );
   }
   if (encodeURIComponent(ext) !== ext) {
     throw new Error(
-      `Extension=['${ext}'] contains invalid uri characters. ${ExtensionAdditionalMessage}`,
+      `Extension "${ext}" contains invalid URI characters.\n${ExtensionAdditionalMessage}`,
     );
   }
 };

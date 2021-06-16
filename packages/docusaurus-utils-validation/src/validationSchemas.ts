@@ -50,5 +50,5 @@ export const PathnameSchema = Joi.string()
     }
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );

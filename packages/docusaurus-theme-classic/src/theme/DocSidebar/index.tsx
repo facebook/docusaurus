@@ -18,6 +18,7 @@ import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import IconMenu from '@theme/IconMenu';
+import IconExternalLink from '@theme/IconExternalLink';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
@@ -179,7 +180,6 @@ function DocSidebarItemLink({
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,
-          [styles.menuLinkExternal]: !isInternalUrl(href),
         })}
         to={href}
         {...(isInternalUrl(href) && {
@@ -188,7 +188,14 @@ function DocSidebarItemLink({
           onClick: onItemClick,
         })}
         {...props}>
-        {label}
+        {isInternalUrl(href) ? (
+          label
+        ) : (
+          <span>
+            {label}
+            <IconExternalLink />
+          </span>
+        )}
       </Link>
     </li>
   );
@@ -326,7 +333,7 @@ function DocSidebar({
         [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      <div
+      <nav
         className={clsx(
           'menu',
           'menu--responsive',
@@ -337,11 +344,17 @@ function DocSidebar({
             [styles.menuWithAnnouncementBar]:
               !isAnnouncementBarClosed && showAnnouncementBar,
           },
-        )}>
+        )}
+        aria-label={translate({
+          id: 'theme.docs.sidebar.navAriaLabel',
+          message: 'Sidebar navigation',
+          description: 'The ARIA label for documentation menu',
+        })}>
         <ResponsiveSidebarButton
           responsiveSidebarOpened={showResponsiveSidebar}
           onClick={toggleResponsiveSidebar}
         />
+
         <ul className="menu__list">
           <DocSidebarItems
             items={sidebar}
@@ -350,7 +363,7 @@ function DocSidebar({
             activePath={path}
           />
         </ul>
-      </div>
+      </nav>
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
     </div>
   );

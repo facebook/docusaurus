@@ -57,7 +57,7 @@ export function getActivePlugin(
 
   if (!activePlugin && options.failfast) {
     throw new Error(
-      `Can't find active docs plugin for pathname=${pathname}, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
+      `Can't find active docs plugin for "${pathname}" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
         allPluginDatas,
       )
         .map((plugin) => plugin.path)

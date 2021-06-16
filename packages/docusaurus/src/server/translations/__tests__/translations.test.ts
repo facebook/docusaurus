@@ -266,7 +266,7 @@ describe('writeTranslationFileContent', () => {
           key1: {message: 'key1 message'},
         },
       }),
-    ).rejects.toThrowError(/Invalid translation file at path/);
+    ).rejects.toThrowError(/Invalid translation file at/);
   });
 });
 

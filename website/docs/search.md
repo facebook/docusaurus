@@ -18,7 +18,13 @@ If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-app
 
 ### Connecting Algolia {#connecting-algolia}
 
-To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
+To connect your docs with Algolia, first add the package to your website:
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
 ```jsx title="docusaurus.config.js"
 module.exports = {
@@ -105,7 +111,7 @@ module.exports = {
 
 By default, DocSearch comes with a fine-tuned theme that was designed for accessibility, making sure that colors and contrasts respect standards.
 
-Still, you can reuse the [Infima CSS variables](styling-layout#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
+Still, you can reuse the [Infima CSS variables](styling-layout.md#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
 html[data-theme='light'] .DocSearch {

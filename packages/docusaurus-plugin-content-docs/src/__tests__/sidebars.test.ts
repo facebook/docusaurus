@@ -60,7 +60,7 @@ describe('loadSidebars', () => {
       'sidebars-category-wrong-items.json',
     );
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}. \\"items\\" must be an array."`,
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: \\"items\\" must be an array."`,
     );
   });
 
@@ -70,7 +70,7 @@ describe('loadSidebars', () => {
       'sidebars-category-wrong-label.json',
     );
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}. \\"label\\" must be a string."`,
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}: \\"label\\" must be a string."`,
     );
   });
 
@@ -80,7 +80,7 @@ describe('loadSidebars', () => {
       'sidebars-doc-id-not-string.json',
     );
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}. \\"id\\" must be a string."`,
+      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}: \\"id\\" must be a string."`,
     );
   });
 
@@ -102,22 +102,23 @@ describe('loadSidebars', () => {
   test('sidebars link wrong label', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}. \\"label\\" must be a string."`,
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}: \\"label\\" must be a string."`,
     );
   });
 
   test('sidebars link wrong href', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" must be a string."`,
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}: \\"href\\" must be a string."`,
     );
   });
 
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item type [superman]. Sidebar item={\\"type\\":\\"superman\\"} "`,
-    );
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(`
+      "Unknown sidebar item type \\"superman\\". Sidebar item is {\\"type\\":\\"superman\\"}.
+      "
+    `);
   });
 
   test('sidebars with known sidebar item type but wrong field', async () => {

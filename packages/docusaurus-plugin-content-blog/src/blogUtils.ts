@@ -62,18 +62,18 @@ export async function generateBlogFeed(
 ): Promise<Feed | null> {
   if (!options.feedOptions) {
     throw new Error(
-      'Invalid options - `feedOptions` is not expected to be null.',
+      'Invalid options: "feedOptions" is not expected to be null.',
     );
   }
   const {siteConfig} = context;
   const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  if (blogPosts == null) {
+  if (!blogPosts.length) {
     return null;
   }
 
   const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, routeBasePath]);
+  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
+  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated =
     (blogPosts[0] && blogPosts[0].metadata.date) ||
@@ -86,7 +86,7 @@ export async function generateBlogFeed(
     language: feedOptions.language,
     link: blogBaseUrl,
     description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: normalizeUrl([siteUrl, favicon]),
+    favicon: normalizeUrl([siteUrl, baseUrl, favicon]),
     copyright: feedOptions.copyright,
   });
 
@@ -160,7 +160,7 @@ export async function generateBlogPosts(
       if (frontMatter.id) {
         console.warn(
           chalk.yellow(
-            `${blogFileName} - 'id' header option is deprecated. Please use 'slug' option instead.`,
+            `"id" header option is deprecated in ${blogFileName} file. Please use "slug" option instead.`,
           ),
         );
       }

@@ -12,13 +12,17 @@ import Link from '@docusaurus/Link';
 import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useThemeConfig} from '@docusaurus/theme-common';
 
 const Logo = (props: Props): JSX.Element => {
-  const {isClient} = useDocusaurusContext();
   const {
-    navbar: {title, logo = {src: ''}},
-  } = useThemeConfig();
+    siteConfig: {
+      title,
+      themeConfig: {
+        navbar: {title: navbarTitle, logo = {src: ''}},
+      },
+    },
+    isClient,
+  } = useDocusaurusContext();
 
   const {imageClassName, titleClassName, ...propsRest} = props;
   const logoLink = useBaseUrl(logo.href || '/');
@@ -37,10 +41,10 @@ const Logo = (props: Props): JSX.Element => {
           key={isClient}
           className={imageClassName}
           sources={sources}
-          alt={logo.alt || title || 'Logo'}
+          alt={logo.alt || navbarTitle || title}
         />
       )}
-      {title != null && <strong className={titleClassName}>{title}</strong>}
+      {navbarTitle != null && <b className={titleClassName}>{navbarTitle}</b>}
     </Link>
   );
 };

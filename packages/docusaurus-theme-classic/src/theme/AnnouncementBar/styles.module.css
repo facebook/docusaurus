@@ -13,8 +13,9 @@
   position: relative;
   width: 100%;
   height: var(--docusaurus-announcement-bar-height);
-  background-color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-white);
   color: var(--ifm-color-black);
+  border-bottom: 1px solid var(--ifm-color-emphasis-100);
 }
 
 @media print {

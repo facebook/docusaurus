@@ -54,10 +54,13 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
-      type: 'text/css',
       integrity:
         'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
       crossorigin: 'anonymous',
@@ -129,30 +132,34 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      {
-        fromExtensions: ['html'],
-        createRedirects: function (path) {
-          // redirect to /docs from /docs/introduction,
-          // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
-          }
-        },
-        redirects: [
-          {
-            from: ['/docs/support', '/docs/next/support'],
-            to: '/community/support',
+      isDeployPreview
+        ? // Plugin is disabled for deploy preview because we use trailing slashes on deploy previews
+          // This plugin is sensitive to trailing slashes, and we don't care much about making it work on deploy previews
+          {}
+        : {
+            fromExtensions: ['html'],
+            createRedirects: function (path) {
+              // redirect to /docs from /docs/introduction,
+              // as introduction has been made the home doc
+              if (allDocHomesPaths.includes(path)) {
+                return [`${path}/introduction`];
+              }
+            },
+            redirects: [
+              {
+                from: ['/docs/support', '/docs/next/support'],
+                to: '/community/support',
+              },
+              {
+                from: ['/docs/team', '/docs/next/team'],
+                to: '/community/team',
+              },
+              {
+                from: ['/docs/resources', '/docs/next/resources'],
+                to: '/community/resources',
+              },
+            ],
           },
-          {
-            from: ['/docs/team', '/docs/next/team'],
-            to: '/community/team',
-          },
-          {
-            from: ['/docs/resources', '/docs/next/resources'],
-            to: '/community/resources',
-          },
-        ],
-      },
     ],
     [
       '@docusaurus/plugin-ideal-image',
@@ -266,7 +273,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl: ({locale, blogDirPath, blogPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -319,9 +326,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -363,7 +372,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
             {
-              to: 'https://v1.docusaurus.io',
+              href: 'https://v1.docusaurus.io',
               label: '1.x.x',
             },
             {
@@ -377,7 +386,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownItemsAfter: [
             {
-              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
               label: 'Help Us Translate',
             },
           ],

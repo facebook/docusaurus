@@ -30,6 +30,8 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
+  trailingSlash: boolean | undefined;
   i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;

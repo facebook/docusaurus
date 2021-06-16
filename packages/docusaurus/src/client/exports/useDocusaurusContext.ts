@@ -13,7 +13,7 @@ function useDocusaurusContext(): DocusaurusContext {
   const docusaurusContext = useContext(context);
   if (docusaurusContext === null) {
     // should not happen normally
-    throw new Error('Docusaurus context not provided');
+    throw new Error('Docusaurus context not provided.');
   }
   return docusaurusContext;
 }

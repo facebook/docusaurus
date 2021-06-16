@@ -31,15 +31,36 @@ type DocPageContentProps = {
   readonly children: ReactNode;
 };
 
+function getSidebar({versionMetadata, currentDocRoute}) {
+  function addTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str : `${str}/`;
+  }
+  function removeTrailingSlash(str: string): string {
+    return str.endsWith('/') ? str.slice(0, -1) : str;
+  }
+
+  const {permalinkToSidebar, docsSidebars} = versionMetadata;
+
+  // With/without trailingSlash, we should always be able to get the appropriate sidebar
+  // note: docs plugin permalinks currently never have trailing slashes
+  // trailingSlash is handled globally at the framework level, not plugin level
+  const sidebarName =
+    permalinkToSidebar[currentDocRoute.path] ||
+    permalinkToSidebar[addTrailingSlash(currentDocRoute.path)] ||
+    permalinkToSidebar[removeTrailingSlash(currentDocRoute.path)];
+
+  const sidebar = docsSidebars[sidebarName];
+  return {sidebar, sidebarName};
+}
+
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {pluginId, permalinkToSidebar, docsSidebars, version} = versionMetadata;
-  const sidebarName = permalinkToSidebar[currentDocRoute.path];
-  const sidebar = docsSidebars[sidebarName];
+  const {pluginId, version} = versionMetadata;
+  const {sidebarName, sidebar} = getSidebar({versionMetadata, currentDocRoute});
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
@@ -62,7 +83,7 @@ function DocPageContent({
       }}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div
+          <aside
             className={clsx(styles.docSidebarContainer, {
               [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
             })}
@@ -76,8 +97,7 @@ function DocPageContent({
               if (hiddenSidebarContainer) {
                 setHiddenSidebar(true);
               }
-            }}
-            role="complementary">
+            }}>
             <DocSidebar
               key={
                 // Reset sidebar state on sidebar changes
@@ -115,7 +135,7 @@ function DocPageContent({
                 <IconArrow className={styles.expandSidebarButtonIcon} />
               </div>
             )}
-          </div>
+          </aside>
         )}
         <main
           className={clsx(styles.docMainContainer, {

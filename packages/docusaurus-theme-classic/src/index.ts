@@ -178,9 +178,6 @@ export default function docusaurusThemeClassic(
         preBodyTags: [
           {
             tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
             innerHTML: noFlashColorMode(colorMode),
           },
         ],

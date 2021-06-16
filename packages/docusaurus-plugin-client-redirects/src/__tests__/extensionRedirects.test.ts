@@ -9,46 +9,43 @@ import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
 } from '../extensionRedirects';
-import {RedirectMetadata} from '../types';
-
-const createExtensionValidationTests = (
-  extensionRedirectCreatorFn: (
-    paths: string[],
-    extensions: string[],
-  ) => RedirectMetadata[],
-) => {
-  test('should reject empty extensions', () => {
-    expect(() => {
-      extensionRedirectCreatorFn(['/'], ['.html']);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['.html'] contains a . (dot) and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
-    );
-  });
-  test('should reject extensions with .', () => {
-    expect(() => {
-      extensionRedirectCreatorFn(['/'], ['.html']);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['.html'] contains a . (dot) and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
-    );
-  });
-  test('should reject extensions with /', () => {
-    expect(() => {
-      extensionRedirectCreatorFn(['/'], ['ht/ml']);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['ht/ml'] contains a / and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
-    );
-  });
-  test('should reject extensions with illegal url char', () => {
-    expect(() => {
-      extensionRedirectCreatorFn(['/'], [',']);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=[','] contains invalid uri characters. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
-    );
-  });
-};
 
 describe('createToExtensionsRedirects', () => {
-  createExtensionValidationTests(createToExtensionsRedirects);
+  test('should reject empty extensions', () => {
+    expect(() => {
+      createToExtensionsRedirects(['/'], ['.html']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with .', () => {
+    expect(() => {
+      createToExtensionsRedirects(['/'], ['.html']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with /', () => {
+    expect(() => {
+      createToExtensionsRedirects(['/'], ['ht/ml']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\"ht/ml\\" contains a \\"/\\" (slash) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with illegal url char', () => {
+    expect(() => {
+      createToExtensionsRedirects(['/'], [',']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\",\\" contains invalid URI characters.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
 
   test('should create redirects from html/htm extensions', () => {
     const ext = ['html', 'htm'];
@@ -78,7 +75,41 @@ describe('createToExtensionsRedirects', () => {
 });
 
 describe('createFromExtensionsRedirects', () => {
-  createExtensionValidationTests(createFromExtensionsRedirects);
+  test('should reject empty extensions', () => {
+    expect(() => {
+      createFromExtensionsRedirects(['/'], ['.html']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with .', () => {
+    expect(() => {
+      createFromExtensionsRedirects(['/'], ['.html']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with /', () => {
+    expect(() => {
+      createFromExtensionsRedirects(['/'], ['ht/ml']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\"ht/ml\\" contains a \\"/\\" (slash) which is not allowed.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
+
+  test('should reject extensions with illegal url char', () => {
+    expect(() => {
+      createFromExtensionsRedirects(['/'], [',']);
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Extension \\",\\" contains invalid URI characters.
+      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+    `);
+  });
 
   test('should create redirects to html/htm extensions', () => {
     const ext = ['html', 'htm'];

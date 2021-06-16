@@ -11,21 +11,7 @@ import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-
-export type DocFrontMatter = {
-  id?: string;
-  title?: string;
-  hide_title?: boolean;
-  hide_table_of_contents?: boolean;
-  keywords?: string[];
-  image?: string;
-  description?: string;
-  slug?: string;
-  sidebar_label?: string;
-  sidebar_position?: number;
-  custom_edit_url?: string | null;
-  parse_number_prefixes?: boolean;
-};
+import {DocFrontMatter} from './types';
 
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadatas and props
@@ -42,6 +28,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number().min(0),
+  pagination_label: Joi.string(),
   custom_edit_url: Joi.string().uri({allowRelative: true}).allow('', null),
   parse_number_prefixes: Joi.boolean(),
 }).unknown();

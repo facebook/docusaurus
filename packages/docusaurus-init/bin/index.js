@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// TODO remove when fixed: https://github.com/Stuk/eslint-plugin-header/issues/39
+/* eslint-disable header/header */
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -16,9 +18,9 @@ const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum node version not met :)`) +
+    chalk.red(`\nMinimum Node.js version not met :)`) +
       chalk.yellow(
-        `\nYou are using Node ${process.version}, Requirement: Node ${requiredVersion}.\n`,
+        `\nYou are using Node.js ${process.version}, Requirement: Node.js ${requiredVersion}.\n`,
       ),
   );
   process.exit(1);
@@ -40,7 +42,7 @@ program
   .command('init [siteName] [template] [rootDir]')
   .option('--use-npm')
   .option('--skip-install')
-  .description('Initialize website')
+  .description('Initialize website.')
   .action((siteName, template, rootDir = '.', {useNpm, skipInstall}) => {
     wrapCommand(init)(path.resolve(rootDir), siteName, template, {
       useNpm,

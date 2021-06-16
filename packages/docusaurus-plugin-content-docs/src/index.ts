@@ -144,12 +144,12 @@ export default function pluginContentDocs(
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
-            `Docs version ${
+            `Docs version "${
               versionMetadata.versionName
-            } has no docs! At least one doc should exist at path=[${path.relative(
+            }" has no docs! At least one doc should exist at "${path.relative(
               siteDir,
               versionMetadata.contentPath,
-            )}]`,
+            )}".`,
           );
         }
         async function processVersionDoc(docFile: DocFile) {
@@ -189,7 +189,10 @@ export default function pluginContentDocs(
         const sidebarsUtils = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
-        sidebarsUtils.checkSidebarsDocIds(validDocIds);
+        sidebarsUtils.checkSidebarsDocIds(
+          validDocIds,
+          versionMetadata.sidebarFilePath as string,
+        );
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
@@ -198,10 +201,16 @@ export default function pluginContentDocs(
             previousId,
             nextId,
           } = sidebarsUtils.getDocNavigation(doc.id);
-          const toDocNavLink = (navDocId: string): DocNavLink => ({
-            title: docsBaseById[navDocId].title,
-            permalink: docsBaseById[navDocId].permalink,
-          });
+          const toDocNavLink = (navDocId: string): DocNavLink => {
+            const {title, permalink, frontMatter} = docsBaseById[navDocId];
+            return {
+              title:
+                frontMatter.pagination_label ??
+                frontMatter.sidebar_label ??
+                title,
+              permalink,
+            };
+          };
           return {
             ...doc,
             sidebar: sidebarName,

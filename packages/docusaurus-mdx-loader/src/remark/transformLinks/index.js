@@ -111,9 +111,9 @@ async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
     const line =
       (node.position && node.position.start && node.position.start.line) || '?';
     throw new Error(
-      `Markdown link url is mandatory. filePath=${toMessageRelativeFilePath(
+      `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
-      )}, title=${title}, line=${line}`,
+      )}" file (title: ${title}, line: ${line}).`,
     );
   }
 

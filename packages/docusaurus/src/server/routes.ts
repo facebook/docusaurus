@@ -110,7 +110,7 @@ export default async function loadRoutes(
 
     if (!isString(routePath) || !component) {
       throw new Error(
-        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
+        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
           routeConfig,
         )}`,
       );

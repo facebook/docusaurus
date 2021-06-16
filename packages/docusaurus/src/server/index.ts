@@ -24,6 +24,7 @@ import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
+  HtmlTagObject,
   LoadContext,
   PluginConfig,
   Props,
@@ -45,6 +46,24 @@ export type LoadContextOptions = {
   localizePath?: boolean; // undefined = only non-default locales paths are localized
 };
 
+export async function loadSiteConfig({
+  siteDir,
+  customConfigFilePath,
+}: {
+  siteDir: string;
+  customConfigFilePath?: string;
+}) {
+  const siteConfigPathUnresolved =
+    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
+
+  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
+    ? siteConfigPathUnresolved
+    : path.resolve(siteDir, siteConfigPathUnresolved);
+
+  const siteConfig = await loadConfig(siteConfigPath);
+  return {siteConfig, siteConfigPath};
+}
+
 export async function loadContext(
   siteDir: string,
   options: LoadContextOptions = {},
@@ -54,13 +73,10 @@ export async function loadContext(
     ? GENERATED_FILES_DIR_NAME
     : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
-  const siteConfigPathUnresolved =
-    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
-  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
-    ? siteConfigPathUnresolved
-    : path.resolve(siteDir, siteConfigPathUnresolved);
-
-  const initialSiteConfig: DocusaurusConfig = loadConfig(siteConfigPath);
+  const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
+    siteDir,
+    customConfigFilePath,
+  });
   const {ssrTemplate} = initialSiteConfig;
 
   const baseOutDir = customOutDir
@@ -194,24 +210,23 @@ export async function load(
       const stylesheetsTags = stylesheets.map((source) =>
         typeof source === 'string'
           ? `<link rel="stylesheet" href="${source}">`
-          : {
+          : ({
               tagName: 'link',
               attributes: {
                 rel: 'stylesheet',
                 ...source,
               },
-            },
+            } as HtmlTagObject),
       );
       const scriptsTags = scripts.map((source) =>
         typeof source === 'string'
-          ? `<script type="text/javascript" src="${source}"></script>`
-          : {
+          ? `<script src="${source}"></script>`
+          : ({
               tagName: 'script',
               attributes: {
-                type: 'text/javascript',
                 ...source,
               },
-            },
+            } as HtmlTagObject),
       );
       return {
         headTags: [...stylesheetsTags, ...scriptsTags],
@@ -360,7 +375,7 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
         // It still could work with different versions
         console.warn(
           chalk.red(
-            `Bad ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
+            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
           ),
         );
       }

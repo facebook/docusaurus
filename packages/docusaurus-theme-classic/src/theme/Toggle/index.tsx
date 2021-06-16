@@ -11,6 +11,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import clsx from 'clsx';
+import './styles.css';
 import styles from './styles.module.css';
 
 interface IconProps {
@@ -44,22 +45,6 @@ const Toggle = memo(
     const [checked, setChecked] = useState(defaultChecked);
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const handleToggle = (e) => {
-      const checkbox = inputRef.current;
-
-      if (!checkbox) {
-        return;
-      }
-
-      if (e.target !== checkbox) {
-        e.preventDefault();
-        checkbox.focus();
-        checkbox.click();
-        return;
-      }
-
-      setChecked(checkbox?.checked);
-    };
 
     return (
       <div
@@ -67,15 +52,16 @@ const Toggle = memo(
           'react-toggle--checked': checked,
           'react-toggle--focus': focused,
           'react-toggle--disabled': disabled,
-        })}
-        role="button"
-        tabIndex={-1}
-        onClick={handleToggle}>
-        <div className="react-toggle-track">
+        })}>
+        <div
+          className="react-toggle-track"
+          role="button"
+          tabIndex={-1}
+          onClick={() => inputRef.current?.click()}>
           <div className="react-toggle-track-check">{icons.checked}</div>
           <div className="react-toggle-track-x">{icons.unchecked}</div>
+          <div className="react-toggle-thumb" />
         </div>
-        <div className="react-toggle-thumb" />
 
         <input
           ref={inputRef}
@@ -84,6 +70,7 @@ const Toggle = memo(
           className="react-toggle-screenreader-only"
           aria-label="Switch between dark and light mode"
           onChange={onChange}
+          onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />

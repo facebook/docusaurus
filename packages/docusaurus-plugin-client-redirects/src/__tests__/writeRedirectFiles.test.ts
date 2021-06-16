@@ -140,7 +140,7 @@ describe('writeRedirectFiles', () => {
     );
 
     await expect(writeRedirectFiles(filesMetadata)).rejects.toThrowError(
-      `Redirect file creation error for path=${filesMetadata[0].fileAbsolutePath}: Error: The redirect plugin is not supposed to override existing files`,
+      `Redirect file creation error for "${filesMetadata[0].fileAbsolutePath}" path: Error: The redirect plugin is not supposed to override existing files.`,
     );
   });
 });
