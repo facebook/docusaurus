@@ -32,6 +32,7 @@ import globby from 'globby';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
+import chalk from 'chalk';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -102,7 +103,7 @@ export async function readVersionDocs(
   );
 }
 
-export function processDocMetadata({
+function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
@@ -261,4 +262,22 @@ export function processDocMetadata({
     sidebarPosition,
     frontMatter,
   };
+}
+
+export function processDocMetadata(args: {
+  docFile: DocFile;
+  versionMetadata: VersionMetadata;
+  context: LoadContext;
+  options: MetadataOptions;
+}): DocMetadataBase {
+  try {
+    return doProcessDocMetadata(args);
+  } catch (e) {
+    console.error(
+      chalk.red(
+        `Can't process doc metadatas for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
+      ),
+    );
+    throw e;
+  }
 }
