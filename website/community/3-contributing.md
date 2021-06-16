@@ -54,6 +54,10 @@ You can also file issues as [feature requests or enhancements](https://github.co
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
 
+### Testing new features
+
+You can become an early adopter of new features by using the [`@canary` npm dist tag](/community/canary) and test new features on your site as soon as the pull-request is merged. This helps us catch problems before the official release.
+
 ## Working on Docusaurus code {#working-on-docusaurus-code}
 
 ### Installation {#installation}
