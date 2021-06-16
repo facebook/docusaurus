@@ -68,14 +68,15 @@ export default function DocsVersionDropdownNavbarItem({
     return items;
   }
 
+  const items = getItems();
+
   const dropdownVersion =
     activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
-  // Mobile is handled a bit differently
-  const dropdownLabel = mobile ? 'Versions' : dropdownVersion.label;
-  const dropdownTo = mobile
-    ? undefined
-    : getVersionMainDoc(dropdownVersion).path;
+  // Mobile dropdown is handled a bit differently
+  const dropdownLabel = mobile && items ? 'Versions' : dropdownVersion.label;
+  const dropdownTo =
+    mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
 
   return (
     <DefaultNavbarItem
@@ -83,7 +84,7 @@ export default function DocsVersionDropdownNavbarItem({
       mobile={mobile}
       label={dropdownLabel}
       to={dropdownTo}
-      items={getItems()}
+      items={items}
       isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );
