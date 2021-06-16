@@ -154,6 +154,12 @@ Alternatively, if you are using Yarn, you can do:
 yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
 ```
 
+:::tip
+
+Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/community/canary)
+
+:::
+
 ## Problems? {#problems}
 
 Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus) or [Twitter](https://twitter.com/docusaurus).
