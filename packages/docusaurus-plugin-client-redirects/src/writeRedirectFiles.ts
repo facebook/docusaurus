@@ -27,6 +27,7 @@ export function createToUrl(baseUrl: string, to: string): string {
 export function toRedirectFilesMetadata(
   redirects: RedirectMetadata[],
   pluginContext: WriteFilesPluginContext,
+  trailingSlash: boolean | undefined,
 ): RedirectFileMetadata[] {
   // Perf: avoid rendering the template twice with the exact same "props"
   // We might create multiple redirect pages for the same destination url
@@ -36,10 +37,8 @@ export function toRedirectFilesMetadata(
   });
 
   const createFileMetadata = (redirect: RedirectMetadata) => {
-    const fileAbsolutePath = path.join(
-      pluginContext.outDir,
-      getFilePathForRoutePath(redirect.from),
-    );
+    const filePath = getFilePathForRoutePath(redirect.from, trailingSlash);
+    const fileAbsolutePath = path.join(pluginContext.outDir, filePath);
     const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {

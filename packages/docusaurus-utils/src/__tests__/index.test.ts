@@ -21,7 +21,6 @@ import {
   removeTrailingSlash,
   removeSuffix,
   removePrefix,
-  getFilePathForRoutePath,
   addLeadingSlash,
   getElementsAround,
   mergeTranslations,
@@ -398,22 +397,6 @@ describe('removePrefix', () => {
   });
   test('should remove prefix', () => {
     expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
-  });
-});
-
-describe('getFilePathForRoutePath', () => {
-  test('works for /', () => {
-    expect(posixPath(getFilePathForRoutePath('/'))).toEqual('/index.html');
-  });
-  test('works for /somePath', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath'))).toEqual(
-      '/somePath/index.html',
-    );
-  });
-  test('works for /somePath/', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath/'))).toEqual(
-      '/somePath/index.html',
-    );
   });
 });
 

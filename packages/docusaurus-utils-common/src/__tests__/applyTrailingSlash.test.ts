@@ -14,10 +14,20 @@ describe('applyTrailingSlash', () => {
     expect(applyTrailingSlash('', undefined)).toEqual('');
   });
 
-  test('should apply to /', () => {
+  test('should not apply to /', () => {
     expect(applyTrailingSlash('/', true)).toEqual('/');
-    expect(applyTrailingSlash('/', false)).toEqual('');
+    expect(applyTrailingSlash('/', false)).toEqual('/');
     expect(applyTrailingSlash('/', undefined)).toEqual('/');
+
+    expect(applyTrailingSlash('/?query#anchor', true)).toEqual(
+      '/?query#anchor',
+    );
+    expect(applyTrailingSlash('/?query#anchor', false)).toEqual(
+      '/?query#anchor',
+    );
+    expect(applyTrailingSlash('/?query#anchor', undefined)).toEqual(
+      '/?query#anchor',
+    );
   });
 
   test('should not apply to #anchor links ', () => {
