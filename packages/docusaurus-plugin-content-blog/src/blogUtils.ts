@@ -172,7 +172,8 @@ export async function generateBlogPosts(
 
       if (dateFilenameMatch) {
         const [, dateString, name] = dateFilenameMatch;
-        date = new Date(dateString);
+        // Always treat dates as UTC by adding the `Z`
+        date = new Date(`${dateString}Z`);
         linkName = name;
       }
 
@@ -187,6 +188,7 @@ export async function generateBlogPosts(
         day: 'numeric',
         month: 'long',
         year: 'numeric',
+        timeZone: 'UTC',
       }).format(date);
 
       const title = frontMatter.title ?? contentTitle ?? linkName;
