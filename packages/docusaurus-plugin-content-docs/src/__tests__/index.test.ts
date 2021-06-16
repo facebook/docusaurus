@@ -360,6 +360,7 @@ describe('simple website', () => {
         id: 'baz',
         title: 'baz',
         slug: 'bazSlug.html',
+        pagination_label: 'baz pagination_label',
       },
     });
 
@@ -373,7 +374,7 @@ describe('simple website', () => {
       permalink: '/docs/',
       slug: '/',
       previous: {
-        title: 'baz',
+        title: 'baz pagination_label',
         permalink: '/docs/foo/bazSlug.html',
       },
       sidebar: 'docs',
@@ -399,7 +400,7 @@ describe('simple website', () => {
       sourceDirName: 'foo',
       isDocsHomePage: false,
       next: {
-        title: 'baz',
+        title: 'baz pagination_label',
         permalink: '/docs/foo/bazSlug.html',
       },
       permalink: '/docs/foo/bar',

@@ -204,7 +204,10 @@ export default function pluginContentDocs(
           const toDocNavLink = (navDocId: string): DocNavLink => {
             const {title, permalink, frontMatter} = docsBaseById[navDocId];
             return {
-              title: frontMatter.sidebar_label ?? title,
+              title:
+                frontMatter.pagination_label ??
+                frontMatter.sidebar_label ??
+                title,
               permalink,
             };
           };
