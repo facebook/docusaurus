@@ -192,6 +192,7 @@ export type DocFrontMatter = {
   slug?: string;
   sidebar_label?: string;
   sidebar_position?: number;
+  pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
 };

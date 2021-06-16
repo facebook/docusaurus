@@ -296,6 +296,7 @@ describe('simple site', () => {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
       },
     });
   });
@@ -354,6 +355,7 @@ describe('simple site', () => {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
       },
     });
 
