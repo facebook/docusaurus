@@ -36,14 +36,14 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * For advanced cases, compute the edit url for each markdown file yourself.
+         * For advanced cases, compute the edit url for each Markdown file yourself.
          */
         editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
           return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
         },
         /**
          * Useful if you commit localized files to git.
-         * When markdown files are localized, the edit url will target the localized file,
+         * When Markdown files are localized, the edit url will target the localized file,
          * instead of the original unlocalized file.
          * Note: this option is ignored when editUrl is a function
          */

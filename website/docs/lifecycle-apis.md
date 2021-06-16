@@ -419,7 +419,7 @@ module.exports = function (context, options) {
 
 ## `extendCli(cli)` {#extendclicli}
 
-Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
+Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
 
 Example:
 

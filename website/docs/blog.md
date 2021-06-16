@@ -61,7 +61,7 @@ The only required field is `title`; however, we provide options to add author in
 - `author_title`: A description of the author.
 - `title`: The blog post title.
 - `slug`: Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.
-- `date`: The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. By default, it is the markdown file creation time.
+- `date`: The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. By default, it is the Markdown file creation time.
 - `tags`: A list of strings or objects of two string fields `label` and `permalink` to tag to your post.
 - `draft`: A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
 - `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
@@ -145,7 +145,7 @@ https://{your-domain}/blog/atom.xml
 
 You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
-```js {9} title="docusaurus.config.js"
+```js {10} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -180,7 +180,7 @@ module.exports = {
       {
         blog: {
           blogTitle: 'Docusaurus blog!',
-          blogDescription: 'A docusaurus powered blog!',
+          blogDescription: 'A Docusaurus powered blog!',
         },
       },
     ],

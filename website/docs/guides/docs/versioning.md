@@ -180,7 +180,7 @@ As a good rule of thumb, try to keep the number of your versions below 10. **It 
 
 ### Use absolute import within the docs {#use-absolute-import-within-the-docs}
 
-Don't use relative paths import within the docs. Because when we cut a version the paths no longer work (the nesting level is different, among other reasons). You can utilize the `@site` alias provided by docusaurus, that points to the `website` directory. Example:
+Don't use relative paths import within the docs. Because when we cut a version the paths no longer work (the nesting level is different, among other reasons). You can utilize the `@site` alias provided by Docusaurus, that points to the `website` directory. Example:
 
 ```diff
 - import Foo from '../src/components/Foo';

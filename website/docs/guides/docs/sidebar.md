@@ -116,7 +116,7 @@ module.exports = {
 
 ## Using multiple sidebars {#using-multiple-sidebars}
 
-You can create a sidebar for each **set of markdown files** that you want to **group together**.
+You can create a sidebar for each **set of Markdown files** that you want to **group together**.
 
 :::tip
 
@@ -495,7 +495,7 @@ docs
 
 To make it **easier to adopt**, Docusaurus supports **multiple number prefix patterns**.
 
-By default, Docusaurus will **remove the number prefix** from the doc id, title, label and url paths.
+By default, Docusaurus will **remove the number prefix** from the doc id, title, label and URL paths.
 
 :::caution
 

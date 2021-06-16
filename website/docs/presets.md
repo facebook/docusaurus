@@ -35,7 +35,7 @@ module.exports = {
 
 ## Presets -> themes and plugins {#presets---themes-and-plugins}
 
-Presets in some way are a shorthand function to add plugins and themes to your docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
+Presets in some way are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
 
 ```js
 module.exports = function preset(context, opts = {}) {
@@ -73,7 +73,7 @@ This is especially useful when some plugins and themes are intended to be used t
 
 ### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
-The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
+The classic preset that is usually shipped by default to new Docusaurus website. It is a set of plugins and themes.
 
 | Themes                             | Plugins                               |
 | ---------------------------------- | ------------------------------------- |

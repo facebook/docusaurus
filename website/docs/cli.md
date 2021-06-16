@@ -56,7 +56,7 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
-#### Enabling HTTPS` {#enabling-https}
+#### Enabling HTTPS {#enabling-https}
 
 There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
 
