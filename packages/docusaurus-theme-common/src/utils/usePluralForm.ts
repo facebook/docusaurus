@@ -70,7 +70,7 @@ function useLocalePluralForms(): LocalePluralForms {
       try {
         return createLocalePluralForms(currentLocale);
       } catch (e) {
-        console.error(`Failed to use Intl.PluralRules for locale=${currentLocale}.
+        console.error(`Failed to use Intl.PluralRules for locale "${currentLocale}".
 Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
 `);
         return EnglishPluralForms;

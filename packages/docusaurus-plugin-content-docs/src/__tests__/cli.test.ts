@@ -35,7 +35,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
+      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -45,7 +45,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
+      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -55,7 +55,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
+      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
   });
 
@@ -68,7 +68,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Do not include slash (/) or (\\\\). Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -78,7 +78,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Do not include slash (/) or (\\\\). Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
     );
   });
 
@@ -91,7 +91,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0."`,
     );
   });
 
@@ -104,7 +104,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -114,7 +114,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
   });
 
@@ -127,7 +127,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -137,7 +137,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -147,7 +147,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
+      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
   });
 
@@ -160,7 +160,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] This version already exists!. Use a version tag that does not already exist."`,
+      `"[docs]: this version already exists! Use a version tag that does not already exist."`,
     );
   });
 
@@ -174,7 +174,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs] There is no docs to version !"`,
+      `"[docs]: there is no docs to version!"`,
     );
   });
 
@@ -218,7 +218,7 @@ describe('docsVersion', () => {
       getVersionsFilePath(simpleSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['1.0.0']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs] Version 1.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 1.0.0 created!');
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -271,7 +271,7 @@ describe('docsVersion', () => {
       getVersionsFilePath(versionedSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs] Version 2.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 2.0.0 created!');
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -322,7 +322,7 @@ describe('docsVersion', () => {
     );
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
-      '[community] Version 2.0.0 created!',
+      '[community]: version 2.0.0 created!',
     );
 
     copyMock.mockRestore();

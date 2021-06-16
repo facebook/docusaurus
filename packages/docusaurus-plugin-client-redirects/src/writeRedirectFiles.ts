@@ -59,7 +59,7 @@ export async function writeRedirectFile(
     // User-friendly security to prevent file overrides
     if (await fs.pathExists(file.fileAbsolutePath)) {
       throw new Error(
-        'The redirect plugin is not supposed to override existing files',
+        'The redirect plugin is not supposed to override existing files.',
       );
     }
     await fs.ensureDir(path.dirname(file.fileAbsolutePath));
@@ -72,7 +72,7 @@ export async function writeRedirectFile(
     );
   } catch (err) {
     throw new Error(
-      `Redirect file creation error for path=${file.fileAbsolutePath}: ${err}`,
+      `Redirect file creation error for "${file.fileAbsolutePath}" path: ${err}.`,
     );
   }
 }

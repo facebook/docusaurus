@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sidebar site with wrong sidebar content 1`] = `
-"Bad sidebar file at 'packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json'.
+"Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
 These sidebar document ids do not exist:
-- goku,
+- goku
 
-Available document ids=
+Available document ids are:
 - foo/bar
 - foo/baz
 - headingAsTitle

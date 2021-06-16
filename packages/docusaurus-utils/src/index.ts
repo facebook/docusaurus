@@ -342,7 +342,7 @@ export function getElementsAround<T extends unknown>(
   const max = array.length - 1;
   if (aroundIndex < min || aroundIndex > max) {
     throw new Error(
-      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+      `Valid "aroundIndex" for array (of size ${array.length}) are between ${min} and ${max}, but you provided ${aroundIndex}.`,
     );
   }
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
@@ -427,7 +427,7 @@ export async function getFolderContainingFile(
   // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
     throw new Error(
-      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
         '\n- ',
       )}]`,
     );
@@ -455,7 +455,7 @@ export function reportMessage(
       throw new Error(message);
     default:
       throw new Error(
-        `unexpected reportingSeverity value: ${reportingSeverity}`,
+        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
       );
   }
 }

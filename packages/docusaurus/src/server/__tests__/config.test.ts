@@ -55,7 +55,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowError(
-      /Config file "(.*?)__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found$/,
+      /Config file at "(.*?)__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
     );
   });
 });

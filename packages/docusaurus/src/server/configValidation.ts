@@ -125,7 +125,7 @@ export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
     .regex(new RegExp('/$', 'm'))
-    .message('{{#label}} must be a string with a trailing `/`'),
+    .message('{{#label}} must be a string with a trailing slash.'),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().required(),
   title: Joi.string().required(),
@@ -212,7 +212,7 @@ export function validateConfig(
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) [${unknownFields}] are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://docusaurus.io/docs/docusaurus.config.js/#customfields`
+      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/docusaurus.config.js/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {

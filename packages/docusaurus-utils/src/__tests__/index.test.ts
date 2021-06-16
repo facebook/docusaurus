@@ -441,12 +441,12 @@ describe('getElementsAround', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=-1"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided -1."`,
     );
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], 4),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided 4."`,
     );
   });
 });

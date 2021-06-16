@@ -500,7 +500,7 @@ export default function pluginContentBlog(
           try {
             await fs.outputFile(feedPath, feedContent);
           } catch (err) {
-            throw new Error(`Generating ${feedType} feed failed: ${err}`);
+            throw new Error(`Generating ${feedType} feed failed: ${err}.`);
           }
         }),
       );

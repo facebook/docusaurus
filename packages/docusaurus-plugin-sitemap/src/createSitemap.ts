@@ -18,7 +18,7 @@ export default async function createSitemap(
 ): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
-    throw new Error('url in docusaurus.config.js cannot be empty/undefined');
+    throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
   const {changefreq, priority, trailingSlash} = options;
 

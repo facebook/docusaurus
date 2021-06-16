@@ -18,7 +18,7 @@ function getBrowserStorage(
 ): Storage | null {
   if (typeof window === 'undefined') {
     throw new Error(
-      'Browser storage is not available on NodeJS / Docusaurus SSR process',
+      'Browser storage is not available on Node.js/Docusaurus SSR process.',
     );
   }
   if (storageType === 'none') {
@@ -42,7 +42,7 @@ function logOnceBrowserStorageNotAvailableWarning(error: Error) {
   if (!hasLoggedBrowserStorageNotAvailableWarning) {
     console.warn(
       `Docusaurus browser storage is not available.
-Possible reasons: running Docusaurus in an Iframe, in an Incognito browser session, or using too strict browser privacy settings.`,
+Possible reasons: running Docusaurus in an iframe, in an incognito browser session, or using too strict browser privacy settings.`,
       error,
     );
     hasLoggedBrowserStorageNotAvailableWarning = true;
@@ -65,7 +65,7 @@ const NoopStorageSlot: StorageSlot = {
 //  Fail-fast, as storage APIs should not be used during the SSR process
 function createServerStorageSlot(key: string): StorageSlot {
   function throwError(): never {
-    throw new Error(`Illegal storage API usage for storage key=${key}.
+    throw new Error(`Illegal storage API usage for storage key "${key}".
 Docusaurus storage APIs are not supposed to be called on the server-rendering process.
 Please only call storage APIs in effects and event handlers.`);
   }
