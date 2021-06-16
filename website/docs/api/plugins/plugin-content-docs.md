@@ -214,10 +214,10 @@ Example:
 ```yml
 ---
 id: doc-markdown
-title: Markdown Features
+title: Docs Markdown Features
 hide_title: false
 hide_table_of_contents: false
-sidebar_label: Markdown :)
+sidebar_label: Markdown
 sidebar_position: 3
 pagination_label: Markdown features
 custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
@@ -228,6 +228,8 @@ keywords:
 image: https://i.imgur.com/mErPwqL.png
 slug: /myDoc
 ---
+# Markdown Features
+
 My Document Markdown content
 ```
 
