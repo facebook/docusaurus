@@ -10,13 +10,13 @@ import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import {usePluralForm} from '@docusaurus/theme-common';
 import MDXComponents from '@theme/MDXComponents';
 import Seo from '@theme/Seo';
+import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
-
-import {usePluralForm} from '@docusaurus/theme-common';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
@@ -47,7 +47,15 @@ function BlogPostItem(props: Props): JSX.Element {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, formattedDate, permalink, tags, readingTime, title} = metadata;
+  const {
+    date,
+    formattedDate,
+    permalink,
+    tags,
+    readingTime,
+    title,
+    editUrl,
+  } = metadata;
   const {author, image, keywords} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -104,7 +112,10 @@ function BlogPostItem(props: Props): JSX.Element {
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </div>
         {(tags.length > 0 || truncated) && (
-          <footer className="row margin-vert--lg">
+          <footer
+            className={clsx('row docusaurus-mt-lg', {
+              [styles.blogPostDetailsFull]: isBlogPostPage,
+            })}>
             {tags.length > 0 && (
               <div className="col">
                 <b>
@@ -124,7 +135,14 @@ function BlogPostItem(props: Props): JSX.Element {
                 ))}
               </div>
             )}
-            {truncated && (
+
+            {isBlogPostPage && editUrl && (
+              <div className="col margin-top--sm">
+                <EditThisPage editUrl={editUrl} />
+              </div>
+            )}
+
+            {!isBlogPostPage && truncated && (
               <div className="col text--right">
                 <Link
                   to={metadata.permalink}

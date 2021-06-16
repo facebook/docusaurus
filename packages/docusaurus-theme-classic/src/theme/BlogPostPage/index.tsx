@@ -12,13 +12,12 @@ import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
-import EditThisPage from '@theme/EditThisPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, metadata} = BlogPostContents;
-  const {title, description, nextItem, prevItem, editUrl} = metadata;
+  const {title, description, nextItem, prevItem} = metadata;
   const {hide_table_of_contents: hideTableOfContents} = frontMatter;
 
   return (
@@ -40,11 +39,8 @@ function BlogPostPage(props: Props): JSX.Element {
                 isBlogPostPage>
                 <BlogPostContents />
               </BlogPostItem>
-              <div>{editUrl && <EditThisPage editUrl={editUrl} />}</div>
               {(nextItem || prevItem) && (
-                <div className="margin-vert--xl">
-                  <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-                </div>
+                <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
               )}
             </main>
             {!hideTableOfContents && BlogPostContents.toc && (

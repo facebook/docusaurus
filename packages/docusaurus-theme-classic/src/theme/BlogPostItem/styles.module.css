@@ -12,3 +12,7 @@
 .blogPostData {
   font-size: 0.9rem;
 }
+
+.blogPostDetailsFull {
+  flex-direction: column;
+}

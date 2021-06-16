@@ -86,7 +86,7 @@ function DocItem(props: Props): JSX.Element {
               </div>
 
               {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <footer className={clsx('row', styles.docUpdateDetails)}>
+                <footer className="row docusaurus-mt-lg">
                   <div className="col">
                     {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
@@ -104,9 +104,7 @@ function DocItem(props: Props): JSX.Element {
               )}
             </article>
 
-            <div className={styles.docPaginator}>
-              <DocPaginator metadata={metadata} />
-            </div>
+            <DocPaginator metadata={metadata} />
           </div>
         </div>
         {!hideTableOfContents && DocContent.toc && (
