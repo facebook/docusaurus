@@ -326,9 +326,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -370,7 +372,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
             {
-              to: 'https://v1.docusaurus.io',
+              href: 'https://v1.docusaurus.io',
               label: '1.x.x',
             },
             {
@@ -384,7 +386,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownItemsAfter: [
             {
-              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
               label: 'Help Us Translate',
             },
           ],

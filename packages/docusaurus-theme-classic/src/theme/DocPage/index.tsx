@@ -83,7 +83,7 @@ function DocPageContent({
       }}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div
+          <aside
             className={clsx(styles.docSidebarContainer, {
               [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
             })}
@@ -97,8 +97,7 @@ function DocPageContent({
               if (hiddenSidebarContainer) {
                 setHiddenSidebar(true);
               }
-            }}
-            role="complementary">
+            }}>
             <DocSidebar
               key={
                 // Reset sidebar state on sidebar changes
@@ -136,7 +135,7 @@ function DocPageContent({
                 <IconArrow className={styles.expandSidebarButtonIcon} />
               </div>
             )}
-          </div>
+          </aside>
         )}
         <main
           className={clsx(styles.docMainContainer, {

@@ -6,7 +6,7 @@
  */
 
 import {RouteConfig} from '@docusaurus/types';
-import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 export default function applyRouteTrailingSlash(
   route: RouteConfig,
@@ -17,23 +17,9 @@ export default function applyRouteTrailingSlash(
     return route;
   }
 
-  function getNewRoutePath() {
-    // undefined = legacy retrocompatible behavior
-    if (typeof trailingSlash === 'undefined') {
-      return route.path;
-    }
-    // The trailing slash should be handled before the ?search#hash !
-    // For routing #anchor is normally not possible, but querystring remains possible
-    const [pathname] = route.path.split(/[#?]/);
-    const newPathname = trailingSlash
-      ? addTrailingSlash(pathname)
-      : removeTrailingSlash(pathname);
-    return route.path.replace(pathname, newPathname);
-  }
-
   return {
     ...route,
-    path: getNewRoutePath(),
+    path: applyTrailingSlash(route.path, trailingSlash),
     ...(route.routes && {
       routes: route.routes.map((subroute) =>
         applyRouteTrailingSlash(subroute, trailingSlash),

@@ -14,12 +14,14 @@ export default function applyTrailingSlash(
     return path;
   }
 
+  // TODO deduplicate: also present in @docusaurus/utils
   function addTrailingSlash(str: string): string {
     return str.endsWith('/') ? str : `${str}/`;
   }
   function removeTrailingSlash(str: string): string {
     return str.endsWith('/') ? str.slice(0, -1) : str;
   }
+
   // undefined = legacy retrocompatible behavior
   if (typeof trailingSlash === 'undefined') {
     return path;

@@ -10,13 +10,20 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogSidebar';
 import styles from './styles.module.css';
+import {translate} from '@docusaurus/Translate';
 
 export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
   if (sidebar.items.length === 0) {
     return null;
   }
   return (
-    <div className={clsx(styles.sidebar, 'thin-scrollbar')}>
+    <nav
+      className={clsx(styles.sidebar, 'thin-scrollbar')}
+      aria-label={translate({
+        id: 'theme.blog.sidebar.navAriaLabel',
+        message: 'Blog recent posts navigation',
+        description: 'The ARIA label for recent posts in the blog sidebar',
+      })}>
       <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
         {sidebar.title}
       </div>
@@ -35,6 +42,6 @@ export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
           );
         })}
       </ul>
-    </div>
+    </nav>
   );
 }

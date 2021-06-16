@@ -328,6 +328,39 @@ describe('simple website', () => {
     expect(content.loadedVersions.length).toEqual(1);
     const [currentVersion] = content.loadedVersions;
 
+    expect(findDocById(currentVersion, 'foo/baz')).toEqual({
+      ...defaultDocMetadata,
+      version: 'current',
+      id: 'foo/baz',
+      unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
+      isDocsHomePage: false,
+      permalink: '/docs/foo/bazSlug.html',
+      slug: '/foo/bazSlug.html',
+      previous: {
+        title: 'Bar',
+        permalink: '/docs/foo/bar',
+      },
+      next: {
+        title: 'Hello sidebar_label',
+        permalink: '/docs/',
+      },
+      sidebar: 'docs',
+      source: path.posix.join(
+        '@site',
+        posixPath(path.relative(siteDir, currentVersion.contentPath)),
+        'foo',
+        'baz.md',
+      ),
+      title: 'baz',
+      description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        title: 'baz',
+        slug: 'bazSlug.html',
+      },
+    });
+
     expect(findDocById(currentVersion, 'hello')).toEqual({
       ...defaultDocMetadata,
       version: 'current',
@@ -352,6 +385,7 @@ describe('simple website', () => {
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
       },
     });
 
