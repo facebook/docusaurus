@@ -92,23 +92,23 @@ export function cliDocsVersionCommand(
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
   const pluginIdLogPrefix =
-    pluginId === DEFAULT_PLUGIN_ID ? '[docs] ' : `[${pluginId}] `;
+    pluginId === DEFAULT_PLUGIN_ID ? '[docs]' : `[${pluginId}]`;
 
   if (!version) {
     throw new Error(
-      `${pluginIdLogPrefix}No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0`,
+      `${pluginIdLogPrefix}: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0.`,
     );
   }
 
   if (version.includes('/') || version.includes('\\')) {
     throw new Error(
-      `${pluginIdLogPrefix}Invalid version tag specified! Do not include slash (/) or (\\). Try something like: 1.0.0`,
+      `${pluginIdLogPrefix}: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.`,
     );
   }
 
   if (version.length > 32) {
     throw new Error(
-      `${pluginIdLogPrefix}Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0`,
+      `${pluginIdLogPrefix}: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0.`,
     );
   }
 
@@ -117,13 +117,13 @@ export function cliDocsVersionCommand(
   // eslint-disable-next-line no-control-regex
   if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
     throw new Error(
-      `${pluginIdLogPrefix}Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0`,
+      `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
     );
   }
 
   if (/^\.\.?$/.test(version)) {
     throw new Error(
-      `${pluginIdLogPrefix}Invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0`,
+      `${pluginIdLogPrefix}: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0.`,
     );
   }
 
@@ -137,7 +137,7 @@ export function cliDocsVersionCommand(
   // Check if version already exists.
   if (versions.includes(version)) {
     throw new Error(
-      `${pluginIdLogPrefix}This version already exists!. Use a version tag that does not already exist.`,
+      `${pluginIdLogPrefix}: this version already exists! Use a version tag that does not already exist.`,
     );
   }
 
@@ -151,7 +151,7 @@ export function cliDocsVersionCommand(
     const newVersionDir = path.join(versionedDir, `version-${version}`);
     fs.copySync(docsDir, newVersionDir);
   } else {
-    throw new Error(`${pluginIdLogPrefix}There is no docs to version !`);
+    throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
   }
 
   createVersionedSidebarFile({
@@ -166,5 +166,5 @@ export function cliDocsVersionCommand(
   fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
-  console.log(`${pluginIdLogPrefix}Version ${version} created!`);
+  console.log(`${pluginIdLogPrefix}: version ${version} created!`);
 }

@@ -130,9 +130,9 @@ export function validateOptions({
   if (typeof options.excludeNextVersionDocs !== 'undefined') {
     console.log(
       chalk.red(
-        `The docs plugin option excludeNextVersionDocs=${
+        `The docs plugin option "excludeNextVersionDocs=${
           options.excludeNextVersionDocs
-        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
+        }" is deprecated. Use the "includeCurrentVersion=${!options.excludeNextVersionDocs}" option instead!"`,
       ),
     );
     options.includeCurrentVersion = !options.excludeNextVersionDocs;

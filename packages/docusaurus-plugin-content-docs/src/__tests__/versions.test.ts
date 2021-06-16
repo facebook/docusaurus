@@ -174,7 +174,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.versions: unknown versions found: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
+      `"Invalid docs option \\"versions\\": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
     );
   });
 
@@ -187,7 +187,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs: using disableVersioning=true option on a non-versioned site does not make sense"`,
+      `"Docs: using \\"disableVersioning=true\\" option on a non-versioned site does not make sense."`,
     );
   });
 
@@ -200,7 +200,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=false"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=false\\"."`,
     );
   });
 });
@@ -527,7 +527,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 
@@ -543,7 +543,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": an empty array is not allowed, at least one version is needed."`,
     );
   });
 
@@ -559,7 +559,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
     );
   });
 
@@ -576,7 +576,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array"`,
+      `"Invalid docs option \\"lastVersion\\": if you use both the \\"onlyIncludeVersions\\" and \\"lastVersion\\" options, then \\"lastVersion\\" must be present in the provided \\"onlyIncludeVersions\\" array."`,
     );
   });
 
@@ -595,7 +595,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The versions file should contain an array of versions! Found content={\\"invalid\\":\\"json\\"}"`,
+      `"The versions file should contain an array of versions! Found content: {\\"invalid\\":\\"json\\"}"`,
     );
     mock.mockRestore();
   });
@@ -712,7 +712,7 @@ describe('versioned site, pluginId=community', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 });

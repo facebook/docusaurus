@@ -14,7 +14,7 @@ module.exports = function (context) {
 
   if (!gtag) {
     throw new Error(
-      `You need to specify 'gtag' object in 'themeConfig' with 'trackingId' field in it to use docusaurus-plugin-google-gtag`,
+      `You need to specify "gtag" object in "themeConfig" with "trackingId" field in it to use docusaurus-plugin-google-gtag.`,
     );
   }
 
@@ -22,7 +22,7 @@ module.exports = function (context) {
 
   if (!trackingID) {
     throw new Error(
-      'You specified the `gtag` object in `themeConfig` but the `trackingID` field was missing. ' +
+      'You specified the "gtag" object in "themeConfig" but the "trackingID" field was missing. ' +
         'Please ensure this is not a mistake.',
     );
   }

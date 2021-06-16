@@ -59,12 +59,12 @@ export function getVersionsFilePath(siteDir: string, pluginId: string): string {
 function ensureValidVersionString(version: unknown): asserts version is string {
   if (typeof version !== 'string') {
     throw new Error(
-      `versions should be strings. Found type=[${typeof version}] for version=[${version}]`,
+      `Versions should be strings. Found type "${typeof version}" for version "${version}".`,
     );
   }
   // Should we forbid versions with special chars like / ?
   if (version.trim().length === 0) {
-    throw new Error(`Invalid version=[${version}]`);
+    throw new Error(`Invalid version "${version}".`);
   }
 }
 
@@ -73,7 +73,7 @@ function ensureValidVersionArray(
 ): asserts versionArray is string[] {
   if (!(versionArray instanceof Array)) {
     throw new Error(
-      `The versions file should contain an array of versions! Found content=${JSON.stringify(
+      `The versions file should contain an array of versions! Found content: ${JSON.stringify(
         versionArray,
       )}`,
     );
@@ -106,7 +106,7 @@ function readVersionNames(
 
   if (!versionFileContent && options.disableVersioning) {
     throw new Error(
-      `Docs: using disableVersioning=${options.disableVersioning} option on a non-versioned site does not make sense`,
+      `Docs: using "disableVersioning=${options.disableVersioning}" option on a non-versioned site does not make sense.`,
     );
   }
 
@@ -124,7 +124,7 @@ function readVersionNames(
 
   if (versions.length === 0) {
     throw new Error(
-      `It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=${options.includeCurrentVersion} disableVersioning=${options.disableVersioning}`,
+      `It is not possible to use docs without any version. Please check the configuration of these options: "includeCurrentVersion=${options.includeCurrentVersion}", "disableVersioning=${options.disableVersioning}".`,
     );
   }
 
@@ -342,10 +342,10 @@ function checkVersionMetadataPaths({
 
   if (!fs.existsSync(contentPath)) {
     throw new Error(
-      `The docs folder does not exist for version [${versionName}]. A docs folder is expected to be found at ${path.relative(
+      `The docs folder does not exist for version "${versionName}". A docs folder is expected to be found at ${path.relative(
         siteDir,
         contentPath,
-      )}`,
+      )}.`,
     );
   }
 
@@ -358,11 +358,11 @@ function checkVersionMetadataPaths({
     typeof sidebarFilePath === 'string' &&
     !fs.existsSync(sidebarFilePath)
   ) {
-    throw new Error(`The path to the sidebar file does not exist at [${path.relative(
+    throw new Error(`The path to the sidebar file does not exist at "${path.relative(
       siteDir,
       sidebarFilePath,
-    )}].
-Please set the docs [sidebarPath] field in your config file to:
+    )}".
+Please set the docs "sidebarPath" field in your config file to:
 - a sidebars path that exists
 - false: to disable the sidebar
 - undefined: for Docusaurus generates it automatically`);
@@ -403,16 +403,16 @@ function checkVersionsOptions(
   );
   if (unknownVersionConfigNames.length > 0) {
     throw new Error(
-      `Bad docs options.versions: unknown versions found: ${unknownVersionConfigNames.join(
+      `Invalid docs option "versions": unknown versions (${unknownVersionConfigNames.join(
         ',',
-      )}. ${availableVersionNamesMsg}`,
+      )}) found. ${availableVersionNamesMsg}`,
     );
   }
 
   if (options.onlyIncludeVersions) {
     if (options.onlyIncludeVersions.length === 0) {
       throw new Error(
-        `Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed`,
+        `Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed.`,
       );
     }
     const unknownOnlyIncludeVersionNames = difference(
@@ -421,9 +421,9 @@ function checkVersionsOptions(
     );
     if (unknownOnlyIncludeVersionNames.length > 0) {
       throw new Error(
-        `Bad docs options.onlyIncludeVersions: unknown versions found: ${unknownOnlyIncludeVersionNames.join(
+        `Invalid docs option "onlyIncludeVersions": unknown versions (${unknownOnlyIncludeVersionNames.join(
           ',',
-        )}. ${availableVersionNamesMsg}`,
+        )}) found. ${availableVersionNamesMsg}`,
       );
     }
     if (
@@ -431,7 +431,7 @@ function checkVersionsOptions(
       !options.onlyIncludeVersions.includes(options.lastVersion)
     ) {
       throw new Error(
-        `Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array`,
+        `Invalid docs option "lastVersion": if you use both the "onlyIncludeVersions" and "lastVersion" options, then "lastVersion" must be present in the provided "onlyIncludeVersions" array.`,
       );
     }
   }

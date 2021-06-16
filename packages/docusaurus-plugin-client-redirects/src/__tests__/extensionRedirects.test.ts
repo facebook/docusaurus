@@ -21,28 +21,28 @@ const createExtensionValidationTests = (
     expect(() => {
       extensionRedirectCreatorFn(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['.html'] contains a . (dot) and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
+      `"Extension ".html" contains a "." (dot) which is not allowed.\nIf the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option."`,
     );
   });
   test('should reject extensions with .', () => {
     expect(() => {
       extensionRedirectCreatorFn(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['.html'] contains a . (dot) and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
+      `"Extension ".html" contains a "." (dot) which is not allowed.\nIf the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option."`,
     );
   });
   test('should reject extensions with /', () => {
     expect(() => {
       extensionRedirectCreatorFn(['/'], ['ht/ml']);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=['ht/ml'] contains a / and is not allowed. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
+      `"Extension "ht/ml" contains a "/" (slash) which is not allowed.\nIf the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option."`,
     );
   });
   test('should reject extensions with illegal url char', () => {
     expect(() => {
       extensionRedirectCreatorFn(['/'], [',']);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Extension=[','] contains invalid uri characters. If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option."`,
+      `"Extension "," contains invalid URI characters.\nIf the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option."`,
     );
   });
 };

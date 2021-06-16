@@ -453,7 +453,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id [Hello/world] cannot include \\"/\\"."`,
+      `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
 

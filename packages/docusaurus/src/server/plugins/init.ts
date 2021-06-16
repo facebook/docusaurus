@@ -90,7 +90,7 @@ function normalizePluginConfig(
   }
 
   throw new Error(
-    `Unexpected: cant load plugin for plugin config = ${JSON.stringify(
+    `Unexpected: can't load plugin for following plugin config.\n${JSON.stringify(
       pluginConfig,
     )}`,
   );

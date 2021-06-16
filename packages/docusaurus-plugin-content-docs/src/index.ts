@@ -144,12 +144,12 @@ export default function pluginContentDocs(
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
-            `Docs version ${
+            `Docs version "${
               versionMetadata.versionName
-            } has no docs! At least one doc should exist at path=[${path.relative(
+            }" has no docs! At least one doc should exist at "${path.relative(
               siteDir,
               versionMetadata.contentPath,
-            )}]`,
+            )}".`,
           );
         }
         async function processVersionDoc(docFile: DocFile) {

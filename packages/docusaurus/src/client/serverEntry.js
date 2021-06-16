@@ -159,7 +159,7 @@ async function doRender(locals) {
     ) {
       console.error(
         chalk.red(
-          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
+          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, please see https://github.com/facebook/docusaurus/issues/3515\n',
         ),
       );
     }

@@ -13,14 +13,14 @@ import escapeHTML from 'escape-html';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (!isPlainObject(val)) {
-    throw new Error(`"${val}" is not a valid HTML tag object`);
+    throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
   // @ts-expect-error: If tagName doesn't exist, it will throw.
   if (typeof val.tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
         val,
-      )} is not a valid HTML tag object. "tagName" must be defined as a string`,
+      )} is not a valid HTML tag object. "tagName" must be defined as a string.`,
     );
   }
 }
@@ -31,7 +31,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
     throw new Error(
       `Error loading ${JSON.stringify(tagDefinition)}, "${
         tagDefinition.tagName
-      }" is not a valid HTML tags`,
+      }" is not a valid HTML tags.`,
     );
   }
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;

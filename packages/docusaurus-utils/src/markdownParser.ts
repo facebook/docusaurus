@@ -160,8 +160,8 @@ export function parseMarkdownString(
     };
   } catch (e) {
     console.error(
-      chalk.red(`Error while parsing markdown front matter.
-This can happen if you use special characters like : in frontmatter values (try using "" around that value)`),
+      chalk.red(`Error while parsing Markdown frontmatter.
+This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
     );
     throw e;
   }
@@ -176,8 +176,7 @@ export async function parseMarkdownFile(
     return parseMarkdownString(markdownString, options);
   } catch (e) {
     throw new Error(
-      `Error while parsing markdown file ${source}
-${e.message}`,
+      `Error while parsing Markdown file ${source}: "${e.message}".`,
     );
   }
 }

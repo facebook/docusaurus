@@ -167,7 +167,7 @@ export const getCustomizableJSLoader = (
 const warnBabelLoaderOnce = memoize(function () {
   console.warn(
     chalk.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): getBabelLoader(isServer) is now deprecated in favor of getJSLoader({isServer})',
+      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
     ),
   );
 });
@@ -183,7 +183,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 const warnCacheLoaderOnce = memoize(function () {
   console.warn(
     chalk.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated',
+      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
     ),
   );
 });
@@ -288,7 +288,7 @@ export function compile(config: Configuration[]): Promise<void> {
       compiler.close((errClose) => {
         if (errClose) {
           console.error(
-            chalk.red('Error while closing Webpack compiler', errClose),
+            chalk.red('Error while closing Webpack compiler:', errClose),
           );
           reject(errClose);
         } else {

@@ -22,7 +22,7 @@ export function ensureUniquePluginInstanceIds(plugins: InitPlugin[]): void {
       ([pluginId, pluginInstancesWithId]) => {
         if (pluginInstancesWithId.length !== 1) {
           throw new Error(
-            `Plugin ${pluginName} is used ${pluginInstancesWithId.length} times with id=${pluginId}.\nTo use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance.`,
+            `Plugin "${pluginName}" is used ${pluginInstancesWithId.length} times with id ${pluginId}.\nTo use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance.`,
           );
         }
       },

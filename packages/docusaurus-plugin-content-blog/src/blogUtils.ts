@@ -62,7 +62,7 @@ export async function generateBlogFeed(
 ): Promise<Feed | null> {
   if (!options.feedOptions) {
     throw new Error(
-      'Invalid options - `feedOptions` is not expected to be null.',
+      'Invalid options: "feedOptions" is not expected to be null.',
     );
   }
   const {siteConfig} = context;
@@ -160,7 +160,7 @@ export async function generateBlogPosts(
       if (frontMatter.id) {
         console.warn(
           chalk.yellow(
-            `${blogFileName} - 'id' header option is deprecated. Please use 'slug' option instead.`,
+            `"id" header option is deprecated in ${blogFileName} file. Please use "slug" option instead.`,
           ),
         );
       }
