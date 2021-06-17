@@ -36,17 +36,17 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^\#\s*([^#]*)\s*\#?/gm, '')
+      .replace(/^#\s*([^#]*)\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
       // Remove emphasis and strikethroughs.
-      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
       // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      .replace(/\[\^.+?\](: .*?$)?/g, '')
       // Remove inline links.
-      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
       .replace(/`(.+?)`/g, '$1')
       // Remove blockquotes.

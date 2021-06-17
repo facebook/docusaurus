@@ -29,7 +29,10 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   };
 }
 
-export function shouldWarnAboutNodeVersion(version: number, locales: string[]) {
+export function shouldWarnAboutNodeVersion(
+  version: number,
+  locales: string[],
+): boolean {
   const isOnlyEnglish = locales.length === 1 && locales.includes('en');
   const isOlderNodeVersion = version < 14;
   return isOlderNodeVersion && !isOnlyEnglish;
