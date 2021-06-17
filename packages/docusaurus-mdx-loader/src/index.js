@@ -7,7 +7,7 @@
 
 const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
-const mdx = require('@mdx-js/mdx');
+const {createCompiler} = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
 const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
@@ -16,43 +16,58 @@ const rightToc = require('./remark/rightToc');
 const transformImage = require('./remark/transformImage');
 const tranformAsset = require('./remark/transformAssets');
 
+const pragma = `
+/* @jsxRuntime classic */
+/* @jsx mdx */
+/* @jsxFrag mdx.Fragment */
+`;
+
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
   remarkPlugins: [emoji, slug, rightToc],
 };
 
+const compilerCache = new Map();
+
 module.exports = async function (fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);
-  const reqOptions = getOptions(this) || {};
-  const options = {
-    ...reqOptions,
-    remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      [
-        transformImage,
-        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+  if (!compilerCache.has(this.query)) {
+    const reqOptions = getOptions(this) || {};
+    const options = {
+      ...reqOptions,
+      remarkPlugins: [
+        ...(reqOptions.beforeDefaultRemarkPlugins || []),
+        ...DEFAULT_OPTIONS.remarkPlugins,
+        [
+          transformImage,
+          {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+        ],
+        [
+          tranformAsset,
+          {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+        ],
+        ...(reqOptions.remarkPlugins || []),
       ],
-      [
-        tranformAsset,
-        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
-      ],
-      ...(reqOptions.remarkPlugins || []),
-    ],
-    rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
+      rehypePlugins: [
+        ...(reqOptions.beforeDefaultRehypePlugins || []),
+        ...DEFAULT_OPTIONS.rehypePlugins,
 
-      ...(reqOptions.rehypePlugins || []),
-    ],
-    filepath: this.resourcePath,
-  };
+        ...(reqOptions.rehypePlugins || []),
+      ],
+      filepath: this.resourcePath,
+    };
+    compilerCache.set(this.query, [createCompiler(options), options]);
+  }
+  const [compiler, options] = compilerCache.get(this.query);
   let result;
 
   try {
-    result = await mdx(content, options);
+    result = await compiler.process({
+      contents: content,
+      path: this.resourcePath,
+    });
   } catch (err) {
     return callback(err);
   }
@@ -84,6 +99,7 @@ module.exports = async function (fileString) {
     }
   }
   const code = `
+  ${pragma}
   import React from 'react';
   import { mdx } from '@mdx-js/react';
 
