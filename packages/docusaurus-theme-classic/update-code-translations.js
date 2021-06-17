@@ -10,6 +10,8 @@ const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
+// Unsafe import, should we create a package for the translationsExtractor ?
+const translationsExtractor = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
 const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
@@ -49,11 +51,10 @@ function logKeys(keys) {
 }
 
 async function extractThemeCodeMessages() {
-  // Unsafe import, should we create a package for the translationsExtractor ?
   const {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
-  } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
+  } = translationsExtractor;
 
   const filePaths = (
     await globSourceCodeFilePaths(CodeDirPaths)

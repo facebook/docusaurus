@@ -288,11 +288,9 @@ function createVersionMetadata({
   // retro-compatible values
   const defaultVersionLabel =
     versionName === CURRENT_VERSION_NAME ? 'Next' : versionName;
-  const defaultVersionPathPart = isLast
-    ? ''
-    : versionName === CURRENT_VERSION_NAME
-    ? 'next'
-    : versionName;
+  const versionNameNotLast =
+    versionName === CURRENT_VERSION_NAME ? 'next' : versionName;
+  const defaultVersionPathPart = isLast ? '' : versionNameNotLast;
 
   const versionOptions: VersionOptions = options.versions[versionName] ?? {};
 

@@ -11,7 +11,7 @@ import {applyTrailingSlash} from '@docusaurus/utils-common';
 export default function applyRouteTrailingSlash(
   route: RouteConfig,
   trailingSlash: boolean | undefined,
-) {
+): RouteConfig {
   return {
     ...route,
     path: applyTrailingSlash(route.path, trailingSlash),

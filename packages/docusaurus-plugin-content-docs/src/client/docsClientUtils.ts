@@ -75,7 +75,7 @@ export type ActiveDocContext = {
 };
 
 export const getLatestVersion = (data: GlobalPluginData): Version => {
-  return data.versions.find((version) => version.isLast)!;
+  return data.versions.find((version) => version.isLast) as GlobalVersion;
 };
 
 // Note: return undefined on doc-unrelated pages,

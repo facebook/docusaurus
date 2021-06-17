@@ -52,7 +52,7 @@ export async function loadSiteConfig({
 }: {
   siteDir: string;
   customConfigFilePath?: string;
-}) {
+}): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
   const siteConfigPathUnresolved =
     customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
 
@@ -309,7 +309,7 @@ ${Object.keys(registry)
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
       join(__dirname, '../../package.json'),
-    )!,
+    ) as string,
     siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
     pluginVersions: {},
   };

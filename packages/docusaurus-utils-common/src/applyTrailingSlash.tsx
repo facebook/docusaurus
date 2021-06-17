@@ -21,6 +21,9 @@ export default function applyTrailingSlash(
   function removeTrailingSlash(str: string): string {
     return str.endsWith('/') ? str.slice(0, -1) : str;
   }
+  function handleTrailingSlash(str: string, trailing: boolean): string {
+    return trailing ? addTrailingSlash(str) : removeTrailingSlash(str);
+  }
 
   // undefined = legacy retrocompatible behavior
   if (typeof trailingSlash === 'undefined') {
@@ -32,10 +35,6 @@ export default function applyTrailingSlash(
 
   // Never transform '/' to ''
   const newPathname =
-    pathname === '/'
-      ? '/'
-      : trailingSlash
-      ? addTrailingSlash(pathname)
-      : removeTrailingSlash(pathname);
+    pathname === '/' ? '/' : handleTrailingSlash(pathname, trailingSlash);
   return path.replace(pathname, newPathname);
 }
