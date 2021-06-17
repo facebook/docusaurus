@@ -90,9 +90,9 @@ function BlogPostItem(props: Props): JSX.Element {
           <div className="avatar__intro">
             {author && (
               <>
-                <h4 className="avatar__name">
+                <div className="avatar__name">
                   <Link href={authorURL}>{author}</Link>
-                </h4>
+                </div>
                 <small className="avatar__subtitle">{authorTitle}</small>
               </>
             )}
