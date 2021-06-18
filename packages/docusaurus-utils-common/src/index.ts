@@ -6,3 +6,4 @@
  */
 
 export {default as applyTrailingSlash} from './applyTrailingSlash';
+export {default as uniq} from './uniq';

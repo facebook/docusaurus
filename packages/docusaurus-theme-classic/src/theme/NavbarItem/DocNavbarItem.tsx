@@ -11,6 +11,7 @@ import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {uniq} from '@docusaurus/utils-common';
 import type {
   GlobalDataVersion,
   GlobalDataDoc,
@@ -47,11 +48,9 @@ export default function DocNavbarItem({
   const latestVersion = useLatestVersion(docsPluginId);
 
   // Versions used to look for the doc to link to, ordered + no duplicate
-  const versions: GlobalDataVersion[] = [
-    ...new Set(
-      [activeVersion, preferredVersion, latestVersion].filter(Boolean),
-    ),
-  ];
+  const versions: GlobalDataVersion[] = uniq(
+    [activeVersion, preferredVersion, latestVersion].filter(Boolean),
+  );
   const doc = getDocInVersions(versions, docId);
 
   return (
