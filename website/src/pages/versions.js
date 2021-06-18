@@ -12,6 +12,10 @@ import Layout from '@theme/Layout';
 
 import {useVersions, useLatestVersion} from '@theme/hooks/useDocs';
 
+import VersionsArchived from '@site/versionsArchived.json';
+
+const VersionsArchivedList = Object.entries(VersionsArchived);
+
 function Version() {
   const {siteConfig} = useDocusaurusContext();
   const versions = useVersions();
@@ -73,7 +77,7 @@ function Version() {
           </div>
         )}
 
-        {pastVersions.length > 0 && (
+        {(pastVersions.length > 0 || VersionsArchived.length > 0) && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
             <p>
@@ -90,6 +94,19 @@ function Version() {
                     </td>
                     <td>
                       <a href={`${repoUrl}/releases/tag/v${version.name}`}>
+                        Release Notes
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+                {VersionsArchivedList.map(([versionName, versionUrl]) => (
+                  <tr key={versionName}>
+                    <th>{versionName}</th>
+                    <td>
+                      <Link to={versionUrl}>Documentation</Link>
+                    </td>
+                    <td>
+                      <a href={`${repoUrl}/releases/tag/v${versionName}`}>
                         Release Notes
                       </a>
                     </td>
