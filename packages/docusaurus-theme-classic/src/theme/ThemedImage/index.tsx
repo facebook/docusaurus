@@ -21,7 +21,7 @@ const ThemedImage = (props: Props): JSX.Element => {
 
   type SourceName = keyof Props['sources'];
 
-  const clientTheme: SourceName[] = isDarkTheme ? ['dark'] : ['light'];
+  const clientThemes: SourceName[] = isDarkTheme ? ['dark'] : ['light'];
 
   const renderedSourceNames: SourceName[] = isClient
     ? clientTheme
