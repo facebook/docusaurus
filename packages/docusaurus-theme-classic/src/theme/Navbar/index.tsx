@@ -88,7 +88,7 @@ function Navbar(): JSX.Element {
           {items != null && items.length !== 0 && (
             <button
               aria-label="Navigation bar toggle"
-              className="navbar__toggle"
+              className="navbar__toggle clean-btn"
               type="button"
               tabIndex={0}
               onClick={showSidebar}

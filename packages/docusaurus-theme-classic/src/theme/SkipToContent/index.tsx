@@ -6,6 +6,7 @@
  */
 
 import React, {useRef} from 'react';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {useChangeRoute} from '@docusaurus/theme-common';
 
@@ -39,7 +40,10 @@ function SkipToContent(): JSX.Element {
 
   return (
     <div ref={containerRef}>
-      <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
+      <a
+        href="#main"
+        className={clsx(styles.skipToContent, 'shadow--md')}
+        onClick={handleSkip}>
         <Translate
           id="theme.common.skipToMainContent"
           description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">
