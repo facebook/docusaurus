@@ -8,10 +8,10 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy} from 'lodash';
+import {mapValues, pickBy, flatten, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix, removeSuffix} from '@docusaurus/utils';
-import {getAllFinalRoutes, reportMessage} from './utils';
+import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import {getAllFinalRoutes} from './utils';
 import path from 'path';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
@@ -48,7 +48,9 @@ function getPageBrokenLinks({
   }
 
   function isBrokenLink(link: string) {
-    const matchedRoutes = matchRoutes(toReactRouterRoutes(routes), link);
+    const matchedRoutes = [link, decodeURI(link)]
+      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
+      .reduce((prev, cur) => prev.concat(cur));
     return matchedRoutes.length === 0;
   }
 
@@ -99,14 +101,45 @@ export function getBrokenLinksErrorMessage(
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `\n\n- Page path = ${pagePath}:\n   -> link to ${brokenLinks
+    return `\n- On source page path = ${pagePath}:\n   -> linking to ${brokenLinks
       .map(brokenLinkMessage)
-      .join('\n   -> link to ')}`;
+      .join('\n   -> linking to ')}`;
+  }
+
+  // If there's a broken link appearing very often, it is probably a broken link on the layout!
+  // Add an additional message in such case to help user figure this out.
+  // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
+  function getLayoutBrokenLinksHelpMessage() {
+    const flatList = flatten(
+      Object.entries(allBrokenLinks).map(([pagePage, brokenLinks]) =>
+        brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
+      ),
+    );
+
+    const countedBrokenLinks = countBy(
+      flatList,
+      (item) => item.brokenLink.link,
+    );
+
+    const FrequencyThreshold = 5; // Is this a good value?
+    const frequentLinks = Object.entries(countedBrokenLinks)
+      .filter(([, count]) => count >= FrequencyThreshold)
+      .map(([link]) => link);
+
+    if (frequentLinks.length === 0) {
+      return '';
+    }
+
+    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
+      `\n- `,
+    )}\n`;
   }
 
   return (
-    `Broken links found!` +
-    `${Object.entries(allBrokenLinks)
+    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
+    `\n\nExhaustive list of all broken links found:\n${Object.entries(
+      allBrokenLinks,
+    )
       .map(([pagePath, brokenLinks]) =>
         pageBrokenLinksMessage(pagePath, brokenLinks),
       )
@@ -171,7 +204,7 @@ export async function handleBrokenLinks({
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
-}) {
+}): Promise<void> {
   if (onBrokenLinks === 'ignore') {
     return;
   }
@@ -191,7 +224,6 @@ export async function handleBrokenLinks({
 
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
-    const finalMessage = `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n\n`;
-    reportMessage(finalMessage, onBrokenLinks);
+    reportMessage(errorMessage, onBrokenLinks);
   }
 }

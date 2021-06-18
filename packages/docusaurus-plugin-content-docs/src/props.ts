@@ -7,13 +7,15 @@
 
 import {
   LoadedVersion,
-  PropSidebars,
   SidebarItemDoc,
   SidebarItemLink,
-  PropVersionMetadata,
   SidebarItem,
-  PropSidebarItem,
 } from './types';
+import {
+  PropSidebars,
+  PropVersionMetadata,
+  PropSidebarItem,
+} from '@docusaurus/plugin-content-docs-types';
 import {keyBy, mapValues} from 'lodash';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
@@ -25,18 +27,23 @@ export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
 
     if (!docMetadata) {
       throw new Error(
-        `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
-Available document ids=
+        `Invalid sidebars file. The document with id "${docId}" was used in the sidebar, but no document with this id could be found.
+Available document ids are:
 - ${Object.keys(docsById).sort().join('\n- ')}`,
       );
     }
 
-    const {title, permalink, sidebar_label} = docMetadata;
+    const {
+      title,
+      permalink,
+      frontMatter: {sidebar_label: sidebarLabel},
+    } = docMetadata;
 
     return {
       type: 'link',
-      label: sidebar_label || title,
+      label: sidebarLabel || item.label || title,
       href: permalink,
+      customProps: item.customProps,
     };
   };
 
@@ -60,10 +67,14 @@ Available document ids=
 }
 
 export function toVersionMetadataProp(
+  pluginId: string,
   loadedVersion: LoadedVersion,
 ): PropVersionMetadata {
   return {
+    pluginId,
     version: loadedVersion.versionName,
+    label: loadedVersion.versionLabel,
+    isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
     permalinkToSidebar: loadedVersion.permalinkToSidebar,
   };

@@ -8,7 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 const eta = require('eta');
-const {normalizeUrl} = require('@docusaurus/utils');
+const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
 const {validateThemeConfig} = require('./validateThemeConfig');
 const {memoize} = require('lodash');
@@ -29,7 +29,10 @@ function theme(context) {
     baseUrl,
     siteConfig: {title, url, favicon},
   } = context;
-  const pagePath = path.resolve(__dirname, './theme/SearchPage/index.js');
+  const pageComponent = './theme/SearchPage/index.js';
+  const pagePath =
+    getSwizzledComponent(pageComponent) ||
+    path.resolve(__dirname, pageComponent);
 
   return {
     name: 'docusaurus-theme-search-algolia',
@@ -56,8 +59,8 @@ function theme(context) {
           path.join(outDir, OPEN_SEARCH_FILENAME),
           renderOpenSearchTemplate({
             title,
-            url,
-            favicon: normalizeUrl([url, favicon]),
+            url: url + baseUrl,
+            favicon: normalizeUrl([url, baseUrl, favicon]),
           }),
         );
       } catch (err) {

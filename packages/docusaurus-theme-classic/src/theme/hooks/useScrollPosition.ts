@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-
-type ScrollPosition = {scrollX: number; scrollY: number};
+import type {ScrollPosition} from '@theme/hooks/useScrollPosition';
 
 const getScrollPosition = (): ScrollPosition => ({
   scrollX: ExecutionEnvironment.canUseDOM ? window.pageXOffset : 0,
@@ -16,32 +15,31 @@ const getScrollPosition = (): ScrollPosition => ({
 });
 
 const useScrollPosition = (
-  effect: (position: ScrollPosition) => void,
+  effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
   deps = [],
-): ScrollPosition => {
-  const [scrollPosition, setScrollPosition] = useState(getScrollPosition());
+): void => {
+  const scrollPosition = useRef(getScrollPosition());
 
   const handleScroll = () => {
     const currentScrollPosition = getScrollPosition();
 
-    setScrollPosition(currentScrollPosition);
-
     if (effect) {
-      effect(currentScrollPosition);
+      effect(currentScrollPosition, scrollPosition.current);
     }
+
+    scrollPosition.current = currentScrollPosition;
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    const opts: AddEventListenerOptions & EventListenerOptions = {
+      passive: true,
+    };
 
-    return () =>
-      window.removeEventListener('scroll', handleScroll, {
-        // @ts-expect-error: See https://github.com/microsoft/TypeScript/issues/32912
-        passive: true,
-      });
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, opts);
+
+    return () => window.removeEventListener('scroll', handleScroll, opts);
   }, deps);
-
-  return scrollPosition;
 };
 
 export default useScrollPosition;

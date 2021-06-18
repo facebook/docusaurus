@@ -5,8 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('@hapi/joi');
-const {URISchema} = require('@docusaurus/utils-validation');
+const {Joi, URISchema} = require('@docusaurus/utils-validation');
+
+const DEFAULT_DOCS_CONFIG = {
+  versionPersistence: 'localStorage',
+};
+const DocsSchema = Joi.object({
+  versionPersistence: Joi.string()
+    .equal('localStorage', 'none')
+    .default(DEFAULT_DOCS_CONFIG.versionPersistence),
+}).default(DEFAULT_DOCS_CONFIG);
 
 const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
@@ -19,27 +27,44 @@ const DEFAULT_COLOR_MODE_CONFIG = {
     lightIconStyle: {},
   },
 };
-exports.DEFAULT_COLOR_MODE_CONFIG = DEFAULT_COLOR_MODE_CONFIG;
+
+const DEFAULT_CONFIG = {
+  colorMode: DEFAULT_COLOR_MODE_CONFIG,
+  docs: DEFAULT_DOCS_CONFIG,
+  metadatas: [],
+  prism: {
+    additionalLanguages: [],
+  },
+  navbar: {
+    hideOnScroll: false,
+    items: [],
+  },
+  hideableSidebar: false,
+};
+exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-// TODO we should probably create a custom navbar item type "dropdown"
-// having this recursive structure is bad because we only support 2 levels
-// + parent/child don't have exactly the same props
-const DefaultNavbarItemSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('...')),
+const BaseNavbarItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
   label: Joi.string(),
-  position: NavbarItemPosition,
-  activeBasePath: Joi.string(),
-  activeBaseRegex: Joi.string(),
   className: Joi.string(),
-  'aria-label': Joi.string(),
+  prependBaseUrlToHref: Joi.bool(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
+
+// TODO we should probably create a custom navbar item type "dropdown"
+// having this recursive structure is bad because we only support 2 levels
+// + parent/child don't have exactly the same props
+const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
+  items: Joi.array().optional().items(BaseNavbarItemSchema),
+  position: NavbarItemPosition,
+  activeBasePath: Joi.string(),
+  activeBaseRegex: Joi.string(),
+});
 // TODO the dropdown parent item can have no href/to
 // should check should not apply to dropdown parent item
 // .xor('href', 'to');
@@ -50,13 +75,40 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  className: Joi.string(),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
-  nextVersionLabel: Joi.string().default('Next'), // TODO remove soon
+  dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
+});
+
+const DocItemSchema = Joi.object({
+  type: Joi.string().equal('doc').required(),
+  position: NavbarItemPosition,
+  docId: Joi.string().required(),
+  label: Joi.string(),
+  docsPluginId: Joi.string(),
+  activeSidebarClassName: Joi.string().default('navbar__link--active'),
+  className: Joi.string(),
+});
+
+const LocaleDropdownNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('localeDropdown').required(),
+  position: NavbarItemPosition,
+  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
+  className: Joi.string(),
+});
+
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+  position: NavbarItemPosition,
 });
 
 // Can this be made easier? :/
@@ -84,9 +136,21 @@ const NavbarItemSchema = Joi.object().when({
       then: DocsVersionDropdownNavbarItemSchema,
     },
     {
+      is: isOfType('doc'),
+      then: DocItemSchema,
+    },
+    {
+      is: isOfType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: isOfType('search'),
+      then: SearchItemSchema,
+    },
+    {
       is: isOfType(undefined),
       then: Joi.forbidden().messages({
-        'any.unknown': 'Bad nav item type {.type}',
+        'any.unknown': 'Bad navbar item type {.type}',
       }),
     },
   ],
@@ -138,6 +202,15 @@ const ColorModeSchema = Joi.object({
   }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
+// schema can probably be improved
+const HtmlMetadataSchema = Joi.object({
+  id: Joi.string(),
+  name: Joi.string(),
+  property: Joi.string(),
+  content: Joi.string(),
+  itemprop: Joi.string(),
+}).unknown();
+
 const FooterLinkItemSchema = Joi.object({
   to: Joi.string(),
   href: URISchema,
@@ -152,6 +225,10 @@ const FooterLinkItemSchema = Joi.object({
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
+const CustomCssSchema = Joi.alternatives()
+  .try(Joi.array().items(Joi.string().required()), Joi.string().required())
+  .optional();
+
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden(false).messages({
@@ -163,46 +240,58 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
+  customCss: CustomCssSchema,
   colorMode: ColorModeSchema,
   image: Joi.string(),
+  docs: DocsSchema,
+  metadatas: Joi.array()
+    .items(HtmlMetadataSchema)
+    .default(DEFAULT_CONFIG.metadatas),
   announcementBar: Joi.object({
-    id: Joi.string(),
+    id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
-    backgroundColor: Joi.string().default('#fff'),
-    textColor: Joi.string().default('#000'),
+    backgroundColor: Joi.string(),
+    textColor: Joi.string(),
+    isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
-    hideOnScroll: Joi.bool().default(false),
+    style: Joi.string().equal('dark', 'primary'),
+    hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
     // TODO temporary (@alpha-58)
     links: Joi.any().forbidden().messages({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
-    items: Joi.array().items(NavbarItemSchema),
+    items: Joi.array()
+      .items(NavbarItemSchema)
+      .default(DEFAULT_CONFIG.navbar.items),
     title: Joi.string().allow('', null),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string().required(),
       srcDark: Joi.string(),
       href: Joi.string(),
       target: Joi.string(),
     }),
-  }),
+  }).default(DEFAULT_CONFIG.navbar),
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string(),
+      srcDark: Joi.string(),
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array().items(
-      Joi.object({
-        title: Joi.string().required(),
-        items: Joi.array().items(FooterLinkItemSchema).default([]),
-      }),
-    ),
-  }),
+    links: Joi.array()
+      .items(
+        Joi.object({
+          title: Joi.string().allow(null),
+          items: Joi.array().items(FooterLinkItemSchema).default([]),
+        }),
+      )
+      .default([]),
+  }).optional(),
   prism: Joi.object({
     theme: Joi.object({
       plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
@@ -213,9 +302,15 @@ const ThemeConfigSchema = Joi.object({
       styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
     defaultLanguage: Joi.string(),
-    additionalLanguages: Joi.array().items(Joi.string()),
-  }).unknown(),
+    additionalLanguages: Joi.array()
+      .items(Joi.string())
+      .default(DEFAULT_CONFIG.prism.additionalLanguages),
+  })
+    .default(DEFAULT_CONFIG.prism)
+    .unknown(),
+  hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
 });
+exports.ThemeConfigSchema = ThemeConfigSchema;
 
 exports.validateThemeConfig = ({validate, themeConfig}) => {
   return validate(ThemeConfigSchema, themeConfig);

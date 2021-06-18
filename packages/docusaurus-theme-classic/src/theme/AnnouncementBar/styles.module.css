@@ -13,8 +13,15 @@
   position: relative;
   width: 100%;
   height: var(--docusaurus-announcement-bar-height);
-  background-color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-white);
   color: var(--ifm-color-black);
+  border-bottom: 1px solid var(--ifm-color-emphasis-100);
+}
+
+@media print {
+  .announcementBar {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -29,11 +36,6 @@
   top: 0;
   width: 55px;
   font-size: 1.25rem;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-  background: none;
-  color: inherit;
   height: 100%;
 }
 
@@ -42,6 +44,9 @@
   width: 100%;
   text-align: center;
   padding: 5px 0;
+}
+
+.announcementBarCloseable {
   margin-right: 55px;
 }
 
@@ -51,6 +56,8 @@
   }
   .announcementBarContent {
     width: auto;
+  }
+  .announcementBarCloseable {
     margin-right: 35px;
   }
 }

@@ -12,10 +12,11 @@ import glob from 'glob';
 import Color from 'color';
 
 import {
+  ClassicPresetEntries,
+  SidebarEntry,
+  SidebarEntries,
   VersionOneConfig,
   VersionTwoConfig,
-  ClassicPresetEntries,
-  SidebarEntries,
 } from './types';
 import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
 import migratePage from './transform';
@@ -61,23 +62,53 @@ function sanitizedFileContent(
   return sanitizedData;
 }
 
+// TODO refactor this new type should be used everywhere instead  of passing many params to each method
+type MigrationContext = {
+  siteDir: string;
+  newDir: string;
+  shouldMigrateMdFiles: boolean;
+  shouldMigratePages: boolean;
+  v1Config: VersionOneConfig;
+  v2Config: VersionTwoConfig;
+};
+
 export async function migrateDocusaurusProject(
   siteDir: string,
   newDir: string,
   shouldMigrateMdFiles: boolean = false,
   shouldMigratePages: boolean = false,
 ): Promise<void> {
-  const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
-  console.log('Starting migration from v1 to v2...');
-  const config = createConfigFile(siteConfig);
-  const classicPreset = config.presets[0][1];
+  function createMigrationContext(): MigrationContext {
+    const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+    console.log('Starting migration from v1 to v2...');
+    const partialMigrationContext = {
+      siteDir,
+      newDir,
+      shouldMigrateMdFiles,
+      shouldMigratePages,
+      v1Config,
+    };
+    const v2Config = createConfigFile(partialMigrationContext);
+    return {
+      ...partialMigrationContext,
+      v2Config,
+    };
+  }
+
+  const migrationContext = createMigrationContext();
+
+  // TODO need refactor legacy, we pass migrationContext to all methods
+  const siteConfig = migrationContext.v1Config;
+  const config = migrationContext.v2Config;
+
+  const classicPreset = migrationContext.v2Config.presets[0][1];
 
   const deps: Record<string, string> = {
     '@docusaurus/core': DOCUSAURUS_VERSION,
     '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
     clsx: '^1.1.1',
-    react: '^16.10.2',
-    'react-dom': '^16.10.2',
+    react: '^17.0.1',
+    'react-dom': '^17.0.1',
   };
   try {
     createClientRedirects(siteConfig, deps, config);
@@ -139,7 +170,7 @@ export async function migrateDocusaurusProject(
     );
   }
   try {
-    handleVersioning(siteDir, newDir, config, shouldMigrateMdFiles);
+    handleVersioning(siteDir, siteConfig, newDir, config, shouldMigrateMdFiles);
   } catch (errorInVersion) {
     console.log(
       chalk.red(
@@ -187,15 +218,21 @@ export async function migrateDocusaurusProject(
   console.log('Completed migration from v1 to v2');
 }
 
-export function createConfigFile(
-  siteConfig: VersionOneConfig,
-): VersionTwoConfig {
+export function createConfigFile({
+  v1Config,
+  siteDir,
+  newDir,
+}: Pick<
+  MigrationContext,
+  'v1Config' | 'siteDir' | 'newDir'
+>): VersionTwoConfig {
+  const siteConfig = v1Config;
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
 
-  const customConfigFields: Record<string, any> = {};
+  const customConfigFields: Record<string, unknown> = {};
   // add fields that are unknown to v2 to customConfigFields
-  Object.keys(siteConfig).forEach((key: any) => {
+  Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
       'title',
       'tagline',
@@ -215,6 +252,7 @@ export function createConfigFile(
       'colors',
       'copyright',
       'editUrl',
+      'customDocsPath',
       'facebookComments',
       'usePrism',
       'highlight',
@@ -241,23 +279,37 @@ export function createConfigFile(
       'Following Fields from siteConfig.js will be added to docusaurus.config.js in `customFields`',
     )}\n${chalk.yellow(Object.keys(customConfigFields).join('\n'))}`,
   );
-  const result: VersionTwoConfig = {
+
+  let v2DocsPath: string | undefined;
+  if (siteConfig.customDocsPath) {
+    const absoluteDocsPath = path.resolve(
+      siteDir,
+      '..',
+      siteConfig.customDocsPath,
+    );
+    v2DocsPath = path.relative(newDir, absoluteDocsPath);
+  }
+
+  return {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
     url: siteConfig.url ?? '',
     baseUrl: siteConfig.baseUrl ?? '',
     organizationName: siteConfig.organizationName,
     projectName: siteConfig.projectName,
+    noIndex: siteConfig.noIndex,
     scripts: siteConfig.scripts,
     stylesheets: siteConfig.stylesheets,
     favicon: siteConfig.favicon ?? '',
     customFields: customConfigFields,
     onBrokenLinks: 'log',
+    onBrokenMarkdownLinks: 'log',
     presets: [
       [
         '@docusaurus/preset-classic',
         {
           docs: {
+            ...(v2DocsPath && {path: v2DocsPath}),
             homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
@@ -279,22 +331,24 @@ export function createConfigFile(
           : undefined,
         items: (siteConfig.headerLinks ?? [])
           .map((link) => {
-            if (link.doc) {
+            const {doc, href, label, page} = link;
+            const position = 'left';
+            if (doc) {
               return {
-                to: `docs/${link.doc === homePageId ? '' : link.doc}`,
-                label: link.label,
-                position: 'left',
+                to: `docs/${doc === homePageId ? '' : doc}`,
+                label,
+                position,
               };
             }
-            if (link.page) {
+            if (page) {
               return {
-                to: `/${link.page}`,
-                label: link.label,
-                position: 'left',
+                to: `/${page}`,
+                label,
+                position,
               };
             }
-            if (link.href) {
-              return {href: link.href, label: link.label, position: 'left'};
+            if (href) {
+              return {href, label, position};
             }
             return null;
           })
@@ -328,7 +382,6 @@ export function createConfigFile(
         : undefined,
     },
   };
-  return result;
 }
 
 function createClientRedirects(
@@ -416,6 +469,7 @@ function migrateBlogFiles(
 
 function handleVersioning(
   siteDir: string,
+  siteConfig: VersionOneConfig,
   newDir: string,
   config: VersionTwoConfig,
   migrateMDFiles: boolean,
@@ -424,7 +478,7 @@ function handleVersioning(
     const loadedVersions: Array<string> = JSON.parse(
       String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
     );
-    fs.copyFile(
+    fs.copyFileSync(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
     );
@@ -433,6 +487,7 @@ function handleVersioning(
     migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
     fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
     migrateVersionedDocs(
+      siteConfig,
       versions,
       siteDir,
       newDir,
@@ -456,6 +511,7 @@ function handleVersioning(
 }
 
 function migrateVersionedDocs(
+  siteConfig: VersionOneConfig,
   versions: string[],
   siteDir: string,
   newDir: string,
@@ -465,7 +521,7 @@ function migrateVersionedDocs(
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
       fs.copySync(
-        path.join(siteDir, '..', 'docs'),
+        path.join(siteDir, '..', siteConfig.customDocsPath || 'docs'),
         path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       fs.copySync(
@@ -529,26 +585,23 @@ function migrateVersionedSidebar(
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(
-        (topLevel: {[key: string]: any}, value) => {
+        (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
-          // eslint-disable-next-line no-param-reassign
           topLevel[key] = Object.entries(value[1]).reduce(
             (
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
-              acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
-                any
-              >).map((item) => {
+              acc[
+                val[0].replace(versionRegex, '')
+              ] = (val[1] as Array<SidebarEntry>).map((item) => {
                 if (typeof item === 'string') {
                   return item.replace(versionRegex, '');
                 }
                 return {
                   type: 'category',
                   label: item.label,
-                  ids: item.ids.map((id: string) =>
-                    id.replace(versionRegex, ''),
-                  ),
+                  ids: item.ids.map((id) => id.replace(versionRegex, '')),
                 };
               });
               return acc;
@@ -563,14 +616,14 @@ function migrateVersionedSidebar(
     });
     sidebars.forEach((sidebar) => {
       const newSidebar = Object.entries(sidebar.entries).reduce(
-        (acc: {[key: string]: any}, val) => {
+        (acc: SidebarEntries, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
           // eslint-disable-next-line prefer-destructuring
           acc[key] = Object.entries(val[1]).map((value) => {
             return {
               type: 'category',
               label: value[0],
-              items: (value[1] as Array<any>).map((sidebarItem) => {
+              items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
                 if (typeof sidebarItem === 'string') {
                   return {
                     type: 'doc',
@@ -639,7 +692,10 @@ function migrateLatestSidebar(
       path.join(siteDir, 'sidebars.json'),
       path.join(newDir, 'sidebars.json'),
     );
-    classicPreset.docs.sidebarPath = path.join(newDir, 'sidebars.json');
+    classicPreset.docs.sidebarPath = path.join(
+      path.relative(newDir, siteDir),
+      'sidebars.json',
+    );
   } catch {
     console.log(
       chalk.yellow(`Sidebar not found. Skipping migration for sidebar`),
@@ -660,7 +716,7 @@ function migrateLatestSidebar(
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
     fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
     classicPreset.theme.customCss = path.join(
-      newDir,
+      path.relative(newDir, path.join(siteDir, '..')),
       'src',
       'css',
       'customTheme.css',
@@ -675,11 +731,10 @@ function migrateLatestDocs(
   classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    const docsPath = path.join(
+    classicPreset.docs.path = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'docs',
     );
-    classicPreset.docs.path = docsPath;
     const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
@@ -699,7 +754,10 @@ function migratePackageFile(
   newDir: string,
 ): void {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
-    [key: string]: any;
+    scripts?: Record<string, string>;
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+    [otherKey: string]: unknown;
   };
   packageFile.scripts = {
     ...packageFile.scripts,
@@ -740,5 +798,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  console.log(`Succesfully migrated ${siteDir} to ${newDir}`);
+  console.log(`Successfully migrated ${siteDir} to ${newDir}`);
 }

@@ -5,21 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import isPlainObject from 'lodash.isplainobject';
+import {isPlainObject} from 'lodash';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
+import escapeHTML from 'escape-html';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (!isPlainObject(val)) {
-    throw new Error(`"${val}" is not a valid HTML tag object`);
+    throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
   // @ts-expect-error: If tagName doesn't exist, it will throw.
   if (typeof val.tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
         val,
-      )} is not a valid HTML tag object. "tagName" must be defined as a string`,
+      )} is not a valid HTML tag object. "tagName" must be defined as a string.`,
     );
   }
 }
@@ -30,7 +31,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
     throw new Error(
       `Error loading ${JSON.stringify(tagDefinition)}, "${
         tagDefinition.tagName
-      }" is not a valid HTML tags`,
+      }" is not a valid HTML tags.`,
     );
   }
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
@@ -41,7 +42,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return `${attributeName}="${tagAttributes[attributeName]}"`;
+      return `${attributeName}="${escapeHTML(tagAttributes[attributeName])}"`;
     });
   return `<${[tagDefinition.tagName].concat(attributes).join(' ')}>${
     (!isVoidTag && tagDefinition.innerHTML) || ''

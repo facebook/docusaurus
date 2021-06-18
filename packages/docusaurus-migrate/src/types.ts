@@ -16,10 +16,18 @@ export type Data = {
 };
 
 export type ClassicPresetEntries = {
-  docs: {[key: string]: any};
-  blog: {[key: string]: any};
-  theme: {[key: string]: any};
+  docs: {[key: string]: unknown};
+  blog: {[key: string]: unknown};
+  theme: {[key: string]: unknown};
 };
+
+export type SidebarEntry =
+  | string
+  | {
+      type: string;
+      label: string;
+      ids: string[];
+    };
 
 export type SidebarEntries = {
   [key: string]:
@@ -35,9 +43,11 @@ export interface VersionTwoConfig {
   url: string;
   organizationName?: string;
   projectName?: string;
+  noIndex?: boolean;
   githubHost?: string;
   onBrokenLinks: string;
-  plugins: Array<[string, {[key: string]: any}]>;
+  onBrokenMarkdownLinks: string;
+  plugins: Array<[string, {[key: string]: unknown}]>;
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
@@ -94,13 +104,14 @@ export type VersionOneConfig = {
   defaultVersionShown?: string;
   organizationName?: string;
   projectName?: string;
-  noIndex?: string;
-  headerLinks?: Array<any>;
+  noIndex?: boolean;
+  headerLinks?: Array<{doc: string; href: string; label: string; page: string}>;
   headerIcon?: string;
   favicon?: string;
-  colors?: any;
+  colors?: {primaryColor: string};
   copyright?: string;
   editUrl?: string;
+  customDocsPath?: string;
   users?: Array<Record<string, unknown>>;
   disableHeaderTitle?: string;
   disableTitleTagline?: string;
@@ -111,8 +122,8 @@ export type VersionOneConfig = {
   gaTrackingId?: string;
   highlight?: Record<string, unknown>;
   markdownPlugins?: Array<() => void>;
-  scripts?: Array<{src: string; [key: string]: any} | string>;
-  stylesheets?: Array<{href: string; [key: string]: any} | string>;
+  scripts?: Array<{src: string; [key: string]: unknown} | string>;
+  stylesheets?: Array<{href: string; [key: string]: unknown} | string>;
   facebookAppId?: string;
   facebookComments?: true;
   facebookPixelId?: string;

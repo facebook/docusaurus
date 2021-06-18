@@ -1,6 +1,0 @@
-FROM node:12.10.0
-WORKDIR /app
-RUN npx @docusaurus/init@next init website classic  
-RUN npm install http-server -g
-RUN cd website && npm run build
-ENTRYPOINT http-server ./website/build/ -p 80 -a 0.0.0.0

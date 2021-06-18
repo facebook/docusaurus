@@ -1,0 +1,30 @@
+{
+  "name": "@docusaurus/remark-plugin-npm2yarn",
+  "version": "2.0.0-beta.0",
+  "description": "Remark plugin for converting npm commands to Yarn commands as tabs.",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-remark-plugin-npm2yarn"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "npm-to-yarn": "^1.0.1"
+  },
+  "devDependencies": {
+    "remark": "^12.0.0",
+    "remark-mdx": "^1.6.21",
+    "to-vfile": "^6.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "engines": {
+    "node": ">=12.13.0"
+  }
+}

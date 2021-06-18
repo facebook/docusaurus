@@ -10,7 +10,7 @@ import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {Helmet} from 'react-helmet';
-import {getBundles} from 'react-loadable-ssr-addon';
+import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
@@ -26,24 +26,47 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import ssrTemplate from './templates/ssr.html.template';
-
+import chalk from 'chalk';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
-const getCompiledSSRTemplate = memoize(() => {
-  return eta.compile(ssrTemplate.trim(), {
+const getCompiledSSRTemplate = memoize((template) => {
+  return eta.compile(template.trim(), {
     rmWhitespace: true,
   });
 });
 
-function renderSSRTemplate(data) {
-  const compiled = getCompiledSSRTemplate();
+function renderSSRTemplate(ssrTemplate, data) {
+  const compiled = getCompiledSSRTemplate(ssrTemplate);
   return compiled(data, eta.defaultConfig);
 }
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
+  try {
+    return await doRender(locals);
+  } catch (e) {
+    console.error(
+      chalk.red(
+        `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
+      ),
+    );
+
+    const isNotDefinedErrorRegex = /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+
+    if (isNotDefinedErrorRegex.test(e.message)) {
+      console.error(
+        chalk.green(
+          'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
+        ),
+      );
+    }
+
+    throw new Error('Server-side rendering fails due to the error above.');
+  }
+}
+
+// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
+async function doRender(locals) {
   const {
     routesLocation,
     headTags,
@@ -51,6 +74,8 @@ export default async function render(locals) {
     postBodyTags,
     onLinksCollected,
     baseUrl,
+    ssrTemplate,
+    noIndex,
   } = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
@@ -76,6 +101,7 @@ export default async function render(locals) {
     helmet.title.toString(),
     helmet.meta.toString(),
     helmet.link.toString(),
+    helmet.script.toString(),
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
@@ -90,7 +116,7 @@ export default async function render(locals) {
   const stylesheets = (bundles.css || []).map((b) => b.file);
   const scripts = (bundles.js || []).map((b) => b.file);
 
-  const renderedHtml = renderSSRTemplate({
+  const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
     htmlAttributes: htmlAttributes || '',
@@ -101,17 +127,42 @@ export default async function render(locals) {
     metaAttributes,
     scripts,
     stylesheets,
+    noIndex,
     version: packageJson.version,
   });
 
   // Minify html with https://github.com/DanielRuf/html-minifier-terser
-  return minify(renderedHtml, {
-    removeComments: true,
-    removeRedundantAttributes: true,
-    removeEmptyAttributes: true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-    useShortDoctype: true,
-    minifyJS: true,
-  });
+  function doMinify() {
+    return minify(renderedHtml, {
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      useShortDoctype: true,
+      minifyJS: true,
+    });
+  }
+
+  // TODO this is a temporary error affecting only monorepos due to Terser 5 (async) being used by html-minifier-terser,
+  // instead of the expected Terser 4 (sync)
+  // TODO, remove this once we upgrade everything to Terser 5 (https://github.com/terser/html-minifier-terser/issues/46)
+  // See also
+  // - https://github.com/facebook/docusaurus/issues/3515
+  // - https://github.com/terser/html-minifier-terser/issues/49
+  try {
+    return doMinify();
+  } catch (e) {
+    if (
+      e.message &&
+      e.message.includes("Cannot read property 'replace' of undefined")
+    ) {
+      console.error(
+        chalk.red(
+          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, please see https://github.com/facebook/docusaurus/issues/3515\n',
+        ),
+      );
+    }
+    throw e;
+  }
 }

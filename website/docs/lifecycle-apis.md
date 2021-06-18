@@ -11,25 +11,27 @@ This section is a work in progress.
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## `validateOptions({options,validate})`
+## `validateOptions({options, validate})` {#validateoptionsoptions-validate}
 
-Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during intialization.
+Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during initialization.
 
-### `options`
+### `options` {#options}
 
 `validateOptions` is called with `options` passed to plugin for validation and normalization.
 
-### `validate`
+### `validate` {#validate}
 
-`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
+
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
 
 :::
 
-If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
 ```js {8-11} title="my-plugin/src/index.js"
 module.exports = function (context, options) {
@@ -61,25 +63,27 @@ export function validateOptions({options, validate}) {
 }
 ```
 
-## `validateThemeConfig({themeConfig,validate})`
+## `validateThemeConfig({themeConfig, validate})` {#validatethemeconfigthemeconfig-validate}
 
 Return validated and normalized configuration for the theme.
 
-### `themeConfig`
+### `themeConfig` {#themeconfig}
 
 `validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
-### `validate`
+### `validate` {#validate-1}
 
-`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
+
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
 
 :::
 
-If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options.
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
 ```js {8-11} title="my-theme/src/index.js"
 module.exports = function (context, options) {
@@ -111,7 +115,7 @@ export function validateThemeConfig({themeConfig, validate}) {
 }
 ```
 
-## `getPathsToWatch()`
+## `getPathsToWatch()` {#getpathstowatch}
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
@@ -130,7 +134,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `async loadContent()`
+## `async loadContent()` {#async-loadcontent}
 
 Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc) or doing some server processing.
 
@@ -148,15 +152,15 @@ module.exports = function (context, options) {
 };
 ```
 
-## `async contentLoaded({content, actions})`
+## `async contentLoaded({content, actions})` {#async-contentloadedcontent-actions}
 
 Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data (optional).
 
-### `content`
+### `content` {#content}
 
 `contentLoaded` will be called _after_ `loadContent` is done, the return value of `loadContent()` will be passed to `contentLoaded` as `content`.
 
-### `actions`
+### `actions` {#actions}
 
 `actions` contain two functions:
 
@@ -217,7 +221,7 @@ export default function friendsPlugin(context, options) {
         path: '/friends',
         component: '@site/src/components/Friends.js',
         modules: {
-          // propName -> json file path
+          // propName -> JSON file path
           friends: friendsJsonPath,
         },
         exact: true,
@@ -231,9 +235,9 @@ export default function friendsPlugin(context, options) {
 
 This function permits to create some global plugin data, that can be read from any page, including the pages created by other plugins, and your theme layout.
 
-This data become accessible to your client-side/theme code, through the [`useGlobalData`](./docusaurus-core.md#useglobaldata) and [`usePluginData`](./docusaurus-core.md#useplugindatapluginname-string-pluginid-string)
+This data become accessible to your client-side/theme code, through the [`useGlobalData`](./docusaurus-core.md#useglobaldata) and [`usePluginData`](./docusaurus-core.md#useplugindatapluginname-string-pluginid-string).
 
-One this data is created, you can access it with the global data hooks APIs
+One this data is created, you can access it with the global data hooks APIs.
 
 :::caution
 
@@ -275,19 +279,19 @@ export default function friendsPlugin(context, options) {
 }
 ```
 
-## `configureWebpack(config, isServer, utils)`
+## `configureWebpack(config, isServer, utils)` {#configurewebpackconfig-isserver-utils}
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
-### `config`
+### `config` {#config}
 
 `configureWebpack` is called with `config` generated according to client/server build. You may treat this as the base config to be merged with.
 
-### `isServer`
+### `isServer` {#isserver}
 
 `configureWebpack` will be called both in server build and in client build. The server build receives `true` and the client build receives `false` as `isServer`.
 
-### `utils`
+### `utils` {#utils}
 
 The initial call to `configureWebpack` also receives a util object consists of three functions:
 
@@ -299,10 +303,11 @@ You may use them to return your webpack configures conditionally.
 
 For example, this plugin below modify the webpack config to transpile `.foo` file.
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
+    // highlight-start
     configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
       return {
@@ -316,24 +321,27 @@ module.exports = function (context, options) {
         },
       };
     },
+    // highlight-end
   };
 };
 ```
 
-### Merge strategy
+### Merge strategy {#merge-strategy}
 
 We merge the Webpack configuration parts of plugins into the global Webpack config using [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
       return {
+        // highlight-start
         mergeStrategy: {'module.rules': 'prepend'},
         module: {rules: [myRuleToPrepend]},
+        // highlight-end
       };
     },
   };
@@ -342,7 +350,39 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
-## `postBuild(props)`
+## `configurePostCss(options)` {#configurepostcssoptions}
+
+Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during the generation of the client bundle.
+
+Should return the mutated `postcssOptions`.
+
+By default, `postcssOptions` looks like this:
+
+```js
+const postcssOptions = {
+  ident: 'postcss',
+  plugins: [require('autoprefixer')],
+};
+```
+
+Example:
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    configurePostCss(postcssOptions) {
+      // Appends new PostCSS plugin.
+      postcssOptions.plugins.push(require('postcss-import'));
+      return postcssOptions;
+    },
+    // highlight-end
+  };
+};
+```
+
+## `postBuild(props)` {#postbuildprops}
 
 Called when a (production) build finishes.
 
@@ -363,7 +403,7 @@ type Props = {
 
 Example:
 
-```js {4-9} title="docusaurus-plugin/src/index.js"
+```js {4-11} title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -377,9 +417,9 @@ module.exports = function (context, options) {
 };
 ```
 
-## `extendCli(cli)`
+## `extendCli(cli)` {#extendclicli}
 
-Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
+Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
 
 Example:
 
@@ -399,7 +439,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `injectHtmlTags()`
+## `injectHtmlTags()` {#injecthtmltags}
 
 Inject head and/or body HTML tags to Docusaurus generated HTML.
 
@@ -433,10 +473,11 @@ interface HtmlTagObject {
 
 Example:
 
-```js {4-28} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     injectHtmlTags() {
       return {
         headTags: [
@@ -460,11 +501,12 @@ module.exports = function (context, options) {
         postBodyTags: [`<div> This is post body </div>`],
       };
     },
+    // highlight-end
   };
 };
 ```
 
-## `getThemePath()`
+## `getThemePath()` {#getthemepath}
 
 Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
@@ -483,7 +525,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `getTypeScriptThemePath()`
+## `getTypeScriptThemePath()` {#gettypescriptthemepath}
 
 Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
 
@@ -509,7 +551,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `getSwizzleComponentList()`
+## `getSwizzleComponentList()` {#getswizzlecomponentlist}
 
 Return a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned then all components are considered unstable, if `undefined` is returned then all component are considered stable.
 
@@ -527,21 +569,21 @@ const swizzleAllowedComponents = [
 module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
 ```
 
-## `getClientModules()`
+## `getClientModules()` {#getclientmodules}
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
 
-As an example, to make your theme load a `customCss` object from `options` passed in by the user:
+As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 
 ```js {7-9} title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
-  const {customCss} = options || {};
+  const {customCss, customJs} = options || {};
   return {
     name: 'name-of-my-theme',
     getClientModules() {
-      return [customCss];
+      return [customCss, customJs];
     },
   };
 };
@@ -554,7 +596,123 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
-## Example
+## i18n lifecycles {#i18n-lifecycles}
+
+### `getTranslationFiles({content})` {#get-translation-files}
+
+Plugins declare the JSON translation files they want to use.
+
+Returns translation files `{path: string, content: ChromeI18nJSON}`:
+
+- Path: relative to the plugin localized folder `i18n/<locale>/pluginName`. Extension `.json` is not necessary.
+- Content: using the Chrome i18n JSON format
+
+These files will be written by the [`write-translations` CLI](./cli.md#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translate-content) and [`translateThemeConfig()`](#translate-theme-config)
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    async getTranslationFiles({content}) {
+      return [
+        {
+          path: 'sidebar-labels',
+          content: {
+            someSidebarLabel: {
+              message: 'Some Sidebar Label',
+              description: 'A label used in my plugin in the sidebar',
+            },
+            someLabelFromContent: content.myLabel,
+          },
+        },
+      ];
+    },
+    // highlight-end
+  };
+};
+```
+
+### `translateContent({content,translationFiles})` {#translate-content}
+
+Translate the plugin content, using the localized translation files.
+
+Returns the localized plugin content.
+
+The `contentLoaded()` lifecycle will be called with the localized plugin content returned by `translateContent()`.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    translateContent({content, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...content,
+        someContentLabel: myTranslationFile.someContentLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+### `translateThemeConfig({themeConfig,translationFiles})` {#translate-theme-config}
+
+Translate the site `themeConfig` labels, using the localized translation files.
+
+Returns the localized `themeConfig`.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    translateThemeConfig({themeConfig, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...themeConfig,
+        someThemeConfigLabel: myTranslationFile.someThemeConfigLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+### `async getDefaultCodeTranslationMessages()` {#get-default-code-translation-messages}
+
+Themes using the `<Translate>` API can provide default code translation messages.
+
+It should return messages in `Record<string,string`>, where keys are translation ids and values are messages (without the description) localized using the site current locale.
+
+Example:
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    async getDefaultCodeTranslationMessages() {
+      return readJsonFile(`${context.i18n.currentLocale}.json`);
+    },
+    // highlight-end
+  };
+};
+```
+
+## Example {#example}
 
 Here's a mind model for a presumptuous plugin implementation.
 
@@ -634,6 +792,22 @@ module.exports = function (context, opts) {
 
     injectHtmlTags() {
       // Inject head and/or body HTML tags.
+    },
+
+    async getTranslationFiles() {
+      // Return translation files
+    },
+
+    translateContent({content, translationFiles}) {
+      // translate the plugin content here
+    },
+
+    translateThemeConfig({themeConfig, translationFiles}) {
+      // translate the site themeConfig here
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // return default theme translations here
     },
   };
 };

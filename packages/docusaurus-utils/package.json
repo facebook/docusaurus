@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-alpha.61",
-  "description": "Node utility functions for Docusaurus packages",
+  "version": "2.0.0-beta.0",
+  "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -11,16 +11,28 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils"
+  },
   "license": "MIT",
   "dependencies": {
-    "escape-string-regexp": "^2.0.0",
-    "fs-extra": "^8.1.0",
-    "gray-matter": "^4.0.2",
-    "lodash.camelcase": "^4.3.0",
-    "lodash.kebabcase": "^4.1.1",
-    "resolve-pathname": "^3.0.0"
+    "@docusaurus/types": "2.0.0-beta.0",
+    "@types/github-slugger": "^1.3.0",
+    "chalk": "^4.1.1",
+    "escape-string-regexp": "^4.0.0",
+    "fs-extra": "^10.0.0",
+    "gray-matter": "^4.0.3",
+    "lodash": "^4.17.20",
+    "resolve-pathname": "^3.0.0",
+    "tslib": "^2.2.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
+  },
+  "devDependencies": {
+    "@types/dedent": "^0.7.0",
+    "dedent": "^0.7.0"
   }
 }

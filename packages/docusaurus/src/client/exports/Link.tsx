@@ -5,29 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
+import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
+
+import type {LinkProps} from '@docusaurus/Link';
+import type docusaurus from '../docusaurus';
 
 declare global {
   interface Window {
-    docusaurus: any;
+    docusaurus: typeof docusaurus;
   }
-}
-
-interface Props {
-  readonly isNavLink?: boolean;
-  readonly to?: string;
-  readonly href?: string;
-  readonly activeClassName?: string;
-  readonly children?: ReactNode;
-
-  // escape hatch in case broken links check is annoying for a specific link
-  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -42,9 +36,14 @@ function Link({
   to,
   href,
   activeClassName,
+  isActive,
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  autoAddBaseUrl = true,
   ...props
-}: Props): JSX.Element {
+}: LinkProps): JSX.Element {
+  const {
+    siteConfig: {trailingSlash},
+  } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
@@ -55,26 +54,42 @@ function Link({
   const targetLinkUnprefixed = to || href;
 
   function maybeAddBaseUrl(str: string) {
-    return shouldAddBaseUrlAutomatically(str)
+    return autoAddBaseUrl && shouldAddBaseUrlAutomatically(str)
       ? withBaseUrl(str)
-      : targetLinkUnprefixed;
+      : str;
   }
+
+  const isInternal = isInternalUrl(targetLinkUnprefixed);
+
+  // pathname:// is a special "protocol" we use to tell Docusaurus link
+  // that a link is not "internal" and that we shouldn't use history.push()
+  // this is not ideal but a good enough escape hatch for now
+  // see https://github.com/facebook/docusaurus/issues/3309
+  // note: we want baseUrl to be appended (see issue for details)
+  // TODO read routes and automatically detect internal/external links?
+  const targetLinkWithoutPathnameProtocol = targetLinkUnprefixed?.replace(
+    'pathname://',
+    '',
+  );
 
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
-  const targetLink =
-    typeof targetLinkUnprefixed !== 'undefined'
-      ? maybeAddBaseUrl(targetLinkUnprefixed)
+  let targetLink =
+    typeof targetLinkWithoutPathnameProtocol !== 'undefined'
+      ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  const isInternal = isInternalUrl(targetLink);
+  if (targetLink && isInternal) {
+    targetLink = applyTrailingSlash(targetLink, trailingSlash);
+  }
+
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  let io;
-  const handleIntersection = (el, cb) => {
+  let io: IntersectionObserver;
+  const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
     io = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
@@ -93,17 +108,19 @@ function Link({
     io.observe(el);
   };
 
-  const handleRef = (ref) => {
+  const handleRef = (ref: HTMLAnchorElement | null) => {
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {
-        window.docusaurus.prefetch(targetLink);
+        if (targetLink != null) {
+          window.docusaurus.prefetch(targetLink);
+        }
       });
     }
   };
 
   const onMouseEnter = () => {
-    if (!preloaded.current) {
+    if (!preloaded.current && targetLink != null) {
       window.docusaurus.preload(targetLink);
       preloaded.current = true;
     }
@@ -112,7 +129,9 @@ function Link({
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
     if (!IOSupported && isInternal) {
-      window.docusaurus.prefetch(targetLink);
+      if (targetLink != null) {
+        window.docusaurus.prefetch(targetLink);
+      }
     }
 
     // When unmounting, stop intersection observer from watching.
@@ -134,7 +153,8 @@ function Link({
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
       href={targetLink}
-      {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
+      {...(targetLinkUnprefixed &&
+        !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
     />
   ) : (
@@ -144,7 +164,7 @@ function Link({
       innerRef={handleRef}
       to={targetLink || ''}
       // avoid "React does not recognize the `activeClassName` prop on a DOM element"
-      {...(isNavLink && {activeClassName})}
+      {...(isNavLink && {isActive, activeClassName})}
     />
   );
 }

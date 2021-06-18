@@ -8,21 +8,91 @@
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 import {
   useActivePlugin,
   useActiveVersion,
   useDocVersionSuggestions,
 } from '@theme/hooks/useDocs';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
-const useMandatoryActiveDocsPluginId = () => {
-  const activePlugin = useActivePlugin();
-  if (!activePlugin) {
-    throw new Error(
-      'DocVersionCallout is only supposed to be used on docs-related routes',
-    );
-  }
-  return activePlugin.pluginId;
-};
+function UnreleasedVersionLabel({
+  siteTitle,
+  versionLabel,
+}: {
+  siteTitle: string;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.unreleasedVersionLabel"
+      description="The label used to tell the user that he's browsing an unreleased doc version"
+      values={{
+        siteTitle,
+        versionLabel: <b>{versionLabel}</b>,
+      }}>
+      {
+        'This is unreleased documentation for {siteTitle} {versionLabel} version.'
+      }
+    </Translate>
+  );
+}
+
+function UnmaintainedVersionLabel({
+  siteTitle,
+  versionLabel,
+}: {
+  siteTitle: string;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.unmaintainedVersionLabel"
+      description="The label used to tell the user that he's browsing an unmaintained doc version"
+      values={{
+        siteTitle,
+        versionLabel: <b>{versionLabel}</b>,
+      }}>
+      {
+        'This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.'
+      }
+    </Translate>
+  );
+}
+
+function LatestVersionSuggestionLabel({
+  versionLabel,
+  to,
+  onClick,
+}: {
+  to: string;
+  onClick: () => void;
+  versionLabel: string;
+}) {
+  return (
+    <Translate
+      id="theme.docs.versions.latestVersionSuggestionLabel"
+      description="The label userd to tell the user that he's browsing an unmaintained doc version"
+      values={{
+        versionLabel,
+        latestVersionLink: (
+          <b>
+            <Link to={to} onClick={onClick}>
+              <Translate
+                id="theme.docs.versions.latestVersionLinkLabel"
+                description="The label used for the latest version suggestion link label">
+                latest version
+              </Translate>
+            </Link>
+          </b>
+        ),
+      }}>
+      {
+        'For up-to-date documentation, see the {latestVersionLink} ({versionLabel}).'
+      }
+    </Translate>
+  );
+}
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
@@ -31,7 +101,10 @@ function DocVersionSuggestions(): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const pluginId = useMandatoryActiveDocsPluginId();
+  const {pluginId} = useActivePlugin({failfast: true});
+
+  const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
+
   const activeVersion = useActiveVersion(pluginId);
   const {
     latestDocSuggestion,
@@ -43,36 +116,32 @@ function DocVersionSuggestions(): JSX.Element {
     return <></>;
   }
 
-  const activeVersionName = activeVersion.name;
-
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version
-  const suggestedDoc =
+  const latestVersionSuggestedDoc =
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 
   return (
     <div className="alert alert--warning margin-bottom--md" role="alert">
-      {
-        // TODO need refactoring
-        activeVersionName === 'current' ? (
-          <div>
-            This is unreleased documentation for {siteTitle}{' '}
-            <strong>{activeVersionName}</strong> version.
-          </div>
+      <div>
+        {activeVersion.name === 'current' ? (
+          <UnreleasedVersionLabel
+            siteTitle={siteTitle}
+            versionLabel={activeVersion.label}
+          />
         ) : (
-          <div>
-            This is documentation for {siteTitle}{' '}
-            <strong>v{activeVersionName}</strong>, which is no longer actively
-            maintained.
-          </div>
-        )
-      }
+          <UnmaintainedVersionLabel
+            siteTitle={siteTitle}
+            versionLabel={activeVersion.label}
+          />
+        )}
+      </div>
       <div className="margin-top--md">
-        For up-to-date documentation, see the{' '}
-        <strong>
-          <Link to={suggestedDoc.path}>latest version</Link>
-        </strong>{' '}
-        ({latestVersionSuggestion.name}).
+        <LatestVersionSuggestionLabel
+          versionLabel={latestVersionSuggestion.label}
+          to={latestVersionSuggestedDoc.path}
+          onClick={() => savePreferredVersionName(latestVersionSuggestion.name)}
+        />
       </div>
     </div>
   );

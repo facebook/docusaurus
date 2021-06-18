@@ -4,19 +4,32 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from '@hapi/joi';
+
+import {Joi} from '@docusaurus/utils-validation';
+import {EnumChangefreq} from 'sitemap';
 import {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period.
-  changefreq: 'weekly',
+  changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
+  trailingSlash: false,
 };
 
 export const PluginOptionSchema = Joi.object({
-  cacheTime: Joi.number().positive().default(DEFAULT_OPTIONS.cacheTime),
+  // TODO temporary (@alpha-71)
+  cacheTime: Joi.forbidden().messages({
+    'any.unknown':
+      'Option `cacheTime` in sitemap config is deprecated. Please remove it.',
+  }),
   changefreq: Joi.string()
-    .valid('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never')
+    .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
+  trailingSlash: Joi.bool().default(false).warning('deprecate.error', {
+    msg:
+      'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',
+  }),
+}).messages({
+  'deprecate.error':
+    'Option {#label} of the sitemap plugin is deprecated: {#msg}',
 });

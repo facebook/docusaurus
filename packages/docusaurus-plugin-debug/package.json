@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-debug",
-  "version": "2.0.0-alpha.61",
-  "description": "Debug plugin for Docusaurus",
+  "version": "2.0.0-beta.0",
+  "description": "Debug plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -10,18 +10,24 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-debug"
+  },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.61",
-    "@docusaurus/utils": "^2.0.0-alpha.61",
-    "react-json-view": "^1.19.1"
+    "@docusaurus/core": "2.0.0-beta.0",
+    "@docusaurus/types": "2.0.0-beta.0",
+    "@docusaurus/utils": "2.0.0-beta.0",
+    "react-json-view": "^1.21.3",
+    "tslib": "^2.1.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

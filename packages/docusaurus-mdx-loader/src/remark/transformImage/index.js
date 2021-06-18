@@ -9,45 +9,47 @@ const visit = require('unist-util-visit');
 const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
+const escapeHtml = require('escape-html');
 const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
-const {posixPath} = require('@docusaurus/utils');
+const {
+  posixPath,
+  escapePath,
+  toMessageRelativeFilePath,
+} = require('@docusaurus/utils');
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
 const createJSX = (node, pathUrl) => {
-  node.type = 'jsx';
-  node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
+  const jsxNode = node;
+  jsxNode.type = 'jsx';
+  jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
     node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${pathUrl}").default}`
+      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
+          pathUrl,
+        )}").default}`
       : ''
-  } ${node.title ? `title={"${node.title}"}` : ''} />`;
+  }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
-  if (node.url) {
-    delete node.url;
+  if (jsxNode.url) {
+    delete jsxNode.url;
   }
-  if (node.alt) {
-    delete node.alt;
+  if (jsxNode.alt) {
+    delete jsxNode.alt;
   }
-  if (node.title) {
-    delete node.title;
+  if (jsxNode.title) {
+    delete jsxNode.title;
   }
 };
 
-// Needed to throw errors with computer-agnostic path messages
-// Absolute paths are too dependant of user FS
-function toRelativePath(filePath) {
-  return path.relative(process.cwd(), filePath);
-}
-
 async function ensureImageFileExist(imagePath, sourceFilePath) {
-  const imageExists = await fs.exists(imagePath);
+  const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
     throw new Error(
-      `Image ${toRelativePath(imagePath)} used in ${toRelativePath(
-        sourceFilePath,
-      )} not found.`,
+      `Image ${toMessageRelativeFilePath(
+        imagePath,
+      )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
     );
   }
 }
@@ -55,7 +57,9 @@ async function ensureImageFileExist(imagePath, sourceFilePath) {
 async function processImageNode(node, {filePath, staticDir}) {
   if (!node.url) {
     throw new Error(
-      `Markdown image url is mandatory. filePath=${toRelativePath(filePath)}`,
+      `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
+        filePath,
+      )}" file`,
     );
   }
 

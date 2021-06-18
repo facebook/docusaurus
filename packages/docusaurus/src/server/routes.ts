@@ -11,9 +11,7 @@ import {
   removeSuffix,
   simpleHash,
 } from '@docusaurus/utils';
-import has from 'lodash.has';
-import isPlainObject from 'lodash.isplainobject';
-import isString from 'lodash.isstring';
+import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
 import {
   ChunkRegistry,
@@ -112,7 +110,7 @@ export default async function loadRoutes(
 
     if (!isString(routePath) || !component) {
       throw new Error(
-        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
+        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
           routeConfig,
         )}`,
       );
@@ -136,7 +134,7 @@ export default async function loadRoutes(
     };
 
     return createRouteCodeString({
-      routePath: routeConfig.path,
+      routePath: routeConfig.path.replace(/'/g, "\\'"),
       routeHash,
       exact,
       subroutesCodeStrings: subroutes?.map(generateRouteCode),

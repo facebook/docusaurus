@@ -20,8 +20,8 @@ exports[`collectRedirects should throw if redirect creator creates array of arra
 
 exports[`collectRedirects should throw if redirect creator creates invalid redirects 1`] = `
 "Some created redirects are invalid:
-- {\\"from\\":\\"https://google.com/\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
-- {\\"from\\":\\"//abc\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
-- {\\"from\\":\\"/def?queryString=toto\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"https://google.com/\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
+- {\\"from\\":\\"//abc\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
+- {\\"from\\":\\"/def?queryString=toto\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string.
 "
 `;

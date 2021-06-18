@@ -22,7 +22,7 @@ test('should accept correctly defined user options', () => {
     ...DEFAULT_OPTIONS,
     feedOptions: {type: 'rss', title: 'myTitle'},
     path: 'not_blog',
-    routeBasePath: '',
+    routeBasePath: 'myBlog',
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
   };
@@ -37,7 +37,7 @@ test('should accept correctly defined user options', () => {
 test('should accept valid user options', async () => {
   const userOptions = {
     ...DEFAULT_OPTIONS,
-    routeBasePath: '',
+    routeBasePath: 'myBlog',
     beforeDefaultRemarkPlugins: [],
     beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
     remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
@@ -79,5 +79,72 @@ test('should convert all feed type to array with other feed type', () => {
   expect(value).toEqual({
     ...DEFAULT_OPTIONS,
     feedOptions: {type: ['rss', 'atom']},
+  });
+});
+
+test('should accept null type and return same', () => {
+  const {value, error} = PluginOptionSchema.validate({
+    feedOptions: {type: null},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: null},
+  });
+  expect(error).toBe(undefined);
+});
+
+test('should contain array with rss + atom for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {},
+  });
+  expect(value).toEqual(DEFAULT_OPTIONS);
+});
+
+test('should have array with rss + atom, title for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {title: 'title'},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: ['rss', 'atom'], title: 'title'},
+  });
+});
+
+describe('blog sidebar', () => {
+  test('should accept 0 sidebar count', () => {
+    const userOptions = {blogSidebarCount: 0};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should accept "ALL" sidebar count', () => {
+    const userOptions = {blogSidebarCount: 'ALL'};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject "abcdef" sidebar count', () => {
+    const userOptions = {blogSidebarCount: 'abcdef'};
+    const {error} = PluginOptionSchema.validate(userOptions);
+    expect(error).toMatchInlineSnapshot(
+      `[ValidationError: "blogSidebarCount" must be one of [ALL, number]]`,
+    );
+  });
+
+  test('should accept "all posts" sidebar title', () => {
+    const userOptions = {blogSidebarTitle: 'all posts'};
+    const {value, error} = PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(error).toBe(undefined);
+  });
+
+  test('should reject 42 sidebar title', () => {
+    const userOptions = {blogSidebarTitle: 42};
+    const {error} = PluginOptionSchema.validate(userOptions);
+    expect(error).toMatchInlineSnapshot(
+      `[ValidationError: "blogSidebarTitle" must be a string]`,
+    );
   });
 });

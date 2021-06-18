@@ -1,0 +1,80 @@
+name: V2 Tests E2E
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
+
+jobs:
+  yarn-v1:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['12', '14']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
+      - name: Setup test-website project against master release
+        run: |
+          yarn test:build:v2
+          rm -rf node_modules
+      - name: Start test-website project
+        run: cd test-website && yarn start --no-open
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: cd test-website && yarn build
+        env:
+          CI: true
+  yarn-v2:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['14']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
+      - name: Setup test-website project against master release
+        run: |
+          KEEP_CONTAINER=true yarn test:build:v2
+          rm -rf node_modules
+      - name: Setup test-website project for Yarn v2
+        run: |
+          cd test-website
+          yarn set version berry
+          yarn config set pnpMode loose
+          yarn config set npmRegistryServer http://localhost:4873
+          yarn config set unsafeHttpWhitelist --json '["localhost"]'
+          yarn config set enableGlobalCache true
+          yarn install
+      - name: Start test-website project
+        run: cd test-website && yarn start --no-open
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: cd test-website && yarn build
+        env:
+          CI: true

@@ -12,20 +12,33 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
+import BlogSidebar from '@theme/BlogSidebar';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogListPage(props: Props): JSX.Element {
-  const {metadata, items} = props;
+  const {metadata, items, sidebar} = props;
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const isBlogOnlyMode = metadata.permalink === '/';
-  const title = isBlogOnlyMode ? siteTitle : 'Blog';
-  const {blogDescription} = metadata;
+  const {blogDescription, blogTitle, permalink} = metadata;
+  const isBlogOnlyMode = permalink === '/';
+  const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
-    <Layout title={title} description={blogDescription}>
+    <Layout
+      title={title}
+      description={blogDescription}
+      wrapperClassName={ThemeClassNames.wrapper.blogPages}
+      pageClassName={ThemeClassNames.page.blogListPage}
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'blog_posts_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
-          <main className="col col--8 col--offset-2">
+          <aside className="col col--3">
+            <BlogSidebar sidebar={sidebar} />
+          </aside>
+          <main className="col col--7">
             {items.map(({content: BlogPostContent}) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}

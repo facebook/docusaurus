@@ -5,16 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
 const {createCompiler} = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
-const matter = require('gray-matter');
+const {
+  parseFrontMatter,
+  parseMarkdownContentTitle,
+} = require('@docusaurus/utils');
 const stringifyObject = require('stringify-object');
-const slug = require('./remark/slug');
-const rightToc = require('./remark/rightToc');
+const headings = require('./remark/headings');
+const toc = require('./remark/toc');
+const unwrapMdxCodeBlocks = require('./remark/unwrapMdxCodeBlocks');
 const transformImage = require('./remark/transformImage');
-const tranformAsset = require('./remark/transformAssets');
+const transformLinks = require('./remark/transformLinks');
 
 const pragma = `
 /* @jsxRuntime classic */
@@ -24,17 +27,25 @@ const pragma = `
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [emoji, slug, rightToc],
+  remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
 };
 
 const compilerCache = new Map();
 
-module.exports = async function (fileString) {
+module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
 
-  const {data, content} = matter(fileString);
+  const reqOptions = this.getOptions() || {};
+
+  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+
+  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
+    removeContentTitle: reqOptions.removeContentTitle,
+  });
+
+  const hasFrontMatter = Object.keys(frontMatter).length > 0;
+
   if (!compilerCache.has(this.query)) {
-    const reqOptions = getOptions(this) || {};
     const options = {
       ...reqOptions,
       remarkPlugins: [
@@ -45,7 +56,7 @@ module.exports = async function (fileString) {
           {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
         ],
         [
-          tranformAsset,
+          transformLinks,
           {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
         ],
         ...(reqOptions.remarkPlugins || []),
@@ -60,9 +71,10 @@ module.exports = async function (fileString) {
     };
     compilerCache.set(this.query, [createCompiler(options), options]);
   }
-  const [compiler, options] = compilerCache.get(this.query);
-  let result;
 
+  const [compiler, options] = compilerCache.get(this.query);
+
+  let result;
   try {
     result = await compiler.process({
       contents: content,
@@ -72,7 +84,11 @@ module.exports = async function (fileString) {
     return callback(err);
   }
 
-  let exportStr = `export const frontMatter = ${stringifyObject(data)};`;
+  let exportStr = ``;
+  exportStr += `\nexport const frontMatter = ${stringifyObject(frontMatter)};`;
+  exportStr += `\nexport const contentTitle = ${stringifyObject(
+    contentTitle,
+  )};`;
 
   // Read metadata for this MDX and export it.
   if (options.metadataPath && typeof options.metadataPath === 'function') {
@@ -91,13 +107,11 @@ module.exports = async function (fileString) {
     options.forbidFrontMatter &&
     typeof options.forbidFrontMatter === 'function'
   ) {
-    if (
-      options.forbidFrontMatter(this.resourcePath) &&
-      Object.keys(data).length > 0
-    ) {
+    if (options.forbidFrontMatter(this.resourcePath) && hasFrontMatter) {
       return callback(new Error(`Front matter is forbidden in this file`));
     }
   }
+
   const code = `
   ${pragma}
   import React from 'react';

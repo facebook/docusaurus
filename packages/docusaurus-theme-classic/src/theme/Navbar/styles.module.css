@@ -11,16 +11,10 @@
   }
 }
 
-@media (max-width: 768px) {
-  .hideLogoText {
-    display: none;
-  }
-}
-
 .navbarHideable {
-  transition: top 0.2s ease-in-out;
+  transition: transform var(--ifm-transition-fast) ease;
 }
 
 .navbarHidden {
-  top: calc(var(--ifm-navbar-height) * -1) !important;
+  transform: translate3d(0, calc(-100% - 2px), 0);
 }

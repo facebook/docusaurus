@@ -1,0 +1,29 @@
+# Server redirects for Netlify
+
+# v2.docusaurus.io domain redirect after we put v2 on docusaurus.io
+https://v2.docusaurus.io/*      https://docusaurus.io/:splat 301!
+
+
+# Redirect older Docusaurus v1 links that do not exist anymore in v2
+https://docusaurus.io/docs/en/*         https://v1.docusaurus.io/docs/en/:splat
+https://docusaurus.io/docs/fr/*         https://v1.docusaurus.io/docs/fr/:splat
+https://docusaurus.io/docs/ko/*         https://v1.docusaurus.io/docs/ko/:splat
+https://docusaurus.io/docs/ro/*         https://v1.docusaurus.io/docs/ro/:splat
+https://docusaurus.io/docs/ru/*         https://v1.docusaurus.io/docs/ru/:splat
+https://docusaurus.io/docs/pt-br/*      https://v1.docusaurus.io/docs/pt-br/:splat
+https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:splat
+
+
+# Redirect to fix blog post url typo on publish :'( can be cleaned up soon
+/blog/2020/01/19/docusaurus-2020-recap            /blog/2021/01/19/docusaurus-2020-recap
+/classic/blog/2020/01/19/docusaurus-2020-recap    /classic/blog/2021/01/19/docusaurus-2020-recap
+
+
+# Redirect each country sub-path to appropriate localized 404 file
+# See https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling
+/fr/*         /fr/404.html          404
+
+
+# Redirect Docusaurus v1 blog RSS feed
+/blog/feed.xml   /blog/rss.xml
+

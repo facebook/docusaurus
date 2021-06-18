@@ -5,17 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-
 import React, {useEffect, useState, useRef} from 'react';
 import clsx from 'clsx';
-import Highlight, {defaultProps} from 'prism-react-renderer';
+import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
+import type {Props} from '@theme/CodeBlock';
+import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
+
+import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 const getHighlightDirectiveRegex = (
@@ -85,22 +86,14 @@ const highlightDirectiveRegex = (lang) => {
       return getHighlightDirectiveRegex();
   }
 };
-const codeBlockTitleRegex = /title=".*"/;
 
-export default ({
+export default function CodeBlock({
   children,
   className: languageClassName,
   metastring,
-}: {
-  children: string;
-  className: string;
-  metastring: string;
-}): JSX.Element => {
-  const {
-    siteConfig: {
-      themeConfig: {prism = {}},
-    },
-  } = useDocusaurusContext();
+  title,
+}: Props): JSX.Element {
+  const {prism} = useThemeConfig();
 
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -115,44 +108,43 @@ export default ({
     setMounted(true);
   }, []);
 
+  // TODO: the title is provided by MDX as props automatically
+  // so we probably don't need to parse the metastring
+  // (note: title="xyz" => title prop still has the quotes)
+  const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
+
   const button = useRef(null);
   let highlightLines: number[] = [];
-  let codeBlockTitle = '';
 
   const prismTheme = usePrismTheme();
+
+  // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
+  const content = Array.isArray(children) ? children.join('') : children;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
-    highlightLines = rangeParser
-      .parse(highlightLinesRange)
-      .filter((n) => n > 0);
-  }
-
-  if (metastring && codeBlockTitleRegex.test(metastring)) {
-    // Tested above
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    codeBlockTitle = metastring
-      .match(codeBlockTitleRegex)![0]
-      .split('title=')[1]
-      .replace(/"+/g, '');
+    highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
   let language =
-    languageClassName && languageClassName.replace(/language-/, '');
+    languageClassName &&
+    // Force Prism's language union type to `any` because it does not contain all available languages
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((languageClassName.replace(/language-/, '') as Language) as any);
 
   if (!language && prism.defaultLanguage) {
     language = prism.defaultLanguage;
   }
 
   // only declaration OR directive highlight can be used for a block
-  let code = children.replace(/\n$/, '');
+  let code = content.replace(/\n$/, '');
   if (highlightLines.length === 0 && language !== undefined) {
     let range = '';
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
-    const lines = children.replace(/\n$/, '').split('\n');
+    const lines = content.replace(/\n$/, '').split('\n');
     let blockStart;
     // loop through lines
     for (let index = 0; index < lines.length; ) {
@@ -189,7 +181,7 @@ export default ({
         index += 1;
       }
     }
-    highlightLines = rangeParser.parse(range);
+    highlightLines = rangeParser(range);
     code = lines.join('\n');
   }
 
@@ -206,32 +198,23 @@ export default ({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      // @ts-expect-error: prism-react-renderer doesn't export Language type
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <>
+        <div className={styles.codeBlockContainer}>
           {codeBlockTitle && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
             </div>
           )}
-          <div className={styles.codeBlockContent}>
-            <button
-              ref={button}
-              type="button"
-              aria-label="Copy code to clipboard"
-              className={clsx(styles.copyButton, {
-                [styles.copyButtonWithTitle]: codeBlockTitle,
-              })}
-              onClick={handleCopyCode}>
-              {showCopied ? 'Copied' : 'Copy'}
-            </button>
-            <div
+          <div className={clsx(styles.codeBlockContent, language)}>
+            <pre
+              /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, {
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar', {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
-              })}>
-              <div className={styles.codeBlockLines} style={style}>
+              })}
+              style={style}>
+              <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
                     line[0].content = '\n'; // eslint-disable-line no-param-reassign
@@ -240,22 +223,47 @@ export default ({
                   const lineProps = getLineProps({line, key: i});
 
                   if (highlightLines.includes(i + 1)) {
-                    lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+                    lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
                   return (
-                    <div key={i} {...lineProps}>
+                    <span key={i} {...lineProps}>
                       {line.map((token, key) => (
                         <span key={key} {...getTokenProps({token, key})} />
                       ))}
-                    </div>
+                    </span>
                   );
                 })}
-              </div>
-            </div>
+              </code>
+            </pre>
+
+            <button
+              ref={button}
+              type="button"
+              aria-label={translate({
+                id: 'theme.CodeBlock.copyButtonAriaLabel',
+                message: 'Copy code to clipboard',
+                description: 'The ARIA label for copy code blocks button',
+              })}
+              className={clsx(styles.copyButton, 'clean-btn')}
+              onClick={handleCopyCode}>
+              {showCopied ? (
+                <Translate
+                  id="theme.CodeBlock.copied"
+                  description="The copied button label on code blocks">
+                  Copied
+                </Translate>
+              ) : (
+                <Translate
+                  id="theme.CodeBlock.copy"
+                  description="The copy button label on code blocks">
+                  Copy
+                </Translate>
+              )}
+            </button>
           </div>
-        </>
+        </div>
       )}
     </Highlight>
   );
-};
+}

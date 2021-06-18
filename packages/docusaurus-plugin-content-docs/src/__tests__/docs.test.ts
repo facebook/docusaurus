@@ -14,11 +14,14 @@ import {
   DocMetadataBase,
   MetadataOptions,
   VersionMetadata,
+  PluginOptions,
+  EditUrlFunction,
 } from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
+import {posixPath} from '@docusaurus/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -42,6 +45,8 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
+    contentPath: 'docs',
+    filePath: source,
   };
 };
 
@@ -57,7 +62,7 @@ function createTestUtils({
   options: MetadataOptions;
 }) {
   async function readDoc(docFileSource: string) {
-    return readDocFile(versionMetadata.docsDirPath, docFileSource, options);
+    return readDocFile(versionMetadata, docFileSource, options);
   }
   function processDocFile(docFile: DocFile) {
     return processDocMetadata({
@@ -71,7 +76,7 @@ function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
@@ -84,12 +89,11 @@ function createTestUtils({
     expect(metadata).toEqual({
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
-      sidebar_label: undefined,
       editUrl: undefined,
-      source: path.join(
+      source: path.posix.join(
         '@site',
-        path.relative(siteDir, versionMetadata.docsDirPath),
-        docFileSource,
+        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
+        posixPath(docFileSource),
       ),
       ...expectedMetadata,
     });
@@ -110,76 +114,107 @@ function createTestUtils({
 }
 
 describe('simple site', () => {
-  const siteDir = path.join(fixtureDir, 'simple-site');
-  const context = loadContext(siteDir);
-  const options = {
-    id: DEFAULT_PLUGIN_ID,
-    ...DEFAULT_OPTIONS,
-  };
-  const versionsMetadata = readVersionsMetadata({
-    context,
-    options: {
+  async function loadSite(
+    loadSiteOptions: {options: Partial<PluginOptions>} = {options: {}},
+  ) {
+    const siteDir = path.join(fixtureDir, 'simple-site');
+    const context = await loadContext(siteDir);
+    const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
-    },
-  });
-  expect(versionsMetadata.length).toEqual(1);
-  const [currentVersion] = versionsMetadata;
+      ...loadSiteOptions.options,
+    };
+    const versionsMetadata = readVersionsMetadata({
+      context,
+      options,
+    });
+    expect(versionsMetadata.length).toEqual(1);
+    const [currentVersion] = versionsMetadata;
 
-  const defaultTestUtils = createTestUtils({
-    siteDir,
-    context,
-    options,
-    versionMetadata: currentVersion,
-  });
+    const defaultTestUtils = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+    return {
+      siteDir,
+      context,
+      options,
+      versionsMetadata,
+      defaultTestUtils,
+      currentVersion,
+    };
+  }
 
   test('readVersionDocs', async () => {
+    const {options, currentVersion} = await loadSite();
     const docs = await readVersionDocs(currentVersion, options);
-    expect(docs.map((doc) => doc.source)).toMatchObject([
-      'hello.md',
-      'ipsum.md',
-      'lorem.md',
-      'rootAbsoluteSlug.md',
-      'rootRelativeSlug.md',
-      'rootResolvedSlug.md',
-      'rootTryToEscapeSlug.md',
-      'foo/bar.md',
-      'foo/baz.md',
-      'slugs/absoluteSlug.md',
-      'slugs/relativeSlug.md',
-      'slugs/resolvedSlug.md',
-      'slugs/tryToEscapeSlug.md',
-    ]);
+    expect(docs.map((doc) => doc.source).sort()).toEqual(
+      [
+        'hello.md',
+        'ipsum.md',
+        'lorem.md',
+        'rootAbsoluteSlug.md',
+        'rootRelativeSlug.md',
+        'rootResolvedSlug.md',
+        'rootTryToEscapeSlug.md',
+        'headingAsTitle.md',
+        'foo/bar.md',
+        'foo/baz.md',
+        'slugs/absoluteSlug.md',
+        'slugs/relativeSlug.md',
+        'slugs/resolvedSlug.md',
+        'slugs/tryToEscapeSlug.md',
+      ].sort(),
+    );
   });
 
   test('normal docs', async () => {
+    const {defaultTestUtils} = await loadSite();
     await defaultTestUtils.testMeta(path.join('foo', 'bar.md'), {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
+      },
     });
   });
 
   test('homePageId doc', async () => {
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {homePageId: 'hello'},
+    });
+
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {...options, homePageId: 'hello'},
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -187,19 +222,29 @@ describe('simple site', () => {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
+      },
     });
   });
 
   test('homePageId doc nested', async () => {
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {homePageId: 'foo/bar'},
+    });
+
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {...options, homePageId: 'foo/bar'},
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -207,22 +252,31 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
   });
 
   test('docs with editUrl', async () => {
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+      },
+    });
+
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
-      },
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -230,6 +284,7 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/baz',
       unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
@@ -237,32 +292,95 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+        pagination_label: 'baz pagination_label',
+      },
     });
   });
 
   test('docs with custom editUrl & unrelated frontmatter', async () => {
+    const {defaultTestUtils} = await loadSite();
+
     await defaultTestUtils.testMeta('lorem.md', {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
+    });
+  });
+
+  test('docs with function editUrl', async () => {
+    const hardcodedEditUrl = 'hardcoded-edit-url';
+
+    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        editUrl: editUrlFunction,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
+      version: 'current',
+      id: 'foo/baz',
+      unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
+      isDocsHomePage: false,
+      permalink: '/docs/foo/bazSlug.html',
+      slug: '/foo/bazSlug.html',
+      title: 'baz',
+      editUrl: hardcodedEditUrl,
+      description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+        pagination_label: 'baz pagination_label',
+      },
+    });
+
+    expect(editUrlFunction).toHaveBeenCalledTimes(1);
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      version: 'current',
+      versionDocsDirPath: 'docs',
+      docPath: path.posix.join('foo', 'baz.md'),
+      permalink: '/docs/foo/bazSlug.html',
+      locale: 'en',
     });
   });
 
   test('docs with last update time and author', async () => {
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
+    const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
-        ...options,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
       versionMetadata: currentVersion,
     });
 
@@ -270,18 +388,26 @@ describe('simple site', () => {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
       lastUpdatedAt: 1539502055,
+      formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
     });
   });
 
   test('docs with slugs', async () => {
+    const {defaultTestUtils} = await loadSite();
+
     await defaultTestUtils.testSlug(
       path.join('rootRelativeSlug.md'),
       '/docs/rootRelativeSlug',
@@ -317,7 +443,8 @@ describe('simple site', () => {
     );
   });
 
-  test('docs with invalid id', () => {
+  test('docs with invalid id', async () => {
+    const {defaultTestUtils} = await loadSite();
     expect(() => {
       defaultTestUtils.processDocFile(
         createFakeDocFile({
@@ -328,18 +455,21 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id [Hello/world] cannot include \\"/\\"."`,
+      `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
 
   test('docs with slug on doc home', async () => {
+    const {siteDir, context, options, currentVersion} = await loadSite({
+      options: {
+        homePageId: 'homePageId',
+      },
+    });
+
     const testUtilsLocal = createTestUtils({
       siteDir,
       context,
-      options: {
-        ...options,
-        homePageId: 'homePageId',
-      },
+      options,
       versionMetadata: currentVersion,
     });
     expect(() => {
@@ -352,127 +482,165 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to chooser either homePageId or slug, not both"`,
+      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to choose either homePageId or slug, not both"`,
     );
   });
 });
 
 describe('versioned site', () => {
-  const siteDir = path.join(fixtureDir, 'versioned-site');
-  const context = loadContext(siteDir);
-  const options = {
-    id: DEFAULT_PLUGIN_ID,
-    ...DEFAULT_OPTIONS,
-  };
-  const versionsMetadata = readVersionsMetadata({
-    context,
-    options: {
+  async function loadSite(
+    loadSiteOptions: {options: Partial<PluginOptions>; locale?: string} = {
+      options: {},
+    },
+  ) {
+    const siteDir = path.join(fixtureDir, 'versioned-site');
+    const context = await loadContext(siteDir, {
+      locale: loadSiteOptions.locale,
+    });
+    const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
-    },
-  });
-  expect(versionsMetadata.length).toEqual(4);
-  const [
-    currentVersion,
-    version101,
-    version100,
-    versionWithSlugs,
-  ] = versionsMetadata;
+      ...loadSiteOptions.options,
+    };
+    const versionsMetadata = readVersionsMetadata({
+      context,
+      options,
+    });
+    expect(versionsMetadata.length).toEqual(4);
+    const [
+      currentVersion,
+      version101,
+      version100,
+      versionWithSlugs,
+    ] = versionsMetadata;
 
-  const currentVersionTestUtils = createTestUtils({
-    siteDir,
-    context,
-    options,
-    versionMetadata: currentVersion,
-  });
-  const version101TestUtils = createTestUtils({
-    siteDir,
-    context,
-    options,
-    versionMetadata: version101,
-  });
+    const currentVersionTestUtils = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+    const version101TestUtils = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version101,
+    });
 
-  const version100TestUtils = createTestUtils({
-    siteDir,
-    context,
-    options,
-    versionMetadata: version100,
-  });
+    const version100TestUtils = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
 
-  const versionWithSlugsTestUtils = createTestUtils({
-    siteDir,
-    context,
-    options,
-    versionMetadata: versionWithSlugs,
-  });
+    const versionWithSlugsTestUtils = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: versionWithSlugs,
+    });
+
+    return {
+      siteDir,
+      context,
+      options,
+      versionsMetadata,
+      currentVersionTestUtils,
+      version101TestUtils,
+      version100,
+      version100TestUtils,
+      versionWithSlugsTestUtils,
+    };
+  }
 
   test('next docs', async () => {
+    const {currentVersionTestUtils} = await loadSite();
+
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
+      frontMatter: {slug: 'barSlug'},
       version: 'current',
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/next/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello next !',
+      frontMatter: {},
       version: 'current',
     });
   });
 
   test('versioned docs', async () => {
+    const {version101TestUtils, version100TestUtils} = await loadSite();
+
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'Bar 1.0.0 !',
+      frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
-      description: 'Hello 1.0.0 !',
+      description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
   });
 
   test('next doc slugs', async () => {
+    const {currentVersionTestUtils} = await loadSite();
+
     await currentVersionTestUtils.testSlug(
       path.join('slugs', 'absoluteSlug.md'),
       '/docs/next/absoluteSlug',
@@ -492,6 +660,8 @@ describe('versioned site', () => {
   });
 
   test('versioned doc slugs', async () => {
+    const {versionWithSlugsTestUtils} = await loadSite();
+
     await versionWithSlugsTestUtils.testSlug(
       path.join('rootAbsoluteSlug.md'),
       '/docs/withSlugs/rootAbsoluteSlug',
@@ -525,5 +695,184 @@ describe('versioned site', () => {
       path.join('slugs', 'tryToEscapeSlug.md'),
       '/docs/withSlugs/tryToEscapeSlug',
     );
+  });
+
+  test('doc with editUrl function', async () => {
+    const hardcodedEditUrl = 'hardcoded-edit-url';
+
+    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: editUrlFunction,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      sourceDirName: '.',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl: hardcodedEditUrl,
+    });
+
+    expect(editUrlFunction).toHaveBeenCalledTimes(1);
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      version: '1.0.0',
+      versionDocsDirPath: 'versioned_docs/version-1.0.0',
+      docPath: path.join('hello.md'),
+      permalink: '/docs/1.0.0/hello',
+      locale: 'en',
+    });
+  });
+
+  test('translated doc with editUrl', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        // editCurrentVersion: true,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      sourceDirName: '.',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
+    });
+  });
+
+  test('translated en doc with editUrl and editCurrentVersion=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editCurrentVersion: true,
+      },
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      sourceDirName: '.',
+      isDocsHomePage: false,
+      permalink: '/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
+      version: '1.0.0',
+      source:
+        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editLocalizedFiles: true,
+      },
+      locale: 'fr',
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      sourceDirName: '.',
+      isDocsHomePage: false,
+      permalink: '/fr/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
+      version: '1.0.0',
+      source:
+        '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+    });
+  });
+
+  test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
+    const {siteDir, context, options, version100} = await loadSite({
+      options: {
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editCurrentVersion: true,
+        editLocalizedFiles: true,
+      },
+      locale: 'fr',
+    });
+
+    const testUtilsLocal = createTestUtils({
+      siteDir,
+      context,
+      options,
+      versionMetadata: version100,
+    });
+
+    await testUtilsLocal.testMeta(path.join('hello.md'), {
+      id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
+      sourceDirName: '.',
+      isDocsHomePage: false,
+      permalink: '/fr/docs/1.0.0/hello',
+      slug: '/hello',
+      title: 'hello',
+      description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
+      version: '1.0.0',
+      source:
+        '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
+    });
   });
 });

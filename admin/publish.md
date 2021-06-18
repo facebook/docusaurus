@@ -71,6 +71,8 @@ If there are no errors, you can start preparing for the new release.
 
 The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `tag:`, otherwise the PR won't appear in the changelog.
 
+[Check tags of all recently merged Pull-Requests](https://github.com/facebook/docusaurus/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged+)
+
 The `tag:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
@@ -87,14 +89,14 @@ Generate the changelog with:
 GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 ```
 
-Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
+Copy the generated contents and paste them in `CHANGELOG.md`.
 
 **Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)).
 
 Adding the `--from` options seems to help:
 
 ```sh
-yarn changelog --from v2.0.0-alpha.60`
+yarn changelog --from v2.0.0-alpha.60
 ```
 
 ### 4. Cut a new version of the docs
@@ -119,7 +121,9 @@ An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114)
 
 Stay on your local branch `<your_username>/<version_to_release>`
 
-As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
+As we have a monorepo structure, we use `lerna publish ... --exact` to publish the new version of packages to npm in one shot.
+
+Using the `--exact` is important to ensure we keep using fixed versions (without the ^ prefix added by Lerna).
 
 First, be sure to run the command below to verify that you have access to all the necessary repositories.
 
@@ -155,7 +159,7 @@ npm access ls-packages
 </pre>
 </details>
 
-It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organisation, but you don't have access to the packages that are not in that organisation.
+It can happen that some accesses are not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
 
 Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
 
@@ -169,10 +173,8 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-alpha.41 --dist-tag next
+yarn lerna publish 2.0.0-alpha.68 --exact
 ```
-
-**Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.\_
 
 This command does a few things:
 
@@ -192,9 +194,15 @@ Now that the release is done, **merge the pull request**.
 - Hit the green "Publish release" button
 - Profit! 💰
 
-### 8. Notify people about new release (optional but desirable)
+### 8. Update example projects (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After a release, update the examples to keep them in sync with the latest release. This will ensure that CodeSandbox playground is able to use the new version at [new.docusaurus.io](https://new.docusaurus.io).
+
+Create a separate branch/PR and run `yarn examples:generate`
+
+### 9. Notify people about new release (optional but desirable)
+
+After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 
@@ -224,82 +232,3 @@ NOTE: most likely this last item will be relevant for each new release, so do no
 
 https://github.com/facebook/docusaurus/releases/tag/%VER%
 ```
-
----
-
-## Docusaurus 1
-
-### Updated v1 release process
-
-Process reworked by @slorber at `1.14.6`, it may not be perfect yet:
-
-Suppose we are at `v1.14.5`, and want to release `v1.14.6`:
-
-- Assign appropriate `tag: xyz` labels to merged PRs
-- Be on master (up-to-date): `git co master && git pull`
-- Create a new branch: `git co -b slorber/release-1.14.6`
-- Get the changelog from last release: `git fetch --tags && GITHUB_AUTH=<myToken> yarn changelog --from=v1.14.5`
-- Update [CHANGELOG.md](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), but remove the v2-related items manually.
-- Run `yarn install`
-- Version the docs: `yarn workspace docusaurus-1-website docusaurus-version 1.14.6`
-- Test the v1 website locally: `yarn start:v1` + `yarn build:v1`
-- Publish: `yarn workspace docusaurus publish --new-version 1.14.6`
-
-The release is now published. It's worth to test it by initializing a new v1 site:
-
-```sh
-mkdir my-v1-website
-cd my-v1-website
-npx docusaurus-init
-cd website
-yarn start
-```
-
-Finish the release:
-
-- Commit: `git commit -am "chore(v1): release v1.14.6"`
-- Push: `git push origin slorber/release-1.14.6`
-- Run `git tag v1.14.6` (important: the tag is prefixed by **`v`**)
-- Run `git push origin v1.14.6`
-- Open a PR, and merge it
-- Create the [new Github release](https://github.com/facebook/docusaurus/releases/new), paste the changelog
-- The End
-
-### Historical v1 release process
-
-1. Bump version number in [`package.json`](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/package.json).
-1. Update the [changelog](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), including at the reference links at the bottom.
-1. Do this always, but particularly important if there were any `package.json` changes in this release:
-   1. If there is no `node_modules` directory in you local Docusaurus version, run `yarn install` and `npm install`.
-   1. Run `yarn upgrade` to update `yarn.lock` and `npm update` to update `package-lock.json`.
-1. From the `website-1.x` directory, run `npm run docusaurus-version x.x.x`, where x.x.x is the same version number you updated to in `package.json`.
-1. Test your PR locally on a project that was created via [these instructions](https://github.com/facebook/docusaurus/blob/master/admin/local-third-party-project-testing.md).
-1. Submit your PR
-1. When your PR is merged, rebase to get the PR commit locally
-1. Run `npm publish`
-1. Tag the commit with the new version prefixed with a `v` (e.g. `v1.19.0`) and push the tag to `master`
-1. Go to https://github.com/facebook/docusaurus/releases/new
-1. Under the "Tag version" field, look for the newly-created tag
-1. Paste the CHANGELOG changes in the textarea below
-1. Hit the green "Publish release" button
-1. Profit! 💰
-
-### What version should you use?
-
-The version number should generally increase by some factor than the current one. You can check current version by looking in `package.json`.
-
-```json
-{
-  "name": "docusaurus",
-  "version": "1.0.0-alpha.41",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git"
-  }
-  ...
-}
-```
-
-For the above example, you may want to bump the version to `1.0.0-alpha.42` or `1.0.0-beta.1` or `1.0.1`.
-
-You can also see the full list of all published versions with `npm show docusaurus versions --json`.

@@ -9,17 +9,21 @@ import React from 'react';
 
 import DebugLayout from '../DebugLayout';
 import registry from '@generated/registry';
+import styles from './styles.module.css';
 
 function DebugRegistry() {
   return (
     <DebugLayout>
-      {' '}
       <h2>Registry</h2>
-      <ul>
+      <ul className={styles.list}>
         {Object.values(registry).map(([, aliasedPath, resolved]) => (
-          <li key={aliasedPath}>
-            <div>Aliased Path: {aliasedPath}</div>
-            <div>Resolved Path: {resolved}</div>
+          <li key={aliasedPath} className={styles.listItem}>
+            <div style={{marginBottom: '10px'}}>
+              Aliased Path: <code>{aliasedPath}</code>
+            </div>
+            <div>
+              Resolved Path: <code>{resolved}</code>
+            </div>
           </li>
         ))}
       </ul>

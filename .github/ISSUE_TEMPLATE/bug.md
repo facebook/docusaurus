@@ -4,15 +4,48 @@ about: Submit a bug report to help us improve
 labels: 'bug, needs triage'
 ---
 
+<!--
+
+  ! PLEASE HELP US HELP YOU !
+
+  Make it obvious to understand and reproduce this bug.
+  Ideally, we should be able to understand it without running any code.
+
+  Bugs are fixed faster if you include:
+  - a repro repository to inspect the code
+  - an url to see the problem live (if possible)
+
+  Pro tip: create a reproducible demo of the bug with https://new.docusaurus.io
+
+-->
+
 ## 🐛 Bug Report
 
-(A clear and concise description of what the bug is)
+### Prerequisites
+
+<!--
+IMPORTANT: Please check the following items before creating a issue.
+Mark the checkbox by putting an X between the bracket.
+This way we know you've done these steps first.
+-->
+
+- [ ] I'm using the latest version of Docusaurus.
+- [ ] I have tried the `npm run clear` or `yarn clear` command.
+- [ ] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
+- [ ] I have tried creating a repro with https://new.docusaurus.io
+- [ ] I have read the console error message carefully (if applicable)
+
+### Description
+
+(A clear and concise description of what the bug is.)
 
 ### Have you read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
 (Write your answer here.)
 
-## To Reproduce
+## Steps to reproduce
+
+Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
 
 (Write your steps here:)
 
@@ -30,28 +63,34 @@ labels: 'bug, needs triage'
 
 (Write what you thought would happen.)
 
-## Actual Behavior
+## Actual behavior
 
 <!--
   Did something go wrong?
   Is something broken, or not behaving as you expected?
   Describe this section in detail, and attach screenshots if possible.
   Don't only say "it doesn't work"!
+  Please submit exhaustive and complete log messages (we also need the error strack-traces, not just the message).
+  Please read error messages carefully: it often tells you exactly what you are doing wrong
 -->
 
-(Write what happened. Add screenshots, if applicable.)
+(Write what happened. Add full console log messages and screenshots, if applicable.)
 
-## Your Environment
+## Your environment
 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
+- Public source code:
+- Public site URL:
 - Docusaurus version used:
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
-- Operating system and version (desktop or mobile):
+- Operating system and version (e.g. Ubuntu 20.04.2 LTS):
 
-## Reproducible Demo
+## Reproducible demo
 
-(Paste the link to an example repo, including a `siteConfig.js`, and exact instructions to reproduce the issue.)
+Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+
+(Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue.)
 
 <!--
   What happens if you skip this step?

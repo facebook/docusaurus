@@ -11,6 +11,9 @@ module.exports = function () {
   return {
     name: 'docusaurus-theme-bootstrap',
     getThemePath() {
+      return path.resolve(__dirname, '..', 'lib', 'theme');
+    },
+    getTypeScriptThemePath() {
       return path.resolve(__dirname, './theme');
     },
     getClientModules() {

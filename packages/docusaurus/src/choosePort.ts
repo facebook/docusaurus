@@ -14,11 +14,11 @@ import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
 import chalk from 'chalk';
-import inquirer from 'inquirer';
+import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
 
-const execOptions: object = {
+const execOptions: Record<string, unknown> = {
   encoding: 'utf8',
   stdio: [
     'pipe', // stdin (default)
@@ -43,15 +43,13 @@ function getProcessIdOnPort(port: number): string {
 }
 
 // Gets process command
-function getProcessCommand(processId: string): Promise<string | null> | string {
-  let command: Buffer | string = execSync(
+function getProcessCommand(processId: string): string {
+  const command: Buffer = execSync(
     `ps -o command -p ${processId} | sed -n 2p`,
     execOptions,
   );
 
-  command = command.toString().replace(/\n$/, '');
-
-  return command;
+  return command.toString().replace(/\n$/, '');
 }
 
 // Gets directory of a process from its process id
@@ -103,7 +101,7 @@ export default async function choosePort(
         if (isInteractive) {
           clearConsole();
           const existingProcess = getProcessForPort(defaultPort);
-          const question: any = {
+          const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
             message: `${chalk.yellow(
@@ -111,10 +109,10 @@ export default async function choosePort(
                 existingProcess ? ` Probably:\n  ${existingProcess}` : ''
               }`,
             )}\n\nWould you like to run the app on another port instead?`,
-            default: true,
+            initial: true,
           };
-          inquirer.prompt(question).then((answer: any) => {
-            if (answer.shouldChangePort) {
+          prompts(question).then((answer) => {
+            if (answer.shouldChangePort === true) {
               resolve(port);
             } else {
               resolve(null);
@@ -129,7 +127,7 @@ export default async function choosePort(
     (err) => {
       throw new Error(
         `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: ${err.message}` || err
+          `Network error message: "${err.message}".` || err
         }\n`,
       );
     },

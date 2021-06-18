@@ -21,15 +21,28 @@ module.exports = function preset(context, opts = {}) {
       algolia && require.resolve('@docusaurus/theme-search-algolia'),
     ],
     plugins: [
-      [require.resolve('@docusaurus/plugin-content-docs'), opts.docs],
-      [require.resolve('@docusaurus/plugin-content-blog'), opts.blog],
-      [require.resolve('@docusaurus/plugin-content-pages'), opts.pages],
+      opts.docs !== false && [
+        require.resolve('@docusaurus/plugin-content-docs'),
+        opts.docs,
+      ],
+      opts.blog !== false && [
+        require.resolve('@docusaurus/plugin-content-blog'),
+        opts.blog,
+      ],
+      opts.pages !== false && [
+        require.resolve('@docusaurus/plugin-content-pages'),
+        opts.pages,
+      ],
       isProd &&
         googleAnalytics &&
         require.resolve('@docusaurus/plugin-google-analytics'),
       debug && require.resolve('@docusaurus/plugin-debug'),
       isProd && gtag && require.resolve('@docusaurus/plugin-google-gtag'),
-      isProd && [require.resolve('@docusaurus/plugin-sitemap'), opts.sitemap],
+      isProd &&
+        opts.sitemap !== false && [
+          require.resolve('@docusaurus/plugin-sitemap'),
+          opts.sitemap,
+        ],
     ],
   };
 };

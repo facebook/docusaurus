@@ -7,45 +7,40 @@
 
 import {useState, useCallback, useEffect} from 'react';
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import type {useThemeReturns} from '@theme/hooks/useTheme';
+import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
+
+const ThemeStorage = createStorageSlot('theme');
 
 const themes = {
   light: 'light',
   dark: 'dark',
-};
+} as const;
+
+type Themes = typeof themes[keyof typeof themes];
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme) => {
+const coerceToTheme = (theme?: string | null): Themes => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 
-const getInitialTheme = () => {
+const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
   if (!ExecutionEnvironment.canUseDOM) {
-    return themes.light; // SSR: we don't care
+    return coerceToTheme(defaultMode);
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme) => {
-  try {
-    localStorage.setItem('theme', coerceToTheme(newTheme));
-  } catch (err) {
-    console.error(err);
-  }
+const storeTheme = (newTheme: Themes) => {
+  createStorageSlot('theme').set(coerceToTheme(newTheme));
 };
 
-const useTheme = (): {
-  isDarkTheme: boolean;
-  setLightTheme: () => void;
-  setDarkTheme: () => void;
-} => {
+const useTheme = (): useThemeReturns => {
   const {
-    siteConfig: {
-      themeConfig: {colorMode: {disableSwitch = false} = {}} = {},
-    } = {},
-  } = useDocusaurusContext();
-  const [theme, setTheme] = useState(getInitialTheme);
+    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
+  } = useThemeConfig();
+  const [theme, setTheme] = useState(getInitialTheme(defaultMode));
 
   const setLightTheme = useCallback(() => {
     setTheme(themes.light);
@@ -66,9 +61,9 @@ const useTheme = (): {
     }
 
     try {
-      const localStorageTheme = localStorage.getItem('theme');
-      if (localStorageTheme !== null) {
-        setTheme(coerceToTheme(localStorageTheme));
+      const storedTheme = ThemeStorage.get();
+      if (storedTheme !== null) {
+        setTheme(coerceToTheme(storedTheme));
       }
     } catch (err) {
       console.error(err);
@@ -76,7 +71,7 @@ const useTheme = (): {
   }, [setTheme]);
 
   useEffect(() => {
-    if (disableSwitch) {
+    if (disableSwitch && !respectPrefersColorScheme) {
       return;
     }
 

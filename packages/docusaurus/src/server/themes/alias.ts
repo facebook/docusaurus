@@ -10,10 +10,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
 import {ThemeAlias} from '@docusaurus/types';
+import {sortBy} from 'lodash';
 
 export default function themeAlias(
   themePath: string,
-  addOriginalAlias: boolean = true,
+  addOriginalAlias: boolean,
 ): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {
     return {};
@@ -23,9 +24,15 @@ export default function themeAlias(
     cwd: themePath,
   });
 
+  // See https://github.com/facebook/docusaurus/pull/3922
+  // ensure @theme/NavbarItem alias is created after @theme/NavbarItem/LocaleDropdown
+  const sortedThemeComponentFiles = sortBy(themeComponentFiles, (file) =>
+    file.endsWith('/index.js'),
+  );
+
   const aliases: ThemeAlias = {};
 
-  themeComponentFiles.forEach((relativeSource) => {
+  sortedThemeComponentFiles.forEach((relativeSource) => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
 

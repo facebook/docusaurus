@@ -1,0 +1,35 @@
+name: V2 Build Time Perf
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'website/docs/**'
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Installation
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn
+
+      # Ensure build with a cold cache does not increase too much
+      - name: Build (cold cache)
+        run: yarn workspace docusaurus-2-website build --locale en
+        timeout-minutes: 8
+
+      # Ensure build with a warm cache does not increase too much
+      - name: Build (warm cache)
+        run: yarn workspace docusaurus-2-website build --locale en
+        timeout-minutes: 2
+
+    # TODO post a Github comment with build with perf warnings?

@@ -11,22 +11,42 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {PluginOptions, BlogPost, DateLink} from './types';
+import {keyBy, mapValues} from 'lodash';
+import {
+  PluginOptions,
+  BlogPost,
+  DateLink,
+  BlogContentPaths,
+  BlogMarkdownLoaderOptions,
+} from './types';
 import {
   parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
+  getFolderContainingFile,
+  posixPath,
+  replaceMarkdownLinks,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
+import {validateBlogPostFrontMatter} from './blogFrontMatter';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
+export function getSourceToPermalink(
+  blogPosts: BlogPost[],
+): Record<string, string> {
+  return mapValues(
+    keyBy(blogPosts, (item) => item.metadata.source),
+    (v) => v.metadata.permalink,
+  );
+}
+
 // YYYY-MM-DD-{name}.mdx?
 // Prefer named capture, but older Node versions do not support it.
-const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
+const DATE_FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}: DateLink) {
   return `${date
@@ -35,25 +55,38 @@ function toUrl({date, link}: DateLink) {
     .replace(/-/g, '/')}/${link}`;
 }
 
+function formatBlogPostDate(locale: string, date: Date): string {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(date);
+  } catch (e) {
+    throw new Error(`Can't format blog post date "${date}"`);
+  }
+}
+
 export async function generateBlogFeed(
+  contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Feed | null> {
   if (!options.feedOptions) {
     throw new Error(
-      'Invalid options - `feedOptions` is not expected to be null.',
+      'Invalid options: "feedOptions" is not expected to be null.',
     );
   }
-  const {siteDir, siteConfig} = context;
-  const contentPath = path.resolve(siteDir, options.path);
-  const blogPosts = await generateBlogPosts(contentPath, context, options);
-  if (blogPosts == null) {
+  const {siteConfig} = context;
+  const blogPosts = await generateBlogPosts(contentPaths, context, options);
+  if (!blogPosts.length) {
     return null;
   }
 
   const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, routeBasePath]);
+  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
+  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated =
     (blogPosts[0] && blogPosts[0].metadata.date) ||
@@ -66,7 +99,7 @@ export async function generateBlogFeed(
     language: feedOptions.language,
     link: blogBaseUrl,
     description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: normalizeUrl([siteUrl, favicon]),
+    favicon: normalizeUrl([siteUrl, baseUrl, favicon]),
     copyright: feedOptions.copyright,
   });
 
@@ -88,8 +121,8 @@ export async function generateBlogFeed(
 }
 
 export async function generateBlogPosts(
-  blogDir: string,
-  {siteConfig, siteDir}: LoadContext,
+  contentPaths: BlogContentPaths,
+  {siteConfig, siteDir, i18n}: LoadContext,
   options: PluginOptions,
 ): Promise<BlogPost[]> {
   const {
@@ -100,80 +133,137 @@ export async function generateBlogPosts(
     editUrl,
   } = options;
 
-  if (!fs.existsSync(blogDir)) {
+  if (!fs.existsSync(contentPaths.contentPath)) {
     return [];
   }
 
   const {baseUrl = ''} = siteConfig;
-  const blogFiles = await globby(include, {
-    cwd: blogDir,
+  const blogSourceFiles = await globby(include, {
+    cwd: contentPaths.contentPath,
   });
 
   const blogPosts: BlogPost[] = [];
 
-  await Promise.all(
-    blogFiles.map(async (relativeSource: string) => {
-      const source = path.join(blogDir, relativeSource);
-      const aliasedSource = aliasedSitePath(source, siteDir);
-      const refDir = path.parse(blogDir).dir;
-      const relativePath = path.relative(refDir, source);
-      const blogFileName = path.basename(relativeSource);
+  async function processBlogSourceFile(blogSourceFile: string) {
+    // Lookup in localized folder in priority
+    const blogDirPath = await getFolderContainingFile(
+      getContentPathList(contentPaths),
+      blogSourceFile,
+    );
 
-      const editBlogUrl = getEditUrl(relativePath, editUrl);
+    const source = path.join(blogDirPath, blogSourceFile);
 
-      const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
+    const {
+      frontMatter: unsafeFrontMatter,
+      content,
+      contentTitle,
+      excerpt,
+    } = await parseMarkdownFile(source, {removeContentTitle: true});
+    const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
 
-      if (frontMatter.draft && process.env.NODE_ENV === 'production') {
-        return;
+    const aliasedSource = aliasedSitePath(source, siteDir);
+
+    const blogFileName = path.basename(blogSourceFile);
+
+    if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+      return;
+    }
+
+    if (frontMatter.id) {
+      console.warn(
+        chalk.yellow(
+          `"id" header option is deprecated in ${blogFileName} file. Please use "slug" option instead.`,
+        ),
+      );
+    }
+
+    let date: Date | undefined;
+    // Extract date and title from filename.
+    const dateFilenameMatch = blogFileName.match(DATE_FILENAME_PATTERN);
+    let linkName = blogFileName.replace(/\.mdx?$/, '');
+
+    if (dateFilenameMatch) {
+      const [, dateString, name] = dateFilenameMatch;
+      // Always treat dates as UTC by adding the `Z`
+      date = new Date(`${dateString}Z`);
+      linkName = name;
+    }
+
+    // Prefer user-defined date.
+    if (frontMatter.date) {
+      date = frontMatter.date;
+    }
+
+    // Use file create time for blog.
+    date = date ?? (await fs.stat(source)).birthtime;
+    const formattedDate = formatBlogPostDate(i18n.currentLocale, date);
+
+    const title = frontMatter.title ?? contentTitle ?? linkName;
+    const description = frontMatter.description ?? excerpt ?? '';
+
+    const slug =
+      frontMatter.slug ||
+      (dateFilenameMatch ? toUrl({date, link: linkName}) : linkName);
+
+    const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
+
+    function getBlogEditUrl() {
+      const blogPathRelative = path.relative(blogDirPath, path.resolve(source));
+
+      if (typeof editUrl === 'function') {
+        return editUrl({
+          blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
+          blogPath: posixPath(blogPathRelative),
+          permalink,
+          locale: i18n.currentLocale,
+        });
+      } else if (typeof editUrl === 'string') {
+        const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
+        const fileContentPath =
+          isLocalized && options.editLocalizedFiles
+            ? contentPaths.contentPathLocalized
+            : contentPaths.contentPath;
+
+        const contentPathEditUrl = normalizeUrl([
+          editUrl,
+          posixPath(path.relative(siteDir, fileContentPath)),
+        ]);
+
+        return getEditUrl(blogPathRelative, contentPathEditUrl);
+      } else {
+        return undefined;
       }
+    }
 
-      if (frontMatter.id) {
-        console.warn(
-          chalk.yellow(
-            `${blogFileName} - 'id' header option is deprecated. Please use 'slug' option instead.`,
+    blogPosts.push({
+      id: frontMatter.slug ?? title,
+      metadata: {
+        permalink,
+        editUrl: getBlogEditUrl(),
+        source: aliasedSource,
+        title,
+        description,
+        date,
+        formattedDate,
+        tags: frontMatter.tags ?? [],
+        readingTime: showReadingTime ? readingTime(content).minutes : undefined,
+        truncated: truncateMarker?.test(content) || false,
+      },
+    });
+  }
+
+  await Promise.all(
+    blogSourceFiles.map(async (blogSourceFile: string) => {
+      try {
+        return await processBlogSourceFile(blogSourceFile);
+      } catch (e) {
+        console.error(
+          chalk.red(
+            `Processing of blog source file failed for path "${blogSourceFile}"`,
           ),
         );
+        throw e;
       }
-
-      let date;
-      // Extract date and title from filename.
-      const match = blogFileName.match(FILENAME_PATTERN);
-      let linkName = blogFileName.replace(/\.mdx?$/, '');
-
-      if (match) {
-        const [, dateString, name] = match;
-        date = new Date(dateString);
-        linkName = name;
-      }
-
-      // Prefer user-defined date.
-      if (frontMatter.date) {
-        date = new Date(frontMatter.date);
-      }
-
-      // Use file create time for blog.
-      date = date || (await fs.stat(source)).birthtime;
-
-      const slug =
-        frontMatter.slug || (match ? toUrl({date, link: linkName}) : linkName);
-      frontMatter.title = frontMatter.title || linkName;
-
-      blogPosts.push({
-        id: frontMatter.slug || frontMatter.title,
-        metadata: {
-          permalink: normalizeUrl([baseUrl, routeBasePath, slug]),
-          editUrl: editBlogUrl,
-          source: aliasedSource,
-          description: frontMatter.description || excerpt,
-          date,
-          tags: frontMatter.tags,
-          title: frontMatter.title,
-          readingTime: showReadingTime
-            ? readingTime(content).minutes
-            : undefined,
-          truncated: truncateMarker?.test(content) || false,
-        },
-      });
     }),
   );
 
@@ -184,49 +274,36 @@ export async function generateBlogPosts(
   return blogPosts;
 }
 
-export function linkify(
-  fileContent: string,
-  siteDir: string,
-  blogPath: string,
-  blogPosts: BlogPost[],
-): string {
-  let fencedBlock = false;
-  const lines = fileContent.split('\n').map((line) => {
-    if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
-    }
+export type LinkifyParams = {
+  filePath: string;
+  fileString: string;
+} & Pick<
+  BlogMarkdownLoaderOptions,
+  'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
+>;
 
-    if (fencedBlock) {
-      return line;
-    }
-
-    let modifiedLine = line;
-    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
-    let mdMatch = mdRegex.exec(modifiedLine);
-
-    while (mdMatch !== null) {
-      const mdLink = mdMatch[1];
-      const aliasedPostSource = `@site/${path.relative(
-        siteDir,
-        path.resolve(blogPath, mdLink),
-      )}`;
-      let blogPostPermalink = null;
-
-      blogPosts.forEach((blogPost) => {
-        if (blogPost.metadata.source === aliasedPostSource) {
-          blogPostPermalink = blogPost.metadata.permalink;
-        }
-      });
-
-      if (blogPostPermalink) {
-        modifiedLine = modifiedLine.replace(mdLink, blogPostPermalink);
-      }
-
-      mdMatch = mdRegex.exec(modifiedLine);
-    }
-
-    return modifiedLine;
+export function linkify({
+  filePath,
+  contentPaths,
+  fileString,
+  siteDir,
+  sourceToPermalink,
+  onBrokenMarkdownLink,
+}: LinkifyParams): string {
+  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
+    siteDir,
+    fileString,
+    filePath,
+    contentPaths,
+    sourceToPermalink,
   });
 
-  return lines.join('\n');
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
+
+  return newContent;
+}
+
+// Order matters: we look in priority in localized folder
+export function getContentPathList(contentPaths: BlogContentPaths): string[] {
+  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

@@ -11,11 +11,7 @@ import {memoize} from 'lodash';
 
 import {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
-import {
-  addTrailingSlash,
-  getFilePathForRoutePath,
-  removeTrailingSlash,
-} from '@docusaurus/utils';
+import {getFilePathForRoutePath, normalizeUrl} from '@docusaurus/utils';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
@@ -24,9 +20,14 @@ export type RedirectFileMetadata = {
   fileContent: string;
 };
 
+export function createToUrl(baseUrl: string, to: string): string {
+  return normalizeUrl([baseUrl, to]);
+}
+
 export function toRedirectFilesMetadata(
   redirects: RedirectMetadata[],
   pluginContext: WriteFilesPluginContext,
+  trailingSlash: boolean | undefined,
 ): RedirectFileMetadata[] {
   // Perf: avoid rendering the template twice with the exact same "props"
   // We might create multiple redirect pages for the same destination url
@@ -36,13 +37,9 @@ export function toRedirectFilesMetadata(
   });
 
   const createFileMetadata = (redirect: RedirectMetadata) => {
-    const fileAbsolutePath = path.join(
-      pluginContext.outDir,
-      getFilePathForRoutePath(redirect.from),
-    );
-    const toUrl = addTrailingSlash(
-      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
-    );
+    const filePath = getFilePathForRoutePath(redirect.from, trailingSlash);
+    const fileAbsolutePath = path.join(pluginContext.outDir, filePath);
+    const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {
       ...redirect,
@@ -61,7 +58,7 @@ export async function writeRedirectFile(
     // User-friendly security to prevent file overrides
     if (await fs.pathExists(file.fileAbsolutePath)) {
       throw new Error(
-        'The redirect plugin is not supposed to override existing files',
+        'The redirect plugin is not supposed to override existing files.',
       );
     }
     await fs.ensureDir(path.dirname(file.fileAbsolutePath));
@@ -74,7 +71,7 @@ export async function writeRedirectFile(
     );
   } catch (err) {
     throw new Error(
-      `Redirect file creation error for path=${file.fileAbsolutePath}: ${err}`,
+      `Redirect file creation error for "${file.fileAbsolutePath}" path: ${err}.`,
     );
   }
 }

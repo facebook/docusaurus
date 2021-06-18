@@ -5,23 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.codeBlockContainer {
+  margin-bottom: var(--ifm-leading);
+}
+
 .codeBlockContent {
   position: relative;
+  /*rtl:ignore*/
+  direction: ltr;
 }
 
 .codeBlockTitle {
   border-top-left-radius: var(--ifm-global-radius);
   border-top-right-radius: var(--ifm-global-radius);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
-  font-family: var(--ifm-font-family-monospace);
-  font-weight: bold;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  font-size: var(--ifm-code-font-size);
+  font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
-  width: 100%;
 }
 
 .codeBlock {
-  overflow: auto;
-  border-radius: var(--ifm-global-radius);
+  padding: 0;
 }
 
 .codeBlockWithTitle {
@@ -31,33 +35,34 @@
 
 .copyButton {
   background: rgba(0, 0, 0, 0.3);
-  border: none;
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-color-white);
-  cursor: pointer;
   opacity: 0;
-  outline: none;
+  user-select: none;
   padding: 0.4rem 0.5rem;
   position: absolute;
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
-  visibility: hidden;
-  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
-    bottom 200ms ease-in-out;
+  transition: opacity 200ms ease-in-out;
 }
 
 .codeBlockTitle:hover + .codeBlockContent .copyButton,
-.codeBlockContent:hover > .copyButton {
-  visibility: visible;
+.codeBlockContent:hover > .copyButton,
+.copyButton:focus {
   opacity: 1;
 }
 
 .codeBlockLines {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: inherit;
-  line-height: var(--ifm-pre-line-height);
-  white-space: pre;
+  font: inherit;
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+  display: flex;
+  flex-direction: column;
+}
+
+@media print {
+  .codeBlockLines {
+    white-space: pre-wrap;
+  }
 }

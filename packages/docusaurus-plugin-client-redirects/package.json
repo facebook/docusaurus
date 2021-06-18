@@ -1,32 +1,37 @@
 {
   "name": "@docusaurus/plugin-client-redirects",
-  "version": "2.0.0-alpha.61",
-  "description": "Client redirects plugin for Docusaurus",
+  "version": "2.0.0-beta.0",
+  "description": "Client redirects plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-client-redirects"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.61",
-    "@docusaurus/types": "^2.0.0-alpha.61",
-    "@docusaurus/utils": "^2.0.0-alpha.61",
-    "@hapi/joi": "^17.1.1",
-    "@types/hapi__joi": "^17.1.2",
-    "chalk": "^3.0.0",
-    "eta": "^1.1.1",
-    "fs-extra": "^8.1.0",
-    "globby": "^10.0.1",
-    "lodash": "^4.17.15"
+    "@docusaurus/core": "2.0.0-beta.0",
+    "@docusaurus/types": "2.0.0-beta.0",
+    "@docusaurus/utils": "2.0.0-beta.0",
+    "@docusaurus/utils-common": "2.0.0-beta.0",
+    "@docusaurus/utils-validation": "2.0.0-beta.0",
+    "chalk": "^4.1.1",
+    "eta": "^1.11.0",
+    "fs-extra": "^10.0.0",
+    "globby": "^11.0.2",
+    "lodash": "^4.17.20",
+    "tslib": "^2.2.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=10.9.0"

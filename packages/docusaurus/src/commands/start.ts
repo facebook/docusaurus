@@ -11,51 +11,81 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack} from '../webpack/utils';
-import choosePort from '../choosePort';
-
-function getHost(reqHost: string | undefined): string {
-  return reqHost || 'localhost';
-}
-
-async function getPort(
-  reqPort: string | undefined,
-  host: string,
-): Promise<number | null> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
-  const port = await choosePort(host, basePort);
-  return port;
-}
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getHttpsConfig,
+} from '../webpack/utils';
+import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
+import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
 export default async function start(
   siteDir: string,
-  cliOptions: Partial<StartCLIOptions> = {},
+  cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
+  function loadSite() {
+    return load(siteDir, {
+      customConfigFilePath: cliOptions.config,
+      locale: cliOptions.locale,
+      localizePath: undefined, // should this be configurable?
+    });
+  }
+
   // Process all related files as a prop.
-  const props = await load(siteDir);
+  const props = await loadSite();
+
+  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+
+  const host: string = getCLIOptionHost(cliOptions.host);
+  const port: number | null = await getCLIOptionPort(cliOptions.port, host);
+
+  if (port === null) {
+    process.exit();
+  }
+
+  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
+  const urls = prepareUrls(protocol, host, port);
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+
+  console.log(
+    chalk.cyanBright(`Docusaurus website is running at "${openUrl}".`),
+  );
 
   // Reload files processing.
-  const reload = () => {
-    load(siteDir).catch((err) => {
-      console.error(chalk.red(err.stack));
-    });
-  };
+  const reload = debounce(() => {
+    loadSite()
+      .then(({baseUrl: newBaseUrl}) => {
+        const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
+        if (newOpenUrl !== openUrl) {
+          console.log(
+            chalk.cyanBright(
+              `Docusaurus website is running at "${newOpenUrl}".`,
+            ),
+          );
+        }
+      })
+      .catch((err) => {
+        console.error(chalk.red(err.stack));
+      });
+  }, 500);
   const {siteConfig, plugins = []} = props;
 
   const normalizeToSiteDir = (filepath) => {
@@ -72,26 +102,28 @@ export default async function start(
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
-  const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
+
+  const pathsToWatch: string[] = [
+    ...pluginPaths,
+    props.siteConfigPath,
+    getTranslationsLocaleDirPath({
+      siteDir,
+      locale: props.i18n.currentLocale,
+    }),
+  ];
+
+  const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
+    usePolling: !!cliOptions.poll,
+    interval: Number.isInteger(cliOptions.poll)
+      ? (cliOptions.poll as number)
+      : undefined,
   });
+
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
-
-  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-
-  const host: string = getHost(cliOptions.host);
-  const port: number | null = await getPort(cliOptions.port, host);
-
-  if (port === null) {
-    process.exit();
-  }
-
-  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
-  const urls = prepareUrls(protocol, host, port);
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
@@ -114,18 +146,22 @@ export default async function start(
     ],
   });
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      config = applyConfigurePostCss(configurePostCss, config);
     }
 
-    config = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      config,
-      false,
-    );
+    if (configureWebpack) {
+      config = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        config,
+        false,
+        props.siteConfig.webpack?.jsLoader,
+      );
+    }
   });
 
   // https://webpack.js.org/configuration/dev-server
@@ -142,6 +178,7 @@ export default async function start(
       // `webpackHotDevClient`.
       injectClient: false,
       quiet: true,
+      https: getHttpsConfig(),
       headers: {
         'access-control-allow-origin': '*',
       },
@@ -162,16 +199,12 @@ export default async function start(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
         );
-
         // This lets us fetch source contents from webpack for the error overlay.
         app.use(evalSourceMapMiddleware(server));
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
-
-        // TODO: add plugins beforeDevServer and afterDevServer hook
       },
     },
-    ...config.devServer,
   };
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
@@ -184,6 +217,7 @@ export default async function start(
       process.exit(0);
     });
   }
+
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {

@@ -8,37 +8,79 @@
 import * as React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
-
+import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
-function Playground({children, theme, transformCode, ...props}) {
+function Header({children}) {
+  return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
+}
+
+function ResultWithHeader() {
   return (
-    <LiveProvider
-      code={children.replace(/\n$/, '')}
-      transformCode={transformCode || ((code) => `${code};`)}
-      theme={theme}
-      {...props}>
-      <div
-        className={clsx(
-          styles.playgroundHeader,
-          styles.playgroundEditorHeader,
-        )}>
-        Live Editor
-      </div>
-      <LiveEditor className={styles.playgroundEditor} />
-      <div
-        className={clsx(
-          styles.playgroundHeader,
-          styles.playgroundPreviewHeader,
-        )}>
-        Result
-      </div>
+    <>
+      <Header>
+        <Translate
+          id="theme.Playground.result"
+          description="The result label of the live codeblocks">
+          Result
+        </Translate>
+      </Header>
       <div className={styles.playgroundPreview}>
         <LivePreview />
         <LiveError />
       </div>
-    </LiveProvider>
+    </>
   );
 }
 
-export default Playground;
+function EditorWithHeader() {
+  return (
+    <>
+      <Header>
+        <Translate
+          id="theme.Playground.liveEditor"
+          description="The live editor label of the live codeblocks">
+          Live Editor
+        </Translate>
+      </Header>
+      <LiveEditor className={styles.playgroundEditor} />
+    </>
+  );
+}
+
+export default function Playground({children, transformCode, ...props}) {
+  const {
+    isClient,
+    siteConfig: {
+      themeConfig: {
+        liveCodeBlock: {playgroundPosition},
+      },
+    },
+  } = useDocusaurusContext();
+  const prismTheme = usePrismTheme();
+
+  return (
+    <div className={styles.playgroundContainer}>
+      <LiveProvider
+        key={isClient}
+        code={isClient ? children.replace(/\n$/, '') : ''}
+        transformCode={transformCode || ((code) => `${code};`)}
+        theme={prismTheme}
+        {...props}>
+        {playgroundPosition === 'top' ? (
+          <>
+            <ResultWithHeader />
+            <EditorWithHeader />
+          </>
+        ) : (
+          <>
+            <EditorWithHeader />
+            <ResultWithHeader />
+          </>
+        )}
+      </LiveProvider>
+    </div>
+  );
+}

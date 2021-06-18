@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface PluginOptions {
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+
+export interface PluginOptions extends RemarkAndRehypePluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
   exclude: string[];
   mdxPageComponent: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  rehypePlugins: string[];
-  admonitions: any;
+  admonitions: Record<string, unknown>;
 }
 
 export type JSXPageMetadata = {
@@ -32,3 +32,8 @@ export type MDXPageMetadata = {
 export type Metadata = JSXPageMetadata | MDXPageMetadata;
 
 export type LoadedContent = Metadata[];
+
+export type PagesContentPaths = {
+  contentPath: string;
+  contentPathLocalized: string;
+};

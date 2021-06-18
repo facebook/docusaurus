@@ -15,6 +15,9 @@ import {
   fileToPath,
   aliasedSitePath,
   docuHash,
+  getPluginI18nPath,
+  getFolderContainingFile,
+  addTrailingPathSeparator,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -23,16 +26,25 @@ import {
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from '@hapi/joi';
 import {
   DEFAULT_PLUGIN_ID,
   STATIC_DIR_NAME,
 } from '@docusaurus/core/lib/constants';
 
-import {PluginOptions, LoadedContent, Metadata} from './types';
+import {
+  PluginOptions,
+  LoadedContent,
+  Metadata,
+  PagesContentPaths,
+} from './types';
+import {flatten} from 'lodash';
+
+export function getContentPathList(contentPaths: PagesContentPaths): string[] {
+  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
+}
 
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
@@ -40,15 +52,28 @@ const isMarkdownSource = (source: string) =>
 export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
+): Plugin<LoadedContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions || {}],
     ]);
   }
-  const {siteConfig, siteDir, generatedFilesDir} = context;
+  const {
+    siteConfig,
+    siteDir,
+    generatedFilesDir,
+    i18n: {currentLocale},
+  } = context;
 
-  const contentPath = path.resolve(siteDir, options.path);
+  const contentPaths: PagesContentPaths = {
+    contentPath: path.resolve(siteDir, options.path),
+    contentPathLocalized: getPluginI18nPath({
+      siteDir,
+      locale: currentLocale,
+      pluginName: 'docusaurus-plugin-content-pages',
+      pluginId: options.id,
+    }),
+  };
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -66,8 +91,11 @@ export default function pluginContentPages(
 
     getPathsToWatch() {
       const {include = []} = options;
-      const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
-      return [...globPattern];
+      return flatten(
+        getContentPathList(contentPaths).map((contentPath) => {
+          return include.map((pattern) => `${contentPath}/${pattern}`);
+        }),
+      );
     },
 
     getClientModules() {
@@ -82,20 +110,25 @@ export default function pluginContentPages(
 
     async loadContent() {
       const {include} = options;
-      const pagesDir = contentPath;
 
-      if (!fs.existsSync(pagesDir)) {
+      if (!fs.existsSync(contentPaths.contentPath)) {
         return null;
       }
 
       const {baseUrl} = siteConfig;
       const pagesFiles = await globby(include, {
-        cwd: pagesDir,
+        cwd: contentPaths.contentPath,
         ignore: options.exclude,
       });
 
-      function toMetadata(relativeSource: string): Metadata {
-        const source = path.join(pagesDir, relativeSource);
+      async function toMetadata(relativeSource: string): Promise<Metadata> {
+        // Lookup in localized folder in priority
+        const contentPath = await getFolderContainingFile(
+          getContentPathList(contentPaths),
+          relativeSource,
+        );
+
+        const source = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
         const pathName = encodePath(fileToPath(relativeSource));
         const permalink = pathName.replace(/^\//, baseUrl || '');
@@ -114,7 +147,7 @@ export default function pluginContentPages(
         }
       }
 
-      return pagesFiles.map(toMetadata);
+      return Promise.all(pagesFiles.map(toMetadata));
     },
 
     async contentLoaded({content, actions}) {
@@ -159,9 +192,14 @@ export default function pluginContentPages(
     configureWebpack(
       _config: Configuration,
       isServer: boolean,
-      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+      {getJSLoader}: ConfigureWebpackUtils,
     ) {
-      const {rehypePlugins, remarkPlugins} = options;
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        beforeDefaultRehypePlugins,
+        beforeDefaultRemarkPlugins,
+      } = options;
       return {
         resolve: {
           alias: {
@@ -172,15 +210,18 @@ export default function pluginContentPages(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [contentPath],
+              include: getContentPathList(contentPaths)
+                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+                .map(addTrailingPathSeparator),
               use: [
-                getCacheLoader(isServer),
-                getBabelLoader(isServer),
+                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    beforeDefaultRehypePlugins,
+                    beforeDefaultRemarkPlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
@@ -205,7 +246,7 @@ export default function pluginContentPages(
                     // contentPath,
                   },
                 },
-              ].filter(Boolean) as Loader[],
+              ].filter(Boolean),
             },
           ],
         },
@@ -217,10 +258,7 @@ export default function pluginContentPages(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

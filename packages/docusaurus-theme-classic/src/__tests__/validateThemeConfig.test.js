@@ -4,35 +4,37 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import merge from 'lodash/merge';
 
-const {
-  validateThemeConfig,
-  DEFAULT_COLOR_MODE_CONFIG,
-} = require('../validateThemeConfig');
+import {merge} from 'lodash';
 
-const mergeDefault = (config) => merge({}, DEFAULT_COLOR_MODE_CONFIG, config);
+const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
-function testValidateThemeConfig(themeConfig) {
-  function validate(schema, cfg) {
-    const {value, error} = schema.validate(cfg, {
-      convert: false,
-    });
-    if (error) {
-      throw error;
-    }
-    return value;
-  }
+const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
+const theme = require('prism-react-renderer/themes/github');
+const darkTheme = require('prism-react-renderer/themes/dracula');
 
-  return validateThemeConfig({themeConfig, validate});
+function testValidateThemeConfig(partialThemeConfig) {
+  return normalizeThemeConfig(ThemeConfigSchema, {
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
+}
+
+function testOk(partialThemeConfig) {
+  expect(
+    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
+  ).toEqual({
+    ...DEFAULT_CONFIG,
+    ...partialThemeConfig,
+  });
 }
 
 describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme,
+        darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
       },
@@ -41,9 +43,11 @@ describe('themeConfig', () => {
         content: 'pls support',
         backgroundColor: '#fff',
         textColor: '#000',
+        isCloseable: true,
       },
       image: 'img/docusaurus-soc.png',
       navbar: {
+        style: 'primary',
         hideOnScroll: true,
         title: 'Docusaurus',
         logo: {
@@ -55,7 +59,8 @@ describe('themeConfig', () => {
           {
             type: 'docsVersionDropdown',
             position: 'left',
-            nextVersionLabel: '2.0.0-next',
+            dropdownItemsBefore: [],
+            dropdownItemsAfter: [],
           },
           {
             to: 'docs/next/support',
@@ -88,8 +93,130 @@ describe('themeConfig', () => {
       },
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({
-      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...DEFAULT_CONFIG,
       ...userConfig,
+    });
+  });
+
+  test('should allow possible types of navbar items', () => {
+    const config = {
+      navbar: {
+        items: [
+          // Doc link
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'intro',
+            label: 'Introduction',
+            activeSidebarClassName: 'custom-class',
+          },
+          // Regular link
+          {
+            to: '/guide/',
+            label: 'Guide',
+            position: 'left',
+            activeBaseRegex: '/guide/',
+          },
+          // Regular dropdown
+          {
+            label: 'Community',
+            position: 'right',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://.facebook.com/',
+                target: '_self',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/facebook/docusaurus',
+                className: 'github-link',
+              },
+            ],
+          },
+          // Doc version dropdown
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
+            dropdownItemsBefore: [
+              {
+                href:
+                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                label: 'Versions on npm',
+                className: 'npm-styled',
+                target: '_self',
+              },
+            ],
+            dropdownItemsAfter: [
+              {
+                to: '/versions',
+                label: 'All versions',
+                className: 'all_vers',
+              },
+            ],
+          },
+          // External link with custom data attribute
+          {
+            href: 'https://github.com/facebook/docusaurus',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
+          },
+          // Docs version
+          {
+            type: 'docsVersion',
+            position: 'left',
+            label: 'Current version',
+          },
+        ],
+      },
+    };
+    expect(testValidateThemeConfig(config)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...config.navbar,
+      },
+    });
+  });
+
+  test('should allow empty alt tags for the logo image in the header', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+        hideOnScroll: false,
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
+      },
+    });
+  });
+
+  test('should allow empty alt tags for the logo image in the footer', () => {
+    const partialConfig = {
+      footer: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+      },
     });
   });
 
@@ -100,12 +227,45 @@ describe('themeConfig', () => {
       },
     };
     expect(testValidateThemeConfig(prismConfig)).toEqual({
-      colorMode: DEFAULT_COLOR_MODE_CONFIG,
+      ...DEFAULT_CONFIG,
       ...prismConfig,
     });
   });
 
+  describe('customCss config', () => {
+    test('should accept customCss undefined', () => {
+      testOk({
+        customCss: undefined,
+      });
+    });
+
+    test('should accept customCss string', () => {
+      testOk({
+        customCss: './path/to/cssFile.css',
+      });
+    });
+
+    test('should accept customCss string array', () => {
+      testOk({
+        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
+      });
+    });
+
+    test('should reject customCss number', () => {
+      expect(() =>
+        testValidateThemeConfig({
+          customCss: 42,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"customCss\\" must be one of [array, string]"`,
+      );
+    });
+  });
+
   describe('color mode config', () => {
+    const withDefaultValues = (colorMode) =>
+      merge({}, DEFAULT_CONFIG.colorMode, colorMode);
+
     test('minimal config', () => {
       const colorMode = {
         switchConfig: {
@@ -113,7 +273,8 @@ describe('themeConfig', () => {
         },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
@@ -135,21 +296,27 @@ describe('themeConfig', () => {
         },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
     test('undefined config', () => {
       const colorMode = undefined;
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
 
     test('empty config', () => {
       const colorMode = {};
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: {
+          ...DEFAULT_CONFIG.colorMode,
+          ...colorMode,
+        },
       });
     });
 
@@ -158,7 +325,8 @@ describe('themeConfig', () => {
         switchConfig: {},
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
-        colorMode: mergeDefault(colorMode),
+        ...DEFAULT_CONFIG,
+        colorMode: withDefaultValues(colorMode),
       });
     });
   });

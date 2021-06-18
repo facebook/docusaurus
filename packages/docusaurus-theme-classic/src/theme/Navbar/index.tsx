@@ -7,19 +7,19 @@
 
 import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
-import useLogo from '@theme/hooks/useLogo';
+import NavbarItem from '@theme/NavbarItem';
+import Logo from '@theme/Logo';
+import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
-import NavbarItem from '@theme/NavbarItem';
 
 // retrocompatible with v1
 const DefaultNavItemPosition = 'right';
@@ -41,20 +41,12 @@ function splitNavItemsByPosition(items) {
 
 function Navbar(): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        navbar: {title = '', items = [], hideOnScroll = false} = {},
-        colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
-      },
-    },
-    isClient,
-  } = useDocusaurusContext();
+    navbar: {items, hideOnScroll, style},
+    colorMode: {disableSwitch: disableColorModeSwitch},
+  } = useThemeConfig();
   const [sidebarShown, setSidebarShown] = useState(false);
-  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
-  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   useLockBodyScroll(sidebarShown);
 
@@ -78,62 +70,37 @@ function Navbar(): JSX.Element {
     }
   }, [windowSize]);
 
+  const hasSearchNavbarItem = items.some((item) => item.type === 'search');
   const {leftItems, rightItems} = splitNavItemsByPosition(items);
 
   return (
     <nav
       ref={navbarRef}
-      className={clsx('navbar', 'navbar--light', 'navbar--fixed-top', {
+      className={clsx('navbar', 'navbar--fixed-top', {
+        'navbar--dark': style === 'dark',
+        'navbar--primary': style === 'primary',
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
-        [styles.navbarHidden]: !isNavbarVisible,
+        [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">
           {items != null && items.length !== 0 && (
-            <div
+            <button
               aria-label="Navigation bar toggle"
-              className="navbar__toggle"
-              role="button"
+              className="navbar__toggle clean-btn"
+              type="button"
               tabIndex={0}
               onClick={showSidebar}
               onKeyDown={showSidebar}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                role="img"
-                focusable="false">
-                <title>Menu</title>
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeMiterlimit="10"
-                  strokeWidth="2"
-                  d="M4 7h22M4 15h22M4 23h22"
-                />
-              </svg>
-            </div>
+              <IconMenu />
+            </button>
           )}
-          <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
-            {logoImageUrl != null && (
-              <img
-                key={isClient}
-                className="navbar__logo"
-                src={logoImageUrl}
-                alt={logoAlt}
-              />
-            )}
-            {title != null && (
-              <strong
-                className={clsx('navbar__title', {
-                  [styles.hideLogoText]: isSearchBarExpanded,
-                })}>
-                {title}
-              </strong>
-            )}
-          </Link>
+          <Logo
+            className="navbar__brand"
+            imageClassName="navbar__logo"
+            titleClassName="navbar__title"
+          />
           {leftItems.map((item, i) => (
             <NavbarItem {...item} key={i} />
           ))}
@@ -145,15 +112,11 @@ function Navbar(): JSX.Element {
           {!disableColorModeSwitch && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
-              aria-label="Dark mode toggle"
               checked={isDarkTheme}
               onChange={onToggleChange}
             />
           )}
-          <SearchBar
-            handleSearchBarToggle={setIsSearchBarExpanded}
-            isSearchBarExpanded={isSearchBarExpanded}
-          />
+          {!hasSearchNavbarItem && <SearchBar />}
         </div>
       </div>
       <div
@@ -163,36 +126,26 @@ function Navbar(): JSX.Element {
       />
       <div className="navbar-sidebar">
         <div className="navbar-sidebar__brand">
-          <Link
+          <Logo
             className="navbar__brand"
+            imageClassName="navbar__logo"
+            titleClassName="navbar__title"
             onClick={hideSidebar}
-            to={logoLink}
-            {...logoLinkProps}>
-            {logoImageUrl != null && (
-              <img
-                key={isClient}
-                className="navbar__logo"
-                src={logoImageUrl}
-                alt={logoAlt}
-              />
-            )}
-            {title != null && (
-              <strong className="navbar__title">{title}</strong>
-            )}
-          </Link>
+          />
           {!disableColorModeSwitch && sidebarShown && (
-            <Toggle
-              aria-label="Dark mode toggle in sidebar"
-              checked={isDarkTheme}
-              onChange={onToggleChange}
-            />
+            <Toggle checked={isDarkTheme} onChange={onToggleChange} />
           )}
         </div>
         <div className="navbar-sidebar__items">
           <div className="menu">
             <ul className="menu__list">
               {items.map((item, i) => (
-                <NavbarItem mobile {...item} onClick={hideSidebar} key={i} />
+                <NavbarItem
+                  mobile
+                  {...(item as any)} // TODO fix typing
+                  onClick={hideSidebar}
+                  key={i}
+                />
               ))}
             </ul>
           </div>

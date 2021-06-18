@@ -1,25 +1,31 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.61",
-  "description": "Docusaurus Live CodeBlock",
+  "version": "2.0.0-beta.0",
+  "description": "Docusaurus live code block component.",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-live-codeblock"
+  },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.0",
+    "@docusaurus/utils-validation": "2.0.0-beta.0",
     "@philpl/buble": "^0.19.7",
     "clsx": "^1.1.1",
-    "parse-numeric-range": "^0.0.2",
-    "prism-react-renderer": "^1.1.0",
-    "react-live": "^2.2.1"
+    "parse-numeric-range": "^1.2.0",
+    "prism-react-renderer": "^1.2.1",
+    "react-live": "^2.2.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

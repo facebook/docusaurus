@@ -7,6 +7,22 @@
 
 const path = require('path');
 const versions = require('./versions.json');
+const math = require('remark-math');
+const katex = require('rehype-katex');
+
+// This probably only makes sense for the beta phase, temporary
+function getNextBetaVersionName() {
+  const expectedPrefix = '2.0.0-beta.';
+
+  const lastReleasedVersion = versions[0];
+  if (!lastReleasedVersion.includes(expectedPrefix)) {
+    throw new Error(
+      'this code is only meant to be used during the 2.0 beta phase.',
+    );
+  }
+  const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
+  return `${expectedPrefix}${version + 1}`;
+}
 
 const allDocHomesPaths = [
   '/docs/',
@@ -14,27 +30,71 @@ const allDocHomesPaths = [
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const isDeployPreview =
+  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+
 const baseUrl = process.env.BASE_URL || '/';
 const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
-const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 
-if (isBootstrapPreset) {
-  console.log('Will use bootstrap preset!');
-}
+// Special deployment for staging locales until they get enough translations
+// https://app.netlify.com/sites/docusaurus-i18n-staging
+// https://docusaurus-i18n-staging.netlify.app/
+const isI18nStaging = process.env.I18N_STAGING === 'true';
 
-module.exports = {
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
+
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
+(module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl,
-  url: 'https://v2.docusaurus.io',
-  onBrokenLinks: isVersioningDisabled ? 'warn' : 'throw',
+  baseUrlIssueBanner: true,
+  url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      integrity:
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
+    },
+  ],
+  i18n: {
+    defaultLocale: 'en',
+    locales: isDeployPreview
+      ? // Deploy preview: keep it fast!
+        ['en']
+      : isI18nStaging
+      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+        ['en', 'ja']
+      : // Production locales
+        ['en', 'fr', 'ko', 'zh-CN'],
+  },
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('esbuild-loader'),
+      options: {
+        loader: 'tsx',
+        format: isServer ? 'cjs' : undefined,
+        target: isServer ? 'node12' : 'es2017',
+      },
+    }),
+  },
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -42,8 +102,14 @@ module.exports = {
       {
         id: 'community',
         path: 'community',
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         routeBasePath: 'community',
+        editUrl: ({locale, versionDocsDirPath, docPath}) => {
+          if (locale !== 'en') {
+            return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+          }
+          return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+        },
+        editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -103,20 +169,24 @@ module.exports = {
     [
       '@docusaurus/plugin-pwa',
       {
-        debug: false,
-        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        debug: isDeployPreview,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
         // swRegister: false,
         swCustom: path.resolve(__dirname, 'src/sw.js'),
         pwaHead: [
           {
             tagName: 'link',
             rel: 'icon',
-            href: '/img/docusaurus.png',
+            href: 'img/docusaurus.png',
           },
           {
             tagName: 'link',
             rel: 'manifest',
-            href: '/manifest.json',
+            href: `${baseUrl}manifest.json`,
           },
           {
             tagName: 'meta',
@@ -136,18 +206,18 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'apple-touch-icon',
-            href: '/img/docusaurus.png',
+            href: 'img/docusaurus.png',
           },
           {
             tagName: 'link',
             rel: 'mask-icon',
-            href: '/img/docusaurus.svg',
+            href: 'img/docusaurus.svg',
             color: 'rgb(62, 204, 94)',
           },
           {
             tagName: 'meta',
             name: 'msapplication-TileImage',
-            content: '/img/docusaurus.png',
+            content: 'img/docusaurus.png',
           },
           {
             tagName: 'meta',
@@ -168,59 +238,99 @@ module.exports = {
         docs: {
           // routeBasePath: '/',
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+          sidebarPath: 'sidebars.js',
+          editUrl: ({locale, docPath}) => {
+            if (locale !== 'en') {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            // We want users to submit doc updates to the upstream/next version!
+            // Otherwise we risk losing the update on the next release.
+            const nextVersionDocsDirPath = 'docs';
+            return `https://github.com/facebook/docusaurus/edit/master/website/${nextVersionDocsDirPath}/${docPath}`;
+          },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [
+            math,
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ],
+          rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
+          lastVersion: isDev ? 'current' : undefined,
+          onlyIncludeVersions:
+            !isVersioningDisabled && (isDev || isDeployPreview)
+              ? ['current', ...versions.slice(0, 2)]
+              : undefined,
+          versions: {
+            current: {
+              label: `${getNextBetaVersionName()} 🚧`,
+            },
+          },
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+          path: 'blog',
+          editUrl: ({locale, blogDirPath, blogPath}) => {
+            if (locale !== 'en') {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+          },
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: 'All our posts',
         },
         pages: {
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
         },
       },
     ],
   ],
   themeConfig: {
+    liveCodeBlock: {
+      playgroundPosition: 'bottom',
+    },
+    hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
     announcementBar: {
+      id: 'v1-new-domain',
+      content:
+        '➡️ Docusaurus v1 documentation has moved to <a target="_blank" rel="noopener noreferrer" href="https://v1.docusaurus.io/">v1.docusaurus.io</a>! 🔄',
+    },
+    /*
+    announcementBar: {
       id: 'supportus',
       content:
         '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
     },
+     */
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
+      additionalLanguages: ['java'],
     },
     image: 'img/docusaurus-soc.png',
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    // metadatas: [{name: 'twitter:card', content: 'summary'}],
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      searchParameters: {
-        facetFilters: [`version:${versions[0]}`],
-      },
+      contextualSearch: true,
     },
     navbar: {
       hideOnScroll: true,
@@ -232,9 +342,16 @@ module.exports = {
       },
       items: [
         {
-          type: 'docsVersionDropdown',
+          type: 'doc',
           position: 'left',
-          nextVersionLabel: '2.0.0-next',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'cli',
+          label: 'API',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -244,10 +361,31 @@ module.exports = {
           position: 'left',
           activeBaseRegex: `/community/`,
         },
+        // right
         {
-          to: '/versions',
-          label: 'All versions',
+          type: 'docsVersionDropdown',
           position: 'right',
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              href: 'https://v1.docusaurus.io',
+              label: '1.x.x',
+            },
+            {
+              to: '/versions',
+              label: 'All versions',
+            },
+          ],
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+          dropdownItemsAfter: [
+            {
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
+              label: 'Help Us Translate',
+            },
+          ],
         },
         {
           href: 'https://github.com/facebook/docusaurus',
@@ -273,7 +411,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
+              to: 'docs/migration',
             },
           ],
         },
@@ -334,6 +472,14 @@ module.exports = {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
             },
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
+            },
           ],
         },
       ],
@@ -345,4 +491,4 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
-};
+});

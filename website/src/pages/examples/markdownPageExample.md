@@ -1,11 +1,12 @@
 ---
 title: Markdown Page example title
 description: Markdown Page example description
+wrapperClassName: docusaurus-markdown-example
 ---
 
 # Markdown page
 
-This is a page generated from markdown to illustrate the markdown page feature.
+This is a page generated from markdown to illustrate the Markdown page feature.
 
 It supports all the regular MDX features, as you can see:
 
@@ -24,10 +25,6 @@ function Button() {
   );
 }
 ```
-
-### Using relative path
-
-![](../../../static/img/docusaurus.png)
 
 ### Using absolute path
 
@@ -53,10 +50,183 @@ import Chapter2 from './_chapter2.mdx';
 <Chapter2 />;
 ```
 
-import Chapter1 from './\_chapter2.mdx';
+import Chapter1 from './\_chapter1.md';
 
 <Chapter1/>
 
 import Chapter2 from './\_chapter2.mdx';
 
 <Chapter2/>
+
+## Comments
+
+MDX comments can be used with
+
+```mdx
+<!--
+
+My comment
+
+-->
+```
+
+See, nothing is displayed:
+
+<!--
+
+My comment
+
+-->
+
+## Import code block from source code file
+
+import MyComponent from "@site/src/pages/examples/\_myComponent"
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Let's say you have a React component.
+
+You can import and use it in MDX:
+
+```jsx title="myMarkdownFile.mdx"
+import MyComponent from './myComponent';
+
+<MyComponent />;
+```
+
+<BrowserWindow url="http://localhost:3000">
+
+<MyComponent/>
+
+</BrowserWindow>
+
+But you can also display its source code directly in MDX, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/)
+
+```jsx title="myMarkdownFile.mdx"
+import CodeBlock from '@theme/CodeBlock';
+
+import MyComponentSource from '!!raw-loader!./myComponent';
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
+```
+
+import CodeBlock from "@theme/CodeBlock"
+
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myComponent';
+
+<BrowserWindow url="http://localhost:3000">
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>
+
+## Test
+
+```jsx live
+function Demo() {
+  React.useEffect(() => console.log('mount'), []);
+  return null;
+}
+```
+
+## Code block test
+
+```js title="Title"
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+      // highlight-start
+      {/* prettier-ignore */}
+      long long long long long long long long long long long long line
+      {/* prettier-ignore */}
+      // highlight-end
+    </div>
+  );
+}
+```
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+<CodeBlock className="language-yaml" title="test">
+  test
+</CodeBlock>
+
+<code>test</code>
+
+## direct using of `pre`
+
+<pre>test</pre>
+
+<!-- Multi-line text inside `pre` will turn into one-liner, but it's okay (https://github.com/mdx-js/mdx/issues/1095) -->
+<pre>
+1
+2
+3
+</pre>
+
+## Custom heading id {#custom}
+
+## Children elements inside pre/code elements
+
+See https://github.com/facebook/docusaurus/pull/1584
+
+<pre><code>
+  <BrowserWindow url="http://localhost:3000" >
+    Lol bro
+  </BrowserWindow>
+</code></pre>
+
+<code>
+  <BrowserWindow url="http://localhost:3000" >
+    Lol bro
+  </BrowserWindow>
+</code>
+
+## Pipe
+
+Code tag + double pipe: <code>&#124;&#124;</code>
+
+Code tag + double pipe: <code>||</code>
+
+## Images edge cases
+
+![](/dogfooding/新控制器空间/图片.png)
+
+![](/dogfooding/4/图片.png)
+
+![](/dogfooding/4/docu.png)

@@ -6,166 +6,112 @@
  */
 
 import React from 'react';
-
-import Head from '@docusaurus/Head';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import Seo from '@theme/Seo';
+import LastUpdated from '@theme/LastUpdated';
+import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
+import EditThisPage from '@theme/EditThisPage';
+import {MainHeading} from '@theme/Heading';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import {
+  useActivePlugin,
+  useVersions,
+  useActiveVersion,
+} from '@theme/hooks/useDocs';
 
-function DocItem(props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl, title: siteTitle} = siteConfig;
+function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
-  const {metadata} = DocContent;
+  const {metadata, frontMatter} = DocContent;
+  const {
+    image,
+    keywords,
+    hide_title: hideTitle,
+    hide_table_of_contents: hideTableOfContents,
+  } = frontMatter;
   const {
     description,
     title,
-    permalink,
     editUrl,
     lastUpdatedAt,
+    formattedLastUpdatedAt,
     lastUpdatedBy,
-    version,
   } = metadata;
-  const {
-    frontMatter: {
-      image: metaImage,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
 
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
+  const {pluginId} = useActivePlugin({failfast: true});
+  const versions = useVersions(pluginId);
+  const version = useActiveVersion(pluginId);
+
+  // If site is not versioned or only one version is included
+  // we don't show the version badge
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const showVersionBadge = versions.length > 1;
+
+  // We only add a title if:
+  // - user asks to hide it with frontmatter
+  // - the markdown content does not already contain a top-level h1 heading
+  const shouldAddTitle =
+    !hideTitle && typeof DocContent.contentTitle === 'undefined';
+
   return (
     <>
-      <Head>
-        <title>{metaTitle}</title>
-        <meta property="og:title" content={metaTitle} />
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
-        )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
-      </Head>
-      <div
-        className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
-        <div className="row">
-          <div
-            className={clsx('col', {
-              [styles.docItemCol]: !hideTableOfContents,
-            })}>
-            <DocVersionSuggestions />
-            <div className={styles.docItemContainer}>
-              <article>
-                {version && (
-                  <div>
-                    <span className="badge badge--secondary">
-                      Version: {version}
-                    </span>
-                  </div>
-                )}
-                {!hideTitle && (
-                  <header>
-                    <h1 className={styles.docTitle}>{title}</h1>
-                  </header>
-                )}
-                <div className="markdown">
-                  <DocContent />
-                </div>
-              </article>
+      <Seo {...{title, description, keywords, image}} />
+
+      <div className="row">
+        <div
+          className={clsx('col', {
+            [styles.docItemCol]: !hideTableOfContents,
+          })}>
+          <DocVersionSuggestions />
+          <div className={styles.docItemContainer}>
+            <article>
+              {showVersionBadge && (
+                <span className="badge badge--secondary">
+                  Version: {version.label}
+                </span>
+              )}
+
+              <div className="markdown">
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
+                <DocContent />
+              </div>
+
               {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <div className="margin-vert--xl">
-                  <div className="row">
-                    <div className="col">
-                      {editUrl && (
-                        <a
-                          href={editUrl}
-                          target="_blank"
-                          rel="noreferrer noopener">
-                          <svg
-                            fill="currentColor"
-                            height="1.2em"
-                            width="1.2em"
-                            preserveAspectRatio="xMidYMid meet"
-                            viewBox="0 0 40 40"
-                            style={{
-                              marginRight: '0.3em',
-                              verticalAlign: 'sub',
-                            }}>
-                            <g>
-                              <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
-                            </g>
-                          </svg>
-                          Edit this page
-                        </a>
-                      )}
-                    </div>
+                <footer className="row docusaurus-mt-lg">
+                  <div className="col">
+                    {editUrl && <EditThisPage editUrl={editUrl} />}
+                  </div>
+
+                  <div className={clsx('col', styles.lastUpdated)}>
                     {(lastUpdatedAt || lastUpdatedBy) && (
-                      <div className="col text--right">
-                        <em>
-                          <small>
-                            Last updated{' '}
-                            {lastUpdatedAt && (
-                              <>
-                                on{' '}
-                                <time
-                                  dateTime={new Date(
-                                    lastUpdatedAt * 1000,
-                                  ).toISOString()}
-                                  className={styles.docLastUpdatedAt}>
-                                  {new Date(
-                                    lastUpdatedAt * 1000,
-                                  ).toLocaleDateString()}
-                                </time>
-                                {lastUpdatedBy && ' '}
-                              </>
-                            )}
-                            {lastUpdatedBy && (
-                              <>
-                                by <strong>{lastUpdatedBy}</strong>
-                              </>
-                            )}
-                            {process.env.NODE_ENV === 'development' && (
-                              <div>
-                                <small>
-                                  {' '}
-                                  (Simulated during dev for better perf)
-                                </small>
-                              </div>
-                            )}
-                          </small>
-                        </em>
-                      </div>
+                      <LastUpdated
+                        lastUpdatedAt={lastUpdatedAt}
+                        formattedLastUpdatedAt={formattedLastUpdatedAt}
+                        lastUpdatedBy={lastUpdatedBy}
+                      />
                     )}
                   </div>
-                </div>
+                </footer>
               )}
-              <div className="margin-vert--lg">
-                <DocPaginator metadata={metadata} />
-              </div>
-            </div>
+            </article>
+
+            <DocPaginator metadata={metadata} />
           </div>
-          {!hideTableOfContents && DocContent.rightToc && (
-            <div className="col col--3">
-              <TOC headings={DocContent.rightToc} />
-            </div>
-          )}
         </div>
+        {!hideTableOfContents && DocContent.toc && (
+          <div className="col col--3">
+            <TOC toc={DocContent.toc} />
+          </div>
+        )}
       </div>
     </>
   );

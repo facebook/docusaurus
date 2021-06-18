@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.61",
-  "description": "Simple sitemap generation plugin for Docusaurus",
+  "version": "2.0.0-beta.0",
+  "description": "Simple sitemap generation plugin for Docusaurus.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -10,20 +10,27 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-sitemap"
   },
+  "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.61",
-    "@hapi/joi": "17.1.1",
-    "fs-extra": "^8.1.0",
-    "sitemap": "^3.2.2"
+    "@docusaurus/core": "2.0.0-beta.0",
+    "@docusaurus/types": "2.0.0-beta.0",
+    "@docusaurus/utils": "2.0.0-beta.0",
+    "@docusaurus/utils-common": "2.0.0-beta.0",
+    "@docusaurus/utils-validation": "2.0.0-beta.0",
+    "fs-extra": "^10.0.0",
+    "sitemap": "^7.0.0",
+    "tslib": "^2.2.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from '@hapi/joi';
+import Joi from '../Joi';
 
 import {
   AdmonitionsSchema,
@@ -19,7 +19,7 @@ function createTestHelpers({
   schema,
   defaultValue,
 }: {
-  schema: Joi.SchemaLike;
+  schema: Joi.Schema;
   defaultValue?: unknown;
 }) {
   function testOK(value: unknown) {
@@ -28,7 +28,6 @@ function createTestHelpers({
 
   function testFail(value: unknown) {
     expect(() => Joi.attempt(value, schema)).toThrowErrorMatchingSnapshot(
-      // @ts-expect-error: seems ok at runtime, but bad typedef
       `for value=${JSON.stringify(value)}`,
     );
   }
@@ -36,7 +35,7 @@ function createTestHelpers({
   return {testOK, testFail};
 }
 
-function testMarkdownPluginSchemas(schema: Joi.SchemaLike) {
+function testMarkdownPluginSchemas(schema: Joi.Schema) {
   const {testOK, testFail} = createTestHelpers({
     schema,
     defaultValue: [],
@@ -109,14 +108,24 @@ describe('validation schemas', () => {
   });
 
   test('URISchema', () => {
+    const {testFail, testOK} = createTestHelpers({schema: URISchema});
+
     const validURL = 'https://docusaurus.io';
     const doubleHash = 'https://docusaurus.io#github#/:';
-    const invalidURL = 'invalidURL';
+    const invalidURL = 'spaces are invalid in a URL';
+    const relativeURL = 'relativeURL';
+    const relativeURLWithParent = '../relativeURLWithParent';
     const urlFromIssue = 'https://riot.im/app/#/room/#ligo-public:matrix.org';
-    const {testFail, testOK} = createTestHelpers({schema: URISchema});
     testOK(validURL);
     testOK(doubleHash);
     testFail(invalidURL);
+    testOK(relativeURL);
+    testOK(relativeURLWithParent);
     testOK(urlFromIssue);
+
+    const protocolRelativeUrl1 = '//docusaurus.io/path';
+    const protocolRelativeUrl2 = '//docusaurus.io/docs/doc1#hash';
+    testOK(protocolRelativeUrl1);
+    testOK(protocolRelativeUrl2);
   });
 });

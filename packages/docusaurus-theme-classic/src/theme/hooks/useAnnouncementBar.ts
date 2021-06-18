@@ -5,45 +5,46 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect} from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useState, useEffect, useCallback} from 'react';
+import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
+import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnouncementBar';
 
-const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
-const STORAGE_ID_KEY = 'docusaurus.announcement.id';
+const DismissStorage = createStorageSlot('docusaurus.announcement.dismiss');
+const IdStorage = createStorageSlot('docusaurus.announcement.id');
 
-const useAnnouncementBar = (): {
-  isAnnouncementBarClosed: boolean;
-  closeAnnouncementBar: () => void;
-} => {
-  const {
-    siteConfig: {
-      themeConfig: {announcementBar: {id = 'annoucement-bar'} = {}} = {},
-    } = {},
-  } = useDocusaurusContext();
+const useAnnouncementBar = (): useAnnouncementBarReturns => {
+  const {announcementBar} = useThemeConfig();
+
   const [isClosed, setClosed] = useState(true);
-  const handleClose = () => {
-    localStorage.setItem(STORAGE_DISMISS_KEY, 'true');
+
+  const handleClose = useCallback(() => {
+    DismissStorage.set('true');
     setClosed(true);
-  };
+  }, []);
 
   useEffect(() => {
-    if (!id) {
+    if (!announcementBar) {
       return;
     }
+    const {id} = announcementBar;
 
-    const viewedId = localStorage.getItem(STORAGE_ID_KEY);
-    const isNewAnnouncement = id !== viewedId;
+    let viewedId = IdStorage.get();
 
-    localStorage.setItem(STORAGE_ID_KEY, id);
-
-    if (isNewAnnouncement) {
-      localStorage.setItem(STORAGE_DISMISS_KEY, 'false');
+    // retrocompatibility due to spelling mistake of default id
+    // see https://github.com/facebook/docusaurus/issues/3338
+    if (viewedId === 'annoucement-bar') {
+      viewedId = 'announcement-bar';
     }
 
-    if (
-      isNewAnnouncement ||
-      localStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
-    ) {
+    const isNewAnnouncement = id !== viewedId;
+
+    IdStorage.set(id);
+
+    if (isNewAnnouncement) {
+      DismissStorage.set('false');
+    }
+
+    if (isNewAnnouncement || DismissStorage.get() === 'false') {
       setClosed(false);
     }
   }, []);
