@@ -24,7 +24,7 @@ const ThemedImage = (props: Props): JSX.Element => {
   const clientThemes: SourceName[] = isDarkTheme ? ['dark'] : ['light'];
 
   const renderedSourceNames: SourceName[] = isClient
-    ? clientTheme
+    ? clientThemes
     : // We need to render both images on the server to avoid flash
       // See https://github.com/facebook/docusaurus/pull/3730
       ['light', 'dark'];
