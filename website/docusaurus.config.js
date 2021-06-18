@@ -9,6 +9,7 @@ const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
+const VersionsArchived = require('./versionsArchived.json');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -367,6 +368,12 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            ...Object.entries(VersionsArchived).map(
+              ([versionName, versionUrl]) => ({
+                label: versionName,
+                href: versionUrl,
+              }),
+            ),
             {
               href: 'https://v1.docusaurus.io',
               label: '1.x.x',
