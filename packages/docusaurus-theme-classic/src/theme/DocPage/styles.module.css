@@ -19,10 +19,6 @@
   width: 100%;
 }
 
-.docItemWrapper {
-  padding-top: 0.5rem !important;
-}
-
 @media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;

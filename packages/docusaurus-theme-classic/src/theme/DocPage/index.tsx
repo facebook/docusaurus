@@ -144,7 +144,7 @@ function DocPageContent({
           })}>
           <div
             className={clsx(
-              'container padding-vert--lg',
+              'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
               {
                 [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
