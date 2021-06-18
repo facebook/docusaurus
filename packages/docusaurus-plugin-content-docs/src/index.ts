@@ -253,9 +253,7 @@ export default function pluginContentDocs(
           if (versionHomeDoc) {
             return versionHomeDoc;
           } else if (firstDocIdOfFirstSidebar) {
-            return docs.find(
-              (doc) => doc.id === firstDocIdOfFirstSidebar,
-            ) as DocMetadata;
+            return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
           } else {
             return docs[0];
           }

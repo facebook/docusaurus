@@ -97,7 +97,7 @@ function parseBreadcrumb(
 ): {parents: string[]; tail: string} {
   return {
     parents: take(breadcrumb, breadcrumb.length - 1),
-    tail: last(breadcrumb) as string,
+    tail: last(breadcrumb)!,
   };
 }
 

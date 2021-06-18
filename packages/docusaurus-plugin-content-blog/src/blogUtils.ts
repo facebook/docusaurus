@@ -32,7 +32,7 @@ import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
-  return fileString.split(truncateMarker, 1).shift() as string;
+  return fileString.split(truncateMarker, 1).shift()!;
 }
 
 export function getSourceToPermalink(

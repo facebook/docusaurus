@@ -309,7 +309,7 @@ ${Object.keys(registry)
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
       join(__dirname, '../../package.json'),
-    ) as string,
+    )!,
     siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
     pluginVersions: {},
   };

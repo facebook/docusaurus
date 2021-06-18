@@ -35,7 +35,7 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   )
     .keyBy((navbarItem) => `item.label.${navbarItem.label}`)
     .mapValues((navbarItem) => ({
-      message: navbarItem.label as string,
+      message: navbarItem.label!,
       description: `Navbar item with label ${navbarItem.label}`,
     }))
     .value();
@@ -78,7 +78,7 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   )
     .keyBy((link) => `link.title.${link.title}`)
     .mapValues((link) => ({
-      message: link.title as string,
+      message: link.title!,
       description: `The title of the footer links column with title=${link.title} in the footer`,
     }))
     .value();
@@ -90,7 +90,7 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   )
     .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
     .mapValues((linkItem) => ({
-      message: linkItem.label as string,
+      message: linkItem.label!,
       description: `The label of footer link with label=${
         linkItem.label
       } linking to ${linkItem.to ?? linkItem.href}`,
