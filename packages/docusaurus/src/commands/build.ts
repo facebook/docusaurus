@@ -241,7 +241,7 @@ async function buildLocale({
   console.log(
     `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
       path.relative(process.cwd(), outDir),
-    )}.`,
+    )}".`,
   );
 
   if (isLastLocale) {
