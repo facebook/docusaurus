@@ -88,7 +88,7 @@ export default function Home() {
 
 ### Initialize the `i18n` folder {#initialize-the-i18n-folder}
 
-Use the [write-translations](../cli.md#docusaurus-write-translations) CLI command to initialize the JSON translation files for the French locale:
+Use the [write-translations](../cli.md#docusaurus-write-translations-sitedir) CLI command to initialize the JSON translation files for the French locale:
 
 ```bash npm2yarn
 npm run write-translations -- --locale fr
@@ -157,7 +157,7 @@ To keep your translated sites consistent, when the `website/docs/doc1.md` doc is
 
 ### JSON translations {#json-translations}
 
-To help you maintain the JSON translation files, it is possible to run again the [write-translations](../cli.md#docusaurus-write-translations) CLI command:
+To help you maintain the JSON translation files, it is possible to run again the [write-translations](../cli.md#docusaurus-write-translations-sitedir) CLI command:
 
 ```bash npm2yarn
 npm run write-translations -- --locale fr
