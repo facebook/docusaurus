@@ -125,7 +125,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 - **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
 - **Multi-instance path**: N/A
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: `N/A
 
 ### Example file-system structure {#example-file-system-structure}

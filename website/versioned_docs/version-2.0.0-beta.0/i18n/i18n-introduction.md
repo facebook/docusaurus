@@ -122,7 +122,7 @@ website/i18n
         └── navbar.json
 ```
 
-The JSON files are initialized with the [`docusaurus write-translations`](../cli.md#docusaurus-write-translations) CLI command.
+The JSON files are initialized with the [`docusaurus write-translations`](../cli.md#docusaurus-write-translations-sitedir) CLI command.
 
 The `code.json` file is extracted from React components using the `<Translate>` API.
 
