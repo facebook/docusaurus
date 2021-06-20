@@ -9,11 +9,11 @@ import {useRef, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 
 export function useChangeRoute(onRouteChange: () => void): void {
-  const {pathname} = useLocation();
+  const {pathname, hash} = useLocation();
   const latestPathnameRef = useRef(pathname);
 
   useEffect(() => {
-    if (pathname !== latestPathnameRef.current) {
+    if (!hash && pathname !== latestPathnameRef.current) {
       latestPathnameRef.current = pathname;
       onRouteChange();
     }
