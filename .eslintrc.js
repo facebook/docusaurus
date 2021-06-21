@@ -131,6 +131,7 @@ module.exports = {
       ],
       rules: {
         'header/header': OFF,
+        'global-require': OFF,
       },
     },
     {
