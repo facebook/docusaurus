@@ -268,10 +268,10 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
     }
 
     // async process made sequential on purpose! order matters
-    for (const doc of docs) {
-      // eslint-disable-next-line no-await-in-loop
-      await handleDocItem(doc);
-    }
+    await docs.reduce(
+      (p, doc) => p.then(() => handleDocItem(doc)),
+      Promise.resolve(),
+    );
 
     return sidebarItems;
   }
