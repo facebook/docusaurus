@@ -178,14 +178,134 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
-This workflow assumes your documentation resided in `documentation` branch of your repository and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for `gh-pages` branch.
+This workflow assumes your documentation resides in the `documentation` branch of your repository and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch.
+
+Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (eg `gh-pages`), choose the relevant tab below:
+
+- The **`same`** repository as your documentation source.
+- A **`remote`** repository different from your documentation source.
+
+````mdx-code-block
+<Tabs
+  defaultValue="same"
+  values={[
+    { label: 'Same', value: 'same' },
+    { label: 'Remote', value: 'remote' }
+]}>
+<TabItem value="same">
+
+Add these two workflow files for Github Actions to your project:
+
+```yaml title=".github/workflows/documentation-push.yml"
+name: 'Docs (Github Pages)'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - documentation
+    paths:
+      - 'website/**'
+
+defaults:
+  run:
+    working-directory: website
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-website-
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+
+      # Popular action to deploy to GitHub Pages:
+      # Docs: https://github.com/peaceiris/actions-gh-pages
+      - name: 'Deploy to GitHub Pages'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Build directory contents to publish to the `gh-pages` branch:
+          publish_dir: ./website/build
+          # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:
+          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+```
+
+While you can have both jobs defined in the same workflow file, the deploy job as configured in the `remote` example will always be listed as skipped in the PR check suite status.
+
+That's added noise providing no value to the review process, and as you cannot easily share common snippets like the build process; it is better to manage as separate workflows instead:
+
+```yaml title=".github/workflows/documentation-pr.yml"
+name: 'Docs (PR)'
+
+on:
+  pull_request:
+    branches:
+      - documentation
+    paths:
+      - 'website/**'
+
+jobs:
+  verify:
+    name: 'Verify Build'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-website-
+
+      - name: Install dependencies
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
+      - name: Verify docs build successfully
+        working-directory: website
+        run: yarn build
+```
+
+</TabItem>
+<TabItem value="remote">
 
 1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-1. By default, your public key should have been created in `~/.ssh/id_rsa.pub` or use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
-1. Copy key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
-1. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
-1. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with name `GH_PAGES_DEPLOY`. Copy file content if the command line doesn't work for you. Save your secret.
-1. Create you [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
+2. By default your public key should have been created in `~/.ssh/id_rsa.pub`, or use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
+3. Copy the key to the clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy the file contents if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
+4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
+5. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY`. Copy the file contents if the command line doesn't work for you. Save your secret.
+6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
 
 :::warning
 
@@ -249,9 +369,13 @@ jobs:
           npm run deploy
 ```
 
-1. Now when a new pull request arrives towards your repository in branch `documentation` it will automatically ensure that Docusaurus build is successful.
-1. When pull request is merged to `documentation` branch or someone pushes to `documentation` branch directly it will be built and deployed to `gh-pages` branch.
-1. After this step, your updated documentation will be available on the GitHub pages.
+</TabItem>
+</Tabs>
+````
+
+1. Now when a new pull request is made to your repository branch `documentation`, it will automatically ensure that the Docusaurus build is successful.
+2. When a pull request is merged to the `documentation` branch or someone pushes to the `documentation` branch directly it will be built and deployed to the `gh-pages` branch.
+3. After this step your updated documentation will be available on GitHub Pages.
 
 ### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
 
