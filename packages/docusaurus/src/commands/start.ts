@@ -156,7 +156,7 @@ export default async function start(
 
     if (configureWebpack) {
       config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
         config,
         false,
         props.siteConfig.webpack?.jsLoader,

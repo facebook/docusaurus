@@ -283,6 +283,12 @@ export default function friendsPlugin(context, options) {
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
+:::caution
+
+The API of `configureWebpack` will be modified in the future to accept an object (`configureWebpack({config, isServer, utils, content})`)
+
+:::
+
 ### `config` {#config}
 
 `configureWebpack` is called with `config` generated according to client/server build. You may treat this as the base config to be merged with.
