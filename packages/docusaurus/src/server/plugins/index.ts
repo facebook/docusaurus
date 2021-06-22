@@ -53,6 +53,8 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   });
 }
 
+export type LoadedPlugin = InitPlugin & {content: unknown};
+
 export async function loadPlugins({
   pluginConfigs,
   context,
@@ -60,7 +62,7 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: InitPlugin[];
+  plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: unknown;
   themeConfigTranslated: ThemeConfig;
@@ -75,21 +77,20 @@ export async function loadPlugins({
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
-  type ContentLoadedPlugin = {plugin: InitPlugin; content: unknown};
-  const contentLoadedPlugins: ContentLoadedPlugin[] = await Promise.all(
+  const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
       const content = plugin.loadContent ? await plugin.loadContent() : null;
-      return {plugin, content};
+      return {...plugin, content};
     }),
   );
 
-  type ContentLoadedTranslatedPlugin = ContentLoadedPlugin & {
+  type ContentLoadedTranslatedPlugin = LoadedPlugin & {
     translationFiles: TranslationFiles;
   };
   const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
-    contentLoadedPlugins.map(async (contentLoadedPlugin) => {
+    loadedPlugins.map(async (contentLoadedPlugin) => {
       const translationFiles =
-        (await contentLoadedPlugin.plugin?.getTranslationFiles?.({
+        (await contentLoadedPlugin?.getTranslationFiles?.({
           content: contentLoadedPlugin.content,
         })) ?? [];
       const localizedTranslationFiles = await Promise.all(
@@ -98,7 +99,7 @@ export async function loadPlugins({
             locale: context.i18n.currentLocale,
             siteDir: context.siteDir,
             translationFile,
-            plugin: contentLoadedPlugin.plugin,
+            plugin: contentLoadedPlugin,
           }),
         ),
       );
@@ -109,11 +110,11 @@ export async function loadPlugins({
     }),
   );
 
-  const allContent: AllContent = chain(contentLoadedPlugins)
-    .groupBy((item) => item.plugin.name)
+  const allContent: AllContent = chain(loadedPlugins)
+    .groupBy((item) => item.name)
     .mapValues((nameItems) => {
       return chain(nameItems)
-        .groupBy((item) => item.plugin.options.id ?? DEFAULT_PLUGIN_ID)
+        .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
         .value();
     })
@@ -126,7 +127,7 @@ export async function loadPlugins({
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(
-      async ({plugin, content, translationFiles}) => {
+      async ({content, translationFiles, ...plugin}) => {
         if (!plugin.contentLoaded) {
           return;
         }
@@ -191,7 +192,7 @@ export async function loadPlugins({
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
   await Promise.all(
-    contentLoadedTranslatedPlugins.map(async ({plugin}) => {
+    contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
         return null;
       }
@@ -218,10 +219,10 @@ export async function loadPlugins({
     untranslatedThemeConfig: ThemeConfig,
   ): ThemeConfig {
     return contentLoadedTranslatedPlugins.reduce(
-      (currentThemeConfig, {plugin, translationFiles}) => {
+      (currentThemeConfig, plugin) => {
         const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
           themeConfig: currentThemeConfig,
-          translationFiles,
+          translationFiles: plugin.translationFiles,
         });
         return {
           ...currentThemeConfig,
@@ -233,7 +234,7 @@ export async function loadPlugins({
   }
 
   return {
-    plugins,
+    plugins: loadedPlugins,
     pluginsRouteConfigs,
     globalData,
     themeConfigTranslated: translateThemeConfig(context.siteConfig.themeConfig),

@@ -319,6 +319,8 @@ describe('simple website', () => {
         },
       },
       false,
+      undefined,
+      {content: 42},
     );
     const errors = validate(config);
     expect(errors).toBeUndefined();

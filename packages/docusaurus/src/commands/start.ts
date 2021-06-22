@@ -160,6 +160,7 @@ export default async function start(
         config,
         false,
         props.siteConfig.webpack?.jsLoader,
+        plugin.content,
       );
     }
   });

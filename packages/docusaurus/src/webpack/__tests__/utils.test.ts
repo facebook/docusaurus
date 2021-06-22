@@ -77,7 +77,9 @@ describe('extending generated webpack config', () => {
       return {};
     };
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -105,7 +107,9 @@ describe('extending generated webpack config', () => {
       },
     });
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -137,6 +141,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack(),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(defaultStrategyMergeConfig).toEqual({
       module: {
@@ -148,6 +154,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({'module.rules': 'prepend'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(prependRulesStrategyConfig).toEqual({
       module: {
@@ -159,6 +167,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({uselessAttributeName: 'append'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(uselessMergeStrategyConfig).toEqual({
       module: {
