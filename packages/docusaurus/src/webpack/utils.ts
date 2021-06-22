@@ -198,13 +198,15 @@ function getCacheLoaderDeprecated() {
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
  * @param jsLoader custom js loader config
+ * @param content content loaded by the plugin
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
-  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
+  content: unknown,
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
@@ -214,7 +216,12 @@ export function applyConfigureWebpack(
     getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
+    const {mergeStrategy, ...res} = configureWebpack(
+      config,
+      isServer,
+      utils,
+      content,
+    );
     if (res && typeof res === 'object') {
       // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
       const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};

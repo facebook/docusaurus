@@ -196,6 +196,7 @@ export async function load(
   } = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    content: null,
     options: {},
     version: {type: 'synthetic'},
     getClientModules() {

@@ -198,7 +198,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<unknown>[];
+  plugins: LoadedPlugin<unknown>[];
 }
 
 export interface PluginContentLoadedActions {
@@ -233,10 +233,12 @@ export interface Plugin<Content> {
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
+  // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
+    content: Content,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   configurePostCss?(options: PostCssOptions): PostCssOptions;
   getThemePath?(): string;
@@ -244,7 +246,9 @@ export interface Plugin<Content> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
-  injectHtmlTags?(): {
+  injectHtmlTags?({
+    content: Content,
+  }): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;

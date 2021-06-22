@@ -41,7 +41,7 @@ import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {flatten, keyBy, compact} from 'lodash';
+import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import {
@@ -59,7 +59,6 @@ export default function pluginContentDocs(
 
   const versionsMetadata = readVersionsMetadata({context, options});
 
-  const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
   const pluginDataDirRoot = path.join(
@@ -225,12 +224,6 @@ export default function pluginContentDocs(
         // sort to ensure consistent output for tests
         docs.sort((a, b) => a.id.localeCompare(b.id));
 
-        // TODO annoying side effect!
-        Object.values(docs).forEach((loadedDoc) => {
-          const {source, permalink} = loadedDoc;
-          sourceToPermalink[source] = permalink;
-        });
-
         // TODO really useful? replace with global state logic?
         const permalinkToSidebar: PermalinkToSidebar = {};
         Object.values(docs).forEach((doc) => {
@@ -369,7 +362,7 @@ export default function pluginContentDocs(
       });
     },
 
-    configureWebpack(_config, isServer, utils) {
+    configureWebpack(_config, isServer, utils, content) {
       const {getJSLoader} = utils;
       const {
         rehypePlugins,
@@ -378,9 +371,17 @@ export default function pluginContentDocs(
         beforeDefaultRemarkPlugins,
       } = options;
 
+      function getSourceToPermalink(): SourceToPermalink {
+        const allDocs = flatten(content.loadedVersions.map((v) => v.docs));
+        return mapValues(
+          keyBy(allDocs, (d) => d.source),
+          (d) => d.permalink,
+        );
+      }
+
       const docsMarkdownOptions: DocsMarkdownOption = {
         siteDir,
-        sourceToPermalink,
+        sourceToPermalink: getSourceToPermalink(),
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (siteConfig.onBrokenMarkdownLinks === 'ignore') {

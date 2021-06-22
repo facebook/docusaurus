@@ -309,6 +309,8 @@ describe('simple website', () => {
   test('configureWebpack', async () => {
     const {plugin} = await loadSite();
 
+    const content = await plugin.loadContent?.();
+
     const config = applyConfigureWebpack(
       plugin.configureWebpack,
       {
@@ -319,6 +321,8 @@ describe('simple website', () => {
         },
       },
       false,
+      undefined,
+      content,
     );
     const errors = validate(config);
     expect(errors).toBeUndefined();

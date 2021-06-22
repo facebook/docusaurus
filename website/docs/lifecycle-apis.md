@@ -279,9 +279,15 @@ export default function friendsPlugin(context, options) {
 }
 ```
 
-## `configureWebpack(config, isServer, utils)` {#configurewebpackconfig-isserver-utils}
+## `configureWebpack(config, isServer, utils, content)` {#configurewebpackconfig-isserver-utils}
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
+
+:::caution
+
+The API of `configureWebpack` will be modified in the future to accept an object (`configureWebpack({config, isServer, utils, content})`)
+
+:::
 
 ### `config` {#config}
 
@@ -293,11 +299,10 @@ Modifies the internal webpack config. If the return value is a JavaScript object
 
 ### `utils` {#utils}
 
-The initial call to `configureWebpack` also receives a util object consists of three functions:
+`configureWebpack` also receives an util object:
 
 - `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
-- `getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
-- `getBabelLoader(isServer: boolean, babelOptions?: {}): Loader`
+- `getJSLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
 
 You may use them to return your webpack configures conditionally.
 
@@ -325,6 +330,10 @@ module.exports = function (context, options) {
   };
 };
 ```
+
+### `content` {#content}
+
+`configureWebpack` will be called both with the content loaded by the plugin.
 
 ### Merge strategy {#merge-strategy}
 
@@ -439,9 +448,11 @@ module.exports = function (context, options) {
 };
 ```
 
-## `injectHtmlTags()` {#injecthtmltags}
+## `injectHtmlTags({content})` {#injecthtmltags}
 
 Inject head and/or body HTML tags to Docusaurus generated HTML.
+
+`injectHtmlTags` will be called both with the content loaded by the plugin.
 
 ```typescript
 function injectHtmlTags(): {
@@ -477,8 +488,11 @@ Example:
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    loadContent: async () => {
+      return {remoteHeadTags: await fetchHeadTagsFromAPI()};
+    },
     // highlight-start
-    injectHtmlTags() {
+    injectHtmlTags({content}) {
       return {
         headTags: [
           {
@@ -488,6 +502,7 @@ module.exports = function (context, options) {
               href: 'https://www.github.com',
             },
           },
+          ...content.remoteHeadTags,
         ],
         preBodyTags: [
           {
@@ -765,7 +780,7 @@ module.exports = function (context, opts) {
       // https://webpack.js.org/configuration/dev-server/#devserverafter
     },
 
-    configureWebpack(config, isServer) {
+    configureWebpack(config, isServer, utils, content) {
       // Modify internal webpack config. If returned value is an Object, it
       // will be merged into the final config using webpack-merge;
       // If the returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
@@ -790,11 +805,11 @@ module.exports = function (context, opts) {
       // Register an extra command to enhance the CLI of Docusaurus
     },
 
-    injectHtmlTags() {
+    injectHtmlTags({content}) {
       // Inject head and/or body HTML tags.
     },
 
-    async getTranslationFiles() {
+    async getTranslationFiles({content}) {
       // Return translation files
     },
 
