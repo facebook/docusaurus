@@ -7,12 +7,12 @@
 
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
+  /*rtl:ignore*/
+  direction: ltr;
 }
 
 .codeBlockContent {
   position: relative;
-  /*rtl:ignore*/
-  direction: ltr;
 }
 
 .codeBlockTitle {
@@ -41,6 +41,7 @@
   user-select: none;
   padding: 0.4rem 0.5rem;
   position: absolute;
+  /*rtl:ignore*/
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
   transition: opacity 200ms ease-in-out;
