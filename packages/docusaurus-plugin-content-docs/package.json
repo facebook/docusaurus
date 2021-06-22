@@ -32,6 +32,7 @@
     "@docusaurus/utils-validation": "2.0.0-beta.1",
     "chalk": "^4.1.1",
     "combine-promises": "^1.1.0",
+    "escape-string-regexp": "^4.0.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2",

@@ -24,6 +24,7 @@
     "@docusaurus/utils": "2.0.0-beta.1",
     "@docusaurus/utils-validation": "2.0.0-beta.1",
     "chalk": "^4.1.1",
+    "escape-string-regexp": "^4.0.0",
     "feed": "^4.2.2",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
