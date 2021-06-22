@@ -7,6 +7,7 @@
 
 :root {
   --doc-sidebar-width: 300px;
+  --doc-sidebar-hidden-width: 30px;
 }
 
 :global(.docs-wrapper) {
@@ -26,7 +27,7 @@
   }
 
   .docMainContainerEnhanced {
-    max-width: none;
+    max-width: calc(100% - var(--doc-sidebar-hidden-width));
   }
 
   .docSidebarContainer {
@@ -39,7 +40,7 @@
   }
 
   .docSidebarContainerHidden {
-    width: 30px;
+    width: var(--doc-sidebar-hidden-width);
     cursor: pointer;
   }
 
@@ -80,21 +81,6 @@
 
 @media (max-width: 996px) {
   .docSidebarContainer {
-    margin-top: 0;
-  }
-}
-
-@media (min-width: 997px) and (max-width: 1320px) {
-  .docItemWrapper {
-    max-width: calc(
-      var(--ifm-container-width) - var(--doc-sidebar-width) -
-        var(--ifm-spacing-horizontal) * 2
-    );
-  }
-
-  .docItemWrapperEnhanced {
-    max-width: calc(
-      var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2
-    );
+    display: none;
   }
 }
