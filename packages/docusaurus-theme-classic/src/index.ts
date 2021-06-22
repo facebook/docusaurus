@@ -24,7 +24,7 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
-const storageKey = 'theme';
+const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
@@ -37,7 +37,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   function getStoredTheme() {
     var theme = null;
     try {
-      theme = localStorage.getItem('${storageKey}');
+      theme = localStorage.getItem('${ThemeStorageKey}');
     } catch (err) {}
     return theme;
   }
@@ -63,6 +63,26 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
+// TODO key literal is duplicated: find a way to factorize
+const AnnouncementBarDismissStorageKey = 'docusaurus.announcement.dismiss';
+
+const noLayoutShiftAnnouncementBar = ({announcementBar}) => {
+  if (!announcementBar) {
+    return '';
+  }
+  return `
+(function() {
+  function isDismissed() {
+    try {
+      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
+    } catch (err) {}
+    return false;
+  }
+
+  document.documentElement.setAttribute('data-announcement-bar-dismissed', isDismissed());
+})();`;
+};
+
 function getInfimaCSSFile(direction) {
   return `infima/dist/css/default/default${
     direction === 'rtl' ? '-rtl' : ''
@@ -82,7 +102,11 @@ export default function docusaurusThemeClassic(
     i18n: {currentLocale, localeConfigs},
   } = context;
   const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
-  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig;
+  const {
+    announcementBar,
+    colorMode,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig;
   const {customCss} = options || {};
   const {direction} = localeConfigs[currentLocale];
 
@@ -178,7 +202,10 @@ export default function docusaurusThemeClassic(
         preBodyTags: [
           {
             tagName: 'script',
-            innerHTML: noFlashColorMode(colorMode),
+            innerHTML: `
+${noFlashColorMode(colorMode)}
+${noLayoutShiftAnnouncementBar({announcementBar})}
+            `,
           },
         ],
       };

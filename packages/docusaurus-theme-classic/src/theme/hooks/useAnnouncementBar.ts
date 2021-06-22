@@ -15,7 +15,7 @@ const IdStorage = createStorageSlot('docusaurus.announcement.id');
 const useAnnouncementBar = (): useAnnouncementBarReturns => {
   const {announcementBar} = useThemeConfig();
 
-  const [isClosed, setClosed] = useState(true);
+  const [isClosed, setClosed] = useState(false);
 
   const handleClose = useCallback(() => {
     DismissStorage.set('true');
