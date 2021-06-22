@@ -9,6 +9,7 @@
 
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
+  URISchema,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {Tag} from './types';
@@ -59,19 +60,19 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
 
   author: Joi.string(),
   author_title: Joi.string(),
-  author_url: Joi.string().uri(),
-  author_image_url: Joi.string().uri(),
+  author_url: URISchema,
+  author_image_url: URISchema,
   slug: Joi.string(),
-  image: Joi.string().uri({relativeOnly: true}),
+  image: URISchema,
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
 
   // TODO re-enable warnings later, our v1 blog posts use those older frontmatter fields
-  authorURL: Joi.string().uri(),
+  authorURL: URISchema,
   // .warning('deprecate.error', { alternative: '"author_url"'}),
   authorTitle: Joi.string(),
   // .warning('deprecate.error', { alternative: '"author_title"'}),
-  authorImageURL: Joi.string().uri(),
+  authorImageURL: URISchema,
   // .warning('deprecate.error', { alternative: '"author_image_url"'}),
 })
   .unknown()
