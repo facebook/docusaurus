@@ -372,9 +372,7 @@ export default function pluginContentDocs(
       } = options;
 
       function getSourceToPermalink(): SourceToPermalink {
-        const allDocs = content.loadedVersions.flatMap(
-          (version) => version.docs,
-        );
+        const allDocs = flatten(content.loadedVersions.map((v) => v.docs));
         return mapValues(
           keyBy(allDocs, (d) => d.source),
           (d) => d.permalink,
