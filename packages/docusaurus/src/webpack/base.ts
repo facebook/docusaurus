@@ -228,7 +228,7 @@ export function createBaseConfig(
             modules: {
               localIdentName: isProd
                 ? `[local]_[contenthash:base64:4]`
-                : `[local]_[path]`,
+                : `[local]_[path][name]`,
               exportOnlyLocals: isServer,
             },
             importLoaders: 1,
