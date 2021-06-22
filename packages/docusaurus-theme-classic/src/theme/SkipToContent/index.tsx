@@ -8,7 +8,7 @@
 import React, {useRef} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import {useChangeRoute} from '@docusaurus/theme-common';
+import {useLocationChange} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -32,8 +32,8 @@ function SkipToContent(): JSX.Element {
     }
   };
 
-  useChangeRoute(() => {
-    if (containerRef.current) {
+  useLocationChange(({location}) => {
+    if (containerRef.current && !location.hash) {
       programmaticFocus(containerRef.current);
     }
   });
