@@ -7,7 +7,11 @@
 
 import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
+import {
+  useThemeConfig,
+  isSamePath,
+  usePrevious,
+} from '@docusaurus/theme-common';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -24,14 +28,6 @@ import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
-
-function usePrevious(value) {
-  const ref = useRef(value);
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
-}
 
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
