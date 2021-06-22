@@ -47,6 +47,17 @@ export default async function deploy(
     customOutDir: cliOptions.outDir,
   });
 
+  if (typeof siteConfig.trailingSlash === 'undefined') {
+    console.warn(
+      chalk.yellow(`
+Docusaurus recommendation:
+When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
+Otherwise, GitHub Pages will add an extra trailing slash to your site urls only on direct-access (not when navigation) with a server redirect.
+This behavior can have SEO impacts and create relative link issues.
+`),
+    );
+  }
+
   console.log('Deploy command invoked...');
   if (!shell.which('git')) {
     throw new Error('Git not installed or on the PATH!');
