@@ -65,6 +65,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 
 // TODO key literal is duplicated: find a way to factorize
 const AnnouncementBarDismissStorageKey = 'docusaurus.announcement.dismiss';
+const AnnouncementBarDismissDataAttribute = 'data-announcement-bar-dismissed';
 
 const noLayoutShiftAnnouncementBar = ({announcementBar}) => {
   if (!announcementBar) {
@@ -79,7 +80,7 @@ const noLayoutShiftAnnouncementBar = ({announcementBar}) => {
     return false;
   }
 
-  document.documentElement.setAttribute('data-announcement-bar-dismissed', isDismissed());
+  document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
 })();`;
 };
 

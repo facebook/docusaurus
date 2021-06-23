@@ -9,13 +9,26 @@ import {useState, useEffect, useCallback} from 'react';
 import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
 import type {useAnnouncementBarReturns} from '@theme/hooks/useAnnouncementBar';
 
-const DismissStorage = createStorageSlot('docusaurus.announcement.dismiss');
-const IdStorage = createStorageSlot('docusaurus.announcement.id');
+// TODO dpplicated string literals: find a way to factorize
+const DismissStorageKey = 'docusaurus.announcement.dismiss';
+const DismissDataAttribute = 'data-announcement-bar-dismissed';
+
+const IdStorageKey = 'docusaurus.announcement.id';
+
+const DismissStorage = createStorageSlot(DismissStorageKey);
+const IdStorage = createStorageSlot(IdStorageKey);
 
 const useAnnouncementBar = (): useAnnouncementBarReturns => {
   const {announcementBar} = useThemeConfig();
 
+  // Always visible on the server + hydration: prevent layout shifts
   const [isClosed, setClosed] = useState(false);
+  // If dismissed: hide it asap with inlined JS/data-attribute/CSS + update state after hydration
+  useEffect(() => {
+    setClosed(
+      document.documentElement.getAttribute(DismissDataAttribute) === 'true',
+    );
+  }, []);
 
   const handleClose = useCallback(() => {
     DismissStorage.set('true');
