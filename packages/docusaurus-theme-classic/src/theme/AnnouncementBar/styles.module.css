@@ -18,7 +18,7 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-100);
 }
 
-html[data-announcement-bar-dismissed='true'] .announcementBar {
+html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
   display: none;
 }
 

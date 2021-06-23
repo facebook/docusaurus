@@ -6,7 +6,7 @@
  */
 
 import {DocusaurusContext, Plugin} from '@docusaurus/types';
-import {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
@@ -63,15 +63,16 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
-// TODO key literal is duplicated: find a way to factorize
-const AnnouncementBarDismissStorageKey = 'docusaurus.announcement.dismiss';
-const AnnouncementBarDismissDataAttribute = 'data-announcement-bar-dismissed';
-
-const noLayoutShiftAnnouncementBar = ({announcementBar}) => {
-  if (!announcementBar) {
-    return '';
-  }
-  return `
+// Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
+// TODO: import from theme-common once we only support Node.js with ESM support
+// + move all those announcementBar stuff there too
+export const AnnouncementBarDismissStorageKey =
+  'docusaurus.announcement.dismiss';
+const AnnouncementBarDismissDataAttribute =
+  'data-announcement-bar-initially-dismissed';
+// We always render the announcement bar html on the server, to prevent layout shifts on React hydration
+// The theme can use CSS + the data attribute to hide the announcement bar asap (before React hydration)
+const AnnouncementBarInlineJavaScript = `
 (function() {
   function isDismissed() {
     try {
@@ -79,10 +80,8 @@ const noLayoutShiftAnnouncementBar = ({announcementBar}) => {
     } catch (err) {}
     return false;
   }
-
   document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
 })();`;
-};
 
 function getInfimaCSSFile(direction) {
   return `infima/dist/css/default/default${
@@ -205,7 +204,7 @@ export default function docusaurusThemeClassic(
             tagName: 'script',
             innerHTML: `
 ${noFlashColorMode(colorMode)}
-${noLayoutShiftAnnouncementBar({announcementBar})}
+${announcementBar ? AnnouncementBarInlineJavaScript : ''}
             `,
           },
         ],

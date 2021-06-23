@@ -45,3 +45,8 @@ export {
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
+
+export {
+  AnnouncementBarProvider,
+  useAnnouncementBar,
+} from './utils/announcementBarUtils';
