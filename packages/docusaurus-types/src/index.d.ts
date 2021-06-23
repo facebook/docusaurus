@@ -337,7 +337,8 @@ export interface RouteConfig {
   priority?: number;
 }
 
-export interface ThemeAlias {
+// Aliases used for Webpack resolution (when using docusaurus swizzle)
+export interface ThemeAliases {
   [alias: string]: string;
 }
 

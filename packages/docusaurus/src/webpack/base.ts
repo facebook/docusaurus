@@ -19,6 +19,8 @@ import {
 } from './utils';
 import {STATIC_DIR_NAME} from '../constants';
 import SharedModuleAliases from './sharedModuleAliases';
+import {loadPluginsThemeAliases} from '../server/themes';
+import {md5Hash} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -74,10 +76,12 @@ export function createBaseConfig(
     outDir,
     siteDir,
     siteConfig,
+    siteConfigPath,
     baseUrl,
     generatedFilesDir,
     routesPaths,
     siteMetadata,
+    plugins,
   } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
@@ -89,25 +93,32 @@ export function createBaseConfig(
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
+  const themeAliases = loadPluginsThemeAliases({siteDir, plugins});
+
   return {
     mode,
     name,
     cache: {
-      // TODO temporary env variable to reduce risk of Webpack 5 release
-      // maybe expose an official api, once this is solved? https://github.com/webpack/webpack/issues/13034
-      type:
-        (process.env.DOCUSAURUS_WEBPACK_CACHE_TYPE as 'filesystem') ||
-        'filesystem',
+      type: 'filesystem',
       // Can we share the same cache across locales?
       // Exploring that question at https://github.com/webpack/webpack/issues/13034
       // name: `${name}-${mode}`,
       name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      version: siteMetadata.docusaurusVersion,
+      // When version string changes, cache is evicted
+      version: [
+        siteMetadata.docusaurusVersion,
+        // Webpack does not evict the cache correctly on alias/swizzle change, so we force eviction.
+        // See https://github.com/webpack/webpack/issues/13627
+        md5Hash(JSON.stringify(themeAliases)),
+      ].join('-'),
+      // When one of those modules/dependencies change (including transitive deps), cache is invalidated
       buildDependencies: {
-        // When one of dependencies change, cache is invalidated
         config: [
           __filename,
           path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+          // Docusaurus config changes can affect MDX/JSX compilation, so we'd rather evict the cache.
+          // See https://github.com/questdb/questdb.io/issues/493
+          siteConfigPath,
         ],
       },
     },
@@ -147,6 +158,7 @@ export function createBaseConfig(
         // so we use fine-grained aliases instead
         // '@docusaurus': path.resolve(__dirname, '../client/exports'),
         ...getDocusaurusAliases(),
+        ...themeAliases,
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
