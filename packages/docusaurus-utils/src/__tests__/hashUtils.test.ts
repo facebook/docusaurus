@@ -5,7 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {docuHash} from '../docuHash';
+import {simpleHash, docuHash} from '../hashUtils';
+
+describe('hashUtils', () => {
+  test('simpleHash', () => {
+    const asserts: Record<string, string> = {
+      '': 'd41',
+      '/foo-bar': '096',
+      '/foo/bar': '1df',
+      '/endi/lie': '9fa',
+      '/endi-lie': 'fd3',
+      '/yangshun/tay': '48d',
+      '/yangshun-tay': 'f3b',
+      '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar':
+        'd46',
+      '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/test1-test2':
+        '787',
+    };
+    Object.keys(asserts).forEach((str) => {
+      expect(simpleHash(str, 3)).toBe(asserts[str]);
+    });
+  });
+});
 
 describe('docuHash', () => {
   test('docuHash works', () => {

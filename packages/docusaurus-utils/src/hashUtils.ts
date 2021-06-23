@@ -5,10 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createHash} from 'crypto';
 import {kebabCase} from 'lodash';
+import {shortName, isNameTooLong} from './pathUtils';
 
-import {shortName, isNameTooLong, simpleHash} from './pathUtils';
+export function md5Hash(str: string): string {
+  return createHash('md5').update(str).digest('hex');
+}
 
+export function simpleHash(str: string, length: number): string {
+  return md5Hash(str).substr(0, length);
+}
+
+// Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
 /**
  * Given an input string, convert to kebab-case and append a hash.
  * Avoid str collision.

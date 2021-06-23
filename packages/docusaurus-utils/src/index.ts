@@ -22,8 +22,7 @@ import {
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
-import {simpleHash} from './pathUtils';
-import {docuHash} from './docuHash';
+import {simpleHash, docuHash} from './hashUtils';
 
 export const posixPath = posixPathImport;
 
@@ -32,8 +31,7 @@ export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
-export * from './docuHash';
-export {simpleHash} from './pathUtils';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
 
 const fileHash = new Map();
 export async function generate(
