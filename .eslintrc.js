@@ -114,7 +114,7 @@ module.exports = {
     'prefer-destructuring': WARNING,
     yoda: WARNING,
     'no-control-regex': WARNING,
-    'no-empty': WARNING,
+    'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
     'no-undef': OFF,

@@ -128,7 +128,7 @@ function assertIsCategory(
   }
   // "collapsed" is an optional property
   if (
-    Object.prototype.hasOwnProperty.call(item, 'collapsed') &&
+    typeof item.collapsed !== 'undefined' &&
     typeof item.collapsed !== 'boolean'
   ) {
     throw new Error(
