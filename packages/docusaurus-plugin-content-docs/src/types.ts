@@ -187,6 +187,8 @@ export type LastUpdateData = {
 };
 
 export type DocFrontMatter = {
+  // Front matter uses snake case
+  /* eslint-disable camelcase */
   id?: string;
   title?: string;
   hide_title?: boolean;
@@ -200,6 +202,7 @@ export type DocFrontMatter = {
   pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
+  /* eslint-enable camelcase */
 };
 
 export type DocMetadataBase = LastUpdateData & {
@@ -213,7 +216,6 @@ export type DocMetadataBase = LastUpdateData & {
   sourceDirName: string; // relative to the docs folder (can be ".")
   slug: string;
   permalink: string;
-  // eslint-disable-next-line camelcase
   sidebarPosition?: number;
   editUrl?: string | null;
   frontMatter: DocFrontMatter & Record<string, unknown>;

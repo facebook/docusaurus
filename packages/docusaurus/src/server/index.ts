@@ -50,7 +50,7 @@ export async function loadSiteConfig({
 }: {
   siteDir: string;
   customConfigFilePath?: string;
-}) {
+}): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
   const siteConfigPathUnresolved =
     customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
 

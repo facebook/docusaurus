@@ -8,6 +8,7 @@ jest.config.js
 jest.transform.js
 website/
 scripts
+examples/
 
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*

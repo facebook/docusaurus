@@ -127,7 +127,10 @@ function assertIsCategory(
     );
   }
   // "collapsed" is an optional property
-  if (item.hasOwnProperty('collapsed') && typeof item.collapsed !== 'boolean') {
+  if (
+    typeof item.collapsed !== 'undefined' &&
+    typeof item.collapsed !== 'boolean'
+  ) {
     throw new Error(
       `Error loading ${JSON.stringify(item)}: "collapsed" must be a boolean.`,
     );
@@ -438,7 +441,20 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(sidebars: Sidebars) {
+export function createSidebarsUtils(
+  sidebars: Sidebars,
+): {
+  getFirstDocIdOfFirstSidebar: () => string | undefined;
+  getSidebarNameByDocId: (docId: string) => string | undefined;
+  getDocNavigation: (
+    docId: string,
+  ) => {
+    sidebarName: string | undefined;
+    previousId: string | undefined;
+    nextId: string | undefined;
+  };
+  checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
+} {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {
