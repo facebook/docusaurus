@@ -116,7 +116,7 @@ describe('base webpack config', () => {
       createBaseConfig(props, true).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
     const relativeAliases = mapValues(aliases, (a) =>
-      path.relative(props.siteDir, a),
+      posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
   });
