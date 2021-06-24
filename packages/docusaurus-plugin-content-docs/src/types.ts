@@ -85,7 +85,6 @@ export type PluginOptions = MetadataOptions &
     docItemComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
-    excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
     sidebarItemsGenerator: SidebarItemsGeneratorOption;
   };

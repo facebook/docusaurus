@@ -42,7 +42,6 @@ describe('normalizeDocsPluginOptions', () => {
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
-      excludeNextVersionDocs: true,
       includeCurrentVersion: false,
       disableVersioning: true,
       editCurrentVersion: true,

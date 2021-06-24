@@ -37,7 +37,6 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
-  excludeNextVersionDocs: false,
   includeCurrentVersion: true,
   disableVersioning: false,
   lastVersion: undefined,
@@ -102,10 +101,6 @@ export const OptionsSchema = Joi.object({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
-  // TODO deprecated, excludeNextVersionDocs replaced by includeCurrentVersion
-  excludeNextVersionDocs: Joi.bool().default(
-    DEFAULT_OPTIONS.excludeNextVersionDocs,
-  ),
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
@@ -127,17 +122,6 @@ export function validateOptions({
         `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
       ),
     );
-  }
-
-  if (typeof options.excludeNextVersionDocs !== 'undefined') {
-    console.log(
-      chalk.red(
-        `The docs plugin option "excludeNextVersionDocs=${
-          options.excludeNextVersionDocs
-        }" is deprecated. Use the "includeCurrentVersion=${!options.excludeNextVersionDocs}" option instead!"`,
-      ),
-    );
-    options.includeCurrentVersion = !options.excludeNextVersionDocs;
   }
 
   const normalizedOptions = validate(OptionsSchema, options);
