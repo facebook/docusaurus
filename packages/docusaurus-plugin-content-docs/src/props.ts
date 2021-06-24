@@ -74,6 +74,7 @@ export function toVersionMetadataProp(
     pluginId,
     version: loadedVersion.versionName,
     label: loadedVersion.versionLabel,
+    banner: loadedVersion.versionBanner,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
     permalinkToSidebar: loadedVersion.permalinkToSidebar,

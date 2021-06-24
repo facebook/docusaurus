@@ -8,6 +8,8 @@
 /* eslint-disable camelcase */
 
 declare module '@docusaurus/plugin-content-docs-types' {
+  import type {VersionBanner} from './types';
+
   export type PermalinkToSidebar = {
     [permalink: string]: string;
   };
@@ -16,6 +18,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
     pluginId: string;
     version: string;
     label: string;
+    banner: VersionBanner;
     isLast: boolean;
     docsSidebars: PropSidebars;
     permalinkToSidebar: PermalinkToSidebar;

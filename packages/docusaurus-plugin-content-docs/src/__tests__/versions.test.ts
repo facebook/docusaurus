@@ -21,6 +21,7 @@ const DefaultI18N: I18n = {
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
+  localeConfigs: {},
 };
 
 describe('version paths', () => {
@@ -79,6 +80,7 @@ describe('simple site', () => {
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
+      versionBanner: 'none',
     };
     return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
   }
@@ -233,6 +235,7 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs/next',
+      versionBanner: 'unreleased',
     };
 
     const v101: VersionMetadata = {
@@ -250,6 +253,7 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: '1.0.1',
       versionName: '1.0.1',
       versionPath: '/docs',
+      versionBanner: 'none',
     };
 
     const v100: VersionMetadata = {
@@ -267,6 +271,7 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/docs/1.0.0',
+      versionBanner: 'unmaintained',
     };
 
     const vwithSlugs: VersionMetadata = {
@@ -287,6 +292,7 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: 'withSlugs',
       versionName: 'withSlugs',
       versionPath: '/docs/withSlugs',
+      versionBanner: 'unmaintained',
     };
 
     return {
@@ -357,9 +363,11 @@ describe('versioned site, pluginId=default', () => {
         versions: {
           current: {
             path: 'current-path',
+            banner: 'unmaintained',
           },
           '1.0.0': {
             label: '1.0.0-label',
+            banner: 'unreleased',
           },
         },
       },
@@ -367,12 +375,17 @@ describe('versioned site, pluginId=default', () => {
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, versionPath: '/docs/current-path'},
+      {
+        ...vCurrent,
+        versionPath: '/docs/current-path',
+        versionBanner: 'unmaintained',
+      },
       {
         ...v101,
         isLast: false,
         routePriority: undefined,
         versionPath: '/docs/1.0.1',
+        versionBanner: 'unreleased',
       },
       {
         ...v100,
@@ -380,6 +393,7 @@ describe('versioned site, pluginId=default', () => {
         routePriority: -1,
         versionLabel: '1.0.0-label',
         versionPath: '/docs',
+        versionBanner: 'unreleased',
       },
       vwithSlugs,
     ]);
@@ -510,7 +524,13 @@ describe('versioned site, pluginId=default', () => {
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, isLast: true, routePriority: -1, versionPath: '/docs'},
+      {
+        ...vCurrent,
+        isLast: true,
+        routePriority: -1,
+        versionPath: '/docs',
+        versionBanner: 'none',
+      },
     ]);
   });
 
@@ -631,6 +651,7 @@ describe('versioned site, pluginId=community', () => {
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/communityBasePath/next',
+      versionBanner: 'unreleased',
     };
 
     const v100: VersionMetadata = {
@@ -651,6 +672,7 @@ describe('versioned site, pluginId=community', () => {
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/communityBasePath',
+      versionBanner: 'none',
     };
 
     return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
@@ -695,6 +717,7 @@ describe('versioned site, pluginId=community', () => {
         isLast: true,
         routePriority: -1,
         versionPath: '/communityBasePath',
+        versionBanner: 'none',
       },
     ]);
   });

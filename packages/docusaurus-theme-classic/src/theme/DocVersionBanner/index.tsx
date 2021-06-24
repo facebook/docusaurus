@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
@@ -14,20 +14,22 @@ import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
 
+type BannerLabelComponentProps = {
+  siteTitle: string;
+  versionMetadata: Props['versionMetadata'];
+};
+
 function UnreleasedVersionLabel({
   siteTitle,
-  versionLabel,
-}: {
-  siteTitle: string;
-  versionLabel: string;
-}) {
+  versionMetadata,
+}: BannerLabelComponentProps) {
   return (
     <Translate
       id="theme.docs.versions.unreleasedVersionLabel"
       description="The label used to tell the user that he's browsing an unreleased doc version"
       values={{
         siteTitle,
-        versionLabel: <b>{versionLabel}</b>,
+        versionLabel: <b>{versionMetadata.label}</b>,
       }}>
       {
         'This is unreleased documentation for {siteTitle} {versionLabel} version.'
@@ -38,24 +40,35 @@ function UnreleasedVersionLabel({
 
 function UnmaintainedVersionLabel({
   siteTitle,
-  versionLabel,
-}: {
-  siteTitle: string;
-  versionLabel: string;
-}) {
+  versionMetadata,
+}: BannerLabelComponentProps) {
   return (
     <Translate
       id="theme.docs.versions.unmaintainedVersionLabel"
       description="The label used to tell the user that he's browsing an unmaintained doc version"
       values={{
         siteTitle,
-        versionLabel: <b>{versionLabel}</b>,
+        versionLabel: <b>{versionMetadata.label}</b>,
       }}>
       {
         'This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.'
       }
     </Translate>
   );
+}
+
+const BannerLabelComponents: Record<
+  Props['versionMetadata']['banner'],
+  ComponentType<BannerLabelComponentProps>
+> = {
+  unreleased: UnreleasedVersionLabel,
+  unmaintained: UnmaintainedVersionLabel,
+};
+
+function BannerLabel(props: BannerLabelComponentProps) {
+  const BannerLabelComponent =
+    BannerLabelComponents[props.versionMetadata.banner];
+  return <BannerLabelComponent {...props} />;
 }
 
 function LatestVersionSuggestionLabel({
@@ -92,14 +105,14 @@ function LatestVersionSuggestionLabel({
   );
 }
 
-const getVersionMainDoc = (version) =>
-  version.docs.find((doc) => doc.id === version.mainDocId);
-
-function DocVersionBanner({versionMetadata}: Props): JSX.Element {
+function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
   const {pluginId} = useActivePlugin({failfast: true});
+
+  const getVersionMainDoc = (version) =>
+    version.docs.find((doc) => doc.id === version.mainDocId);
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
@@ -107,11 +120,6 @@ function DocVersionBanner({versionMetadata}: Props): JSX.Element {
     latestDocSuggestion,
     latestVersionSuggestion,
   } = useDocVersionSuggestions(pluginId);
-
-  // No suggestion to be made
-  if (!latestVersionSuggestion) {
-    return <></>;
-  }
 
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version
@@ -121,17 +129,7 @@ function DocVersionBanner({versionMetadata}: Props): JSX.Element {
   return (
     <div className="alert alert--warning margin-bottom--md" role="alert">
       <div>
-        {versionMetadata.version === 'current' ? (
-          <UnreleasedVersionLabel
-            siteTitle={siteTitle}
-            versionLabel={versionMetadata.label}
-          />
-        ) : (
-          <UnmaintainedVersionLabel
-            siteTitle={siteTitle}
-            versionLabel={versionMetadata.label}
-          />
-        )}
+        <BannerLabel siteTitle={siteTitle} versionMetadata={versionMetadata} />
       </div>
       <div className="margin-top--md">
         <LatestVersionSuggestionLabel
@@ -142,6 +140,14 @@ function DocVersionBanner({versionMetadata}: Props): JSX.Element {
       </div>
     </div>
   );
+}
+
+function DocVersionBanner({versionMetadata}: Props): JSX.Element {
+  if (versionMetadata.banner === 'none') {
+    return <></>;
+  } else {
+    return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
+  }
 }
 
 export default DocVersionBanner;

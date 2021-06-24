@@ -49,6 +49,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
 const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
+  banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
