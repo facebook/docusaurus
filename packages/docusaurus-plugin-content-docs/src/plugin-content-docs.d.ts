@@ -83,6 +83,7 @@ declare module '@theme/DocItem' {
 
   export type Props = {
     readonly route: DocumentRoute;
+    readonly versionMetadata: PropVersionMetadata;
     readonly content: {
       readonly frontMatter: FrontMatter;
       readonly metadata: Metadata;
@@ -94,6 +95,17 @@ declare module '@theme/DocItem' {
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
+}
+
+declare module '@theme/DocVersionBanner' {
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+
+  export type Props = {
+    readonly versionMetadata: PropVersionMetadata;
+  };
+
+  const DocVersionBanner: (props: Props) => JSX.Element;
+  export default DocVersionBanner;
 }
 
 declare module '@theme/DocPage' {
