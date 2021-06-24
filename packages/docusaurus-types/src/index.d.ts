@@ -198,7 +198,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: LoadedPlugin<unknown>[];
+  plugins: LoadedPlugin[];
 }
 
 export interface PluginContentLoadedActions {
