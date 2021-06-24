@@ -145,14 +145,14 @@ module.exports = {
         /**
          * By default, versioning is enabled on versioned sites.
          * This is a way to explicitly disable the versioning feature.
+         * This will only include the "current" version (the `/docs` directory)
          */
         disableVersioning: false,
         /**
-         * Skip the next release docs when versioning is enabled.
-         * This will not generate HTML files in the production build for documents
-         * in `/docs/next` directory, only versioned docs.
+         * Include the "current" version of your docs (the `/docs` directory)
+         * Tip: turn it off if the current version is a work-in-progress, not ready to be published
          */
-        excludeNextVersionDocs: false,
+        includeCurrentVersion: true,
         /**
          * The last version is the one we navigate to in priority on versioned sites
          * It is the one displayed by default in docs navbar items

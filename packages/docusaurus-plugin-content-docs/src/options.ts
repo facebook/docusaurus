@@ -102,6 +102,7 @@ export const OptionsSchema = Joi.object({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  // TODO deprecated, excludeNextVersionDocs replaced by includeCurrentVersion
   excludeNextVersionDocs: Joi.bool().default(
     DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),
