@@ -7,17 +7,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {useThemeConfig} from '@docusaurus/theme-common';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {
-    isAnnouncementBarClosed,
-    closeAnnouncementBar,
-  } = useUserPreferencesContext();
+  const {isClosed, close} = useAnnouncementBar();
   const {announcementBar} = useThemeConfig();
 
   if (!announcementBar) {
@@ -25,7 +21,8 @@ function AnnouncementBar(): JSX.Element | null {
   }
 
   const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-  if (!content || (isCloseable && isAnnouncementBarClosed)) {
+
+  if (!content || (isCloseable && isClosed)) {
     return null;
   }
 
@@ -46,7 +43,7 @@ function AnnouncementBar(): JSX.Element | null {
         <button
           type="button"
           className={clsx(styles.announcementBarClose, 'clean-btn')}
-          onClick={closeAnnouncementBar}
+          onClick={close}
           aria-label={translate({
             id: 'theme.AnnouncementBar.closeButtonAriaLabel',
             message: 'Close',

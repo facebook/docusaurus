@@ -117,16 +117,6 @@ declare module '@theme/Heading' {
   export const MainHeading: (props: Props) => JSX.Element;
 }
 
-declare module '@theme/hooks/useAnnouncementBar' {
-  export type useAnnouncementBarReturns = {
-    readonly isAnnouncementBarClosed: boolean;
-    readonly closeAnnouncementBar: () => void;
-  };
-
-  const useAnnouncementBar: () => useAnnouncementBarReturns;
-  export default useAnnouncementBar;
-}
-
 declare module '@theme/hooks/useHideableNavbar' {
   export type useHideableNavbarReturns = {
     readonly navbarRef: (node: HTMLElement | null) => void;
@@ -214,8 +204,6 @@ declare module '@theme/hooks/useUserPreferencesContext' {
   export type UserPreferencesContextProps = {
     tabGroupChoices: {readonly [groupId: string]: string};
     setTabGroupChoices: (groupId: string, newChoice: string) => void;
-    isAnnouncementBarClosed: boolean;
-    closeAnnouncementBar: () => void;
   };
 
   export default function useUserPreferencesContext(): UserPreferencesContextProps;

@@ -11,8 +11,8 @@ import {
   useThemeConfig,
   isSamePath,
   usePrevious,
+  useAnnouncementBar,
 } from '@docusaurus/theme-common';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
@@ -198,12 +198,10 @@ function DocSidebarItemLink({
 }
 
 function useShowAnnouncementBar() {
-  const {isAnnouncementBarClosed} = useUserPreferencesContext();
-  const [showAnnouncementBar, setShowAnnouncementBar] = useState(
-    !isAnnouncementBarClosed,
-  );
+  const {isClosed} = useAnnouncementBar();
+  const [showAnnouncementBar, setShowAnnouncementBar] = useState(!isClosed);
   useScrollPosition(({scrollY}) => {
-    if (!isAnnouncementBarClosed) {
+    if (!isClosed) {
       setShowAnnouncementBar(scrollY === 0);
     }
   });
@@ -314,7 +312,7 @@ function DocSidebar({
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
-  const {isAnnouncementBarClosed} = useUserPreferencesContext();
+  const {isClosed: isAnnouncementBarClosed} = useAnnouncementBar();
 
   const {
     showResponsiveSidebar,

@@ -18,6 +18,10 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-100);
 }
 
+html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
+  display: none;
+}
+
 @media print {
   .announcementBar {
     display: none;
