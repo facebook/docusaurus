@@ -7,8 +7,6 @@
 
 // Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
 
-import {createHash} from 'crypto';
-
 // MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars, Others = 255 bytes
 const MAX_PATH_SEGMENT_CHARS = 255;
 const MAX_PATH_SEGMENT_BYTES = 255;
@@ -42,7 +40,3 @@ export const shortName = (str: string): string => {
     )
     .toString();
 };
-
-export function simpleHash(str: string, length: number): string {
-  return createHash('md5').update(str).digest('hex').substr(0, length);
-}

@@ -44,7 +44,7 @@
     "shelljs": "^0.8.4",
     "tslib": "^2.2.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.37.0"
+    "webpack": "^5.40.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

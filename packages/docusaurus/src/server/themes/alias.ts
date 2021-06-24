@@ -9,13 +9,14 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
-import {ThemeAlias} from '@docusaurus/types';
+import {ThemeAliases} from '@docusaurus/types';
 import {sortBy} from 'lodash';
 
+// TODO make async
 export default function themeAlias(
   themePath: string,
   addOriginalAlias: boolean,
-): ThemeAlias {
+): ThemeAliases {
   if (!fs.pathExistsSync(themePath)) {
     return {};
   }
@@ -30,7 +31,7 @@ export default function themeAlias(
     file.endsWith('/index.js'),
   );
 
-  const aliases: ThemeAlias = {};
+  const aliases: ThemeAliases = {};
 
   sortedThemeComponentFiles.forEach((relativeSource) => {
     const filePath = path.join(themePath, relativeSource);

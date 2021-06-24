@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {InitializedPlugin} from '@docusaurus/types';
 import {ensureUniquePluginInstanceIds} from '../pluginIds';
 
-import {InitPlugin} from '../init';
-
-function createTestPlugin(name: string, id?: string): InitPlugin {
+function createTestPlugin(name: string, id?: string): InitializedPlugin {
   // @ts-expect-error: good enough for tests
   return {
     name,

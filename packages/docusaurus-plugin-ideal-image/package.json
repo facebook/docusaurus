@@ -28,7 +28,7 @@
     "react-waypoint": "^10.1.0",
     "sharp": "^0.28.2",
     "tslib": "^2.1.0",
-    "webpack": "^5.28.0"
+    "webpack": "^5.40.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

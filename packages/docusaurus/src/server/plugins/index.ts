@@ -16,8 +16,10 @@ import {
   AllContent,
   TranslationFiles,
   ThemeConfig,
+  LoadedPlugin,
+  InitializedPlugin,
 } from '@docusaurus/types';
-import initPlugins, {InitPlugin} from './init';
+import initPlugins from './init';
 import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
@@ -53,8 +55,6 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   });
 }
 
-export type LoadedPlugin = InitPlugin & {content: unknown};
-
 export async function loadPlugins({
   pluginConfigs,
   context,
@@ -68,7 +68,7 @@ export async function loadPlugins({
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitPlugin[] = initPlugins({
+  const plugins: InitializedPlugin[] = initPlugins({
     pluginConfigs,
     context,
   });
