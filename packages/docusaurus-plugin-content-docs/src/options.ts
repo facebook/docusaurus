@@ -49,6 +49,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
 const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
+  banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
@@ -101,6 +102,7 @@ export const OptionsSchema = Joi.object({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  // TODO deprecated, excludeNextVersionDocs replaced by includeCurrentVersion
   excludeNextVersionDocs: Joi.bool().default(
     DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),

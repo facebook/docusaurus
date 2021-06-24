@@ -174,7 +174,7 @@ function DocPage(props: Props): JSX.Element {
     <DocPageContent
       currentDocRoute={currentDocRoute}
       versionMetadata={versionMetadata}>
-      {renderRoutes(docRoutes)}
+      {renderRoutes(docRoutes, {versionMetadata})}
     </DocPageContent>
   );
 }

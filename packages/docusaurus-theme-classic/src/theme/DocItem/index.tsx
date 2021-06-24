@@ -7,7 +7,7 @@
 
 import React from 'react';
 import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
 import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
@@ -17,14 +17,10 @@ import {MainHeading} from '@theme/Heading';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {
-  useActivePlugin,
-  useVersions,
-  useActiveVersion,
-} from '@theme/hooks/useDocs';
+import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
-  const {content: DocContent} = props;
+  const {content: DocContent, versionMetadata} = props;
   const {metadata, frontMatter} = DocContent;
   const {
     image,
@@ -43,7 +39,6 @@ function DocItem(props: Props): JSX.Element {
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
-  const version = useActiveVersion(pluginId);
 
   // If site is not versioned or only one version is included
   // we don't show the version badge
@@ -65,12 +60,12 @@ function DocItem(props: Props): JSX.Element {
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionSuggestions />
+          <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
               {showVersionBadge && (
                 <span className="badge badge--secondary">
-                  Version: {version.label}
+                  Version: {versionMetadata.label}
                 </span>
               )}
 

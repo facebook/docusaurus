@@ -30,6 +30,7 @@ export type VersionMetadata = ContentPaths & {
   versionPath: string; // /baseUrl/docs/1.0.0
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
+  versionBanner: VersionBanner;
   isLast: boolean;
   sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
@@ -59,9 +60,13 @@ export type PathOptions = {
   sidebarPath?: string | false | undefined;
 };
 
+// TODO support custom version banner? {type: "error", content: "html content"}
+export type VersionBanner = 'none' | 'unreleased' | 'unmaintained';
+
 export type VersionOptions = {
   path?: string;
   label?: string;
+  banner?: VersionBanner;
 };
 
 export type VersionsOptions = {

@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {
   PluginOptions,
+  VersionBanner,
   VersionMetadata,
   VersionOptions,
   VersionsOptions,
@@ -255,14 +256,64 @@ function getVersionEditUrls({
   };
 }
 
+function getDefaultVersionBanner({
+  versionName,
+  versionNames,
+  lastVersionName,
+}: {
+  versionName: string;
+  versionNames: string[];
+  lastVersionName: string;
+}): VersionBanner {
+  // Current version: good, no banner
+  if (versionName === lastVersionName) {
+    return 'none';
+  }
+  // Upcoming versions: unreleased banner
+  else if (
+    versionNames.indexOf(versionName) < versionNames.indexOf(lastVersionName)
+  ) {
+    return 'unreleased';
+  }
+  // Older versions: display unmaintained banner
+  else {
+    return 'unmaintained';
+  }
+}
+
+function getVersionBanner({
+  versionName,
+  versionNames,
+  lastVersionName,
+  options,
+}: {
+  versionName: string;
+  versionNames: string[];
+  lastVersionName: string;
+  options: Pick<PluginOptions, 'versions'>;
+}): VersionBanner {
+  const versionOptionBanner = options.versions[versionName]?.banner;
+
+  return (
+    versionOptionBanner ??
+    getDefaultVersionBanner({
+      versionName,
+      versionNames,
+      lastVersionName,
+    })
+  );
+}
+
 function createVersionMetadata({
   versionName,
-  isLast,
+  versionNames,
+  lastVersionName,
   context,
   options,
 }: {
   versionName: string;
-  isLast: boolean;
+  versionNames: string[];
+  lastVersionName: string;
   context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'i18n'>;
   options: Pick<
     PluginOptions,
@@ -284,6 +335,8 @@ function createVersionMetadata({
     context,
     options,
   });
+
+  const isLast = versionName === lastVersionName;
 
   // retro-compatible values
   const defaultVersionLabel =
@@ -321,6 +374,12 @@ function createVersionMetadata({
     versionPath,
     versionEditUrl: versionEditUrls?.versionEditUrl,
     versionEditUrlLocalized: versionEditUrls?.versionEditUrlLocalized,
+    versionBanner: getVersionBanner({
+      versionName,
+      versionNames,
+      lastVersionName,
+      options,
+    }),
     isLast,
     routePriority,
     sidebarFilePath,
@@ -486,7 +545,8 @@ export function readVersionsMetadata({
   const versionsMetadata = versionNames.map((versionName) =>
     createVersionMetadata({
       versionName,
-      isLast: versionName === lastVersionName,
+      versionNames,
+      lastVersionName,
       context,
       options,
     }),

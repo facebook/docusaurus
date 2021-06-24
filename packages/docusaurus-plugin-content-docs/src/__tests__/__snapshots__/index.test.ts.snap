@@ -405,6 +405,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -872,6 +873,7 @@ Object {
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.0/community\\": [
@@ -890,6 +892,7 @@ Object {
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"community\\": [
@@ -1402,6 +1405,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
@@ -1446,6 +1450,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
@@ -1484,6 +1489,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -1522,6 +1528,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [

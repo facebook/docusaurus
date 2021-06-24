@@ -350,14 +350,13 @@ describe('docsClientUtils', () => {
       latestVersionSuggestion: version2,
     });
 
-    // nothing to suggest, we are already on latest version
     expect(getDocVersionSuggestions(data, '/docs/')).toEqual({
-      latestDocSuggestion: undefined,
-      latestVersionSuggestion: undefined,
+      latestDocSuggestion: version2.docs[0],
+      latestVersionSuggestion: version2,
     });
     expect(getDocVersionSuggestions(data, '/docs/doc2')).toEqual({
-      latestDocSuggestion: undefined,
-      latestVersionSuggestion: undefined,
+      latestDocSuggestion: version2.docs[1],
+      latestVersionSuggestion: version2,
     });
 
     expect(getDocVersionSuggestions(data, '/docs/version1/')).toEqual({
