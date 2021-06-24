@@ -99,7 +99,7 @@ export async function generateBlogFeed(
     language: feedOptions.language,
     link: blogBaseUrl,
     description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: normalizeUrl([siteUrl, baseUrl, favicon]),
+    favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
     copyright: feedOptions.copyright,
   });
 

@@ -24,37 +24,6 @@ module.exports = {
 };
 ```
 
-### `favicon` {#favicon}
-
-- Type: `string`
-
-URL for site favicon. Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'https://docusaurus.io/favicon.ico',
-};
-```
-
-You can also use the favicon URL relative to the `static` directory of your site. For example, your site has the following directory structure:
-
-```bash
-.
-├── README.md
-├ # ... other files in root directory
-└─ static
-    └── img
-        └── favicon.ico
-```
-
-So you can refer it like below:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'img/favicon.ico',
-};
-```
-
 ### `url` {#url}
 
 - Type: `string`
@@ -80,6 +49,20 @@ module.exports = {
 ```
 
 ## Optional fields {#optional-fields}
+
+### `favicon` {#favicon}
+
+- Type: `string | undefined`
+
+Path to your site favicon
+
+Example, if your favicon is in `static/img/favicon.ico`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  favicon: '/img/favicon.ico',
+};
+```
 
 ### `trailingSlash` {#trailing-slash}
 

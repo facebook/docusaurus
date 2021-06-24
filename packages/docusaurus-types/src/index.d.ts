@@ -26,7 +26,7 @@ export type ThemeConfig = {
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
-  favicon: string;
+  favicon?: string;
   tagline?: string;
   title: string;
   url: string;
