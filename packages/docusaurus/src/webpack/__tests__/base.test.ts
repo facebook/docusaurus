@@ -16,6 +16,7 @@ import {
 import * as utils from '../utils';
 import {mapValues} from 'lodash';
 import {posixPath} from '@docusaurus/utils';
+import {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {
@@ -78,7 +79,7 @@ describe('getDocusaurusAliases()', () => {
 });
 
 describe('base webpack config', () => {
-  const props = {
+  const props: Props = {
     outDir: '',
     siteDir: '',
     siteConfig: {},
@@ -91,6 +92,11 @@ describe('base webpack config', () => {
     siteMetadata: {
       docusaurusVersion: '2.0.0-alpha.70',
     },
+    plugins: [
+      function () {
+        return {};
+      },
+    ],
   };
 
   afterEach(() => {

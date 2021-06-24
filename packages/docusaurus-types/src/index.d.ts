@@ -283,6 +283,13 @@ export interface Plugin<Content> {
   }): ThemeConfig;
 }
 
+export type InitializedPlugin = Plugin<unknown> & {
+  readonly options: PluginOptions;
+  readonly version: DocusaurusPluginVersionInformation;
+};
+
+export type LoadedPlugin = InitializedPlugin & {readonly content: unknown};
+
 export type PluginModule = {
   <T, X>(context: LoadContext, options: T): Plugin<X>;
   validateOptions?<T>(data: OptionValidationContext<T>): T;

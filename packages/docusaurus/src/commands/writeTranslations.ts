@@ -4,9 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {ConfigOptions} from '@docusaurus/types';
+import {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
 import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins, {InitPlugin} from '../server/plugins/init';
+import initPlugins from '../server/plugins/init';
 
 import {
   writePluginTranslations,
@@ -25,7 +25,7 @@ async function writePluginTranslationFiles({
   options,
 }: {
   siteDir: string;
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   locale: string;
   options: WriteTranslationsOptions;
 }) {
