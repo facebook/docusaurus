@@ -136,7 +136,7 @@ GraphQL is also pretty core to Gatsby, although you don't necessarily need Graph
 
 Many aspects of Docusaurus 2 were inspired by the best things about Gatsby and it's a great alternative.
 
-[Dokz](https://github.com/pedronauck/docz) is a Gatsby theme to build documentation website. It is currently less featured than Docusaurus.
+[Docz](https://github.com/pedronauck/docz) is a Gatsby theme to build documentation website. It is currently less featured than Docusaurus.
 
 ### Next.js {#nextjs}
 
