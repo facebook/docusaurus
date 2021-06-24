@@ -96,13 +96,13 @@ Copy the generated contents and paste them in `CHANGELOG.md`.
 Adding the `--from` options seems to help:
 
 ```sh
-yarn changelog --from v2.0.0-alpha.60
+yarn changelog --from v2.0.0-beta.0
 ```
 
 ### 4. Cut a new version of the docs
 
 ```sh
-yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-alpha.59
+yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-beta.0
 ```
 
 Test running the website with the new version locally.
@@ -173,13 +173,13 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-alpha.68 --exact
+yarn lerna publish 2.0.0-beta.0 --exact
 ```
 
 This command does a few things:
 
-- Modifies the versions of all the `package.json` in the repository to be `2.0.0-alpha.41` and creates a commit
-- Creates a new Git tag `v2.0.0-alpha.41`
+- Modifies the versions of all the `package.json` in the repository to be `2.0.0-beta.0` and creates a commit
+- Creates a new Git tag `v2.0.0-beta.0`
 - Pushes the new release commit on your branch, and add a git tag
 
 You should receive many emails notifying you that a new version of the packages has been published.
@@ -189,7 +189,7 @@ Now that the release is done, **merge the pull request**.
 ### 7. Create a release on GitHub
 
 - Go to https://github.com/facebook/docusaurus/releases/new
-- Under the "Tag version" field, look for the newly-created tag, which is `v2.0.0-alpha.41` in this case
+- Under the "Tag version" field, look for the newly-created tag, which is `v2.0.0-beta.0` in this case
 - Paste the CHANGELOG changes in the textarea below
 - Hit the green "Publish release" button
 - Profit! 💰
