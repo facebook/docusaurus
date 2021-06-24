@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAliases} from '@docusaurus/types';
+import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
 import path from 'path';
 import {THEME_PATH} from '../../constants';
-import {LoadedPlugin} from '../plugins';
 import themeAlias from './alias';
 
 const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');

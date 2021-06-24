@@ -6,8 +6,12 @@
  */
 
 import htmlTagObjectToString from './htmlTags';
-import {InjectedHtmlTags, HtmlTagObject, HtmlTags} from '@docusaurus/types';
-import {LoadedPlugin} from '../plugins';
+import {
+  InjectedHtmlTags,
+  HtmlTagObject,
+  HtmlTags,
+  LoadedPlugin,
+} from '@docusaurus/types';
 
 function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
