@@ -164,8 +164,10 @@ module.exports = {
         lastVersion: undefined,
         /**
          * The docusaurus versioning defaults don't make sense for all projects
-         * This gives the ability customize the label and path of each version
-         * You may not like that default version
+         * This gives the ability customize the properties of each version independantly
+         * - label: the label of the version
+         * - path: the route path of the version
+         * - banner: the banner to show at the top of a doc of that version: "none" | "unreleased" | "unmaintained"
          */
         versions: {
           /*
@@ -173,10 +175,12 @@ module.exports = {
           current: {
             label: 'Android SDK v2.0.0 (WIP)',
             path: 'android-2.0.0',
+            banner: 'none',
           },
           '1.0.0': {
             label: 'Android SDK v1.0.0',
             path: 'android-1.0.0',
+            banner: 'unmaintained',
           },
           */
         },
