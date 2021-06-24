@@ -22,12 +22,12 @@ const useTabGroupChoice = (): useTabGroupChoiceReturns => {
   useEffect(() => {
     try {
       const localStorageChoices = {};
-      for (const storageKey of listStorageKeys()) {
+      listStorageKeys().forEach((storageKey) => {
         if (storageKey.startsWith(TAB_CHOICE_PREFIX)) {
           const groupId = storageKey.substring(TAB_CHOICE_PREFIX.length);
           localStorageChoices[groupId] = createStorageSlot(storageKey).get();
         }
-      }
+      });
       setChoices(localStorageChoices);
     } catch (err) {
       console.error(err);

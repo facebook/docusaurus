@@ -122,7 +122,7 @@ function Navbar(): JSX.Element {
           {items != null && items.length !== 0 && (
             <button
               aria-label="Navigation bar toggle"
-              className="navbar__toggle"
+              className="navbar__toggle clean-btn"
               type="button"
               tabIndex={0}
               onClick={toggleSidebar}
@@ -133,7 +133,7 @@ function Navbar(): JSX.Element {
           <Logo
             className="navbar__brand"
             imageClassName="navbar__logo"
-            titleClassName={clsx('navbar__title')}
+            titleClassName="navbar__title"
           />
           {leftItems.map((item, i) => (
             <NavbarItem {...item} key={i} />

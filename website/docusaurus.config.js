@@ -9,6 +9,7 @@ const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
+const VersionsArchived = require('./versionsArchived.json');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -132,34 +133,30 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      isDeployPreview
-        ? // Plugin is disabled for deploy preview because we use trailing slashes on deploy previews
-          // This plugin is sensitive to trailing slashes, and we don't care much about making it work on deploy previews
-          {}
-        : {
-            fromExtensions: ['html'],
-            createRedirects: function (path) {
-              // redirect to /docs from /docs/introduction,
-              // as introduction has been made the home doc
-              if (allDocHomesPaths.includes(path)) {
-                return [`${path}/introduction`];
-              }
-            },
-            redirects: [
-              {
-                from: ['/docs/support', '/docs/next/support'],
-                to: '/community/support',
-              },
-              {
-                from: ['/docs/team', '/docs/next/team'],
-                to: '/community/team',
-              },
-              {
-                from: ['/docs/resources', '/docs/next/resources'],
-                to: '/community/resources',
-              },
-            ],
+      {
+        fromExtensions: ['html'],
+        createRedirects: function (path) {
+          // redirect to /docs from /docs/introduction,
+          // as introduction has been made the home doc
+          if (allDocHomesPaths.includes(path)) {
+            return [`${path}/introduction`];
+          }
+        },
+        redirects: [
+          {
+            from: ['/docs/support', '/docs/next/support'],
+            to: '/community/support',
           },
+          {
+            from: ['/docs/team', '/docs/next/team'],
+            to: '/community/team',
+          },
+          {
+            from: ['/docs/resources', '/docs/next/resources'],
+            to: '/community/resources',
+          },
+        ],
+      },
     ],
     [
       '@docusaurus/plugin-ideal-image',
@@ -308,17 +305,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v1-new-domain',
+      id: 'announcementBar-1', // Increment on change
       content:
-        '➡️ Docusaurus v1 documentation has moved to <a target="_blank" rel="noopener noreferrer" href="https://v1.docusaurus.io/">v1.docusaurus.io</a>! 🔄',
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐',
     },
-    /*
-    announcementBar: {
-      id: 'supportus',
-      content:
-        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
-    },
-     */
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
@@ -326,9 +316,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -369,8 +361,14 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            ...Object.entries(VersionsArchived).map(
+              ([versionName, versionUrl]) => ({
+                label: versionName,
+                href: versionUrl,
+              }),
+            ),
             {
-              to: 'https://v1.docusaurus.io',
+              href: 'https://v1.docusaurus.io',
               label: '1.x.x',
             },
             {
@@ -384,7 +382,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownItemsAfter: [
             {
-              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
               label: 'Help Us Translate',
             },
           ],

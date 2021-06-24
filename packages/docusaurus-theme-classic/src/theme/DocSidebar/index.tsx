@@ -7,8 +7,12 @@
 
 import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, isSamePath} from '@docusaurus/theme-common';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {
+  useThemeConfig,
+  isSamePath,
+  usePrevious,
+  useAnnouncementBar,
+} from '@docusaurus/theme-common';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
@@ -20,14 +24,6 @@ import IconExternalLink from '@theme/IconExternalLink';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
-
-function usePrevious(value) {
-  const ref = useRef(value);
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
-}
 
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
@@ -198,12 +194,10 @@ function DocSidebarItemLink({
 }
 
 function useShowAnnouncementBar() {
-  const {isAnnouncementBarClosed} = useUserPreferencesContext();
-  const [showAnnouncementBar, setShowAnnouncementBar] = useState(
-    !isAnnouncementBarClosed,
-  );
+  const {isClosed} = useAnnouncementBar();
+  const [showAnnouncementBar, setShowAnnouncementBar] = useState(!isClosed);
   useScrollPosition(({scrollY}) => {
-    if (!isAnnouncementBarClosed) {
+    if (!isClosed) {
       setShowAnnouncementBar(scrollY === 0);
     }
   });
@@ -246,7 +240,7 @@ function DocSidebar({
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
-  const {isAnnouncementBarClosed} = useUserPreferencesContext();
+  const {isClosed: isAnnouncementBarClosed} = useAnnouncementBar();
   const {isDesktop} = useWindowSize();
 
   return (
@@ -257,11 +251,17 @@ function DocSidebar({
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       {isDesktop && (
-        <div
-          className={clsx('menu', 'thin-scrollbar', styles.menu, {
-            [styles.menuWithAnnouncementBar]:
-              !isAnnouncementBarClosed && showAnnouncementBar,
-          })}>
+        <nav
+          className={clsx(
+            'menu',
+            'menu--responsive',
+            'thin-scrollbar',
+            styles.menu,
+            {
+              [styles.menuWithAnnouncementBar]:
+                !isAnnouncementBarClosed && showAnnouncementBar,
+            },
+          )}>
           <ul className="menu__list">
             <DocSidebarItems
               items={sidebar}
@@ -269,8 +269,9 @@ function DocSidebar({
               activePath={path}
             />
           </ul>
-        </div>
+        </nav>
       )}
+
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
     </div>
   );

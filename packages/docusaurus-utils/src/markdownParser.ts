@@ -36,17 +36,17 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^\#\s*([^#]*)\s*\#?/gm, '')
+      .replace(/^#\s*([^#]*)\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
       // Remove emphasis and strikethroughs.
-      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
       // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      .replace(/\[\^.+?\](: .*?$)?/g, '')
       // Remove inline links.
-      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
       .replace(/`(.+?)`/g, '$1')
       // Remove blockquotes.
@@ -160,8 +160,8 @@ export function parseMarkdownString(
     };
   } catch (e) {
     console.error(
-      chalk.red(`Error while parsing markdown front matter.
-This can happen if you use special characters like : in frontmatter values (try using "" around that value)`),
+      chalk.red(`Error while parsing Markdown frontmatter.
+This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
     );
     throw e;
   }
@@ -176,8 +176,7 @@ export async function parseMarkdownFile(
     return parseMarkdownString(markdownString, options);
   } catch (e) {
     throw new Error(
-      `Error while parsing markdown file ${source}
-${e.message}`,
+      `Error while parsing Markdown file ${source}: "${e.message}".`,
     );
   }
 }

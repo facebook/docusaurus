@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sidebar site with wrong sidebar content 1`] = `
-"Bad sidebars file.
+"Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
 These sidebar document ids do not exist:
-- goku,
+- goku
 
-Available document ids=
+Available document ids are:
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -236,7 +236,7 @@ Object {
   },
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
-    \\"title\\": \\"baz\\",
+    \\"title\\": \\"baz pagination_label\\",
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
@@ -254,7 +254,8 @@ Object {
   \\"frontMatter\\": {
     \\"id\\": \\"baz\\",
     \\"title\\": \\"baz\\",
-    \\"slug\\": \\"bazSlug.html\\"
+    \\"slug\\": \\"bazSlug.html\\",
+    \\"pagination_label\\": \\"baz pagination_label\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -262,7 +263,7 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"Hello, World !\\",
+    \\"title\\": \\"Hello sidebar_label\\",
     \\"permalink\\": \\"/docs/\\"
   }
 }",
@@ -292,11 +293,12 @@ Object {
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"hello\\",
-    \\"title\\": \\"Hello, World !\\"
+    \\"title\\": \\"Hello, World !\\",
+    \\"sidebar_label\\": \\"Hello sidebar_label\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
-    \\"title\\": \\"baz\\",
+    \\"title\\": \\"baz pagination_label\\",
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
@@ -457,6 +459,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -489,7 +492,7 @@ Object {
           },
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]
@@ -501,7 +504,7 @@ Object {
         \\"items\\": [
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]
@@ -973,6 +976,7 @@ Object {
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.0/community\\": [
@@ -988,6 +992,7 @@ Object {
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"community\\": [
@@ -1517,6 +1522,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
@@ -1556,6 +1562,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
@@ -1590,6 +1597,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -1624,6 +1632,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [

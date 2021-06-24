@@ -17,7 +17,7 @@ function getVersion(filePath: string, options: DocsMarkdownOption) {
   );
   if (!versionFound) {
     throw new Error(
-      `Unexpected, markdown file does not belong to any docs version! file=${filePath}`,
+      `Unexpected error: Markdown file at "${filePath}" does not belong to any docs version!`,
     );
   }
   return versionFound;

@@ -33,7 +33,9 @@ export {useTitleFormatter} from './utils/generalUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
-export {useChangeRoute} from './utils/useChangeRoute';
+export {useLocationChange} from './utils/useLocationChange';
+
+export {usePrevious} from './utils/usePrevious';
 
 export {
   useDocsPreferredVersion,
@@ -43,3 +45,8 @@ export {
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
+
+export {
+  AnnouncementBarProvider,
+  useAnnouncementBar,
+} from './utils/announcementBarUtils';

@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DEFAULT_CONFIG, validateConfig} from '../configValidation';
+import {
+  ConfigSchema,
+  DEFAULT_CONFIG,
+  validateConfig,
+} from '../configValidation';
 import {DocusaurusConfig} from '@docusaurus/types';
 
-const baseConfig = {
+const baseConfig: DocusaurusConfig = {
   baseUrl: '/',
-  favicon: 'some.ico',
   title: 'my site',
   url: 'https://mysite.com',
 };
@@ -195,5 +198,28 @@ describe('normalizeConfig', () => {
           scripts: {},
         } as unknown) as DocusaurusConfig), // to fields not in the type
     ).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('config warnings', () => {
+  function getWarning(config: unknown) {
+    return ConfigSchema.validate(config).warning;
+  }
+
+  test('baseConfig has no warning', () => {
+    const warning = getWarning(baseConfig);
+    expect(warning).toBeUndefined();
+  });
+
+  test('site url has warning when using subpath', () => {
+    const warning = getWarning({
+      ...baseConfig,
+      url: 'https://mysite.com/someSubpath',
+    });
+    expect(warning).toBeDefined();
+    expect(warning?.details.length).toEqual(1);
+    expect(warning?.details[0].message).toMatchInlineSnapshot(
+      `"Docusaurus config validation warning. Field \\"url\\": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
+    );
   });
 });

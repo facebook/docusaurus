@@ -8,15 +8,11 @@
 import React, {useRef} from 'react';
 import clsx from 'clsx';
 
-import {
-  useActivePlugin,
-  useVersions,
-  useActiveVersion,
-} from '@theme/hooks/useDocs';
+import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 import useCollapse from '@theme/hooks/useCollapse';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
 import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
@@ -27,7 +23,7 @@ import {MainHeading} from '@theme/Heading';
 import styles from './styles.module.css';
 
 function DocItem(props: Props): JSX.Element {
-  const {content: DocContent} = props;
+  const {content: DocContent, versionMetadata} = props;
   const {metadata, frontMatter} = DocContent;
   const {
     image,
@@ -46,7 +42,6 @@ function DocItem(props: Props): JSX.Element {
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
-  const version = useActiveVersion(pluginId);
 
   // If site is not versioned or only one version is included
   // we don't show the version badge
@@ -74,12 +69,12 @@ function DocItem(props: Props): JSX.Element {
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionSuggestions />
+          <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
               {showVersionBadge && (
                 <span className="badge badge--secondary">
-                  Version: {version.label}
+                  Version: {versionMetadata.label}
                 </span>
               )}
 
@@ -115,7 +110,7 @@ function DocItem(props: Props): JSX.Element {
               </div>
 
               {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <footer className={clsx('row', styles.docUpdateDetails)}>
+                <footer className="row docusaurus-mt-lg">
                   <div className="col">
                     {editUrl && <EditThisPage editUrl={editUrl} />}
                   </div>
@@ -133,9 +128,7 @@ function DocItem(props: Props): JSX.Element {
               )}
             </article>
 
-            <div className={styles.docPaginator}>
-              <DocPaginator metadata={metadata} />
-            </div>
+            <DocPaginator metadata={metadata} />
           </div>
         </div>
         {showToc && isDesktop && (

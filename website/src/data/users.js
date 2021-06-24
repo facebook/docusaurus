@@ -190,7 +190,7 @@ const Users = [
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe',
-    tags: ['opensource','versioning'],
+    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'Axioms',
@@ -374,6 +374,14 @@ const Users = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Flagsmith',
+    description: 'Open Source Feature Flag and Remote Config Service',
+    preview: require('./showcase/flagsmith.png'),
+    website: 'https://docs.flagsmith.com',
+    source: 'https://github.com/Flagsmith/flagsmith-docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'Flipper',
     description: 'Extensible mobile app debugger',
     preview: require('./showcase/flipper.png'),
@@ -462,6 +470,15 @@ const Users = [
     source: 'https://github.com/Hashnode/support',
     tags: ['opensource'],
   },
+  {
+    title: 'hCaptcha.com Docs',
+    description: 'hCaptcha.com anti-bot service docs',
+    preview: require('./showcase/hcaptcha.png'),
+    website: 'https://docs.hcaptcha.com/',
+    source: null,
+    tags: ['product'],
+  },
+
   {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
@@ -798,6 +815,14 @@ const Users = [
     website: 'https://docs.swmansion.com/react-native-reanimated/',
     source: 'https://github.com/software-mansion/react-native-reanimated/tree/master/docs',
     tags: ['opensource','design','versioning'],
+  },
+  {
+    title: "React Native Render HTML",
+    description: "The hackable, full-featured Open Source HTML rendering solution for React Native.",
+    preview: require('./showcase/rnrh.png'),
+    website: "https://meliorence.github.io/react-native-render-html",
+    source: "https://github.com/meliorence/react-native-render-html/tree/master/apps/website",
+    tags: ['opensource', 'design'],
   },
   {
     title: 'React Native Testing Library',

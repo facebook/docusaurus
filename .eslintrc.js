@@ -92,6 +92,7 @@ module.exports = {
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
+    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
@@ -113,7 +114,7 @@ module.exports = {
     'prefer-destructuring': WARNING,
     yoda: WARNING,
     'no-control-regex': WARNING,
-    'no-empty': WARNING,
+    'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
     'no-undef': OFF,
@@ -130,6 +131,7 @@ module.exports = {
       ],
       rules: {
         'header/header': OFF,
+        'global-require': OFF,
       },
     },
     {

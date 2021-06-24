@@ -28,7 +28,7 @@ function shellExecLog(cmd) {
     const result = shell.exec(cmd);
     console.log(
       `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
-        `(code=${result.code})`,
+        `(code: ${result.code})`,
       )}`,
     );
     return result;
@@ -47,7 +47,18 @@ export default async function deploy(
     customOutDir: cliOptions.outDir,
   });
 
-  console.log('Deploy command invoked ...');
+  if (typeof siteConfig.trailingSlash === 'undefined') {
+    console.warn(
+      chalk.yellow(`
+Docusaurus recommendation:
+When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
+Otherwise, GitHub Pages will add an extra trailing slash to your site urls only on direct-access (not when navigation) with a server redirect.
+This behavior can have SEO impacts and create relative link issues.
+`),
+    );
+  }
+
+  console.log('Deploy command invoked...');
   if (!shell.which('git')) {
     throw new Error('Git not installed or on the PATH!');
   }
@@ -68,7 +79,7 @@ export default async function deploy(
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      `Missing project organization name. Did you forget to define 'organizationName' in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
+      `Missing project organization name. Did you forget to define "organizationName" in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
@@ -79,7 +90,7 @@ export default async function deploy(
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      `Missing project name. Did you forget to define 'projectName' in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
+      `Missing project name. Did you forget to define "projectName" in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
   console.log(`${chalk.cyan('projectName:')} ${projectName}`);
@@ -88,7 +99,7 @@ export default async function deploy(
   const isPullRequest =
     process.env.CI_PULL_REQUEST || process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
-    shell.echo('Skipping deploy on a pull request');
+    shell.echo('Skipping deploy on a pull request.');
     shell.exit(0);
   }
 
@@ -148,7 +159,7 @@ export default async function deploy(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
     if (shellExecLog(`git clone ${remoteBranch} ${toPath}`).code !== 0) {
-      throw new Error(`Error: git clone failed in ${toPath}`);
+      throw new Error(`Running "git clone" command in "${toPath}" failed.`);
     }
 
     shell.cd(toPath);
@@ -164,7 +175,9 @@ export default async function deploy(
         if (
           shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
         ) {
-          throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
+          throw new Error(
+            `Running "git checkout ${deploymentBranch}" command failed.`,
+          );
         }
       } else if (
         shellExecLog(`git checkout -b ${deploymentBranch}`).code +
@@ -173,7 +186,9 @@ export default async function deploy(
           ).code !==
         0
       ) {
-        throw new Error(`Error: Git checkout ${deploymentBranch} failed`);
+        throw new Error(
+          `Running "git checkout ${deploymentBranch}" command failed.`,
+        );
       }
     }
 
@@ -182,7 +197,7 @@ export default async function deploy(
       await fs.copy(fromPath, toPath);
     } catch (error) {
       throw new Error(
-        `Error: Copying build assets from "${fromPath}" to "${toPath}" failed with error '${error}'`,
+        `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
       );
     }
     shell.cd(toPath);
@@ -195,7 +210,7 @@ export default async function deploy(
     if (
       shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
     ) {
-      throw new Error('Error: Git push failed');
+      throw new Error('Running "git push" command failed.');
     } else if (commitResults.code === 0) {
       // The commit might return a non-zero value when site is up to date.
       let websiteURL = '';
@@ -207,7 +222,7 @@ export default async function deploy(
         // GitHub enterprise hosting.
         websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
-      shell.echo(`Website is live at ${websiteURL}`);
+      shell.echo(`Website is live at "${websiteURL}".`);
       shell.exit(0);
     }
   };

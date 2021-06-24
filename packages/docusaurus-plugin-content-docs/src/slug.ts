@@ -47,8 +47,8 @@ export default function getSlug({
 
   if (!isValidPathname(slug)) {
     throw new Error(
-      `We couldn't compute a valid slug for document with id=${baseID} in folder=${dirName}
-The slug we computed looks invalid: ${slug}
+      `We couldn't compute a valid slug for document with id "${baseID}" in "${dirName}" directory.
+The slug we computed looks invalid: ${slug}.
 Maybe your slug frontmatter is incorrect or you use weird chars in the file path?
 By using the slug frontmatter, you should be able to fix this error, by using the slug of your choice:
 

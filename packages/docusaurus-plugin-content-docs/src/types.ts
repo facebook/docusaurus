@@ -30,6 +30,7 @@ export type VersionMetadata = ContentPaths & {
   versionPath: string; // /baseUrl/docs/1.0.0
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
+  versionBanner: VersionBanner;
   isLast: boolean;
   sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
@@ -59,9 +60,13 @@ export type PathOptions = {
   sidebarPath?: string | false | undefined;
 };
 
+// TODO support custom version banner? {type: "error", content: "html content"}
+export type VersionBanner = 'none' | 'unreleased' | 'unmaintained';
+
 export type VersionOptions = {
   path?: string;
   label?: string;
+  banner?: VersionBanner;
 };
 
 export type VersionsOptions = {
@@ -80,7 +85,6 @@ export type PluginOptions = MetadataOptions &
     docItemComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
-    excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
     sidebarItemsGenerator: SidebarItemsGeneratorOption;
   };
@@ -181,9 +185,23 @@ export type LastUpdateData = {
   lastUpdatedBy?: string;
 };
 
-export type FrontMatter = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+export type DocFrontMatter = {
+  // Front matter uses snake case
+  /* eslint-disable camelcase */
+  id?: string;
+  title?: string;
+  hide_title?: boolean;
+  hide_table_of_contents?: boolean;
+  keywords?: string[];
+  image?: string;
+  description?: string;
+  slug?: string;
+  sidebar_label?: string;
+  sidebar_position?: number;
+  pagination_label?: string;
+  custom_edit_url?: string | null;
+  parse_number_prefixes?: boolean;
+  /* eslint-enable camelcase */
 };
 
 export type DocMetadataBase = LastUpdateData & {
@@ -197,10 +215,9 @@ export type DocMetadataBase = LastUpdateData & {
   sourceDirName: string; // relative to the docs folder (can be ".")
   slug: string;
   permalink: string;
-  // eslint-disable-next-line camelcase
   sidebarPosition?: number;
   editUrl?: string | null;
-  frontMatter: FrontMatter;
+  frontMatter: DocFrontMatter & Record<string, unknown>;
 };
 
 export type DocNavLink = {

@@ -255,7 +255,7 @@ function Home() {
                       style={{overflow: 'hidden'}}
                     />
                     <div className="avatar__intro padding-top--sm">
-                      <h4 className="avatar__name">{quote.name}</h4>
+                      <div className="avatar__name">{quote.name}</div>
                       <small className="avatar__subtitle">{quote.title}</small>
                     </div>
                   </div>

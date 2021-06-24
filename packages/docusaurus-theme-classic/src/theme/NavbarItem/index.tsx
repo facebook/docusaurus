@@ -34,7 +34,7 @@ const getNavbarItemComponent = (
 ) => {
   const navbarItemComponent = NavbarItemComponents[type];
   if (!navbarItemComponent) {
-    throw new Error(`No NavbarItem component found for type=${type}.`);
+    throw new Error(`No NavbarItem component found for type "${type}".`);
   }
   return navbarItemComponent();
 };

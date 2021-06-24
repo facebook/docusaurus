@@ -25,8 +25,11 @@ export const RehypePluginsSchema = MarkdownPluginsSchema;
 
 export const AdmonitionsSchema = Joi.object().default({});
 
+// TODO how can we make this emit a custom error message :'(
+//  Joi is such a pain, good luck to annoying trying to improve this
 export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
+  // This custom validation logic is required notably because Joi does not accept paths like /a/b/c ...
   Joi.custom((val, helpers) => {
     try {
       const url = new URL(val);
@@ -50,5 +53,5 @@ export const PathnameSchema = Joi.string()
     }
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );

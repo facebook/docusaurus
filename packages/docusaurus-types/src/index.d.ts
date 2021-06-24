@@ -26,7 +26,7 @@ export type ThemeConfig = {
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
-  favicon: string;
+  favicon?: string;
   tagline?: string;
   title: string;
   url: string;
@@ -198,7 +198,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<unknown>[];
+  plugins: LoadedPlugin<unknown>[];
 }
 
 export interface PluginContentLoadedActions {
@@ -233,10 +233,12 @@ export interface Plugin<Content> {
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
+  // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
+    content: Content,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   configurePostCss?(options: PostCssOptions): PostCssOptions;
   getThemePath?(): string;
@@ -244,7 +246,9 @@ export interface Plugin<Content> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
-  injectHtmlTags?(): {
+  injectHtmlTags?({
+    content: Content,
+  }): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
@@ -278,6 +282,13 @@ export interface Plugin<Content> {
     translationFiles: TranslationFiles;
   }): ThemeConfig;
 }
+
+export type InitializedPlugin = Plugin<unknown> & {
+  readonly options: PluginOptions;
+  readonly version: DocusaurusPluginVersionInformation;
+};
+
+export type LoadedPlugin = InitializedPlugin & {readonly content: unknown};
 
 export type PluginModule = {
   <T, X>(context: LoadContext, options: T): Plugin<X>;
@@ -333,7 +344,8 @@ export interface RouteConfig {
   priority?: number;
 }
 
-export interface ThemeAlias {
+// Aliases used for Webpack resolution (when using docusaurus swizzle)
+export interface ThemeAliases {
   [alias: string]: string;
 }
 

@@ -100,11 +100,11 @@ function themeComponents(
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${chalk.red('No component to swizzle')}`;
+    return `${chalk.red('No component to swizzle.')}`;
   }
 
   return `
-${chalk.cyan('Theme components available for swizzle')}
+${chalk.cyan('Theme components available for swizzle.')}
 
 ${chalk.green('green  =>')} safe: lower breaking change risk
 ${chalk.red('red    =>')} unsafe: higher breaking change risk
@@ -114,7 +114,7 @@ ${components.join('\n')}
 }
 
 function formattedThemeNames(themeNames: string[]): string {
-  return `Themes available for swizzle:\n${themeNames.join('\n')}`;
+  return `Themes available for swizzle:\n- ${themeNames.join('\n- ')}`;
 }
 
 function colorCode(

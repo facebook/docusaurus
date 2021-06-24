@@ -8,6 +8,9 @@ labels: 'bug, needs triage'
 
   ! PLEASE HELP US HELP YOU !
 
+  Make it obvious to understand and reproduce this bug.
+  Ideally, we should be able to understand it without running any code.
+
   Bugs are fixed faster if you include:
   - a repro repository to inspect the code
   - an url to see the problem live (if possible)
@@ -29,6 +32,8 @@ This way we know you've done these steps first.
 - [ ] I'm using the latest version of Docusaurus.
 - [ ] I have tried the `npm run clear` or `yarn clear` command.
 - [ ] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
+- [ ] I have tried creating a repro with https://new.docusaurus.io
+- [ ] I have read the console error message carefully (if applicable)
 
 ### Description
 
@@ -38,9 +43,9 @@ This way we know you've done these steps first.
 
 (Write your answer here.)
 
-## To Reproduce
+## Steps to reproduce
 
-If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
 
 (Write your steps here:)
 
@@ -58,18 +63,20 @@ If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible 
 
 (Write what you thought would happen.)
 
-## Actual Behavior
+## Actual behavior
 
 <!--
   Did something go wrong?
   Is something broken, or not behaving as you expected?
   Describe this section in detail, and attach screenshots if possible.
   Don't only say "it doesn't work"!
+  Please submit exhaustive and complete log messages (we also need the error strack-traces, not just the message).
+  Please read error messages carefully: it often tells you exactly what you are doing wrong
 -->
 
-(Write what happened. Add screenshots, if applicable.)
+(Write what happened. Add full console log messages and screenshots, if applicable.)
 
-## Your Environment
+## Your environment
 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
@@ -79,9 +86,9 @@ If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible 
 - Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
 - Operating system and version (e.g. Ubuntu 20.04.2 LTS):
 
-## Reproducible Demo
+## Reproducible demo
 
-If possible, use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
 
 (Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue.)
 

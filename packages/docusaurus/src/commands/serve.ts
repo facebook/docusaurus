@@ -73,9 +73,9 @@ export default async function serve(
 
   console.log(
     boxen(
-      `${chalk.green(
-        `Serving "${cliOptions.dir}" directory at ${servingUrl + baseUrl}`,
-      )}`,
+      chalk.green(
+        `Serving "${cliOptions.dir}" directory at "${servingUrl + baseUrl}".`,
+      ),
       {
         borderColor: 'green',
         padding: 1,

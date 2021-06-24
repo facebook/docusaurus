@@ -29,7 +29,10 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   };
 }
 
-export function shouldWarnAboutNodeVersion(version: number, locales: string[]) {
+export function shouldWarnAboutNodeVersion(
+  version: number,
+  locales: string[],
+): boolean {
   const isOnlyEnglish = locales.length === 1 && locales.includes('en');
   const isOlderNodeVersion = version < 14;
   return isOlderNodeVersion && !isOnlyEnglish;
@@ -46,9 +49,9 @@ export async function loadI18n(
   if (!i18nConfig.locales.includes(currentLocale)) {
     console.warn(
       chalk.yellow(
-        `The locale=${currentLocale} was not found in your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
+        `The locale "${currentLocale}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
           ',',
-        )}]
+        )}.
 Note: Docusaurus only support running one locale at a time.`,
       ),
     );
@@ -61,7 +64,7 @@ Note: Docusaurus only support running one locale at a time.`,
   if (shouldWarnAboutNodeVersion(NODE_MAJOR_VERSION, locales)) {
     console.warn(
       chalk.yellow(
-        `To use Docusaurus i18n, it is strongly advised to use NodeJS >= 14 (instead of ${NODE_MAJOR_VERSION})`,
+        `To use Docusaurus i18n, it is strongly advised to use Node.js 14 or later (instead of ${NODE_MAJOR_VERSION}).`,
       ),
     );
   }
@@ -113,7 +116,7 @@ export function localizePath({
     }
     // should never happen
     else {
-      throw new Error(`unhandled pathType=${pathType}`);
+      throw new Error(`Unhandled path type "${pathType}".`);
     }
   } else {
     return originalPath;

@@ -11,6 +11,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import clsx from 'clsx';
+import './styles.css';
 import styles from './styles.module.css';
 
 interface IconProps {

@@ -167,7 +167,7 @@ export const getCustomizableJSLoader = (
 const warnBabelLoaderOnce = memoize(function () {
   console.warn(
     chalk.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): getBabelLoader(isServer) is now deprecated in favor of getJSLoader({isServer})',
+      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
     ),
   );
 });
@@ -183,7 +183,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 const warnCacheLoaderOnce = memoize(function () {
   console.warn(
     chalk.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated',
+      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
     ),
   );
 });
@@ -198,13 +198,15 @@ function getCacheLoaderDeprecated() {
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
  * @param jsLoader custom js loader config
+ * @param content content loaded by the plugin
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
-  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
+  content: unknown,
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
@@ -214,7 +216,12 @@ export function applyConfigureWebpack(
     getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
+    const {mergeStrategy, ...res} = configureWebpack(
+      config,
+      isServer,
+      utils,
+      content,
+    );
     if (res && typeof res === 'object') {
       // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
       const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
@@ -288,7 +295,7 @@ export function compile(config: Configuration[]): Promise<void> {
       compiler.close((errClose) => {
         if (errClose) {
           console.error(
-            chalk.red('Error while closing Webpack compiler', errClose),
+            chalk.red('Error while closing Webpack compiler:', errClose),
           );
           reject(errClose);
         } else {

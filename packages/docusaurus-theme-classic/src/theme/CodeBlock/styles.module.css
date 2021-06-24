@@ -25,8 +25,7 @@
 }
 
 .codeBlock {
-  overflow: auto;
-  border-radius: var(--ifm-global-radius);
+  padding: 0;
 }
 
 .codeBlockWithTitle {
@@ -36,10 +35,8 @@
 
 .copyButton {
   background: rgba(0, 0, 0, 0.3);
-  border: none;
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-color-white);
-  cursor: pointer;
   opacity: 0;
   user-select: none;
   padding: 0.4rem 0.5rem;
@@ -56,12 +53,12 @@
 }
 
 .codeBlockLines {
-  font: var(--ifm-code-font-size) / var(--ifm-pre-line-height)
-    var(--ifm-font-family-monospace);
-  white-space: pre;
+  font: inherit;
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+  display: flex;
+  flex-direction: column;
 }
 
 @media print {

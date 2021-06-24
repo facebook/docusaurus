@@ -16,7 +16,7 @@
 }
 
 .navbarHidden {
-  transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
+  transform: translate3d(0, calc(-100% - 2px), 0);
 }
 
 :global(.navbar-sidebar__items) {

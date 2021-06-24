@@ -13,14 +13,12 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-  THEME_PATH,
 } from '../constants';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import loadPresets from './presets';
 import loadRoutes from './routes';
-import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
@@ -52,7 +50,7 @@ export async function loadSiteConfig({
 }: {
   siteDir: string;
   customConfigFilePath?: string;
-}) {
+}): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
   const siteConfigPathUnresolved =
     customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
 
@@ -178,14 +176,6 @@ export async function load(
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Themes.
-  const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes: string[] = plugins
-    .map((plugin) => plugin.getThemePath && plugin.getThemePath())
-    .filter((x): x is string => Boolean(x));
-  const userTheme = path.resolve(siteDir, THEME_PATH);
-  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);
-
   // Make a fake plugin to:
   // - Resolve aliased theme components
   // - Inject scripts/stylesheets
@@ -196,16 +186,12 @@ export async function load(
   } = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    content: null,
     options: {},
     version: {type: 'synthetic'},
     getClientModules() {
       return siteConfigClientModules;
     },
-    configureWebpack: () => ({
-      resolve: {
-        alias,
-      },
-    }),
     injectHtmlTags: () => {
       const stylesheetsTags = stylesheets.map((source) =>
         typeof source === 'string'
@@ -375,7 +361,7 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
         // It still could work with different versions
         console.warn(
           chalk.red(
-            `Bad ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
+            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
           ),
         );
       }
