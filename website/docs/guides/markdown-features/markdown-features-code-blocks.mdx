@@ -39,6 +39,8 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
+### Theming {#theming}
+
 By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `theme` field in `prism` as `themeConfig` in your docusaurus.config.js.
 
 For example, if you prefer to use the `dracula` highlighting theme:
@@ -52,6 +54,8 @@ module.exports = {
   },
 };
 ```
+
+### Supported Languages {#supported-languages}
 
 By default, Docusaurus comes with a subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
@@ -142,6 +146,8 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 ```
 
+### Multiple line highlighting {#multiple-line-highlighting}
+
 To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
     ```jsx {1,4-6,11}
@@ -171,6 +177,8 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+### Highlighting with comments {#highlighting-with-comments}
 
 You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
