@@ -65,7 +65,7 @@ Lorem ipsum
 
 If you only want the documentation feature, you can run your Docusaurus 2 site without a landing page and display your documentation page as the index page instead.
 
-To enable docs-only mode, set the docs plugin `routeBasePath: '/'`, and use the frontmatter `slug: /` on the document that should be the index page ([more infos](#home-page-docs)).
+To enable docs-only mode, set the docs plugin `routeBasePath: '/'`, and use the frontmatter `slug: /` on the document that should be the index page ([more info](#home-page-docs)).
 
 :::caution
 
