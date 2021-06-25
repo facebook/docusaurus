@@ -198,7 +198,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: LoadedPlugin<unknown>[];
+  plugins: LoadedPlugin[];
 }
 
 export interface PluginContentLoadedActions {
@@ -219,7 +219,7 @@ export type AllContent = Record<
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
-export interface Plugin<Content> {
+export interface Plugin<Content = unknown> {
   name: string;
   loadContent?(): Promise<Content>;
   contentLoaded?({
@@ -283,12 +283,14 @@ export interface Plugin<Content> {
   }): ThemeConfig;
 }
 
-export type InitializedPlugin = Plugin<unknown> & {
+export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly options: PluginOptions;
   readonly version: DocusaurusPluginVersionInformation;
 };
 
-export type LoadedPlugin = InitializedPlugin & {readonly content: unknown};
+export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
+  readonly content: Content;
+};
 
 export type PluginModule = {
   <T, X>(context: LoadContext, options: T): Plugin<X>;
