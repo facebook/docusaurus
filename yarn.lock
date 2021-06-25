@@ -16155,6 +16155,11 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
+relay-compiler-playground@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/relay-compiler-playground/-/relay-compiler-playground-0.0.2.tgz#895017bcba05cc33d0e31e952206550a912526da"
+  integrity sha512-l1jlHgcsqTwngg5hIzX/HlSuSNBnorU/gKpcXQIqIHMbAB1MQTrqNAhEEpj2JK5+DimUIqB0nzXoP3ML+GBbjw==
+
 remark-admonitions@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.2.1.tgz#87caa1a442aa7b4c0cafa04798ed58a342307870"
