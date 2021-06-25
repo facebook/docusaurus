@@ -9,6 +9,8 @@ import React, {useState, useEffect} from 'react';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
 
+import {Editor} from 'react-live';
+
 const InitialSnipped = `
 fragment Foo on Bar {
   some_field {
@@ -25,7 +27,7 @@ function lazyParseToAST(snippet) {
   return require('relay-compiler-playground').parse_to_ast(snippet);
 }
 
-function RelayPlaygroundResult({snippet}) {
+function GraphQLAST({snippet}) {
   const [initialized, setInitialized] = useState(false);
   const [result, setResult] = useState(null);
 
@@ -55,17 +57,26 @@ function RelayPlaygroundResult({snippet}) {
     return <div style={{color: 'orange'}}>...</div>;
   }
 
-  if (result.Err) {
-    return (
-      <pre>
-        <code style={{color: 'red'}}>{JSON.stringify(result, null, 2)}</code>
-      </pre>
-    );
-  }
+  return (
+    <div
+      style={
+        result.Err ? {border: 'red solid thin'} : {border: 'green solid thin'}
+      }>
+      <CodeBlock
+        className="language-json" // Weird legacy api of Docusaurus, to be updated
+        title="AST">
+        {JSON.stringify(result.Ok ?? result.Err, null, 2)}
+      </CodeBlock>
+    </div>
+  );
+}
 
+function GraphQLEditor({snippet, setSnippet}) {
   return (
     <pre>
-      <code>{JSON.stringify(result.Ok, null, 2)}</code>
+      <code>
+        <Editor code={snippet} language="graphql" onChange={setSnippet} />
+      </code>
     </pre>
   );
 }
@@ -77,16 +88,11 @@ function RelayPlayground() {
       <div className="row">
         <div className="col col--6">
           <h2>GraphQL</h2>
-          <textarea
-            rows="10"
-            cols="50"
-            value={snippet}
-            onChange={(e) => setSnippet(e.target.value)}
-          />
+          <GraphQLEditor snippet={snippet} setSnippet={setSnippet} />
         </div>
         <div className="col col--6">
           <h2>AST</h2>
-          <RelayPlaygroundResult snippet={snippet} />
+          <GraphQLAST snippet={snippet} />
         </div>
       </div>
     </div>

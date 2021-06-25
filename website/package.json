@@ -49,7 +49,9 @@
     "relay-compiler-playground": "^0.0.2",
     "remark-math": "^3.0.1",
     "workbox-routing": "^5.0.0",
-    "workbox-strategies": "^5.0.0"
+    "workbox-strategies": "^5.0.0",
+    "prism-react-renderer": "^1.2.1",
+    "react-live": "^2.2.3"
   },
   "browserslist": {
     "production": [
