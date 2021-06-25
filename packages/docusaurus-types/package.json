@@ -22,8 +22,5 @@
     "querystring": "0.2.0",
     "webpack": "^5.40.0",
     "webpack-merge": "^5.8.0"
-  },
-  "devDependencies": {
-    "typescript": "^4.3.4"
   }
 }
