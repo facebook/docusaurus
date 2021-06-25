@@ -22,29 +22,32 @@ Let's imagine the following file structure:
 
 ## Images {#images}
 
-You can use images in Markdown, or by requiring them and using a JSX image tag:
+You can display images in three diffirent ways: Markdown syntax, JSX require or ES imports syntax.
+
+Display images using simple Markdown syntax:
 
 ```mdx
-# My Markdown page
+![Example banner](./assets/docusaurus-asset-example-banner.png)
+```
 
+Require images using JSX image tag:
+
+```mdx
 <img
   src={require('./assets/docusaurus-asset-example-banner.png').default}
   alt="Example banner"
 />
-
-or
-
-![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
-The ES imports syntax also works:
+Show images using ES imports syntax:
 
 ```mdx
-# My Markdown page
-
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl} alt="My image alternative text" />
+<img
+  src={myImageUrl}
+  alt="Example banner"
+/>
 ```
 
 This results in displaying the image:
