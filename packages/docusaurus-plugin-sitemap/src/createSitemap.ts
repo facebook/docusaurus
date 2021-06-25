@@ -20,7 +20,8 @@ export default async function createSitemap(
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {changefreq, priority, trailingSlash} = options;
+  const {changefreq, priority} = options;
+  const trailingSlash = options.trailingSlash || siteConfig.trailingSlash;
 
   const sitemapStream = new SitemapStream({
     hostname,
@@ -29,7 +30,7 @@ export default async function createSitemap(
   function applySitemapTrailingSlash(routePath: string): string {
     // kept for retrocompatibility
     // TODO remove deprecated trailingSlash option before 2022
-    if (options.trailingSlash) {
+    if (trailingSlash) {
       return addTrailingSlash(routePath);
     } else {
       return applyTrailingSlash(routePath, trailingSlash);
