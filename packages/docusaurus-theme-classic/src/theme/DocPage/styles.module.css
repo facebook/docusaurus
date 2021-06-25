@@ -78,9 +78,3 @@
     ) !important;
   }
 }
-
-@media (max-width: 996px) {
-  .docSidebarContainer {
-    display: none;
-  }
-}
