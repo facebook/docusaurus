@@ -401,14 +401,20 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
+  import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
 
   export type Props =
-    | ({readonly type?: 'default' | undefined} & DefaultNavbarItemProps)
+    | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({
         readonly type: 'docsVersionDropdown';
       } & DocsVersionDropdownNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'search'} & SearchNavbarItemProps);
+    | ({readonly type: 'search'} & SearchNavbarItemProps)
+    | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
+    | ({readonly type: 'doc'} & DocNavbarItemProps);
+
+  export type Types = import('./theme/NavbarItem').Types;
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;

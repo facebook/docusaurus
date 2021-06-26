@@ -12,21 +12,24 @@ import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import type {NavbarItem as GenericNavbarItemConfig} from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
-import NavbarItem from '@theme/NavbarItem';
+import NavbarItem, {Types as NavbarItemTypes} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
+
+type NavbarItemConfig = GenericNavbarItemConfig & {type: NavbarItemTypes};
 
 // retrocompatible with v1
 const DefaultNavItemPosition = 'right';
 
 // If split links by left/right
 // if position is unspecified, fallback to right (as v1)
-function splitNavItemsByPosition(items) {
+function splitNavItemsByPosition(items: NavbarItemConfig[]) {
   const leftItems = items.filter(
     (item) => (item.position ?? DefaultNavItemPosition) === 'left',
   );
@@ -71,7 +74,9 @@ function Navbar(): JSX.Element {
   }, [windowSize]);
 
   const hasSearchNavbarItem = items.some((item) => item.type === 'search');
-  const {leftItems, rightItems} = splitNavItemsByPosition(items);
+  const {leftItems, rightItems} = splitNavItemsByPosition(
+    items as NavbarItemConfig[],
+  );
 
   return (
     <nav
@@ -139,13 +144,8 @@ function Navbar(): JSX.Element {
         <div className="navbar-sidebar__items">
           <div className="menu">
             <ul className="menu__list">
-              {items.map((item, i) => (
-                <NavbarItem
-                  mobile
-                  {...(item as any)} // TODO fix typing
-                  onClick={hideSidebar}
-                  key={i}
-                />
+              {(items as NavbarItemConfig[]).map((item, i) => (
+                <NavbarItem mobile {...item} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

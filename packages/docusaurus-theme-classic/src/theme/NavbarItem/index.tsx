@@ -29,9 +29,9 @@ const NavbarItemComponents = {
     require('@theme/NavbarItem/DocNavbarItem').default,
 } as const;
 
-const getNavbarItemComponent = (
-  type: keyof typeof NavbarItemComponents = 'default',
-) => {
+export type Types = keyof typeof NavbarItemComponents;
+
+const getNavbarItemComponent = (type: Types = 'default') => {
   const navbarItemComponent = NavbarItemComponents[type];
   if (!navbarItemComponent) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
