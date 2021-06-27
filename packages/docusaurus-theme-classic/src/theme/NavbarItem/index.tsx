@@ -18,15 +18,12 @@ const NavbarItemComponents = {
 
   // Need to lazy load these items as we don't know for sure the docs plugin is loaded
   // See https://github.com/facebook/docusaurus/issues/3360
-  docsVersion: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-    require('@theme/NavbarItem/DocsVersionNavbarItem').default,
+  /* eslint-disable @typescript-eslint/no-var-requires, global-require */
+  docsVersion: () => require('@theme/NavbarItem/DocsVersionNavbarItem').default,
   docsVersionDropdown: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
     require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
-  doc: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-    require('@theme/NavbarItem/DocNavbarItem').default,
+  doc: () => require('@theme/NavbarItem/DocNavbarItem').default,
+  /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
 export type Types = keyof typeof NavbarItemComponents;
