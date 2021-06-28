@@ -404,11 +404,7 @@ declare module '@theme/NavbarItem/LinkLikeNavbarItem' {
 
   export type Props =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
-    | ({
-        readonly type: 'docsVersionDropdown';
-      } & DocsVersionDropdownNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps);
 
   const LinkLikeNavbarItem: (props: Props) => JSX.Element;
@@ -423,6 +419,10 @@ declare module '@theme/NavbarItem' {
   export type Props = ComponentProps<'a'> &
     (
       | LinkLikeNavbarItemProps
+      | ({
+          readonly type: 'docsVersionDropdown';
+        } & DocsVersionDropdownNavbarItemProps)
+      | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
       | ({
           readonly type: 'search';
           readonly position?: 'left' | 'right';
