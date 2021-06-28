@@ -336,6 +336,29 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       },
       items: [
         {
+          position: 'left',
+          label: 'Test',
+          items: [
+            {
+              type: 'doc',
+              docId: 'introduction',
+              label: 'Docs',
+            },
+            {
+              type: 'doc',
+              docId: 'cli',
+              label: 'API',
+            },
+            {
+              label: 'More dropdown',
+              items: [
+                {to: 'showcase', label: 'Showcase', position: 'left'},
+                {to: 'blog', label: 'Blog', position: 'left'},
+              ],
+            },
+          ],
+        },
+        {
           type: 'doc',
           position: 'left',
           docId: 'introduction',
