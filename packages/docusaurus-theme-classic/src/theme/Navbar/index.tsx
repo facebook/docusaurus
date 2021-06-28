@@ -12,17 +12,14 @@ import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import type {NavbarItem as GenericNavbarItemConfig} from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
-import NavbarItem, {Types as NavbarItemTypes} from '@theme/NavbarItem';
+import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 
 import styles from './styles.module.css';
-
-type NavbarItemConfig = GenericNavbarItemConfig & {type: NavbarItemTypes};
 
 // retrocompatible with v1
 const DefaultNavItemPosition = 'right';

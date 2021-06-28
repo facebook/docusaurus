@@ -397,6 +397,7 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
 }
 
 declare module '@theme/NavbarItem' {
+  import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
@@ -404,17 +405,20 @@ declare module '@theme/NavbarItem' {
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
 
-  export type Props =
-    | ({readonly type?: 'default'} & DefaultNavbarItemProps)
-    | ({
-        readonly type: 'docsVersionDropdown';
-      } & DocsVersionDropdownNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
-    | ({readonly type: 'search'} & SearchNavbarItemProps)
-    | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
-    | ({readonly type: 'doc'} & DocNavbarItemProps);
-
-  export type Types = import('./theme/NavbarItem').Types;
+  export type Props = ComponentProps<'div'> &
+    (
+      | ({readonly type?: 'default'} & DefaultNavbarItemProps)
+      | ({
+          readonly type: 'docsVersionDropdown';
+        } & DocsVersionDropdownNavbarItemProps)
+      | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+      | ({
+          readonly type: 'search';
+          readonly position?: 'left' | 'right';
+        } & SearchNavbarItemProps)
+      | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
+      | ({readonly type: 'doc'} & DocNavbarItemProps)
+    );
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;

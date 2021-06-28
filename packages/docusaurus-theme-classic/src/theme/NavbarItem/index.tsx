@@ -26,9 +26,9 @@ const NavbarItemComponents = {
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
-export type Types = keyof typeof NavbarItemComponents;
-
-const getNavbarItemComponent = (type: Types = 'default') => {
+const getNavbarItemComponent = (
+  type: keyof typeof NavbarItemComponents = 'default',
+) => {
   const navbarItemComponent = NavbarItemComponents[type];
   if (!navbarItemComponent) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
