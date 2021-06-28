@@ -312,6 +312,7 @@ declare module '@theme/Navbar' {
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {ComponentProps, ReactNode} from 'react';
+  import type {Props as LinkLikeNavbarItems} from '@theme/NavbarItem/LinkLikeNavbarItem';
 
   export type NavLinkProps = {
     activeBasePath?: string;
@@ -326,7 +327,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   } & ComponentProps<'a'>;
 
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
-    readonly items?: readonly NavLinkProps[];
+    readonly items?: readonly LinkLikeNavbarItems[];
     readonly position?: 'left' | 'right';
     readonly className?: string;
   };
@@ -396,6 +397,20 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
   export default DocsSidebarNavbarItem;
 }
 
+declare module '@theme/NavbarItem/LinkLikeNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
+  import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
+
+  export type Props =
+    | ({readonly type?: 'default'} & DefaultNavbarItemProps)
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+    | ({readonly type: 'doc'} & DocNavbarItemProps);
+
+  const LinkLikeNavbarItem: (props: Props) => JSX.Element;
+  export default LinkLikeNavbarItem;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
@@ -405,7 +420,7 @@ declare module '@theme/NavbarItem' {
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
 
-  export type Props = ComponentProps<'div'> &
+  export type Props = ComponentProps<'a'> &
     (
       | ({readonly type?: 'default'} & DefaultNavbarItemProps)
       | ({
