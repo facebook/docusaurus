@@ -128,8 +128,8 @@ Please update to the latest Docusaurus 2 version shown at the top of the page, n
 
 ```json title="package.json"
 "dependencies": {
-  "@docusaurus/core": "^2.0.0-beta.2",
-  "@docusaurus/preset-classic": "^2.0.0-beta.2",
+  "@docusaurus/core": "^2.0.0-beta.0",
+  "@docusaurus/preset-classic": "^2.0.0-beta.0",
   // ...
 }
 ```
