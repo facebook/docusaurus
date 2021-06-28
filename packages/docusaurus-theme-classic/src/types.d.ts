@@ -349,11 +349,11 @@ declare module '@theme/NavbarItem/SearchNavbarItem' {
 
 declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
-  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as LinkLikeNavbarItems} from '@theme/NavbarItem/LinkLikeNavbarItem';
 
   export type Props = DefaultNavbarItemProps & {
-    readonly dropdownItemsBefore: NavLinkProps[];
-    readonly dropdownItemsAfter: NavLinkProps[];
+    readonly dropdownItemsBefore: LinkLikeNavbarItems[];
+    readonly dropdownItemsAfter: LinkLikeNavbarItems[];
   };
 
   const LocaleDropdownNavbarItem: (props: Props) => JSX.Element;
@@ -362,13 +362,13 @@ declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
 
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
-  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as LinkLikeNavbarItems} from '@theme/NavbarItem/LinkLikeNavbarItem';
 
   export type Props = DefaultNavbarItemProps & {
     readonly docsPluginId?: string;
     readonly dropdownActiveClassDisabled?: boolean;
-    readonly dropdownItemsBefore: NavLinkProps[];
-    readonly dropdownItemsAfter: NavLinkProps[];
+    readonly dropdownItemsBefore: LinkLikeNavbarItems[];
+    readonly dropdownItemsAfter: LinkLikeNavbarItems[];
   };
 
   const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;
