@@ -7,14 +7,18 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import type {Props} from '@theme/NavbarItem/LinkLikeNavbarItem';
 
 const LinkLikeNavbarItemComponents = {
   default: () => DefaultNavbarItem,
+  localeDropdown: () => LocaleDropdownNavbarItem,
   // Need to lazy load these items as we don't know for sure the docs plugin is loaded
   // See https://github.com/facebook/docusaurus/issues/3360
   /* eslint-disable @typescript-eslint/no-var-requires, global-require */
   docsVersion: () => require('@theme/NavbarItem/DocsVersionNavbarItem').default,
+  docsVersionDropdown: () =>
+    require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
   doc: () => require('@theme/NavbarItem/DocNavbarItem').default,
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
