@@ -180,7 +180,7 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
   outDir: string;
-  baseUrl: string;
+  baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
   ssrTemplate?: string;
   codeTranslations: Record<string, string>;
