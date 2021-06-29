@@ -6,6 +6,7 @@
  */
 
 import React, {useRef} from 'react';
+import {useHistory} from '@docusaurus/router';
 import Translate from '@docusaurus/Translate';
 import {useLocationChange} from '@docusaurus/theme-common';
 
@@ -19,6 +20,7 @@ function programmaticFocus(el: HTMLElement) {
 
 function SkipToContent(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
+  const {action} = useHistory();
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
@@ -32,7 +34,7 @@ function SkipToContent(): JSX.Element {
   };
 
   useLocationChange(({location}) => {
-    if (containerRef.current && !location.hash) {
+    if (containerRef.current && !location.hash && action !== 'POP') {
       programmaticFocus(containerRef.current);
     }
   });
