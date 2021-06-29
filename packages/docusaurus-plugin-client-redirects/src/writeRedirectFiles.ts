@@ -11,7 +11,7 @@ import {memoize} from 'lodash';
 
 import {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
-import {getFilePathForRoutePath, normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl} from '@docusaurus/utils';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
@@ -22,6 +22,24 @@ export type RedirectFileMetadata = {
 
 export function createToUrl(baseUrl: string, to: string): string {
   return normalizeUrl([baseUrl, to]);
+}
+
+// if the target path is /xyz, with file /xyz/index.html
+// we don't want the redirect file to be /xyz.html
+// otherwise it could be picked in priority and the redirect file would redirect to itself
+// This can potentially create an infinite loop (depends on host, like Netlify)
+//
+// We prefer the redirect file to be /xyz.html/index.html, as it has lower serving priority for most static hosting tools
+// It is also the historical behavior of this plugin and nobody complained
+// See also https://github.com/facebook/docusaurus/issues/5055#issuecomment-870731207
+// See also PR reverting to historical behavior: https://github.com/facebook/docusaurus/pull/5085
+function getRedirectFilePathForRoutePath(
+  routePath: string,
+  _trailingSlash: boolean | undefined, // Now unused, on purpose
+): string {
+  const fileName = path.basename(routePath);
+  const filePath = path.dirname(routePath);
+  return path.join(filePath, `${fileName}/index.html`);
 }
 
 export function toRedirectFilesMetadata(
@@ -37,8 +55,11 @@ export function toRedirectFilesMetadata(
   });
 
   const createFileMetadata = (redirect: RedirectMetadata) => {
-    const filePath = getFilePathForRoutePath(redirect.from, trailingSlash);
-    const fileAbsolutePath = path.join(pluginContext.outDir, filePath);
+    const fileRelativePath = getRedirectFilePathForRoutePath(
+      redirect.from,
+      trailingSlash,
+    );
+    const fileAbsolutePath = path.join(pluginContext.outDir, fileRelativePath);
     const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {

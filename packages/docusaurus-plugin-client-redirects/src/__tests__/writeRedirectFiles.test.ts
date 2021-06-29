@@ -59,7 +59,7 @@ describe('toRedirectFilesMetadata', () => {
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
-      path.join(pluginContext.outDir, '/abc.html'),
+      path.join(pluginContext.outDir, '/abc.html/index.html'),
       path.join(pluginContext.outDir, '/def/index.html'),
       path.join(pluginContext.outDir, '/xyz/index.html'),
     ]);
@@ -86,7 +86,7 @@ describe('toRedirectFilesMetadata', () => {
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
-      path.join(pluginContext.outDir, '/abc.html'),
+      path.join(pluginContext.outDir, '/abc.html/index.html'),
       path.join(pluginContext.outDir, '/def/index.html'),
       path.join(pluginContext.outDir, '/xyz/index.html'),
     ]);
@@ -113,9 +113,9 @@ describe('toRedirectFilesMetadata', () => {
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
-      path.join(pluginContext.outDir, '/abc.html'),
-      path.join(pluginContext.outDir, '/def.html'),
-      path.join(pluginContext.outDir, '/xyz.html'),
+      path.join(pluginContext.outDir, '/abc.html/index.html'),
+      path.join(pluginContext.outDir, '/def/index.html'),
+      path.join(pluginContext.outDir, '/xyz/index.html'),
     ]);
 
     expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
