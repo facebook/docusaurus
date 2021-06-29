@@ -26,7 +26,6 @@ import {simpleHash, docuHash} from './hashUtils';
 
 export const posixPath = posixPathImport;
 
-export * from './getFilePathForRoutePath';
 export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
