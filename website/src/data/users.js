@@ -998,6 +998,14 @@ const Users = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'SQL Frames',
+    description: 'DataFrames meet SQL, in the browser',
+    preview: require('./showcase/sqlframes_docusaurus.png'),
+    website: 'https://sqlframes.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
     preview: require('./showcase/stryker-mutator.png'),
