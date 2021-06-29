@@ -24,13 +24,6 @@ export default function applyTrailingSlash(
     return path;
   }
 
-  // Never remove the baseUrl trailing slash!
-  // If baseUrl = /myBase/, we want to emit /myBase/index.html and not /myBase.html !
-  // See https://github.com/facebook/docusaurus/issues/5077
-  if (path === baseUrl) {
-    return path;
-  }
-
   // TODO deduplicate: also present in @docusaurus/utils
   function addTrailingSlash(str: string): string {
     return str.endsWith('/') ? str : `${str}/`;
