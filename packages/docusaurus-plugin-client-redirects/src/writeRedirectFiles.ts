@@ -24,6 +24,26 @@ export function createToUrl(baseUrl: string, to: string): string {
   return normalizeUrl([baseUrl, to]);
 }
 
+function getRedirectFilePathRelative(
+  from: string,
+  trailingSlash: boolean | undefined,
+) {
+  const filePath = getFilePathForRoutePath(from, trailingSlash);
+
+  // Special case, when using fromExtensions: ["html"] with trailingSlash: undefined/true
+  // If the target path is /xyz, with file /xyz/index.html
+  // We don't want the redirect file to be /xyz.html
+  // Otherwise it could be picked in priority and the redirect file would redirect to itself
+  // This can potentially create an infinite loop (depends on host, like Netlify)
+  // We prefer the redirect file to be /xyz.html/index.html, as it has lower priority and is also the historical behavior of this plugin
+  // See also https://github.com/facebook/docusaurus/issues/5055#issuecomment-870731207
+  if (filePath.endsWith('.html') && !filePath.endsWith('index.html')) {
+    return path.join(filePath, 'index.html');
+  }
+
+  return filePath;
+}
+
 export function toRedirectFilesMetadata(
   redirects: RedirectMetadata[],
   pluginContext: WriteFilesPluginContext,
@@ -37,8 +57,11 @@ export function toRedirectFilesMetadata(
   });
 
   const createFileMetadata = (redirect: RedirectMetadata) => {
-    const filePath = getFilePathForRoutePath(redirect.from, trailingSlash);
-    const fileAbsolutePath = path.join(pluginContext.outDir, filePath);
+    const fileRelativePath = getRedirectFilePathRelative(
+      redirect.from,
+      trailingSlash,
+    );
+    const fileAbsolutePath = path.join(pluginContext.outDir, fileRelativePath);
     const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
     return {
