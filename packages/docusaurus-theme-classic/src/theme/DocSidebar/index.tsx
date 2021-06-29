@@ -135,7 +135,7 @@ function DocSidebarItemCategory({
           [styles.menuLinkText]: !collapsible,
         })}
         onClick={collapsible ? handleItemClick : undefined}
-        href={collapsible ? '#!' : undefined}
+        href={collapsible ? '#' : undefined}
         {...props}>
         {label}
       </a>

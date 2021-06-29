@@ -39,7 +39,7 @@ function SkipToContent(): JSX.Element {
 
   return (
     <div ref={containerRef}>
-      <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
+      <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
           id="theme.common.skipToMainContent"
           description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">
