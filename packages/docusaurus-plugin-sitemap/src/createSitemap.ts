@@ -32,7 +32,10 @@ export default async function createSitemap(
     if (options.trailingSlash) {
       return addTrailingSlash(routePath);
     } else {
-      return applyTrailingSlash(routePath, siteConfig.trailingSlash);
+      return applyTrailingSlash(routePath, {
+        trailingSlash: siteConfig.trailingSlash,
+        baseUrl: siteConfig.baseUrl,
+      });
     }
   }
 
