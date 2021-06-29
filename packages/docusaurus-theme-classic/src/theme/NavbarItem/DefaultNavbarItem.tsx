@@ -143,7 +143,7 @@ function NavItemDesktop({
 
                   setShowDropdown(false);
 
-                  const nextNavbarItem = (dropdownRef.current as HTMLElement)
+                  const nextNavbarItem = dropdownRef.current!
                     .nextElementSibling;
 
                   if (nextNavbarItem) {
@@ -195,6 +195,8 @@ function NavItemMobile({
     ? `${menuListRef.current?.scrollHeight}px`
     : undefined;
 
+  console.log(menuListRef.current);
+
   return (
     <li
       className={clsx('menu__list-item', {
@@ -214,7 +216,7 @@ function NavItemMobile({
         className="menu__list"
         ref={menuListRef}
         style={{
-          height: !collapsed ? menuListHeight : undefined,
+          height: collapsed ? undefined : menuListHeight,
         }}>
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
