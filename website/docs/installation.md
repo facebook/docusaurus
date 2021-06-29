@@ -151,7 +151,7 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```bash
-yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
+yarn upgrade @docusaurus/core@latest @docusaurus/preset-classic@latest
 ```
 
 :::tip
