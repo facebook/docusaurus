@@ -58,7 +58,7 @@ function UnmaintainedVersionLabel({
 }
 
 const BannerLabelComponents: Record<
-  Props['versionMetadata']['banner'],
+  Exclude<Props['versionMetadata']['banner'], 'none'>,
   ComponentType<BannerLabelComponentProps>
 > = {
   unreleased: UnreleasedVersionLabel,

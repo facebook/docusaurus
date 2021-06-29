@@ -16,7 +16,6 @@ import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
 
 function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
   const allDocs = versions.flatMap((version) => version.docs);
-
   const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
   if (!doc) {
     const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');
