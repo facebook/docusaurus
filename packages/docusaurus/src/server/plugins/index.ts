@@ -142,10 +142,10 @@ export async function loadPlugins({
           initialRouteConfig,
         ) => {
           // Trailing slash behavior is handled in a generic way for all plugins
-          const finalRouteConfig = applyRouteTrailingSlash(
-            initialRouteConfig,
-            context.siteConfig.trailingSlash,
-          );
+          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
+            trailingSlash: context.siteConfig.trailingSlash,
+            baseUrl: context.siteConfig.baseUrl,
+          });
           pluginsRouteConfigs.push(finalRouteConfig);
         };
 
