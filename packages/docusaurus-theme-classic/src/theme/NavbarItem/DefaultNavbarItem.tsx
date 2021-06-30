@@ -104,7 +104,7 @@ function NavItemDesktop({
 
   const navLinkClassNames = (extraClassName?: string, isDropdownItem = false) =>
     clsx(
-      isDropdownItem ? 'navbar__item navbar__link' : 'dropdown__link',
+      isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
       extraClassName,
     );
 
