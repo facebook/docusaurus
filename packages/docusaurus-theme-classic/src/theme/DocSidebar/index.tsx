@@ -128,6 +128,7 @@ function DocSidebarItemCategory({
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         className={clsx('menu__link', {
           'menu__link--sublist': collapsible,

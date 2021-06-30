@@ -39,6 +39,7 @@ function SkipToContent(): JSX.Element {
 
   return (
     <div ref={containerRef}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
           id="theme.common.skipToMainContent"
