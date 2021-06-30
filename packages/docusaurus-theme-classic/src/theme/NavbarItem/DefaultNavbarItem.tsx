@@ -76,6 +76,7 @@ function NavItemDesktop({
   items,
   position,
   className,
+  isDropdownItem = false,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -102,9 +103,12 @@ function NavItemDesktop({
     };
   }, [dropdownRef]);
 
-  const navLinkClassNames = (extraClassName?: string, isDropdownItem = false) =>
+  const navLinkClassNames = (
+    extraClassName?: string,
+    dropdownItem = isDropdownItem,
+  ) =>
     clsx(
-      isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
+      dropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
       extraClassName,
     );
 
@@ -137,6 +141,7 @@ function NavItemDesktop({
           <li key={i}>
             <NavbarItem
               {...childItemProps}
+              isDropdownItem
               onKeyDown={(e) => {
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
@@ -162,6 +167,7 @@ function NavItemMobile({
   items,
   className,
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  isDropdownItem: _isDropdownItem,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const menuListRef = useRef<HTMLUListElement>(null);
