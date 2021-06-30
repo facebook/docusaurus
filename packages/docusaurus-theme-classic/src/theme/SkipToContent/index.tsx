@@ -34,7 +34,7 @@ function SkipToContent(): JSX.Element {
   };
 
   useLocationChange(({location}) => {
-    if (containerRef.current && !location.hash && action !== 'POP') {
+    if (containerRef.current && !location.hash && action === 'PUSH') {
       programmaticFocus(containerRef.current);
     }
   });
