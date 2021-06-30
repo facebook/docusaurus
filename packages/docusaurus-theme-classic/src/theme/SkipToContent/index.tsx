@@ -41,7 +41,8 @@ function SkipToContent(): JSX.Element {
 
   return (
     <div ref={containerRef}>
-      <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
           id="theme.common.skipToMainContent"
           description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">
