@@ -1,5 +1,65 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.3 (2021-06-30)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#5092](https://github.com/facebook/docusaurus/pull/5092) feat(v2): add icon to external footer links ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#5080](https://github.com/facebook/docusaurus/pull/5080) fix(v2): classic theme - semantic correct anchors links ([@AuHau](https://github.com/AuHau))
+  - [#5081](https://github.com/facebook/docusaurus/pull/5081) fix(v2): restore previous scroll position on back button click ([@lex111](https://github.com/lex111))
+  - [#5063](https://github.com/facebook/docusaurus/pull/5063) fix(v2): restore responsive menu ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#5094](https://github.com/facebook/docusaurus/pull/5094) fix(v2): fix typos in swizzle command ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#5095](https://github.com/facebook/docusaurus/pull/5095) fix(v2): fix swizzle readComponent ([@slorber](https://github.com/slorber))
+  - [#5059](https://github.com/facebook/docusaurus/pull/5059) fix(v2): fix webpack SSG plugin error thrown due to new URL() / \_\_filename ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#5097](https://github.com/facebook/docusaurus/pull/5097) fix(v2): fix useEffect infinite loop in blogOnly mode ([@slorber](https://github.com/slorber))
+  - [#5074](https://github.com/facebook/docusaurus/pull/5074) fix(v2): allow negative sidebar positions ([@kdrag0n](https://github.com/kdrag0n))
+- `docusaurus-plugin-client-redirects`
+  - [#5093](https://github.com/facebook/docusaurus/pull/5093) fix(v2): redirect from should work with trailingSlash: true ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils`
+  - [#5085](https://github.com/facebook/docusaurus/pull/5085) fix(v2): redirect plugin should emit redirect files with lower precedence than redirect target ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus-utils-common`, `docusaurus`
+  - [#5082](https://github.com/facebook/docusaurus/pull/5082) fix(v2): never remove trailing slash from site root like '/baseUrl/' ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#5068](https://github.com/facebook/docusaurus/pull/5068) fix(v2): sitemap should respect the global trailingSlash config option. ([@taylorreece](https://github.com/taylorreece))
+- `docusaurus-types`
+  - [#5058](https://github.com/facebook/docusaurus/pull/5058) fix(v2): fix bad @docusaurus/types Plugin type generics ([@jsamr](https://github.com/jsamr))
+
+#### :memo: Documentation
+
+- [#5064](https://github.com/facebook/docusaurus/pull/5064) docs(v2): Rewrite markdown images section ([@ramiy](https://github.com/ramiy))
+- [#5086](https://github.com/facebook/docusaurus/pull/5086) docs(v2): Add SQL Frames to the showcase ([@dirslashls](https://github.com/dirslashls))
+- [#5073](https://github.com/facebook/docusaurus/pull/5073) docs(v2): update installation docs ([@iamayushdas](https://github.com/iamayushdas))
+- [#5061](https://github.com/facebook/docusaurus/pull/5061) docs(v2:) Divide `markdown-features/code-blocks` to smaller sections ([@ramiy](https://github.com/ramiy))
+- [#5066](https://github.com/facebook/docusaurus/pull/5066) docs(v2): correct typo ([@bperlmutter](https://github.com/bperlmutter))
+
+#### :house: Internal
+
+- `docusaurus-types`
+  - [#5067](https://github.com/facebook/docusaurus/pull/5067) chore: unstable yarn.lock ([@slorber](https://github.com/slorber))
+- Other
+  - [#5057](https://github.com/facebook/docusaurus/pull/5057) chore(v2): upgrade examples to beta.2 ([@slorber](https://github.com/slorber))
+
+#### Committers: 11
+
+- Adam Uhlíř ([@AuHau](https://github.com/AuHau))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Ayush das ([@iamayushdas](https://github.com/iamayushdas))
+- Danny Lin ([@kdrag0n](https://github.com/kdrag0n))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Jules Sam. Randolph ([@jsamr](https://github.com/jsamr))
+- Rami Yushuvaev ([@ramiy](https://github.com/ramiy))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Taylor Reece ([@taylorreece](https://github.com/taylorreece))
+- [@bperlmutter](https://github.com/bperlmutter)
+- [@dirslashls](https://github.com/dirslashls)
+
 ## 2.0.0-beta.2 (2021-06-24)
 
 #### :rocket: New Feature
