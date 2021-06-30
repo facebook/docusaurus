@@ -296,7 +296,7 @@ export default async function swizzle(
   if (!components.includes(mostSuitableComponent) && !danger) {
     console.warn(
       chalk.red(
-        `${mostSuitableComponent} is an internal component, and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
+        `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
       ),
     );
     process.exit(1);
