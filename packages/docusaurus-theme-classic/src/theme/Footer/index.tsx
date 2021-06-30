@@ -11,8 +11,10 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
 import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
+import IconExternalLink from '@theme/IconExternalLink';
 
 function FooterLink({
   to,
@@ -35,7 +37,14 @@ function FooterLink({
             to: toUrl,
           })}
       {...props}>
-      {label}
+      {href && !isInternalUrl(href) ? (
+        <span>
+          {label}
+          <IconExternalLink />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
