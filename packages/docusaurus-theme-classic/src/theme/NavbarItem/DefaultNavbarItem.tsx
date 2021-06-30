@@ -153,7 +153,7 @@ function NavItemDesktop({
                 }
               }}
               activeClassName={dropdownLinkActiveClass}
-              className={navLinkClassNames(childItemClassName, true)}
+              className={navLinkClassNames(childItemClassName)}
             />
           </li>
         ))}
