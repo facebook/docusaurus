@@ -22,7 +22,7 @@ const MDXComponents: MDXComponentsObject = {
       return children;
     }
 
-    return !children.includes('\n') ? (
+    return typeof children === 'string' && !children.includes('\n') ? (
       <code {...props} />
     ) : (
       <CodeBlock {...props} />
@@ -30,10 +30,10 @@ const MDXComponents: MDXComponentsObject = {
   },
   a: (props) => <Link {...props} />,
   pre: (props) => {
-    const {children} = props as {children: any};
+    const {children} = props;
 
     // See comment for `code` above
-    if (isValidElement(children?.props?.children)) {
+    if (isValidElement(children) && isValidElement(children?.props?.children)) {
       return children?.props.children;
     }
 
