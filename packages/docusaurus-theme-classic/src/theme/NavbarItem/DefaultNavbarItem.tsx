@@ -83,11 +83,13 @@ function NavItemDesktop({
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!dropdownRef.current || dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        !dropdownRef.current ||
+        dropdownRef.current.contains(event.target as Node)
+      ) {
         return;
       }
-
       setShowDropdown(false);
     };
 
@@ -102,10 +104,7 @@ function NavItemDesktop({
 
   const navLinkClassNames = (extraClassName?: string, isDropdownItem = false) =>
     clsx(
-      {
-        'navbar__item navbar__link': !isDropdownItem,
-        dropdown__link: isDropdownItem,
-      },
+      isDropdownItem ? 'navbar__item navbar__link' : 'dropdown__link',
       extraClassName,
     );
 
@@ -141,19 +140,16 @@ function NavItemDesktop({
               onKeyDown={(e) => {
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
-
                   setShowDropdown(false);
-
                   const nextNavbarItem = dropdownRef.current!
-                    .nextElementSibling;
-
+                    .nextElementSibling as HTMLElement;
                   if (nextNavbarItem) {
-                    (nextNavbarItem as HTMLElement).focus();
+                    nextNavbarItem.focus();
                   }
                 }
               }}
               activeClassName={dropdownLinkActiveClass}
-              className={navLinkClassNames(childItemClassName)}
+              className={navLinkClassNames(childItemClassName, true)}
             />
           </li>
         ))}
