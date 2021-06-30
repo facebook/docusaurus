@@ -43,29 +43,30 @@ git pull
 git co -b <your_username>/<version_to_release>
 ```
 
-### 2. Build and test the project
+### 2. Clean, Build and test the project
 
-Run `yarn install`
-
-It should run `yarn build:packages` and build the project's packages.
-
-To make sure that all packages will work correctly when they are published, we can initialize a new D2 skeleton website, and test that it can start/built.
+Build all the packages from a clean state:
 
 ```sh
-yarn test:build:v2
+yarn clear
+yarn install
 ```
 
-This command will build all the packages that it will publish to the running private npm proxy registry, and then initialize a new website in the `test-website` directory. Now you can start the dev server and/or make a production built.
+**Optional**: to make sure that all packages will work correctly when they are published, we can initialize a new D2 skeleton website, and test that it can start/built.
 
 ```sh
+# This will build all the packages and publish them in a local Verdaccio npm registry
+# and then initialize a new website in the `test-website` directory using those locally published packages
+yarn test:build:v2
+
+# Now you can test the site in dev/prod mode
 cd test-website
 yarn start
-yarn build # after manual testing in browser
+yarn build
+yarn serve
 ```
 
-If there are no errors, you can start preparing for the new release.
-
-**Note**: This step is also run by the CI on all pull requests ([see](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
+This local test step is optional because it will be run by the CI on your release PR ([see](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
 
 ### 3. Update the v2 changelog
 
