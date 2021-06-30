@@ -408,6 +408,116 @@ If you want to keep the `Pretty Urls` Netlify setting on, adjust the `trailingSl
 
 Refer to [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) for more information.
 
+### Netlify CMS
+If you want to use Netlify CMS to manage your pages, blog posts and documentation, Please Create folder structure like below,
+
+```
+static
+│      
+└─── Admin
+      |--- index.html
+      |--- config.yml     
+```
+contents `index.html`
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+
+  <!-- Include the script for Netlify Identity Widget -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body>
+  <!-- Include the script that builds the page and powers Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+</body>
+
+</html>
+
+```
+contents `config.yml`
+```
+backend:
+  name: git-gateway
+  repo: [github username]/[github repo name]
+  branch: master # Branch to update (optional; defaults to master)
+media_folder: 'assets/uploads'
+collections:
+  - name: 'docs'
+    label: 'Docs'
+    label_singular: 'Doc'
+    folder: 'docs'
+    path: '{{menu}}/{{id}}'
+    create: true
+    slug: '{{id}}'
+    identifier_field: 'title'
+    extension: 'md'
+    format: 'frontmatter'
+    editor:
+      preview: false
+    fields:
+      # - name: 'menu'
+      #   label: 'Menu'
+      - { label: 'Slug', name: 'id', widget: 'string' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Hide Title', name: 'hide_title', widget: 'boolean', default: false }
+      - { label: 'Hide Table of Contents', name: 'hide_table_of_contents', widget: 'boolean', default: false }
+      - { label: 'Sidebar Label', name: 'sidebar_label', widget: 'string', required: false }
+      - { label: 'Keywords', name: 'keywords', widget: 'list', default: [], required: false }
+      - { label: 'Description', name: 'description', required: false }
+      - { label: 'Image', name: 'image', widget: 'image', allow_multiple: false, required: false }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'blog'
+    create: true
+    slug: '{{date}}-{{id}}'
+    identifier_field: 'title'
+    extension: 'md'
+    format: 'frontmatter'
+    editor:
+      preview: false
+    fields:
+      - { label: 'Slug', name: 'id', widget: 'string' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Author', name: 'author', required: false }
+      - { label: 'Author Title', name: 'author_title', widget: 'string', required: false }
+      - { label: 'Author URL', name: 'author_url', widget: 'string', required: false }
+      - { label: 'Author Image', name: 'author_image_url', widget: 'image', allow_multiple: false, required: false }
+      - { label: 'Hide Table of Contents', name: 'hide_table_of_contents', widget: 'boolean', default: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true }
+      - { label: 'Date', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', timeFormat: false }
+      - { label: 'Description', name: 'description', required: false }
+      - { label: 'Image', name: 'image', widget: 'image', allow_multiple: false, required: false }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: 'pages'
+    label: 'Pages'
+    label_singular: 'Page'
+    folder: 'src/pages'
+    path: '{{id}}'
+    create: true
+    slug: '{{id}}'
+    identifier_field: 'title'
+    extension: 'js'
+    format: 'frontmatter'
+    editor:
+      preview: false
+    fields:
+      - { label: 'Slug', name: 'id', widget: 'string' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Description', name: 'description', required: false }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+```
+
+After netlify deployment, [Create your netlify identity](https://docs.netlify.com/visitor-access/identity/), Now you can login to `your_netlify_url.netlify.com/admin` or `localhost:3000/admin` to do GUI based editing in pages, blogs and docs .
+
 :::
 
 ## Deploying to Vercel {#deploying-to-vercel}
