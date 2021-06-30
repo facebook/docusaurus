@@ -114,13 +114,9 @@ You should still be on your local branch `<your_username>/<version_to_release>`
 
 Make a commit/push, create a pull request with the changes.
 
+Example PR: [#3114](https://github.com/facebook/docusaurus/pull/5098), using title such as `chore(v2): prepare v2.0.0-beta.0 release`
+
 **Don't merge it yet**, but wait for the CI checks to complete.
-
-An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114):
-
-```md
-chore(v2): prepare v2.0.0-beta.0 release
-```
 
 ### 6. Build and publish to npm
 
