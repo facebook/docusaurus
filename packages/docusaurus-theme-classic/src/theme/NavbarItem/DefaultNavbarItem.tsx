@@ -16,7 +16,6 @@ import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
-// import NavbarItem from '@theme/NavbarItem';
 import IconExternalLink from '@theme/IconExternalLink';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 
@@ -194,10 +193,6 @@ function NavItemMobile({
   const menuListHeight = menuListRef.current?.scrollHeight
     ? `${menuListRef.current?.scrollHeight}px`
     : undefined;
-
-  if (!collapsed) {
-    console.log(menuListRef.current);
-  }
 
   return (
     <li
