@@ -24,22 +24,32 @@ export function createToUrl(baseUrl: string, to: string): string {
   return normalizeUrl([baseUrl, to]);
 }
 
-// if the target path is /xyz, with file /xyz/index.html
-// we don't want the redirect file to be /xyz.html
-// otherwise it could be picked in priority and the redirect file would redirect to itself
-// This can potentially create an infinite loop (depends on host, like Netlify)
+// Create redirect file path
+// Make sure this path has lower precedence over the original file path when served by host providers!
+// Otherwise it can produce infinite redirect loops!
 //
-// We prefer the redirect file to be /xyz.html/index.html, as it has lower serving priority for most static hosting tools
-// It is also the historical behavior of this plugin and nobody complained
-// See also https://github.com/facebook/docusaurus/issues/5055#issuecomment-870731207
-// See also PR reverting to historical behavior: https://github.com/facebook/docusaurus/pull/5085
-function getRedirectFilePathForRoutePath(
-  routePath: string,
-  _trailingSlash: boolean | undefined, // Now unused, on purpose
+// See https://github.com/facebook/docusaurus/issues/5055
+// See https://github.com/facebook/docusaurus/pull/5085
+// See https://github.com/facebook/docusaurus/pull/5102
+function getRedirectFilePath(
+  fromPath: string,
+  trailingSlash: boolean | undefined, // Now unused, on purpose
 ): string {
-  const fileName = path.basename(routePath);
-  const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}/index.html`);
+  const fileName = path.basename(fromPath);
+  const filePath = path.dirname(fromPath);
+  // Edge case for https://github.com/facebook/docusaurus/pull/5102
+  // If the redirect source path is /xyz, with file /xyz.html
+  // We can't write the redirect file at /xyz.html/index.html because for Unix FS, a file/folder can't have the same name "xyz.html"
+  // The only possible solution for a redirect file is thus /xyz.html.html (I know, looks suspicious)
+  if (trailingSlash === false && fileName.endsWith('.html')) {
+    return path.join(filePath, `${fileName}.html`);
+  }
+  // If the target path is /xyz, with file /xyz/index.html, we don't want the redirect file to be /xyz.html
+  // otherwise it would be picked in priority and the redirect file would redirect to itself
+  // We prefer the redirect file to be /xyz.html/index.html, served with lower priority for most static hosting tools
+  else {
+    return path.join(filePath, `${fileName}/index.html`);
+  }
 }
 
 export function toRedirectFilesMetadata(
@@ -55,10 +65,7 @@ export function toRedirectFilesMetadata(
   });
 
   const createFileMetadata = (redirect: RedirectMetadata) => {
-    const fileRelativePath = getRedirectFilePathForRoutePath(
-      redirect.from,
-      trailingSlash,
-    );
+    const fileRelativePath = getRedirectFilePath(redirect.from, trailingSlash);
     const fileAbsolutePath = path.join(pluginContext.outDir, fileRelativePath);
     const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
     const fileContent = createPageContentMemoized(toUrl);
