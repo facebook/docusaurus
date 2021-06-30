@@ -140,21 +140,21 @@ function NavItemDesktop({
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li key={i}>
             <NavbarItem
-              {...childItemProps}
               isDropdownItem
               onKeyDown={(e) => {
                 if (i === items.length - 1 && e.key === 'Tab') {
                   e.preventDefault();
                   setShowDropdown(false);
                   const nextNavbarItem = dropdownRef.current!
-                    .nextElementSibling as HTMLElement;
+                    .nextElementSibling;
                   if (nextNavbarItem) {
-                    nextNavbarItem.focus();
+                    (nextNavbarItem as HTMLElement).focus();
                   }
                 }
               }}
               activeClassName={dropdownLinkActiveClass}
               className={navLinkClassNames(childItemClassName, true)}
+              {...childItemProps}
             />
           </li>
         ))}
@@ -219,11 +219,12 @@ function NavItemMobile({
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
             <NavbarItem
-              {...childItemProps}
               mobile
+              isDropdownItem
+              onClick={props.onClick}
               activeClassName="menu__link--active"
               className={navLinkClassNames(childItemClassName)}
-              onClick={props.onClick}
+              {...childItemProps}
             />
           </li>
         ))}
