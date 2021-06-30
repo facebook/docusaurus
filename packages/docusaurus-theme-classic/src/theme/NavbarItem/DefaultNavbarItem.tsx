@@ -16,6 +16,7 @@ import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
+import NavbarItem from '@theme/NavbarItem';
 import IconExternalLink from '@theme/IconExternalLink';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 
@@ -135,7 +136,7 @@ function NavItemDesktop({
       <ul ref={dropdownMenuRef} className="dropdown__menu">
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li key={i}>
-            <NavLink
+            <NavbarItem
               {...childItemProps}
               onKeyDown={(e) => {
                 if (i === items.length - 1 && e.key === 'Tab') {
@@ -215,8 +216,9 @@ function NavItemMobile({
         style={{height: collapsed ? undefined : menuListHeight}}>
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
-            <NavLink
+            <NavbarItem
               {...childItemProps}
+              mobile
               activeClassName="menu__link--active"
               className={navLinkClassNames(childItemClassName)}
               onClick={props.onClick}
