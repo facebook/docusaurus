@@ -10,12 +10,8 @@
  */
 
 const chalk = require('chalk');
-const fs = require('fs-extra');
-const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
-const updateNotifier = require('update-notifier');
-const boxen = require('boxen');
 const {
   build,
   swizzle,
@@ -27,69 +23,8 @@ const {
   writeTranslations,
   writeHeadingIds,
 } = require('../lib');
-const {
-  name,
-  version,
-  engines: {node: requiredVersion},
-} = require('../package.json');
 
-// notify user if @docusaurus packages is outdated
-const notifier = updateNotifier({
-  pkg: {
-    name,
-    version,
-  },
-});
-
-// allow the user to be notified for updates on the first run
-if (notifier.lastUpdateCheck === Date.now()) {
-  notifier.lastUpdateCheck = 0;
-}
-
-if (notifier.update && semver.gt(this.update.latest, this.update.current)) {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
-  const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
-    .filter((p) => p.startsWith('@docusaurus'))
-    .map((p) => p.concat('@latest'))
-    .join(' ');
-  const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
-  const upgradeCommand = isYarnUsed
-    ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-    : `npm i ${siteDocusaurusPackagesForUpdate}`;
-
-  const boxenOptions = {
-    padding: 1,
-    margin: 1,
-    align: 'center',
-    borderColor: 'yellow',
-    borderStyle: 'round',
-  };
-
-  const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(
-      `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
-      `${upgradeCommand}`,
-    )}`,
-    boxenOptions,
-  );
-
-  console.log(docusaurusUpdateMessage);
-}
-
-// notify user if node version needs to be updated
-if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    chalk.red(`\nMinimum Node.js version not met :(`) +
-      chalk.yellow(
-        `\n\nYou are using Node.js ${process.version}. We require Node.js ${requiredVersion} or up!\n`,
-      ),
-  );
-  process.exit(1);
-}
+require('./beforeCli');
 
 cli.version(require('../package.json').version).usage('<command> [options]');
 

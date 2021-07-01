@@ -28,7 +28,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   slug: Joi.string(),
   sidebar_label: Joi.string(),
-  sidebar_position: Joi.number().min(0),
+  sidebar_position: Joi.number(),
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
