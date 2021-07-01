@@ -26,7 +26,7 @@ jobs:
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
           build-script: 'build:v2:en'
-          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/build/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/introduction/index.html}'
+          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/build/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/introduction/index.html,website/.docusaurus/globalData.json}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: 'none'
