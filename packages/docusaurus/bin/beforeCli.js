@@ -42,7 +42,10 @@ const notifier = updateNotifier({
 // Hacky way to ensure we check for updates on first run
 // Note: the notification will only happen in the 2nd run
 // See https://github.com/yeoman/update-notifier/issues/209
-if (Date.now() - notifier.config.get('lastUpdateCheck') < 50) {
+if (
+  !notifier.disabled &&
+  Date.now() - notifier.config.get('lastUpdateCheck') < 50
+) {
   notifier.config.set('lastUpdateCheck', 0);
   notifier.check();
 }
