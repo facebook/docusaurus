@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
-import useCollapse from '@theme/hooks/useCollapse';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
 import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
-import TOC, {Headings} from '@theme/TOC';
+import TOC from '@theme/TOC';
+import TOCCollapsible from '@theme/TOCCollapsible';
 import EditThisPage from '@theme/EditThisPage';
 import {MainHeading} from '@theme/Heading';
 
@@ -54,11 +54,10 @@ function DocItem(props: Props): JSX.Element {
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
-  const showToc = !hideTableOfContents && DocContent.toc;
+  const {isMobile, isDesktop} = useWindowSize();
 
-  const {isDesktop} = useWindowSize();
-  const mobileTocRef = useRef(null);
-  const [collapsed, setCollapsed] = useCollapse(true, mobileTocRef);
+  const showTocMobile = !hideTableOfContents && DocContent.toc && isMobile;
+  const showTocDesktop = !hideTableOfContents && DocContent.toc && isDesktop;
 
   return (
     <>
@@ -78,25 +77,7 @@ function DocItem(props: Props): JSX.Element {
                 </span>
               )}
 
-              {!isDesktop && showToc && (
-                <div
-                  className={clsx('margin-vert--md', styles.mobileToc, {
-                    [styles.mobileTocExpanded]: !collapsed,
-                  })}>
-                  <button
-                    type="button"
-                    className={styles.mobileTocButton}
-                    onClick={() => setCollapsed(!collapsed)}>
-                    Contents of this page
-                  </button>
-
-                  <div
-                    ref={mobileTocRef}
-                    className={clsx(styles.mobileTocContent)}>
-                    <Headings toc={DocContent.toc} />
-                  </div>
-                </div>
-              )}
+              {showTocMobile && <TOCCollapsible toc={DocContent.toc} />}
 
               <div className="markdown">
                 {/*
@@ -131,7 +112,7 @@ function DocItem(props: Props): JSX.Element {
             <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {showToc && isDesktop && (
+        {showTocDesktop && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>

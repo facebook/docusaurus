@@ -507,6 +507,17 @@ declare module '@theme/TOCInline' {
   export default TOCInline;
 }
 
+declare module '@theme/TOCCollapsible' {
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type TOCCollapsibleProps = {
+    readonly toc: readonly TOCItem[];
+  };
+
+  const TOCCollapsible: (props: TOCCollapsibleProps) => JSX.Element;
+  export default TOCCollapsible;
+}
+
 declare module '@theme/Toggle' {
   import type {SyntheticEvent} from 'react';
 
