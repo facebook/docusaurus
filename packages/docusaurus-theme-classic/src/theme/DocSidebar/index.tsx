@@ -17,11 +17,16 @@ import useWindowSize from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
-import type {Props} from '@theme/DocSidebar';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import IconExternalLink from '@theme/IconExternalLink';
 import {translate} from '@docusaurus/Translate';
+
+import type {Props, DocSidebarItemProps} from '@theme/DocSidebar';
+import type {
+  PropSidebarItemCategory,
+  PropSidebarItemLink,
+} from '@docusaurus/plugin-content-docs-types';
 
 import styles from './styles.module.css';
 
@@ -53,13 +58,16 @@ const DocSidebarItems = memo(function DocSidebarItems({
   ));
 });
 
-export function DocSidebarItem(props): JSX.Element {
-  switch (props.item.type) {
+export function DocSidebarItem({
+  item,
+  ...props
+}: DocSidebarItemProps): JSX.Element {
+  switch (item.type) {
     case 'category':
-      return <DocSidebarItemCategory {...props} />;
+      return <DocSidebarItemCategory item={item} {...props} />;
     case 'link':
     default:
-      return <DocSidebarItemLink {...props} />;
+      return <DocSidebarItemLink item={item} {...props} />;
   }
 }
 
@@ -69,7 +77,7 @@ function DocSidebarItemCategory({
   collapsible,
   activePath,
   ...props
-}) {
+}: DocSidebarItemProps & {item: PropSidebarItemCategory}) {
   const {items, label} = item;
 
   const isActive = isActiveSidebarItem(item, activePath);
@@ -81,7 +89,7 @@ function DocSidebarItemCategory({
     if (!collapsible) {
       return false;
     }
-    return isActive ? false : item.collapsed;
+    return isActive ? false : item.type === 'category' && item.collapsed;
   });
 
   const menuListRef = useRef<HTMLUListElement>(null);
@@ -165,7 +173,7 @@ function DocSidebarItemLink({
   activePath,
   collapsible: _collapsible,
   ...props
-}) {
+}: DocSidebarItemProps & {item: PropSidebarItemLink}) {
   const {href, label} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   return (
