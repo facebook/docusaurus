@@ -330,8 +330,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly mobile?: boolean;
   };
 
-  const NavLink: (props: NavLinkProps) => JSX.Element;
-  export const NavLink;
+  export const NavLink: (props: NavLinkProps) => JSX.Element;
 
   const DefaultNavbarItem: (props: Props) => JSX.Element;
   export default DefaultNavbarItem;
@@ -431,7 +430,7 @@ declare module '@theme/NavbarItem' {
     readonly position?: 'left' | 'right';
   } & (
       | LinkLikeNavbarItemProps
-      | ({readonly type: 'dropdown'} & DropdownNavbarItemProps)
+      | ({readonly type?: 'dropdown'} & DropdownNavbarItemProps)
       | ({
           readonly type: 'docsVersionDropdown';
         } & DocsVersionDropdownNavbarItemProps)

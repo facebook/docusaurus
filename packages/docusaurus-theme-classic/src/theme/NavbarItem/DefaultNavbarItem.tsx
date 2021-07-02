@@ -37,10 +37,6 @@ export function NavLink({
   const isExternalLink = label && href && !isInternalUrl(href);
   const isDropdownLink = activeClassName === dropdownLinkActiveClass;
 
-  if (label === 'Versions') {
-    console.log(props.className);
-  }
-
   return (
     <Link
       {...(href
