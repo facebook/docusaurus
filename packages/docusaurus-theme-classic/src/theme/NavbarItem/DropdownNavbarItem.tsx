@@ -108,8 +108,7 @@ function NavItemMobile({
     ? `${menuListRef.current?.scrollHeight}px`
     : undefined;
 
-  console.log(className);
-
+  console.log(clsx('menu__link menu__link--sublist', className));
   return (
     <li
       className={clsx('menu__list-item', {
