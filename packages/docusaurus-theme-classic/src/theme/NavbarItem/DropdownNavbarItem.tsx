@@ -69,26 +69,23 @@ function NavItemDesktop({
         {props.children ?? props.label}
       </NavLink>
       <ul ref={dropdownMenuRef} className="dropdown__menu">
-        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
-          <li key={i}>
-            <NavbarItem
-              isDropdownItem
-              onKeyDown={(e) => {
-                if (i === items.length - 1 && e.key === 'Tab') {
-                  e.preventDefault();
-                  setShowDropdown(false);
-                  const nextNavbarItem = dropdownRef.current!
-                    .nextElementSibling;
-                  if (nextNavbarItem) {
-                    (nextNavbarItem as HTMLElement).focus();
-                  }
+        {items.map((childItemProps, i) => (
+          <NavbarItem
+            isDropdownItem
+            onKeyDown={(e) => {
+              if (i === items.length - 1 && e.key === 'Tab') {
+                e.preventDefault();
+                setShowDropdown(false);
+                const nextNavbarItem = dropdownRef.current!.nextElementSibling;
+                if (nextNavbarItem) {
+                  (nextNavbarItem as HTMLElement).focus();
                 }
-              }}
-              activeClassName={dropdownLinkActiveClass}
-              className={clsx('dropdown__link', childItemClassName)}
-              {...childItemProps}
-            />
-          </li>
+              }
+            }}
+            activeClassName={dropdownLinkActiveClass}
+            {...childItemProps}
+            key={i}
+          />
         ))}
       </ul>
     </div>
@@ -116,6 +113,7 @@ function NavItemMobile({
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
+      Hello
       <NavLink
         role="button"
         className={clsx('menu__link menu__link--sublist', className)}
@@ -130,17 +128,15 @@ function NavItemMobile({
         className="menu__list"
         ref={menuListRef}
         style={{height: collapsed ? undefined : menuListHeight}}>
-        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
-          <li className="menu__list-item" key={i}>
-            <NavbarItem
-              mobile
-              isDropdownItem
-              onClick={props.onClick}
-              activeClassName="menu__link--active"
-              className={clsx('menu__link', childItemClassName)}
-              {...childItemProps}
-            />
-          </li>
+        {items.map((childItemProps, i) => (
+          <NavbarItem
+            mobile
+            isDropdownItem
+            onClick={props.onClick}
+            activeClassName="menu__link--active"
+            {...childItemProps}
+            key={i}
+          />
         ))}
       </ul>
     </li>
