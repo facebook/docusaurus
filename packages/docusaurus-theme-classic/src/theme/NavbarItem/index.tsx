@@ -7,14 +7,19 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
-import type {Props} from '@theme/NavbarItem';
+import type {Types, Props} from '@theme/NavbarItem';
 
-const NavbarItemComponents = {
+const NavbarItemComponents: Record<
+  Exclude<Types, undefined>,
+  () => (props) => JSX.Element
+> = {
   default: () => DefaultNavbarItem,
   localeDropdown: () => LocaleDropdownNavbarItem,
   search: () => SearchNavbarItem,
+  dropdown: () => DropdownNavbarItem,
 
   // Need to lazy load these items as we don't know for sure the docs plugin is loaded
   // See https://github.com/facebook/docusaurus/issues/3360
@@ -26,9 +31,7 @@ const NavbarItemComponents = {
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
-const getNavbarItemComponent = (
-  type: keyof typeof NavbarItemComponents = 'default',
-) => {
+const getNavbarItemComponent = (type: Types = 'default') => {
   const navbarItemComponent = NavbarItemComponents[type];
   if (!navbarItemComponent) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
