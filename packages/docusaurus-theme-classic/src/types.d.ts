@@ -363,10 +363,10 @@ declare module '@theme/NavbarItem/SearchNavbarItem' {
 }
 
 declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
-  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type Props = DefaultNavbarItemProps & {
+  export type Props = DropdownNavbarItemProps & {
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
   };
@@ -376,10 +376,10 @@ declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
 }
 
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
-  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type Props = DefaultNavbarItemProps & {
+  export type Props = DropdownNavbarItemProps & {
     readonly docsPluginId?: string;
     readonly dropdownActiveClassDisabled?: boolean;
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
@@ -413,10 +413,11 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
 }
 
 declare module '@theme/NavbarItem' {
+  import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
-  import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItemProps';
+  import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
@@ -426,18 +427,19 @@ declare module '@theme/NavbarItem' {
     | ({readonly type: 'doc'} & DocNavbarItemProps)
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
 
-  export type Props =
-    | LinkLikeNavbarItemProps
-    | ({readonly type: 'dropdown'} & DropdownNavbarItemProps)
-    | ({
-        readonly type: 'docsVersionDropdown';
-      } & DocsVersionDropdownNavbarItemProps)
-    | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
-    | ({
-        readonly type: 'search';
-        readonly position?: 'left' | 'right';
-        readonly onClick?: React.MouseEventHandler<HTMLDivElement>;
-      } & SearchNavbarItemProps);
+  export type Props = ComponentProps<'a'> & {
+    readonly position?: 'left' | 'right';
+  } & (
+      | LinkLikeNavbarItemProps
+      | ({readonly type: 'dropdown'} & DropdownNavbarItemProps)
+      | ({
+          readonly type: 'docsVersionDropdown';
+        } & DocsVersionDropdownNavbarItemProps)
+      | ({readonly type: 'localeDropdown'} & LocaleDropdownNavbarItemProps)
+      | ({
+          readonly type: 'search';
+        } & SearchNavbarItemProps)
+    );
 
   export type Types = Props['type'];
 
