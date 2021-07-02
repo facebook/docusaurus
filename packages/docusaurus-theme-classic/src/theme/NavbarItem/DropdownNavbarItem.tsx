@@ -118,7 +118,7 @@ function NavItemMobile({
       })}>
       <NavLink
         role="button"
-        className={clsx(className, 'menu__link--sublist menu__link')}
+        className={clsx('menu__link menu__link--sublist', className)}
         {...props}
         onClick={(e) => {
           e.preventDefault();
@@ -137,7 +137,7 @@ function NavItemMobile({
               isDropdownItem
               onClick={props.onClick}
               activeClassName="menu__link--active"
-              className={clsx(childItemClassName, 'menu__link')}
+              className={clsx('menu__link', childItemClassName)}
               {...childItemProps}
             />
           </li>
