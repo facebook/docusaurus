@@ -7,7 +7,9 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+import DropdownNavbarItem, {
+  Props as DropdownNavbarItemProps,
+} from '@theme/NavbarItem/DropdownNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
 import type {Types, Props} from '@theme/NavbarItem';
@@ -40,6 +42,12 @@ const getNavbarItemComponent = (type: Types = 'default') => {
 };
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
-  const NavbarItemComponent = getNavbarItemComponent(type);
+  // Backward compatibility: navbar item with type "default" but containing dropdown items should use the type "dropdown"
+  const transformedType =
+    (!type || type === 'default') &&
+    (props as DropdownNavbarItemProps).items !== undefined
+      ? 'dropdown'
+      : type;
+  const NavbarItemComponent = getNavbarItemComponent(transformedType);
   return <NavbarItemComponent {...props} />;
 }
