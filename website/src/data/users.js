@@ -290,6 +290,14 @@ const Users = [
     tags: ['opensource', 'facebook'],
   },
   {
+    title: 'CryptoDevHub',
+    description: 'The place where Blockchain- and Crypto developers learn, meet and grow.',
+    preview: require('./showcase/cryptodevhub.png'),
+    website: 'https://cryptodevhub.io',
+    source: 'https://github.com/cryptodevhub/site',
+    tags: ['opensource'],
+  },
+  {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
       'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
