@@ -33,6 +33,7 @@ module.exports = {
         /**
          * Base url to edit your site.
          * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
+         * Omitting this variable entirely will disable edit links.
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
