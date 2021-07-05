@@ -16,6 +16,7 @@ import {
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
+import useCollapse from '@theme/hooks/useCollapse';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
@@ -87,16 +88,11 @@ function DocSidebarItemCategory({
     }
     return isActive ? false : item.collapsed;
   });
-
   const menuListRef = useRef<HTMLUListElement>(null);
-  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
-    undefined,
-  );
-  const handleMenuListHeight = (calc = true) => {
-    setMenuListHeight(
-      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
-    );
-  };
+  const {getToggleProps, getCollapseProps} = useCollapse({
+    contentRef: menuListRef,
+    initiallyExpanded: !collapsed,
+  });
 
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
@@ -105,19 +101,6 @@ function DocSidebarItemCategory({
       setCollapsed(false);
     }
   }, [isActive, wasActive, collapsed]);
-
-  const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      if (!menuListHeight) {
-        handleMenuListHeight();
-      }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
-    },
-    [menuListHeight],
-  );
 
   if (items.length === 0) {
     return null;
@@ -135,22 +118,14 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? handleItemClick : undefined}
         href={collapsible ? '#' : undefined}
+        {...getToggleProps({
+          onClick: () => setCollapsed((currentCollapsed) => !currentCollapsed),
+        })}
         {...props}>
         {label}
       </a>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{
-          height: menuListHeight,
-        }}
-        onTransitionEnd={() => {
-          if (!collapsed) {
-            handleMenuListHeight(false);
-          }
-        }}>
+      <ul className="menu__list" ref={menuListRef} {...getCollapseProps()}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? '-1' : '0'}
