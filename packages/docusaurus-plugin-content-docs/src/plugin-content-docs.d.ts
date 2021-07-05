@@ -55,6 +55,7 @@ declare module '@theme/DocItem' {
     readonly component: () => JSX.Element;
     readonly exact: boolean;
     readonly path: string;
+    readonly sidebar?: string;
   };
 
   export type FrontMatter = {

@@ -26,25 +26,36 @@ const createRouteCodeString = ({
   routeHash,
   exact,
   subroutesCodeStrings,
+  props,
 }: {
   routePath: string;
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
+  props: {[propName: string]: any};
 }) => {
-  const str = `{
-  path: '${routePath}',
-  component: ComponentCreator('${routePath}','${routeHash}'),
-  ${exact ? `exact: true,` : ''}
-${
-  subroutesCodeStrings
-    ? `  routes: [
-${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
-]
-`
-    : ''
-}}`;
-  return str;
+  const parts = [
+    `path: '${routePath}'`,
+    `component: ComponentCreator('${routePath}','${routeHash}')`,
+  ];
+
+  if (exact) {
+    parts.push(`exact: true`);
+  }
+
+  if (subroutesCodeStrings) {
+    parts.push(
+      `routes: [${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},]`,
+    );
+  }
+
+  Object.entries(props).forEach(([propName, propValue]) => {
+    parts.push(`'${propName}': ${JSON.stringify(propValue)}`);
+  });
+
+  return `{
+  ${parts.join(',\n  ')}
+}`;
 };
 
 const NotFoundRouteCode = `{
@@ -106,6 +117,9 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      priority,
+      ...props
     } = routeConfig;
 
     if (!isString(routePath) || !component) {
@@ -138,6 +152,7 @@ export default async function loadRoutes(
       routeHash,
       exact,
       subroutesCodeStrings: subroutes?.map(generateRouteCode),
+      props,
     });
   }
 

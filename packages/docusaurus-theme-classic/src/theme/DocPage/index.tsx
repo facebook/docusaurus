@@ -9,7 +9,6 @@ import React, {ReactNode, useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useActiveDocSidebar} from '@theme/hooks/useDocs';
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
@@ -32,28 +31,6 @@ type DocPageContentProps = {
   readonly children: ReactNode;
 };
 
-// function getSidebar({versionMetadata, currentDocRoute}) {
-//   function addTrailingSlash(str: string): string {
-//     return str.endsWith('/') ? str : `${str}/`;
-//   }
-//   function removeTrailingSlash(str: string): string {
-//     return str.endsWith('/') ? str.slice(0, -1) : str;
-//   }
-
-//   const {permalinkToSidebar, docsSidebars} = versionMetadata;
-
-//   // With/without trailingSlash, we should always be able to get the appropriate sidebar
-//   // note: docs plugin permalinks currently never have trailing slashes
-//   // trailingSlash is handled globally at the framework level, not plugin level
-//   const sidebarName =
-//     permalinkToSidebar[currentDocRoute.path] ||
-//     permalinkToSidebar[addTrailingSlash(currentDocRoute.path)] ||
-//     permalinkToSidebar[removeTrailingSlash(currentDocRoute.path)];
-
-//   const sidebar = docsSidebars[sidebarName];
-//   return {sidebar, sidebarName};
-// }
-
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
@@ -61,8 +38,11 @@ function DocPageContent({
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
   const {pluginId, version} = versionMetadata;
-  // const {sidebarName, sidebar} = getSidebar({versionMetadata, currentDocRoute});
-  const {sidebarName, sidebar} = useActiveDocSidebar(pluginId);
+
+  const sidebarName = currentDocRoute.sidebar;
+  const sidebar = sidebarName
+    ? versionMetadata.docsSidebars[sidebarName]
+    : undefined;
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
