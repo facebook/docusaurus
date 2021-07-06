@@ -250,7 +250,9 @@ function DocSidebar({
     hideableSidebar,
   } = useThemeConfig();
   const {isClosed: isAnnouncementBarClosed} = useAnnouncementBar();
-  const {isDesktop} = useWindowSize();
+  const windowSize = useWindowSize();
+
+  const shouldRenderSidebar = windowSize === 'desktop' || windowSize === 'ssr';
 
   return (
     <div
@@ -259,7 +261,7 @@ function DocSidebar({
         [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      {isDesktop && (
+      {shouldRenderSidebar && (
         <nav
           className={clsx(
             'menu',

@@ -12,14 +12,19 @@ import styles from './styles.module.css';
 import {Headings} from '@theme/TOC';
 import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 
-export default function TOCCollapsible({toc}: TOCCollapsibleProps) {
+export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
   const tocRef = useRef(null);
   const [collapsed, setCollapsed] = useCollapse(true, tocRef);
   return (
     <div
-      className={clsx('margin-vert--md', styles.tocCollapsible, {
-        [styles.tocCollapsibleExpanded]: !collapsed,
-      })}>
+      className={clsx(
+        'margin-vert--md',
+        styles.tocCollapsible,
+        {
+          [styles.tocCollapsibleExpanded]: !collapsed,
+        },
+        className,
+      )}>
       <button
         type="button"
         className={styles.tocCollapsibleButton}

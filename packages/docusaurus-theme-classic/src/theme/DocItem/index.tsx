@@ -54,10 +54,17 @@ function DocItem(props: Props): JSX.Element {
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
-  const {isMobile, isDesktop} = useWindowSize();
+  const windowSize = useWindowSize();
 
-  const showTocMobile = !hideTableOfContents && DocContent.toc && isMobile;
-  const showTocDesktop = !hideTableOfContents && DocContent.toc && isDesktop;
+  const renderTocMobile =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === 'mobile' || windowSize === 'ssr');
+
+  const renderTocDesktop =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === 'desktop' || windowSize === 'ssr');
 
   return (
     <>
@@ -77,7 +84,12 @@ function DocItem(props: Props): JSX.Element {
                 </span>
               )}
 
-              {showTocMobile && <TOCCollapsible toc={DocContent.toc} />}
+              {renderTocMobile && (
+                <TOCCollapsible
+                  toc={DocContent.toc}
+                  className={styles.tocMobile}
+                />
+              )}
 
               <div className="markdown">
                 {/*
@@ -112,7 +124,7 @@ function DocItem(props: Props): JSX.Element {
             <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {showTocDesktop && (
+        {renderTocDesktop && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>

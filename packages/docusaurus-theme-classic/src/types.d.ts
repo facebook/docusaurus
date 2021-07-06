@@ -219,11 +219,13 @@ declare module '@theme/hooks/useUserPreferencesContext' {
 }
 
 declare module '@theme/hooks/useWindowSize' {
-  export type WindowSize = {
-    windowSize: number;
-    isDesktop: boolean;
-    isMobile: boolean;
+  export const windowSizes: {
+    desktop: 'desktop';
+    mobile: 'mobile';
+    ssr: 'ssr';
   };
+
+  export type WindowSize = keyof typeof windowSizes;
 
   export default function useWindowSize(): WindowSize;
 }
@@ -511,6 +513,7 @@ declare module '@theme/TOCCollapsible' {
   import type {TOCItem} from '@docusaurus/types';
 
   export type TOCCollapsibleProps = {
+    readonly className?: string;
     readonly toc: readonly TOCItem[];
   };
 

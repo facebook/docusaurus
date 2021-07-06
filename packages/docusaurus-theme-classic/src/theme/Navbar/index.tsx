@@ -59,8 +59,9 @@ function Navbar(): JSX.Element {
   const [sidebarShown, setSidebarShown] = useState(false);
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
-  const {isDesktop} = useWindowSize();
+  const windowSize = useWindowSize();
 
+  const isDesktop = windowSize === 'desktop'; // TODO double-check this, need SSR?
   // TODO: need to refactor this
   const plugin = useActivePlugin({failfast: false});
   const pluginId = plugin ? plugin.pluginId : undefined;
