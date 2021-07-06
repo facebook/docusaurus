@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {sortBy, difference} from '../utils/jsUtils';
+import {difference, sortBy} from '../utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -1185,6 +1185,14 @@ const Users = [
     website: 'https://joelpo.github.io',
     source: 'https://github.com/Joelpo/joelpo.github.io',
     tags: ['personal', 'opensource']
+  },
+  {
+    title: 'LiveKit',
+    description: 'Open source, scalable, real-time audio and video rooms over WebRTC',
+    preview: require('./showcase/livekit.png'),
+    website: 'https://docs.livekit.io',
+    source: 'https://github.com/livekit/livekit-docs',
+    tags: ['opensource', 'product', 'design']
   },
 ];
 
