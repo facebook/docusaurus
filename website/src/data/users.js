@@ -1184,7 +1184,7 @@ const Users = [
     preview: require('./showcase/livekit.png'),
     website: 'https://docs.livekit.io',
     source: 'https://github.com/livekit/livekit-docs',
-    tags: ['opensource', 'product', 'design', 'large']
+    tags: ['opensource', 'product', 'design']
   },
 ];
 
