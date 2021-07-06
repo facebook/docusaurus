@@ -8,14 +8,12 @@
 import React, {ReactNode} from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import NotFound from '@theme/NotFound';
-import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import {matchPath} from '@docusaurus/router';
 import type {Props} from '@theme/DocPage';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
-import {useActiveDocSidebar} from '@theme/hooks/useDocs';
 
 type DocPageContentProps = {
   readonly versionMetadata: PropVersionMetadata;
@@ -23,19 +21,12 @@ type DocPageContentProps = {
 };
 
 function DocPageContent({
-  versionMetadata,
+  versionMetadata: _versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
-  const {pluginId} = versionMetadata;
-  const {sidebarName, sidebar} = useActiveDocSidebar(pluginId);
   return (
     <Layout title="Doc page" description="My Doc page">
       <div className="d-flex vh-100">
-        {sidebar && (
-          <div role="complementary">
-            <DocSidebar key={sidebarName} sidebar={sidebar} />
-          </div>
-        )}
         <main className="w-100 align-items-center overflow-auto p-5">
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </main>

@@ -36,7 +36,6 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
-  Sidebars,
 } from './types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
@@ -312,7 +311,9 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
-      async function doCreateVersionRoutes(loadedVersion: LoadedVersion) {
+      async function doCreateVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
         const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
         const versionMetadataPropPath = await createData(
           `${docuHash(
@@ -334,13 +335,11 @@ export default function pluginContentDocs(
           },
           priority: loadedVersion.routePriority,
         });
-
-        loadedVersion.sidebars = versionMetadata.docsSidebars as Sidebars;
-
-        return loadedVersion;
       }
 
-      async function createVersionRoutes(loadedVersion: LoadedVersion) {
+      async function createVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
         try {
           return await doCreateVersionRoutes(loadedVersion);
         } catch (e) {

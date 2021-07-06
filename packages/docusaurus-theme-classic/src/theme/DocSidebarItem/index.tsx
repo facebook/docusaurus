@@ -65,7 +65,7 @@ export default function DocSidebarItem({item, ...props}: Props): JSX.Element {
 function DocSidebarItemCategory({
   item,
   onItemClick,
-  collapsible,
+  collapsible = true,
   activePath,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {

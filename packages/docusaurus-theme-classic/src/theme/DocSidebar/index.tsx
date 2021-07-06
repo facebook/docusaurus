@@ -7,7 +7,12 @@
 
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
+import {
+  useThemeConfig,
+  useAnnouncementBar,
+  MobileSecondaryMenuFiller,
+  MobileSecondaryMenuComponent,
+} from '@docusaurus/theme-common';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Logo from '@theme/Logo';
@@ -56,7 +61,7 @@ function HideableSidebarButton({onClick}) {
 function DocSidebarDesktop({
   path,
   sidebar,
-  sidebarCollapsible = true,
+  sidebarCollapsible,
   onCollapse,
   isHidden,
 }: Props) {
@@ -92,11 +97,50 @@ function DocSidebarDesktop({
   );
 }
 
+const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
+  toggleSidebar,
+  sidebar,
+  sidebarCollapsible,
+  path,
+}) => {
+  return (
+    <ul className="menu__list">
+      <DocSidebarItems
+        items={sidebar}
+        collapsible={sidebarCollapsible}
+        activePath={path}
+        onItemClick={() => toggleSidebar()}
+      />
+    </ul>
+  );
+};
+
+function DocSidebarMobile(props: Props) {
+  return (
+    <MobileSecondaryMenuFiller
+      component={DocSidebarMobileSecondaryMenu}
+      props={props}
+    />
+  );
+}
+
+const DocSidebarDesktopMemo = React.memo(DocSidebarDesktop);
+const DocSidebarMobileMemo = React.memo(DocSidebarMobile);
+
 export default function DocSidebar(props: Props): JSX.Element {
   const windowSize = useWindowSize();
 
+  // Desktop sidebar visible on hydration: need SSR rendering
   const shouldRenderSidebarDesktop =
     windowSize === 'desktop' || windowSize === 'ssr';
 
-  return <>{shouldRenderSidebarDesktop && <DocSidebarDesktop {...props} />}</>;
+  // Mobile sidebar not visible on hydration: can avoid SSR rendering
+  const shouldRenderSidebarMobile = windowSize === 'mobile';
+
+  return (
+    <>
+      {shouldRenderSidebarDesktop && <DocSidebarDesktopMemo {...props} />}
+      {shouldRenderSidebarMobile && <DocSidebarMobileMemo {...props} />}
+    </>
+  );
 }
