@@ -26,7 +26,7 @@ import {
 } from '@theme/hooks/useDocs';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import NavbarItem from '@theme/NavbarItem';
-import {DocSidebarItem} from '@theme/DocSidebar';
+import {DocSidebarItems} from '@theme/DocSidebarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 
@@ -209,15 +209,12 @@ function Navbar(): JSX.Element {
 
             {showDocSidebar && (
               <ul className="menu__list">
-                {sidebar.map((item) => (
-                  <DocSidebarItem
-                    key={item.label}
-                    item={item}
-                    collapsible={sidebarCollapsible}
-                    activePath={pathname}
-                    onItemClick={() => setSidebarShown(false)}
-                  />
-                ))}
+                <DocSidebarItems
+                  items={sidebar}
+                  collapsible={sidebarCollapsible}
+                  activePath={pathname}
+                  onItemClick={() => setSidebarShown(false)}
+                />
               </ul>
             )}
           </div>

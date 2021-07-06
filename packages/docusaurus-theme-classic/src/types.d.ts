@@ -84,17 +84,30 @@ declare module '@theme/DocSidebar' {
     readonly isHidden: boolean;
   };
 
-  export type DocSidebarItemProps = {
-    readonly item: PropSidebarItem;
-    readonly activePath: string;
-    readonly collapsible: boolean;
-    readonly onItemClick: () => void;
-  };
-
-  export const DocSidebarItem: (props: DocSidebarItemProps) => JSX.Element;
-
   const DocSidebar: (props: Props) => JSX.Element;
   export default DocSidebar;
+}
+
+declare module '@theme/DocSidebarItem' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+
+  type DocSidebarPropsBase = {
+    readonly activePath: string;
+    readonly collapsible: boolean;
+    readonly onItemClick?: () => void;
+    readonly tabIndex?: number;
+  };
+
+  export type Props = DocSidebarPropsBase & {
+    readonly item: PropSidebarItem;
+  };
+  const DocSidebarItem: (props: Props) => JSX.Element;
+  export default DocSidebarItem;
+
+  export type DocSidebarItemsProps = DocSidebarPropsBase & {
+    readonly items: readonly PropSidebarItem[];
+  };
+  export const DocSidebarItems: (props: DocSidebarItemsProps) => JSX.Element;
 }
 
 declare module '@theme/DocVersionSuggestions' {
