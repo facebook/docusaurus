@@ -486,13 +486,12 @@ declare module '@theme/TOC' {
     readonly toc: readonly TOCItem[];
   };
 
-  export type HeadingsProps = {
+  export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
-    readonly onClick?: () => void;
   };
 
-  export const Headings: (props: HeadingsProps) => JSX.Element;
+  export const TOCHeadings: (props: HeadingsProps) => JSX.Element;
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;

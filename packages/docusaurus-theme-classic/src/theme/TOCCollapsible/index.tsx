@@ -9,7 +9,7 @@ import React, {useRef} from 'react';
 import clsx from 'clsx';
 import useCollapse from '@theme/hooks/useCollapse';
 import styles from './styles.module.css';
-import {Headings} from '@theme/TOC';
+import {TOCHeadings} from '@theme/TOC';
 import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 
 export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
@@ -33,7 +33,7 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
       </button>
 
       <div ref={tocRef} className={clsx(styles.tocCollapsibleContent)}>
-        <Headings toc={toc} />
+        <TOCHeadings toc={toc} />
       </div>
     </div>
   );
