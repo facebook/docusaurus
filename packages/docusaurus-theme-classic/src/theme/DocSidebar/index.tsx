@@ -95,8 +95,8 @@ function DocSidebarDesktop({
 export default function DocSidebar(props: Props): JSX.Element {
   const windowSize = useWindowSize();
 
-  const shouldRenderDesktopSidebar =
+  const shouldRenderSidebarDesktop =
     windowSize === 'desktop' || windowSize === 'ssr';
 
-  return <>{shouldRenderDesktopSidebar && <DocSidebarDesktop {...props} />}</>;
+  return <>{shouldRenderSidebarDesktop && <DocSidebarDesktop {...props} />}</>;
 }
