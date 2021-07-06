@@ -237,22 +237,19 @@ function HideableSidebarButton({onClick}) {
   );
 }
 
-function DocSidebar({
+function DocSidebarDesktop({
   path,
   sidebar,
   sidebarCollapsible = true,
   onCollapse,
   isHidden,
-}: Props): JSX.Element | null {
+}: Props) {
   const showAnnouncementBar = useShowAnnouncementBar();
   const {
     navbar: {hideOnScroll},
     hideableSidebar,
   } = useThemeConfig();
   const {isClosed: isAnnouncementBarClosed} = useAnnouncementBar();
-  const windowSize = useWindowSize();
-
-  const shouldRenderSidebar = windowSize === 'desktop' || windowSize === 'ssr';
 
   return (
     <div
@@ -261,31 +258,35 @@ function DocSidebar({
         [styles.sidebarHidden]: isHidden,
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      {shouldRenderSidebar && (
-        <nav
-          className={clsx(
-            'menu',
-            'menu--responsive',
-            'thin-scrollbar',
-            styles.menu,
-            {
-              [styles.menuWithAnnouncementBar]:
-                !isAnnouncementBarClosed && showAnnouncementBar,
-            },
-          )}>
-          <ul className="menu__list">
-            <DocSidebarItems
-              items={sidebar}
-              collapsible={sidebarCollapsible}
-              activePath={path}
-            />
-          </ul>
-        </nav>
-      )}
-
+      <nav
+        className={clsx(
+          'menu',
+          'menu--responsive',
+          'thin-scrollbar',
+          styles.menu,
+          {
+            [styles.menuWithAnnouncementBar]:
+              !isAnnouncementBarClosed && showAnnouncementBar,
+          },
+        )}>
+        <ul className="menu__list">
+          <DocSidebarItems
+            items={sidebar}
+            collapsible={sidebarCollapsible}
+            activePath={path}
+          />
+        </ul>
+      </nav>
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
     </div>
   );
 }
 
-export default DocSidebar;
+export default function DocSidebar(props: Props): JSX.Element {
+  const windowSize = useWindowSize();
+
+  const shouldRenderDesktopSidebar =
+    windowSize === 'desktop' || windowSize === 'ssr';
+
+  return <>{shouldRenderDesktopSidebar && <DocSidebarDesktop {...props} />}</>;
+}
