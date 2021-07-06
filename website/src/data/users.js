@@ -717,6 +717,14 @@ const Users = [
     tags: ['opensource','design'],
   },
   {
+    title: 'Prismatic',
+    description: 'An Integration Platform for B2B Software Companies',
+    preview: require('./showcase/prismatic.png'),
+    website: 'https://prismatic.io/docs/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Profilo',
     description: 'An Android performance library',
     preview: require('./showcase/profolo.png'),
