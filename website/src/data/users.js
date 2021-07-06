@@ -209,6 +209,14 @@ const Users = [
     tags: ['opensource', 'large'],
   },
   {
+    title: 'Blink Shell Docs',
+    description: 'Documentation for Blink Shell a professional, desktop grade terminal for iOS',
+    preview: require('./showcase/blinkshell.png'),
+    website: 'https://docs.blink.sh/',
+    source: 'https://github.com/blinksh/docs',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'blog.johnnyreilly.com',
     description: 'The blog of johnnyreilly',
     preview: require('./showcase/johnnyreilly.png'),
