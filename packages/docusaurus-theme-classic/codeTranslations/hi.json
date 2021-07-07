@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "खोज करें",
   "theme.SearchPage.inputPlaceholder": "अपनी खोज यहाँ टाइप करें",
   "theme.SearchPage.noResultsText": "कोई परिणाम नहीं मिलें",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "ब्लॉग सूची पेज नेविगेशन",
   "theme.blog.paginator.newerEntries": "नए एंट्रीज़",
   "theme.blog.paginator.olderEntries": "पुराने एंट्रीज़",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " {date} पर",
   "theme.lastUpdated.byUser": " {user} द्वारा",
   "theme.lastUpdated.lastUpdatedAtBy": "आखरी अपडेट{atDate}{byUser}",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "टैग:",
   "theme.tags.tagsPageLink": "सारे टैग देखें",
   "theme.tags.tagsPageTitle": "टैग"

@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "Buscar",
   "theme.SearchPage.inputPlaceholder": "Digite sua busca aqui",
   "theme.SearchPage.noResultsText": "Nenhum resultado foi encontrado",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "Navegação da página de listagem do blog",
   "theme.blog.paginator.newerEntries": "Conteúdo mais novo",
   "theme.blog.paginator.olderEntries": "Conteúdo mais antigo",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " em {date}",
   "theme.lastUpdated.byUser": " por {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Última atualização{atDate}{byUser}",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Ver todas as Tags",
   "theme.tags.tagsPageTitle": "Tags"

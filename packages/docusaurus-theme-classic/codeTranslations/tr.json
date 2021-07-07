@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "Ara",
   "theme.SearchPage.inputPlaceholder": "Aramanızı buraya yazın",
   "theme.SearchPage.noResultsText": "Hiçbir sonuç bulunamadı",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "Blog gönderi sayfası navigasyonu",
   "theme.blog.paginator.newerEntries": "Yeni Girdiler",
   "theme.blog.paginator.olderEntries": "Eski Girdiler",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " {date} tarihinde",
   "theme.lastUpdated.byUser": " {user} tarafından",
   "theme.lastUpdated.lastUpdatedAtBy": "En son{atDate}{byUser} güncellendi",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler"

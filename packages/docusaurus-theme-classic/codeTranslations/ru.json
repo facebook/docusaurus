@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "Поиск",
   "theme.SearchPage.inputPlaceholder": "Введите фразу для поиска",
   "theme.SearchPage.noResultsText": "По запросу ничего не найдено",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "Навигация по странице списка блогов",
   "theme.blog.paginator.newerEntries": "Следующие записи",
   "theme.blog.paginator.olderEntries": "Предыдущие записи",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " от {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Последнее обновление{atDate}{byUser}",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "Теги:",
   "theme.tags.tagsPageLink": "Посмотреть все теги",
   "theme.tags.tagsPageTitle": "Теги"

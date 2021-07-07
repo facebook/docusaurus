@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "Maghanap",
   "theme.SearchPage.inputPlaceholder": "I-type and inyong hinahanap dito",
   "theme.SearchPage.noResultsText": "Walang resultang nahanap",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "Nabegasyón para sa pahina na listahan ng blog",
   "theme.blog.paginator.newerEntries": "Mas bagong mga éntri",
   "theme.blog.paginator.olderEntries": "Mas lumang mga éntri",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " noong {date}",
   "theme.lastUpdated.byUser": " ni {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Huling inapdeyt{atDate}{byUser}",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "Mga Tag:",
   "theme.tags.tagsPageLink": "Tingnan Lahat ng mga Tag",
   "theme.tags.tagsPageTitle": "Mga Tag"

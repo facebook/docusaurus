@@ -20,6 +20,7 @@
   "theme.SearchPage.inputLabel": "חיפוש",
   "theme.SearchPage.inputPlaceholder": "הקלד כאן לחיפוש",
   "theme.SearchPage.noResultsText": "לא נמצאו תוצאות",
+  "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.blog.paginator.navAriaLabel": "רשימת דפי הבלוג",
   "theme.blog.paginator.newerEntries": "הכי חדש",
   "theme.blog.paginator.olderEntries": "ישן יותר",
@@ -48,6 +49,7 @@
   "theme.lastUpdated.atDate": " בתאריך {date}",
   "theme.lastUpdated.byUser": " על ידי {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "עודכן{atDate}{byUser}",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
   "theme.tags.tagsListLabel": "תגיות:",
   "theme.tags.tagsPageLink": "כל התגיות",
   "theme.tags.tagsPageTitle": "תגיות"
