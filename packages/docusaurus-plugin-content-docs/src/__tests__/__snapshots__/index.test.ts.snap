@@ -155,60 +155,6 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
-          "sidebars": Object {
-            "docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "collapsed": true,
-                    "items": Array [
-                      Object {
-                        "customProps": undefined,
-                        "href": "/docs/foo/bar",
-                        "label": "Bar",
-                        "type": "link",
-                      },
-                      Object {
-                        "customProps": undefined,
-                        "href": "/docs/foo/bazSlug.html",
-                        "label": "baz",
-                        "type": "link",
-                      },
-                    ],
-                    "label": "foo",
-                    "type": "category",
-                  },
-                  Object {
-                    "href": "https://github.com",
-                    "label": "Github",
-                    "type": "link",
-                  },
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/",
-                    "label": "Hello, World !",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/",
-                    "label": "Hello, World !",
-                    "type": "link",
-                  },
-                ],
-                "label": "Guides",
-                "type": "category",
-              },
-            ],
-          },
         },
       ],
     },
@@ -599,60 +545,6 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
-          "sidebars": Object {
-            "docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "collapsed": true,
-                    "items": Array [
-                      Object {
-                        "customProps": undefined,
-                        "href": "/docs/foo/bar",
-                        "label": "Bar",
-                        "type": "link",
-                      },
-                      Object {
-                        "customProps": undefined,
-                        "href": "/docs/foo/bazSlug.html",
-                        "label": "baz",
-                        "type": "link",
-                      },
-                    ],
-                    "label": "foo",
-                    "type": "category",
-                  },
-                  Object {
-                    "href": "https://github.com",
-                    "label": "Github",
-                    "type": "link",
-                  },
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/",
-                    "label": "Hello, World !",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/",
-                    "label": "Hello, World !",
-                    "type": "link",
-                  },
-                ],
-                "label": "Guides",
-                "type": "category",
-              },
-            ],
-          },
         },
       ],
     },
@@ -678,6 +570,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -694,6 +587,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -702,6 +596,7 @@ Array [
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1026,16 +921,6 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
-          "sidebars": Object {
-            "community": Array [
-              Object {
-                "customProps": undefined,
-                "href": "/community/next/team",
-                "label": "Team title translated",
-                "type": "link",
-              },
-            ],
-          },
         },
         Object {
           "docs": Array [
@@ -1050,16 +935,6 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
-          "sidebars": Object {
-            "version-1.0.0/community": Array [
-              Object {
-                "customProps": undefined,
-                "href": "/community/team",
-                "label": "team",
-                "type": "link",
-              },
-            ],
-          },
         },
       ],
     },
@@ -1085,6 +960,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
+        "sidebar": "community",
       },
     ],
   },
@@ -1104,6 +980,7 @@ Array [
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
         "path": "/community/team",
+        "sidebar": "version-1.0.0/community",
       },
     ],
   },
@@ -1698,36 +1575,6 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
-          "sidebars": Object {
-            "docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/next/foo/barSlug",
-                    "label": "bar",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/next/",
-                    "label": "hello",
-                    "type": "link",
-                  },
-                ],
-                "label": "Guides",
-                "type": "category",
-              },
-            ],
-          },
         },
         Object {
           "docs": Array [
@@ -1747,36 +1594,6 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
-          "sidebars": Object {
-            "version-1.0.1/docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/foo/bar",
-                    "label": "bar",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/",
-                    "label": "hello",
-                    "type": "link",
-                  },
-                ],
-                "label": "Guides",
-                "type": "category",
-              },
-            ],
-          },
         },
         Object {
           "docs": Array [
@@ -1801,42 +1618,6 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
-          "sidebars": Object {
-            "version-1.0.0/docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/1.0.0/foo/barSlug",
-                    "label": "bar",
-                    "type": "link",
-                  },
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/1.0.0/foo/baz",
-                    "label": "baz",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/1.0.0/",
-                    "label": "hello",
-                    "type": "link",
-                  },
-                ],
-                "label": "Guides",
-                "type": "category",
-              },
-            ],
-          },
         },
         Object {
           "docs": Array [
@@ -1886,23 +1667,6 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
-          "sidebars": Object {
-            "version-1.0.1/docs": Array [
-              Object {
-                "collapsed": true,
-                "items": Array [
-                  Object {
-                    "customProps": undefined,
-                    "href": "/docs/withSlugs/rootAbsoluteSlug",
-                    "label": "rootAbsoluteSlug",
-                    "type": "link",
-                  },
-                ],
-                "label": "Test",
-                "type": "category",
-              },
-            ],
-          },
         },
       ],
     },
@@ -1928,6 +1692,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
         "path": "/docs/1.0.0/",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1936,6 +1701,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1944,6 +1710,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
+        "sidebar": "version-1.0.0/docs",
       },
     ],
   },
@@ -1963,6 +1730,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/next/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1979,6 +1747,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -2038,6 +1807,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -2097,6 +1867,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -2105,6 +1876,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "version-1.0.1/docs",
       },
     ],
   },
