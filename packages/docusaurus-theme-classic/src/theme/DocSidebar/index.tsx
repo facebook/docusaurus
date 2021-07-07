@@ -12,11 +12,11 @@ import {
   isSamePath,
   usePrevious,
   useAnnouncementBar,
+  useCollapsible,
 } from '@docusaurus/theme-common';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
-import useCollapse from '@theme/hooks/useCollapse';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {Props} from '@theme/DocSidebar';
@@ -89,7 +89,7 @@ function DocSidebarItemCategory({
     return isActive ? false : item.collapsed;
   });
   const menuListRef = useRef<HTMLUListElement>(null);
-  const {getToggleProps, getCollapseProps} = useCollapse({
+  const {getToggleProps, getCollapseProps} = useCollapsible({
     contentRef: menuListRef,
     initiallyExpanded: !collapsed,
   });

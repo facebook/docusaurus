@@ -226,42 +226,6 @@ declare module '@theme/hooks/useKeyboardNavigation' {
   export default useKeyboardNavigation;
 }
 
-declare module '@theme/hooks/useCollapse' {
-  import type {
-    RefObject,
-    Dispatch,
-    SetStateAction,
-    CSSProperties,
-    TransitionEvent,
-    MouseEvent,
-  } from 'react';
-
-  export type useCollapseReturns = {
-    contentRef: RefObject;
-    isExpanded: boolean;
-    setExpanded: Dispatch<SetStateAction<boolean>>;
-    getCollapseProps(): {
-      style: CSSProperties;
-      onTransitionEnd: (e: TransitionEvent) => void;
-    };
-    getToggleProps: (params: {
-      onClick?: () => void;
-    }) => {
-      onClick: (e: MouseEvent) => void;
-    };
-  };
-
-  export type useCollapseProps = {
-    duration?: number;
-    easing?: string;
-    initiallyExpanded?: boolean;
-    contentRef: RefObject;
-  };
-
-  const useCollapse: (props: useCollapseProps) => useCollapseReturns;
-  export default useCollapse;
-}
-
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
