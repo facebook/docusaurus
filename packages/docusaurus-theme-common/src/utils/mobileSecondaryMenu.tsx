@@ -75,6 +75,14 @@ export function useMobileSecondaryMenuRenderer(): (
   return () => undefined;
 }
 
+function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
+  return useMemo(
+    () => obj,
+    // Is this safe?
+    [...Object.keys(obj), ...Object.values(obj)],
+  );
+}
+
 // Fill the secondary menu placeholder with some real content
 export function MobileSecondaryMenuFiller<
   Props extends Record<string, unknown>
@@ -87,8 +95,8 @@ export function MobileSecondaryMenuFiller<
 }): JSX.Element | null {
   const [, setState] = useMobileSecondaryMenuContext();
 
-  // Hacky way to avoid useless re-renders
-  const memoizedProps = useMemo(() => props, Object.values(props));
+  // To avoid useless context re-renders, props are memoized shallowly
+  const memoizedProps = useShallowMemoizedObject(props);
 
   useEffect(() => {
     // @ts-expect-error: context is not 100% typesafe but it's ok
