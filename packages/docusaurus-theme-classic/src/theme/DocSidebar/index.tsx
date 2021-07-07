@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
+import React, {useState, useCallback, useEffect, memo} from 'react';
 import clsx from 'clsx';
 import {
   useThemeConfig,
   isSamePath,
   usePrevious,
   useAnnouncementBar,
+  useCollapsible,
 } from '@docusaurus/theme-common';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
@@ -79,24 +80,21 @@ function DocSidebarItemCategory({
   const isActive = isActiveSidebarItem(item, activePath);
   const wasActive = usePrevious(isActive);
 
-  // active categories are always initialized as expanded
-  // the default (item.collapsed) is only used for non-active categories
-  const [collapsed, setCollapsed] = useState(() => {
-    if (!collapsible) {
-      return false;
-    }
-    return isActive ? false : item.collapsed;
+  const {
+    collapsed,
+    setCollapsed,
+    getToggleProps,
+    getCollapsibleProps,
+  } = useCollapsible({
+    // active categories are always initialized as expanded
+    // the default (item.collapsed) is only used for non-active categories
+    initialState: () => {
+      if (!collapsible) {
+        return false;
+      }
+      return isActive ? false : item.collapsed;
+    },
   });
-
-  const menuListRef = useRef<HTMLUListElement>(null);
-  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
-    undefined,
-  );
-  const handleMenuListHeight = (calc = true) => {
-    setMenuListHeight(
-      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
-    );
-  };
 
   // If we navigate to a category, it should automatically expand itself
   useEffect(() => {
@@ -105,19 +103,6 @@ function DocSidebarItemCategory({
       setCollapsed(false);
     }
   }, [isActive, wasActive, collapsed]);
-
-  const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      if (!menuListHeight) {
-        handleMenuListHeight();
-      }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
-    },
-    [menuListHeight],
-  );
 
   if (items.length === 0) {
     return null;
@@ -135,22 +120,13 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? handleItemClick : undefined}
         href={collapsible ? '#' : undefined}
+        {...getToggleProps()}
         {...props}>
         {label}
       </a>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{
-          height: menuListHeight,
-        }}
-        onTransitionEnd={() => {
-          if (!collapsed) {
-            handleMenuListHeight(false);
-          }
-        }}>
+
+      <ul className="menu__list" {...getCollapsibleProps()}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? '-1' : '0'}

@@ -112,13 +112,3 @@
   line-height: 0.9;
   width: 24px;
 }
-
-:global(.menu__list) :global(.menu__list) {
-  overflow-y: hidden;
-  will-change: height;
-  transition: height var(--ifm-transition-fast) linear;
-}
-
-:global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0 !important;
-}

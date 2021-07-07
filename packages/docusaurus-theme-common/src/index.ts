@@ -37,6 +37,12 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {usePrevious} from './utils/usePrevious';
 
+export {useCollapsible} from './utils/useCollapsible';
+export type {
+  UseCollapsibleConfig,
+  UseCollapsibleReturns,
+} from './utils/useCollapsible';
+
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
