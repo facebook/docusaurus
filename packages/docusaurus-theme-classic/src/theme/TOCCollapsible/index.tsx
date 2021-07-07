@@ -5,17 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import useCollapse from '@theme/hooks/useCollapse';
+import {useCollapsible} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import {TOCHeadings} from '@theme/TOC';
 import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 
 export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
-  const tocRef = useRef(null);
-  const [collapsed, setCollapsed] = useCollapse(true, tocRef);
+  const {collapsed, getToggleProps, getCollapsibleProps} = useCollapsible({
+    initialState: true,
+  });
+
   return (
     <div
       className={clsx(
@@ -29,7 +31,7 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
       <button
         type="button"
         className={styles.tocCollapsibleButton}
-        onClick={() => setCollapsed(!collapsed)}>
+        {...getToggleProps()}>
         <Translate
           id="theme.TOCCollapsible.toggleButtonLabel"
           description="The label used by the button on the collapsible TOC component">
@@ -37,7 +39,9 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
         </Translate>
       </button>
 
-      <div ref={tocRef} className={clsx(styles.tocCollapsibleContent)}>
+      <div
+        className={clsx(styles.tocCollapsibleContent)}
+        {...getCollapsibleProps()}>
         <TOCHeadings toc={toc} />
       </div>
     </div>
