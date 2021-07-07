@@ -132,7 +132,7 @@ function useCollapseAnimation({
     }
 
     return startAnimation();
-  }, [collapsed]);
+  }, [contentRef, collapsed, animation]);
 }
 
 /*
