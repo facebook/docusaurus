@@ -21,6 +21,11 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
+function indent(str: string) {
+  const spaces = '  ';
+  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
+}
+
 const createRouteCodeString = ({
   routePath,
   routeHash,
@@ -45,16 +50,22 @@ const createRouteCodeString = ({
 
   if (subroutesCodeStrings) {
     parts.push(
-      `routes: [${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},]`,
+      `routes: [
+${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
+]`,
     );
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    parts.push(`'${propName}': ${JSON.stringify(propValue)}`);
+    // Figure out how to "unquote" JS attributes that don't need to be quoted
+    // Is this lib reliable? https://github.com/armanozak/should-quote
+    const shouldQuote = true; // TODO
+    const key = shouldQuote ? `'${propName}'` : propName;
+    parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 
   return `{
-  ${parts.join(',\n  ')}
+${indent(parts.join(',\n'))}
 }`;
 };
 
@@ -158,10 +169,12 @@ export default async function loadRoutes(
 
   const routesConfig = `
 ${RoutesImportsCode}
+
 export default [
-${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},
-${NotFoundRouteCode}
-];\n`;
+${indent(`${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},`)}
+${indent(NotFoundRouteCode)}
+];
+`;
 
   return {
     registry,
