@@ -59,15 +59,6 @@
   font-weight: var(--ifm-button-font-weight);
 }
 
-html[data-theme='dark'] .backButton {
-  background-color: #2e333a;
-}
-
-html[data-theme='dark'] .backButton:hover,
-html[data-theme='dark'] .backButton:focus {
-  background-color: var(--ifm-color-emphasis-200);
-}
-
 .docSidebarSecondaryMenu {
   padding-top: 0 !important;
 }
