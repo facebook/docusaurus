@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
+import React, {useEffect, memo} from 'react';
 import clsx from 'clsx';
-import {isSamePath, usePrevious} from '@docusaurus/theme-common';
+import {
+  isSamePath,
+  usePrevious,
+  useCollapsible,
+} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/IconExternalLink';
@@ -62,6 +66,25 @@ export default function DocSidebarItem({item, ...props}: Props): JSX.Element {
   }
 }
 
+// If we navigate to a category and it becomes active, it should automatically expand itself
+function useAutoExpandActiveCategory({
+  isActive,
+  collapsed,
+  setCollapsed,
+}: {
+  isActive: boolean;
+  collapsed: boolean;
+  setCollapsed: (b: boolean) => void;
+}) {
+  const wasActive = usePrevious(isActive);
+  useEffect(() => {
+    const justBecameActive = isActive && !wasActive;
+    if (justBecameActive && collapsed) {
+      setCollapsed(false);
+    }
+  }, [isActive, wasActive, collapsed]);
+}
+
 function DocSidebarItemCategory({
   item,
   onItemClick,
@@ -72,47 +95,24 @@ function DocSidebarItemCategory({
   const {items, label} = item;
 
   const isActive = isActiveSidebarItem(item, activePath);
-  const wasActive = usePrevious(isActive);
 
-  // active categories are always initialized as expanded
-  // the default (item.collapsed) is only used for non-active categories
-  const [collapsed, setCollapsed] = useState(() => {
-    if (!collapsible) {
-      return false;
-    }
-    return isActive ? false : item.type === 'category' && item.collapsed;
+  const {
+    collapsed,
+    setCollapsed,
+    getToggleProps,
+    getCollapsibleProps,
+  } = useCollapsible({
+    // active categories are always initialized as expanded
+    // the default (item.collapsed) is only used for non-active categories
+    initialState: () => {
+      if (!collapsible) {
+        return false;
+      }
+      return isActive ? false : item.collapsed ?? true;
+    },
   });
 
-  const menuListRef = useRef<HTMLUListElement>(null);
-  const [menuListHeight, setMenuListHeight] = useState<string | undefined>(
-    undefined,
-  );
-  const handleMenuListHeight = (calc = true) => {
-    setMenuListHeight(
-      calc ? `${menuListRef.current?.scrollHeight}px` : undefined,
-    );
-  };
-
-  // If we navigate to a category, it should automatically expand itself
-  useEffect(() => {
-    const justBecameActive = isActive && !wasActive;
-    if (justBecameActive && collapsed) {
-      setCollapsed(false);
-    }
-  }, [isActive, wasActive, collapsed]);
-
-  const handleItemClick = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      if (!menuListHeight) {
-        handleMenuListHeight();
-      }
-
-      setTimeout(() => setCollapsed((state) => !state), 100);
-    },
-    [menuListHeight],
-  );
+  useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
 
   if (items.length === 0) {
     return null;
@@ -130,22 +130,13 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? handleItemClick : undefined}
+        {...getToggleProps()}
         href={collapsible ? '#' : undefined}
         {...props}>
         {label}
       </a>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{
-          height: menuListHeight,
-        }}
-        onTransitionEnd={() => {
-          if (!collapsed) {
-            handleMenuListHeight(false);
-          }
-        }}>
+
+      <ul className="menu__list" {...getCollapsibleProps()}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? -1 : 0}
