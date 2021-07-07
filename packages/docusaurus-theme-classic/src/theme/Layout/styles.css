@@ -10,6 +10,13 @@ body {
   height: 100%;
 }
 
+html[data-theme='light'] {
+  color-scheme: light;
+}
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 #__docusaurus {
   min-height: 100%;
   display: flex;
