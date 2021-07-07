@@ -30,7 +30,7 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
       )}>
       <button
         type="button"
-        className={styles.tocCollapsibleButton}
+        className={clsx('clean-btn', styles.tocCollapsibleButton)}
         {...getToggleProps()}>
         <Translate
           id="theme.TOCCollapsible.toggleButtonLabel"
@@ -39,9 +39,7 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
         </Translate>
       </button>
 
-      <div
-        className={clsx(styles.tocCollapsibleContent)}
-        {...getCollapsibleProps()}>
+      <div className={styles.tocCollapsibleContent} {...getCollapsibleProps()}>
         <TOCHeadings toc={toc} />
       </div>
     </div>

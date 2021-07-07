@@ -11,15 +11,12 @@
 }
 
 .tocCollapsibleButton {
-  background: none;
-  border: none;
   font-size: inherit;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem 0.8rem;
   width: 100%;
-  color: inherit;
 }
 
 .tocCollapsibleButton:after {
@@ -30,11 +27,6 @@
   width: 1.25rem;
   transform: rotate(180deg);
   transition: transform var(--ifm-transition-fast);
-}
-
-.tocCollapsibleContent {
-  height: 0;
-  overflow: hidden;
 }
 
 .tocCollapsibleContent > ul {
@@ -50,8 +42,4 @@
 
 .tocCollapsibleExpanded .tocCollapsibleButton:after {
   transform: none;
-}
-
-.tocCollapsibleExpanded .tocCollapsibleContent {
-  height: auto;
 }
