@@ -68,6 +68,6 @@ html[data-theme='dark'] .backButton:focus {
   background-color: var(--ifm-color-emphasis-200);
 }
 
-.docSidebarMenu {
+.docSidebarSecondaryMenu {
   padding-top: 0 !important;
 }

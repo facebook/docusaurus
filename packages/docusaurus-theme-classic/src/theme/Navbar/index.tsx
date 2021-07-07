@@ -7,7 +7,7 @@
 
 import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
-
+import Translate from '@docusaurus/Translate';
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
@@ -108,12 +108,16 @@ function NavbarMobileSidebar({
           </ul>
         </div>
 
-        <div className={styles.docSidebarMenu}>
+        <div className={styles.docSidebarSecondaryMenu}>
           <button
             type="button"
             className={clsx('clean-btn', styles.backButton)}
             onClick={() => setMainMenuShown(true)}>
-            ← Back to main menu
+            <Translate
+              id="theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel"
+              description="The label of the navbar sidebar (mobile) when displaying">
+              ← Back to main menu
+            </Translate>
           </button>
 
           {mobileSecondaryMenuContent}

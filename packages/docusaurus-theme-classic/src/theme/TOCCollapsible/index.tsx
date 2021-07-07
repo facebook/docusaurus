@@ -7,6 +7,7 @@
 
 import React, {useRef} from 'react';
 import clsx from 'clsx';
+import Translate from '@docusaurus/Translate';
 import useCollapse from '@theme/hooks/useCollapse';
 import styles from './styles.module.css';
 import {TOCHeadings} from '@theme/TOC';
@@ -29,7 +30,11 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
         type="button"
         className={styles.tocCollapsibleButton}
         onClick={() => setCollapsed(!collapsed)}>
-        Contents of this page
+        <Translate
+          id="theme.TOCCollapsible.toggleButtonLabel"
+          description="The label used by the button on the collapsible TOC component">
+          On this page
+        </Translate>
       </button>
 
       <div ref={tocRef} className={clsx(styles.tocCollapsibleContent)}>
