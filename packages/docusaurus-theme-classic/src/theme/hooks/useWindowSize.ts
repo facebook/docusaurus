@@ -10,8 +10,6 @@ import {useEffect, useState} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {WindowSize} from '@theme/hooks/useWindowSize';
 
-const desktopThresholdWidth = 996;
-
 const windowSizes = {
   desktop: 'desktop',
   mobile: 'mobile',
@@ -23,34 +21,51 @@ const windowSizes = {
   ssr: 'ssr',
 } as const;
 
+const DesktopThresholdWidth = 996;
+
+function getWindowSize() {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return windowSizes.ssr;
+  }
+  return window.innerWidth > DesktopThresholdWidth
+    ? windowSizes.desktop
+    : windowSizes.mobile;
+}
+
+// Simulate the SSR window size in dev, so that potential hydration FOUC/layout shift problems can be seen in dev too!
+const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
+
 // This hook returns an enum value on purpose!
 // We don't want it to return the actual width value, for resize perf reasons
 // We only want to re-render once a breakpoint is crossed
 function useWindowSize(): WindowSize {
-  const isClient = ExecutionEnvironment.canUseDOM;
-
-  function getWindowSize() {
-    if (!isClient) {
-      return windowSizes.ssr;
+  const [windowSize, setWindowSize] = useState<WindowSize>(() => {
+    if (DevSimulateSSR) {
+      return 'ssr';
     }
-    return window.innerWidth > desktopThresholdWidth
-      ? windowSizes.desktop
-      : windowSizes.mobile;
-  }
-
-  const [windowSize, setWindowSize] = useState<WindowSize>(getWindowSize);
+    return getWindowSize();
+  });
 
   useEffect(() => {
-    if (!isClient) {
+    if (!ExecutionEnvironment.canUseDOM) {
       return undefined;
     }
 
-    function handleResize() {
+    function updateWindowSize() {
       setWindowSize(getWindowSize());
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // @ts-expect-error: annoying TS setTimeout typing...
+    const timeout: number | undefined = DevSimulateSSR
+      ? setTimeout(updateWindowSize, 1000)
+      : undefined;
+
+    window.addEventListener('resize', updateWindowSize);
+
+    return () => {
+      window.removeEventListener('resize', updateWindowSize);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return windowSize;
