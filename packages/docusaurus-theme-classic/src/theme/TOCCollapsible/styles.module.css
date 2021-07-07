@@ -40,6 +40,10 @@
   margin: 0.4rem 0.8rem;
 }
 
+.tocCollapsibleContent a {
+  display: block;
+}
+
 .tocCollapsibleExpanded .tocCollapsibleButton:after {
   transform: none;
 }
