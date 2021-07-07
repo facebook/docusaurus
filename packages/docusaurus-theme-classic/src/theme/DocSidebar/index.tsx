@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect, useRef, memo} from 'react';
+import React, {useState, useCallback, useEffect, memo} from 'react';
 import clsx from 'clsx';
 import {
   useThemeConfig,
@@ -80,18 +80,20 @@ function DocSidebarItemCategory({
   const isActive = isActiveSidebarItem(item, activePath);
   const wasActive = usePrevious(isActive);
 
-  // active categories are always initialized as expanded
-  // the default (item.collapsed) is only used for non-active categories
-  const [collapsed, setCollapsed] = useState(() => {
-    if (!collapsible) {
-      return false;
-    }
-    return isActive ? false : item.collapsed;
-  });
-  const menuListRef = useRef<HTMLUListElement>(null);
-  const {getToggleProps, getCollapseProps} = useCollapsible({
-    contentRef: menuListRef,
-    initiallyExpanded: !collapsed,
+  const {
+    collapsed,
+    setCollapsed,
+    getToggleProps,
+    getCollapsibleProps,
+  } = useCollapsible({
+    // active categories are always initialized as expanded
+    // the default (item.collapsed) is only used for non-active categories
+    initialState: () => {
+      if (!collapsible) {
+        return false;
+      }
+      return isActive ? false : item.collapsed;
+    },
   });
 
   // If we navigate to a category, it should automatically expand itself
@@ -119,13 +121,12 @@ function DocSidebarItemCategory({
           [styles.menuLinkText]: !collapsible,
         })}
         href={collapsible ? '#' : undefined}
-        {...getToggleProps({
-          onClick: () => setCollapsed((currentCollapsed) => !currentCollapsed),
-        })}
+        {...getToggleProps()}
         {...props}>
         {label}
       </a>
-      <ul className="menu__list" ref={menuListRef} {...getCollapseProps()}>
+
+      <ul className="menu__list" {...getCollapsibleProps()}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? '-1' : '0'}

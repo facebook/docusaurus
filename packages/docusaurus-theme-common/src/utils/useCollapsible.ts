@@ -9,12 +9,12 @@ import {
   useState,
   useEffect,
   useRef,
+  useCallback,
   RefObject,
   Dispatch,
   SetStateAction,
   CSSProperties,
   TransitionEvent,
-  MouseEvent,
 } from 'react';
 
 /*
@@ -28,40 +28,62 @@ function getAutoHeightDuration(height: number) {
 }
 
 export type UseCollapsibleConfig = {
+  initialState: boolean | (() => boolean);
   duration?: number;
   easing?: string;
-  initiallyExpanded?: boolean;
-  contentRef: RefObject<Element>;
 };
 
 export type UseCollapsibleReturns = {
-  isExpanded: boolean;
-  setExpanded: Dispatch<SetStateAction<boolean>>;
-  getCollapseProps(): {
+  collapsed: boolean;
+  setCollapsed: Dispatch<SetStateAction<boolean>>;
+  toggleCollapsed: () => void;
+
+  getToggleProps(): {
+    onClick?: () => void;
+  };
+
+  getCollapsibleProps(): {
+    ref: RefObject<any>; // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
     style: CSSProperties;
     onTransitionEnd: (e: TransitionEvent) => void;
   };
-  getToggleProps: (params: {
-    onClick?: () => void;
-  }) => {
-    onClick: (e: MouseEvent) => void;
-  };
 };
 
+const CollapsedStyles: CSSProperties = {
+  display: 'none',
+  overflow: 'hidden',
+  height: '0px',
+};
+
+const ExpandedStyles: CSSProperties = {
+  display: 'block',
+  overflow: 'visible',
+  height: 'auto',
+};
+
+function getCollapsedStyle(collapsed: boolean): CSSProperties {
+  return collapsed ? CollapsedStyles : ExpandedStyles;
+}
+
+/*
+This hook encapsulate the animated collapsible behavior
+You have to apply the getToggleProps + getCollapsibleProps wire everything
+Similar to other solutions in the React ecosystem, like Downshift for Selects
+ */
 export function useCollapsible({
+  initialState,
   duration,
   easing = 'ease-in-out',
-  initiallyExpanded,
-  contentRef,
 }: UseCollapsibleConfig): UseCollapsibleReturns {
-  const [isExpanded, setExpanded] = useState(initiallyExpanded ?? false);
-  const collapsedStyles = {
-    display: isExpanded ? 'block' : 'none',
-    overflow: isExpanded ? 'visible' : 'hidden',
-    height: isExpanded ? 'auto' : '0px',
-  };
-  const [styles, setStyles] = useState<CSSProperties>(collapsedStyles);
+  const contentRef = useRef<HTMLElement>(null);
+
+  const [collapsed, setCollapsed] = useState(initialState ?? false);
+
+  const [styles, setStyles] = useState<CSSProperties>(() =>
+    getCollapsedStyle(collapsed),
+  );
   const mounted = useRef(false);
+
   const getTransitionStyles = () => {
     const height = contentRef.current!.scrollHeight;
     const _duration = duration || getAutoHeightDuration(height);
@@ -78,7 +100,19 @@ export function useCollapsible({
       return;
     }
 
-    if (isExpanded) {
+    if (collapsed) {
+      requestAnimationFrame(() => {
+        setStyles(getTransitionStyles());
+
+        requestAnimationFrame(() => {
+          setStyles((oldStyles) => ({
+            ...oldStyles,
+            height: '0px',
+            overflow: 'hidden',
+          }));
+        });
+      });
+    } else {
       requestAnimationFrame(() => {
         setStyles((oldStyles) => ({
           ...oldStyles,
@@ -93,37 +127,30 @@ export function useCollapsible({
           }));
         });
       });
-    } else {
-      requestAnimationFrame(() => {
-        setStyles(getTransitionStyles());
-
-        requestAnimationFrame(() => {
-          setStyles((oldStyles) => ({
-            ...oldStyles,
-            height: '0px',
-            overflow: 'hidden',
-          }));
-        });
-      });
     }
-  }, [isExpanded]);
+  }, [collapsed]);
+
+  const toggleCollapsed = useCallback(() => {
+    setCollapsed((expanded) => !expanded);
+  }, []);
 
   return {
-    getCollapseProps: () => ({
+    collapsed,
+    setCollapsed,
+    toggleCollapsed,
+
+    getToggleProps: () => ({
+      onClick: toggleCollapsed,
+    }),
+
+    getCollapsibleProps: () => ({
+      ref: contentRef,
       style: styles,
       onTransitionEnd: (e) => {
         if (e.propertyName === 'height') {
-          setStyles(collapsedStyles);
+          setStyles(getCollapsedStyle(collapsed));
         }
       },
     }),
-    getToggleProps: ({onClick = (): void => {}}) => ({
-      onClick: () => {
-        onClick();
-        setExpanded((expanded) => !expanded);
-      },
-    }),
-    isExpanded,
-    setExpanded,
   };
 }
