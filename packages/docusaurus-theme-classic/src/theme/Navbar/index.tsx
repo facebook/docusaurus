@@ -111,10 +111,7 @@ function NavbarMobileSidebar({
         <div className={styles.docSidebarMenu}>
           <button
             type="button"
-            className={clsx(
-              'button button--secondary button--block margin-bottom--md ',
-              styles.backButton,
-            )}
+            className={clsx('clean-btn', styles.backButton)}
             onClick={() => setMainMenuShown(true)}>
             ← Back to main menu
           </button>

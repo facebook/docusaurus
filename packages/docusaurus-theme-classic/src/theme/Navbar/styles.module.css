@@ -51,12 +51,12 @@
 
 .backButton {
   width: calc(100% + 1rem);
-  margin-left: -0.5rem;
-  border-radius: 0;
+  margin: 0 0 0.7rem -0.5rem;
   text-align: left;
   font-size: 15px;
-  color: inherit !important;
-  border: none;
+  padding: 0.6rem 1.5rem;
+  background: var(--ifm-menu-color-background-active);
+  font-weight: var(--ifm-button-font-weight);
 }
 
 html[data-theme='dark'] .backButton {
