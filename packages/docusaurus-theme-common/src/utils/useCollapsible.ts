@@ -73,18 +73,18 @@ function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
 }
 
 function useCollapseAnimation({
-  contentRef,
+  collapsibleRef,
   collapsed,
   animation,
 }: {
-  contentRef: RefObject<HTMLElement>;
+  collapsibleRef: RefObject<HTMLElement>;
   collapsed: boolean;
   animation?: CollapsibleAnimationConfig;
 }) {
   const mounted = useRef(false);
 
   useEffect(() => {
-    const el = contentRef.current!;
+    const el = collapsibleRef.current!;
 
     function getTransitionStyles() {
       const height = el.scrollHeight;
@@ -132,7 +132,7 @@ function useCollapseAnimation({
     }
 
     return startAnimation();
-  }, [contentRef, collapsed, animation]);
+  }, [collapsibleRef, collapsed, animation]);
 }
 
 /*
@@ -144,7 +144,7 @@ export function useCollapsible({
   initialState,
   animation,
 }: UseCollapsibleConfig): UseCollapsibleReturns {
-  const contentRef = useRef<HTMLElement>(null);
+  const collapsibleRef = useRef<HTMLElement>(null);
 
   const [collapsed, setCollapsed] = useState(initialState ?? false);
 
@@ -152,7 +152,7 @@ export function useCollapsible({
     setCollapsed((expanded) => !expanded);
   }, []);
 
-  useCollapseAnimation({contentRef, collapsed, animation});
+  useCollapseAnimation({collapsibleRef, collapsed, animation});
 
   return {
     collapsed,
@@ -164,10 +164,10 @@ export function useCollapsible({
     }),
 
     getCollapsibleProps: () => ({
-      ref: contentRef,
+      ref: collapsibleRef,
       onTransitionEnd: (e) => {
         if (e.propertyName === 'height') {
-          applyCollapsedStyle(contentRef.current!, collapsed);
+          applyCollapsedStyle(collapsibleRef.current!, collapsed);
         }
       },
     }),
