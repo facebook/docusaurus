@@ -13,7 +13,6 @@ import {
   RefObject,
   Dispatch,
   SetStateAction,
-  CSSProperties,
   TransitionEvent,
 } from 'react';
 
@@ -27,10 +26,16 @@ function getAutoHeightDuration(height: number) {
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
 }
 
-export type UseCollapsibleConfig = {
-  initialState: boolean | (() => boolean);
+type CollapsibleAnimationConfig = {
   duration?: number;
   easing?: string;
+};
+
+const DefaultAnimationEasing = 'ease-in-out';
+
+export type UseCollapsibleConfig = {
+  initialState: boolean | (() => boolean);
+  animation?: CollapsibleAnimationConfig;
 };
 
 export type UseCollapsibleReturns = {
@@ -44,25 +49,90 @@ export type UseCollapsibleReturns = {
 
   getCollapsibleProps(): {
     ref: RefObject<any>; // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
-    style: CSSProperties;
     onTransitionEnd: (e: TransitionEvent) => void;
   };
 };
 
-const CollapsedStyles: CSSProperties = {
+const CollapsedStyles = {
   display: 'none',
   overflow: 'hidden',
   height: '0px',
-};
+} as const;
 
-const ExpandedStyles: CSSProperties = {
+const ExpandedStyles = {
   display: 'block',
   overflow: 'visible',
   height: 'auto',
-};
+} as const;
 
-function getCollapsedStyle(collapsed: boolean): CSSProperties {
-  return collapsed ? CollapsedStyles : ExpandedStyles;
+function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
+  const collapsedStyles = collapsed ? CollapsedStyles : ExpandedStyles;
+  el.style.display = collapsedStyles.display;
+  el.style.overflow = collapsedStyles.overflow;
+  el.style.height = collapsedStyles.height;
+}
+
+function useCollapseAnimation({
+  contentRef,
+  collapsed,
+  animation,
+}: {
+  contentRef: RefObject<HTMLElement>;
+  collapsed: boolean;
+  animation?: CollapsibleAnimationConfig;
+}) {
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    const el = contentRef.current!;
+
+    function getTransitionStyles() {
+      const height = el.scrollHeight;
+      const duration = animation?.duration ?? getAutoHeightDuration(height);
+      const easing = animation?.easing ?? DefaultAnimationEasing;
+      return {
+        transition: `height ${duration}ms ${easing}`,
+        height: `${height}px`,
+      };
+    }
+
+    function applyTransitionStyles() {
+      const transitionStyles = getTransitionStyles();
+      el.style.transition = transitionStyles.transition;
+      el.style.height = transitionStyles.height;
+    }
+
+    // On mount, we just apply styles, no animated transition
+    if (!mounted.current) {
+      applyCollapsedStyle(el, collapsed);
+      mounted.current = true;
+      return undefined;
+    }
+
+    el.style.willChange = 'height';
+
+    function startAnimation(): () => void {
+      // When collapsing
+      if (collapsed) {
+        applyTransitionStyles();
+        const animationFrame = requestAnimationFrame(() => {
+          el.style.height = CollapsedStyles.height;
+          el.style.overflow = CollapsedStyles.overflow;
+        });
+        return () => cancelAnimationFrame(animationFrame);
+      }
+      // When expanding
+      else {
+        el.style.display = 'block';
+        const animationFrame = requestAnimationFrame(() => {
+          applyTransitionStyles();
+        });
+        return () => cancelAnimationFrame(animationFrame);
+      }
+    }
+
+    return startAnimation();
+  }, [collapsed]);
 }
 
 /*
@@ -72,67 +142,17 @@ Similar to other solutions in the React ecosystem, like Downshift for Selects
  */
 export function useCollapsible({
   initialState,
-  duration,
-  easing = 'ease-in-out',
+  animation,
 }: UseCollapsibleConfig): UseCollapsibleReturns {
   const contentRef = useRef<HTMLElement>(null);
 
   const [collapsed, setCollapsed] = useState(initialState ?? false);
 
-  const [styles, setStyles] = useState<CSSProperties>(() =>
-    getCollapsedStyle(collapsed),
-  );
-  const mounted = useRef(false);
-
-  const getTransitionStyles = () => {
-    const height = contentRef.current!.scrollHeight;
-    const _duration = duration || getAutoHeightDuration(height);
-
-    return {
-      transition: `height ${_duration}ms ${easing}`,
-      height: `${height}px`,
-    };
-  };
-
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
-    }
-
-    if (collapsed) {
-      requestAnimationFrame(() => {
-        setStyles(getTransitionStyles());
-
-        requestAnimationFrame(() => {
-          setStyles((oldStyles) => ({
-            ...oldStyles,
-            height: '0px',
-            overflow: 'hidden',
-          }));
-        });
-      });
-    } else {
-      requestAnimationFrame(() => {
-        setStyles((oldStyles) => ({
-          ...oldStyles,
-          display: 'block',
-          willChange: 'height',
-        }));
-
-        requestAnimationFrame(() => {
-          setStyles((oldStyles) => ({
-            ...oldStyles,
-            ...getTransitionStyles(),
-          }));
-        });
-      });
-    }
-  }, [collapsed]);
-
   const toggleCollapsed = useCallback(() => {
     setCollapsed((expanded) => !expanded);
   }, []);
+
+  useCollapseAnimation({contentRef, collapsed, animation});
 
   return {
     collapsed,
@@ -145,10 +165,9 @@ export function useCollapsible({
 
     getCollapsibleProps: () => ({
       ref: contentRef,
-      style: styles,
       onTransitionEnd: (e) => {
         if (e.propertyName === 'height') {
-          setStyles(getCollapsedStyle(collapsed));
+          applyCollapsedStyle(contentRef.current!, collapsed);
         }
       },
     }),
