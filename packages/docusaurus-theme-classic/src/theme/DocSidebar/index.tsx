@@ -80,7 +80,7 @@ function DocSidebarDesktop({
       })}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <nav
-        className={clsx('thin-scrollbar', styles.menu, {
+        className={clsx('menu thin-scrollbar', styles.menu, {
           [styles.menuWithAnnouncementBar]:
             !isAnnouncementBarClosed && showAnnouncementBar,
         })}>
