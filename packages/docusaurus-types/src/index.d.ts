@@ -249,7 +249,7 @@ export interface Plugin<Content = unknown> {
   injectHtmlTags?({
     content,
   }: {
-    content: Content,
+    content: Content;
   }): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
