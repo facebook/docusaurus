@@ -124,6 +124,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         // Using a symlinked folder as source, test against https://github.com/facebook/docusaurus/issues/3272
         path: 'dogfooding/docs-tests-symlink',
         routeBasePath: 'docs-tests',
+        sidebarPath: 'dogfooding/docs-tests-sidebars.js',
       },
     ],
 

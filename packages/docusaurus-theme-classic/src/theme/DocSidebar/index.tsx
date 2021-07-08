@@ -58,9 +58,13 @@ const DocSidebarItems = memo(function DocSidebarItems({
   ));
 });
 
-function DocSidebarItem(props): JSX.Element {
+function DocSidebarItem(props): JSX.Element | null {
   switch (props.item.type) {
     case 'category':
+      // Never render empty categories
+      if (props.item.items.length === 0) {
+        return null;
+      }
       return <DocSidebarItemCategory {...props} />;
     case 'link':
     default:
@@ -103,10 +107,6 @@ function DocSidebarItemCategory({
       setCollapsed(false);
     }
   }, [isActive, wasActive, collapsed]);
-
-  if (items.length === 0) {
-    return null;
-  }
 
   return (
     <li
