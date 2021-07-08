@@ -1202,6 +1202,14 @@ const Users = [
     source: 'https://github.com/livekit/livekit-docs',
     tags: ['opensource', 'product', 'design']
   },
+  {
+    title: 'Zowe',
+    description: 'Open source framework for leveraging data and applications in z/OS',
+    preview: require('./showcase/zowe.png'),
+    website: 'https://docs.zowe.org',
+    source: 'https://github.com/zowe/docs-site',
+    tags: ['opensource', 'product', 'large', 'design', 'versioning']
+  },
 ];
 
 export const TagList = Object.keys(Tags);
