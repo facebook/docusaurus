@@ -23,13 +23,9 @@
   .lastUpdated {
     text-align: right;
   }
-}
 
-@media only screen and (min-width: 997px) {
-  /* prevent hydration fouc, as the mobile TOC needs to be server-rendered */
+  /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
   .tocMobile {
     display: none;
   }
 }
-
-

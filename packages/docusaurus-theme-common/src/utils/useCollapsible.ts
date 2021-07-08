@@ -17,7 +17,7 @@ import {
 } from 'react';
 
 /*
-Lex111: Dynamic transition duration is used in Material deisign, this technique is good for a large number of items.
+Lex111: Dynamic transition duration is used in Material design, this technique is good for a large number of items.
 https://material.io/archive/guidelines/motion/duration-easing.html#duration-easing-dynamic-durations
 https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf050c/packages/material-ui/src/styles/createTransitions.js#L40-L43
  */
