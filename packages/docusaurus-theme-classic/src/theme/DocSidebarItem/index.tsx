@@ -56,9 +56,15 @@ export const DocSidebarItems = memo(function DocSidebarItems({
   );
 });
 
-export default function DocSidebarItem({item, ...props}: Props): JSX.Element {
+export default function DocSidebarItem({
+  item,
+  ...props
+}: Props): JSX.Element | null {
   switch (item.type) {
     case 'category':
+      if (item.items.length === 0) {
+        return null;
+      }
       return <DocSidebarItemCategory item={item} {...props} />;
     case 'link':
     default:
@@ -113,10 +119,6 @@ function DocSidebarItemCategory({
   });
 
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
-
-  if (items.length === 0) {
-    return null;
-  }
 
   return (
     <li
