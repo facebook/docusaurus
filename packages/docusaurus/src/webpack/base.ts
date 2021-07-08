@@ -139,6 +139,7 @@ export function createBaseConfig(
     resolve: {
       unsafeCache: false, // not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      symlinks: false,
       roots: [
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
         // See https://webpack.js.org/configuration/resolve/#resolveroots

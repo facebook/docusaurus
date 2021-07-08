@@ -117,6 +117,16 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       },
     ],
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'docs-tests',
+        path: 'dogfooding/docs-tests-symlink',
+        routeBasePath: 'docs-tests',
+        // sidebarPath: require.resolve('./sidebarsCommunity.js'),
+      },
+    ],
+
+    [
       '@docusaurus/plugin-content-blog',
       {
         id: 'second-blog',
