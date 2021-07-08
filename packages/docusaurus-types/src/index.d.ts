@@ -247,6 +247,8 @@ export interface Plugin<Content = unknown> {
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
   injectHtmlTags?({
+    content,
+  }: {
     content: Content,
   }): {
     headTags?: HtmlTags;
