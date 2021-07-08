@@ -126,7 +126,7 @@ Although we highly discourage swizzling of all components, if you wish to do tha
 npm run swizzle @docusaurus/theme-classic
 ```
 
-**Note**: You need to restart your webpack dev server in order for Docusaurus to know about the new component.
+**Note**: You need to restart your webpack dev server and clear cache (`docusaurus clear`) in order for Docusaurus to know about the new component.
 
 ## Wrapping theme components {#wrapping-theme-components}
 
