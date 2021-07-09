@@ -183,7 +183,7 @@ function CollapsibleBase({
 }
 
 function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(!collapsed);
 
   useLayoutEffect(() => {
     if (!collapsed) {
