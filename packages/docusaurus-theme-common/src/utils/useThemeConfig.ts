@@ -103,6 +103,7 @@ export type ThemeConfig = {
   hideableSidebar: boolean;
   image: string;
   metadatas: Array<Record<string, string>>;
+  sidebarCollapsible: boolean;
 };
 
 export function useThemeConfig(): ThemeConfig {

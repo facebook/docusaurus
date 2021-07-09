@@ -40,7 +40,6 @@ function createSampleVersion(
     versionLabel: `${version.versionName} label`,
     versionPath: '/docs/',
     mainDocId: '',
-    permalinkToSidebar: {},
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,

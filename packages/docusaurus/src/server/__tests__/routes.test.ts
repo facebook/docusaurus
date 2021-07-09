@@ -25,6 +25,7 @@ describe('loadRoutes', () => {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
           },
+          sidebar: 'main',
         },
         {
           path: 'docs/foo/baz',
@@ -33,6 +34,7 @@ describe('loadRoutes', () => {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
           },
+          sidebar: 'secondary',
         },
       ],
     };

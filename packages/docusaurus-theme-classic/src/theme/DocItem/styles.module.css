@@ -23,4 +23,9 @@
   .lastUpdated {
     text-align: right;
   }
+
+  /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
+  .tocMobile {
+    display: none;
+  }
 }

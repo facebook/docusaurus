@@ -346,6 +346,7 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
+  [propName: string]: any;
 }
 
 // Aliases used for Webpack resolution (when using docusaurus swizzle)

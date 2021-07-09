@@ -149,10 +149,12 @@ ${logKeys(unknownMessages)}`),
 
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
+      const codeTranslation = codeExtractedTranslations[key];
       return {
         ...acc,
-        [`${key}${DescriptionSuffix}`]: codeExtractedTranslations[key]
-          .description,
+        [`${key}${DescriptionSuffix}`]: codeTranslation
+          ? codeTranslation.description
+          : undefined,
       };
     },
     {},

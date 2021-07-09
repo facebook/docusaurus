@@ -6,18 +6,21 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
+
+import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
+import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
 import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
+import TOCCollapsible from '@theme/TOCCollapsible';
 import EditThisPage from '@theme/EditThisPage';
 import {MainHeading} from '@theme/Heading';
 
-import clsx from 'clsx';
 import styles from './styles.module.css';
-import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -51,6 +54,18 @@ function DocItem(props: Props): JSX.Element {
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
+  const windowSize = useWindowSize();
+
+  const renderTocMobile =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === 'mobile' || windowSize === 'ssr');
+
+  const renderTocDesktop =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === 'desktop' || windowSize === 'ssr');
+
   return (
     <>
       <Seo {...{title, description, keywords, image}} />
@@ -67,6 +82,13 @@ function DocItem(props: Props): JSX.Element {
                 <span className="badge badge--secondary">
                   Version: {versionMetadata.label}
                 </span>
+              )}
+
+              {renderTocMobile && (
+                <TOCCollapsible
+                  toc={DocContent.toc}
+                  className={styles.tocMobile}
+                />
               )}
 
               <div className="markdown">
@@ -102,7 +124,7 @@ function DocItem(props: Props): JSX.Element {
             <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {!hideTableOfContents && DocContent.toc && (
+        {renderTocDesktop && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>

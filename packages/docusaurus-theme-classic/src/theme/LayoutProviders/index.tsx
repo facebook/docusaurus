@@ -11,6 +11,7 @@ import UserPreferencesProvider from '@theme/UserPreferencesProvider';
 import {
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
+  MobileSecondaryMenuProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
 
@@ -20,7 +21,9 @@ export default function LayoutProviders({children}: Props): JSX.Element {
       <AnnouncementBarProvider>
         <UserPreferencesProvider>
           <DocsPreferredVersionContextProvider>
-            {children}
+            <MobileSecondaryMenuProvider>
+              {children}
+            </MobileSecondaryMenuProvider>
           </DocsPreferredVersionContextProvider>
         </UserPreferencesProvider>
       </AnnouncementBarProvider>

@@ -37,7 +37,6 @@ import {
   DocFile,
   DocsMarkdownOption,
 } from './types';
-import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
@@ -224,14 +223,6 @@ export default function pluginContentDocs(
         // sort to ensure consistent output for tests
         docs.sort((a, b) => a.id.localeCompare(b.id));
 
-        // TODO really useful? replace with global state logic?
-        const permalinkToSidebar: PermalinkToSidebar = {};
-        Object.values(docs).forEach((doc) => {
-          if (doc.sidebar) {
-            permalinkToSidebar[doc.permalink] = doc.sidebar;
-          }
-        });
-
         // The "main doc" is the "version entry point"
         // We browse this doc by clicking on a version:
         // - the "home" doc (at '/docs/')
@@ -256,7 +247,6 @@ export default function pluginContentDocs(
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
-          permalinkToSidebar,
           docs: docs.map(addNavData),
         };
       }
@@ -300,30 +290,36 @@ export default function pluginContentDocs(
               JSON.stringify(metadataItem, null, 2),
             );
 
-            return {
+            const docRoute: RouteConfig = {
               path: metadataItem.permalink,
               component: docItemComponent,
               exact: true,
               modules: {
                 content: metadataItem.source,
               },
+              // Because the parent (DocPage) comp need to access it easily
+              // This permits to render the sidebar once without unmount/remount when navigating (and preserve sidebar state)
+              ...(metadataItem.sidebar && {
+                sidebar: metadataItem.sidebar,
+              }),
             };
+
+            return docRoute;
           }),
         );
 
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
-      async function doCreateVersionRoutes(loadedVersion: LoadedVersion) {
+      async function doCreateVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
+        const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
           )}.json`,
-          JSON.stringify(
-            toVersionMetadataProp(pluginId, loadedVersion),
-            null,
-            2,
-          ),
+          JSON.stringify(versionMetadata, null, 2),
         );
 
         addRoute({
@@ -341,7 +337,9 @@ export default function pluginContentDocs(
         });
       }
 
-      async function createVersionRoutes(loadedVersion: LoadedVersion) {
+      async function createVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
         try {
           return await doCreateVersionRoutes(loadedVersion);
         } catch (e) {

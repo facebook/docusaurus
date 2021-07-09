@@ -10,10 +10,6 @@
 declare module '@docusaurus/plugin-content-docs-types' {
   import type {VersionBanner} from './types';
 
-  export type PermalinkToSidebar = {
-    [permalink: string]: string;
-  };
-
   export type PropVersionMetadata = {
     pluginId: string;
     version: string;
@@ -21,7 +17,6 @@ declare module '@docusaurus/plugin-content-docs-types' {
     banner: VersionBanner;
     isLast: boolean;
     docsSidebars: PropSidebars;
-    permalinkToSidebar: PermalinkToSidebar;
   };
 
   type PropsSidebarItemBase = {
@@ -60,6 +55,7 @@ declare module '@theme/DocItem' {
     readonly component: () => JSX.Element;
     readonly exact: boolean;
     readonly path: string;
+    readonly sidebar?: string;
   };
 
   export type FrontMatter = {

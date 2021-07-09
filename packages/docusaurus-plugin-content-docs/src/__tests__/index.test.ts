@@ -105,9 +105,6 @@ Entries created:
         `version-${kebabCase(version.versionName)}-metadata-prop`,
       );
       expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
-      expect(versionMetadataProp.permalinkToSidebar).toEqual(
-        version.permalinkToSidebar,
-      );
     },
 
     expectSnapshot: () => {

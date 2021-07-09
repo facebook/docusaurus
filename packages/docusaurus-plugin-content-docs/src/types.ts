@@ -239,7 +239,6 @@ export type LoadedVersion = VersionMetadata & {
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
-  permalinkToSidebar: Record<string, string>;
 };
 
 export type LoadedContent = {
