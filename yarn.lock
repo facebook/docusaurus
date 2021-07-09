@@ -1287,10 +1287,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@crowdin/cli@^3.5.2", "@crowdin/cli@^3.5.3":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.6.1.tgz#3422536781be49808ab6abda8bb17cb29df01dbb"
-  integrity sha512-RUKFrPCX3R1MJPyRpBSqWFwmjbDlVWLHtXAzx2FPeyjnyMXrXLPJ8YEl4t8YU+96q/0t46qTdmMLeQmYyDEvGQ==
+"@crowdin/cli@^3.5.2", "@crowdin/cli@^3.6.4":
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.6.4.tgz#37e872fbbc85fdfb55e8deba4e35d4393a802aad"
+  integrity sha512-kFqTf1dFhtSMfF4YWyJ6EAKjjtBEVtHhX2f9cBYc8I51KMTFIOzqeArKFL2qhhq/1Ition2wuE1z7ySwA341+w==
   dependencies:
     shelljs "^0.8.4"
 
