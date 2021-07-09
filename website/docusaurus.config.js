@@ -310,6 +310,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     liveCodeBlock: {
       playgroundPosition: 'bottom',
     },
+    sidebarCollapsible: true,
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',

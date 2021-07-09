@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import {
   isSamePath,
   usePrevious,
+  Collapsible,
   useCollapsible,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
@@ -102,12 +103,7 @@ function DocSidebarItemCategory({
 
   const isActive = isActiveSidebarItem(item, activePath);
 
-  const {
-    collapsed,
-    setCollapsed,
-    getToggleProps,
-    getCollapsibleProps,
-  } = useCollapsible({
+  const {collapsed, setCollapsed, toggleCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
     // the default (item.collapsed) is only used for non-active categories
     initialState: () => {
@@ -132,13 +128,13 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        {...getToggleProps()}
+        onClick={collapsible ? toggleCollapsed : undefined}
         href={collapsible ? '#' : undefined}
         {...props}>
         {label}
       </a>
 
-      <ul className="menu__list" {...getCollapsibleProps()}>
+      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? -1 : 0}
@@ -146,7 +142,7 @@ function DocSidebarItemCategory({
           collapsible={collapsible}
           activePath={activePath}
         />
-      </ul>
+      </Collapsible>
     </li>
   );
 }
