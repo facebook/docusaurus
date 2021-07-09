@@ -105,7 +105,7 @@ export function MobileSecondaryMenuFiller<
 
   useEffect(() => {
     return () => setState(null);
-  }, [setState, component]);
+  }, [setState]);
 
   return null;
 }
