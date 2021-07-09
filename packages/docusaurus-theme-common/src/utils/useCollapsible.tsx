@@ -14,6 +14,7 @@ import React, {
   Dispatch,
   SetStateAction,
   ReactNode,
+  useLayoutEffect,
 } from 'react';
 
 const DefaultAnimationEasing = 'ease-in-out';
@@ -146,19 +147,21 @@ type CollapsibleElementType = React.ElementType<
   Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd'>
 >;
 
-export function Collapsible({
+type CollapsibleBaseProps = {
+  as?: CollapsibleElementType;
+  collapsed: boolean;
+  children: ReactNode;
+  animation?: CollapsibleAnimationConfig;
+  className?: string;
+};
+
+function CollapsibleBase({
   as: As = 'div',
   collapsed,
   children,
   animation,
   className,
-}: {
-  as?: CollapsibleElementType; // TODO better typing, allow any html element (keyof JSX.IntrinsicElement => not working)
-  collapsed: boolean;
-  children: ReactNode;
-  animation?: CollapsibleAnimationConfig;
-  className?: string;
-}) {
+}: CollapsibleBaseProps) {
   // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
   const collapsibleRef = useRef<any>(null);
 
@@ -177,4 +180,40 @@ export function Collapsible({
       {children}
     </As>
   );
+}
+
+// A collapsible that will delay rendering its children until the first expansion
+// The expansion animation should still work
+// This permits to avoid rendering useless
+function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!collapsed) {
+      setMounted(true);
+    }
+  }, [collapsed]);
+
+  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
+  useLayoutEffect(() => {
+    if (mounted) {
+      setLazyCollapsed(collapsed);
+    }
+  }, [mounted, collapsed]);
+
+  return mounted ? (
+    <CollapsibleBase {...props} collapsed={lazyCollapsed} />
+  ) : null;
+}
+
+type CollapsibleProps = CollapsibleBaseProps & {
+  // Lazy allows to delay the rendering when collapsed => it will render children only after hydration, on first expansion
+  // Required prop: it forces to think if content should be server-rendered or not!
+  // This has perf impact on the SSR output and html file sizes
+  lazy: boolean;
+};
+
+export function Collapsible({lazy, ...props}: CollapsibleProps) {
+  const Comp = lazy ? CollapsibleLazy : CollapsibleBase;
+  return <Comp {...props} />;
 }
