@@ -182,9 +182,6 @@ function CollapsibleBase({
   );
 }
 
-// A collapsible that will delay rendering its children until the first expansion
-// The expansion animation should still work
-// This permits to avoid rendering useless
 function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -194,6 +191,7 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
     }
   }, [collapsed]);
 
+  // lazyCollapsed updated in effect so that the first expansion transition can work
   const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
   useLayoutEffect(() => {
     if (mounted) {
@@ -210,6 +208,7 @@ type CollapsibleProps = CollapsibleBaseProps & {
   // Lazy allows to delay the rendering when collapsed => it will render children only after hydration, on first expansion
   // Required prop: it forces to think if content should be server-rendered or not!
   // This has perf impact on the SSR output and html file sizes
+  // See https://github.com/facebook/docusaurus/issues/4753
   lazy: boolean;
 };
 
