@@ -97,13 +97,8 @@ function NavbarMobileSidebar({
         })}>
         <div className="menu">
           <ul className="menu__list">
-            {items.map((item, i) => (
-              <NavbarItem
-                mobile
-                {...(item as any)} // TODO fix typing
-                onClick={toggleSidebar}
-                key={i}
-              />
+            {(items as NavbarItemConfig[]).map((item, i) => (
+              <NavbarItem mobile {...item} onClick={toggleSidebar} key={i} />
             ))}
           </ul>
         </div>
