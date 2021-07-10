@@ -196,16 +196,16 @@ describe('validateDocFrontMatter sidebar_position', () => {
   testField({
     fieldName: 'sidebar_position',
     validFrontMatters: [
+      {sidebar_position: -5},
+      {sidebar_position: -3.5},
       {sidebar_position: 0},
       {sidebar_position: 5},
       {sidebar_position: 3.5},
     ],
     convertibleFrontMatter: [
+      [{sidebar_position: '-1.5'}, {sidebar_position: -1.5}],
       [{sidebar_position: '1'}, {sidebar_position: 1}],
       [{sidebar_position: '1.5'}, {sidebar_position: 1.5}],
-    ],
-    invalidFrontMatters: [
-      [{sidebar_position: -1}, 'must be greater than or equal to 0'],
     ],
   });
 });

@@ -116,7 +116,7 @@ export async function loadContext(
     siteConfig,
     siteConfigPath,
     outDir,
-    baseUrl,
+    baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
     i18n,
     ssrTemplate,
     codeTranslations,

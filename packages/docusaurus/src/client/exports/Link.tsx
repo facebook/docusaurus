@@ -42,7 +42,7 @@ function Link({
   ...props
 }: LinkProps): JSX.Element {
   const {
-    siteConfig: {trailingSlash},
+    siteConfig: {trailingSlash, baseUrl},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
@@ -80,7 +80,7 @@ function Link({
       : undefined;
 
   if (targetLink && isInternal) {
-    targetLink = applyTrailingSlash(targetLink, trailingSlash);
+    targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
   }
 
   const preloaded = useRef(false);

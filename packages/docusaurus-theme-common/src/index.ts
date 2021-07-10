@@ -37,6 +37,19 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {usePrevious} from './utils/usePrevious';
 
+export {useCollapsible, Collapsible} from './utils/useCollapsible';
+export type {
+  UseCollapsibleConfig,
+  UseCollapsibleReturns,
+} from './utils/useCollapsible';
+
+export {
+  MobileSecondaryMenuProvider,
+  MobileSecondaryMenuFiller,
+  useMobileSecondaryMenuRenderer,
+} from './utils/mobileSecondaryMenu';
+export type {MobileSecondaryMenuComponent} from './utils/mobileSecondaryMenu';
+
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,

@@ -40,6 +40,7 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  sidebarCollapsible: true,
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -309,6 +310,7 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  sidebarCollapsible: Joi.bool().default(DEFAULT_CONFIG.sidebarCollapsible),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

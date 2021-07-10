@@ -180,7 +180,7 @@ export interface LoadContext {
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
   outDir: string;
-  baseUrl: string;
+  baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
   ssrTemplate?: string;
   codeTranslations: Record<string, string>;
@@ -198,7 +198,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
   routesPaths: string[];
-  plugins: LoadedPlugin<unknown>[];
+  plugins: LoadedPlugin[];
 }
 
 export interface PluginContentLoadedActions {
@@ -219,7 +219,7 @@ export type AllContent = Record<
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
-export interface Plugin<Content> {
+export interface Plugin<Content = unknown> {
   name: string;
   loadContent?(): Promise<Content>;
   contentLoaded?({
@@ -247,7 +247,9 @@ export interface Plugin<Content> {
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
   injectHtmlTags?({
-    content: Content,
+    content,
+  }: {
+    content: Content;
   }): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
@@ -283,12 +285,14 @@ export interface Plugin<Content> {
   }): ThemeConfig;
 }
 
-export type InitializedPlugin = Plugin<unknown> & {
+export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly options: PluginOptions;
   readonly version: DocusaurusPluginVersionInformation;
 };
 
-export type LoadedPlugin = InitializedPlugin & {readonly content: unknown};
+export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
+  readonly content: Content;
+};
 
 export type PluginModule = {
   <T, X>(context: LoadContext, options: T): Plugin<X>;
@@ -342,6 +346,7 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
+  [propName: string]: any;
 }
 
 // Aliases used for Webpack resolution (when using docusaurus swizzle)

@@ -456,11 +456,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"docs\\",
-    \\"/docs/foo/bazSlug.html\\": \\"docs\\",
-    \\"/docs/\\": \\"docs\\"
   }
 }",
 }
@@ -575,6 +570,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -591,6 +587,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -599,6 +596,7 @@ Array [
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -883,9 +881,6 @@ Object {
         \\"href\\": \\"/community/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/team\\": \\"version-1.0.0/community\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -902,9 +897,6 @@ Object {
         \\"href\\": \\"/community/next/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/next/team\\": \\"community\\"
   }
 }",
 }
@@ -968,6 +960,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
+        "sidebar": "community",
       },
     ],
   },
@@ -987,6 +980,7 @@ Array [
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
         "path": "/community/team",
+        "sidebar": "version-1.0.0/community",
       },
     ],
   },
@@ -1439,11 +1433,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/1.0.0/foo/barSlug\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/foo/baz\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/\\": \\"version-1.0.0/docs\\"
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
@@ -1479,10 +1468,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"version-1.0.1/docs\\",
-    \\"/docs/\\": \\"version-1.0.1/docs\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -1518,10 +1503,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/next/foo/barSlug\\": \\"docs\\",
-    \\"/docs/next/\\": \\"docs\\"
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
@@ -1545,9 +1526,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/withSlugs/rootAbsoluteSlug\\": \\"version-1.0.1/docs\\"
   }
 }",
 }
@@ -1714,6 +1692,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
         "path": "/docs/1.0.0/",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1722,6 +1701,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1730,6 +1710,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
+        "sidebar": "version-1.0.0/docs",
       },
     ],
   },
@@ -1749,6 +1730,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/next/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1765,6 +1747,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1824,6 +1807,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1883,6 +1867,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1891,6 +1876,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "version-1.0.1/docs",
       },
     ],
   },

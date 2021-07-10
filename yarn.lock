@@ -2,24 +2,24 @@
 # yarn lockfile v1
 
 
-"@algolia/autocomplete-core@1.0.0-alpha.44":
-  version "1.0.0-alpha.44"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.0.0-alpha.44.tgz#e626dba45f5f3950d6beb0ab055395ef0f7e8bb2"
-  integrity sha512-2iMXthldMIDXtlbg9omRKLgg1bLo2ZzINAEqwhNjUeyj1ceEyL1ck6FY0VnJpf2LsjmNthHCz2BuFk+nYUeDNA==
+"@algolia/autocomplete-core@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.2.1.tgz#95fc07cfa40b5a38e3f80acd75d1fb94968215a8"
+  integrity sha512-/SLS6636Wpl7eFiX7eEy0E3wBo60sUm1qRYybJBDt1fs8reiJ1+OSy+dZgrLBfLL4mSFqRIIUHXbVp25QdZ+iw==
   dependencies:
-    "@algolia/autocomplete-shared" "1.0.0-alpha.44"
+    "@algolia/autocomplete-shared" "1.2.1"
 
-"@algolia/autocomplete-preset-algolia@1.0.0-alpha.44":
-  version "1.0.0-alpha.44"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.0.0-alpha.44.tgz#0ea0b255d0be10fbe262e281472dd6e4619b62ba"
-  integrity sha512-DCHwo5ovzg9k2ejUolGNTLFnIA7GpsrkbNJTy1sFbMnYfBmeK8egZPZnEl7lBTr27OaZu7IkWpTepLVSztZyng==
+"@algolia/autocomplete-preset-algolia@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.2.1.tgz#bda1741823268ff76ba78306259036f000198e01"
+  integrity sha512-Lf4PpPVgHNXm1ytrnVdrZYV7hAYSCpAI/TrebF8UC6xflPY6sKb1RL/2OfrO9On7SDjPBtNd+6MArSar5JmK0g==
   dependencies:
-    "@algolia/autocomplete-shared" "1.0.0-alpha.44"
+    "@algolia/autocomplete-shared" "1.2.1"
 
-"@algolia/autocomplete-shared@1.0.0-alpha.44":
-  version "1.0.0-alpha.44"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.0.0-alpha.44.tgz#db13902ad1667e455711b77d08cae1a0feafaa48"
-  integrity sha512-2oQZPERYV+yNx/yoVWYjZZdOqsitJ5dfxXJjL18yczOXH6ujnsq+DTczSrX+RjzjQdVeJ1UAG053EJQF/FOiMg==
+"@algolia/autocomplete-shared@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.2.1.tgz#96f869fb2285ed6a34a5ac2509722c065df93016"
+  integrity sha512-RHCwcXAYFwDXTlomstjWRFIzOfyxtQ9KmViacPE5P5hxUSSjkmG3dAb77xdydift1PaZNbho5TNTCi5UZe0RpA==
 
 "@algolia/cache-browser-local-storage@4.9.1":
   version "4.9.1"
@@ -1287,10 +1287,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@crowdin/cli@^3.5.2", "@crowdin/cli@^3.5.3":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.6.1.tgz#3422536781be49808ab6abda8bb17cb29df01dbb"
-  integrity sha512-RUKFrPCX3R1MJPyRpBSqWFwmjbDlVWLHtXAzx2FPeyjnyMXrXLPJ8YEl4t8YU+96q/0t46qTdmMLeQmYyDEvGQ==
+"@crowdin/cli@^3.5.2", "@crowdin/cli@^3.6.4":
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.6.4.tgz#37e872fbbc85fdfb55e8deba4e35d4393a802aad"
+  integrity sha512-kFqTf1dFhtSMfF4YWyJ6EAKjjtBEVtHhX2f9cBYc8I51KMTFIOzqeArKFL2qhhq/1Ition2wuE1z7ySwA341+w==
   dependencies:
     shelljs "^0.8.4"
 
@@ -1310,19 +1310,19 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@docsearch/css@3.0.0-alpha.36":
-  version "3.0.0-alpha.36"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.36.tgz#0af69a86b845974d0f8cab62db0218f66b6ad2d6"
-  integrity sha512-zSN2SXuZPDqQaSFzYa1kOwToukqzhLHG7c66iO+/PlmWb6/RZ5cjTkG6VCJynlohRWea7AqZKWS/ptm8kM2Dmg==
+"@docsearch/css@3.0.0-alpha.37":
+  version "3.0.0-alpha.37"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.37.tgz#9ae87820d6c0ee2ccb55164ecaec612f721fd3c4"
+  integrity sha512-EUr2AhvFw+TYPrkfePjDWh3NqpJgpwM8v6n8Mf0rUnL/ThxXKsdamzfBqWCWAh+N1o+eeGqypvy+p8Fp8dZXhQ==
 
-"@docsearch/react@^3.0.0-alpha.36":
-  version "3.0.0-alpha.36"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.36.tgz#f2dbd53ba9c389bc19aea89a3ad21782fa6b4bb5"
-  integrity sha512-synYZDHalvMzesFiy7kK+uoz4oTdWSTbe2cU+iiUjwFMyQ+WWjWwGVnvcvk+cjj9pRCVaZo5y5WpqNXq1j8k9Q==
+"@docsearch/react@^3.0.0-alpha.37":
+  version "3.0.0-alpha.37"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.37.tgz#1e12608db3faf8d3462769dbad569d26e4c1c633"
+  integrity sha512-W/O3OfL+LLQTlGXrT8/d7ztBYKgZmDWweu9f0O/41zV6Hirzo/qZEWzr25ky8utFUcMwj1pfTHLOp1F9UCtLAQ==
   dependencies:
-    "@algolia/autocomplete-core" "1.0.0-alpha.44"
-    "@algolia/autocomplete-preset-algolia" "1.0.0-alpha.44"
-    "@docsearch/css" "3.0.0-alpha.36"
+    "@algolia/autocomplete-core" "1.2.1"
+    "@algolia/autocomplete-preset-algolia" "1.2.1"
+    "@docsearch/css" "3.0.0-alpha.37"
     algoliasearch "^4.0.0"
 
 "@docusaurus/react-loadable@5.5.0":
@@ -6119,15 +6119,6 @@ cli-width@^2.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.1.tgz#b0433d0b4e9c847ef18868a4ef16fd5fc8271c48"
   integrity sha512-GRMWDxpOB6Dgk2E5Uo+3eEBvtOOlimMmpbFiKuLFnQzYDavtLFY3K5ona41jgN/WdRZtG7utuVSVTL4HbZHGkw==
 
-clipboard@^2.0.0:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.8.tgz#ffc6c103dd2967a83005f3f61976aa4655a4cdba"
-  integrity sha512-Y6WO0unAIQp5bLmk1zdThRhgJt/x3ks6f30s3oE3H1mgIEU33XyQjEf8gsf6DxC7NPX8Y1SsNWjUjL/ywLnnbQ==
-  dependencies:
-    good-listener "^1.2.2"
-    select "^1.1.2"
-    tiny-emitter "^2.0.0"
-
 clipboardy@1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/clipboardy/-/clipboardy-1.2.3.tgz#0526361bf78724c1f20be248d428e365433c07ef"
@@ -7438,11 +7429,6 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
-
-delegate@^3.1.2:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
-  integrity sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==
 
 delegates@^1.0.0:
   version "1.0.0"
@@ -9649,13 +9635,6 @@ gonzales-pe@^4.2.3, gonzales-pe@^4.3.0:
   integrity sha512-otgSPpUmdWJ43VXyiNgEYE4luzHCL2pz4wQ0OnDluC6Eg4Ko3Vexy/SrSynglw/eR+OhkzmqFCZa/OFa/RgAOQ==
   dependencies:
     minimist "^1.2.5"
-
-good-listener@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
-  integrity sha1-1TswzfkxPf+33JoNR3CWqm0UXFA=
-  dependencies:
-    delegate "^3.1.2"
 
 got@^8.3.1:
   version "8.3.2"
@@ -15222,11 +15201,9 @@ prism-react-renderer@^1.0.1, prism-react-renderer@^1.1.1, prism-react-renderer@^
   integrity sha512-w23ch4f75V1Tnz8DajsYKvY5lF7H1+WvzvLUcF0paFxkTHSp42RS0H5CttdN2Q8RR3DRGZ9v5xD/h3n8C8kGmg==
 
 prismjs@^1.23.0:
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
-  integrity sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA==
-  optionalDependencies:
-    clipboard "^2.0.0"
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.24.0.tgz#0409c30068a6c52c89ef7f1089b3ca4de56be2ac"
+  integrity sha512-SqV5GRsNqnzCL8k5dfAjCNhUrF3pR0A9lTDSCUZeh/LIshheXJEaP0hwLz2t4XHivd2J/v2HR+gRnigzeKe3cQ==
 
 private@~0.1.5:
   version "0.1.8"
@@ -16702,11 +16679,6 @@ select-hose@^2.0.0:
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
   integrity sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo=
 
-select@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
-  integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
-
 selfsigned@^1.10.8:
   version "1.10.11"
   resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.11.tgz#24929cd906fe0f44b6d01fb23999a739537acbe9"
@@ -18130,11 +18102,6 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
-
-tiny-emitter@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
-  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tiny-invariant@^1.0.2:
   version "1.1.0"

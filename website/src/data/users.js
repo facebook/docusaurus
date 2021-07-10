@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {sortBy, difference} from '../utils/jsUtils';
+import {difference, sortBy} from '../utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -209,6 +209,14 @@ const Users = [
     tags: ['opensource', 'large'],
   },
   {
+    title: 'Blink Shell Docs',
+    description: 'Documentation for Blink Shell a professional, desktop grade terminal for iOS',
+    preview: require('./showcase/blinkshell.png'),
+    website: 'https://docs.blink.sh/',
+    source: 'https://github.com/blinksh/docs',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'blog.johnnyreilly.com',
     description: 'The blog of johnnyreilly',
     preview: require('./showcase/johnnyreilly.png'),
@@ -288,6 +296,14 @@ const Users = [
     website: 'https://facebook.github.io/create-react-app/',
     source: 'https://github.com/facebook/create-react-app',
     tags: ['opensource', 'facebook'],
+  },
+  {
+    title: 'CryptoDevHub',
+    description: 'The place where Blockchain- and Crypto developers learn, meet and grow.',
+    preview: require('./showcase/cryptodevhub.png'),
+    website: 'https://cryptodevhub.io',
+    source: 'https://github.com/cryptodevhub/site',
+    tags: ['opensource'],
   },
   {
     title: 'Daily Digest - COVID-19 IN FRANCE',
@@ -701,6 +717,14 @@ const Users = [
     tags: ['opensource','design'],
   },
   {
+    title: 'Prismatic',
+    description: 'An Integration Platform for B2B Software Companies',
+    preview: require('./showcase/prismatic.png'),
+    website: 'https://prismatic.io/docs/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Profilo',
     description: 'An Android performance library',
     preview: require('./showcase/profolo.png'),
@@ -998,6 +1022,14 @@ const Users = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'SQL Frames',
+    description: 'DataFrames meet SQL, in the browser',
+    preview: require('./showcase/sqlframes_docusaurus.png'),
+    website: 'https://sqlframes.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
     preview: require('./showcase/stryker-mutator.png'),
@@ -1161,6 +1193,22 @@ const Users = [
     website: 'https://joelpo.github.io',
     source: 'https://github.com/Joelpo/joelpo.github.io',
     tags: ['personal', 'opensource']
+  },
+  {
+    title: 'LiveKit',
+    description: 'Open source, scalable, real-time audio and video rooms over WebRTC',
+    preview: require('./showcase/livekit.png'),
+    website: 'https://docs.livekit.io',
+    source: 'https://github.com/livekit/livekit-docs',
+    tags: ['opensource', 'product', 'design']
+  },
+  {
+    title: 'Zowe',
+    description: 'Open source framework for leveraging data and applications in z/OS',
+    preview: require('./showcase/zowe.png'),
+    website: 'https://docs.zowe.org',
+    source: 'https://github.com/zowe/docs-site',
+    tags: ['opensource', 'product', 'large', 'design', 'versioning']
   },
 ];
 
