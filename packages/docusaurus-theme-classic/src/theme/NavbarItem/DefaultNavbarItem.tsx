@@ -10,7 +10,11 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
-import {isSamePath} from '@docusaurus/theme-common';
+import {
+  isSamePath,
+  useCollapsible,
+  Collapsible,
+} from '@docusaurus/theme-common';
 import type {
   NavLinkProps,
   DesktopOrMobileNavBarItemProps,
@@ -167,11 +171,11 @@ function NavItemMobile({
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  const menuListRef = useRef<HTMLUListElement>(null);
   const {pathname} = useLocation();
-  const [collapsed, setCollapsed] = useState(
-    () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
-  );
+  const {collapsed, toggleCollapsed} = useCollapsible({
+    initialState: () =>
+      !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
+  });
 
   const navLinkClassNames = (extraClassName?: string, isSubList = false) =>
     clsx(
@@ -190,10 +194,6 @@ function NavItemMobile({
     );
   }
 
-  const menuListHeight = menuListRef.current?.scrollHeight
-    ? `${menuListRef.current?.scrollHeight}px`
-    : undefined;
-
   return (
     <li
       className={clsx('menu__list-item', {
@@ -205,16 +205,11 @@ function NavItemMobile({
         {...props}
         onClick={(e) => {
           e.preventDefault();
-          setCollapsed((state) => !state);
+          toggleCollapsed();
         }}>
         {props.children ?? props.label}
       </NavLink>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{
-          height: !collapsed ? menuListHeight : undefined,
-        }}>
+      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
         {items.map(({className: childItemClassName, ...childItemProps}, i) => (
           <li className="menu__list-item" key={i}>
             <NavLink
@@ -225,7 +220,7 @@ function NavItemMobile({
             />
           </li>
         ))}
-      </ul>
+      </Collapsible>
     </li>
   );
 }
