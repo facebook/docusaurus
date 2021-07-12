@@ -1,5 +1,5 @@
 {
-  "name": "docusaurus",
+  "name": "aditya-dcosu",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -38,5 +38,6 @@
       "last 1 safari version"
     ]
   },
-  "description": "Docusaurus example project"
+  "description": "",
+  "keywords": []
 }
