@@ -8,7 +8,11 @@
 import React, {useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
 import {useLocation} from '@docusaurus/router';
-import {isSamePath} from '@docusaurus/theme-common';
+import {
+  isSamePath,
+  useCollapsible,
+  Collapsible,
+} from '@docusaurus/theme-common';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
@@ -98,15 +102,11 @@ function NavItemMobile({
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  const menuListRef = useRef<HTMLUListElement>(null);
   const {pathname} = useLocation();
-  const [collapsed, setCollapsed] = useState(
-    () => !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
-  );
-
-  const menuListHeight = menuListRef.current?.scrollHeight
-    ? `${menuListRef.current?.scrollHeight}px`
-    : undefined;
+  const {collapsed, toggleCollapsed} = useCollapsible({
+    initialState: () =>
+      !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
+  });
 
   return (
     <li
@@ -119,14 +119,11 @@ function NavItemMobile({
         {...props}
         onClick={(e) => {
           e.preventDefault();
-          setCollapsed((state) => !state);
+          toggleCollapsed();
         }}>
         {props.children ?? props.label}
       </NavLink>
-      <ul
-        className="menu__list"
-        ref={menuListRef}
-        style={{height: collapsed ? undefined : menuListHeight}}>
+      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
           <NavbarItem
             mobile
@@ -137,7 +134,7 @@ function NavItemMobile({
             key={i}
           />
         ))}
-      </ul>
+      </Collapsible>
     </li>
   );
 }
