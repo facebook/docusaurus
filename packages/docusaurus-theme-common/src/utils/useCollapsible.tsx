@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import React, {
   useState,
   useEffect,
@@ -146,8 +147,16 @@ function useCollapseAnimation({
 }
 
 type CollapsibleElementType = React.ElementType<
-  Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd'>
+  Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd' | 'style'>
 >;
+
+// Prevent hydration layout shift before anims are handled imperatively with JS
+function getSSRStyle(collapsed: boolean) {
+  if (ExecutionEnvironment.canUseDOM) {
+    return undefined;
+  }
+  return collapsed ? CollapsedStyles : ExpandedStyles;
+}
 
 export function Collapsible({
   as: As = 'div',
@@ -171,6 +180,7 @@ export function Collapsible({
     <As
       // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
       ref={collapsibleRef}
+      style={getSSRStyle(collapsed)}
       onTransitionEnd={(e) => {
         if (e.propertyName !== 'height') {
           return;
