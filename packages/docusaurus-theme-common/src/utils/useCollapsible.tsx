@@ -119,23 +119,26 @@ function useCollapseAnimation({
     el.style.willChange = 'height';
 
     function startAnimation(): () => void {
-      // When collapsing
-      if (collapsed) {
-        applyTransitionStyles();
-        const animationFrame = requestAnimationFrame(() => {
-          el.style.height = CollapsedStyles.height;
-          el.style.overflow = CollapsedStyles.overflow;
-        });
-        return () => cancelAnimationFrame(animationFrame);
-      }
-      // When expanding
-      else {
-        el.style.display = 'block';
-        const animationFrame = requestAnimationFrame(() => {
+      const animationFrame = requestAnimationFrame(() => {
+        // When collapsing
+        if (collapsed) {
           applyTransitionStyles();
-        });
-        return () => cancelAnimationFrame(animationFrame);
-      }
+
+          requestAnimationFrame(() => {
+            el.style.height = CollapsedStyles.height;
+            el.style.overflow = CollapsedStyles.overflow;
+          });
+        }
+        // When expanding
+        else {
+          el.style.display = 'block';
+          requestAnimationFrame(() => {
+            applyTransitionStyles();
+          });
+        }
+      });
+
+      return () => cancelAnimationFrame(animationFrame);
     }
 
     return startAnimation();
@@ -169,8 +172,22 @@ export function Collapsible({
       // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
       ref={collapsibleRef}
       onTransitionEnd={(e) => {
-        if (e.propertyName === 'height') {
-          applyCollapsedStyle(collapsibleRef.current!, collapsed);
+        if (e.propertyName !== 'height') {
+          return;
+        }
+
+        const el = collapsibleRef.current!;
+        const currentCollapsibleElementHeight = el.style.height;
+
+        if (
+          !collapsed &&
+          parseInt(currentCollapsibleElementHeight, 10) === el.scrollHeight
+        ) {
+          applyCollapsedStyle(el, false);
+        }
+
+        if (currentCollapsibleElementHeight === CollapsedStyles.height) {
+          applyCollapsedStyle(el, true);
         }
       }}
       className={className}>
