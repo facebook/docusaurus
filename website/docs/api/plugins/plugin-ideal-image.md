@@ -26,7 +26,7 @@ module.exports = {
 
 ## Usage {#usage}
 
-This plugin supports the PNG, GIF and JPG formats only.
+This plugin supports the PNG and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';
