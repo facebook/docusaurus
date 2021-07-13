@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const fs = require('fs');
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
@@ -121,10 +122,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       {
         // This plugin instance is used to test fancy edge cases
         id: 'docs-tests',
-        // Using a symlinked folder as source, test against https://github.com/facebook/docusaurus/issues/3272
-        path: 'dogfooding/docs-tests-symlink',
         routeBasePath: 'docs-tests',
         sidebarPath: 'dogfooding/docs-tests-sidebars.js',
+
+        // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
+        path: fs.realpathSync('dogfooding/docs-tests-symlink'),
       },
     ],
 

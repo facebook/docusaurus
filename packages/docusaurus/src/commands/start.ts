@@ -185,8 +185,12 @@ export default async function start(
       },
       publicPath: baseUrl,
       watchOptions: {
-        ignored: /node_modules/,
         poll: cliOptions.poll,
+
+        // Useful options for our own monorepo using symlinks!
+        // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
+        followSymlinks: true,
+        ignored: /node_modules\/(?!@docusaurus)/,
       },
       historyApiFallback: {
         rewrites: [{from: /\/*/, to: baseUrl}],
