@@ -121,10 +121,13 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       {
         // This plugin instance is used to test fancy edge cases
         id: 'docs-tests',
-        // Using a symlinked folder as source, test against https://github.com/facebook/docusaurus/issues/3272
-        path: 'dogfooding/docs-tests-symlink',
         routeBasePath: 'docs-tests',
         sidebarPath: 'dogfooding/docs-tests-sidebars.js',
+
+        // Using a symlinked folder as source, test against https://github.com/facebook/docusaurus/issues/3272
+        // TODO temporarily disabled due to Webpack cache bug, see https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
+        // path: 'dogfooding/docs-tests-symlink',
+        path: 'dogfooding/docs-tests',
       },
     ],
 
