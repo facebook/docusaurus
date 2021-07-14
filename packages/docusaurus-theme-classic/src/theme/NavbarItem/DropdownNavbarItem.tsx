@@ -7,20 +7,48 @@
 
 import React, {useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
-import {useLocation} from '@docusaurus/router';
 import {
   isSamePath,
   useCollapsible,
   Collapsible,
+  useLocalPathname,
 } from '@docusaurus/theme-common';
 import type {
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DropdownNavbarItem';
+import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+
 import {NavLink} from '@theme/NavbarItem/DefaultNavbarItem';
 import NavbarItem from '@theme/NavbarItem';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
+
+function isItemActive(
+  item: LinkLikeNavbarItemProps,
+  localPathname: string,
+): boolean {
+  if (isSamePath(item.to, localPathname)) {
+    return true;
+  }
+  if (
+    item.activeBaseRegex &&
+    new RegExp(item.activeBaseRegex).test(localPathname)
+  ) {
+    return true;
+  }
+  if (item.activeBasePath && localPathname.startsWith(item.activeBasePath)) {
+    return true;
+  }
+  return false;
+}
+
+function containsActiveItems(
+  items: readonly LinkLikeNavbarItemProps[],
+  localPathname: string,
+): boolean {
+  return items.some((item) => isItemActive(item, localPathname));
+}
 
 function DropdownNavbarItemDesktop({
   items,
@@ -102,11 +130,19 @@ function DropdownNavbarItemMobile({
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  const {pathname} = useLocation();
-  const {collapsed, toggleCollapsed} = useCollapsible({
-    initialState: () =>
-      !items?.some((item) => isSamePath(item.to, pathname)) ?? true,
+  const localPathname = useLocalPathname();
+  const containsActive = containsActiveItems(items, localPathname);
+
+  const {collapsed, toggleCollapsed, setCollapsed} = useCollapsible({
+    initialState: () => !containsActive,
   });
+
+  // Expand/collapse if any item active after a navigation
+  useEffect(() => {
+    if (containsActive) {
+      setCollapsed(!containsActive);
+    }
+  }, [localPathname, containsActive]);
 
   return (
     <li
