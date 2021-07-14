@@ -196,7 +196,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           {
             tagName: 'link',
             rel: 'icon',
-            href: 'img/docusaurus.png',
+            href: `${baseUrl}img/docusaurus.png`,
           },
           {
             tagName: 'link',
@@ -221,18 +221,18 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           {
             tagName: 'link',
             rel: 'apple-touch-icon',
-            href: 'img/docusaurus.png',
+            href: `${baseUrl}img/docusaurus.png`,
           },
           {
             tagName: 'link',
             rel: 'mask-icon',
-            href: 'img/docusaurus.svg',
+            href: `${baseUrl}img/docusaurus.png`,
             color: 'rgb(62, 204, 94)',
           },
           {
             tagName: 'meta',
             name: 'msapplication-TileImage',
-            content: 'img/docusaurus.png',
+            href: `${baseUrl}img/docusaurus.png`,
           },
           {
             tagName: 'meta',
