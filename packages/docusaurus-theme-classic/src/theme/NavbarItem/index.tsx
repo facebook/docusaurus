@@ -33,21 +33,28 @@ const NavbarItemComponents: Record<
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
-const getNavbarItemComponent = (type: Types = 'default') => {
-  const navbarItemComponent = NavbarItemComponents[type];
-  if (!navbarItemComponent) {
+type NavbarItemComponentType = keyof typeof NavbarItemComponents;
+
+const getNavbarItemComponent = (type: NavbarItemComponentType) => {
+  const navbarItemComponentFn = NavbarItemComponents[type];
+  if (!navbarItemComponentFn) {
     throw new Error(`No NavbarItem component found for type "${type}".`);
   }
-  return navbarItemComponent();
+  return navbarItemComponentFn();
 };
 
-export default function NavbarItem({type, ...props}: Props): JSX.Element {
-  // Backward compatibility: navbar item with type "default" but containing dropdown items should use the type "dropdown"
-  const transformedType =
-    (!type || type === 'default') &&
-    (props as DropdownNavbarItemProps).items !== undefined
-      ? 'dropdown'
-      : type;
-  const NavbarItemComponent = getNavbarItemComponent(transformedType);
+function getComponentType({type, ...props}: Props): NavbarItemComponentType {
+  // Backward compatibility: navbar item with no type set
+  // but containing dropdown items should use the type "dropdown"
+  if (!type || type === 'default') {
+    const isDropdown = (props as DropdownNavbarItemProps).items !== undefined;
+    return isDropdown ? 'dropdown' : 'default';
+  }
+  return type as NavbarItemComponentType;
+}
+
+export default function NavbarItem(props: Props): JSX.Element {
+  const componentType = getComponentType(props);
+  const NavbarItemComponent = getNavbarItemComponent(componentType);
   return <NavbarItemComponent {...props} />;
 }

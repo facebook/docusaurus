@@ -22,7 +22,7 @@ import NavbarItem from '@theme/NavbarItem';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 
-function NavItemDesktop({
+function DropdownNavbarItemDesktop({
   items,
   position,
   className,
@@ -96,7 +96,7 @@ function NavItemDesktop({
   );
 }
 
-function NavItemMobile({
+function DropdownNavbarItemMobile({
   items,
   className,
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
@@ -140,7 +140,7 @@ function NavItemMobile({
 }
 
 function DropdownNavbarItem({mobile = false, ...props}: Props): JSX.Element {
-  const Comp = mobile ? NavItemMobile : NavItemDesktop;
+  const Comp = mobile ? DropdownNavbarItemMobile : DropdownNavbarItemDesktop;
   return <Comp {...props} />;
 }
 
