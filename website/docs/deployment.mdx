@@ -426,31 +426,38 @@ After your project has been imported, all subsequent pushes to branches will gen
 
 ## Deploying to Qovery {#deploying-to-qovery}
 
-[Qovery](https://qovery.com) is a fully-managed cloud platform that runs on your AWS, GCP, Azure and Digital Ocean account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
+[Qovery](https://www.qovery.com) is a fully-managed cloud platform that runs on your AWS, Digital Ocean and Scaleway account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
 
-1. Create a Qovery account.
-
-Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
+1. Create a Qovery account. Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
 
 2. Create a project
 
-Click on "Create a new project" and give a name to your project.
+- Click on **Create project** and give a name to your project.
+- Click on **Next**.
 
-Click on "Next".
+3. Create a new environment
 
-3. Add an application
+- Click on **Create environment** and give a name (e.g. staging, production).
 
-Click on "Create an application" then choose "I have an application" and select your GitHub or GitLab repository where your app is located.
+4. Add an application
 
-Click on "Next".
+- Click on **Create an application**, give a name and select your GitHub or GitLab repository where your Docusaurus app is located.
+- Define the main branch name and the root application path.
+- Click on **Create**.
 
-Skip adding services
+After the application is created:
 
-4. Deploy
+- Navigate to your application **Settings**
+- Select **Port**
+- Add port used by your Docusaurus application
 
-Click on "Deploy".
+5. Deploy All you have to do now is to navigate to your application and click on **Deploy**
 
-You can see the status in real time by clicking on deployment logs.
+![Deploy the app](https://hub.qovery.com/img/heroku/heroku-1.png)
+
+That's it. Watch the status and wait till the app is deployed.
+
+To open the application in your browser, click on **Action** and **Open** in your application overview
 
 ## Deploying to Hostman {#deploying-to-hostman}
 
