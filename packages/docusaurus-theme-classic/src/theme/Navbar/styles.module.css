@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+Hide toggle in small viewports
+ */
 @media screen and (max-width: 997px) {
-  .displayOnlyInLargeViewport {
-    display: none !important;
+  .toggle {
+    display: none;
   }
 }
 
@@ -31,15 +34,11 @@
   display: flex;
   width: calc(var(--ifm-navbar-sidebar-width));
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateZ(0) !important;
+  transform: translateZ(0);
 }
 
-.menuWrapperDocShown {
-  transform: translate3d(
-    calc((var(--ifm-navbar-sidebar-width)) * -1),
-    0,
-    0
-  ) !important;
+.menuWrapperSecondaryMenuShown {
+  transform: translate3d(calc((var(--ifm-navbar-sidebar-width)) * -1), 0, 0);
 }
 
 .menuWrapper > div {
@@ -59,6 +58,6 @@
   font-weight: var(--ifm-button-font-weight);
 }
 
-.docSidebarSecondaryMenu {
+.secondaryMenu {
   padding-top: 0 !important;
 }

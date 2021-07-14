@@ -128,7 +128,14 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? toggleCollapsed : undefined}
+        onClick={
+          collapsible
+            ? (e) => {
+                e.preventDefault();
+                toggleCollapsed();
+              }
+            : undefined
+        }
         href={collapsible ? '#' : undefined}
         {...props}>
         {label}
