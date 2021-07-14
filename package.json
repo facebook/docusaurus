@@ -49,7 +49,7 @@
     "test": "cross-env TZ=UTC jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel --no-private watch",
-    "clear": "yarn workspace docusaurus-2-website clear && yarn lerna exec --ignore docusaurus yarn rimraf lib",
+    "clear": "(yarn workspace docusaurus-2-website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
     "test:baseUrl": "yarn build:v2:baseUrl && yarn serve:v2:baseUrl",
     "lock:update": "npx yarn-deduplicate"
   },
