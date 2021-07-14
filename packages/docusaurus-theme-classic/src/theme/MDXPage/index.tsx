@@ -14,8 +14,6 @@ import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
-import styles from './styles.module.css';
-
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {frontMatter, metadata} = MDXPageContent;
@@ -36,7 +34,7 @@ function MDXPage(props: Props): JSX.Element {
       wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
       pageClassName={ThemeClassNames.page.mdxPage}>
       <main className="container container--fluid margin-vert--lg">
-        <div className={clsx('row', styles.mdxPageWrapper)}>
+        <div className={clsx('row docusaurus-jc-center')}>
           <div className={clsx('col', !hideTableOfContents && 'col--8')}>
             <MDXProvider components={MDXComponents}>
               <MDXPageContent />

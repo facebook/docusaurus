@@ -50,6 +50,21 @@ declare module '@theme/BlogPostPaginator' {
   export default BlogPostPaginator;
 }
 
+declare module '@theme/BlogLayout' {
+  import type {Props as LayoutProps} from '@theme/Layout';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type Props = Omit<LayoutProps, 'children'> & {
+    readonly sidebar?: BlogSidebar;
+    readonly contentRender: () => React.ReactNode;
+    readonly toc?: readonly TOCItem[];
+  };
+
+  const BlogLayout: (props: Props) => JSX.Element;
+  export default BlogLayout;
+}
+
 declare module '@theme/CodeBlock' {
   export type Props = {
     readonly children: string;

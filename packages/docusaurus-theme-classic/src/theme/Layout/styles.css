@@ -25,3 +25,7 @@ body {
 .docusaurus-mt-lg {
   margin-top: 3rem;
 }
+
+.docusaurus-jc-center {
+  justify-content: center;
+}
