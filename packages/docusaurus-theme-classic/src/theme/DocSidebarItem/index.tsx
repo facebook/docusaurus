@@ -128,13 +128,20 @@ function DocSidebarItemCategory({
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
-        onClick={collapsible ? toggleCollapsed : undefined}
+        onClick={
+          collapsible
+            ? (e) => {
+                e.preventDefault();
+                toggleCollapsed();
+              }
+            : undefined
+        }
         href={collapsible ? '#' : undefined}
         {...props}>
         {label}
       </a>
 
-      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
+      <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? -1 : 0}

@@ -123,7 +123,7 @@ function NavItemMobile({
         }}>
         {props.children ?? props.label}
       </NavLink>
-      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
+      <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
           <NavbarItem
             mobile
