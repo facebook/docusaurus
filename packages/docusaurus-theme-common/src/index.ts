@@ -63,3 +63,5 @@ export {
   AnnouncementBarProvider,
   useAnnouncementBar,
 } from './utils/announcementBarUtils';
+
+export {useLocalPathname} from './utils/useLocalPathname';
