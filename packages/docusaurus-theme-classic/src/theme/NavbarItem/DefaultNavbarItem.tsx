@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {
-  NavItemLinkProps,
+  NavLinkProps,
   DesktopOrMobileNavBarItemProps,
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
@@ -19,7 +19,7 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 
-export function NavItemLink({
+export function NavLink({
   activeBasePath,
   activeBaseRegex,
   to,
@@ -28,7 +28,7 @@ export function NavItemLink({
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
   ...props
-}: NavItemLinkProps): JSX.Element {
+}: NavLinkProps): JSX.Element {
   // TODO all this seems hacky
   // {to: 'version'} should probably be forbidden, in favor of {to: '/version'}
   const toUrl = useBaseUrl(to);
@@ -75,7 +75,7 @@ function DefaultNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   return (
-    <NavItemLink
+    <NavLink
       className={clsx(
         isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
         className,
@@ -92,7 +92,7 @@ function DefaultNavbarItemMobile({
 }: DesktopOrMobileNavBarItemProps) {
   return (
     <li className="menu__list-item">
-      <NavItemLink className={clsx('menu__link', className)} {...props} />
+      <NavLink className={clsx('menu__link', className)} {...props} />
     </li>
   );
 }
