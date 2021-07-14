@@ -141,7 +141,7 @@ function DocSidebarItemCategory({
         {label}
       </a>
 
-      <Collapsible as="ul" className="menu__list" collapsed={collapsed}>
+      <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         <DocSidebarItems
           items={items}
           tabIndex={collapsed ? -1 : 0}

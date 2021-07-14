@@ -15,6 +15,7 @@ import React, {
   Dispatch,
   SetStateAction,
   ReactNode,
+  useLayoutEffect,
 } from 'react';
 
 const DefaultAnimationEasing = 'ease-in-out';
@@ -158,19 +159,21 @@ function getSSRStyle(collapsed: boolean) {
   return collapsed ? CollapsedStyles : ExpandedStyles;
 }
 
-export function Collapsible({
+type CollapsibleBaseProps = {
+  as?: CollapsibleElementType;
+  collapsed: boolean;
+  children: ReactNode;
+  animation?: CollapsibleAnimationConfig;
+  className?: string;
+};
+
+function CollapsibleBase({
   as: As = 'div',
   collapsed,
   children,
   animation,
   className,
-}: {
-  as?: CollapsibleElementType; // TODO better typing, allow any html element (keyof JSX.IntrinsicElement => not working)
-  collapsed: boolean;
-  children: ReactNode;
-  animation?: CollapsibleAnimationConfig;
-  className?: string;
-}) {
+}: CollapsibleBaseProps) {
   // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
   const collapsibleRef = useRef<any>(null);
 
@@ -204,4 +207,39 @@ export function Collapsible({
       {children}
     </As>
   );
+}
+
+function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
+  const [mounted, setMounted] = useState(!collapsed);
+
+  useLayoutEffect(() => {
+    if (!collapsed) {
+      setMounted(true);
+    }
+  }, [collapsed]);
+
+  // lazyCollapsed updated in effect so that the first expansion transition can work
+  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
+  useLayoutEffect(() => {
+    if (mounted) {
+      setLazyCollapsed(collapsed);
+    }
+  }, [mounted, collapsed]);
+
+  return mounted ? (
+    <CollapsibleBase {...props} collapsed={lazyCollapsed} />
+  ) : null;
+}
+
+type CollapsibleProps = CollapsibleBaseProps & {
+  // Lazy allows to delay the rendering when collapsed => it will render children only after hydration, on first expansion
+  // Required prop: it forces to think if content should be server-rendered or not!
+  // This has perf impact on the SSR output and html file sizes
+  // See https://github.com/facebook/docusaurus/issues/4753
+  lazy: boolean;
+};
+
+export function Collapsible({lazy, ...props}: CollapsibleProps) {
+  const Comp = lazy ? CollapsibleLazy : CollapsibleBase;
+  return <Comp {...props} />;
 }
