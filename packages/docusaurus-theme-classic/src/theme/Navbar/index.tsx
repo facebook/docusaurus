@@ -19,7 +19,7 @@ import {
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize from '@theme/hooks/useWindowSize';
-import NavbarItem from '@theme/NavbarItem';
+import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 
@@ -28,9 +28,14 @@ import styles from './styles.module.css';
 // retrocompatible with v1
 const DefaultNavItemPosition = 'right';
 
+function useNavbarItems() {
+  // TODO temporary casting until ThemeConfig type is improved
+  return useThemeConfig().navbar.items as NavbarItemConfig[];
+}
+
 // If split links by left/right
 // if position is unspecified, fallback to right (as v1)
-function splitNavItemsByPosition(items) {
+function splitNavItemsByPosition(items: NavbarItemConfig[]) {
   const leftItems = items.filter(
     (item) => (item.position ?? DefaultNavItemPosition) === 'left',
   );
@@ -132,9 +137,7 @@ function NavbarMobileSidebar({
   toggleSidebar,
 }: NavbarMobileSidebarProps) {
   useLockBodyScroll(sidebarShown);
-  const {
-    navbar: {items},
-  } = useThemeConfig();
+  const items = useNavbarItems();
 
   const colorModeToggle = useColorModeToggle();
 
@@ -166,12 +169,7 @@ function NavbarMobileSidebar({
         <div className="menu">
           <ul className="menu__list">
             {items.map((item, i) => (
-              <NavbarItem
-                mobile
-                {...(item as any)} // TODO fix typing
-                onClick={toggleSidebar}
-                key={i}
-              />
+              <NavbarItem mobile {...item} onClick={toggleSidebar} key={i} />
             ))}
           </ul>
         </div>
@@ -196,7 +194,7 @@ function NavbarMobileSidebar({
 
 function Navbar(): JSX.Element {
   const {
-    navbar: {items, hideOnScroll, style},
+    navbar: {hideOnScroll, style},
   } = useThemeConfig();
 
   const mobileSidebar = useMobileSidebar();
@@ -204,6 +202,7 @@ function Navbar(): JSX.Element {
 
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
+  const items = useNavbarItems();
   const hasSearchNavbarItem = items.some((item) => item.type === 'search');
   const {leftItems, rightItems} = splitNavItemsByPosition(items);
 

@@ -8,7 +8,7 @@
 /* eslint-disable camelcase */
 
 declare module '@docusaurus/plugin-content-docs-types' {
-  import type {VersionBanner} from './types';
+  type VersionBanner = import('./types').VersionBanner;
 
   export type PropVersionMetadata = {
     pluginId: string;
