@@ -55,9 +55,8 @@ declare module '@theme/BlogLayout' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {TOCItem} from '@docusaurus/types';
 
-  export type Props = Omit<LayoutProps, 'children'> & {
+  export type Props = LayoutProps & {
     readonly sidebar?: BlogSidebar;
-    readonly contentRender: () => React.ReactNode;
     readonly toc?: readonly TOCItem[];
   };
 

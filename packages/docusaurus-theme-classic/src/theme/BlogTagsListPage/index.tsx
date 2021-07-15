@@ -61,14 +61,10 @@ function BlogTagsListPage(props: Props): JSX.Element {
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_list',
       }}
-      sidebar={sidebar}
-      contentRender={() => (
-        <>
-          <h1>{title}</h1>
-          <section className="margin-vert--lg">{tagsSection}</section>
-        </>
-      )}
-    />
+      sidebar={sidebar}>
+      <h1>{title}</h1>
+      <section className="margin-vert--lg">{tagsSection}</section>
+    </BlogLayout>
   );
 }
 

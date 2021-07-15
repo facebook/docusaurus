@@ -54,33 +54,29 @@ function BlogTagsPostPage(props: Props): JSX.Element {
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',
       }}
-      sidebar={sidebar}
-      contentRender={() => (
-        <>
-          <header className="margin-bottom--xl">
-            <h1>{title}</h1>
+      sidebar={sidebar}>
+      <header className="margin-bottom--xl">
+        <h1>{title}</h1>
 
-            <Link href={allTagsPath}>
-              <Translate
-                id="theme.tags.tagsPageLink"
-                description="The label of the link targeting the tag list page">
-                View All Tags
-              </Translate>
-            </Link>
-          </header>
+        <Link href={allTagsPath}>
+          <Translate
+            id="theme.tags.tagsPageLink"
+            description="The label of the link targeting the tag list page">
+            View All Tags
+          </Translate>
+        </Link>
+      </header>
 
-          {items.map(({content: BlogPostContent}) => (
-            <BlogPostItem
-              key={BlogPostContent.metadata.permalink}
-              frontMatter={BlogPostContent.frontMatter}
-              metadata={BlogPostContent.metadata}
-              truncated>
-              <BlogPostContent />
-            </BlogPostItem>
-          ))}
-        </>
-      )}
-    />
+      {items.map(({content: BlogPostContent}) => (
+        <BlogPostItem
+          key={BlogPostContent.metadata.permalink}
+          frontMatter={BlogPostContent.frontMatter}
+          metadata={BlogPostContent.metadata}
+          truncated>
+          <BlogPostContent />
+        </BlogPostItem>
+      ))}
+    </BlogLayout>
   );
 }
 

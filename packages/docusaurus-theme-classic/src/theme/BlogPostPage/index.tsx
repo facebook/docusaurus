@@ -25,25 +25,21 @@ function BlogPostPage(props: Props): JSX.Element {
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogPostPage}
       sidebar={sidebar}
-      contentRender={() => (
-        <>
-          <BlogPostItem
-            frontMatter={frontMatter}
-            metadata={metadata}
-            isBlogPostPage>
-            <BlogPostContents />
-          </BlogPostItem>
-          {(nextItem || prevItem) && (
-            <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-          )}
-        </>
-      )}
       toc={
         !hideTableOfContents && BlogPostContents.toc
           ? BlogPostContents.toc
           : undefined
-      }
-    />
+      }>
+      <BlogPostItem
+        frontMatter={frontMatter}
+        metadata={metadata}
+        isBlogPostPage>
+        <BlogPostContents />
+      </BlogPostItem>
+      {(nextItem || prevItem) && (
+        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+      )}
+    </BlogLayout>
   );
 }
 

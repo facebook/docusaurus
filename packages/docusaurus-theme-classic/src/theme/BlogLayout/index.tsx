@@ -15,7 +15,7 @@ import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogLayout';
 
 function BlogLayout(props: Props): JSX.Element {
-  const {sidebar, contentRender, toc, ...layoutProps} = props;
+  const {sidebar, toc, children, ...layoutProps} = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
 
   return (
@@ -32,7 +32,7 @@ function BlogLayout(props: Props): JSX.Element {
               'col--7': hasSidebar,
               'col--9': !hasSidebar,
             })}>
-            {contentRender()}
+            {children}
           </main>
           {toc && (
             <div className="col col--2">

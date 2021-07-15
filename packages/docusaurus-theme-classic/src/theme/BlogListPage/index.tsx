@@ -33,22 +33,18 @@ function BlogListPage(props: Props): JSX.Element {
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',
       }}
-      sidebar={sidebar}
-      contentRender={() => (
-        <>
-          {items.map(({content: BlogPostContent}) => (
-            <BlogPostItem
-              key={BlogPostContent.metadata.permalink}
-              frontMatter={BlogPostContent.frontMatter}
-              metadata={BlogPostContent.metadata}
-              truncated={BlogPostContent.metadata.truncated}>
-              <BlogPostContent />
-            </BlogPostItem>
-          ))}
-          <BlogListPaginator metadata={metadata} />
-        </>
-      )}
-    />
+      sidebar={sidebar}>
+      {items.map(({content: BlogPostContent}) => (
+        <BlogPostItem
+          key={BlogPostContent.metadata.permalink}
+          frontMatter={BlogPostContent.frontMatter}
+          metadata={BlogPostContent.metadata}
+          truncated={BlogPostContent.metadata.truncated}>
+          <BlogPostContent />
+        </BlogPostItem>
+      ))}
+      <BlogListPaginator metadata={metadata} />
+    </BlogLayout>
   );
 }
 
