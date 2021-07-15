@@ -72,6 +72,8 @@ export function NavLink({
 function DefaultNavbarItemDesktop({
   className,
   isDropdownItem = false,
+  type: _type,
+  position: _position,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   let element = (
