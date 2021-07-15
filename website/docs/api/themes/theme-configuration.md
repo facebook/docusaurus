@@ -252,7 +252,7 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 ### Navbar dropdown {#navbar-dropdown}
 
-Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar items.
+Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items. The dropdown items cannot be dropdowns themselves. In other words, they can of be one of the following types: `default`, `doc`, `docsVersion`.
 
 ```js {9-19} title="docusaurus.config.js"
 module.exports = {
@@ -261,6 +261,7 @@ module.exports = {
     navbar: {
       items: [
         {
+          type: 'dropdown',
           label: 'Community',
           position: 'left', // or 'right'
           items: [
@@ -271,6 +272,11 @@ module.exports = {
             {
               label: 'GitHub',
               href: '...',
+            },
+            {
+              type: 'doc',
+              label: 'social',
+              docId: '...',
             },
             // ... more items
           ],
