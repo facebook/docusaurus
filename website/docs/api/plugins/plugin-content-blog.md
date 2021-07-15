@@ -72,6 +72,15 @@ module.exports = {
          */
         routeBasePath: 'blog',
         include: ['*.md', '*.mdx'],
+        /**
+         * No route will be created for matching files
+         */
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
         postsPerPage: 10,
         /**
          * Theme components used by the blog pages.
