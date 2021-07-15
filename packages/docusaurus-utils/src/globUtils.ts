@@ -25,12 +25,11 @@ export const GlobExcludeDefault = [
   '**/__tests__/**',
 ];
 
-type ExcludeMatcher = (path: string) => boolean;
-export function createExcludeMatcher(exclude: string[]): ExcludeMatcher {
+type Matcher = (str: string) => boolean;
+
+export function createMatcher(patterns: string[]): Matcher {
   const regexp = new RegExp(
-    exclude.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
+    patterns.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
   );
-  return function isExcluded(str: string) {
-    return regexp.test(str);
-  };
+  return (str) => regexp.test(str);
 }

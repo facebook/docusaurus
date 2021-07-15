@@ -16,7 +16,7 @@ import {
   getFolderContainingFile,
   addTrailingPathSeparator,
   Globby,
-  createExcludeMatcher,
+  createMatcher,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -217,7 +217,7 @@ export default function pluginContentPages(
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    isMDXPartial: createExcludeMatcher(options.exclude),
+                    isMDXPartial: createMatcher(options.exclude),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
