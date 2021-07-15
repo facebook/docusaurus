@@ -98,11 +98,11 @@ Use this component to render React Context providers and global stateful logic.
 
 ## Swizzling theme components {#swizzling-theme-components}
 
-:::caution
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
 
-We discourage swizzling of components during the Docusaurus 2 beta phase. The theme components APIs are likely to evolve and have breaking changes. If possible, stick with the default appearance for now.
-
-:::
+<SwizzleWarning/>
+```
 
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
