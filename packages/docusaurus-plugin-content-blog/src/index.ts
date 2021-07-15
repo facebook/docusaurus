@@ -16,6 +16,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
+  createMatcher,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -459,9 +460,10 @@ export default function pluginContentBlog(
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    // Note that metadataPath must be the same/in-sync as
-                    // the path from createData for each MDX.
+                    isMDXPartial: createMatcher(options.exclude),
                     metadataPath: (mdxPath: string) => {
+                      // Note that metadataPath must be the same/in-sync as
+                      // the path from createData for each MDX.
                       const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,

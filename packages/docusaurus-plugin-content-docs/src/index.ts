@@ -18,6 +18,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
+  createMatcher,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
@@ -408,6 +409,7 @@ export default function pluginContentDocs(
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
                 staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                isMDXPartial: createMatcher(options.exclude),
                 metadataPath: (mdxPath: string) => {
                   // Note that metadataPath must be the same/in-sync as
                   // the path from createData for each MDX.

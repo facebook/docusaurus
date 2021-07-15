@@ -39,11 +39,12 @@ module.exports = {
         routeBasePath: '',
         include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
         /**
-         * No Route will be created for matching files
+         * No route will be created for matching files
          */
         exclude: [
           '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/*.test.{js,ts}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
           '**/__tests__/**',
         ],
         /**

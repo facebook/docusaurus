@@ -25,6 +25,8 @@
     "fs-extra": "^10.0.0",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.20",
+    "globby": "^11.0.4",
+    "micromatch": "^4.0.4",
     "resolve-pathname": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",
+    "@types/micromatch": "^4.0.2",
     "dedent": "^0.7.0"
   }
 }

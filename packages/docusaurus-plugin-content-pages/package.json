@@ -25,9 +25,7 @@
     "@docusaurus/utils-validation": "2.0.0-beta.3",
     "globby": "^11.0.2",
     "lodash": "^4.17.20",
-    "minimatch": "^3.0.4",
     "remark-admonitions": "^1.2.1",
-    "slash": "^3.0.0",
     "tslib": "^2.1.0",
     "webpack": "^5.40.0"
   },
