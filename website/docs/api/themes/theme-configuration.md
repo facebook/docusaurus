@@ -208,6 +208,25 @@ You can add items to the navbar via `themeConfig.navbar.items`.
 
 By default, Navbar items are regular links (internal or external).
 
+React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
+
+Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+
+Accepted fields:
+
+| Field | Value | Explanation | Required | Default |
+| --- | --- | --- | --- | --- |
+| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | Yes | N/A |
+| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | Yes | N/A |
+| `label` | `string` | The name to be shown for this item. | Yes | N/A |
+| `prependBaseUrlToHref` | `boolean` | Prepends the baseUrl to `href` values. | No | `false` |
+| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `activeBasePath` | `string` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. | No | `''` |
+| `activeBaseRegex` | `string` | Alternative to `activeBasePath` if required. | No | `''` |
+| `className` | `string` | Custom CSS class (for styling any item). | No | `''` |
+
+Example configuration:
+
 ```js title="docusaurus.config.js"
 module.exports = {
   // ...
@@ -216,26 +235,13 @@ module.exports = {
       // highlight-start
       items: [
         {
-          // Client-side routing, used for navigating within the website.
-          // The baseUrl will be automatically prepended to this value.
           to: 'docs/introduction',
-          // A full-page navigation, used for navigating outside of the website.
-          // You should only use either `to` or `href`.
-          href: 'https://www.facebook.com',
-          // Prepends the baseUrl to href values.
-          prependBaseUrlToHref: true,
-          // The string to be shown.
+          // Only one of "to" or "href" should be used
+          // href: 'https://www.facebook.com',
           label: 'Introduction',
-          // Left or right side of the navbar.
-          position: 'left', // or 'right'
-          // To apply the active class styling on all
-          // routes starting with this path.
-          // This usually isn't necessary
+          position: 'left',
           activeBasePath: 'docs',
-          // Alternative to activeBasePath if required.
           activeBaseRegex: 'docs/(next|v8)',
-          // Custom CSS class (for styling any item).
-          className: '',
         },
         // ... other items
       ],
@@ -246,41 +252,48 @@ module.exports = {
 };
 ```
 
-React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
-
-Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
-
 ### Navbar dropdown {#navbar-dropdown}
 
 Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items. The dropdown items cannot be dropdowns themselves. In other words, they can of be one of the following types: `default`, `doc`, `docsVersion`.
 
-```js {9-19} title="docusaurus.config.js"
+Note that the dropdown base item is a link as well, so it is possible be clickable by itself and therefore receive any of the props of a [plain navbar link](#navbar-items).
+
+Accepted fields:
+
+| Field | Value | Explanation | Required | Default |
+| --- | --- | --- | --- | --- |
+| `type` | `'dropdown'` |  | Yes | N/A |
+| `items` | Array of items with type `default`, `doc`, or `docsVersion` | The items to be contained in the dropdown. | Yes | N/A |
+| `label` | `string` | The name to be shown for this item. | Yes | N/A |
+| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
       items: [
+        // highlight-start
         {
           type: 'dropdown',
           label: 'Community',
-          position: 'left', // or 'right'
+          position: 'left',
           items: [
             {
               label: 'Facebook',
-              href: '...',
-            },
-            {
-              label: 'GitHub',
-              href: '...',
+              href: 'https://www.facebook.com',
             },
             {
               type: 'doc',
-              label: 'social',
-              docId: '...',
+              label: 'Social',
+              docId: 'social',
             },
             // ... more items
           ],
         },
+        // highlight-end
       ],
     },
     // ...
@@ -292,6 +305,17 @@ module.exports = {
 
 If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
 
+Accepted fields:
+
+| Field | Value | Explanation | Required | Default |
+| --- | --- | --- | --- | --- |
+| `type` | `'doc'` |  | Yes | N/A |
+| `docId` | `string` | The ID of the doc that this item links to. | Yes | N/A |
+| `label` | `string` | The name to be shown for this item. | No | `docId` |
+| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `activeSidebarClassName` | `string` | The CSS class name to apply when this doc's sidebar is active. | No | `'navbar__link--active'` |
+| `docsPluginId` | `string` | The ID of the docs plugin that the doc belongs to. | No | `'default'` |
+
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
@@ -301,12 +325,7 @@ module.exports = {
         {
           type: 'doc',
           docId: 'introduction',
-
-          //// Optional
-          position: 'left',
           label: 'Docs',
-          activeSidebarClassName: 'navbar__link--active',
-          docsPluginId: 'default',
         },
         // highlight-end
       ],
@@ -320,6 +339,8 @@ module.exports = {
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
 
 The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+
+Example configuration:
 
 ```js {5-8} title="docusaurus.config.js"
 module.exports = {
