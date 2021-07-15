@@ -8,6 +8,7 @@
 const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin')
   .default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
+const {normalizeUrl} = require('@docusaurus/utils');
 const path = require('path');
 const webpack = require('webpack');
 const {injectManifest} = require('workbox-build');
@@ -88,12 +89,15 @@ function plugin(context, options) {
     injectHtmlTags() {
       const headTags = [];
       if (isProd && pwaHead) {
-        pwaHead.forEach(({tagName, ...attributes}) =>
-          headTags.push({
+        pwaHead.forEach(({tagName, ...attributes}) => {
+          if (attributes.href && !attributes.href.startsWith(baseUrl)) {
+            attributes.href = normalizeUrl([baseUrl, attributes.href]);
+          }
+          return headTags.push({
             tagName,
             attributes,
-          }),
-        );
+          });
+        });
       }
       return {headTags};
     },
