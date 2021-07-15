@@ -258,6 +258,12 @@ Navbar items of the type `dropdown` has the additional `items` field, an inner a
 
 Note that the dropdown base item is a link as well, so it is possible be clickable by itself and therefore receive any of the props of a [plain navbar link](#navbar-items).
 
+:::caution
+
+The `dropdown` type used to be inferred from the existence of `items`. This behavior is deprecated and may stop working in the future. Always explicitly define the item to be of type `dropdown`.
+
+:::
+
 Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
