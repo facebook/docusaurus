@@ -14,6 +14,7 @@ import {
   normalizeUrl,
   parseMarkdownString,
   posixPath,
+  Globby,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -28,7 +29,6 @@ import {
 } from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
-import globby from 'globby';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
@@ -95,7 +95,7 @@ export async function readVersionDocs(
     'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
   >,
 ): Promise<DocFile[]> {
-  const sources = await globby(options.include, {
+  const sources = await Globby(options.include, {
     cwd: versionMetadata.contentPath,
     ignore: options.exclude,
   });

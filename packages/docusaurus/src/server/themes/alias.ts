@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
+import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
 import {ThemeAliases} from '@docusaurus/types';
 import {sortBy} from 'lodash';
 
@@ -21,7 +20,7 @@ export default function themeAlias(
     return {};
   }
 
-  const themeComponentFiles = globby.sync(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = Globby.sync(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 

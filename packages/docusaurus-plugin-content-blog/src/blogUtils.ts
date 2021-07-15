@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import globby from 'globby';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
@@ -27,6 +26,7 @@ import {
   getFolderContainingFile,
   posixPath,
   replaceMarkdownLinks,
+  Globby,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -139,7 +139,7 @@ export async function generateBlogPosts(
   }
 
   const {baseUrl = ''} = siteConfig;
-  const blogSourceFiles = await globby(include, {
+  const blogSourceFiles = await Globby(include, {
     cwd: contentPaths.contentPath,
     ignore: exclude,
   });
