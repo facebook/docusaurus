@@ -90,7 +90,7 @@ function plugin(context, options) {
       const headTags = [];
       if (isProd && pwaHead) {
         pwaHead.forEach(({tagName, ...attributes}) => {
-          if (attributes.href) {
+          if (attributes.href && !attributes.href.startsWith(baseUrl)) {
             attributes.href = normalizeUrl([baseUrl, attributes.href]);
           }
           return headTags.push({
