@@ -334,6 +334,7 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
+  import type {ReactNode} from 'react';
   import type {LinkProps} from '@docusaurus/Link';
 
   export type NavLinkProps = LinkProps & {
