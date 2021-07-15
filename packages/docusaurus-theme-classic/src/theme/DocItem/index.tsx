@@ -56,15 +56,14 @@ function DocItem(props: Props): JSX.Element {
 
   const windowSize = useWindowSize();
 
+  const canRenderTOC =
+    !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
+
   const renderTocMobile =
-    !hideTableOfContents &&
-    DocContent.toc &&
-    (windowSize === 'mobile' || windowSize === 'ssr');
+    canRenderTOC && (windowSize === 'mobile' || windowSize === 'ssr');
 
   const renderTocDesktop =
-    !hideTableOfContents &&
-    DocContent.toc &&
-    (windowSize === 'desktop' || windowSize === 'ssr');
+    canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
 
   return (
     <>
