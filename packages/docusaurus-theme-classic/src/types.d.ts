@@ -347,6 +347,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
+    readonly position?: 'left' | 'right';
   };
 
   export type Props = DesktopOrMobileNavBarItemProps & {
