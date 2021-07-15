@@ -12,6 +12,7 @@ import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
@@ -30,6 +31,7 @@ describe('normalizeDocsPluginOptions', () => {
       routeBasePath: 'my-docs', // URL Route.
       homePageId: 'home', // Document id for docs home page.
       include: ['**/*.{md,mdx}'], // Extensions to include.
+      exclude: GlobExcludeDefault,
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
       sidebarItemsGenerator: DefaultSidebarItemsGenerator,
       numberPrefixParser: DefaultNumberPrefixParser,

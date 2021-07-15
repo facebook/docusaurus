@@ -7,18 +7,38 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
 <feed xmlns=\\"http://www.w3.org/2005/Atom\\">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
-    <updated>2020-02-27T00:00:00.000Z</updated>
+    <updated>2020-08-16T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel=\\"alternate\\" href=\\"https://docusaurus.io/myBaseUrl/blog\\"/>
     <subtitle>Hello Blog</subtitle>
     <icon>https://docusaurus.io/myBaseUrl/image/favicon.ico</icon>
     <rights>Copyright</rights>
     <entry>
+        <title type=\\"html\\"><![CDATA[Complex Slug]]></title>
+        <id>/hey/my super path/héllô</id>
+        <link href=\\"https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô\\"/>
+        <updated>2020-08-16T00:00:00.000Z</updated>
+        <summary type=\\"html\\"><![CDATA[complex url slug]]></summary>
+    </entry>
+    <entry>
+        <title type=\\"html\\"><![CDATA[Simple Slug]]></title>
+        <id>/simple/slug</id>
+        <link href=\\"https://docusaurus.io/myBaseUrl/blog/simple/slug\\"/>
+        <updated>2020-08-15T00:00:00.000Z</updated>
+        <summary type=\\"html\\"><![CDATA[simple url slug]]></summary>
+    </entry>
+    <entry>
         <title type=\\"html\\"><![CDATA[draft]]></title>
         <id>draft</id>
         <link href=\\"https://docusaurus.io/myBaseUrl/blog/draft\\"/>
         <updated>2020-02-27T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[this post should not be published yet]]></summary>
+    </entry>
+    <entry>
+        <title type=\\"html\\"><![CDATA[some heading]]></title>
+        <id>some heading</id>
+        <link href=\\"https://docusaurus.io/myBaseUrl/blog/heading-as-title\\"/>
+        <updated>2019-01-02T00:00:00.000Z</updated>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[date-matter]]></title>
@@ -46,16 +66,36 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
         <title>Hello Blog</title>
         <link>https://docusaurus.io/myBaseUrl/blog</link>
         <description>Hello Blog</description>
-        <lastBuildDate>Thu, 27 Feb 2020 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 16 Aug 2020 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[Complex Slug]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
+            <guid>/hey/my super path/héllô</guid>
+            <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[complex url slug]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Simple Slug]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/simple/slug</link>
+            <guid>/simple/slug</guid>
+            <pubDate>Sat, 15 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[simple url slug]]></description>
+        </item>
         <item>
             <title><![CDATA[draft]]></title>
             <link>https://docusaurus.io/myBaseUrl/blog/draft</link>
             <guid>draft</guid>
             <pubDate>Thu, 27 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[this post should not be published yet]]></description>
+        </item>
+        <item>
+            <title><![CDATA[some heading]]></title>
+            <link>https://docusaurus.io/myBaseUrl/blog/heading-as-title</link>
+            <guid>some heading</guid>
+            <pubDate>Wed, 02 Jan 2019 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[date-matter]]></title>

@@ -31,6 +31,7 @@ export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {GlobExcludeDefault} from './globUtils';
 
 const fileHash = new Map();
 export async function generate(

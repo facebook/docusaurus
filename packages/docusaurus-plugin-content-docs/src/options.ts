@@ -12,6 +12,8 @@ import {
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
+
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
@@ -26,6 +28,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
+  exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
@@ -66,6 +69,7 @@ export const OptionsSchema = Joi.object({
     .default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   sidebarPath: Joi.alternatives().try(
     Joi.boolean().invalid(true),
     Joi.string(),

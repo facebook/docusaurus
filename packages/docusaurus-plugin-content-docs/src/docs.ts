@@ -92,11 +92,12 @@ export async function readVersionDocs(
   versionMetadata: VersionMetadata,
   options: Pick<
     PluginOptions,
-    'include' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
+    'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
   >,
 ): Promise<DocFile[]> {
   const sources = await globby(options.include, {
     cwd: versionMetadata.contentPath,
+    ignore: options.exclude,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source, options)),

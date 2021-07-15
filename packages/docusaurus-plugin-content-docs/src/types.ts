@@ -81,6 +81,7 @@ export type PluginOptions = MetadataOptions &
   RemarkAndRehypePluginOptions & {
     id: string;
     include: string[];
+    exclude: string[];
     docLayoutComponent: string;
     docItemComponent: string;
     admonitions: Record<string, unknown>;

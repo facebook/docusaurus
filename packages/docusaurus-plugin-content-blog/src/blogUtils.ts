@@ -127,6 +127,7 @@ export async function generateBlogPosts(
 ): Promise<BlogPost[]> {
   const {
     include,
+    exclude,
     routeBasePath,
     truncateMarker,
     showReadingTime,
@@ -140,6 +141,7 @@ export async function generateBlogPosts(
   const {baseUrl = ''} = siteConfig;
   const blogSourceFiles = await globby(include, {
     cwd: contentPaths.contentPath,
+    ignore: exclude,
   });
 
   const blogPosts: BlogPost[] = [];
