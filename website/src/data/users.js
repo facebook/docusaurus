@@ -776,6 +776,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'React Complex Tree',
+    description: 'Unopinionated Accessible React Tree Component with Multi-Select and Drag-And-Drop',
+    preview: require('./showcase/react-complex-tree.png'),
+    website: 'https://rct.lukasbach.com/',
+    source: 'https://github.com/lukasbach/react-complex-tree',
+    tags: ['opensource'],
+  },
+  {
     title: 'React-Leaflet',
     description: 'React components for Leaflet maps',
     preview: require('./showcase/react-leaflet.png'),
