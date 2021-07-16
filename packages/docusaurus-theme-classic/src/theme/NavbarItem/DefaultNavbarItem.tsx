@@ -103,7 +103,11 @@ function DefaultNavbarItemMobile({
   );
 }
 
-function DefaultNavbarItem({mobile = false, ...props}: Props): JSX.Element {
+function DefaultNavbarItem({
+  mobile = false,
+  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  ...props
+}: Props): JSX.Element {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
   return <Comp {...props} />;
 }

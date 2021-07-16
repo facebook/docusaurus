@@ -55,11 +55,7 @@ function getComponentType(
   return type as NavbarItemComponentType;
 }
 
-export default function NavbarItem({
-  type,
-  position: _position,
-  ...props
-}: Props): JSX.Element {
+export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const componentType = getComponentType(
     type,
     (props as DropdownNavbarItemProps).items !== undefined,
