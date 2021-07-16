@@ -206,6 +206,46 @@ module.exports = {
 
 You can add items to the navbar via `themeConfig.navbar.items`.
 
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      // highlight-start
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/facebook/docusaurus',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
+      ],
+      // highlight-end
+    },
+    // ...
+  },
+};
+```
+
+The sections below will introduce you to all the types of navbar items available.
+
+### Navbar link {#navbar-link}
+
 By default, Navbar items are regular links (internal or external).
 
 React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
@@ -216,67 +256,62 @@ Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | Yes | N/A |
-| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | Yes | N/A |
-| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | Yes | N/A |
+| `label` | `string` | The name to be shown for this item. | Yes |  |
+| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | Yes |  |
+| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | Yes |  |
 | `prependBaseUrlToHref` | `boolean` | Prepends the baseUrl to `href` values. | No | `false` |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
-| `activeBasePath` | `string` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. | No | `''` |
-| `activeBaseRegex` | `string` | Alternative to `activeBasePath` if required. | No | `''` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
+| `activeBasePath` | `string` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. | No | `to` / `href` |
+| `activeBaseRegex` | `string` | Alternative to `activeBasePath` if required. | No | `undefined` |
 | `className` | `string` | Custom CSS class (for styling any item). | No | `''` |
 
 Example configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
-      // highlight-start
       items: [
+        // highlight-start
         {
           to: 'docs/introduction',
           // Only one of "to" or "href" should be used
           // href: 'https://www.facebook.com',
           label: 'Introduction',
           position: 'left',
-          activeBasePath: 'docs',
           activeBaseRegex: 'docs/(next|v8)',
         },
-        // ... other items
       ],
       // highlight-end
     },
-    // ...
   },
 };
 ```
 
 ### Navbar dropdown {#navbar-dropdown}
 
-Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items. The dropdown items cannot be dropdowns themselves. In other words, they can of be one of the following types: `default`, `doc`, `docsVersion`. **This is henceforth referred to as link-like items.**
+Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items.
 
-Note that the dropdown base item is a link as well, so it is possible be clickable by itself and therefore receive any of the props of a [plain navbar link](#navbar-items).
+Navbar dropdown items only accept the following **"link-like" item types**:
 
-:::caution
+- [Navbar link](#navbar-link)
+- [Navbar doc](#navbar-doc)
+- [Navbar doc version](#navbar-doc-version)
 
-The `dropdown` type used to be inferred from the existence of `items`. This behavior is deprecated and may stop working in the future. Always explicitly define the item to be of type `dropdown`.
-
-:::
+Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
 
 Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | Yes | N/A |
-| `items` | Array of [link-like items](#navbar-dropdown) | The items to be contained in the dropdown. | Yes | N/A |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `label` | `string` | The name to be shown for this item. | Yes |  |
+| `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | The items to be contained in the dropdown. | Yes |  |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
 
 Example configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
       items: [
@@ -301,7 +336,6 @@ module.exports = {
         // highlight-end
       ],
     },
-    // ...
   },
 };
 ```
@@ -314,9 +348,9 @@ Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `docId` | `string` | The ID of the doc that this item links to. | Yes | N/A |
+| `docId` | `string` | The ID of the doc that this item links to. | Yes |  |
 | `label` | `string` | The name to be shown for this item. | No | `docId` |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
 | `activeSidebarClassName` | `string` | The CSS class name to apply when this doc's sidebar is active. | No | `'navbar__link--active'` |
 | `docsPluginId` | `string` | The ID of the docs plugin that the doc belongs to. | No | `'default'` |
 
@@ -351,9 +385,9 @@ Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
-| `dropdownItemsBefore` | Array of [link-like items](#navbar-dropdown) | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
-| `dropdownItemsAfter` | Array of [link-like items](#navbar-dropdown) | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
 | `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | No | `'default'` |
 | `dropdownActiveClassDisabled` | `boolean` | Do not add the link active class when browsing docs. | No | `false` |
 
@@ -388,7 +422,7 @@ Accepted fields:
 | --- | --- | --- | --- | --- |
 | `label` | `string` | The name to be shown for this item. | No | The active/latest version label. |
 | `to` | `string` | The internal link that this item points to. | No | The active/latest version. |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
 | `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | No | `'default'` |
 
 Example configuration:
@@ -422,9 +456,9 @@ Accepted fields:
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
-| `dropdownItemsBefore` | Array of [link-like items](#navbar-dropdown) | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
-| `dropdownItemsAfter` | Array of [link-like items](#navbar-dropdown) | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
 
 Example configuration:
 
@@ -459,7 +493,7 @@ However, with this special navbar item type, you can change the default location
 
 | Field | Value | Explanation | Required | Default |
 | --- | --- | --- | --- | --- |
-| `position` | `'left'` / `'right'` | The side of the navbar this item should appear on. | No | `'left'` |
+| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
 
 ```js {5-8} title="docusaurus.config.js"
 module.exports = {
