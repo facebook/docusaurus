@@ -340,6 +340,14 @@ const Users = [
     tags: ['opensource','facebook'],
   },
   {
+    title: 'Easyjwt',
+    description: 'JWT creation and validation library',
+    preview: require('./showcase/easyjwt.png'),
+    website: 'https://www.easyjwt.org',
+    source: 'https://github.com/authdog/easyjwt',
+    tags: ['opensource','i18n'],
+  },
+  {
     title: 'Eightshift Docs',
     description:
       'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
