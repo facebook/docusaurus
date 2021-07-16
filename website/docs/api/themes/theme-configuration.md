@@ -126,7 +126,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 - **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
 - **Multi-instance path**: N/A
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `N/A
+- **Markdown files**: N/A
 
 ### Example file-system structure {#example-file-system-structure}
 
@@ -242,7 +242,7 @@ module.exports = {
 };
 ```
 
-The sections below will introduce you to all the types of navbar items available.
+The items can have different behaviors based on the `type` field. The sections below will introduce you to all the types of navbar items available.
 
 ### Navbar link {#navbar-link}
 
@@ -281,8 +281,8 @@ module.exports = {
           position: 'left',
           activeBaseRegex: 'docs/(next|v8)',
         },
+        // highlight-end
       ],
-      // highlight-end
     },
   },
 };
