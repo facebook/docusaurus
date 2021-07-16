@@ -1218,6 +1218,14 @@ const Users = [
     source: 'https://github.com/zowe/docs-site',
     tags: ['opensource', 'product', 'large', 'design', 'versioning']
   },
+  {
+    title: 'Quickwit',
+    description: 'The open source search engine on object storage with subsecond latency',
+    preview: require('./showcase/quickwit.png'),
+    website: 'https://quickwit.io',
+    source: 'https://github.com/quickwit-inc/quickwit',
+    tags: ['favorite', 'opensource', 'design']
+  }
 ];
 
 export const TagList = Object.keys(Tags);
