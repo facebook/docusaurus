@@ -232,7 +232,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           {
             tagName: 'meta',
             name: 'msapplication-TileImage',
-            href: 'img/docusaurus.png',
+            content: 'img/docusaurus.png',
           },
           {
             tagName: 'meta',

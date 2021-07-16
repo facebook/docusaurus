@@ -90,9 +90,21 @@ function plugin(context, options) {
       const headTags = [];
       if (isProd && pwaHead) {
         pwaHead.forEach(({tagName, ...attributes}) => {
-          if (attributes.href && !attributes.href.startsWith(baseUrl)) {
-            attributes.href = normalizeUrl([baseUrl, attributes.href]);
-          }
+          ['href', 'content'].forEach((attribute) => {
+            const attributeValue = attributes[attribute];
+
+            if (!attributeValue) {
+              return;
+            }
+
+            const attributePath =
+              !!path.extname(attributeValue) && attributeValue;
+
+            if (attributePath && !attributePath.startsWith(baseUrl)) {
+              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+            }
+          });
+
           return headTags.push({
             tagName,
             attributes,
