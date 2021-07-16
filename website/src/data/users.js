@@ -1216,7 +1216,7 @@ const Users = [
     preview: require('./showcase/quickwit.png'),
     website: 'https://quickwit.io',
     source: 'https://github.com/quickwit-inc/quickwit',
-    tags: ['opensource', 'design']
+    tags: ['favorite', 'opensource', 'design']
   }
 ];
 
