@@ -343,7 +343,7 @@ const Users = [
     title: 'Easyjwt',
     description: 'JWT creation and validation library',
     preview: require('./showcase/easyjwt.png'),
-    website: 'https://easyjwt.org',
+    website: 'https://www.easyjwt.org',
     source: 'https://github.com/authdog/easyjwt',
     tags: ['opensource','i18n'],
   },
