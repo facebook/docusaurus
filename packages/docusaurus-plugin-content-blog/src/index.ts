@@ -101,16 +101,6 @@ export default function pluginContentBlog(
       );
     },
 
-    getClientModules() {
-      const modules = [];
-
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-
-      return modules;
-    },
-
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
       const {postsPerPage, routeBasePath} = options;
