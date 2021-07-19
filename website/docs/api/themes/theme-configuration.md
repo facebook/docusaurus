@@ -387,7 +387,7 @@ Accepted fields:
 | --- | --- | --- | --- | --- |
 | `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
-| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the end of the dropdown. | No | `[]` |
 | `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | No | `'default'` |
 | `dropdownActiveClassDisabled` | `boolean` | Do not add the link active class when browsing docs. | No | `false` |
 
