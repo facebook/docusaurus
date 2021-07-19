@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {cloneElement} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -74,7 +74,7 @@ function DefaultNavbarItemDesktop({
   isDropdownItem = false,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  let element = (
+  const element = (
     <NavLink
       className={clsx(
         isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
@@ -85,7 +85,7 @@ function DefaultNavbarItemDesktop({
   );
 
   if (isDropdownItem) {
-    element = cloneElement(<li />, {}, element);
+    return <li>{element}</li>;
   }
 
   return element;
