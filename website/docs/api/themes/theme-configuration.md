@@ -295,7 +295,7 @@ Navbar items of the type `dropdown` has the additional `items` field, an inner a
 Navbar dropdown items only accept the following **"link-like" item types**:
 
 - [Navbar link](#navbar-link)
-- [Navbar doc](#navbar-doc)
+- [Navbar doc link](#navbar-doc-link)
 - [Navbar doc version](#navbar-doc-version)
 
 Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
