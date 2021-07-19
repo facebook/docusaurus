@@ -44,7 +44,7 @@ const getNavbarItemComponent = (type: NavbarItemComponentType) => {
 };
 
 function getComponentType(
-  type: string | undefined,
+  type: Types,
   isDropdown: boolean,
 ): NavbarItemComponentType {
   // Backward compatibility: navbar item with no type set
