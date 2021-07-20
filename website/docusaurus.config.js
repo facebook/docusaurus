@@ -126,6 +126,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         sidebarPath: 'dogfooding/docs-tests-sidebars.js',
 
         // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
+        // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
         path: fs.realpathSync('dogfooding/docs-tests-symlink'),
       },
     ],

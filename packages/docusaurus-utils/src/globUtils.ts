@@ -8,8 +8,8 @@
 // Globby/Micromatch are the 2 libs we use in Docusaurus consistently
 
 export {default as Globby} from 'globby';
-
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
+import path from 'path';
 
 // The default patterns we ignore when globbing
 // using _ prefix for exclusion by convention
@@ -32,4 +32,24 @@ export function createMatcher(patterns: string[]): Matcher {
     patterns.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
   );
   return (str) => regexp.test(str);
+}
+
+// We use match patterns like '**/_*/**',
+// This function permits to help to:
+// Match /user/sebastien/website/docs/_partials/xyz.md
+// Ignore /user/_sebastien/website/docs/partials/xyz.md
+export function createAbsoluteFilePathMatcher(
+  patterns: string[],
+  rootFolders: string[],
+): Matcher {
+  const matcher = createMatcher(patterns);
+  return (absoluteFilePath: string) => {
+    const rootFolder = rootFolders.find((folderPath) =>
+      absoluteFilePath.startsWith(folderPath),
+    );
+    const filePath = rootFolder
+      ? path.relative(absoluteFilePath, rootFolder)
+      : absoluteFilePath;
+    return matcher(filePath);
+  };
 }
