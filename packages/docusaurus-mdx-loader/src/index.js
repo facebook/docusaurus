@@ -91,7 +91,8 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     : false;
 
   if (isMDXPartial && hasFrontMatter) {
-    const errorMessage = `Docusaurus MDX partial files (using by default the _ prefix as a convention) should not contain FrontMatter.
+    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+Those partial files use the _ prefix as a convention by default, but this is configurable.
 File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringify(
       frontMatter,
       null,

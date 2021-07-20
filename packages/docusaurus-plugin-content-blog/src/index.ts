@@ -16,7 +16,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
-  createMatcher,
+  createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -437,6 +437,7 @@ export default function pluginContentBlog(
         },
       };
 
+      const contentDirs = getContentPathList(contentPaths);
       return {
         resolve: {
           alias: {
@@ -447,7 +448,7 @@ export default function pluginContentBlog(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths)
+              include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
@@ -460,7 +461,10 @@ export default function pluginContentBlog(
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    isMDXPartial: createMatcher(options.exclude),
+                    isMDXPartial: createAbsoluteFilePathMatcher(
+                      options.exclude,
+                      contentDirs,
+                    ),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.

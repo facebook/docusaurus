@@ -96,7 +96,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
+  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -123,19 +123,18 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         // This plugin instance is used to test fancy edge cases
         id: 'docs-tests',
         routeBasePath: 'docs-tests',
-        sidebarPath: 'dogfooding/docs-tests-sidebars.js',
+        sidebarPath: '_dogfooding/docs-tests-sidebars.js',
 
         // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
         // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
-        path: fs.realpathSync('dogfooding/docs-tests-symlink'),
+        path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
       },
     ],
-
     [
       '@docusaurus/plugin-content-blog',
       {
         id: 'second-blog',
-        path: 'dogfooding/second-blog',
+        path: '_dogfooding/_second-blog',
         routeBasePath: 'second-blog',
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',

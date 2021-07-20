@@ -43,13 +43,21 @@ export function createAbsoluteFilePathMatcher(
   rootFolders: string[],
 ): Matcher {
   const matcher = createMatcher(patterns);
-  return (absoluteFilePath: string) => {
+
+  function getRelativeFilePath(absoluteFilePath: string) {
     const rootFolder = rootFolders.find((folderPath) =>
       absoluteFilePath.startsWith(folderPath),
     );
-    const filePath = rootFolder
-      ? path.relative(absoluteFilePath, rootFolder)
-      : absoluteFilePath;
-    return matcher(filePath);
-  };
+    if (!rootFolder) {
+      throw new Error(
+        `createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=${absoluteFilePath} was not contained in any of the root folders ${JSON.stringify(
+          rootFolder,
+        )}`,
+      );
+    }
+    return path.relative(rootFolder, absoluteFilePath);
+  }
+
+  return (absoluteFilePath: string) =>
+    matcher(getRelativeFilePath(absoluteFilePath));
 }
