@@ -44,7 +44,7 @@ function BackToTopButton(): JSX.Element {
 
   return (
     <button
-      className={clsx(styles.BackToTopButton, {
+      className={clsx('clean-btn', styles.BackToTopButton, {
         [styles.BackToTopButtonShow]: show,
       })}
       type="button"
