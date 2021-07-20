@@ -7,10 +7,9 @@
 
 import React from 'react';
 
-import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import BlogLayout from '@theme/BlogLayout';
 import type {Props} from '@theme/BlogTagsListPage';
-import BlogSidebar from '@theme/BlogSidebar';
 import {translate} from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
@@ -54,26 +53,18 @@ function BlogTagsListPage(props: Props): JSX.Element {
     .filter((item) => item != null);
 
   return (
-    <Layout
+    <BlogLayout
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogTagsListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_list',
-      }}>
-      <div className="container margin-vert--lg">
-        <div className="row">
-          <aside className="col col--3">
-            <BlogSidebar sidebar={sidebar} />
-          </aside>
-          <main className="col col--7">
-            <h1>{title}</h1>
-            <section className="margin-vert--lg">{tagsSection}</section>
-          </main>
-        </div>
-      </div>
-    </Layout>
+      }}
+      sidebar={sidebar}>
+      <h1>{title}</h1>
+      <section className="margin-vert--lg">{tagsSection}</section>
+    </BlogLayout>
   );
 }
 
