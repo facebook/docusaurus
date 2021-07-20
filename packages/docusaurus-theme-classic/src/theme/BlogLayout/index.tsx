@@ -21,7 +21,7 @@ function BlogLayout(props: Props): JSX.Element {
   return (
     <Layout {...layoutProps}>
       <div className="container margin-vert--lg">
-        <div className="row docusaurus-jc-center">
+        <div className="row">
           {hasSidebar && (
             <aside className="col col--3">
               <BlogSidebar sidebar={sidebar!} />
@@ -30,7 +30,7 @@ function BlogLayout(props: Props): JSX.Element {
           <main
             className={clsx('col', {
               'col--7': hasSidebar,
-              'col--9': !hasSidebar,
+              'col--9 col--offset-1': !hasSidebar,
             })}>
             {children}
           </main>
