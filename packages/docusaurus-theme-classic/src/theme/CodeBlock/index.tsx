@@ -207,13 +207,14 @@ export default function CodeBlock({
             </div>
           )}
           <div className={clsx(styles.codeBlockContent, language)}>
-            <div
+            <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar', {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
-              })}>
-              <div className={styles.codeBlockLines} style={style}>
+              })}
+              style={style}>
+              <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
                     line[0].content = '\n'; // eslint-disable-line no-param-reassign
@@ -222,19 +223,19 @@ export default function CodeBlock({
                   const lineProps = getLineProps({line, key: i});
 
                   if (highlightLines.includes(i + 1)) {
-                    lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+                    lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
                   return (
-                    <div key={i} {...lineProps}>
+                    <span key={i} {...lineProps}>
                       {line.map((token, key) => (
                         <span key={key} {...getTokenProps({token, key})} />
                       ))}
-                    </div>
+                    </span>
                   );
                 })}
-              </div>
-            </div>
+              </code>
+            </pre>
 
             <button
               ref={button}
@@ -244,7 +245,7 @@ export default function CodeBlock({
                 message: 'Copy code to clipboard',
                 description: 'The ARIA label for copy code blocks button',
               })}
-              className={clsx(styles.copyButton)}
+              className={clsx(styles.copyButton, 'clean-btn')}
               onClick={handleCopyCode}>
               {showCopied ? (
                 <Translate

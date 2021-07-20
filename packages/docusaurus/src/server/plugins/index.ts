@@ -16,12 +16,15 @@ import {
   AllContent,
   TranslationFiles,
   ThemeConfig,
+  LoadedPlugin,
+  InitializedPlugin,
 } from '@docusaurus/types';
-import initPlugins, {InitPlugin} from './init';
+import initPlugins from './init';
 import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
+import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -59,13 +62,13 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: InitPlugin[];
+  plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: unknown;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitPlugin[] = initPlugins({
+  const plugins: InitializedPlugin[] = initPlugins({
     pluginConfigs,
     context,
   });
@@ -74,21 +77,20 @@ export async function loadPlugins({
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
-  type ContentLoadedPlugin = {plugin: InitPlugin; content: unknown};
-  const contentLoadedPlugins: ContentLoadedPlugin[] = await Promise.all(
+  const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
       const content = plugin.loadContent ? await plugin.loadContent() : null;
-      return {plugin, content};
+      return {...plugin, content};
     }),
   );
 
-  type ContentLoadedTranslatedPlugin = ContentLoadedPlugin & {
+  type ContentLoadedTranslatedPlugin = LoadedPlugin & {
     translationFiles: TranslationFiles;
   };
   const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
-    contentLoadedPlugins.map(async (contentLoadedPlugin) => {
+    loadedPlugins.map(async (contentLoadedPlugin) => {
       const translationFiles =
-        (await contentLoadedPlugin.plugin?.getTranslationFiles?.({
+        (await contentLoadedPlugin?.getTranslationFiles?.({
           content: contentLoadedPlugin.content,
         })) ?? [];
       const localizedTranslationFiles = await Promise.all(
@@ -97,7 +99,7 @@ export async function loadPlugins({
             locale: context.i18n.currentLocale,
             siteDir: context.siteDir,
             translationFile,
-            plugin: contentLoadedPlugin.plugin,
+            plugin: contentLoadedPlugin,
           }),
         ),
       );
@@ -108,11 +110,11 @@ export async function loadPlugins({
     }),
   );
 
-  const allContent: AllContent = chain(contentLoadedPlugins)
-    .groupBy((item) => item.plugin.name)
+  const allContent: AllContent = chain(loadedPlugins)
+    .groupBy((item) => item.name)
     .mapValues((nameItems) => {
       return chain(nameItems)
-        .groupBy((item) => item.plugin.options.id ?? DEFAULT_PLUGIN_ID)
+        .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
         .value();
     })
@@ -125,7 +127,7 @@ export async function loadPlugins({
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(
-      async ({plugin, content, translationFiles}) => {
+      async ({content, translationFiles, ...plugin}) => {
         if (!plugin.contentLoaded) {
           return;
         }
@@ -136,8 +138,16 @@ export async function loadPlugins({
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
         const dataDir = path.join(dataDirRoot, pluginId);
 
-        const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
-          pluginsRouteConfigs.push(config);
+        const addRoute: PluginContentLoadedActions['addRoute'] = (
+          initialRouteConfig,
+        ) => {
+          // Trailing slash behavior is handled in a generic way for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
+            trailingSlash: context.siteConfig.trailingSlash,
+            baseUrl: context.siteConfig.baseUrl,
+          });
+          pluginsRouteConfigs.push(finalRouteConfig);
+        };
 
         const createData: PluginContentLoadedActions['createData'] = async (
           name,
@@ -182,7 +192,7 @@ export async function loadPlugins({
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
   await Promise.all(
-    contentLoadedTranslatedPlugins.map(async ({plugin}) => {
+    contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
         return null;
       }
@@ -192,7 +202,7 @@ export async function loadPlugins({
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
       console.error(
         chalk.red(
-          'plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
+          'Plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
         ),
       );
 
@@ -209,10 +219,10 @@ export async function loadPlugins({
     untranslatedThemeConfig: ThemeConfig,
   ): ThemeConfig {
     return contentLoadedTranslatedPlugins.reduce(
-      (currentThemeConfig, {plugin, translationFiles}) => {
+      (currentThemeConfig, plugin) => {
         const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
           themeConfig: currentThemeConfig,
-          translationFiles,
+          translationFiles: plugin.translationFiles,
         });
         return {
           ...currentThemeConfig,
@@ -224,7 +234,7 @@ export async function loadPlugins({
   }
 
   return {
-    plugins,
+    plugins: loadedPlugins,
     pluginsRouteConfigs,
     globalData,
     themeConfigTranslated: translateThemeConfig(context.siteConfig.themeConfig),

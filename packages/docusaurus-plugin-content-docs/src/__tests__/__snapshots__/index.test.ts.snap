@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sidebar site with wrong sidebar content 1`] = `
-"Bad sidebars file.
+"Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
 These sidebar document ids do not exist:
-- goku,
+- goku
 
-Available document ids=
+Available document ids are:
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -182,7 +182,7 @@ Object {
   },
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
-    \\"title\\": \\"baz\\",
+    \\"title\\": \\"baz pagination_label\\",
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
@@ -200,7 +200,8 @@ Object {
   \\"frontMatter\\": {
     \\"id\\": \\"baz\\",
     \\"title\\": \\"baz\\",
-    \\"slug\\": \\"bazSlug.html\\"
+    \\"slug\\": \\"bazSlug.html\\",
+    \\"pagination_label\\": \\"baz pagination_label\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -208,7 +209,7 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"Hello, World !\\",
+    \\"title\\": \\"Hello sidebar_label\\",
     \\"permalink\\": \\"/docs/\\"
   }
 }",
@@ -238,11 +239,12 @@ Object {
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"hello\\",
-    \\"title\\": \\"Hello, World !\\"
+    \\"title\\": \\"Hello, World !\\",
+    \\"sidebar_label\\": \\"Hello sidebar_label\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
-    \\"title\\": \\"baz\\",
+    \\"title\\": \\"baz pagination_label\\",
     \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
   }
 }",
@@ -403,6 +405,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -435,7 +438,7 @@ Object {
           },
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]
@@ -447,17 +450,12 @@ Object {
         \\"items\\": [
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Hello, World !\\",
+            \\"label\\": \\"Hello sidebar_label\\",
             \\"href\\": \\"/docs/\\"
           }
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"docs\\",
-    \\"/docs/foo/bazSlug.html\\": \\"docs\\",
-    \\"/docs/\\": \\"docs\\"
   }
 }",
 }
@@ -572,6 +570,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -588,6 +587,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -596,6 +596,7 @@ Array [
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -870,6 +871,7 @@ Object {
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.0/community\\": [
@@ -879,15 +881,13 @@ Object {
         \\"href\\": \\"/community/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/team\\": \\"version-1.0.0/community\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"community\\": [
@@ -897,9 +897,6 @@ Object {
         \\"href\\": \\"/community/next/team\\"
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/community/next/team\\": \\"community\\"
   }
 }",
 }
@@ -963,6 +960,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
+        "sidebar": "community",
       },
     ],
   },
@@ -982,6 +980,7 @@ Array [
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
         "path": "/community/team",
+        "sidebar": "version-1.0.0/community",
       },
     ],
   },
@@ -1400,6 +1399,7 @@ Object {
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
@@ -1433,17 +1433,13 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/1.0.0/foo/barSlug\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/foo/baz\\": \\"version-1.0.0/docs\\",
-    \\"/docs/1.0.0/\\": \\"version-1.0.0/docs\\"
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
+  \\"banner\\": \\"none\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
@@ -1472,16 +1468,13 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/foo/bar\\": \\"version-1.0.1/docs\\",
-    \\"/docs/\\": \\"version-1.0.1/docs\\"
   }
 }",
   "version-current-metadata-prop-751.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
+  \\"banner\\": \\"unreleased\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -1510,16 +1503,13 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/next/foo/barSlug\\": \\"docs\\",
-    \\"/docs/next/\\": \\"docs\\"
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
+  \\"banner\\": \\"unmaintained\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
@@ -1536,9 +1526,6 @@ Object {
         ]
       }
     ]
-  },
-  \\"permalinkToSidebar\\": {
-    \\"/docs/withSlugs/rootAbsoluteSlug\\": \\"version-1.0.1/docs\\"
   }
 }",
 }
@@ -1705,6 +1692,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
         "path": "/docs/1.0.0/",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1713,6 +1701,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
+        "sidebar": "version-1.0.0/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1721,6 +1710,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
+        "sidebar": "version-1.0.0/docs",
       },
     ],
   },
@@ -1740,6 +1730,7 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/next/",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1756,6 +1747,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1815,6 +1807,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1874,6 +1867,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
         "path": "/docs/",
+        "sidebar": "version-1.0.1/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -1882,6 +1876,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "sidebar": "version-1.0.1/docs",
       },
     ],
   },

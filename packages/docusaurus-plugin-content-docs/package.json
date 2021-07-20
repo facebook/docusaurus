@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-docs.d.ts",
@@ -18,20 +18,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.0",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.3",
     "@types/js-yaml": "^4.0.0",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.1.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/mdx-loader": "2.0.0-beta.0",
-    "@docusaurus/types": "2.0.0-beta.0",
-    "@docusaurus/utils": "2.0.0-beta.0",
-    "@docusaurus/utils-validation": "2.0.0-beta.0",
+    "@docusaurus/core": "2.0.0-beta.3",
+    "@docusaurus/mdx-loader": "2.0.0-beta.3",
+    "@docusaurus/types": "2.0.0-beta.3",
+    "@docusaurus/utils": "2.0.0-beta.3",
+    "@docusaurus/utils-validation": "2.0.0-beta.3",
     "chalk": "^4.1.1",
     "combine-promises": "^1.1.0",
+    "escape-string-regexp": "^4.0.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
@@ -43,7 +44,7 @@
     "shelljs": "^0.8.4",
     "tslib": "^2.2.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.37.0"
+    "webpack": "^5.40.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

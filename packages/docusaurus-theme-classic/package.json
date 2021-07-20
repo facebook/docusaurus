@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/types.d.ts",
@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier:lib-next",
-    "watch": "concurrently -n \"lib,lib-next\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\"",
+    "watch": "concurrently --names \"lib,lib-next,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\" \"yarn tsc --watch\"",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
@@ -23,14 +23,15 @@
     "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-blog": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-pages": "2.0.0-beta.0",
-    "@docusaurus/theme-common": "2.0.0-beta.0",
-    "@docusaurus/types": "2.0.0-beta.0",
-    "@docusaurus/utils": "2.0.0-beta.0",
-    "@docusaurus/utils-validation": "2.0.0-beta.0",
+    "@docusaurus/core": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-blog": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-pages": "2.0.0-beta.3",
+    "@docusaurus/theme-common": "2.0.0-beta.3",
+    "@docusaurus/types": "2.0.0-beta.3",
+    "@docusaurus/utils": "2.0.0-beta.3",
+    "@docusaurus/utils-common": "2.0.0-beta.3",
+    "@docusaurus/utils-validation": "2.0.0-beta.3",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "chalk": "^4.1.1",
@@ -38,7 +39,7 @@
     "copy-text-to-clipboard": "^3.0.1",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
-    "infima": "0.2.0-alpha.24",
+    "infima": "0.2.0-alpha.26",
     "lodash": "^4.17.20",
     "parse-numeric-range": "^1.2.0",
     "postcss": "^8.2.15",
@@ -49,7 +50,7 @@
     "rtlcss": "^3.1.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.3"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

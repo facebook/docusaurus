@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "description": "Common types for Docusaurus packages.",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -13,11 +13,14 @@
     "directory": "packages/docusaurus-types"
   },
   "license": "MIT",
+  "scripts": {
+    "test": "tsc -p ."
+  },
   "dependencies": {
     "commander": "^5.1.0",
     "joi": "^17.4.0",
     "querystring": "0.2.0",
-    "webpack": "^5.37.0",
-    "webpack-merge": "^5.7.3"
+    "webpack": "^5.40.0",
+    "webpack-merge": "^5.8.0"
   }
 }

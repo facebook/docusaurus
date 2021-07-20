@@ -10,7 +10,7 @@ import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import path from 'path';
-
+import {loadSiteConfig} from '../server';
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {ServeCLIOptions} from '@docusaurus/types';
@@ -22,6 +22,7 @@ export default async function serve(
   let dir = path.isAbsolute(cliOptions.dir)
     ? cliOptions.dir
     : path.join(siteDir, cliOptions.dir);
+
   if (cliOptions.build) {
     dir = await build(
       siteDir,
@@ -40,17 +41,41 @@ export default async function serve(
     process.exit();
   }
 
+  const {
+    siteConfig: {baseUrl, trailingSlash},
+  } = await loadSiteConfig({
+    siteDir,
+    customConfigFilePath: cliOptions.config,
+  });
+
+  const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
+
   const server = http.createServer((req, res) => {
+    // Automatically redirect requests to /baseUrl/
+    if (!req.url?.startsWith(baseUrl)) {
+      res.writeHead(302, {
+        Location: baseUrl,
+      });
+      res.end();
+      return;
+    }
+
+    // Remove baseUrl before calling serveHandler
+    // Reason: /baseUrl/ should serve /build/index.html, not /build/baseUrl/index.html (does not exist)
+    req.url = req.url?.replace(baseUrl, '/');
+
     serveHandler(req, res, {
       cleanUrls: true,
       public: dir,
+      trailingSlash,
     });
   });
+
   console.log(
     boxen(
-      `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
-        cliOptions.host
-      }:${port}`,
+      chalk.green(
+        `Serving "${cliOptions.dir}" directory at "${servingUrl + baseUrl}".`,
+      ),
       {
         borderColor: 'green',
         padding: 1,

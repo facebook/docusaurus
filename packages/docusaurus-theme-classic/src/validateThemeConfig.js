@@ -40,6 +40,7 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  sidebarCollapsible: true,
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -50,7 +51,7 @@ const BaseNavbarItemSchema = Joi.object({
   href: URISchema,
   label: Joi.string(),
   className: Joi.string(),
-  prependBaseUrlToHref: Joi.string(),
+  prependBaseUrlToHref: Joi.bool(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
@@ -250,8 +251,8 @@ const ThemeConfigSchema = Joi.object({
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
-    backgroundColor: Joi.string().default('#fff'),
-    textColor: Joi.string().default('#000'),
+    backgroundColor: Joi.string(),
+    textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
@@ -309,6 +310,7 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  sidebarCollapsible: Joi.bool().default(DEFAULT_CONFIG.sidebarCollapsible),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

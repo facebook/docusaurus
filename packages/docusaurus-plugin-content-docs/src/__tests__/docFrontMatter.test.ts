@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocFrontMatter, validateDocFrontMatter} from '../docFrontMatter';
+import {validateDocFrontMatter} from '../docFrontMatter';
+import {DocFrontMatter} from '../types';
+import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
   fieldName: keyof DocFrontMatter;
@@ -38,7 +40,20 @@ function testField(params: {
 
     test('throw error for values', () => {
       params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
-        expect(() => validateDocFrontMatter(frontMatter)).toThrow(message);
+        try {
+          validateDocFrontMatter(frontMatter);
+          fail(
+            new Error(
+              `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+                frontMatter,
+                null,
+                2,
+              )}`,
+            ),
+          );
+        } catch (e) {
+          expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+        }
       });
     });
   });
@@ -54,13 +69,17 @@ describe('validateDocFrontMatter', () => {
     const frontMatter = {abc: '1'};
     expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
   });
+});
 
+describe('validateDocFrontMatter id', () => {
   testField({
     fieldName: 'id',
     validFrontMatters: [{id: '123'}, {id: 'unique_id'}],
     invalidFrontMatters: [[{id: ''}, 'is not allowed to be empty']],
   });
+});
 
+describe('validateDocFrontMatter title', () => {
   testField({
     fieldName: 'title',
     validFrontMatters: [
@@ -69,7 +88,9 @@ describe('validateDocFrontMatter', () => {
       {title: 'title'},
     ],
   });
+});
 
+describe('validateDocFrontMatter hide_title', () => {
   testField({
     fieldName: 'hide_title',
     validFrontMatters: [{hide_title: true}, {hide_title: false}],
@@ -83,7 +104,9 @@ describe('validateDocFrontMatter', () => {
       [{hide_title: ''}, 'must be a boolean'],
     ],
   });
+});
 
+describe('validateDocFrontMatter hide_table_of_contents', () => {
   testField({
     fieldName: 'hide_table_of_contents',
     validFrontMatters: [
@@ -100,7 +123,9 @@ describe('validateDocFrontMatter', () => {
       [{hide_table_of_contents: ''}, 'must be a boolean'],
     ],
   });
+});
 
+describe('validateDocFrontMatter keywords', () => {
   testField({
     fieldName: 'keywords',
     validFrontMatters: [
@@ -115,18 +140,23 @@ describe('validateDocFrontMatter', () => {
       [{keywords: []}, 'does not contain 1 required value(s)'],
     ],
   });
+});
 
+describe('validateDocFrontMatter image', () => {
   testField({
     fieldName: 'image',
-    validFrontMatters: [{image: 'https://docusaurus.io/blog/image.png'}],
+    validFrontMatters: [
+      {image: 'https://docusaurus.io/blog/image.png'},
+      {image: '/absolute/image.png'},
+      {image: '../relative/image.png'},
+    ],
     invalidFrontMatters: [
-      [{image: ''}, 'is not allowed to be empty'],
-      [{image: './api/@docusaurus/plugin-debug'}, 'must be a valid uri'],
-      [{image: '/api/@docusaurus/plugin-debug'}, 'must be a valid uri'],
-      [{image: '@site/api/asset/image.png'}, 'must be a valid uri'],
+      [{image: ''}, 'does not match any of the allowed types'],
     ],
   });
+});
 
+describe('validateDocFrontMatter description', () => {
   testField({
     fieldName: 'description',
     validFrontMatters: [
@@ -135,7 +165,9 @@ describe('validateDocFrontMatter', () => {
       {description: 'description'},
     ],
   });
+});
 
+describe('validateDocFrontMatter slug', () => {
   testField({
     fieldName: 'slug',
     validFrontMatters: [
@@ -150,29 +182,35 @@ describe('validateDocFrontMatter', () => {
     ],
     invalidFrontMatters: [[{slug: ''}, 'is not allowed to be empty']],
   });
+});
 
+describe('validateDocFrontMatter sidebar_label', () => {
   testField({
     fieldName: 'sidebar_label',
     validFrontMatters: [{sidebar_label: 'Awesome docs'}],
     invalidFrontMatters: [[{sidebar_label: ''}, 'is not allowed to be empty']],
   });
+});
 
+describe('validateDocFrontMatter sidebar_position', () => {
   testField({
     fieldName: 'sidebar_position',
     validFrontMatters: [
+      {sidebar_position: -5},
+      {sidebar_position: -3.5},
       {sidebar_position: 0},
       {sidebar_position: 5},
       {sidebar_position: 3.5},
     ],
     convertibleFrontMatter: [
+      [{sidebar_position: '-1.5'}, {sidebar_position: -1.5}],
       [{sidebar_position: '1'}, {sidebar_position: 1}],
       [{sidebar_position: '1.5'}, {sidebar_position: 1.5}],
     ],
-    invalidFrontMatters: [
-      [{sidebar_position: -1}, 'must be greater than or equal to 0'],
-    ],
   });
+});
 
+describe('validateDocFrontMatter custom_edit_url', () => {
   testField({
     fieldName: 'custom_edit_url',
     validFrontMatters: [
@@ -184,7 +222,9 @@ describe('validateDocFrontMatter', () => {
       {custom_edit_url: '@site/api/docs/markdown.md'},
     ],
   });
+});
 
+describe('validateDocFrontMatter parse_number_prefixes', () => {
   testField({
     fieldName: 'parse_number_prefixes',
     validFrontMatters: [

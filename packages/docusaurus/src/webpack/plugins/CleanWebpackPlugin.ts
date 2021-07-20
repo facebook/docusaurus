@@ -244,7 +244,7 @@ class CleanWebpackPlugin {
 
       if (needsForce) {
         const message =
-          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the `dangerouslyAllowCleanPatternsOutsideProject` option.';
+          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the "dangerouslyAllowCleanPatternsOutsideProject" option.';
 
         throw new Error(message);
       }

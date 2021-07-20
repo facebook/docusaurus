@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+Hide toggle in small viewports
+ */
 @media screen and (max-width: 997px) {
-  .displayOnlyInLargeViewport {
-    display: none !important;
+  .toggle {
+    display: none;
   }
 }
 
@@ -16,5 +19,45 @@
 }
 
 .navbarHidden {
-  transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
+  transform: translate3d(0, calc(-100% - 2px), 0);
+}
+
+:global(.navbar-sidebar__items) {
+  padding: 0;
+}
+
+:global(.navbar-sidebar) {
+  overflow-x: hidden;
+}
+
+.menuWrapper {
+  display: flex;
+  width: calc(var(--ifm-navbar-sidebar-width));
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+.menuWrapperSecondaryMenuShown {
+  transform: translate3d(calc((var(--ifm-navbar-sidebar-width)) * -1), 0, 0);
+}
+
+.menuWrapper > div {
+  flex-shrink: 0;
+  width: calc(var(--ifm-navbar-sidebar-width));
+  font-weight: var(--ifm-font-weight-semibold);
+  padding: 0.5rem;
+}
+
+.backButton {
+  width: calc(100% + 1rem);
+  margin: 0 0 0.7rem -0.5rem;
+  text-align: left;
+  font-size: 15px;
+  padding: 0.6rem 1.5rem;
+  background: var(--ifm-menu-color-background-active);
+  font-weight: var(--ifm-button-font-weight);
+}
+
+.secondaryMenu {
+  padding-top: 0 !important;
 }

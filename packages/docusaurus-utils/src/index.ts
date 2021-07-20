@@ -8,7 +8,7 @@
 import chalk from 'chalk';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, kebabCase, mapValues} from 'lodash';
+import {camelCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -22,6 +22,7 @@ import {
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
+import {simpleHash, docuHash} from './hashUtils';
 
 export const posixPath = posixPathImport;
 
@@ -29,6 +30,8 @@ export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {Globby, GlobExcludeDefault, createMatcher} from './globUtils';
 
 const fileHash = new Map();
 export async function generate(
@@ -96,22 +99,6 @@ export function encodePath(userpath: string): string {
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
-}
-
-export function simpleHash(str: string, length: number): string {
-  return createHash('md5').update(str).digest('hex').substr(0, length);
-}
-
-/**
- * Given an input string, convert to kebab-case and append a hash.
- * Avoid str collision.
- */
-export function docuHash(str: string): string {
-  if (str === '/') {
-    return 'index';
-  }
-  const shortHash = simpleHash(str, 3);
-  return `${kebabCase(str)}-${shortHash}`;
 }
 
 /**
@@ -313,13 +300,15 @@ export function resolvePathname(to: string, from?: string): string {
 export function addLeadingSlash(str: string): string {
   return str.startsWith('/') ? str : `/${str}`;
 }
-export function addTrailingSlash(str: string): string {
-  return str.endsWith('/') ? str : `${str}/`;
-}
+
 export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
 }
 
+// TODO deduplicate: also present in @docusaurus/utils-common
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
@@ -335,12 +324,6 @@ export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
-export function getFilePathForRoutePath(routePath: string): string {
-  const fileName = path.basename(routePath);
-  const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}/index.html`);
-}
-
 export function getElementsAround<T extends unknown>(
   array: T[],
   aroundIndex: number,
@@ -352,7 +335,7 @@ export function getElementsAround<T extends unknown>(
   const max = array.length - 1;
   if (aroundIndex < min || aroundIndex > max) {
     throw new Error(
-      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+      `Valid "aroundIndex" for array (of size ${array.length}) are between ${min} and ${max}, but you provided ${aroundIndex}.`,
     );
   }
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
@@ -437,7 +420,7 @@ export async function getFolderContainingFile(
   // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
     throw new Error(
-      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
         '\n- ',
       )}]`,
     );
@@ -465,7 +448,7 @@ export function reportMessage(
       throw new Error(message);
     default:
       throw new Error(
-        `unexpected reportingSeverity value: ${reportingSeverity}`,
+        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
       );
   }
 }

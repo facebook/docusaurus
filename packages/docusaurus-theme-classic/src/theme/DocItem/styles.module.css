@@ -5,28 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docItemContainer {
-  margin: 0 auto;
-  padding: 0 0.5rem;
-}
-
 .docItemContainer header + * {
   margin-top: 0;
 }
 
-.docUpdateDetails,
-.docPaginator {
-  margin-top: 3rem;
+.lastUpdated {
+  margin-top: 0.2rem;
+  font-style: italic;
+  font-size: smaller;
 }
 
 @media only screen and (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
   }
-}
 
-@media only screen and (max-width: 996px) {
-  .docItemContainer {
-    padding: 0 0.3rem;
+  .lastUpdated {
+    text-align: right;
+  }
+
+  /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
+  .tocMobile {
+    display: none;
   }
 }

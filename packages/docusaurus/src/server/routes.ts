@@ -21,30 +21,52 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
+function indent(str: string) {
+  const spaces = '  ';
+  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
+}
+
 const createRouteCodeString = ({
   routePath,
   routeHash,
   exact,
   subroutesCodeStrings,
+  props,
 }: {
   routePath: string;
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
+  props: {[propName: string]: any};
 }) => {
-  const str = `{
-  path: '${routePath}',
-  component: ComponentCreator('${routePath}','${routeHash}'),
-  ${exact ? `exact: true,` : ''}
-${
-  subroutesCodeStrings
-    ? `  routes: [
-${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
-]
-`
-    : ''
-}}`;
-  return str;
+  const parts = [
+    `path: '${routePath}'`,
+    `component: ComponentCreator('${routePath}','${routeHash}')`,
+  ];
+
+  if (exact) {
+    parts.push(`exact: true`);
+  }
+
+  if (subroutesCodeStrings) {
+    parts.push(
+      `routes: [
+${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
+]`,
+    );
+  }
+
+  Object.entries(props).forEach(([propName, propValue]) => {
+    // Figure out how to "unquote" JS attributes that don't need to be quoted
+    // Is this lib reliable? https://github.com/armanozak/should-quote
+    const shouldQuote = true; // TODO
+    const key = shouldQuote ? `'${propName}'` : propName;
+    parts.push(`${key}: ${JSON.stringify(propValue)}`);
+  });
+
+  return `{
+${indent(parts.join(',\n'))}
+}`;
 };
 
 const NotFoundRouteCode = `{
@@ -106,11 +128,14 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      priority,
+      ...props
     } = routeConfig;
 
     if (!isString(routePath) || !component) {
       throw new Error(
-        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
+        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
           routeConfig,
         )}`,
       );
@@ -138,15 +163,18 @@ export default async function loadRoutes(
       routeHash,
       exact,
       subroutesCodeStrings: subroutes?.map(generateRouteCode),
+      props,
     });
   }
 
   const routesConfig = `
 ${RoutesImportsCode}
+
 export default [
-${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},
-${NotFoundRouteCode}
-];\n`;
+${indent(`${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},`)}
+${indent(NotFoundRouteCode)}
+];
+`;
 
   return {
     registry,

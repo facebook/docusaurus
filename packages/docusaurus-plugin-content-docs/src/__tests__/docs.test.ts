@@ -201,6 +201,7 @@ describe('simple site', () => {
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
       },
     });
   });
@@ -230,6 +231,7 @@ describe('simple site', () => {
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
       },
     });
   });
@@ -294,6 +296,7 @@ describe('simple site', () => {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
       },
     });
   });
@@ -352,6 +355,7 @@ describe('simple site', () => {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
       },
     });
 
@@ -451,7 +455,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id [Hello/world] cannot include \\"/\\"."`,
+      `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
 

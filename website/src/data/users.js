@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {sortBy, difference} from '../utils/jsUtils';
+import {difference, sortBy} from '../utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -190,7 +190,7 @@ const Users = [
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe',
-    tags: ['opensource','versioning'],
+    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'Axioms',
@@ -207,6 +207,14 @@ const Users = [
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos',
     tags: ['opensource', 'large'],
+  },
+  {
+    title: 'Blink Shell Docs',
+    description: 'Documentation for Blink Shell a professional, desktop grade terminal for iOS',
+    preview: require('./showcase/blinkshell.png'),
+    website: 'https://docs.blink.sh/',
+    source: 'https://github.com/blinksh/docs',
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'blog.johnnyreilly.com',
@@ -290,6 +298,14 @@ const Users = [
     tags: ['opensource', 'facebook'],
   },
   {
+    title: 'CryptoDevHub',
+    description: 'The place where Blockchain- and Crypto developers learn, meet and grow.',
+    preview: require('./showcase/cryptodevhub.png'),
+    website: 'https://cryptodevhub.io',
+    source: 'https://github.com/cryptodevhub/site',
+    tags: ['opensource'],
+  },
+  {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
       'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
@@ -322,6 +338,14 @@ const Users = [
     website: 'https://draftjs.org/',
     source: 'https://github.com/facebook/draft-js',
     tags: ['opensource','facebook'],
+  },
+  {
+    title: 'Easyjwt',
+    description: 'JWT creation and validation library',
+    preview: require('./showcase/easyjwt.png'),
+    website: 'https://www.easyjwt.org',
+    source: 'https://github.com/authdog/easyjwt',
+    tags: ['opensource','i18n'],
   },
   {
     title: 'Eightshift Docs',
@@ -372,6 +396,14 @@ const Users = [
     website: 'https://firecms.co',
     source: 'https://github.com/Camberi/firecms',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Flagsmith',
+    description: 'Open Source Feature Flag and Remote Config Service',
+    preview: require('./showcase/flagsmith.png'),
+    website: 'https://docs.flagsmith.com',
+    source: 'https://github.com/Flagsmith/flagsmith-docs',
+    tags: ['opensource'],
   },
   {
     title: 'Flipper',
@@ -462,6 +494,15 @@ const Users = [
     source: 'https://github.com/Hashnode/support',
     tags: ['opensource'],
   },
+  {
+    title: 'hCaptcha.com Docs',
+    description: 'hCaptcha.com anti-bot service docs',
+    preview: require('./showcase/hcaptcha.png'),
+    website: 'https://docs.hcaptcha.com/',
+    source: null,
+    tags: ['product'],
+  },
+
   {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
@@ -635,6 +676,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Orbit.js',
+    description: 'The Universal Data Layer',
+    preview: require('./showcase/orbitjs.png'),
+    website: 'https://orbitjs.com',
+    source: 'https://github.com/orbitjs/orbit/tree/main/website',
+    tags: ['opensource','versioning'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -682,6 +731,14 @@ const Users = [
     website: 'https://gitbrent.github.io/PptxGenJS/',
     source: 'https://github.com/gitbrent/PptxGenJS',
     tags: ['opensource','design'],
+  },
+  {
+    title: 'Prismatic',
+    description: 'An Integration Platform for B2B Software Companies',
+    preview: require('./showcase/prismatic.png'),
+    website: 'https://prismatic.io/docs/',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'Profilo',
@@ -732,6 +789,14 @@ const Users = [
     preview: require('./showcase/ractive-player.png'),
     website: 'https://ractive-player.org',
     source: 'https://github.com/ysulyma/ractive-player',
+    tags: ['opensource'],
+  },
+  {
+    title: 'React Complex Tree',
+    description: 'Unopinionated Accessible React Tree Component with Multi-Select and Drag-And-Drop',
+    preview: require('./showcase/react-complex-tree.png'),
+    website: 'https://rct.lukasbach.com/',
+    source: 'https://github.com/lukasbach/react-complex-tree',
     tags: ['opensource'],
   },
   {
@@ -798,6 +863,14 @@ const Users = [
     website: 'https://docs.swmansion.com/react-native-reanimated/',
     source: 'https://github.com/software-mansion/react-native-reanimated/tree/master/docs',
     tags: ['opensource','design','versioning'],
+  },
+  {
+    title: "React Native Render HTML",
+    description: "The hackable, full-featured Open Source HTML rendering solution for React Native.",
+    preview: require('./showcase/rnrh.png'),
+    website: "https://meliorence.github.io/react-native-render-html",
+    source: "https://github.com/meliorence/react-native-render-html/tree/master/apps/website",
+    tags: ['opensource', 'design'],
   },
   {
     title: 'React Native Testing Library',
@@ -973,6 +1046,14 @@ const Users = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'SQL Frames',
+    description: 'DataFrames meet SQL, in the browser',
+    preview: require('./showcase/sqlframes_docusaurus.png'),
+    website: 'https://sqlframes.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
     preview: require('./showcase/stryker-mutator.png'),
@@ -1137,6 +1218,30 @@ const Users = [
     source: 'https://github.com/Joelpo/joelpo.github.io',
     tags: ['personal', 'opensource']
   },
+  {
+    title: 'LiveKit',
+    description: 'Open source, scalable, real-time audio and video rooms over WebRTC',
+    preview: require('./showcase/livekit.png'),
+    website: 'https://docs.livekit.io',
+    source: 'https://github.com/livekit/livekit-docs',
+    tags: ['opensource', 'product', 'design']
+  },
+  {
+    title: 'Zowe',
+    description: 'Open source framework for leveraging data and applications in z/OS',
+    preview: require('./showcase/zowe.png'),
+    website: 'https://docs.zowe.org',
+    source: 'https://github.com/zowe/docs-site',
+    tags: ['opensource', 'product', 'large', 'design', 'versioning']
+  },
+  {
+    title: 'Quickwit',
+    description: 'The open source search engine on object storage with subsecond latency',
+    preview: require('./showcase/quickwit.png'),
+    website: 'https://quickwit.io',
+    source: 'https://github.com/quickwit-inc/quickwit',
+    tags: ['favorite', 'opensource', 'design']
+  }
 ];
 
 export const TagList = Object.keys(Tags);

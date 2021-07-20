@@ -56,7 +56,7 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
-#### Enabling HTTPS` {#enabling-https}
+#### Enabling HTTPS {#enabling-https}
 
 There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
 
@@ -93,11 +93,11 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 ### `docusaurus swizzle [siteDir]` {#docusaurus-swizzle-sitedir}
 
-:::caution
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
 
-We discourage swizzling of components during the Docusaurus 2 beta phase. The theme components APIs are likely to evolve and have breaking changes. If possible, stick with the default appearance for now.
-
-:::
+<SwizzleWarning/>
+```
 
 Change any Docusaurus theme components to your liking with `npm run swizzle`.
 

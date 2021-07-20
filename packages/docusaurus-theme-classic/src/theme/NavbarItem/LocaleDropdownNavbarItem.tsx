@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -49,7 +49,7 @@ export default function LocaleDropdownNavbarItem({
   const dropdownLabel = mobile ? 'Languages' : getLocaleLabel(currentLocale);
 
   return (
-    <DefaultNavbarItem
+    <DropdownNavbarItem
       {...props}
       href="#"
       mobile={mobile}

@@ -6,20 +6,15 @@ build
 coverage
 jest.config.js
 jest.transform.js
-website-1.x/
 website/
 scripts
+examples/
 
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-!packages/docusaurus-1.x/lib/*
-packages/docusaurus-1.x/lib/core/__tests__/split-tab.test.js
-packages/docusaurus-1.x/lib/core/metadata.js
-packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-*/lib-next/
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 
-packages/docusaurus-1.x/.eslintrc.js
 packages/docusaurus-init/templates/facebook/.eslintrc.js
 
 examples/bootstrap/babel.config.js

@@ -6,7 +6,7 @@
  */
 
 import {DocusaurusContext, Plugin} from '@docusaurus/types';
-import {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
@@ -24,7 +24,7 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
-const storageKey = 'theme';
+const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
@@ -37,7 +37,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   function getStoredTheme() {
     var theme = null;
     try {
-      theme = localStorage.getItem('${storageKey}');
+      theme = localStorage.getItem('${ThemeStorageKey}');
     } catch (err) {}
     return theme;
   }
@@ -63,6 +63,26 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
+// Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
+// TODO: import from theme-common once we only support Node.js with ESM support
+// + move all those announcementBar stuff there too
+export const AnnouncementBarDismissStorageKey =
+  'docusaurus.announcement.dismiss';
+const AnnouncementBarDismissDataAttribute =
+  'data-announcement-bar-initially-dismissed';
+// We always render the announcement bar html on the server, to prevent layout shifts on React hydration
+// The theme can use CSS + the data attribute to hide the announcement bar asap (before React hydration)
+const AnnouncementBarInlineJavaScript = `
+(function() {
+  function isDismissed() {
+    try {
+      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
+})();`;
+
 function getInfimaCSSFile(direction) {
   return `infima/dist/css/default/default${
     direction === 'rtl' ? '-rtl' : ''
@@ -82,7 +102,11 @@ export default function docusaurusThemeClassic(
     i18n: {currentLocale, localeConfigs},
   } = context;
   const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
-  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig;
+  const {
+    announcementBar,
+    colorMode,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig;
   const {customCss} = options || {};
   const {direction} = localeConfigs[currentLocale];
 
@@ -178,10 +202,10 @@ export default function docusaurusThemeClassic(
         preBodyTags: [
           {
             tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
-            innerHTML: noFlashColorMode(colorMode),
+            innerHTML: `
+${noFlashColorMode(colorMode)}
+${announcementBar ? AnnouncementBarInlineJavaScript : ''}
+            `,
           },
         ],
       };

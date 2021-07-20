@@ -18,6 +18,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
+  createMatcher,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
@@ -37,11 +38,10 @@ import {
   DocFile,
   DocsMarkdownOption,
 } from './types';
-import {PermalinkToSidebar} from '@docusaurus/plugin-content-docs-types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {flatten, keyBy, compact} from 'lodash';
+import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toVersionMetadataProp} from './props';
 import {
@@ -49,6 +49,7 @@ import {
   getLoadedContentTranslationFiles,
 } from './translations';
 import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
+import chalk from 'chalk';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -58,7 +59,6 @@ export default function pluginContentDocs(
 
   const versionsMetadata = readVersionsMetadata({context, options});
 
-  const sourceToPermalink: SourceToPermalink = {};
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
   const pluginDataDirRoot = path.join(
@@ -144,12 +144,12 @@ export default function pluginContentDocs(
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
-            `Docs version ${
+            `Docs version "${
               versionMetadata.versionName
-            } has no docs! At least one doc should exist at path=[${path.relative(
+            }" has no docs! At least one doc should exist at "${path.relative(
               siteDir,
               versionMetadata.contentPath,
-            )}]`,
+            )}".`,
           );
         }
         async function processVersionDoc(docFile: DocFile) {
@@ -163,7 +163,7 @@ export default function pluginContentDocs(
         return Promise.all(docFiles.map(processVersionDoc));
       }
 
-      async function loadVersion(
+      async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
         const unprocessedSidebars = loadSidebars(
@@ -189,7 +189,10 @@ export default function pluginContentDocs(
         const sidebarsUtils = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
-        sidebarsUtils.checkSidebarsDocIds(validDocIds);
+        sidebarsUtils.checkSidebarsDocIds(
+          validDocIds,
+          versionMetadata.sidebarFilePath as string,
+        );
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
@@ -198,10 +201,16 @@ export default function pluginContentDocs(
             previousId,
             nextId,
           } = sidebarsUtils.getDocNavigation(doc.id);
-          const toDocNavLink = (navDocId: string): DocNavLink => ({
-            title: docsBaseById[navDocId].title,
-            permalink: docsBaseById[navDocId].permalink,
-          });
+          const toDocNavLink = (navDocId: string): DocNavLink => {
+            const {title, permalink, frontMatter} = docsBaseById[navDocId];
+            return {
+              title:
+                frontMatter.pagination_label ??
+                frontMatter.sidebar_label ??
+                title,
+              permalink,
+            };
+          };
           return {
             ...doc,
             sidebar: sidebarName,
@@ -214,20 +223,6 @@ export default function pluginContentDocs(
 
         // sort to ensure consistent output for tests
         docs.sort((a, b) => a.id.localeCompare(b.id));
-
-        // TODO annoying side effect!
-        Object.values(docs).forEach((loadedDoc) => {
-          const {source, permalink} = loadedDoc;
-          sourceToPermalink[source] = permalink;
-        });
-
-        // TODO really useful? replace with global state logic?
-        const permalinkToSidebar: PermalinkToSidebar = {};
-        Object.values(docs).forEach((doc) => {
-          if (doc.sidebar) {
-            permalinkToSidebar[doc.permalink] = doc.sidebar;
-          }
-        });
 
         // The "main doc" is the "version entry point"
         // We browse this doc by clicking on a version:
@@ -253,9 +248,21 @@ export default function pluginContentDocs(
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
-          permalinkToSidebar,
           docs: docs.map(addNavData),
         };
+      }
+
+      async function loadVersion(versionMetadata: VersionMetadata) {
+        try {
+          return await doLoadVersion(versionMetadata);
+        } catch (e) {
+          console.error(
+            chalk.red(
+              `Loading of version failed for version "${versionMetadata.versionName}"`,
+            ),
+          );
+          throw e;
+        }
       }
 
       return {
@@ -284,30 +291,36 @@ export default function pluginContentDocs(
               JSON.stringify(metadataItem, null, 2),
             );
 
-            return {
+            const docRoute: RouteConfig = {
               path: metadataItem.permalink,
               component: docItemComponent,
               exact: true,
               modules: {
                 content: metadataItem.source,
               },
+              // Because the parent (DocPage) comp need to access it easily
+              // This permits to render the sidebar once without unmount/remount when navigating (and preserve sidebar state)
+              ...(metadataItem.sidebar && {
+                sidebar: metadataItem.sidebar,
+              }),
             };
+
+            return docRoute;
           }),
         );
 
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
-      async function handleVersion(loadedVersion: LoadedVersion) {
+      async function doCreateVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
+        const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
         const versionMetadataPropPath = await createData(
           `${docuHash(
             `version-${loadedVersion.versionName}-metadata-prop`,
           )}.json`,
-          JSON.stringify(
-            toVersionMetadataProp(pluginId, loadedVersion),
-            null,
-            2,
-          ),
+          JSON.stringify(versionMetadata, null, 2),
         );
 
         addRoute({
@@ -325,7 +338,22 @@ export default function pluginContentDocs(
         });
       }
 
-      await Promise.all(loadedVersions.map(handleVersion));
+      async function createVersionRoutes(
+        loadedVersion: LoadedVersion,
+      ): Promise<void> {
+        try {
+          return await doCreateVersionRoutes(loadedVersion);
+        } catch (e) {
+          console.error(
+            chalk.red(
+              `Can't create version routes for version "${loadedVersion.versionName}"`,
+            ),
+          );
+          throw e;
+        }
+      }
+
+      await Promise.all(loadedVersions.map(createVersionRoutes));
 
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
@@ -333,7 +361,7 @@ export default function pluginContentDocs(
       });
     },
 
-    configureWebpack(_config, isServer, utils) {
+    configureWebpack(_config, isServer, utils, content) {
       const {getJSLoader} = utils;
       const {
         rehypePlugins,
@@ -342,9 +370,17 @@ export default function pluginContentDocs(
         beforeDefaultRemarkPlugins,
       } = options;
 
+      function getSourceToPermalink(): SourceToPermalink {
+        const allDocs = flatten(content.loadedVersions.map((v) => v.docs));
+        return mapValues(
+          keyBy(allDocs, (d) => d.source),
+          (d) => d.permalink,
+        );
+      }
+
       const docsMarkdownOptions: DocsMarkdownOption = {
         siteDir,
-        sourceToPermalink,
+        sourceToPermalink: getSourceToPermalink(),
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
@@ -373,6 +409,7 @@ export default function pluginContentDocs(
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
                 staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                isMDXPartial: createMatcher(options.exclude),
                 metadataPath: (mdxPath: string) => {
                   // Note that metadataPath must be the same/in-sync as
                   // the path from createData for each MDX.

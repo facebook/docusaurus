@@ -9,6 +9,7 @@ import {
   BlogPostFrontMatter,
   validateBlogPostFrontMatter,
 } from '../blogFrontMatter';
+import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
   fieldName: keyof BlogPostFrontMatter;
@@ -41,7 +42,20 @@ function testField(params: {
 
     test('throw error for values', () => {
       params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
-        expect(() => validateBlogPostFrontMatter(frontMatter)).toThrow(message);
+        try {
+          validateBlogPostFrontMatter(frontMatter);
+          fail(
+            new Error(
+              `Blog frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+                frontMatter,
+                null,
+                2,
+              )}`,
+            ),
+          );
+        } catch (e) {
+          expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+        }
       });
     });
   });
@@ -57,7 +71,9 @@ describe('validateBlogPostFrontMatter', () => {
     const frontMatter = {abc: '1'};
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
+});
 
+describe('validateBlogPostFrontMatter description', () => {
   testField({
     fieldName: 'description',
     validFrontMatters: [
@@ -66,7 +82,9 @@ describe('validateBlogPostFrontMatter', () => {
       {description: 'description'},
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter title', () => {
   testField({
     fieldName: 'title',
     validFrontMatters: [
@@ -75,25 +93,25 @@ describe('validateBlogPostFrontMatter', () => {
       {title: 'title'},
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter id', () => {
   testField({
     fieldName: 'id',
     validFrontMatters: [{id: '123'}, {id: 'id'}],
     invalidFrontMatters: [[{id: ''}, 'is not allowed to be empty']],
   });
+});
 
+describe('validateBlogPostFrontMatter author', () => {
   testField({
     fieldName: 'author',
     validFrontMatters: [{author: '123'}, {author: 'author'}],
     invalidFrontMatters: [[{author: ''}, 'is not allowed to be empty']],
   });
+});
 
-  testField({
-    fieldName: 'authorTitle',
-    validFrontMatters: [{authorTitle: '123'}, {authorTitle: 'authorTitle'}],
-    invalidFrontMatters: [[{authorTitle: ''}, 'is not allowed to be empty']],
-  });
-
+describe('validateBlogPostFrontMatter author_title', () => {
   testField({
     fieldName: 'author_title',
     validFrontMatters: [{author_title: '123'}, {author_title: 'author_title'}],
@@ -101,22 +119,55 @@ describe('validateBlogPostFrontMatter', () => {
   });
 
   testField({
-    fieldName: 'authorURL',
-    validFrontMatters: [{authorURL: 'https://docusaurus.io'}],
+    fieldName: 'authorTitle',
+    validFrontMatters: [{authorTitle: '123'}, {authorTitle: 'authorTitle'}],
+    invalidFrontMatters: [[{authorTitle: ''}, 'is not allowed to be empty']],
+  });
+});
+
+describe('validateBlogPostFrontMatter author_url', () => {
+  testField({
+    fieldName: 'author_url',
+    validFrontMatters: [
+      {author_url: 'https://docusaurus.io'},
+      {author_url: '../../relative'},
+      {author_url: '/absolute'},
+    ],
     invalidFrontMatters: [
-      [{authorURL: ''}, 'is not allowed to be empty'],
-      [{authorURL: '@site/api/author'}, 'must be a valid uri'],
-      [{authorURL: '../../api/author'}, 'must be a valid uri'],
+      [
+        {author_url: ''},
+        '"author_url" does not match any of the allowed types',
+      ],
     ],
   });
 
   testField({
-    fieldName: 'author_url',
-    validFrontMatters: [{author_url: 'https://docusaurus.io'}],
+    fieldName: 'authorURL',
+    validFrontMatters: [
+      {authorURL: 'https://docusaurus.io'},
+      {authorURL: '../../relative'},
+      {authorURL: '/absolute'},
+    ],
+
     invalidFrontMatters: [
-      [{author_url: ''}, 'is not allowed to be empty'],
-      [{author_url: '@site/api/author'}, 'must be a valid uri'],
-      [{author_url: '../../api/author'}, 'must be a valid uri'],
+      [{authorURL: ''}, '"authorURL" does not match any of the allowed types'],
+    ],
+  });
+});
+
+describe('validateBlogPostFrontMatter author_image_url', () => {
+  testField({
+    fieldName: 'author_image_url',
+    validFrontMatters: [
+      {author_image_url: 'https://docusaurus.io/asset/image.png'},
+      {author_image_url: '../../relative'},
+      {author_image_url: '/absolute'},
+    ],
+    invalidFrontMatters: [
+      [
+        {author_image_url: ''},
+        '"author_image_url" does not match any of the allowed types',
+      ],
     ],
   });
 
@@ -124,26 +175,19 @@ describe('validateBlogPostFrontMatter', () => {
     fieldName: 'authorImageURL',
     validFrontMatters: [
       {authorImageURL: 'https://docusaurus.io/asset/image.png'},
+      {authorImageURL: '../../relative'},
+      {authorImageURL: '/absolute'},
     ],
     invalidFrontMatters: [
-      [{authorImageURL: ''}, 'is not allowed to be empty'],
-      [{authorImageURL: '@site/api/asset/image.png'}, 'must be a valid uri'],
-      [{authorImageURL: '../../api/asset/image.png'}, 'must be a valid uri'],
+      [
+        {authorImageURL: ''},
+        '"authorImageURL" does not match any of the allowed types',
+      ],
     ],
   });
+});
 
-  testField({
-    fieldName: 'author_image_url',
-    validFrontMatters: [
-      {author_image_url: 'https://docusaurus.io/asset/image.png'},
-    ],
-    invalidFrontMatters: [
-      [{author_image_url: ''}, 'is not allowed to be empty'],
-      [{author_image_url: '@site/api/asset/image.png'}, 'must be a valid uri'],
-      [{author_image_url: '../../api/asset/image.png'}, 'must be a valid uri'],
-    ],
-  });
-
+describe('validateBlogPostFrontMatter slug', () => {
   testField({
     fieldName: 'slug',
     validFrontMatters: [
@@ -158,10 +202,13 @@ describe('validateBlogPostFrontMatter', () => {
     ],
     invalidFrontMatters: [[{slug: ''}, 'is not allowed to be empty']],
   });
+});
 
+describe('validateBlogPostFrontMatter image', () => {
   testField({
     fieldName: 'image',
     validFrontMatters: [
+      {image: 'https://docusaurus.io/image.png'},
       {image: 'blog/'},
       {image: '/blog'},
       {image: '/blog/'},
@@ -172,15 +219,12 @@ describe('validateBlogPostFrontMatter', () => {
       {image: '@site/api/asset/image.png'},
     ],
     invalidFrontMatters: [
-      [{image: ''}, 'is not allowed to be empty'],
-      [{image: 'https://docusaurus.io'}, 'must be a valid relative uri'],
-      [
-        {image: 'https://docusaurus.io/blog/image.png'},
-        'must be a valid relative uri',
-      ],
+      [{image: ''}, '"image" does not match any of the allowed types'],
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter tags', () => {
   testField({
     fieldName: 'tags',
     validFrontMatters: [
@@ -203,7 +247,9 @@ describe('validateBlogPostFrontMatter', () => {
       ],
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter keywords', () => {
   testField({
     fieldName: 'keywords',
     validFrontMatters: [
@@ -218,7 +264,9 @@ describe('validateBlogPostFrontMatter', () => {
       [{keywords: []}, 'does not contain 1 required value(s)'],
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter draft', () => {
   testField({
     fieldName: 'draft',
     validFrontMatters: [{draft: true}, {draft: false}],
@@ -231,7 +279,9 @@ describe('validateBlogPostFrontMatter', () => {
       [{draft: 'no'}, 'must be a boolean'],
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter hide_table_of_contents', () => {
   testField({
     fieldName: 'hide_table_of_contents',
     validFrontMatters: [
@@ -247,7 +297,9 @@ describe('validateBlogPostFrontMatter', () => {
       [{hide_table_of_contents: 'no'}, 'must be a boolean'],
     ],
   });
+});
 
+describe('validateBlogPostFrontMatter date', () => {
   testField({
     fieldName: 'date',
     validFrontMatters: [

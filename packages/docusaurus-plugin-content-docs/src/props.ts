@@ -27,8 +27,8 @@ export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
 
     if (!docMetadata) {
       throw new Error(
-        `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
-Available document ids=
+        `Invalid sidebars file. The document with id "${docId}" was used in the sidebar, but no document with this id could be found.
+Available document ids are:
 - ${Object.keys(docsById).sort().join('\n- ')}`,
       );
     }
@@ -74,8 +74,8 @@ export function toVersionMetadataProp(
     pluginId,
     version: loadedVersion.versionName,
     label: loadedVersion.versionLabel,
+    banner: loadedVersion.versionBanner,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
-    permalinkToSidebar: loadedVersion.permalinkToSidebar,
   };
 }

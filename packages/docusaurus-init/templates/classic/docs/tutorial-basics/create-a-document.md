@@ -28,12 +28,11 @@ Docusaurus automatically **creates a sidebar** from the `docs` folder.
 
 Add metadatas to customize the sidebar label and position:
 
-```diff title="docs/hello.md"
-+ ---
-+ sidebar_label: "Hi!"
-+ sidebar_position: 3
-+ ---
-
+```md title="docs/hello.md" {1-4}
+---
+sidebar_label: 'Hi!'
+sidebar_position: 3
+---
 
 # Hello
 

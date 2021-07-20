@@ -53,6 +53,7 @@ async function extractThemeCodeMessages() {
   const {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
+    // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
   const filePaths = (
@@ -148,10 +149,12 @@ ${logKeys(unknownMessages)}`),
 
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
+      const codeTranslation = codeExtractedTranslations[key];
       return {
         ...acc,
-        [`${key}${DescriptionSuffix}`]: codeExtractedTranslations[key]
-          .description,
+        [`${key}${DescriptionSuffix}`]: codeTranslation
+          ? codeTranslation.description
+          : undefined,
       };
     },
     {},

@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const fs = require('fs');
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
+const VersionsArchived = require('./versionsArchived.json');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -54,10 +56,13 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
-      type: 'text/css',
       integrity:
         'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
       crossorigin: 'anonymous',
@@ -112,6 +117,19 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         showLastUpdateTime: true,
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // This plugin instance is used to test fancy edge cases
+        id: 'docs-tests',
+        routeBasePath: 'docs-tests',
+        sidebarPath: 'dogfooding/docs-tests-sidebars.js',
+
+        // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
+        path: fs.realpathSync('dogfooding/docs-tests-symlink'),
+      },
+    ],
+
     [
       '@docusaurus/plugin-content-blog',
       {
@@ -183,7 +201,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           {
             tagName: 'link',
             rel: 'manifest',
-            href: `${baseUrl}manifest.json`,
+            href: 'manifest.json',
           },
           {
             tagName: 'meta',
@@ -208,7 +226,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           {
             tagName: 'link',
             rel: 'mask-icon',
-            href: 'img/docusaurus.svg',
+            href: 'img/docusaurus.png',
             color: 'rgb(62, 204, 94)',
           },
           {
@@ -266,7 +284,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl: ({locale, blogDirPath, blogPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -294,6 +312,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     liveCodeBlock: {
       playgroundPosition: 'bottom',
     },
+    sidebarCollapsible: true,
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
@@ -301,17 +320,10 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v1-new-domain',
+      id: 'announcementBar-1', // Increment on change
       content:
-        '➡️ Docusaurus v1 documentation has moved to <a target="_blank" rel="noopener noreferrer" href="https://v1.docusaurus.io/">v1.docusaurus.io</a>! 🔄',
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐',
     },
-    /*
-    announcementBar: {
-      id: 'supportus',
-      content:
-        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
-    },
-     */
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
@@ -319,9 +331,11 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -362,8 +376,14 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            ...Object.entries(VersionsArchived).map(
+              ([versionName, versionUrl]) => ({
+                label: versionName,
+                href: versionUrl,
+              }),
+            ),
             {
-              to: 'https://v1.docusaurus.io',
+              href: 'https://v1.docusaurus.io',
               label: '1.x.x',
             },
             {
@@ -377,7 +397,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           position: 'right',
           dropdownItemsAfter: [
             {
-              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
               label: 'Help Us Translate',
             },
           ],

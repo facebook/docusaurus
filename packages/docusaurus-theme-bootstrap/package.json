@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-bootstrap",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "description": "Bootstrap theme for Docusaurus.",
   "main": "src/index.js",
   "types": "src/types.d.ts",
@@ -14,12 +14,12 @@
     "directory": "packages/docusaurus-theme-bootstrap"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-blog": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.0",
-    "@docusaurus/plugin-content-pages": "2.0.0-beta.0",
-    "@docusaurus/theme-common": "2.0.0-beta.0",
-    "@docusaurus/types": "2.0.0-beta.0",
+    "@docusaurus/core": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-blog": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.3",
+    "@docusaurus/plugin-content-pages": "2.0.0-beta.3",
+    "@docusaurus/theme-common": "2.0.0-beta.3",
+    "@docusaurus/types": "2.0.0-beta.3",
     "@mdx-js/react": "^1.6.21",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
@@ -28,7 +28,7 @@
     "reactstrap": "^8.4.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.3"
   },
   "scripts": {
     "build": "tsc --noEmit && yarn babel && yarn prettier",

@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-bootstrap-template",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -14,8 +14,8 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/preset-bootstrap": "2.0.0-beta.0",
+    "@docusaurus/core": "2.0.0-beta.3",
+    "@docusaurus/preset-bootstrap": "2.0.0-beta.3",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",

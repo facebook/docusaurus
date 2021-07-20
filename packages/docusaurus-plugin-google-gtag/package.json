@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-google-gtag",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "description": "Global Site Tag (gtag.js) plugin for Docusaurus.",
   "main": "src/index.js",
   "publishConfig": {
@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0"
+    "@docusaurus/core": "2.0.0-beta.3"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

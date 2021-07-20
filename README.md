@@ -8,7 +8,6 @@
   <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/backers/badge.svg" /></a>
   <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/sponsors/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/@docusaurus/core"><img src="https://img.shields.io/npm/v/@docusaurus/core.svg?style=flat" alt="npm version"></a>
-  <a href="https://github.com/facebook/docusaurus/actions/workflows/v1-tests.yml"><img src="https://github.com/facebook/docusaurus/actions/workflows/v1-tests.yml/badge.svg" alt="Github Actions status"></a>
   <a href="https://github.com/facebook/docusaurus/actions/workflows/v2-tests.yml"><img src="https://github.com/facebook/docusaurus/actions/workflows/v2-tests.yml/badge.svg" alt="Github Actions status"></a>
   <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/discord/102860784329052160.svg" align="right" alt="Discord Chat" /></a>
@@ -22,11 +21,13 @@
 
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://docusaurus.io/) for more details.**
 
-> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io)
+> Docusaurus v1 doc is available at [v1.docusaurus.io](https://v1.docusaurus.io) and code is available on branch [docusaurus-v1](https://github.com/facebook/docusaurus/tree/docusaurus-v1)
 
 ## Introduction
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
+
+No time? Check our [5 minutes tutorial ⏱️](https://tutorial.docusaurus.io).
 
 **Tip**: use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
 

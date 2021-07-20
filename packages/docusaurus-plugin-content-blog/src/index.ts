@@ -16,6 +16,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
+  createMatcher,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -55,7 +56,7 @@ import {
 export default function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent | null> {
+): Plugin<BlogContent> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -88,8 +89,6 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
-  let blogPosts: BlogPost[] = [];
-
   return {
     name: 'docusaurus-plugin-content-blog',
 
@@ -116,9 +115,19 @@ export default function pluginContentBlog(
     async loadContent() {
       const {postsPerPage, routeBasePath} = options;
 
-      blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const blogPosts: BlogPost[] = await generateBlogPosts(
+        contentPaths,
+        context,
+        options,
+      );
+
       if (!blogPosts.length) {
-        return null;
+        return {
+          blogPosts: [],
+          blogListPaginated: [],
+          blogTags: {},
+          blogTagsListPath: null,
+        };
       }
 
       // Colocate next and prev metadata.
@@ -241,7 +250,7 @@ export default function pluginContentBlog(
 
       const {addRoute, createData} = actions;
       const {
-        blogPosts: loadedBlogPosts,
+        blogPosts,
         blogListPaginated,
         blogTags,
         blogTagsListPath,
@@ -274,7 +283,7 @@ export default function pluginContentBlog(
 
       // Create routes for blog entries.
       await Promise.all(
-        loadedBlogPosts.map(async (blogPost) => {
+        blogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
           await createData(
             // Note that this created data path must be in sync with
@@ -402,6 +411,7 @@ export default function pluginContentBlog(
       _config: Configuration,
       isServer: boolean,
       {getJSLoader}: ConfigureWebpackUtils,
+      content,
     ) {
       const {
         rehypePlugins,
@@ -415,7 +425,7 @@ export default function pluginContentBlog(
         siteDir,
         contentPaths,
         truncateMarker,
-        sourceToPermalink: getSourceToPermalink(blogPosts),
+        sourceToPermalink: getSourceToPermalink(content.blogPosts),
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
           if (onBrokenMarkdownLinks === 'ignore') {
             return;
@@ -450,9 +460,10 @@ export default function pluginContentBlog(
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    // Note that metadataPath must be the same/in-sync as
-                    // the path from createData for each MDX.
+                    isMDXPartial: createMatcher(options.exclude),
                     metadataPath: (mdxPath: string) => {
+                      // Note that metadataPath must be the same/in-sync as
+                      // the path from createData for each MDX.
                       const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
@@ -499,16 +510,21 @@ export default function pluginContentBlog(
           try {
             await fs.outputFile(feedPath, feedContent);
           } catch (err) {
-            throw new Error(`Generating ${feedType} feed failed: ${err}`);
+            throw new Error(`Generating ${feedType} feed failed: ${err}.`);
           }
         }),
       );
     },
 
-    injectHtmlTags() {
+    injectHtmlTags({content}) {
+      if (!content.blogPosts.length) {
+        return {};
+      }
+
       if (!options.feedOptions?.type) {
         return {};
       }
+
       const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},

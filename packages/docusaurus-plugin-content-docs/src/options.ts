@@ -12,6 +12,8 @@ import {
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
+
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
@@ -26,6 +28,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   routeBasePath: 'docs', // URL Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
+  exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
   numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
@@ -37,7 +40,6 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
-  excludeNextVersionDocs: false,
   includeCurrentVersion: true,
   disableVersioning: false,
   lastVersion: undefined,
@@ -49,6 +51,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
 const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
+  banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
@@ -66,6 +69,7 @@ export const OptionsSchema = Joi.object({
     .default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   sidebarPath: Joi.alternatives().try(
     Joi.boolean().invalid(true),
     Joi.string(),
@@ -101,9 +105,6 @@ export const OptionsSchema = Joi.object({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
-  excludeNextVersionDocs: Joi.bool().default(
-    DEFAULT_OPTIONS.excludeNextVersionDocs,
-  ),
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
@@ -125,17 +126,6 @@ export function validateOptions({
         `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
       ),
     );
-  }
-
-  if (typeof options.excludeNextVersionDocs !== 'undefined') {
-    console.log(
-      chalk.red(
-        `The docs plugin option excludeNextVersionDocs=${
-          options.excludeNextVersionDocs
-        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
-      ),
-    );
-    options.includeCurrentVersion = !options.excludeNextVersionDocs;
   }
 
   const normalizedOptions = validate(OptionsSchema, options);

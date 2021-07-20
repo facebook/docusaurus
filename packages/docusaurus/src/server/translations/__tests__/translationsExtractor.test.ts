@@ -13,7 +13,7 @@ import {
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
 import path from 'path';
-import {InitPlugin} from '../../plugins/init';
+import {InitializedPlugin} from '@docusaurus/types';
 import {SRC_DIR_NAME} from '../../../constants';
 
 const TestBabelOptions = getBabelOptions({
@@ -258,7 +258,7 @@ export default function MySiteComponent1() {
 `,
     );
 
-    function createTestPlugin(pluginDir: string): InitPlugin {
+    function createTestPlugin(pluginDir: string): InitializedPlugin {
       // @ts-expect-error: good enough for this test
       return {
         name: 'abc',

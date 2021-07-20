@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
-import {ThemeAlias} from '@docusaurus/types';
+import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
+import {ThemeAliases} from '@docusaurus/types';
 import {sortBy} from 'lodash';
 
+// TODO make async
 export default function themeAlias(
   themePath: string,
   addOriginalAlias: boolean,
-): ThemeAlias {
+): ThemeAliases {
   if (!fs.pathExistsSync(themePath)) {
     return {};
   }
 
-  const themeComponentFiles = globby.sync(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = Globby.sync(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 
@@ -30,7 +30,7 @@ export default function themeAlias(
     file.endsWith('/index.js'),
   );
 
-  const aliases: ThemeAlias = {};
+  const aliases: ThemeAliases = {};
 
   sortedThemeComponentFiles.forEach((relativeSource) => {
     const filePath = path.join(themePath, relativeSource);

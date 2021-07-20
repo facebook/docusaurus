@@ -16,7 +16,7 @@ describe('transformMarkdownHeadingLine', () => {
     expect(() =>
       transformMarkdownHeadingLine('ABC', new GithubSlugger()),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Line is not a markdown heading: ABC"`,
+      `"Line is not a Markdown heading: ABC."`,
     );
   });
 

@@ -18,8 +18,7 @@ function TagIcon({label, description, icon}) {
     <span
       className={styles.tagIcon}
       // TODO add a proper tooltip
-      title={`${label}: ${description}`}
-      aria-label={`${label}: ${description}`}>
+      title={`${label}: ${description}`}>
       {icon}
     </span>
   );
@@ -52,7 +51,7 @@ const ShowcaseCard = memo(function ({user}) {
             <div className="avatar__intro margin-left--none">
               <div className={styles.titleIconsRow}>
                 <div className={styles.titleIconsRowTitle}>
-                  <h4 className="avatar__name">{user.title}</h4>
+                  <div className="avatar__name">{user.title}</div>
                 </div>
                 <div className={styles.titleIconsRowIcons}>
                   <ShowcaseCardTagIcons tags={user.tags} />

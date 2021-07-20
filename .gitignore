@@ -20,16 +20,11 @@ test-website
 
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-!packages/docusaurus-1.x/lib/*
-packages/docusaurus-1.x/lib/core/metadata.js
-packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-*/lib-next/
 
 website/netlifyDeployPreview/*
 !website/netlifyDeployPreview/index.html
 !website/netlifyDeployPreview/_redirects
-
-website-1.x-migrated
 
 website/i18n/**/*
 #!website/i18n/fr

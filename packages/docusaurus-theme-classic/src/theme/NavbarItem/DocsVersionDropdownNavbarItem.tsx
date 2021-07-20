@@ -7,6 +7,7 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import {
   useVersions,
   useLatestVersion,
@@ -52,38 +53,41 @@ export default function DocsVersionDropdownNavbarItem({
       };
     });
 
-    const items = [
-      ...dropdownItemsBefore,
-      ...versionLinks,
-      ...dropdownItemsAfter,
-    ];
-
-    // We don't want to render a version dropdown with 0 or 1 item
-    // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
-    // We'd rather render a button instead of a dropdown
-    if (items.length <= 1) {
-      return undefined;
-    }
-
-    return items;
+    return [...dropdownItemsBefore, ...versionLinks, ...dropdownItemsAfter];
   }
+
+  const items = getItems();
 
   const dropdownVersion =
     activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
-  // Mobile is handled a bit differently
-  const dropdownLabel = mobile ? 'Versions' : dropdownVersion.label;
-  const dropdownTo = mobile
-    ? undefined
-    : getVersionMainDoc(dropdownVersion).path;
+  // Mobile dropdown is handled a bit differently
+  const dropdownLabel = mobile && items ? 'Versions' : dropdownVersion.label;
+  const dropdownTo =
+    mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
+
+  // We don't want to render a version dropdown with 0 or 1 item
+  // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
+  // We'd rather render a button instead of a dropdown
+  if (items.length <= 1) {
+    return (
+      <DefaultNavbarItem
+        {...props}
+        mobile={mobile}
+        label={dropdownLabel}
+        to={dropdownTo}
+        isActive={dropdownActiveClassDisabled ? () => false : undefined}
+      />
+    );
+  }
 
   return (
-    <DefaultNavbarItem
+    <DropdownNavbarItem
       {...props}
       mobile={mobile}
       label={dropdownLabel}
       to={dropdownTo}
-      items={getItems()}
+      items={items}
       isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );

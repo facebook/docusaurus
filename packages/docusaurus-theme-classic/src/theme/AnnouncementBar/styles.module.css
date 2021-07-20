@@ -13,8 +13,13 @@
   position: relative;
   width: 100%;
   height: var(--docusaurus-announcement-bar-height);
-  background-color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-white);
   color: var(--ifm-color-black);
+  border-bottom: 1px solid var(--ifm-color-emphasis-100);
+}
+
+html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
+  display: none;
 }
 
 @media print {
@@ -35,11 +40,6 @@
   top: 0;
   width: 55px;
   font-size: 1.25rem;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-  background: none;
-  color: inherit;
   height: 100%;
 }
 

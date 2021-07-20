@@ -6,25 +6,24 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
+
+import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
+import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
+import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
 import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import TOC from '@theme/TOC';
+import TOCCollapsible from '@theme/TOCCollapsible';
 import EditThisPage from '@theme/EditThisPage';
 import {MainHeading} from '@theme/Heading';
 
-import clsx from 'clsx';
 import styles from './styles.module.css';
-import {
-  useActivePlugin,
-  useVersions,
-  useActiveVersion,
-} from '@theme/hooks/useDocs';
 
 function DocItem(props: Props): JSX.Element {
-  const {content: DocContent} = props;
+  const {content: DocContent, versionMetadata} = props;
   const {metadata, frontMatter} = DocContent;
   const {
     image,
@@ -43,7 +42,6 @@ function DocItem(props: Props): JSX.Element {
 
   const {pluginId} = useActivePlugin({failfast: true});
   const versions = useVersions(pluginId);
-  const version = useActiveVersion(pluginId);
 
   // If site is not versioned or only one version is included
   // we don't show the version badge
@@ -56,6 +54,17 @@ function DocItem(props: Props): JSX.Element {
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
+  const windowSize = useWindowSize();
+
+  const canRenderTOC =
+    !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
+
+  const renderTocMobile =
+    canRenderTOC && (windowSize === 'mobile' || windowSize === 'ssr');
+
+  const renderTocDesktop =
+    canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
+
   return (
     <>
       <Seo {...{title, description, keywords, image}} />
@@ -65,16 +74,22 @@ function DocItem(props: Props): JSX.Element {
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionSuggestions />
+          <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
               {showVersionBadge && (
-                <div>
-                  <span className="badge badge--secondary">
-                    Version: {version.label}
-                  </span>
-                </div>
+                <span className="badge badge--secondary">
+                  Version: {versionMetadata.label}
+                </span>
               )}
+
+              {renderTocMobile && (
+                <TOCCollapsible
+                  toc={DocContent.toc}
+                  className={styles.tocMobile}
+                />
+              )}
+
               <div className="markdown">
                 {/*
                 Title can be declared inside md content or declared through frontmatter and added manually
@@ -82,29 +97,33 @@ function DocItem(props: Props): JSX.Element {
                 See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
                 */}
                 {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
                 <DocContent />
               </div>
+
+              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
+                <footer className="row docusaurus-mt-lg">
+                  <div className="col">
+                    {editUrl && <EditThisPage editUrl={editUrl} />}
+                  </div>
+
+                  <div className={clsx('col', styles.lastUpdated)}>
+                    {(lastUpdatedAt || lastUpdatedBy) && (
+                      <LastUpdated
+                        lastUpdatedAt={lastUpdatedAt}
+                        formattedLastUpdatedAt={formattedLastUpdatedAt}
+                        lastUpdatedBy={lastUpdatedBy}
+                      />
+                    )}
+                  </div>
+                </footer>
+              )}
             </article>
-            {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className={clsx('row', styles.docUpdateDetails)}>
-                <div className="col">
-                  {editUrl && <EditThisPage editUrl={editUrl} />}
-                </div>
-                {(lastUpdatedAt || lastUpdatedBy) && (
-                  <LastUpdated
-                    lastUpdatedAt={lastUpdatedAt}
-                    formattedLastUpdatedAt={formattedLastUpdatedAt}
-                    lastUpdatedBy={lastUpdatedBy}
-                  />
-                )}
-              </div>
-            )}
-            <div className={styles.docPaginator}>
-              <DocPaginator metadata={metadata} />
-            </div>
+
+            <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {!hideTableOfContents && DocContent.toc && (
+        {renderTocDesktop && (
           <div className="col col--3">
             <TOC toc={DocContent.toc} />
           </div>

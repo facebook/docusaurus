@@ -38,9 +38,12 @@ function DocPageContent({
   children,
 }: DocPageContentProps): JSX.Element {
   const {siteConfig, isClient} = useDocusaurusContext();
-  const {pluginId, permalinkToSidebar, docsSidebars, version} = versionMetadata;
-  const sidebarName = permalinkToSidebar[currentDocRoute.path];
-  const sidebar = docsSidebars[sidebarName];
+  const {pluginId, version} = versionMetadata;
+
+  const sidebarName = currentDocRoute.sidebar;
+  const sidebar = sidebarName
+    ? versionMetadata.docsSidebars[sidebarName]
+    : undefined;
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
@@ -65,7 +68,7 @@ function DocPageContent({
         <BackToTopButton />
 
         {sidebar && (
-          <div
+          <aside
             className={clsx(styles.docSidebarContainer, {
               [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
             })}
@@ -79,8 +82,7 @@ function DocPageContent({
               if (hiddenSidebarContainer) {
                 setHiddenSidebar(true);
               }
-            }}
-            role="complementary">
+            }}>
             <DocSidebar
               key={
                 // Reset sidebar state on sidebar changes
@@ -89,9 +91,7 @@ function DocPageContent({
               }
               sidebar={sidebar}
               path={currentDocRoute.path}
-              sidebarCollapsible={
-                siteConfig.themeConfig?.sidebarCollapsible ?? true
-              }
+              sidebarCollapsible={siteConfig.themeConfig.sidebarCollapsible}
               onCollapse={toggleSidebar}
               isHidden={hiddenSidebar}
             />
@@ -118,7 +118,7 @@ function DocPageContent({
                 <IconArrow className={styles.expandSidebarButtonIcon} />
               </div>
             )}
-          </div>
+          </aside>
         )}
         <main
           className={clsx(styles.docMainContainer, {
@@ -127,7 +127,7 @@ function DocPageContent({
           })}>
           <div
             className={clsx(
-              'container padding-vert--lg',
+              'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
               {
                 [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
@@ -157,7 +157,7 @@ function DocPage(props: Props): JSX.Element {
     <DocPageContent
       currentDocRoute={currentDocRoute}
       versionMetadata={versionMetadata}>
-      {renderRoutes(docRoutes)}
+      {renderRoutes(docRoutes, {versionMetadata})}
     </DocPageContent>
   );
 }

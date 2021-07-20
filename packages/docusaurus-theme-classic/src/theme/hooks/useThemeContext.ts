@@ -14,7 +14,7 @@ function useThemeContext(): ThemeContextProps {
   const context = useContext<ThemeContextProps | undefined>(ThemeContext);
   if (context == null) {
     throw new Error(
-      '`useThemeContext` is used outside of `Layout` Component. See https://docusaurus.io/docs/api/themes/configuration#usethemecontext.',
+      '"useThemeContext" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#usethemecontext.',
     );
   }
   return context;

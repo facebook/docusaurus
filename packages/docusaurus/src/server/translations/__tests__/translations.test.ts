@@ -17,9 +17,12 @@ import {
 } from '../translations';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
-import {TranslationFile, TranslationFileContent} from '@docusaurus/types';
+import {
+  InitializedPlugin,
+  TranslationFile,
+  TranslationFileContent,
+} from '@docusaurus/types';
 import path from 'path';
-import {InitPlugin} from '../../plugins/init';
 
 async function createTmpSiteDir() {
   const {path: siteDirPath} = await tmp.dir({
@@ -266,7 +269,7 @@ describe('writeTranslationFileContent', () => {
           key1: {message: 'key1 message'},
         },
       }),
-    ).rejects.toThrowError(/Invalid translation file at path/);
+    ).rejects.toThrowError(/Invalid translation file at/);
   });
 });
 
@@ -467,27 +470,27 @@ describe('localizePluginTranslationFile', () => {
 
 describe('getPluginsDefaultCodeTranslationMessages', () => {
   function createTestPlugin(
-    fn: InitPlugin['getDefaultCodeTranslationMessages'],
-  ): InitPlugin {
-    return {getDefaultCodeTranslationMessages: fn} as InitPlugin;
+    fn: InitializedPlugin['getDefaultCodeTranslationMessages'],
+  ): InitializedPlugin {
+    return {getDefaultCodeTranslationMessages: fn} as InitializedPlugin;
   }
 
   test('for empty plugins', async () => {
-    const plugins: InitPlugin[] = [];
+    const plugins: InitializedPlugin[] = [];
     await expect(
       getPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
   test('for 1 plugin without lifecycle', async () => {
-    const plugins: InitPlugin[] = [createTestPlugin(undefined)];
+    const plugins: InitializedPlugin[] = [createTestPlugin(undefined)];
     await expect(
       getPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
   test('for 1 plugin with lifecycle', async () => {
-    const plugins: InitPlugin[] = [
+    const plugins: InitializedPlugin[] = [
       createTestPlugin(async () => ({
         a: '1',
         b: '2',
@@ -502,7 +505,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
   });
 
   test('for 2 plugins with lifecycles', async () => {
-    const plugins: InitPlugin[] = [
+    const plugins: InitializedPlugin[] = [
       createTestPlugin(async () => ({
         a: '1',
         b: '2',
@@ -523,7 +526,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
   });
 
   test('for realistic use-case', async () => {
-    const plugins: InitPlugin[] = [
+    const plugins: InitializedPlugin[] = [
       createTestPlugin(undefined),
       createTestPlugin(async () => ({
         a: '1',

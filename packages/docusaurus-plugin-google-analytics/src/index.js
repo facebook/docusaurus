@@ -14,7 +14,7 @@ module.exports = function (context) {
 
   if (!googleAnalytics) {
     throw new Error(
-      `You need to specify 'googleAnalytics' object in 'themeConfig' with 'trackingId' field in it to use docusaurus-plugin-google-analytics`,
+      `You need to specify "googleAnalytics" object in "themeConfig" with "trackingId" field in it to use docusaurus-plugin-google-analytics.`,
     );
   }
 
@@ -22,7 +22,7 @@ module.exports = function (context) {
 
   if (!trackingID) {
     throw new Error(
-      'You specified the `googleAnalytics` object in `themeConfig` but the `trackingID` field was missing. ' +
+      'You specified the "googleAnalytics" object in "themeConfig" but the "trackingID" field was missing. ' +
         'Please ensure this is not a mistake.',
     );
   }

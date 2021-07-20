@@ -57,9 +57,9 @@ async function ensureImageFileExist(imagePath, sourceFilePath) {
 async function processImageNode(node, {filePath, staticDir}) {
   if (!node.url) {
     throw new Error(
-      `Markdown image url is mandatory. filePath=${toMessageRelativeFilePath(
+      `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
-      )}`,
+      )}" file`,
     );
   }
 

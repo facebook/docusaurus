@@ -16,17 +16,17 @@ npm install --save @docusaurus/plugin-ideal-image
 
 Modify your `docusaurus.config.js`
 
-```diff
+```js {3}
 module.exports = {
   ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: ['@docusaurus/plugin-ideal-image'],
   ...
 }
 ```
 
 ## Usage {#usage}
 
-This plugin supports the PNG, GIF and JPG formats only.
+This plugin supports the PNG and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';
