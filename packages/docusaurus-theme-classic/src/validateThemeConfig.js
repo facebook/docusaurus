@@ -50,7 +50,10 @@ const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
   position: NavbarItemPosition,
   className: Joi.string(),
-});
+})
+  // We allow any unknown attributes on the links
+  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .unknown();
 
 const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   to: Joi.string(),
@@ -58,11 +61,7 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
   prependBaseUrlToHref: Joi.bool(),
-})
-  .xor('href', 'to')
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
-  .unknown();
+}).xor('href', 'to');
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
@@ -110,7 +109,7 @@ const LinkLikeNavbarItemSchema = Joi.object().when({
   otherwise: DefaultNavbarItemSchema,
 });
 
-const DropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.array().items(LinkLikeNavbarItemSchema).required(),
 });
 
