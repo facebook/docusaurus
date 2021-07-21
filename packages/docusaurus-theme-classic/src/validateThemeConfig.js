@@ -46,27 +46,31 @@ exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-const DefaultNavbarItemSchema = Joi.object({
+const NavbarItemBaseSchema = Joi.object({
+  label: Joi.string(),
+  position: NavbarItemPosition,
+  className: Joi.string(),
+});
+
+const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   label: Joi.string().required(),
   to: Joi.string(),
   href: URISchema,
-  position: NavbarItemPosition,
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
   prependBaseUrlToHref: Joi.bool(),
-  className: Joi.string(),
 })
   .xor('href', 'to')
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
-const DocsVersionNavbarItemSchema = DefaultNavbarItemSchema.append({
+const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
   docsPluginId: Joi.string(),
 });
 
-const DocItemSchema = DefaultNavbarItemSchema.append({
+const DocItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('doc').required(),
   docId: Joi.string().required(),
   docsPluginId: Joi.string(),
@@ -111,7 +115,7 @@ const DropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
   items: Joi.array().items(LinkLikeNavbarItemSchema).required(),
 });
 
-const DocsVersionDropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersionDropdown').required(),
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
@@ -119,7 +123,7 @@ const DocsVersionDropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
   dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
 });
 
-const LocaleDropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('localeDropdown').required(),
   dropdownItemsBefore: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
