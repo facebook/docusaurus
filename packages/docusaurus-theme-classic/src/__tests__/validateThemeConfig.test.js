@@ -138,9 +138,11 @@ describe('themeConfig', () => {
           {
             type: 'dropdown',
             label: 'Tools',
+            position: 'left',
             items: [
               {
                 type: 'doc',
+                activeSidebarClassName: 'custom-class',
                 docId: 'npm',
                 label: 'NPM',
               },
