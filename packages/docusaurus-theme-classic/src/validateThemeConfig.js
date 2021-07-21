@@ -46,70 +46,31 @@ exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-const BaseNavbarItemSchema = Joi.object({
+const DefaultNavbarItemSchema = Joi.object({
+  label: Joi.string().required(),
   to: Joi.string(),
   href: URISchema,
-  label: Joi.string(),
-  className: Joi.string(),
+  position: NavbarItemPosition,
+  activeBasePath: Joi.string(),
+  activeBaseRegex: Joi.string(),
   prependBaseUrlToHref: Joi.bool(),
+  className: Joi.string(),
 })
+  .xor('href', 'to')
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
-// TODO we should probably create a custom navbar item type "dropdown"
-// having this recursive structure is bad because we only support 2 levels
-// + parent/child don't have exactly the same props
-const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
-  items: Joi.array().optional().items(BaseNavbarItemSchema),
-  position: NavbarItemPosition,
-  activeBasePath: Joi.string(),
-  activeBaseRegex: Joi.string(),
-});
-// TODO the dropdown parent item can have no href/to
-// should check should not apply to dropdown parent item
-// .xor('href', 'to');
-
-const DocsVersionNavbarItemSchema = Joi.object({
+const DocsVersionNavbarItemSchema = DefaultNavbarItemSchema.append({
   type: Joi.string().equal('docsVersion').required(),
-  position: NavbarItemPosition,
-  label: Joi.string(),
-  to: Joi.string(),
   docsPluginId: Joi.string(),
-  className: Joi.string(),
 });
 
-const DocsVersionDropdownNavbarItemSchema = Joi.object({
-  type: Joi.string().equal('docsVersionDropdown').required(),
-  position: NavbarItemPosition,
-  docsPluginId: Joi.string(),
-  dropdownActiveClassDisabled: Joi.boolean(),
-  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
-  className: Joi.string(),
-});
-
-const DocItemSchema = Joi.object({
+const DocItemSchema = DefaultNavbarItemSchema.append({
   type: Joi.string().equal('doc').required(),
-  position: NavbarItemPosition,
   docId: Joi.string().required(),
-  label: Joi.string(),
   docsPluginId: Joi.string(),
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
-  className: Joi.string(),
-});
-
-const LocaleDropdownNavbarItemSchema = Joi.object({
-  type: Joi.string().equal('localeDropdown').required(),
-  position: NavbarItemPosition,
-  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
-  className: Joi.string(),
-});
-
-const SearchItemSchema = Joi.object({
-  type: Joi.string().equal('search').required(),
-  position: NavbarItemPosition,
 });
 
 // Can this be made easier? :/
@@ -126,11 +87,58 @@ const isOfType = (type) => {
     .required();
 };
 
+const LinkLikeNavbarItemSchema = Joi.object().when({
+  switch: [
+    {
+      is: isOfType('docsVersion'),
+      then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: isOfType('doc'),
+      then: DocItemSchema,
+    },
+    {
+      is: isOfType(undefined),
+      then: Joi.forbidden().messages({
+        'any.unknown': 'Bad navbar item type {.type}',
+      }),
+    },
+  ],
+  otherwise: DefaultNavbarItemSchema,
+});
+
+const DropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+  items: Joi.array().items(LinkLikeNavbarItemSchema).required(),
+});
+
+const DocsVersionDropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+  type: Joi.string().equal('docsVersionDropdown').required(),
+  docsPluginId: Joi.string(),
+  dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+});
+
+const LocaleDropdownNavbarItemSchema = DefaultNavbarItemSchema.append({
+  type: Joi.string().equal('localeDropdown').required(),
+  dropdownItemsBefore: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+});
+
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+  position: NavbarItemPosition,
+});
+
 const NavbarItemSchema = Joi.object().when({
   switch: [
     {
       is: isOfType('docsVersion'),
       then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: isOfType('dropdown'),
+      then: DropdownNavbarItemSchema,
     },
     {
       is: isOfType('docsVersionDropdown'),
@@ -155,29 +163,8 @@ const NavbarItemSchema = Joi.object().when({
       }),
     },
   ],
-  otherwise: DefaultNavbarItemSchema,
+  otherwise: DefaultNavbarItemSchema.append(DropdownNavbarItemSchema), // Dropdown item can be specified without type field
 });
-
-/*
-const NavbarItemSchema = Joi.object({
-  type: Joi.string().only(['docsVersion'])
-})
-  .when(Joi.object({ type: 'docsVersion' }).unknown(), {
-    then: Joi.object({ pepperoni: Joi.boolean() })
-  })
-  .when(Joi.object().unknown(), {
-    then: Joi.object({ croutons: Joi.boolean() })
-  })
-
- */
-
-/*
-const NavbarItemSchema = Joi.object().when('type', {
-  is: Joi.valid('docsVersion'),
-  then: DocsVersionNavbarItemSchema,
-  otherwise: DefaultNavbarItemSchema,
-});
- */
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string()
