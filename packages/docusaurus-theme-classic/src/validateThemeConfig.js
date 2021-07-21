@@ -48,7 +48,6 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
-  position: NavbarItemPosition,
   className: Joi.string(),
 })
   // We allow any unknown attributes on the links
@@ -89,88 +88,106 @@ const isOfType = (type) => {
     .required();
 };
 
-const LinkLikeNavbarItemSchema = Joi.object().when({
-  switch: [
-    {
-      is: isOfType('docsVersion'),
-      then: DocsVersionNavbarItemSchema,
-    },
-    {
-      is: isOfType('doc'),
-      then: DocItemSchema,
-    },
-    {
-      is: isOfType(undefined),
-      then: Joi.forbidden().messages({
-        'any.unknown': 'Bad navbar item type {.type}',
-      }),
-    },
-  ],
-  otherwise: DefaultNavbarItemSchema,
-});
+const DropdownSubitemSchema = Joi.object()
+  .when({
+    switch: [
+      {
+        is: isOfType('docsVersion'),
+        then: DocsVersionNavbarItemSchema,
+      },
+      {
+        is: isOfType('doc'),
+        then: DocItemSchema,
+      },
+      {
+        is: isOfType(undefined),
+        then: Joi.forbidden().messages({
+          'any.unknown': 'Bad navbar item type {.type}',
+        }),
+      },
+    ],
+    otherwise: DefaultNavbarItemSchema,
+  })
+  .keys({
+    position: Joi.any().forbidden(),
+  });
 
 const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
-  items: Joi.array().items(LinkLikeNavbarItemSchema).required(),
+  items: Joi.array().items(DropdownSubitemSchema).required(),
 });
 
 const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersionDropdown').required(),
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
-  dropdownItemsBefore: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+  dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
 });
 
 const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('localeDropdown').required(),
-  dropdownItemsBefore: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(LinkLikeNavbarItemSchema).default([]),
+  dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
 });
 
 const SearchItemSchema = Joi.object({
   type: Joi.string().equal('search').required(),
-  position: NavbarItemPosition,
 });
 
-const NavbarItemSchema = Joi.object().when({
-  switch: [
-    {
-      is: isOfType('docsVersion'),
-      then: DocsVersionNavbarItemSchema,
-    },
-    {
-      is: isOfType('dropdown'),
-      then: DropdownNavbarItemSchema,
-    },
-    {
-      is: isOfType('docsVersionDropdown'),
-      then: DocsVersionDropdownNavbarItemSchema,
-    },
-    {
-      is: isOfType('doc'),
-      then: DocItemSchema,
-    },
-    {
-      is: isOfType('localeDropdown'),
-      then: LocaleDropdownNavbarItemSchema,
-    },
-    {
-      is: isOfType('search'),
-      then: SearchItemSchema,
-    },
-    {
-      is: isOfType(undefined),
-      then: Joi.forbidden().messages({
-        'any.unknown': 'Bad navbar item type {.type}',
-      }),
-    },
-  ],
-  // Dropdown item can be specified without type field and is a superset of Default item
-  // TODO: Replace by handling more gracefully
-  otherwise: DefaultNavbarItemSchema.append({
-    items: Joi.array().items(LinkLikeNavbarItemSchema),
-  }),
-});
+const NavbarItemSchema = Joi.object()
+  .when({
+    switch: [
+      {
+        is: isOfType('docsVersion'),
+        then: DocsVersionNavbarItemSchema,
+      },
+      {
+        is: isOfType('dropdown'),
+        then: DropdownNavbarItemSchema,
+      },
+      {
+        is: isOfType('docsVersionDropdown'),
+        then: DocsVersionDropdownNavbarItemSchema,
+      },
+      {
+        is: isOfType('doc'),
+        then: DocItemSchema,
+      },
+      {
+        is: isOfType('localeDropdown'),
+        then: LocaleDropdownNavbarItemSchema,
+      },
+      {
+        is: isOfType('search'),
+        then: SearchItemSchema,
+      },
+      {
+        is: isOfType(undefined),
+        then: Joi.forbidden().messages({
+          'any.unknown': 'Bad navbar item type {.type}',
+        }),
+      },
+    ],
+    // Dropdown item can be specified without type field and is a superset of Default item
+    // TODO: Replace by handling more gracefully
+    otherwise: Joi.object().when({
+      switch: [
+        {
+          is: Joi.object({
+            items: Joi.array()
+              .items(DropdownSubitemSchema)
+              .default([])
+              .required(),
+          }).unknown(),
+          then: DropdownNavbarItemSchema,
+        },
+      ],
+      otherwise: DefaultNavbarItemSchema,
+    }),
+  })
+  .append({
+    position: NavbarItemPosition,
+  });
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string()
