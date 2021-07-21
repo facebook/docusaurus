@@ -76,7 +76,7 @@ const DocItemSchema = NavbarItemBaseSchema.append({
 });
 
 // Can this be made easier? :/
-const isOfType = (type) => {
+const itemWithType = (type) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
     ? Joi.string().required().equal(type)
@@ -92,15 +92,15 @@ const DropdownSubitemSchema = Joi.object()
   .when({
     switch: [
       {
-        is: isOfType('docsVersion'),
+        is: itemWithType('docsVersion'),
         then: DocsVersionNavbarItemSchema,
       },
       {
-        is: isOfType('doc'),
+        is: itemWithType('doc'),
         then: DocItemSchema,
       },
       {
-        is: isOfType(undefined),
+        is: itemWithType(undefined),
         then: DefaultNavbarItemSchema,
       },
     ],
@@ -138,31 +138,31 @@ const NavbarItemSchema = Joi.object()
   .when({
     switch: [
       {
-        is: isOfType('docsVersion'),
+        is: itemWithType('docsVersion'),
         then: DocsVersionNavbarItemSchema,
       },
       {
-        is: isOfType('dropdown'),
+        is: itemWithType('dropdown'),
         then: DropdownNavbarItemSchema,
       },
       {
-        is: isOfType('docsVersionDropdown'),
+        is: itemWithType('docsVersionDropdown'),
         then: DocsVersionDropdownNavbarItemSchema,
       },
       {
-        is: isOfType('doc'),
+        is: itemWithType('doc'),
         then: DocItemSchema,
       },
       {
-        is: isOfType('localeDropdown'),
+        is: itemWithType('localeDropdown'),
         then: LocaleDropdownNavbarItemSchema,
       },
       {
-        is: isOfType('search'),
+        is: itemWithType('search'),
         then: SearchItemSchema,
       },
       {
-        is: isOfType(undefined),
+        is: itemWithType(undefined),
         then: Joi.object().when({
           // Dropdown item can be specified without type field and is a superset of Default item
           is: Joi.object({
