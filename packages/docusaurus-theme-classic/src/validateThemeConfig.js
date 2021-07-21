@@ -166,14 +166,10 @@ const NavbarItemSchema = Joi.object()
         then: Joi.object().when({
           // Dropdown item can be specified without type field and is a superset of Default item
           // TODO: Replace by handling more gracefully
-          switch: [
-            {
-              is: Joi.object({
-                items: Joi.array().items(DropdownSubitemSchema).required(),
-              }).unknown(),
-              then: DropdownNavbarItemSchema,
-            },
-          ],
+          is: Joi.object({
+            items: Joi.array().items(DropdownSubitemSchema).required(),
+          }).unknown(),
+          then: DropdownNavbarItemSchema,
           otherwise: DefaultNavbarItemSchema,
         }),
       },
