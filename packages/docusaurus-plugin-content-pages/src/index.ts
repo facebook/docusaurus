@@ -17,6 +17,7 @@ import {
   addTrailingPathSeparator,
   Globby,
   createAbsoluteFilePathMatcher,
+  normalizeUrl,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -124,8 +125,11 @@ export default function pluginContentPages(
 
         const source = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const pathName = encodePath(fileToPath(relativeSource));
-        const permalink = pathName.replace(/^\//, baseUrl || '');
+        const permalink = normalizeUrl([
+          baseUrl,
+          options.routeBasePath,
+          encodePath(fileToPath(relativeSource)),
+        ]);
         if (isMarkdownSource(relativeSource)) {
           return {
             type: 'mdx',
