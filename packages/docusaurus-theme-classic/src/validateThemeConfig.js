@@ -163,7 +163,9 @@ const NavbarItemSchema = Joi.object().when({
       }),
     },
   ],
-  otherwise: DefaultNavbarItemSchema.append(DropdownNavbarItemSchema), // Dropdown item can be specified without type field
+  // Dropdown item can be specified without type field and is a superset of Default item
+  // TODO: Replace by handling more gracefully
+  otherwise: DropdownNavbarItemSchema,
 });
 
 const ColorModeSchema = Joi.object({
