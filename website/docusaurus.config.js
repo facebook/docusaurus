@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
+const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -96,7 +96,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
+  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -115,34 +115,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        // This plugin instance is used to test fancy edge cases
-        id: 'docs-tests',
-        routeBasePath: 'docs-tests',
-        sidebarPath: 'dogfooding/docs-tests-sidebars.js',
-
-        // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
-        path: fs.realpathSync('dogfooding/docs-tests-symlink'),
-      },
-    ],
-
-    [
-      '@docusaurus/plugin-content-blog',
-      {
-        id: 'second-blog',
-        path: 'dogfooding/second-blog',
-        routeBasePath: 'second-blog',
-        editUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',
-        postsPerPage: 3,
-        feedOptions: {
-          type: 'all',
-          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
-        },
       },
     ],
     [
@@ -242,6 +214,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         ],
       },
     ],
+    ...dogfoodingPluginInstances,
   ],
   presets: [
     [

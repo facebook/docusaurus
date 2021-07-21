@@ -24,6 +24,7 @@
     "@docusaurus/utils": "2.0.0-beta.3",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
+    "chalk": "^4.1.1",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
