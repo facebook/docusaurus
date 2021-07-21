@@ -53,7 +53,6 @@ const NavbarItemBaseSchema = Joi.object({
 });
 
 const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
-  label: Joi.string().required(),
   to: Joi.string(),
   href: URISchema,
   activeBasePath: Joi.string(),
@@ -169,7 +168,9 @@ const NavbarItemSchema = Joi.object().when({
   ],
   // Dropdown item can be specified without type field and is a superset of Default item
   // TODO: Replace by handling more gracefully
-  otherwise: DropdownNavbarItemSchema,
+  otherwise: DefaultNavbarItemSchema.append({
+    items: Joi.array().items(LinkLikeNavbarItemSchema),
+  }),
 });
 
 const ColorModeSchema = Joi.object({
