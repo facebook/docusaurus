@@ -64,6 +64,7 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
+  to: Joi.string(),
   docsPluginId: Joi.string(),
 });
 
