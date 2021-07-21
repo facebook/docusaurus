@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
+const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -118,34 +118,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
-      {
-        // This plugin instance is used to test fancy edge cases
-        id: 'docs-tests',
-        routeBasePath: 'docs-tests',
-        sidebarPath: '_dogfooding/docs-tests-sidebars.js',
-
-        // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
-        // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
-        path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-blog',
-      {
-        id: 'second-blog',
-        path: '_dogfooding/_second-blog',
-        routeBasePath: 'second-blog',
-        editUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',
-        postsPerPage: 3,
-        feedOptions: {
-          type: 'all',
-          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
-        },
-      },
-    ],
-    [
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['html'],
@@ -242,6 +214,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         ],
       },
     ],
+    ...dogfoodingPluginInstances,
   ],
   presets: [
     [
