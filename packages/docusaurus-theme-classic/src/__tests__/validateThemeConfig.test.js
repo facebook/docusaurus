@@ -134,6 +134,22 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // Dropdown with name
+          {
+            type: 'dropdown',
+            label: 'Tools',
+            items: [
+              {
+                type: 'doc',
+                docId: 'npm',
+                label: 'NPM',
+              },
+              {
+                to: '/yarn',
+                label: 'Yarn',
+              },
+            ],
+          },
           // Doc version dropdown
           {
             type: 'docsVersionDropdown',
