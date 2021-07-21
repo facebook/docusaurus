@@ -88,29 +88,27 @@ const itemWithType = (type) => {
     .required();
 };
 
-const DropdownSubitemSchema = Joi.object()
-  .when({
-    switch: [
-      {
-        is: itemWithType('docsVersion'),
-        then: DocsVersionNavbarItemSchema,
-      },
-      {
-        is: itemWithType('doc'),
-        then: DocItemSchema,
-      },
-      {
-        is: itemWithType(undefined),
-        then: DefaultNavbarItemSchema,
-      },
-    ],
-    otherwise: Joi.forbidden().messages({
-      'any.unknown': 'Bad navbar item type {.type}',
-    }),
-  })
-  .append({
-    position: Joi.forbidden(),
-  });
+const DropdownSubitemSchema = Joi.object({
+  position: Joi.forbidden(),
+}).when({
+  switch: [
+    {
+      is: itemWithType('docsVersion'),
+      then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: itemWithType('doc'),
+      then: DocItemSchema,
+    },
+    {
+      is: itemWithType(undefined),
+      then: DefaultNavbarItemSchema,
+    },
+  ],
+  otherwise: Joi.forbidden().messages({
+    'any.unknown': 'Bad navbar item type {.type}',
+  }),
+});
 
 const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.array().items(DropdownSubitemSchema).required(),
@@ -134,52 +132,50 @@ const SearchItemSchema = Joi.object({
   type: Joi.string().equal('search').required(),
 });
 
-const NavbarItemSchema = Joi.object()
-  .when({
-    switch: [
-      {
-        is: itemWithType('docsVersion'),
-        then: DocsVersionNavbarItemSchema,
-      },
-      {
-        is: itemWithType('dropdown'),
+const NavbarItemSchema = Joi.object({
+  position: NavbarItemPosition,
+}).when({
+  switch: [
+    {
+      is: itemWithType('docsVersion'),
+      then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: itemWithType('dropdown'),
+      then: DropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('docsVersionDropdown'),
+      then: DocsVersionDropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('doc'),
+      then: DocItemSchema,
+    },
+    {
+      is: itemWithType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('search'),
+      then: SearchItemSchema,
+    },
+    {
+      is: itemWithType(undefined),
+      then: Joi.object().when({
+        // Dropdown item can be specified without type field and is a superset of Default item
+        is: Joi.object({
+          items: Joi.array().items(DropdownSubitemSchema).required(),
+        }).unknown(),
         then: DropdownNavbarItemSchema,
-      },
-      {
-        is: itemWithType('docsVersionDropdown'),
-        then: DocsVersionDropdownNavbarItemSchema,
-      },
-      {
-        is: itemWithType('doc'),
-        then: DocItemSchema,
-      },
-      {
-        is: itemWithType('localeDropdown'),
-        then: LocaleDropdownNavbarItemSchema,
-      },
-      {
-        is: itemWithType('search'),
-        then: SearchItemSchema,
-      },
-      {
-        is: itemWithType(undefined),
-        then: Joi.object().when({
-          // Dropdown item can be specified without type field and is a superset of Default item
-          is: Joi.object({
-            items: Joi.array().items(DropdownSubitemSchema).required(),
-          }).unknown(),
-          then: DropdownNavbarItemSchema,
-          otherwise: DefaultNavbarItemSchema,
-        }),
-      },
-    ],
-    otherwise: Joi.forbidden().messages({
-      'any.unknown': 'Bad navbar item type {.type}',
-    }),
-  })
-  .append({
-    position: NavbarItemPosition,
-  });
+        otherwise: DefaultNavbarItemSchema,
+      }),
+    },
+  ],
+  otherwise: Joi.forbidden().messages({
+    'any.unknown': 'Bad navbar item type {.type}',
+  }),
+});
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string()
