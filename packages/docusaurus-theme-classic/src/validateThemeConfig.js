@@ -108,8 +108,8 @@ const DropdownSubitemSchema = Joi.object()
     ],
     otherwise: DefaultNavbarItemSchema,
   })
-  .keys({
-    position: Joi.any().forbidden(),
+  .append({
+    position: Joi.forbidden(),
   });
 
 const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -174,10 +174,7 @@ const NavbarItemSchema = Joi.object()
       switch: [
         {
           is: Joi.object({
-            items: Joi.array()
-              .items(DropdownSubitemSchema)
-              .default([])
-              .required(),
+            items: Joi.array().items(DropdownSubitemSchema).required(),
           }).unknown(),
           then: DropdownNavbarItemSchema,
         },
