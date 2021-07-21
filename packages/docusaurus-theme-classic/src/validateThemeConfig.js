@@ -77,11 +77,10 @@ const DocItemSchema = NavbarItemBaseSchema.append({
 
 // Can this be made easier? :/
 const isOfType = (type) => {
-  let typeSchema = Joi.string().required();
   // because equal(undefined) is not supported :/
-  if (type) {
-    typeSchema = typeSchema.equal(type);
-  }
+  const typeSchema = type
+    ? Joi.string().required().equal(type)
+    : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })
@@ -102,12 +101,12 @@ const DropdownSubitemSchema = Joi.object()
       },
       {
         is: isOfType(undefined),
-        then: Joi.forbidden().messages({
-          'any.unknown': 'Bad navbar item type {.type}',
-        }),
+        then: DefaultNavbarItemSchema,
       },
     ],
-    otherwise: DefaultNavbarItemSchema,
+    otherwise: Joi.forbidden().messages({
+      'any.unknown': 'Bad navbar item type {.type}',
+    }),
   })
   .append({
     position: Joi.forbidden(),
@@ -164,23 +163,23 @@ const NavbarItemSchema = Joi.object()
       },
       {
         is: isOfType(undefined),
-        then: Joi.forbidden().messages({
-          'any.unknown': 'Bad navbar item type {.type}',
+        then: Joi.object().when({
+          // Dropdown item can be specified without type field and is a superset of Default item
+          // TODO: Replace by handling more gracefully
+          switch: [
+            {
+              is: Joi.object({
+                items: Joi.array().items(DropdownSubitemSchema).required(),
+              }).unknown(),
+              then: DropdownNavbarItemSchema,
+            },
+          ],
+          otherwise: DefaultNavbarItemSchema,
         }),
       },
     ],
-    // Dropdown item can be specified without type field and is a superset of Default item
-    // TODO: Replace by handling more gracefully
-    otherwise: Joi.object().when({
-      switch: [
-        {
-          is: Joi.object({
-            items: Joi.array().items(DropdownSubitemSchema).required(),
-          }).unknown(),
-          then: DropdownNavbarItemSchema,
-        },
-      ],
-      otherwise: DefaultNavbarItemSchema,
+    otherwise: Joi.forbidden().messages({
+      'any.unknown': 'Bad navbar item type {.type}',
     }),
   })
   .append({

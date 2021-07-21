@@ -199,6 +199,23 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should reject unknown navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'joke',
+            position: 'left',
+            label: 'haha',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
+  });
+
   test('should allow empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {
