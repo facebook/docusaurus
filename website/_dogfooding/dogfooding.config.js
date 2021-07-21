@@ -6,7 +6,7 @@ exports.dogfoodingPluginInstances = [
     '@docusaurus/plugin-content-docs',
     {
       id: 'docs-tests',
-      routeBasePath: 'docs-tests',
+      routeBasePath: '/tests/docs',
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
 
       // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
@@ -20,7 +20,7 @@ exports.dogfoodingPluginInstances = [
     {
       id: 'blog-tests',
       path: '_dogfooding/_blog-tests',
-      routeBasePath: 'blog-tests',
+      routeBasePath: '/tests/blog',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/_dogfooding/_blog-tests',
       postsPerPage: 3,
@@ -36,7 +36,7 @@ exports.dogfoodingPluginInstances = [
     {
       id: 'pages-tests',
       path: '_dogfooding/_pages-tests',
-      routeBasePath: 'pages-tests',
+      routeBasePath: '/tests/pages',
     },
   ],
 ];
