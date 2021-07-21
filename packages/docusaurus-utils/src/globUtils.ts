@@ -51,7 +51,7 @@ export function createAbsoluteFilePathMatcher(
     if (!rootFolder) {
       throw new Error(
         `createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=${absoluteFilePath} was not contained in any of the root folders ${JSON.stringify(
-          rootFolder,
+          rootFolders,
         )}`,
       );
     }
