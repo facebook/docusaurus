@@ -5,7 +5,9 @@
   "scripts": {
     "start": "netlify dev"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@netlify/functions": "^0.7.2"
+  },
   "devDependencies": {
     "netlify-cli": "^5.2.2"
   }
