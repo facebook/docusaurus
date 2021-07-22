@@ -57,7 +57,9 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
 
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
-  const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
+  const siteDocusaurusPackagesForUpdate = Object.keys(
+    sitePkg.dependencies || [],
+  )
     .filter((p) => p.startsWith('@docusaurus'))
     .map((p) => p.concat('@latest'))
     .join(' ');
