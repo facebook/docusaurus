@@ -6,6 +6,9 @@
  */
 
 exports.handler = async function (_event, _context) {
+  // TODO
+  // https://codesandbox.io/s/docusaurus
+  // https://stackblitz.com/fork/docusaurus
   return {
     statusCode: 200,
     body: JSON.stringify({message: 'index'}),
