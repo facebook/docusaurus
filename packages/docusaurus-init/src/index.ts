@@ -93,7 +93,7 @@ export default async function init(
       message: 'Select a template below...',
       choices: templateChoices,
     });
-    template = templatePrompt.template;
+    template = templatePrompt.template as string;
   }
 
   // If user choose Git repository, we'll prompt for the url.
@@ -110,7 +110,7 @@ export default async function init(
       message:
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
     });
-    template = repoPrompt.gitRepoUrl;
+    template = repoPrompt.gitRepoUrl as string;
   }
 
   console.log();
@@ -181,27 +181,26 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  console.log();
-  console.log(`Successfully created "${chalk.cyan(cdpath)}".`);
-  console.log('Inside that directory, you can run several commands:');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} start`));
-  console.log('    Starts the development server.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`));
-  console.log('    Bundles your website into static files for production.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}serve`));
-  console.log('    Serve the built website locally.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} deploy`));
-  console.log('    Publish the website to GitHub pages.');
-  console.log();
-  console.log('We recommend that you begin by typing:');
-  console.log();
-  console.log(chalk.cyan('  cd'), cdpath);
-  console.log(`  ${chalk.cyan(`${pkgManager} start`)}`);
+  console.log(`
+Successfully created "${chalk.cyan(cdpath)}".
+Inside that directory, you can run several commands:
 
-  console.log();
-  console.log('Happy building awesome websites!');
+  ${chalk.cyan(`${pkgManager} start`)}
+    Starts the development server.
+
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+    Bundles your website into static files for production.
+
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+    Serves the built website locally.
+
+  ${chalk.cyan(`${pkgManager} deploy`)}
+    Publishes the website to GitHub pages.
+
+We recommend that you begin by typing:
+
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} start`)}
+
+Happy building awesome websites!`);
 }
