@@ -12,7 +12,12 @@ module.exports = {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['installation', 'configuration', 'typescript-support'],
+      items: [
+        'installation',
+        'configuration',
+        'playground',
+        'typescript-support',
+      ],
     },
     {
       type: 'category',
