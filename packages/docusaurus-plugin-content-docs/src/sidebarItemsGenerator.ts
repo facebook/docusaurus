@@ -19,7 +19,10 @@ import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
-import {DefaultCategoryCollapsedValue} from './sidebars';
+import {
+  DefaultCategoryCollapsedValue,
+  DefaultCategoryCollapsibleValue,
+} from './sidebars';
 
 const BreadcrumbSeparator = '/';
 
@@ -204,6 +207,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
       label: categoryMetadatas?.label ?? filename,
       items: [],
       collapsed: categoryMetadatas?.collapsed ?? DefaultCategoryCollapsedValue,
+      collapsible: DefaultCategoryCollapsibleValue,
       ...(typeof position !== 'undefined' && {position}),
     };
   }

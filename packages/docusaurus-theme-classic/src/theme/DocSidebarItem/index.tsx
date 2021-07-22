@@ -59,6 +59,7 @@ export const DocSidebarItems = memo(function DocSidebarItems({
 
 export default function DocSidebarItem({
   item,
+  collapsible,
   ...props
 }: Props): JSX.Element | null {
   switch (item.type) {
@@ -66,7 +67,13 @@ export default function DocSidebarItem({
       if (item.items.length === 0) {
         return null;
       }
-      return <DocSidebarItemCategory item={item} {...props} />;
+      return (
+        <DocSidebarItemCategory
+          item={item}
+          collapsible={item.collapsible ?? collapsible}
+          {...props}
+        />
+      );
     case 'link':
     default:
       return <DocSidebarItemLink item={item} {...props} />;

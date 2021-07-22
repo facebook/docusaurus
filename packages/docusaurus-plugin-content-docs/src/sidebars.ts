@@ -77,6 +77,7 @@ function isCategoryShorthand(
 
 // categories are collapsed by default, unless user set collapsed = false
 export const DefaultCategoryCollapsedValue = true;
+export const DefaultCategoryCollapsibleValue = true;
 
 /**
  * Convert {category1: [item1,item2]} shorthand syntax to long-form syntax
@@ -87,6 +88,7 @@ function normalizeCategoryShorthand(
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
     collapsed: DefaultCategoryCollapsedValue,
+    collapsible: DefaultCategoryCollapsibleValue,
     label,
     items,
   }));
@@ -116,7 +118,13 @@ function assertItem<K extends string>(
 function assertIsCategory(
   item: Record<string, unknown>,
 ): asserts item is SidebarItemCategoryJSON {
-  assertItem(item, ['items', 'label', 'collapsed', 'customProps']);
+  assertItem(item, [
+    'items',
+    'label',
+    'collapsed',
+    'collapsible',
+    'customProps',
+  ]);
   if (typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}: "label" must be a string.`,
@@ -134,6 +142,14 @@ function assertIsCategory(
   ) {
     throw new Error(
       `Error loading ${JSON.stringify(item)}: "collapsed" must be a boolean.`,
+    );
+  }
+  if (
+    typeof item.collapsible !== 'undefined' &&
+    typeof item.collapsible !== 'boolean'
+  ) {
+    throw new Error(
+      `Error loading ${JSON.stringify(item)}: "collapsible" must be a boolean.`,
     );
   }
 }
@@ -211,6 +227,7 @@ function normalizeItem(item: SidebarItemJSON): UnprocessedSidebarItem[] {
       return [
         {
           collapsed: DefaultCategoryCollapsedValue,
+          collapsible: DefaultCategoryCollapsibleValue,
           ...item,
           items: flatMap(item.items, normalizeItem),
         },
