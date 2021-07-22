@@ -17,4 +17,3 @@ from    = "/stackblitz"
 to      = "/.netlify/functions/stackblitz"
 status  = 200
 
-
