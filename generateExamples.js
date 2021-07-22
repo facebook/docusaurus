@@ -88,8 +88,40 @@ rimraf.sync('./examples/classic');
 rimraf.sync('./examples/facebook');
 rimraf.sync('./examples/bootstrap');
 
+/*
+Starters are repositories/branches that only contains a newly initialized Docusaurus site
+Those are useful for users to inspect (may be more convenient than "examples/classic)
+Also some tools like Netlify deploy button currently require using the main branch of a dedicated repo
+See https://github.com/jamstack/jamstack.org/pull/609
+Button visible here: https://jamstack.org/generators/
+ */
+function updateStarters() {
+  console.log('Will update starter repositories / branches');
+
+  execSync(
+    'git subtree push --prefix examples/classic --squash origin starter',
+  );
+  console.log(
+    'Update success for https://github.com/facebook/docusaurus/tree/starter',
+  );
+
+  try {
+    execSync(
+      'git subtree push --prefix examples/classic --squash git@github.com:slorber/docusaurus-starter.git main --squash',
+    );
+    console.log(
+      'Update success for https://github.com/slorber/docusaurus-starter',
+    );
+  } catch {
+    console.error(
+      'could not update https://github.com/slorber/docusaurus-starter , ask permission to @slorber if needed',
+    );
+  }
+}
+
 // get the list of all available templates
 readdir('./packages/docusaurus-init/templates', (err, data) => {
   const templates = data.filter((i) => i !== 'README.MD');
   templates.forEach(generateTemplateExample);
+  updateStarters();
 });
