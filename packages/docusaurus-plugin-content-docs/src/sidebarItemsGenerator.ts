@@ -272,6 +272,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
     }
 
     // async process made sequential on purpose! order matters
+    // eslint-disable-next-line no-restricted-syntax
     for (const doc of docs) {
       // eslint-disable-next-line no-await-in-loop
       await handleDocItem(doc);
