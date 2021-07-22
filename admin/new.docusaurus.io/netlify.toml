@@ -1,0 +1,19 @@
+
+[functions]
+  directory = "functions/"
+
+[[redirects]]
+from    = "/"
+to      = "/.netlify/functions/"
+status  = 200
+
+[[redirects]]
+from    = "/codesandbox"
+to      = "/.netlify/functions/codesandbox"
+status  = 200
+
+[[redirects]]
+from    = "/stackblitz"
+to      = "/.netlify/functions/stackblitz"
+status  = 200
+
