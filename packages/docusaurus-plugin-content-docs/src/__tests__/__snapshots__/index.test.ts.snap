@@ -27,9 +27,11 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "collapsed": true,
+          "collapsible": true,
           "items": Array [
             Object {
               "id": "foo/bar",
@@ -58,6 +60,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "hello",
@@ -411,11 +414,13 @@ Object {
     \\"docs\\": [
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
             \\"collapsed\\": true,
+            \\"collapsible\\": true,
             \\"type\\": \\"category\\",
             \\"label\\": \\"foo\\",
             \\"items\\": [
@@ -445,6 +450,7 @@ Object {
       },
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
@@ -992,6 +998,7 @@ Object {
   "version-1.0.0/docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.0/foo/bar",
@@ -1007,6 +1014,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.0/hello",
@@ -1025,6 +1033,7 @@ Object {
   "version-1.0.1/docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.1/foo/bar",
@@ -1036,6 +1045,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.1/hello",
@@ -1054,6 +1064,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "foo/bar",
@@ -1065,6 +1076,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "hello",
@@ -1405,6 +1417,7 @@ Object {
     \\"version-1.0.0/docs\\": [
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
@@ -1422,6 +1435,7 @@ Object {
       },
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
@@ -1445,6 +1459,7 @@ Object {
     \\"version-1.0.1/docs\\": [
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
@@ -1457,6 +1472,7 @@ Object {
       },
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
@@ -1480,6 +1496,7 @@ Object {
     \\"docs\\": [
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
@@ -1492,6 +1509,7 @@ Object {
       },
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
@@ -1515,6 +1533,7 @@ Object {
     \\"version-1.0.1/docs\\": [
       {
         \\"collapsed\\": true,
+        \\"collapsible\\": true,
         \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
@@ -1888,6 +1907,7 @@ Object {
   "version-1.0.1/docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-withSlugs/rootAbsoluteSlug",

@@ -47,6 +47,7 @@ const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
   label: Joi.string(),
   position: Joi.number(),
   collapsed: Joi.boolean(),
+  collapsible: Joi.boolean(),
 });
 
 // TODO I now believe we should read all the category metadata files ahead of time: we may need this metadata to customize docs metadata
