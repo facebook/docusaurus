@@ -1,6 +1,6 @@
 
 [functions]
-  directory = "functions/"
+directory = "functions"
 
 [[redirects]]
 from    = "/"
