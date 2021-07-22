@@ -17,3 +17,7 @@ from    = "/stackblitz"
 to      = "/.netlify/functions/stackblitz"
 status  = 200
 
+[[redirects]]
+from    = "/*"
+to      = "/.netlify/functions/index"
+status  = 200
