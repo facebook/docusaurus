@@ -227,6 +227,11 @@ function normalizeItem(
   switch (item.type) {
     case 'category':
       assertIsCategory(item);
+      item.collapsible ??= options.sidebarCollapsible;
+      // If non-collapsible, the category is always expanded
+      if (!item.collapsible) {
+        item.collapsed = false;
+      }
       return [
         {
           collapsed: options.sidebarCollapsed,

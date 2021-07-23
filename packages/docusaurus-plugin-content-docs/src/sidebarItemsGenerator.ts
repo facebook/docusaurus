@@ -39,11 +39,14 @@ export type CategoryMetadatasFile = {
 type WithPosition = {position?: number};
 type SidebarItemWithPosition = SidebarItem & WithPosition;
 
-const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
-  label: Joi.string(),
-  position: Joi.number(),
-  collapsed: Joi.boolean(),
-  collapsible: Joi.boolean(),
+const CategoryMetadatasFileSchema = Joi.object({
+  content: {
+    label: Joi.string(),
+    position: Joi.number(),
+    collapsed: Joi.boolean(),
+    collapsible: Joi.boolean(),
+  },
+  filePath: Joi.string(),
 });
 
 // TODO I now believe we should read all the category metadata files ahead of time: we may need this metadata to customize docs metadata
@@ -55,8 +58,10 @@ async function readCategoryMetadatasFile(
 ): Promise<CategoryMetadatasFile | null> {
   function validateCategoryMetadataFile(
     content: unknown,
+    filePath: string,
   ): CategoryMetadatasFile {
-    return Joi.attempt(content, CategoryMetadatasFileSchema);
+    return Joi.attempt({content, filePath}, CategoryMetadatasFileSchema)
+      .content;
   }
 
   async function tryReadFile(
@@ -71,7 +76,7 @@ async function readCategoryMetadatasFile(
       const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
       const unsafeContent: unknown = parse(contentString);
       try {
-        return validateCategoryMetadataFile(unsafeContent);
+        return validateCategoryMetadataFile(unsafeContent, filePath);
       } catch (e) {
         console.error(
           chalk.red(
@@ -201,12 +206,19 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
 
     const position = categoryMetadatas?.position ?? numberPrefix;
 
+    const collapsible =
+      categoryMetadatas?.collapsible ?? options.sidebarCollapsible;
+    // If non-collapsible, the category is always expanded
+    const collapsed = collapsible
+      ? categoryMetadatas?.collapsed ?? options.sidebarCollapsed
+      : false;
+
     return {
       type: 'category',
       label: categoryMetadatas?.label ?? filename,
       items: [],
-      collapsed: categoryMetadatas?.collapsed ?? options.sidebarCollapsed,
-      collapsible: categoryMetadatas?.collapsible ?? options.sidebarCollapsible,
+      collapsed,
+      collapsible,
       ...(typeof position !== 'undefined' && {position}),
     };
   }
