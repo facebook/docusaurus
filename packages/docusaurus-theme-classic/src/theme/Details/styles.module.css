@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.details {
+  --details-decoration-color: var(--ifm-alert-border-color);
+  --details-summary-arrow-size: 0.5rem;
+}
+
 .details > summary {
   position: relative;
   cursor: pointer;
@@ -17,17 +22,16 @@
 }
 
 .details > summary:before {
-  --summary-arrow-size: 0.5rem;
   position: absolute;
   content: '';
   top: 0.25rem;
   width: 0;
   height: 0;
-  border-width: var(--summary-arrow-size);
+  border-width: var(--details-summary-arrow-size);
   border-style: solid;
-  border-color: transparent transparent transparent var(--ifm-alert-border-color);
+  border-color: transparent transparent transparent var(--details-decoration-color);
   transform: translateX(-1.2rem) rotate(0deg);
-  transform-origin: calc(var(--summary-arrow-size) / 2) 50%;
+  transform-origin: calc(var(--details-summary-arrow-size) / 2) 50%;
   transition: transform var(--ifm-transition-fast) ease;
 }
 
@@ -37,6 +41,6 @@
 
 .collapsibleContent {
   margin-top: 1rem;
-  border-top: 1px solid var(--ifm-color-emphasis-300);
+  border-top: 1px solid var(--details-decoration-color);
   padding-top: 1rem;
 }

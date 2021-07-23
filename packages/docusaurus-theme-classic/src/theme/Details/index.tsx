@@ -13,13 +13,27 @@ import styles from './styles.module.css';
 
 const BaseClassName = 'alert alert--info';
 
+function isInSummary(node: HTMLElement | null): boolean {
+  if (!node) {
+    return false;
+  }
+  return node.tagName === 'SUMMARY' || isInSummary(node.parentElement);
+}
+
+function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
+  if (!node) {
+    return false;
+  }
+  return node === parent || hasParent(node.parentElement, parent);
+}
+
 const Details = ({
   baseClassName = BaseClassName,
   summary,
   children,
   ...props
 }: Props): JSX.Element => {
-  const ref = useRef<HTMLDetailsElement>(null);
+  const detailsRef = useRef<HTMLDetailsElement>(null);
 
   const {collapsed, setCollapsed} = useCollapsible({
     initialState: !props.open,
@@ -31,27 +45,27 @@ const Details = ({
   return (
     <details
       {...props}
-      ref={ref}
+      ref={detailsRef}
       open={open}
       data-collapsed={collapsed}
       className={clsx(baseClassName, styles.details, props.className)}
       onMouseDown={(e) => {
+        const target = e.target as HTMLElement;
         // Prevent a double-click to highlight summary text
-        if ((e.target as HTMLElement).tagName === 'SUMMARY' && e.detail > 1) {
+        if (isInSummary(target) && e.detail > 1) {
           e.preventDefault();
         }
       }}
       onClick={(e) => {
-        const isSummaryChildClick =
-          (e.target as HTMLElement).tagName === 'SUMMARY' &&
-          (e.target as HTMLElement).parentElement === ref.current;
-        if (!isSummaryChildClick) {
+        e.stopPropagation(); // For isolation of multiple nested details/summary
+        const target = e.target as HTMLElement;
+        const shouldToggle =
+          isInSummary(target) && hasParent(target, detailsRef.current!);
+        if (!shouldToggle) {
           return;
         }
         e.preventDefault();
-        // const isOpening = (e.target as HTMLDetailsElement).open;
-        const isOpening = collapsed;
-        if (isOpening) {
+        if (collapsed) {
           setCollapsed(false);
           setOpen(true);
         } else {
