@@ -59,7 +59,6 @@ export const DocSidebarItems = memo(function DocSidebarItems({
 
 export default function DocSidebarItem({
   item,
-  collapsible,
   ...props
 }: Props): JSX.Element | null {
   switch (item.type) {
@@ -67,13 +66,7 @@ export default function DocSidebarItem({
       if (item.items.length === 0) {
         return null;
       }
-      return (
-        <DocSidebarItemCategory
-          item={item}
-          collapsible={item.collapsible ?? collapsible}
-          {...props}
-        />
-      );
+      return <DocSidebarItemCategory item={item} {...props} />;
     case 'link':
     default:
       return <DocSidebarItemLink item={item} {...props} />;
@@ -102,11 +95,10 @@ function useAutoExpandActiveCategory({
 function DocSidebarItemCategory({
   item,
   onItemClick,
-  collapsible = true,
   activePath,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
-  const {items, label} = item;
+  const {items, label, collapsible} = item;
 
   const isActive = isActiveSidebarItem(item, activePath);
 
@@ -117,7 +109,7 @@ function DocSidebarItemCategory({
       if (!collapsible) {
         return false;
       }
-      return isActive ? false : item.collapsed ?? true;
+      return isActive ? false : item.collapsed;
     },
   });
 
@@ -153,7 +145,6 @@ function DocSidebarItemCategory({
           items={items}
           tabIndex={collapsed ? -1 : 0}
           onItemClick={onItemClick}
-          collapsible={collapsible}
           activePath={activePath}
         />
       </Collapsible>
@@ -165,7 +156,6 @@ function DocSidebarItemLink({
   item,
   onItemClick,
   activePath,
-  collapsible: _collapsible,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label} = item;
