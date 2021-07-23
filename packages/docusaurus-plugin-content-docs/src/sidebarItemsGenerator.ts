@@ -39,14 +39,11 @@ export type CategoryMetadatasFile = {
 type WithPosition = {position?: number};
 type SidebarItemWithPosition = SidebarItem & WithPosition;
 
-const CategoryMetadatasFileSchema = Joi.object({
-  content: {
-    label: Joi.string(),
-    position: Joi.number(),
-    collapsed: Joi.boolean(),
-    collapsible: Joi.boolean(),
-  },
-  filePath: Joi.string(),
+const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
+  label: Joi.string(),
+  position: Joi.number(),
+  collapsed: Joi.boolean(),
+  collapsible: Joi.boolean(),
 });
 
 // TODO I now believe we should read all the category metadata files ahead of time: we may need this metadata to customize docs metadata
@@ -58,10 +55,8 @@ async function readCategoryMetadatasFile(
 ): Promise<CategoryMetadatasFile | null> {
   function validateCategoryMetadataFile(
     content: unknown,
-    filePath: string,
   ): CategoryMetadatasFile {
-    return Joi.attempt({content, filePath}, CategoryMetadatasFileSchema)
-      .content;
+    return Joi.attempt(content, CategoryMetadatasFileSchema);
   }
 
   async function tryReadFile(
@@ -76,7 +71,7 @@ async function readCategoryMetadatasFile(
       const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
       const unsafeContent: unknown = parse(contentString);
       try {
-        return validateCategoryMetadataFile(unsafeContent, filePath);
+        return validateCategoryMetadataFile(unsafeContent);
       } catch (e) {
         console.error(
           chalk.red(
