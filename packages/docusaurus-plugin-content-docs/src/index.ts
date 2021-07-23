@@ -110,14 +110,6 @@ export default function pluginContentDocs(
       return getLoadedContentTranslationFiles(content);
     },
 
-    getClientModules() {
-      const modules = [];
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-      return modules;
-    },
-
     getPathsToWatch() {
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         const result = [
