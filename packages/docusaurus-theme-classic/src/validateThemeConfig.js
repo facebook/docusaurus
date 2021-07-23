@@ -309,10 +309,9 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
-  // TODO: beta-4
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
-      'themeConfig.sidebarCollapsible has been moved to plugin options. See:', // TODO
+      'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
   }),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
