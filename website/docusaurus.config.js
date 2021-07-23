@@ -227,6 +227,8 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           // routeBasePath: '/',
           path: 'docs',
           sidebarPath: 'sidebars.js',
+          // sidebarCollapsible: false,
+          // sidebarCollapsed: true,
           editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -285,7 +287,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     liveCodeBlock: {
       playgroundPosition: 'bottom',
     },
-    sidebarCollapsible: true,
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',

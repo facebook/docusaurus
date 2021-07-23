@@ -93,7 +93,6 @@ declare module '@theme/DocSidebar' {
   export type Props = {
     readonly path: string;
     readonly sidebar: readonly PropSidebarItem[];
-    readonly sidebarCollapsible?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
   };
@@ -107,7 +106,6 @@ declare module '@theme/DocSidebarItem' {
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
-    readonly collapsible?: boolean;
     readonly onItemClick?: () => void;
     readonly tabIndex?: number;
   };

@@ -46,7 +46,11 @@ type ContextValue = ReturnType<typeof useContextValue>;
 
 const Context = createContext<ContextValue | null>(null);
 
-export function MobileSecondaryMenuProvider({children}: {children: ReactNode}) {
+export function MobileSecondaryMenuProvider({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <Context.Provider value={useContextValue()}>{children}</Context.Provider>
   );

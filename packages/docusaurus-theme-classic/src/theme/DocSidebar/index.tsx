@@ -58,13 +58,7 @@ function HideableSidebarButton({onClick}) {
   );
 }
 
-function DocSidebarDesktop({
-  path,
-  sidebar,
-  sidebarCollapsible,
-  onCollapse,
-  isHidden,
-}: Props) {
+function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
   const showAnnouncementBar = useShowAnnouncementBar();
   const {
     navbar: {hideOnScroll},
@@ -85,11 +79,7 @@ function DocSidebarDesktop({
             !isAnnouncementBarClosed && showAnnouncementBar,
         })}>
         <ul className="menu__list">
-          <DocSidebarItems
-            items={sidebar}
-            collapsible={sidebarCollapsible}
-            activePath={path}
-          />
+          <DocSidebarItems items={sidebar} activePath={path} />
         </ul>
       </nav>
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
@@ -100,14 +90,12 @@ function DocSidebarDesktop({
 const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
   toggleSidebar,
   sidebar,
-  sidebarCollapsible,
   path,
 }) => {
   return (
     <ul className="menu__list">
       <DocSidebarItems
         items={sidebar}
-        collapsible={sidebarCollapsible}
         activePath={path}
         onItemClick={() => toggleSidebar()}
       />
