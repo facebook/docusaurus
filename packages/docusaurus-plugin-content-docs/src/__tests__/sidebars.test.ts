@@ -705,7 +705,6 @@ describe('fixSidebarItemInconsistencies', () => {
   });
 
   test('should fix bad category', () => {
-    const consoleWarn = jest.spyOn(console, 'warn');
     const category: SidebarItemCategory = {
       type: 'category',
       label: 'Cat',
@@ -717,15 +716,9 @@ describe('fixSidebarItemInconsistencies', () => {
       ...category,
       collapsed: false,
     });
-    expect(consoleWarn).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /Inconsistent sidebar category with label 'Cat'. It is not possible to configure a category to be collapsed, when it is not collapsible at the same time./,
-      ),
-    );
   });
 
   test('should fix bad subcategory', () => {
-    const consoleWarn = jest.spyOn(console, 'warn');
     const subCategory: SidebarItemCategory = {
       type: 'category',
       label: 'SubCat',
@@ -749,10 +742,5 @@ describe('fixSidebarItemInconsistencies', () => {
         },
       ],
     });
-    expect(consoleWarn).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /Inconsistent sidebar category with label 'SubCat'. It is not possible to configure a category to be collapsed, when it is not collapsible at the same time./,
-      ),
-    );
   });
 });

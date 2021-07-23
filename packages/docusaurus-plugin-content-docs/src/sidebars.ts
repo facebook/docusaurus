@@ -33,7 +33,6 @@ import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import combinePromises from 'combine-promises';
 import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
 import path from 'path';
-import chalk from 'chalk';
 
 type SidebarItemCategoryJSON = SidebarItemBase & {
   type: 'category';
@@ -356,11 +355,6 @@ export function fixSidebarItemInconsistencies(item: SidebarItem): SidebarItem {
   ): SidebarItemCategory {
     // A non-collapsible category can't be collapsed!
     if (!category.collapsible && category.collapsed) {
-      console.warn(
-        chalk.yellow(
-          `Inconsistent sidebar category with label '${category.label}'. It is not possible to configure a category to be collapsed, when it is not collapsible at the same time.`,
-        ),
-      );
       return {
         ...category,
         collapsed: false,
