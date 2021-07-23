@@ -1,0 +1,16 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.details > summary {
+  cursor: pointer;
+}
+
+.collapsibleContent {
+  margin-top: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+  padding-top: 1rem;
+}

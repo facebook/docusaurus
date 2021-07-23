@@ -164,6 +164,7 @@ type CollapsibleBaseProps = {
   collapsed: boolean;
   children: ReactNode;
   animation?: CollapsibleAnimationConfig;
+  onCollapseTransitionEnd?: (collapsed: boolean) => void;
   className?: string;
 };
 
@@ -172,6 +173,7 @@ function CollapsibleBase({
   collapsed,
   children,
   animation,
+  onCollapseTransitionEnd,
   className,
 }: CollapsibleBaseProps) {
   // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
@@ -197,10 +199,12 @@ function CollapsibleBase({
           parseInt(currentCollapsibleElementHeight, 10) === el.scrollHeight
         ) {
           applyCollapsedStyle(el, false);
+          onCollapseTransitionEnd?.(false);
         }
 
         if (currentCollapsibleElementHeight === CollapsedStyles.height) {
           applyCollapsedStyle(el, true);
+          onCollapseTransitionEnd?.(true);
         }
       }}
       className={className}>
