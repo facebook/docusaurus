@@ -203,10 +203,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async functio
 
     const collapsible =
       categoryMetadatas?.collapsible ?? options.sidebarCollapsible;
-    // If non-collapsible, the category is always expanded
-    const collapsed = collapsible
-      ? categoryMetadatas?.collapsed ?? options.sidebarCollapsed
-      : false;
+    const collapsed = categoryMetadatas?.collapsed ?? options.sidebarCollapsed;
 
     return {
       type: 'category',

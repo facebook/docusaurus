@@ -17,6 +17,7 @@ import {
   processSidebars,
   DefaultSidebars,
   DisabledSidebars,
+  fixSidebarItemInconsistencies,
 } from '../sidebars';
 import {
   Sidebar,
@@ -25,6 +26,7 @@ import {
   Sidebars,
   UnprocessedSidebars,
   SidebarOptions,
+  SidebarItemCategory,
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 
@@ -687,5 +689,70 @@ describe('createSidebarsUtils', () => {
       previousId: 'doc3',
       nextId: undefined,
     });
+  });
+});
+
+describe('fixSidebarItemInconsistencies', () => {
+  test('should not fix good category', () => {
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [],
+      collapsible: true,
+      collapsed: true,
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual(category);
+  });
+
+  test('should fix bad category', () => {
+    const consoleWarn = jest.spyOn(console, 'warn');
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [],
+      collapsible: false,
+      collapsed: true, // Bad because collapsible=false
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual({
+      ...category,
+      collapsed: false,
+    });
+    expect(consoleWarn).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /Inconsistent sidebar category with label 'Cat'. It is not possible to configure a category to be collapsed, when it is not collapsible at the same time./,
+      ),
+    );
+  });
+
+  test('should fix bad subcategory', () => {
+    const consoleWarn = jest.spyOn(console, 'warn');
+    const subCategory: SidebarItemCategory = {
+      type: 'category',
+      label: 'SubCat',
+      items: [],
+      collapsible: false,
+      collapsed: true, // Bad because collapsible=false
+    };
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [subCategory],
+      collapsible: true,
+      collapsed: true,
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual({
+      ...category,
+      items: [
+        {
+          ...subCategory,
+          collapsed: false,
+        },
+      ],
+    });
+    expect(consoleWarn).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /Inconsistent sidebar category with label 'SubCat'. It is not possible to configure a category to be collapsed, when it is not collapsible at the same time./,
+      ),
+    );
   });
 });
