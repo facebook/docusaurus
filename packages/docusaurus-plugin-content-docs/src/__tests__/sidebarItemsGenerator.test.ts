@@ -9,14 +9,13 @@ import {
   CategoryMetadatasFile,
   DefaultSidebarItemsGenerator,
 } from '../sidebarItemsGenerator';
-import {DefaultCategoryCollapsedValue} from '../sidebars';
 import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../numberPrefix';
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(
-    options: Partial<Parameters<SidebarItemsGenerator>[0]>,
+    params: Partial<Parameters<SidebarItemsGenerator>[0]>,
   ) {
     return DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
@@ -29,7 +28,11 @@ describe('DefaultSidebarItemsGenerator', () => {
         contentPath: 'docs',
       },
       docs: [],
-      ...options,
+      options: {
+        sidebarCollapsed: true,
+        sidebarCollapsible: true,
+      },
+      ...params,
     });
   }
 
@@ -110,6 +113,10 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {},
         },
       ],
+      options: {
+        sidebarCollapsed: true,
+        sidebarCollapsible: true,
+      },
     });
 
     expect(sidebarSlice).toEqual([
@@ -190,6 +197,10 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {},
         },
       ],
+      options: {
+        sidebarCollapsed: true,
+        sidebarCollapsible: true,
+      },
     });
 
     expect(sidebarSlice).toEqual([
@@ -197,7 +208,8 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Tutorials',
-        collapsed: DefaultCategoryCollapsedValue,
+        collapsed: true,
+        collapsible: true,
         items: [
           {type: 'doc', id: 'tutorial1'},
           {type: 'doc', id: 'tutorial2'},
@@ -207,12 +219,14 @@ describe('DefaultSidebarItemsGenerator', () => {
         type: 'category',
         label: 'Guides',
         collapsed: false,
+        collapsible: true,
         items: [
           {type: 'doc', id: 'guide1'},
           {
             type: 'category',
             label: 'SubGuides (metadata file label)',
-            collapsed: DefaultCategoryCollapsedValue,
+            collapsed: true,
+            collapsible: true,
             items: [{type: 'doc', id: 'nested-guide'}],
           },
           {type: 'doc', id: 'guide2'},
@@ -233,6 +247,7 @@ describe('DefaultSidebarItemsGenerator', () => {
       'subfolder/subsubfolder/subsubsubfolder3/_category_.json': {
         position: 1,
         label: 'subsubsubfolder3 (_category_.json label)',
+        collapsible: false,
         collapsed: false,
       },
     });
@@ -305,6 +320,10 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {},
         },
       ],
+      options: {
+        sidebarCollapsed: true,
+        sidebarCollapsible: true,
+      },
     });
 
     expect(sidebarSlice).toEqual([
@@ -312,6 +331,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         type: 'category',
         label: 'subsubsubfolder3 (_category_.json label)',
         collapsed: false,
+        collapsible: false,
         items: [
           {type: 'doc', id: 'doc8'},
           {type: 'doc', id: 'doc7'},
@@ -321,6 +341,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         type: 'category',
         label: 'subsubsubfolder2 (_category_.yml label)',
         collapsed: true,
+        collapsible: true,
         items: [{type: 'doc', id: 'doc6'}],
       },
       {type: 'doc', id: 'doc1'},
@@ -329,6 +350,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         type: 'category',
         label: 'subsubsubfolder',
         collapsed: true,
+        collapsible: true,
         items: [{type: 'doc', id: 'doc5'}],
       },
     ] as Sidebar);

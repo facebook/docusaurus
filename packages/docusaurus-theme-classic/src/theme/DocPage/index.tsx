@@ -36,7 +36,7 @@ function DocPageContent({
   versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
-  const {siteConfig, isClient} = useDocusaurusContext();
+  const {isClient} = useDocusaurusContext();
   const {pluginId, version} = versionMetadata;
 
   const sidebarName = currentDocRoute.sidebar;
@@ -88,7 +88,6 @@ function DocPageContent({
               }
               sidebar={sidebar}
               path={currentDocRoute.path}
-              sidebarCollapsible={siteConfig.themeConfig.sidebarCollapsible}
               onCollapse={toggleSidebar}
               isHidden={hiddenSidebar}
             />

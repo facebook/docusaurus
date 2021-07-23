@@ -5,6 +5,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "href": "https://github.com",
@@ -24,9 +25,11 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "collapsed": false,
+          "collapsible": true,
           "items": Array [
             Object {
               "id": "doc1",
@@ -42,9 +45,11 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "collapsed": false,
+          "collapsible": true,
           "items": Array [
             Object {
               "id": "doc2",
@@ -67,6 +72,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": false,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "doc1",
@@ -78,6 +84,7 @@ Object {
     },
     Object {
       "collapsed": false,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "doc2",
@@ -96,6 +103,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "a",
@@ -103,9 +111,11 @@ Object {
         },
         Object {
           "collapsed": true,
+          "collapsible": true,
           "items": Array [
             Object {
               "collapsed": true,
+              "collapsible": true,
               "items": Array [
                 Object {
                   "id": "c",
@@ -113,6 +123,7 @@ Object {
                 },
                 Object {
                   "collapsed": true,
+                  "collapsible": true,
                   "items": Array [
                     Object {
                       "id": "d",
@@ -120,6 +131,7 @@ Object {
                     },
                     Object {
                       "collapsed": true,
+                      "collapsible": true,
                       "items": Array [
                         Object {
                           "id": "e",
@@ -158,6 +170,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "greeting",
@@ -180,6 +193,7 @@ Object {
   "docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "foo/bar",
@@ -204,6 +218,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "hello",

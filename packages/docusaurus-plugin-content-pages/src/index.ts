@@ -16,7 +16,8 @@ import {
   getFolderContainingFile,
   addTrailingPathSeparator,
   Globby,
-  createMatcher,
+  createAbsoluteFilePathMatcher,
+  normalizeUrl,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -114,8 +115,11 @@ export default function pluginContentPages(
 
         const source = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const pathName = encodePath(fileToPath(relativeSource));
-        const permalink = pathName.replace(/^\//, baseUrl || '');
+        const permalink = normalizeUrl([
+          baseUrl,
+          options.routeBasePath,
+          encodePath(fileToPath(relativeSource)),
+        ]);
         if (isMarkdownSource(relativeSource)) {
           return {
             type: 'mdx',
@@ -184,6 +188,7 @@ export default function pluginContentPages(
         beforeDefaultRehypePlugins,
         beforeDefaultRemarkPlugins,
       } = options;
+      const contentDirs = getContentPathList(contentPaths);
       return {
         resolve: {
           alias: {
@@ -194,7 +199,7 @@ export default function pluginContentPages(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths)
+              include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
@@ -207,7 +212,10 @@ export default function pluginContentPages(
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    isMDXPartial: createMatcher(options.exclude),
+                    isMDXPartial: createAbsoluteFilePathMatcher(
+                      options.exclude,
+                      contentDirs,
+                    ),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.

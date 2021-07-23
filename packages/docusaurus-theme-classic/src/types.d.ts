@@ -50,6 +50,20 @@ declare module '@theme/BlogPostPaginator' {
   export default BlogPostPaginator;
 }
 
+declare module '@theme/BlogLayout' {
+  import type {Props as LayoutProps} from '@theme/Layout';
+  import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type Props = LayoutProps & {
+    readonly sidebar?: BlogSidebar;
+    readonly toc?: readonly TOCItem[];
+  };
+
+  const BlogLayout: (props: Props) => JSX.Element;
+  export default BlogLayout;
+}
+
 declare module '@theme/CodeBlock' {
   export type Props = {
     readonly children: string;
@@ -79,7 +93,6 @@ declare module '@theme/DocSidebar' {
   export type Props = {
     readonly path: string;
     readonly sidebar: readonly PropSidebarItem[];
-    readonly sidebarCollapsible?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
   };
@@ -93,7 +106,6 @@ declare module '@theme/DocSidebarItem' {
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
-    readonly collapsible?: boolean;
     readonly onItemClick?: () => void;
     readonly tabIndex?: number;
   };
@@ -348,6 +360,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
+    readonly position?: 'left' | 'right';
   };
 
   export type Props = DesktopOrMobileNavBarItemProps & {

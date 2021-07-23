@@ -33,7 +33,8 @@ declare module '@docusaurus/plugin-content-docs-types' {
     type: 'category';
     label: string;
     items: PropSidebarItem[];
-    collapsed?: boolean;
+    collapsed: boolean;
+    collapsible: boolean;
   };
 
   export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
