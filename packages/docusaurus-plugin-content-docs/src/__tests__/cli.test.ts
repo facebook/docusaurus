@@ -200,7 +200,6 @@ describe('docsVersion', () => {
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
       ...DEFAULT_OPTIONS,
-      path: 'docs',
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
@@ -249,7 +248,6 @@ describe('docsVersion', () => {
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
       ...DEFAULT_OPTIONS,
-      path: 'docs',
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand(
