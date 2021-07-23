@@ -28,7 +28,7 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgb(66, 80, 80);
+  background-color: rgba(66, 80, 80, 0.5);
 }
 
 .header-github-link:hover {
