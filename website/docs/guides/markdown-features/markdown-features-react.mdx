@@ -82,12 +82,14 @@ npm install --save raw-loader
 
 Now you can import code snippets from another file as it is:
 
+<!-- prettier-ignore-start -->
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!./myComponent';
 
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 ```
+<!-- prettier-ignore-end -->
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
