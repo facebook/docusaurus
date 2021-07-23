@@ -36,7 +36,8 @@ const Details = ({
       data-collapsed={collapsed}
       className={clsx(baseClassName, styles.details, props.className)}
       onMouseDown={(e) => {
-        if (e.detail > 1) {
+        // Prevent a double-click to highlight summary text
+        if ((e.target as HTMLElement).tagName === 'SUMMARY' && e.detail > 1) {
           e.preventDefault();
         }
       }}
