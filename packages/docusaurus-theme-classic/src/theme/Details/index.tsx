@@ -33,6 +33,8 @@ const Details = ({
       {...props}
       ref={ref}
       open={open}
+      data-collapsed={collapsed}
+      className={clsx(baseClassName, styles.details, props.className)}
       onMouseDown={(e) => {
         if (e.detail > 1) {
           e.preventDefault();
@@ -55,8 +57,7 @@ const Details = ({
           setCollapsed(true);
           // setOpen(false); // Don't do this, it breaks close animation!
         }
-      }}
-      className={clsx(baseClassName, styles.details, props.className)}>
+      }}>
       {summary}
 
       <Collapsible

@@ -6,7 +6,33 @@
  */
 
 .details > summary {
+  position: relative;
   cursor: pointer;
+  list-style: none;
+  margin-left: 1.8rem;
+}
+
+.details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.details > summary:before {
+  --summary-arrow-size: 0.5rem;
+  position: absolute;
+  content: '';
+  top: 0.25rem;
+  width: 0;
+  height: 0;
+  border-width: var(--summary-arrow-size);
+  border-style: solid;
+  border-color: transparent transparent transparent var(--ifm-alert-border-color);
+  transform: translateX(-1.2rem) rotate(0deg);
+  transform-origin: calc(var(--summary-arrow-size) / 2) 50%;
+  transition: transform var(--ifm-transition-fast) ease;
+}
+
+.details[data-collapsed='false'] > summary:before {
+  transform: translateX(-1.2rem) rotate(90deg);
 }
 
 .collapsibleContent {
