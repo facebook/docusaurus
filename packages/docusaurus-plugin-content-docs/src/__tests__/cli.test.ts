@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import {PathOptions} from '../types';
+import {PathOptions, SidebarOptions} from '../types';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
@@ -21,9 +21,13 @@ const fixtureDir = path.join(__dirname, '__fixtures__');
 describe('docsVersion', () => {
   const simpleSiteDir = path.join(fixtureDir, 'simple-site');
   const versionedSiteDir = path.join(fixtureDir, 'versioned-site');
-  const DEFAULT_OPTIONS: PathOptions = {
+  const DEFAULT_PATH_OPTIONS: PathOptions = {
     path: 'docs',
     sidebarPath: '',
+  };
+  const DEFAULT_SIDEBAR_OPTIONS: SidebarOptions = {
+    sidebarCollapsed: true,
+    sidebarCollapsible: true,
   };
 
   test('no version tag provided', () => {
@@ -32,7 +36,8 @@ describe('docsVersion', () => {
         null,
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
@@ -42,7 +47,8 @@ describe('docsVersion', () => {
         undefined,
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
@@ -52,7 +58,8 @@ describe('docsVersion', () => {
         '',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
@@ -65,7 +72,8 @@ describe('docsVersion', () => {
         'foo/bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
@@ -75,7 +83,8 @@ describe('docsVersion', () => {
         'foo\\bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
@@ -88,7 +97,8 @@ describe('docsVersion', () => {
         'a'.repeat(255),
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0."`,
@@ -101,7 +111,8 @@ describe('docsVersion', () => {
         '..',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
@@ -111,7 +122,8 @@ describe('docsVersion', () => {
         '.',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
@@ -124,7 +136,8 @@ describe('docsVersion', () => {
         '<foo|bar>',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
@@ -134,7 +147,8 @@ describe('docsVersion', () => {
         'foo\x00bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
@@ -144,7 +158,8 @@ describe('docsVersion', () => {
         'foo:bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
@@ -157,7 +172,8 @@ describe('docsVersion', () => {
         '1.0.0',
         versionedSiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: this version already exists! Use a version tag that does not already exist."`,
@@ -171,7 +187,8 @@ describe('docsVersion', () => {
         '1.0.0',
         emptySiteDir,
         DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
+        DEFAULT_PATH_OPTIONS,
+        DEFAULT_SIDEBAR_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"[docs]: there is no docs to version!"`,
@@ -186,20 +203,26 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
       path: 'docs',
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
-    cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
+    cliDocsVersionCommand(
+      '1.0.0',
+      simpleSiteDir,
+      DEFAULT_PLUGIN_ID,
+      options,
+      DEFAULT_SIDEBAR_OPTIONS,
+    );
     expect(copyMock).toHaveBeenCalledWith(
       path.join(simpleSiteDir, options.path),
       path.join(
@@ -234,13 +257,13 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
@@ -252,6 +275,7 @@ describe('docsVersion', () => {
       versionedSiteDir,
       DEFAULT_PLUGIN_ID,
       options,
+      DEFAULT_SIDEBAR_OPTIONS,
     );
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
@@ -289,20 +313,26 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };
-    cliDocsVersionCommand('2.0.0', versionedSiteDir, pluginId, options);
+    cliDocsVersionCommand(
+      '2.0.0',
+      versionedSiteDir,
+      pluginId,
+      options,
+      DEFAULT_SIDEBAR_OPTIONS,
+    );
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(

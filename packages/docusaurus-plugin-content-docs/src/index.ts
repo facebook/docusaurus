@@ -97,10 +97,19 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-          });
+          cliDocsVersionCommand(
+            version,
+            siteDir,
+            pluginId,
+            {
+              path: options.path,
+              sidebarPath: options.sidebarPath,
+            },
+            {
+              sidebarCollapsed: options.sidebarCollapsed,
+              sidebarCollapsible: options.sidebarCollapsible,
+            },
+          );
         });
     },
 
@@ -168,6 +177,10 @@ export default function pluginContentDocs(
       ): Promise<LoadedVersion> {
         const unprocessedSidebars = loadSidebars(
           versionMetadata.sidebarFilePath,
+          {
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
+          },
         );
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
@@ -184,6 +197,10 @@ export default function pluginContentDocs(
           unprocessedSidebars,
           docs: docsBase,
           version: versionMetadata,
+          options: {
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
+          },
         });
 
         const sidebarsUtils = createSidebarsUtils(sidebars);

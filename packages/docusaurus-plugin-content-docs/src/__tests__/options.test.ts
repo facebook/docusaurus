@@ -58,6 +58,8 @@ describe('normalizeDocsPluginOptions', () => {
           label: 'world',
         },
       },
+      sidebarCollapsible: false,
+      sidebarCollapsed: false,
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);

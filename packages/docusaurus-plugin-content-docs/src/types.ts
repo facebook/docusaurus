@@ -75,10 +75,16 @@ export type VersionsOptions = {
   onlyIncludeVersions?: string[];
 };
 
+export type SidebarOptions = {
+  sidebarCollapsible: boolean;
+  sidebarCollapsed: boolean;
+};
+
 export type PluginOptions = MetadataOptions &
   PathOptions &
   VersionsOptions &
-  RemarkAndRehypePluginOptions & {
+  RemarkAndRehypePluginOptions &
+  SidebarOptions & {
     id: string;
     include: string[];
     exclude: string[];
@@ -162,6 +168,7 @@ export type SidebarItemsGeneratorArgs = {
   version: SidebarItemsGeneratorVersion;
   docs: SidebarItemsGeneratorDoc[];
   numberPrefixParser: NumberPrefixParser;
+  options: SidebarOptions;
 };
 export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,

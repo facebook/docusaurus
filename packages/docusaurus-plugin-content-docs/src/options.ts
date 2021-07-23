@@ -46,6 +46,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   versions: {},
   editCurrentVersion: false,
   editLocalizedFiles: false,
+  sidebarCollapsible: true,
+  sidebarCollapsed: true,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -77,6 +79,8 @@ export const OptionsSchema = Joi.object({
   sidebarItemsGenerator: Joi.function().default(
     () => DEFAULT_OPTIONS.sidebarItemsGenerator,
   ),
+  sidebarCollapsible: Joi.boolean().default(DEFAULT_OPTIONS.sidebarCollapsible),
+  sidebarCollapsed: Joi.boolean().default(DEFAULT_OPTIONS.sidebarCollapsed),
   numberPrefixParser: Joi.alternatives()
     .try(
       Joi.function(),
