@@ -97,19 +97,12 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(
-            version,
-            siteDir,
-            pluginId,
-            {
-              path: options.path,
-              sidebarPath: options.sidebarPath,
-            },
-            {
-              sidebarCollapsed: options.sidebarCollapsed,
-              sidebarCollapsible: options.sidebarCollapsible,
-            },
-          );
+          cliDocsVersionCommand(version, siteDir, pluginId, {
+            path: options.path,
+            sidebarPath: options.sidebarPath,
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
+          });
         });
     },
 

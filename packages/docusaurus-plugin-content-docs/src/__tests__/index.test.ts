@@ -267,19 +267,12 @@ describe('simple website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith(
-      '1.0.0',
-      siteDir,
-      DEFAULT_PLUGIN_ID,
-      {
-        path: 'docs',
-        sidebarPath,
-      },
-      {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
-    );
+    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
+      path: 'docs',
+      sidebarPath,
+      sidebarCollapsed: true,
+      sidebarCollapsible: true,
+    });
     mock.mockRestore();
   });
 
@@ -484,19 +477,12 @@ describe('versioned website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith(
-      '2.0.0',
-      siteDir,
-      DEFAULT_PLUGIN_ID,
-      {
-        path: routeBasePath,
-        sidebarPath,
-      },
-      {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
-    );
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
+      path: routeBasePath,
+      sidebarPath,
+      sidebarCollapsed: true,
+      sidebarCollapsible: true,
+    });
     mock.mockRestore();
   });
 
@@ -744,19 +730,12 @@ describe('versioned website (community)', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith(
-      '2.0.0',
-      siteDir,
-      pluginId,
-      {
-        path: routeBasePath,
-        sidebarPath,
-      },
-      {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
-    );
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
+      path: routeBasePath,
+      sidebarPath,
+      sidebarCollapsed: true,
+      sidebarCollapsible: true,
+    });
     mock.mockRestore();
   });
 

@@ -90,8 +90,7 @@ export function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
-  pathOptions: PathOptions,
-  sidebarOptions: SidebarOptions,
+  options: PathOptions & SidebarOptions,
 ): void {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
@@ -145,7 +144,7 @@ export function cliDocsVersionCommand(
     );
   }
 
-  const {path: docsPath, sidebarPath} = pathOptions;
+  const {path: docsPath, sidebarPath} = options;
 
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
@@ -163,7 +162,7 @@ export function cliDocsVersionCommand(
     pluginId,
     version,
     sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
-    options: sidebarOptions,
+    options,
   });
 
   // Update versions.json file.
