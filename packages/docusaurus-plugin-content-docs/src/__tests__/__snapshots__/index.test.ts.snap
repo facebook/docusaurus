@@ -413,14 +413,12 @@ Object {
   \\"docsSidebars\\": {
     \\"docs\\": [
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
-            \\"collapsed\\": true,
-            \\"collapsible\\": true,
             \\"type\\": \\"category\\",
             \\"label\\": \\"foo\\",
             \\"items\\": [
@@ -434,7 +432,9 @@ Object {
                 \\"label\\": \\"baz\\",
                 \\"href\\": \\"/docs/foo/bazSlug.html\\"
               }
-            ]
+            ],
+            \\"collapsible\\": true,
+            \\"collapsed\\": true
           },
           {
             \\"type\\": \\"link\\",
@@ -449,9 +449,9 @@ Object {
         ]
       },
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -1420,9 +1420,9 @@ Object {
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -1438,9 +1438,9 @@ Object {
         ]
       },
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -1462,9 +1462,9 @@ Object {
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -1475,9 +1475,9 @@ Object {
         ]
       },
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -1499,9 +1499,9 @@ Object {
   \\"docsSidebars\\": {
     \\"docs\\": [
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -1512,9 +1512,9 @@ Object {
         ]
       },
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -1536,9 +1536,9 @@ Object {
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
       {
+        \\"type\\": \\"category\\",
         \\"collapsed\\": true,
         \\"collapsible\\": true,
-        \\"type\\": \\"category\\",
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
