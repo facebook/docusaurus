@@ -40,7 +40,7 @@ const MDXComponents: MDXComponentsObject = {
       <CodeBlock
         {...((isValidElement(children)
           ? children?.props
-          : {children}) as Props)}
+          : {...props}) as Props)}
       />
     );
   },

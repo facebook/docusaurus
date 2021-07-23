@@ -1,9 +1,9 @@
 # new.docusaurus.io
 
-This is a Netlify deployment that only redirects to the official CodeSandbox template.
+This is a Netlify deployment to handle the Docusaurus playgrounds shortcut [new.docusaurus.io](https://new.docusaurus.io).
 
-https://codesandbox.io/s/github/facebook/docusaurus/tree/master/examples/classic
+We use serverless functions because we want to persist the latest choice of the user in a cookie, so that it redirects directly to the preferred playground next time user visits this link. This is better to do it server-side with cookies and 302 redirects than with client redirects and localStorage.
 
-The Netlify deployment (Joel can give access): https://app.netlify.com/sites/docusaurus-new/overview
+Netlify deployment (Joel can give access): https://app.netlify.com/sites/docusaurus-new/overview
 
-Builds are stopped because we shouldn't need to redeploy the \_redirects file. You can just trigger a manual build if needed.
+Builds are stopped because we shouldn't need to redeploy very often. You can just trigger a manual build if needed.

@@ -7,6 +7,7 @@
 
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
+const chalk = require('chalk');
 const emoji = require('remark-emoji');
 const {
   parseFrontMatter,
@@ -24,6 +25,19 @@ const DEFAULT_OPTIONS = {
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
 };
 
+// When this throws, it generally means that there's no metadata file associated with this MDX document
+// It can happen when using MDX partials (usually starting with _)
+// That's why it's important to provide the "isMDXPartial" function in config
+async function readMetadataPath(metadataPath) {
+  try {
+    return await readFile(metadataPath, 'utf8');
+  } catch (e) {
+    throw new Error(
+      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
+    );
+  }
+}
+
 module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
 
@@ -37,19 +51,15 @@ module.exports = async function docusaurusMdxLoader(fileString) {
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
+  const filePath = this.resourcePath;
+
   const options = {
     ...reqOptions,
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [
-        transformImage,
-        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
-      ],
-      [
-        transformLinks,
-        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
-      ],
+      [transformImage, {staticDir: reqOptions.staticDir, filePath}],
+      [transformLinks, {staticDir: reqOptions.staticDir, filePath}],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [
@@ -58,10 +68,10 @@ module.exports = async function docusaurusMdxLoader(fileString) {
 
       ...(reqOptions.rehypePlugins || []),
     ],
-    filepath: this.resourcePath,
+    filepath: filePath,
   };
-  let result;
 
+  let result;
   try {
     result = await mdx(content, options);
   } catch (err) {
@@ -74,27 +84,43 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     contentTitle,
   )};`;
 
-  // Read metadata for this MDX and export it.
-  if (options.metadataPath && typeof options.metadataPath === 'function') {
-    const metadataPath = options.metadataPath(this.resourcePath);
+  // MDX partials are MDX files starting with _ or in a folder starting with _
+  // Partial are not expected to have an associated metadata file or frontmatter
+  const isMDXPartial = options.isMDXPartial
+    ? options.isMDXPartial(filePath)
+    : false;
 
-    if (metadataPath) {
-      // Add as dependency of this loader result so that we can
-      // recompile if metadata is changed.
-      this.addDependency(metadataPath);
-      const metadata = await readFile(metadataPath, 'utf8');
-      exportStr += `\nexport const metadata = ${metadata};`;
+  if (isMDXPartial && hasFrontMatter) {
+    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+Those partial files use the _ prefix as a convention by default, but this is configurable.
+File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringify(
+      frontMatter,
+      null,
+      2,
+    )}`;
+    const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
+    if (shouldError) {
+      return callback(new Error(errorMessage));
+    } else {
+      console.warn(chalk.yellow(errorMessage));
     }
   }
 
-  if (
-    options.forbidFrontMatter &&
-    typeof options.forbidFrontMatter === 'function'
-  ) {
-    if (options.forbidFrontMatter(this.resourcePath) && hasFrontMatter) {
-      return callback(new Error(`Front matter is forbidden in this file`));
+  if (!isMDXPartial) {
+    // Read metadata for this MDX and export it.
+    if (options.metadataPath && typeof options.metadataPath === 'function') {
+      const metadataPath = options.metadataPath(filePath);
+
+      if (metadataPath) {
+        const metadata = await readMetadataPath(metadataPath);
+        exportStr += `\nexport const metadata = ${metadata};`;
+        // Add as dependency of this loader result so that we can
+        // recompile if metadata is changed.
+        this.addDependency(metadataPath);
+      }
     }
   }
+
   const code = `
   import React from 'react';
   import { mdx } from '@mdx-js/react';

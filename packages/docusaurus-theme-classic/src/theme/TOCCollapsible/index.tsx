@@ -40,6 +40,7 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
       </button>
 
       <Collapsible
+        lazy
         className={styles.tocCollapsibleContent}
         collapsed={collapsed}>
         <TOCHeadings toc={toc} />

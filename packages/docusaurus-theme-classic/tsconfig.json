@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
+    "lib": ["DOM", "ES2019"],
     "module": "esnext",
     "noEmit": true,
     "noImplicitAny": false,

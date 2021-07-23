@@ -74,14 +74,22 @@ Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore,
 
 ## Importing code snippets {#importing-code-snippets}
 
-You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/).
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, first you need to install it in your project:
 
+```bash npm2yarn
+npm install --save raw-loader
+```
+
+Now you can import code snippets from another file as it is:
+
+<!-- prettier-ignore-start -->
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!./myComponent';
 
-<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 ```
+<!-- prettier-ignore-end -->
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
@@ -94,6 +102,14 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 </BrowserWindow>
 
 <br />
+```
+
+You can also pass `title` prop to `CodeBlock` component in order to appear it as header above your codeblock:
+
+```jsx
+<CodeBlock className="language-jsx" title="/src/myComponent">
+  {MyComponentSource}
+</CodeBlock>
 ```
 
 :::note

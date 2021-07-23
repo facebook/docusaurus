@@ -12,17 +12,10 @@ import clsx from 'clsx';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {uniq} from '@docusaurus/utils-common';
-import type {
-  GlobalDataVersion,
-  GlobalDataDoc,
-} from '@docusaurus/plugin-content-docs-types';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
 
 function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
-  // vanilla-js flatten, TODO replace soon by ES flat() / flatMap()
-  const allDocs: GlobalDataDoc[] = [].concat(
-    ...versions.map((version) => version.docs),
-  );
-
+  const allDocs = versions.flatMap((version) => version.docs);
   const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
   if (!doc) {
     const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');

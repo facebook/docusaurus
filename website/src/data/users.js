@@ -340,6 +340,14 @@ const Users = [
     tags: ['opensource','facebook'],
   },
   {
+    title: 'Easyjwt',
+    description: 'JWT creation and validation library',
+    preview: require('./showcase/easyjwt.png'),
+    website: 'https://www.easyjwt.org',
+    source: 'https://github.com/authdog/easyjwt',
+    tags: ['opensource','i18n'],
+  },
+  {
     title: 'Eightshift Docs',
     description:
       'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
@@ -668,6 +676,14 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Orbit.js',
+    description: 'The Universal Data Layer',
+    preview: require('./showcase/orbitjs.png'),
+    website: 'https://orbitjs.com',
+    source: 'https://github.com/orbitjs/orbit/tree/main/website',
+    tags: ['opensource','versioning'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
@@ -773,6 +789,14 @@ const Users = [
     preview: require('./showcase/ractive-player.png'),
     website: 'https://ractive-player.org',
     source: 'https://github.com/ysulyma/ractive-player',
+    tags: ['opensource'],
+  },
+  {
+    title: 'React Complex Tree',
+    description: 'Unopinionated Accessible React Tree Component with Multi-Select and Drag-And-Drop',
+    preview: require('./showcase/react-complex-tree.png'),
+    website: 'https://rct.lukasbach.com/',
+    source: 'https://github.com/lukasbach/react-complex-tree',
     tags: ['opensource'],
   },
   {
@@ -1210,6 +1234,14 @@ const Users = [
     source: 'https://github.com/zowe/docs-site',
     tags: ['opensource', 'product', 'large', 'design', 'versioning']
   },
+  {
+    title: 'Quickwit',
+    description: 'The open source search engine on object storage with subsecond latency',
+    preview: require('./showcase/quickwit.png'),
+    website: 'https://quickwit.io',
+    source: 'https://github.com/quickwit-inc/quickwit',
+    tags: ['favorite', 'opensource', 'design']
+  }
 ];
 
 export const TagList = Object.keys(Tags);

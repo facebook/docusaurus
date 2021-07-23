@@ -70,6 +70,15 @@ module.exports = {
         routeBasePath: 'docs',
         include: ['**/*.md', '**/*.mdx'], // Extensions to include.
         /**
+         * No route will be created for matching files
+         */
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        /**
          * Path to sidebar configuration for showing a list of markdown pages.
          */
         sidebarPath: 'sidebars.js',
