@@ -10,7 +10,7 @@
   --docusaurus-btt-color: #fff;
 }
 
-.BackToTopButton {
+.backToTopButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,11 +29,11 @@
   transform: scale(0);
 }
 
-.BackToTopButton:hover {
+.backToTopButton:hover {
   opacity: 0.8;
 }
 
-.BackToTopButtonShow {
+.backToTopButtonShow {
   opacity: 1;
   transform: scale(1);
 }

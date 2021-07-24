@@ -44,8 +44,8 @@ function BackToTopButton(): JSX.Element {
 
   return (
     <button
-      className={clsx('clean-btn', styles.BackToTopButton, {
-        [styles.BackToTopButtonShow]: show,
+      className={clsx('clean-btn', styles.backToTopButton, {
+        [styles.backToTopButtonShow]: show,
       })}
       type="button"
       title="Scroll to top"
