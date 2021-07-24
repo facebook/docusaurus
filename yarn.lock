@@ -1310,19 +1310,19 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@docsearch/css@3.0.0-alpha.38":
-  version "3.0.0-alpha.38"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.38.tgz#da5677fce7fe54a3666ef35db172ccd942ad0c30"
-  integrity sha512-VcnSHSHr+lDBHGmL6x5qN8LywKq7QEGDYdaYkkoUVfwa8y1/lTdZyijFWMGMqLvD73YTso7AkoolV5r8su3jqQ==
+"@docsearch/css@3.0.0-alpha.39":
+  version "3.0.0-alpha.39"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.39.tgz#1ebd390d93e06aad830492f5ffdc8e05d058813f"
+  integrity sha512-lr10MFTgcR3NRea/FtJ7uNtIpQz0XVwYxbpO5wxykgfHu1sxZTr6zwkuPquRgFYXnccxsTvfoIiK3rMH0fLr/w==
 
-"@docsearch/react@^3.0.0-alpha.38":
-  version "3.0.0-alpha.38"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.38.tgz#9f1ce8fc7168938c99f1616e1f4b4ed65c046e7a"
-  integrity sha512-Dy5CniSeJ50g5gkc00zP6l9xOVmDQvM96Q1DEYUQjPjuA5LQ3q6JXRIcfU91KqzNU2N6FvXpEyd0w4HBxxWwUw==
+"@docsearch/react@^3.0.0-alpha.39":
+  version "3.0.0-alpha.39"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.39.tgz#bbd253f6fc591f63c1a171e7ef2da26b253164d9"
+  integrity sha512-urTIt82tan6CU+D2kO6xXpWQom/r1DA7L/55m2JiCIK/3SLh2z15FJFVN2abeK7B4wl8pCfWunYOwCsSHhWDLA==
   dependencies:
     "@algolia/autocomplete-core" "1.2.1"
     "@algolia/autocomplete-preset-algolia" "1.2.1"
-    "@docsearch/css" "3.0.0-alpha.38"
+    "@docsearch/css" "3.0.0-alpha.39"
     algoliasearch "^4.0.0"
 
 "@docusaurus/react-loadable@5.5.0":
