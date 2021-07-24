@@ -531,13 +531,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import type {ComponentProps} from 'react';
-
-  export type Props = {
-    baseClassName?: string;
-    summary?: ReactElement;
-  } & ComponentProps<'details'>;
-
+  export type Props = import('@docusaurus/theme-common').Details;
   const Props: (props: Props) => JSX.Element;
   export default Props;
 }

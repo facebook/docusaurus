@@ -243,7 +243,7 @@ type CollapsibleProps = CollapsibleBaseProps & {
   lazy: boolean;
 };
 
-export function Collapsible({lazy, ...props}: CollapsibleProps) {
+export function Collapsible({lazy, ...props}: CollapsibleProps): JSX.Element {
   const Comp = lazy ? CollapsibleLazy : CollapsibleBase;
   return <Comp {...props} />;
 }

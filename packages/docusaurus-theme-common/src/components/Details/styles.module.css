@@ -1,0 +1,50 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/*
+CSS variables, meant to be overriden by final theme
+ */
+.details {
+  --details-summary-arrow-size: 0.5rem;
+  --details-transition: transform 200ms ease;
+  --details-decoration-color: grey;
+}
+
+.details > summary {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  margin-left: 1.8rem;
+}
+
+.details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.details > summary:before {
+  position: absolute;
+  content: '';
+  top: 0.25rem;
+  width: 0;
+  height: 0;
+  border-width: var(--details-summary-arrow-size);
+  border-style: solid;
+  border-color: transparent transparent transparent var(--details-decoration-color);
+  transform: translateX(-1.2rem) rotate(0deg);
+  transform-origin: calc(var(--details-summary-arrow-size) / 2) 50%;
+  transition: var(--details-transition);
+}
+
+.details[data-collapsed='false'] > summary:before {
+  transform: translateX(-1.2rem) rotate(90deg);
+}
+
+.collapsibleContent {
+  margin-top: 1rem;
+  border-top: 1px solid var(--details-decoration-color);
+  padding-top: 1rem;
+}
