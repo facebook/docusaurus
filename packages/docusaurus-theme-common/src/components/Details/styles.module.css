@@ -33,12 +33,16 @@ CSS variables, meant to be overriden by final theme
   height: 0;
   border-width: var(--details-summary-arrow-size);
   border-style: solid;
-  border-color: transparent transparent transparent var(--details-decoration-color);
+  border-color: transparent transparent transparent
+    var(--details-decoration-color);
   transform: translateX(-1.2rem) rotate(0deg);
   transform-origin: calc(var(--details-summary-arrow-size) / 2) 50%;
   transition: var(--details-transition);
 }
 
+/* When JS disabled/failed to load: */
+.details[open] > summary:before,
+/* When JS work: */
 .details[data-collapsed='false'] > summary:before {
   transform: translateX(-1.2rem) rotate(90deg);
 }
