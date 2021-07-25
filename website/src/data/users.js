@@ -1152,14 +1152,6 @@ const Users = [
     tags: ['opensource'],
   },
   {
-    title: 'Vector',
-    description: 'A High-Performance, Logs, Metrics, & Events Router',
-    preview: require('./showcase/vector.png'),
-    website: 'https://vector.dev/',
-    source: 'https://github.com/timberio/vector',
-    tags: ['opensource', 'favorite', 'design', 'large'],
-  },
-  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
