@@ -356,7 +356,7 @@ module.exports = {
 };
 ```
 
-To make all categories non-collapsible by default, set the `options.sidebarCollapsible` in `plugin-docs` to `false`:
+To make all categories non-collapsible by default, set the `sidebarCollapsible` option in `plugin-docs` to `false`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
