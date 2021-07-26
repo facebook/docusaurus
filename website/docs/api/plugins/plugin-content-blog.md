@@ -24,37 +24,37 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `path` | `string` | Path to data on filesystem relative to site dir. | `'blog'` |
-| `editUrl` | <code>string &#124; EditUrlFunction</code> | Base URL to edit your site. Docusaurus will compute the final edit URL with `editUrl + relativeDocPath`. When a function is passed, the edit URL will be computed for each Markdown file. Omitting this variable entirely will disable edit links. | `undefined` |
-| `editLocalizedFiles` | `boolean` | If localized files are commited to git, the edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. | `false` |
-| `blogTitle` | `string` | Blog page title for better SEO. | `'Blog'` |
-| `blogDescription` | `string` | Blog page meta description for better SEO. | `'Blog'` |
-| `blogSidebarCount` | <code>number &#124; 'ALL'</code> | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable | `5` |
-| `blogDescription` | `string` | Blog page meta description for better SEO. | `'Blog'` |
-| `blogDescription` | `string` | Blog page meta description for better SEO. | `'Blog'` |
-| `blogSidebarTitle` | `string` | Title of the blog sidebar. | `'Recent posts'` |
-| `routeBasePath` | `string` | URL route for the blog section of your site. **DO NOT** include a trailing slash. It is possible to set just `/` to put the blog at root path. | `'blog'` |
-| `include` | `string[]` | Matching files will be included and processed. | `['**/*.{md,mdx}']` |
-| `exclude` | `string[]` | No route will be created for matching files. | _See example configuration_ |
-| `postsPerPage` | `number` | Number of posts to show per page in the listing page. | `10` |
-| `blogListComponent` | `string` | Root component of the blog listing page. | `'@theme/BlogListPage'` |
-| `blogPostComponent` | `string` | Root component of each blog post page. | `'@theme/BlogPostPage'` |
-| `blogTagsListComponent` | `string` | Root component of the tags list page | `'@theme/BlogTagsListPage'` |
-| `blogTagsPostsComponent` | `string` | Root component of the "posts containing tag" page. | `'@theme/BlogTagsPostsPage'` |
-| `remarkPlugins` | `any[]` | Remark plugins passed to MDX. | `[]` |
-| `rehypePlugins` | `any[]` | Rehype plugins passed to MDX. | `[]` |
-| `beforeDefaultRemarkPlugins` | `any[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. | `[]` |
-| `beforeDefaultRehypePlugins` | `any[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. | `[]` |
-| `truncateMarker` | `string` | Truncate marker, can be a regex or string. | `/<!--\s*(truncate)\s*-->/` |
-| `showReadingTime` | `boolean` | Show estimated reading time for the blog post. | `true` |
-| `feedOptions` | _See below_ | Blog feed. If undefined, no rss feed will be generated. | `{type: ['rss', 'atom']}` |
-| `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | Type of feed to be generated. | **Required** |
-| `feedOptions.title` | `string` | Title of the feed. | `siteConfig.title` |
-| `feedOptions.description` | `string` | Description of the feed. | <code>\`${siteConfig.title} Blog\`</code> |
-| `feedOptions.copyright` | `string` | Copyright message. | `undefined` |
-| `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | Language metadata of the feed. | `undefined` |
+| `path` | `string` | `'blog'` | Path to data on filesystem relative to site dir. |
+| `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. Docusaurus will compute the final edit URL with `editUrl + relativeDocPath`. When a function is passed, the edit URL will be computed for each Markdown file. Omitting this variable entirely will disable edit links. |
+| `editLocalizedFiles` | `boolean` | `false` | If localized files are commited to git, the edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
+| `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
+| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
+| `blogSidebarCount` | <code>number &#124; 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
+| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
+| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
+| `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
+| `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. It is possible to set just `/` to put the blog at root path. |
+| `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
+| `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
+| `postsPerPage` | `number` | `10` | Number of posts to show per page in the listing page. |
+| `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
+| `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
+| `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
+| `blogTagsPostsComponent` | `string` | `'@theme/BlogTagsPostsPage'` | Root component of the "posts containing tag" page. |
+| `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
+| `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
+| `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+| `truncateMarker` | `string` | `/<!--\s*(truncate)\s*-->/` | Truncate marker, can be a regex or string. |
+| `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
+| `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
+| `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
+| `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
+| `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
+| `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
+| `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 
 </small>
 

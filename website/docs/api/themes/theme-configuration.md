@@ -18,16 +18,16 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultMode` | <code>'light' &#124; 'dark' </code> | The color mode when user first visits the site. | `'light'` |
-| `disableSwitch` | `boolean` | Hides the switch in the navbar. Useful if you want to support a single color mode. | `false` |
-| `respectPrefersColorScheme` | `boolean` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. | `false` |
-| `switchConfig` | _See below_ | Dark/light switch icon options. | _See below_ |
-| `switchConfig.darkIcon` | `string` | Icon for the switch while in dark mode. | `'🌜'` |
-| `switchConfig.darkIconStyle` | JSX style object (see [documentation](https://reactjs.org/docs/dom-elements.html#style)) | CSS to apply to dark icon. | `{}` |
-| `switchConfig.lightIcon` | `string` | Icon for the switch while in light mode. | `'🌞'` |
-| `switchConfig.lightIconStyle` | JSX style object | CSS to apply to light icon. | `{}` |
+| `defaultMode` | <code>'light' &#124; 'dark' </code> | `'light'` | The color mode when user first visits the site. |
+| `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
+| `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
+| `switchConfig` | _See below_ | _See below_ | Dark/light switch icon options. |
+| `switchConfig.darkIcon` | `string` | `'🌜'` | Icon for the switch while in dark mode. |
+| `switchConfig.darkIconStyle` | JSX style object (see [documentation](https://reactjs.org/docs/dom-elements.html#style)) | `{}` | CSS to apply to dark icon. |
+| `switchConfig.lightIcon` | `string` | `'🌞'` | Icon for the switch while in light mode. |
+| `switchConfig.lightIconStyle` | JSX style object | `{}` | CSS to apply to light icon. |
 
 </small>
 
@@ -75,9 +75,9 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `image` | `string` | The meta image URL for the site. Relative to your site's "static" directory. Cannot be SVGs. Can be external URLs too. | `undefined` |
+| `image` | `string` | `undefined` | The meta image URL for the site. Relative to your site's "static" directory. Cannot be SVGs. Can be external URLs too. |
 
 </small>
 
@@ -100,9 +100,9 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `metadatas` | `Metadata[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. | `[]` |
+| `metadatas` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
 
 </small>
 
@@ -125,13 +125,13 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | Any value that will identify this message. | `'announcement-bar'` |
-| `content` | `string` | The text content of the announcement. HTML will be interpolated. | `''` |
-| `backgroundColor` | `string` | Background color of the entire bar. | `'#fff'` |
-| `textColor` | `string` | Announcement text color. | `'#000'` |
-| `isCloseable` | `boolean` | Whether this announcement can be dismissed with a '×' button. | `true` |
+| `id` | `string` | `'announcement-bar'` | Any value that will identify this message. |
+| `content` | `string` | `''` | The text content of the announcement. HTML will be interpolated. |
+| `backgroundColor` | `string` | `'#fff'` | Background color of the entire bar. |
+| `textColor` | `string` | `'#000'` | Announcement text color. |
+| `isCloseable` | `boolean` | `true` | Whether this announcement can be dismissed with a '×' button. |
 
 </small>
 
@@ -160,13 +160,13 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `title` | `string` | Title for the navbar. | `undefined` |
-| `logo` | _See below_ | Customization of the logo object. | `undefined` |
-| `items` | `NavbarItem[]` | A list of navbar items. See specification below. | `[]` |
-| `hideOnScroll` | `boolean` | Whether the navbar is hidden when the user scrolls down. | `false` |
-| `style` | <code>'primary' &#124; 'dark' </code> | Sets the navbar style, ignoring the dark/light theme. | Same as theme |
+| `title` | `string` | `undefined` | Title for the navbar. |
+| `logo` | _See below_ | `undefined` | Customization of the logo object. |
+| `items` | `NavbarItem[]` | `[]` | A list of navbar items. See specification below. |
+| `hideOnScroll` | `boolean` | `false` | Whether the navbar is hidden when the user scrolls down. |
+| `style` | <code>'primary' &#124; 'dark' </code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
 
 </small>
 
@@ -180,13 +180,13 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `alt` | `string` | Alt tag for the logo image. | `undefined` |
-| `src` | `string` | URL to the logo image. Base URL is appended by default. | **Required** |
-| `srcDark` | `string` | An alternative image URL to use in dark mode. | `logo.src` |
-| `href` | `string` | Link to navigate to when the logo is clicked. | `siteConfig.baseUrl` |
-| `target` | `string` | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. | Calculated based on `href` (external links will open in a new tab, all others in the current one). |
+| `alt` | `string` | `undefined` | Alt tag for the logo image. |
+| `src` | `string` | **Required** | URL to the logo image. Base URL is appended by default. |
+| `srcDark` | `string` | `logo.src` | An alternative image URL to use in dark mode. |
+| `href` | `string` | `siteConfig.baseUrl` | Link to navigate to when the logo is clicked. |
+| `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
 
 </small>
 
@@ -263,16 +263,16 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | **Required** |
-| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | **Required** |
-| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | **Required** |
-| `prependBaseUrlToHref` | `boolean` | Prepends the baseUrl to `href` values. | `false` |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
-| `activeBasePath` | `string` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. | `to` / `href` |
-| `activeBaseRegex` | `string` | Alternative to `activeBasePath` if required. | `undefined` |
-| `className` | `string` | Custom CSS class (for styling any item). | `''` |
+| `label` | `string` | **Required** | The name to be shown for this item. |
+| `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
+| `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
+| `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `activeBasePath` | `string` | `to` / `href` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. |
+| `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
+| `className` | `string` | `''` | Custom CSS class (for styling any item). |
 
 </small>
 
@@ -315,11 +315,11 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | **Required** |
-| `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | The items to be contained in the dropdown. | **Required** |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
+| `label` | `string` | **Required** | The name to be shown for this item. |
+| `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -363,13 +363,13 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `docId` | `string` | The ID of the doc that this item links to. | **Required** |
-| `label` | `string` | The name to be shown for this item. | `docId` |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
-| `activeSidebarClassName` | `string` | The CSS class name to apply when this doc's sidebar is active. | `'navbar__link--active'` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc belongs to. | `'default'` |
+| `docId` | `string` | **Required** | The ID of the doc that this item links to. |
+| `label` | `string` | `docId` | The name to be shown for this item. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `activeSidebarClassName` | `string` | `'navbar__link--active'` | The CSS class name to apply when this doc's sidebar is active. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
 </small>
 
@@ -404,13 +404,13 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
-| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | `[]` |
-| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the end of the dropdown. | `[]` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | `'default'` |
-| `dropdownActiveClassDisabled` | `boolean` | Do not add the link active class when browsing docs. | `false` |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
+| `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
 
 </small>
 
@@ -443,12 +443,12 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | The active/latest version label. |
-| `to` | `string` | The internal link that this item points to. | The active/latest version. |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | `'default'` |
+| `label` | `string` | The active/latest version label. | The name to be shown for this item. |
+| `to` | `string` | The active/latest version. | The internal link that this item points to. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 
 </small>
 
@@ -483,11 +483,11 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
-| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | `[]` |
-| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the end of the dropdown. | `[]` |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 
 </small>
 
@@ -524,9 +524,9 @@ However, with this special navbar item type, you can change the default location
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | `'left'` |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -587,11 +587,11 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `theme` | `PrismTheme` | The Prism theme to use for light-theme code blocks. | `palenight` |
-| `darkTheme` | `PrismTheme` | The Prism theme to use for dark-theme code blocks. | `palenight` |
-| `defaultLanguage` | `string` | The side of the navbar this item should appear on. | `undefined` |
+| `theme` | `PrismTheme` | `palenight` | The Prism theme to use for light-theme code blocks. |
+| `darkTheme` | `PrismTheme` | `palenight` | The Prism theme to use for dark-theme code blocks. |
+| `defaultLanguage` | `string` | `undefined` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -645,12 +645,12 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `logo` | `Logo` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. | `undefined` |
-| `copyright` | `string` | The copyright message to be displayed at the bottom. | `undefined` |
-| `style` | <code>'dark' &#124; 'light'</code> | The color theme of the footer component. | `'light'` |
-| `items` | `FooterItem[]` | The link groups to be present. | `[]` |
+| `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
+| `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
+| `style` | <code>'dark' &#124; 'light'</code> | `'light'` | The color theme of the footer component. |
+| `items` | `FooterItem[]` | `[]` | The link groups to be present. |
 
 </small>
 
@@ -681,10 +681,10 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `title` | `string` | Label of the section of these links. | `undefined` |
-| `items` | `FooterLink[]` | Links in this section. | `[]` |
+| `title` | `string` | `undefined` | Label of the section of these links. |
+| `items` | `FooterLink[]` | `[]` | Links in this section. |
 
 </small>
 
@@ -692,12 +692,12 @@ Accepted fields of each item in `items`:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `label` | `string` | Text to be displayed for this link. | **Required** |
-| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | **Required** |
-| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | **Required** |
-| `html` | `string` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. | `undefined` |
+| `label` | `string` | **Required** | Text to be displayed for this link. |
+| `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
+| `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
+| `html` | `string` | `undefined` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
 
 </small>
 

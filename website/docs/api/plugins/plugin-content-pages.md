@@ -24,17 +24,17 @@ Accepted fields:
 
 <small>
 
-| Name | Type | Description | Default |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `path` | `string` | Path to data on filesystem relative to site dir. Components in this directory will be automatically converted to pages. | `'src/pages'` |
-| `routeBasePath` | `string` | URL route for the docs section of your site. **DO NOT** include a trailing slash. | `'/'` |
-| `include` | `string[]` | Matching files will be included and processed. | `['**/*.{js,jsx,ts,tsx,md,mdx}']` |
-| `exclude` | `string[]` | No route will be created for matching files. | _See example configuration_ |
-| `mdxPageComponent` | `string` | Component used by each MDX page. | `'@theme/MDXPage'` |
-| `remarkPlugins` | `any[]` | Remark plugins passed to MDX. | `[]` |
-| `rehypePlugins` | `any[]` | Rehype plugins passed to MDX. | `[]` |
-| `beforeDefaultRemarkPlugins` | `any[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. | `[]` |
-| `beforeDefaultRehypePlugins` | `any[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. | `[]` |
+| `path` | `string` | `'src/pages'` | Path to data on filesystem relative to site dir. Components in this directory will be automatically converted to pages. |
+| `routeBasePath` | `string` | `'/'` | URL route for the docs section of your site. **DO NOT** include a trailing slash. |
+| `include` | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | Matching files will be included and processed. |
+| `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
+| `mdxPageComponent` | `string` | `'@theme/MDXPage'` | Component used by each MDX page. |
+| `remarkPlugins` | `[]` | `any[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `[]` | `any[]` | Rehype plugins passed to MDX. |
+| `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
+| `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 
 </small>
 
