@@ -44,13 +44,13 @@
   "theme.docs.sidebar.expandButtonTitle": "باز کردن نوار کناری",
   "theme.docs.versions.latestVersionLinkLabel": "آخرین نسخه",
   "theme.docs.versions.latestVersionSuggestionLabel": "برای دیدن آخرین نسخه این متن، نسخه {latestVersionLink} ({versionLabel}) را ببینید.",
-  "theme.docs.versions.unmaintainedVersionLabel": "متن نسخه {siteTitle} {versionLabel} دیگر به روزرسانی نمی شود.",
-  "theme.docs.versions.unreleasedVersionLabel": "متن نسخه {siteTitle} {versionLabel} هنوز به صورت کامل منتشر نشده است.",
+  "theme.docs.versions.unmaintainedVersionLabel": "نسخه {siteTitle} {versionLabel} دیگر به روزرسانی نمی شود.",
+  "theme.docs.versions.unreleasedVersionLabel": "نسخه {siteTitle} {versionLabel} هنوز به صورت کامل منتشر نشده است.",
   "theme.lastUpdated.atDate": " در تاریخ {date}",
   "theme.lastUpdated.byUser": " توسط {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "آخرین بروزرسانی در {atDate} توسط {byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← بازگشت به منو اصلی",
   "theme.tags.tagsListLabel": "برچسب ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب ها",
-  "theme.tags.tagsPageTitle": "برچسب ها",
+  "theme.tags.tagsPageTitle": "برچسب ها"
 }
