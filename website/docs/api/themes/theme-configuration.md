@@ -83,7 +83,7 @@ Accepted fields:
 
 Example configuration:
 
-```js {4-6} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     // highlight-next-line
@@ -601,7 +601,7 @@ By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-ren
 
 Example configuration:
 
-```js {5-6} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -677,7 +677,7 @@ module.exports = {
 
 You can add links to the footer via `themeConfig.footer.links`.
 
-Accepted fields:
+Accepted fields of each link section:
 
 <small>
 
