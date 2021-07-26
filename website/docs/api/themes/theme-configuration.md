@@ -647,7 +647,7 @@ Accepted fields:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `logo` | `Logo` | Customization of the logo object. See [Navbar logo](/docs/api/configuration#navbar-logo) for details. | `undefined` |
+| `logo` | `Logo` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. | `undefined` |
 | `copyright` | `string` | The copyright message to be displayed at the bottom. | `undefined` |
 | `style` | <code>'dark' &#124; 'light'</code> | The color theme of the footer component. | `'light'` |
 | `items` | `FooterItem[]` | The link groups to be present. | `[]` |
