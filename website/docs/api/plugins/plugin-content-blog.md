@@ -27,15 +27,15 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'blog'` | Path to data on filesystem relative to site dir. |
-| `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. Docusaurus will compute the final edit URL with `editUrl + relativeDocPath`. When a function is passed, the edit URL will be computed for each Markdown file. Omitting this variable entirely will disable edit links. |
-| `editLocalizedFiles` | `boolean` | `false` | If localized files are commited to git, the edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
+| `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
 | `blogSidebarCount` | <code>number &#124; 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
 | `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
-| `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. It is possible to set just `/` to put the blog at root path. |
+| `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
 | `postsPerPage` | `number` | `10` | Number of posts to show per page in the listing page. |
