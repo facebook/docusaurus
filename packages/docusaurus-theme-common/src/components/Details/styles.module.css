@@ -29,13 +29,14 @@ CSS variables, meant to be overriden by final theme
   position: absolute;
   content: '';
   top: 0.25rem;
+  left: -1.2rem;
   width: 0;
   height: 0;
   border-width: var(--details-summary-arrow-size);
   border-style: solid;
   border-color: transparent transparent transparent
     var(--details-decoration-color);
-  transform: translateX(-1.2rem) rotate(0deg);
+  transform: rotate(0deg);
   transform-origin: calc(var(--details-summary-arrow-size) / 2) 50%;
   transition: var(--details-transition);
 }
