@@ -6,6 +6,6 @@
  */
 
 .details {
-  --details-decoration-color: var(--ifm-alert-border-color);
-  --details-transition: transform var(--ifm-transition-fast) ease;
+  --docusaurus-details-decoration-color: var(--ifm-alert-border-color);
+  --docusaurus-details-transition: transform var(--ifm-transition-fast) ease;
 }
