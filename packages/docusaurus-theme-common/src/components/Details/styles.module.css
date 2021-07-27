@@ -9,7 +9,7 @@
 CSS variables, meant to be overriden by final theme
  */
 .details {
-  --docusaurus-details-summary-arrow-size: 0.5rem;
+  --docusaurus-details-summary-arrow-size: 0.38rem;
   --docusaurus-details-transition: transform 200ms ease;
   --docusaurus-details-decoration-color: grey;
 }
@@ -27,18 +27,22 @@ CSS variables, meant to be overriden by final theme
 
 .details > summary:before {
   position: absolute;
-  content: '';
-  top: 0.25rem;
+  top: 0.45rem;
   left: -1.2rem;
+
+  /* CSS-only Arrow */
+  content: '';
   width: 0;
   height: 0;
-  border-width: var(--docusaurus-details-summary-arrow-size);
-  border-style: solid;
-  border-color: transparent transparent transparent
+  border-top: var(--docusaurus-details-summary-arrow-size) solid transparent;
+  border-bottom: var(--docusaurus-details-summary-arrow-size) solid transparent;
+  border-left: var(--docusaurus-details-summary-arrow-size) solid
     var(--docusaurus-details-decoration-color);
+
+  /* Arrow rotation anim */
   transform: rotate(0deg);
-  transform-origin: calc(var(--docusaurus-details-summary-arrow-size) / 2) 50%;
   transition: var(--docusaurus-details-transition);
+  transform-origin: calc(var(--docusaurus-details-summary-arrow-size) / 2) 50%;
 }
 
 /* When JS disabled/failed to load: we use the open property for arrow animation: */
