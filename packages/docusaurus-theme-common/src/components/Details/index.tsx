@@ -6,6 +6,7 @@
  */
 
 import React, {ComponentProps, ReactElement, useRef, useState} from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import clsx from 'clsx';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
@@ -29,6 +30,7 @@ export type DetailsProps = {
 } & ComponentProps<'details'>;
 
 const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
+  const {isClient} = useDocusaurusContext();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   const {collapsed, setCollapsed} = useCollapsible({
@@ -44,7 +46,11 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
       ref={detailsRef}
       open={open}
       data-collapsed={collapsed}
-      className={clsx(styles.details, props.className)}
+      className={clsx(
+        styles.details,
+        {[styles.isClient]: isClient},
+        props.className,
+      )}
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         // Prevent a double-click to highlight summary text

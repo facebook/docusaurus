@@ -41,11 +41,11 @@ CSS variables, meant to be overriden by final theme
   transition: var(--details-transition);
 }
 
-/* When JS disabled/failed to load: */
-.details[open] > summary:before,
-/* When JS work: */
-.details[data-collapsed='false'] > summary:before {
-  transform: translateX(-1.2rem) rotate(90deg);
+/* When JS disabled/failed to load: we use the open property for arrow animation: */
+.details[open]:not(.isClient) > summary:before,
+/* When JS works: we use the data-attribute for arrow animation */
+.details[data-collapsed='false'].isClient > summary:before {
+  transform: rotate(90deg);
 }
 
 .collapsibleContent {
