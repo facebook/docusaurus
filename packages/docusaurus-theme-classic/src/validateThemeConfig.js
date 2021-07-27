@@ -60,6 +60,10 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
   prependBaseUrlToHref: Joi.bool(),
+  // This is only triggered in case of a nested dropdown
+  items: Joi.forbidden().messages({
+    'any.unknown': 'Nested dropdowns are not allowed',
+  }),
 }).xor('href', 'to');
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -103,6 +107,17 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
+    },
+    {
+      is: Joi.alternatives().try(
+        itemWithType('dropdown'),
+        itemWithType('docsVersionDropdown'),
+        itemWithType('localeDropdown'),
+        itemWithType('search'),
+      ),
+      then: Joi.forbidden().messages({
+        'any.unknown': 'Nested dropdowns are not allowed',
+      }),
     },
   ],
   otherwise: Joi.forbidden().messages({
@@ -163,7 +178,7 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType(undefined),
       then: Joi.object().when({
-        // Dropdown item can be specified without type field and is a superset of Default item
+        // Dropdown item can be specified without type field
         is: Joi.object({
           items: Joi.array().items(DropdownSubitemSchema).required(),
         }).unknown(),
