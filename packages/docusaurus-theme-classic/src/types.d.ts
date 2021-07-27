@@ -328,6 +328,7 @@ declare module '@theme/MDXComponents' {
     readonly code: typeof CodeBlock;
     readonly a: (props: ComponentProps<'a'>) => JSX.Element;
     readonly pre: typeof CodeBlock;
+    readonly details: (props: ComponentProps<'details'>) => JSX.Element;
     readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;
     readonly h2: (props: ComponentProps<'h2'>) => JSX.Element;
     readonly h3: (props: ComponentProps<'h3'>) => JSX.Element;
@@ -527,6 +528,12 @@ declare module '@theme/ThemedImage' {
 
   const ThemedImage: (props: Props) => JSX.Element;
   export default ThemedImage;
+}
+
+declare module '@theme/Details' {
+  export type Props = import('@docusaurus/theme-common').Details;
+  const Props: (props: Props) => JSX.Element;
+  export default Props;
 }
 
 declare module '@theme/ThemeProvider' {

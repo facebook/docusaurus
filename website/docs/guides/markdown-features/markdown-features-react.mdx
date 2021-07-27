@@ -1,11 +1,13 @@
 ---
 id: react
-title: Using React
+title: MDX and React
 description: Using the power of React in Docusaurus Markdown documents, thanks to MDX
 slug: /markdown-features/react
 ---
 
+```mdx-code-block
 import BrowserWindow from '@site/src/components/BrowserWindow';
+```
 
 ## Using JSX in Markdown {#using-jsx-in-markdown}
 
@@ -14,6 +16,14 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 :::note
 
 While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax.
+
+:::
+
+:::caution
+
+MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018).
+
+Use the **[MDX playground](https://mdxjs.com/playground)** to ensure that your syntax is valid MDX.
 
 :::
 
@@ -126,21 +136,27 @@ This feature is experimental and might be subject to API breaking changes in the
 
 ## Importing Markdown {#importing-markdown}
 
-You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Below we are importing from [another file](./markdown-features-intro.mdx) and inserting it as a component.
+You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages.
 
-```jsx
-import Intro from './markdown-features-intro.mdx';
+By convention, using the **`_` filename prefix** will not create any doc page and means the markdown file is a **"partial"**, to be imported by other files.
 
-<Intro />;
+```md title="_markdown-partial-example.mdx"
+<span>Hello {props.name}</span>
+
+This is text some content from `_markdown-partial-example.mdx`.
+```
+
+```jsx title="someOtherDoc.mdx"
+import PartialExample from './_markdown-partial-example.mdx';
+
+<PartialExample name="Sebastien" />;
 ```
 
 ```mdx-code-block
-import Intro from './markdown-features-intro.mdx';
+import PartialExample from './_markdown-partial-example.mdx';
 
 <BrowserWindow url="http://localhost:3000">
-
-<Intro />
-
+  <PartialExample name="Sebastien" />
 </BrowserWindow>
 
 <br />
