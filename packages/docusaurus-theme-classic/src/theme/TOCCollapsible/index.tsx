@@ -21,7 +21,6 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
   return (
     <div
       className={clsx(
-        'margin-vert--md',
         styles.tocCollapsible,
         {
           [styles.tocCollapsibleExpanded]: !collapsed,
