@@ -7,7 +7,6 @@
 
 import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
@@ -15,9 +14,10 @@ import styles from './styles.module.css';
 const threshold = 300;
 
 // Not all have support for smooth scrolling (particularly Safari mobile iOS)
-const SupportsNativeSmoothScrolling =
-  ExecutionEnvironment.canUseDOM &&
-  'scrollBehavior' in document.documentElement.style;
+// TODO proper detection is currently unreliable!
+// see https://github.com/wessberg/scroll-behavior-polyfill/issues/16
+const SupportsNativeSmoothScrolling = false;
+// const SupportsNativeSmoothScrolling = ExecutionEnvironment.canUseDOM && 'scrollBehavior' in document.documentElement.style;
 
 type CancelScrollTop = () => void;
 
