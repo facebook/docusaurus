@@ -1,1 +1,1 @@
-/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/blog/2019-05-29-hello-world.md
+../../classic/blog/2019-05-29-hello-world.md
