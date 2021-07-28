@@ -193,7 +193,7 @@ export async function generateBlogPosts(
 
     // Prefer user-defined date.
     if (frontMatter.date) {
-      date = frontMatter.date;
+      date = new Date(frontMatter.date);
     }
 
     // Use file create time for blog.
