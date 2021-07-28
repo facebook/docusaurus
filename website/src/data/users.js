@@ -735,6 +735,14 @@ const users = [
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['design', 'large'],
   },
+  {
+    title: 'Verdaccio',
+    description: 'A lightweight open source private npm proxy registry',
+    preview: require('./showcase/verdaccio.png'),
+    website: 'https://verdaccio.org',
+    source: 'https://github.com/verdaccio/verdaccio',
+    tags: ['opensource', 'large', 'i18n', 'design' ]
+  }
 ];
 
 users.forEach((user) => {
