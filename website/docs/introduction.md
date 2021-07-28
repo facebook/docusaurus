@@ -40,7 +40,7 @@ Open `http://localhost:3000` and follow the tutorial.
 
 :::tip
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
 Or read the **[5 minutes tutorial](https://tutorial.docusaurus.io)** online.
 

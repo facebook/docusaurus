@@ -4,7 +4,7 @@
     "packages/*",
     "website",
     "packages/docusaurus-init/templates/*",
-    "admin/new.docusaurus.io"
+    "admin/docusaurus.new"
   ],
   "scripts": {
     "start": "yarn build:packages && yarn start:v2",
