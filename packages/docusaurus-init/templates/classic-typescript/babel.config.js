@@ -1,3 +1,1 @@
-module.exports = {
-  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
-};
+../classic/babel.config.js
