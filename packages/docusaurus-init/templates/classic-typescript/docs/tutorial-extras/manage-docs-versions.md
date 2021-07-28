@@ -1,1 +1,1 @@
-/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/docs/tutorial-extras/manage-docs-versions.md
+../../../classic/docs/tutorial-extras/manage-docs-versions.md

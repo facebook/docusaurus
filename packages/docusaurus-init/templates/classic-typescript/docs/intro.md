@@ -1,1 +1,1 @@
-/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/docs/intro.md
+../../classic/docs/intro.md

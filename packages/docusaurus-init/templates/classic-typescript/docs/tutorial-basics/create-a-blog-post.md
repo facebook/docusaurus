@@ -1,1 +1,1 @@
-/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/docs/tutorial-basics/create-a-blog-post.md
+../../../classic/docs/tutorial-basics/create-a-blog-post.md

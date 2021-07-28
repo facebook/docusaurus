@@ -1,1 +1,1 @@
-/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/src/pages/markdown-page.md
+../../../classic/src/pages/markdown-page.md
