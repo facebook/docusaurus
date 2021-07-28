@@ -60,7 +60,7 @@ function generateTemplateExample(template) {
     );
 
     // create sandbox.config.json file at the root of template
-    const sandboxConfigContent = {
+    const codeSanboxConfig = {
       infiniteLoopProtection: true,
       hardReloadOnChange: true,
       view: 'browser',
@@ -70,10 +70,18 @@ function generateTemplateExample(template) {
         node: '14',
       },
     };
-
     writeFileSync(
       `./examples/${template}/sandbox.config.json`,
-      JSON.stringify(sandboxConfigContent, null, 2),
+      JSON.stringify(codeSanboxConfig, null, 2),
+    );
+
+    const stackBlitzConfig = {
+      installDependencies: true,
+      startCommand: 'npm start',
+    };
+    writeFileSync(
+      `./examples/${template}/.stackblitzrc`,
+      JSON.stringify(stackBlitzConfig, null, 2),
     );
 
     console.log(`Generated example for template ${template}`);
