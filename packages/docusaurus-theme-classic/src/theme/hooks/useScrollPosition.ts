@@ -18,16 +18,16 @@ const useScrollPosition = (
   effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
   deps = [],
 ): void => {
-  const scrollPosition = useRef(getScrollPosition());
+  const lastPositionRef = useRef(getScrollPosition());
 
   const handleScroll = () => {
-    const currentScrollPosition = getScrollPosition();
+    const currentPosition = getScrollPosition();
 
     if (effect) {
-      effect(currentScrollPosition, scrollPosition.current);
+      effect(currentPosition, lastPositionRef.current);
     }
 
-    scrollPosition.current = currentScrollPosition;
+    lastPositionRef.current = currentPosition;
   };
 
   useEffect(() => {
