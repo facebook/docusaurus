@@ -5,11 +5,11 @@ title: Themes
 
 Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
 
-## Available themes
+## Available themes {#available-themes}
 
 We maintain a [list of official themes](./api/themes/overview.md).
 
-## Using themes
+## Using themes {#using-themes}
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
 
@@ -20,7 +20,7 @@ module.exports = {
 };
 ```
 
-## Theme components
+## Theme components {#theme-components}
 
 Most of the time, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
 
@@ -71,7 +71,7 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 }
 ```
 
-## Wrapper your site with `<Root>`
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
 A `<Root>` theme component is rendered at the very top of your Docusaurus site.
 
@@ -92,17 +92,17 @@ This component is applied above the router and the theme `<Layout>`, and will **
 
 :::tip
 
-Use this component render React Context providers and global stateful logic.
+Use this component to render React Context providers and global stateful logic.
 
 :::
 
-## Swizzling theme components
+## Swizzling theme components {#swizzling-theme-components}
 
-:::caution
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
 
-We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
-
-:::
+<SwizzleWarning/>
+```
 
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
@@ -128,13 +128,13 @@ npm run swizzle @docusaurus/theme-classic
 
 **Note**: You need to restart your webpack dev server in order for Docusaurus to know about the new component.
 
-## Wrapping theme components
+## Wrapping theme components {#wrapping-theme-components}
 
 Sometimes, you just want to wrap an existing theme component with additional logic, and it can be a pain to have to maintain an almost duplicate copy of the original theme component.
 
 In such case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it.
 
-### For site owners
+### For site owners {#for-site-owners}
 
 The `@theme-original` alias allows you to import the original theme component.
 
@@ -155,7 +155,7 @@ export default function Footer(props) {
 }
 ```
 
-### For plugin authors
+### For plugin authors {#for-plugin-authors}
 
 One theme can wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
 
@@ -182,7 +182,7 @@ Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-c
 
 :::
 
-## Themes design
+## Themes design {#themes-design}
 
 While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
 
@@ -194,7 +194,7 @@ To summarize:
 - Themes are run after all existing Plugins
 - Themes exist to add component aliases by extending the webpack config
 
-## Writing customized Docusaurus themes
+## Writing customized Docusaurus themes {#writing-customized-docusaurus-themes}
 
 A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
 

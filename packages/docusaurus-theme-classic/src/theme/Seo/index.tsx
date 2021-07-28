@@ -7,8 +7,9 @@
 
 import React from 'react';
 import Head from '@docusaurus/Head';
+import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import {useTitleFormatter} from '@docusaurus/theme-common';
+
 import type {Props} from '@theme/Seo';
 
 export default function Seo({
@@ -17,13 +18,14 @@ export default function Seo({
   keywords,
   image,
 }: Props): JSX.Element {
-  const metaTitle = useTitleFormatter(title);
-  const metaImageUrl = useBaseUrl(image, {absolute: true});
+  const {image: defaultImage} = useThemeConfig();
+  const pageTitle = useTitleFormatter(title);
+  const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
 
   return (
     <Head>
-      {title && <title>{metaTitle}</title>}
-      {title && <meta property="og:title" content={metaTitle} />}
+      {title && <title>{pageTitle}</title>}
+      {title && <meta property="og:title" content={pageTitle} />}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
@@ -37,9 +39,8 @@ export default function Seo({
         />
       )}
 
-      {image && <meta property="og:image" content={metaImageUrl} />}
-      {image && <meta name="twitter:image" content={metaImageUrl} />}
-      {image && <meta name="twitter:card" content="summary_large_image" />}
+      {pageImage && <meta property="og:image" content={pageImage} />}
+      {pageImage && <meta name="twitter:image" content={pageImage} />}
     </Head>
   );
 }

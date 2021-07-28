@@ -1,0 +1,139 @@
+---
+id: react
+title: Using React
+description: Using the power of React in Docusaurus Markdown documents, thanks to MDX
+slug: /markdown-features/react
+---
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+## Using JSX in Markdown {#using-jsx-in-markdown}
+
+Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
+
+:::note
+
+While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax.
+
+:::
+
+Try this block here:
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+```
+
+Notice how it renders both the markup from your React component and the Markdown syntax:
+
+```mdx-code-block
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<BrowserWindow minHeight={240} url="http://localhost:3000">
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight>
+{` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+
+</BrowserWindow>
+```
+
+<br />
+
+You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
+:::caution
+
+Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+
+:::
+
+## Importing code snippets {#importing-code-snippets}
+
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/).
+
+```jsx title="myMarkdownFile.mdx"
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!./myComponent';
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
+```
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+
+<BrowserWindow url="http://localhost:3000">
+
+<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>
+
+<br />
+```
+
+:::note
+
+You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want JSX to insert the imported text here.
+
+:::
+
+:::warning
+
+This feature is experimental and might be subject to API breaking changes in the future.
+
+:::
+
+## Importing Markdown {#importing-markdown}
+
+You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Below we are importing from [another file](./markdown-features-intro.mdx) and inserting it as a component.
+
+```jsx
+import Intro from './markdown-features-intro.mdx';
+
+<Intro />;
+```
+
+```mdx-code-block
+import Intro from './markdown-features-intro.mdx';
+
+<BrowserWindow url="http://localhost:3000">
+
+<Intro />
+
+</BrowserWindow>
+
+<br />
+```
+
+This way, you can reuse contents among multiple pages and avoid duplicating materials.
+
+:::caution
+
+The table-of-contents does not currently contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
+
+:::

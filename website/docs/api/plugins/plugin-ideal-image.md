@@ -6,27 +6,27 @@ slug: '/api/plugins/@docusaurus/plugin-ideal-image'
 
 Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
 ```
 
-## Configuration
+## Configuration {#configuration}
 
 Modify your `docusaurus.config.js`
 
-```diff
+```js {3}
 module.exports = {
   ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: ['@docusaurus/plugin-ideal-image'],
   ...
 }
 ```
 
-## Usage
+## Usage {#usage}
 
-This plugin supports the PNG, GIF and JPG formats only.
+This plugin supports the PNG and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';
@@ -39,7 +39,7 @@ import thumbnail from './path/to/img.png';
 <Image img={require('./path/to/img.png')} />
 ```
 
-## Options
+## Options {#options}
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |

@@ -6,25 +6,27 @@
  */
 
 import React from 'react';
-import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
+import type {Props} from '@theme/LastUpdated';
 
-function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
+function LastUpdatedAtDate({
+  lastUpdatedAt,
+  formattedLastUpdatedAt,
+}: {
+  lastUpdatedAt: number;
+  formattedLastUpdatedAt: string;
+}): JSX.Element {
   return (
     <Translate
       id="theme.lastUpdated.atDate"
       description="The words used to describe on which date a page has been last updated"
       values={{
-        // TODO localize this date
-        // If it's the only place we need this, we'd rather keep it simple
-        // Day.js may be a good lightweight option?
-        // https://www.skypack.dev/blog/2021/02/the-best-javascript-date-libraries/
         date: (
-          <time
-            dateTime={new Date(lastUpdatedAt * 1000).toISOString()}
-            className={styles.lastUpdatedDate}>
-            {new Date(lastUpdatedAt * 1000).toLocaleDateString()}
-          </time>
+          <b>
+            <time dateTime={new Date(lastUpdatedAt * 1000).toISOString()}>
+              {formattedLastUpdatedAt}
+            </time>
+          </b>
         ),
       }}>
       {' on {date}'}
@@ -32,13 +34,17 @@ function LastUpdatedAtDate({lastUpdatedAt}: {lastUpdatedAt: number}) {
   );
 }
 
-function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
+function LastUpdatedByUser({
+  lastUpdatedBy,
+}: {
+  lastUpdatedBy: string;
+}): JSX.Element {
   return (
     <Translate
       id="theme.lastUpdated.byUser"
       description="The words used to describe by who the page has been last updated"
       values={{
-        user: <strong>{lastUpdatedBy}</strong>,
+        user: <b>{lastUpdatedBy}</b>,
       }}>
       {' by {user}'}
     </Translate>
@@ -47,39 +53,37 @@ function LastUpdatedByUser({lastUpdatedBy}: {lastUpdatedBy: string}) {
 
 export default function LastUpdated({
   lastUpdatedAt,
+  formattedLastUpdatedAt,
   lastUpdatedBy,
-}: {
-  lastUpdatedAt: number | undefined;
-  lastUpdatedBy: string | undefined;
-}) {
+}: Props): JSX.Element {
   return (
-    <div className="col text--right">
-      <em>
-        <small>
-          <Translate
-            id="theme.lastUpdated.lastUpdatedAtBy"
-            description="The sentence used to display when a page has been last updated, and by who"
-            values={{
-              atDate: lastUpdatedAt ? (
-                <LastUpdatedAtDate lastUpdatedAt={lastUpdatedAt} />
-              ) : (
-                ''
-              ),
-              byUser: lastUpdatedBy ? (
-                <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
-              ) : (
-                ''
-              ),
-            }}>
-            {'Last updated{atDate}{byUser}'}
-          </Translate>
-          {process.env.NODE_ENV === 'development' && (
-            <div>
-              <small> (Simulated during dev for better perf)</small>
-            </div>
-          )}
-        </small>
-      </em>
-    </div>
+    <>
+      <Translate
+        id="theme.lastUpdated.lastUpdatedAtBy"
+        description="The sentence used to display when a page has been last updated, and by who"
+        values={{
+          atDate:
+            lastUpdatedAt && formattedLastUpdatedAt ? (
+              <LastUpdatedAtDate
+                lastUpdatedAt={lastUpdatedAt}
+                formattedLastUpdatedAt={formattedLastUpdatedAt}
+              />
+            ) : (
+              ''
+            ),
+          byUser: lastUpdatedBy ? (
+            <LastUpdatedByUser lastUpdatedBy={lastUpdatedBy} />
+          ) : (
+            ''
+          ),
+        }}>
+        {'Last updated{atDate}{byUser}'}
+      </Translate>
+      {process.env.NODE_ENV === 'development' && (
+        <div>
+          <small> (Simulated during dev for better perf)</small>
+        </div>
+      )}
+    </>
   );
 }

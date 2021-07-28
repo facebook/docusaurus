@@ -1,7 +1,8 @@
 ---
 id: cli
-title: CLI
 ---
+
+# CLI
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website.
 
@@ -11,30 +12,34 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 {
   // ...
   "scripts": {
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear"
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
   }
 }
 ```
 
-## Index
+## Index {#index}
 
 import TOCInline from "@theme/TOCInline"
 
 <TOCInline toc={toc[1].children}/>
 
-## Docusaurus CLI commands
+## Docusaurus CLI commands {#docusaurus-cli-commands}
 
 Below is a list of Docusaurus CLI commands and their usages:
 
-### `docusaurus start [siteDir]`
+### `docusaurus start [siteDir]` {#docusaurus-start-sitedir}
 
 Builds and serves a preview of your site locally with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).
 
-#### Options
+#### Options {#options}
 
 | Name | Default | Description |
 | --- | --- | --- |
@@ -51,7 +56,7 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
-#### Enabling HTTPS`
+#### Enabling HTTPS {#enabling-https}
 
 There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
 
@@ -67,11 +72,11 @@ HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 
 4. Open `https://localhost:3000/`
 
-### `docusaurus build [siteDir]`
+### `docusaurus build [siteDir]` {#docusaurus-build-sitedir}
 
 Compiles your site for production.
 
-#### Options
+#### Options {#options-1}
 
 | Name | Default | Description |
 | --- | --- | --- |
@@ -86,13 +91,13 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::
 
-### `docusaurus swizzle [siteDir]`
+### `docusaurus swizzle [siteDir]` {#docusaurus-swizzle-sitedir}
 
-:::caution
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
 
-We highly discourage swizzling of components until we've reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
-
-:::
+<SwizzleWarning/>
+```
 
 Change any Docusaurus theme components to your liking with `npm run swizzle`.
 
@@ -105,9 +110,9 @@ npm run swizzle @docusaurus/theme-classic DocSidebar
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
-`npm run swizzle` without `themeName` lists all the themes available for swizzling similarly `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
 
-#### Options
+#### Options {#options-2}
 
 | Name               | Description                            |
 | ------------------ | -------------------------------------- |
@@ -135,11 +140,11 @@ TODO a separate section for swizzle tutorial.
 To learn more about swizzling, check [here](#).
 -->
 
-### `docusaurus deploy [siteDir]`
+### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
 
 Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.mdx#deploying-to-github-pages) for more details.
 
-#### Options
+#### Options {#options-3}
 
 | Name | Default | Description |
 | --- | --- | --- |
@@ -147,7 +152,7 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
-### `docusaurus serve [siteDir]`
+### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
 
 Serve your built website locally.
 
@@ -159,13 +164,13 @@ Serve your built website locally.
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 
-### `docusaurus clear [siteDir]`
+### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
 
 Clear a Docusaurus site's generated assets, caches, build artifacts.
 
 We recommend running this command before reporting bugs, after upgrading versions, or anytime you have issues with your Docusaurus site.
 
-### `docusaurus write-translations [siteDir]`
+### `docusaurus write-translations [siteDir]` {#docusaurus-write-translations-sitedir}
 
 Write the JSON translation files that you will have to translate.
 
@@ -177,3 +182,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | `--override` | `false` | Override existing translation messages |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
+
+### `docusaurus write-heading-ids [siteDir]` {#docusaurus-write-heading-ids-sitedir}
+
+Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.

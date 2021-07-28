@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('joi');
-const {URISchema} = require('@docusaurus/utils-validation');
+const {Joi, URISchema} = require('@docusaurus/utils-validation');
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -51,7 +50,7 @@ const BaseNavbarItemSchema = Joi.object({
   href: URISchema,
   label: Joi.string(),
   className: Joi.string(),
-  prependBaseUrlToHref: Joi.string(),
+  prependBaseUrlToHref: Joi.bool(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
@@ -251,8 +250,8 @@ const ThemeConfigSchema = Joi.object({
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
-    backgroundColor: Joi.string().default('#fff'),
-    textColor: Joi.string().default('#000'),
+    backgroundColor: Joi.string(),
+    textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
@@ -310,6 +309,10 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  sidebarCollapsible: Joi.forbidden().messages({
+    'any.unknown':
+      'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
+  }),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

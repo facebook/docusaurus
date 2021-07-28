@@ -12,6 +12,10 @@ import Layout from '@theme/Layout';
 
 import {useVersions, useLatestVersion} from '@theme/hooks/useDocs';
 
+import VersionsArchived from '@site/versionsArchived.json';
+
+const VersionsArchivedList = Object.entries(VersionsArchived);
+
 function Version() {
   const {siteConfig} = useDocusaurusContext();
   const versions = useVersions();
@@ -73,7 +77,7 @@ function Version() {
           </div>
         )}
 
-        {pastVersions.length > 0 && (
+        {(pastVersions.length > 0 || VersionsArchived.length > 0) && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
             <p>
@@ -95,10 +99,41 @@ function Version() {
                     </td>
                   </tr>
                 ))}
+                {VersionsArchivedList.map(([versionName, versionUrl]) => (
+                  <tr key={versionName}>
+                    <th>{versionName}</th>
+                    <td>
+                      <Link to={versionUrl}>Documentation</Link>
+                    </td>
+                    <td>
+                      <a href={`${repoUrl}/releases/tag/v${versionName}`}>
+                        Release Notes
+                      </a>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
+        <div className="margin-bottom--lg">
+          <h3 id="legacy">Docusaurus v1 (Legacy)</h3>
+          <p>
+            Here you can find documentation for legacy version of Docusaurus.
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <th>1.x</th>
+                <td>
+                  <a href={`https://v1.docusaurus.io/docs/en/installation`}>
+                    Documentation
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </Layout>
   );

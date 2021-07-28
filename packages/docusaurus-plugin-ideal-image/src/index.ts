@@ -35,12 +35,12 @@ export default function (
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
-                  loader: require.resolve('@endiliey/responsive-loader'),
+                  loader: require.resolve('@docusaurus/responsive-loader'),
                   options: {
                     emitFile: !isServer, // don't emit for server-side rendering
                     disable: !isProd,
-                    // eslint-disable-next-line
-                    adapter: require('@endiliey/responsive-loader/sharp'),
+                    // eslint-disable-next-line global-require
+                    adapter: require('@docusaurus/responsive-loader/sharp'),
                     name: isProd
                       ? 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]'
                       : 'assets/ideal-img/[name].[width].[ext]',

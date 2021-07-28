@@ -11,6 +11,23 @@ import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {uniq} from '@docusaurus/utils-common';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
+
+function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
+  const allDocs = versions.flatMap((version) => version.docs);
+  const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
+  if (!doc) {
+    const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');
+    throw new Error(
+      `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
+        versions.length ? 's' : ''
+      } ${versions.map((version) => version.name).join(', ')}".
+Available doc ids are:\n- ${docIds}`,
+    );
+  }
+  return doc;
+}
 
 export default function DocNavbarItem({
   docId,
@@ -23,17 +40,11 @@ export default function DocNavbarItem({
   const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
-  const version = activeVersion ?? preferredVersion ?? latestVersion;
-
-  const doc = version.docs.find((versionDoc) => versionDoc.id === docId);
-  if (!doc) {
-    throw new Error(
-      `DocNavbarItem: couldn't find any doc with id=${docId} in version ${
-        version.name
-      }.
-Available docIds=\n- ${version.docs.join('\n- ')}`,
-    );
-  }
+  // Versions used to look for the doc to link to, ordered + no duplicate
+  const versions: GlobalDataVersion[] = uniq(
+    [activeVersion, preferredVersion, latestVersion].filter(Boolean),
+  );
+  const doc = getDocInVersions(versions, docId);
 
   return (
     <DefaultNavbarItem

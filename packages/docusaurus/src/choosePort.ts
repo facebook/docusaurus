@@ -111,7 +111,7 @@ export default async function choosePort(
             )}\n\nWould you like to run the app on another port instead?`,
             initial: true,
           };
-          prompts(question).then((answer: any) => {
+          prompts(question).then((answer) => {
             if (answer.shouldChangePort === true) {
               resolve(port);
             } else {
@@ -127,7 +127,7 @@ export default async function choosePort(
     (err) => {
       throw new Error(
         `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: ${err.message}` || err
+          `Network error message: "${err.message}".` || err
         }\n`,
       );
     },

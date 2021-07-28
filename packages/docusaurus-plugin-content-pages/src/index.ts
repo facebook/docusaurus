@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
-import minimatch from 'minimatch';
-import slash from 'slash';
 import {
   encodePath,
   fileToPath,
@@ -18,6 +15,9 @@ import {
   getPluginI18nPath,
   getFolderContainingFile,
   addTrailingPathSeparator,
+  Globby,
+  createAbsoluteFilePathMatcher,
+  normalizeUrl,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -26,10 +26,9 @@ import {
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration, Loader} from 'webpack';
+import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from 'joi';
 import {
   DEFAULT_PLUGIN_ID,
   STATIC_DIR_NAME,
@@ -53,7 +52,7 @@ const isMarkdownSource = (source: string) =>
 export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
+): Plugin<LoadedContent | null> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions || {}],
@@ -82,11 +81,6 @@ export default function pluginContentPages(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
-  const excludeRegex = new RegExp(
-    options.exclude
-      .map((pattern) => minimatch.makeRe(pattern).source)
-      .join('|'),
-  );
   return {
     name: 'docusaurus-plugin-content-pages',
 
@@ -99,16 +93,6 @@ export default function pluginContentPages(
       );
     },
 
-    getClientModules() {
-      const modules = [];
-
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-
-      return modules;
-    },
-
     async loadContent() {
       const {include} = options;
 
@@ -117,7 +101,7 @@ export default function pluginContentPages(
       }
 
       const {baseUrl} = siteConfig;
-      const pagesFiles = await globby(include, {
+      const pagesFiles = await Globby(include, {
         cwd: contentPaths.contentPath,
         ignore: options.exclude,
       });
@@ -131,8 +115,11 @@ export default function pluginContentPages(
 
         const source = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const pathName = encodePath(fileToPath(relativeSource));
-        const permalink = pathName.replace(/^\//, baseUrl || '');
+        const permalink = normalizeUrl([
+          baseUrl,
+          options.routeBasePath,
+          encodePath(fileToPath(relativeSource)),
+        ]);
         if (isMarkdownSource(relativeSource)) {
           return {
             type: 'mdx',
@@ -193,7 +180,7 @@ export default function pluginContentPages(
     configureWebpack(
       _config: Configuration,
       isServer: boolean,
-      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+      {getJSLoader}: ConfigureWebpackUtils,
     ) {
       const {
         rehypePlugins,
@@ -201,6 +188,7 @@ export default function pluginContentPages(
         beforeDefaultRehypePlugins,
         beforeDefaultRemarkPlugins,
       } = options;
+      const contentDirs = getContentPathList(contentPaths);
       return {
         resolve: {
           alias: {
@@ -211,12 +199,11 @@ export default function pluginContentPages(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths)
+              include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
-                getCacheLoader(isServer),
-                getBabelLoader(isServer),
+                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
@@ -225,20 +212,19 @@ export default function pluginContentPages(
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    // Note that metadataPath must be the same/in-sync as
-                    // the path from createData for each MDX.
+                    isMDXPartial: createAbsoluteFilePathMatcher(
+                      options.exclude,
+                      contentDirs,
+                    ),
                     metadataPath: (mdxPath: string) => {
-                      if (excludeRegex.test(slash(mdxPath))) {
-                        return null;
-                      }
+                      // Note that metadataPath must be the same/in-sync as
+                      // the path from createData for each MDX.
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
-                    forbidFrontMatter: (mdxPath: string) =>
-                      excludeRegex.test(slash(mdxPath)),
                   },
                 },
                 {
@@ -248,7 +234,7 @@ export default function pluginContentPages(
                     // contentPath,
                   },
                 },
-              ].filter(Boolean) as Loader[],
+              ].filter(Boolean),
             },
           ],
         },
@@ -260,10 +246,7 @@ export default function pluginContentPages(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

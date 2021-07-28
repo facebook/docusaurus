@@ -45,7 +45,7 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
-    docsDirPath: 'docs',
+    contentPath: 'docs',
     filePath: source,
   };
 };
@@ -76,7 +76,7 @@ function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
@@ -89,11 +89,10 @@ function createTestUtils({
     expect(metadata).toEqual({
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
-      sidebar_label: undefined,
       editUrl: undefined,
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
+        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
         posixPath(docFileSource),
       ),
       ...expectedMetadata,
@@ -160,6 +159,7 @@ describe('simple site', () => {
         'rootRelativeSlug.md',
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
+        'headingAsTitle.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -176,21 +176,33 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
+      },
     });
   });
 
@@ -210,11 +222,17 @@ describe('simple site', () => {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      frontMatter: {
+        id: 'hello',
+        title: 'Hello, World !',
+        sidebar_label: 'Hello sidebar_label',
+      },
     });
   });
 
@@ -234,11 +252,17 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Bar',
       description: 'This is custom description',
+      frontMatter: {
+        description: 'This is custom description',
+        id: 'bar',
+        title: 'Bar',
+      },
     });
   });
 
@@ -260,6 +284,7 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/baz',
       unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
@@ -267,6 +292,12 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+        pagination_label: 'baz pagination_label',
+      },
     });
   });
 
@@ -277,12 +308,17 @@ describe('simple site', () => {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
     });
   });
 
@@ -308,12 +344,19 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/baz',
       unversionedId: 'foo/baz',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
       editUrl: hardcodedEditUrl,
       description: 'Images',
+      frontMatter: {
+        id: 'baz',
+        slug: 'bazSlug.html',
+        title: 'baz',
+        pagination_label: 'baz pagination_label',
+      },
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -345,13 +388,19 @@ describe('simple site', () => {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_frontmatter: "won't be part of metadata",
+      },
       lastUpdatedAt: 1539502055,
+      formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
     });
   });
@@ -406,7 +455,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id [Hello/world] cannot include \\"/\\"."`,
+      `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
 
@@ -511,21 +560,25 @@ describe('versioned site', () => {
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
+      frontMatter: {slug: 'barSlug'},
       version: 'current',
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/next/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello next !',
+      frontMatter: {},
       version: 'current',
     });
   });
@@ -536,21 +589,25 @@ describe('versioned site', () => {
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'Bar 1.0.0 !',
+      frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -558,22 +615,26 @@ describe('versioned site', () => {
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
+      frontMatter: {},
     });
   });
 
@@ -657,11 +718,13 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -696,11 +759,13 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -727,11 +792,13 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -759,11 +826,13 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -792,11 +861,13 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
+      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
+      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',

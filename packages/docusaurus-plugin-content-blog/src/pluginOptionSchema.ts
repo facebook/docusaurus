@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from 'joi';
 import {
+  Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 
 export const DEFAULT_OPTIONS = {
   feedOptions: {type: ['rss', 'atom']},
@@ -32,6 +33,7 @@ export const DEFAULT_OPTIONS = {
   blogSidebarTitle: 'Recent posts',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
+  exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
   path: 'blog',
   editLocalizedFiles: false,
@@ -44,6 +46,7 @@ export const PluginOptionSchema = Joi.object({
     // .allow('')
     .default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   postsPerPage: Joi.number()
     .integer()
     .min(1)

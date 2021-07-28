@@ -7,7 +7,7 @@ slug: /markdown-features/code-blocks
 
 Code blocks within documentation are super-powered 💪.
 
-## Code title
+## Code title {#code-title}
 
 You can add a title to the code block by adding `title` key after the language (leave a space between them).
 
@@ -23,7 +23,7 @@ function HelloCodeTitle(props) {
 }
 ```
 
-## Syntax highlighting
+## Syntax highlighting {#syntax-highlighting}
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
 
@@ -39,6 +39,8 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
+### Theming {#theming}
+
 By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `theme` field in `prism` as `themeConfig` in your docusaurus.config.js.
 
 For example, if you prefer to use the `dracula` highlighting theme:
@@ -53,7 +55,15 @@ module.exports = {
 };
 ```
 
-By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
+### Supported Languages {#supported-languages}
+
+By default, Docusaurus comes with a subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
+
+:::caution
+
+Some popular languages like Java, C#, or PHP are not enabled by default.
+
+:::
 
 To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), define it in an array of additional languages.
 
@@ -70,6 +80,8 @@ module.exports = {
   },
 };
 ```
+
+After adding `additionalLanguages`, restart Docusaurus.
 
 If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
@@ -95,7 +107,7 @@ const prismIncludeLanguages = (Prism) => {
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
-## Line highlighting
+## Line highlighting {#line-highlighting}
 
 You can bring emphasis to certain lines of code by specifying line ranges after the language meta string (leave a space after the language).
 
@@ -131,9 +143,12 @@ To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class t
 
 /* If you have a different syntax highlighting theme for dark mode. */
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: ; /* Color which works with dark mode syntax highlighting theme */
+  /* Color which works with dark mode syntax highlighting theme */
+  background-color: rgb(100, 100, 100);
 }
 ```
+
+### Multiple line highlighting {#multiple-line-highlighting}
 
 To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
@@ -164,6 +179,8 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+### Highlighting with comments {#highlighting-with-comments}
 
 You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
@@ -220,7 +237,7 @@ Supported commenting syntax:
 
 If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
 
-## Interactive code editor
+## Interactive code editor {#interactive-code-editor}
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
 
@@ -292,6 +309,8 @@ function Clock(props) {
 }
 ```
 
+### Imports {#imports}
+
 :::caution react-live and imports
 
 It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
@@ -343,7 +362,7 @@ function MyPlayground(props) {
 }
 ```
 
-## Multi-language support code blocks
+## Multi-language support code blocks {#multi-language-support-code-blocks}
 
 With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.
 

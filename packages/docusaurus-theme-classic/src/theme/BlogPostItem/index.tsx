@@ -10,76 +10,36 @@ import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 import Translate, {translate} from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import {usePluralForm} from '@docusaurus/theme-common';
 import MDXComponents from '@theme/MDXComponents';
 import Seo from '@theme/Seo';
+import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 
-const MONTHS = [
-  translate({
-    id: 'theme.common.month.january',
-    description: 'January month translation',
-    message: 'January',
-  }),
-  translate({
-    id: 'theme.common.month.february',
-    description: 'February month translation',
-    message: 'February',
-  }),
-  translate({
-    id: 'theme.common.month.march',
-    description: 'March month translation',
-    message: 'March',
-  }),
-  translate({
-    id: 'theme.common.month.april',
-    description: 'April month translation',
-    message: 'April',
-  }),
-  translate({
-    id: 'theme.common.month.may',
-    description: 'May month translation',
-    message: 'May',
-  }),
-  translate({
-    id: 'theme.common.month.june',
-    description: 'June month translation',
-    message: 'June',
-  }),
-  translate({
-    id: 'theme.common.month.july',
-    description: 'July month translation',
-    message: 'July',
-  }),
-  translate({
-    id: 'theme.common.month.august',
-    description: 'August month translation',
-    message: 'August',
-  }),
-  translate({
-    id: 'theme.common.month.september',
-    description: 'September month translation',
-    message: 'September',
-  }),
-  translate({
-    id: 'theme.common.month.october',
-    description: 'October month translation',
-    message: 'October',
-  }),
-  translate({
-    id: 'theme.common.month.november',
-    description: 'November month translation',
-    message: 'November',
-  }),
-  translate({
-    id: 'theme.common.month.december',
-    description: 'December month translation',
-    message: 'December',
-  }),
-];
+// Very simple pluralization: probably good enough for now
+function useReadingTimePlural() {
+  const {selectMessage} = usePluralForm();
+  return (readingTimeFloat: number) => {
+    const readingTime = Math.ceil(readingTimeFloat);
+    return selectMessage(
+      readingTime,
+      translate(
+        {
+          id: 'theme.blog.post.readingTime.plurals',
+          description:
+            'Pluralized label for "{readingTime} min read". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One min read|{readingTime} min read',
+        },
+        {readingTime},
+      ),
+    );
+  };
+}
 
 function BlogPostItem(props: Props): JSX.Element {
+  const readingTimePlural = useReadingTimePlural();
   const {
     children,
     frontMatter,
@@ -87,8 +47,16 @@ function BlogPostItem(props: Props): JSX.Element {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, permalink, tags, readingTime} = metadata;
-  const {author, title, image, keywords} = frontMatter;
+  const {
+    date,
+    formattedDate,
+    permalink,
+    tags,
+    readingTime,
+    title,
+    editUrl,
+  } = metadata;
+  const {author, image, keywords} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
@@ -97,39 +65,21 @@ function BlogPostItem(props: Props): JSX.Element {
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
-    const match = date.substring(0, 10).split('-');
-    const year = match[0];
-    const month = MONTHS[parseInt(match[1], 10) - 1];
-    const day = parseInt(match[2], 10);
 
     return (
       <header>
-        <TitleHeading
-          className={clsx('margin-bottom--sm', styles.blogPostTitle)}>
+        <TitleHeading className={styles.blogPostTitle}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-vert--md">
-          <time dateTime={date} className={styles.blogPostDate}>
-            <Translate
-              id="theme.blog.post.date"
-              description="The label to display the blog post date"
-              values={{day, month, year}}>
-              {'{month} {day}, {year}'}
-            </Translate>{' '}
-            {readingTime && (
-              <>
-                {' · '}
-                <Translate
-                  id="theme.blog.post.readingTime"
-                  description="The label to display reading time of the blog post"
-                  values={{
-                    readingTime: Math.ceil(readingTime),
-                  }}>
-                  {'{readingTime} min read'}
-                </Translate>
-              </>
-            )}
-          </time>
+        <div className={clsx(styles.blogPostData, 'margin-vert--md')}>
+          <time dateTime={date}>{formattedDate}</time>
+
+          {readingTime && (
+            <>
+              {' · '}
+              {readingTimePlural(readingTime)}
+            </>
+          )}
         </div>
         <div className="avatar margin-vert--md">
           {authorImageURL && (
@@ -140,9 +90,9 @@ function BlogPostItem(props: Props): JSX.Element {
           <div className="avatar__intro">
             {author && (
               <>
-                <h4 className="avatar__name">
+                <div className="avatar__name">
                   <Link href={authorURL}>{author}</Link>
-                </h4>
+                </div>
                 <small className="avatar__subtitle">{authorTitle}</small>
               </>
             )}
@@ -162,16 +112,19 @@ function BlogPostItem(props: Props): JSX.Element {
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </div>
         {(tags.length > 0 || truncated) && (
-          <footer className="row margin-vert--lg">
+          <footer
+            className={clsx('row docusaurus-mt-lg', {
+              [styles.blogPostDetailsFull]: isBlogPostPage,
+            })}>
             {tags.length > 0 && (
               <div className="col">
-                <strong>
+                <b>
                   <Translate
                     id="theme.tags.tagsListLabel"
                     description="The label alongside a tag list">
                     Tags:
                   </Translate>
-                </strong>
+                </b>
                 {tags.map(({label, permalink: tagPermalink}) => (
                   <Link
                     key={tagPermalink}
@@ -182,18 +135,25 @@ function BlogPostItem(props: Props): JSX.Element {
                 ))}
               </div>
             )}
-            {truncated && (
+
+            {isBlogPostPage && editUrl && (
+              <div className="col margin-top--sm">
+                <EditThisPage editUrl={editUrl} />
+              </div>
+            )}
+
+            {!isBlogPostPage && truncated && (
               <div className="col text--right">
                 <Link
                   to={metadata.permalink}
                   aria-label={`Read more about ${title}`}>
-                  <strong>
+                  <b>
                     <Translate
                       id="theme.blog.post.readMore"
                       description="The label used in blog post item excerpts to link to full blog posts">
                       Read More
                     </Translate>
-                  </strong>
+                  </b>
                 </Link>
               </div>
             )}

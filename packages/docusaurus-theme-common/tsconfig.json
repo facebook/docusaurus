@@ -3,7 +3,8 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "module": "esnext",
     "rootDir": "src",
-    "outDir": "lib",
+    "outDir": "lib"
   }
 }

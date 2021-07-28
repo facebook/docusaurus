@@ -4,11 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from 'joi';
+import Joi from './Joi';
 import {isValidPathname} from '@docusaurus/utils';
 
 export const PluginIdSchema = Joi.string()
-  .regex(/^[a-zA-Z_\-]+$/)
+  .regex(/^[a-zA-Z_-]+$/)
   // duplicate core constant, otherwise cyclic dependency is created :(
   .default('default');
 
@@ -25,8 +25,11 @@ export const RehypePluginsSchema = MarkdownPluginsSchema;
 
 export const AdmonitionsSchema = Joi.object().default({});
 
+// TODO how can we make this emit a custom error message :'(
+//  Joi is such a pain, good luck to annoying trying to improve this
 export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
+  // This custom validation logic is required notably because Joi does not accept paths like /a/b/c ...
   Joi.custom((val, helpers) => {
     try {
       const url = new URL(val);
@@ -50,5 +53,5 @@ export const PathnameSchema = Joi.string()
     }
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );

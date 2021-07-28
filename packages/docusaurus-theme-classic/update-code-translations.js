@@ -9,11 +9,28 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
-const {mapValues, difference} = require('lodash');
+const {mapValues, pickBy, difference, orderBy} = require('lodash');
+
+const CodeDirPaths = [
+  path.join(__dirname, 'lib-next'),
+  // TODO other themes should rather define their own translations in the future?
+  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
+];
+
+console.log('Will scan folders for code translations:', CodeDirPaths);
+
+function removeDescriptionSuffix(key) {
+  if (key.replace('___DESCRIPTION')) {
+    return key.replace('___DESCRIPTION', '');
+  }
+  return key;
+}
 
 function sortObjectKeys(obj) {
-  const keys = Object.keys(obj);
-  keys.sort();
+  let keys = Object.keys(obj);
+  keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
   return keys.reduce((acc, key) => {
     acc[key] = obj[key];
     return acc;
@@ -36,11 +53,11 @@ async function extractThemeCodeMessages() {
   const {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
+    // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const codeDirPaths = [path.join(__dirname, 'lib-next')];
   const filePaths = (
-    await globSourceCodeFilePaths(codeDirPaths)
+    await globSourceCodeFilePaths(CodeDirPaths)
   ).filter((filePath) => ['.js', '.jsx'].includes(path.extname(filePath)));
 
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
@@ -52,7 +69,12 @@ async function extractThemeCodeMessages() {
 
   filesExtractedTranslations.forEach((fileExtractedTranslations) => {
     fileExtractedTranslations.warnings.forEach((warning) => {
-      console.warn(chalk.yellow(warning));
+      throw new Error(`
+Please make sure all theme translations are static!
+Some warnings were found!
+
+${warning}
+      `);
     });
   });
 
@@ -63,12 +85,7 @@ async function extractThemeCodeMessages() {
     {},
   );
 
-  const translationMessages = mapValues(
-    translations,
-    (translation) => translation.message,
-  );
-
-  return translationMessages;
+  return translations;
 }
 
 async function readMessagesFile(filePath) {
@@ -77,7 +94,9 @@ async function readMessagesFile(filePath) {
 
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
-  await fs.writeFile(filePath, JSON.stringify(sortedMessages, null, 2));
+
+  const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
+  await fs.writeFile(filePath, content);
   console.log(
     `${path.basename(filePath)} updated (${
       Object.keys(sortedMessages).length
@@ -95,10 +114,20 @@ async function getCodeTranslationFiles() {
   return {baseFile, localesFiles};
 }
 
-async function updateBaseFile(baseFile) {
-  const baseMessages = await readMessagesFile(baseFile);
+const DescriptionSuffix = '___DESCRIPTION';
 
-  const codeMessages = await extractThemeCodeMessages();
+async function updateBaseFile(baseFile) {
+  const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
+  const baseMessages = pickBy(
+    baseMessagesWithDescriptions,
+    (_, key) => !key.endsWith(DescriptionSuffix),
+  );
+
+  const codeExtractedTranslations = await extractThemeCodeMessages();
+  const codeMessages = mapValues(
+    codeExtractedTranslations,
+    (translation) => translation.message,
+  );
 
   const unknownMessages = difference(
     Object.keys(baseMessages),
@@ -118,7 +147,25 @@ ${logKeys(unknownMessages)}`),
     ...codeMessages,
   };
 
-  await writeMessagesFile(baseFile, newBaseMessages);
+  const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
+    (acc, [key]) => {
+      const codeTranslation = codeExtractedTranslations[key];
+      return {
+        ...acc,
+        [`${key}${DescriptionSuffix}`]: codeTranslation
+          ? codeTranslation.description
+          : undefined,
+      };
+    },
+    {},
+  );
+
+  const newBaseMessagesWitDescription = {
+    ...newBaseMessages,
+    ...newBaseMessagesDescriptions,
+  };
+
+  await writeMessagesFile(baseFile, newBaseMessagesWitDescription);
 
   return newBaseMessages;
 }
@@ -165,6 +212,7 @@ async function updateCodeTranslations() {
   const {baseFile, localesFiles} = await getCodeTranslationFiles();
   const baseFileMessages = await updateBaseFile(baseFile);
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const localeFile of localesFiles) {
     logSection(`Will update ${path.basename(localeFile)}`);
     // eslint-disable-next-line no-await-in-loop
@@ -172,18 +220,23 @@ async function updateCodeTranslations() {
   }
 }
 
-updateCodeTranslations().then(
-  () => {
-    console.log('');
-    console.log(chalk.green('updateCodeTranslations end'));
-    console.log('');
-  },
-  (e) => {
-    console.log('');
-    console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
-    console.log('');
-    console.error(e.stack);
-    console.log('');
-    process.exit(1);
-  },
-);
+function run() {
+  updateCodeTranslations().then(
+    () => {
+      console.log('');
+      console.log(chalk.green('updateCodeTranslations end'));
+      console.log('');
+    },
+    (e) => {
+      console.log('');
+      console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
+      console.log('');
+      console.error(e.stack);
+      console.log('');
+      process.exit(1);
+    },
+  );
+}
+
+exports.run = run;
+exports.extractThemeCodeMessages = extractThemeCodeMessages;

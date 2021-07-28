@@ -11,7 +11,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
@@ -25,9 +25,9 @@ module.exports = {
         pages: false,
         blog: {
           routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+            'https://github.com/facebook/docusaurus/edit/master/website/',
           postsPerPage: 3,
           feedOptions: {
             type: 'all',

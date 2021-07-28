@@ -1,12 +1,14 @@
 ---
-name: 🚀 Feature
-about: Submit a proposal/request for a new feature
+name: 💅 Feature design / RFC
+about: Submit a detailed feature request with a concrete proposal, including an exhaustive API / UI design
 labels: 'feature, needs triage'
 ---
 
 <!--
-  Consider requesting the feature on https://docusaurus-2.netlify.com/feedback/ instead.
-  Feature requests on v1 are more likely to be missed as we're focusing on building v2.
+  IMPORTANT:
+  - We expect you to submit a feature request including a real design (API / UI...), not just a basic idea
+  - The design does not have to be perfect, we'll discuss it and fix it if needed
+  - For a more "casual" feature requests, consider using Canny instead: https://docusaurus.io/feedback
 -->
 
 ## 🚀 Feature
@@ -17,20 +19,39 @@ labels: 'feature, needs triage'
 
 (Write your answer here.)
 
+### Has this been requested on [Canny](https://docusaurus.io/feedback)?
+
+(Please post the Canny link, it is helpful to see how much interest there is for this feature)
+
 ## Motivation
 
-(Please outline the motivation for the proposal.)
+(Please outline the motivation for the proposal and why it should be implemented. Has this been requested by a lot of users on our )
 
-## Pitch
+## API Design
 
-(Please explain why this feature should be implemented and how it would be used.)
+(Please describe how Docusaurus users will enable and configure this feature, and what it will look like)
 
 <!--
-  What happens if you skip this step?
+  Please explain in an exhaustive way what are the config/plugin options and their respective effects.
+  For visual elements, please send us some screenshots/mockups of what it should look like. You can use https://excalidraw.com to create simple mockups.
+-->
 
-  Someone will read your feature proposal and maybe will be able to help you,
-  but it’s unlikely that it will get much attention from the team. Eventually,
-  the issue will likely get closed in favor of issues that have better explanations
+<!--
+  What happens if you skip this step? This issue will be automatically closed.
+  Your feature request is just an idea for now, please use Canny for that: https://docusaurus.io/feedback
+-->
 
-  Thanks for helping us help you!
+## Have you tried building it?
+
+(Please explain how you tried to build the feature by yourself, and how successful it was)
+
+<!--
+  Docusaurus 2 has a plugin system and theming support.
+  Quite often, this gives you the opportunity to build the feature you need by yourself.
+
+  We expect you to put your own work in this feature, particularly if it is not requested by a lot of users.
+  If we see it in action on your own site, it is easier to understand its value, and how it should work.
+
+  If you can't build it yourself for technical reasons, please explain why.
+  We are willing to help you, and eventually providing new APIs to make it possible.
 -->

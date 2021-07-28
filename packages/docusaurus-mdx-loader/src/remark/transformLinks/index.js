@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {toMessageRelativeFilePath, posixPath} = require('@docusaurus/utils');
+const {
+  toMessageRelativeFilePath,
+  posixPath,
+  escapePath,
+} = require('@docusaurus/utils');
 
 const visit = require('unist-util-visit');
 const path = require('path');
@@ -20,7 +24,7 @@ const {
 } = getFileLoaderUtils();
 
 async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
-  const assetExists = await fs.exists(fileSystemAssetPath);
+  const assetExists = await fs.pathExists(fileSystemAssetPath);
   if (!assetExists) {
     throw new Error(
       `Asset ${toMessageRelativeFilePath(
@@ -43,7 +47,9 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
-  const href = `require('${inlineMarkdownLinkFileLoader}${relativeRequireAssetPath}').default`;
+  const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
+    relativeRequireAssetPath,
+  )}').default`;
   const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
@@ -85,12 +91,12 @@ async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
     toAssetLinkNode(fileSystemAssetPath);
   } else if (path.isAbsolute(assetPath)) {
     const fileSystemAssetPath = path.join(staticDir, assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (await fs.pathExists(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   } else {
     const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.exists(fileSystemAssetPath)) {
+    if (await fs.pathExists(fileSystemAssetPath)) {
       toAssetLinkNode(fileSystemAssetPath);
     }
   }
@@ -105,9 +111,9 @@ async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
     const line =
       (node.position && node.position.start && node.position.start.line) || '?';
     throw new Error(
-      `Markdown link url is mandatory. filePath=${toMessageRelativeFilePath(
+      `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
-      )}, title=${title}, line=${line}`,
+      )}" file (title: ${title}, line: ${line}).`,
     );
   }
 

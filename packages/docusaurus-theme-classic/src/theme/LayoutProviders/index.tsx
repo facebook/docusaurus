@@ -8,17 +8,25 @@
 import React from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import {DocsPreferredVersionContextProvider} from '@docusaurus/theme-common';
-import {Props} from '@theme/LayoutProviders';
+import {
+  AnnouncementBarProvider,
+  DocsPreferredVersionContextProvider,
+  MobileSecondaryMenuProvider,
+} from '@docusaurus/theme-common';
+import type {Props} from '@theme/LayoutProviders';
 
 export default function LayoutProviders({children}: Props): JSX.Element {
   return (
     <ThemeProvider>
-      <UserPreferencesProvider>
-        <DocsPreferredVersionContextProvider>
-          {children}
-        </DocsPreferredVersionContextProvider>
-      </UserPreferencesProvider>
+      <AnnouncementBarProvider>
+        <UserPreferencesProvider>
+          <DocsPreferredVersionContextProvider>
+            <MobileSecondaryMenuProvider>
+              {children}
+            </MobileSecondaryMenuProvider>
+          </DocsPreferredVersionContextProvider>
+        </UserPreferencesProvider>
+      </AnnouncementBarProvider>
     </ThemeProvider>
   );
 }

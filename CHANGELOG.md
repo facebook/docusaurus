@@ -1,1343 +1,3745 @@
-# Changelog
+# Docusaurus 2 Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-## [1.14.6] - 2020-08-05
-
-#### :bug: Bug Fix
-
-- `docusaurus-1.x`
-
-  - [#3213](https://github.com/facebook/docusaurus/pull/3213) fix(v1): fresh install failing due to <> syntax ([@slorber](https://github.com/slorber))
-
-#### :memo: Documentation
-
-- [#3186](https://github.com/facebook/docusaurus/pull/3186) docs(v1): formatting changelog ([@slorber](https://github.com/slorber))
-
-#### Committers: 1
-
-- Sébastien Lorber ([@slorber](https://github.com/slorber))
-
-## [1.14.5] - 2020-08-01
+## 2.0.0-beta.3 (2021-06-30)
 
 #### :rocket: New Feature
 
-- `docusaurus-1.x`
-  - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
-  - [#3124](https://github.com/facebook/docusaurus/pull/3124) feat(v1): add 'slugPreprocessor' config option to allow users customize the hash links ([@Simek](https://github.com/Simek))
+- `docusaurus-theme-classic`
+  - [#5092](https://github.com/facebook/docusaurus/pull/5092) feat(v2): add icon to external footer links ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#5080](https://github.com/facebook/docusaurus/pull/5080) fix(v2): classic theme - semantic correct anchors links ([@AuHau](https://github.com/AuHau))
+  - [#5081](https://github.com/facebook/docusaurus/pull/5081) fix(v2): restore previous scroll position on back button click ([@lex111](https://github.com/lex111))
+  - [#5063](https://github.com/facebook/docusaurus/pull/5063) fix(v2): restore responsive menu ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#5094](https://github.com/facebook/docusaurus/pull/5094) fix(v2): fix typos in swizzle command ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#5095](https://github.com/facebook/docusaurus/pull/5095) fix(v2): fix swizzle readComponent ([@slorber](https://github.com/slorber))
+  - [#5059](https://github.com/facebook/docusaurus/pull/5059) fix(v2): fix webpack SSG plugin error thrown due to new URL() / \_\_filename ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#5097](https://github.com/facebook/docusaurus/pull/5097) fix(v2): fix useEffect infinite loop in blogOnly mode ([@slorber](https://github.com/slorber))
+  - [#5074](https://github.com/facebook/docusaurus/pull/5074) fix(v2): allow negative sidebar positions ([@kdrag0n](https://github.com/kdrag0n))
+- `docusaurus-plugin-client-redirects`
+  - [#5093](https://github.com/facebook/docusaurus/pull/5093) fix(v2): redirect from should work with trailingSlash: true ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils`
+  - [#5085](https://github.com/facebook/docusaurus/pull/5085) fix(v2): redirect plugin should emit redirect files with lower precedence than redirect target ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus-utils-common`, `docusaurus`
+  - [#5082](https://github.com/facebook/docusaurus/pull/5082) fix(v2): never remove trailing slash from site root like '/baseUrl/' ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#5068](https://github.com/facebook/docusaurus/pull/5068) fix(v2): sitemap should respect the global trailingSlash config option. ([@taylorreece](https://github.com/taylorreece))
+- `docusaurus-types`
+  - [#5058](https://github.com/facebook/docusaurus/pull/5058) fix(v2): fix bad @docusaurus/types Plugin type generics ([@jsamr](https://github.com/jsamr))
 
 #### :memo: Documentation
 
+- [#5064](https://github.com/facebook/docusaurus/pull/5064) docs(v2): Rewrite markdown images section ([@ramiy](https://github.com/ramiy))
+- [#5086](https://github.com/facebook/docusaurus/pull/5086) docs(v2): Add SQL Frames to the showcase ([@dirslashls](https://github.com/dirslashls))
+- [#5073](https://github.com/facebook/docusaurus/pull/5073) docs(v2): update installation docs ([@iamayushdas](https://github.com/iamayushdas))
+- [#5061](https://github.com/facebook/docusaurus/pull/5061) docs(v2:) Divide `markdown-features/code-blocks` to smaller sections ([@ramiy](https://github.com/ramiy))
+- [#5066](https://github.com/facebook/docusaurus/pull/5066) docs(v2): correct typo ([@bperlmutter](https://github.com/bperlmutter))
+
+#### :house: Internal
+
+- `docusaurus-types`
+  - [#5067](https://github.com/facebook/docusaurus/pull/5067) chore: unstable yarn.lock ([@slorber](https://github.com/slorber))
+- Other
+  - [#5057](https://github.com/facebook/docusaurus/pull/5057) chore(v2): upgrade examples to beta.2 ([@slorber](https://github.com/slorber))
+
+#### Committers: 11
+
+- Adam Uhlíř ([@AuHau](https://github.com/AuHau))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Ayush das ([@iamayushdas](https://github.com/iamayushdas))
+- Danny Lin ([@kdrag0n](https://github.com/kdrag0n))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Jules Sam. Randolph ([@jsamr](https://github.com/jsamr))
+- Rami Yushuvaev ([@ramiy](https://github.com/ramiy))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Taylor Reece ([@taylorreece](https://github.com/taylorreece))
+- [@bperlmutter](https://github.com/bperlmutter)
+- [@dirslashls](https://github.com/dirslashls)
+
+## 2.0.0-beta.2 (2021-06-24)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#5052](https://github.com/facebook/docusaurus/pull/5052) feat(v2): docs version banner configuration option ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#5037](https://github.com/facebook/docusaurus/pull/5037) feat(v2): plugins injectHtmlTags + configureWebpack should receive content loaded ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-plugin-content-docs`
+  - [#5053](https://github.com/facebook/docusaurus/pull/5053) refactor(v2): remove deprecated docs option excludeNextVersionDocs ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#5052](https://github.com/facebook/docusaurus/pull/5052) feat(v2): docs version banner configuration option ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-blog`, `docusaurus-types`, `docusaurus`
+  - [#5054](https://github.com/facebook/docusaurus/pull/5054) fix(v2): allow undefined favicon ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#5048](https://github.com/facebook/docusaurus/pull/5048) fix(v2): read last update from inner git repositories ([@felipecrs](https://github.com/felipecrs))
+- `docusaurus-theme-classic`
+  - [#5050](https://github.com/facebook/docusaurus/pull/5050) fix(v2): add shadow to skip link on focus only ([@lex111](https://github.com/lex111))
+  - [#5035](https://github.com/facebook/docusaurus/pull/5035) fix(v2): fix some docs container/sidebar layout issues ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#5047](https://github.com/facebook/docusaurus/pull/5047) fix(v2): Fix Webpack persistent caching (evict on swizzle/alias/config change) ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#5040](https://github.com/facebook/docusaurus/pull/5040) fix(v2): Fix announcementBar layout shifts ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#5034](https://github.com/facebook/docusaurus/pull/5034) fix(v2): dev css modules classnames should include filename ([@slorber](https://github.com/slorber))
+  - [#5016](https://github.com/facebook/docusaurus/pull/5016) fix(v2): add missing quote in build command output ([@manuelmeurer](https://github.com/manuelmeurer))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#5023](https://github.com/facebook/docusaurus/pull/5023) fix(v2): ignore hash changes in useChangeRoute hook ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils-validation`
+  - [#5032](https://github.com/facebook/docusaurus/pull/5032) fix(v2): less strict blog/docs uri frontmatter validation ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-plugin-content-docs`
+  - [#5053](https://github.com/facebook/docusaurus/pull/5053) refactor(v2): remove deprecated docs option excludeNextVersionDocs ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4993](https://github.com/facebook/docusaurus/pull/4993) style(v2): reduce number of ESLint warnings ([@Josh-Cena](https://github.com/Josh-Cena))
+- Other
+  - [#5017](https://github.com/facebook/docusaurus/pull/5017) chore(v2): remove badge for v1 tests ([@loozhengyuan](https://github.com/loozhengyuan))
+
+#### :memo: Documentation
+
+- Other
+  - [#5049](https://github.com/facebook/docusaurus/pull/5049) docs(v2): Fix Gatsby theme name for docs site - Docz ([@ramiy](https://github.com/ramiy))
+  - [#5030](https://github.com/facebook/docusaurus/pull/5030) docs(v2): typo in deployment.mdx ([@eshantri](https://github.com/eshantri))
+  - [#5022](https://github.com/facebook/docusaurus/pull/5022) docs(v2): Add React Native Render HTML site to showcase page ([@jsamr](https://github.com/jsamr))
+  - [#5027](https://github.com/facebook/docusaurus/pull/5027) docs(v2): Add Buddy to deployment doc ([@tomekpapiernik](https://github.com/tomekpapiernik))
+  - [#5021](https://github.com/facebook/docusaurus/pull/5021) docs(v2): fix incorrect anchor links in website ([@teikjun](https://github.com/teikjun))
+  - [#5007](https://github.com/facebook/docusaurus/pull/5007) docs(v2): wrap mdx usage in mdx-code-block ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#5033](https://github.com/facebook/docusaurus/pull/5033) docs(v2): GH pages: recommend using trailingSlash ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- [#5005](https://github.com/facebook/docusaurus/pull/5005) chore: add archived versions system + archive alpha.73-75 ([@slorber](https://github.com/slorber))
+
+#### Committers: 11
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Eshan Tripathi ([@eshantri](https://github.com/eshantri))
+- Felipe Santos ([@felipecrs](https://github.com/felipecrs))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Jules Sam. Randolph ([@jsamr](https://github.com/jsamr))
+- Manuel Meurer ([@manuelmeurer](https://github.com/manuelmeurer))
+- Rami Yushuvaev ([@ramiy](https://github.com/ramiy))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Tomasz Papiernik ([@tomekpapiernik](https://github.com/tomekpapiernik))
+- ZhengYuan Loo ([@loozhengyuan](https://github.com/loozhengyuan))
+
+## 2.0.0-beta.1 (2021-06-18)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`
+  - [#4982](https://github.com/facebook/docusaurus/pull/4982) feat(v2): add docs pagination_label frontmatter ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#4949](https://github.com/facebook/docusaurus/pull/4949) feat(v2): add icon to external navbar links ([@lex111](https://github.com/lex111))
+  - [#4939](https://github.com/facebook/docusaurus/pull/4939) feat(v2): theme default translations Bengali ([@Neilblaze](https://github.com/Neilblaze))
+  - [#4811](https://github.com/facebook/docusaurus/pull/4811) feat(v2): Add hebrew translations ([@slorber](https://github.com/slorber))
+  - [#4798](https://github.com/facebook/docusaurus/pull/4798) feat(v2): add theme Danish translation ([@PsychTechApS](https://github.com/PsychTechApS))
+- `docusaurus-init`
+  - [#4968](https://github.com/facebook/docusaurus/pull/4968) feat(v2): add code block theming in init template ([@Josh-Cena](https://github.com/Josh-Cena))
+- `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#4908](https://github.com/facebook/docusaurus/pull/4908) feat(v2): add trailingSlash config option ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#4796](https://github.com/facebook/docusaurus/pull/4796) feat(v2): exhaustive docs frontmatter schema ([@nam-hle](https://github.com/nam-hle))
+- `docusaurus-types`, `docusaurus`
+  - [#4618](https://github.com/facebook/docusaurus/pull/4618) feat(v2): allow config plugins as functions or [function,options] ([@besemuna](https://github.com/besemuna))
+- `docusaurus-plugin-content-blog`, `docusaurus-utils-validation`
+  - [#4759](https://github.com/facebook/docusaurus/pull/4759) feat(v2): exhaustive BlogPostFrontMatter schema validation ([@nam-hle](https://github.com/nam-hle))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#5001](https://github.com/facebook/docusaurus/pull/5001) chore(v2): update Infima to alpha 26 ([@lex111](https://github.com/lex111))
+  - [#4986](https://github.com/facebook/docusaurus/pull/4986) fix(v2): fix UX for docsVersionDropdown on mobile for single version ([@slorber](https://github.com/slorber))
+  - [#4980](https://github.com/facebook/docusaurus/pull/4980) fix(v2): make proper data type for prependBaseUrlToHref field ([@lex111](https://github.com/lex111))
+  - [#4943](https://github.com/facebook/docusaurus/pull/4943) fix(v2): improve accessibility of code blocks ([@lex111](https://github.com/lex111))
+  - [#4917](https://github.com/facebook/docusaurus/pull/4917) fix(v2): tidy up Markdown page layout ([@lex111](https://github.com/lex111))
+  - [#4906](https://github.com/facebook/docusaurus/pull/4906) fix(v2): fix minor a11y issues ([@lex111](https://github.com/lex111))
+  - [#4900](https://github.com/facebook/docusaurus/pull/4900) fix(v2): adjust margin after content title ([@lex111](https://github.com/lex111))
+  - [#4855](https://github.com/facebook/docusaurus/pull/4855) chore(v2): update infima to alpha 24 ([@lex111](https://github.com/lex111))
+  - [#4819](https://github.com/facebook/docusaurus/pull/4819) fix(v2): Amend Hebrew translations ([@liorheber](https://github.com/liorheber))
+  - [#4815](https://github.com/facebook/docusaurus/pull/4815) fix(v2): Fix Hebrew translations ([@nirtamir2](https://github.com/nirtamir2))
+  - [#4792](https://github.com/facebook/docusaurus/pull/4792) fix(v2): fix minor a11y issue with headings ([@lex111](https://github.com/lex111))
+  - [#4793](https://github.com/facebook/docusaurus/pull/4793) fix(v2): unbreak enhanced width of doc item wrapper ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-utils-common`
+  - [#5000](https://github.com/facebook/docusaurus/pull/5000) fix(v2): fix theme array deduplication bug ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils-common`, `docusaurus-utils`, `docusaurus`
+  - [#4988](https://github.com/facebook/docusaurus/pull/4988) fix(v2): redirect plugin should use siteConfig.trailingSlash ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`
+  - [#4983](https://github.com/facebook/docusaurus/pull/4983) fix(v2): always use UTC when dealing with blog dates ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#4962](https://github.com/facebook/docusaurus/pull/4962) fix(v2): respect base url in RSS feeds ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4985](https://github.com/facebook/docusaurus/pull/4985) fix(v2): navbar doc item fallback: search doc in lastVersion ([@slorber](https://github.com/slorber))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#4964](https://github.com/facebook/docusaurus/pull/4964) fix(v2): avoid duplicated imports in npm2yarn plugin ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`
+  - [#4970](https://github.com/facebook/docusaurus/pull/4970) fix(v2): sidebar_label should be used to compute next/previous button labels ([@slorber](https://github.com/slorber))
+  - [#4861](https://github.com/facebook/docusaurus/pull/4861) fix(v2): allow relative sidebar path resolution in docs:version command ([@lex111](https://github.com/lex111))
+  - [#4859](https://github.com/facebook/docusaurus/pull/4859) fix(v2): use frontmatter title at first for paginated links ([@lex111](https://github.com/lex111))
+  - [#4775](https://github.com/facebook/docusaurus/pull/4775) fix(v2): improve dx sidebar config, ability to have no sidebars file ([@nam-hle](https://github.com/nam-hle))
+- `docusaurus-plugin-sitemap`, `docusaurus-utils-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4950](https://github.com/facebook/docusaurus/pull/4950) fix(v2): sitemap plugin should handle siteConfig.trailingSlash automatically ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#4924](https://github.com/facebook/docusaurus/pull/4924) fix(v2): respect baseUrl in serving command ([@lex111](https://github.com/lex111))
+  - [#4935](https://github.com/facebook/docusaurus/pull/4935) fix(v2): render children in BrowserOnly after client is ready ([@lex111](https://github.com/lex111))
+  - [#4894](https://github.com/facebook/docusaurus/pull/4894) fix(v2): escape HTML entities in user tags attributes ([@lex111](https://github.com/lex111))
+  - [#4789](https://github.com/facebook/docusaurus/pull/4789) fix(v2): transpile libs with too recent syntax with babel ([@slorber](https://github.com/slorber))
+  - [#4784](https://github.com/facebook/docusaurus/pull/4784) fix(v2): update notifier should never suggest to downgrade ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils`
+  - [#4882](https://github.com/facebook/docusaurus/pull/4882) fix(v2): fix contentTitle issues when markdown h1 title contains code blocks ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4862](https://github.com/facebook/docusaurus/pull/4862) fix(v2): remove Markdown heading id from excerpt ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4871](https://github.com/facebook/docusaurus/pull/4871) fix(v2): unbreak adding of custom HTML metadatas ([@lex111](https://github.com/lex111))
+  - [#4797](https://github.com/facebook/docusaurus/pull/4797) fix(v2): do not focus on skip link if page refreshed ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#4856](https://github.com/facebook/docusaurus/pull/4856) fix(v2): adjust padding when custom search box location ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`
+  - [#4830](https://github.com/facebook/docusaurus/pull/4830) fix(v2): pin prism-react-renderer version to 1.1.1 ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-ideal-image`, `lqip-loader`
+  - [#4806](https://github.com/facebook/docusaurus/pull/4806) chore(v2): update sharp to 0.28.2 ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4995](https://github.com/facebook/docusaurus/pull/4995) refactor(v2): reduce top padding in doc content container ([@lex111](https://github.com/lex111))
+  - [#4918](https://github.com/facebook/docusaurus/pull/4918) refactor(v2): readjust footer of blog item ([@lex111](https://github.com/lex111))
+  - [#4959](https://github.com/facebook/docusaurus/pull/4959) refactor(v2): minor cleanups ([@lex111](https://github.com/lex111))
+  - [#4945](https://github.com/facebook/docusaurus/pull/4945) refactor(v2): remove extra padding from doc item container ([@lex111](https://github.com/lex111))
+  - [#4940](https://github.com/facebook/docusaurus/pull/4940) refactor(v2): improve semantic doc sidebar markup ([@lex111](https://github.com/lex111))
+  - [#4961](https://github.com/facebook/docusaurus/pull/4961) refactor(v2): improve semantic blog sidebar markup ([@lex111](https://github.com/lex111))
+  - [#4903](https://github.com/facebook/docusaurus/pull/4903) refactor(v2): make doc item layout more semantic ([@lex111](https://github.com/lex111))
+  - [#4877](https://github.com/facebook/docusaurus/pull/4877) refactor(v2): reduce vertical space in doc content container ([@lex111](https://github.com/lex111))
+  - [#4914](https://github.com/facebook/docusaurus/pull/4914) refactor(v2): use SVG for external link icon ([@lex111](https://github.com/lex111))
+  - [#4916](https://github.com/facebook/docusaurus/pull/4916) refactor(v2): replace strong with b in UI components ([@lex111](https://github.com/lex111))
+  - [#4926](https://github.com/facebook/docusaurus/pull/4926) refactor(v2): hide decorative SVGs from screen readers ([@lex111](https://github.com/lex111))
+  - [#4865](https://github.com/facebook/docusaurus/pull/4865) refactor(v2): make little better doc update block UI ([@lex111](https://github.com/lex111))
+  - [#4795](https://github.com/facebook/docusaurus/pull/4795) refactor(v2): remove transition on body element ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#4989](https://github.com/facebook/docusaurus/pull/4989) refactor(v2): blog/docs: add more context in error messages ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4979](https://github.com/facebook/docusaurus/pull/4979) refactor(v2): cleanup console output ([@lex111](https://github.com/lex111))
+- `docusaurus-utils-validation`, `docusaurus`
+  - [#4977](https://github.com/facebook/docusaurus/pull/4977) polish(v2): url-subpath config validation warning ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#4969](https://github.com/facebook/docusaurus/pull/4969) refactor(v2): include path in error about non-existent ids ([@lex111](https://github.com/lex111))
+  - [#4863](https://github.com/facebook/docusaurus/pull/4863) refactor(v2): remove sidebar_label filed from doc metadata file ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#4907](https://github.com/facebook/docusaurus/pull/4907) refactor(v2): remove type attribute from link and script tags ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#4919](https://github.com/facebook/docusaurus/pull/4919) refactor(v2): improve markup and styling on search page ([@lex111](https://github.com/lex111))
+  - [#4867](https://github.com/facebook/docusaurus/pull/4867) chore(v2): update @docsearch/react ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#4905](https://github.com/facebook/docusaurus/pull/4905) refactor(v2): do not generate RSS files for empty feed ([@lex111](https://github.com/lex111))
+  - [#4860](https://github.com/facebook/docusaurus/pull/4860) refactor(v2): use aliased path for blog list sidebar file ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#4870](https://github.com/facebook/docusaurus/pull/4870) refactor(v2): add exception handling if external command is fails ([@lex111](https://github.com/lex111))
+  - [#4875](https://github.com/facebook/docusaurus/pull/4875) refactor(v2): make even better SSR error notify and add tip ([@lex111](https://github.com/lex111))
+  - [#4866](https://github.com/facebook/docusaurus/pull/4866) refactor(v2): output URL to console only if it has changed ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#4814](https://github.com/facebook/docusaurus/pull/4814) refactor(v2): purify normalizeUrl ([@nam-hle](https://github.com/nam-hle))
+
+#### :memo: Documentation
+
+- Other
+  - [#4987](https://github.com/facebook/docusaurus/pull/4987) docs(v2): document canary releases ([@slorber](https://github.com/slorber))
+  - [#4981](https://github.com/facebook/docusaurus/pull/4981) docs(v2): minor tweaks ([@lex111](https://github.com/lex111))
+  - [#4976](https://github.com/facebook/docusaurus/pull/4976) docs(v2): mention to install the algolia package in search doc ([@slorber](https://github.com/slorber))
+  - [#4953](https://github.com/facebook/docusaurus/pull/4953) docs(v2): add Flagsmith to showcase ([@dabeeeenster](https://github.com/dabeeeenster))
+  - [#4942](https://github.com/facebook/docusaurus/pull/4942) docs(v2): add info about `DefaultValue` prop in `Tabs` ([@ArtFlag](https://github.com/ArtFlag))
+  - [#4898](https://github.com/facebook/docusaurus/pull/4898) docs(v2): add ClarityChallenge to showcase ([@jonbarker68](https://github.com/jonbarker68))
+  - [#4896](https://github.com/facebook/docusaurus/pull/4896) docs(v2): fix incorrect link to plugin-ideal-image ([@phwt](https://github.com/phwt))
+  - [#4893](https://github.com/facebook/docusaurus/pull/4893) docs(v2): presets: fix typo in bootstrap preset ([@silva-nick](https://github.com/silva-nick))
+  - [#4887](https://github.com/facebook/docusaurus/pull/4887) docs(v2): Add Aide Jeune website to Docusaurus site showcase ([@l0u1sg](https://github.com/l0u1sg))
+  - [#4821](https://github.com/facebook/docusaurus/pull/4821) docs(v2): New doc page for math equations ([@pranabdas](https://github.com/pranabdas))
+  - [#4885](https://github.com/facebook/docusaurus/pull/4885) docs(v2): v2 migration guide: mention Algolia config update ([@slorber](https://github.com/slorber))
+  - [#4876](https://github.com/facebook/docusaurus/pull/4876) docs(v2): update steps in the github-actions section ([@wise-introvert](https://github.com/wise-introvert))
+  - [#4880](https://github.com/facebook/docusaurus/pull/4880) docs(v2): grammar typo in migration-overview.md ([@jmazin](https://github.com/jmazin))
+  - [#4879](https://github.com/facebook/docusaurus/pull/4879) docs(v2): Added FireCMS to the showcase ([@fgatti675](https://github.com/fgatti675))
+  - [#4849](https://github.com/facebook/docusaurus/pull/4849) docs(v2): fix Java syntax highlight in website ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#4818](https://github.com/facebook/docusaurus/pull/4818) docs(v2): add mr-pdf to resources ([@antonygibbs](https://github.com/antonygibbs))
+  - [#4835](https://github.com/facebook/docusaurus/pull/4835) docs(v2): fix grammar typo on Creating pages ([@Christopher-Hsieh](https://github.com/Christopher-Hsieh))
+  - [#4837](https://github.com/facebook/docusaurus/pull/4837) docs(v2): fix missing closing bracket ([@pmqueiroz](https://github.com/pmqueiroz))
+  - [#4820](https://github.com/facebook/docusaurus/pull/4820) docs(v2): Fix typo in doc: sidebar.md ([@pranabdas](https://github.com/pranabdas))
+  - [#4813](https://github.com/facebook/docusaurus/pull/4813) docs(v2): fix css snipped with missing color ([@slorber](https://github.com/slorber))
+  - [#4803](https://github.com/facebook/docusaurus/pull/4803) docs(v2): Add i18n tag and fix typo ([@HunteRoi](https://github.com/HunteRoi))
+  - [#4786](https://github.com/facebook/docusaurus/pull/4786) docs(v2): Add tinaeldevresse.eu to Docusaurus' gallery ([@HunteRoi](https://github.com/HunteRoi))
+  - [#4780](https://github.com/facebook/docusaurus/pull/4780) docs(v2): remove docs for alpha 71 + 72 ([@slorber](https://github.com/slorber))
+  - [#4779](https://github.com/facebook/docusaurus/pull/4779) docs(v2): beta blog post edits ([@slorber](https://github.com/slorber))
+- `docusaurus-init`
+  - [#4973](https://github.com/facebook/docusaurus/pull/4973) docs(v2): replace `diff` codeblocks with line highlight ([@Josh-Cena](https://github.com/Josh-Cena))
+  - [#4756](https://github.com/facebook/docusaurus/pull/4756) docs(v2): Docusaurus 2 beta blog post ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- Other
+  - [#4994](https://github.com/facebook/docusaurus/pull/4994) misc: more issue template improvements ([@slorber](https://github.com/slorber))
+  - [#4951](https://github.com/facebook/docusaurus/pull/4951) misc: disable google-gtag plugin in Netlify deploys ([@lex111](https://github.com/lex111))
+  - [#4901](https://github.com/facebook/docusaurus/pull/4901) misc: optimize showcase images ([@lex111](https://github.com/lex111))
+  - [#4897](https://github.com/facebook/docusaurus/pull/4897) chore: fail CI if yarn.lock is modified on install ([@slorber](https://github.com/slorber))
+  - [#4858](https://github.com/facebook/docusaurus/pull/4858) chore(v2): add external link to community sidebar ([@lex111](https://github.com/lex111))
+  - [#4889](https://github.com/facebook/docusaurus/pull/4889) misc: issue template config typo ([@slorber](https://github.com/slorber))
+  - [#4886](https://github.com/facebook/docusaurus/pull/4886) misc: add github issue template config ([@slorber](https://github.com/slorber))
+  - [#4878](https://github.com/facebook/docusaurus/pull/4878) misc: improve bug report issue template ([@lex111](https://github.com/lex111))
+  - [#4791](https://github.com/facebook/docusaurus/pull/4791) chore: fix canary version name ([@slorber](https://github.com/slorber))
+  - [#4777](https://github.com/facebook/docusaurus/pull/4777) chore: regenerate examples on 2.0.0-beta.0 ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-migrate`, `docusaurus`
+  - [#4944](https://github.com/facebook/docusaurus/pull/4944) chore: lockfile cleanup ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`
+  - [#4902](https://github.com/facebook/docusaurus/pull/4902) chore: remove docusaurus v1 from master branch (moved to docusaurus-v1 branch) ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-ideal-image`
+  - [#4915](https://github.com/facebook/docusaurus/pull/4915) chore(v2): bump react-waypoint from 9.0.2 to 10.1.0 ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`
+  - [#4834](https://github.com/facebook/docusaurus/pull/4834) chore(v2): unlock prism-react-renderer version ([@lex111](https://github.com/lex111))
+- `docusaurus-cssnano-preset`, `docusaurus`
+  - [#4833](https://github.com/facebook/docusaurus/pull/4833) chore(v2): bump cssnano packages ([@lex111](https://github.com/lex111))
+- `docusaurus-cssnano-preset`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-debug`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4816](https://github.com/facebook/docusaurus/pull/4816) chore(v2): upgrade dependencies ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4790](https://github.com/facebook/docusaurus/pull/4790) chore(v2): TypeScript, use isolatedModules ([@slorber](https://github.com/slorber))
+
+#### Committers: 31
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Arthur ([@ArtFlag](https://github.com/ArtFlag))
+- Ben Rometsch ([@dabeeeenster](https://github.com/dabeeeenster))
+- Christopher Hsieh ([@Christopher-Hsieh](https://github.com/Christopher-Hsieh))
+- Fardeen Panjwani ([@wise-introvert](https://github.com/wise-introvert))
+- Joel ([@Joelpo](https://github.com/Joelpo))
+- Jon Barker ([@jonbarker68](https://github.com/jonbarker68))
+- Jonathan Mazin ([@jmazin](https://github.com/jmazin))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Lior Heber ([@liorheber](https://github.com/liorheber))
+- Louis Gallet ([@l0u1sg](https://github.com/l0u1sg))
+- Louis Grenard ([@louistiti](https://github.com/louistiti))
+- Lucas Correia ([@tsirlucas](https://github.com/tsirlucas))
+- Nam Hoang Le ([@nam-hle](https://github.com/nam-hle))
+- Pablo Vidal ([@limkinZero](https://github.com/limkinZero))
+- Pedro Queiroz ([@pmqueiroz](https://github.com/pmqueiroz))
+- Pranab Das ([@pranabdas](https://github.com/pranabdas))
+- Pratyay Banerjee ([@Neilblaze](https://github.com/Neilblaze))
+- PsychTech ([@PsychTechApS](https://github.com/PsychTechApS))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tinaël Devresse ([@HunteRoi](https://github.com/HunteRoi))
+- [@Massibian](https://github.com/Massibian)
+- [@antonygibbs](https://github.com/antonygibbs)
+- [@besemuna](https://github.com/besemuna)
+- [@e271828-](https://github.com/e271828-)
+- [@fgatti675](https://github.com/fgatti675)
+- [@nirtamir2](https://github.com/nirtamir2)
+- [@silva-nick](https://github.com/silva-nick)
+- mg ([@tiny-dancer](https://github.com/tiny-dancer))
+- phwt.smwt ([@phwt](https://github.com/phwt))
+
+## 2.0.0-beta.0 (2021-05-12)
+
+Read the [2.0.0 beta blog post](https://docusaurus.io/blog/2021/05/12/announcing-docusaurus-two-beta)!
+
+**Note**: this first beta release does not contain any new major feature. We are removing the alpha label, as we are confident Docusaurus 2 is stable enough.
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#4762](https://github.com/facebook/docusaurus/pull/4762) feat(v2): add es translations for docusaurus-theme-classic ([@rodmoreno](https://github.com/rodmoreno))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#4750](https://github.com/facebook/docusaurus/pull/4750) fix(v2): improve french translation for theme-classic ([@forresst](https://github.com/forresst))
+- `docusaurus-mdx-loader`, `docusaurus-utils`
+  - [#4736](https://github.com/facebook/docusaurus/pull/4736) fix(v2): fix encoding of markdown image/file inline file-loaders ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4735](https://github.com/facebook/docusaurus/pull/4735) fix(v2): markdown title parser should ignore all forms of MDX import statements ([@nam-hle](https://github.com/nam-hle))
+  - [#4729](https://github.com/facebook/docusaurus/pull/4729) fix(v2): optimize markdown parser regex (Closes [#4726](https://github.com/facebook/docusaurus/issues/4726)) ([@nam-hle](https://github.com/nam-hle))
+
+#### :memo: Documentation
+
+- [#4770](https://github.com/facebook/docusaurus/pull/4770) docs(v2): Improve intro doc ([@slorber](https://github.com/slorber))
+- [#4773](https://github.com/facebook/docusaurus/pull/4773) docs(v2): fix i18n doc: bad i18n page plugin path in code sample ([@KostyaTretyak](https://github.com/KostyaTretyak))
+- [#4758](https://github.com/facebook/docusaurus/pull/4758) docs(v2): add browsers support documentation ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#4757](https://github.com/facebook/docusaurus/pull/4757) docs(v2): Add Netdata to showcase ([@joelhans](https://github.com/joelhans))
+- [#4754](https://github.com/facebook/docusaurus/pull/4754) docs(v2): fix Jest showcase screenshot ([@slorber](https://github.com/slorber))
+- [#4747](https://github.com/facebook/docusaurus/pull/4747) docs(v2): Update showcase page ([@slorber](https://github.com/slorber))
+- [#4734](https://github.com/facebook/docusaurus/pull/4734) docs(v2): Added MediaMachine.io to showcase ([@gianu](https://github.com/gianu))
+- [#4731](https://github.com/facebook/docusaurus/pull/4731) docs(v2): add CodeYourFuture to showcase ([@ChrisOwen101](https://github.com/ChrisOwen101))
+- [#4703](https://github.com/facebook/docusaurus/pull/4703) docs(v2): specify google-analytics and gtag plugins ([@yiliansource](https://github.com/yiliansource))
+- [#4727](https://github.com/facebook/docusaurus/pull/4727) docs(v2): fix doc lint ([@slorber](https://github.com/slorber))
+- [#4725](https://github.com/facebook/docusaurus/pull/4725) docs(v2): emphasize subset of markdown supported languages ([@Josh-Cena](https://github.com/Josh-Cena))
+- [#4711](https://github.com/facebook/docusaurus/pull/4711) docs(v2): showcase personal site evantay ([@DigiPie](https://github.com/DigiPie))
+
+#### :house: Internal
+
+- [#4746](https://github.com/facebook/docusaurus/pull/4746) chore(v2): attempt to fix crowdin dl again ([@slorber](https://github.com/slorber))
+- [#4743](https://github.com/facebook/docusaurus/pull/4743) chore(v2): fix prod deployment due to bad image path ([@slorber](https://github.com/slorber))
+- [#4740](https://github.com/facebook/docusaurus/pull/4740) chore(v2): delay i18n-staging deployment to avoid Crowdin 409 errors ([@slorber](https://github.com/slorber))
+- [#4739](https://github.com/facebook/docusaurus/pull/4739) chore(v2): Fix Crowdin 409 issues in CI ([@slorber](https://github.com/slorber))
+
+#### Committers: 11
+
+- Chris Owen ([@ChrisOwen101](https://github.com/ChrisOwen101))
+- Evan ([@DigiPie](https://github.com/DigiPie))
+- Forresst ([@forresst](https://github.com/forresst))
+- Ian Hornik ([@yiliansource](https://github.com/yiliansource))
+- Joel Hans ([@joelhans](https://github.com/joelhans))
+- Joshua Chen ([@Josh-Cena](https://github.com/Josh-Cena))
+- Nam Hoang Le ([@nam-hle](https://github.com/nam-hle))
+- Rodrigo Moreno ([@rodmoreno](https://github.com/rodmoreno))
+- Sergio Rafael Gianazza ([@gianu](https://github.com/gianu))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Костя Третяк ([@KostyaTretyak](https://github.com/KostyaTretyak))
+
+## 2.0.0-alpha.75 (2021-04-30)
+
+#### :boom: Breaking Change
+
+- `docusaurus-cssnano-preset`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`, `docusaurus`, `lqip-loader`
+  - [#4089](https://github.com/facebook/docusaurus/pull/4089) feat(v2): Webpack 5, PostCSS 8 ([@RDIL](https://github.com/RDIL))
+
+#### :memo: Documentation
+
+- [#4704](https://github.com/facebook/docusaurus/pull/4704) docs(v2): showcase meli ([@gempain](https://github.com/gempain))
+- [#4699](https://github.com/facebook/docusaurus/pull/4699) docs(v2): Add Kosko to showcase ([@tommy351](https://github.com/tommy351))
+
+#### Committers: 4
+
+- Geoffroy Empain ([@gempain](https://github.com/gempain))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tommy Chen ([@tommy351](https://github.com/tommy351))
+
+## 2.0.0-alpha.74 (2021-04-27)
+
+#### :rocket: New Feature
+
+- Other
+  - [#4515](https://github.com/facebook/docusaurus/pull/4515) feat(v2): add tag filters to showcase page ([@lisa761](https://github.com/lisa761))
+- `docusaurus-plugin-content-docs`
+  - [#4658](https://github.com/facebook/docusaurus/pull/4658) feat(v2): allow user to customize/enhance the default sidebar items generator ([@slorber](https://github.com/slorber))
+  - [#4655](https://github.com/facebook/docusaurus/pull/4655) feat(v2): docs, make numberPrefixParser configurable, better defaults, minor breaking-changes ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#4688](https://github.com/facebook/docusaurus/pull/4688) fix(v2): fix title logic (meta vs heading) + ignore fixed anchor id syntax ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#4689](https://github.com/facebook/docusaurus/pull/4689) chore(v2): update infima to alpha 23 ([@slorber](https://github.com/slorber))
+  - [#4667](https://github.com/facebook/docusaurus/pull/4667) fix(v2): Unbreak blog post title by handling title fallback in `LayoutHead` ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`
+  - [#4687](https://github.com/facebook/docusaurus/pull/4687) fix(v2): accept empty/null custom_edit_url docs frontmatter for retrocompat ([@slorber](https://github.com/slorber))
+  - [#4651](https://github.com/facebook/docusaurus/pull/4651) fix(v2): sidebar autogen from subfolder should read category metadata correctly ([@slorber](https://github.com/slorber))
+  - [#4629](https://github.com/facebook/docusaurus/pull/4629) fix(v2): fix validation rejecting admonitions false ([@kazk](https://github.com/kazk))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils-validation`
+  - [#4654](https://github.com/facebook/docusaurus/pull/4654) fix(v2): fix too strict markdown frontmatter validation ([@johnnyreilly](https://github.com/johnnyreilly))
+- `docusaurus-utils`
+  - [#4646](https://github.com/facebook/docusaurus/pull/4646) fix(v2): ignore imports when h1 heading parsing ([@lex111](https://github.com/lex111))
+  - [#4641](https://github.com/facebook/docusaurus/pull/4641) fix(v2): parse headings directly after h1 properly ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4682](https://github.com/facebook/docusaurus/pull/4682) refactor(v2): align external icon on right ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#4496](https://github.com/facebook/docusaurus/pull/4496) docs(v2): Add Qovery to deployment doc ([@arnaudjnn](https://github.com/arnaudjnn))
+- [#4680](https://github.com/facebook/docusaurus/pull/4680) docs(v2): Fix urls in deployment.md ([@luism3861](https://github.com/luism3861))
+- [#4668](https://github.com/facebook/docusaurus/pull/4668) docs(v2): Add Hostman to deployment doc ([@alena-ko](https://github.com/alena-ko))
+- [#4676](https://github.com/facebook/docusaurus/pull/4676) docs(v2): Add Daily Digest - COVID-19 IN FRANCE to showcase ([@MisterFISHUP](https://github.com/MisterFISHUP))
+- [#4643](https://github.com/facebook/docusaurus/pull/4643) docs(v2): Fix typo in installation.md ([@react-learner](https://github.com/react-learner))
+- [#4649](https://github.com/facebook/docusaurus/pull/4649) docs(v2): Add new showcase user ([@JeremyDolle](https://github.com/JeremyDolle))
+
+#### :house: Internal
+
+- Other
+  - [#4670](https://github.com/facebook/docusaurus/pull/4670) chore: add some redirects to v1.docusaurus.io ([@slorber](https://github.com/slorber))
+- `docusaurus-init`
+  - [#4631](https://github.com/facebook/docusaurus/pull/4631) chore(v2): update examples to use alpha73 ([@slorber](https://github.com/slorber))
+
+#### Committers: 12
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Arnaud Jeannin ([@arnaudjnn](https://github.com/arnaudjnn))
+- DOLLE ([@JeremyDolle](https://github.com/JeremyDolle))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Lisa Chandra ([@lisa761](https://github.com/lisa761))
+- Luis Medina Huerta ([@luism3861](https://github.com/luism3861))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tommy ([@react-learner](https://github.com/react-learner))
+- [@MisterFISHUP](https://github.com/MisterFISHUP)
+- [@alena-ko](https://github.com/alena-ko)
+- kazk ([@kazk](https://github.com/kazk))
+
+## 2.0.0-alpha.73 (2021-04-16)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#4624](https://github.com/facebook/docusaurus/pull/4624) feat(v2): Add Filipino default translations to theme ([@gumacahin](https://github.com/gumacahin))
+  - [#4596](https://github.com/facebook/docusaurus/pull/4596) feat(v2): theme default translations hindi ([@lisa761](https://github.com/lisa761))
+  - [#4536](https://github.com/facebook/docusaurus/pull/4536) feat(v2): add pt-PT translations for docusaurus-theme-classic ([@tiago-rr](https://github.com/tiago-rr))
+  - [#4525](https://github.com/facebook/docusaurus/pull/4525) feat(v2): add Brazilian Portuguese translation for docusaurus-theme-classic ([@thiagog3](https://github.com/thiagog3))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4511](https://github.com/facebook/docusaurus/pull/4511) feat(v2): add unique page/wrapper className to each theme pages ([@ShinteiMai](https://github.com/ShinteiMai))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4582](https://github.com/facebook/docusaurus/pull/4582) feat(v2): auto-generated sidebars, frontmatter-less sites ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+  - [#4545](https://github.com/facebook/docusaurus/pull/4545) feat(v2): docusaurus deploy: ability to configure port in git url ([@talesporto](https://github.com/talesporto))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#4590](https://github.com/facebook/docusaurus/pull/4590) feat(v2): various markdown string parsing improvements/fixes ([@slorber](https://github.com/slorber))
+  - [#4485](https://github.com/facebook/docusaurus/pull/4485) feat(v2): frontmatter-less: read first heading as title and use it in front-matter ([@armano2](https://github.com/armano2))
+- `docusaurus-utils`
+  - [#4581](https://github.com/facebook/docusaurus/pull/4581) feat(v2): default theme translations: locale "pt" should load "pt-BR" translations ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#4495](https://github.com/facebook/docusaurus/pull/4495) feat(v2): include frontmatter in loadedContent doc metadatas ([@kaytwo](https://github.com/kaytwo))
+  - [#4500](https://github.com/facebook/docusaurus/pull/4500) feat(v2): provide doc sidebar_label through sidebars.js ([@besemuna](https://github.com/besemuna))
+- `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#4449](https://github.com/facebook/docusaurus/pull/4449) feat(v2): infer default i18n locale config from locale code ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4619](https://github.com/facebook/docusaurus/pull/4619) refactor(v2): rename class main-docs-wrapper to docs-wrapper ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4582](https://github.com/facebook/docusaurus/pull/4582) feat(v2): auto-generated sidebars, frontmatter-less sites ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#4627](https://github.com/facebook/docusaurus/pull/4627) chore(v2): update Infima to alpha.22 ([@slorber](https://github.com/slorber))
+  - [#4621](https://github.com/facebook/docusaurus/pull/4621) fix(v2): center align content if no sidebar exists ([@lex111](https://github.com/lex111))
+  - [#4620](https://github.com/facebook/docusaurus/pull/4620) fix(v2): restore toggle responsive sidebar button ([@lex111](https://github.com/lex111))
+  - [#4598](https://github.com/facebook/docusaurus/pull/4598) fix(v2): render escaped HTML entities inside code properly ([@lex111](https://github.com/lex111))
+  - [#4554](https://github.com/facebook/docusaurus/pull/4554) fix: DocNavbarItem error message ([@serut](https://github.com/serut))
+  - [#4468](https://github.com/facebook/docusaurus/pull/4468) fix(v2): select correct tab when items are incorrectly ordered ([@armano2](https://github.com/armano2))
+  - [#4461](https://github.com/facebook/docusaurus/pull/4461) fix(v2): Fix i18n staging deployment due to json typo ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4541](https://github.com/facebook/docusaurus/pull/4541) fix(v2): fix code block title parsing, support multiple metastring attributes ([@duanwilliam](https://github.com/duanwilliam))
+  - [#4600](https://github.com/facebook/docusaurus/pull/4600) fix(v2): use page title from config if not set ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4501](https://github.com/facebook/docusaurus/pull/4501) fix(v2): fail-safe usage of browser storage (localStorage/sessionStorage) when access is denied ([@jknoxville](https://github.com/jknoxville))
+- `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#4593](https://github.com/facebook/docusaurus/pull/4593) fix(v2): i18n perf issue: getTranslationFile() should not load content again ([@slorber](https://github.com/slorber))
+- Other
+  - [#4574](https://github.com/facebook/docusaurus/pull/4574) fix(v2): examples should use Node 14 by default on CodeSandbox + regen with alpha72 ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#4547](https://github.com/facebook/docusaurus/pull/4547) feat(v2) : use symbols to denote swizzle safety ([@besemuna](https://github.com/besemuna))
+  - [#4575](https://github.com/facebook/docusaurus/pull/4575) fix(v2): fix i18n isLastLocale bug preventing docusaurus from building some locales ([@slorber](https://github.com/slorber))
+  - [#4506](https://github.com/facebook/docusaurus/pull/4506) fix(v2): remove no longer used postcss-present-env from dependencies ([@armano2](https://github.com/armano2))
+  - [#4444](https://github.com/facebook/docusaurus/pull/4444) fix(v2): Fix writeHeadingIds on Windows due to non-posix paths ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4507](https://github.com/facebook/docusaurus/pull/4507) fix(v2): do not warn about duplicated title for pages ([@armano2](https://github.com/armano2))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#4466](https://github.com/facebook/docusaurus/pull/4466) fix(v2): i18n fixes ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4459](https://github.com/facebook/docusaurus/pull/4459) fix(v2): Export Joi from validation-utils package ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4626](https://github.com/facebook/docusaurus/pull/4626) refactor(v2): toggleResponsiveSidebar => more stable callback ([@slorber](https://github.com/slorber))
+  - [#4617](https://github.com/facebook/docusaurus/pull/4617) refactor(v2): simplify and optimize sidebar ([@slorber](https://github.com/slorber))
+  - [#4608](https://github.com/facebook/docusaurus/pull/4608) refactor(v2): replace react-toggle with own implementation ([@lex111](https://github.com/lex111))
+  - [#4601](https://github.com/facebook/docusaurus/pull/4601) refactor(v2): increase heading anchor offset ([@lex111](https://github.com/lex111))
+  - [#4467](https://github.com/facebook/docusaurus/pull/4467) refactor(v2): add missing types to theme-classic useTheme ([@armano2](https://github.com/armano2))
+  - [#4448](https://github.com/facebook/docusaurus/pull/4448) polish(v2): Add german translations ([@miku86](https://github.com/miku86))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4619](https://github.com/facebook/docusaurus/pull/4619) refactor(v2): rename class main-docs-wrapper to docs-wrapper ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus`
+  - [#4451](https://github.com/facebook/docusaurus/pull/4451) refactor(v2): correct client types and type aliases ([@armano2](https://github.com/armano2))
+- `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4450](https://github.com/facebook/docusaurus/pull/4450) chore(v2): Fix more linter warnings ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4442](https://github.com/facebook/docusaurus/pull/4442) chore(v2): Fix linter warnings ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#4375](https://github.com/facebook/docusaurus/pull/4375) refactor(v2): TS config update: reduce the size of npm modules ([@RDIL](https://github.com/RDIL))
+
+#### :memo: Documentation
+
+- Other
+  - [#4616](https://github.com/facebook/docusaurus/pull/4616) docs(v2): add showcase: kubevela ([@sunny0826](https://github.com/sunny0826))
+  - [#4612](https://github.com/facebook/docusaurus/pull/4612) docs(v2): Added IntelAGENT website to showcase. ([@akepecs](https://github.com/akepecs))
+  - [#4609](https://github.com/facebook/docusaurus/pull/4609) docs(v2): add clarity to tip in versioned using-themes page ([@dickwyn](https://github.com/dickwyn))
+  - [#4606](https://github.com/facebook/docusaurus/pull/4606) docs(v2): heading typo ([@arturcarvalho](https://github.com/arturcarvalho))
+  - [#4604](https://github.com/facebook/docusaurus/pull/4604) docs(v2): add clarity to tip in using-themes page ([@dickwyn](https://github.com/dickwyn))
+  - [#4602](https://github.com/facebook/docusaurus/pull/4602) docs(v2): Add "PptxGenJS" to showcase ([@gitbrent](https://github.com/gitbrent))
+  - [#4599](https://github.com/facebook/docusaurus/pull/4599) docs(v2): i18n site: enable ko + zh-CN locales ([@slorber](https://github.com/slorber))
+  - [#4595](https://github.com/facebook/docusaurus/pull/4595) docs(v2): fix typo theme-configuration.md ([@forresst](https://github.com/forresst))
+  - [#4594](https://github.com/facebook/docusaurus/pull/4594) docs(v2): Include docusaurus-protobuffet to community plugins ([@AnthonyBobsin](https://github.com/AnthonyBobsin))
+  - [#4558](https://github.com/facebook/docusaurus/pull/4558) docs(v2): fixed broken link in i18n-tutorial.md ([@covalentbond](https://github.com/covalentbond))
+  - [#4573](https://github.com/facebook/docusaurus/pull/4573) docs: update README badges ([@slorber](https://github.com/slorber))
+  - [#4559](https://github.com/facebook/docusaurus/pull/4559) docs(v2): fixed the directory of index.js ([@covalentbond](https://github.com/covalentbond))
+  - [#4568](https://github.com/facebook/docusaurus/pull/4568) docs(v2): add social-embed to showcase ([@tony](https://github.com/tony))
+  - [#4570](https://github.com/facebook/docusaurus/pull/4570) docs(v2): Add Redis Labs Developer Site to docusaurus showcase page ([@ajeetraina](https://github.com/ajeetraina))
+  - [#4543](https://github.com/facebook/docusaurus/pull/4543) docs(v2): fix run-on sentence ([@duanwilliam](https://github.com/duanwilliam))
+  - [#4539](https://github.com/facebook/docusaurus/pull/4539) docs(v2): fix typo deployment.mdx ([@forresst](https://github.com/forresst))
+  - [#4538](https://github.com/facebook/docusaurus/pull/4538) Add Tuist to the list of projects that use Docusaurus ([@pepibumur](https://github.com/pepibumur))
+  - [#4531](https://github.com/facebook/docusaurus/pull/4531) docs(v2): remove duplicate line on v1 docs ([@loozhengyuan](https://github.com/loozhengyuan))
+  - [#4524](https://github.com/facebook/docusaurus/pull/4524) docs(v2): config for self-hosted docsearch crawler ([@loozhengyuan](https://github.com/loozhengyuan))
+  - [#4526](https://github.com/facebook/docusaurus/pull/4526) docs(v2): fix markdown headings level 4 ([@forresst](https://github.com/forresst))
+  - [#4505](https://github.com/facebook/docusaurus/pull/4505) docs(v2): add more links to v1: announcementBar, versionDropdown, homepage ([@slorber](https://github.com/slorber))
+  - [#4497](https://github.com/facebook/docusaurus/pull/4497) docs: fix link to issue template ([@forresst](https://github.com/forresst))
+  - [#4481](https://github.com/facebook/docusaurus/pull/4481) docs(v2): fix grammar and improve wording ([@aehrea](https://github.com/aehrea))
+  - [#4472](https://github.com/facebook/docusaurus/pull/4472) docs(v2): fixed broken link in sidebar documentation ([@covalentbond](https://github.com/covalentbond))
+  - [#4470](https://github.com/facebook/docusaurus/pull/4470) docs(v2): Add missing i18n docs: API lifecycles + Crowdin migration guide ([@slorber](https://github.com/slorber))
+  - [#4460](https://github.com/facebook/docusaurus/pull/4460) docs(v2): use explicit heading IDs ([@lex111](https://github.com/lex111))
+  - [#4446](https://github.com/facebook/docusaurus/pull/4446) docs(v2): Add blog.johnnyreilly.com to showcase ([@johnnyreilly](https://github.com/johnnyreilly))
+  - [#4430](https://github.com/facebook/docusaurus/pull/4430) docs(v2): add Deploy with QuandCDN ([@steveworley](https://github.com/steveworley))
+  - [#4441](https://github.com/facebook/docusaurus/pull/4441) docs(v2): add stylable site to users showcase list ([@tomrav](https://github.com/tomrav))
+- `docusaurus-init`
+  - [#4561](https://github.com/facebook/docusaurus/pull/4561) docs(v2): add a missing slug from the initial template ([@Foxeye-Rinx](https://github.com/Foxeye-Rinx))
+  - [#4560](https://github.com/facebook/docusaurus/pull/4560) docs(v2): fixed typos ([@covalentbond](https://github.com/covalentbond))
+  - [#4546](https://github.com/facebook/docusaurus/pull/4546) docs(v2): add a missing "export" from the initial template ([@Foxeye-Rinx](https://github.com/Foxeye-Rinx))
+  - [#4320](https://github.com/facebook/docusaurus/pull/4320) feat(v2): Improve the initial templates #4302 ([@besemuna](https://github.com/besemuna))
+- `docusaurus-migrate`, `docusaurus`
+  - [#4479](https://github.com/facebook/docusaurus/pull/4479) docs(v2): fixed typos ([@covalentbond](https://github.com/covalentbond))
+
+#### :house: Internal
+
+- `docusaurus-theme-classic`
+  - [#4627](https://github.com/facebook/docusaurus/pull/4627) chore(v2): update Infima to alpha.22 ([@slorber](https://github.com/slorber))
+  - [#4463](https://github.com/facebook/docusaurus/pull/4463) chore: fb json header commit typo ([@slorber](https://github.com/slorber))
+- Other
+  - [#4613](https://github.com/facebook/docusaurus/pull/4613) chore(v2): fix yarn2 end2end test by using lerna publish --exact ([@slorber](https://github.com/slorber))
+  - [#4611](https://github.com/facebook/docusaurus/pull/4611) chore(v2): CI: do not build all locales when monitoring build time perf ([@slorber](https://github.com/slorber))
+  - [#4486](https://github.com/facebook/docusaurus/pull/4486) ci: enable yarn install cache ([@armano2](https://github.com/armano2))
+  - [#4508](https://github.com/facebook/docusaurus/pull/4508) ci: change default actions timeout from 6h to 30m ([@armano2](https://github.com/armano2))
+  - [#4488](https://github.com/facebook/docusaurus/pull/4488) chore(v2): fix typo in classic init template ([@clarus](https://github.com/clarus))
+  - [#4471](https://github.com/facebook/docusaurus/pull/4471) chore: fix GH actions lint problem matchers issue in PR ([@slorber](https://github.com/slorber))
+  - [#4458](https://github.com/facebook/docusaurus/pull/4458) chore(v2): enable staging locales: ko ja ([@slorber](https://github.com/slorber))
+  - [#4457](https://github.com/facebook/docusaurus/pull/4457) chore(v2): remove docs for alpha v70 ([@lex111](https://github.com/lex111))
+  - [#4452](https://github.com/facebook/docusaurus/pull/4452) chore(v2): update typescript-eslint to v4.18.0 ([@armano2](https://github.com/armano2))
+- `docusaurus`
+  - [#4516](https://github.com/facebook/docusaurus/pull/4516) ci(v2): fail CI if build takes too much time ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#4490](https://github.com/facebook/docusaurus/pull/4490) chore: rename v2.docusaurus.io urls after domain switch + redirect + cleanups ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`
+  - [#4475](https://github.com/facebook/docusaurus/pull/4475) chore: prepare v1-v2 domain switch ([@slorber](https://github.com/slorber))
+  - [#4447](https://github.com/facebook/docusaurus/pull/4447) chore: simplify CI setup ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init`
+  - [#4453](https://github.com/facebook/docusaurus/pull/4453) chore(v2): migrate babel-eslint to @babel/eslint-parser ([@armano2](https://github.com/armano2))
+- `docusaurus-utils-validation`
+  - [#4464](https://github.com/facebook/docusaurus/pull/4464) chore(v2): Joi cyclic dep warning ([@slorber](https://github.com/slorber))
+- `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4462](https://github.com/facebook/docusaurus/pull/4462) chore: json files should be linted ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-theme-classic`
+  - [#4626](https://github.com/facebook/docusaurus/pull/4626) refactor(v2): toggleResponsiveSidebar => more stable callback ([@slorber](https://github.com/slorber))
+  - [#4603](https://github.com/facebook/docusaurus/pull/4603) perf(v2): avoid rerender of sidebar items while scrolling ([@lex111](https://github.com/lex111))
+  - [#4473](https://github.com/facebook/docusaurus/pull/4473) perf(v2): reduce amount of component updates while scrolling ([@armano2](https://github.com/armano2))
+
+#### Committers: 37
+
+- Ajeet Singh Raina, Docker Captain, RedisLabs ([@ajeetraina](https://github.com/ajeetraina))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Anthony Bobsin ([@AnthonyBobsin](https://github.com/AnthonyBobsin))
+- Arijit Kundu ([@covalentbond](https://github.com/covalentbond))
+- Armano ([@armano2](https://github.com/armano2))
+- Artur Carvalho ([@arturcarvalho](https://github.com/arturcarvalho))
+- Brent Ely ([@gitbrent](https://github.com/gitbrent))
+- Chris Kanich ([@kaytwo](https://github.com/kaytwo))
+- Dennis Thompson ([@atomicpages](https://github.com/atomicpages))
+- Dick Wyn Yong ([@dickwyn](https://github.com/dickwyn))
+- Forresst ([@forresst](https://github.com/forresst))
+- Guillaume Claret ([@clarus](https://github.com/clarus))
+- John Knox ([@jknoxville](https://github.com/jknoxville))
+- John Reilly ([@johnnyreilly](https://github.com/johnnyreilly))
+- Lisa Chandra ([@lisa761](https://github.com/lisa761))
+- Lucas Alves ([@lucalves](https://github.com/lucalves))
+- Marco Enrico ([@gumacahin](https://github.com/gumacahin))
+- Pedro Piñera Buendía ([@pepibumur](https://github.com/pepibumur))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Steve ([@steveworley](https://github.com/steveworley))
+- Steven Hansel ([@ShinteiMai](https://github.com/ShinteiMai))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tales Porto ([@talesporto](https://github.com/talesporto))
+- Thiago Sciotta ([@thiagog3](https://github.com/thiagog3))
+- Tiago Ribeiro ([@tiago-rr](https://github.com/tiago-rr))
+- Tom Raviv ([@tomrav](https://github.com/tomrav))
+- Tony Narlock ([@tony](https://github.com/tony))
+- ZhengYuan Loo ([@loozhengyuan](https://github.com/loozhengyuan))
+- [@Foxeye-Rinx](https://github.com/Foxeye-Rinx)
+- [@aehrea](https://github.com/aehrea)
+- [@akepecs](https://github.com/akepecs)
+- [@besemuna](https://github.com/besemuna)
+- [@duanwilliam](https://github.com/duanwilliam)
+- [@miku86](https://github.com/miku86)
+- [@serut](https://github.com/serut)
+- guoxudong ([@sunny0826](https://github.com/sunny0826))
+
+## 2.0.0-alpha.72 (2021-03-16)
+
+### :boom: Breaking Change
+
+Starting with this release for a proper work of i18n functionality, you need to either use Node v14+ or in case of using earlier version of Node.js install [`full-icu` package](https://www.npmjs.com/package/full-icu) and set `NODE_ICU_DATA` environment variable in your npm scripts, for example:
+
+```json
+"scripts": {
+  "start": "cross-env NODE_ICU_DATA=node_modules/full-icu docusaurus start"
+}
+```
+
+#### :rocket: New Feature
+
+- `docusaurus-init`
+  - [#4302](https://github.com/facebook/docusaurus/pull/4302) feat(v2): Improve the initial templates ([@ShinteiMai](https://github.com/ShinteiMai))
+- `docusaurus-theme-classic`
+  - [#4390](https://github.com/facebook/docusaurus/pull/4390) feat(v2): Add korean default translations ([@koko8829](https://github.com/koko8829))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#4429](https://github.com/facebook/docusaurus/pull/4429) chore(v2): upgrade Infima to v0.2.0-alpha.21 ([@lex111](https://github.com/lex111))
+  - [#4428](https://github.com/facebook/docusaurus/pull/4428) fix(v2): allow using pre tag in Markdown directly ([@lex111](https://github.com/lex111))
+  - [#4381](https://github.com/facebook/docusaurus/pull/4381) fix(v2): specify proper TS path in classic theme ([@lex111](https://github.com/lex111))
+  - [#4383](https://github.com/facebook/docusaurus/pull/4383) fix(v2): set theme color mode for SSR ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`
+  - [#4424](https://github.com/facebook/docusaurus/pull/4424) fix(v2): add missing peer dep on @babel/core ([@SimenB](https://github.com/SimenB))
+  - [#4377](https://github.com/facebook/docusaurus/pull/4377) fix(v2): PWA issues + improve docs ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#4407](https://github.com/facebook/docusaurus/pull/4407) fix(v2): broken link checker should not report false positives when using encoded chars ([@Harvtronix](https://github.com/Harvtronix))
+- Other
+  - [#4410](https://github.com/facebook/docusaurus/pull/4410) fix(v1): Fix v1 site deployment with Crowdin again... ([@slorber](https://github.com/slorber))
+  - [#4396](https://github.com/facebook/docusaurus/pull/4396) fix(v1): Temp fix v1 site deployment: fail-safe on Crowdin upload translations error ([@slorber](https://github.com/slorber))
+  - [#4395](https://github.com/facebook/docusaurus/pull/4395) fix(v1): fix v1 site deploy issues ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4418](https://github.com/facebook/docusaurus/pull/4418) refactor(v2): correct plugin types ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
+  - [#4405](https://github.com/facebook/docusaurus/pull/4405) refactor(v2): i18n cleanups / refactors ([@longlho](https://github.com/longlho))
+- `docusaurus-module-type-aliases`
+  - [#4387](https://github.com/facebook/docusaurus/pull/4387) refactor(v2): add ExecutionEnvironment, BrowserOnly, isInternalUrl to type aliases ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#4402](https://github.com/facebook/docusaurus/pull/4402) refactor(v2): merge linkify function used in blog and docs and align properties ([@armano2](https://github.com/armano2))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-docs`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus`
+  - [#4382](https://github.com/facebook/docusaurus/pull/4382) refactor(v2): correct some of type errors reported by eslint ([@armano2](https://github.com/armano2))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4385](https://github.com/facebook/docusaurus/pull/4385) refactor(v2): add missing theme-classic types ([@armano2](https://github.com/armano2))
+
+#### :memo: Documentation
+
+- [#4416](https://github.com/facebook/docusaurus/pull/4416) docs(v2): add Realtime Web Applications Workshop to showcase ([@lowenhere](https://github.com/lowenhere))
+- [#4408](https://github.com/facebook/docusaurus/pull/4408) docs(v2): add gladysassistant.com to showcase ([@Pierre-Gilles](https://github.com/Pierre-Gilles))
+- [#4386](https://github.com/facebook/docusaurus/pull/4386) docs(v2): Showcase the pnpm docs ([@zkochan](https://github.com/zkochan))
+- [#4367](https://github.com/facebook/docusaurus/pull/4367) docs(v2): releasing i18n blog post ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- `docusaurus-1.x`
+  - [#4401](https://github.com/facebook/docusaurus/pull/4401) chore(v1): fix CircleCI v1 site deploy ([@slorber](https://github.com/slorber))
+- Other
+  - [#4399](https://github.com/facebook/docusaurus/pull/4399) chore(v2): upgrade example projects ([@slorber](https://github.com/slorber))
+  - [#4398](https://github.com/facebook/docusaurus/pull/4398) chore(v1): trigger v1 site deploy through CI ([@slorber](https://github.com/slorber))
+- `docusaurus-utils`
+  - [#4384](https://github.com/facebook/docusaurus/pull/4384) chore(v2): avoid bad publish of intl-locales-supported ([@lex111](https://github.com/lex111))
+
+#### Committers: 14
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Armano ([@armano2](https://github.com/armano2))
+- Harvtronix ([@Harvtronix](https://github.com/Harvtronix))
+- Joon-Ha Lee ([@koko8829](https://github.com/koko8829))
+- Leandro Oriente ([@leandrooriente](https://github.com/leandrooriente))
+- Long Ho ([@longlho](https://github.com/longlho))
+- Lowen ([@lowenhere](https://github.com/lowenhere))
+- Pierre-Gilles Leymarie ([@Pierre-Gilles](https://github.com/Pierre-Gilles))
+- Quan ([@quanengineering](https://github.com/quanengineering))
+- Simen Bekkhus ([@SimenB](https://github.com/SimenB))
+- Steven Hansel ([@ShinteiMai](https://github.com/ShinteiMai))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Zoltan Kochan ([@zkochan](https://github.com/zkochan))
+- [@Rhodanthe1116](https://github.com/Rhodanthe1116)
+
+## 2.0.0-alpha.71 (2021-03-09)
+
+#### :rocket: New Feature
+
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-utils`, `docusaurus`
+  - [#4222](https://github.com/facebook/docusaurus/pull/4222) feat(v2): add ability to set custom heading id ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#4328](https://github.com/facebook/docusaurus/pull/4328) feat(v2): Add playgroundPosition config for live codeblock ([@tokarchyn](https://github.com/tokarchyn))
+- `docusaurus-theme-classic`
+  - [#4209](https://github.com/facebook/docusaurus/pull/4209) feat(v2): auto focus to tab if it is outside viewport ([@lex111](https://github.com/lex111))
+  - [#4329](https://github.com/facebook/docusaurus/pull/4329) feat(v2): add arabic translation ([@3alisaki](https://github.com/3alisaki))
+  - [#4325](https://github.com/facebook/docusaurus/pull/4325) feat(v2): [theme-classic] add Polish translation ([@Simek](https://github.com/Simek))
+  - [#4312](https://github.com/facebook/docusaurus/pull/4312) feat(v2): Add Turkish translations for theme labels ([@caglarturali](https://github.com/caglarturali))
+  - [#4271](https://github.com/facebook/docusaurus/pull/4271) feat(v2): add Farsi default translations ([@slorber](https://github.com/slorber))
+  - [#4261](https://github.com/facebook/docusaurus/pull/4261) feat(v2): add icon to generic sidebar link ([@lex111](https://github.com/lex111))
+  - [#4109](https://github.com/facebook/docusaurus/pull/4109) feat(v2): default canonical urls ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+  - [#4308](https://github.com/facebook/docusaurus/pull/4308) feat(v2): add --config option to CLI ([@longlho](https://github.com/longlho))
+  - [#4185](https://github.com/facebook/docusaurus/pull/4185) feat(v2): allow extend PostCSS config ([@lex111](https://github.com/lex111))
+  - [#4021](https://github.com/facebook/docusaurus/pull/4021) feat(v2): Allow plugins to consume webpack stats ([@RDIL](https://github.com/RDIL))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#4303](https://github.com/facebook/docusaurus/pull/4303) feat(v2): add japanese translations ([@ykzts](https://github.com/ykzts))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus`
+  - [#4295](https://github.com/facebook/docusaurus/pull/4295) feat(v2): Add Interpolate / interpolate APIs + complete theme translations ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#4278](https://github.com/facebook/docusaurus/pull/4278) feat(v2): ability to "escape" JSX in MDX files as code blocks ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#4232](https://github.com/facebook/docusaurus/pull/4232) feat(v2): editUrl functions should receive md doc permalink ([@slorber](https://github.com/slorber))
+  - [#4121](https://github.com/facebook/docusaurus/pull/4121) feat(v2): editUrl function for advanced use-cases ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#4218](https://github.com/facebook/docusaurus/pull/4218) feat(v2): support/use React v17 by default ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#4215](https://github.com/facebook/docusaurus/pull/4215) feat(v2): Add i18n default code translation bundles ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#4140](https://github.com/facebook/docusaurus/pull/4140) feat(v2): add support for RTL direction ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4199](https://github.com/facebook/docusaurus/pull/4199) feat(v2): allow to change location of search bar ([@lex111](https://github.com/lex111))
+  - [#3993](https://github.com/facebook/docusaurus/pull/3993) feat(v2): themed logo in footer ([@natac13](https://github.com/natac13))
+- `docusaurus`
+  - [#4198](https://github.com/facebook/docusaurus/pull/4198) feat(v2): add fonts loaders + webpack resolve.roots ([@slorber](https://github.com/slorber))
+  - [#3998](https://github.com/facebook/docusaurus/pull/3998) feat(v2): Cache hashed assets to dedicated folders ([@kumaraditya303](https://github.com/kumaraditya303))
+  - [#3979](https://github.com/facebook/docusaurus/pull/3979) feat(v2): better error message for invalid plugin config ([@9oelM](https://github.com/9oelM))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#4168](https://github.com/facebook/docusaurus/pull/4168) feat(v2): Extract/translate hardcoded labels from classic theme ([@slorber](https://github.com/slorber))
+- `docusaurus-init`
+  - [#4098](https://github.com/facebook/docusaurus/pull/4098) feat(v2): improve templates, use JSDoc type annotation, improve `docusaurus.config.js` autocompletion ([@LittleboyHarry](https://github.com/LittleboyHarry))
+- `docusaurus-init`, `docusaurus-migrate`
+  - [#3986](https://github.com/facebook/docusaurus/pull/3986) feat(v2): skip dependency install on docusaurus init ([@kumaraditya303](https://github.com/kumaraditya303))
+- `docusaurus-plugin-content-docs`
+  - [#3949](https://github.com/facebook/docusaurus/pull/3949) feat(v2): new docs edit options: editCurrentVersion + editLocalizedDocs ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`
+  - [#4223](https://github.com/facebook/docusaurus/pull/4223) chore(v2): upgrade dependencies + require Node 12 ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#4366](https://github.com/facebook/docusaurus/pull/4366) fix(v2): align installed core-js version with babel config ([@armano2](https://github.com/armano2))
+  - [#4345](https://github.com/facebook/docusaurus/pull/4345) fix(v2): always extract translations from site/src ([@slorber](https://github.com/slorber))
+  - [#4342](https://github.com/facebook/docusaurus/pull/4342) chore(v2): bump clean-css to 5.1.1 ([@lex111](https://github.com/lex111))
+  - [#4212](https://github.com/facebook/docusaurus/pull/4212) fix(v2): typo in resolve.roots ([@slorber](https://github.com/slorber))
+  - [#4155](https://github.com/facebook/docusaurus/pull/4155) fix(v2): BaseUrl issue banner insertion should be prevented if JS can load ([@slorber](https://github.com/slorber))
+  - [#4137](https://github.com/facebook/docusaurus/pull/4137) fix(v2): escape apostrophes in route paths ([@lex111](https://github.com/lex111))
+  - [#4136](https://github.com/facebook/docusaurus/pull/4136) fix(v2): fix navigation from homepage ([@lex111](https://github.com/lex111))
+  - [#4125](https://github.com/facebook/docusaurus/pull/4125) fix(v2): baseUrl help banner should not be indexed by Google / SEO ([@slorber](https://github.com/slorber))
+  - [#4080](https://github.com/facebook/docusaurus/pull/4080) fix(v2): chokidar reloading debounced ([@semoal](https://github.com/semoal))
+  - [#3965](https://github.com/facebook/docusaurus/pull/3965) fix(v2): fix svg loader for CSS files ([@apurvaojas](https://github.com/apurvaojas))
+  - [#3943](https://github.com/facebook/docusaurus/pull/3943) fix(v2): disables all inlining in CleanCSS ([@lex111](https://github.com/lex111))
+  - [#3941](https://github.com/facebook/docusaurus/pull/3941) fix(v2): fix i18n build logging. ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#4349](https://github.com/facebook/docusaurus/pull/4349) fix(v2): fix update code translations script + update some translations ([@slorber](https://github.com/slorber))
+  - [#4311](https://github.com/facebook/docusaurus/pull/4311) fix(v2): fit footer in viewport when content area is too small ([@lex111](https://github.com/lex111))
+  - [#4340](https://github.com/facebook/docusaurus/pull/4340) fix(v2): prevent useless blog pages to be in search results ([@slorber](https://github.com/slorber))
+  - [#4274](https://github.com/facebook/docusaurus/pull/4274) fix(v2): theme classic should have lib-next prettified ([@slorber](https://github.com/slorber))
+  - [#4267](https://github.com/facebook/docusaurus/pull/4267) fix(v2): Allow null as valid for title of item in footer links. ([@ben-qnimble](https://github.com/ben-qnimble))
+  - [#4254](https://github.com/facebook/docusaurus/pull/4254) fix(v2): fix LTR PostCSS bug on Netlify and monorepo symlinks ([@slorber](https://github.com/slorber))
+  - [#4247](https://github.com/facebook/docusaurus/pull/4247) fix(v2): make doc container full width when hidden sidebar ([@lex111](https://github.com/lex111))
+  - [#4241](https://github.com/facebook/docusaurus/pull/4241) fix(v2): avoid horizontal scrolling when long lines of code ([@lex111](https://github.com/lex111))
+  - [#4200](https://github.com/facebook/docusaurus/pull/4200) fix(v2): various minor bugs with location hash ([@lex111](https://github.com/lex111))
+  - [#4195](https://github.com/facebook/docusaurus/pull/4195) fix(v2): restore hamburger menu ([@lex111](https://github.com/lex111))
+  - [#4189](https://github.com/facebook/docusaurus/pull/4189) fix(v2): prevent click on item menu with children on mobiles ([@lex111](https://github.com/lex111))
+  - [#4176](https://github.com/facebook/docusaurus/pull/4176) fix(v2): make locale dropdown accessible from keyboard ([@lex111](https://github.com/lex111))
+  - [#4163](https://github.com/facebook/docusaurus/pull/4163) fix(v2): fix warning and improve styling inline TOC ([@lex111](https://github.com/lex111))
+  - [#4162](https://github.com/facebook/docusaurus/pull/4162) fix(v2): make more accessible skip link ([@lex111](https://github.com/lex111))
+  - [#4160](https://github.com/facebook/docusaurus/pull/4160) fix(v2): fix hreflang headers ([@slorber](https://github.com/slorber))
+  - [#4147](https://github.com/facebook/docusaurus/pull/4147) fix(v2): avoid misuse section tag in blog posts ([@lex111](https://github.com/lex111))
+  - [#4146](https://github.com/facebook/docusaurus/pull/4146) fix(v2): use current color for language icon ([@lex111](https://github.com/lex111))
+  - [#4118](https://github.com/facebook/docusaurus/pull/4118) fix(v2): navbar dropdown subitems should be translated properly ([@slorber](https://github.com/slorber))
+  - [#4011](https://github.com/facebook/docusaurus/pull/4011) fix(v2): fix accessibility issue with IconArrow ([@natac13](https://github.com/natac13))
+  - [#3968](https://github.com/facebook/docusaurus/pull/3968) fix(v2): fix blog only contextual search ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#4315](https://github.com/facebook/docusaurus/pull/4315) fix(v2): make code blocks more standalone ([@lex111](https://github.com/lex111))
+  - [#4277](https://github.com/facebook/docusaurus/pull/4277) fix(v2): Code blocks should be LTR by default ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-live-codeblock`
+  - [#4318](https://github.com/facebook/docusaurus/pull/4318) fix(v2): evaluate code in live editor on client only ([@lex111](https://github.com/lex111))
+  - [#3954](https://github.com/facebook/docusaurus/pull/3954) fix(v2): allow async/await in live code editor ([@9oelM](https://github.com/9oelM))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#4339](https://github.com/facebook/docusaurus/pull/4339) fix(v2): search page results localization ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#4304](https://github.com/facebook/docusaurus/pull/4304) fix(v2): fix bad theme pluralization rules for some labels ([@slorber](https://github.com/slorber))
+- `docusaurus-cssnano-preset`
+  - [#4240](https://github.com/facebook/docusaurus/pull/4240) fix(v2): remove PostCSS plugin for combine duplicated selectors ([@lex111](https://github.com/lex111))
+- Other
+  - [#4234](https://github.com/facebook/docusaurus/pull/4234) fix(v2): fix website versions page ([@slorber](https://github.com/slorber))
+  - [#4233](https://github.com/facebook/docusaurus/pull/4233) fix(v2): website editUrl should target upstream docs ([@slorber](https://github.com/slorber))
+  - [#4067](https://github.com/facebook/docusaurus/pull/4067) fix(v2): Fix blog post url/date ([@slorber](https://github.com/slorber))
+  - [#3952](https://github.com/facebook/docusaurus/pull/3952) docs(v2): Fix invalid json ([@oze4](https://github.com/oze4))
+- `docusaurus-theme-search-algolia`
+  - [#4188](https://github.com/facebook/docusaurus/pull/4188) fix(v2): prepend docsearch modal to body element ([@lex111](https://github.com/lex111))
+  - [#4154](https://github.com/facebook/docusaurus/pull/4154) fix(v2): add base url to opensearch.xml ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-ideal-image`
+  - [#4166](https://github.com/facebook/docusaurus/pull/4166) fix(v2): ideal image assets should be served under ./assets ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#4092](https://github.com/facebook/docusaurus/pull/4092) fix(v2): fix/enhance minor i18n issues reported ([@slorber](https://github.com/slorber))
+  - [#3940](https://github.com/facebook/docusaurus/pull/3940) fix(v2): i18n should not crash theme without footer ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#4004](https://github.com/facebook/docusaurus/pull/4004) fix(v2): Fix double trailingSlash in sitemap.xml ([@ntbosscher](https://github.com/ntbosscher))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#3970](https://github.com/facebook/docusaurus/pull/3970) fix(v2): fix multi-instance mdx loaders not sandboxed correctly ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`
+  - [#3903](https://github.com/facebook/docusaurus/pull/3903) fix(v2): fix redirect toUrl (windows + trailing slash) ([@saydo17](https://github.com/saydo17))
+- `docusaurus-utils`
+  - [#3944](https://github.com/facebook/docusaurus/pull/3944) fix(v2): ignore style imports in excerpt ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#4371](https://github.com/facebook/docusaurus/pull/4371) refactor(v2): update Russian translation in classic theme ([@lex111](https://github.com/lex111))
+  - [#4359](https://github.com/facebook/docusaurus/pull/4359) polish(v2): [theme-classic] slightly improve Japanese translation ([@MisterFISHUP](https://github.com/MisterFISHUP))
+  - [#4350](https://github.com/facebook/docusaurus/pull/4350) polish(v2): Updated theme label translations for Turkish ([@caglarturali](https://github.com/caglarturali))
+  - [#4351](https://github.com/facebook/docusaurus/pull/4351) polish(v2): add japanese translation for #4304 ([@ykzts](https://github.com/ykzts))
+  - [#4309](https://github.com/facebook/docusaurus/pull/4309) polish(v2): improved Farsi translation ([@massoudmaboudi](https://github.com/massoudmaboudi))
+  - [#4279](https://github.com/facebook/docusaurus/pull/4279) polish(v2): theme default translations for language de / german ([@philipp985](https://github.com/philipp985))
+  - [#4275](https://github.com/facebook/docusaurus/pull/4275) polish(v2): Add more tags translations ([@slorber](https://github.com/slorber))
+  - [#4246](https://github.com/facebook/docusaurus/pull/4246) refactor(v2): add Russian translation for classic theme ([@lex111](https://github.com/lex111))
+  - [#4242](https://github.com/facebook/docusaurus/pull/4242) refactor(v2): use Link component for external links ([@lex111](https://github.com/lex111))
+  - [#4244](https://github.com/facebook/docusaurus/pull/4244) refactor(v2): clean-ups and fixes ([@lex111](https://github.com/lex111))
+  - [#4193](https://github.com/facebook/docusaurus/pull/4193) refactor(v2): update tabs to follow WAI-ARIA spec ([@lex111](https://github.com/lex111))
+  - [#4194](https://github.com/facebook/docusaurus/pull/4194) refactor(v2): use transform instead of top position for hideable navbar ([@lex111](https://github.com/lex111))
+  - [#4167](https://github.com/facebook/docusaurus/pull/4167) refactor(v2): minor styling improvements ([@lex111](https://github.com/lex111))
+  - [#4169](https://github.com/facebook/docusaurus/pull/4169) refactor(v2): remove delay after skip link pressed ([@lex111](https://github.com/lex111))
+  - [#4086](https://github.com/facebook/docusaurus/pull/4086) style(v2): add className to tab container ([@ArtFlag](https://github.com/ArtFlag))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#4352](https://github.com/facebook/docusaurus/pull/4352) refactor(v2): format last updated date using Intl ([@lex111](https://github.com/lex111))
+  - [#4243](https://github.com/facebook/docusaurus/pull/4243) refactor(v2): introduce Seo component for internal using ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`, `docusaurus-utils`
+  - [#4344](https://github.com/facebook/docusaurus/pull/4344) refactor(v2): format post date using Intl ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#4257](https://github.com/facebook/docusaurus/pull/4257) refactor(v2): improve notifier message ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#4219](https://github.com/facebook/docusaurus/pull/4219) refactor(v2): add more translatable strings ([@lex111](https://github.com/lex111))
+- Other
+  - [#4074](https://github.com/facebook/docusaurus/pull/4074) polish(v2): improve codesandbox template package.json ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-debug`
+  - [#3953](https://github.com/facebook/docusaurus/pull/3953) refactor(v2): fix debug plugin name ([@RDIL](https://github.com/RDIL))
+- `docusaurus-plugin-debug`, `docusaurus-theme-classic`
+  - [#3946](https://github.com/facebook/docusaurus/pull/3946) refactor(v2): minor a11y tweaks ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- Other
+  - [#4369](https://github.com/facebook/docusaurus/pull/4369) docs(v2): various improvements ([@lex111](https://github.com/lex111))
+  - [#4362](https://github.com/facebook/docusaurus/pull/4362) docs(v2): Add stryker-mutator.io to showcase ([@nicojs](https://github.com/nicojs))
+  - [#4354](https://github.com/facebook/docusaurus/pull/4354) docs(v2): add trpgengine showcase ([@moonrailgun](https://github.com/moonrailgun))
+  - [#4346](https://github.com/facebook/docusaurus/pull/4346) docs(v1): update phrasing for website dir relative to docs dir ([@aukokyong](https://github.com/aukokyong))
+  - [#4338](https://github.com/facebook/docusaurus/pull/4338) docs(v2): update showcase instruction regarding tags + fix site tags ([@slorber](https://github.com/slorber))
+  - [#4331](https://github.com/facebook/docusaurus/pull/4331) docs(v2): add ocpeasy to users ([@dbrrt](https://github.com/dbrrt))
+  - [#4307](https://github.com/facebook/docusaurus/pull/4307) docs(v2): Add RactivePlayer to showcase ([@ysulyma](https://github.com/ysulyma))
+  - [#4297](https://github.com/facebook/docusaurus/pull/4297) docs(v2): Fix examples by importing React ([@roydukkey](https://github.com/roydukkey))
+  - [#4296](https://github.com/facebook/docusaurus/pull/4296) docs(v2): move migrated sites from v1 to v2 showcase ([@lisa761](https://github.com/lisa761))
+  - [#4293](https://github.com/facebook/docusaurus/pull/4293) docs(v2): Added React Native ARIA to showcase ([@theankurkedia](https://github.com/theankurkedia))
+  - [#4284](https://github.com/facebook/docusaurus/pull/4284) docs(v2): Add AttoBot website to showcase page ([@wolf20482](https://github.com/wolf20482))
+  - [#4285](https://github.com/facebook/docusaurus/pull/4285) docs(v2): escape more jsx in mdx files for Crowdin ([@slorber](https://github.com/slorber))
+  - [#4283](https://github.com/facebook/docusaurus/pull/4283) docs(v2): Add Postgres.ai to showcase ([@NikolayS](https://github.com/NikolayS))
+  - [#4282](https://github.com/facebook/docusaurus/pull/4282) docs: update Netlify deploy status badge ([@slorber](https://github.com/slorber))
+  - [#4259](https://github.com/facebook/docusaurus/pull/4259) docs(v2): improve cli docs ([@massoudmaboudi](https://github.com/massoudmaboudi))
+  - [#4266](https://github.com/facebook/docusaurus/pull/4266) docs(v2): update agilets banner ([@bennodev19](https://github.com/bennodev19))
+  - [#4263](https://github.com/facebook/docusaurus/pull/4263) docs(v2): remove npx and use github action to configure ssh key ([@MatanBobi](https://github.com/MatanBobi))
+  - [#4262](https://github.com/facebook/docusaurus/pull/4262) docs(v2): Added kotest to showcase ([@sksamuel](https://github.com/sksamuel))
+  - [#4256](https://github.com/facebook/docusaurus/pull/4256) docs(v2): Add docusaurus2-graphql-doc-generator to community resources ([@edno](https://github.com/edno))
+  - [#4252](https://github.com/facebook/docusaurus/pull/4252) docs(v2): Added mailgo to showcase ([@manzinello](https://github.com/manzinello))
+  - [#4251](https://github.com/facebook/docusaurus/pull/4251) docs(v2): Add Axioms to showcase ([@limkinZero](https://github.com/limkinZero))
+  - [#4237](https://github.com/facebook/docusaurus/pull/4237) docs(v2): Replace mbt-bundle by sicope-model ([@tienvx](https://github.com/tienvx))
+  - [#4236](https://github.com/facebook/docusaurus/pull/4236) docs(v2): v2 migration should mention RSS feed url change ([@slorber](https://github.com/slorber))
+  - [#4230](https://github.com/facebook/docusaurus/pull/4230) docs(v2): fix npm/yarn command example for swizzling TypeScript theme components ([@YashTotale](https://github.com/YashTotale))
+  - [#4229](https://github.com/facebook/docusaurus/pull/4229) docs(v2): Fix link to slash introduction svg ([@SamChou19815](https://github.com/SamChou19815))
+  - [#4226](https://github.com/facebook/docusaurus/pull/4226) docs(v2): Removing wrong parenthesis on image variable ([@juancarlosjr97](https://github.com/juancarlosjr97))
+  - [#4225](https://github.com/facebook/docusaurus/pull/4225) docs(v2): added Apache APISIX ([@juzhiyuan](https://github.com/juzhiyuan))
+  - [#4224](https://github.com/facebook/docusaurus/pull/4224) docs(v2): Add MikroORM site to showcase page ([@B4nan](https://github.com/B4nan))
+  - [#4220](https://github.com/facebook/docusaurus/pull/4220) Add WebdriverIO docs page as showcase ([@christian-bromann](https://github.com/christian-bromann))
+  - [#4210](https://github.com/facebook/docusaurus/pull/4210) misc: add requirements for sites being added to showcase ([@lex111](https://github.com/lex111))
+  - [#4207](https://github.com/facebook/docusaurus/pull/4207) docs(v2): Added Console Table Documentation Site to showcase ([@ayonious](https://github.com/ayonious))
+  - [#4204](https://github.com/facebook/docusaurus/pull/4204) docs(v1): fixing a broken link in blog posts ([@ayonious](https://github.com/ayonious))
+  - [#4178](https://github.com/facebook/docusaurus/pull/4178) docs(v2): localize 404 page with Netlify + docs ([@slorber](https://github.com/slorber))
+  - [#4177](https://github.com/facebook/docusaurus/pull/4177) docs(v2): Add docusaurus-plugin-remote-content to resources list ([@RDIL](https://github.com/RDIL))
+  - [#4172](https://github.com/facebook/docusaurus/pull/4172) docs(v2): Add react-hooks.org to showcase ([@imbhargav5](https://github.com/imbhargav5))
+  - [#4173](https://github.com/facebook/docusaurus/pull/4173) docs(v2): typo fixing double colon ([@ayonious](https://github.com/ayonious))
+  - [#4164](https://github.com/facebook/docusaurus/pull/4164) docs(v2): add a note for images not rendered on dev server ([@yuval-hazaz](https://github.com/yuval-hazaz))
+  - [#4161](https://github.com/facebook/docusaurus/pull/4161) docs(v2): Add docusaurus-theme-github-codeblock ([@christian-bromann](https://github.com/christian-bromann))
+  - [#4158](https://github.com/facebook/docusaurus/pull/4158) docs(v2): improve bad static assets doc + remove some useless useBaseUrl usage ([@slorber](https://github.com/slorber))
+  - [#4144](https://github.com/facebook/docusaurus/pull/4144) docs(v2): community docs typo fix ([@ayonious](https://github.com/ayonious))
+  - [#4143](https://github.com/facebook/docusaurus/pull/4143) docs(v2): guide docs typo fix ([@ayonious](https://github.com/ayonious))
+  - [#4141](https://github.com/facebook/docusaurus/pull/4141) docs(v2): plugins docs typo fix ([@ayonious](https://github.com/ayonious))
+  - [#4139](https://github.com/facebook/docusaurus/pull/4139) docs(v2): Add Rematch site to showcase page ([@semoal](https://github.com/semoal))
+  - [#4128](https://github.com/facebook/docusaurus/pull/4128) docs(v2): remove duplicate link from docs about Docusaurus1 ([@ayonious](https://github.com/ayonious))
+  - [#4129](https://github.com/facebook/docusaurus/pull/4129) docs(v2): typo fix in Migration Docs ([@ayonious](https://github.com/ayonious))
+  - [#4127](https://github.com/facebook/docusaurus/pull/4127) docs(v2): remove unnecessary brace from installation doc ([@ayonious](https://github.com/ayonious))
+  - [#4130](https://github.com/facebook/docusaurus/pull/4130) docs(v2): typo in i18n docs ([@ayonious](https://github.com/ayonious))
+  - [#4112](https://github.com/facebook/docusaurus/pull/4112) docs(v2): Do not encourage using the permalink prop ([@slorber](https://github.com/slorber))
+  - [#4106](https://github.com/facebook/docusaurus/pull/4106) docs(v2): update broken link on resources page ([@eric-hc](https://github.com/eric-hc))
+  - [#4084](https://github.com/facebook/docusaurus/pull/4084) docs(v2): Use the TOCInline component in config doc ([@slorber](https://github.com/slorber))
+  - [#4020](https://github.com/facebook/docusaurus/pull/4020) docs(v2): 2020 recap blog post ([@slorber](https://github.com/slorber))
+  - [#4009](https://github.com/facebook/docusaurus/pull/4009) docs(v2): add hideableSidebar option to config demo ([@natac13](https://github.com/natac13))
+  - [#4062](https://github.com/facebook/docusaurus/pull/4062) docs(v2): Add codesandbox integration ([@sammychinedu2ky](https://github.com/sammychinedu2ky))
+  - [#4058](https://github.com/facebook/docusaurus/pull/4058) docs(v2): Include new.docusaurus.io CodeSandbox in issue templates + README ([@slorber](https://github.com/slorber))
+  - [#4053](https://github.com/facebook/docusaurus/pull/4053) docs(v2): Add Eightshift Docs site to showcase page ([@iruzevic](https://github.com/iruzevic))
+  - [#4048](https://github.com/facebook/docusaurus/pull/4048) docs(v1): Docker: remind the user to use the --host flag ([@tomsfernandez](https://github.com/tomsfernandez))
+  - [#4047](https://github.com/facebook/docusaurus/pull/4047) docs(v1): version page should recommend v2 ([@slorber](https://github.com/slorber))
+  - [#4046](https://github.com/facebook/docusaurus/pull/4046) docs(v2): add sciwp to showcase ([@edulazaro](https://github.com/edulazaro))
+  - [#4036](https://github.com/facebook/docusaurus/pull/4036) docs(v2): Add Nodify to showcase ([@miroiu](https://github.com/miroiu))
+  - [#4038](https://github.com/facebook/docusaurus/pull/4038) docs(v1): suggest to use Docusaurus 2 even for non-FB websites ([@slorber](https://github.com/slorber))
+  - [#4026](https://github.com/facebook/docusaurus/pull/4026) docs(v2): Add FlexIt to showcase ([@ataft](https://github.com/ataft))
+  - [#4022](https://github.com/facebook/docusaurus/pull/4022) docs: fix typo from 'dissapear' to 'disappear' ([@vamsi3](https://github.com/vamsi3))
+  - [#4002](https://github.com/facebook/docusaurus/pull/4002) docs(v2): Add how to run your own DocSearch ([@TheodoreChu](https://github.com/TheodoreChu))
+  - [#3997](https://github.com/facebook/docusaurus/pull/3997) docs(v2): Add Datagit site to showcase page ([@massoudmaboudi](https://github.com/massoudmaboudi))
+  - [#3990](https://github.com/facebook/docusaurus/pull/3990) docs(v2): Add wiki-powerto site showcase ([@linyuxuanlin](https://github.com/linyuxuanlin))
+  - [#3991](https://github.com/facebook/docusaurus/pull/3991) docs(v2): add overwriting css variables for dark mode ([@natac13](https://github.com/natac13))
+  - [#3987](https://github.com/facebook/docusaurus/pull/3987) docs(v2): Add AgileTs site to showcase page ([@bennodev19](https://github.com/bennodev19))
+  - [#3978](https://github.com/facebook/docusaurus/pull/3978) docs(v2): Add documentation for docs multi-instance support ([@slorber](https://github.com/slorber))
+  - [#3977](https://github.com/facebook/docusaurus/pull/3977) docs(v2): nudge users to add site to showcase ([@slorber](https://github.com/slorber))
+  - [#3975](https://github.com/facebook/docusaurus/pull/3975) docs(v2): Reorganize/split the guides doc / markdown sections ([@slorber](https://github.com/slorber))
+  - [#3976](https://github.com/facebook/docusaurus/pull/3976) docs(v2): Add AI-Speaker site to showcase page ([@asystentka-jolka](https://github.com/asystentka-jolka))
+  - [#3974](https://github.com/facebook/docusaurus/pull/3974) docs(v2): doc typo on sidebar admonition ([@slorber](https://github.com/slorber))
+  - [#3962](https://github.com/facebook/docusaurus/pull/3962) docs(v2): Add migration info doc regarding docs folder location ([@slorber](https://github.com/slorber))
+  - [#3950](https://github.com/facebook/docusaurus/pull/3950) docs(v2): update Github entreprise deployment doc ([@samhrncir](https://github.com/samhrncir))
+  - [#3945](https://github.com/facebook/docusaurus/pull/3945) docs(v2): Added information about setting `/` in routeBasePath ([@Siemienik](https://github.com/Siemienik))
+- `docusaurus-theme-classic`
+  - [#4356](https://github.com/facebook/docusaurus/pull/4356) polish(v2): [theme-classic] add Chinese translations (zh-Hant & zh-Hans) ([@MisterFISHUP](https://github.com/MisterFISHUP))
+- `docusaurus`
+  - [#4126](https://github.com/facebook/docusaurus/pull/4126) docs(v2): do not recommend using useBaseUrl() hook in most cases ([@slorber](https://github.com/slorber))
+  - [#4049](https://github.com/facebook/docusaurus/pull/4049) docs(v1): version page should recommend v2 (bis) ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-theme-classic`, `docusaurus`
+  - [#4014](https://github.com/facebook/docusaurus/pull/4014) docs(v2): i18n doc + polish ([@slorber](https://github.com/slorber))
+- `docusaurus-cssnano-preset`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-bootstrap`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#4034](https://github.com/facebook/docusaurus/pull/4034) docs(v2): Add READMEs to v2 packages ([@RDIL](https://github.com/RDIL))
+- `docusaurus-init`
+  - [#3881](https://github.com/facebook/docusaurus/pull/3881) docs(v2): update FB OSS logo ([@Simek](https://github.com/Simek))
+
+#### :house: Internal
+
+- Other
+  - [#4372](https://github.com/facebook/docusaurus/pull/4372) chore(v1): release docusaurus v1.14.7 ([@slorber](https://github.com/slorber))
+  - [#4368](https://github.com/facebook/docusaurus/pull/4368) chore(deps): bump elliptic from 6.5.3 to 6.5.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#4365](https://github.com/facebook/docusaurus/pull/4365) chore: unstable yarnlock ([@slorber](https://github.com/slorber))
+  - [#4337](https://github.com/facebook/docusaurus/pull/4337) misc: restore build size bot ([@slorber](https://github.com/slorber))
+  - [#4289](https://github.com/facebook/docusaurus/pull/4289) chore(v2): remove docs for alpha v69 ([@lex111](https://github.com/lex111))
+  - [#4253](https://github.com/facebook/docusaurus/pull/4253) chore(v2): remove docs for alpha v68 ([@lex111](https://github.com/lex111))
+  - [#4248](https://github.com/facebook/docusaurus/pull/4248) chore(v2): Fix build size bot ([@slorber](https://github.com/slorber))
+  - [#4214](https://github.com/facebook/docusaurus/pull/4214) chore(v2): setup for i18n staging deployment ([@slorber](https://github.com/slorber))
+  - [#4159](https://github.com/facebook/docusaurus/pull/4159) chore(v2): fix build size bot again ([@slorber](https://github.com/slorber))
+  - [#4156](https://github.com/facebook/docusaurus/pull/4156) chore(v2): fix build size bot monitoring of js/css assets ([@slorber](https://github.com/slorber))
+  - [#4100](https://github.com/facebook/docusaurus/pull/4100) chore(v2): remove docs for alpha v66 ([@lex111](https://github.com/lex111))
+  - [#4077](https://github.com/facebook/docusaurus/pull/4077) chore(v2): fix unstable master yarn.lock ([@slorber](https://github.com/slorber))
+  - [#4063](https://github.com/facebook/docusaurus/pull/4063) chore(v2): Regen codesandbox templates + add template: "docusaurus" ([@slorber](https://github.com/slorber))
+  - [#4056](https://github.com/facebook/docusaurus/pull/4056) chore(v2): update codesandbox redirect ([@slorber](https://github.com/slorber))
+  - [#4041](https://github.com/facebook/docusaurus/pull/4041) chore(v1): revert v1 netlify.toml ([@slorber](https://github.com/slorber))
+  - [#4040](https://github.com/facebook/docusaurus/pull/4040) chore(v1): upgrade v1 Crowdin cli + CI config ([@slorber](https://github.com/slorber))
+  - [#4030](https://github.com/facebook/docusaurus/pull/4030) chore(v2): install Crowdin cli through npm package ([@slorber](https://github.com/slorber))
+  - [#4003](https://github.com/facebook/docusaurus/pull/4003) chore: add DevContainer config for GitHub codespaces ([@kumaraditya303](https://github.com/kumaraditya303))
+  - [#4001](https://github.com/facebook/docusaurus/pull/4001) chore(v2): Upgrade crowdin ([@slorber](https://github.com/slorber))
+  - [#3995](https://github.com/facebook/docusaurus/pull/3995) chore(v2): remove docs for alpha v65 ([@lex111](https://github.com/lex111))
+  - [#3960](https://github.com/facebook/docusaurus/pull/3960) fix(v2): remove duplicate section on Versions page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#4370](https://github.com/facebook/docusaurus/pull/4370) chore(v2): update infima ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-utils`, `docusaurus`, `lqip-loader`
+  - [#4361](https://github.com/facebook/docusaurus/pull/4361) refactor(v2): remove duplicated lodash dependencies and import only what needed ([@armano2](https://github.com/armano2))
+- `docusaurus-1.x`, `docusaurus`
+  - [#4270](https://github.com/facebook/docusaurus/pull/4270) chore(v2): upgrade react-dev-utils ([@yangshun](https://github.com/yangshun))
+- `docusaurus-init`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-types`, `docusaurus`
+  - [#4264](https://github.com/facebook/docusaurus/pull/4264) chore(v2): bump/align deps in monorepo: commander, semver, fs-extra ([@Simek](https://github.com/Simek))
+- `docusaurus`
+  - [#4265](https://github.com/facebook/docusaurus/pull/4265) chore(v2): PostCSS peer dep fix ([@RDIL](https://github.com/RDIL))
+  - [#4091](https://github.com/facebook/docusaurus/pull/4091) refactor(v2): Switch from inquirer to prompts ([@RDIL](https://github.com/RDIL))
+  - [#4066](https://github.com/facebook/docusaurus/pull/4066) chore(v2): Update a few dependencies ([@RDIL](https://github.com/RDIL))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`
+  - [#4148](https://github.com/facebook/docusaurus/pull/4148) chore(v2): upgrade dependencies ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-pwa`
+  - [#4120](https://github.com/facebook/docusaurus/pull/4120) chore(v2): Update workbox to v6 ([@RDIL](https://github.com/RDIL))
+- `docusaurus-utils`, `docusaurus`
+  - [#4081](https://github.com/facebook/docusaurus/pull/4081) chore(v2): Update webpack-related dependencies, pre-work to migrate to Webpack 5 ([@RDIL](https://github.com/RDIL))
+- `docusaurus-init`, `docusaurus`
+  - [#4012](https://github.com/facebook/docusaurus/pull/4012) chore(v2): docusaurus-init: switch from inquirer to prompts ([@RDIL](https://github.com/RDIL))
+- `docusaurus-plugin-sitemap`
+  - [#4005](https://github.com/facebook/docusaurus/pull/4005) chore(v2): prettier fixes ([@slorber](https://github.com/slorber))
+- `docusaurus-migrate`
+  - [#3988](https://github.com/facebook/docusaurus/pull/3988) chore(v2): fix date-sensitive test fixture ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-utils`, `docusaurus`, `stylelint-copyright`
+  - [#3959](https://github.com/facebook/docusaurus/pull/3959) chore(v2): fix windows Jest tests ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-cssnano-preset`, `docusaurus-plugin-content-blog`, `docusaurus`
+  - [#4355](https://github.com/facebook/docusaurus/pull/4355) perf(v2): improve blog mdx-loader and postcss loader ([@lex111](https://github.com/lex111))
+
+#### Committers: 70
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Ali Saki ([@3alisaki](https://github.com/3alisaki))
+- Andrew Taft ([@ataft](https://github.com/ataft))
+- Ankur Kedia ([@theankurkedia](https://github.com/theankurkedia))
+- Apurva Ojas ([@apurvaojas](https://github.com/apurvaojas))
+- Armano ([@armano2](https://github.com/armano2))
+- Arthur ([@ArtFlag](https://github.com/ArtFlag))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Ben ([@ben-qnimble](https://github.com/ben-qnimble))
+- BennoDev ([@bennodev19](https://github.com/bennodev19))
+- Bhargav Ponnapalli ([@imbhargav5](https://github.com/imbhargav5))
+- Christian Bromann ([@christian-bromann](https://github.com/christian-bromann))
+- David Barrat ([@dbrrt](https://github.com/dbrrt))
+- Eduardo Lázaro ([@edulazaro](https://github.com/edulazaro))
+- Eric Carboni ([@eric-hc](https://github.com/eric-hc))
+- Grégory Heitz ([@edno](https://github.com/edno))
+- Ivan Ružević ([@iruzevic](https://github.com/iruzevic))
+- Jessica Lin ([@jlin27](https://github.com/jlin27))
+- Joel M ([@9oelM](https://github.com/9oelM))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Jola ([@asystentka-jolka](https://github.com/asystentka-jolka))
+- Juan Carlos Blanco Delgado ([@juancarlosjr97](https://github.com/juancarlosjr97))
+- Kevin Viglucci ([@viglucci](https://github.com/viglucci))
+- Kumar Aditya ([@kumaraditya303](https://github.com/kumaraditya303))
+- Lisa Chandra ([@lisa761](https://github.com/lisa761))
+- LittleboyHarry ([@LittleboyHarry](https://github.com/LittleboyHarry))
+- Long Ho ([@longlho](https://github.com/longlho))
+- Martin Adámek ([@B4nan](https://github.com/B4nan))
+- Massoud Maboudi ([@massoudmaboudi](https://github.com/massoudmaboudi))
+- Matan Borenkraout ([@MatanBobi](https://github.com/MatanBobi))
+- Matt Oestreich ([@oze4](https://github.com/oze4))
+- Matteo Manzinello ([@manzinello](https://github.com/manzinello))
+- Miroiu Emanuel ([@miroiu](https://github.com/miroiu))
+- Mohd Shad Mirza ([@iamshadmirza](https://github.com/iamshadmirza))
+- Nahiyan Kamal ([@ayonious](https://github.com/ayonious))
+- Nathan Bosscher ([@ntbosscher](https://github.com/ntbosscher))
+- Nico Jansen ([@nicojs](https://github.com/nicojs))
+- Nikolay Samokhvalov ([@NikolayS](https://github.com/NikolayS))
+- Pablo Vidal ([@limkinZero](https://github.com/limkinZero))
+- Power Lin ([@linyuxuanlin](https://github.com/linyuxuanlin))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Saihajpreet Singh ([@saihaj](https://github.com/saihaj))
+- Sam Hrncir ([@samhrncir](https://github.com/samhrncir))
+- Sam Sam ([@sksamuel](https://github.com/sksamuel))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sean Campbell ([@natac13](https://github.com/natac13))
+- Sergio Moreno ([@semoal](https://github.com/semoal))
+- Siemienik Pawel ([@Siemienik](https://github.com/Siemienik))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Theodore Chu ([@TheodoreChu](https://github.com/TheodoreChu))
+- Tien Vo Xuan ([@tienvx](https://github.com/tienvx))
+- Tomas Fernandez ([@tomsfernandez](https://github.com/tomsfernandez))
+- Vamsi Krishna Reddy Satti ([@vamsi3](https://github.com/vamsi3))
+- Welly ([@wellyshen](https://github.com/wellyshen))
+- Yamagishi Kazutoshi ([@ykzts](https://github.com/ykzts))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- Yash Totale ([@YashTotale](https://github.com/YashTotale))
+- Yuri Sulyma ([@ysulyma](https://github.com/ysulyma))
+- Yuval Hazaz ([@yuval-hazaz](https://github.com/yuval-hazaz))
+- [@MisterFISHUP](https://github.com/MisterFISHUP)
+- [@aukokyong](https://github.com/aukokyong)
+- [@philipp985](https://github.com/philipp985)
+- [@roydukkey](https://github.com/roydukkey)
+- [@sammychinedu2ky](https://github.com/sammychinedu2ky)
+- [@saydo17](https://github.com/saydo17)
+- [@tokarchyn](https://github.com/tokarchyn)
+- [@wolf20482](https://github.com/wolf20482)
+- moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
+- Çağlar Turalı ([@caglarturali](https://github.com/caglarturali))
+- 琚致远 ([@juzhiyuan](https://github.com/juzhiyuan)) ✨ Done in 15.23s.
+
+## 2.0.0-alpha.70 (2020-12-17)
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#3932](https://github.com/facebook/docusaurus/pull/3932) feat(v2): Add <Root> theme element ([@slorber](https://github.com/slorber))
+- `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#3916](https://github.com/facebook/docusaurus/pull/3916) feat(v2): Add localeDropdown navbar item type + i18n localeConfigs field ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-types`
+  - [#3904](https://github.com/facebook/docusaurus/pull/3904) feat(v2): inline table-of-contents + refactor TOC ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#3888](https://github.com/facebook/docusaurus/pull/3888) feat(v2): add custom props for consumption by swizzled sidebar ([@oriooctopus](https://github.com/oriooctopus))
+- `docusaurus-plugin-content-blog`
+  - [#3842](https://github.com/facebook/docusaurus/pull/3842) feat(v2): enable feeds by default in blog plugin ([@cindygu4](https://github.com/cindygu4))
+- Other
+  - [#3827](https://github.com/facebook/docusaurus/pull/3827) feat(v2): add automated canary releases ([@slorber](https://github.com/slorber))
+  - [#3761](https://github.com/facebook/docusaurus/pull/3761) feat(v2): Added Lighthouse CI to PR checks ([@sarthakkundra](https://github.com/sarthakkundra))
+- `docusaurus-1.x`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#3325](https://github.com/facebook/docusaurus/pull/3325) feat(v2): core v2 i18n support + Docusaurus site Crowdin integration ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-types`
+  - [#3904](https://github.com/facebook/docusaurus/pull/3904) feat(v2): inline table-of-contents + refactor TOC ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`
+  - [#3842](https://github.com/facebook/docusaurus/pull/3842) feat(v2): enable feeds by default in blog plugin ([@cindygu4](https://github.com/cindygu4))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#3922](https://github.com/facebook/docusaurus/pull/3922) fix(v2): fix navbar items issue on Windows? ([@slorber](https://github.com/slorber))
+  - [#3920](https://github.com/facebook/docusaurus/pull/3920) fix(v2): i18n translation extractor should handle JSX formatting edge cases better ([@slorber](https://github.com/slorber))
+  - [#3896](https://github.com/facebook/docusaurus/pull/3896) fix(v2): do not treat at-rules during CSS minification ([@lex111](https://github.com/lex111))
+  - [#3869](https://github.com/facebook/docusaurus/pull/3869) fix(v2): load plugin commands async to fix broken plugin CLI commands `docs:version` ([@aeneasr](https://github.com/aeneasr))
+- `docusaurus-theme-classic`
+  - [#3921](https://github.com/facebook/docusaurus/pull/3921) fix(v2): remove useless console log ([@slorber](https://github.com/slorber))
+  - [#3895](https://github.com/facebook/docusaurus/pull/3895) fix(v2): use proper element for pagination nav label ([@lex111](https://github.com/lex111))
+  - [#3882](https://github.com/facebook/docusaurus/pull/3882) fix(v2): improve Footer structure, add class names, use Infima transition ([@Simek](https://github.com/Simek))
+  - [#3877](https://github.com/facebook/docusaurus/pull/3877) fix(v2): dynamic dark mode detection without toggle widget ([@hmil](https://github.com/hmil))
+  - [#3854](https://github.com/facebook/docusaurus/pull/3854) fix(v2): refactor icons in theme-classic, fix swizzle issue ([@Simek](https://github.com/Simek))
+  - [#3823](https://github.com/facebook/docusaurus/pull/3823) fix(v2): support rendering of singular tabs ([@aeneasr](https://github.com/aeneasr))
+  - [#3817](https://github.com/facebook/docusaurus/pull/3817) fix(v2): Allow footer logo at attribute to be empty ([@aarongarciah](https://github.com/aarongarciah))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3900](https://github.com/facebook/docusaurus/pull/3900) fix(v2): correct typo in metas generated for Twitter cards ([@mpsq](https://github.com/mpsq))
+- Other
+  - [#3872](https://github.com/facebook/docusaurus/pull/3872) chore: add missing v1 generated files to ignores ([@Simek](https://github.com/Simek))
+  - [#3833](https://github.com/facebook/docusaurus/pull/3833) fix(v2): temporary: disable crowdin until PR env variable permission fixed ([@slorber](https://github.com/slorber))
+- `stylelint-copyright`
+  - [#3852](https://github.com/facebook/docusaurus/pull/3852) fix(v2): to fix the canary release GH workflow ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#3853](https://github.com/facebook/docusaurus/pull/3853) fix(v2): fix DocSearch keyboard navigator ([@francoischalifour](https://github.com/francoischalifour))
+  - [#3837](https://github.com/facebook/docusaurus/pull/3837) fix(v2): update SearchPage styling, fix appearance in dark mode ([@Simek](https://github.com/Simek))
+  - [#3828](https://github.com/facebook/docusaurus/pull/3828) fix(v2): restore Algolia search ([@lex111](https://github.com/lex111))
+  - [#3819](https://github.com/facebook/docusaurus/pull/3819) feat(search): update DocSearch to alpha.31 ([@francoischalifour](https://github.com/francoischalifour))
+- `docusaurus-plugin-content-docs`
+  - [#3839](https://github.com/facebook/docusaurus/pull/3839) fix(v2): remove unnecessary backtick in output ([@sivaraam](https://github.com/sivaraam))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#3829](https://github.com/facebook/docusaurus/pull/3829) fix(v2): fix search ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus`
+  - [#3824](https://github.com/facebook/docusaurus/pull/3824) fix(v2): update notifier dist tag ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus`
+  - [#3880](https://github.com/facebook/docusaurus/pull/3880) polish(v2): improve docusaurus deploy logs ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3931](https://github.com/facebook/docusaurus/pull/3931) docs(v2): blog.md with docs: false, for blog-only mode ([@Romstar](https://github.com/Romstar))
+- [#3924](https://github.com/facebook/docusaurus/pull/3924) docs(v2): Removed unnecessary closing parenthesis ([@Varshit07](https://github.com/Varshit07))
+- [#3928](https://github.com/facebook/docusaurus/pull/3928) docs(v2): add FoalTS to showcase page ([@LoicPoullain](https://github.com/LoicPoullain))
+- [#3899](https://github.com/facebook/docusaurus/pull/3899) docs(v2): Move sidebar content to its own page ([@ArtFlag](https://github.com/ArtFlag))
+- [#3856](https://github.com/facebook/docusaurus/pull/3856) docs(v2): typo ([@borool](https://github.com/borool))
+- [#3891](https://github.com/facebook/docusaurus/pull/3891) docs(v2): Wrap section about custom domains in :::info ([@Alex1304](https://github.com/Alex1304))
+- [#3871](https://github.com/facebook/docusaurus/pull/3871) docs(v2): missing <ColorGenerator/> mdx import ([@slorber](https://github.com/slorber))
+- [#3873](https://github.com/facebook/docusaurus/pull/3873) docs(v2): From docusaurus-migrate to @docusaurus/migrate ([@manzinello](https://github.com/manzinello))
+- [#3867](https://github.com/facebook/docusaurus/pull/3867) docs(v2): Add docusaurus-plugin-moesif to community plugins ([@dgilling](https://github.com/dgilling))
+- [#3851](https://github.com/facebook/docusaurus/pull/3851) docs(v2): Fixed Typo: Hided => Hidden ([@woodrufs](https://github.com/woodrufs))
+- [#3832](https://github.com/facebook/docusaurus/pull/3832) docs(v2): Add wasp to showcase ([@matijaSos](https://github.com/matijaSos))
+- [#3813](https://github.com/facebook/docusaurus/pull/3813) docs(v2): render deployment doc ([@davidmauskop](https://github.com/davidmauskop))
+- [#3835](https://github.com/facebook/docusaurus/pull/3835) docs(v2): update Client API docs page ([@Simek](https://github.com/Simek))
+- [#3831](https://github.com/facebook/docusaurus/pull/3831) docs(v2): Docs refactoring and reorganization ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- Other
+  - [#3912](https://github.com/facebook/docusaurus/pull/3912) chore(v2): remove docs for alpha v64 ([@lex111](https://github.com/lex111))
+  - [#3907](https://github.com/facebook/docusaurus/pull/3907) chore(ci): fix canary release filtering ([@slorber](https://github.com/slorber))
+  - [#3902](https://github.com/facebook/docusaurus/pull/3902) chore(deps): bump ini from 1.3.5 to 1.3.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#3884](https://github.com/facebook/docusaurus/pull/3884) chore(ci): increase Lighthouse CI max_timeout ([@Simek](https://github.com/Simek))
+  - [#3883](https://github.com/facebook/docusaurus/pull/3883) chore(v2): remove docs for alpha v62-63 ([@lex111](https://github.com/lex111))
+  - [#3863](https://github.com/facebook/docusaurus/pull/3863) chore(ci): run V1 Build and Migration CLI tests conditionally on CI ([@Simek](https://github.com/Simek))
+  - [#3861](https://github.com/facebook/docusaurus/pull/3861) chore(ci): reduce number of jobs, remove build from lighthouse pipeline ([@Simek](https://github.com/Simek))
+  - [#3860](https://github.com/facebook/docusaurus/pull/3860) chore: add Yarn v2 cache directory to ignores ([@Simek](https://github.com/Simek))
+  - [#3858](https://github.com/facebook/docusaurus/pull/3858) chore(v2): disable Crowdin for deploy previews ([@slorber](https://github.com/slorber))
+  - [#3857](https://github.com/facebook/docusaurus/pull/3857) fix(v2): fix Crowdin ci commands ([@slorber](https://github.com/slorber))
+  - [#3849](https://github.com/facebook/docusaurus/pull/3849) chore(ci): CI scripts cleanup, add Node 14 runs, bump checkout action ([@Simek](https://github.com/Simek))
+  - [#3850](https://github.com/facebook/docusaurus/pull/3850) chore(v2): i18n CI: add write-translations call ([@slorber](https://github.com/slorber))
+  - [#3848](https://github.com/facebook/docusaurus/pull/3848) chore(v2): fix CI typo ([@slorber](https://github.com/slorber))
+  - [#3847](https://github.com/facebook/docusaurus/pull/3847) chore(v2): wire production Crowdin project + setup ([@slorber](https://github.com/slorber))
+  - [#3846](https://github.com/facebook/docusaurus/pull/3846) chore(v2): fix PRs not able to add lighthouse/buildsize comment from works ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3865](https://github.com/facebook/docusaurus/pull/3865) chore(v2): fix ignore paths and Prettier commands in themes ([@Simek](https://github.com/Simek))
+- `docusaurus-cssnano-preset`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+  - [#3844](https://github.com/facebook/docusaurus/pull/3844) chore(v2): fix several lint warnings, add missing types, cleanup ([@Simek](https://github.com/Simek))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-search-algolia`
+  - [#3838](https://github.com/facebook/docusaurus/pull/3838) refactor(v2): extract site title formatter to theme-common util ([@Simek](https://github.com/Simek))
+
+#### Committers: 23
+
+- Aarón García Hervás ([@aarongarciah](https://github.com/aarongarciah))
+- Alex1304 ([@Alex1304](https://github.com/Alex1304))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Arthur ([@ArtFlag](https://github.com/ArtFlag))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Cindy Gu ([@cindygu4](https://github.com/cindygu4))
+- Derric Gilling ([@dgilling](https://github.com/dgilling))
+- François Chalifour ([@francoischalifour](https://github.com/francoischalifour))
+- Hadrien Milano ([@hmil](https://github.com/hmil))
+- Kaartic Sivaraam ([@sivaraam](https://github.com/sivaraam))
+- Loïc Poullain ([@LoicPoullain](https://github.com/LoicPoullain))
+- Matija Sosic ([@matijaSos](https://github.com/matijaSos))
+- Matteo Manzinello ([@manzinello](https://github.com/manzinello))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Oliver Ullman ([@oriooctopus](https://github.com/oriooctopus))
+- Rami ([@Romstar](https://github.com/Romstar))
+- Sarthak kundra ([@sarthakkundra](https://github.com/sarthakkundra))
+- Stephen Woodruff ([@woodrufs](https://github.com/woodrufs))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Varshit Shah ([@Varshit07](https://github.com/Varshit07))
+- [@borool](https://github.com/borool)
+- [@davidmauskop](https://github.com/davidmauskop)
+- hackerman ([@aeneasr](https://github.com/aeneasr))
+
+## 2.0.0-alpha.69 (2020-11-24)
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#3802](https://github.com/facebook/docusaurus/pull/3802) feat(v2): add baseUrlIssueBanner configuration to disable banner ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#3807](https://github.com/facebook/docusaurus/pull/3807) chore(v2): upgrade Infima to v0.2.0-alpha.18 ([@lex111](https://github.com/lex111))
+  - [#3806](https://github.com/facebook/docusaurus/pull/3806) fix(v2): remove aria-hidden attr from anchor link of heading ([@lex111](https://github.com/lex111))
+  - [#3784](https://github.com/facebook/docusaurus/pull/3784) fix(v2): fix missing logo in dark theme when darkSrc was not set ([@Simek](https://github.com/Simek))
+- `docusaurus-theme-search-algolia`
+  - [#3804](https://github.com/facebook/docusaurus/pull/3804) fix(v2): Algolia: allow contextualSearch + facetFilters ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3796](https://github.com/facebook/docusaurus/pull/3796) Adds createRequire for preset resolution ([@arcanis](https://github.com/arcanis))
+
+#### :memo: Documentation
+
+- [#3803](https://github.com/facebook/docusaurus/pull/3803) docs(v2): fix docusaurus init issue when not using @latest ([@slorber](https://github.com/slorber))
+- [#3785](https://github.com/facebook/docusaurus/pull/3785) docs(v2): recommend Docusaurus 2 usage ([@slorber](https://github.com/slorber))
+- [#3783](https://github.com/facebook/docusaurus/pull/3783) docs(v2): remove @next tags needed to install v2 packages ([@slorber](https://github.com/slorber))
+- [#3781](https://github.com/facebook/docusaurus/pull/3781) docs(v2): rename zeit to vercel ([@camiluc](https://github.com/camiluc))
+
+#### :house: Internal
+
+- [#3800](https://github.com/facebook/docusaurus/pull/3800) chore(v2): remove useless stylelint-copyright peerDependency ([@slorber](https://github.com/slorber))
+- [#3786](https://github.com/facebook/docusaurus/pull/3786) chore(v2): ensure publishConfig.access presence with tests ([@slorber](https://github.com/slorber))
+
+#### Committers: 5
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Maël Nison ([@arcanis](https://github.com/arcanis))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- [@camiluc](https://github.com/camiluc)
+
+## 2.0.0-alpha.68 (2020-11-18)
+
+#### :rocket: New Feature
+
+- Other
+  - [#3717](https://github.com/facebook/docusaurus/pull/3717) feat(v2): official CodeSandbox support ([@sammychinedu2ky](https://github.com/sammychinedu2ky))
+- `docusaurus-init`
+  - [#3729](https://github.com/facebook/docusaurus/pull/3729) feat(v2): allow init project via npm ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3730](https://github.com/facebook/docusaurus/pull/3730) feat(v2): add ThemedImage component ([@Simek](https://github.com/Simek))
+- `docusaurus-cssnano-preset`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3716](https://github.com/facebook/docusaurus/pull/3716) feat(v2): introduce new minification of CSS bundle ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#3694](https://github.com/facebook/docusaurus/pull/3694) feat(v2): Added the ability to specify GIT_PASS in deploy command (for CI purposes) ([@smcelhinney](https://github.com/smcelhinney))
+  - [#3621](https://github.com/facebook/docusaurus/pull/3621) feat(v2): baseUrl config issues: show help message if css/js can't load ([@jcs98](https://github.com/jcs98))
+  - [#3594](https://github.com/facebook/docusaurus/pull/3594) feat(v2): add support for key,cert in https ([@ThakurKarthik](https://github.com/ThakurKarthik))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#3705](https://github.com/facebook/docusaurus/pull/3705) feat(v2): add support for sync to npm2yarn tabs ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `docusaurus-migrate`, `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#3658](https://github.com/facebook/docusaurus/pull/3658) feat(v2): onBrokenMarkdownLinks config ([@AmyrAhmady](https://github.com/AmyrAhmady))
+- `docusaurus-theme-classic`
+  - [#3640](https://github.com/facebook/docusaurus/pull/3640) feat(v2): add skip to content link ([@lex111](https://github.com/lex111))
+  - [#3615](https://github.com/facebook/docusaurus/pull/3615) feat(v2): add ability to hide doc sidebar ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#3749](https://github.com/facebook/docusaurus/pull/3749) fix(v2): add support for interleaving Markdown in code blocks ([@lex111](https://github.com/lex111))
+  - [#3739](https://github.com/facebook/docusaurus/pull/3739) fix(v2): add support for prefers-reduced-motion in hideable sidebar ([@lex111](https://github.com/lex111))
+  - [#3726](https://github.com/facebook/docusaurus/pull/3726) fix(v2): add thin scrollbar to proper element in TOC ([@lex111](https://github.com/lex111))
+  - [#3681](https://github.com/facebook/docusaurus/pull/3681) Revert "refactor(v2): improve regex matching code-block title" ([@lex111](https://github.com/lex111))
+  - [#3662](https://github.com/facebook/docusaurus/pull/3662) fix(v2): navbar dropdown crash when item.to is undefined ([@artemkovalyov](https://github.com/artemkovalyov))
+  - [#3669](https://github.com/facebook/docusaurus/pull/3669) fix(v2): make scrollbar styles consistent ([@nategiraudeau](https://github.com/nategiraudeau))
+  - [#3666](https://github.com/facebook/docusaurus/pull/3666) fix(v2): make optional title for footer links column ([@lex111](https://github.com/lex111))
+  - [#3647](https://github.com/facebook/docusaurus/pull/3647) fix(v2): do not set height for mobile dropdown during build ([@lex111](https://github.com/lex111))
+  - [#3650](https://github.com/facebook/docusaurus/pull/3650) fix(v2): add landmark for skip to content link ([@lex111](https://github.com/lex111))
+  - [#3627](https://github.com/facebook/docusaurus/pull/3627) fix(v2): disable tabbing on hidden doc sidebar ([@lex111](https://github.com/lex111))
+  - [#3637](https://github.com/facebook/docusaurus/pull/3637) fix(v2): wrap code blocks on print ([@haivp3010](https://github.com/haivp3010))
+  - [#3603](https://github.com/facebook/docusaurus/pull/3603) fix(v2): animate dropdown properly ([@lex111](https://github.com/lex111))
+  - [#3611](https://github.com/facebook/docusaurus/pull/3611) fix(v2): Added back support for optional logo field in theme-classic navbarConfig ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3763](https://github.com/facebook/docusaurus/pull/3763) refactor(v2): various markup improvements ([@lex111](https://github.com/lex111))
+  - [#3724](https://github.com/facebook/docusaurus/pull/3724) fix(v2): add support for non-ASCII chars in anchor link scroll ([@lex111](https://github.com/lex111))
+- `docusaurus-module-type-aliases`, `docusaurus`
+  - [#3723](https://github.com/facebook/docusaurus/pull/3723) fix(v2): restore prefetch functionality ([@lex111](https://github.com/lex111))
+- Other
+  - [#3760](https://github.com/facebook/docusaurus/pull/3760) fix(v2): codesandbox generated examples should use published init package ([@slorber](https://github.com/slorber))
+  - [#3701](https://github.com/facebook/docusaurus/pull/3701) fix(v2): limit images height on showcase page ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`
+  - [#3757](https://github.com/facebook/docusaurus/pull/3757) fix(v2): escape alt text in img tag ([@lex111](https://github.com/lex111))
+  - [#3653](https://github.com/facebook/docusaurus/pull/3653) fix(v2): handle multiple asset links in one line properly ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`, `docusaurus-utils`
+  - [#3721](https://github.com/facebook/docusaurus/pull/3721) fix(v2): use swizzled SearchPage component if any ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#3725](https://github.com/facebook/docusaurus/pull/3725) fix(v2): fix inconsistent error output in swizzle command ([@lex111](https://github.com/lex111))
+  - [#3704](https://github.com/facebook/docusaurus/pull/3704) refactor(v2): allow adding plugins depending on condition ([@lex111](https://github.com/lex111))
+  - [#3691](https://github.com/facebook/docusaurus/pull/3691) fix(v2): use SVGO in webpack SVGR loader ([@charleskorn](https://github.com/charleskorn))
+  - [#3667](https://github.com/facebook/docusaurus/pull/3667) fix(v2): Fix typo in BaseUrlSuggestionWarning ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-utils`
+  - [#3703](https://github.com/facebook/docusaurus/pull/3703) fix(v2): ignore export declarations in excerpt ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#3639](https://github.com/facebook/docusaurus/pull/3639) fix(v2): restore infinite scroll pagination on search page ([@lex111](https://github.com/lex111))
+- `docusaurus-types`, `docusaurus`
+  - [#3622](https://github.com/facebook/docusaurus/pull/3622) fix(v2): docusaurus start --poll 500 should work + better config load failure error ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus`
+  - [#3765](https://github.com/facebook/docusaurus/pull/3765) chore(v2): replace wait-file with wait-on to reduce npm warnings ([@lex111](https://github.com/lex111))
+  - [#3725](https://github.com/facebook/docusaurus/pull/3725) fix(v2): fix inconsistent error output in swizzle command ([@lex111](https://github.com/lex111))
+  - [#3609](https://github.com/facebook/docusaurus/pull/3609) refactor(v2): Improve SSR error message: log page path ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3764](https://github.com/facebook/docusaurus/pull/3764) refactor(v2): make accessible anchor links from keyboard ([@lex111](https://github.com/lex111))
+  - [#3745](https://github.com/facebook/docusaurus/pull/3745) refactor(v2): introduce Logo component, remove useLogo hook ([@Simek](https://github.com/Simek))
+  - [#3706](https://github.com/facebook/docusaurus/pull/3706) refactor(v2): render all tab panels at once ([@lex111](https://github.com/lex111))
+  - [#3712](https://github.com/facebook/docusaurus/pull/3712) chore(v2): upgrade Infima to v0.2.0-alpha.15 ([@lex111](https://github.com/lex111))
+  - [#3685](https://github.com/facebook/docusaurus/pull/3685) refactor(v2): improve regex matching code-block title ([@hong4rc](https://github.com/hong4rc))
+  - [#3674](https://github.com/facebook/docusaurus/pull/3674) feat(v2): add additional wrapper class to blog pages ([@Simek](https://github.com/Simek))
+  - [#3671](https://github.com/facebook/docusaurus/pull/3671) refactor(v2): improve regex matching code-block title ([@hong4rc](https://github.com/hong4rc))
+  - [#3654](https://github.com/facebook/docusaurus/pull/3654) refactor(v2): clean up code blocks ([@lex111](https://github.com/lex111))
+  - [#3649](https://github.com/facebook/docusaurus/pull/3649) refactor(v2): make code blocks scrollable from keyboard ([@lex111](https://github.com/lex111))
+  - [#3626](https://github.com/facebook/docusaurus/pull/3626) refactor(v2): remove focus outline from mouse users ([@lex111](https://github.com/lex111))
+- `docusaurus-init`
+  - [#3709](https://github.com/facebook/docusaurus/pull/3709) chore(v2): adjust website npm package ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#3707](https://github.com/facebook/docusaurus/pull/3707) chore(v2): upgrade Infima to v0.2.0-alpha.14 ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3638](https://github.com/facebook/docusaurus/pull/3638) chore(v2): migrate hapi/joi to joi ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-search-algolia`
+  - [#3604](https://github.com/facebook/docusaurus/pull/3604) refactor(v2): use new way to get versions for search page ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- Other
+  - [#3762](https://github.com/facebook/docusaurus/pull/3762) Adding ConfigCat to showcase ([@sigewuzhere](https://github.com/sigewuzhere))
+  - [#3750](https://github.com/facebook/docusaurus/pull/3750) docs(v2): add npm2yarn to typescript install command ([@davidjgoss](https://github.com/davidjgoss))
+  - [#3743](https://github.com/facebook/docusaurus/pull/3743) docs(v2): convert teams page to MDX ([@slorber](https://github.com/slorber))
+  - [#3737](https://github.com/facebook/docusaurus/pull/3737) docs(v2): add Inline SVG color override example ([@Simek](https://github.com/Simek))
+  - [#3718](https://github.com/facebook/docusaurus/pull/3718) docs(v2): showcase Botonic ([@vanbasten17](https://github.com/vanbasten17))
+  - [#3696](https://github.com/facebook/docusaurus/pull/3696) docs(v2): normalize showcase preview images height ([@Simek](https://github.com/Simek))
+  - [#3699](https://github.com/facebook/docusaurus/pull/3699) docs(v2): deployment should use mdx extension ([@slorber](https://github.com/slorber))
+  - [#3695](https://github.com/facebook/docusaurus/pull/3695) docs(v2): add React Native website to the showcase ([@Simek](https://github.com/Simek))
+  - [#3645](https://github.com/facebook/docusaurus/pull/3645) Update Docusaurus v2 Showcase ([@ndom91](https://github.com/ndom91))
+  - [#3644](https://github.com/facebook/docusaurus/pull/3644) docs(v2): update the link of joi ([@kenve](https://github.com/kenve))
+  - [#3636](https://github.com/facebook/docusaurus/pull/3636) docs(v2): fix some misspellings ([@ka1bi4](https://github.com/ka1bi4))
+  - [#3630](https://github.com/facebook/docusaurus/pull/3630) docs: remove runme ([@juzhiyuan](https://github.com/juzhiyuan))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#3624](https://github.com/facebook/docusaurus/pull/3624) Fix typo in remark-plugin-npm2yarn documentation ([@belemaire](https://github.com/belemaire))
+
+#### :house: Internal
+
+- Other
+  - [#3769](https://github.com/facebook/docusaurus/pull/3769) docs(v2): fix statements background, update footer background ([@Simek](https://github.com/Simek))
+  - [#3744](https://github.com/facebook/docusaurus/pull/3744) chore(v2): add build size bot workflow Github CI workflow ([@jcs98](https://github.com/jcs98))
+  - [#3741](https://github.com/facebook/docusaurus/pull/3741) chore: update yarn lock again ([@slorber](https://github.com/slorber))
+  - [#3740](https://github.com/facebook/docusaurus/pull/3740) chore: update yarn lock ([@slorber](https://github.com/slorber))
+  - [#3738](https://github.com/facebook/docusaurus/pull/3738) chore(internal): add yarn deduplicate script, cleanup lock ([@Simek](https://github.com/Simek))
+  - [#3732](https://github.com/facebook/docusaurus/pull/3732) fix(internal): fix clear script from the main package.json ([@Simek](https://github.com/Simek))
+  - [#3708](https://github.com/facebook/docusaurus/pull/3708) chore(v2): remove docs for alpha v60-61 ([@lex111](https://github.com/lex111))
+  - [#3693](https://github.com/facebook/docusaurus/pull/3693) fix(v2): fix website scripts on Windows by using cross-env ([@Simek](https://github.com/Simek))
+  - [#3673](https://github.com/facebook/docusaurus/pull/3673) test(e2e): dogfood Yarn with enableGlobalCache ([@ylemkimon](https://github.com/ylemkimon))
+  - [#3641](https://github.com/facebook/docusaurus/pull/3641) misc: fix unbound env variable in test release script ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`, `docusaurus-migrate`, `lqip-loader`
+  - [#3766](https://github.com/facebook/docusaurus/pull/3766) chore(v2): fix several npm warnings ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`
+  - [#3753](https://github.com/facebook/docusaurus/pull/3753) chore(v2): fix mismatch peer dependency in MDX loader ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#3742](https://github.com/facebook/docusaurus/pull/3742) chore(v2): pin version of babel-plugin-dynamic-import-node to 2.3.0 ([@lex111](https://github.com/lex111))
+  - [#3734](https://github.com/facebook/docusaurus/pull/3734) chore(v2): downgrade babel-plugin-dynamic-import-node to 2.3.0 ([@lex111](https://github.com/lex111))
+  - [#3714](https://github.com/facebook/docusaurus/pull/3714) chore(v2): fix prettier formatting ([@slorber](https://github.com/slorber))
+  - [#3619](https://github.com/facebook/docusaurus/pull/3619) refactor(v2): add better error message for yarn workspace/monorepo/terser issue ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-pwa`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#3727](https://github.com/facebook/docusaurus/pull/3727) chore(v2): upgrade dependencies ([@lex111](https://github.com/lex111))
+- `docusaurus-1.x`
+  - [#3715](https://github.com/facebook/docusaurus/pull/3715) chore(v2): update Browserslist ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-sitemap`
+  - [#3675](https://github.com/facebook/docusaurus/pull/3675) fix(v2): add missing 'react' and 'webpack' peer dependencies ([@ylemkimon](https://github.com/ylemkimon))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3613](https://github.com/facebook/docusaurus/pull/3613) fix: add repository metadata to all packages ([@rarkins](https://github.com/rarkins))
+
+#### Committers: 26
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Anh Hong ([@hong4rc](https://github.com/hong4rc))
+- Artem Kovalov ([@artemkovalyov](https://github.com/artemkovalyov))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Benoît Lemaire ([@belemaire](https://github.com/belemaire))
+- Bright Egbo ([@egbobright](https://github.com/egbobright))
+- Charles Korn ([@charleskorn](https://github.com/charleskorn))
+- David Goss ([@davidjgoss](https://github.com/davidjgoss))
+- Gergely Sinka ([@sigewuzhere](https://github.com/sigewuzhere))
+- Hai ([@haivp3010](https://github.com/haivp3010))
+- Jainam Chirag Shah ([@jcs98](https://github.com/jcs98))
+- Marc Rabat Pla ([@vanbasten17](https://github.com/vanbasten17))
+- Nate Giraudeau ([@nategiraudeau](https://github.com/nategiraudeau))
+- Nico Domino ([@ndom91](https://github.com/ndom91))
+- Rhys Arkins ([@rarkins](https://github.com/rarkins))
+- Roman Bug ([@ka1bi4](https://github.com/ka1bi4))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Shenwei Wang ([@weareoutman](https://github.com/weareoutman))
+- Stephen McElhinney ([@smcelhinney](https://github.com/smcelhinney))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Thakur Karthik ([@ThakurKarthik](https://github.com/ThakurKarthik))
+- [@sammychinedu2ky](https://github.com/sammychinedu2ky)
+- iAmir ([@AmyrAhmady](https://github.com/AmyrAhmady))
+- kenve ([@kenve](https://github.com/kenve))
+- ylemkimon ([@ylemkimon](https://github.com/ylemkimon))
+- 琚致远 ([@juzhiyuan](https://github.com/juzhiyuan))
+
+## 2.0.0-alpha.67 (2020-11-18)
+
+Failed release
+
+## 2.0.0-alpha.66 (2020-10-19)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#3593](https://github.com/facebook/docusaurus/pull/3593) feat(v2): blog sidebar ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-remark-plugin-npm2yarn`
+  - [#3469](https://github.com/facebook/docusaurus/pull/3469) feat(v2): Extract npm2yarn plugin ([@fanny](https://github.com/fanny))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#3550](https://github.com/facebook/docusaurus/pull/3550) feat(v2): contextual search, dynamic Algolia facetFilters ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3580](https://github.com/facebook/docusaurus/pull/3580) feat(v2): allow to define custom CSS class for Tabs component ([@Simek](https://github.com/Simek))
+  - [#3553](https://github.com/facebook/docusaurus/pull/3553) feat(v2): make dropdown menu collapsible on mobiles ([@lex111](https://github.com/lex111))
+- `docusaurus-migrate`, `docusaurus-types`, `docusaurus`
+  - [#3573](https://github.com/facebook/docusaurus/pull/3573) feat(v2): Add themeConfig.noIndex option #3528 ([@hamzahamidi](https://github.com/hamzahamidi))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3543](https://github.com/facebook/docusaurus/pull/3543) feat(v2): persist docs preferred version ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3548](https://github.com/facebook/docusaurus/pull/3548) feat(v2): version dropdown before/after items + move site "All Versions" link ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+  - [#3545](https://github.com/facebook/docusaurus/pull/3545) feat(v2): site client modules ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3539](https://github.com/facebook/docusaurus/pull/3539) feat(v2): doc navbar item type ([@slorber](https://github.com/slorber))
+
+#### :boom: Breaking Change
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#3550](https://github.com/facebook/docusaurus/pull/3550) feat(v2): contextual search, dynamic Algolia facetFilters ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3607](https://github.com/facebook/docusaurus/pull/3607) fix(v2): fix error with required href attr of link in mobiles ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#3602](https://github.com/facebook/docusaurus/pull/3602) fix(v2): make dropdown button clickable with mouse ([@lex111](https://github.com/lex111))
+  - [#3601](https://github.com/facebook/docusaurus/pull/3601) fix(v2): fix table-of-content scroll highlighting issues ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3599](https://github.com/facebook/docusaurus/pull/3599) fix(v2): remove event listeners on Tabs component unmount ([@lex111](https://github.com/lex111))
+- `docusaurus-types`, `docusaurus`
+  - [#3531](https://github.com/facebook/docusaurus/pull/3531) fix(v2): Fixes serve cli --port option ([@UmairKamran](https://github.com/UmairKamran))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#3585](https://github.com/facebook/docusaurus/pull/3585) refactor(v2): various dropdown improvements ([@lex111](https://github.com/lex111))
+  - [#3588](https://github.com/facebook/docusaurus/pull/3588) refactor(v2): make accessible copy code button from keyboard ([@lex111](https://github.com/lex111))
+  - [#3578](https://github.com/facebook/docusaurus/pull/3578) refactor(v2): apply common behavior to dropdowns ([@lex111](https://github.com/lex111))
+  - [#3546](https://github.com/facebook/docusaurus/pull/3546) docs: various fixes and improvements ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3587](https://github.com/facebook/docusaurus/pull/3587) refactor(v2): various fixes ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#3569](https://github.com/facebook/docusaurus/pull/3569) refactor(v2): improve broken links error message ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- Other
+  - [#3576](https://github.com/facebook/docusaurus/pull/3576) docs(v2): removed obsolete "you" identifier ([@christian-bromann](https://github.com/christian-bromann))
+  - [#3589](https://github.com/facebook/docusaurus/pull/3589) docs(v2): add taro to users ([@honlyHuang](https://github.com/honlyHuang))
+  - [#3565](https://github.com/facebook/docusaurus/pull/3565) docs(v2): deployment, add required Github token scope infos ([@russtaylor](https://github.com/russtaylor))
+  - [#3574](https://github.com/facebook/docusaurus/pull/3574) docs(v2): adding vue-nodegui to users ([@shubhamzanwar](https://github.com/shubhamzanwar))
+  - [#3556](https://github.com/facebook/docusaurus/pull/3556) Added Axioms to users ([@abhishektiwari](https://github.com/abhishektiwari))
+  - [#3558](https://github.com/facebook/docusaurus/pull/3558) docs(v2): embedding real source code in MDX as a code block ([@slorber](https://github.com/slorber))
+  - [#3555](https://github.com/facebook/docusaurus/pull/3555) docs(v2): add "Wisdom" dev docs website to showcase. ([@jagracey](https://github.com/jagracey))
+  - [#3532](https://github.com/facebook/docusaurus/pull/3532) docs(v2): change package name in example script ([@MatanBobi](https://github.com/MatanBobi))
+  - [#3538](https://github.com/facebook/docusaurus/pull/3538) docs(v1): added drone for 1.0 #3491 ([@aakhtar3](https://github.com/aakhtar3))
+  - [#3533](https://github.com/facebook/docusaurus/pull/3533) docs(v1): Fix broken link in the documentation ([@saintmalik](https://github.com/saintmalik))
+  - [#3534](https://github.com/facebook/docusaurus/pull/3534) docs(v2): Fix url bugs in v2 docs ([@saintmalik](https://github.com/saintmalik))
+- `docusaurus-theme-classic`
+  - [#3546](https://github.com/facebook/docusaurus/pull/3546) docs: various fixes and improvements ([@lex111](https://github.com/lex111))
+
+#### :house: Internal
+
+- `docusaurus-theme-search-algolia`
+  - [#3591](https://github.com/facebook/docusaurus/pull/3591) chore(v2): enable new contextual search feature ([@slorber](https://github.com/slorber))
+- Other
+  - [#3586](https://github.com/facebook/docusaurus/pull/3586) chore(v2): fix/upgrade react types ([@slorber](https://github.com/slorber))
+  - [#3577](https://github.com/facebook/docusaurus/pull/3577) refactor(v2): clarify versions page ([@lex111](https://github.com/lex111))
+  - [#3560](https://github.com/facebook/docusaurus/pull/3560) feat(v2): prevent using remote image urls in showcase ([@slorber](https://github.com/slorber))
+  - [#3554](https://github.com/facebook/docusaurus/pull/3554) fix(v2): use absolute path to manifest file ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#3394](https://github.com/facebook/docusaurus/pull/3394) refactor(v2): add useThemeConfig hook + cleanup useless theme default values ([@imskr](https://github.com/imskr))
+
+#### Committers: 17
+
+- Abhishek Tiwari ([@abhishektiwari](https://github.com/abhishektiwari))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Christian Bromann ([@christian-bromann](https://github.com/christian-bromann))
+- Fanny ([@fanny](https://github.com/fanny))
+- Hamza Hamidi ([@hamzahamidi](https://github.com/hamzahamidi))
+- John Gracey ([@jagracey](https://github.com/jagracey))
+- Matan Borenkraout ([@MatanBobi](https://github.com/MatanBobi))
+- Russ Taylor ([@russtaylor](https://github.com/russtaylor))
+- SaintMalik ([@saintmalik](https://github.com/saintmalik))
+- Shubham Kumar ([@imskr](https://github.com/imskr))
+- Shubham Zanwar ([@shubhamzanwar](https://github.com/shubhamzanwar))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Umair Kamran ([@UmairKamran](https://github.com/UmairKamran))
+- Utkarsh Goel ([@utkarsh867](https://github.com/utkarsh867))
+- [@aakhtar3](https://github.com/aakhtar3)
+- honlyHuang ([@honlyHuang](https://github.com/honlyHuang))
+
+## 2.0.0-alpha.65 (2020-10-02)
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#3497](https://github.com/facebook/docusaurus/pull/3497) feat(v2): env variable TERSER_PARALLEL to customize TerserPlugin.parallel ([@aeneasr](https://github.com/aeneasr))
+  - [#3446](https://github.com/facebook/docusaurus/pull/3446) feat(v2): new docusaurus clear command ([@abadon7](https://github.com/abadon7))
+  - [#3485](https://github.com/facebook/docusaurus/pull/3485) feat(v2): Add @theme-init components to user theme ([@edno](https://github.com/edno))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`
+  - [#3467](https://github.com/facebook/docusaurus/pull/3467) feat(v2): add beforeDefaultRemarkPlugins/beforeDefaultRehypePlugins options to all md content plugins ([@ayshiff](https://github.com/ayshiff))
+- `docusaurus-init`, `docusaurus-theme-bootstrap`
+  - [#3496](https://github.com/facebook/docusaurus/pull/3496) feat(v2): migrate bootstrap components to ts ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3474](https://github.com/facebook/docusaurus/pull/3474) feat(v2): allow to use array of files in customCss field ([@Simek](https://github.com/Simek))
+- `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`
+  - [#3457](https://github.com/facebook/docusaurus/pull/3457) feat(v2): add optional custom wrapper class name for pages based on theme classic Layout ([@Simek](https://github.com/Simek))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3517](https://github.com/facebook/docusaurus/pull/3517) fix(v1): v1 deploy preview should be available ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3498](https://github.com/facebook/docusaurus/pull/3498) fix(v2): fixed props being passed to @svgr/webpack loader ([@anru](https://github.com/anru))
+- `docusaurus-theme-search-algolia`
+  - [#3456](https://github.com/facebook/docusaurus/pull/3456) fix(v2): use valid value for crossorigin attribute ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#3427](https://github.com/facebook/docusaurus/pull/3427) fix(v2): normalizeUrl edge cases ([@ayshiff](https://github.com/ayshiff))
+- `docusaurus-theme-classic`
+  - [#3472](https://github.com/facebook/docusaurus/pull/3472) fix(v2): Show dropdown instead of a single button when there are two versions ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`
+  - [#3441](https://github.com/facebook/docusaurus/pull/3441) fix(v2): fixing typo in error message ([@ayonious](https://github.com/ayonious))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#3499](https://github.com/facebook/docusaurus/pull/3499) chore(v2): upgrade Infima to 0.2.0-alpha.13 ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- `docusaurus`
+  - [#3502](https://github.com/facebook/docusaurus/pull/3502) docs(v2): add doc for wrapping theme components with @theme-original and @theme-init ([@slorber](https://github.com/slorber))
+- Other
+  - [#3473](https://github.com/facebook/docusaurus/pull/3473) misc: add License to the documentation ([@muskanvk](https://github.com/muskanvk))
+  - [#3492](https://github.com/facebook/docusaurus/pull/3492) docs(v2): Added drone.io publish docs #3491 ([@aakhtar3](https://github.com/aakhtar3))
+  - [#3479](https://github.com/facebook/docusaurus/pull/3479) docs(v2): remove redundant new line in code block ([@lex111](https://github.com/lex111))
+  - [#3448](https://github.com/facebook/docusaurus/pull/3448) chore(v2): fix theme classic navbar style docs ([@Simek](https://github.com/Simek))
+
+#### :house: Internal
+
+- `docusaurus-1.x`, `docusaurus-migrate`
+  - [#3504](https://github.com/facebook/docusaurus/pull/3504) chore(v1): move v1 docs inside website-1.x ([@slorber](https://github.com/slorber))
+- Other
+  - [#3506](https://github.com/facebook/docusaurus/pull/3506) chore(v2): v2 website should make it easy to contribute to upstream docs ([@slorber](https://github.com/slorber))
+  - [#3511](https://github.com/facebook/docusaurus/pull/3511) misc: update CODEOWNERS ([@yangshun](https://github.com/yangshun))
+  - [#3477](https://github.com/facebook/docusaurus/pull/3477) chore(v2): remove alpha 58 doc ([@lex111](https://github.com/lex111))
+- `docusaurus-utils-validation`
+  - [#3453](https://github.com/facebook/docusaurus/pull/3453) test(v2): add protocol relative uri validation test ([@moonrailgun](https://github.com/moonrailgun))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Andrey Rublev ([@anru](https://github.com/anru))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Grégory Heitz ([@edno](https://github.com/edno))
+- Henry Vélez ([@abadon7](https://github.com/abadon7))
+- Jeremy Hager ([@jeremyhager](https://github.com/jeremyhager))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Long Ho ([@longlho](https://github.com/longlho))
+- Muskan Kumar ([@muskanvk](https://github.com/muskanvk))
+- Nahiyan Kamal ([@ayonious](https://github.com/ayonious))
+- Rémi Doreau ([@ayshiff](https://github.com/ayshiff))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tim Gates ([@timgates42](https://github.com/timgates42))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- [@aakhtar3](https://github.com/aakhtar3)
+- hackerman ([@aeneasr](https://github.com/aeneasr))
+- moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
+
+## 2.0.0-alpha.64 (2020-09-11)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#3432](https://github.com/facebook/docusaurus/pull/3432) feat(v2): add style property to theme-classic navbar ([@Simek](https://github.com/Simek))
+  - [#3406](https://github.com/facebook/docusaurus/pull/3406) feat(v2): ability to add/override theme html metadatas ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-sitemap`
+  - [#3426](https://github.com/facebook/docusaurus/pull/3426) feat(v2): add option to add trailing slash to urls in sitemap ([@mpsq](https://github.com/mpsq))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3438](https://github.com/facebook/docusaurus/pull/3438) fix(v2): docusaurus 2 PWA should work under baseurl (deploy previews) ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#3435](https://github.com/facebook/docusaurus/pull/3435) fix(v2): fix empty link error message ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-pwa`
+  - [#3436](https://github.com/facebook/docusaurus/pull/3436) fix(v2): Correctly resolve sw.js path on windows ([@ashscodes](https://github.com/ashscodes))
+- `docusaurus-theme-classic`
+  - [#3433](https://github.com/facebook/docusaurus/pull/3433) fix(v2): fix theme-classic announcement bar closeable style ([@Simek](https://github.com/Simek))
+- `docusaurus-1.x`
+  - [#3429](https://github.com/facebook/docusaurus/pull/3429) fix(v1): versioned_docs and skip-next-release relative path issue ([@josephMG](https://github.com/josephMG))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#3418](https://github.com/facebook/docusaurus/pull/3418) fix(v2): reset sidebar state on sidebar changes ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-debug`
+  - [#3405](https://github.com/facebook/docusaurus/pull/3405) fix(v2): fix debug plugin unscoped inline code global css ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3428](https://github.com/facebook/docusaurus/pull/3428) docs(v2): fix grammar ([@thadguidry](https://github.com/thadguidry))
+- [#3425](https://github.com/facebook/docusaurus/pull/3425) docs(v2): mention Eta in ssrTemplate section ([@mpsq](https://github.com/mpsq))
+- [#3423](https://github.com/facebook/docusaurus/pull/3423) docs(v2): minor typo fix ([@rutikwankhade](https://github.com/rutikwankhade))
+
+#### :house: Internal
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus`
+  - [#3439](https://github.com/facebook/docusaurus/pull/3439) chore(v2): fix serialize-javascript security issue by upgrading webpack/workbox ([@slorber](https://github.com/slorber))
+- Other
+  - [#3401](https://github.com/facebook/docusaurus/pull/3401) chore(deps): bump decompress from 4.2.0 to 4.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 7
+
+- Ash ([@ashscodes](https://github.com/ashscodes))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Rutik Wankhade ([@rutikwankhade](https://github.com/rutikwankhade))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Thad Guidry ([@thadguidry](https://github.com/thadguidry))
+- [@josephMG](https://github.com/josephMG)
+
+## 2.0.0-alpha.63 (2020-09-03)
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#3387](https://github.com/facebook/docusaurus/pull/3387) feat(v2): allow users to specify a custom ssr HTML template ([@mpsq](https://github.com/mpsq))
+- `docusaurus-plugin-debug`
+  - [#3392](https://github.com/facebook/docusaurus/pull/3392) feat(v2): officially release @docusaurus/plugin-debug ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3388](https://github.com/facebook/docusaurus/pull/3388) feat(v2): add isCloseable property for theme-classic announcement bar ([@Simek](https://github.com/Simek))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3373](https://github.com/facebook/docusaurus/pull/3373) feat(v2): docs options.onlyIncludeVersions ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- Other
+  - [#3397](https://github.com/facebook/docusaurus/pull/3397) fix(v2): DocSearch should keep working after a new release (part 2/2) ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3393](https://github.com/facebook/docusaurus/pull/3393) fix(v2): DocSearch should keep working after a new release (part 1/2) ([@slorber](https://github.com/slorber))
+  - [#3381](https://github.com/facebook/docusaurus/pull/3381) fix(v2): alpha 62 doc fixes ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3385](https://github.com/facebook/docusaurus/pull/3385) fix(v2): scripts should allow unknown values ([@slorber](https://github.com/slorber))
+- `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3382](https://github.com/facebook/docusaurus/pull/3382) fix(v2): allow using classic theme/preset without the docs plugin ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils-validation`
+  - [#3377](https://github.com/facebook/docusaurus/pull/3377) fix(v2): reject routeBasePath: '' ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#3390](https://github.com/facebook/docusaurus/pull/3390) docs(v1, v2): Update Deploy to Vercel guide ([@samsisle](https://github.com/samsisle))
+- [#3344](https://github.com/facebook/docusaurus/pull/3344) docs(v2): Update Deploy to Vercel guide ([@samsisle](https://github.com/samsisle))
+
+#### :house: Internal
+
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3386](https://github.com/facebook/docusaurus/pull/3386) chore(v2): pin exact dependency versions ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3359](https://github.com/facebook/docusaurus/pull/3359) chore(v2): prepare v2.0.0.alpha-62 release ([@slorber](https://github.com/slorber))
+
+#### Committers: 5
+
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Sam Ko ([@samsisle](https://github.com/samsisle))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Thad Guidry ([@thadguidry](https://github.com/thadguidry))
+
+## 2.0.0-alpha.62 (2020-08-28)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3357](https://github.com/facebook/docusaurus/pull/3357) feat(v2): docs version configuration: lastVersion, version.{path,label} ([@slorber](https://github.com/slorber))
+  - [#3328](https://github.com/facebook/docusaurus/pull/3328) feat(v2): Provide docs plugin theme typing ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-theme-classic`
+  - [#3356](https://github.com/facebook/docusaurus/pull/3356) feat(v2): Provide type definitions for remaining theme-classic components ([@SamChou19815](https://github.com/SamChou19815))
+  - [#3274](https://github.com/facebook/docusaurus/pull/3274) feat(v2): add TOC to blog posts ([@amy-lei](https://github.com/amy-lei))
+- `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`
+  - [#3354](https://github.com/facebook/docusaurus/pull/3354) feat(v2): Provide type definitions for MDXPage from page plugin ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#3348](https://github.com/facebook/docusaurus/pull/3348) feat(v2): Provide typing to most of the theme-classic components ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`, `docusaurus-plugin-content-blog`
+  - [#3284](https://github.com/facebook/docusaurus/pull/3284) feat(v2): blog slug frontmatter ([@JeanMarcSaad](https://github.com/JeanMarcSaad))
+- `docusaurus-init`, `docusaurus-theme-bootstrap`
+  - [#2981](https://github.com/facebook/docusaurus/pull/2981) feat(v2): bootstrap theme, preset, template, CI previews ([@fanny](https://github.com/fanny))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#3267](https://github.com/facebook/docusaurus/pull/3267) feat(v2): Provide blog plugin theme typing ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-debug`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-types`, `docusaurus`
+  - [#3229](https://github.com/facebook/docusaurus/pull/3229) feat(v2): debug pages + debug layout + ability to debug content ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#3021](https://github.com/facebook/docusaurus/pull/3021) feat(v2): update swizzle command to suggest component/theme ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-pages`
+  - [#3196](https://github.com/facebook/docusaurus/pull/3196) feat(v2): add support to ignore files in pages plugin ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3204](https://github.com/facebook/docusaurus/pull/3204) feat(v2): blog + docs multi-instance plugins ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#3096](https://github.com/facebook/docusaurus/pull/3096) feat(v2): add support to import assets using relative link in markdown syntax ([@anshulrgoyal](https://github.com/anshulrgoyal))
+
+#### :bug: Bug Fix
+
+- `docusaurus-migrate`
+  - [#3358](https://github.com/facebook/docusaurus/pull/3358) fix(v2): fix migrate cli paths (sidebars/customcss) ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3311](https://github.com/facebook/docusaurus/pull/3311) fix(v2): add https support in webpack devserver ([@arcvats](https://github.com/arcvats))
+  - [#3313](https://github.com/facebook/docusaurus/pull/3313) fix(v2): resolve webpack loaders from siteDir/node_modules ([@anshulrgoyal](https://github.com/anshulrgoyal))
+  - [#3308](https://github.com/facebook/docusaurus/pull/3308) fix(v2): brokenLinks should not report links that belong to an existing folder if folder/index.html exists ([@slorber](https://github.com/slorber))
+  - [#3273](https://github.com/facebook/docusaurus/pull/3273) fix: logic error while deciding deploymentBranch ([@thehanimo](https://github.com/thehanimo))
+  - [#3281](https://github.com/facebook/docusaurus/pull/3281) fix(v2): allow swizzling of component even if case doesn't match ([@anshulrgoyal](https://github.com/anshulrgoyal))
+  - [#3222](https://github.com/facebook/docusaurus/pull/3222) fix(v2): update react-loadable-ssr-addon to solve yarn2 error ([@slorber](https://github.com/slorber))
+  - [#3191](https://github.com/facebook/docusaurus/pull/3191) fix(v2): add missing `lodash.flatmap` dependency ([@ylemkimon](https://github.com/ylemkimon))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-theme-bootstrap`, `docusaurus-theme-search-algolia`, `docusaurus-types`
+  - [#3355](https://github.com/facebook/docusaurus/pull/3355) fix(v2): Add missing dependencies to packages ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-theme-classic`
+  - [#3352](https://github.com/facebook/docusaurus/pull/3352) fix(v2): Allow the alt for the logo to be empty ([@Vinnl](https://github.com/Vinnl))
+  - [#3240](https://github.com/facebook/docusaurus/pull/3240) fix(v2): navbar dropdown opened with tab, not closing on click outside ([@Ako92](https://github.com/Ako92))
+- `docusaurus-mdx-loader`, `docusaurus`
+  - [#3347](https://github.com/facebook/docusaurus/pull/3347) fix(v2): linking to asset or external html page -> don't use history.push() ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`
+  - [#3340](https://github.com/facebook/docusaurus/pull/3340) fix(v1): show images after one line code block ([@adinaja](https://github.com/adinaja))
+- `docusaurus-1.x`, `docusaurus`
+  - [#3290](https://github.com/facebook/docusaurus/pull/3290) fix(v1,v2): Add initial-scale=1.0 to all meta viewport tags ([@nebrelbug](https://github.com/nebrelbug))
+- `docusaurus-theme-search-algolia`
+  - [#3297](https://github.com/facebook/docusaurus/pull/3297) fix(v2): keep DocSearch state on remounts ([@francoischalifour](https://github.com/francoischalifour))
+  - [#3280](https://github.com/facebook/docusaurus/pull/3280) fix(v2): allow search page swizzle ([@Ako92](https://github.com/Ako92))
+  - [#3263](https://github.com/facebook/docusaurus/pull/3263) fix(v2): do not index search pages ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-pages`
+  - [#3283](https://github.com/facebook/docusaurus/pull/3283) fix(v2): pass images in static dir to webpack-loader ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- Other
+  - [#3269](https://github.com/facebook/docusaurus/pull/3269) fix(v2): website feedback page hydration bug ([@mecm1993](https://github.com/mecm1993))
+  - [#3200](https://github.com/facebook/docusaurus/pull/3200) fix(v1): self-host user images ([@leoigel](https://github.com/leoigel))
+- `docusaurus-plugin-google-gtag`
+  - [#3243](https://github.com/facebook/docusaurus/pull/3243) fix(v2): GTM, send page_view events on navigate ([@govardhan-srinivas](https://github.com/govardhan-srinivas))
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#3262](https://github.com/facebook/docusaurus/pull/3262) fix(v2): doc path special char (space or other) should lead to a valid slug ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3247](https://github.com/facebook/docusaurus/pull/3247) fix(v2): modify validation schema and tests for rehype/remark + remove duplicate dependency ([@teikjun](https://github.com/teikjun))
+- `docusaurus-init`
+  - [#3258](https://github.com/facebook/docusaurus/pull/3258) fix(v2): fix template alt image prop ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus`
+  - [#3227](https://github.com/facebook/docusaurus/pull/3227) fix(v2): relax URI validation ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-init`, `docusaurus-plugin-content-docs`
+  - [#3228](https://github.com/facebook/docusaurus/pull/3228) fix(v2): deprecate docs homePageId in favor of frontmatter "slug: /" ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#3225](https://github.com/facebook/docusaurus/pull/3225) fix(v2): swizzle minor improvements ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#3210](https://github.com/facebook/docusaurus/pull/3210) fix(v2): fix theme validation for prism field and add tests ([@teikjun](https://github.com/teikjun))
+- `docusaurus-plugin-content-docs`
+  - [#3192](https://github.com/facebook/docusaurus/pull/3192) fix(v2): add missing `chalk` and `lodash` dependencies ([@ylemkimon](https://github.com/ylemkimon))
+
+#### :nail_care: Polish
+
+- `docusaurus-module-type-aliases`, `docusaurus`
+  - [#3244](https://github.com/facebook/docusaurus/pull/3244) chore(v2): tighten up the TypeScript onboarding ([@orta](https://github.com/orta))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#3245](https://github.com/facebook/docusaurus/pull/3245) refactor(v2): docs plugin refactor ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3188](https://github.com/facebook/docusaurus/pull/3188) fix(v2): Add a missing whitespace before prompt to use `npm run serve` ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :memo: Documentation
+
+- Other
+  - [#3346](https://github.com/facebook/docusaurus/pull/3346) docs(v2): add draft doc ([@imskr](https://github.com/imskr))
+  - [#3336](https://github.com/facebook/docusaurus/pull/3336) docs(v2): add Nisarag to Fellows section ([@FocalChord](https://github.com/FocalChord))
+  - [#3335](https://github.com/facebook/docusaurus/pull/3335) docs(v2): update team profile ([@yangshun](https://github.com/yangshun))
+  - [#3334](https://github.com/facebook/docusaurus/pull/3334) docs(v2): add Drew to Fellows section ([@Drewbi](https://github.com/Drewbi))
+  - [#3333](https://github.com/facebook/docusaurus/pull/3333) docs(v2): add anshul and teikjun to fellows section of team page ([@teikjun](https://github.com/teikjun))
+  - [#3326](https://github.com/facebook/docusaurus/pull/3326) docs(v1): showcase user Casbin ([@hsluoyz](https://github.com/hsluoyz))
+  - [#3316](https://github.com/facebook/docusaurus/pull/3316) docs(v1): add Global CTO Forum to users ([@MirzayevFarid](https://github.com/MirzayevFarid))
+  - [#3310](https://github.com/facebook/docusaurus/pull/3310) docs(v2): add "T-Regx" website to showcase ([@Danon](https://github.com/Danon))
+  - [#3307](https://github.com/facebook/docusaurus/pull/3307) docs(v2): showcase SpotifyAPI-NET ([@JohnnyCrazy](https://github.com/JohnnyCrazy))
+  - [#3295](https://github.com/facebook/docusaurus/pull/3295) docs(v2): showcase Oxidizer ([@vandreleal](https://github.com/vandreleal))
+  - [#3287](https://github.com/facebook/docusaurus/pull/3287) docs: update README.md with some grammatical corrections ([@shalinikumari50](https://github.com/shalinikumari50))
+  - [#3271](https://github.com/facebook/docusaurus/pull/3271) docs(v2): fix typo ([@thehanimo](https://github.com/thehanimo))
+  - [#3277](https://github.com/facebook/docusaurus/pull/3277) docs(v1): Add Radity to users ([@tolunayakbulut](https://github.com/tolunayakbulut))
+  - [#3276](https://github.com/facebook/docusaurus/pull/3276) docs: corrected some few typos in the docusaurus tech docs ([@ajifrank75](https://github.com/ajifrank75))
+  - [#3249](https://github.com/facebook/docusaurus/pull/3249) docs(v2): fix migration command ([@BogdanDor](https://github.com/BogdanDor))
+  - [#3248](https://github.com/facebook/docusaurus/pull/3248) Added twitter badge and modified discord Badges ([@Souravdey777](https://github.com/Souravdey777))
+  - [#3251](https://github.com/facebook/docusaurus/pull/3251) docs(v2): fix migration command for earlier versions ([@teikjun](https://github.com/teikjun))
+  - [#3252](https://github.com/facebook/docusaurus/pull/3252) docs(v2): docs typos ([@olawanlejoel](https://github.com/olawanlejoel))
+  - [#3111](https://github.com/facebook/docusaurus/pull/3111) docs(v2): clarify theme-original and theme-init ([@Jonathannsegal](https://github.com/Jonathannsegal))
+  - [#3232](https://github.com/facebook/docusaurus/pull/3232) docs(v2): showcase user QA-Board ([@arthur-flam](https://github.com/arthur-flam))
+  - [#3205](https://github.com/facebook/docusaurus/pull/3205) docs: format reference links ([@lebogangolifant](https://github.com/lebogangolifant))
+  - [#3194](https://github.com/facebook/docusaurus/pull/3194) docs(v2): Added switch config docs to theme-classic API ([@Drewbi](https://github.com/Drewbi))
+  - [#3201](https://github.com/facebook/docusaurus/pull/3201) docs(v2): removed duplicate text under "Using React" section ([@boosh511](https://github.com/boosh511))
+  - [#3186](https://github.com/facebook/docusaurus/pull/3186) docs(v1): formatting changelog ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3202](https://github.com/facebook/docusaurus/pull/3202) fix(v2): fix svg loader ([@anshulrgoyal](https://github.com/anshulrgoyal))
+
+#### :house: Internal
+
+- `docusaurus-migrate`
+  - [#3323](https://github.com/facebook/docusaurus/pull/3323) test(v2): Add unit test for migration of config file ([@BogdanDor](https://github.com/BogdanDor))
+- `docusaurus-theme-classic`
+  - [#3343](https://github.com/facebook/docusaurus/pull/3343) refactor(v2): announcement bar bad spelling + minor refactors ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`
+  - [#3339](https://github.com/facebook/docusaurus/pull/3339) test(v2): make blog posts unit test ordering determinate ([@BogdanDor](https://github.com/BogdanDor))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`, `docusaurus-types`
+  - [#3306](https://github.com/facebook/docusaurus/pull/3306) chore(v2): Define type for markdown right table of contents ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-module-type-aliases`, `docusaurus`
+  - [#3244](https://github.com/facebook/docusaurus/pull/3244) chore(v2): tighten up the TypeScript onboarding ([@orta](https://github.com/orta))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#3245](https://github.com/facebook/docusaurus/pull/3245) refactor(v2): docs plugin refactor ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3282](https://github.com/facebook/docusaurus/pull/3282) chore(v2): fix javascript-serialize vulnerability ([@slorber](https://github.com/slorber))
+  - [#3265](https://github.com/facebook/docusaurus/pull/3265) chore(v2): upgrade terser-webpack-plugin ([@dschaller](https://github.com/dschaller))
+- Other
+  - [#3241](https://github.com/facebook/docusaurus/pull/3241) chore(deps): bump prismjs from 1.20.0 to 1.21.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#3259](https://github.com/facebook/docusaurus/pull/3259) chore(v2): fix slow commits due to lint-staged ([@slorber](https://github.com/slorber))
+  - [#3197](https://github.com/facebook/docusaurus/pull/3197) chore(v2): lockfile update ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`
+  - [#3218](https://github.com/facebook/docusaurus/pull/3218) chore(v1): release 1.14.6 ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-plugin-client-redirects`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#3238](https://github.com/facebook/docusaurus/pull/3238) refactor(v2): precompile ETA templates ([@slorber](https://github.com/slorber))
+
+#### Committers: 39
+
+- Ali Hosseini ([@Ako92](https://github.com/Ako92))
+- Amy Lei ([@amy-lei](https://github.com/amy-lei))
+- Anshul Goyal ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- Archit ([@arcvats](https://github.com/arcvats))
+- Arthur Flam ([@arthur-flam](https://github.com/arthur-flam))
+- Ben Gubler ([@nebrelbug](https://github.com/nebrelbug))
+- Bogdan Doroschenko ([@BogdanDor](https://github.com/BogdanDor))
+- Daniel Wilkowski ([@Danon](https://github.com/Danon))
+- Derek ([@dschaller](https://github.com/dschaller))
+- Drew Alexander ([@Drewbi](https://github.com/Drewbi))
+- Fanny ([@fanny](https://github.com/fanny))
+- Franklyn Chisom ([@ajifrank75](https://github.com/ajifrank75))
+- François Chalifour ([@francoischalifour](https://github.com/francoischalifour))
+- Govardhan Srinivas ([@govardhan-srinivas](https://github.com/govardhan-srinivas))
+- Hani Mohammed ([@thehanimo](https://github.com/thehanimo))
+- Jean-Marc Saad ([@JeanMarcSaad](https://github.com/JeanMarcSaad))
+- Jonas Dellinger ([@JohnnyCrazy](https://github.com/JohnnyCrazy))
+- Jonathan ([@Jonathannsegal](https://github.com/Jonathannsegal))
+- Manuel Cepeda ([@mecm1993](https://github.com/mecm1993))
+- Mirzayev Farid ([@MirzayevFarid](https://github.com/MirzayevFarid))
+- Nisarag ([@FocalChord](https://github.com/FocalChord))
+- Olawanle Joel ([@olawanlejoel](https://github.com/olawanlejoel))
+- Orta Therox ([@orta](https://github.com/orta))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Shubham Kumar ([@imskr](https://github.com/imskr))
+- Sourav Dey ([@Souravdey777](https://github.com/Souravdey777))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Tolunay Akbulut ([@tolunayakbulut](https://github.com/tolunayakbulut))
+- Vandré Leal ([@vandreleal](https://github.com/vandreleal))
+- Vincent ([@Vinnl](https://github.com/Vinnl))
+- Yang Luo ([@hsluoyz](https://github.com/hsluoyz))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- [@adinaja](https://github.com/adinaja)
+- [@leoigel](https://github.com/leoigel)
+- [@shalinikumari50](https://github.com/shalinikumari50)
+- alex busnelli ([@boosh511](https://github.com/boosh511))
+- lebogang Olifant ([@lebogangolifant](https://github.com/lebogangolifant))
+- ylemkimon ([@ylemkimon](https://github.com/ylemkimon))
+
+## 2.0.0-alpha.61 (2020-08-01)
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#3083](https://github.com/facebook/docusaurus/pull/3083) feat(v2): warn user when there are conflicting routes ([@teikjun](https://github.com/teikjun))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils-validation`, `docusaurus-utils`
+  - [#3158](https://github.com/facebook/docusaurus/pull/3158) feat(v2): markdown pages ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3127](https://github.com/facebook/docusaurus/pull/3127) feat(v2): dark mode toggle customization ([@Drewbi](https://github.com/Drewbi))
+- `docusaurus-theme-search-algolia`
+  - [#3166](https://github.com/facebook/docusaurus/pull/3166) feat(v2): improve Algolia search accessibility ([@francoischalifour](https://github.com/francoischalifour))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#2359](https://github.com/facebook/docusaurus/pull/2359) feat(v2): support custom description for blog-only mode ([@zxuqian](https://github.com/zxuqian))
+
+#### :bug: Bug Fix
+
+- `docusaurus-mdx-loader`, `docusaurus`
+  - [#3180](https://github.com/facebook/docusaurus/pull/3180) fix(v2): fix markdown images always using webpack url-loader ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3171](https://github.com/facebook/docusaurus/pull/3171) fix(v2): tab label showing outline & background when clicked ([@mdfaizan7](https://github.com/mdfaizan7))
+- `docusaurus-init`, `docusaurus-theme-classic`
+  - [#3168](https://github.com/facebook/docusaurus/pull/3168) fix(v2): fix link items refusing attributes like target, rel etc... ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#3162](https://github.com/facebook/docusaurus/pull/3162) fix(v2): inability for users to pin their docusaurus version ([@BuckyMaler](https://github.com/BuckyMaler))
+
+#### :memo: Documentation
+
+- [#3163](https://github.com/facebook/docusaurus/pull/3163) docs(v2): showcase user questdb ([@mpsq](https://github.com/mpsq))
+
+#### :house: Internal
+
+- Other
+  - [#3164](https://github.com/facebook/docusaurus/pull/3164) chore(deps): bump elliptic from 6.5.2 to 6.5.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#3157](https://github.com/facebook/docusaurus/pull/3157) chore(v2): remove alpha 59 doc ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3154](https://github.com/facebook/docusaurus/pull/3154) chore(v2): prepare v2.0.0.alpha-60 release ([@slorber](https://github.com/slorber))
+
+#### Committers: 8
+
+- Bucky Maler ([@BuckyMaler](https://github.com/BuckyMaler))
+- Drew Alexander ([@Drewbi](https://github.com/Drewbi))
+- Faizan ([@mdfaizan7](https://github.com/mdfaizan7))
+- François Chalifour ([@francoischalifour](https://github.com/francoischalifour))
+- Méril ([@mpsq](https://github.com/mpsq))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Xuqian ([@zxuqian](https://github.com/zxuqian)) ✨ Done in 3.58s.
+
+## 2.0.0-alpha.60 (2020-07-29)
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#3134](https://github.com/facebook/docusaurus/pull/3134) feat(v2): add validation escape hatch ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`
+  - [#3124](https://github.com/facebook/docusaurus/pull/3124) feat(v1): add 'slugPreprocessor' config option to allow users customize the hash links ([@Simek](https://github.com/Simek))
+- `docusaurus-theme-search-algolia`
+  - [#3133](https://github.com/facebook/docusaurus/pull/3133) feat(v2): add themeConfig validation to algolia theme ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#3142](https://github.com/facebook/docusaurus/pull/3142) fix(v2): config validation fixes + add tests for config validation ([@teikjun](https://github.com/teikjun))
+- `docusaurus`
+  - [#3149](https://github.com/facebook/docusaurus/pull/3149) fix(v2): BrowserOnly should not return undefined ([@slorber](https://github.com/slorber))
+  - [#3143](https://github.com/facebook/docusaurus/pull/3143) fix(v2): absolute Links should be automatically prefixed by baseurl ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#3141](https://github.com/facebook/docusaurus/pull/3141) fix(v2): remove buggy routesLoaded + deprecate routesLoaded lifecycle ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#3140](https://github.com/facebook/docusaurus/pull/3140) fix(v2): navbar item links should allow unknown attributes ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#3138](https://github.com/facebook/docusaurus/pull/3138) fix(v2): add accessible label for Algolia search button ([@hobadams](https://github.com/hobadams))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3120](https://github.com/facebook/docusaurus/pull/3120) fix(v2): make config validation less strict ([@teikjun](https://github.com/teikjun))
+
+#### :memo: Documentation
+
+- [#3145](https://github.com/facebook/docusaurus/pull/3145) docs(v2): add myself to /team page + add TeamProfileCard component ([@slorber](https://github.com/slorber))
+- [#3146](https://github.com/facebook/docusaurus/pull/3146) docs(v2): prettier docs ([@slorber](https://github.com/slorber))
+- [#3116](https://github.com/facebook/docusaurus/pull/3116) chore(v2): docs updates after release ([@slorber](https://github.com/slorber))
+
+#### :house: Internal
+
+- Other
+  - [#3130](https://github.com/facebook/docusaurus/pull/3130) chore(v2): remove old versions ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-bootstrap`, `docusaurus-preset-classic`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`, `lqip-loader`, `stylelint-copyright`
+  - [#3114](https://github.com/facebook/docusaurus/pull/3114) chore(v2): prepare v2.0.0.alpha-59 release ([@slorber](https://github.com/slorber))
+
+#### Committers: 4
+
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Hob Adams ([@hobadams](https://github.com/hobadams))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+
+## 2.0.0-alpha.59 (2020-07-24)
+
+#### :rocket: New Feature
+
+- `docusaurus-migrate`, `docusaurus-plugin-client-redirects`
+  - [#3015](https://github.com/facebook/docusaurus/pull/3015) feat: automate migration from v1 to v2 ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-init`
+  - [#3105](https://github.com/facebook/docusaurus/pull/3105) feat(v2): add docusaurus script for npm users ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#2815](https://github.com/facebook/docusaurus/pull/2815) feat(v2): introduce DocSearch v3 search ([@francoischalifour](https://github.com/francoischalifour))
+- `docusaurus-init`, `docusaurus-types`, `docusaurus`
+  - [#3059](https://github.com/facebook/docusaurus/pull/3059) feat(v2): broken links detection ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#3084](https://github.com/facebook/docusaurus/pull/3084) feat(v2): absolute slugs and slug resolution system ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#3069](https://github.com/facebook/docusaurus/pull/3069) feat(v2): support for adding relative images and handling broken image links ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-init`, `docusaurus-module-type-aliases`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-debug`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#2971](https://github.com/facebook/docusaurus/pull/2971) feat(v2): global data + useGlobalData + docs versions dropdown ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus`
+  - [#3080](https://github.com/facebook/docusaurus/pull/3080) feat(v2): add support for serve command ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-module-type-aliases`, `docusaurus-plugin-debug`, `docusaurus-types`, `docusaurus`
+  - [#3058](https://github.com/facebook/docusaurus/pull/3058) feat(v2): useDocusaurusContext().siteMetadata ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3032](https://github.com/facebook/docusaurus/pull/3032) feat(v2): notify users when docusaurus version is outdated ([@teikjun](https://github.com/teikjun))
+  - [#3033](https://github.com/facebook/docusaurus/pull/3033) feat(v2): add useBaseUrlUtils() hook ([@slorber](https://github.com/slorber))
+  - [#3006](https://github.com/facebook/docusaurus/pull/3006) feat(v2): prompt user when default port is in use ([@taylorallen0913](https://github.com/taylorallen0913))
+- `docusaurus-module-type-aliases`, `docusaurus-plugin-debug`, `docusaurus`
+  - [#3050](https://github.com/facebook/docusaurus/pull/3050) feat(v2): Collect plugin versions to allow them to be inspected in debug plugin ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-theme-classic`
+  - [#3038](https://github.com/facebook/docusaurus/pull/3038) feat(v2): Support keywords meta in blog posts ([@dpkg](https://github.com/dpkg))
+  - [#2974](https://github.com/facebook/docusaurus/pull/2974) feat(v2): Error when hooks depends on context is used outside of Layout ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-pwa`, `docusaurus`
+  - [#2205](https://github.com/facebook/docusaurus/pull/2205) feat(v2): Plugin for Offline/PWA support ([@codemonkey800](https://github.com/codemonkey800))
+- `docusaurus-plugin-ideal-image`, `docusaurus-types`, `docusaurus`
+  - [#2994](https://github.com/facebook/docusaurus/pull/2994) feat(v2): configureWebpack merge strategy + use file-loader for common asset types ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#2989](https://github.com/facebook/docusaurus/pull/2989) feat(v2): add disableVersioning config to docs plugin ([@slorber](https://github.com/slorber))
+  - [#2877](https://github.com/facebook/docusaurus/pull/2877) feat(v2): allow skipping build docs for next version ([@lex111](https://github.com/lex111))
 - `docusaurus-1.x`
   - [#2955](https://github.com/facebook/docusaurus/pull/2955) feat(v1): add deletedDocs config to fix unwanted versioning fallback ([@aldeed](https://github.com/aldeed))
-  - [#3011](https://github.com/facebook/docusaurus/pull/3011) docs(v1): external links ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-types`, `docusaurus`
+  - [#2943](https://github.com/facebook/docusaurus/pull/2943) feat(v2): option and config validation life cycle method for official plugins ([@anshulrgoyal](https://github.com/anshulrgoyal))
+
+#### :boom: Breaking Change
+
+- `docusaurus-init`, `docusaurus-module-type-aliases`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-debug`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#2971](https://github.com/facebook/docusaurus/pull/2971) feat(v2): global data + useGlobalData + docs versions dropdown ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3012](https://github.com/facebook/docusaurus/pull/3012) fix(v2): refactor color mode system ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#3107](https://github.com/facebook/docusaurus/pull/3107) fix(v2): broken links detector: ignore existing folders ([@slorber](https://github.com/slorber))
+  - [#3112](https://github.com/facebook/docusaurus/pull/3112) fix(v2): baseUrl is wrongly appended to anchor links ([@slorber](https://github.com/slorber))
+  - [#3063](https://github.com/facebook/docusaurus/pull/3063) fix(v2): classify link hrefs with protocol identifier as internal ([@svtfrida](https://github.com/svtfrida))
+- `docusaurus-theme-classic`
+  - [#3106](https://github.com/facebook/docusaurus/pull/3106) fix(v2): dropdown navbar item: validation too strict ([@slorber](https://github.com/slorber))
+  - [#3029](https://github.com/facebook/docusaurus/pull/3029) fix(v2): change description for blog post paginator ([@teikjun](https://github.com/teikjun))
+- `docusaurus-plugin-content-docs`
+  - [#3108](https://github.com/facebook/docusaurus/pull/3108) fix(v2): fix docs instance path typo ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-pages`
+  - [#3025](https://github.com/facebook/docusaurus/pull/3025) fix(v2):pass siteConfig as prop to pages ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-init`
+  - [#3008](https://github.com/facebook/docusaurus/pull/3008) chore(v2): Add E2E test for yarn v2 ([@SamChou19815](https://github.com/SamChou19815))
+- Other
+  - [#3017](https://github.com/facebook/docusaurus/pull/3017) fix(v2): fix broken links on versions page ([@teikjun](https://github.com/teikjun))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3012](https://github.com/facebook/docusaurus/pull/3012) fix(v2): refactor color mode system ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
+  - [#3001](https://github.com/facebook/docusaurus/pull/3001) fix(v2): refactor routes.ts + add route hash for chunkNames key ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils`, `docusaurus`
+  - [#3010](https://github.com/facebook/docusaurus/pull/3010) fix(v2): make client-redirect-plugin not baseUrl sensitive ([@teikjun](https://github.com/teikjun))
+- `docusaurus-1.x`
+  - [#2993](https://github.com/facebook/docusaurus/pull/2993) fix(relative path): last update date and by isn’t generated if localh… ([@amirulahmad](https://github.com/amirulahmad))
+- `docusaurus-plugin-client-redirects`
+  - [#2969](https://github.com/facebook/docusaurus/pull/2969) fix: fromExtensions and toExtensions translation when used with baseUrl ([@jknoxville](https://github.com/jknoxville))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#3088](https://github.com/facebook/docusaurus/pull/3088) improve navbar menu ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#3087](https://github.com/facebook/docusaurus/pull/3087) refactor(v2): async md image transformer + pathname protocol as an escape hatch ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-theme-live-codeblock`, `docusaurus-types`
+  - [#2970](https://github.com/facebook/docusaurus/pull/2970) feat(v2): add option validation for remaining official plugins ([@teikjun](https://github.com/teikjun))
+- `docusaurus`
+  - [#2987](https://github.com/facebook/docusaurus/pull/2987) chore(v2): use joi for config validation ([@anshulrgoyal](https://github.com/anshulrgoyal))
+
+#### :memo: Documentation
+
+- [#3026](https://github.com/facebook/docusaurus/pull/3026) docs(v2): add documentation for migration command ([@teikjun](https://github.com/teikjun))
+- [#3094](https://github.com/facebook/docusaurus/pull/3094) docs(v2): showcase user Clutch ([@danielhochman](https://github.com/danielhochman))
+- [#3101](https://github.com/facebook/docusaurus/pull/3101) docs(v2):Add azure-pipelines CI guide ([@ayan-b](https://github.com/ayan-b))
+- [#3098](https://github.com/facebook/docusaurus/pull/3098) docs: Add azure-pipelines CI guide ([@ayan-b](https://github.com/ayan-b))
+- [#3086](https://github.com/facebook/docusaurus/pull/3086) doc(v2): replace heading position ([@eKhattak](https://github.com/eKhattak))
+- [#3082](https://github.com/facebook/docusaurus/pull/3082) fixing few typos and enhancing few sentences clarity ([@aladin002dz](https://github.com/aladin002dz))
+- [#3078](https://github.com/facebook/docusaurus/pull/3078) Updated link for #docusaurus-2-dev discord ([@jordanliu](https://github.com/jordanliu))
+- [#3076](https://github.com/facebook/docusaurus/pull/3076) docs(v2): showcase Runlet ([@vandreleal](https://github.com/vandreleal))
+- [#3040](https://github.com/facebook/docusaurus/pull/3040) docs(v2): correct the documentation for docs-only mode ([@teikjun](https://github.com/teikjun))
+- [#3034](https://github.com/facebook/docusaurus/pull/3034) docs(v2): showcase user Tasit ([@pcowgill](https://github.com/pcowgill))
+- [#3022](https://github.com/facebook/docusaurus/pull/3022) docs(v2): showcase Eta ([@nebrelbug](https://github.com/nebrelbug))
+- [#3011](https://github.com/facebook/docusaurus/pull/3011) docs(v1): external links ([@slorber](https://github.com/slorber))
+- [#2997](https://github.com/facebook/docusaurus/pull/2997) docs(v2): Document TypeScript support ([@SamChou19815](https://github.com/SamChou19815))
+- [#2973](https://github.com/facebook/docusaurus/pull/2973) docs(v2): Fix typo in markdown-features ([@ehsanjso](https://github.com/ehsanjso))
+- [#2991](https://github.com/facebook/docusaurus/pull/2991) Showcase Amphora Data ([@xtellurian](https://github.com/xtellurian))
+- [#2983](https://github.com/facebook/docusaurus/pull/2983) docs(v2): add plugin redirects production build note ([@slorber](https://github.com/slorber))
+- [#2967](https://github.com/facebook/docusaurus/pull/2967) docs(v2): fix typos in plugin-content examples ([@hi-matbub](https://github.com/hi-matbub))
+- [#2960](https://github.com/facebook/docusaurus/pull/2960) doc(v2): publish doc update after alpha.58 release ([@slorber](https://github.com/slorber))
+- [#2966](https://github.com/facebook/docusaurus/pull/2966) docs(v2): fix typo in plugin-content-pages example ([@hi-matbub](https://github.com/hi-matbub))
+
+#### :house: Internal
+
+- `docusaurus-migrate`
+  - [#3113](https://github.com/facebook/docusaurus/pull/3113) chore(v2): ability to test the migration cli easily ([@slorber](https://github.com/slorber))
+- Other
+  - [#3099](https://github.com/facebook/docusaurus/pull/3099) fix(v2): netlify.toml shouldn't affect v1 site deployment config ([@slorber](https://github.com/slorber))
+  - [#3068](https://github.com/facebook/docusaurus/pull/3068) chore(deps): bump lodash from 4.17.15 to 4.17.19 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#2958](https://github.com/facebook/docusaurus/pull/2958) docs(v2): rename 2.0.0-alpha.57 to 2.0.0-alpha.58 ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus`
+  - [#3093](https://github.com/facebook/docusaurus/pull/3093) fix(v2): fix recent baseurl issues ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#3087](https://github.com/facebook/docusaurus/pull/3087) refactor(v2): async md image transformer + pathname protocol as an escape hatch ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-pwa`, `docusaurus`
+  - [#3055](https://github.com/facebook/docusaurus/pull/3055) chore(v2): Adopt corejs 3 and only import at entry point ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#2998](https://github.com/facebook/docusaurus/pull/2998) chore(v2): refactor yarn tsc to yarn build + add theme-classic watch mode ([@slorber](https://github.com/slorber))
+- `docusaurus-init`
+  - [#3008](https://github.com/facebook/docusaurus/pull/3008) chore(v2): Add E2E test for yarn v2 ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
+  - [#3001](https://github.com/facebook/docusaurus/pull/3001) fix(v2): refactor routes.ts + add route hash for chunkNames key ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#3007](https://github.com/facebook/docusaurus/pull/3007) fix(v2): Add two missing docusaurus core babel dependency ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2987](https://github.com/facebook/docusaurus/pull/2987) chore(v2): use joi for config validation ([@anshulrgoyal](https://github.com/anshulrgoyal))
+  - [#2950](https://github.com/facebook/docusaurus/pull/2950) chore(v2): Implement a simple E2E testing mechanism for `docusausus start` ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-theme-live-codeblock`, `docusaurus-types`
+  - [#2970](https://github.com/facebook/docusaurus/pull/2970) feat(v2): add option validation for remaining official plugins ([@teikjun](https://github.com/teikjun))
+- `docusaurus-theme-classic`
+  - [#2996](https://github.com/facebook/docusaurus/pull/2996) chore(v2): Merge devDependencies in theme-classic ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2977](https://github.com/facebook/docusaurus/pull/2977) chore(v2): Remove extraneous package-lock.json ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`
+  - [#2962](https://github.com/facebook/docusaurus/pull/2962) Feat: replace yup with joi for cleaner validation ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- `docusaurus-init`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`, `lqip-loader`
+  - [#2976](https://github.com/facebook/docusaurus/pull/2976) chore(v2): Fix more eslint errors ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-sitemap`, `docusaurus-utils`, `docusaurus`, `lqip-loader`
+  - [#2972](https://github.com/facebook/docusaurus/pull/2972) chore(v2): Fix a lot of eslint warnings ([@SamChou19815](https://github.com/SamChou19815))
+
+#### Committers: 25
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Amirul Ahmad ([@amirulahmad](https://github.com/amirulahmad))
+- Anshul Goyal ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- Arsalan Khattak ([@eKhattak](https://github.com/eKhattak))
+- Ayan Banerjee ([@ayan-b](https://github.com/ayan-b))
+- Ben Gubler ([@nebrelbug](https://github.com/nebrelbug))
+- Daniel Hochman ([@danielhochman](https://github.com/danielhochman))
+- Deepak Giri ([@dpkg](https://github.com/dpkg))
+- Eric Dobbertin ([@aldeed](https://github.com/aldeed))
+- François Chalifour ([@francoischalifour](https://github.com/francoischalifour))
+- Frida Hjelm ([@svtfrida](https://github.com/svtfrida))
+- Jeremy Asuncion ([@codemonkey800](https://github.com/codemonkey800))
+- John Knox ([@jknoxville](https://github.com/jknoxville))
+- Jordan Liu ([@jordanliu](https://github.com/jordanliu))
+- Mahfoudh Arous ([@aladin002dz](https://github.com/aladin002dz))
+- Paul Cowgill ([@pcowgill](https://github.com/pcowgill))
+- Rian Finnegan ([@xtellurian](https://github.com/xtellurian))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Taylor Allen ([@taylorallen0913](https://github.com/taylorallen0913))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Vandré Leal ([@vandreleal](https://github.com/vandreleal))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- ehsan jso ([@ehsanjso](https://github.com/ehsanjso))
+- matbub ([@hi-matbub](https://github.com/hi-matbub))
+
+## 2.0.0-alpha.58
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#2916](https://github.com/facebook/docusaurus/pull/2916) feat(v2): add a banner that links to latest version of documentation ([@teikjun](https://github.com/teikjun))
+  - [#2682](https://github.com/facebook/docusaurus/pull/2682) feat(v2): expanded sidebar categories by default ([@jsjoeio](https://github.com/jsjoeio))
+- `docusaurus-plugin-debug`, `docusaurus-preset-classic`
+  - [#2928](https://github.com/facebook/docusaurus/pull/2928) feat(v2): Implement proof-of-concept Docusaurus Debug Dashboard ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`, `docusaurus`
+  - [#2903](https://github.com/facebook/docusaurus/pull/2903) feat(v2): Allow configuring babel via babel.config.js ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils`
+  - [#2793](https://github.com/facebook/docusaurus/pull/2793) feat(v2): docusaurus-plugin-client-redirects ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-live-codeblock`
+  - [#2826](https://github.com/facebook/docusaurus/pull/2826) feat(v2): allow adding components to react-live scope ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2856](https://github.com/facebook/docusaurus/pull/2856) feat(v2): allow specifying meta image for blog posts ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2841](https://github.com/facebook/docusaurus/pull/2841) feat(v2): Allow swizzling prism-include-languages in theme-classic ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :boom: Breaking Change
+
+- `docusaurus-init`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#2895](https://github.com/facebook/docusaurus/pull/2895) chore(v2): replace classnames with clsx ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`
+  - [#2861](https://github.com/facebook/docusaurus/pull/2861) fix(v2): do not create route for document that serve as docs home page ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#2682](https://github.com/facebook/docusaurus/pull/2682) feat(v2): expanded sidebar categories by default ([@jsjoeio](https://github.com/jsjoeio))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#2905](https://github.com/facebook/docusaurus/pull/2905) fix(v2): fix docs homepage permalink issues ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#2932](https://github.com/facebook/docusaurus/pull/2932) fix(v2): Add hooks to detect window resize, toggle off sidebar and navbar in desktop ([@guillaumejacquart](https://github.com/guillaumejacquart))
+  - [#2909](https://github.com/facebook/docusaurus/pull/2909) fix(v2): adjust anchor offset when routes switched ([@lex111](https://github.com/lex111))
+  - [#2896](https://github.com/facebook/docusaurus/pull/2896) fix(v2): set correct canonical url for docs home page ([@lex111](https://github.com/lex111))
+  - [#2893](https://github.com/facebook/docusaurus/pull/2893) fix(v2): Do not automatically change tab when a non-existing option is selected ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2888](https://github.com/facebook/docusaurus/pull/2888) fix(v2): restore styles for menu scrollbar ([@lex111](https://github.com/lex111))
+  - [#2857](https://github.com/facebook/docusaurus/pull/2857) fix(v2): treat inline code in raw HTML as native element ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2951](https://github.com/facebook/docusaurus/pull/2951) fix(v2): Add optional-chaining and nullish-coalescing babel plugin ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2921](https://github.com/facebook/docusaurus/pull/2921) fix(v2): upgrade react-loadable-ssr-addon ([@slorber](https://github.com/slorber))
+  - [#2854](https://github.com/facebook/docusaurus/pull/2854) fix(v2): fix broken build when swizzled NotFound component exist ([@lex111](https://github.com/lex111))
+  - [#2829](https://github.com/facebook/docusaurus/pull/2829) fix(v2): Fix plugin path resolution ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-preset-classic`
+  - [#2944](https://github.com/facebook/docusaurus/pull/2944) fix(v2): Declare @docusaurus-plugin-debug as dependency of preset classic ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-init`
+  - [#2902](https://github.com/facebook/docusaurus/pull/2902) feat(v2): add nojekyll file to static folder for all templates ([@teikjun](https://github.com/teikjun))
+- `docusaurus-theme-bootstrap`
+  - [#2860](https://github.com/facebook/docusaurus/pull/2860) fix(v2): bootstrap doc sidebar ([@fanny](https://github.com/fanny))
+- Other
+  - [#2874](https://github.com/facebook/docusaurus/pull/2874) fix(v2): Getting Started URL ([@fanny](https://github.com/fanny))
+- `docusaurus-plugin-content-docs`
+  - [#2861](https://github.com/facebook/docusaurus/pull/2861) fix(v2): do not create route for document that serve as docs home page ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#2867](https://github.com/facebook/docusaurus/pull/2867) fix(v2): fix FOUC in doc sidebar and various improvements ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#2838](https://github.com/facebook/docusaurus/pull/2838) fix(v2): use base url to navigate to search page ([@tetunori](https://github.com/tetunori))
+- `docusaurus-utils`
+  - [#2855](https://github.com/facebook/docusaurus/pull/2855) fix(v2): strip images and footnotes for excerpt correctly ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#2835](https://github.com/facebook/docusaurus/pull/2835) fix(v2): set proper font for live editor ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`, `docusaurus`
+  - [#2884](https://github.com/facebook/docusaurus/pull/2884) polish(v2): improve Docusaurus 1 to 2 migration developer experience ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#2870](https://github.com/facebook/docusaurus/pull/2870) refactor(v2): combine nested theme providers into one ([@lex111](https://github.com/lex111))
+  - [#2880](https://github.com/facebook/docusaurus/pull/2880) fix(v2): render as regular text uncollapsible categories ([@lex111](https://github.com/lex111))
+  - [#2864](https://github.com/facebook/docusaurus/pull/2864) refactor(v2): add aria role for doc sidebar ([@lex111](https://github.com/lex111))
+  - [#2859](https://github.com/facebook/docusaurus/pull/2859) refactor(v2): add aria label to paginators ([@lex111](https://github.com/lex111))
+  - [#2858](https://github.com/facebook/docusaurus/pull/2858) refactor(v2): add missing main landmark for needed pages ([@lex111](https://github.com/lex111))
+- Other
+  - [#2862](https://github.com/facebook/docusaurus/pull/2862) Updated banner in solidarity ([@JoelMarcey](https://github.com/JoelMarcey))
+
+#### :memo: Documentation
+
+- [#2946](https://github.com/facebook/docusaurus/pull/2946) docs(v2): add require.resolve to plugin imports on remaining pages ([@teikjun](https://github.com/teikjun))
+- [#2941](https://github.com/facebook/docusaurus/pull/2941) docs(v2): wrap all plugin imports in require.resolve() ([@TomBrien](https://github.com/TomBrien))
+- [#2934](https://github.com/facebook/docusaurus/pull/2934) docs(v2): add useThemeContext note ([@Drewbi](https://github.com/Drewbi))
+- [#2935](https://github.com/facebook/docusaurus/pull/2935) docs(v2): Add router implementation note ([@Drewbi](https://github.com/Drewbi))
+- [#2933](https://github.com/facebook/docusaurus/pull/2933) docs(v2): add documentation for multiple blogs ([@teikjun](https://github.com/teikjun))
+- [#2910](https://github.com/facebook/docusaurus/pull/2910) docs(v2): fix GitHub action workflow in docs ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- [#2886](https://github.com/facebook/docusaurus/pull/2886) docs(v2): fix typo in command on installation page ([@pglezen](https://github.com/pglezen))
+- [#2887](https://github.com/facebook/docusaurus/pull/2887) docs(v2): make .nojekyll warning more obvious ([@yangshun](https://github.com/yangshun))
+- [#2865](https://github.com/facebook/docusaurus/pull/2865) docs(v2): description field in frontmatter of blog post ([@lex111](https://github.com/lex111))
+- [#2839](https://github.com/facebook/docusaurus/pull/2839) docs(v2): \_index docs page does not show a sidebar ([@aeneasr](https://github.com/aeneasr))
+- [#2852](https://github.com/facebook/docusaurus/pull/2852) misc: move runme demo in block quote about v2 ([@lex111](https://github.com/lex111))
+- [#2842](https://github.com/facebook/docusaurus/pull/2842) docs(v2): Update ZEIT to Vercel ([@Nishikoh](https://github.com/Nishikoh))
+
+#### :house: Internal
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#2948](https://github.com/facebook/docusaurus/pull/2948) refactor(v2): legacy export = syntax ([@slorber](https://github.com/slorber))
+- `docusaurus-init`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-utils`, `docusaurus`
+  - [#2922](https://github.com/facebook/docusaurus/pull/2922) misc(v2): better dx: yarn clear, yarn watch, yarn serve ([@slorber](https://github.com/slorber))
+- Other
+  - [#2929](https://github.com/facebook/docusaurus/pull/2929) chore(v2): Run E2E tests in CI ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2899](https://github.com/facebook/docusaurus/pull/2899) chore(deps): bump websocket-extensions from 0.1.3 to 0.1.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#2897](https://github.com/facebook/docusaurus/pull/2897) refactor(v2): synchronize yarn/npm command on site ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-bootstrap`
+  - [#2931](https://github.com/facebook/docusaurus/pull/2931) chore(v2): remove unused hooks from bootstrap theme ([@fanny](https://github.com/fanny))
+- `docusaurus-1.x`, `docusaurus-plugin-content-docs`
+  - [#2906](https://github.com/facebook/docusaurus/pull/2906) chore(v2): fix async tests ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#2858](https://github.com/facebook/docusaurus/pull/2858) refactor(v2): add missing main landmark for needed pages ([@lex111](https://github.com/lex111))
+
+#### :running_woman: Performance
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-sitemap`
+  - [#2936](https://github.com/facebook/docusaurus/pull/2936) perf(v2): convert synchronous filewrite to asynchronous ([@moonrailgun](https://github.com/moonrailgun))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2900](https://github.com/facebook/docusaurus/pull/2900) chore(v2): replace Clipboard with copy-text-to-clipboard ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#2895](https://github.com/facebook/docusaurus/pull/2895) chore(v2): replace classnames with clsx ([@lex111](https://github.com/lex111))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Anshul Goyal ([@anshulrgoyal](https://github.com/anshulrgoyal))
+- Drew Alexander ([@Drewbi](https://github.com/Drewbi))
+- Fanny ([@fanny](https://github.com/fanny))
+- Guillaume Jacquart ([@guillaumejacquart](https://github.com/guillaumejacquart))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Koki Nishihara ([@Nishikoh](https://github.com/Nishikoh))
+- Paul Glezen ([@pglezen](https://github.com/pglezen))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Teik Jun ([@teikjun](https://github.com/teikjun))
+- Tom Brien ([@TomBrien](https://github.com/TomBrien))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- [@belokonm](https://github.com/belokonm)
+- hackerman ([@aeneasr](https://github.com/aeneasr))
+- moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
+- tetunori ([@tetunori](https://github.com/tetunori))
+
+## 2.0.0-alpha.57
+
+Bad release, check ## 2.0.0-alpha.58
+
+## 2.0.0-alpha.56
+
+#### :boom: Breaking Change
+
+- If you refer to modules (plugins) in your config file in a string form, you will need to replace them with `require.resolve` calls, for example:
+
+```diff
+- plugins: ['@docusaurus/plugin-google-analytics']
++ plugins: [require.resolve('@docusaurus/plugin-google-analytics')]
+```
+
+- `docusaurus-theme-classic`
+  - [#2818](https://github.com/facebook/docusaurus/pull/2818) feat(v2): automatically add base url to logo link ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#2791](https://github.com/facebook/docusaurus/pull/2791) refactor(v2): show search icon only on mobiles ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2780](https://github.com/facebook/docusaurus/pull/2780) feat(v2): open external links in new tab by default ([@jknoxville](https://github.com/jknoxville))
+
+#### :rocket: New Feature
+
+- `docusaurus-types`, `docusaurus`
+  - [#2770](https://github.com/facebook/docusaurus/pull/2770) feat(v2): allow deploy without building website ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2818](https://github.com/facebook/docusaurus/pull/2818) feat(v2): automatically add base url to logo link ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2645](https://github.com/facebook/docusaurus/pull/2645) fix(v2): enable scrolling for sidebar menu only ([@lex111](https://github.com/lex111))
+  - [#2800](https://github.com/facebook/docusaurus/pull/2800) fix(v2): make proper h1 font size on mobiles ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2788](https://github.com/facebook/docusaurus/pull/2788) fix(v2): use `require.resolve` for all webpack presets and plugins ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-content-docs`
+  - [#2785](https://github.com/facebook/docusaurus/pull/2785) fix(v2): do not show sidebar on reserved docs home page ([@lex111](https://github.com/lex111))
+  - [#2777](https://github.com/facebook/docusaurus/pull/2777) fix(v2): check for docs homepage correctly ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2820](https://github.com/facebook/docusaurus/pull/2820) chore(v2): upgrade Infima to 0.2.0-alpha.12 ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2814](https://github.com/facebook/docusaurus/pull/2814) refactor(v2): align search icon to center on mobiles ([@lex111](https://github.com/lex111))
+  - [#2799](https://github.com/facebook/docusaurus/pull/2799) refactor(v2): increase search input on medium screens ([@lex111](https://github.com/lex111))
+- `docusaurus-init`
+  - [#2802](https://github.com/facebook/docusaurus/pull/2802) misc: minor improvements for init templates ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#2791](https://github.com/facebook/docusaurus/pull/2791) refactor(v2): show search icon only on mobiles ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2783](https://github.com/facebook/docusaurus/pull/2783) refactor(v2): make external links more secure ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2809](https://github.com/facebook/docusaurus/pull/2809) docs(v2): add mention on DocSearch when you run the crawler on your own ([@s-pace](https://github.com/s-pace))
+
+#### :house: Internal
+
+- [#2778](https://github.com/facebook/docusaurus/pull/2778) fix(v2): do not highlight root docs path in navbar ([@lex111](https://github.com/lex111))
+
+#### Committers: 8
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- James McShane ([@jmcshane](https://github.com/jmcshane))
+- John Knox ([@jknoxville](https://github.com/jknoxville))
+- Kasper Bøgebjerg Pedersen ([@kasperp](https://github.com/kasperp))
+- Muhammad Ali ([@mrmuhammadali](https://github.com/mrmuhammadali))
+- Piotr Baran ([@piotros](https://github.com/piotros))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sylvain Pace ([@s-pace](https://github.com/s-pace))
+
+## 2.0.0-alpha.55
+
+#### :boom: Breaking Change
+
+- `infima`
+
+  - The following Infima classes have been renamed for consistency:
+
+    - `page-item` → `pagination__item`
+    - `pagination-nav__link--label` → `pagination-nav__label`
+    - `pagination-nav__link--sublabel` → `pagination-nav__sublabel`
+    - `tab-item` → `tabs__item`
+    - `tab-item--active` → `tabs__item--active`
+
+    If you have swizzled components, you need to replace these class names.
+
+- `docusaurus`
+
+  - [#2764](https://github.com/facebook/docusaurus/pull/2764) feat(v2): allow import SVG images ([@lex111](https://github.com/lex111))
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#2764](https://github.com/facebook/docusaurus/pull/2764) feat(v2): allow import SVG images ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2690](https://github.com/facebook/docusaurus/pull/2690) feat(v2): allow activeBaseTest in NavLink ([@nebrelbug](https://github.com/nebrelbug))
+  - [#2694](https://github.com/facebook/docusaurus/pull/2694) feat(v2): add canonical URL to `<head>` ([@jcomack](https://github.com/jcomack))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#2652](https://github.com/facebook/docusaurus/pull/2652) feat(v2): allow home page for docs ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#2756](https://github.com/facebook/docusaurus/pull/2756) feat(v2): add search page 🔎 ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#2701](https://github.com/facebook/docusaurus/pull/2701) fix(v2): remove Markdown syntax from excerpt ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2765](https://github.com/facebook/docusaurus/pull/2765) fix(v2): remove invalid attr from mobile nav links ([@lex111](https://github.com/lex111))
+  - [#2760](https://github.com/facebook/docusaurus/pull/2760) fix(v2): move anchor link to right of heading ([@lex111](https://github.com/lex111))
+  - [#2758](https://github.com/facebook/docusaurus/pull/2758) fix(v2): remove extra top margin of tab item ([@lex111](https://github.com/lex111))
+  - [#2759](https://github.com/facebook/docusaurus/pull/2759) fix(v2): restore hiding of docs toc ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2762](https://github.com/facebook/docusaurus/pull/2762) fix(v2): avoid duplication search input in navbar ([@lex111](https://github.com/lex111))
+- `lqip-loader`
+  - [#2693](https://github.com/facebook/docusaurus/pull/2693) fix(v2): add support esModule to lqip-loader ([@ykzts](https://github.com/ykzts))
+- `docusaurus-init`
+  - [#2751](https://github.com/facebook/docusaurus/pull/2751) fix(v2): fix index page features.length when 0 ([@jdeniau](https://github.com/jdeniau))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2773](https://github.com/facebook/docusaurus/pull/2773) chore(v2): upgrade Infima to 0.2.0-alpha.11 ([@lex111](https://github.com/lex111))
+  - [#2766](https://github.com/facebook/docusaurus/pull/2766) refactor(v2): remove extra active CSS class for menu item links ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#2767](https://github.com/facebook/docusaurus/pull/2767) refactor(v2): add support for dark mode to live code blocks ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2761](https://github.com/facebook/docusaurus/pull/2761) refactor(v2): improve UX of search page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#2729](https://github.com/facebook/docusaurus/pull/2729) chore(v2): upgrade Infima to 0.2.0-alpha.10 ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2696](https://github.com/facebook/docusaurus/pull/2696) refactor(v2): make semicolon optional in imports for excerpt ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2768](https://github.com/facebook/docusaurus/pull/2768) docs(v2): various improvements ([@lex111](https://github.com/lex111))
+- [#2670](https://github.com/facebook/docusaurus/pull/2670) docs(v2): add deployment workflow manual for GitHub Actions ([@artemkovalyov](https://github.com/artemkovalyov))
+
+#### :house: Internal
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#2464](https://github.com/facebook/docusaurus/pull/2464) refactor(v2): add @theme-init alias to give access to initial components ([@lex111](https://github.com/lex111))
+
+#### :running_woman: Performance
+
+- `docusaurus`
+  - [#2684](https://github.com/facebook/docusaurus/pull/2684) refactor(v2): replace EJS with Eta for SSR generation ([@nebrelbug](https://github.com/nebrelbug))
+
+#### Committers: 13
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Artem Kovalov ([@artemkovalyov](https://github.com/artemkovalyov))
+- Ben Gubler ([@nebrelbug](https://github.com/nebrelbug))
+- Fanny ([@fanny](https://github.com/fanny))
+- Jimmy ([@jcomack](https://github.com/jcomack))
+- Jonny Nabors ([@jonnynabors](https://github.com/jonnynabors))
+- Julien Deniau ([@jdeniau](https://github.com/jdeniau))
+- Marco Moretti ([@marcosvega91](https://github.com/marcosvega91))
+- Rajiv Singh ([@iamrajiv](https://github.com/iamrajiv))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Taylor Reece ([@taylorreece](https://github.com/taylorreece))
+- Yamagishi Kazutoshi ([@ykzts](https://github.com/ykzts))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
+## 2.0.0-alpha.54
+
+**HOTFIX for 2.0.0-alpha.53**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2688](https://github.com/facebook/docusaurus/pull/2688) fix(v2): add default value for options in theme classic ([@lex111](https://github.com/lex111))
+- `docusaurus-module-type-aliases`
+  - [#2687](https://github.com/facebook/docusaurus/pull/2687) fix(v2): Add all webpack module aliases to type declaration file ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :memo: Documentation
+
+- [#2680](https://github.com/facebook/docusaurus/pull/2680) docs(v2): add swizzle example ([@jsjoeio](https://github.com/jsjoeio))
+
+#### Committers: 3
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+
+## 2.0.0-alpha.53
+
+**HOTFIX for 2.0.0-alpha.51**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2676](https://github.com/facebook/docusaurus/pull/2676) fix(v2): allow build website without custom css ([@lex111](https://github.com/lex111))
+
+#### Committers: 1
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+
+## 2.0.0-alpha.51
+
+#### :boom: Breaking Change
+
+- `infima`
+  - The following infima variables have been renamed for consistency:
+    - `--ifm-font-base-color` → `--ifm-font-color-base`
+    - `--ifm-font-base-color-inverse` → `--ifm-font-color-base-inverse`
+    - `--ifm-font-color-secondary` → `--ifm-font-color-secondary`
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#2660](https://github.com/facebook/docusaurus/pull/2660) feat(v2): add ability to specify CSS class for navbar item ([@lex111](https://github.com/lex111))
+  - [#2597](https://github.com/facebook/docusaurus/pull/2597) feat(v2): add ability set dark mode by default ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2665](https://github.com/facebook/docusaurus/pull/2665) feat(v2): add fallback to BrowserOnly component ([@lex111](https://github.com/lex111))
+- `docusaurus-types`, `docusaurus`
+  - [#2630](https://github.com/facebook/docusaurus/pull/2630) feat(v2): add CLI option for polling ([@TomBrien](https://github.com/TomBrien))
+- `docusaurus-init`
+  - [#2541](https://github.com/facebook/docusaurus/pull/2541) feat(v2): add showReadingTime and editUrl to the templates ([@fanny](https://github.com/fanny))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-utils`
+  - [#2524](https://github.com/facebook/docusaurus/pull/2524) feat(v2): add edit url in post page ([@fanny](https://github.com/fanny))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#2531](https://github.com/facebook/docusaurus/pull/2531) feat(v2): add blog post estimated reading time ([@JoseRenan](https://github.com/JoseRenan))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2672](https://github.com/facebook/docusaurus/pull/2672) fix(v2): add a11y support for dropdown ([@lex111](https://github.com/lex111))
+  - [#2649](https://github.com/facebook/docusaurus/pull/2649) fix(v2): hide sidebar after click on child item ([@lex111](https://github.com/lex111))
+  - [#2631](https://github.com/facebook/docusaurus/pull/2631) fix(v2): hide doc sidebar on mobiles ([@lex111](https://github.com/lex111))
+  - [#2626](https://github.com/facebook/docusaurus/pull/2626) fix(v2): make border right of doc sidebar equals doc page ([@lex111](https://github.com/lex111))
+  - [#2625](https://github.com/facebook/docusaurus/pull/2625) fix(v2): disable tab focus on collapsed doc sidebar items ([@lex111](https://github.com/lex111))
+  - [#2602](https://github.com/facebook/docusaurus/pull/2602) fix(v2): inherit color for announcement bar close icon ([@lex111](https://github.com/lex111))
+  - [#2582](https://github.com/facebook/docusaurus/pull/2582) fix(v2): remove horizontal scroll on docs page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2666](https://github.com/facebook/docusaurus/pull/2666) chore(v2): upgrade prism-react-renderer to latest version ([@lex111](https://github.com/lex111))
+  - [#2533](https://github.com/facebook/docusaurus/pull/2533) fix(v2): add rounded corners in code blocks properly ([@lex111](https://github.com/lex111))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#2661](https://github.com/facebook/docusaurus/pull/2661) chore: upgrade shelljs to 0.8.4 ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-preset-classic`, `docusaurus-theme-classic`
+  - [#2642](https://github.com/facebook/docusaurus/pull/2642) fix(v2): use remark-admonitions separately in each plugin instead of in preset only ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2380](https://github.com/facebook/docusaurus/pull/2380) fix(v2): ignore import declarations in excerpt ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-sitemap`
+  - [#2616](https://github.com/facebook/docusaurus/pull/2616) fix(v2): don't include 404 page in sitemaps ([@RDIL](https://github.com/RDIL))
+  - [#2530](https://github.com/facebook/docusaurus/pull/2530) fix(v2): Use `writeFileSync` to write generated sitemap.xml to avoid early termination ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus`
+  - [#2558](https://github.com/facebook/docusaurus/pull/2558) fix(v2): properly link top-level github pages sites in deploy command ([@RDIL](https://github.com/RDIL))
+  - [#2580](https://github.com/facebook/docusaurus/pull/2580) fix(v2): do not process anchor links by router ([@lex111](https://github.com/lex111))
+  - [#2579](https://github.com/facebook/docusaurus/pull/2579) fix(v2): treat mailto and tel links properly ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2540](https://github.com/facebook/docusaurus/pull/2540) fix(v2): use synchronous write for generate blog feeds ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2656](https://github.com/facebook/docusaurus/pull/2656) refactor(v2): lose focus of active sidebar item after click on it ([@lex111](https://github.com/lex111))
+  - [#2627](https://github.com/facebook/docusaurus/pull/2627) refactor(v2): extract scroll position detection into separate hook ([@lex111](https://github.com/lex111))
+  - [#2595](https://github.com/facebook/docusaurus/pull/2595) refactor(v2): make margin top on blog pages as on other pages ([@lex111](https://github.com/lex111))
+  - [#2588](https://github.com/facebook/docusaurus/pull/2588) refactor(v2): remove redundant container on docs page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2585](https://github.com/facebook/docusaurus/pull/2585) refactor(v2): use nav link component only where needed ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2556](https://github.com/facebook/docusaurus/pull/2556) refactor(v2): enhance CLI experience ([@RDIL](https://github.com/RDIL))
+  - [#2529](https://github.com/facebook/docusaurus/pull/2529) refactor(v2): replace few Lodash methods with native counterparts ([@Simek](https://github.com/Simek))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2534](https://github.com/facebook/docusaurus/pull/2534) refactor(v2): make better code blocks ([@lex111](https://github.com/lex111))
+  - [#2526](https://github.com/facebook/docusaurus/pull/2526) fix(v2): make code block nicer again ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-content-docs`
+  - [#2519](https://github.com/facebook/docusaurus/pull/2519) chore(v2): use single method Lodash packages in docs plugin ([@Simek](https://github.com/Simek))
+
+#### :memo: Documentation
+
+- [#2659](https://github.com/facebook/docusaurus/pull/2659) fix(docs): mention that appID is optional ([@s-pace](https://github.com/s-pace))
+- [#2596](https://github.com/facebook/docusaurus/pull/2596) docs(v2): remove duplicated package.json in installation directory structure ([@jaylees14](https://github.com/jaylees14))
+- [#2572](https://github.com/facebook/docusaurus/pull/2572) docs(v2): mention that `plugin-ideal-image` only perform compression on a production build ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- [#2570](https://github.com/facebook/docusaurus/pull/2570) docs(v2): fix syntax error for @docusaurus/plugin-ideal-image example ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- [#2566](https://github.com/facebook/docusaurus/pull/2566) docs(v2): be more polite ([@lex111](https://github.com/lex111))
+- [#2559](https://github.com/facebook/docusaurus/pull/2559) doc(v2): remove legacy blog metadata ([@RDIL](https://github.com/RDIL))
+- [#2549](https://github.com/facebook/docusaurus/pull/2549) docs(v2): command for swizzling all components ([@fanny](https://github.com/fanny))
+- [#2547](https://github.com/facebook/docusaurus/pull/2547) docs(v2): Fix typo in team page ([@SamChou19815](https://github.com/SamChou19815))
+- [#2545](https://github.com/facebook/docusaurus/pull/2545) docs(v2): add community pages ([@yangshun](https://github.com/yangshun))
+- [#2521](https://github.com/facebook/docusaurus/pull/2521) docs(v2): useThemeContext hook ([@lex111](https://github.com/lex111))
+
+#### :house: Internal
+
+- `docusaurus-types`, `docusaurus`
+  - [#2578](https://github.com/facebook/docusaurus/pull/2578) refactor(v2): Convert docusaurus-core to TypeScript ([@SamChou19815](https://github.com/SamChou19815))
+- Other
+  - [#2569](https://github.com/facebook/docusaurus/pull/2569) docs(v2): showcase user Tourmaline ([@watzon](https://github.com/watzon))
+  - [#2553](https://github.com/facebook/docusaurus/pull/2553) misc(v2): remove deprecated/useless lerna field ([@slorber](https://github.com/slorber))
+- `docusaurus-1.x`, `lqip-loader`
+  - [#2563](https://github.com/facebook/docusaurus/pull/2563) chore(v2): fix lint, tweak lqip-loader utils comment ([@Simek](https://github.com/Simek))
+- `lqip-loader`
+  - [#2561](https://github.com/facebook/docusaurus/pull/2561) chore(v2): add lqip-loader tests, clarify loader code, improve README ([@Simek](https://github.com/Simek))
+- `docusaurus-plugin-ideal-image`, `lqip-loader`
+  - [#2544](https://github.com/facebook/docusaurus/pull/2544) refactor(v2): import lqip-loader to monorepo, fix build on Node 13, fix lint-staged ([@Simek](https://github.com/Simek))
+- `docusaurus-init`
+  - [#2542](https://github.com/facebook/docusaurus/pull/2542) chore(v2): update Prettier config ([@lex111](https://github.com/lex111))
+- `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-sitemap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils`, `docusaurus`, `stylelint-copyright`
+  - [#2538](https://github.com/facebook/docusaurus/pull/2538) chore(v2): upgrade devDependencies ([@yangshun](https://github.com/yangshun))
+- `docusaurus-utils`
+  - [#2536](https://github.com/facebook/docusaurus/pull/2536) refactor(v2): replace Lodash with single methods packages in utils ([@Simek](https://github.com/Simek))
+- `docusaurus`
+  - [#2535](https://github.com/facebook/docusaurus/pull/2535) refactor(v2): replace Lodash with single methods packages in core ([@Simek](https://github.com/Simek))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Anayo Oleru ([@AnayoOleru](https://github.com/AnayoOleru))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Chris Watson ([@watzon](https://github.com/watzon))
+- Fanny ([@fanny](https://github.com/fanny))
+- Jay Lees ([@jaylees14](https://github.com/jaylees14))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- José Renan ([@JoseRenan](https://github.com/JoseRenan))
+- Kamil Kisiela ([@kamilkisiela](https://github.com/kamilkisiela))
+- Kristóf Poduszló ([@kripod](https://github.com/kripod))
+- Mehmet Yatkı ([@yatki](https://github.com/yatki))
+- Noah Silvera ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- Reece Dunham ([@RDIL](https://github.com/RDIL))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sylvain Pace ([@s-pace](https://github.com/s-pace))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Tom Brien ([@TomBrien](https://github.com/TomBrien))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
+## 2.0.0-alpha.50 (2020-04-02)
+
+**HOTFIX for 2.0.0-alpha.49**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2509](https://github.com/facebook/docusaurus/pull/2509) fix(v2): synchronize code block components changes ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2498](https://github.com/facebook/docusaurus/pull/2498) fix(v2): blog item styling ([@yangshun](https://github.com/yangshun))
+  - [#2489](https://github.com/facebook/docusaurus/pull/2489) fix(v2): fix HTML issues nav dropdown and highlight docs item ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2496](https://github.com/facebook/docusaurus/pull/2496) fix(v2): do not force terminate building when running deploy command ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2497](https://github.com/facebook/docusaurus/pull/2497) fix(v2): unbreak blog-only mode routing by deplicating starting forward slashes ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2505](https://github.com/facebook/docusaurus/pull/2505) fix(v2): tweak colors for announcement bar ([@yangshun](https://github.com/yangshun))
+  - [#2504](https://github.com/facebook/docusaurus/pull/2504) refactor(v2): improve announcement bar ([@lex111](https://github.com/lex111))
+  - [#2495](https://github.com/facebook/docusaurus/pull/2495) refactor(v2): update HTML markup of pagination for better a11y ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2502](https://github.com/facebook/docusaurus/pull/2502) fix(v2): make code block nicer ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#2490](https://github.com/facebook/docusaurus/pull/2490) fix(v2): use lodash instead of array-map-polyfill ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- `docusaurus-theme-classic`
+  - [#2500](https://github.com/facebook/docusaurus/pull/2500) docs(v2): misc docs updates ([@yangshun](https://github.com/yangshun))
+
+#### :house: Internal
+
+- [#2486](https://github.com/facebook/docusaurus/pull/2486) misc: add instructions about test release ([@lex111](https://github.com/lex111))
+
+#### Committers: 5
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Can Gencer ([@cangencer](https://github.com/cangencer))
+- Richard Chan ([@iWun](https://github.com/iWun))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
+## 2.0.0-alpha.49 (2020-04-01)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#2487](https://github.com/facebook/docusaurus/pull/2487) feat(v2): nav dropdown ([@yangshun](https://github.com/yangshun))
+  - [#2456](https://github.com/facebook/docusaurus/pull/2456) feat(v2): support comments for code highlighting ([@elviswolcott](https://github.com/elviswolcott))
+  - [#2330](https://github.com/facebook/docusaurus/pull/2330) feat(v2): add announcement bar ([@lex111](https://github.com/lex111))
+  - [#2440](https://github.com/facebook/docusaurus/pull/2440) feat(v2): make clickable sidebar logo ([@lex111](https://github.com/lex111))
+  - [#2366](https://github.com/facebook/docusaurus/pull/2366) feat(v2): support syncing tab choices ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus`
+  - [#2323](https://github.com/facebook/docusaurus/pull/2323) feat(v2): add a way to exclude components from build-time prerendering ([@lex111](https://github.com/lex111))
+  - [#2469](https://github.com/facebook/docusaurus/pull/2469) feat(v2): add TypeScript support for theme components ([@SamChou19815](https://github.com/SamChou19815))
+  - [#2455](https://github.com/facebook/docusaurus/pull/2455) feat(v2): add @theme-original alias to give access to pre-swizzled components ([@yangshun](https://github.com/yangshun))
+  - [#2438](https://github.com/facebook/docusaurus/pull/2438) feat(v2): add version to page's generated meta tags ([@lex111](https://github.com/lex111))
+- `docusaurus-types`, `docusaurus`
+  - [#2474](https://github.com/facebook/docusaurus/pull/2474) feat(v2): add ability to create unminimized bundles ([@lex111](https://github.com/lex111))
+  - [#2417](https://github.com/facebook/docusaurus/pull/2417) feat(v2): allow custom output directory for build ([@ZachJW34](https://github.com/ZachJW34))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2346](https://github.com/facebook/docusaurus/pull/2346) feat(v2): add filename in CodeBlock ([@KohheePeace](https://github.com/KohheePeace))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#2444](https://github.com/facebook/docusaurus/pull/2444) feat(v2): allow nested sidebar category shorthand syntax ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2483](https://github.com/facebook/docusaurus/pull/2483) fix(v2): do not render sidebar logo if used sticky navbar ([@lex111](https://github.com/lex111))
+  - [#2475](https://github.com/facebook/docusaurus/pull/2475) fix(v2): make correct Open Graph title for doc page ([@lex111](https://github.com/lex111))
+  - [#2436](https://github.com/facebook/docusaurus/pull/2436) fix(v2): update twitter:card to summary_large_image ([@lex111](https://github.com/lex111))
+  - [#2434](https://github.com/facebook/docusaurus/pull/2434) fix(v2): add support dark logo for sidebar logo ([@lex111](https://github.com/lex111))
+  - [#2420](https://github.com/facebook/docusaurus/pull/2420) fix(v2): fix external URL for og:image tag ([@38elements](https://github.com/38elements))
+- `docusaurus-theme-live-codeblock`
+  - [#2480](https://github.com/facebook/docusaurus/pull/2480) fix(v2): various improvements for accessibility ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`, `docusaurus-theme-classic`
+  - [#2479](https://github.com/facebook/docusaurus/pull/2479) chore(v2): upgrade MDX to 1.5.8 ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2476](https://github.com/facebook/docusaurus/pull/2476) fix(v2): improve code block scroll accessibility ([@lex111](https://github.com/lex111))
+  - [#2442](https://github.com/facebook/docusaurus/pull/2442) fix(v2): various improvements for accessibility ([@lex111](https://github.com/lex111))
+- `docusaurus-preset-classic`, `docusaurus-theme-classic`
+  - [#2477](https://github.com/facebook/docusaurus/pull/2477) chore(v2): upgrade remark-admonitions for a11y fixes ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2462](https://github.com/facebook/docusaurus/pull/2462) fix(v2): do not force terminate building when bundle analyzer is on ([@lex111](https://github.com/lex111))
+  - [#2393](https://github.com/facebook/docusaurus/pull/2393) fix(v2): normalize location for route matching ([@rlamana](https://github.com/rlamana))
+  - [#2443](https://github.com/facebook/docusaurus/pull/2443) fix(v2): always exit after successful build ([@mohrash92](https://github.com/mohrash92))
+  - [#2437](https://github.com/facebook/docusaurus/pull/2437) fix(v2): do not force terminate building if client bundle failed in development mode ([@lex111](https://github.com/lex111))
+  - [#2424](https://github.com/facebook/docusaurus/pull/2424) fix(v2): make correct internal link check ([@lex111](https://github.com/lex111))
+- `docusaurus-preset-classic`
+  - [#2451](https://github.com/facebook/docusaurus/pull/2451) fix(v2): pass options to remark-admonitions ([@elviswolcott](https://github.com/elviswolcott))
+- `docusaurus-mdx-loader`
+  - [#2426](https://github.com/facebook/docusaurus/pull/2426) fix(v2): remove HTML from heading slug ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2405](https://github.com/facebook/docusaurus/pull/2405) fix(v2): properly dedupe forward slashes in the entire URL path ([@rlamana](https://github.com/rlamana))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2485](https://github.com/facebook/docusaurus/pull/2485) refactor(v2): remove unnecessary X-UA-Compatible meta tag ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2460](https://github.com/facebook/docusaurus/pull/2460) refactor(v2): use single method package instead of whole Lodash package in blog plugin ([@Simek](https://github.com/Simek))
+- Other
+  - [#2428](https://github.com/facebook/docusaurus/pull/2428) polish(v2): use npm-to-yarn for the npm2yarn remark plugin ([@nebrelbug](https://github.com/nebrelbug))
+
+#### :memo: Documentation
+
+- Other
+  - [#2478](https://github.com/facebook/docusaurus/pull/2478) docs(v2): mark that in dev server some features may not work ([@lex111](https://github.com/lex111))
+  - [#2472](https://github.com/facebook/docusaurus/pull/2472) docs(v2): fix typo in deployment docs ([@GermaVinsmoke](https://github.com/GermaVinsmoke))
+  - [#2423](https://github.com/facebook/docusaurus/pull/2423) docs(v2): add Sass/SCSS under the styling section ([@rlamana](https://github.com/rlamana))
+  - [#2446](https://github.com/facebook/docusaurus/pull/2446) docs(v2): add docusaurus-plugin-sass to community plugins ([@rlamana](https://github.com/rlamana))
+  - [#2408](https://github.com/facebook/docusaurus/pull/2408) docs(v2): suggest Surge for quick deployment ([@fakela](https://github.com/fakela))
+  - [#2401](https://github.com/facebook/docusaurus/pull/2401) docs(v2): add resources page ([@yangshun](https://github.com/yangshun))
+  - [#2413](https://github.com/facebook/docusaurus/pull/2413) docs(v2): include appId key for Algolia ([@TheodoreChu](https://github.com/TheodoreChu))
+  - [#2411](https://github.com/facebook/docusaurus/pull/2411) docs:(v2): add Netlify configuration warning ([@bravo-kernel](https://github.com/bravo-kernel))
+  - [#2397](https://github.com/facebook/docusaurus/pull/2397) docs(v2):update alpha version to current version ([@fakela](https://github.com/fakela))
+  - [#2395](https://github.com/facebook/docusaurus/pull/2395) docs(v2): clarify instructions on docs-only mode ([@phoqe](https://github.com/phoqe))
+- `docusaurus-init`
+  - [#2458](https://github.com/facebook/docusaurus/pull/2458) fix(v2): expand broken admonitions ([@elviswolcott](https://github.com/elviswolcott))
+
+#### :house: Internal
+
+- `docusaurus`
+  - [#2461](https://github.com/facebook/docusaurus/pull/2461) chore(v2): upgrade react-dev-utils ([@lex111](https://github.com/lex111))
+- Other
+  - [#2450](https://github.com/facebook/docusaurus/pull/2450) docs(v2): Adding Motion Layout to Docusaurus users ([@jeffersonlicet](https://github.com/jeffersonlicet))
+  - [#2450](https://github.com/facebook/docusaurus/pull/2450) docs(v2): Adding Motion Layout to Docusaurus users ([@jeffersonlicet](https://github.com/jeffersonlicet))
+  - [#2439](https://github.com/facebook/docusaurus/pull/2439) polish(v2): add logo for dark mode ([@lex111](https://github.com/lex111))
+  - [#2435](https://github.com/facebook/docusaurus/pull/2435) fix(v2): fix aspect ratio for Open Graph image ([@lex111](https://github.com/lex111))
+  - [#2433](https://github.com/facebook/docusaurus/pull/2433) chore(v2): ignore JetBrains editors .iml files ([@slorber](https://github.com/slorber))
+  - [#2416](https://github.com/facebook/docusaurus/pull/2416) docs(v2): Add Build Tracker to Showcase page ([@paularmstrong](https://github.com/paularmstrong))
   - [#2388](https://github.com/facebook/docusaurus/pull/2388) docs(v1): showcase user Day.js ([@iamkun](https://github.com/iamkun))
-  - [#2307](https://github.com/facebook/docusaurus/pull/2307) docs(v1): fix Windows instructions for GitHub Pages publishing ([@jartuso](https://github.com/jartuso))
+- `stylelint-copyright`
+  - [#2415](https://github.com/facebook/docusaurus/pull/2415) misc: improve stylelint rule ([@ayshiff](https://github.com/ayshiff))
 
-#### Committers: 6
+#### Committers: 24
 
-- [@aldeed](https://github.com/aldeed)
-- [@Simek](https://github.com/Simek)
-- [@slorber](https://github.com/slorber)
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Bartosz Kaszubowski ([@Simek](https://github.com/Simek))
+- Ben Gubler ([@nebrelbug](https://github.com/nebrelbug))
+- Elvis Wolcott ([@elviswolcott](https://github.com/elviswolcott))
+- Fanny ([@fanny](https://github.com/fanny))
+- Favour Kelvin ([@fakela](https://github.com/fakela))
+- Jefferson Licet ([@jeffersonlicet](https://github.com/jeffersonlicet))
+- Kohhee Peace ([@KohheePeace](https://github.com/KohheePeace))
+- Linus Långberg ([@phoqe](https://github.com/phoqe))
+- Luke Collier ([@lukecollier](https://github.com/lukecollier))
+- Nisar Hassan Naqvi ([@nisarhassan12](https://github.com/nisarhassan12))
+- Paul Armstrong ([@paularmstrong](https://github.com/paularmstrong))
+- Ramón Lamana ([@rlamana](https://github.com/rlamana))
+- Rémi Doreau ([@ayshiff](https://github.com/ayshiff))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Theodore Chu ([@TheodoreChu](https://github.com/TheodoreChu))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- [@38elements](https://github.com/38elements)
+- [@GermaVinsmoke](https://github.com/GermaVinsmoke)
+- [@ZachJW34](https://github.com/ZachJW34)
+- [@bravo-kernel](https://github.com/bravo-kernel)
 - [@iamkun](https://github.com/iamkun)
+- [@mohrash92](https://github.com/mohrash92)
+
+## 2.0.0-alpha.48 (2020-03-08)
+
+**HOTFIX for 2.0.0-alpha.44**.
+
+#### :bug: Bug Fix
+
+- Other
+  - [#2383](https://github.com/facebook/docusaurus/pull/2383) fix(v2): specify proper version for stylelint-copyright ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2382](https://github.com/facebook/docusaurus/pull/2382) fix(v2): add missing preset-typescript dependency ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2386](https://github.com/facebook/docusaurus/pull/2386) fix(v2): add missing prismjs dependency and Noop component ([@lex111](https://github.com/lex111))
+
+#### Committers: 1
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+
+## 2.0.0-alpha.44 (2020-03-08)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#2250](https://github.com/facebook/docusaurus/pull/2250) feat(v2): add support specify new languages for Prism ([@lex111](https://github.com/lex111))
+  - [#2344](https://github.com/facebook/docusaurus/pull/2344) feat(v2): allow specifying custom target for logo link ([@lex111](https://github.com/lex111))
+  - [#2327](https://github.com/facebook/docusaurus/pull/2327) feat(v2): add ability to use HTML in footer copyright ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2335](https://github.com/facebook/docusaurus/pull/2335) feat(v2): add draft feature to blog posts ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `docusaurus-theme-classic`
+  - [#2303](https://github.com/facebook/docusaurus/pull/2303) docs(v2): Nav links activeBasePath ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus`
+  - [#2296](https://github.com/facebook/docusaurus/pull/2296) feat(v2): add ExecutionEnvironment API ([@yangshun](https://github.com/yangshun))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#2345](https://github.com/facebook/docusaurus/pull/2345) fix(v2): force terminate building if client bundle failed ([@lex111](https://github.com/lex111))
+  - [#2310](https://github.com/facebook/docusaurus/pull/2310) fix(v2): add @babel/preset-typescript to babel-loader ([@deniaz](https://github.com/deniaz))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2371](https://github.com/facebook/docusaurus/pull/2371) fix(v2): remove line break from end of code blocks ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2326](https://github.com/facebook/docusaurus/pull/2326) fix(v2): linkify blog posts ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2324](https://github.com/facebook/docusaurus/pull/2324) fix(v2): properly set dark mode logo on build-time prerendering ([@lex111](https://github.com/lex111))
+  - [#2325](https://github.com/facebook/docusaurus/pull/2325) fix(v2): switch a toggle when system theme changed ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#2334](https://github.com/facebook/docusaurus/pull/2334) fix(v2): make proper path to pages in TS ([@lex111](https://github.com/lex111))
+- Other
+  - [#2316](https://github.com/facebook/docusaurus/pull/2316) fix(v2): properly scale logo on IE 11 ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-search-algolia`
+  - [#2376](https://github.com/facebook/docusaurus/pull/2376) refactor(v2): clean up and improve Algolia styles ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#2372](https://github.com/facebook/docusaurus/pull/2372) chore(v2): upgrade Infima and remark-admonitions ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2367](https://github.com/facebook/docusaurus/pull/2367) refactor(v2): increase CSS specificity on application container ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `stylelint-copyright`
+  - [#2363](https://github.com/facebook/docusaurus/pull/2363) fix(v2): improve stylelint copyright header rule ([@yangshun](https://github.com/yangshun))
+- `docusaurus-types`, `docusaurus`
+  - [#2342](https://github.com/facebook/docusaurus/pull/2342) chore(v2): mark tagline field as optional ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2378](https://github.com/facebook/docusaurus/pull/2378) docs(v2): add section for docs-only mode ([@phoqe](https://github.com/phoqe))
+- [#2357](https://github.com/facebook/docusaurus/pull/2357) docs(v2): fix getPathsToWatch() example syntax in lifecycle APIs ([@rlamana](https://github.com/rlamana))
+- [#2351](https://github.com/facebook/docusaurus/pull/2351) docs(v2): add examples to plugin usage doc ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- [#2343](https://github.com/facebook/docusaurus/pull/2343) docs(v2): fix typo in remark-admonitions example ([@hassanfarid](https://github.com/hassanfarid))
+- [#2340](https://github.com/facebook/docusaurus/pull/2340) docs(v2): mention about disabling Jekyll when using GitHub pages ([@amilajack](https://github.com/amilajack))
+- [#2338](https://github.com/facebook/docusaurus/pull/2338) docs(v2): guide on upgrading Docusaurus within a project ([@TheodoreChu](https://github.com/TheodoreChu))
+- [#2313](https://github.com/facebook/docusaurus/pull/2313) docs(v2): move the quotes to remark admonitions ([@Zhencha0Cai](https://github.com/Zhencha0Cai))
+- [#2307](https://github.com/facebook/docusaurus/pull/2307) docs(v1): fix Windows instructions for GitHub Pages publishing ([@jartuso](https://github.com/jartuso))
+- [#2300](https://github.com/facebook/docusaurus/pull/2300) docs(v2): make blog plugin config example valid ([@balloob](https://github.com/balloob))
+- [#2289](https://github.com/facebook/docusaurus/pull/2289) docs(v2): add instructions on Travis CI deployment ([@mohamedsgap](https://github.com/mohamedsgap))
+
+#### :house: Internal
+
+- Other
+  - [#2369](https://github.com/facebook/docusaurus/pull/2369) misc: mention about v2 in README file ([@lex111](https://github.com/lex111))
+  - [#2368](https://github.com/facebook/docusaurus/pull/2368) misc: add note about edits in versioned docs ([@lex111](https://github.com/lex111))
+  - [#2333](https://github.com/facebook/docusaurus/pull/2333) docs: update use of npm/yarn in contributing.md ([@jsjoeio](https://github.com/jsjoeio))
+  - [#2328](https://github.com/facebook/docusaurus/pull/2328) docs(v2): remove unwanted black line from DocSearch showcase image ([@s-pace](https://github.com/s-pace))
+  - [#2319](https://github.com/facebook/docusaurus/pull/2319) docs(v2): showcase user Algolia ([@scottilee](https://github.com/scottilee))
+- `docusaurus-init`
+  - [#2322](https://github.com/facebook/docusaurus/pull/2322) docs(v2): fix misc styling ([@lex111](https://github.com/lex111))
+
+#### Committers: 16
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Amila Welihinda ([@amilajack](https://github.com/amilajack))
+- Hassan Farid ([@hassanfarid](https://github.com/hassanfarid))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- Linus Långberg ([@phoqe](https://github.com/phoqe))
+- Mohamed Abdel Nasser ([@mohamedsgap](https://github.com/mohamedsgap))
+- Noah Silvera ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- Paulus Schoutsen ([@balloob](https://github.com/balloob))
+- Ramón Lamana ([@rlamana](https://github.com/rlamana))
+- Robert ([@deniaz](https://github.com/deniaz))
+- Scott Lee ([@scottilee](https://github.com/scottilee))
+- Sylvain Pace ([@s-pace](https://github.com/s-pace))
+- Theodore Chu ([@TheodoreChu](https://github.com/TheodoreChu))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- Zhenchao Cai ([@Zhencha0Cai](https://github.com/Zhencha0Cai))
 - [@jartuso](https://github.com/jartuso)
 
-## [1.14.4] - 2020-01-12
+## 2.0.0-alpha.43 (2020-02-18)
+
+**HOTFIX for 2.0.0-alpha.41**.
 
 #### :bug: Bug Fix
 
-- `docusaurus-1.x`
-  - [#2196](https://github.com/facebook/docusaurus/pull/2196) fix(v1): fix JSX highlighting by passing language to Prism ([@gaearon](https://github.com/gaearon))
-
-#### :house: Internal
-
-- `docusaurus-1.x`
-  - [#2194](https://github.com/facebook/docusaurus/pull/2194) blog: tribute to Endi ([@JoelMarcey](https://github.com/JoelMarcey))
-  - [#2163](https://github.com/facebook/docusaurus/pull/2163) blog: 2019 recap ([@yangshun](https://github.com/yangshun))
-  - [#2087](https://github.com/facebook/docusaurus/pull/2087) fix(v1): add key to versions.map in versions.js ([@FeynmanDNA](https://github.com/FeynmanDNA))
-  - [#2083](https://github.com/facebook/docusaurus/pull/2083) refactor(v1): fix props for ProjectTitle ([@FeynmanDNA](https://github.com/FeynmanDNA))
-
-#### Committers: 6
-
-- [@TransmissionsDev](https://github.com/TransmissionsDev)
-- [@gaearon](https://github.com/gaearon)
-- [@janko](https://github.com/janko)
-- [@yangshun](https://github.com/yangshun)
-- [@JoelMarcey](https://github.com/JoelMarcey)
-- [@FeynmanDNA](https://github.com/FeynmanDNA)
-
-## [1.14.3] - 2019-12-01
-
-#### :bug: Bug Fix
-
-- `docusaurus-1.x`
-  - [#2063](https://github.com/facebook/docusaurus/pull/2063) fix: transpile static js to IE 10 ([@JLHwung](https://github.com/JLHwung))
-
-#### :house: Internal
-
-- `docusaurus-1.x`
-  - [#2029](https://github.com/facebook/docusaurus/pull/2029) chore: bump deps and remove unused deps ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-classic`
+  - [#2292](https://github.com/facebook/docusaurus/pull/2292) chore(v2): update Infima to 0.2.0-alpha.4 ([@yangshun](https://github.com/yangshun))
+  - [#2291](https://github.com/facebook/docusaurus/pull/2291) fix(v2): fix build and deps install ([@lex111](https://github.com/lex111))
 
 #### Committers: 2
 
-- Endi ([@endiliey](https://github.com/endiliey))
-- Huáng Jùnliàng ([@JLHwung](https://github.com/JLHwung))
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-## [1.14.2] - 2019-11-22
+## 2.0.0-alpha.41 (2020-02-16)
+
+#### :rocket: New Feature
+
+- `docusaurus-init`, `docusaurus-preset-classic`, `docusaurus-theme-classic`
+  - [#2224](https://github.com/facebook/docusaurus/pull/2224) feat(v2): add remark-admonitions to @docusaurus/preset-classic ([@elviswolcott](https://github.com/elviswolcott))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2263](https://github.com/facebook/docusaurus/pull/2263) feat(v2): pluralize posts on tag's page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2261](https://github.com/facebook/docusaurus/pull/2261) feat(v2): allow to specify different logo for dark mode ([@lex111](https://github.com/lex111))
+  - [#2253](https://github.com/facebook/docusaurus/pull/2253) feat(v2): allow specify custom link for logo ([@lex111](https://github.com/lex111))
+  - [#2255](https://github.com/facebook/docusaurus/pull/2255) feat(v2): add site title to meta title ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-pages`, `docusaurus-utils`, `docusaurus`
+  - [#2221](https://github.com/facebook/docusaurus/pull/2221) feat(v2): allow for Typescript pages and components ([@jonathanrdelgado](https://github.com/jonathanrdelgado))
+
+#### :boom: Breaking Change
+
+- `docusaurus-theme-classic`
+  - [#2235](https://github.com/facebook/docusaurus/pull/2235) fix(v2): show doc sidebar on pages with case-sensitive paths ([@lex111](https://github.com/lex111))
 
 #### :bug: Bug Fix
 
-- `docusaurus-1.x`
-  - [#2028](https://github.com/facebook/docusaurus/pull/2028) fix(v1): apply negative margin to docs heading only ([@yangshun](https://github.com/yangshun))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2285](https://github.com/facebook/docusaurus/pull/2285) fix(v2): fix codeblock copy button not including blank lines ([@KohheePeace](https://github.com/KohheePeace))
+  - [#2241](https://github.com/facebook/docusaurus/pull/2241) fix(v2): make code blocks scrollable ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2259](https://github.com/facebook/docusaurus/pull/2259) fix(v2): use site title if enabled blog-only mode ([@lex111](https://github.com/lex111))
+  - [#2248](https://github.com/facebook/docusaurus/pull/2248) fix(v2): adjust correct behavior of navbar when active anchor ([@lex111](https://github.com/lex111))
+  - [#2235](https://github.com/facebook/docusaurus/pull/2235) fix(v2): show doc sidebar on pages with case-sensitive paths ([@lex111](https://github.com/lex111))
+  - [#2162](https://github.com/facebook/docusaurus/pull/2162) fix(v2): unify anchor behavior ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2262](https://github.com/facebook/docusaurus/pull/2262) fix(v2): remove focus on search input when hovering over it ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#2240](https://github.com/facebook/docusaurus/pull/2240) fix(v2): hide read more button on non-truncated posts ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2237](https://github.com/facebook/docusaurus/pull/2237) fix(v2): include base url in 404 route ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`
+  - [#2236](https://github.com/facebook/docusaurus/pull/2236) fix(v2): escape link text in TOC ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#2227](https://github.com/facebook/docusaurus/pull/2227) fix(v2): render correct theme for live code blocks on SSR ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2254](https://github.com/facebook/docusaurus/pull/2254) refactor(v2): avoid to use raw theme values ([@lex111](https://github.com/lex111))
 
 #### :memo: Documentation
 
-- [#2026](https://github.com/facebook/docusaurus/pull/2026) docs(v1): showcase user Channelize.io ([@gauravberiwal](https://github.com/gauravberiwal))
-
-## [1.14.1] - 2019-11-21
-
-#### :bug: Bug Fix
-
-- [#2022](https://github.com/facebook/docusaurus/pull/2022) fix(v1): markdown content and toc should render the same ([@endiliey](https://github.com/endiliey))
-- [#2020](https://github.com/facebook/docusaurus/pull/2020) fix(v1): docusaurus-start should work even if path contain 'pages' word ([@endiliey](https://github.com/endiliey))
-- [#2019](https://github.com/facebook/docusaurus/pull/2019) fix(v1): consistent slug & hash-link generation ([@endiliey](https://github.com/endiliey))
-- [#1869](https://github.com/facebook/docusaurus/pull/1869) fix(v1): fix page title render issue when referred by search result ([@parvezakkas](https://github.com/parvezakkas))
-- [#1895](https://github.com/facebook/docusaurus/pull/1895) fix(v1): mobile safari search input misalignment in header ([@sarneeh](https://github.com/sarneeh))
-- [#1871](https://github.com/facebook/docusaurus/pull/1871) misc(v1): use primary color for hovered items in table of contents ([@blitz137](https://github.com/blitz137))
+- [#2281](https://github.com/facebook/docusaurus/pull/2281) docs: update windows deploy command ([@OndrejNepozitek](https://github.com/OndrejNepozitek))
+- [#2257](https://github.com/facebook/docusaurus/pull/2257) docs(v2): require using JSX flavored style objects in mdx ([@wgao19](https://github.com/wgao19))
+- [#2251](https://github.com/facebook/docusaurus/pull/2251) docs(v2): collapsible categories in sidebar ([@lex111](https://github.com/lex111))
+- [#2218](https://github.com/facebook/docusaurus/pull/2218) docs(v2): update link to available prism themes ([@jsjoeio](https://github.com/jsjoeio))
+- [#2216](https://github.com/facebook/docusaurus/pull/2216) docs(v2): fix plugin-content-docs config comment typo ([@sdowding](https://github.com/sdowding))
 
 #### :house: Internal
 
-- [#1920](https://github.com/facebook/docusaurus/pull/1920) misc(v1): use Node.js lts version for docker ([@gengjiawen](https://github.com/gengjiawen))
+- Other
+  - [#2256](https://github.com/facebook/docusaurus/pull/2256) fix(v2): add title for Feedback page ([@lex111](https://github.com/lex111))
+  - [#2246](https://github.com/facebook/docusaurus/pull/2246) docs(v2): add Benthos to showcase ([@Jeffail](https://github.com/Jeffail))
+  - [#2242](https://github.com/facebook/docusaurus/pull/2242) docs(v1): showcase user Jafar ([@galhavivi](https://github.com/galhavivi))
+  - [#2238](https://github.com/facebook/docusaurus/pull/2238) docs(v1): showcase Dime ([@hbulens](https://github.com/hbulens))
+  - [#2233](https://github.com/facebook/docusaurus/pull/2233) docs(v2): showcase user supabase ([@awalias](https://github.com/awalias))
+  - [#2226](https://github.com/facebook/docusaurus/pull/2226) docs(v1): showcase user Adapt.js ([@mterrel](https://github.com/mterrel))
+  - [#2225](https://github.com/facebook/docusaurus/pull/2225) docs(v1): add The Diff Podcast to users ([@JoelMarcey](https://github.com/JoelMarcey))
+  - [#2219](https://github.com/facebook/docusaurus/pull/2219) chore(v1): Updated users list, removing sites not using docusaurus ([@jjwill](https://github.com/jjwill))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2239](https://github.com/facebook/docusaurus/pull/2239) chore(eslint): require curly brackets on all blocks ([@lex111](https://github.com/lex111))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Ashley Jeffs ([@Jeffail](https://github.com/Jeffail))
+- Elie Dutheil ([@edwandr](https://github.com/edwandr))
+- Elvis Wolcott ([@elviswolcott](https://github.com/elviswolcott))
+- Evan Rubinton ([@erubi](https://github.com/erubi))
+- Gal Havivi ([@galhavivi](https://github.com/galhavivi))
+- Hanseung Yoo ([@trustyoo86](https://github.com/trustyoo86))
+- Hendrik Bulens ([@hbulens](https://github.com/hbulens))
+- JavaScript Joe ([@jsjoeio](https://github.com/jsjoeio))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Jonathan Delgado ([@jonathanrdelgado](https://github.com/jonathanrdelgado))
+- Joshua Williams ([@jjwill](https://github.com/jjwill))
+- KohheePeace ([@KohheePeace](https://github.com/KohheePeace))
+- Mark Terrel ([@mterrel](https://github.com/mterrel))
+- Ondřej Nepožitek ([@OndrejNepozitek](https://github.com/OndrejNepozitek))
+- Scott Dowding ([@sdowding](https://github.com/sdowding))
+- Wei Gao ([@wgao19](https://github.com/wgao19))
+- [@awalias](https://github.com/awalias)
+
+## 2.0.0-alpha.40 (2019-12-25)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#2117](https://github.com/facebook/docusaurus/pull/2117) feat(v2): auto switch theme depending on the system theme ([@lex111](https://github.com/lex111))
+  - [#2055](https://github.com/facebook/docusaurus/pull/2055) feat(v2): hide navbar on scroll ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#2145](https://github.com/facebook/docusaurus/pull/2145) fix(v2): remove style-loader, use minicssextract in both dev & prod ([@endiliey](https://github.com/endiliey))
+  - [#2122](https://github.com/facebook/docusaurus/pull/2122) fix(v2): dont collapse whitespace in minified html ([@endiliey](https://github.com/endiliey))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#2105](https://github.com/facebook/docusaurus/pull/2105) fix(v2): move metadata export after compiling MDX to avoid weird MDX parsing error. ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-classic`
+  - [#2113](https://github.com/facebook/docusaurus/pull/2113) fix(v2): set stored theme only if it exists ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2129](https://github.com/facebook/docusaurus/pull/2129) fix(v2): disable scroll while mobile menu open ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2127](https://github.com/facebook/docusaurus/pull/2127) refactor(v2): toggle data-theme with vanilla js instead of react helmet ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#2125](https://github.com/facebook/docusaurus/pull/2125) feat(v2): lazy load algolia css so its not render blocking ([@endiliey](https://github.com/endiliey))
 
 #### :memo: Documentation
 
-- [#1998](https://github.com/facebook/docusaurus/pull/1998) docs(v1): showcase user collective ([@kenning](https://github.com/kenning))
-- [#1961](https://github.com/facebook/docusaurus/pull/1961) docs(v1): remove exclusive language ([@ericcarboni](https://github.com/ericcarboni))
-- [#1873](https://github.com/facebook/docusaurus/pull/1873) docs: showcase user Amphora ([@xtellurian](https://github.com/xtellurian))
-- [#1918](https://github.com/facebook/docusaurus/pull/1918) docs(v1): showcase user Reactive Interaction Gateway ([@mmacai](https://github.com/mmacai))
-- [#1911](https://github.com/facebook/docusaurus/pull/1911) docs: updating configcat user link ([@mr-sige](https://github.com/mr-sige))
-- [#1902](https://github.com/facebook/docusaurus/pull/1902) misc: update URLs to non-HTML versions ([@ikrydev](https://github.com/ikrydev))
-- [#1901](https://github.com/facebook/docusaurus/pull/1901) docs(v1): remove broken link for user Vasern ([@ikrydev](https://github.com/ikrydev))
+- Other
+  - [#2135](https://github.com/facebook/docusaurus/pull/2135) docs(v1): add space between "out" and "Docusaurus" ([@TransmissionsDev](https://github.com/TransmissionsDev))
+  - [#2128](https://github.com/facebook/docusaurus/pull/2128) docs(v1): showcase user Shrine ([@janko](https://github.com/janko))
+  - [#2110](https://github.com/facebook/docusaurus/pull/2110) docs(v2): fix pages routing inaccurate info ([@endiliey](https://github.com/endiliey))
+  - [#2106](https://github.com/facebook/docusaurus/pull/2106) fix(v2): add missing hyphen in color generator ([@lex111](https://github.com/lex111))
+  - [#2104](https://github.com/facebook/docusaurus/pull/2104) feat(v2): add color generator for primary colors ([@yangshun](https://github.com/yangshun))
+  - [#2103](https://github.com/facebook/docusaurus/pull/2103) docs: mention about moving docs directory into website ([@yangshun](https://github.com/yangshun))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2114](https://github.com/facebook/docusaurus/pull/2114) fix(v2): add syntax highlight to generated colors ([@lex111](https://github.com/lex111))
 
-## [1.14.0] - 2019-10-20
+#### :house: Internal
 
-**Added**
+- Other
+  - [#2126](https://github.com/facebook/docusaurus/pull/2126) docs: promote Docusaurus 2 usage ([@yangshun](https://github.com/yangshun))
+  - [#2119](https://github.com/facebook/docusaurus/pull/2119) fix(v2): align GH button in vertical center ([@lex111](https://github.com/lex111))
+- `docusaurus-init`
+  - [#2124](https://github.com/facebook/docusaurus/pull/2124) feat(v2): add Facebook Docusaurus 2 template ([@yangshun](https://github.com/yangshun))
+- `docusaurus`
+  - [#2111](https://github.com/facebook/docusaurus/pull/2111) feat(v2): explicit babel/runtime version ([@endiliey](https://github.com/endiliey))
+- `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#2102](https://github.com/facebook/docusaurus/pull/2102) misc: add command to run prettier on docs ([@yangshun](https://github.com/yangshun))
 
-- feat: allow specifying meta desc in front matter ([#1859](https://github.com/facebook/docusaurus/pull/1859))
+#### :running_woman: Performance
 
-**Docs**
+- `docusaurus`
+  - [#2118](https://github.com/facebook/docusaurus/pull/2118) perf(v2): reduce HTML payload by eliminating chunk-map ([@endiliey](https://github.com/endiliey))
+  - [#2116](https://github.com/facebook/docusaurus/pull/2116) feat(v2): minify html ([@endiliey](https://github.com/endiliey))
 
-- docs: document docker is optional ([#1848](https://github.com/facebook/docusaurus/pull/1848))
+#### Committers: 6
 
-## [1.13.0] - 2019-09-15
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Janko Marohnić ([@janko](https://github.com/janko))
+- Nick McCurdy ([@nickmccurdy](https://github.com/nickmccurdy))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- t11s ([@TransmissionsDev](https://github.com/TransmissionsDev))
 
-**Fixed**
+## 2.0.0-alpha.39
 
-- fix: content aligning breaks at IE11 ([#1684](https://github.com/facebook/docusaurus/pull/1684))
-- fix: footer links margin ([#1781](https://github.com/facebook/docusaurus/pull/1781))
-- feat: strip html from TOC ([#1762](https://github.com/facebook/docusaurus/pull/1762))
+#### :bug: Bug Fix
 
-**Docs**
+- `docusaurus`
+  - [#2099](https://github.com/facebook/docusaurus/pull/2099) fix(v2): escape import path on windows ([@endiliey](https://github.com/endiliey))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  - [#2095](https://github.com/facebook/docusaurus/pull/2095) fix(v2): metadata error if markdown does not have ending line ([@endiliey](https://github.com/endiliey))
 
-- docs: document what should be in .gitignore ([#1709](https://github.com/facebook/docusaurus/pull/1709))
-- docs: change separateCSS to separateCss ([#1735](https://github.com/facebook/docusaurus/pull/1735))
-- docs: fix documented type for the `cleanUrl` option ([#1775](https://github.com/facebook/docusaurus/pull/1775))
-- docs: improve tutorial
+#### :house: Internal
 
-## [1.12.0] - 2019-07-20
+- Other
+  - [#2100](https://github.com/facebook/docusaurus/pull/2100) chore(CI): docusaurus build on Windows with GitHub actions ([@endiliey](https://github.com/endiliey))
+- `docusaurus`
+  - [#2096](https://github.com/facebook/docusaurus/pull/2096) feat(v2): better & nice looking error overlay ([@endiliey](https://github.com/endiliey))
 
-### Changes
+#### Committers: 1
 
-**Added**
+- Endi ([@endiliey](https://github.com/endiliey))
 
-- feat: add "unlisted" front matter option for blog posts ([#1396](https://github.com/facebook/docusaurus/pull/1396))
-- feat: use primary color for highlighted items in table of contents ([#1628](https://github.com/facebook/docusaurus/pull/1628))
+## 2.0.0-alpha.38
 
-**Chores**
+#### :boom: Breaking Change
 
-- Upgrade a lot of dependencies to fix security vulnerabilities ([#1668](https://github.com/facebook/docusaurus/pull/1668))
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils`
+  - [#2088](https://github.com/facebook/docusaurus/pull/2088) perf(v2): smaller bundlesize by embedding metadata to content ([@endiliey](https://github.com/endiliey))
 
-**Fixed**
+If you have swizzled any Docs/Blog component that depends on metadata, you'll have to update. If you haven't, no action is needed.
 
-- fix: remove the `Container` component from the `docsNavContainer` ([#1599](https://github.com/facebook/docusaurus/pull/1599))
-- fix: require babel dependencies directly ([#1575](https://github.com/facebook/docusaurus/pull/1575))
-- fix: replace apostrophe with empty string in header slugification ([#1618](https://github.com/facebook/docusaurus/pull/1618))
-- fix: wrong bootstrapped footer social links ([#1647](https://github.com/facebook/docusaurus/pull/1647))
-- fix: PostCSS warning on `build` command ([#1664](https://github.com/facebook/docusaurus/pull/1664))
-- fix: dont render html for meta description ([#1672](https://github.com/facebook/docusaurus/pull/1672))
+For example, if you've swizzled `@theme/DocItem`. You'll have to update
 
-**Docs**
+```diff
+- const {metadata, content: DocContent} = props;
++ const {content: DocContent} = props;
++ const {metadata} = DocContent;
+```
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#2086](https://github.com/facebook/docusaurus/pull/2086) fix(v2): windows compatibility regression ([@endiliey](https://github.com/endiliey))
+- `docusaurus-plugin-ideal-image`
+  - [#2074](https://github.com/facebook/docusaurus/pull/2074) fix(v2): fix plugin-ideal-image breaking website (exports not defined) ([@endiliey](https://github.com/endiliey))
+
+#### :nail_care: Polish
+
+- `docusaurus-mdx-loader`
+  - [#2085](https://github.com/facebook/docusaurus/pull/2085) misc(v2): update mdx loader plugin README ([@shivangna](https://github.com/shivangna))
+
+#### :house: Internal
+
+- `docusaurus-1.x`
+  - [#2087](https://github.com/facebook/docusaurus/pull/2087) fix(v1): add key to versions.map in versions.js ([@FeynmanDNA](https://github.com/FeynmanDNA))
+  - [#2083](https://github.com/facebook/docusaurus/pull/2083) refactor(v1): fix props for ProjectTitle ([@FeynmanDNA](https://github.com/FeynmanDNA))
+- `docusaurus`
+  - [#2081](https://github.com/facebook/docusaurus/pull/2081) refactor(v2): move scripts/stylesheets injection to server side ([@endiliey](https://github.com/endiliey))
+  - [#2080](https://github.com/facebook/docusaurus/pull/2080) refactor(v2): minor code refactoring on component creator ([@endiliey](https://github.com/endiliey))
+
+#### :running_woman: Performance
+
+- `docusaurus-utils`
+  - [#2089](https://github.com/facebook/docusaurus/pull/2089) perf(v2): improve dev build time by not overwriting file if possible ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-search-algolia`
+  - [#2079](https://github.com/facebook/docusaurus/pull/2079) perf(v2): algolia search result no longer cause full page refresh ([@endiliey](https://github.com/endiliey))
+  - [#2076](https://github.com/facebook/docusaurus/pull/2076) perf(v2): load algolia JS only when user interacts with search ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 4
+
+- Endi ([@endiliey](https://github.com/endiliey))
+- KYY ([@FeynmanDNA](https://github.com/FeynmanDNA))
+- Shivangna Kaistha ([@shivangna](https://github.com/shivangna))
+- kaichu ([@qshiwu](https://github.com/qshiwu))
+
+## 2.0.0-alpha.37
+
+#### :boom: Breaking Change
+
+- `docusaurus-init`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils`, `docusaurus`
+  - [#2045](https://github.com/facebook/docusaurus/pull/2045) breaking(v2): minimum required nodejs version 8.9-> 8.10 so we can use es2017 ([@endiliey](https://github.com/endiliey))
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2069](https://github.com/facebook/docusaurus/pull/2069) feat(v2): support prefers-color-scheme & fix dark mode FOUC on refresh ([@endiliey](https://github.com/endiliey))
+- `docusaurus-plugin-content-blog`
+  - [#2000](https://github.com/facebook/docusaurus/pull/2000) feat(v2): add meta RSS/Atom feed links to head ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#2057](https://github.com/facebook/docusaurus/pull/2057) feat(v2): injectHtmlTags API to inject head and/or body html tags ([@endiliey](https://github.com/endiliey))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus`
+  - [#2032](https://github.com/facebook/docusaurus/pull/2032) feat(v2): allow non sidebar category to be first item of sidebar ([@endiliey](https://github.com/endiliey))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#1983](https://github.com/facebook/docusaurus/pull/1983) feat(v2): docs versioning ❄️🔥 ([@endiliey](https://github.com/endiliey))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2069](https://github.com/facebook/docusaurus/pull/2069) feat(v2): support prefers-color-scheme & fix dark mode FOUC on refresh ([@endiliey](https://github.com/endiliey))
+- `docusaurus-mdx-loader`
+  - [#2067](https://github.com/facebook/docusaurus/pull/2067) fix(v2): toc should not be broken for heading with html inline code ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-classic`
+  - [#2064](https://github.com/facebook/docusaurus/pull/2064) fix(v2): markdown reference to file should not be page not found ([@endiliey](https://github.com/endiliey))
+  - [#2061](https://github.com/facebook/docusaurus/pull/2061) fix(v2): fix docs sidebar highlighting if link is partially matched ([@endiliey](https://github.com/endiliey))
+- `docusaurus`
+  - [#2042](https://github.com/facebook/docusaurus/pull/2042) fix(v2): remove css order warning if css imports are not sorted ([@endiliey](https://github.com/endiliey))
+
+#### :nail_care: Polish
 
-- docs: fix reference to publishing steps ([#1613](https://github.com/facebook/docusaurus/pull/1613))
-- docs: minor grammar fix in blog guide ([#1614](https://github.com/facebook/docusaurus/pull/1614))
-- docs: Fix Rendering of <AUTOGENERATED_TABLE_OF_CONTENTS> Tag on API - Markdown Features Page ([#1617](https://github.com/facebook/docusaurus/pull/1617))
-- docs: add Render hosting guide ([#1615](https://github.com/facebook/docusaurus/pull/1615))
+- `docusaurus-theme-classic`
+  - [#2066](https://github.com/facebook/docusaurus/pull/2066) refactor(v2): add title attribute to anchor link ([@lex111](https://github.com/lex111))
+  - [#1990](https://github.com/facebook/docusaurus/pull/1990) refactor(v2): make better a11y for tabs ([@lex111](https://github.com/lex111))
+  - [#2034](https://github.com/facebook/docusaurus/pull/2034) feat(v2): style sidebar on overflow ([@endiliey](https://github.com/endiliey))
 
-## [1.11.1] - 2019-06-08
+#### :memo: Documentation
 
-A bunch of dependency upgrades to resolve security issues.
+- Other
+  - [#2068](https://github.com/facebook/docusaurus/pull/2068) docs(v2): quick proofread docs ([@endiliey](https://github.com/endiliey))
+  - [#2047](https://github.com/facebook/docusaurus/pull/2047) docs(v2): add manual migration guide for versioning ([@endiliey](https://github.com/endiliey))
+  - [#2036](https://github.com/facebook/docusaurus/pull/2036) docs(v2): Reorganize migration guide ([@wgao19](https://github.com/wgao19))
+  - [#2052](https://github.com/facebook/docusaurus/pull/2052) fix(v2): make proper spelling of Yarn in tabs ([@lex111](https://github.com/lex111))
+  - [#2040](https://github.com/facebook/docusaurus/pull/2040) docs(v2): showcase user vector.dev :) ([@binarylogic](https://github.com/binarylogic))
+  - [#2038](https://github.com/facebook/docusaurus/pull/2038) docs(v2): add documentation on versioning ([@endiliey](https://github.com/endiliey))
+  - [#2037](https://github.com/facebook/docusaurus/pull/2037) docs(v2): display yarn and npm command on website ([@endiliey](https://github.com/endiliey))
+  - [#2051](https://github.com/facebook/docusaurus/pull/2051) docs(v2): more examples on lifecycle apis, cleanup ([@endiliey](https://github.com/endiliey))
+
+#### :house: Internal
+
+- `docusaurus-plugin-content-blog`
+  - [#2072](https://github.com/facebook/docusaurus/pull/2072) refactor(v2): stronger typing for blog plugin ([@endiliey](https://github.com/endiliey))
+- `docusaurus`
+  - [#2060](https://github.com/facebook/docusaurus/pull/2060) fix(v2): clean generated manifest from previous build so we dont use the wrong one ([@endiliey](https://github.com/endiliey))
+  - [#2033](https://github.com/facebook/docusaurus/pull/2033) refactor(v2): move unused generated files out from build folder ([@endiliey](https://github.com/endiliey))
+- `docusaurus-types`, `docusaurus`
+  - [#2043](https://github.com/facebook/docusaurus/pull/2043) refactor(v2): stronger typing for route gen ([@endiliey](https://github.com/endiliey))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-ideal-image`, `docusaurus-types`, `docusaurus`
+  - [#2044](https://github.com/facebook/docusaurus/pull/2044) chore(v2): bump deps ([@endiliey](https://github.com/endiliey))
+- `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#2029](https://github.com/facebook/docusaurus/pull/2029) chore(v2): bump deps and remove unused deps ([@endiliey](https://github.com/endiliey))
+
+#### :running_woman: Performance
+
+- `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`
+  - [#2070](https://github.com/facebook/docusaurus/pull/2070) perf(v2): more performant gtag and analytics plugin ([@endiliey](https://github.com/endiliey))
+- `docusaurus`
+  - [#2046](https://github.com/facebook/docusaurus/pull/2046) perf(v2): use webpack future version of asset emitting logic to free memory ([@endiliey](https://github.com/endiliey))
+  - [#2039](https://github.com/facebook/docusaurus/pull/2039) perf(v2): replace unnecessary json stringify(string) with inline string ([@endiliey](https://github.com/endiliey))
+  - [#2035](https://github.com/facebook/docusaurus/pull/2035) perf(v2): use @babel/runtime plugin to reduce codesize ([@endiliey](https://github.com/endiliey))
+- `docusaurus-plugin-content-docs`
+  - [#2054](https://github.com/facebook/docusaurus/pull/2054) perf(v2): unblock metadata processing when possible ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 5
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Binary Logic ([@binarylogic](https://github.com/binarylogic))
+- Dongwoo Gim ([@gimdongwoo](https://github.com/gimdongwoo))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Wei Gao ([@wgao19](https://github.com/wgao19))
+
+## 2.0.0-alpha.36
+
+#### :boom: Breaking Change
+
+- `docusaurus-init`, `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#1989](https://github.com/facebook/docusaurus/pull/1989) misc(v2): change blog front matter to snake_case ([@yangshun](https://github.com/yangshun))
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  - [#2012](https://github.com/facebook/docusaurus/pull/2012) feat(v2): allow hiding docs table of contents ([@yangshun](https://github.com/yangshun))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#2007](https://github.com/facebook/docusaurus/pull/2007) feat(v2): only create one css file to avoid code-split css loading problem ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-classic`
+  - [#2005](https://github.com/facebook/docusaurus/pull/2005) fix(v2): adjust first-level heading offset ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2013](https://github.com/facebook/docusaurus/pull/2013) refactor(v2): split out dark mode toggle so it is easily swizzle-able ([@endiliey](https://github.com/endiliey))
+  - [#2017](https://github.com/facebook/docusaurus/pull/2017) feat(v2): style right sidebar scrollbar when overflow ([@endiliey](https://github.com/endiliey))
+  - [#2003](https://github.com/facebook/docusaurus/pull/2003) refactor(v2): improve semantic markup of blog ([@lex111](https://github.com/lex111))
+
+#### :house: Internal
+
+- `docusaurus`
+  - [#2024](https://github.com/facebook/docusaurus/pull/2024) test(v2): babel exclude transpilation logic to prevent regression ([@endiliey](https://github.com/endiliey))
+  - [#2014](https://github.com/facebook/docusaurus/pull/2014) feat(v2): add meta generator docusaurus ([@endiliey](https://github.com/endiliey))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-ideal-image`
+  - [#2015](https://github.com/facebook/docusaurus/pull/2015) chore(v2): bump & remove unused deps ([@endiliey](https://github.com/endiliey))
+- Other
+  - [#2009](https://github.com/facebook/docusaurus/pull/2009) misc(v2): branding update ([@yangshun](https://github.com/yangshun))
+
+#### :memo: Documentation
+
+- [#2010](https://github.com/facebook/docusaurus/pull/2010) docs(v2): misc updates ([@yangshun](https://github.com/yangshun))
+
+#### Committers: 3
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-## [1.11.0] - 2019-05-30
+## 2.0.0-alpha.35
 
-We added a new feature of highlighting the table of contents on the right side as you scroll the docs pages. A few bugs affecting local development were also fixed. More notably, the blog's left sidebar will not hide the post titles when `docsSideNavCollapsible` is turned on. This is a bugfix/backward-incompatible change depending on how you view it, but probably nobody wanted that collapsing behavior on the blog sidebar.
+#### :rocket: New Feature
 
-We also welcome @wgao19 to the core team! She'll be helping us with Docusaurus 2 work leveraging on her experience writing documentation and CSS!
+- `docusaurus-theme-classic`
+  - [#1965](https://github.com/facebook/docusaurus/pull/1965) feat(v2): add ability specify link in footer logo ([@lex111](https://github.com/lex111))
 
-### Changes
+#### :bug: Bug Fix
 
-- fix: reload siteConfig.js automatically when locally served page is refreshed ([#1509](https://github.com/facebook/docusaurus/pull/1509))
-- fix: don't collapse the blog navigation even if collapsible is true ([#1519](https://github.com/facebook/docusaurus/pull/1519))
-- fix: enable live reloading title of doc ([#1507](https://github.com/facebook/docusaurus/pull/1507))
-- feat: highlight nav item in onPageNav ToC ([#1524](https://github.com/facebook/docusaurus/pull/1524))
+- `docusaurus-mdx-loader`, `docusaurus-theme-classic`
+  - [#1992](https://github.com/facebook/docusaurus/pull/1992) fix(v2): static phrasing content should be rendered correctly in TOC ([@endiliey](https://github.com/endiliey))
+- `docusaurus-theme-classic`
+  - [#1999](https://github.com/facebook/docusaurus/pull/1999) fix(v2): remove hashbang when click on category ([@lex111](https://github.com/lex111))
+  - [#1962](https://github.com/facebook/docusaurus/pull/1962) fix(v2): make not clickable post title on post item page ([@lex111](https://github.com/lex111))
+  - [#1980](https://github.com/facebook/docusaurus/pull/1980) fix(v2): remove invalid label attribute of footer links ([@lex111](https://github.com/lex111))
+  - [#1978](https://github.com/facebook/docusaurus/pull/1978) fix(v2): use regular div instead of main tag for wrapper layout page ([@lex111](https://github.com/lex111))
+  - [#1975](https://github.com/facebook/docusaurus/pull/1975) fix(v2): move header inside article tag in doc page ([@lex111](https://github.com/lex111))
+  - [#1974](https://github.com/facebook/docusaurus/pull/1974) fix(v2): remove invalid attributes of nav links ([@lex111](https://github.com/lex111))
+  - [#1963](https://github.com/facebook/docusaurus/pull/1963) fix(v2): remove empty containers when no data in blog pages ([@lex111](https://github.com/lex111))
+  - [#1966](https://github.com/facebook/docusaurus/pull/1966) fix(v2): remove duplicate meta tags ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`
+  - [#1994](https://github.com/facebook/docusaurus/pull/1994) fix(v2): throw error if first level item of a sidebar is not category ([@endiliey](https://github.com/endiliey))
 
-## [1.10.0] - 2019-05-21
+#### :nail_care: Polish
 
-This version mainly include many bug fixes and a new feature to use different `host` other than `localhost` through CLI flag.
+- `docusaurus-theme-search-algolia`
+  - [#2001](https://github.com/facebook/docusaurus/pull/2001) fix(v2): improve UI of search ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#1991](https://github.com/facebook/docusaurus/pull/1991) fix(v2): remove accessible anchors via keyboard ([@lex111](https://github.com/lex111))
+  - [#1987](https://github.com/facebook/docusaurus/pull/1987) refactor(v2): replace h1 tag with h2 in blog list pages ([@lex111](https://github.com/lex111))
+  - [#1981](https://github.com/facebook/docusaurus/pull/1981) fix(v2): use tag time for showing last update of doc item ([@lex111](https://github.com/lex111))
+  - [#1977](https://github.com/facebook/docusaurus/pull/1977) feat(v2): add aria-label to read more links for a11y ([@lex111](https://github.com/lex111))
+  - [#1964](https://github.com/facebook/docusaurus/pull/1964) fix(v2): use tag time for showing post item date ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`
+  - [#1994](https://github.com/facebook/docusaurus/pull/1994) fix(v2): throw error if first level item of a sidebar is not category ([@endiliey](https://github.com/endiliey))
+- Other
+  - [#1986](https://github.com/facebook/docusaurus/pull/1986) fix(v2): remove obsolete iframe attributes ([@lex111](https://github.com/lex111))
+- `docusaurus-init`
+  - [#1982](https://github.com/facebook/docusaurus/pull/1982) feat(v2): add FB link to footer ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#1968](https://github.com/facebook/docusaurus/pull/1968) refactor(v2): simplify blog truncate function ([@endiliey](https://github.com/endiliey))
 
-Other than that, we also made some significant progress on **Docusaurus 2** development. In the near future, we'll be rolling out the alpha version publicly to maximize community participation and feedback. Please stay tuned :wink:
+#### :memo: Documentation
 
-Thank you to following contributors:
+- Other
+  - [#1988](https://github.com/facebook/docusaurus/pull/1988) docs(v2): fix syntax highlighting for YML code blocks ([@lex111](https://github.com/lex111))
+  - [#1976](https://github.com/facebook/docusaurus/pull/1976) docs(v2): Add section to blog document about feed location ([@vinnytheviking](https://github.com/vinnytheviking))
+  - [#1970](https://github.com/facebook/docusaurus/pull/1970) docs(v2): update configureWebpack utility functions ([@jamiedavenport](https://github.com/jamiedavenport))
+- `docusaurus-1.x`
+  - [#1961](https://github.com/facebook/docusaurus/pull/1961) docs(v1): remove exclusive language ([@ericcarboni](https://github.com/ericcarboni))
 
-- @endiliey
-- @yangshun
-- @zachbadgett
-- @yangshun
-- @endiliey
-- @shakcho
-- @Hongarc
-- @qiu8310
-- @jamesgeorge007
-- @Alireza
-- @TurekBot
-- @wgao19
-- @palmer-cl
+#### :house: Internal
 
-### Main Changes
+- Other
+  - [#2002](https://github.com/facebook/docusaurus/pull/2002) fix(v2): fix browser window menu icon on smaller screen ([@lex111](https://github.com/lex111))
+  - [#1986](https://github.com/facebook/docusaurus/pull/1986) fix(v2): remove obsolete iframe attributes ([@lex111](https://github.com/lex111))
+- `docusaurus-init`
+  - [#1982](https://github.com/facebook/docusaurus/pull/1982) feat(v2): add FB link to footer ([@lex111](https://github.com/lex111))
+- `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-types`, `docusaurus`
+  - [#1985](https://github.com/facebook/docusaurus/pull/1985) chore(v2): update dependencies ([@endiliey](https://github.com/endiliey))
 
-- feat: allow different host through CLI flag ([#1475](https://github.com/facebook/docusaurus/pull/1475))
-- fix: docusaurus code tab logic by ([#1369](https://github.com/facebook/docusaurus/pull/1369)). This fixes [code tabs does not allow HTML comments within codeblock](https://github.com/facebook/docusaurus/issues/1260) and [Code tabs break numbered lists and cannot be indented](https://github.com/facebook/docusaurus/pull/1371).
-- fix: add missing `markdownOptions` siteConfig feature to override remarkable options ([#1430](https://github.com/facebook/docusaurus/pull/1430))
-- fix: right table of content does not render special characters ([#1458](https://github.com/facebook/docusaurus/pull/1458))
-- fix(regression): missing CLI commands introduced in v1.8.0 ([#1478](https://github.com/facebook/docusaurus/pull/1478))
-- fix: h3 topics with Markdown formatting causes a glitch on mobile ([#1467](https://github.com/facebook/docusaurus/pull/1467))
-- fix: wrong url in next/prev button in some cases ([#1488](https://github.com/facebook/docusaurus/pull/1488))
-- fix: content displayed on bottom of mobile viewport when TOC is active ([#1489](https://github.com/facebook/docusaurus/pull/1489))
-- fix: mobile navigation should show deepest breadcrumb instead of outer ([#1493](https://github.com/facebook/docusaurus/pull/1493))
-
-## [1.9.0] - 2019-4-29
-
-In preparation of F8 where @yangshun will be holding a classroom session on building a Docusaurus site, we've added a tutorial to teach people how to create a versioned Docusaurus site.
-
-We also revamped the `docusaurus-init` script such that the theme colors are random and you partnered with [unDraw](https://undraw.co/) to generate illustrations that match your theme color! Check it out!
-
-The sidebar icon on mobile screens have been changed to a more conventional hamburger style icon which is more intuitive. If you customized that part, check if your site's layout broke because of it.
-
-Lastly, welcome Pulsar, Mockit and React Testing Library as users!
-
-Thank you to the following contributors:
-
-- @endiliey
-- @yangshun
-- @Alan-Cha
-- @ntucker
-- @wilsonmar
-- @NishealJ
-- @Hongarc
+#### :running_woman: Performance
 
-### Fixed/Added
+- `docusaurus`
+  - [#1979](https://github.com/facebook/docusaurus/pull/1979) perf(v2): reduce main bundle size by using es5 if possible ([@endiliey](https://github.com/endiliey))
 
-- docs: consistent badge style ([#1371](https://github.com/facebook/docusaurus/pull/1371))
-- fix: prism syntax highlight .tsx properly ([#1391](https://github.com/facebook/docusaurus/pull/1391))
-- feat: add tutorial ([#1381](https://github.com/facebook/docusaurus/pull/1381))
-- feat: change icon for navToggle ([#1394](https://github.com/facebook/docusaurus/pull/1394))
-- fix: blog docs example as object property ([#1403](https://github.com/facebook/docusaurus/pull/1403))
-- docs: docs-examples-from-docusaurus is now installed as doc ([#1406](https://github.com/facebook/docusaurus/pull/1406))
-- fix: upgrade underscore.string to 3.3.5 ([#1404](https://github.com/facebook/docusaurus/pull/1404))
+#### Committers: 6
 
-## [1.8.1] - 2019-4-15
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Eric Carboni ([@ericcarboni](https://github.com/ericcarboni))
+- Jamie Davenport ([@jamiedavenport](https://github.com/jamiedavenport))
+- Nick McCormick ([@kenning](https://github.com/kenning))
+- Vincent van der Walt ([@vinnytheviking](https://github.com/vinnytheviking))
 
-We accidentally published 2.0.0-alpha.5 as latest on npm. Please do not use that and instead use the 1.x version.
+## 2.0.0-alpha.34
 
-## [1.8.0] - 2019-3-30
+#### :rocket: New Feature
 
-This version mainly include bug fixes and a new feature to skip the next release documents when versioning is enabled.
+- `docusaurus-theme-classic`
+  - [#1956](https://github.com/facebook/docusaurus/pull/1956) feat(v2): add ability hide dark mode toggle ([@lex111](https://github.com/lex111))
 
-Thank you to the following contributors:
+#### :boom: Breaking Change
 
-- @yangshun
-- @endiliey
-- @vikrantsinghthakur
-- @parthpp
+- `docusaurus-plugin-content-docs`
+  - [#1958](https://github.com/facebook/docusaurus/pull/1958) breaking(v2): editUrl should point to website instead of docsDir ([@endiliey](https://github.com/endiliey))
 
-### Fixed/Added
+#### :bug: Bug Fix
 
-- feat: Add --skip-next-release option to yarn build ([#1292](https://github.com/facebook/docusaurus/pull/1292))
-- fix: handle case insensitive table of contents token ([#1288](https://github.com/facebook/docusaurus/pull/1288))
-- fix: anchors links for underscore character ([#1309](https://github.com/facebook/docusaurus/pull/1309))
-- fix: autogenerated versions.js should not be confusing ([#1314](https://github.com/facebook/docusaurus/pull/1314))
+- `docusaurus-theme-classic`
+  - [#1959](https://github.com/facebook/docusaurus/pull/1959) fix(v2): useTOC hooks should not be called in each nested children ([@endiliey](https://github.com/endiliey))
 
-### Internal
+#### :nail_care: Polish
 
-- Change Docusaurus landing page ([#1290](https://github.com/facebook/docusaurus/pull/1290))
-- We restructured our repository as a monorepo ([#1297](https://github.com/facebook/docusaurus/pull/1297))
-- We folded docusaurus versions (e.g: 1.1.0, 1.1.1, 1.1.2 -> 1.1.x) ([#1313](https://github.com/facebook/docusaurus/pull/1313))
-- optimize docusaurus continuous integration ([#1308](https://github.com/facebook/docusaurus/pull/1308))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#1957](https://github.com/facebook/docusaurus/pull/1957) refactor(v2): avoid synchronous/ blocking operation when possible ([@endiliey](https://github.com/endiliey))
 
-## [1.7.3] - 2019-3-19
+#### :memo: Documentation
 
-This version mainly includes bug fixes found in 1.7.0 that improves stability.
+- [#1953](https://github.com/facebook/docusaurus/pull/1953) fix(v2): update Infima website URL ([@yangshun](https://github.com/yangshun))
 
-Thank you to the following contributors who helped with this release:
+#### :house: Internal
 
-- @zpao
-- @jeromesimeon
-- @yangshun
-- @bartanthonissen
-- @YoshinoriN
-- @marvinchin
-- @sinchange
-- @githubsaturn
-- @fiennyangeln
-- @ahtee
-- @endiliey
-- @ael-mas
-- @natemago
-- @co16353sidak
-- @CPSTL
-- @alexkrolick
+- `docusaurus-1.x`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#1955](https://github.com/facebook/docusaurus/pull/1955) chore: bump dev dependencies ([@endiliey](https://github.com/endiliey))
+- Other
+  - [#1952](https://github.com/facebook/docusaurus/pull/1952) chore(v2): add lerna-changelog ([@endiliey](https://github.com/endiliey))
 
-### Fixed/Changed
+#### :running_woman: Performance
 
-- Update code.facebook.com links to appropriate new destination ([#1224](https://github.com/facebook/docusaurus/pull/1224))
-- docs: showcase user accord-project ([#1225](https://github.com/facebook/docusaurus/pull/1225))
-- fix: change mainContainer padding to align with sidebars
-- docs: mention about CNAME option in publishing docs ([#1227](https://github.com/facebook/docusaurus/pull/1227))
-- docs: add ScanTrust to users ([#1228](https://github.com/facebook/docusaurus/pull/1228))
-- chore: upgrade husky to 1.3.1 ([#1229](https://github.com/facebook/docusaurus/pull/1229))
-- Remove more references to code.facebook.com ([#1231](https://github.com/facebook/docusaurus/pull/1231))
-- fix: use clean url for og:url when cleanUrl is true ([#1242](https://github.com/facebook/docusaurus/pull/1242))
-- fix: hovering algolia logo break its background color ([#1240](https://github.com/facebook/docusaurus/pull/1240))
-- docs: update CaptainDuckDuck to CapRover ([#1244](https://github.com/facebook/docusaurus/pull/1244))
-- chore: rename siteConfig.js to docusaurus.config.js ([#1245](https://github.com/facebook/docusaurus/pull/1245))
-- fix: make referenced links work with code block tabs ([#1249](https://github.com/facebook/docusaurus/pull/1249))
-- docs: showcase user Scalafmt ([#1250](https://github.com/facebook/docusaurus/pull/1250))
-- fix: wrong sidebar_label and title on versioned_docs ([#1265](https://github.com/facebook/docusaurus/pull/1265))
-- docs: update api-pages.md to document about overriding default styles ([#1266](https://github.com/facebook/docusaurus/pull/1266))
-- fix: upgrade jest to remove security vulnerability ([#1276](https://github.com/facebook/docusaurus/pull/1276))
-- docs: showcase user Microkubes ([#1274](https://github.com/facebook/docusaurus/pull/1274))
-- docs: showcase user Twirp ([#1275](https://github.com/facebook/docusaurus/pull/1275))
-- docs: add Polymath to users ([#1276](https://github.com/facebook/docusaurus/pull/1276))
-- fix: relative path markdown linking on versioned docs ([#1281](https://github.com/facebook/docusaurus/pull/1281))
-- fix(codetabs): fix key warning ([#1284](https://github.com/facebook/docusaurus/pull/1284))
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
+  - [#1951](https://github.com/facebook/docusaurus/pull/1951) perf(v2): skip runtime fileHash cache in prod & get timestamp asynchronously ([@endiliey](https://github.com/endiliey))
+  - [#1950](https://github.com/facebook/docusaurus/pull/1950) perf(v2): more efficient hot reload & consistent filegen ([@endiliey](https://github.com/endiliey))
 
-## [1.7.2] - 2019-1-28
+#### Committers: 3
 
-Minor fixes and improvements to some of the features introduced in 1.7.0.
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-### Fixed/Changed
+## 2.0.0-alpha.33
 
-- fix: horizontal overflow in collapsible sidebar ([#1205](https://github.com/facebook/docusaurus/pull/1205))
-- fix: docs asset links should follow specified docsUrl ([#1204](https://github.com/facebook/docusaurus/pull/1204))
-- fix: make search bar taller on widescreen ([#1210](https://github.com/facebook/docusaurus/pull/1210))
-- fix: change sidebar chevron icon to use svg ([#1211](https://github.com/facebook/docusaurus/pull/1211))
+### Features
 
-## [1.7.1] - 2019-1-24
+- Table of contents is now highlighted depending on current active headings. (thanks to awesome @SantiagoGdaR) [#1896](https://github.com/facebook/docusaurus/pull/1896)
+- Official blog plugin can now generate feed for blog posts. (thanks to awesome @moozzyk) [#1916](https://github.com/facebook/docusaurus/pull/1916)
+- **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg:
+  ```diff
+   themeConfig: {
+  -   prismTheme: require('prism-react-renderer/themes/dracula'),
+  +   prism: {
+  +     theme: require('prism-react-renderer/themes/dracula'),
+  +   },
+  },
+  ```
+- Added new `prism` option `defaultLanguage` that is used if the language is not specified in code blocks. [#1910](https://github.com/facebook/docusaurus/pull/1910)
 
-**HOTFIX**
+### Fixes
 
-`imagemin` got pushed down into developer dependencies, breaking the build. This fixes that.
+- Fix babel/env not picking the correct browserslist configuration during development. When running `docusaurus start`, `process.env.NODE_ENV` is now consistently set to `development`.
+- Ensure routes config generation to be more consistent in ordering. Nested routes should be placed last in routes.js. This will allow user to create `src/pages/docs.js` to create custom docs page for `/docs` or even `src/pages/docs/super.js` to create page for `/docs/super/`;
+- Fix watcher does not trigger reload on windows.
+- Fix build compilation error if exists only one code tab.
+- Add minor padding to docs container so that hash-link won't be cut off.
 
-### Fixed/Changed
+### Others
 
-- fix: revert image-min back to dependencies ([#1201](https://github.com/facebook/docusaurus/pull/1201))
+- Misc dependency upgrades.
+- Stability improvement (more tests) & refactoring on docs plugin to prevent regression.
 
-## [1.7.0] - 2019-1-23
+## 2.0.0-alpha.32
 
-It's the first release of the year! We've fixed a number of layout bugs and shipped a few significant new features such as:
+### Features
 
-- Collapsible sidebar - Especially useful for pages with long list of items.
-- Language-specific Code Tabs - Great for documentations that target multiple languages.
+- Add `<Redirect>` component for client side redirect. Example Usage:
 
-We also welcome a ton of new users: Node Serialport, TypeGraphQL, React Native Sensors, FBT, KaTeX, Redux, and React Leaflet.
+```js
+import React from 'react';
+import {Redirect} from '@docusaurus/router';
 
-Thank you to the following contributors who helped with this release:
+function Home() {
+  return <Redirect to="/docs/test" />;
+}
+```
 
-- @teimurjan
-- @ahmadalfy
-- @mikeattara
-- @19majkel94
-- @jrwats
-- @haoqiang
-- @zkochan
-- @marvinchin
-- @YifanM
-- @SimenB
-- @zakariaharti
-- @tsmrachel
-- @fiennyangeln
+- Allow user to add custom HTML to footer items. [#1905](https://github.com/facebook/docusaurus/pull/1905)
+- Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature. ([#1860](https://github.com/facebook/Docusaurus/issues/1860))
 
-### Fixed/Changed
+### Bug Fixes
 
-- fix: edit url should support versioned subdirectories ([#1154](https://github.com/facebook/docusaurus/pull/1154))
-- fix: gap on mobile devices when scrolling ([#1157](https://github.com/facebook/docusaurus/pull/1157))
-- chore: update imagemin and its dependencies ([#1162](https://github.com/facebook/docusaurus/pull/1162))
-- fix: pass docusaurus-publish cli args to build command ([#1185](https://github.com/facebook/docusaurus/pull/1185))
-- fix: missing default value for grid block content objects ([#1186](https://github.com/facebook/docusaurus/pull/1186))
-- fix: add margin-bottom: 0 to blog post author ([#1193](https://github.com/facebook/docusaurus/pull/1193))
-- fix: wrong padding for single row mobile nav ([#1191](https://github.com/facebook/docusaurus/pull/1191))
+- Fix `@theme/Tabs` component to be able to create tabs with only one item.
+- Fix MDX `@theme/Heading` component. If there is no id, it should not create anchor link.
+- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear. If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
+
+```js
+- <Fragment>
++ <div className="navbar__search" key="search-box">
+```
+
+- Slightly adjust search icon position to be more aligned on small width device. ([#1893](https://github.com/facebook/Docusaurus/issues/1893))
+- Fix algolia styling bug, previously search suggestion result is sometimes hidden. ([#1915](https://github.com/facebook/Docusaurus/issues/1915))
+- Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
+- Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page. ([#1903](https://github.com/facebook/Docusaurus/issues/1903))
+- Prioritize `@docusaurus/core` dependencies/ node_modules over user's node_modules. This fix a bug whereby if user has core-js@3 on its own node_modules but docusaurus depends on core-js@2, we previously encounter `Module not found: core-js/modules/xxxx` (because core-js@3 doesn't have that).
+- Fix a bug where docs plugin add `/docs` route even if docs folder is empty. We also improved docs plugin test coverage to 100% for stability before working on docs versioning. ([#1912](https://github.com/facebook/Docusaurus/issues/1912))
+
+### Performance Improvement
+
+- Reduce memory usage consumption. ([#1900](https://github.com/facebook/Docusaurus/issues/1900))
+- Significantly reduce main bundle size and initial HTML payload on production build. Generated files from webpack is also shorter in name. ([#1898](https://github.com/facebook/Docusaurus/issues/1898))
+- Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata. ([#1908](https://github.com/facebook/Docusaurus/issues/1908))
 
-### Added
+### Others
 
-- feat: collapsible categories ([#1128](https://github.com/facebook/docusaurus/pull/1128))
-- feat: code block tab ([#1063](https://github.com/facebook/docusaurus/pull/1063))
+- Convert sitemap plugin to TypeScript. ([#1894](https://github.com/facebook/Docusaurus/issues/1894))
+- Refactor dark mode toggle into a hook. ([#1899](https://github.com/facebook/Docusaurus/issues/1899))
 
-## [1.6.2] - 2018-12-7
-
-Hotfix for 1.6.1. We overlooked a critical bug caused by hardcoded path on PR [#1143](https://github.com/facebook/docusaurus/pull/1143). Please upgrade to 1.6.2, we are going to npm deprecate 1.6.1.
-
-## [1.6.1] - 2018-12-7
-
-This version mainly includes bug fixes found in 1.6.0 that improves stability.
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @jakebolam
-- @JoelMarcey
-- @morleym
-- @thecodechef
-- @tsmrachel
-
-### Fixed/Changed
-
-- Fix docusaurus-version compilation error for subdirectory ([cb1395](https://github.com/facebook/docusaurus/commit/cb1395ee29364866767e3e6e701d4e1575dad4cc))
-- Fix relative path markdown linking ([#1138](https://github.com/facebook/docusaurus/pull/1138))
-- Fix static files in `blog/assets` not working ([#1143](https://github.com/facebook/docusaurus/pull/1143))
-
-### Added
-
-- Allow custom commit message for publish-gh-pages ([#1136](https://github.com/facebook/docusaurus/pull/1136))
-
-## [1.6.0] - 2018-12-1
-
-This releases includes few bug fixes and features. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
-
-Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul](https://callstack.github.io/haul/).
-
-Thank you to the following contributors who helped with this release:
-
-- @yangshun
-- @endiliey
-- @JoelMarcey
-- @andrewShillito
-- @kahkhang
-- @domcorvasce
-- @ellereeeee
-- @maxaggedon
-- @gianlucadonato
-- @tsmrachel
-- @Shriram-Balaji
-- @noraj
-- @alexperez
-- @wgao19
-
-### Fixed/Changed
-
-- Live reload not working on second try ([#1103](https://github.com/facebook/docusaurus/pull/1103))
-- Fix missing TOC on i18n pages ([#1119](https://github.com/facebook/docusaurus/pull/1119))
-- Fix docusaurus-version not working for subcategory in sidebar ([#1124](https://github.com/facebook/docusaurus/pull/1124))
-- Fix docusaurus-version to allow duplicate id in different subdirectory ([#1125](https://github.com/facebook/docusaurus/pull/1125))
-
-## Docs
-
-- Add guide on setting custom docs path ([#1098](https://github.com/facebook/docusaurus/pull/1098))
-- Document that `website` folder can be renamed ([#1106](https://github.com/facebook/docusaurus/pull/1106))
-- Specify markdown flavor ([#1118](https://github.com/facebook/docusaurus/pull/1118))
-
-### Added
-
-- Allow modifying/removing `docs` route in generated url ([#914](https://github.com/facebook/docusaurus/pull/914))
-- Use `sidebar_label` in addition to `title` for prev/next button ([#1122](https://github.com/facebook/docusaurus/pull/1122))
-- Warn the users if any unresolved markdown links ([#1116](https://github.com/facebook/docusaurus/pull/1116))
-- Customizable search placeholder ([#1126](https://github.com/facebook/docusaurus/pull/1126))
-
-## [1.5.1] - 2018-11-03
-
-A release where we had many external contributors! Very excited to see the community being involved in the project.
-
-Welcome to our newest users, Create React App, Stackery, Vasern, Noderize, React 360 and Formik.
-
-Thank you to the following contributors who helped with this release:
-
-- @yangshun
-- @endiliey
-- @JoelMarcey
-- @tanhauhau
-- @fiennyangeln
-- @vikr01
-- @alexdriedger
-- @hobofan
-- @bildungsroman
-- @tirthbodawala
-- @M4rk9696
-- @sinodko
-- @aenuros
-- @SleepWalker
-- @pdyx2828
-- @phated
-- @huguestennier
-- @gtoprak
-- @Rajekevin
-- @sunitasen
-- @shahednasser
-
-### Fixed/Changed
-
-- Throw error when forgot to pass in GIT_USER ([#1035](https://github.com/facebook/docusaurus/pull/1035))
-- Exclude file movements for last updated time ([#1023](https://github.com/facebook/docusaurus/pull/1023))
-- Update support for Web App Manifest ([#1046](https://github.com/facebook/docusaurus/pull/1046))
-- Render proper HTML instead of raw markdown in og:description ([#1054](https://github.com/facebook/docusaurus/pull/1054))
-
-### Added
-
-- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/docusaurus/pull/980))
-- Document how to add "Copy" button to code blocks ([#1047](https://github.com/facebook/docusaurus/pull/1047))
-- Support reference-style linking in documents ([#1048](https://github.com/facebook/docusaurus/pull/1048))
-- Add caption to user page links ([#1075](https://github.com/facebook/docusaurus/pull/1075))
-
-### Removed
-
-## [1.5.0] - 2018-10-13
-
-This version introduces a big improvement to the sidebar, where you can now have subcategories.
-
-Welcome to our newest user, [Skip](http://skiplang.com).
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @yangshun
-- @JoelMarcey
-- @tom-auger
-- @muuvmuuv
-- @DABH
-- @Atul9
-- @fiennyangeln
-- @amyrlam
-- @ersul4ik
-- @WillBrock
-- @third774
-- @tanhauhau
-
-### Fixed/Changed
-
-- Use dark mode color scheme for footer like button ([#959](https://github.com/facebook/docusaurus/pull/959))
-- Fix highlightjs custom highlighting function ([#1016](https://github.com/facebook/docusaurus/pull/1016))
-
-### Added
-
-- Live reload port fallback if port is used ([#899](https://github.com/facebook/docusaurus/pull/899))
-- Added option for client to include their own remarkable config ([#974](https://github.com/facebook/docusaurus/pull/974))
-- Enabled subcategories in sidebar ([#892](https://github.com/facebook/docusaurus/pull/892)) ([#1026](https://github.com/facebook/docusaurus/pull/1026))
-- Add keyboard shortcut to focus on search box ([#1028](https://github.com/facebook/docusaurus/pull/1028))
-
-### Chore and Maintenance
-
-- Upgrade to babel 7 for v1 ([#995](https://github.com/facebook/docusaurus/pull/995))
-- Fix typo in Getting Started docs ([#1013](https://github.com/facebook/docusaurus/pull/1013))
-- Reorganized siteConfig ([#1027](https://github.com/facebook/docusaurus/pull/1027))
-
-## [1.4.0] - 2018-09-11
-
-Welcome to our newest users, [FuseBox](https://fuse-box.org) and [Bowler](https://pybowler.io).
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @joelmarcey
-- @yangshun
-- @ericnakagawa
-- @notlmn
-- @nchanged
-- @sbansal3096
-- @notjaril
-- @tirthbodawala
-- @wszgxa
-- @EthanMarrs
-- @fiennyangeln
-- @ashwini0529
-
-### Fixed/Changed
-
-- Fix nested `static` in `static` folder breaks build ([#953](https://github.com/facebook/docusaurus/pull/953))
-- Fix `cleanUrl` transformation unintentionally removing extension ([#923](https://github.com/facebook/docusaurus/pull/923))
-- Fix conflicting strings in translations ([#917](https://github.com/facebook/docusaurus/pull/917))
-- Header navigation now links to `blog/`, not `blog` ([#936](https://github.com/facebook/docusaurus/pull/936))
-- Fix button wrapping behavior on mobile ([#921](https://github.com/facebook/docusaurus/pull/921))
-- Fix wrong header navigation linking to a doc without translation ([f1daddb](https://github.com/facebook/docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30))
-- Fixed navigation so that it takes full width on a docs ([#935](https://github.com/facebook/docusaurus/pull/935))
-
-### Added
-
-- Allow user to add `last updated time` info on doc ([#913](https://github.com/facebook/docusaurus/pull/913))
-- Support for user's own Web App Manifest in siteConfig ([#934](https://github.com/facebook/docusaurus/pull/934))
-- Add docker file & documentation ([#936](https://github.com/facebook/docusaurus/pull/936))
-- New docusaurus project has a better starting README ([#930](https://github.com/facebook/docusaurus/pull/930))
-- Enable passing object to script and link ([#937](https://github.com/facebook/docusaurus/pull/937))
-
-### Chore and Maintenance
-
-- New template for `Documentation` issue ([39b7793](https://github.com/facebook/docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
-- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/docusaurus/pull/952))
-- Fix broken sponsor images in README ([#951](https://github.com/facebook/docusaurus/pull/951))
-- Fix wrong user image URL ([89f49b0](https://github.com/facebook/docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6))
-
-## [1.3.3] - 2018-08-22
-
-Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), [Plus (ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @joelmarcey
-- @yangshun
-- @apuravchauhan
-- @dballance
-- @helloworld
-- @jreese
-- @machikoyasuda
-- @medz
-- @mikalai-silivonik
-- @miralemd
-- @monkeywithacupcake
-- @parano
-- @patapizza
-- @shaform
-- @steevehook
-- @theletterf
-- @tom-auger
-- @willingc
-
-**Added**
-
-- Add autoprefixing to CSS pipeline [\#867](https://github.com/facebook/docusaurus/pull/867)
-- Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/docusaurus/pull/875)
-
-**Fixed/Changed**
-
-- Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/docusaurus/pull/842) [\#870](https://github.com/facebook/docusaurus/pull/870)
-- Fix phrase emphasis not italicized [\#850](https://github.com/facebook/docusaurus/pull/850)
-- Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/docusaurus/pull/864)
-- Blogpost summary for blog feed is now properly truncated [\#880](https://github.com/facebook/docusaurus/pull/880)
-- Fix failure to copy static image if image compression fail [\#887](https://github.com/facebook/docusaurus/pull/887)
-- Fix: correct docs linking for custom `defaultVersionShown` [\#894](https://github.com/facebook/docusaurus/pull/894)
-- Fix incorrect sitemap url for non default baseUrl [\#902](https://github.com/facebook/docusaurus/pull/902)
-- Stricter `css/main.css` routing on development server [\#904](https://github.com/facebook/docusaurus/pull/904)
-- Fix console error when onPageNav !== 'separate' [\#909](https://github.com/facebook/docusaurus/pull/909)
-
-**Docs**
-
-- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/docusaurus/pull/860)
-- Improve baseUrl documentation with an example [\#863](https://github.com/facebook/docusaurus/pull/863)
-- Fix Table of contents documentation typo [\#873](https://github.com/facebook/docusaurus/pull/873)
-- Update installation doc [\#888](https://github.com/facebook/docusaurus/pull/888) [\#900](https://github.com/facebook/docusaurus/pull/900)
-- Update guides-translations.md for CircleCI 2.0 [92f95d](https://github.com/facebook/docusaurus/commit/92f95df934ab4034c49d66cd82ad5dbbcdee508d)
-
-**Chore and Maintenance**
-
-- Add ESLint [\#836](https://github.com/facebook/docusaurus/pull/836) [\#837](https://github.com/facebook/docusaurus/pull/837) [\#841](https://github.com/facebook/docusaurus/pull/841) [\#846](https://github.com/facebook/docusaurus/pull/846)
-- Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/docusaurus/pull/839) [\#847](https://github.com/facebook/docusaurus/pull/847) [\#854](https://github.com/facebook/docusaurus/pull/854) [\#856](https://github.com/facebook/docusaurus/pull/856)
-- Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/docusaurus/pull/859)
-- Improve readme [\#866](https://github.com/facebook/docusaurus/pull/866)
-- Add prerelease script for Docusaurus [\#876](https://github.com/facebook/docusaurus/pull/876)
-- Remove unused files [\#881](https://github.com/facebook/docusaurus/pull/881)
-- Update code of conduct [3c1363d](https://github.com/facebook/docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
-- Update jest to v23 [\#885](https://github.com/facebook/docusaurus/pull/885)
-- Activating Open Collective [\#883](https://github.com/facebook/docusaurus/pull/883)
-- Fix Jest tests that fail on Windows [\#896](https://github.com/facebook/docusaurus/pull/896)
-- Rename Sonar to Flipper [\#905](https://github.com/facebook/docusaurus/pull/905)
-
-## [1.3.2] - 2018-07-06
-
-This version mainly includes bug fixes found in 1.3.1 that improves stability and UX improvements.
-
-Welcome to our newest user, [single-spa](https://single-spa.js.org/), a framework that allows you to use multiple front end frameworks in one SPA.
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @chenglou
-
-### Fixed/Changed
-
-- Fix wrong sitemap for alternate URLs (#828)
-- Publish-gh-pages should display the correct commit that triggers it (#829)
-- Fix missing Facebook like buttons in blog posts (#821)
-- Open browser with the correct baseUrl during development (#819)
-- Fix Edit button alignment in Docs (#819)
-
-## [1.3.1] - 2018-06-30
-
-This version mainly includes bug fixes found in 1.3.0 that improves stability.
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @yangshun
-- @RhysBower
-- @ngyikp
-
-### Fixed/Changed
-
-- Algolia will search using the [correct version](https://github.com/facebook/docusaurus/commit/9ff5328c88706d2025fd14c274c14d17712fa048) instead of always using the current.
-- Directory tree printing during initialization will now [exclude `vendor`](https://github.com/facebook/docusaurus/commit/5a8e9a9ff11a74e4913c5d1f272aa8fc4c67e9c3), a common third-party directory for PHP projects.
-- Fix a bug in the [routing](https://github.com/facebook/docusaurus/commit/66b2033546a6ad20146d5f81b115d6f080b98e89) for docs and blogs.
-- Sidebar scrollbar will [only appear](https://github.com/facebook/docusaurus/commit/e4b9b9861b0374790b19f3f84f51ee34f8710f68) when it is longer than the height of the page.
-- Prevent the page from [scrolling to top](https://github.com/facebook/docusaurus/commit/76870c6a3780323d364da9b9c52502ab4c979378) when clicking the languages button.
-- Fix [incorrect sitemap URLs](https://github.com/facebook/docusaurus/commit/418c840ad4524cb286ec04842ffa5d474feed1d2).
-- Fix a bug where [promise errors get swallowed](https://github.com/facebook/docusaurus/commit/f598e2583f73cc5e77b994f9ace027012852cd49), causing CIs to think that the command was successful when it isn't.
-- Fix some [newly discovered issues](https://github.com/facebook/docusaurus/commit/0b10b193a83dc8ea792e84ffae2a082b895689cb) with the CSS revamp introduced in 1.3.0.
-
-## [1.3.0] - 2018-06-20
-
-1.3.0 introduces a brief clean up of our CSS, overall site typography and some improvements to Algolia search.
-
-Welcome to our newest user, [ml5](https://ml5js.org/), a really cool machine library in JavaScript.
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @JoelMarcey
-- @yangshun
-
-### Breaking changes
-
-- Since we made some CSS changes, there's a good chance it might not be compatible with your custom CSS if you have any. We recommend that you audit each page of the site for any UI issues caused by this change. We'll try to minimize such backward-incompatible CSS changes in future.
-- Other UI changes include:
-  - Left sidebar is sticky by default on supported browsers. We saw many of our users write custom CSS for that behavior and decided to incorporate it in the core.
-  - Footer is now a darker shade of black for better contrast.
-  - Background color of site changed to `#fff`.
-  - Headers are now black (from `$primaryColor`) and have bolder font weight.
-  - Blockquotes are changed to yellow (from pink).
-
-### Fixed/Changed
-
-- The search input will now search the docs in the [correct language](https://github.com/facebook/docusaurus/commit/df429262429e449e78745423ff2c9ab6c6fd1d5c).
-- Algolia will be able to scrap emulti-language and/or versioned sites better with the introduction of [special meta tags](https://github.com/facebook/docusaurus/commit/0eb6612b58a6ee93d5de715f87201eb9fabc82c2).
-
-### Added
-
-N/A
-
-### Removed
-
-N/A
-
-## [1.2.1] - 2018-06-17
-
-Fixes from existing issues and those found in the 1.2.0 release. Fixes include being able to modify the metadata of a doc without resorting to deleting `en.json`, using absolute URLs instead of relative for docs links, and more. We also added a few new things as well.
-
-Welcome to our newest users, [Babel](https://babeljs.io), [Sonar](https://fbsonar.com), [Metro](https://facebook.github.io/), [StreamPipes](https://docs.streampipes.org/), and [rest-hapi](https://jkheadley.github.io/rest-hapi/).
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @yangshun
-- @Kelltimo
-- @ayshiff
-- @rupeshparab
-- @gustavohenke
-- @maxogden
-- @jonathaningram
-- @dominikriemer
-- @anru
-- @Rendez
-- @Thai56
-- @JKHeadley
-
-### Breaking changes
-
-- This may not affect many users, but if you modified the `en.json` to add your own custom translation strings, we [changed](https://github.com/facebook/docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) how this is handled, and you will need to [follow the instructions here](https://docusaurus.io/docs/en/translation#custom-translation-strings) to modify your setup.
-
-### Added
-
-- Option to [disable](https://github.com/facebook/docusaurus/commit/62a2c7c1a599ccaf04a86e9ca2ec0fbca5220f5c) live reload during development.
-- Configuration options for [changing](https://github.com/facebook/docusaurus/commit/58fba70dead064e8c6910e07d3523a548258022f) the title of the blog sidebar info.
-- Better support and [documentation](https://docusaurus.io/docs/en/publishing#using-github-pages) for [cross-repo publishing](https://github.com/facebook/docusaurus/commit/fd9a3ffb6deca84b41dc5a3b43b0db1ca4f3143e).
-
-### Fixed/Changed
-
-- 1.2.0 introduced a bug where you could not update documentation metadata without deleting `en.json`. This has been [fixed](https://github.com/facebook/docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) as part of the custom translation string breaking change.
-- Absolute URLs are now [used](https://github.com/facebook/docusaurus/commit/0f01eace8be1be273a63089a14d1e3ea2d2cae57) instead of relative URLs for documentation linking to avoid trailing slash issues.
-- If you have had trouble updating Docusaurus, it may have been your [Babel cache](https://docusaurus.io/docs/en/installation#updating-your-docusaurus-version).
-- No more errors if heading anchors are [empty](https://github.com/facebook/docusaurus/commit/371fdda4a8c82b5f29dd5c2dd9f04c8ef28dd025).
-- Fixed bug when [renaming version](https://github.com/facebook/docusaurus/commit/a2b076bdcaf7099e595f2f106b38dd0cabeee1ef) where `sidebars.json` were not getting updated.
-- Table of contents are now [hidden](https://github.com/facebook/docusaurus/commit/7bef1b96dc8de8c42795b0983195f66a7ae78c27) when `onPageNav` is not separate.
-
-### Removed
-
-N/A
-
-## [1.2.0] - 2018-06-10
-
-A major point release. This release adds highly requested features, including extension-less URLs, nested directories for docs and adding a second option (Prism) for syntax highlighting.
-
-Welcome to our newest users, [pnpm](https://pnpm.js.org/) and [Anssr Data](https://anssr.io/).
-
-A special thank you to @endiliey who has come in and did awesome work for Docusaurus. @endiliey is now an official maintainer of the Docusaurus repo because of his efforts.
-
-Thank you to the following contributors who helped with this release:
-
-- @endiliey
-- @yangshun
-- @gimdongwoo
-- @balloob
-- @zkochan
-- @gustavohenke
-- @ranolf
-- @Themandunord
-- @ericnakagawa
-- @vacarsu
-- @SleepWalker
-- @brenopolanski
-- @skratchdot
-
-### Breaking changes
-
-None that we know of. Please let us know if you find any as this is a big release and we may have missed something.
-
-### Added
-
-- Sub-directories are now [supported](https://github.com/facebook/docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of the most [requested features](https://github.com/facebook/docusaurus/pull/705).
-- You can now use [Prism for syntax highlighting](https://github.com/facebook/docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
-- URLs can now be ["clean"](https://github.com/facebook/docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773) - no `.html` extension.
-- Scroll to top button [option](https://github.com/facebook/docusaurus/commit/aee255219bedc97b55048cdb4703742cbb7c247e) for your documentation pages.
-- Can now [set title](https://github.com/facebook/docusaurus/commit/72f4f369394a9ccdcd721c4f2fa0ee2913ad98dd) for custom pages. [Documentation](https://docusaurus.io/docs/en/api-pages#titles-for-pages)
-- On page [navigation](https://github.com/facebook/docusaurus/commit/49c27b733bf62506acff3c55f92143dc0ef3ed86) for blog posts.
-- Travis CI [publishing](https://docusaurus.io/docs/en/publishing#using-travis-ci) guide.
-- Can now publish to [GitHub Enterprise](https://github.com/facebook/docusaurus/commit/2bd9a148c160a0f0de9ab991c66393c629469c37).
-
-### Fixed/Changed
-
-- For better SEO, we now [support](https://github.com/facebook/docusaurus/commit/c47af6be4b4436f5d9c325b896027e4db3a2d331) `meta:description`.
-- Existing translation files are now [loaded](https://github.com/facebook/docusaurus/commit/49a5263d62ea58ef1aa4e952e5ed6ec44e4a0b28) correctly.
-- URLs properly [resolve](https://github.com/facebook/docusaurus/commit/ff93ba985397804741d4f1e31cfb5219e998cec1) no matter which language you are currently viewing.
-- Atom and RSS feed links are [fixed](https://github.com/facebook/docusaurus/commit/8e58d2e90373e0b2d5373ff875e052f430370a69) for `xxx.github.io` sites.
-- Version pages [link](https://github.com/facebook/docusaurus/commit/c000aca61f935eb94999e9c46077d106cca22275) to the correct language, depending on the current language.
-- Do not [start server](https://github.com/facebook/docusaurus/commit/d28b864a59fabeea45add8c090a13de7d0530de5) if `versions.js` is missing and versioning is enabled.
-- [Fail](https://github.com/facebook/docusaurus/commit/93b2ebb53b49f4c2ba84dcb9b7c98f58dc05ad46) properly when current branch is the same as the deployment one.
-- Assets not found bug [fixed](https://github.com/facebook/docusaurus/commit/b00e9d14e211e42851ede645ecc1e325120c4e3e) in Windows.
-- OnPageNav now [works](https://github.com/facebook/docusaurus/commit/3ff24c7926f06e10bf33eba7d1c86f18087e793a) on mobile devices.
-- [Remove](https://github.com/facebook/docusaurus/commit/b3d59f8a0f7aee606dde0eb7fea9d9d613f34087) extra padding in code blocks.
-- Better [gitignore](https://github.com/facebook/docusaurus/commit/767cd88d8655ddf81c1975b7850401dacf07908a) for `docusaurus-init`
-- Documentation fixes: [1](https://github.com/facebook/docusaurus/commit/52729446261f61fa091d2f4909e9435abb0af645)[2](https://github.com/facebook/docusaurus/commit/6244bb1aa452c5b98c3f768c0a311cf7f52cb5a8)[3](https://github.com/facebook/docusaurus/commit/e5ff417cd19a4d9c353c2a054a42cf75d5df9228).
-
-### Removed
-
-N/A
-
-## [1.1.5] - 2018-05-26
-
-Hotfix. A package in `devDependencies` needed to be moved to `dependencies`.
-
-## [1.1.4] - 2018-05-25
-
-Yet another hotfix release. We found an issue with the way we did LiveReload - we were watching the `node_modules` directory and that caused some users to encounter errors. We stopped watching `node_modules` directory in `gaze`.
-
-Thank you to the following contributors who helped with this release:
-
-- @artiebits
-- @yangshun
-
-### Fixed/Changed
-
-- If you already have a tab with the Docusaurus website open, restarting the server will [not open a new browser tab](https://github.com/facebook/docusaurus/commit/407636a4d92b23fe59c31bbc58a0e3416d91f01f).
-- Updated [directory tree display](https://github.com/facebook/docusaurus/commit/454e3d359f786069f83a5bfe2687e304f1f0547f) for a newly-generated site.
-- [Don't watch `node_modules`](https://github.com/facebook/docusaurus/commit/b5fd7bae738ac14d702e80bd3764fee94e0a8e93) in dev server mode.
-
-## [1.1.3] - 2018-05-23
-
-`npm` had an issue where some packages were not being published. This should hopefully be resolved now; publishing a new version just in case.
-
-Also, welcome [TextLint](https://textlint.github.io/) and [Open Power Quality](https://openpowerquality.org/) as new [users](https://docusaurus.io/en/users.html).
-
-Thank you to the following contributors who helped with this release:
-
-- @azu
-- @philipmjohnson
-- @violabg
-- @sebelga
-
-### Fixed/Changed
-
-- `onPageNav` now [shows](https://github.com/facebook/docusaurus/commit/2c74d937607fcd84677be5d6990ca2a3b4ba8d7a) in Safari.
-
-## [1.1.2] - 2018-05-21
-
-Another HOTFIX release. One of our third-party dependencies, `tree-node-cli` didn't support Node 10+. The package has been fixed and we have updated to use the new version of that package.
-
-## [1.1.1] - 2018-05-21
-
-HOTFIX release. Dependency bug found.
-
-### Fixed/Changed
-
-- `opn` needs to be [installed](https://github.com/facebook/docusaurus/commit/923356e312687cae107db2ec36aaf52f7f03028a), not just in dev dependencies.
-
-## [1.1.0] - 2018-05-20
-
-This is our first major point release. There are three primary reasons for this:
-
-- One of our most requested issues has been implemented - [Live Reload](https://github.com/facebook/docusaurus/commit/f9a09072e35e274cf4c13b67d228ece3b7722d47).
-- We [migrated](https://github.com/facebook/docusaurus/commit/25cf8bb786abf835e4275e2a9975b33bd5fb2b18) to React 16 support (which wasn't as difficult as initially thought :) )
-- The blog now allows for [Facebook-based comments](https://github.com/facebook/docusaurus/commit/aae106c018667a3787726f7744ce14ccb2b68ef1).
-
-There are a lot of other fixes and enhancements as well. Also, we have five new [users](https://docusaurus.io/en/users.html) of Docusaurus within this release as well. Thank you to [WarriorJS](https://warrior.js.org/), [Bemuse](https://bemuse.ninja/project/), [Pyre-Check](https://pyre-check.org/), [Draft.js](https://draftjs.org/) and [CaptainDuckDuck](https://captainduckduck.com/) for using Docusaurus.
-
-There are also various documentation fixes as well.
-
-We think this is a good release.
-
-Thank you to the following contributors who helped with this release:
-
-- @yangshun
-- @amyrlam
-- @gedeagas
-- @ahmadalfy
-- @endiliey
-- @zpao
-- @NoamELB
-- @sujono91
-
-### Breaking Changes
-
-- For blog posts, [`authorImage` is now `authorImageURL`](https://github.com/facebook/docusaurus/commit/873a2427f91314fe9f8590cc782c01570f264c6d).
-
-### Added
-
-- [Live Reload](https://github.com/facebook/docusaurus/commit/f9a09072e35e274cf4c13b67d228ece3b7722d47) allows you to make changes to your documentation without having to manually refresh your site.
-- Running `yarn start` or `npm start` automatically [opens a browser](https://github.com/facebook/docusaurus/commit/1a6f2fc51c1e1e9fa0e21fe5026a11681435aef3) to the correct `localhost` page.
-- There is now a build option, `--skip-image-compression`, to [compress your images](https://github.com/facebook/docusaurus/commit/ab6bab9f8d02c3cb402947ea5fd1c9d619478b54).
-- You can now add Twitter and Facebook social buttons to the [footer](https://github.com/facebook/docusaurus/commit/f8521c2fe1469c549d5f363517d21117358f8862).
-- The blog now allows for [Facebook-based comments](https://github.com/facebook/docusaurus/commit/aae106c018667a3787726f7744ce14ccb2b68ef1).
-- A [warning](https://github.com/facebook/docusaurus/commit/436a3d04d213360b71fc6edc45983b192def0f0b) is now shown if you use versioning without a `version.js` file.
-
-### Fixed/Changed
-
-- Various UI fixes
-- Directory tree [printed](https://github.com/facebook/docusaurus/commit/1796764b1cc56f9c2e46e937a7aa2ffd417b267c) during `docusaurus-init`.
-
-### Removed
-
-- [`authorImage`](https://github.com/facebook/docusaurus/commit/873a2427f91314fe9f8590cc782c01570f264c6d)
-
-## [1.0.15] - 2018-05-06
-
-This release has a lot of commits, including bug fixes, documentation updates, as well as a bit of new functionality. A new [blog post](https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html) from @caabernathy about how easy it is to create a Docusaurus site, a lot of Windows fixes, the ability to specify the default version shown, and more.
-
-Thank you to the following contributors who have helped with this release:
-
-- @yangshun
-- @amyrlam
-- @caabernathy
-- @szeck87
-- @dgracehmh
-- @balloob
-- @ramiel
-- @AmitHarlev
-- @pixelastic
-- @SoonaMata
-- @olistic
-- @SleepWalker
-- @Airse
-- @ahmadalfy
-- @zenflow
-
-### Breaking changes
-
-N/A
-
-### Added
-
-- Our Google Analytics support now [allows](https://github.com/facebook/docusaurus/commit/976ae770b530636d1e4805ef285af52aa30a51c1) the use of `gtag` via the new [`gaGtag` site configuration option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
-- Anchor links are now [unique](https://github.com/facebook/docusaurus/commit/9c98142fea416492efebf5a462fc0724551732f6) per document.
-- You can now configure what version is shown by [default](https://github.com/facebook/docusaurus/commit/dbc597bfd76879fed60869122397ce6c5a86bf81) via the [`defaultVersionShown` site configuraton option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
-
-### Fixed/Changed
-
-- We do not [ignore](https://github.com/facebook/docusaurus/commit/df6f6df333c9e3df42aa13c5db44b749eeb0abb9) the `custom_edit_url` metadata option in a doc any longer.
-- UX/UI improvements: [table](https://github.com/facebook/docusaurus/commit/3a246068874916914b9af3107d6061817b55176b), [code block](https://github.com/facebook/docusaurus/commit/327d04436240c9f1cd31c50f999384556df5ac16), [sidebar](https://github.com/facebook/docusaurus/commit/812f2be6e32d5328cb80cccfa1f05e3176b31235), [header anchors](https://github.com/facebook/docusaurus/commit/be54c8f03536f7ad58adf8f7111c617446debbfa).
-- Sitemap is now [generated](https://github.com/facebook/docusaurus/commit/6c9c7e5de57fbf4c5f9dedd35817296b3e262596) if a blog post exists.
-- IE fixes: [navigation](https://github.com/facebook/docusaurus/commit/6d77403dc1b5fb2027ee3d1adc6374708a4cb3ee), [font rendering](https://github.com/facebook/docusaurus/commit/17dd6d9c8e7093b60c81291623dad37d0700850d), etc.
-
-### Removed
-
-N/A
-
-## [1.0.14] - 2018-04-23
-
-Small release mostly for documentation.
-
-Thank you to the following contributors who have helped with this releae:
-
-- @yangshun
-- @ericnakagawa
-- @shikaan
-- @longility
-
-### Breaking changes
-
-N/A
-
-### Added
-
-N/A
-
-### Fixed/Changed
-
-- Blog metadata now [refreshed](https://github.com/facebook/docusaurus/commit/d3fd347d21d3480e656cf4590917633f91254c5f) on changes to blog posts.
-
-### Removed
-
-N/A
-
-## [1.0.13] - 2018-04-20
-
-This is primarily a bug fix release.
-
-Thank you to the following contributors who helped with this release:
-
-- @vjeux
-- @huang-x-h
-
-### Breaking changes
-
-N/A
-
-### Added
-
-- Support for [custom highlight theme URL](https://github.com/facebook/docusaurus/commit/aa32ff4a558269a2ac02f265489804ab83cc0145) via the `themeURL` site config option.
-
-### Fixed/Changed
-
-- [Do not warn](https://github.com/facebook/docusaurus/commit/c400636fb6a790ac39cb731ed3fe2f0cd22313eb) when using `layout` in the docs metadata header.
-- [Restore](https://github.com/facebook/docusaurus/commit/1d4e334a86cabb9581a3ba5305a2019a7bbb540d) the ability to use the --port command line argument
-
-### Removed
-
-N/A
-
-## [1.0.12] - 2018-04-18
-
-This is a general release with additions and documentation updates. We would also like to welcome [React Native Elements](https://react-native-training.github.io/react-native-elements/) as a user of Docusaurus.
-
-https://docusaurus.io has turned on versioning. There are other documentation updates as well.
-
-> We turned on translations, but found a bug. So we turned it off until we fix it.
-
-Thank you to the following contributors who helped with this release:
-
-- @yangshun
-- @amyrlam
-- @SleepWalker
-- @InternetExplorer7
-- @zkochan
-- @iRoachie
-- @limonte
-
-### Breaking changes
-
-- While not officially breaking, `authorImage` will be [deprecated](https://github.com/facebook/docusaurus/pull/577) for [`authorImageURL`](https://github.com/facebook/docusaurus/commit/57cddb4d0897e7d9a62305c6b2b8a04e824e0941) in blog posts.
-
-### Added
-
-- [`twitterImage`](https://github.com/facebook/docusaurus/commit/e738bbd99e80596f7280c2a131600600c083fc68) has been added to site configuration options for use in Twitter cards.
-- Support for [non-latin characters](https://github.com/facebook/docusaurus/commit/1642c078a723487d922b80f6d112c989b98e8bd3) have been added in heading anchors.
-- [`<doctype HTML>`](https://github.com/facebook/docusaurus/commit/946e2cef907a37290bfdf831dedc072de596f927) has been added to all HTML pages.
-- `cssnano` is used to [minify](https://github.com/facebook/docusaurus/commit/159b80df942ba4d7c422ecb6d4b57aa34fd7b5e3) the main CSS file.
-
-### Fixed/Changed
-
-- [Search bar width in mobile navigation](https://github.com/facebook/docusaurus/commit/ba024a25c7cf37cdaecafb8d805a49505f461785).
-
-### Removed
-
-N/A
-
-## [1.0.11] - 2018-04-12
-
-This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus.
-
-Thank you to the following contributors who helped with this release:
-
-- @amyrlam
-- @yangshun
-- @aadsm
-- @InternetExplorer7
-- @MisterTea
-- @SBrown2
-
-### Breaking changes
-
-N/A
-
-### Added
-
-- [Dynamic port switching](https://github.com/facebook/docusaurus/commit/bbbe311004aa0b2e61f1678099c02cb9a136d418) (e.g., if the default is busy) when running the local server.
-- [Warnings](https://github.com/facebook/docusaurus/commit/ad5b8b92b4a89bd197404d56d9a049db3aca5490) if you add documentation header metadata that is not supported.
-- The ability to [hide the documentation title](https://github.com/facebook/docusaurus/commit/6dd6ead19f8f58c8494798da8d95070b9cf40808) for any of your docs with a new metadata option called `hide_title`.
-
-### Fixed/Changed
-
-- If you have translations enabled, the language drop down in the header navigation bar is now [fixed](https://github.com/facebook/docusaurus/commit/0e3f3e30134d603e85a8024fdaa1a728a33b1452) to show the current language.
-- More [accessibility fixes](https://github.com/facebook/docusaurus/commit/80ece69a1069d92ceac4a07d990ae3fb8b2c8b51) to support a11y.
-
-### Removed
-
-N/A
-
-## [1.0.10] - 2018-04-09
-
-This is a general release with mostly bug fixes and documentation updates (which are already live on docusuarus.io).
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-- [Added Facebook Pixel ID as a configuration option](https://github.com/facebook/docusaurus/commit/508090377eb14f27db5ccb87c5fbe70ab79dc62d), thanks @pestevez.
-- Better documentation on installation requirements, CircleCI, updating Docusaurus and API. Thanks espcially to @yangshun for a lot of documentation cleanup and additions.
-
-### Fixed/Changed
-
-- [Fixed .gitignore placement when running the examples script or `docusaurus-init`](https://github.com/facebook/docusaurus/commit/fc051acde53e7dd981d5aeb0cea498209b1da11c)
-- On page navigation fixes, including its [scroll height](https://github.com/facebook/docusaurus/commit/56bae1d70ca6e0467b4f43fcc2b3adf72a5296db), [better table of contents](https://github.com/facebook/docusaurus/commit/c437f7be37827f4f8c199577f4367ad0e56562c7), and other [fixes](https://github.com/facebook/docusaurus/commit/1a674885aeff1a3c9523d16a72a34e4ba0ce8019), thanks @microbouji.
-- [Cleaned up example pages](https://github.com/facebook/docusaurus/commit/37c699e8bdcad6889fadf52253c0901dc029b507), thanks @Happy-Ferret.
-- [Better alignment of the sitemap in the footer](https://github.com/facebook/docusaurus/commit/a7acc7d794240b28da52f90cac487f6b803dc7a3), thanks @ryzokuken.
-- Accessibility fixes around [images](https://github.com/facebook/docusaurus/commit/c2cd169b64d1bd9513831976bd5db436d6cda498) and [links](https://github.com/facebook/docusaurus/commit/e19b9ac56e227c40209cec774b5b74a539819153), thanks @amyrlam and @yangshun.
-
-### Removed
-
-N/A
-
-## [1.0.9] - 2018-03-13
-
-**This is a hotfix release**
-
-A [bug](https://github.com/facebook/docusaurus/pull/501) was found in the [using `path` functions commit](https://github.com/facebook/docusaurus/commit/cbdab2ba1112e8949683d23ce20034aa17d9013d) by @sunnylqm. Total commits in this release is 4, including the release itself.
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-- [Docs for the secondary, on-page navigation option](https://docusaurus.io/docs/en/navigation.html#secondary-on-page-navigation).
-
-### Fixed/Changed
-
-- [Fix wrong versioned_docs file path](https://github.com/facebook/docusaurus/pull/501/commits/324facde46e13749423d72f14e300a8dbf0a76cb), thanks @sunnylqm.
-
-### Removed
-
-N/A
-
-## [1.0.8] - 2018-03-12
-
-This is a targeted feature and bug fix release. A couple of things of interest are that this release fixes some [issues](https://github.com/facebook/docusaurus/issues/468) with Windows that were occurring, particularly when building the docs, both locally and publishing, as well as addressing an [issue](https://github.com/facebook/docusaurus/issues/344) for support for a secondary, on-page sidebar for local page navigation, which is now enabled for docusaurus.io. Total commits in this release is 27, including the release itself.
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-- [Add separate, on-page navigation sidebar option so that you can see links to local page topics](https://github.com/facebook/docusaurus/commit/4ff2fe280ebd41c4b491936fdd4ae75b7805ed61), thanks @microbouji.
-- [You can now use a custom `appId` for your Algolia search](https://github.com/facebook/docusaurus/commit/4ea8158c0cf2105b0fec767289fd722ebc6e3a92), thanks @atroncy.
-- [The header navigation now shows the active link clearly](https://github.com/facebook/docusaurus/commit/48ee457ec98b728343196362d5d42c0dc3d1cff9), thanks @microbouji.
-- [Replace CircleCI 1.0 publishing documentation with CircleCI 2.0](https://docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
-
-### Fixed/Changed
-
-- [Use `path` functions in order to fix building on Windows](https://github.com/facebook/docusaurus/commit/cbdab2ba1112e8949683d23ce20034aa17d9013d)
-- [`latestVersion` was fixed when running the local server](https://github.com/facebook/docusaurus/commit/4a10be8002af4bf59a3830d75c5860b83df3d2a6), thanks @sunnylqm.
-- [Environment variables take precedent over config options when publishing](https://github.com/facebook/docusaurus/commit/d2bff6929e410f03bc4758538020167c828b156e), thanks @juanpicado.
-- [i18n support fixed for the home page link in the header](https://github.com/facebook/docusaurus/commit/f8486e02ae2b28e7c04cf72617a31716b64a445c) and [the sidebar navigation](https://github.com/facebook/docusaurus/commit/4553afda2bdb68db2f5f014a117cf93e81014037), thank @cheercroaker.
-- [Document an existing feature that has already existed, `ogImage`](https://github.com/facebook/docusaurus/commit/a8d7299ef2c055e7cd48cf6a78ed2204a964bdaa), thanks @miralemd.
-- [`siteConfig.users` is now optional](https://github.com/facebook/docusaurus/commit/8c2145585c415f0e1b093c33cc2aba46c407b575), thanks @aimeerpierce.
-- [`id` used instead of `name` in anchors, bringing us more HTML 5 compliant](https://github.com/facebook/docusaurus/commit/c800870fefe0f3f1987ea0731d0ad1391ea35471), thanks @ronami.
-
-### Removed
-
-N/A
-
-## [1.0.7] - 2018-02-17
-
-**This is a hotfix release**
-
-A couple of bugs were found in our versioning system that would make versioning unusable in some scenarios. Thank you to @iRoachie for finding these. This release also contains a better header link scroll on mobile. Total commits in this release is 6, including the release itself.
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-- [A scrollbar to the header links on mobile](https://github.com/facebook/docusaurus/commit/0dad6d562f78e9d1c9d8c70946755accd73a6a63), thanks @maaz93.
-
-### Fixed/Changed
-
-- [Allow new docs to be added for new versions](https://github.com/facebook/docusaurus/commit/1388e1379512ddfd4d5bfbecaac2a598dd85151c)
-- [Relax restriction on versioned doc ids with dashes](https://github.com/facebook/docusaurus/commit/ec6ff9284c03e3287089f65e596a2293097c23ab)
-- [Broken link in the site config docs](https://github.com/facebook/docusaurus/commit/f79cfaa3a11270665ab528b26a37f2598a878bff), thanks @justinmusgrove.
-
-### Removed
-
-N/A
-
-## [1.0.6] - 2018-02-12
-
-This is a bigger release than normal as it has been a month since releases. It contains bug fixes, duplicate code removal, a few new features, and documentation updates. Total commits in this release is 38, including the release itself.
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-- Option to control number of blog posts in sidebar ([#432](https://github.com/facebook/docusaurus/commit/dfb70e18296fe0feb53ac05e807cba290b5da3d7), thanks @ericnakagawa)
-- `font-family` is now a configurable parameter ([#294](https://github.com/facebook/docusaurus/commit/a241a466697a2bb9fa022df29fba35dd49e29715), thanks @cowlingj)
-- Configurable edit URL link, per doc ([#443](https://github.com/facebook/docusaurus/commit/41750667cd74b66c2bdde00619d290fc293a01d3), thanks @Glavin001)
-- New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/)
-- Docs section about referencing site documents ([#394](https://github.com/facebook/docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983) )
-- Clarified docs on [publishing to a user/org page](https://docusaurus.io/docs/en/publishing.html#using-github-pages)
-- [Alphabetized site config options](https://docusaurus.io/docs/en/site-config.html) in docs (thanks @haraldur12)
-- Moved [verifying installation](https://docusaurus.io/docs/en/installation.html#verifying-installation) section to the install docs (@thanks @gedeagas)
-- Discord added as a [help and communication](https://docusaurus.io/en/help.html) option
-
-### Fixed/Changed
-
-- Blog feeds now show HTML, not markdown ([#407](https://github.com/facebook/docusaurus/commit/2d7274f6fe052615d0e0fe4d1b75f9cfc5f88cbb), thanks @tom-auger)
-- Chinese translation infra ([#377](https://github.com/facebook/docusaurus/commit/00270c26a729a9b23e1e4055868ae7146c2d81d8), thanks @chenglou)
-- Margin for right-aligned images ([#398](https://github.com/facebook/docusaurus/commit/4c2558e8bd538ea6f49867e18c1bbd9489e7ba2c), thanks @rickhanlonii)
-- Correct HTTP status code sent on redirects ([#408](https://github.com/facebook/docusaurus/commit/c81609d393e9e1fe2b63b69028b0624091a3e440))
-- Non-English versioned docs metadata parsed correctly ([#412](https://github.com/facebook/docusaurus/commit/43e80fcea735788a78d8c48e35df4ea1b6cd8b00), thanks @sunnylqm)
-- Provide Algolia information about the latest and current version ([#418](https://github.com/facebook/docusaurus/commit/61c5d2d8e01ace967157120727e3b3fcab541b17))
-- Remove key errors when running local server ([#425](https://github.com/facebook/docusaurus/commit/c6a9848a17b7ac27f43a58c6cecacf905fab0cbc), thanks @hshoff)
-- Links fixed in blog Atom feed ([#421](https://github.com/facebook/docusaurus/commit/c99cdefd3a314e53cc23ff65eeaa6837cb49d034), thanks @hramos)
-
-### Removed
-
-N/A
-
-## [1.0.5] - 2018-01-09
-
-This is a targeted bug fix release, with some documentation updates and Docusaurus repo housekeeping in between. Total commits in this release is 13, including the release itself.
-
-### Breaking Changes
-
-N/A
-
-### Added
-
-N/A
-
-### Fixed/Changed
-
-- Docusaurus builds on Windows ([PR #381](https://github.com/facebook/docusaurus/pull/381), thanks @qcz).
-- Fixed publishing for user/org GitHub sites (as opposed to project sites) ([PR #384](https://github.com/facebook/docusaurus/pull/384)).
-- Clarification and updates on the publishing and API documentation ([PR #372](https://github.com/facebook/docusaurus/pull/372)).
-
-### Removed
-
-N/A
-
-## [1.0.4] - 2017-12-27
-
-This is generally a bug fix release, with some code refactoring. Total commits in this release is 58.
-
-### Breaking Changes
-
-- **_Most users may not run into this problem, but we think it can technically be a breaking change_**. PR #322 (original PR #316) and friends changes the way we check for the existence of translations and versioning. Part of that is that we allow for the possibility of an empty language prop, instead of defaulting everything to English. When running 1.0.4, check to make sure your `index.js` works as expected. See [this comment](https://github.com/facebook/docusaurus/pull/322#issuecomment-352914064) and those below for discussion on this. There is still a bit more work to be done (refactoring and maybe adding a `defaultLang` config option) to make this as clean as possible.
-
-### Added
-
-- `lang` property added on `html` tag, if a language exists and is set (PR #295).
-- Added the `wrapPagesHTML` configuration option (PR #332).
-- Some adming docs on how to debug with VSCode (PR #335).
-- Added docs for the `useEnglishURL` configuration option.
-
-### Fixed/Changed
-
-- Links on landing page in `docusaurus-init` test site do not 404 any longer.
-- Refactoring how we check for translations and versioning (PRs #322/#316 and friends).
-- Refactored the example `index.js` page (PR #293).
-- Link errors, typos and grammatical errors in the docusuarus.io documentation.
-
-### Removed
-
-N/A
-
-## [1.0.3] - 2017-12-13
-
-### Added
-
-- Docusaurus [released](http://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html) to the public.
-  - Initialization script
-  - Versioning
-  - Translations
-  - Search
-  - Blog
-  - Documentation
-
-[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.4...HEAD
-[1.14.4]: https://github.com/facebook/docusaurus/compare/v1.14.3...v1.14.4
-[1.14.3]: https://github.com/facebook/docusaurus/compare/v1.14.2...v1.14.3
-[1.14.2]: https://github.com/facebook/docusaurus/compare/v1.14.1...v1.14.2
-[1.14.1]: https://github.com/facebook/docusaurus/compare/v1.14.0...v1.14.1
-[1.14.0]: https://github.com/facebook/docusaurus/compare/v1.13.0...v1.14.0
-[1.13.0]: https://github.com/facebook/docusaurus/compare/v1.12.0...v1.13.0
-[1.12.0]: https://github.com/facebook/docusaurus/compare/v1.11.1...v1.12.0
-[1.11.1]: https://github.com/facebook/docusaurus/compare/v1.11.0...v1.11.1
-[1.11.0]: https://github.com/facebook/docusaurus/compare/v1.10.0...v1.11.0
-[1.10.0]: https://github.com/facebook/docusaurus/compare/v1.9.0...v1.10.0
-[1.9.0]: https://github.com/facebook/docusaurus/compare/v1.8.1...v1.9.0
-[1.8.1]: https://github.com/facebook/docusaurus/compare/v1.8.0...v1.8.1
-[1.8.0]: https://github.com/facebook/docusaurus/compare/v1.7.3...v1.8.0
-[1.7.3]: https://github.com/facebook/docusaurus/compare/v1.7.2...v1.7.3
-[1.7.2]: https://github.com/facebook/docusaurus/compare/v1.7.1...v1.7.2
-[1.7.1]: https://github.com/facebook/docusaurus/compare/v1.7.0...v1.7.1
-[1.7.0]: https://github.com/facebook/docusaurus/compare/v1.6.2...v1.7.0
-[1.6.2]: https://github.com/facebook/docusaurus/compare/v1.6.1...v1.6.2
-[1.6.1]: https://github.com/facebook/docusaurus/compare/v1.6.0...v1.6.1
-[1.6.0]: https://github.com/facebook/docusaurus/compare/v1.5.1...v1.6.0
-[1.5.1]: https://github.com/facebook/docusaurus/compare/v1.4.0...v1.5.1
-[1.5.0]: https://github.com/facebook/docusaurus/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/facebook/docusaurus/compare/v1.3.3...v1.4.0
-[1.3.3]: https://github.com/facebook/docusaurus/compare/v1.3.2...v1.3.3
-[1.3.2]: https://github.com/facebook/docusaurus/compare/v1.3.1...v1.3.2
-[1.3.1]: https://github.com/facebook/docusaurus/compare/v1.3.0...v1.3.1
-[1.3.0]: https://github.com/facebook/docusaurus/compare/v1.2.1...v1.3.0
-[1.2.1]: https://github.com/facebook/docusaurus/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/facebook/docusaurus/compare/v1.1.5...v1.2.0
-[1.1.5]: https://github.com/facebook/docusaurus/compare/v1.1.4...v1.1.5
-[1.1.4]: https://github.com/facebook/docusaurus/compare/v1.1.3...v1.1.4
-[1.1.3]: https://github.com/facebook/docusaurus/compare/v1.1.2...v1.1.3
-[1.1.2]: https://github.com/facebook/docusaurus/compare/v1.1.1...v1.1.2
-[1.1.1]: https://github.com/facebook/docusaurus/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/facebook/docusaurus/compare/v1.0.15...v1.1.0
-[1.0.14]: https://github.com/facebook/docusaurus/compare/v1.0.14...v1.0.15
-[1.0.14]: https://github.com/facebook/docusaurus/compare/v1.0.13...v1.0.14
-[1.0.13]: https://github.com/facebook/docusaurus/compare/v1.0.12...v1.0.13
-[1.0.12]: https://github.com/facebook/docusaurus/compare/v1.0.11...v1.0.12
-[1.0.11]: https://github.com/facebook/docusaurus/compare/v1.0.10...v1.0.11
-[1.0.10]: https://github.com/facebook/docusaurus/compare/v1.0.9...v1.0.10
-[1.0.9]: https://github.com/facebook/docusaurus/compare/v1.0.8...v1.0.9
-[1.0.8]: https://github.com/facebook/docusaurus/compare/v1.0.7...v1.0.8
-[1.0.7]: https://github.com/facebook/docusaurus/compare/v1.0.6...v1.0.7
-[1.0.6]: https://github.com/facebook/docusaurus/compare/v1.0.5...v1.0.6
-[1.0.5]: https://github.com/facebook/docusaurus/compare/v1.0.4...v1.0.5
-[1.0.4]: https://github.com/facebook/docusaurus/compare/v1.0.3...v1.0.4
+## 2.0.0-alpha.31
+
+- Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers.
+- Footer is now also displayed in docs page for consistency.
+- Remove empty doc sidebar container if sidebar for a particular doc page does not exist. Otherwise, it will cause an additional empty space.
+- Default PostCSS loader now only polyfills stage 3+ features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard.
+- Fix search bar focus bug. When you put the focus on search input, previously the focus will remain although we have clicked to other area outside of the search input.
+- New themeConfig option `sidebarCollapsible`. It is on by default. If explicitly set to `false`, all doc items in sidebar is expanded. Otherwise, it will still be a collapsible sidebar.
+- Disable adding hashes to the generated class names of CSS modules in dev mode. Generating unique identifiers takes some time, which can be saved since including paths to files in class names is enough to avoid collisions.
+- Fix showing sidebar category with empty items.
+- Update infima from 0.2.0-alpha.2 to 0.2.0-alpha.3
+  - Fix pagination nav and right sidebar color contrast ratio
+  - Fix sidebar arrow color in dark mode
+  - Fix footer mobile issue
+  - Increase sidebar width
+  - etc
+
+## 2.0.0-alpha.30
+
+- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'`.([#1868](https://github.com/facebook/docusaurus/pull/1868))
+
+If you are still encountering the error. Please check whether you use `module.exports` for your `.js` file instead of doing `export` (mixing CJS and ES). See https://github.com/webpack/webpack/issues/4039#issuecomment-477779322 and https://github.com/webpack/webpack/issues/4039#issuecomment-273804003 for more context.
+
+## 2.0.0-alpha.29
+
+**HOTFIX for 2.0.0-alpha.28**.
+
+- Fix missing `core-js` dependencies on `@docusaurus/core`.
+- Fix wrong `@babel/env` preset configuration that causes build compilation error.
+- New UI for webpack compilation progress bar.
+
+## 2.0.0-alpha.28
+
+- Further reduce memory usage to avoid heap memory allocation failure.
+- Fix `keywords` frontmatter for SEO not working properly.
+- Fix `swizzle` command not passing context properly to theme packages.
+- Add `extendCli` api for plugins. This will allow plugin to further extend Docusaurus CLI.
+- Fix `swizzle` command not being able to swizzle single js file.
+- Fix logo URL in footer to be appended with baseUrl automatically.
+- Add the option `--no-open` for `start` command.
+- Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
+- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility.
+- **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine.
+- Upgrade dependencies.
+
+## 2.0.0-alpha.27
+
+- Add `@theme/Tabs` which can be used to implement multi-language code tabs.
+- Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
+- Reduce memory usage and slightly faster production build.
+- Misc dependency upgrades.
+
+## 2.0.0-alpha.26
+
+- Docs, pages plugin is rewritten in TypeScript
+- Docs improvements and tweaks
+  - Improved metadata which results in smaller bundle size.
+  - Docs sidebar can now be more than one level deep, theoretically up to infinity
+  - Collapsible docs sidebar!
+  - Make doc page title larger
+  - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'
+  - Add `showLastUpdateTime` and `showLastUpdateAuthor` options to docs plugin to further achieve v1 parity of showing last update data for a particular doc
+- Slight tweaks to the Blog components - blog title is larger now
+- Code Blocks
+  - Change default theme from Night Owl to Palenight
+  - Slight tweaks to playground/preview components
+- Add `scripts` and `stylesheets` field to `docusaurus.config.js`
+- More documentation...
+
+## 2.0.0-alpha.25
+
+- Blog plugin is rewritten in TypeScript and can now support CJK
+- Upgrade key direct dependencies such as webpack, mdx and babel to latest
+- Do not escape html and body attributes
+- For devices with very small viewport width, the searchbar is replaced with a search icon. On tap of the search icon the searchbar is expanded and the text beside the logo is hidden and remains hidden while the search bar is expanded.
+- Add `date` frontMatter support for blog plugin
+- Add `truncateMarker` option to blog plugin, support string or regex.
+- Webpack `optimization.removeAvailableModules` is now disabled for performance gain. See https://github.com/webpack/webpack/releases/tag/v4.38.0 for more context.
+
+## 2.0.0-alpha.24
+
+- Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
+- Upgrade dependencies of css-loader from 2.x to 3.x. Css modules localIdentName hash now only use the last 4 characters instead of 8.
+- Fix broken markdown linking replacement for mdx files
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size.
+- Use contenthash instead of chunkhash for better long term caching
+- Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
+
+## 2.0.0-alpha.23
+
+- Fix docusaurus route config generation for certain edge case
+
+## 2.0.0-alpha.22
+
+- Add missing dependencies on `@docusaurus/preset-classic`
+- New plugin `@docusaurus/plugin-ideal-image` to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+- Better Twitter/discord image preview. Previously the size is too zoomed
+- Allow prism syntax highlighting theme customization. Refer to https://docusaurus.io/docs/markdown-features#syntax-highlighting
+- CSS is now autoprefixed using postcss
+- Faster, lighter webpack bundle size
+- `@docusaurus/theme-live-codeblock` is now much smaller in size and no longer only load on viewport
+- Blog markdown files now support using the id field to specify the path
+
+## 2.0.0-alpha.21
+
+- Fix babel-loader not transpiling docusaurus package
+
+## 2.0.0-alpha.20
+
+- Add copy codeblock button
+- Add Google analytics and Google gtag plugins.
+- Move source components to `/src`. Please create a `website/src` directory and move your `/pages` and `/theme` code into it. This is to make it easier to integrate your website with external build/static analysis tooling (you can now just pass in `src/**/*.js` as the path to process).
+- Adde more documentation thanks to @wgao19.
+- Deprecate the current docs plugin. The docs plugin as of 2.0.0-alpha.19 is heavily based on V1 specifications and we intend to create a better one that fixes some of the inconsistencies in V1. If you have swizzled any doc components, you will have to update their names. You are highly encourages to not swizzle the legacy doc components until we have completed the new docs plugin.
+- Separate v2 init command to new package @docusaurus/init
+- Render 404.html page
+- Improve SEO
+- Clicking on the logo in the mobile sliding navigation will now bring you to the homepage.
+- Performance
+  - Disable webpack output pathinfo. Webpack has the ability to generate path info in the output bundle. However, this puts garbage collection pressure on projects that bundle thousands of modules. Not very useful for our case
+  - Drop cache-loader in CI and test environment because it has an initial overhead. We always start from scratch in vm instance like CI so cache-loader is useless
+  - Better splitchunks and babel default webpack config
+
+## 2.0.0-alpha.19
+
+- Add a sensible default for browserslist config.
+- UI
+  - Add sun and moon emoji to the dark mode toggle.
+  - Mobile responsive menu.
+  - Right table of contents for docs is now sticky.
+- Plugins
+  - Change plugin definitions from classes to functions. Refer to the new plugin docs.
+  - Implement Clients module API.
+  - Change format within `docusaurus.config.js` to be like presets.
+- Deps
+  - Infima CSS is now locked down to specific versions and not relying upon the CDN which reads from trunk.
+  - Update dependencies to latest
+- Customize/ Override infima CSS variables by passing options into the classic preset.
+
+```
+presets: [
+  [
+    '@docusaurus/preset-classic',
+    {
+      theme: {
+        customCss: require.resolve('./css/custom.css'),
+      },
+      ...
+    },
+  ],
+],
+```
+
+- Allow passing remark and rehype plugins to mdx-loader for docs and blog plugin
+- Move themes component of docs and blog to be part of theme-classic
+- Use composition style for prism syntax highlighting instead of doing it via rehype plugin
+- Pass MDXProvider to docs and blog. To change the provided MDX components, run `docusaurus swizzle @docusaurus/theme-classic MDXComponents`
+- Add @docusaurus/theme-livecodeblock plugin
+- Better run-time code generation & webpack splitchunks optimization
+- Minify css for production build
+- Fix weird scrolling problem when navigating to a route with a `hash` location
+
+## V2 Changelog
+
+### `siteConfig.js` changes
+
+- `siteConfig.js` renamed to `docusaurus.config.js`.
+- Remove the following config options:
+  - `docsUrl`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
+  - `customDocsPath`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
+  - `sidebars.json` now has to be explicitly loaded by users and passed into the the plugin option on `docusaurus-plugin-content-docs`.
+  - `headerLinks` doc, page, blog is deprecated and has been to moved into `themeConfig` under the name `navbar`. The syntax is now:
+
+```js
+themeConfig: {
+  navbar: {
+    title: 'Docusaurus',
+    logo: {
+      alt: 'Docusaurus Logo',
+      src: 'img/docusaurus.svg',
+    },
+    links: [
+      {to: 'docs/introduction', label: 'Docs', position: 'left'},
+      {to: 'blog', label: 'Blog', position: 'left'},
+      {to: 'feedback', label: 'Feedback', position: 'left'},
+      {
+        href: 'https://github.com/facebook/docusaurus',
+        label: 'GitHub',
+        position: 'right',
+      },
+    ],
+  },
+}
+```
+
+# Migration Guide
+
+_Work in Progress_
+
+### Presets
+
+- Add presets for plugins that follow the [Babel preset convention](https://babeljs.io/docs/en/presets).

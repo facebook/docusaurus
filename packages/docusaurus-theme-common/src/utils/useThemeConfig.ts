@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {PrismTheme} from 'prism-react-renderer';
+import {CSSProperties} from 'react';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -13,6 +15,7 @@ export type NavbarItem = {
   type?: string | undefined;
   items?: NavbarItem[];
   label?: string;
+  position?: 'left' | 'right';
 };
 
 export type NavbarLogo = {
@@ -32,11 +35,39 @@ export type Navbar = {
   logo?: NavbarLogo;
 };
 
+export type ColorModeConfig = {
+  defaultMode: 'light' | 'dark';
+  disableSwitch: boolean;
+  respectPrefersColorScheme: boolean;
+  switchConfig: {
+    darkIcon: string;
+    darkIconStyle: CSSProperties;
+    lightIcon: string;
+    lightIconStyle: CSSProperties;
+  };
+};
+
+export type AnnouncementBarConfig = {
+  id: string;
+  content: string;
+  backgroundColor: string;
+  textColor: string;
+  isCloseable: boolean;
+};
+
+export type PrismConfig = {
+  theme?: PrismTheme;
+  darkTheme?: PrismTheme;
+  defaultLanguage?: string;
+  additionalLanguages?: string[];
+};
+
 export type FooterLinkItem = {
   label?: string;
   to?: string;
   href?: string;
   html?: string;
+  prependBaseUrlToHref?: string;
 };
 export type FooterLinks = {
   title?: string;
@@ -65,11 +96,14 @@ export type ThemeConfig = {
 
   // TODO temporary types
   navbar: Navbar;
-  colorMode: any;
-  announcementBar: any;
-  prism: any;
-  footer: Footer | undefined;
-  hideableSidebar: any;
+  colorMode: ColorModeConfig;
+  announcementBar?: AnnouncementBarConfig;
+  prism: PrismConfig;
+  footer?: Footer;
+  hideableSidebar: boolean;
+  image: string;
+  metadatas: Array<Record<string, string>>;
+  sidebarCollapsible: boolean;
 };
 
 export function useThemeConfig(): ThemeConfig {

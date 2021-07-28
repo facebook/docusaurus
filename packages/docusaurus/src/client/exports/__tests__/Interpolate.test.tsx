@@ -36,6 +36,17 @@ describe('Interpolate', () => {
     );
   });
 
+  test('placeholders with falsy values', () => {
+    const text = '{number} {string} {boolean}';
+    const values = {
+      number: 0,
+      string: '',
+      boolean: false,
+    };
+    // Do we need to improve the JS type -> String conversion logic here?
+    expect(interpolate(text, values)).toMatchInlineSnapshot(`"0  false"`);
+  });
+
   test('placeholders with string values mismatch', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {unprovidedValue}?';

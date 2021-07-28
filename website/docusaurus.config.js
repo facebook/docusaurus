@@ -7,22 +7,23 @@
 
 const path = require('path');
 const versions = require('./versions.json');
+const math = require('remark-math');
+const katex = require('rehype-katex');
+const VersionsArchived = require('./versionsArchived.json');
+const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
-// This probably only makes sense for the alpha phase, temporary
-function getNextAlphaVersionName() {
-  const expectedPrefix = '2.0.0-alpha.';
+// This probably only makes sense for the beta phase, temporary
+function getNextBetaVersionName() {
+  const expectedPrefix = '2.0.0-beta.';
 
   const lastReleasedVersion = versions[0];
   if (!lastReleasedVersion.includes(expectedPrefix)) {
     throw new Error(
-      'this code is only meant to be used during the 2.0 alpha phase.',
+      'this code is only meant to be used during the 2.0 beta phase.',
     );
   }
-  const alphaBuild = parseInt(
-    lastReleasedVersion.replace(expectedPrefix, ''),
-    10,
-  );
-  return `${expectedPrefix}${alphaBuild + 1}`;
+  const version = parseInt(lastReleasedVersion.replace(expectedPrefix, ''), 10);
+  return `${expectedPrefix}${version + 1}`;
 }
 
 const allDocHomesPaths = [
@@ -39,32 +40,12 @@ const isDeployPreview =
 const baseUrl = process.env.BASE_URL || '/';
 const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
 
-const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
-
 // Special deployment for staging locales until they get enough translations
 // https://app.netlify.com/sites/docusaurus-i18n-staging
 // https://docusaurus-i18n-staging.netlify.app/
 const isI18nStaging = process.env.I18N_STAGING === 'true';
 
-const LocaleConfigs = isI18nStaging
-  ? // Staging locales (https://docusaurus-i18n-staging.netlify.app/)
-    {
-      en: {
-        label: 'English',
-      },
-      'zh-CN': {
-        label: '简体中文',
-      },
-    }
-  : // Production locales
-    {
-      en: {
-        label: 'English',
-      },
-      fr: {
-        label: 'Français',
-      },
-    };
+const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
@@ -74,11 +55,39 @@ const LocaleConfigs = isI18nStaging
   projectName: 'docusaurus',
   baseUrl,
   baseUrlIssueBanner: true,
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
+  // Dogfood both settings:
+  // - force trailing slashes for deploy previews
+  // - avoid trailing slashes in prod
+  trailingSlash: isDeployPreview,
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      integrity:
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
+    },
+  ],
   i18n: {
     defaultLocale: 'en',
-    locales: Object.keys(LocaleConfigs),
-    localeConfigs: LocaleConfigs,
+    locales: isDeployPreview
+      ? // Deploy preview: keep it fast!
+        ['en']
+      : isI18nStaging
+      ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+        ['en', 'ja']
+      : // Production locales
+        ['en', 'fr', 'ko', 'zh-CN'],
+  },
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('esbuild-loader'),
+      options: {
+        loader: 'tsx',
+        format: isServer ? 'cjs' : undefined,
+        target: isServer ? 'node12' : 'es2017',
+      },
+    }),
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -87,7 +96,7 @@ const LocaleConfigs = isI18nStaging
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  clientModules: [require.resolve('./dogfooding/clientModuleExample.ts')],
+  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -95,6 +104,7 @@ const LocaleConfigs = isI18nStaging
       {
         id: 'community',
         path: 'community',
+        routeBasePath: 'community',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -102,25 +112,9 @@ const LocaleConfigs = isI18nStaging
           return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        routeBasePath: 'community',
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-blog',
-      {
-        id: 'second-blog',
-        path: 'dogfooding/second-blog',
-        routeBasePath: 'second-blog',
-        editUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/dogfooding',
-        postsPerPage: 3,
-        feedOptions: {
-          type: 'all',
-          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
-        },
       },
     ],
     [
@@ -162,8 +156,12 @@ const LocaleConfigs = isI18nStaging
     [
       '@docusaurus/plugin-pwa',
       {
-        debug: false,
-        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        debug: isDeployPreview,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
         // swRegister: false,
         swCustom: path.resolve(__dirname, 'src/sw.js'),
         pwaHead: [
@@ -175,7 +173,7 @@ const LocaleConfigs = isI18nStaging
           {
             tagName: 'link',
             rel: 'manifest',
-            href: `${baseUrl}manifest.json`,
+            href: 'manifest.json',
           },
           {
             tagName: 'meta',
@@ -200,7 +198,7 @@ const LocaleConfigs = isI18nStaging
           {
             tagName: 'link',
             rel: 'mask-icon',
-            href: 'img/docusaurus.svg',
+            href: 'img/docusaurus.png',
             color: 'rgb(62, 204, 94)',
           },
           {
@@ -216,6 +214,7 @@ const LocaleConfigs = isI18nStaging
         ],
       },
     ],
+    ...dogfoodingPluginInstances,
   ],
   presets: [
     [
@@ -227,7 +226,9 @@ const LocaleConfigs = isI18nStaging
         docs: {
           // routeBasePath: '/',
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: 'sidebars.js',
+          // sidebarCollapsible: false,
+          // sidebarCollapsed: true,
           editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -240,8 +241,10 @@ const LocaleConfigs = isI18nStaging
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [
+            math,
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
+          rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
           onlyIncludeVersions:
@@ -250,13 +253,13 @@ const LocaleConfigs = isI18nStaging
               : undefined,
           versions: {
             current: {
-              label: `${getNextAlphaVersionName()} 🚧`,
+              label: `${getNextBetaVersionName()} 🚧`,
             },
           },
         },
         blog: {
           // routeBasePath: '/',
-          path: '../website-1.x/blog',
+          path: 'blog',
           editUrl: ({locale, blogDirPath, blogPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -281,6 +284,9 @@ const LocaleConfigs = isI18nStaging
     ],
   ],
   themeConfig: {
+    liveCodeBlock: {
+      playgroundPosition: 'bottom',
+    },
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
@@ -288,19 +294,22 @@ const LocaleConfigs = isI18nStaging
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'supportus',
+      id: 'announcementBar-1', // Increment on change
       content:
-        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
+      additionalLanguages: ['java'],
     },
     image: 'img/docusaurus-soc.png',
     // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
+    gtag: !isDeployPreview
+      ? {
+          trackingID: 'UA-141789564-1',
+        }
+      : undefined,
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -341,6 +350,16 @@ const LocaleConfigs = isI18nStaging
           position: 'right',
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
+            ...Object.entries(VersionsArchived).map(
+              ([versionName, versionUrl]) => ({
+                label: versionName,
+                href: versionUrl,
+              }),
+            ),
+            {
+              href: 'https://v1.docusaurus.io',
+              label: '1.x.x',
+            },
             {
               to: '/versions',
               label: 'All versions',
@@ -352,7 +371,7 @@ const LocaleConfigs = isI18nStaging
           position: 'right',
           dropdownItemsAfter: [
             {
-              to: 'https://github.com/facebook/docusaurus/issues/3526',
+              href: 'https://github.com/facebook/docusaurus/issues/3526',
               label: 'Help Us Translate',
             },
           ],

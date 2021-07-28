@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin');
+const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin')
+  .default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
+const {normalizeUrl} = require('@docusaurus/utils');
 const path = require('path');
 const webpack = require('webpack');
 const {injectManifest} = require('workbox-build');
@@ -87,12 +89,27 @@ function plugin(context, options) {
     injectHtmlTags() {
       const headTags = [];
       if (isProd && pwaHead) {
-        pwaHead.forEach(({tagName, ...attributes}) =>
-          headTags.push({
+        pwaHead.forEach(({tagName, ...attributes}) => {
+          ['href', 'content'].forEach((attribute) => {
+            const attributeValue = attributes[attribute];
+
+            if (!attributeValue) {
+              return;
+            }
+
+            const attributePath =
+              !!path.extname(attributeValue) && attributeValue;
+
+            if (attributePath && !attributePath.startsWith(baseUrl)) {
+              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+            }
+          });
+
+          return headTags.push({
             tagName,
             attributes,
-          }),
-        );
+          });
+        });
       }
       return {headTags};
     },
@@ -127,7 +144,7 @@ function plugin(context, options) {
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom,
+            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
           }),
           new LogPlugin({
             name: 'Service Worker',

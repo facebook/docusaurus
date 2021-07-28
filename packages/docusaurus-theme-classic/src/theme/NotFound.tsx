@@ -7,11 +7,15 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
-import Translate from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 
 function NotFound(): JSX.Element {
   return (
-    <Layout title="Page Not Found">
+    <Layout
+      title={translate({
+        id: 'theme.NotFound.title',
+        message: 'Page Not Found',
+      })}>
       <main className="container margin-vert--xl">
         <div className="row">
           <div className="col col--6 col--offset-3">

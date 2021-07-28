@@ -6,7 +6,7 @@ slug: '/api/plugins/@docusaurus/plugin-content-blog'
 
 Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -36,14 +36,14 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * For advanced cases, compute the edit url for each markdown file yourself.
+         * For advanced cases, compute the edit url for each Markdown file yourself.
          */
         editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
           return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
         },
         /**
          * Useful if you commit localized files to git.
-         * When markdown files are localized, the edit url will target the localized file,
+         * When Markdown files are localized, the edit url will target the localized file,
          * instead of the original unlocalized file.
          * Note: this option is ignored when editUrl is a function
          */
@@ -72,6 +72,15 @@ module.exports = {
          */
         routeBasePath: 'blog',
         include: ['*.md', '*.mdx'],
+        /**
+         * No route will be created for matching files
+         */
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
         postsPerPage: 10,
         /**
          * Theme components used by the blog pages.
@@ -118,18 +127,18 @@ module.exports = {
 };
 ```
 
-## i18n
+## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-blog-<pluginId>`
 - **JSON files**: N/A
 - **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 
-### Example file-system structure
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/<locale>/docusaurus-plugin-content-blog

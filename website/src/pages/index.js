@@ -109,9 +109,7 @@ function Home() {
               <Link className="button button--primary" to="/docs">
                 <Translate>Get Started</Translate>
               </Link>
-              <Link
-                className="button button--info"
-                to="https://new.docusaurus.io">
+              <Link className="button button--info" to="https://docusaurus.new">
                 <Translate>Playground</Translate>
               </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
@@ -128,10 +126,21 @@ function Home() {
         </div>
         <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
-            <Translate>Coming from v1? Check out our</Translate>{' '}
-            <Link to="/docs/migration">
-              <Translate>v1 to v2 migration guide</Translate>
-            </Link>
+            <Translate
+              values={{
+                docusaurusV1Link: (
+                  <Link to="https://v1.docusaurus.io/">
+                    <Translate>Docusaurus v1</Translate>
+                  </Link>
+                ),
+                migrationGuideLink: (
+                  <Link to="/docs/migration">
+                    <Translate>v1 to v2 migration guide</Translate>
+                  </Link>
+                ),
+              }}>
+              {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}`}
+            </Translate>
             .
           </div>
         </div>
@@ -244,7 +253,7 @@ function Home() {
                       style={{overflow: 'hidden'}}
                     />
                     <div className="avatar__intro padding-top--sm">
-                      <h4 className="avatar__name">{quote.name}</h4>
+                      <div className="avatar__name">{quote.name}</div>
                       <small className="avatar__subtitle">{quote.title}</small>
                     </div>
                   </div>

@@ -6,10 +6,11 @@
  */
 
 import React from 'react';
-import Highlight, {defaultProps} from 'prism-react-renderer';
+import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
+import type {Props} from '@theme/CodeBlock';
 
-export default ({children, className}): JSX.Element => {
+export default ({children, className}: Props): JSX.Element => {
   const language = className && className.replace(/language-/, '');
 
   return (
@@ -17,7 +18,7 @@ export default ({children, className}): JSX.Element => {
       {...defaultProps}
       theme={theme}
       code={children}
-      language={language}>
+      language={language as Language}>
       {({style, tokens, getLineProps, getTokenProps}) => (
         <pre className={className} style={{...style, padding: '20px'}}>
           {tokens.map((line, i) => (

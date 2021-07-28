@@ -17,7 +17,6 @@ import {
   Plugin,
 } from '@docusaurus/types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {ValidationError} from 'joi';
 
 export default function pluginSitemap(
   _context: LoadContext,
@@ -39,7 +38,7 @@ export default function pluginSitemap(
       try {
         await fs.outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
-        throw new Error(`Sitemap error: ${err}`);
+        throw new Error(`Writing sitemap failed: ${err}`);
       }
     },
   };
@@ -48,10 +47,7 @@ export default function pluginSitemap(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

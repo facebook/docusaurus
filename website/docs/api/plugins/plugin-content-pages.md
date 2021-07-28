@@ -6,7 +6,7 @@ slug: '/api/plugins/@docusaurus/plugin-content-pages'
 
 The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-pages
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -39,11 +39,12 @@ module.exports = {
         routeBasePath: '',
         include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
         /**
-         * No Route will be created for matching files
+         * No route will be created for matching files
          */
         exclude: [
           '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/*.test.{js,ts}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
           '**/__tests__/**',
         ],
         /**
@@ -67,18 +68,18 @@ module.exports = {
 };
 ```
 
-## i18n
+## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
-### Translation files location
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
 - **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-pages-<pluginId>`
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
 
-### Example file-system structure
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/<locale>/docusaurus-plugin-content-pages

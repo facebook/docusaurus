@@ -2,7 +2,10 @@
 id: baz
 title: baz
 slug: bazSlug.html
+pagination_label: baz pagination_label
 ---
+
+# Baz markdown title
 
 ## Images
 
@@ -34,7 +37,7 @@ Duplicated footnote reference[^second].
 
 [^first]: Footnote **can have markup**
 
-  and multiple paragraphs.
+and multiple paragraphs.
 
 [^second]: Footnote text.
 

@@ -27,22 +27,13 @@
 
 // Forked from https://github.com/johnagan/clean-webpack-plugin
 // Modified to optimize performance for Docusaurus specific use case
+// More context: https://github.com/facebook/docusaurus/pull/1839
 
 import {Compiler, Stats} from 'webpack';
 import path from 'path';
 import {sync as delSync} from 'del';
 
 export interface Options {
-  /** @deprecated */
-  allowExternal?: unknown;
-
-  /**
-   * Simulate the removal of files
-   *
-   * default: false
-   */
-  dry?: boolean;
-
   /**
    * Write Logs to Console
    * (Always enabled when dry is true)
@@ -74,71 +65,19 @@ export interface Options {
    * default: ['**\/*']
    */
   cleanOnceBeforeBuildPatterns?: string[];
-
-  /**
-   * Removes files after every build (including watch mode) that match this pattern.
-   * Used for files that are not created directly by Webpack.
-   *
-   * Use !negative patterns to exclude files
-   *
-   * default: disabled
-   */
-  cleanAfterEveryBuildPatterns?: string[];
-
-  /**
-   * Allow clean patterns outside of process.cwd()
-   *
-   * requires dry option to be explicitly set
-   *
-   * default: false
-   */
-  dangerouslyAllowCleanPatternsOutsideProject?: boolean;
 }
 
 class CleanWebpackPlugin {
-  private readonly dry: boolean;
   private readonly verbose: boolean;
   private readonly cleanStaleWebpackAssets: boolean;
   private readonly protectWebpackAssets: boolean;
-  private readonly cleanAfterEveryBuildPatterns: string[];
   private readonly cleanOnceBeforeBuildPatterns: string[];
-  private readonly dangerouslyAllowCleanPatternsOutsideProject: boolean;
   private currentAssets: string[];
   private initialClean: boolean;
   private outputPath: string;
 
   constructor(options: Options = {}) {
-    if (typeof options !== 'object' || Array.isArray(options) === true) {
-      throw new Error(`clean-webpack-plugin only accepts an options object. See:
-            https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional`);
-    }
-
-    if (options.allowExternal) {
-      throw new Error(
-        'clean-webpack-plugin: `allowExternal` option no longer supported. Use `dangerouslyAllowCleanPatternsOutsideProject`',
-      );
-    }
-
-    if (
-      options.dangerouslyAllowCleanPatternsOutsideProject === true &&
-      options.dry !== true &&
-      options.dry !== false
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'clean-webpack-plugin: dangerouslyAllowCleanPatternsOutsideProject requires dry: false to be explicitly set. Enabling dry mode',
-      );
-    }
-
-    this.dangerouslyAllowCleanPatternsOutsideProject =
-      options.dangerouslyAllowCleanPatternsOutsideProject === true || false;
-
-    this.dry =
-      options.dry === true || options.dry === false
-        ? options.dry
-        : this.dangerouslyAllowCleanPatternsOutsideProject === true || false;
-
-    this.verbose = this.dry === true || options.verbose === true || false;
+    this.verbose = options.verbose === true || false;
 
     this.cleanStaleWebpackAssets =
       options.cleanStaleWebpackAssets === true ||
@@ -151,12 +90,6 @@ class CleanWebpackPlugin {
       options.protectWebpackAssets === false
         ? options.protectWebpackAssets
         : true;
-
-    this.cleanAfterEveryBuildPatterns = Array.isArray(
-      options.cleanAfterEveryBuildPatterns,
-    )
-      ? options.cleanAfterEveryBuildPatterns
-      : [];
 
     this.cleanOnceBeforeBuildPatterns = Array.isArray(
       options.cleanOnceBeforeBuildPatterns,
@@ -194,34 +127,17 @@ class CleanWebpackPlugin {
 
     this.outputPath = compiler.options.output.path;
 
-    /**
-     * webpack 4+ comes with a new plugin system.
-     *
-     * Check for hooks in-order to support old plugin system
-     */
     const {hooks} = compiler;
 
     if (this.cleanOnceBeforeBuildPatterns.length !== 0) {
-      if (hooks) {
-        hooks.compile.tap('clean-webpack-plugin', () => {
-          this.handleInitial();
-        });
-      } else {
-        compiler.plugin('compile', () => {
-          this.handleInitial();
-        });
-      }
+      hooks.compile.tap('clean-webpack-plugin', () => {
+        this.handleInitial();
+      });
     }
 
-    if (hooks) {
-      hooks.done.tap('clean-webpack-plugin', (stats) => {
-        this.handleDone(stats);
-      });
-    } else {
-      compiler.plugin('done', (stats) => {
-        this.handleDone(stats);
-      });
-    }
+    hooks.done.tap('clean-webpack-plugin', (stats) => {
+      this.handleDone(stats);
+    });
   }
 
   /**
@@ -258,13 +174,10 @@ class CleanWebpackPlugin {
      * Fetch Webpack's output asset files
      */
     const statsAssets =
-      stats.toJson(
-        {
-          all: false,
-          assets: true,
-        },
-        true,
-      ).assets || [];
+      stats.toJson({
+        all: false,
+        assets: true,
+      }).assets || [];
     const assets = statsAssets.map((asset: {name: string}) => {
       return asset.name;
     });
@@ -275,9 +188,7 @@ class CleanWebpackPlugin {
      * (relies on del's cwd: outputPath option)
      */
     const staleFiles = this.currentAssets.filter((previousAsset) => {
-      const assetCurrent = assets.includes(previousAsset) === false;
-
-      return assetCurrent;
+      return assets.includes(previousAsset) === false;
     });
 
     /**
@@ -294,13 +205,6 @@ class CleanWebpackPlugin {
       removePatterns.push(...staleFiles);
     }
 
-    /**
-     * Remove cleanAfterEveryBuildPatterns
-     */
-    if (this.cleanAfterEveryBuildPatterns.length !== 0) {
-      removePatterns.push(...this.cleanAfterEveryBuildPatterns);
-    }
-
     if (removePatterns.length !== 0) {
       this.removeFiles(removePatterns);
     }
@@ -309,10 +213,10 @@ class CleanWebpackPlugin {
   removeFiles(patterns: string[]): void {
     try {
       const deleted = delSync(patterns, {
-        force: this.dangerouslyAllowCleanPatternsOutsideProject,
+        force: false,
         // Change context to build directory
         cwd: this.outputPath,
-        dryRun: this.dry,
+        dryRun: false,
         dot: true,
         ignore: this.protectWebpackAssets ? this.currentAssets : [],
       });
@@ -324,15 +228,13 @@ class CleanWebpackPlugin {
         deleted.forEach((file) => {
           const filename = path.relative(process.cwd(), file);
 
-          const message = this.dry ? 'dry' : 'removed';
-
           /**
            * Use console.warn over .log
            * https://github.com/webpack/webpack/issues/1904
            * https://github.com/johnagan/clean-webpack-plugin/issues/11
            */
           // eslint-disable-next-line no-console
-          console.warn(`clean-webpack-plugin: ${message} ${filename}`);
+          console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
     } catch (error) {
@@ -342,7 +244,7 @@ class CleanWebpackPlugin {
 
       if (needsForce) {
         const message =
-          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the `dangerouslyAllowCleanPatternsOutsideProject` option.';
+          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the "dangerouslyAllowCleanPatternsOutsideProject" option.';
 
         throw new Error(message);
       }

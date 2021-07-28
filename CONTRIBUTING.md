@@ -1,6 +1,6 @@
 # Contributing to Docusaurus
 
-[Docusaurus](https://docusaurus.io) is our way to hopefully help to create open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/en/users.html), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
+[Docusaurus](https://docusaurus.io) is our way to hopefully help to create open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
@@ -15,10 +15,10 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
-- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
+- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
 - If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
-- Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
+- Read through the [Docusaurus docs](https://docusaurus.io/docs/installation). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
@@ -27,8 +27,8 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 If you only want to make content changes you just need to know about versioned docs.
 
-- `/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/en/next/installation.
-- `website-1.x/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/en/X.Y.Z/installation.
+- `website/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/next/installation.
+- `website/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/X.Y.Z/installation.
 
 To make a fix to the published versions you must edit the corresponding markdown file in both folders. If you only made changes in `docs`, be sure to be viewing the `next` version to see the updates (ensure there's `next` in the URL).
 
@@ -57,11 +57,7 @@ When a change made on GitHub is approved, it will be checked by our continuous i
 
 ### Branch Organization
 
-Docusaurus has two primary branches: `master` and `gh-pages`.
-
-`master` is where our code lives and development takes place. We will do our best to keep `master` in good shape, with tests passing at all times. We will also do our best not to publish updated `npm` packages that will break sites. But in order to move fast, we may make changes that could break existing sites. We will do our best to communicate these changes and version appropriately so you can lock into a specific Docusaurus version if need be.
-
-`gh-pages` contains the [Docusaurus documentation](https://docusaurus.io). This branch is pushed to by CI and not generally managed manually.
+Docusaurus has one primary branches `master` and we use feature branches with deploy previews to deliver new features with pull requests.
 
 ## Bugs
 

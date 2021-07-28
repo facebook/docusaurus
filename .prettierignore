@@ -6,9 +6,11 @@ coverage
 .docusaurus
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-!packages/docusaurus-1.x/lib/*
-packages/docusaurus-1.x/lib/core/metadata.js
-packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-*/lib-next/
-packages/docusaurus-init/templates/**/*.md
 __fixtures__
+
+website/i18n
+website/versions.json
+
+examples/**/package.json
+examples/**/sandbox.config.json

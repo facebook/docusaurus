@@ -34,7 +34,7 @@ files:
       translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%',
     },
     {
-      source: '/website-1.x/blog/**/*',
+      source: '/website/blog/**/*',
       translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%',
     },
     {

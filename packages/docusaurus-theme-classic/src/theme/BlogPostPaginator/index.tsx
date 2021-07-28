@@ -15,7 +15,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
 
   return (
     <nav
-      className="pagination-nav"
+      className="pagination-nav docusaurus-mt-lg"
       aria-label={translate({
         id: 'theme.blog.post.paginator.navAriaLabel',
         message: 'Blog post page navigation',
