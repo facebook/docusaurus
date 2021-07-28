@@ -145,12 +145,10 @@ function run() {
   rimraf.sync('./examples/classic');
   rimraf.sync('./examples/facebook');
   rimraf.sync('./examples/bootstrap');
-
-  console.log('');
-  console.log('-------');
   console.log('');
 
   // get the list of all available templates
+  console.log('-------');
   console.log('## Generate example folders...');
   console.log('');
   const data = readdirSync('./packages/docusaurus-init/templates');
@@ -159,11 +157,12 @@ function run() {
   console.log('Commiting changes');
   execSync('git add examples');
   execSync("git commit -am 'update examples'");
-
   console.log('');
+
+  // update starters
   console.log('-------');
   console.log('# Updating starter repos and branches ...');
-  console.log('It can take some time... please wait until done');
+  console.log('It can take some time... please wait until done...');
   updateStarters();
 
   console.log('');
