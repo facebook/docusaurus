@@ -7,7 +7,7 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const rimraf = require('rimraf');
-const {readFileSync, writeFileSync, readdir} = require('fs');
+const {readFileSync, writeFileSync, readdirSync} = require('fs');
 const {execSync} = require('child_process');
 
 // Generate one example per init template
@@ -91,11 +91,6 @@ function generateTemplateExample(template) {
   }
 }
 
-// delete the examples directories if they exists
-rimraf.sync('./examples/classic');
-rimraf.sync('./examples/facebook');
-rimraf.sync('./examples/bootstrap');
-
 /*
 Starters are repositories/branches that only contains a newly initialized Docusaurus site
 Those are useful for users to inspect (may be more convenient than "examples/classic)
@@ -132,22 +127,60 @@ function updateStarters() {
   console.log('End of starters updates');
 }
 
-// get the list of all available templates
-readdir('./packages/docusaurus-init/templates', (err, data) => {
+function run() {
+  const branch = execSync('git rev-parse --abbrev-ref HEAD').toString();
+  if (branch === 'master') {
+    throw new Error(
+      "Please don't generate Docusaurus examples from the master branch!\nWe are going to commit during this process!",
+    );
+  }
+  try {
+    execSync('git diff --exit-code');
+  } catch (e) {
+    throw new Error(
+      'Please run the generate examples command with a clean Git state and no uncommited local changes. git diff should display nothing!',
+    );
+  }
+
   console.log('');
   console.log('Generate examples start!');
   console.log('');
   console.log('-------');
   console.log('');
-  const templates = data.filter((i) => i !== 'README.MD');
-  templates.forEach(generateTemplateExample);
+
+  // delete the examples directories if they exists
+  console.log('Removing example folders!');
+  console.log('');
+  rimraf.sync('./examples/classic');
+  rimraf.sync('./examples/facebook');
+  rimraf.sync('./examples/bootstrap');
+
   console.log('');
   console.log('-------');
   console.log('');
+
+  // get the list of all available templates
+  console.log('Generate examples start!');
+  console.log('');
+  console.log('-------');
+  console.log('');
+  const data = readdirSync('./packages/docusaurus-init/templates');
+  const templates = data.filter((i) => i !== 'README.MD');
+  templates.forEach(generateTemplateExample);
+  execSync('git add examples');
+  execSync("git commit -am 'update examples'");
+
+  console.log('');
+  console.log('-------');
+  console.log('');
+
   updateStarters();
+
   console.log('');
   console.log('-------');
   console.log('');
   console.log('Generate examples end!');
   console.log('');
-});
+}
+
+run();
