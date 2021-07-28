@@ -42,11 +42,13 @@ program
   .command('init [siteName] [template] [rootDir]')
   .option('--use-npm')
   .option('--skip-install')
+  .option('--typescript')
   .description('Initialize website.')
   .action((siteName, template, rootDir = '.', {useNpm, skipInstall}) => {
     wrapCommand(init)(path.resolve(rootDir), siteName, template, {
       useNpm,
       skipInstall,
+      typescript,
     });
   });
 
