@@ -1,7 +1,1 @@
----
-title: Markdown page example
----
-
-# Markdown page example
-
-You don't need React to write simple standalone pages.
+/Users/joshcena/Desktop/work/Tech/projects/docusaurus/packages/docusaurus-init/templates/classic/src/pages/markdown-page.md
