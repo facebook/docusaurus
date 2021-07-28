@@ -44,13 +44,15 @@ program
   .option('--skip-install')
   .option('--typescript')
   .description('Initialize website.')
-  .action((siteName, template, rootDir = '.', {useNpm, skipInstall}) => {
-    wrapCommand(init)(path.resolve(rootDir), siteName, template, {
-      useNpm,
-      skipInstall,
-      typescript,
-    });
-  });
+  .action(
+    (siteName, template, rootDir = '.', {useNpm, skipInstall, typescript}) => {
+      wrapCommand(init)(path.resolve(rootDir), siteName, template, {
+        useNpm,
+        skipInstall,
+        typescript,
+      });
+    },
+  );
 
 program.arguments('<command>').action((cmd) => {
   program.outputHelp();
