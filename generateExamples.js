@@ -99,10 +99,6 @@ See https://github.com/jamstack/jamstack.org/pull/609
 Button visible here: https://jamstack.org/generators/
  */
 function updateStarters() {
-  console.log('Will update starter repositories / branches');
-  console.log('It can take some time... please wait until done');
-  console.log('');
-
   execSync(
     'git subtree push --prefix examples/classic --squash origin starter',
   );
@@ -122,9 +118,6 @@ function updateStarters() {
       'could not update https://github.com/slorber/docusaurus-starter , ask permission to @slorber if needed',
     );
   }
-
-  console.log('');
-  console.log('End of starters updates');
 }
 
 function run() {
@@ -143,14 +136,12 @@ function run() {
   }
 
   console.log('');
-  console.log('Generate examples start!');
-  console.log('');
-  console.log('-------');
+  console.log('# Generate examples start!');
   console.log('');
 
   // delete the examples directories if they exists
-  console.log('Removing example folders!');
-  console.log('');
+  console.log('-------');
+  console.log('## Removing example folders...');
   rimraf.sync('./examples/classic');
   rimraf.sync('./examples/facebook');
   rimraf.sync('./examples/bootstrap');
@@ -160,20 +151,19 @@ function run() {
   console.log('');
 
   // get the list of all available templates
-  console.log('Generate examples start!');
-  console.log('');
-  console.log('-------');
+  console.log('## Generate example folders...');
   console.log('');
   const data = readdirSync('./packages/docusaurus-init/templates');
   const templates = data.filter((i) => i !== 'README.MD');
   templates.forEach(generateTemplateExample);
+  console.log('Commiting changes');
   execSync('git add examples');
   execSync("git commit -am 'update examples'");
 
   console.log('');
   console.log('-------');
-  console.log('');
-
+  console.log('# Updating starter repos and branches ...');
+  console.log('It can take some time... please wait until done');
   updateStarters();
 
   console.log('');
