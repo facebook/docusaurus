@@ -64,7 +64,11 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.forbidden().messages({
     'any.unknown': 'Nested dropdowns are not allowed',
   }),
-}).xor('href', 'to');
+})
+  .xor('href', 'to')
+  .messages({
+    'object.xor': 'One and only one between "to" and "href" should be provided',
+  });
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
@@ -79,7 +83,6 @@ const DocItemSchema = NavbarItemBaseSchema.append({
   activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
-// Can this be made easier? :/
 const itemWithType = (type) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
@@ -180,7 +183,7 @@ const NavbarItemSchema = Joi.object({
       then: Joi.object().when({
         // Dropdown item can be specified without type field
         is: Joi.object({
-          items: Joi.array().items(DropdownSubitemSchema).required(),
+          items: Joi.array().required(),
         }).unknown(),
         then: DropdownNavbarItemSchema,
         otherwise: DefaultNavbarItemSchema,
