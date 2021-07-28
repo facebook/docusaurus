@@ -5,5 +5,5 @@
   },
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "include": ["src/"],
-  "exclude": ["templates/"],
+  "exclude": ["templates/"]
 }
