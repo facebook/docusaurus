@@ -57,12 +57,8 @@ export default async function init(
         !d.startsWith('README') &&
         !d.endsWith('-typescript'),
     );
-  const hasTS = Object.fromEntries(
-    templates.map((name) => [
-      name,
-      fs.pathExistsSync(path.resolve(templatesDir, `${name}-typescript`)),
-    ]),
-  );
+  const hasTS = (name: string) =>
+    fs.pathExistsSync(path.resolve(templatesDir, `${name}-typescript`));
 
   function makeNameAndValueChoice(value: string): Choice {
     return {title: value, value} as Choice;
@@ -139,7 +135,7 @@ export default async function init(
   } else if (template && templates.includes(template)) {
     // Docusaurus templates.
     if (cliOptions.typescript) {
-      if (!hasTS[template]) {
+      if (!hasTS(template)) {
         throw new Error(
           `Template ${template} doesn't provide the Typescript variant.`,
         );
