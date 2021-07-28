@@ -75,7 +75,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         ['en']
       : isI18nStaging
       ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-        ['en', 'ja']
+        ['en', 'ja', 'pt-BR']
       : // Production locales
         ['en', 'fr', 'ko', 'zh-CN'],
   },
