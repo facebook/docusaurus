@@ -174,7 +174,7 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-beta.0 --exact
+yarn lerna publish --exact 2.0.0-beta.0
 ```
 
 This command does a few things:
