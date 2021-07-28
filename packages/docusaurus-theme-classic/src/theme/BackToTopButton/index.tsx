@@ -26,19 +26,29 @@ function smoothScrollToTop() {
 function BackToTopButton(): JSX.Element {
   const [show, setShow] = useState(false);
 
-  useScrollPosition(({scrollY: scrollTop}, {scrollY: lastScrollTop}) => {
+  useScrollPosition(({scrollY: scrollTop}, lastPosition) => {
+    // No lastPosition means component is just being mounted.
+    // Not really a scroll event from the user, so we ignore it
+    if (!lastPosition) {
+      return;
+    }
+    const lastScrollTop = lastPosition.scrollY;
+
     if (scrollTop < threshold) {
       setShow(false);
       return;
     }
 
-    const documentHeight = document.documentElement.scrollHeight;
-    const windowHeight = window.innerHeight;
+    const isScrollingUp = scrollTop < lastScrollTop;
 
-    if (lastScrollTop && scrollTop >= lastScrollTop) {
+    if (isScrollingUp) {
+      const documentHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      if (scrollTop + windowHeight < documentHeight) {
+        setShow(true);
+      }
+    } else {
       setShow(false);
-    } else if (scrollTop + windowHeight < documentHeight) {
-      setShow(true);
     }
   }, []);
 
