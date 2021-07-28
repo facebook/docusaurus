@@ -44,22 +44,33 @@ export default async function init(
   cliOptions: Partial<{
     useNpm: boolean;
     skipInstall: boolean;
+    typescript: boolean;
   }> = {},
 ): Promise<void> {
   const useYarn = !cliOptions.useNpm ? hasYarn() : false;
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = fs
     .readdirSync(templatesDir)
-    .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
+    .filter(
+      (d) =>
+        !d.startsWith('.') &&
+        !d.startsWith('README') &&
+        !d.endsWith('-typescript'),
+    );
+  const hasTS = Object.fromEntries(
+    templates.map((name) => [
+      name,
+      fs.pathExistsSync(path.resolve(templatesDir, `${name}-typescript`)),
+    ]),
+  );
 
   function makeNameAndValueChoice(value: string): Choice {
     return {title: value, value} as Choice;
   }
 
-  const gitChoice = makeNameAndValueChoice('Git repository');
   const templateChoices = [
     ...templates.map((template) => makeNameAndValueChoice(template)),
-    gitChoice,
+    makeNameAndValueChoice('Git repository'),
   ];
 
   let name = siteName;
@@ -93,7 +104,7 @@ export default async function init(
       message: 'Select a template below...',
       choices: templateChoices,
     });
-    template = templatePrompt.template as string;
+    template = templatePrompt.template;
   }
 
   // If user choose Git repository, we'll prompt for the url.
@@ -110,7 +121,7 @@ export default async function init(
       message:
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
     });
-    template = repoPrompt.gitRepoUrl as string;
+    template = repoPrompt.gitRepoUrl;
   }
 
   console.log();
@@ -127,6 +138,14 @@ export default async function init(
     }
   } else if (template && templates.includes(template)) {
     // Docusaurus templates.
+    if (cliOptions.typescript) {
+      if (!hasTS[template]) {
+        throw new Error(
+          `Template ${template} doesn't provide the Typescript variant.`,
+        );
+      }
+      template = `${template}-typescript`;
+    }
     try {
       await fs.copy(path.resolve(templatesDir, template), dest);
     } catch (err) {
@@ -202,5 +221,6 @@ We recommend that you begin by typing:
   ${chalk.cyan('cd')} ${cdpath}
   ${chalk.cyan(`${pkgManager} start`)}
 
-Happy building awesome websites!`);
+Happy building awesome websites!
+`);
 }
