@@ -285,7 +285,8 @@ type SidebarItemCategory = {
   items: SidebarItem[]; // Array of sidebar items.
 
   // Category options:
-  collapsed: boolean; // Set the category to be collapsed or open by default
+  collapsible: boolean; // Set the category to be collapsible
+  collapsed: boolean; // Set the category to be initially collapsed or open by default
 };
 ```
 
@@ -297,6 +298,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Guides',
+      collapsible: true,
       collapsed: false,
       items: [
         'creating-pages',
@@ -332,15 +334,25 @@ module.exports = {
 
 #### Collapsible categories {#collapsible-categories}
 
-For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
+By default, categories are collapsible and collapsed.
+
+The docs plugin options allow to change these defaults globally:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  themeConfig: {
-    // highlight-start
-    sidebarCollapsible: false,
-    // highlight-end
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          sidebarCollapsible: true,
+          sidebarCollapsed: false,
+          // highlight-end
+        },
+      },
+    ],
+  ],
 };
 ```
 
@@ -356,6 +368,7 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
+        collapsible: true,
         collapsed: false,
         items: ['markdown-features', 'sidebar', 'versioning'],
       },
@@ -465,6 +478,7 @@ This is the easy tutorial!
 ```yaml title="docs/tutorials/_category_.yml"
 label: 'Tutorial'
 position: 2.5 # float position is supported
+collapsible: true # make the category collapsible
 collapsed: false # keep the category open by default
 ```
 

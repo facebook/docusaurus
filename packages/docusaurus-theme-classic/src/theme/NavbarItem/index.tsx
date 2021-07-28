@@ -43,18 +43,23 @@ const getNavbarItemComponent = (type: NavbarItemComponentType) => {
   return navbarItemComponentFn();
 };
 
-function getComponentType({type, ...props}: Props): NavbarItemComponentType {
+function getComponentType(
+  type: Types,
+  isDropdown: boolean,
+): NavbarItemComponentType {
   // Backward compatibility: navbar item with no type set
   // but containing dropdown items should use the type "dropdown"
   if (!type || type === 'default') {
-    const isDropdown = (props as DropdownNavbarItemProps).items !== undefined;
     return isDropdown ? 'dropdown' : 'default';
   }
   return type as NavbarItemComponentType;
 }
 
-export default function NavbarItem(props: Props): JSX.Element {
-  const componentType = getComponentType(props);
+export default function NavbarItem({type, ...props}: Props): JSX.Element {
+  const componentType = getComponentType(
+    type,
+    (props as DropdownNavbarItemProps).items !== undefined,
+  );
   const NavbarItemComponent = getNavbarItemComponent(componentType);
   return <NavbarItemComponent {...props} />;
 }

@@ -164,7 +164,12 @@ type CollapsibleBaseProps = {
   collapsed: boolean;
   children: ReactNode;
   animation?: CollapsibleAnimationConfig;
+  onCollapseTransitionEnd?: (collapsed: boolean) => void;
   className?: string;
+
+  // This is mostly useful for details/summary component where ssrStyle is not needed (as details are hidden natively)
+  // and can mess-up with the default native behavior of the browser when JS fails to load or is disabled
+  disableSSRStyle?: boolean;
 };
 
 function CollapsibleBase({
@@ -172,7 +177,9 @@ function CollapsibleBase({
   collapsed,
   children,
   animation,
+  onCollapseTransitionEnd,
   className,
+  disableSSRStyle,
 }: CollapsibleBaseProps) {
   // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
   const collapsibleRef = useRef<any>(null);
@@ -183,7 +190,7 @@ function CollapsibleBase({
     <As
       // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
       ref={collapsibleRef}
-      style={getSSRStyle(collapsed)}
+      style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e) => {
         if (e.propertyName !== 'height') {
           return;
@@ -197,10 +204,12 @@ function CollapsibleBase({
           parseInt(currentCollapsibleElementHeight, 10) === el.scrollHeight
         ) {
           applyCollapsedStyle(el, false);
+          onCollapseTransitionEnd?.(false);
         }
 
         if (currentCollapsibleElementHeight === CollapsedStyles.height) {
           applyCollapsedStyle(el, true);
+          onCollapseTransitionEnd?.(true);
         }
       }}
       className={className}>
@@ -239,7 +248,7 @@ type CollapsibleProps = CollapsibleBaseProps & {
   lazy: boolean;
 };
 
-export function Collapsible({lazy, ...props}: CollapsibleProps) {
+export function Collapsible({lazy, ...props}: CollapsibleProps): JSX.Element {
   const Comp = lazy ? CollapsibleLazy : CollapsibleBase;
   return <Comp {...props} />;
 }

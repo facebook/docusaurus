@@ -18,7 +18,7 @@ import {
   reportMessage,
   posixPath,
   addTrailingPathSeparator,
-  createMatcher,
+  createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
@@ -100,20 +100,14 @@ export default function pluginContentDocs(
           cliDocsVersionCommand(version, siteDir, pluginId, {
             path: options.path,
             sidebarPath: options.sidebarPath,
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
           });
         });
     },
 
     async getTranslationFiles({content}) {
       return getLoadedContentTranslationFiles(content);
-    },
-
-    getClientModules() {
-      const modules = [];
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-      return modules;
     },
 
     getPathsToWatch() {
@@ -168,6 +162,10 @@ export default function pluginContentDocs(
       ): Promise<LoadedVersion> {
         const unprocessedSidebars = loadSidebars(
           versionMetadata.sidebarFilePath,
+          {
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
+          },
         );
 
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
@@ -184,6 +182,10 @@ export default function pluginContentDocs(
           unprocessedSidebars,
           docs: docsBase,
           version: versionMetadata,
+          options: {
+            sidebarCollapsed: options.sidebarCollapsed,
+            sidebarCollapsible: options.sidebarCollapsible,
+          },
         });
 
         const sidebarsUtils = createSidebarsUtils(sidebars);
@@ -394,9 +396,10 @@ export default function pluginContentDocs(
       };
 
       function createMDXLoaderRule(): RuleSetRule {
+        const contentDirs = flatten(versionsMetadata.map(getDocsDirPaths));
         return {
           test: /(\.mdx?)$/,
-          include: flatten(versionsMetadata.map(getDocsDirPaths))
+          include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
           use: compact([
@@ -409,7 +412,10 @@ export default function pluginContentDocs(
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
                 staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                isMDXPartial: createMatcher(options.exclude),
+                isMDXPartial: createAbsoluteFilePathMatcher(
+                  options.exclude,
+                  contentDirs,
+                ),
                 metadataPath: (mdxPath: string) => {
                   // Note that metadataPath must be the same/in-sync as
                   // the path from createData for each MDX.

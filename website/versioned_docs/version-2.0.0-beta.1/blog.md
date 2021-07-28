@@ -222,4 +222,4 @@ module.exports = {
 };
 ```
 
-As an example, we host a second blog [here](/second-blog).
+As an example, we host a second blog [here](/tests/blog).

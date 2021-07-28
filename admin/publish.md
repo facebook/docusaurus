@@ -197,7 +197,7 @@ Now that the release is done, **merge the pull request**.
 
 ### 8. Update example projects (optional but desirable)
 
-After a release, update the examples to keep them in sync with the latest release. This will ensure that CodeSandbox playground is able to use the new version at [new.docusaurus.io](https://new.docusaurus.io).
+After a release, update the examples to keep them in sync with the latest release. This will ensure that playgrounds are able to use the new version at [docusaurus.new](https://docusaurus.new).
 
 Create a separate branch/PR and run `yarn examples:generate`
 

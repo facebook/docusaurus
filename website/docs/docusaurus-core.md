@@ -60,6 +60,8 @@ This component enables linking to internal pages as well as a powerful performan
 
 The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
 
+External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
+
 ```jsx {2,7}
 import React from 'react';
 import Link from '@docusaurus/Link';
@@ -70,8 +72,7 @@ const Page = () => (
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
-      {/* Note that external links still use `a` tags, but automatically opens in new tab. */}
-      Follow me on <a href="https://twitter.com/docusaurus">Twitter</a>!
+      Follow me on <Link to="https://twitter.com/docusaurus">Twitter</Link>!
     </p>
   </div>
 );

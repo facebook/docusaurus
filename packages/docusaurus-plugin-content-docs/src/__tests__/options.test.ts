@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {OptionsSchema, DEFAULT_OPTIONS} from '../options';
+import {OptionsSchema, DEFAULT_OPTIONS, validateOptions} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 import {
@@ -13,10 +13,21 @@ import {
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
 import {GlobExcludeDefault} from '@docusaurus/utils';
+import {PluginOptions} from '../types';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
+
+function testValidateOptions(options: Partial<PluginOptions>) {
+  return validateOptions({
+    options: {
+      ...DEFAULT_OPTIONS,
+      ...options,
+    },
+    validate: normalizePluginOptions,
+  });
+}
 
 describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
@@ -58,6 +69,8 @@ describe('normalizeDocsPluginOptions', () => {
           label: 'world',
         },
       },
+      sidebarCollapsible: false,
+      sidebarCollapsed: false,
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
@@ -229,5 +242,31 @@ describe('normalizeDocsPluginOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `"\\"versions.current.hey\\" is not allowed"`,
     );
+  });
+
+  test('should handle sidebarCollapsed option inconsistencies', () => {
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: true,
+        sidebarCollapsed: undefined,
+      }).sidebarCollapsed,
+    ).toEqual(true);
+
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: false,
+        sidebarCollapsed: undefined,
+      }).sidebarCollapsed,
+    ).toEqual(false);
+
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: false,
+        sidebarCollapsed: true,
+      }).sidebarCollapsed,
+    ).toEqual(false);
   });
 });

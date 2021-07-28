@@ -7,6 +7,7 @@
 
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
+const chalk = require('chalk');
 const emoji = require('remark-emoji');
 const {
   parseFrontMatter,
@@ -69,8 +70,8 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     ],
     filepath: filePath,
   };
-  let result;
 
+  let result;
   try {
     result = await mdx(content, options);
   } catch (err) {
@@ -90,9 +91,19 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     : false;
 
   if (isMDXPartial && hasFrontMatter) {
-    return callback(
-      new Error(`MDX partial should not contain FrontMatter: ${filePath}`),
-    );
+    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+Those partial files use the _ prefix as a convention by default, but this is configurable.
+File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringify(
+      frontMatter,
+      null,
+      2,
+    )}`;
+    const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
+    if (shouldError) {
+      return callback(new Error(errorMessage));
+    } else {
+      console.warn(chalk.yellow(errorMessage));
+    }
   }
 
   if (!isMDXPartial) {

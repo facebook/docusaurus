@@ -59,9 +59,6 @@ function DocItem(props: Props): JSX.Element {
   const canRenderTOC =
     !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
 
-  const renderTocMobile =
-    canRenderTOC && (windowSize === 'mobile' || windowSize === 'ssr');
-
   const renderTocDesktop =
     canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
 
@@ -83,7 +80,7 @@ function DocItem(props: Props): JSX.Element {
                 </span>
               )}
 
-              {renderTocMobile && (
+              {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
                   className={styles.tocMobile}

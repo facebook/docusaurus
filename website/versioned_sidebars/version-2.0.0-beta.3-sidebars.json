@@ -19,6 +19,10 @@
         },
         {
           "type": "doc",
+          "id": "version-2.0.0-beta.3/playground"
+        },
+        {
+          "type": "doc",
           "id": "version-2.0.0-beta.3/typescript-support"
         }
       ]

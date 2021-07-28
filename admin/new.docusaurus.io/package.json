@@ -1,0 +1,14 @@
+{
+  "name": "new.docusaurus.io",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "@netlify/functions": "^0.7.2"
+  },
+  "devDependencies": {
+    "netlify-cli": "^5.2.2"
+  }
+}

@@ -74,7 +74,7 @@ function DefaultNavbarItemDesktop({
   isDropdownItem = false,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  return (
+  const element = (
     <NavLink
       className={clsx(
         isDropdownItem ? 'dropdown__link' : 'navbar__item navbar__link',
@@ -83,6 +83,12 @@ function DefaultNavbarItemDesktop({
       {...props}
     />
   );
+
+  if (isDropdownItem) {
+    return <li>{element}</li>;
+  }
+
+  return element;
 }
 
 function DefaultNavbarItemMobile({
@@ -97,7 +103,11 @@ function DefaultNavbarItemMobile({
   );
 }
 
-function DefaultNavbarItem({mobile = false, ...props}: Props): JSX.Element {
+function DefaultNavbarItem({
+  mobile = false,
+  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  ...props
+}: Props): JSX.Element {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
   return <Comp {...props} />;
 }

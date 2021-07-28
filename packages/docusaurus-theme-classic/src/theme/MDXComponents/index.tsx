@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {isValidElement} from 'react';
+import React, {ComponentProps, isValidElement, ReactElement} from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock, {Props} from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
+import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
 const MDXComponents: MDXComponentsObject = {
@@ -42,6 +43,20 @@ const MDXComponents: MDXComponentsObject = {
           ? children?.props
           : {...props}) as Props)}
       />
+    );
+  },
+  details: (props): JSX.Element => {
+    const items = React.Children.toArray(props.children);
+    // Split summary item from the rest to pass it as a separate prop to the Detais theme component
+    const summary: ReactElement<
+      ComponentProps<'summary'>
+    > = (items as any[]).find((item) => item?.props?.mdxType === 'summary');
+    const children = <>{items.filter((item) => item !== summary)}</>;
+
+    return (
+      <Details {...props} summary={summary}>
+        {children}
+      </Details>
     );
   },
   h1: Heading('h1'),
