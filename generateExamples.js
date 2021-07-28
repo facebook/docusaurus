@@ -105,6 +105,8 @@ Button visible here: https://jamstack.org/generators/
  */
 function updateStarters() {
   console.log('Will update starter repositories / branches');
+  console.log('It can take some time... please wait until done');
+  console.log('');
 
   execSync(
     'git subtree push --prefix examples/classic --squash origin starter',
@@ -125,11 +127,27 @@ function updateStarters() {
       'could not update https://github.com/slorber/docusaurus-starter , ask permission to @slorber if needed',
     );
   }
+
+  console.log('');
+  console.log('End of starters updates');
 }
 
 // get the list of all available templates
 readdir('./packages/docusaurus-init/templates', (err, data) => {
+  console.log('');
+  console.log('Generate examples start!');
+  console.log('');
+  console.log('-------');
+  console.log('');
   const templates = data.filter((i) => i !== 'README.MD');
   templates.forEach(generateTemplateExample);
+  console.log('');
+  console.log('-------');
+  console.log('');
   updateStarters();
+  console.log('');
+  console.log('-------');
+  console.log('');
+  console.log('Generate examples end!');
+  console.log('');
 });
