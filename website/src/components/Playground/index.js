@@ -15,7 +15,7 @@ const Playgrounds = [
   {
     name: '📦 CodeSandbox',
     image: require('@site/static/img/playgrounds/codesandbox.png'),
-    url: 'https://new.docusaurus.io/codesandbox',
+    url: 'https://docusaurus.new/codesandbox',
     description: (
       <Translate id="playground.codesandbox.description">
         CodeSandbox is a popular playground solution. Runs Docusaurus in a
@@ -26,7 +26,7 @@ const Playgrounds = [
   {
     name: '⚡ StackBlitz 🆕',
     image: require('@site/static/img/playgrounds/stackblitz.png'),
-    url: 'https://new.docusaurus.io/stackblitz',
+    url: 'https://docusaurus.new/stackblitz',
     description: (
       <Translate
         id="playground.stackblitz.description"

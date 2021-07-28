@@ -29,7 +29,7 @@ Docusaurus is a project for building, deploying, and maintaining open source pro
 
 No time? Check our [5 minutes tutorial ⏱️](https://tutorial.docusaurus.io).
 
-**Tip**: use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in CodeSandbox.
+**Tip**: use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in a playground.
 
 - **Simple to Start**
 

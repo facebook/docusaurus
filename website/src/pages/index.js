@@ -109,9 +109,7 @@ function Home() {
               <Link className="button button--primary" to="/docs">
                 <Translate>Get Started</Translate>
               </Link>
-              <Link
-                className="button button--info"
-                to="https://new.docusaurus.io">
+              <Link className="button button--info" to="https://docusaurus.new">
                 <Translate>Playground</Translate>
               </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
