@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
@@ -13,17 +13,60 @@ import styles from './styles.module.css';
 
 const threshold = 300;
 
-function smoothScrollToTop() {
-  const currentScroll = document.documentElement.scrollTop;
+// Not all have support for smooth scrolling (particularly Safari mobile iOS)
+const SupportsNativeSmoothScrolling =
+  'scrollBehavior' in document.documentElement.style;
 
-  if (currentScroll > 0) {
-    requestAnimationFrame(smoothScrollToTop);
+type CancelScrollTop = () => void;
 
-    window.scrollTo(0, Math.floor(currentScroll * 0.85));
+function smoothScrollTopNative(): CancelScrollTop {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  return () => {
+    // Nothing to cancel, it's natively cancelled if user tries to scroll down
+  };
+}
+
+function smoothScrollTopPolyfill(): CancelScrollTop {
+  let raf: number | null = null;
+  function rafRecursion() {
+    const currentScroll = document.documentElement.scrollTop;
+    if (currentScroll > 0) {
+      raf = requestAnimationFrame(rafRecursion);
+      window.scrollTo(0, Math.floor(currentScroll * 0.85));
+    }
   }
+  rafRecursion();
+
+  return () => {
+    // Break the recursion
+    // Prevents the user from "fighting" against that recursion producing a weird UX
+    raf && cancelAnimationFrame(raf);
+  };
+}
+
+type UseSmoothScrollTopReturn = {
+  // We use a cancel function because the non-native smooth scroll-top implementation must be interrupted if user scroll down
+  smoothScrollTop: () => void;
+  cancelScrollToTop: CancelScrollTop;
+};
+
+function useSmoothScrollToTop(): UseSmoothScrollTopReturn {
+  const lastCancelRef = useRef<CancelScrollTop | null>(null);
+
+  function smoothScrollTop(): void {
+    lastCancelRef.current = SupportsNativeSmoothScrolling
+      ? smoothScrollTopNative()
+      : smoothScrollTopPolyfill();
+  }
+
+  return {
+    smoothScrollTop,
+    cancelScrollToTop: () => lastCancelRef.current?.(),
+  };
 }
 
 function BackToTopButton(): JSX.Element {
+  const {smoothScrollTop, cancelScrollToTop} = useSmoothScrollToTop();
   const [show, setShow] = useState(false);
 
   useScrollPosition(({scrollY: scrollTop}, lastPosition) => {
@@ -34,12 +77,16 @@ function BackToTopButton(): JSX.Element {
     }
     const lastScrollTop = lastPosition.scrollY;
 
+    const isScrollingUp = scrollTop < lastScrollTop;
+
+    if (!isScrollingUp) {
+      cancelScrollToTop();
+    }
+
     if (scrollTop < threshold) {
       setShow(false);
       return;
     }
-
-    const isScrollingUp = scrollTop < lastScrollTop;
 
     if (isScrollingUp) {
       const documentHeight = document.documentElement.scrollHeight;
@@ -59,7 +106,7 @@ function BackToTopButton(): JSX.Element {
       })}
       type="button"
       title="Scroll to top"
-      onClick={() => smoothScrollToTop()}>
+      onClick={() => smoothScrollTop()}>
       <svg viewBox="0 0 24 24" width="28">
         <path
           d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
