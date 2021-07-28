@@ -180,6 +180,7 @@ function run() {
   console.log('-------');
   console.log('');
   console.log('Generate examples end!');
+  console.log("Don't forget to push and merge your pull-request!");
   console.log('');
 }
 
