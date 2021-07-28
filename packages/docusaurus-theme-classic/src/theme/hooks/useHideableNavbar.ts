@@ -23,7 +23,9 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   }, []);
 
   useScrollPosition(
-    ({scrollY: scrollTop}, {scrollY: lastScrollTop}) => {
+    (currentPosition, lastPosition) => {
+      const scrollTop = currentPosition.scrollY;
+      const lastScrollTop = lastPosition?.scrollY;
       if (!hideOnScroll) {
         return;
       }
