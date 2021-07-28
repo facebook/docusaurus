@@ -1240,7 +1240,7 @@ const Users = [
     preview: require('./showcase/verdaccio.png'),
     website: 'https://verdaccio.org',
     source: 'https://github.com/verdaccio/verdaccio',
-    tags: ['opensource', 'large', 'i18n', 'design' ]
+    tags: ['favorite', 'opensource', 'large', 'i18n', 'design' ]
   }
 ];
 
