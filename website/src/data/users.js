@@ -1233,6 +1233,14 @@ const Users = [
     website: 'https://quickwit.io',
     source: 'https://github.com/quickwit-inc/quickwit',
     tags: ['favorite', 'opensource', 'design']
+  },
+  {
+    title: 'Verdaccio',
+    description: 'A lightweight open source private npm proxy registry',
+    preview: require('./showcase/verdaccio.png'),
+    website: 'https://verdaccio.org',
+    source: 'https://github.com/verdaccio/verdaccio',
+    tags: ['favorite', 'opensource', 'large', 'i18n', 'design' ]
   }
 ];
 
