@@ -92,6 +92,7 @@ export default async function init(
   }
 
   let template = reqTemplate;
+  let useTS = cliOptions.typescript;
   // Prompt if template is not provided from CLI.
   if (!template) {
     const templatePrompt = await prompts({
@@ -101,6 +102,16 @@ export default async function init(
       choices: templateChoices,
     });
     template = templatePrompt.template;
+    if (template && !useTS && hasTS(template)) {
+      const tsPrompt = await prompts({
+        type: 'confirm',
+        name: 'useTS',
+        message:
+          'This template is available in TypeScript. Do you want to use the TS variant?',
+        initial: false,
+      });
+      useTS = tsPrompt.useTS;
+    }
   }
 
   // If user choose Git repository, we'll prompt for the url.
@@ -134,7 +145,7 @@ export default async function init(
     }
   } else if (template && templates.includes(template)) {
     // Docusaurus templates.
-    if (cliOptions.typescript) {
+    if (useTS) {
       if (!hasTS(template)) {
         throw new Error(
           `Template ${template} doesn't provide the Typescript variant.`,
@@ -143,7 +154,9 @@ export default async function init(
       template = `${template}-typescript`;
     }
     try {
-      await fs.copy(path.resolve(templatesDir, template), dest);
+      await fs.copy(path.resolve(templatesDir, template), dest, {
+        dereference: true,
+      });
     } catch (err) {
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
