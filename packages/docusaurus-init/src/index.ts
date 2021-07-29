@@ -197,7 +197,11 @@ export default async function init(
     console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
 
     try {
-      shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
+      shell.exec(
+        `cd "${name}" && ${
+          useYarn ? 'FORCE_COLOR=true yarn' : 'npm install --color always'
+        }`,
+      );
     } catch (err) {
       console.log(chalk.red('Installation failed.'));
       throw err;
