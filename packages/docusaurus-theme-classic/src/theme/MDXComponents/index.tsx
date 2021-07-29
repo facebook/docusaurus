@@ -22,7 +22,7 @@ const MDXComponents: MDXComponentsObject = {
       return children;
     }
 
-    return typeof children === 'string' && !children.includes('\n') ? (
+    return !children.includes('\n') ? (
       <code {...props} />
     ) : (
       <CodeBlock {...props} />

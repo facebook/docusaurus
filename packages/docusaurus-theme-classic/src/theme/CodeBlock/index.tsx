@@ -119,7 +119,9 @@ export default function CodeBlock({
   const prismTheme = usePrismTheme();
 
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
-  const content = Array.isArray(children) ? children.join('') : children;
+  const content = Array.isArray(children)
+    ? children.join('')
+    : (children as string);
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
