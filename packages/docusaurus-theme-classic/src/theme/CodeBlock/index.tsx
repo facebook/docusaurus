@@ -62,7 +62,7 @@ const getHighlightDirectiveRegex = (
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
 };
 // select comment styles based on language
-const highlightDirectiveRegex = (lang) => {
+const highlightDirectiveRegex = (lang: string) => {
   switch (lang) {
     case 'js':
     case 'javascript':
@@ -123,7 +123,6 @@ export default function CodeBlock({
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     // Tested above
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
@@ -145,7 +144,7 @@ export default function CodeBlock({
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
     const lines = content.replace(/\n$/, '').split('\n');
-    let blockStart;
+    let blockStart: number;
     // loop through lines
     for (let index = 0; index < lines.length; ) {
       const line = lines[index];
@@ -169,7 +168,7 @@ export default function CodeBlock({
             break;
 
           case 'highlight-end':
-            range += `${blockStart}-${lineNumber - 1},`;
+            range += `${blockStart!}-${lineNumber - 1},`;
             break;
 
           default:
