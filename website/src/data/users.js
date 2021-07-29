@@ -1241,6 +1241,14 @@ const Users = [
     website: 'https://verdaccio.org',
     source: 'https://github.com/verdaccio/verdaccio',
     tags: ['favorite', 'opensource', 'large', 'i18n', 'design' ]
+  },
+  {
+    title: 'Unmand',
+    description: 'A business automation platform that liberates users from repetitive tasks.',
+    preview: require('./showcase/unmand.png'),
+    website: 'https://unmand.com',
+    source: null,
+    tags: ['product', 'design']
   }
 ];
 
