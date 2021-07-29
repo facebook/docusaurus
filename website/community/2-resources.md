@@ -40,6 +40,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-plugin-react-docgen](https://github.com/atomicpages/docusaurus-plugin-react-docgen) - A Docusaurus v2 plugin for loading type annotations from `react-docgen`
 - [docusaurus-plugin-module-alias](https://github.com/atomicpages/docusaurus-plugin-module-alias) - A Docusaurus v2 plugin for quickly aliasing local modules
 - [docusaurus-protobuffet](https://github.com/protobuffet/docusaurus-protobuffet) - Docusaurus toolset for Protobuf contract documentation
+- [docusaurus-prince-pdf](https://github.com/signcl/docusaurus-prince-pdf) - Generate PDF with PrinceXML for better font subsetting and ToC features. Support Docusaurs v2 sites
 
 ## Enterprise usage {#enterprise-usage}
 
