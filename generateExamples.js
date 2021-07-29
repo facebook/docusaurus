@@ -152,7 +152,9 @@ function run() {
   console.log('## Generate example folders...');
   console.log('');
   const data = readdirSync('./packages/docusaurus-init/templates');
-  const templates = data.filter((i) => i !== 'README.MD');
+  const templates = data.filter(
+    (i) => i !== 'README.MD' && !i.endsWith('-typescript'),
+  );
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');
   execSync('git add examples');
