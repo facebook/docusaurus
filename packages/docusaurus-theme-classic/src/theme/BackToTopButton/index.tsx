@@ -10,14 +10,32 @@ import clsx from 'clsx';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 const threshold = 300;
 
-// Not all have support for smooth scrolling (particularly Safari mobile iOS)
-// TODO proper detection is currently unreliable!
-// see https://github.com/wessberg/scroll-behavior-polyfill/issues/16
-const SupportsNativeSmoothScrolling = false;
-// const SupportsNativeSmoothScrolling = ExecutionEnvironment.canUseDOM && 'scrollBehavior' in document.documentElement.style;
+// Not all have support for smooth scrolling (particularly Safari mobile iOS, Chrome on Windows...)
+// This test is not reliable: 'scrollBehavior' in document.documentElement.style;
+// See https://github.com/wessberg/scroll-behavior-polyfill/issues/16
+// We use another one found here: https://nolanlawson.com/2019/02/
+// https://github.com/nolanlawson/pinafore/blob/b05855f7caae483aaa0f317c3acc2ac878eb83bf/src/routes/_utils/smoothScroll.js
+function testSupportsSmoothScroll() {
+  let supports = false;
+  try {
+    const div = document.createElement('div');
+    div.scrollTo({
+      top: 0,
+      get behavior(): ScrollBehavior {
+        supports = true;
+        return 'smooth';
+      },
+    });
+  } catch (err) {} // Edge throws an error
+  return supports;
+}
+
+const SupportsNativeSmoothScrolling =
+  ExecutionEnvironment.canUseDOM && testSupportsSmoothScroll;
 
 type CancelScrollTop = () => void;
 
