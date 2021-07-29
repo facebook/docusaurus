@@ -30,10 +30,10 @@ const MDXComponents: MDXComponentsObject = {
   },
   a: (props) => <Link {...props} />,
   pre: (props) => {
-    const {children} = props as {children: any};
+    const {children} = props;
 
     // See comment for `code` above
-    if (isValidElement(children?.props?.children)) {
+    if (isValidElement(children) && isValidElement(children?.props?.children)) {
       return children?.props.children;
     }
 
@@ -46,11 +46,11 @@ const MDXComponents: MDXComponentsObject = {
     );
   },
   details: (props): JSX.Element => {
-    const items = React.Children.toArray(props.children);
+    const items = React.Children.toArray(props.children) as ReactElement[];
     // Split summary item from the rest to pass it as a separate prop to the Detais theme component
-    const summary: ReactElement<
-      ComponentProps<'summary'>
-    > = (items as any[]).find((item) => item?.props?.mdxType === 'summary');
+    const summary: ReactElement<ComponentProps<'summary'>> = items.find(
+      (item) => item?.props?.mdxType === 'summary',
+    )!;
     const children = <>{items.filter((item) => item !== summary)}</>;
 
     return (

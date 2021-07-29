@@ -65,8 +65,10 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
+  import {ReactElement} from 'react';
+
   export type Props = {
-    readonly children: string;
+    readonly children: string | ReactElement;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
