@@ -35,7 +35,7 @@ function testSupportsSmoothScroll() {
 }
 
 const SupportsNativeSmoothScrolling =
-  ExecutionEnvironment.canUseDOM && testSupportsSmoothScroll;
+  ExecutionEnvironment.canUseDOM && testSupportsSmoothScroll();
 
 type CancelScrollTop = () => void;
 
