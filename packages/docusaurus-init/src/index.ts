@@ -13,7 +13,7 @@ import path from 'path';
 import shell from 'shelljs';
 import {kebabCase} from 'lodash';
 
-function hasYarn(): boolean {
+function hasYarn() {
   try {
     execSync('yarnpkg --version', {stdio: 'ignore'});
     return true;
@@ -22,14 +22,11 @@ function hasYarn(): boolean {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl: string): boolean {
+function isValidGitRepoUrl(gitRepoUrl: string) {
   return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item));
 }
 
-async function updatePkg(
-  pkgPath: string,
-  obj: Record<string, unknown>,
-): Promise<void> {
+async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   const content = await fs.readFile(pkgPath, 'utf-8');
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
