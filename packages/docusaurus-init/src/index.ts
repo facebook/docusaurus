@@ -37,6 +37,8 @@ async function updatePkg(
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
 }
 
+const tsTemplateSuffix = '-typescript';
+
 export default async function init(
   rootDir: string,
   siteName?: string,
@@ -55,10 +57,10 @@ export default async function init(
       (d) =>
         !d.startsWith('.') &&
         !d.startsWith('README') &&
-        !d.endsWith('-typescript'),
+        !d.endsWith(tsTemplateSuffix),
     );
   const hasTS = (name: string) =>
-    fs.pathExistsSync(path.resolve(templatesDir, `${name}-typescript`));
+    fs.pathExistsSync(path.resolve(templatesDir, `${name}${tsTemplateSuffix}`));
 
   function makeNameAndValueChoice(value: string): Choice {
     return {title: value, value} as Choice;
@@ -151,7 +153,7 @@ export default async function init(
           `Template ${template} doesn't provide the Typescript variant.`,
         );
       }
-      template = `${template}-typescript`;
+      template = `${template}${tsTemplateSuffix}`;
     }
     try {
       await fs.copy(path.resolve(templatesDir, template), dest, {
