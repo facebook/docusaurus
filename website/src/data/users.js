@@ -315,6 +315,14 @@ const Users = [
     tags: ['opensource', 'i18n', 'large'],
   },
   {
+    title: 'Dart Code Metrics',
+    description: 'Static analysis tool that helps analyse and improve Dart code quality.',
+    preview: require('./showcase/dart-code-metrics.png'),
+    website: 'https://dartcodemetrics.dev/',
+    source: 'https://github.com/dart-code-checker/dart-code-metrics',
+    tags: ['opensource'],
+  },
+  {
     title: 'Datagit',
     description:
       'A persian tutorial website strive to make quality education for everyone.',
