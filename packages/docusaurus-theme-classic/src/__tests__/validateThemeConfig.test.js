@@ -134,6 +134,24 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // Dropdown with name
+          {
+            type: 'dropdown',
+            label: 'Tools',
+            position: 'left',
+            items: [
+              {
+                type: 'doc',
+                activeSidebarClassName: 'custom-class',
+                docId: 'npm',
+                label: 'NPM',
+              },
+              {
+                to: '/yarn',
+                label: 'Yarn',
+              },
+            ],
+          },
           // Doc version dropdown
           {
             type: 'docsVersionDropdown',
@@ -179,6 +197,112 @@ describe('themeConfig', () => {
         ...config.navbar,
       },
     });
+  });
+
+  test('should reject unknown navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'joke',
+            position: 'left',
+            label: 'haha',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [
+              {
+                label: 'Still a dropdown',
+                items: [
+                  {
+                    label: 'Should reject this',
+                    to: '/rejected',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [{type: 'docsVersionDropdown'}],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject position attribute within dropdown', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Dropdown',
+            items: [
+              {
+                label: 'Hi',
+                position: 'left',
+                to: '/link',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"navbar.items[0].items[0].position\\" is not allowed"`,
+    );
+  });
+
+  test('should give friendly error when href and to coexist', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            to: '/link',
+            href: 'http://example.com/link',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"One and only one between \\"to\\" and \\"href\\" should be provided"`,
+    );
   });
 
   test('should allow empty alt tags for the logo image in the header', () => {

@@ -75,7 +75,7 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
         ['en']
       : isI18nStaging
       ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-        ['en', 'ja']
+        ['en', 'ja', 'pt-BR']
       : // Production locales
         ['en', 'fr', 'ko', 'zh-CN'],
   },
@@ -227,6 +227,8 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
           // routeBasePath: '/',
           path: 'docs',
           sidebarPath: 'sidebars.js',
+          // sidebarCollapsible: false,
+          // sidebarCollapsed: true,
           editUrl: ({locale, docPath}) => {
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -285,7 +287,6 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
     liveCodeBlock: {
       playgroundPosition: 'bottom',
     },
-    sidebarCollapsible: true,
     hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',

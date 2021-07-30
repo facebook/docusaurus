@@ -65,8 +65,10 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
+  import {ReactElement} from 'react';
+
   export type Props = {
-    readonly children: string;
+    readonly children: string | ReactElement;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
@@ -93,7 +95,6 @@ declare module '@theme/DocSidebar' {
   export type Props = {
     readonly path: string;
     readonly sidebar: readonly PropSidebarItem[];
-    readonly sidebarCollapsible?: boolean;
     readonly onCollapse: () => void;
     readonly isHidden: boolean;
   };
@@ -107,7 +108,6 @@ declare module '@theme/DocSidebarItem' {
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
-    readonly collapsible?: boolean;
     readonly onItemClick?: () => void;
     readonly tabIndex?: number;
   };
@@ -191,7 +191,10 @@ declare module '@theme/hooks/useScrollPosition' {
   export type ScrollPosition = {scrollX: number; scrollY: number};
 
   const useScrollPosition: (
-    effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
+    effect: (
+      position: ScrollPosition,
+      lastPosition: ScrollPosition | null,
+    ) => void,
     deps?: unknown[],
   ) => void;
   export default useScrollPosition;
@@ -330,6 +333,7 @@ declare module '@theme/MDXComponents' {
     readonly code: typeof CodeBlock;
     readonly a: (props: ComponentProps<'a'>) => JSX.Element;
     readonly pre: typeof CodeBlock;
+    readonly details: (props: ComponentProps<'details'>) => JSX.Element;
     readonly h1: (props: ComponentProps<'h1'>) => JSX.Element;
     readonly h2: (props: ComponentProps<'h2'>) => JSX.Element;
     readonly h3: (props: ComponentProps<'h3'>) => JSX.Element;
@@ -529,6 +533,12 @@ declare module '@theme/ThemedImage' {
 
   const ThemedImage: (props: Props) => JSX.Element;
   export default ThemedImage;
+}
+
+declare module '@theme/Details' {
+  export type Props = import('@docusaurus/theme-common').Details;
+  const Props: (props: Props) => JSX.Element;
+  export default Props;
 }
 
 declare module '@theme/ThemeProvider' {

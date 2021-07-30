@@ -1152,14 +1152,6 @@ const Users = [
     tags: ['opensource'],
   },
   {
-    title: 'Vector',
-    description: 'A High-Performance, Logs, Metrics, & Events Router',
-    preview: require('./showcase/vector.png'),
-    website: 'https://vector.dev/',
-    source: 'https://github.com/timberio/vector',
-    tags: ['opensource', 'favorite', 'design', 'large'],
-  },
-  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
@@ -1241,6 +1233,22 @@ const Users = [
     website: 'https://quickwit.io',
     source: 'https://github.com/quickwit-inc/quickwit',
     tags: ['favorite', 'opensource', 'design']
+  },
+  {
+    title: 'Verdaccio',
+    description: 'A lightweight open source private npm proxy registry',
+    preview: require('./showcase/verdaccio.png'),
+    website: 'https://verdaccio.org',
+    source: 'https://github.com/verdaccio/verdaccio',
+    tags: ['favorite', 'opensource', 'large', 'i18n', 'design' ]
+  },
+  {
+    title: 'Unmand',
+    description: 'A business automation platform that liberates users from repetitive tasks.',
+    preview: require('./showcase/unmand.png'),
+    website: 'https://unmand.com',
+    source: null,
+    tags: ['product', 'design']
   }
 ];
 

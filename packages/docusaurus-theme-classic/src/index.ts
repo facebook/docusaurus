@@ -145,6 +145,7 @@ export default function docusaurusThemeClassic(
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
         path.resolve(__dirname, './prism-include-languages'),
+        path.resolve(__dirname, './admonitions.css'),
       ];
 
       if (customCss) {

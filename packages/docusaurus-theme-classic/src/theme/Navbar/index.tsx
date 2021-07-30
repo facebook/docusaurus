@@ -163,10 +163,10 @@ function NavbarMobileSidebar({
       </div>
 
       <div
-        className={clsx('navbar-sidebar__items', styles.menuWrapper, {
-          [styles.menuWrapperSecondaryMenuShown]: secondaryMenu.shown,
+        className={clsx('navbar-sidebar__items', {
+          'navbar-sidebar__items--show-secondary': secondaryMenu.shown,
         })}>
-        <div className="menu">
+        <div className="navbar-sidebar__item menu">
           <ul className="menu__list">
             {items.map((item, i) => (
               <NavbarItem mobile {...item} onClick={toggleSidebar} key={i} />
@@ -174,10 +174,10 @@ function NavbarMobileSidebar({
           </ul>
         </div>
 
-        <div className={styles.secondaryMenu}>
+        <div className="navbar-sidebar__item navbar-sidebar__item--secondary menu">
           <button
             type="button"
-            className={clsx('clean-btn', styles.backButton)}
+            className="clean-btn navbar-sidebar__back"
             onClick={secondaryMenu.hide}>
             <Translate
               id="theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel"

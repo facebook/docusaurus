@@ -37,11 +37,14 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {usePrevious} from './utils/usePrevious';
 
-export {useCollapsible, Collapsible} from './utils/useCollapsible';
+export {useCollapsible, Collapsible} from './components/Collapsible';
 export type {
   UseCollapsibleConfig,
   UseCollapsibleReturns,
-} from './utils/useCollapsible';
+} from './components/Collapsible';
+
+export {default as Details} from './components/Details';
+export type {DetailsProps} from './components/Details';
 
 export {
   MobileSecondaryMenuProvider,

@@ -93,16 +93,6 @@ export default function pluginContentPages(
       );
     },
 
-    getClientModules() {
-      const modules = [];
-
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-
-      return modules;
-    },
-
     async loadContent() {
       const {include} = options;
 

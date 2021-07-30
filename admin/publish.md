@@ -174,7 +174,7 @@ If all accesses are available, build all the necessary packages, and then run th
 
 ```sh
 yarn build:packages
-yarn lerna publish 2.0.0-beta.0 --exact
+yarn lerna publish --exact 2.0.0-beta.0
 ```
 
 This command does a few things:
@@ -197,7 +197,7 @@ Now that the release is done, **merge the pull request**.
 
 ### 8. Update example projects (optional but desirable)
 
-After a release, update the examples to keep them in sync with the latest release. This will ensure that CodeSandbox playground is able to use the new version at [new.docusaurus.io](https://new.docusaurus.io).
+After a release, update the examples to keep them in sync with the latest release. This will ensure that playgrounds are able to use the new version at [docusaurus.new](https://docusaurus.new).
 
 Create a separate branch/PR and run `yarn examples:generate`
 

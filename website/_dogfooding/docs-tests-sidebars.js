@@ -14,6 +14,12 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'section',
+      collapsible: false,
+      items: ['index', 'more-test'],
+    },
+    {
+      type: 'category',
       label: 'Huge sidebar category',
       items: generateHugeSidebarItems(4),
     },

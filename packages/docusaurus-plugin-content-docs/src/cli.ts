@@ -16,6 +16,7 @@ import {
   PathOptions,
   UnprocessedSidebarItem,
   UnprocessedSidebars,
+  SidebarOptions,
 } from './types';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -25,14 +26,16 @@ function createVersionedSidebarFile({
   pluginId,
   sidebarPath,
   version,
+  options,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
   version: string;
+  options: SidebarOptions;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  const loadedSidebars = loadSidebars(sidebarPath);
+  const loadedSidebars = loadSidebars(sidebarPath, options);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile =
@@ -87,7 +90,7 @@ export function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
-  options: PathOptions,
+  options: PathOptions & SidebarOptions,
 ): void {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
@@ -159,6 +162,7 @@ export function cliDocsVersionCommand(
     pluginId,
     version,
     sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
+    options,
   });
 
   // Update versions.json file.
