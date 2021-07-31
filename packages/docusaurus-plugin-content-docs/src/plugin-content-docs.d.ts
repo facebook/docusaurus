@@ -9,6 +9,8 @@
 
 declare module '@docusaurus/plugin-content-docs-types' {
   type VersionBanner = import('./types').VersionBanner;
+  type GlobalDataVersion = import('./types').GlobalVersion;
+  type GlobalDataDoc = import('./types').GlobalDoc;
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -43,14 +45,12 @@ declare module '@docusaurus/plugin-content-docs-types' {
     [sidebarId: string]: PropSidebarItem[];
   };
 
-  export type {
-    GlobalVersion as GlobalDataVersion,
-    GlobalDoc as GlobalDataDoc,
-  } from './types';
+  export type {GlobalDataVersion, GlobalDataDoc};
 }
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
