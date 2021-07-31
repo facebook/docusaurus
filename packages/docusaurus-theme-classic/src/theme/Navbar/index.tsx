@@ -174,7 +174,7 @@ function NavbarMobileSidebar({
           </ul>
         </div>
 
-        <div className="navbar-sidebar__item navbar-sidebar__item--secondary menu">
+        <div className="navbar-sidebar__item menu">
           <button
             type="button"
             className="clean-btn navbar-sidebar__back"
