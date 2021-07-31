@@ -536,7 +536,10 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  export type {DetailsProps as Props, Details} from '@docusaurus/theme-common';
+  import {Details, DetailsProps} from '@docusaurus/theme-common';
+
+  export type Props = DetailsProps;
+  export default Details;
 }
 
 declare module '@theme/ThemeProvider' {
