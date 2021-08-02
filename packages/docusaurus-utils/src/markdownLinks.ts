@@ -81,7 +81,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
         // MDX won't be happy if the permalink contains a space, we need to convert it to %20
         const encodedPermalink = permalink
           .split('/')
-          .map(encodeURIComponent)
+          .map((part) => part.replace(/\s/g, '%20'))
           .join('/');
         modifiedLine = modifiedLine.replace(mdLink, encodedPermalink);
       } else {
