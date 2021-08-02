@@ -255,7 +255,6 @@ function doProcessDocMetadata({
   return {
     unversionedId,
     id,
-    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),

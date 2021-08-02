@@ -202,7 +202,6 @@ Object {
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"Bar\\",
   \\"description\\": \\"This is custom description\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
@@ -225,7 +224,6 @@ Object {
   "site-docs-foo-baz-md-a69.json": "{
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"foo/baz\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"baz\\",
   \\"description\\": \\"Images\\",
   \\"source\\": \\"@site/docs/foo/baz.md\\",
@@ -270,7 +268,6 @@ Object {
   "site-docs-heading-as-title-md-c6d.json": "{
   \\"unversionedId\\": \\"headingAsTitle\\",
   \\"id\\": \\"headingAsTitle\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"My heading as title\\",
   \\"description\\": \\"\\",
   \\"source\\": \\"@site/docs/headingAsTitle.md\\",
@@ -293,7 +290,6 @@ Object {
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"hello\\",
-  \\"isDocsHomePage\\": true,
   \\"title\\": \\"Hello, World !\\",
   \\"description\\": \\"Hi, Endilie here :)\\",
   \\"source\\": \\"@site/docs/hello.md\\",
@@ -329,7 +325,6 @@ Object {
   "site-docs-ipsum-md-c61.json": "{
   \\"unversionedId\\": \\"ipsum\\",
   \\"id\\": \\"ipsum\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"ipsum\\",
   \\"description\\": \\"Lorem ipsum.\\",
   \\"source\\": \\"@site/docs/ipsum.md\\",
@@ -346,7 +341,6 @@ Object {
   "site-docs-lorem-md-b27.json": "{
   \\"unversionedId\\": \\"lorem\\",
   \\"id\\": \\"lorem\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"lorem\\",
   \\"description\\": \\"Lorem ipsum.\\",
   \\"source\\": \\"@site/docs/lorem.md\\",
@@ -364,7 +358,6 @@ Object {
   "site-docs-root-absolute-slug-md-db5.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
   \\"id\\": \\"rootAbsoluteSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootAbsoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootAbsoluteSlug.md\\",
@@ -391,7 +384,6 @@ Object {
   "site-docs-root-relative-slug-md-3dd.json": "{
   \\"unversionedId\\": \\"rootRelativeSlug\\",
   \\"id\\": \\"rootRelativeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootRelativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootRelativeSlug.md\\",
@@ -418,7 +410,6 @@ Object {
   "site-docs-root-resolved-slug-md-4d1.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
   \\"id\\": \\"rootResolvedSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootResolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootResolvedSlug.md\\",
@@ -445,7 +436,6 @@ Object {
   "site-docs-root-try-to-escape-slug-md-9ee.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
   \\"id\\": \\"rootTryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootTryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/rootTryToEscapeSlug.md\\",
@@ -472,7 +462,6 @@ Object {
   "site-docs-slugs-absolute-slug-md-4e8.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
   \\"id\\": \\"slugs/absoluteSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
@@ -488,7 +477,6 @@ Object {
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
   \\"id\\": \\"slugs/relativeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
@@ -504,7 +492,6 @@ Object {
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
   \\"id\\": \\"slugs/resolvedSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
@@ -520,7 +507,6 @@ Object {
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
   \\"id\\": \\"slugs/tryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
@@ -1216,7 +1202,6 @@ Object {
   "site-community-versioned-docs-version-1-0-0-team-md-359.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"version-1.0.0/team\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"team\\",
   \\"description\\": \\"Team 1.0.0\\",
   \\"source\\": \\"@site/community_versioned_docs/version-1.0.0/team.md\\",
@@ -1231,7 +1216,6 @@ Object {
   "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"team\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"Team title translated\\",
   \\"description\\": \\"Team current version (translated)\\",
   \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md\\",
@@ -1495,7 +1479,6 @@ Object {
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"bar\\",
   \\"description\\": \\"This is next version of bar.\\",
   \\"source\\": \\"@site/docs/foo/bar.md\\",
@@ -1537,7 +1520,6 @@ Object {
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"hello\\",
-  \\"isDocsHomePage\\": true,
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello next !\\",
   \\"source\\": \\"@site/docs/hello.md\\",
@@ -1556,7 +1538,6 @@ Object {
   "site-docs-slugs-absolute-slug-md-4e8.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
   \\"id\\": \\"slugs/absoluteSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/absoluteSlug.md\\",
@@ -1572,7 +1553,6 @@ Object {
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
   \\"id\\": \\"slugs/relativeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/relativeSlug.md\\",
@@ -1588,7 +1568,6 @@ Object {
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
   \\"id\\": \\"slugs/resolvedSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/resolvedSlug.md\\",
@@ -1604,7 +1583,6 @@ Object {
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
   \\"id\\": \\"slugs/tryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/docs/slugs/tryToEscapeSlug.md\\",
@@ -1620,7 +1598,6 @@ Object {
   "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"version-1.0.0/hello\\",
-  \\"isDocsHomePage\\": true,
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
   \\"source\\": \\"@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md\\",
@@ -1639,7 +1616,6 @@ Object {
   "site-versioned-docs-version-1-0-0-foo-bar-md-7a6.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"version-1.0.0/foo/bar\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"bar\\",
   \\"description\\": \\"Bar 1.0.0 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.0/foo/bar.md\\",
@@ -1660,7 +1636,6 @@ Object {
   "site-versioned-docs-version-1-0-0-foo-baz-md-883.json": "{
   \\"unversionedId\\": \\"foo/baz\\",
   \\"id\\": \\"version-1.0.0/foo/baz\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"baz\\",
   \\"description\\": \\"Baz 1.0.0 ! This will be deleted in next subsequent versions.\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.0/foo/baz.md\\",
@@ -1683,7 +1658,6 @@ Object {
   "site-versioned-docs-version-1-0-1-foo-bar-md-7a3.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"version-1.0.1/foo/bar\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"bar\\",
   \\"description\\": \\"Bar 1.0.1 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.1/foo/bar.md\\",
@@ -1702,7 +1676,6 @@ Object {
   "site-versioned-docs-version-1-0-1-hello-md-0c7.json": "{
   \\"unversionedId\\": \\"hello\\",
   \\"id\\": \\"version-1.0.1/hello\\",
-  \\"isDocsHomePage\\": true,
   \\"title\\": \\"hello\\",
   \\"description\\": \\"Hello 1.0.1 !\\",
   \\"source\\": \\"@site/versioned_docs/version-1.0.1/hello.md\\",
@@ -1721,7 +1694,6 @@ Object {
   "site-versioned-docs-version-with-slugs-root-absolute-slug-md-4d2.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
   \\"id\\": \\"version-withSlugs/rootAbsoluteSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootAbsoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md\\",
@@ -1738,7 +1710,6 @@ Object {
   "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": "{
   \\"unversionedId\\": \\"rootRelativeSlug\\",
   \\"id\\": \\"version-withSlugs/rootRelativeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootRelativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootRelativeSlug.md\\",
@@ -1754,7 +1725,6 @@ Object {
   "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
   \\"id\\": \\"version-withSlugs/rootResolvedSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootResolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootResolvedSlug.md\\",
@@ -1770,7 +1740,6 @@ Object {
   "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
   \\"id\\": \\"version-withSlugs/rootTryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"rootTryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md\\",
@@ -1786,7 +1755,6 @@ Object {
   "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/absoluteSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"absoluteSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md\\",
@@ -1802,7 +1770,6 @@ Object {
   "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/relativeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"relativeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md\\",
@@ -1818,7 +1785,6 @@ Object {
   "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/resolvedSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"resolvedSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md\\",
@@ -1834,7 +1800,6 @@ Object {
   "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
   \\"id\\": \\"version-withSlugs/slugs/tryToEscapeSlug\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"tryToEscapeSlug\\",
   \\"description\\": \\"Lorem\\",
   \\"source\\": \\"@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md\\",
