@@ -536,9 +536,10 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  export type Props = import('@docusaurus/theme-common').Details;
-  const Props: (props: Props) => JSX.Element;
-  export default Props;
+  import {Details, DetailsProps} from '@docusaurus/theme-common';
+
+  export type Props = DetailsProps;
+  export default Details;
 }
 
 declare module '@theme/ThemeProvider' {
@@ -562,7 +563,7 @@ declare module '@theme/TOC' {
     readonly isChild?: boolean;
   };
 
-  export const TOCHeadings: (props: HeadingsProps) => JSX.Element;
+  export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;
