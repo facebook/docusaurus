@@ -19,6 +19,7 @@ import {
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize from '@theme/hooks/useWindowSize';
+import {useActivePlugin} from '@theme/hooks/useDocs';
 import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
@@ -175,16 +176,18 @@ function NavbarMobileSidebar({
         </div>
 
         <div className="navbar-sidebar__item navbar-sidebar__item--secondary menu">
-          <button
-            type="button"
-            className="clean-btn navbar-sidebar__back"
-            onClick={secondaryMenu.hide}>
-            <Translate
-              id="theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel"
-              description="The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)">
-              ← Back to main menu
-            </Translate>
-          </button>
+          {items.length > 0 && (
+            <button
+              type="button"
+              className="clean-btn navbar-sidebar__back"
+              onClick={secondaryMenu.hide}>
+              <Translate
+                id="theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel"
+                description="The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)">
+                ← Back to main menu
+              </Translate>
+            </button>
+          )}
           {secondaryMenu.content}
         </div>
       </div>
@@ -199,7 +202,7 @@ function Navbar(): JSX.Element {
 
   const mobileSidebar = useMobileSidebar();
   const colorModeToggle = useColorModeToggle();
-
+  const activeDocPlugin = useActivePlugin();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   const items = useNavbarItems();
@@ -218,7 +221,7 @@ function Navbar(): JSX.Element {
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">
-          {items?.length > 0 && (
+          {(items?.length > 0 || activeDocPlugin) && (
             <button
               aria-label="Navigation bar toggle"
               className="navbar__toggle clean-btn"
