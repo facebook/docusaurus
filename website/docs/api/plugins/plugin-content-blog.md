@@ -119,6 +119,59 @@ module.exports = {
 };
 ```
 
+## Markdown Frontmatter {#markdown-frontmatter}
+
+Markdown documents can use the following Markdown FrontMatter metadata fields, enclosed by a line `---` on either side.
+
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `author` | `string` | `undefined` | The author name to be displayed. |
+| `author_url` | `string` | `undefined` | The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
+| `author_image_url` | `string` | `undefined` | The URL to the author's thumbnail image. |
+| `author_title` | `string` | `undefined` | A description of the author. |
+| `title` | `string` | Markdown title | The blog post title. |
+| `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
+| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
+| `draft` | `boolean` | `false` | A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development. |
+| `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
+| `keywords` | `string[]` | `undefined` | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines. |
+| `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
+| `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
+| `slug` | `string` | File path | Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
+
+</small>
+
+```typescript
+type Tag = string | {label: string; permalink: string};
+```
+
+Example:
+
+```yml
+---
+title: Welcome Docusaurus v2
+author: Joel Marcey
+author_title: Co-creator of Docusaurus 1
+author_url: https://github.com/JoelMarcey
+author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+tags: [hello, docusaurus-v2]
+description: This is my first post on Docusaurus 2.
+image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
+---
+Welcome to this blog. This blog is created with [**Docusaurus 2**](https://docusaurus.io/).
+
+<!--truncate-->
+
+This is my first post on Docusaurus 2.
+
+A whole bunch of exploration to follow.
+```
+
 ## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
