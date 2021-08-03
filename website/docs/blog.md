@@ -55,7 +55,7 @@ The only required field in the front matter is `title`; however, we provide opti
 
 ## Blog list {#blog-list}
 
-The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed. 
+The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
