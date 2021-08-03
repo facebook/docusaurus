@@ -55,7 +55,7 @@ The only required field in the front matter is `title`; however, we provide opti
 
 ## Blog list {#blog-list}
 
-The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
+The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed. 
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
@@ -76,7 +76,27 @@ Not this.
 Or this.
 ```
 
-By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration.
+By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. You can also add meta description to the blog list page for better SEO:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          blogTitle: 'Docusaurus blog!',
+          blogDescription: 'A Docusaurus powered blog!',
+          postsPerPage: 20,
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
 
 ## Blog sidebar {#blog-sidebar}
 
@@ -188,25 +208,6 @@ module.exports = {
 Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
 
 :::
-
-You can also add meta description to the blog list page for better SEO:
-
-```js {8} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        blog: {
-          blogTitle: 'Docusaurus blog!',
-          blogDescription: 'A Docusaurus powered blog!',
-        },
-      },
-    ],
-  ],
-};
-```
 
 ### Multiple blogs {#multiple-blogs}
 
