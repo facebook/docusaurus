@@ -51,7 +51,7 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-The only required field in the front matter is `title`; however, we provide options to add author information to your blog post. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
+The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
 
 ## Blog list {#blog-list}
 
