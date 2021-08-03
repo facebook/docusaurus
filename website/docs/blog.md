@@ -53,7 +53,9 @@ A whole bunch of exploration to follow.
 
 The only required field in the front matter is `title`; however, we provide options to add author information to your blog post. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
 
-## Summary truncation {#summary-truncation}
+## Blog list {#blog-list}
+
+The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
@@ -74,17 +76,51 @@ Not this.
 Or this.
 ```
 
+By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration.
+
+## Blog sidebar {#blog-sidebar}
+
+The blog sidebar displays recent blog posts. The default number of items shown is 5, but you can customize with the `blogSidebarCount` option in the plugin configuration. By setting `blogSidebarCount: 0`, the sidebar will be completely disabled, with the container removed as well. This will increase the width of the main container. Specially, if you have set `blogSidebarCount: 'ALL'`, _all_ posts will be displayed.
+
+You can also alter the sidebar heading text with the `blogSidebarTitle` option. For example, if you have set `blogSidebarCount: 'ALL'`, instead of the default "Recent posts", you may would rather make it say "All posts":
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+Because the sidebar title is hard-coded in the configuration file, it is currently untranslatable.
+
+:::
+
 ## Feed {#feed}
 
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
-feedOptions?: {
-  type?: 'rss' | 'atom' | 'all' | null;
-  title?: string;
-  description?: string;
-  copyright: string;
-  language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+type blogOptions = {
+  feedOptions?: {
+    type?: 'rss' | 'atom' | 'all' | null;
+    title?: string;
+    description?: string;
+    copyright: string;
+    language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+  };
 };
 ```
 

@@ -32,8 +32,6 @@ Accepted fields:
 | `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
 | `blogSidebarCount` | <code>number &#124; 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
-| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
-| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
 | `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
@@ -163,13 +161,7 @@ description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
 ---
-Welcome to this blog. This blog is created with [**Docusaurus 2**](https://docusaurus.io/).
-
-<!--truncate-->
-
-This is my first post on Docusaurus 2.
-
-A whole bunch of exploration to follow.
+A Markdown blog post
 ```
 
 ## i18n {#i18n}
