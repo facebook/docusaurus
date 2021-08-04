@@ -133,7 +133,7 @@ Because the sidebar title is hard-coded in the configuration file, it is current
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
-type blogOptions = {
+type BlogOptions = {
   feedOptions?: {
     type?: 'rss' | 'atom' | 'all' | null;
     title?: string;
