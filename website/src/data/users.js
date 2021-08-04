@@ -708,6 +708,14 @@ const Users = [
     tags: ["product"],
   },
   {
+    title: 'Plausible Analytics Docs',
+    description: 'Plausible Analytics is a simple, open source, lightweight (< 1 KB) and privacy-friendly alternative to Google Analytics. ',
+    preview: require('./showcase/plausible.png'),
+    website: 'https://plausible.io/docs',
+    source: 'https://github.com/plausible/docs',
+    tags: ['opensource','product'],
+  },
+  {
     title: 'pnpm',
     description: 'Fast, disk space efficient package manager',
     preview: require('./showcase/pnpm.png'),
