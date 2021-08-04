@@ -40,7 +40,7 @@ function DocItem(props: Props): JSX.Element {
     lastUpdatedBy,
   } = metadata;
 
-  const {pluginId} = useActivePlugin({failfast: true});
+  const {pluginId} = useActivePlugin({failfast: true})!;
   const versions = useVersions(pluginId);
 
   // If site is not versioned or only one version is included

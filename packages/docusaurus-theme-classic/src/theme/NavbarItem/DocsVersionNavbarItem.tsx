@@ -7,11 +7,15 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
+import {
+  useActiveVersion,
+  useLatestVersion,
+  GlobalVersion,
+} from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
-const getVersionMainDoc = (version) =>
+const getVersionMainDoc = (version: GlobalVersion) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
 export default function DocsVersionNavbarItem({
@@ -25,6 +29,6 @@ export default function DocsVersionNavbarItem({
   const latestVersion = useLatestVersion(docsPluginId);
   const version = activeVersion ?? preferredVersion ?? latestVersion;
   const label = staticLabel ?? version.label;
-  const path = staticTo ?? getVersionMainDoc(version).path;
+  const path = staticTo ?? getVersionMainDoc(version)!.path;
   return <DefaultNavbarItem {...props} label={label} to={path} />;
 }

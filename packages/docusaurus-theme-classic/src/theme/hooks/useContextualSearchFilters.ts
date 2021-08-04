@@ -37,7 +37,7 @@ export default function useContextualSearchFilters(): ContextualSearchFilters {
 
     const version = activeVersion ?? preferredVersion ?? latestVersion;
 
-    return docVersionSearchTag(pluginId, version.name);
+    return docVersionSearchTag(pluginId, version!.name);
   }
 
   const tags = [
