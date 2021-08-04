@@ -8,53 +8,54 @@ This configuration applies to all [main themes](./overview.md).
 
 ## Common {#common}
 
-### Color mode - dark mode {#color-mode---dark-mode}
+### Color mode {#color-mode---dark-mode}
 
 The classic theme provides by default light and dark mode support, with a navbar switch for the user.
 
-It is possible to customize the color mode support with the following configuration:
+It is possible to customize the color mode support within the `colorMode` object.
 
-```js {6-36} title="docusaurus.config.js"
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultMode` | <code>'light' &#124; 'dark' </code> | `'light'` | The color mode when user first visits the site. |
+| `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
+| `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
+| `switchConfig` | _See below_ | _See below_ | Dark/light switch icon options. |
+| `switchConfig.darkIcon` | `string` | `'🌜'` | Icon for the switch while in dark mode. |
+| `switchConfig.darkIconStyle` | JSX style object (see [documentation](https://reactjs.org/docs/dom-elements.html#style)) | `{}` | CSS to apply to dark icon. |
+| `switchConfig.lightIcon` | `string` | `'🌞'` | Icon for the switch while in light mode. |
+| `switchConfig.lightIconStyle` | JSX style object | `{}` | CSS to apply to light icon. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
-    // ...
+    // highlight-start
     colorMode: {
-      // "light" | "dark"
       defaultMode: 'light',
-
-      // Hides the switch in the navbar
-      // Useful if you want to support a single color mode
       disableSwitch: false,
-
-      // Should we use the prefers-color-scheme media-query,
-      // using user system preferences, instead of the hardcoded defaultMode
       respectPrefersColorScheme: false,
-
-      // Dark/light switch icon options
       switchConfig: {
-        // Icon for the switch while in dark mode
         darkIcon: '🌙',
-
-        // CSS to apply to dark icon,
-        // React inline style object
-        // see https://reactjs.org/docs/dom-elements.html#style
         darkIconStyle: {
           marginLeft: '2px',
         },
-
         // Unicode icons such as '\u2600' will work
         // Unicode with 5 chars require brackets: '\u{1F602}'
         lightIcon: '\u{1F602}',
-
         lightIconStyle: {
           marginLeft: '1px',
         },
       },
     },
-    // ...
+    // highlight-end
   },
-  // ...
 };
 ```
 
@@ -70,14 +71,23 @@ If you only want to support one color mode, you likely want to ignore user syste
 
 You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
 
-```js {4-6} title="docusaurus.config.js"
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `image` | `string` | `undefined` | The meta image URL for the site. Relative to your site's "static" directory. Cannot be SVGs. Can be external URLs too. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
-    // Relative to your site's "static" directory.
-    // Cannot be SVGs. Can be external URLs too.
+    // highlight-next-line
     image: 'img/docusaurus.png',
-    // ...
   },
 };
 ```
@@ -86,118 +96,117 @@ module.exports = {
 
 You can configure additional html metadatas (and override existing ones).
 
-```js {4} title="docusaurus.config.js"
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `metadatas` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
+    // highlight-next-line
     metadatas: [{name: 'twitter:card', content: 'summary'}],
-    // ...
   },
 };
 ```
 
 ### Announcement bar {#announcement-bar}
 
-Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar.
+Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar. All configuration are in the `announcementBar` object.
 
-```js {4-11} title="docusaurus.config.js"
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | `'announcement-bar'` | Any value that will identify this message. |
+| `content` | `string` | `''` | The text content of the announcement. HTML will be interpolated. |
+| `backgroundColor` | `string` | `'#fff'` | Background color of the entire bar. |
+| `textColor` | `string` | `'#000'` | Announcement text color. |
+| `isCloseable` | `boolean` | `true` | Whether this announcement can be dismissed with a '×' button. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
+    // highlight-start
     announcementBar: {
-      id: 'support_us', // Any value that will identify this message.
+      id: 'support_us',
       content:
         'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
-      backgroundColor: '#fafbfc', // Defaults to `#fff`.
-      textColor: '#091E42', // Defaults to `#000`.
-      isCloseable: false, // Defaults to `true`.
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+      isCloseable: false,
     },
-    // ...
+    // highlight-end
   },
 };
 ```
 
-## i18n {#i18n}
-
-Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
-
-### Translation files location {#translation-files-location}
-
-- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
-- **Multi-instance path**: N/A
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: N/A
-
-### Example file-system structure {#example-file-system-structure}
-
-```bash
-website/i18n/<locale>/docusaurus-theme-classic
-│
-│ # translations for the theme
-├── navbar.json
-└── footer.json
-```
-
-## Hooks {#hooks}
-
-### `useThemeContext` {#usethemecontext}
-
-React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
-
-Usage example:
-
-```jsx
-import React from 'react';
-// highlight-next-line
-import useThemeContext from '@theme/hooks/useThemeContext';
-
-const Example = () => {
-  // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
-
-  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
-};
-```
-
-:::note
-
-The component calling `useThemeContext` must be a child of the `Layout` component.
-
-```jsx
-function ExamplePage() {
-  return (
-    <Layout>
-      <Example />
-    </Layout>
-  );
-}
-```
-
-:::
-
 ## Navbar {#navbar}
 
-### Navbar title & logo {#navbar-title--logo}
+Accepted fields:
 
-You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `undefined` | Title for the navbar. |
+| `logo` | _See below_ | `undefined` | Customization of the logo object. |
+| `items` | `NavbarItem[]` | `[]` | A list of navbar items. See specification below. |
+| `hideOnScroll` | `boolean` | `false` | Whether the navbar is hidden when the user scrolls down. |
+| `style` | <code>'primary' &#124; 'dark' </code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
+
+</small>
+
+### Navbar logo {#navbar-logo}
+
+The logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
 
 To improve dark mode support, you can also set a different logo for this mode.
 
-```js {5-12} title="docusaurus.config.js"
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `alt` | `string` | `undefined` | Alt tag for the logo image. |
+| `src` | `string` | **Required** | URL to the logo image. Base URL is appended by default. |
+| `srcDark` | `string` | `logo.src` | An alternative image URL to use in dark mode. |
+| `href` | `string` | `siteConfig.baseUrl` | Link to navigate to when the logo is clicked. |
+| `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
       title: 'Site Title',
+      // highlight-start
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
-        srcDark: 'img/logo_dark.svg', // Default to `logo.src`.
-        href: 'https://docusaurus.io/', // Default to `siteConfig.baseUrl`.
-        target: '_self', // By default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one).
+        srcDark: 'img/logo_dark.svg',
+        href: 'https://docusaurus.io/',
+        target: '_self',
       },
+      // highlight-end
     },
-    // ...
   },
 };
 ```
@@ -208,7 +217,6 @@ You can add items to the navbar via `themeConfig.navbar.items`.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
       // highlight-start
@@ -237,7 +245,6 @@ module.exports = {
       ],
       // highlight-end
     },
-    // ...
   },
 };
 ```
@@ -254,16 +261,20 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | Yes |  |
-| `to` | `string` | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. | Yes |  |
-| `href` | `string` | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** | Yes |  |
-| `prependBaseUrlToHref` | `boolean` | Prepends the baseUrl to `href` values. | No | `false` |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
-| `activeBasePath` | `string` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. | No | `to` / `href` |
-| `activeBaseRegex` | `string` | Alternative to `activeBasePath` if required. | No | `undefined` |
-| `className` | `string` | Custom CSS class (for styling any item). | No | `''` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **Required** | The name to be shown for this item. |
+| `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
+| `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
+| `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `activeBasePath` | `string` | `to` / `href` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. |
+| `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
+| `className` | `string` | `''` | Custom CSS class (for styling any item). |
+
+</small>
 
 Example configuration:
 
@@ -296,17 +307,21 @@ Navbar dropdown items only accept the following **"link-like" item types**:
 
 - [Navbar link](#navbar-link)
 - [Navbar doc link](#navbar-doc-link)
-- [Navbar doc version](#navbar-doc-version)
+- [Navbar docs version](#navbar-docs-version)
 
 Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | Yes |  |
-| `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | The items to be contained in the dropdown. | Yes |  |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **Required** | The name to be shown for this item. |
+| `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+
+</small>
 
 Example configuration:
 
@@ -346,12 +361,16 @@ If you want to link to a specific doc, this special navbar item type will render
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `docId` | `string` | The ID of the doc that this item links to. | Yes |  |
-| `label` | `string` | The name to be shown for this item. | No | `docId` |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc belongs to. | No | `'default'` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `docId` | `string` | **Required** | The ID of the doc that this item links to. |
+| `label` | `string` | `docId` | The name to be shown for this item. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
+
+</small>
 
 Example configuration:
 
@@ -382,13 +401,17 @@ The user will be able to switch from one version to another, while staying on th
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
-| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
-| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the end of the dropdown. | No | `[]` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | No | `'default'` |
-| `dropdownActiveClassDisabled` | `boolean` | Do not add the link active class when browsing docs. | No | `false` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
+| `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
+
+</small>
 
 Example configuration:
 
@@ -417,12 +440,16 @@ If you use docs with versioning, this special navbar item type will link to the 
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `label` | `string` | The name to be shown for this item. | No | The active/latest version label. |
-| `to` | `string` | The internal link that this item points to. | No | The active/latest version. |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
-| `docsPluginId` | `string` | The ID of the docs plugin that the doc versioning belongs to. | No | `'default'` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | The active/latest version label. | The name to be shown for this item. |
+| `to` | `string` | The active/latest version. | The internal link that this item points to. |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
+
+</small>
 
 Example configuration:
 
@@ -453,11 +480,15 @@ The user will be able to switch from one locale to another, while staying on the
 
 Accepted fields:
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
-| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the beginning of the dropdown. | No | `[]` |
-| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | Add additional dropdown items at the end of the dropdown. | No | `[]` |
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
+| `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
+
+</small>
 
 Example configuration:
 
@@ -490,19 +521,25 @@ If you use the [search](../../search.md), the search bar will be the rightmost e
 
 However, with this special navbar item type, you can change the default location.
 
-| Field | Value | Explanation | Required | Default |
-| --- | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | The side of the navbar this item should appear on. | No | `'left'` |
+<small>
 
-```js {5-8} title="docusaurus.config.js"
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+
+</small>
+
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     navbar: {
       items: [
+        // highlight-start
         {
           type: 'search',
           position: 'right',
         },
+        // highlight-end
       ],
     },
   },
@@ -513,14 +550,13 @@ module.exports = {
 
 You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
+      // highlight-next-line
       hideOnScroll: true,
     },
-    // ...
   },
 };
 ```
@@ -531,43 +567,48 @@ You can set the static Navbar style without disabling the theme switching abilit
 
 Currently, there are two possible style options: `dark` and `primary` (based on the `--ifm-color-primary` color). You can see the styles preview in the [Infima documentation](https://infima.dev/docs/components/navbar/).
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     navbar: {
+      // highlight-next-line
       style: 'primary',
     },
-    // ...
   },
 };
 ```
 
-<!--
-
-## Footer {#footer}
-
-TODO.
-
--->
-
 ## CodeBlock {#codeblock}
 
-Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
+Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks. All configuration are in the `prism` object.
+
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `theme` | `PrismTheme` | `palenight` | The Prism theme to use for light-theme code blocks. |
+| `darkTheme` | `PrismTheme` | `palenight` | The Prism theme to use for dark-theme code blocks. |
+| `defaultLanguage` | `string` | `undefined` | The side of the navbar this item should appear on. |
+
+</small>
 
 ### Theme {#theme}
 
-By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
+By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). You may also use a different syntax highlighting theme when the site is in dark mode.
 
-```js {5-6} title="docusaurus.config.js"
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     prism: {
+      // highlight-start
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
+      // highlight-end
     },
-    // ...
   },
 };
 ```
@@ -580,16 +621,17 @@ If you use the line highlighting Markdown syntax, you might need to specify a di
 
 ### Default language {#default-language}
 
-You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed, e.g.:
+You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed.
 
-```js {5} title="docusaurus.config.js"
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   themeConfig: {
     prism: {
+      // highlight-next-line
       defaultLanguage: 'javascript',
     },
-    // ...
   },
 };
 ```
@@ -598,36 +640,78 @@ module.exports = {
 
 You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.md). Logo URL works in the same way of the navbar logo.
 
-```js {5-15} title="docusaurus.config.js"
-  // ...
-  footer: {
-    logo: {
-      alt: 'Facebook Open Source Logo',
-      src: 'img/oss_logo.png',
-      href: 'https://opensource.facebook.com',
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
+| `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
+| `style` | <code>'dark' &#124; 'light'</code> | `'light'` | The color theme of the footer component. |
+| `items` | `FooterItem[]` | `[]` | The link groups to be present. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    footer: {
+      logo: {
+        alt: 'Facebook Open Source Logo',
+        src: 'img/oss_logo.png',
+        href: 'https://opensource.facebook.com',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
-    copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-  }
+    // highlight-end
+  },
+};
 ```
 
-## Footer Links {#footer-links}
+### Footer Links {#footer-links}
 
-You can add links to the footer via `themeConfig.footer.links`:
+You can add links to the footer via `themeConfig.footer.links`.
 
-```js {5-15} title="docusaurus.config.js"
+Accepted fields of each link section:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `undefined` | Label of the section of these links. |
+| `items` | `FooterLink[]` | `[]` | Links in this section. |
+
+</small>
+
+Accepted fields of each item in `items`:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **Required** | Text to be displayed for this link. |
+| `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
+| `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
+| `html` | `string` | `undefined` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
 module.exports = {
-  // ...
   footer: {
+    // highlight-start
     links: [
       {
-        // Label of the section of these links
         title: 'Docs',
         items: [
           {
-            // Label of the link
             label: 'Style Guide',
-            // Client-side routing, used for navigating within the website.
-            // The baseUrl will be automatically prepended to this value.
             to: 'docs/',
           },
           {
@@ -641,7 +725,6 @@ module.exports = {
         items: [
           {
             label: 'Stack Overflow',
-            // A full-page navigation, used for navigating outside of the website.
             href: 'https://stackoverflow.com/questions/tagged/docusaurus',
           },
           {
@@ -653,7 +736,6 @@ module.exports = {
             href: 'https://twitter.com/docusaurus',
           },
           {
-            //Renders the html pass-through instead of a simple link
             html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
                   <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
@@ -663,6 +745,65 @@ module.exports = {
         ],
       },
     ],
+    // highlight-end
   },
 };
+```
+
+## Hooks {#hooks}
+
+### `useThemeContext` {#usethemecontext}
+
+React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
+
+Usage example:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useThemeContext from '@theme/hooks/useThemeContext';
+
+const Example = () => {
+  // highlight-next-line
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+
+  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+};
+```
+
+:::note
+
+The component calling `useThemeContext` must be a child of the `Layout` component.
+
+```jsx
+function ExamplePage() {
+  return (
+    <Layout>
+      <Example />
+    </Layout>
+  );
+}
+```
+
+:::
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
+- **Multi-instance path**: N/A
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
+- **Markdown files**: N/A
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/<locale>/docusaurus-theme-classic
+│
+│ # translations for the theme
+├── navbar.json
+└── footer.json
 ```

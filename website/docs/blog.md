@@ -51,25 +51,11 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-## Header options {#header-options}
+The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
 
-The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
+## Blog list {#blog-list}
 
-- `author`: The author name to be displayed.
-- `author_url`: The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.
-- `author_image_url`: The URL to the author's thumbnail image.
-- `author_title`: A description of the author.
-- `title`: The blog post title.
-- `slug`: Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.
-- `date`: The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. By default, it is the Markdown file creation time.
-- `tags`: A list of strings or objects of two string fields `label` and `permalink` to tag to your post.
-- `draft`: A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development.
-- `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
-- `keywords`: Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines.
-- `image`: Cover or thumbnail image that will be used when displaying the link to your post.
-- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default, it is `false`.
-
-## Summary truncation {#summary-truncation}
+The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
@@ -90,17 +76,71 @@ Not this.
 Or this.
 ```
 
+By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. You can also add meta description to the blog list page for better SEO:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          blogTitle: 'Docusaurus blog!',
+          blogDescription: 'A Docusaurus powered blog!',
+          postsPerPage: 20,
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+## Blog sidebar {#blog-sidebar}
+
+The blog sidebar displays recent blog posts. The default number of items shown is 5, but you can customize with the `blogSidebarCount` option in the plugin configuration. By setting `blogSidebarCount: 0`, the sidebar will be completely disabled, with the container removed as well. This will increase the width of the main container. Specially, if you have set `blogSidebarCount: 'ALL'`, _all_ posts will be displayed.
+
+You can also alter the sidebar heading text with the `blogSidebarTitle` option. For example, if you have set `blogSidebarCount: 'ALL'`, instead of the default "Recent posts", you may would rather make it say "All posts":
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+Because the sidebar title is hard-coded in the configuration file, it is currently untranslatable.
+
+:::
+
 ## Feed {#feed}
 
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
-feedOptions?: {
-  type?: 'rss' | 'atom' | 'all' | null;
-  title?: string;
-  description?: string;
-  copyright: string;
-  language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+type BlogOptions = {
+  feedOptions?: {
+    type?: 'rss' | 'atom' | 'all' | null;
+    title?: string;
+    description?: string;
+    copyright: string;
+    language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+  };
 };
 ```
 
@@ -168,25 +208,6 @@ module.exports = {
 Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
 
 :::
-
-You can also add meta description to the blog list page for better SEO:
-
-```js {8} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        blog: {
-          blogTitle: 'Docusaurus blog!',
-          blogDescription: 'A Docusaurus powered blog!',
-        },
-      },
-    ],
-  ],
-};
-```
 
 ### Multiple blogs {#multiple-blogs}
 
