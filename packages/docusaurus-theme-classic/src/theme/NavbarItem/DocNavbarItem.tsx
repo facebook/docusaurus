@@ -31,7 +31,6 @@ Available doc ids are:\n- ${docIds}`,
 
 export default function DocNavbarItem({
   docId,
-  activeSidebarClassName,
   label: staticLabel,
   docsPluginId,
   ...props
@@ -45,15 +44,19 @@ export default function DocNavbarItem({
     [activeVersion, preferredVersion, latestVersion].filter(Boolean),
   );
   const doc = getDocInVersions(versions, docId);
+  const activeDocInfimaClassName = props.mobile
+    ? 'menu__link--active'
+    : 'navbar__link--active';
 
   return (
     <DefaultNavbarItem
       exact
       {...props}
       className={clsx(props.className, {
-        [activeSidebarClassName]:
+        [activeDocInfimaClassName]:
           activeDoc && activeDoc.sidebar === doc.sidebar,
       })}
+      activeClassName={activeDocInfimaClassName}
       label={staticLabel ?? doc.id}
       to={doc.path}
     />

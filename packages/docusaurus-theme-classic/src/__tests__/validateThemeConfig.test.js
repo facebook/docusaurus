@@ -108,7 +108,6 @@ describe('themeConfig', () => {
             position: 'left',
             docId: 'intro',
             label: 'Introduction',
-            activeSidebarClassName: 'custom-class',
           },
           // Regular link
           {
@@ -142,7 +141,6 @@ describe('themeConfig', () => {
             items: [
               {
                 type: 'doc',
-                activeSidebarClassName: 'custom-class',
                 docId: 'npm',
                 label: 'NPM',
               },
