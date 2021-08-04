@@ -21,7 +21,7 @@ For any code-related commit on `master`, the continuous integration will publish
 You can see on [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) the current dist tags:
 
 - `latest`: stable releases (example: `2.0.0-beta.0`)
-- `canary`: canary releases (example: `2.0.0-beta.4a6de5cf7`)
+- `canary`: canary releases (example: `2.0.0-beta.0.1234.4a6de5cf7`)
 
 :::tip
 
@@ -31,15 +31,15 @@ Make sure to use the latest canary release and check the publication date (somet
 
 ## Using a canary release
 
-Take the latest version published under the [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (for example: `2.0.0-beta.4a6de5cf7`).
+Take the latest version published under the [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (for example: `2.0.0-beta.0.1234.4a6de5cf7`).
 
 Use it for all the `@docusaurus/*` dependencies in your `package.json`:
 
 ```diff
 -  "@docusaurus/core": "^2.0.0-beta.0",
 -  "@docusaurus/preset-classic": "^2.0.0-beta.0",
-+  "@docusaurus/core": "2.0.0-beta.4a6de5cf7",
-+  "@docusaurus/preset-classic": "2.0.0-beta.4a6de5cf7",
++  "@docusaurus/core": "2.0.0-beta.0.1234.4a6de5cf7",
++  "@docusaurus/preset-classic": "2.0.0-beta.0.1234.4a6de5cf7",
 ```
 
 Then, install the dependencies again and start your site:
@@ -54,6 +54,12 @@ You can also upgrade the `@docusaurus/*` packages with a command line:
 ```bash npm2yarn
 npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
 ```
+
+:::note
+
+Canary versions follow the naming convention `lastestRelease.commitNumber.commitHash`.
+
+:::
 
 :::caution
 
