@@ -9,25 +9,32 @@ import {useEffect, useRef} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {ScrollPosition} from '@theme/hooks/useScrollPosition';
 
-const getScrollPosition = (): ScrollPosition => ({
-  scrollX: ExecutionEnvironment.canUseDOM ? window.pageXOffset : 0,
-  scrollY: ExecutionEnvironment.canUseDOM ? window.pageYOffset : 0,
-});
+const getScrollPosition = (): ScrollPosition | null => {
+  return ExecutionEnvironment.canUseDOM
+    ? {
+        scrollX: window.pageXOffset,
+        scrollY: window.pageYOffset,
+      }
+    : null;
+};
 
 const useScrollPosition = (
-  effect?: (position: ScrollPosition, lastPosition: ScrollPosition) => void,
+  effect: (
+    position: ScrollPosition,
+    lastPosition: ScrollPosition | null,
+  ) => void,
   deps = [],
 ): void => {
-  const scrollPosition = useRef(getScrollPosition());
+  const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
 
   const handleScroll = () => {
-    const currentScrollPosition = getScrollPosition();
+    const currentPosition = getScrollPosition()!;
 
     if (effect) {
-      effect(currentScrollPosition, scrollPosition.current);
+      effect(currentPosition, lastPositionRef.current);
     }
 
-    scrollPosition.current = currentScrollPosition;
+    lastPositionRef.current = currentPosition;
   };
 
   useEffect(() => {

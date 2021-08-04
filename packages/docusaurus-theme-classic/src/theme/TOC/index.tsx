@@ -16,7 +16,10 @@ const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-export function TOCHeadings({toc, isChild}: TOCHeadingsProps) {
+export function TOCHeadings({
+  toc,
+  isChild,
+}: TOCHeadingsProps): JSX.Element | null {
   if (!toc.length) {
     return null;
   }

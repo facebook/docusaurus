@@ -368,7 +368,6 @@ Accepted fields:
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
 | `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
-| `activeSidebarClassName` | `string` | `'navbar__link--active'` | The CSS class name to apply when this doc's sidebar is active. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
 </small>

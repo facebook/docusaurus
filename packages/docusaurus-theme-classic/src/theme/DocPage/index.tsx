@@ -18,6 +18,7 @@ import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
+import BackToTopButton from '@theme/BackToTopButton';
 import {matchPath} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 
@@ -64,6 +65,8 @@ function DocPageContent({
         tag: docVersionSearchTag(pluginId, version),
       }}>
       <div className={styles.docPage}>
+        <BackToTopButton />
+
         {sidebar && (
           <aside
             className={clsx(styles.docSidebarContainer, {

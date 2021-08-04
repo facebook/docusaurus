@@ -13,7 +13,10 @@ import styles from './styles.module.css';
 import {TOCHeadings} from '@theme/TOC';
 import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 
-export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
+export default function TOCCollapsible({
+  toc,
+  className,
+}: TOCCollapsibleProps): JSX.Element {
   const {collapsed, toggleCollapsed} = useCollapsible({
     initialState: true,
   });
@@ -21,7 +24,6 @@ export default function TOCCollapsible({toc, className}: TOCCollapsibleProps) {
   return (
     <div
       className={clsx(
-        'margin-vert--md',
         styles.tocCollapsible,
         {
           [styles.tocCollapsibleExpanded]: !collapsed,
