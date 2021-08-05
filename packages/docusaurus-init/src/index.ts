@@ -11,7 +11,11 @@ import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase} from 'lodash';
+import {kebabCase, sortBy} from 'lodash';
+
+const RecommendedTemplate = 'classic';
+
+const TypeScriptTemplateSuffix = '-typescript';
 
 function hasYarn() {
   try {
@@ -34,7 +38,32 @@ async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
 }
 
-const tsTemplateSuffix = '-typescript';
+function readTemplates(templatesDir: string): string[] {
+  const templates = fs
+    .readdirSync(templatesDir)
+    .filter(
+      (d) =>
+        !d.startsWith('.') &&
+        !d.startsWith('README') &&
+        !d.endsWith(TypeScriptTemplateSuffix),
+    );
+
+  // Classic should be first in list!
+  return sortBy(templates, (t) => t !== RecommendedTemplate);
+}
+
+function createTemplateChoices(templates: string[]): Choice[] {
+  function makeNameAndValueChoice(value: string): Choice {
+    const title =
+      value === RecommendedTemplate ? `${value} (recommended)` : value;
+    return {title, value};
+  }
+
+  return [
+    ...templates.map((template) => makeNameAndValueChoice(template)),
+    makeNameAndValueChoice('Git repository'),
+  ];
+}
 
 export default async function init(
   rootDir: string,
@@ -48,25 +77,11 @@ export default async function init(
 ): Promise<void> {
   const useYarn = !cliOptions.useNpm ? hasYarn() : false;
   const templatesDir = path.resolve(__dirname, '../templates');
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter(
-      (d) =>
-        !d.startsWith('.') &&
-        !d.startsWith('README') &&
-        !d.endsWith(tsTemplateSuffix),
+  const templates = readTemplates(templatesDir);
+  const hasTS = (templateName: string) =>
+    fs.pathExistsSync(
+      path.resolve(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
     );
-  const hasTS = (name: string) =>
-    fs.pathExistsSync(path.resolve(templatesDir, `${name}${tsTemplateSuffix}`));
-
-  function makeNameAndValueChoice(value: string): Choice {
-    return {title: value, value} as Choice;
-  }
-
-  const templateChoices = [
-    ...templates.map((template) => makeNameAndValueChoice(template)),
-    makeNameAndValueChoice('Git repository'),
-  ];
 
   let name = siteName;
 
@@ -98,7 +113,7 @@ export default async function init(
       type: 'select',
       name: 'template',
       message: 'Select a template below...',
-      choices: templateChoices,
+      choices: createTemplateChoices(templates),
     });
     template = templatePrompt.template;
     if (template && !useTS && hasTS(template)) {
@@ -150,7 +165,7 @@ export default async function init(
           `Template ${template} doesn't provide the Typescript variant.`,
         );
       }
-      template = `${template}${tsTemplateSuffix}`;
+      template = `${template}${TypeScriptTemplateSuffix}`;
     }
     try {
       await fs.copy(path.resolve(templatesDir, template), dest, {
