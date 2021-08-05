@@ -95,7 +95,11 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
 const AnnouncementBarContext = createContext<AnnouncementBarAPI | null>(null);
 
-export const AnnouncementBarProvider = ({children}: {children: ReactNode}) => {
+export const AnnouncementBarProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element => {
   const value = useAnnouncementBarContextValue();
   return (
     <AnnouncementBarContext.Provider value={value}>

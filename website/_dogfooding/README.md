@@ -11,3 +11,4 @@ Fancy things we can test for here:
 - Webpack configs
 - \_ prefix convention
 - Huge sidebars impact
+- Using folders with spaces on purpose

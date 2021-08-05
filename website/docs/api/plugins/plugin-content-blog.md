@@ -20,61 +20,73 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ## Configuration {#configuration}
 
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `path` | `string` | `'blog'` | Path to data on filesystem relative to site dir. |
+| `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
+| `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
+| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
+| `blogSidebarCount` | <code>number &#124; 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
+| `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
+| `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
+| `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
+| `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
+| `postsPerPage` | `number` | `10` | Number of posts to show per page in the listing page. |
+| `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
+| `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
+| `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
+| `blogTagsPostsComponent` | `string` | `'@theme/BlogTagsPostsPage'` | Root component of the "posts containing tag" page. |
+| `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
+| `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
+| `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+| `truncateMarker` | `string` | `/<!--\s*(truncate)\s*-->/` | Truncate marker, can be a regex or string. |
+| `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
+| `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
+| `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
+| `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
+| `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
+| `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
+| `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
+
+</small>
+
+```typescript
+type EditUrlFunction = (params: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+Example configuration:
+
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-content-blog',
       {
-        /**
-         * Path to data on filesystem relative to site dir.
-         */
         path: 'blog',
-        /**
-         * Base url to edit your site.
-         * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
-         */
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
-        /**
-         * For advanced cases, compute the edit url for each Markdown file yourself.
-         */
+        // Simple use-case: string editUrl
+        // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        // Advanced use-case: functional editUrl
         editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
           return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
         },
-        /**
-         * Useful if you commit localized files to git.
-         * When Markdown files are localized, the edit url will target the localized file,
-         * instead of the original unlocalized file.
-         * Note: this option is ignored when editUrl is a function
-         */
         editLocalizedFiles: false,
-        /**
-         * Blog page title for better SEO
-         */
         blogTitle: 'Blog title',
-        /**
-         * Blog page meta description for better SEO
-         */
         blogDescription: 'Blog',
-        /**
-         * Number of blog post elements to show in the blog sidebar
-         * 'ALL' to show all blog posts
-         * 0 to disable
-         */
         blogSidebarCount: 5,
-        /**
-         * Title of the blog sidebar
-         */
         blogSidebarTitle: 'All our posts',
-        /**
-         * URL route for the blog section of your site.
-         * *DO NOT* include a trailing slash.
-         */
         routeBasePath: 'blog',
         include: ['*.md', '*.mdx'],
-        /**
-         * No route will be created for matching files
-         */
         exclude: [
           '**/_*.{js,jsx,ts,tsx,md,mdx}',
           '**/_*/**',
@@ -82,49 +94,74 @@ module.exports = {
           '**/__tests__/**',
         ],
         postsPerPage: 10,
-        /**
-         * Theme components used by the blog pages.
-         */
         blogListComponent: '@theme/BlogListPage',
         blogPostComponent: '@theme/BlogPostPage',
         blogTagsListComponent: '@theme/BlogTagsListPage',
         blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-        /**
-         * Remark and Rehype plugins passed to MDX.
-         */
-        remarkPlugins: [
-          /* require('remark-math') */
-        ],
+        remarkPlugins: [require('remark-math')],
         rehypePlugins: [],
-        /**
-         * Custom Remark and Rehype plugins passed to MDX before
-         * the default Docusaurus Remark and Rehype plugins.
-         */
         beforeDefaultRemarkPlugins: [],
         beforeDefaultRehypePlugins: [],
-        /**
-         * Truncate marker, can be a regex or string.
-         */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
-        /**
-         * Show estimated reading time for the blog post.
-         */
         showReadingTime: true,
-        /**
-         * Blog feed.
-         * If feedOptions is undefined, no rss feed will be generated.
-         */
         feedOptions: {
-          type: '', // required. 'rss' | 'feed' | 'all'
-          title: '', // default to siteConfig.title
-          description: '', // default to  `${siteConfig.title} Blog`
+          type: '',
+          title: '',
+          description: '',
           copyright: '',
-          language: undefined, // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+          language: undefined,
         },
       },
     ],
   ],
 };
+```
+
+## Markdown Frontmatter {#markdown-frontmatter}
+
+Markdown documents can use the following Markdown FrontMatter metadata fields, enclosed by a line `---` on either side.
+
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `author` | `string` | `undefined` | The author name to be displayed. |
+| `author_url` | `string` | `undefined` | The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
+| `author_image_url` | `string` | `undefined` | The URL to the author's thumbnail image. |
+| `author_title` | `string` | `undefined` | A description of the author. |
+| `title` | `string` | Markdown title | The blog post title. |
+| `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this could be extracted from the file name, e.g, `2021-04-15-blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
+| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
+| `draft` | `boolean` | `false` | A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development. |
+| `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
+| `keywords` | `string[]` | `undefined` | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines. |
+| `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
+| `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
+| `slug` | `string` | File path | Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
+
+</small>
+
+```typescript
+type Tag = string | {label: string; permalink: string};
+```
+
+Example:
+
+```yml
+---
+title: Welcome Docusaurus v2
+author: Joel Marcey
+author_title: Co-creator of Docusaurus 1
+author_url: https://github.com/JoelMarcey
+author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+tags: [hello, docusaurus-v2]
+description: This is my first post on Docusaurus 2.
+image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
+---
+A Markdown blog post
 ```
 
 ## i18n {#i18n}

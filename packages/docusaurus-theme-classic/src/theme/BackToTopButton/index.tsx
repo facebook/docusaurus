@@ -39,11 +39,9 @@ function smoothScrollTopPolyfill(): CancelScrollTop {
   }
   rafRecursion();
 
-  return () => {
-    // Break the recursion
-    // Prevents the user from "fighting" against that recursion producing a weird UX
-    raf && cancelAnimationFrame(raf);
-  };
+  // Break the recursion
+  // Prevents the user from "fighting" against that recursion producing a weird UX
+  return () => raf && cancelAnimationFrame(raf);
 }
 
 type UseSmoothScrollTopReturn = {

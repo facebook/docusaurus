@@ -25,7 +25,7 @@ export function NavLink({
   to,
   href,
   label,
-  activeClassName = 'navbar__link--active',
+  activeClassName = '',
   prependBaseUrlToHref,
   ...props
 }: NavLinkProps): JSX.Element {
@@ -45,7 +45,9 @@ export function NavLink({
           }
         : {
             isNavLink: true,
-            activeClassName,
+            activeClassName: !props.className?.includes(activeClassName)
+              ? activeClassName
+              : '',
             to: toUrl,
             ...(activeBasePath || activeBaseRegex
               ? {

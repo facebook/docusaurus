@@ -229,7 +229,7 @@ export interface Plugin<Content = unknown> {
     content: Content; // the content loaded by this plugin instance
     allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
-  }): void;
+  }): Promise<void>;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
