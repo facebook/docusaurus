@@ -28,6 +28,8 @@ function Button() {
 
 ![](/img/docusaurus.png)
 
+### Tab
+
 import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
