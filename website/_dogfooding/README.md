@@ -12,3 +12,4 @@ Fancy things we can test for here:
 - \_ prefix convention
 - Huge sidebars impact
 - Using folders with spaces on purpose
+- Importing md docs that are out of content plugin folders (such as this README file!)
