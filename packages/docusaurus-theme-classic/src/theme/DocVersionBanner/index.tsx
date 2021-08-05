@@ -9,7 +9,11 @@ import React, {ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-import {useActivePlugin, useDocVersionSuggestions} from '@theme/hooks/useDocs';
+import {
+  useActivePlugin,
+  useDocVersionSuggestions,
+  GlobalVersion,
+} from '@theme/hooks/useDocs';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
@@ -109,10 +113,10 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const {pluginId} = useActivePlugin({failfast: true});
+  const {pluginId} = useActivePlugin({failfast: true})!;
 
-  const getVersionMainDoc = (version) =>
-    version.docs.find((doc) => doc.id === version.mainDocId);
+  const getVersionMainDoc = (version: GlobalVersion) =>
+    version.docs.find((doc) => doc.id === version.mainDocId)!;
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
