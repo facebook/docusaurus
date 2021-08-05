@@ -10,7 +10,7 @@ import PagePartial from "./_pagePartial.md"
 
 ---
 
-Let's import `../README.md`:
+Now let's import `../README.md`:
 
 ```mdx-code-block
 import Readme from "../README.md"
