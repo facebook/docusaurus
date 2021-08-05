@@ -116,7 +116,7 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   const {pluginId} = useActivePlugin({failfast: true})!;
 
   const getVersionMainDoc = (version: GlobalVersion) =>
-    version.docs.find((doc) => doc.id === version.mainDocId);
+    version.docs.find((doc) => doc.id === version.mainDocId)!;
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
@@ -138,7 +138,7 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
       <div className="margin-top--md">
         <LatestVersionSuggestionLabel
           versionLabel={latestVersionSuggestion.label}
-          to={latestVersionSuggestedDoc!.path}
+          to={latestVersionSuggestedDoc.path}
           onClick={() => savePreferredVersionName(latestVersionSuggestion.name)}
         />
       </div>
