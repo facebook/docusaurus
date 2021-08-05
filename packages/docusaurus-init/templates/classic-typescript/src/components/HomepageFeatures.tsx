@@ -8,7 +8,13 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css';
 
-const FeatureList: Feature[] = [
+type FeatureItem = {
+  title: string;
+  image: string;
+  description: JSX.Element;
+};
+
+const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Use',
     image: '/img/undraw_docusaurus_tree.svg',
@@ -41,7 +47,7 @@ const FeatureList: Feature[] = [
   },
 ];
 
-function Feature({title, image, description}: Feature) {
+function Feature({title, image, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
