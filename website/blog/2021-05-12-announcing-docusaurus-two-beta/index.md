@@ -3,17 +3,17 @@ title: Announcing Docusaurus 2 Beta
 author: Sébastien Lorber
 authorTitle: Docusaurus maintainer
 authorURL: https://sebastienlorber.com
-authorImageURL: https://github.com/slorber.png
+authorImageURL: ./img/author.jpeg
 authorTwitter: sebastienlorber
 tags: [release, beta]
-image: /img/blog/2021-05-12-announcing-docusaurus-two-beta/social-card.png
+image: ./img/social-card.png
 ---
 
 After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first **[Docusaurus 2 beta](https://github.com/facebook/docusaurus/releases/tag/v2.0.0-beta.0)**.
 
 With the announcement of this beta, the team is even more confident that Docusaurus 2 is **ready for mainstream adoption**!
 
-![Docusaurus beta party](/img/blog/2021-05-12-announcing-docusaurus-two-beta/image_cropped.png)
+![Docusaurus beta party](./img/image_cropped.png)
 
 <!--truncate-->
 
@@ -23,13 +23,13 @@ With the announcement of this beta, the team is even more confident that Docusau
 
 Docusaurus 2 is widely adopted and growing fast:
 
-[![Docusaurus growth](/img/blog/2021-05-12-announcing-docusaurus-two-beta/trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
+[![Docusaurus growth](./img/trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 To get a fuller understanding of the quality of current Docusaurus 2 sites, our new [showcase](https://docusaurus.io/showcase) page allows you to filter Docusaurus sites by features, so you may get inspired by real-world production sites with a similar use-case as yours!
 
 Don't miss our [favorite](https://docusaurus.io/showcase?tags=favorite) sites; they all stand out with something unique:
 
-[![Docusaurus growth](/img/blog/2021-05-12-announcing-docusaurus-two-beta/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
+[![Docusaurus growth](./img/favorites.png)](https://docusaurus.io/showcase?tags=favorite)
 
 ## Why was Docusaurus v2 in alpha for so long?
 

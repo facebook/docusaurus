@@ -3,6 +3,14 @@ id: blog
 title: Blog
 ---
 
+The blog feature enables you to deploy in no time a full-featured blog.
+
+:::info
+
+Check the [Blog Plugin API Reference documentation](./api/plugins/plugin-content-blog.md) for an exhaustive list of options.
+
+:::
+
 ## Initial setup {#initial-setup}
 
 To setup your site's blog, start by creating a `blog` directory.
@@ -26,9 +34,9 @@ module.exports = {
 
 ## Adding posts {#adding-posts}
 
-To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-my-blog-post-title.md`. The post date is extracted from the file name.
+To publish in the blog, create a Markdown file within the blog directory.
 
-For example, at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
+For example, create a file at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
 
 ```yml
 ---
@@ -50,6 +58,34 @@ This is my first post on Docusaurus 2.
 
 A whole bunch of exploration to follow.
 ```
+
+:::note
+
+Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYYY-MM-DD-my-blog-post-title.md`.
+
+This naming convention is optional, and you can provide the date as FrontMatter.
+
+<details>
+<summary>Example supported patterns</summary>
+
+- `2021-05-28-my-blog-post-title.md`
+- `2021-05-28-my-blog-post-title.mdx`
+- `2021-05-28-my-blog-post-title/index.md`
+- `2021-05-28/my-blog-post-title.md`
+- `2021/05/28/my-blog-post-title.md`
+- `2021/05-28-my-blog-post-title.md`
+- `2021/05/28/my-blog-post-title/index.md`
+- ...
+
+</details>
+
+:::
+
+:::tip
+
+Using a folder can be convenient to co-locate blog post images alongside the Markdown file.
+
+:::
 
 The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
 

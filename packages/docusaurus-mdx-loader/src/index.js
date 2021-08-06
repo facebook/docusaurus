@@ -19,6 +19,12 @@ const toc = require('./remark/toc');
 const unwrapMdxCodeBlocks = require('./remark/unwrapMdxCodeBlocks');
 const transformImage = require('./remark/transformImage');
 const transformLinks = require('./remark/transformLinks');
+const {escapePath} = require('@docusaurus/utils');
+const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
+
+const {
+  loaders: {inlineMarkdownImageFileLoader},
+} = getFileLoaderUtils();
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
@@ -38,9 +44,49 @@ async function readMetadataPath(metadataPath) {
   }
 }
 
+// For some specific FrontMatter fields, we want to allow referencing local relative assets so that they enter the Webpack asset pipeline
+// We don't do that for all frontMatters, only for the configured keys
+// {image: "./myImage.png"} => {image: require("./myImage.png")}
+function createFrontMatterAssetsExportCode(
+  filePath,
+  frontMatter,
+  frontMatterAssetKeys = [],
+) {
+  if (frontMatterAssetKeys.length === 0) {
+    return 'undefined';
+  }
+
+  function createFrontMatterAssetRequireCode(value) {
+    // Only process string values starting with ./
+    // We could enhance this logic and check if file exists on disc?
+    if (typeof value === 'string' && value.startsWith('./')) {
+      // TODO do we have other use-cases than image assets?
+      // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
+      const inlineLoader = inlineMarkdownImageFileLoader;
+      return `require("${inlineLoader}${escapePath(value)}").default`;
+    }
+    return undefined;
+  }
+
+  const frontMatterAssetEntries = Object.entries(frontMatter).filter(([key]) =>
+    frontMatterAssetKeys.includes(key),
+  );
+
+  const lines = frontMatterAssetEntries
+    .map(([key, value]) => {
+      const assetRequireCode = createFrontMatterAssetRequireCode(value);
+      return assetRequireCode ? `"${key}": ${assetRequireCode},` : undefined;
+    })
+    .filter(Boolean);
+
+  const exportValue = `{\n${lines.join('\n')}\n}`;
+
+  return exportValue;
+}
+
 module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
-
+  const filePath = this.resourcePath;
   const reqOptions = this.getOptions() || {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
@@ -50,8 +96,6 @@ module.exports = async function docusaurusMdxLoader(fileString) {
   });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
-
-  const filePath = this.resourcePath;
 
   const options = {
     ...reqOptions,
@@ -80,6 +124,11 @@ module.exports = async function docusaurusMdxLoader(fileString) {
 
   let exportStr = ``;
   exportStr += `\nexport const frontMatter = ${stringifyObject(frontMatter)};`;
+  exportStr += `\nexport const frontMatterAssets = ${createFrontMatterAssetsExportCode(
+    filePath,
+    frontMatter,
+    reqOptions.frontMatterAssetKeys,
+  )};`;
   exportStr += `\nexport const contentTitle = ${stringifyObject(
     contentTitle,
   )};`;

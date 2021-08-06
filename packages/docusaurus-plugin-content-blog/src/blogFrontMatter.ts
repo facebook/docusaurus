@@ -21,7 +21,7 @@ export type BlogPostFrontMatter = {
   tags?: (string | Tag)[];
   slug?: string;
   draft?: boolean;
-  date?: Date;
+  date?: Date | string; // Yaml automagically convert some string patterns as Date, but not all
 
   author?: string;
   author_title?: string;

@@ -467,6 +467,12 @@ export default function pluginContentBlog(
                     // For blog posts a title in markdown is always removed
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
+                    // those frontMatter fields will be exported as "frontMatterAssets" and eventually be converted to require() calls for relative file paths
+                    frontMatterAssetKeys: [
+                      'image',
+                      'authorImageURL',
+                      'author_image_URL',
+                    ],
                   },
                 },
                 {

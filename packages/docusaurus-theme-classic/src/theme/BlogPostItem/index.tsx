@@ -43,6 +43,7 @@ function BlogPostItem(props: Props): JSX.Element {
   const {
     children,
     frontMatter,
+    frontMatterAssets,
     metadata,
     truncated,
     isBlogPostPage = false,
@@ -56,12 +57,17 @@ function BlogPostItem(props: Props): JSX.Element {
     title,
     editUrl,
   } = metadata;
-  const {author, image, keywords} = frontMatter;
+  const {author, keywords} = frontMatter;
+
+  const image = frontMatterAssets.image ?? frontMatter.image;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
   const authorImageURL =
-    frontMatter.author_image_url || frontMatter.authorImageURL;
+    frontMatterAssets.author_image_url ||
+    frontMatterAssets.authorImageURL ||
+    frontMatter.author_image_url ||
+    frontMatter.authorImageURL;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
