@@ -20,11 +20,14 @@ function generateTemplateExample(template) {
     );
 
     // run the docusaurus script to bootstrap the template in the examples folder
+    const command = template.endsWith('-typescript')
+      ? `${template} --typescript`
+      : template;
     execSync(
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
-      `npx @docusaurus/init@latest init examples/${template} ${template}`,
+      `npx @docusaurus/init@latest init examples/${template} ${command}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
       {
         stdio: 'inherit',
@@ -152,9 +155,7 @@ function run() {
   console.log('## Generate example folders...');
   console.log('');
   const data = readdirSync('./packages/docusaurus-init/templates');
-  const templates = data.filter(
-    (i) => i !== 'README.MD' && !i.endsWith('-typescript'),
-  );
+  const templates = data.filter((i) => i !== 'README.MD');
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');
   execSync('git add examples');
