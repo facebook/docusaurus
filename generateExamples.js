@@ -146,6 +146,7 @@ function run() {
   console.log('-------');
   console.log('## Removing example folders...');
   rimraf.sync('./examples/classic');
+  rimraf.sync('./examples/classic-typescript');
   rimraf.sync('./examples/facebook');
   rimraf.sync('./examples/bootstrap');
   console.log('');
