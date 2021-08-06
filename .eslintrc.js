@@ -126,12 +126,14 @@ module.exports = {
   overrides: [
     {
       files: [
-        'packages/docusaurus-init/templates/bootstrap/**/*.js',
-        'packages/docusaurus-init/templates/classic/**/*.js',
+        'packages/docusaurus-init/templates/**/*.js',
+        'packages/docusaurus-init/templates/**/*.ts',
+        'packages/docusaurus-init/templates/**/*.tsx',
       ],
       rules: {
         'header/header': OFF,
         'global-require': OFF,
+        '@typescript-eslint/no-var-requires': OFF,
       },
     },
     {

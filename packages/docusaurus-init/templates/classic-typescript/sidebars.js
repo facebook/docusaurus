@@ -1,0 +1,1 @@
+../classic/sidebars.js

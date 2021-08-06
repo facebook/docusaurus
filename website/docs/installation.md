@@ -52,6 +52,12 @@ If you want to skip installing dependencies, use the `--skip-install` option, li
 npx @docusaurus/init@latest init my-website classic --skip-install
 ```
 
+You can also use the template's TypeScript variant by passing the `--typescript` flag.
+
+```bash
+npx @docusaurus/init@latest init my-website classic --typescript
+```
+
 ## Project structure {#project-structure}
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:

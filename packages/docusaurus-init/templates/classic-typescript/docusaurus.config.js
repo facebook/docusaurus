@@ -1,0 +1,1 @@
+../classic/docusaurus.config.js

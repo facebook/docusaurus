@@ -11,9 +11,12 @@ import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase} from 'lodash';
+import {kebabCase, sortBy} from 'lodash';
 
-function hasYarn(): boolean {
+const RecommendedTemplate = 'classic';
+const TypeScriptTemplateSuffix = '-typescript';
+
+function hasYarn() {
   try {
     execSync('yarnpkg --version', {stdio: 'ignore'});
     return true;
@@ -22,19 +25,43 @@ function hasYarn(): boolean {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl: string): boolean {
+function isValidGitRepoUrl(gitRepoUrl: string) {
   return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item));
 }
 
-async function updatePkg(
-  pkgPath: string,
-  obj: Record<string, unknown>,
-): Promise<void> {
+async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   const content = await fs.readFile(pkgPath, 'utf-8');
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
 
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
+}
+
+function readTemplates(templatesDir: string) {
+  const templates = fs
+    .readdirSync(templatesDir)
+    .filter(
+      (d) =>
+        !d.startsWith('.') &&
+        !d.startsWith('README') &&
+        !d.endsWith(TypeScriptTemplateSuffix),
+    );
+
+  // Classic should be first in list!
+  return sortBy(templates, (t) => t !== RecommendedTemplate);
+}
+
+function createTemplateChoices(templates: string[]) {
+  function makeNameAndValueChoice(value: string): Choice {
+    const title =
+      value === RecommendedTemplate ? `${value} (recommended)` : value;
+    return {title, value};
+  }
+
+  return [
+    ...templates.map((template) => makeNameAndValueChoice(template)),
+    makeNameAndValueChoice('Git repository'),
+  ];
 }
 
 export default async function init(
@@ -44,23 +71,16 @@ export default async function init(
   cliOptions: Partial<{
     useNpm: boolean;
     skipInstall: boolean;
+    typescript: boolean;
   }> = {},
 ): Promise<void> {
   const useYarn = !cliOptions.useNpm ? hasYarn() : false;
   const templatesDir = path.resolve(__dirname, '../templates');
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
-
-  function makeNameAndValueChoice(value: string): Choice {
-    return {title: value, value} as Choice;
-  }
-
-  const gitChoice = makeNameAndValueChoice('Git repository');
-  const templateChoices = [
-    ...templates.map((template) => makeNameAndValueChoice(template)),
-    gitChoice,
-  ];
+  const templates = readTemplates(templatesDir);
+  const hasTS = (templateName: string) =>
+    fs.pathExistsSync(
+      path.resolve(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
+    );
 
   let name = siteName;
 
@@ -85,15 +105,26 @@ export default async function init(
   }
 
   let template = reqTemplate;
+  let useTS = cliOptions.typescript;
   // Prompt if template is not provided from CLI.
   if (!template) {
     const templatePrompt = await prompts({
       type: 'select',
       name: 'template',
       message: 'Select a template below...',
-      choices: templateChoices,
+      choices: createTemplateChoices(templates),
     });
     template = templatePrompt.template;
+    if (template && !useTS && hasTS(template)) {
+      const tsPrompt = await prompts({
+        type: 'confirm',
+        name: 'useTS',
+        message:
+          'This template is available in TypeScript. Do you want to use the TS variant?',
+        initial: false,
+      });
+      useTS = tsPrompt.useTS;
+    }
   }
 
   // If user choose Git repository, we'll prompt for the url.
@@ -127,8 +158,18 @@ export default async function init(
     }
   } else if (template && templates.includes(template)) {
     // Docusaurus templates.
+    if (useTS) {
+      if (!hasTS(template)) {
+        throw new Error(
+          `Template ${template} doesn't provide the Typescript variant.`,
+        );
+      }
+      template = `${template}${TypeScriptTemplateSuffix}`;
+    }
     try {
-      await fs.copy(path.resolve(templatesDir, template), dest);
+      await fs.copy(path.resolve(templatesDir, template), dest, {
+        dereference: true,
+      });
     } catch (err) {
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
@@ -167,7 +208,12 @@ export default async function init(
     console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
 
     try {
-      shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
+      shell.exec(
+        `cd "${name}" && ${
+          // Force coloring the output, because the command is invoked by shelljs, not in the interative shell
+          useYarn ? 'FORCE_COLOR=true yarn' : 'npm install --color always'
+        }`,
+      );
     } catch (err) {
       console.log(chalk.red('Installation failed.'));
       throw err;
@@ -181,27 +227,27 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  console.log();
-  console.log(`Successfully created "${chalk.cyan(cdpath)}".`);
-  console.log('Inside that directory, you can run several commands:');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} start`));
-  console.log('    Starts the development server.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`));
-  console.log('    Bundles your website into static files for production.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}serve`));
-  console.log('    Serve the built website locally.');
-  console.log();
-  console.log(chalk.cyan(`  ${pkgManager} deploy`));
-  console.log('    Publish the website to GitHub pages.');
-  console.log();
-  console.log('We recommend that you begin by typing:');
-  console.log();
-  console.log(chalk.cyan('  cd'), cdpath);
-  console.log(`  ${chalk.cyan(`${pkgManager} start`)}`);
+  console.log(`
+Successfully created "${chalk.cyan(cdpath)}".
+Inside that directory, you can run several commands:
 
-  console.log();
-  console.log('Happy building awesome websites!');
+  ${chalk.cyan(`${pkgManager} start`)}
+    Starts the development server.
+
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+    Bundles your website into static files for production.
+
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+    Serves the built website locally.
+
+  ${chalk.cyan(`${pkgManager} deploy`)}
+    Publishes the website to GitHub pages.
+
+We recommend that you begin by typing:
+
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} start`)}
+
+Happy building awesome websites!
+`);
 }
