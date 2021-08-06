@@ -5,6 +5,5 @@
     "esModuleInterop": true
   },
   "extends": "@tsconfig/docusaurus/tsconfig.json",
-  "include": ["src/"],
-  "exclude": ["templates/"]
+  "include": ["src/"]
 }

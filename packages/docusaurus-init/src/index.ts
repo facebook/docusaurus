@@ -14,7 +14,6 @@ import shell from 'shelljs';
 import {kebabCase, sortBy} from 'lodash';
 
 const RecommendedTemplate = 'classic';
-
 const TypeScriptTemplateSuffix = '-typescript';
 
 function hasYarn() {
@@ -38,7 +37,7 @@ async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
 }
 
-function readTemplates(templatesDir: string): string[] {
+function readTemplates(templatesDir: string) {
   const templates = fs
     .readdirSync(templatesDir)
     .filter(
@@ -52,7 +51,7 @@ function readTemplates(templatesDir: string): string[] {
   return sortBy(templates, (t) => t !== RecommendedTemplate);
 }
 
-function createTemplateChoices(templates: string[]): Choice[] {
+function createTemplateChoices(templates: string[]) {
   function makeNameAndValueChoice(value: string): Choice {
     const title =
       value === RecommendedTemplate ? `${value} (recommended)` : value;
