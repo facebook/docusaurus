@@ -61,9 +61,6 @@ function BlogPostItem(props: Props): JSX.Element {
 
   const image = frontMatterAssets.image ?? frontMatter.image;
 
-  frontMatterAssets.image &&
-    console.log('frontMatterAssets.image', frontMatterAssets.image);
-
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
   const authorImageURL =
