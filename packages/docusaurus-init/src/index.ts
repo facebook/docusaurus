@@ -210,6 +210,7 @@ export default async function init(
     try {
       shell.exec(
         `cd "${name}" && ${
+          // Force coloring the output, because the command is invoked by shelljs, not in the interative shell
           useYarn ? 'FORCE_COLOR=true yarn' : 'npm install --color always'
         }`,
       );
