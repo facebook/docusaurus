@@ -5,7 +5,7 @@ sidebar_label: Changelog
 ---
 
 ```mdx-code-block
-import Changelog from "../../CHANGELOG.md"
+import Changelog from "@site/../CHANGELOG.md"
 
 <Changelog />
 ```
