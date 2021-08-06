@@ -86,7 +86,7 @@ module.exports = {
         blogSidebarCount: 5,
         blogSidebarTitle: 'All our posts',
         routeBasePath: 'blog',
-        include: ['*.md', '*.mdx'],
+        include: ['**/*.{md,mdx}'],
         exclude: [
           '**/_*.{js,jsx,ts,tsx,md,mdx}',
           '**/_*/**',
