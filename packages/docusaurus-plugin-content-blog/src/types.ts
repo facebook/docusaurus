@@ -20,11 +20,6 @@ export interface BlogContent {
   blogTagsListPath: string | null;
 }
 
-export interface DateLink {
-  date: Date;
-  link: string;
-}
-
 export type FeedType = 'rss' | 'atom';
 
 export type EditUrlFunction = (editUrlParams: {
