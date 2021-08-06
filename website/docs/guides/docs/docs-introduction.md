@@ -7,6 +7,12 @@ slug: /docs-introduction
 
 The docs feature provides users with a way to organize Markdown files in a hierarchical format.
 
+:::info
+
+Check the [Docs Plugin API Reference documentation](./../../api/plugins/plugin-content-docs.md) for an exhaustive list of options.
+
+:::
+
 ## Document ID {#document-id}
 
 Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
