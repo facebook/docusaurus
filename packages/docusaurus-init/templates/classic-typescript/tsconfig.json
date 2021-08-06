@@ -1,10 +1,5 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "compilerOptions": {
-    "jsx": "react",
-    "esModuleInterop": true,
-    "noEmit": true
-  },
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "include": ["src/"]
 }
