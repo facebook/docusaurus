@@ -27,10 +27,15 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+  import type {
+    FrontMatter,
+    FrontMatterAssets,
+    Metadata,
+  } from '@theme/BlogPostPage';
 
   export type Props = {
     readonly frontMatter: FrontMatter;
+    readonly frontMatterAssets: FrontMatterAssets;
     readonly metadata: Metadata;
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;

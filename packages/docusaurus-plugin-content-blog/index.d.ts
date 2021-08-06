@@ -42,6 +42,12 @@ declare module '@theme/BlogPostPage' {
     readonly hide_table_of_contents?: boolean;
   };
 
+  export type FrontMatterAssets = {
+    readonly image?: string;
+    readonly author_image_url?: string;
+    readonly authorImageURL?: string;
+  };
+
   export type Metadata = {
     readonly title: string;
     readonly date: string;
@@ -61,6 +67,7 @@ declare module '@theme/BlogPostPage' {
 
   export type Content = {
     readonly frontMatter: FrontMatter;
+    readonly frontMatterAssets: FrontMatterAssets;
     readonly metadata: Metadata;
     readonly toc: readonly TOCItem[];
     (): JSX.Element;

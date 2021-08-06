@@ -3,7 +3,7 @@ title: Announcing Docusaurus 2 Beta
 author: Sébastien Lorber
 authorTitle: Docusaurus maintainer
 authorURL: https://sebastienlorber.com
-authorImageURL: https://github.com/slorber.png
+authorImageURL: ./img/author.jpeg
 authorTwitter: sebastienlorber
 tags: [release, beta]
 image: ./img/social-card.png
