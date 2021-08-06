@@ -98,11 +98,16 @@ File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringif
       null,
       2,
     )}`;
-    const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
-    if (shouldError) {
-      return callback(new Error(errorMessage));
+
+    if (options.isMDXPartialFrontMatterWarningDisabled === true) {
+      // no warning
     } else {
-      console.warn(chalk.yellow(errorMessage));
+      const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
+      if (shouldError) {
+        return callback(new Error(errorMessage));
+      } else {
+        console.warn(chalk.yellow(errorMessage));
+      }
     }
   }
 

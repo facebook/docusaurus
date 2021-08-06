@@ -13,6 +13,7 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
+  STATIC_DIR_NAME,
 } from '../constants';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
@@ -24,6 +25,7 @@ import {
   DocusaurusSiteMetadata,
   HtmlTagObject,
   LoadContext,
+  LoadedPlugin,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
@@ -36,6 +38,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {mapValues} from 'lodash';
+import {RuleSetRule} from 'webpack';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -135,6 +138,104 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   ];
 }
 
+// Make a fake plugin to:
+// - Resolve aliased theme components
+// - Inject scripts/stylesheets
+function createBootstrapPlugin({
+  siteConfig,
+}: {
+  siteConfig: DocusaurusConfig;
+}): LoadedPlugin {
+  const {
+    stylesheets = [],
+    scripts = [],
+    clientModules: siteConfigClientModules = [],
+  } = siteConfig;
+  return {
+    name: 'docusaurus-bootstrap-plugin',
+    content: null,
+    options: {},
+    version: {type: 'synthetic'},
+    getClientModules() {
+      return siteConfigClientModules;
+    },
+    injectHtmlTags: () => {
+      const stylesheetsTags = stylesheets.map((source) =>
+        typeof source === 'string'
+          ? `<link rel="stylesheet" href="${source}">`
+          : ({
+              tagName: 'link',
+              attributes: {
+                rel: 'stylesheet',
+                ...source,
+              },
+            } as HtmlTagObject),
+      );
+      const scriptsTags = scripts.map((source) =>
+        typeof source === 'string'
+          ? `<script src="${source}"></script>`
+          : ({
+              tagName: 'script',
+              attributes: {
+                ...source,
+              },
+            } as HtmlTagObject),
+      );
+      return {
+        headTags: [...stylesheetsTags, ...scriptsTags],
+      };
+    },
+  };
+}
+
+// Configurer Webpack fallback mdx loader for md/mdx files out of content-plugin folders
+// Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
+// This allows to do things such as importing repo/README.md as a partial from another doc
+// Not ideal solution though, but good enough for now
+function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
+  return {
+    name: 'docusaurus-mdx-fallback-plugin',
+    content: null,
+    options: {},
+    version: {type: 'synthetic'},
+    configureWebpack(config, isServer, {getJSLoader}) {
+      // We need the mdx fallback loader to exclude files that were already processed by content plugins mdx loaders
+      // This works, but a bit hacky...
+      // Not sure there's a way to handle that differently in webpack :s
+      function getMDXFallbackExcludedPaths(): string[] {
+        const rules: RuleSetRule[] = config?.module?.rules as RuleSetRule[];
+        return rules.flatMap((rule) => {
+          const isMDXRule =
+            rule.test instanceof RegExp && rule.test.test('x.mdx');
+          return isMDXRule ? (rule.include as string[]) : [];
+        });
+      }
+
+      return {
+        module: {
+          rules: [
+            {
+              test: /(\.mdx?)$/,
+              exclude: getMDXFallbackExcludedPaths(),
+              use: [
+                getJSLoader({isServer}),
+                {
+                  loader: require.resolve('@docusaurus/mdx-loader'),
+                  options: {
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    isMDXPartial: (_filename) => true, // External mdx files are always meant to be imported as partials
+                    isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      };
+    },
+  };
+}
+
 export async function load(
   siteDir: string,
   options: LoadContextOptions = {},
@@ -176,49 +277,8 @@ export async function load(
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Make a fake plugin to:
-  // - Resolve aliased theme components
-  // - Inject scripts/stylesheets
-  const {
-    stylesheets = [],
-    scripts = [],
-    clientModules: siteConfigClientModules = [],
-  } = siteConfig;
-  plugins.push({
-    name: 'docusaurus-bootstrap-plugin',
-    content: null,
-    options: {},
-    version: {type: 'synthetic'},
-    getClientModules() {
-      return siteConfigClientModules;
-    },
-    injectHtmlTags: () => {
-      const stylesheetsTags = stylesheets.map((source) =>
-        typeof source === 'string'
-          ? `<link rel="stylesheet" href="${source}">`
-          : ({
-              tagName: 'link',
-              attributes: {
-                rel: 'stylesheet',
-                ...source,
-              },
-            } as HtmlTagObject),
-      );
-      const scriptsTags = scripts.map((source) =>
-        typeof source === 'string'
-          ? `<script src="${source}"></script>`
-          : ({
-              tagName: 'script',
-              attributes: {
-                ...source,
-              },
-            } as HtmlTagObject),
-      );
-      return {
-        headTags: [...stylesheetsTags, ...scriptsTags],
-      };
-    },
-  });
+  plugins.push(createBootstrapPlugin({siteConfig}));
+  plugins.push(createMDXFallbackPlugin({siteDir}));
 
   // Load client modules.
   const clientModules = loadClientModules(plugins);

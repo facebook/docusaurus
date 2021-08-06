@@ -1309,7 +1309,7 @@ Starting with this release for a proper work of i18n functionality, you need to 
 #### :rocket: New Feature
 
 - `docusaurus`
-  - [#3932](https://github.com/facebook/docusaurus/pull/3932) feat(v2): Add <Root> theme element ([@slorber](https://github.com/slorber))
+  - [#3932](https://github.com/facebook/docusaurus/pull/3932) feat(v2): Add Root theme element ([@slorber](https://github.com/slorber))
 - `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
   - [#3916](https://github.com/facebook/docusaurus/pull/3916) feat(v2): Add localeDropdown navbar item type + i18n localeConfigs field ([@slorber](https://github.com/slorber))
 - `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-types`
