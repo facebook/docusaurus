@@ -65,7 +65,11 @@ function createTemplateChoices(templates: string[]) {
   ];
 }
 
-async function copyFiles(templatesDir: string, template: string, dest: string) {
+async function copyTemplate(
+  templatesDir: string,
+  template: string,
+  dest: string,
+) {
   // Facebook template does not share all resources because of the various nuances
   if (template !== 'facebook') {
     await fs.copy(path.resolve(templatesDir, 'shared'), dest);
@@ -88,15 +92,10 @@ async function copyFiles(templatesDir: string, template: string, dest: string) {
       ),
       dest,
       {
-        filter: (filePath) => {
-          if (fs.statSync(filePath).isDirectory()) {
-            return true;
-          }
-          return (
-            path.extname(filePath) === '.css' ||
-            path.basename(filePath) === 'docusaurus.config.js'
-          );
-        },
+        filter: (filePath) =>
+          fs.statSync(filePath).isDirectory() ||
+          path.extname(filePath) === '.css' ||
+          path.basename(filePath) === 'docusaurus.config.js',
       },
     );
   }
@@ -186,9 +185,9 @@ export default async function init(
     template = repoPrompt.gitRepoUrl;
   }
 
-  console.log();
-  console.log(chalk.cyan('Creating new Docusaurus project...'));
-  console.log();
+  console.log(`
+${chalk.cyan('Creating new Docusaurus project...')}
+`);
 
   if (template && isValidGitRepoUrl(template)) {
     console.log(`Cloning Git template ${chalk.cyan(template)}...`);
@@ -209,7 +208,7 @@ export default async function init(
       template = `${template}${TypeScriptTemplateSuffix}`;
     }
     try {
-      await copyFiles(templatesDir, template, dest);
+      await copyTemplate(templatesDir, template, dest);
     } catch (err) {
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
