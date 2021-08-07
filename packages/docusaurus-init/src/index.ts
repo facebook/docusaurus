@@ -73,8 +73,8 @@ async function copyFiles(templatesDir: string, template: string, dest: string) {
     await Promise.all(
       ['blog', 'docs', 'src'].map((folder) =>
         fs.copy(
-          path.resolve(templatesDir, `shared/${folder}`),
-          `${dest}/${folder}`,
+          path.resolve(templatesDir, 'shared', folder),
+          path.resolve(dest, folder),
         ),
       ),
     );
