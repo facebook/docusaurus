@@ -66,9 +66,18 @@ function createTemplateChoices(templates: string[]) {
 }
 
 async function copyFiles(templatesDir: string, template: string, dest: string) {
-  // Facebook template does not share resources because of the various nuances
+  // Facebook template does not share all resources because of the various nuances
   if (template !== 'facebook') {
     await fs.copy(path.resolve(templatesDir, 'shared'), dest);
+  } else {
+    await Promise.all(
+      ['blog', 'docs', 'src'].map((folder) =>
+        fs.copy(
+          path.resolve(templatesDir, `shared/${folder}`),
+          `${dest}/${folder}`,
+        ),
+      ),
+    );
   }
   // TypeScript variants will copy duplicate resources like CSS & config from base template
   if (template.endsWith(TypeScriptTemplateSuffix)) {
