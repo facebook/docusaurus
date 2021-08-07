@@ -1,1 +1,0 @@
-../classic/README.md

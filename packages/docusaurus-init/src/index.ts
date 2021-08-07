@@ -44,7 +44,8 @@ function readTemplates(templatesDir: string) {
       (d) =>
         !d.startsWith('.') &&
         !d.startsWith('README') &&
-        !d.endsWith(TypeScriptTemplateSuffix),
+        !d.endsWith(TypeScriptTemplateSuffix) &&
+        d !== 'shared',
     );
 
   // Classic should be first in list!
@@ -64,6 +65,35 @@ function createTemplateChoices(templates: string[]) {
   ];
 }
 
+async function copyFiles(templatesDir: string, template: string, dest: string) {
+  // Facebook template does not share resources because of the various nuances
+  if (template !== 'facebook') {
+    await fs.copy(path.resolve(templatesDir, 'shared'), dest);
+  }
+  // TypeScript template variants share more resources, i.e. CSS & config
+  if (template.endsWith(TypeScriptTemplateSuffix)) {
+    await fs.copy(
+      path.resolve(
+        templatesDir,
+        template.replace(TypeScriptTemplateSuffix, ''),
+      ),
+      dest,
+      {
+        filter: (filePath) => {
+          if (fs.statSync(filePath).isDirectory()) {
+            return true;
+          }
+          return (
+            path.extname(filePath) === '.css' ||
+            path.basename(filePath) === 'docusaurus.config.js'
+          );
+        },
+      },
+    );
+  }
+  await fs.copy(path.resolve(templatesDir, template), dest);
+}
+
 export default async function init(
   rootDir: string,
   siteName?: string,
@@ -74,7 +104,7 @@ export default async function init(
     typescript: boolean;
   }> = {},
 ): Promise<void> {
-  const useYarn = !cliOptions.useNpm ? hasYarn() : false;
+  const useYarn = cliOptions.useNpm ? false : hasYarn();
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
@@ -167,9 +197,7 @@ export default async function init(
       template = `${template}${TypeScriptTemplateSuffix}`;
     }
     try {
-      await fs.copy(path.resolve(templatesDir, template), dest, {
-        dereference: true,
-      });
+      await copyFiles(templatesDir, template, dest);
     } catch (err) {
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,

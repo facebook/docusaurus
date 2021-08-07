@@ -1,1 +1,0 @@
-../../classic/blog/2019-05-29-hello-world.md
