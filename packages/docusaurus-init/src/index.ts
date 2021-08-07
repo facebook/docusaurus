@@ -70,7 +70,7 @@ async function copyFiles(templatesDir: string, template: string, dest: string) {
   if (template !== 'facebook') {
     await fs.copy(path.resolve(templatesDir, 'shared'), dest);
   }
-  // TypeScript template variants share more resources, i.e. CSS & config
+  // TypeScript variants will copy duplicate resources like CSS & config from base template
   if (template.endsWith(TypeScriptTemplateSuffix)) {
     await fs.copy(
       path.resolve(
@@ -91,7 +91,10 @@ async function copyFiles(templatesDir: string, template: string, dest: string) {
       },
     );
   }
-  await fs.copy(path.resolve(templatesDir, template), dest);
+  await fs.copy(path.resolve(templatesDir, template), dest, {
+    // Symlinks don't exist in published NPM packages anymore, so this is only to prevent errors during local testing
+    filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
+  });
 }
 
 export default async function init(
