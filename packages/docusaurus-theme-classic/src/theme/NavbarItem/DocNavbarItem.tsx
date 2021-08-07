@@ -56,7 +56,7 @@ export default function DocNavbarItem({
       {...props}
       className={clsx(props.className, {
         [activeDocInfimaClassName]:
-          activeDoc && activeDoc.sidebar === doc.sidebar,
+          doc.sidebar && doc.sidebar === activeDoc?.sidebar,
       })}
       activeClassName={activeDocInfimaClassName}
       label={staticLabel ?? doc.id}
