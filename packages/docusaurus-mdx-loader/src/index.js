@@ -48,7 +48,6 @@ async function readMetadataPath(metadataPath) {
 // We don't do that for all frontMatters, only for the configured keys
 // {image: "./myImage.png"} => {image: require("./myImage.png")}
 function createFrontMatterAssetsExportCode(
-  filePath,
   frontMatter,
   frontMatterAssetKeys = [],
 ) {
@@ -122,35 +121,25 @@ module.exports = async function docusaurusMdxLoader(fileString) {
     return callback(err);
   }
 
-  let exportStr = ``;
-  exportStr += `\nexport const frontMatter = ${stringifyObject(frontMatter)};`;
-  exportStr += `\nexport const frontMatterAssets = ${createFrontMatterAssetsExportCode(
-    filePath,
+  let exportStr = `
+export const frontMatter = ${stringifyObject(frontMatter)};
+export const frontMatterAssets = ${createFrontMatterAssetsExportCode(
     frontMatter,
     reqOptions.frontMatterAssetKeys,
-  )};`;
-  exportStr += `\nexport const contentTitle = ${stringifyObject(
-    contentTitle,
-  )};`;
+  )};
+export const contentTitle = ${stringifyObject(contentTitle)};`;
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have an associated metadata file or frontmatter
-  const isMDXPartial = options.isMDXPartial
-    ? options.isMDXPartial(filePath)
-    : false;
+  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
 
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
-File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringify(
-      frontMatter,
-      null,
-      2,
-    )}`;
+File at ${filePath} contains FrontMatter that will be ignored:
+${JSON.stringify(frontMatter, null, 2)}`;
 
-    if (options.isMDXPartialFrontMatterWarningDisabled === true) {
-      // no warning
-    } else {
+    if (!options.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
@@ -176,12 +165,12 @@ File at ${filePath} contains FrontMatter that will be ignored: \n${JSON.stringif
   }
 
   const code = `
-  import React from 'react';
-  import { mdx } from '@mdx-js/react';
+import React from 'react';
+import { mdx } from '@mdx-js/react';
 
-  ${exportStr}
-  ${result}
-  `;
+${exportStr}
+${result}
+`;
 
   return callback(null, code);
 };
