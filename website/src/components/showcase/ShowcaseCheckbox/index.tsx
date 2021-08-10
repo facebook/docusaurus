@@ -5,10 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
+
+interface Props extends HTMLAttributes<HTMLInputElement> {
+  name: string;
+  label: string | JSX.Element;
+  checked: boolean;
+}
 
 function ShowcaseCheckbox({
   className,
@@ -17,10 +23,10 @@ function ShowcaseCheckbox({
   onChange,
   checked,
   ...props
-}) {
+}: Props) {
   const id = `showcase_checkbox_id_${name};`;
   return (
-    <div className={clsx(props.className, styles.checkboxContainer)} {...props}>
+    <div className={clsx(className, styles.checkboxContainer)} {...props}>
       <input
         type="checkbox"
         id={id}

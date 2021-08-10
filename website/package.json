@@ -63,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@tsconfig/docusaurus": "^1.0.3",
     "cross-env": "^7.0.3",
     "raw-loader": "^4.0.2"
   }

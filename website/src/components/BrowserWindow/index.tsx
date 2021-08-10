@@ -9,7 +9,13 @@ import React from 'react';
 
 import styles from './styles.module.css';
 
-function BrowserWindow({children, minHeight, url}) {
+interface Props {
+  children: JSX.Element[];
+  minHeight: number;
+  url: string;
+}
+
+function BrowserWindow({children, minHeight, url}: Props) {
   return (
     <div className={styles.browserWindow} style={{minHeight}}>
       <div className={styles.browserWindowHeader}>

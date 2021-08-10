@@ -17,8 +17,8 @@ const BOARD_TOKEN = '054e0e53-d951-b14c-7e74-9eb8f9ed2f91';
 function Feedback() {
   useEffect(() => {
     canny();
-    window.Canny &&
-      window.Canny('render', {
+    (window as any).Canny &&
+      (window as any).Canny('render', {
         boardToken: BOARD_TOKEN,
         basePath: '/feedback',
       });

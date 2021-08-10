@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 
-function WebsiteLink({to, children}) {
+function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   return (
     <Link to={to}>
       {children || (
@@ -19,7 +19,21 @@ function WebsiteLink({to, children}) {
   );
 }
 
-function TeamProfileCard({className, name, children, githubUrl, twitterUrl}) {
+interface ProfileProps {
+  className?: string;
+  name: string;
+  children: ReactNode;
+  githubUrl?: string;
+  twitterUrl?: string;
+}
+
+function TeamProfileCard({
+  className,
+  name,
+  children,
+  githubUrl,
+  twitterUrl,
+}: ProfileProps) {
   return (
     <div className={className}>
       <div className="card card--full-height">
@@ -55,7 +69,7 @@ function TeamProfileCard({className, name, children, githubUrl, twitterUrl}) {
   );
 }
 
-function TeamProfileCardCol(props) {
+function TeamProfileCardCol(props: ProfileProps) {
   return (
     <TeamProfileCard {...props} className={'col col--6 margin-bottom--lg'} />
   );

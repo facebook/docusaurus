@@ -6,17 +6,23 @@
  */
 
 import React, {useState} from 'react';
-
 import Color from 'color';
-
 import CodeBlock from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
 
-const COLOR_SHADES = {
+const COLOR_SHADES: Record<
+  string,
+  {
+    adjustment: number;
+    adjustmentInput: string;
+    displayOrder: number;
+    codeOrder: number;
+  }
+> = {
   '--ifm-color-primary': {
     adjustment: 0,
-    adjustmentInput: 0,
+    adjustmentInput: '0',
     displayOrder: 3,
     codeOrder: 0,
   },
@@ -60,7 +66,7 @@ const COLOR_SHADES = {
 
 const DEFAULT_PRIMARY_COLOR = '3578e5';
 
-function ColorGenerator({children, minHeight, url}) {
+function ColorGenerator() {
   const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
   const [shades, setShades] = useState(COLOR_SHADES);
   const color = Color('#' + baseColor);

@@ -103,7 +103,7 @@ function Version() {
                   <tr key={versionName}>
                     <th>{versionName}</th>
                     <td>
-                      <Link to={versionUrl}>Documentation</Link>
+                      <Link to={versionUrl as string}>Documentation</Link>
                     </td>
                     <td>
                       <a href={`${repoUrl}/releases/tag/v${versionName}`}>

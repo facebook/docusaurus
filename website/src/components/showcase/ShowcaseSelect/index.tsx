@@ -5,16 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 
 import styles from './styles.module.css';
 
-function ShowcaseSelect({tag, label, onChange, value, children}) {
-  const id = `showcase_select_id_${tag};`;
+interface Props extends HTMLAttributes<HTMLSelectElement> {
+  name: string;
+  label: string;
+  value: string;
+}
+
+function ShowcaseSelect({name, label, onChange, value, children}: Props) {
+  const id = `showcase_select_id_${name};`;
   return (
     <div className={styles.selectContainer}>
       <label htmlFor={id}>{label}</label>
-      <select id={id} name={tag} onChange={onChange} value={value}>
+      <select id={id} name={name} onChange={onChange} value={value}>
         {children}
       </select>
     </div>
