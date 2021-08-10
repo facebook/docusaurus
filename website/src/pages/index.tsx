@@ -80,7 +80,9 @@ const QUOTES = [
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig: {customFields = {}, tagline = ''} = {}} = context;
+  const {
+    siteConfig: {customFields, tagline},
+  } = context;
   return (
     <Layout title={tagline} description={customFields.description}>
       <main>

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {HTMLAttributes} from 'react';
+import React, {ComponentProps, ReactNode} from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
-  name: string;
-  label: string | JSX.Element;
-  checked: boolean;
+interface Props
+  extends ComponentProps<'div'>,
+    Pick<ComponentProps<'input'>, 'name' | 'checked'> {
+  label: ReactNode;
 }
 
 function ShowcaseCheckbox({

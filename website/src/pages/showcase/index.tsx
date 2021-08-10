@@ -160,7 +160,7 @@ function ShowcaseFilters({
             name="operator"
             label="Filter: "
             value={operator}
-            onChange={(e) => setOperator((e.target as any).value)}>
+            onChange={(e) => setOperator(e.target.value as Operator)}>
             <option value="OR">OR</option>
             <option value="AND">AND</option>
           </ShowcaseSelect>

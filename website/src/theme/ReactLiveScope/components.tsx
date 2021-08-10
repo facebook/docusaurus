@@ -1,6 +1,6 @@
-import React, {HTMLAttributes} from 'react';
+import React, {ComponentProps} from 'react';
 
-export const ButtonExample = (props: HTMLAttributes<HTMLButtonElement>) => (
+export const ButtonExample = (props: ComponentProps<'button'>) => (
   <button
     {...props}
     style={{
