@@ -80,7 +80,7 @@ function useSelectedTags() {
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search) as TagType[];
+    const tags = readSearchTags(location.search);
     setSelectedTags(tags);
   }, [location, setSelectedTags]);
 
@@ -157,7 +157,7 @@ function ShowcaseFilters({
         })}
         <div className="col col--2">
           <ShowcaseSelect
-            name="Operator"
+            name="operator"
             label="Filter: "
             value={operator}
             onChange={(e) => setOperator((e.target as any).value)}>
