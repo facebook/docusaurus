@@ -9,7 +9,7 @@ slug: /markdown-features/head-metadatas
 
 Docusaurus automatically sets useful page metadatas in `<html>`, `<head>` and `<body>` for you.
 
-It is possible to add (or override) metadatas by using the `<head>` tag directly in Markdown files:
+It is possible to add extra metadatas (or override existing ones) by using the `<head>` tag in Markdown files:
 
 ```md title="markdown-features-head-metadatas.mdx"
 ---
@@ -19,8 +19,8 @@ title: Head Metadatas
 
 <!-- highlight-start -->
 <head>
-  <html className="some-extra-class" />
-  <body className="other-extra-class" />
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
   <title>Head Metadatas customized title!</title>
   <meta charSet="utf-8" />
   <meta name="twitter:card" content="summary" />
@@ -35,8 +35,8 @@ My text
 
 ```mdx-code-block
 <head>
-  <html className="html-head-metadatas-extra-class" lang="en" />
-  <body className="body-head-metadatas-extra-class" />
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
   <title>Head Metadatas customized title!</title>
   <meta charSet="utf-8" />
   <meta name="twitter:card" content="summary" />
@@ -46,7 +46,7 @@ My text
 
 :::tip
 
-We used this `<head>` declaration in this Markdown file as a demo.
+This `<head>` declaration has been added to the current Markdown doc, as a demo.
 
 Open your browser DevTools and check how this page's metadatas have been affected.
 
