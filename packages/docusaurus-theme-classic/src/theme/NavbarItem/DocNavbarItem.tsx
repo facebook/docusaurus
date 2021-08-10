@@ -9,6 +9,7 @@ import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
+import {getInfimaActiveClassName} from './index';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {uniq} from '@docusaurus/utils-common';
@@ -46,9 +47,7 @@ export default function DocNavbarItem({
     ) as GlobalDataVersion[],
   );
   const doc = getDocInVersions(versions, docId);
-  const activeDocInfimaClassName = props.mobile
-    ? 'menu__link--active'
-    : 'navbar__link--active';
+  const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
     <DefaultNavbarItem
