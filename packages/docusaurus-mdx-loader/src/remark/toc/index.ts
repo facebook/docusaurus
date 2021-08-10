@@ -5,25 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {parse} = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const stringifyObject = require('stringify-object');
-const search = require('./search');
+import {parse, ParserOptions} from '@babel/parser';
+import traverse from '@babel/traverse';
+import stringifyObject from 'stringify-object';
+import search from './search';
+import type {Plugin, Transformer} from 'unified';
+import type {Node, ExportNode} from '@docusaurus/mdx-loader';
 
-const parseOptions = {
+const parseOptions: ParserOptions = {
   plugins: ['jsx'],
   sourceType: 'module',
 };
-const isImport = (child) => child.type === 'import';
-const hasImports = (index) => index > -1;
-const isExport = (child) => child.type === 'export';
 
-const isTarget = (child, name) => {
+const isImport = (child: Node) => child.type === 'import';
+const hasImports = (index: number) => index > -1;
+const isExport = (child: Node) => child.type === 'export';
+
+interface PluginOptions {
+  name?: string;
+}
+
+const isTarget = (child: Node, name: string) => {
   let found = false;
-  const ast = parse(child.value, parseOptions);
+  const ast = parse(child.value!, parseOptions);
   traverse(ast, {
     VariableDeclarator: (path) => {
-      if (path.node.id.name === name) {
+      if ((path.node.id as any).name === name) {
         found = true;
       }
     },
@@ -32,7 +39,7 @@ const isTarget = (child, name) => {
   return found;
 };
 
-const getOrCreateExistingTargetIndex = (children, name) => {
+const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   let importsIndex = -1;
   let targetIndex = -1;
 
@@ -45,7 +52,7 @@ const getOrCreateExistingTargetIndex = (children, name) => {
   });
 
   if (targetIndex === -1) {
-    const target = {
+    const target: ExportNode = {
       default: false,
       type: 'export',
       value: `export const ${name} = [];`,
@@ -58,16 +65,16 @@ const getOrCreateExistingTargetIndex = (children, name) => {
   return targetIndex;
 };
 
-const plugin = (options = {}) => {
+const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const name = options.name || 'toc';
 
-  const transformer = (node) => {
+  const transformer: Transformer = (node: Node) => {
     const headings = search(node);
     const {children} = node;
-    const targetIndex = getOrCreateExistingTargetIndex(children, name);
+    const targetIndex = getOrCreateExistingTargetIndex(children!, name);
 
     if (headings && headings.length) {
-      children[targetIndex].value = `export const ${name} = ${stringifyObject(
+      children![targetIndex].value = `export const ${name} = ${stringifyObject(
         headings,
       )};`;
     }
@@ -76,4 +83,4 @@ const plugin = (options = {}) => {
   return transformer;
 };
 
-module.exports = plugin;
+export default plugin;

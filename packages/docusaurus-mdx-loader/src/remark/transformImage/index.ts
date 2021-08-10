@@ -5,23 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const visit = require('unist-util-visit');
-const path = require('path');
-const url = require('url');
-const fs = require('fs-extra');
-const escapeHtml = require('escape-html');
-const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
-const {
+import visit, {Visitor} from 'unist-util-visit';
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
+import escapeHtml from 'escape-html';
+import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
+import {
   posixPath,
   escapePath,
   toMessageRelativeFilePath,
-} = require('@docusaurus/utils');
+} from '@docusaurus/utils';
+import type {Plugin, Transformer} from 'unified';
+import type {ImageNode} from '@docusaurus/mdx-loader';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const createJSX = (node, pathUrl) => {
+interface PluginOptions {
+  filePath: string;
+  staticDir: string;
+}
+
+const createJSX = (node: ImageNode, pathUrl: string) => {
   const jsxNode = node;
   jsxNode.type = 'jsx';
   jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
@@ -43,7 +50,7 @@ const createJSX = (node, pathUrl) => {
   }
 };
 
-async function ensureImageFileExist(imagePath, sourceFilePath) {
+async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
   const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
     throw new Error(
@@ -54,7 +61,10 @@ async function ensureImageFileExist(imagePath, sourceFilePath) {
   }
 }
 
-async function processImageNode(node, {filePath, staticDir}) {
+async function processImageNode(
+  node: ImageNode,
+  {filePath, staticDir}: PluginOptions,
+) {
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
@@ -92,15 +102,16 @@ async function processImageNode(node, {filePath, staticDir}) {
   }
 }
 
-const plugin = (options) => {
-  const transformer = async (root) => {
-    const promises = [];
-    visit(root, 'image', (node) => {
+const plugin: Plugin<[PluginOptions]> = (options) => {
+  const transformer: Transformer = async (root) => {
+    const promises: Promise<void>[] = [];
+    const visitor: Visitor<ImageNode> = (node) => {
       promises.push(processImageNode(node, options));
-    });
+    };
+    visit(root, 'image', visitor);
     await Promise.all(promises);
   };
   return transformer;
 };
 
-module.exports = plugin;
+export default plugin;

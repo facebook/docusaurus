@@ -5,36 +5,53 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {readFile} = require('fs-extra');
-const mdx = require('@mdx-js/mdx');
-const chalk = require('chalk');
-const emoji = require('remark-emoji');
-const {
+import {readFile} from 'fs-extra';
+import mdx from '@mdx-js/mdx';
+import chalk from 'chalk';
+import emoji from 'remark-emoji';
+import {
   parseFrontMatter,
   parseMarkdownContentTitle,
-} = require('@docusaurus/utils');
-const stringifyObject = require('stringify-object');
-const headings = require('./remark/headings');
-const toc = require('./remark/toc');
-const unwrapMdxCodeBlocks = require('./remark/unwrapMdxCodeBlocks');
-const transformImage = require('./remark/transformImage');
-const transformLinks = require('./remark/transformLinks');
-const {escapePath} = require('@docusaurus/utils');
-const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
+  escapePath,
+} from '@docusaurus/utils';
+import stringifyObject from 'stringify-object';
+import headings from './remark/headings';
+import toc from './remark/toc';
+import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
+import transformImage from './remark/transformImage';
+import transformLinks from './remark/transformLinks';
+import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
+import type {Plugin} from 'unified';
+
+// TODO temporary until Webpack5 export this type
+// see https://github.com/webpack/webpack/issues/11630
+interface Loader extends Function {
+  (this: any, source: string): Promise<string | Buffer | void | undefined>;
+}
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: {
+  rehypePlugins: Plugin[];
+  remarkPlugins: Plugin[];
+} = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
 };
 
+export interface RemarkAndRehypePluginOptions {
+  remarkPlugins: Plugin[];
+  rehypePlugins: string[];
+  beforeDefaultRemarkPlugins: Plugin[];
+  beforeDefaultRehypePlugins: Plugin[];
+}
+
 // When this throws, it generally means that there's no metadata file associated with this MDX document
 // It can happen when using MDX partials (usually starting with _)
 // That's why it's important to provide the "isMDXPartial" function in config
-async function readMetadataPath(metadataPath) {
+async function readMetadataPath(metadataPath: string) {
   try {
     return await readFile(metadataPath, 'utf8');
   } catch (e) {
@@ -48,14 +65,14 @@ async function readMetadataPath(metadataPath) {
 // We don't do that for all frontMatters, only for the configured keys
 // {image: "./myImage.png"} => {image: require("./myImage.png")}
 function createFrontMatterAssetsExportCode(
-  frontMatter,
-  frontMatterAssetKeys = [],
+  frontMatter: Record<string, unknown>,
+  frontMatterAssetKeys: string[] = [],
 ) {
   if (frontMatterAssetKeys.length === 0) {
     return 'undefined';
   }
 
-  function createFrontMatterAssetRequireCode(value) {
+  function createFrontMatterAssetRequireCode(value: unknown) {
     // Only process string values starting with ./
     // We could enhance this logic and check if file exists on disc?
     if (typeof value === 'string' && value.startsWith('./')) {
@@ -83,7 +100,7 @@ function createFrontMatterAssetsExportCode(
   return exportValue;
 }
 
-module.exports = async function docusaurusMdxLoader(fileString) {
+const docusaurusMdxLoader: Loader = async function (fileString) {
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions() || {};
@@ -174,3 +191,5 @@ ${result}
 
   return callback(null, code);
 };
+
+export default docusaurusMdxLoader;
