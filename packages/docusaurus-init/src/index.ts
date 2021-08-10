@@ -44,7 +44,8 @@ function readTemplates(templatesDir: string) {
       (d) =>
         !d.startsWith('.') &&
         !d.startsWith('README') &&
-        !d.endsWith(TypeScriptTemplateSuffix),
+        !d.endsWith(TypeScriptTemplateSuffix) &&
+        d !== 'shared',
     );
 
   // Classic should be first in list!
@@ -64,6 +65,38 @@ function createTemplateChoices(templates: string[]) {
   ];
 }
 
+function getTypeScriptBaseTemplate(template: string): string | undefined {
+  if (template.endsWith(TypeScriptTemplateSuffix)) {
+    return template.replace(TypeScriptTemplateSuffix, '');
+  }
+  return undefined;
+}
+
+async function copyTemplate(
+  templatesDir: string,
+  template: string,
+  dest: string,
+) {
+  await fs.copy(path.resolve(templatesDir, 'shared'), dest);
+
+  // TypeScript variants will copy duplicate resources like CSS & config from base template
+  const tsBaseTemplate = getTypeScriptBaseTemplate(template);
+  if (tsBaseTemplate) {
+    const tsBaseTemplatePath = path.resolve(templatesDir, tsBaseTemplate);
+    await fs.copy(tsBaseTemplatePath, dest, {
+      filter: (filePath) =>
+        fs.statSync(filePath).isDirectory() ||
+        path.extname(filePath) === '.css' ||
+        path.basename(filePath) === 'docusaurus.config.js',
+    });
+  }
+
+  await fs.copy(path.resolve(templatesDir, template), dest, {
+    // Symlinks don't exist in published NPM packages anymore, so this is only to prevent errors during local testing
+    filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
+  });
+}
+
 export default async function init(
   rootDir: string,
   siteName?: string,
@@ -74,7 +107,7 @@ export default async function init(
     typescript: boolean;
   }> = {},
 ): Promise<void> {
-  const useYarn = !cliOptions.useNpm ? hasYarn() : false;
+  const useYarn = cliOptions.useNpm ? false : hasYarn();
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
@@ -144,9 +177,9 @@ export default async function init(
     template = repoPrompt.gitRepoUrl;
   }
 
-  console.log();
-  console.log(chalk.cyan('Creating new Docusaurus project...'));
-  console.log();
+  console.log(`
+${chalk.cyan('Creating new Docusaurus project...')}
+`);
 
   if (template && isValidGitRepoUrl(template)) {
     console.log(`Cloning Git template ${chalk.cyan(template)}...`);
@@ -167,9 +200,7 @@ export default async function init(
       template = `${template}${TypeScriptTemplateSuffix}`;
     }
     try {
-      await fs.copy(path.resolve(templatesDir, template), dest, {
-        dereference: true,
-      });
+      await copyTemplate(templatesDir, template, dest);
     } catch (err) {
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,

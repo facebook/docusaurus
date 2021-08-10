@@ -1,1 +1,0 @@
-../../../classic/docs/tutorial-basics/create-a-blog-post.md
