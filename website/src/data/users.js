@@ -1265,6 +1265,14 @@ const Users = [
     website: 'https://unmand.com',
     source: null,
     tags: ['product', 'design']
+  },
+   {
+    title: 'Haochen',
+    description: 'My personal website with a blog section to record all tech-related issues I encountered.',
+    preview: require('./showcase/haochen.png'),
+    website: 'https://haochenqi.com/',
+    source: 'https://github.com/HaochenQ/Haochen-Blog',
+    tags: ['personal', 'opensource']
   }
 ];
 
