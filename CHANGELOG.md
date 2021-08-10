@@ -842,7 +842,7 @@ Read the [2.0.0 beta blog post](https://docusaurus.io/blog/2021/05/12/announcing
 
 ## 2.0.0-alpha.72 (2021-03-16)
 
-### :boom: Breaking Change
+#### :boom: Breaking Change
 
 Starting with this release for a proper work of i18n functionality, you need to either use Node v14+ or in case of using earlier version of Node.js install [`full-icu` package](https://www.npmjs.com/package/full-icu) and set `NODE_ICU_DATA` environment variable in your npm scripts, for example:
 
@@ -3622,7 +3622,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 
 ## 2.0.0-alpha.33
 
-### Features
+#### Features
 
 - Table of contents is now highlighted depending on current active headings. (thanks to awesome @SantiagoGdaR) [#1896](https://github.com/facebook/docusaurus/pull/1896)
 - Official blog plugin can now generate feed for blog posts. (thanks to awesome @moozzyk) [#1916](https://github.com/facebook/docusaurus/pull/1916)
@@ -3637,7 +3637,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
   ```
 - Added new `prism` option `defaultLanguage` that is used if the language is not specified in code blocks. [#1910](https://github.com/facebook/docusaurus/pull/1910)
 
-### Fixes
+#### Fixes
 
 - Fix babel/env not picking the correct browserslist configuration during development. When running `docusaurus start`, `process.env.NODE_ENV` is now consistently set to `development`.
 - Ensure routes config generation to be more consistent in ordering. Nested routes should be placed last in routes.js. This will allow user to create `src/pages/docs.js` to create custom docs page for `/docs` or even `src/pages/docs/super.js` to create page for `/docs/super/`;
@@ -3645,14 +3645,14 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Fix build compilation error if exists only one code tab.
 - Add minor padding to docs container so that hash-link won't be cut off.
 
-### Others
+#### Others
 
 - Misc dependency upgrades.
 - Stability improvement (more tests) & refactoring on docs plugin to prevent regression.
 
 ## 2.0.0-alpha.32
 
-### Features
+#### Features
 
 - Add `<Redirect>` component for client side redirect. Example Usage:
 
@@ -3668,7 +3668,7 @@ function Home() {
 - Allow user to add custom HTML to footer items. [#1905](https://github.com/facebook/docusaurus/pull/1905)
 - Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature. ([#1860](https://github.com/facebook/Docusaurus/issues/1860))
 
-### Bug Fixes
+#### Bug Fixes
 
 - Fix `@theme/Tabs` component to be able to create tabs with only one item.
 - Fix MDX `@theme/Heading` component. If there is no id, it should not create anchor link.
@@ -3686,13 +3686,13 @@ function Home() {
 - Prioritize `@docusaurus/core` dependencies/ node_modules over user's node_modules. This fix a bug whereby if user has core-js@3 on its own node_modules but docusaurus depends on core-js@2, we previously encounter `Module not found: core-js/modules/xxxx` (because core-js@3 doesn't have that).
 - Fix a bug where docs plugin add `/docs` route even if docs folder is empty. We also improved docs plugin test coverage to 100% for stability before working on docs versioning. ([#1912](https://github.com/facebook/Docusaurus/issues/1912))
 
-### Performance Improvement
+#### Performance Improvement
 
 - Reduce memory usage consumption. ([#1900](https://github.com/facebook/Docusaurus/issues/1900))
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated files from webpack is also shorter in name. ([#1898](https://github.com/facebook/Docusaurus/issues/1898))
 - Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata. ([#1908](https://github.com/facebook/Docusaurus/issues/1908))
 
-### Others
+#### Others
 
 - Convert sitemap plugin to TypeScript. ([#1894](https://github.com/facebook/Docusaurus/issues/1894))
 - Refactor dark mode toggle into a hook. ([#1899](https://github.com/facebook/Docusaurus/issues/1899))
