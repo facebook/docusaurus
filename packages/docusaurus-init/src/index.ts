@@ -65,28 +65,32 @@ function createTemplateChoices(templates: string[]) {
   ];
 }
 
+function getTypeScriptBaseTemplate(template: string): string | undefined {
+  if (template.endsWith(TypeScriptTemplateSuffix)) {
+    return template.replace(TypeScriptTemplateSuffix, '');
+  }
+  return undefined;
+}
+
 async function copyTemplate(
   templatesDir: string,
   template: string,
   dest: string,
 ) {
   await fs.copy(path.resolve(templatesDir, 'shared'), dest);
+
   // TypeScript variants will copy duplicate resources like CSS & config from base template
-  if (template.endsWith(TypeScriptTemplateSuffix)) {
-    await fs.copy(
-      path.resolve(
-        templatesDir,
-        template.replace(TypeScriptTemplateSuffix, ''),
-      ),
-      dest,
-      {
-        filter: (filePath) =>
-          fs.statSync(filePath).isDirectory() ||
-          path.extname(filePath) === '.css' ||
-          path.basename(filePath) === 'docusaurus.config.js',
-      },
-    );
+  const tsBaseTemplate = getTypeScriptBaseTemplate(template);
+  if (tsBaseTemplate) {
+    const tsBaseTemplatePath = path.resolve(templatesDir, tsBaseTemplate);
+    await fs.copy(tsBaseTemplatePath, dest, {
+      filter: (filePath) =>
+        fs.statSync(filePath).isDirectory() ||
+        path.extname(filePath) === '.css' ||
+        path.basename(filePath) === 'docusaurus.config.js',
+    });
   }
+
   await fs.copy(path.resolve(templatesDir, template), dest, {
     // Symlinks don't exist in published NPM packages anymore, so this is only to prevent errors during local testing
     filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
