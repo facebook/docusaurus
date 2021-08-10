@@ -70,19 +70,7 @@ async function copyTemplate(
   template: string,
   dest: string,
 ) {
-  // Facebook template does not share all resources because of the various nuances
-  if (template !== 'facebook') {
-    await fs.copy(path.resolve(templatesDir, 'shared'), dest);
-  } else {
-    await Promise.all(
-      ['blog', 'docs', 'src'].map((folder) =>
-        fs.copy(
-          path.resolve(templatesDir, 'shared', folder),
-          path.resolve(dest, folder),
-        ),
-      ),
-    );
-  }
+  await fs.copy(path.resolve(templatesDir, 'shared'), dest);
   // TypeScript variants will copy duplicate resources like CSS & config from base template
   if (template.endsWith(TypeScriptTemplateSuffix)) {
     await fs.copy(
