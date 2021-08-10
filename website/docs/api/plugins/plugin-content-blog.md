@@ -14,7 +14,9 @@ npm install --save @docusaurus/plugin-content-blog
 
 :::tip
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](#ex-config-preset).
 
 :::
 
@@ -65,53 +67,98 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-Example configuration:
+## Example configuration {#ex-config}
+
+Here's an example configuration object.
+
+You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+
+:::tip
+
+Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+
+:::
+
+```js
+const config = {
+  path: 'blog',
+  // Simple use-case: string editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+  // Advanced use-case: functional editUrl
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
+    return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+  },
+  editLocalizedFiles: false,
+  blogTitle: 'Blog title',
+  blogDescription: 'Blog',
+  blogSidebarCount: 5,
+  blogSidebarTitle: 'All our posts',
+  routeBasePath: 'blog',
+  include: ['**/*.{md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  postsPerPage: 10,
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/,
+  showReadingTime: true,
+  feedOptions: {
+    type: '',
+    title: '',
+    description: '',
+    copyright: '',
+    language: undefined,
+  },
+};
+```
+
+### Preset options {#ex-config-preset}
+
+If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-start
+        blog: {
+          path: 'blog',
+          // ... configuration object here
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+### Plugin options {#ex-config-plugin}
+
+If you are using a standalone plugin, provide options directly to the plugin:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-content-blog',
+      // highlight-start
       {
         path: 'blog',
-        // Simple use-case: string editUrl
-        // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
-        // Advanced use-case: functional editUrl
-        editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-          return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
-        },
-        editLocalizedFiles: false,
-        blogTitle: 'Blog title',
-        blogDescription: 'Blog',
-        blogSidebarCount: 5,
-        blogSidebarTitle: 'All our posts',
-        routeBasePath: 'blog',
-        include: ['**/*.{md,mdx}'],
-        exclude: [
-          '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/_*/**',
-          '**/*.test.{js,jsx,ts,tsx}',
-          '**/__tests__/**',
-        ],
-        postsPerPage: 10,
-        blogListComponent: '@theme/BlogListPage',
-        blogPostComponent: '@theme/BlogPostPage',
-        blogTagsListComponent: '@theme/BlogTagsListPage',
-        blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-        remarkPlugins: [require('remark-math')],
-        rehypePlugins: [],
-        beforeDefaultRemarkPlugins: [],
-        beforeDefaultRehypePlugins: [],
-        truncateMarker: /<!--\s*(truncate)\s*-->/,
-        showReadingTime: true,
-        feedOptions: {
-          type: '',
-          title: '',
-          description: '',
-          copyright: '',
-          language: undefined,
-        },
+        // ... configuration object here
       },
+      // highlight-end
     ],
   ],
 };
