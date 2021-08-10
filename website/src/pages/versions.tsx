@@ -77,7 +77,8 @@ function Version() {
           </div>
         )}
 
-        {(pastVersions.length > 0 || VersionsArchived.length > 0) && (
+        {(pastVersions.length > 0 ||
+          Object.keys(VersionsArchived).length > 0) && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
             <p>
