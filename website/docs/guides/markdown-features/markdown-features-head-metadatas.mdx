@@ -1,0 +1,61 @@
+---
+id: head-metadatas
+title: Head Metadatas
+description: Declaring page-specific head metadatas through MDX
+slug: /markdown-features/head-metadatas
+---
+
+# Head Metadatas
+
+Docusaurus automatically sets useful page metadatas in `<html>`, `<head>` and `<body>` for you.
+
+It is possible to add (or override) metadatas by using the `<head>` tag directly in Markdown files:
+
+```md title="markdown-features-head-metadatas.mdx"
+---
+id: head-metadatas
+title: Head Metadatas
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-class" />
+  <body className="other-extra-class" />
+  <title>Head Metadatas customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadatas" />
+</head>
+<!-- highlight-end -->
+
+# Head Metadatas
+
+My text
+```
+
+```mdx-code-block
+<head>
+  <html className="html-head-metadatas-extra-class" lang="en" />
+  <body className="body-head-metadatas-extra-class" />
+  <title>Head Metadatas customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadatas" />
+</head>
+```
+
+:::tip
+
+We used this `<head>` declaration in this Markdown file as a demo.
+
+Open your browser DevTools and check how this page's metadatas have been affected.
+
+:::
+
+:::note
+
+This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.md#head) component.
+
+Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
+
+:::
