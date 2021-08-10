@@ -166,10 +166,9 @@ function DocSidebarItemLink({
         className={clsx('menu__link', {
           'menu__link--active': isActive,
         })}
+        aria-current={isActive ? 'page' : undefined}
         to={href}
         {...(isInternalUrl(href) && {
-          isNavLink: true,
-          exact: true,
           onClick: onItemClick,
         })}
         {...props}>
