@@ -19,22 +19,21 @@ const Logo = (props: Props): JSX.Element => {
     siteConfig: {title},
   } = useDocusaurusContext();
   const {
-    navbar: {title: navbarTitle, logo = {src: ''}},
+    navbar: {title: navbarTitle, logo},
   } = useThemeConfig();
 
   const {imageClassName, titleClassName, ...propsRest} = props;
-  const logoLink = useBaseUrl(logo.href || '/');
+  const logoLink = useBaseUrl(logo?.href || '/');
   const sources = {
-    light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark || logo.src),
+    light: useBaseUrl(logo?.src),
+    dark: useBaseUrl(logo?.srcDark || logo?.src),
   };
-
   return (
     <Link
       to={logoLink}
       {...propsRest}
-      {...(logo.target && {target: logo.target})}>
-      {logo.src && (
+      {...(logo?.target && {target: logo.target})}>
+      {logo?.src && (
         <ThemedImage
           className={imageClassName}
           sources={sources}
