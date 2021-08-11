@@ -13,14 +13,14 @@ declare module '@generated/client-modules' {
 declare module '@generated/docusaurus.config' {
   import type {DocusaurusConfig} from '@docusaurus/types';
 
-  const config: Partial<DocusaurusConfig>;
+  const config: DocusaurusConfig;
   export default config;
 }
 
 declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
-  const siteMetadata: Partial<DocusaurusSiteMetadata>;
+  const siteMetadata: DocusaurusSiteMetadata;
   export default siteMetadata;
 }
 
