@@ -4,8 +4,8 @@ export function difference<T>(...arrays: T[][]) {
 }
 
 // Inspired by https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_sortby-and-_orderby
-export function sortBy<T>(array: T[], getter: (index: T) => unknown) {
-  function compareBy(getter: (index: T) => unknown) {
+export function sortBy<T>(array: T[], getter: (item: T) => unknown) {
+  function compareBy(getter: (item: T) => unknown) {
     return (a: T, b: T) =>
       getter(a) > getter(b) ? 1 : getter(b) > getter(a) ? -1 : 0;
   }
