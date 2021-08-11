@@ -57,7 +57,12 @@ const Toggle = memo(
           className="react-toggle-track"
           role="button"
           tabIndex={-1}
-          onClick={() => inputRef.current?.click()}>
+          onClick={() => inputRef.current?.click()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              inputRef.current?.click();
+            }
+          }}>
           <div className="react-toggle-track-check">{icons.checked}</div>
           <div className="react-toggle-track-x">{icons.unchecked}</div>
           <div className="react-toggle-thumb" />
