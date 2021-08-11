@@ -59,18 +59,22 @@ jobs:
           install-command: yarn
       - name: Setup test-website project against master release
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2
-          rm -rf node_modules
+          KEEP_CONTAINER=true yarn test:build:v2 -s
+          ls -l test-website
       - name: Setup test-website project for Yarn v2
         run: |
           mv test-website ../test-website
           cd ../test-website
+
+          yarn set version berry
+          yarn --version
           yarn set version 2
+          yarn --version
+
           yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
-          yarn --version
           yarn install
       - name: Start test-website project
         run: cd ../test-website && yarn start --no-open
