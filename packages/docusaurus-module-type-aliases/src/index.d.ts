@@ -11,12 +11,16 @@ declare module '@generated/client-modules' {
 }
 
 declare module '@generated/docusaurus.config' {
-  const config: any;
+  import type {DocusaurusConfig} from '@docusaurus/types';
+
+  const config: Partial<DocusaurusConfig>;
   export default config;
 }
 
 declare module '@generated/site-metadata' {
-  const siteMetadata: any;
+  import type {DocusaurusSiteMetadata} from '@docusaurus/types';
+
+  const siteMetadata: Partial<DocusaurusSiteMetadata>;
   export default siteMetadata;
 }
 
@@ -28,12 +32,9 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  type Route = {
-    readonly path: string;
-    readonly component: any;
-    readonly exact?: boolean;
-  };
-  const routes: Route[];
+  import type {RouteConfig} from 'react-router-config';
+
+  const routes: RouteConfig[];
   export default routes;
 }
 
@@ -79,16 +80,11 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  import type {ReactNode} from 'react';
-
-  type RRLinkProps = Partial<import('react-router-dom').LinkProps>;
-  export type LinkProps = RRLinkProps & {
+  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  export type LinkProps = NavLinkProps & {
     readonly isNavLink?: boolean;
     readonly to?: string;
     readonly href?: string;
-    readonly activeClassName?: string;
-    readonly children?: ReactNode;
-    readonly isActive?: (match: any, location: any) => boolean;
     readonly autoAddBaseUrl?: boolean;
 
     // escape hatch in case broken links check is annoying for a specific link
@@ -173,7 +169,9 @@ declare module '@docusaurus/history' {
 }
 
 declare module '@docusaurus/useDocusaurusContext' {
-  export default function (): any;
+  import type {DocusaurusContext} from '@docusaurus/types';
+
+  export default function useDocusaurusContext(): DocusaurusContext;
 }
 
 declare module '@docusaurus/useBaseUrl' {

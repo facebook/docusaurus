@@ -80,7 +80,8 @@ function BaseUrlIssueBannerEnabled() {
   // useLayoutEffect fires before DOMContentLoaded.
   // It gives the opportunity to avoid inserting the banner in the first place
   useLayoutEffect(() => {
-    window[InsertBannerWindowAttribute] = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any)[InsertBannerWindowAttribute] = false;
   }, []);
 
   return (

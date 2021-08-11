@@ -120,7 +120,7 @@ function useCollapseAnimation({
 
     el.style.willChange = 'height';
 
-    function startAnimation(): () => void {
+    function startAnimation() {
       const animationFrame = requestAnimationFrame(() => {
         // When collapsing
         if (collapsed) {
@@ -182,6 +182,7 @@ function CollapsibleBase({
   disableSSRStyle,
 }: CollapsibleBaseProps) {
   // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collapsibleRef = useRef<any>(null);
 
   useCollapseAnimation({collapsibleRef, collapsed, animation});
@@ -191,7 +192,7 @@ function CollapsibleBase({
       // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
       ref={collapsibleRef}
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
-      onTransitionEnd={(e) => {
+      onTransitionEnd={(e: React.TransitionEvent) => {
         if (e.propertyName !== 'height') {
           return;
         }

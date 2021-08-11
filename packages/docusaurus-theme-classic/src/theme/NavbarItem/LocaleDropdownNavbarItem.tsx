@@ -11,6 +11,7 @@ import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
+import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 export default function LocaleDropdownNavbarItem({
   mobile,
@@ -23,7 +24,7 @@ export default function LocaleDropdownNavbarItem({
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
-  function getLocaleLabel(locale) {
+  function getLocaleLabel(locale: string) {
     return localeConfigs[locale].label;
   }
 
@@ -40,7 +41,7 @@ export default function LocaleDropdownNavbarItem({
       autoAddBaseUrl: false,
       className: locale === currentLocale ? 'dropdown__link--active' : '',
       style: {textTransform: 'capitalize'},
-    };
+    } as LinkLikeNavbarItemProps;
   });
 
   const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
