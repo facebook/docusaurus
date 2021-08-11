@@ -175,7 +175,7 @@ function NavbarMobileSidebar({
           </ul>
         </div>
 
-        <div className="navbar-sidebar__item navbar-sidebar__item--secondary menu">
+        <div className="navbar-sidebar__item menu">
           {items.length > 0 && (
             <button
               type="button"
