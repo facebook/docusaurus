@@ -12,8 +12,27 @@ NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version").
 CONTAINER_NAME="verdaccio"
 EXTRA_OPTS=""
 
-if getopts ":n" arg; then
-  EXTRA_OPTS="--use-npm"
+usage() { echo "Usage: $0 [-n] [-s]" 1>&2; exit 1; }
+
+while getopts ":ns" o; do
+  case "${o}" in
+    n)
+      EXTRA_OPTS="--use-npm"
+      ;;
+    s)
+      EXTRA_OPTS="--skip-install"
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
+
+if [ ! -z $EXTRA_OPTS ]
+then
+  echo docusaurus-init extra options = ${EXTRA_OPTS}
 fi
 
 # Run Docker container with private npm registry Verdaccio
