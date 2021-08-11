@@ -45,7 +45,14 @@ const Playgrounds = [
   },
 ];
 
-function PlaygroundCard({name, image, url, description}) {
+interface Props {
+  name: string;
+  image: any;
+  url: string;
+  description: JSX.Element;
+}
+
+function PlaygroundCard({name, image, url, description}: Props) {
   return (
     <div className="col col--6 margin-bottom--lg">
       <div className={clsx('card')}>

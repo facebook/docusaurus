@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
-export const ButtonExample = (props) => (
+export const ButtonExample = (props: ComponentProps<'button'>) => (
   <button
     {...props}
     style={{

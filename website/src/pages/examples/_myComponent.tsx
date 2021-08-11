@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 export default function MyComponent() {
-  const [bool, setBool] = React.useState(false);
+  const [bool, setBool] = useState(false);
   return (
     <div>
       <p>MyComponent rendered !</p>

@@ -10,10 +10,10 @@ import React, {memo} from 'react';
 import styles from './styles.module.css';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
-import {Tags, TagList} from '../../../data/users';
+import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
-function TagIcon({label, description, icon}) {
+function TagIcon({label, description, icon}: Tag) {
   return (
     <span
       className={styles.tagIcon}
@@ -24,7 +24,7 @@ function TagIcon({label, description, icon}) {
   );
 }
 
-function ShowcaseCardTagIcons({tags}) {
+function ShowcaseCardTagIcons({tags}: {tags: TagType[]}) {
   const tagObjects = tags
     .map((tag) => ({tag, ...Tags[tag]}))
     .filter((tagObject) => !!tagObject.icon);
@@ -34,12 +34,16 @@ function ShowcaseCardTagIcons({tags}) {
     TagList.indexOf(tagObject.tag),
   );
 
-  return tagObjectsSorted.map((tagObject, index) => (
-    <TagIcon key={index} {...tagObject} />
-  ));
+  return (
+    <>
+      {tagObjectsSorted.map((tagObject, index) => (
+        <TagIcon key={index} {...tagObject} />
+      ))}
+    </>
+  );
 }
 
-const ShowcaseCard = memo(function ({user}) {
+const ShowcaseCard = memo(function ({user}: {user: User}) {
   return (
     <div key={user.title} className="col col--4 margin-bottom--lg">
       <div className={clsx('card', styles.showcaseCard)}>

@@ -1,12 +1,11 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "lib": ["DOM"],
-    "noEmit": true,
-    "noImplicitAny": false
+    "paths": {
+      "@site/*": ["./*"]
+    },
+    "resolveJsonModule": true
   },
   "include": ["src/"]
 }

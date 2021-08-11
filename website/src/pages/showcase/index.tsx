@@ -16,14 +16,20 @@ import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import {toggleListItem} from '../../utils/jsUtils';
-import {SortedUsers, Tags, TagList} from '../../data/users';
+import {SortedUsers, Tags, TagList, User, TagType} from '../../data/users';
+
+type Operator = 'OR' | 'AND';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
-  'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.js';
+  'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.tsx';
 
-function filterUsers(users, selectedTags, operator) {
+function filterUsers(
+  users: User[],
+  selectedTags: TagType[],
+  operator: Operator,
+) {
   if (selectedTags.length === 0) {
     return users;
   }
@@ -39,7 +45,11 @@ function filterUsers(users, selectedTags, operator) {
   });
 }
 
-function useFilteredUsers(users, selectedTags, operator) {
+function useFilteredUsers(
+  users: User[],
+  selectedTags: TagType[],
+  operator: Operator,
+) {
   return useMemo(() => filterUsers(users, selectedTags, operator), [
     users,
     selectedTags,
@@ -49,11 +59,11 @@ function useFilteredUsers(users, selectedTags, operator) {
 
 const TagQueryStringKey = 'tags';
 
-function readSearchTags(search) {
-  return new URLSearchParams(search).getAll(TagQueryStringKey);
+function readSearchTags(search: string) {
+  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
 }
 
-function replaceSearchTags(search, newTags) {
+function replaceSearchTags(search: string, newTags: TagType[]) {
   const searchParams = new URLSearchParams(search);
   searchParams.delete(TagQueryStringKey);
   newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
@@ -66,7 +76,7 @@ function useSelectedTags() {
   const {push} = useHistory();
 
   // On SSR / first mount (hydration) no tag is selected
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
@@ -76,7 +86,7 @@ function useSelectedTags() {
 
   // Update the QS value
   const toggleTag = useCallback(
-    (tag) => {
+    (tag: TagType) => {
       const tags = readSearchTags(location.search);
       const newTags = toggleListItem(tags, tag);
       const newSearch = replaceSearchTags(location.search, newTags);
@@ -106,7 +116,19 @@ function ShowcaseHeader() {
   );
 }
 
-function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
+interface Props {
+  selectedTags: TagType[];
+  toggleTag: (tag: TagType) => void;
+  operator: Operator;
+  setOperator: (op: Operator) => void;
+}
+
+function ShowcaseFilters({
+  selectedTags,
+  toggleTag,
+  operator,
+  setOperator,
+}: Props) {
   return (
     <div className="margin-top--l margin-bottom--md container">
       <div className="row">
@@ -138,7 +160,7 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
             name="operator"
             label="Filter: "
             value={operator}
-            onChange={(e) => setOperator(e.target.value)}>
+            onChange={(e) => setOperator(e.target.value as Operator)}>
             <option value="OR">OR</option>
             <option value="AND">AND</option>
           </ShowcaseSelect>
@@ -148,7 +170,7 @@ function ShowcaseFilters({selectedTags, toggleTag, operator, setOperator}) {
   );
 }
 
-function ShowcaseCards({filteredUsers}) {
+function ShowcaseCards({filteredUsers}: {filteredUsers: User[]}) {
   return (
     <section className="container margin-top--lg">
       <h2>
@@ -176,7 +198,7 @@ function ShowcaseCards({filteredUsers}) {
 
 function Showcase() {
   const {selectedTags, toggleTag} = useSelectedTags();
-  const [operator, setOperator] = useState('OR');
+  const [operator, setOperator] = useState<Operator>('OR');
   const filteredUsers = useFilteredUsers(SortedUsers, selectedTags, operator);
   return (
     <Layout title={TITLE} description={DESCRIPTION}>

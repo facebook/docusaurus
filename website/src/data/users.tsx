@@ -39,10 +39,38 @@ import {difference, sortBy} from '../utils/jsUtils';
  *
  */
 
+export type Tag = {
+  label: string;
+  description: string;
+  icon: JSX.Element;
+};
+
+export type TagType =
+  | 'favorite'
+  | 'opensource'
+  | 'product'
+  | 'design'
+  | 'i18n'
+  | 'versioning'
+  | 'multiInstance'
+  | 'large'
+  | 'facebook'
+  | 'personal'
+  | 'rtl';
+
+export type User = {
+  title: string;
+  description: string;
+  preview: any;
+  website: string;
+  source: string;
+  tags: TagType[];
+};
+
 // LIST OF AVAILABLE TAGS
 // Available tags to assign to your site
 // Please choose widely, we'll remove unappropriate tags
-export const Tags = {
+export const Tags: Record<TagType, Tag> = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
     label: 'Favorite',
@@ -123,7 +151,7 @@ export const Tags = {
 
 // Add your site to this list
 // prettier-ignore
-const Users = [
+const Users: User[] = [
   {
     title: 'Aide Jeune',
     description: 'French Discord server that helps young people who have been bullied or feel bad about themselves',
@@ -1276,7 +1304,7 @@ const Users = [
   }
 ];
 
-export const TagList = Object.keys(Tags);
+export const TagList = Object.keys(Tags) as TagType[];
 function sortUsers() {
   let result = Users;
   // Sort by site name
@@ -1289,7 +1317,7 @@ function sortUsers() {
 export const SortedUsers = sortUsers();
 
 // Fail-fast on common errors
-function ensureUserValid(user) {
+function ensureUserValid(user: User) {
   function checkFields() {
     const keys = Object.keys(user);
     const validKeys = [
@@ -1346,7 +1374,11 @@ function ensureUserValid(user) {
   }
 
   function checkTags() {
-    if (!user.tags || !(user.tags instanceof Array) || user.tags.includes('')) {
+    if (
+      !user.tags ||
+      !(user.tags instanceof Array) ||
+      (user.tags as string[]).includes('')
+    ) {
       throw new Error(`Bad showcase tags=[${JSON.stringify(user.tags)}]`);
     }
     const unknownTags = difference(user.tags, TagList);
