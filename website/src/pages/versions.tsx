@@ -17,14 +17,16 @@ import VersionsArchived from '@site/versionsArchived.json';
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
 function Version() {
-  const {siteConfig} = useDocusaurusContext();
+  const {
+    siteConfig: {organizationName, projectName},
+  } = useDocusaurusContext();
   const versions = useVersions();
   const latestVersion = useLatestVersion();
   const currentVersion = versions.find((version) => version.name === 'current');
   const pastVersions = versions.filter(
     (version) => version !== latestVersion && version.name !== 'current',
   );
-  const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
+  const repoUrl = `https://github.com/${organizationName}/${projectName}`;
 
   return (
     <Layout

@@ -84,7 +84,7 @@ function Home() {
     siteConfig: {customFields, tagline},
   } = context;
   return (
-    <Layout title={tagline} description={customFields.description}>
+    <Layout title={tagline} description={customFields.description as string}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
