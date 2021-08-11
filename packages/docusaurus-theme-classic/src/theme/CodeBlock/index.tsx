@@ -129,14 +129,10 @@ export default function CodeBlock({
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
-  let language =
-    languageClassName &&
-    // Force Prism's language union type to `any` because it does not contain all available languages
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((languageClassName.replace(/language-/, '') as Language) as any);
+  let language = languageClassName?.replace(/language-/, '') as Language;
 
   if (!language && prism.defaultLanguage) {
-    language = prism.defaultLanguage;
+    language = prism.defaultLanguage as Language;
   }
 
   // only declaration OR directive highlight can be used for a block

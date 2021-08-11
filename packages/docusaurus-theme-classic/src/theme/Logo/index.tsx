@@ -12,17 +12,16 @@ import Link from '@docusaurus/Link';
 import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const Logo = (props: Props): JSX.Element => {
   const {
-    siteConfig: {
-      title,
-      themeConfig: {
-        navbar: {title: navbarTitle, logo = {src: ''}},
-      },
-    },
+    siteConfig: {title},
     isClient,
   } = useDocusaurusContext();
+  const {
+    navbar: {title: navbarTitle, logo = {src: ''}},
+  } = useThemeConfig();
 
   const {imageClassName, titleClassName, ...propsRest} = props;
   const logoLink = useBaseUrl(logo.href || '/');
@@ -38,7 +37,7 @@ const Logo = (props: Props): JSX.Element => {
       {...(logo.target && {target: logo.target})}>
       {logo.src && (
         <ThemedImage
-          key={isClient}
+          key={`${isClient}`} // TODO seems suspicious
           className={imageClassName}
           sources={sources}
           alt={logo.alt || navbarTitle || title}

@@ -57,7 +57,7 @@ function DocPageContent({
 
   return (
     <Layout
-      key={isClient}
+      key={`${isClient}`} // TODO seems suspicious
       wrapperClassName={ThemeClassNames.wrapper.docPages}
       pageClassName={ThemeClassNames.page.docPage}
       searchMetadatas={{

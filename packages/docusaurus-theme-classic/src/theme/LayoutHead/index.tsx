@@ -16,6 +16,7 @@ import {
   DEFAULT_SEARCH_TAG,
   useTitleFormatter,
   useAlternatePageUtils,
+  useThemeConfig,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
 
@@ -83,12 +84,10 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
-    siteConfig: {
-      favicon,
-      themeConfig: {metadatas, image: defaultImage},
-    },
+    siteConfig: {favicon},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
+  const {metadatas, image: defaultImage} = useThemeConfig();
   const {title, description, image, keywords, searchMetadatas} = props;
   const faviconUrl = useBaseUrl(favicon);
   const pageTitle = useTitleFormatter(title);

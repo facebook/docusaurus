@@ -10,6 +10,7 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Navbar from '@theme/Navbar';
@@ -18,12 +19,7 @@ import type {Props} from '@theme/Layout';
 
 function Layout(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  const {
-    favicon,
-    title: siteTitle,
-    themeConfig: {image: defaultImage, metadatas},
-    url: siteUrl,
-  } = siteConfig;
+  const {favicon, title: siteTitle, url: siteUrl} = siteConfig;
   const {
     children,
     title,
@@ -33,6 +29,7 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
   } = props;
+  const {image: defaultImage, metadatas} = useThemeConfig();
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
   const metaImage = image || defaultImage;

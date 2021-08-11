@@ -618,7 +618,6 @@ function migrateVersionedSidebar(
       const newSidebar = Object.entries(sidebar.entries).reduce(
         (acc: SidebarEntries, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
-          // eslint-disable-next-line prefer-destructuring
           acc[key] = Object.entries(val[1]).map((value) => {
             return {
               type: 'category',
