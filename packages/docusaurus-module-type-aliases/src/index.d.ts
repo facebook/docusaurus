@@ -34,7 +34,12 @@ declare module '@generated/registry' {
 declare module '@generated/routes' {
   import type {RouteConfig} from 'react-router-config';
 
-  const routes: RouteConfig[];
+  type Route = {
+    readonly path: string;
+    readonly component: RouteConfig['component'];
+    readonly exact?: boolean;
+  };
+  const routes: Route[];
   export default routes;
 }
 
