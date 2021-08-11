@@ -17,13 +17,7 @@ import type {MDXComponentsObject} from '@theme/MDXComponents';
 // In some cases (notably usage with Head/Helmet) we need to unwrap those elements.
 function unwrapMDXElement(element: ReactElement) {
   if (element?.props?.mdxType && element?.props?.originalType) {
-    const newProps = {
-      ...element.props,
-      mdxType: undefined,
-      originalType: undefined,
-    };
-    delete newProps.mdxType;
-    delete newProps.originalType;
+    const {mdxType, originalType, ...newProps} = element.props;
     return React.createElement(element.props.originalType, newProps);
   }
   return element;
