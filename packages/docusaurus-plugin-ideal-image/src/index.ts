@@ -41,9 +41,7 @@ export default function (
                     disable: !isProd,
                     // eslint-disable-next-line global-require
                     adapter: require('@docusaurus/responsive-loader/sharp'),
-                    name: isProd
-                      ? 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]'
-                      : 'assets/ideal-img/[name].[width].[ext]',
+                    name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',
                     ...options,
                   },
                 },
