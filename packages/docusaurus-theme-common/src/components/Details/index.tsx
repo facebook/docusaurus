@@ -68,6 +68,7 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
         {[styles.isClient]: isClient},
         props.className,
       )}>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         role="button"
         tabIndex={0}
@@ -78,8 +79,7 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
             e.preventDefault();
           }
         }}
-        onClick={toggle}
-        onKeyDown={() => {}}>
+        onClick={toggle}>
         {summary}
 
         <Collapsible
