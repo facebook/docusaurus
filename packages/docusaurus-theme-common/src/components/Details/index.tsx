@@ -79,11 +79,7 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
           }
         }}
         onClick={toggle}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            toggle(e);
-          }
-        }}>
+        onKeyDown={() => {}}>
         {summary}
 
         <Collapsible
