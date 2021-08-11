@@ -128,7 +128,6 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       priority,
       ...props
     } = routeConfig;

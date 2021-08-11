@@ -85,7 +85,6 @@ function createVersionedSidebarFile({
 }
 
 // Tests depend on non-default export for mocking.
-// eslint-disable-next-line import/prefer-default-export
 export function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,

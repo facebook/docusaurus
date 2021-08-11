@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function support(feature) {
+function support(feature: string) {
   if (typeof document === 'undefined') {
     return false;
   }
@@ -65,7 +65,7 @@ const supportedPrefetchStrategy = support('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched = {};
+const preFetched: Record<string, boolean> = {};
 
 function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {
