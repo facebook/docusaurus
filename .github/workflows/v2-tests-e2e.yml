@@ -59,7 +59,7 @@ jobs:
           install-command: yarn
       - name: Setup test-website project against master release
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2
+          KEEP_CONTAINER=true yarn test:build:v2 -s
           rm -rf node_modules
       - name: Setup test-website project for Yarn v2
         run: |
