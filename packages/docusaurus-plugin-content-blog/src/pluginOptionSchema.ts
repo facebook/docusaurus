@@ -32,7 +32,7 @@ export const DEFAULT_OPTIONS = {
   blogSidebarCount: 5,
   blogSidebarTitle: 'Recent posts',
   postsPerPage: 10,
-  include: ['*.md', '*.mdx'],
+  include: ['**/*.{md,mdx}'],
   exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
   path: 'blog',

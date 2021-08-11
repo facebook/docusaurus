@@ -16,6 +16,7 @@ import type {
 } from '@theme/NavbarItem/DefaultNavbarItem';
 import IconExternalLink from '@theme/IconExternalLink';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {getInfimaActiveClassName} from './index';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
 
@@ -25,7 +26,7 @@ export function NavLink({
   to,
   href,
   label,
-  activeClassName = 'navbar__link--active',
+  activeClassName = '',
   prependBaseUrlToHref,
   ...props
 }: NavLinkProps): JSX.Element {
@@ -45,7 +46,9 @@ export function NavLink({
           }
         : {
             isNavLink: true,
-            activeClassName,
+            activeClassName: !props.className?.includes(activeClassName)
+              ? activeClassName
+              : '',
             to: toUrl,
             ...(activeBasePath || activeBaseRegex
               ? {
@@ -109,7 +112,7 @@ function DefaultNavbarItem({
   ...props
 }: Props): JSX.Element {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
-  return <Comp {...props} />;
+  return <Comp {...props} activeClassName={getInfimaActiveClassName(mobile)} />;
 }
 
 export default DefaultNavbarItem;

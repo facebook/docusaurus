@@ -14,55 +14,100 @@ npm install --save @docusaurus/plugin-content-pages
 
 :::tip
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](#ex-config-preset).
 
 :::
 
 ## Configuration {#configuration}
+
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `path` | `string` | `'src/pages'` | Path to data on filesystem relative to site dir. Components in this directory will be automatically converted to pages. |
+| `routeBasePath` | `string` | `'/'` | URL route for the pages section of your site. **DO NOT** include a trailing slash. |
+| `include` | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | Matching files will be included and processed. |
+| `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
+| `mdxPageComponent` | `string` | `'@theme/MDXPage'` | Component used by each MDX page. |
+| `remarkPlugins` | `[]` | `any[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `[]` | `any[]` | Rehype plugins passed to MDX. |
+| `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
+| `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+
+</small>
+
+## Example configuration {#ex-config}
+
+Here's an example configuration object.
+
+You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+
+:::tip
+
+Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+
+:::
+
+```js
+const config = {
+  path: 'src/pages',
+  routeBasePath: '',
+  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  mdxPageComponent: '@theme/MDXPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+};
+```
+
+### Preset options {#ex-config-preset}
+
+If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-start
+        pages: {
+          path: 'src/pages',
+          // ... configuration object here
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+### Plugin options {#ex-config-plugin}
+
+If you are using a standalone plugin, provide options directly to the plugin:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-content-pages',
+      // highlight-start
       {
-        /**
-         * Path to data on filesystem
-         * relative to site dir
-         * components in this directory will be automatically converted to pages
-         */
         path: 'src/pages',
-        /**
-         * URL route for the page section of your site
-         * do not include trailing slash
-         */
-        routeBasePath: '',
-        include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
-        /**
-         * No route will be created for matching files
-         */
-        exclude: [
-          '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/_*/**',
-          '**/*.test.{js,jsx,ts,tsx}',
-          '**/__tests__/**',
-        ],
-        /**
-         * Theme component used by markdown pages.
-         */
-        mdxPageComponent: '@theme/MDXPage',
-        /**
-         * Remark and Rehype plugins passed to MDX
-         */
-        remarkPlugins: [],
-        rehypePlugins: [],
-        /**
-         * Custom Remark and Rehype plugins passed to MDX before
-         * the default Docusaurus Remark and Rehype plugins.
-         */
-        beforeDefaultRemarkPlugins: [],
-        beforeDefaultRehypePlugins: [],
+        // ... configuration object here
       },
+      // highlight-end
     ],
   ],
 };

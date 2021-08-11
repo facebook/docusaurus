@@ -3,9 +3,19 @@ id: typescript-support
 title: TypeScript Support
 ---
 
+## Initialization {#initialization}
+
+Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
+
+```bash
+npx @docusaurus/init@latest init my-website classic --typescript
+```
+
+Below are some guides on how to migrate an existing project to TypeScript.
+
 ## Setup {#setup}
 
-Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
+To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
 
 ```bash npm2yarn
 npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet @tsconfig/docusaurus

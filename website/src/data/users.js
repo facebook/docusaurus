@@ -315,6 +315,14 @@ const Users = [
     tags: ['opensource', 'i18n', 'large'],
   },
   {
+    title: 'Dart Code Metrics',
+    description: 'Static analysis tool that helps analyse and improve Dart code quality.',
+    preview: require('./showcase/dart-code-metrics.png'),
+    website: 'https://dartcodemetrics.dev/',
+    source: 'https://github.com/dart-code-checker/dart-code-metrics',
+    tags: ['opensource'],
+  },
+  {
     title: 'Datagit',
     description:
       'A persian tutorial website strive to make quality education for everyone.',
@@ -698,6 +706,14 @@ const Users = [
     website: 'https://docs.paubox.com/',
     source: null,
     tags: ["product"],
+  },
+  {
+    title: 'Plausible Analytics Docs',
+    description: 'Plausible Analytics is a simple, open source, lightweight (< 1 KB) and privacy-friendly alternative to Google Analytics. ',
+    preview: require('./showcase/plausible.png'),
+    website: 'https://plausible.io/docs',
+    source: 'https://github.com/plausible/docs',
+    tags: ['opensource','product'],
   },
   {
     title: 'pnpm',
@@ -1249,6 +1265,14 @@ const Users = [
     website: 'https://unmand.com',
     source: null,
     tags: ['product', 'design']
+  },
+   {
+    title: 'Haochen',
+    description: 'My personal website with a blog section to record all tech-related issues I encountered.',
+    preview: require('./showcase/haochen.png'),
+    website: 'https://haochenqi.com/',
+    source: 'https://github.com/HaochenQ/Haochen-Blog',
+    tags: ['personal', 'opensource']
   }
 ];
 

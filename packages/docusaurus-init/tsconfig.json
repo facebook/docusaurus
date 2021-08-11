@@ -5,5 +5,7 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib"
-  }
+  },
+  "include": ["src/"],
+  "exclude": ["templates/"]
 }

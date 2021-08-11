@@ -27,10 +27,15 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+  import type {
+    FrontMatter,
+    FrontMatterAssets,
+    Metadata,
+  } from '@theme/BlogPostPage';
 
   export type Props = {
     readonly frontMatter: FrontMatter;
+    readonly frontMatterAssets: FrontMatterAssets;
     readonly metadata: Metadata;
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;
@@ -446,7 +451,6 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
 
   export type Props = DefaultNavbarItemProps & {
     readonly docId: string;
-    readonly activeSidebarClassName: string;
     readonly docsPluginId?: string;
   };
 
@@ -536,9 +540,10 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  export type Props = import('@docusaurus/theme-common').Details;
-  const Props: (props: Props) => JSX.Element;
-  export default Props;
+  import {Details, DetailsProps} from '@docusaurus/theme-common';
+
+  export type Props = DetailsProps;
+  export default Details;
 }
 
 declare module '@theme/ThemeProvider' {
@@ -562,7 +567,7 @@ declare module '@theme/TOC' {
     readonly isChild?: boolean;
   };
 
-  export const TOCHeadings: (props: HeadingsProps) => JSX.Element;
+  export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
 
   const TOC: (props: TOCProps) => JSX.Element;
   export default TOC;

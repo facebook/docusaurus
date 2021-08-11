@@ -49,7 +49,7 @@
   "theme.lastUpdated.atDate": " در تاریخ {date}",
   "theme.lastUpdated.byUser": " توسط {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "آخرین بروزرسانی در {atDate} توسط {byUser}",
-  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← بازگشت به منو اصلی",
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ بازگشت به منو اصلی",
   "theme.tags.tagsListLabel": "برچسب ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب ها",
   "theme.tags.tagsPageTitle": "برچسب ها"

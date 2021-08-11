@@ -19,7 +19,7 @@ exports.dogfoodingPluginInstances = [
     '@docusaurus/plugin-content-blog',
     {
       id: 'blog-tests',
-      path: '_dogfooding/_blog-tests',
+      path: '_dogfooding/_blog tests',
       routeBasePath: '/tests/blog',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/_dogfooding/_blog-tests',
@@ -35,7 +35,7 @@ exports.dogfoodingPluginInstances = [
     '@docusaurus/plugin-content-pages',
     {
       id: 'pages-tests',
-      path: '_dogfooding/_pages-tests',
+      path: '_dogfooding/_pages tests',
       routeBasePath: '/tests/pages',
     },
   ],

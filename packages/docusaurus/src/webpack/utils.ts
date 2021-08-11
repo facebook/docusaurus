@@ -561,6 +561,7 @@ export function getMinimizer(
             level: {
               1: {
                 all: false,
+                removeWhitespace: true,
               },
               2: {
                 all: true,

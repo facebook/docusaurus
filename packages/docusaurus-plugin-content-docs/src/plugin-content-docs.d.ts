@@ -9,6 +9,8 @@
 
 declare module '@docusaurus/plugin-content-docs-types' {
   type VersionBanner = import('./types').VersionBanner;
+  type GlobalDataVersion = import('./types').GlobalVersion;
+  type GlobalDataDoc = import('./types').GlobalDoc;
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -43,14 +45,12 @@ declare module '@docusaurus/plugin-content-docs-types' {
     [sidebarId: string]: PropSidebarItem[];
   };
 
-  export type {
-    GlobalVersion as GlobalDataVersion,
-    GlobalDoc as GlobalDataDoc,
-  } from './types';
+  export type {GlobalDataVersion, GlobalDataDoc};
 }
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -136,4 +136,33 @@ declare module '@theme/Seo' {
 
   const Seo: (props: Props) => JSX.Element;
   export default Seo;
+}
+
+declare module '@theme/hooks/useDocs' {
+  type GlobalPluginData = import('./types').GlobalPluginData;
+  type GlobalVersion = import('./types').GlobalVersion;
+  type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
+  type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
+  type DocVersionSuggestions = import('./client/docsClientUtils').DocVersionSuggestions;
+
+  export type {GlobalPluginData, GlobalVersion};
+  export const useAllDocsData: () => Record<string, GlobalPluginData>;
+  export const useDocsData: (pluginId?: string) => GlobalPluginData;
+  export const useActivePlugin: (
+    options: GetActivePluginOptions = {},
+  ) => ActivePlugin | undefined;
+  export const useActivePluginAndVersion: (
+    options: GetActivePluginOptions = {},
+  ) =>
+    | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
+    | undefined;
+  export const useVersions: (pluginId?: string) => GlobalVersion[];
+  export const useLatestVersion: (pluginId?: string) => GlobalVersion;
+  export const useActiveVersion: (
+    pluginId?: string,
+  ) => GlobalVersion | undefined;
+  export const useActiveDocContext: (pluginId?: string) => ActiveDocContext;
+  export const useDocVersionSuggestions: (
+    pluginId?: string,
+  ) => DocVersionSuggestions;
 }
