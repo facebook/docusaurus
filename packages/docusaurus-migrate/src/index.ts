@@ -671,7 +671,7 @@ function migrateVersionedSidebar(
             to: `docs/${version}/`,
           })),
         {
-          label: 'Master/Unreleased',
+          label: 'Main/Unreleased',
           to: `docs/next/`,
           activeBaseRegex: `docs/next/(?!support|team|resources)`,
         },

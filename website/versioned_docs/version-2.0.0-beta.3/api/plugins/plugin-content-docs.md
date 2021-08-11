@@ -34,7 +34,7 @@ module.exports = {
          * Base url to edit your site.
          * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
          */
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         /**
          * For advanced cases, compute the edit url for each Markdown file yourself.
          */
@@ -45,7 +45,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         /**
          * Useful if you commit localized files to git.
@@ -171,7 +171,7 @@ module.exports = {
          */
         versions: {
           /*
-          Example configuration: 
+          Example configuration:
           current: {
             label: 'Android SDK v2.0.0 (WIP)',
             path: 'android-2.0.0',
@@ -224,7 +224,7 @@ hide_table_of_contents: false
 sidebar_label: Markdown
 sidebar_position: 3
 pagination_label: Markdown features
-custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
+custom_edit_url: https://github.com/facebook/docusaurus/edit/main/docs/api-doc-markdown.md
 description: How do I find you when I cannot solve this problem
 keywords:
   - docs

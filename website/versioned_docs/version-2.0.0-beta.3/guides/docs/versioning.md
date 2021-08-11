@@ -20,8 +20,8 @@ To better understand how versioning works and see if it suits your needs, you ca
 
 ```shell
 website
-├── sidebars.json        # sidebar for master (next) version
-├── docs                 # docs directory for master (next) version
+├── sidebars.json        # sidebar for main (next) version
+├── docs                 # docs directory for main (next) version
 │   ├── foo
 │   │   └── bar.md       # https://mysite.com/docs/next/foo/bar
 │   └── hello.md         # https://mysite.com/docs/next/hello
@@ -52,7 +52,7 @@ The table below explains how a versioned file maps to its version and the genera
 
 ### Tagging a new version {#tagging-a-new-version}
 
-1. First, make sure your content in the `docs` directory is ready to be frozen as a version. A version always should be based from master.
+1. First, make sure your content in the `docs` directory is ready to be frozen as a version. A version always should be based from main.
 1. Enter a new version number.
 
 ```bash npm2yarn
@@ -72,7 +72,7 @@ When tagging a new version, the document versioning mechanism will:
 1. Place the new file into the corresponding version folder.
 1. Include the reference for the new file into the corresponding sidebar file, according to version number.
 
-**Master docs**
+**Main docs**
 
 ```shell
 # The new file.

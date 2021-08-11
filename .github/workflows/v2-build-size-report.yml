@@ -1,4 +1,3 @@
-
 name: V2 Build Size Report
 
 on:
@@ -9,7 +8,7 @@ on:
   # See https://securitylab.github.com/research/github-actions-preventing-pwn-requests
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'

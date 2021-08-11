@@ -269,7 +269,7 @@ describe('simple site', () => {
   test('docs with editUrl', async () => {
     const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
       },
     });
 
@@ -290,7 +290,7 @@ describe('simple site', () => {
       slug: '/foo/bazSlug.html',
       title: 'baz',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/docs/foo/baz.md',
       description: 'Images',
       frontMatter: {
         id: 'baz',
@@ -744,7 +744,7 @@ describe('versioned site', () => {
   test('translated doc with editUrl', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         // editCurrentVersion: true,
       },
     });
@@ -770,14 +770,14 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
     });
   });
 
   test('translated en doc with editUrl and editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editCurrentVersion: true,
       },
     });
@@ -803,14 +803,14 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
     });
   });
 
   test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editLocalizedFiles: true,
       },
       locale: 'fr',
@@ -837,14 +837,14 @@ describe('versioned site', () => {
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
     });
   });
 
   test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editCurrentVersion: true,
         editLocalizedFiles: true,
       },
@@ -872,7 +872,7 @@ describe('versioned site', () => {
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
     });
   });
 });

@@ -3,10 +3,10 @@ name: V2 Tests E2E
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
@@ -29,7 +29,7 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn
-      - name: Setup test-website project against master release
+      - name: Setup test-website project against main release
         run: |
           yarn test:build:v2
           rm -rf node_modules
@@ -57,7 +57,7 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn
-      - name: Setup test-website project against master release
+      - name: Setup test-website project against main release
         run: |
           KEEP_CONTAINER=true yarn test:build:v2
           rm -rf node_modules

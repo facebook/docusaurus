@@ -103,10 +103,10 @@ This behavior can have SEO impacts and create relative link issues.
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via master. All others use gh-pages.
+  // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH ||
-    (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
+    (projectName.indexOf('.github.io') !== -1 ? 'main' : 'gh-pages');
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
@@ -166,7 +166,7 @@ This behavior can have SEO impacts and create relative link issues.
 
     // If the default branch is the one we're deploying to, then we'll fail
     // to create it. This is the case of a cross-repo publish, where we clone
-    // a github.io repo with a default master branch.
+    // a github.io repo with a default branch.
     const defaultBranch = shell
       .exec('git rev-parse --abbrev-ref HEAD')
       .stdout.trim();

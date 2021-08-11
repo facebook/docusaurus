@@ -23,7 +23,7 @@ type Operator = 'OR' | 'AND';
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
-  'https://github.com/facebook/docusaurus/edit/master/website/src/data/users.tsx';
+  'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 
 function filterUsers(
   users: User[],

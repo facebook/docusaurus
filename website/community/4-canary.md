@@ -16,7 +16,7 @@ A canary release passes all automated tests, and is used in production by the Do
 
 ## Canary npm dist tag
 
-For any code-related commit on `master`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
+For any code-related commit on `main`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
 
 You can see on [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) the current dist tags:
 

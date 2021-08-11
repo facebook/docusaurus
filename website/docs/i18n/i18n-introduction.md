@@ -27,7 +27,7 @@ The goals of the Docusaurus i18n system are:
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2
 - **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
-- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/codeTranslations)
 
 ### i18n non-goals {#i18n-non-goals}
 
