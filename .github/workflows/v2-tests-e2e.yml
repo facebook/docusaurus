@@ -64,6 +64,7 @@ jobs:
       - name: Setup test-website project for Yarn v2
         run: |
           cd test-website
+          yarn set version 2
           yarn set version 2.2.0
           yarn --version
           yarn config set pnpMode loose
