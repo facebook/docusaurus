@@ -149,6 +149,9 @@ export function createBaseConfig(
         process.cwd(),
       ],
       alias: {
+        // Node.js polyfill aliases, see https://sanchit3b.medium.com/how-to-polyfill-node-core-modules-in-webpack-5-905c1f5504a0
+        url: 'url',
+
         ...SharedModuleAliases,
 
         '@site': siteDir,
