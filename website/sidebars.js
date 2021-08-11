@@ -49,6 +49,7 @@ module.exports = {
             'guides/markdown-features/assets',
             'guides/markdown-features/plugins',
             'guides/markdown-features/math-equations',
+            'guides/markdown-features/head-metadatas',
           ],
         },
         'styling-layout',

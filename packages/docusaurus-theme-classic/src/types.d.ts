@@ -351,8 +351,10 @@ declare module '@theme/SkipToContent' {
 declare module '@theme/MDXComponents' {
   import type {ComponentProps} from 'react';
   import type CodeBlock from '@theme/CodeBlock';
+  import type Head from '@docusaurus/Head';
 
   export type MDXComponentsObject = {
+    readonly head: typeof Head;
     readonly code: typeof CodeBlock;
     readonly a: (props: ComponentProps<'a'>) => JSX.Element;
     readonly pre: typeof CodeBlock;

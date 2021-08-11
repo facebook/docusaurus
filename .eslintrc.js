@@ -93,7 +93,10 @@ module.exports = {
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
     '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
-    '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
+    '@typescript-eslint/no-unused-vars': [
+      ERROR,
+      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+    ],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
