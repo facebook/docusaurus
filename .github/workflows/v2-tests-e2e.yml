@@ -63,20 +63,20 @@ jobs:
           rm -rf node_modules
       - name: Setup test-website project for Yarn v2
         run: |
-          cd test-website
+          mv test-website ../test-website
+          cd ../test-website
           yarn set version 2
-          yarn set version 2.2.0
-          yarn --version
           yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
+          yarn --version
           yarn install
       - name: Start test-website project
-        run: cd test-website && yarn start --no-open
+        run: cd ../test-website && yarn start --no-open
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd test-website && yarn build
+        run: cd ../test-website && yarn build
         env:
           CI: true
