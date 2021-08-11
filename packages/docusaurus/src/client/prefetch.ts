@@ -79,7 +79,6 @@ function prefetch(url: string): Promise<void> {
         resolve();
         preFetched[url] = true;
       })
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .catch(() => {}); // 404s are logged to the console anyway.
   });
 }
