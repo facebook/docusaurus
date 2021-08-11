@@ -117,6 +117,7 @@
     "webpackbar": "^5.0.0-3"
   },
   "peerDependencies": {
+    "@docusaurus/mdx-loader": "2.0.0-beta.4",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
