@@ -32,12 +32,12 @@ const Logo = (props: Props): JSX.Element => {
 
   return (
     <Link
-      key={`${isClient}`} // TODO seems suspicious
       to={logoLink}
       {...propsRest}
       {...(logo.target && {target: logo.target})}>
       {logo.src && (
         <ThemedImage
+          key={`${isClient}`} // TODO seems suspicious
           className={imageClassName}
           sources={sources}
           alt={logo.alt || navbarTitle || title}
