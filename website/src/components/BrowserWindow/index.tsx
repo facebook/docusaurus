@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import styles from './styles.module.css';
 
 interface Props {
-  children: JSX.Element[];
+  children: ReactNode;
   minHeight: number;
   url: string;
 }

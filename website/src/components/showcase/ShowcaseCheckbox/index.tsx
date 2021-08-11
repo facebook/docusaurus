@@ -10,30 +10,15 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-interface Props
-  extends ComponentProps<'div'>,
-    Pick<ComponentProps<'input'>, 'name' | 'checked'> {
+interface Props extends ComponentProps<'input'> {
   label: ReactNode;
 }
 
-function ShowcaseCheckbox({
-  className,
-  name,
-  label,
-  onChange,
-  checked,
-  ...props
-}: Props) {
-  const id = `showcase_checkbox_id_${name};`;
+function ShowcaseCheckbox({title, className, label, ...props}: Props) {
+  const id = `showcase_checkbox_id_${props.name};`;
   return (
-    <div className={clsx(className, styles.checkboxContainer)} {...props}>
-      <input
-        type="checkbox"
-        id={id}
-        name={name}
-        onChange={onChange}
-        checked={checked}
-      />
+    <div className={clsx(className, styles.checkboxContainer)} title={title}>
+      <input type="checkbox" id={id} {...props} />
       <label htmlFor={id}>{label}</label>
     </div>
   );
