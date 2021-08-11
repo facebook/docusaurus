@@ -53,16 +53,12 @@ const Toggle = memo(
           'react-toggle--focus': focused,
           'react-toggle--disabled': disabled,
         })}>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
           className="react-toggle-track"
           role="button"
           tabIndex={-1}
-          onClick={() => inputRef.current?.click()}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              inputRef.current?.click();
-            }
-          }}>
+          onClick={() => inputRef.current?.click()}>
           <div className="react-toggle-track-check">{icons.checked}</div>
           <div className="react-toggle-track-x">{icons.unchecked}</div>
           <div className="react-toggle-thumb" />
@@ -78,6 +74,11 @@ const Toggle = memo(
           onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              inputRef.current?.click();
+            }
+          }}
         />
       </div>
     );
