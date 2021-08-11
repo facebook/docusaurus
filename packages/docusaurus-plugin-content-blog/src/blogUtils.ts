@@ -326,7 +326,7 @@ export function linkify({
     sourceToPermalink,
   });
 
-  brokenMarkdownLinks.forEach(onBrokenMarkdownLink);
+  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
 }
