@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-check
-
 import toString from 'mdast-util-to-string';
 import visit, {Visitor} from 'unist-util-visit';
 import {toValue} from '../utils';
