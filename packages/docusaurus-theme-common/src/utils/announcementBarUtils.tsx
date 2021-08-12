@@ -14,7 +14,7 @@ import React, {
   useContext,
   createContext,
 } from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsClient from '@docusaurus/useIsClient';
 import {createStorageSlot} from './storageUtils';
 import {useThemeConfig} from './useThemeConfig';
 
@@ -39,7 +39,7 @@ type AnnouncementBarAPI = {
 
 const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
   const {announcementBar} = useThemeConfig();
-  const {isClient} = useDocusaurusContext();
+  const isClient = useIsClient();
 
   const [isClosed, setClosed] = useState(() => {
     return isClient

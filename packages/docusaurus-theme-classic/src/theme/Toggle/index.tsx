@@ -8,7 +8,7 @@
 import React, {useState, useRef, memo, CSSProperties} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsClient from '@docusaurus/useIsClient';
 
 import clsx from 'clsx';
 import './styles.css';
@@ -85,7 +85,7 @@ export default function (props: Props): JSX.Element {
       switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
     },
   } = useThemeConfig();
-  const {isClient} = useDocusaurusContext();
+  const isClient = useIsClient();
 
   return (
     <Toggle

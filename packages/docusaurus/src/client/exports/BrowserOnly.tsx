@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsClient from '@docusaurus/useIsClient';
 
 function BrowserOnly({
   children,
@@ -15,7 +15,7 @@ function BrowserOnly({
   children?: () => JSX.Element;
   fallback?: JSX.Element;
 }): JSX.Element | null {
-  const {isClient} = useDocusaurusContext();
+  const isClient = useIsClient();
 
   if (isClient && children != null) {
     return <>{children()}</>;

@@ -6,7 +6,7 @@
  */
 
 import React, {ComponentProps, ReactElement, useRef, useState} from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsClient from '@docusaurus/useIsClient';
 import clsx from 'clsx';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
@@ -30,7 +30,7 @@ export type DetailsProps = {
 } & ComponentProps<'details'>;
 
 const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
-  const {isClient} = useDocusaurusContext();
+  const isClient = useIsClient();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   const {collapsed, setCollapsed} = useCollapsible({

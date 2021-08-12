@@ -8,14 +8,14 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsClient from '@docusaurus/useIsClient';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import type {Props} from '@theme/ThemedImage';
 
 import styles from './styles.module.css';
 
 const ThemedImage = (props: Props): JSX.Element => {
-  const {isClient} = useDocusaurusContext();
+  const isClient = useIsClient();
   const {isDarkTheme} = useThemeContext();
   const {sources, className, alt = '', ...propsRest} = props;
 
