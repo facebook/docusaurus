@@ -41,7 +41,8 @@ jobs:
         run: cd test-website && yarn build
         env:
           CI: true
-  yarn-berry-node-modules:
+
+  yarn-berry-pnp:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -59,23 +60,29 @@ jobs:
           install-command: yarn
       - name: Setup test-website project against master release
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2
-          rm -rf node_modules
+          KEEP_CONTAINER=true yarn test:build:v2 -s
       - name: Setup test-website project for Yarn v2
         run: |
-          cd test-website
-          yarn set version berry
-          yarn config set nodeLinker node-modules
+          mv test-website ../test-website
+          cd ../test-website
+
+          yarn set version canary
+          yarn --version
+
+          yarn config set nodeLinker pnp
+          yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
+
           yarn install
+
       - name: Start test-website project
-        run: cd test-website && yarn start --no-open
+        run: cd ../test-website && yarn start --no-open
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd test-website && yarn build
+        run: cd ../test-website && yarn build
         env:
           CI: true
 # TODO add yarn-berry-pnp tests
