@@ -39,23 +39,6 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
   // We use a separate prop because it must be set only after animation completes
   // Otherwise close anim won't work
   const [open, setOpen] = useState(props.open);
-  const toggle = (e: React.SyntheticEvent) => {
-    e.stopPropagation(); // For isolation of multiple nested details/summary
-    const target = e.target as HTMLElement;
-    const shouldToggle =
-      isInSummary(target) && hasParent(target, detailsRef.current!);
-    if (!shouldToggle) {
-      return;
-    }
-    e.preventDefault();
-    if (collapsed) {
-      setCollapsed(false);
-      setOpen(true);
-    } else {
-      setCollapsed(true);
-      // setOpen(false); // Don't do this, it breaks close animation!
-    }
-  };
 
   return (
     <details
@@ -79,7 +62,23 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
             e.preventDefault();
           }
         }}
-        onClick={toggle}>
+        onClick={(e) => {
+          e.stopPropagation(); // For isolation of multiple nested details/summary
+          const target = e.target as HTMLElement;
+          const shouldToggle =
+            isInSummary(target) && hasParent(target, detailsRef.current!);
+          if (!shouldToggle) {
+            return;
+          }
+          e.preventDefault();
+          if (collapsed) {
+            setCollapsed(false);
+            setOpen(true);
+          } else {
+            setCollapsed(true);
+            // setOpen(false); // Don't do this, it breaks close animation!
+          }
+        }}>
         {summary}
 
         <Collapsible
