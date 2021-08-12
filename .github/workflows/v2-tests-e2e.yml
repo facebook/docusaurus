@@ -29,16 +29,20 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn
-      - name: Setup test-website project against master release
+      - name: Generate test-website project against master release
         run: |
-          yarn test:build:v2
-          rm -rf node_modules
+          yarn test:build:v2 -s
+          mv test-website ../test-website
+      - name: Install test-website project with Yarn v1
+        run: |
+          cd ../test-website
+          yarn install
       - name: Start test-website project
-        run: cd test-website && yarn start --no-open
+        run: cd ../test-website && yarn start --no-open
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd test-website && yarn build
+        run: cd ../test-website && yarn build
         env:
           CI: true
 
@@ -59,19 +63,19 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn
-      - name: Setup test-website project against master release
+
+      - name: Generate test-website project against master release
         run: |
           KEEP_CONTAINER=true yarn test:build:v2 -s
-      - name: Setup test-website project for Yarn berry with nodeLinker = ${{ matrix.nodeLinker }}
-        run: |
           mv test-website ../test-website
+      - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
+        run: |
           cd ../test-website
 
+          # we have to switch to berry first before setting the version we want
           yarn set version berry
+          # temporary using canary for #5342
           yarn set version canary
-          yarn --version
-          yarn set version canary
-          yarn --version
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set pnpMode loose
@@ -81,13 +85,11 @@ jobs:
 
           yarn install
         env:
-          YARN_ENABLE_IMMUTABLE_INSTALLS: false # because we expect Yarn berry to create the lockfile in CI
-
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
       - name: Start test-website project
         run: cd ../test-website && yarn start --no-open
         env:
           E2E_TEST: true
-
       - name: Build test-website project
         run: cd ../test-website && yarn build
         env:
