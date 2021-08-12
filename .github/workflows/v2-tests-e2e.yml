@@ -66,6 +66,8 @@ jobs:
           mv test-website ../test-website
           cd ../test-website
 
+          yarn set version berry
+          yarn --version
           yarn set version canary
           yarn --version
 
