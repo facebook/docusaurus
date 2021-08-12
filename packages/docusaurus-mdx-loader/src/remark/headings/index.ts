@@ -10,14 +10,16 @@
 import {parseMarkdownHeadingId} from '@docusaurus/utils';
 import visit, {Visitor} from 'unist-util-visit';
 import toString from 'mdast-util-to-string';
-import Slugs from 'github-slugger';
+import Slugger from 'github-slugger';
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Heading, Text} from 'mdast';
 
+const slugs = new Slugger();
+
 function headings(): Transformer {
   const transformer: Transformer = (ast) => {
-    new Slugs().reset();
+    slugs.reset();
 
     const visitor: Visitor<Heading> = (headingNode) => {
       const data = headingNode.data || (headingNode.data = {});
@@ -27,7 +29,7 @@ function headings(): Transformer {
       let {id} = properties;
 
       if (id) {
-        id = Slugs.slug(id, true);
+        id = slugs.slug(id, true);
       } else {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
@@ -41,7 +43,7 @@ function headings(): Transformer {
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id || Slugs.slug(heading);
+        id = parsedHeading.id || slugs.slug(heading);
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node
