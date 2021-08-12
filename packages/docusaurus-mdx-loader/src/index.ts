@@ -21,7 +21,7 @@ import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
-import type {Plugin} from 'unified';
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
 // TODO temporary until Webpack5 export this type
 // see https://github.com/webpack/webpack/issues/11630
@@ -33,20 +33,12 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: {
-  rehypePlugins: Plugin[];
-  remarkPlugins: Plugin[];
-} = {
+const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
 };
-
-export interface RemarkAndRehypePluginOptions {
-  remarkPlugins: Plugin[];
-  rehypePlugins: string[];
-  beforeDefaultRemarkPlugins: Plugin[];
-  beforeDefaultRehypePlugins: Plugin[];
-}
 
 // When this throws, it generally means that there's no metadata file associated with this MDX document
 // It can happen when using MDX partials (usually starting with _)

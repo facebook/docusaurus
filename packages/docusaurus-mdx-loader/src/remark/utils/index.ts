@@ -7,9 +7,7 @@
 
 import escapeHtml from 'escape-html';
 import toString from 'mdast-util-to-string';
-// eslint-disable-next-line import/no-unresolved
 import type {Parent} from 'unist';
-// eslint-disable-next-line import/no-unresolved
 import type {StaticPhrasingContent, Heading} from 'mdast';
 
 export function stringifyContent(node: Parent): string {

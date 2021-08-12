@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import visit, {Visitor} from 'unist-util-visit';
+import visit from 'unist-util-visit';
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
@@ -105,10 +105,9 @@ async function processImageNode(
 const plugin: Plugin<[PluginOptions]> = (options) => {
   const transformer: Transformer = async (root) => {
     const promises: Promise<void>[] = [];
-    const visitor: Visitor<Image> = (node) => {
+    visit(root, 'image', (node: Image) => {
       promises.push(processImageNode(node, options));
-    };
-    visit(root, 'image', visitor);
+    });
     await Promise.all(promises);
   };
   return transformer;
