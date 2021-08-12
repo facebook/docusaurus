@@ -17,7 +17,7 @@ import {
   toMessageRelativeFilePath,
 } from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
-import type {ImageNode} from '@docusaurus/mdx-loader';
+import type {Image} from 'mdast';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -28,26 +28,20 @@ interface PluginOptions {
   staticDir: string;
 }
 
-const createJSX = (node: ImageNode, pathUrl: string) => {
-  const jsxNode = node;
-  jsxNode.type = 'jsx';
-  jsxNode.value = `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
-    node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
-          pathUrl,
-        )}").default}`
-      : ''
-  }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
-
-  if (jsxNode.url) {
-    delete jsxNode.url;
-  }
-  if (jsxNode.alt) {
-    delete jsxNode.alt;
-  }
-  if (jsxNode.title) {
-    delete jsxNode.title;
-  }
+const createJSX = (node: Image, pathUrl: string) => {
+  const {url: _url, alt, title, ...strippedNode} = node;
+  const jsxNode = {
+    ...strippedNode,
+    type: 'jsx',
+    value: `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
+      node.url
+        ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
+            pathUrl,
+          )}").default}`
+        : ''
+    }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`,
+  };
+  return jsxNode;
 };
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -62,7 +56,7 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
 }
 
 async function processImageNode(
-  node: ImageNode,
+  node: Image,
   {filePath, staticDir}: PluginOptions,
 ) {
   if (!node.url) {
@@ -105,7 +99,7 @@ async function processImageNode(
 const plugin: Plugin<[PluginOptions]> = (options) => {
   const transformer: Transformer = async (root) => {
     const promises: Promise<void>[] = [];
-    const visitor: Visitor<ImageNode> = (node) => {
+    const visitor: Visitor<Image> = (node) => {
       promises.push(processImageNode(node, options));
     };
     visit(root, 'image', visitor);

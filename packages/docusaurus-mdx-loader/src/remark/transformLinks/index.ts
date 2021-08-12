@@ -18,7 +18,7 @@ import escapeHtml from 'escape-html';
 import {toValue} from '../utils';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {Plugin, Transformer} from 'unified';
-import type {LinkNode} from '@docusaurus/mdx-loader';
+import type {Link, Literal} from 'mdast';
 
 const {
   loaders: {inlineMarkdownLinkFileLoader},
@@ -49,7 +49,7 @@ function toAssetRequireNode({
   filePath,
   requireAssetPath,
 }: {
-  node: LinkNode;
+  node: Link;
   filePath: string;
   requireAssetPath: string;
 }) {
@@ -67,11 +67,11 @@ function toAssetRequireNode({
   const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
     relativeRequireAssetPath,
   )}').default`;
-  const children = (node.children || []).map((n: any) => toValue(n)).join('');
+  const children = (node.children || []).map((n) => toValue(n)).join('');
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
-  node.type = 'jsx';
-  node.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  ((node as unknown) as Literal).type = 'jsx';
+  ((node as unknown) as Literal).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,
@@ -81,7 +81,7 @@ async function convertToAssetLinkIfNeeded({
   node,
   staticDir,
   filePath,
-}: {node: LinkNode} & PluginOptions) {
+}: {node: Link} & PluginOptions) {
   const assetPath = node.url;
 
   const hasSiteAlias = assetPath.startsWith('@site/');
@@ -127,11 +127,11 @@ async function processLinkNode({
   node,
   filePath,
   staticDir,
-}: {node: LinkNode} & PluginOptions) {
+}: {node: Link} & PluginOptions) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title = node.title ?? node.children[0]?.value ?? '?';
+    const title = node.title ?? (node.children[0] as Literal).value ?? '?';
     const line = node?.position?.start?.line ?? '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
@@ -151,7 +151,7 @@ async function processLinkNode({
 const plugin: Plugin<[PluginOptions]> = (options) => {
   const transformer: Transformer = async (root) => {
     const promises: Promise<void>[] = [];
-    const visitor: Visitor<LinkNode> = (node) => {
+    const visitor: Visitor<Link> = (node) => {
       promises.push(processLinkNode({node, ...options}));
     };
     visit(root, 'link', visitor);

@@ -11,7 +11,8 @@ import toString from 'mdast-util-to-string';
 import visit, {Visitor} from 'unist-util-visit';
 import {toValue} from '../utils';
 import type {TOCItem as TOC} from '@docusaurus/types';
-import type {Node, HeadingNode} from '@docusaurus/mdx-loader';
+import type {Node} from 'unist';
+import type {Heading} from 'mdast';
 
 // Visit all headings. We `slug` all headings (to account for
 // duplicates), but only take h2 and h3 headings.
@@ -20,7 +21,7 @@ export default function search(node: Node): TOC[] {
   let current = -1;
   let currentDepth = 0;
 
-  const visitor: Visitor<HeadingNode> = (child, _index, parent) => {
+  const visitor: Visitor<Heading> = (child, _index, parent) => {
     const value = toString(child);
 
     if (parent !== node || !value || child.depth > 3 || child.depth < 2) {

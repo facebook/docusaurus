@@ -6,41 +6,6 @@
  */
 
 declare module '@docusaurus/mdx-loader' {
-  // eslint-disable-next-line import/no-unresolved
-  import type {Node as BaseNode} from 'unist';
-
-  export type Node = BaseNode & {
-    id?: string;
-    value?: string;
-    children?: Node[];
-    data?: Record<string, unknown> & {
-      hProperties?: Record<string, string>;
-    };
-  };
-  export type HeadingNode = Node & {
-    type: 'heading';
-    children: Node[];
-    depth: 1 | 2 | 3 | 4 | 5 | 6;
-  };
-  export type CodeBlockNode = Node & {
-    type: 'code';
-    lang?: string;
-    meta?: string;
-  };
-  export type LinkNode = Node & {
-    title?: string;
-    url: string;
-    children: Node[];
-  };
-  export type ImageNode = Node & {
-    title?: string;
-    alt?: string;
-    url?: string;
-  };
-  export type ExportNode = Node & {
-    type: 'export';
-    default: boolean;
-  };
   export interface RemarkAndRehypePluginOptions {
     remarkPlugins: RemarkOrRehypePlugin[];
     rehypePlugins: string[];

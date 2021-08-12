@@ -7,26 +7,33 @@
 
 import escapeHtml from 'escape-html';
 import toString from 'mdast-util-to-string';
-import type {Node} from '@docusaurus/mdx-loader';
+// eslint-disable-next-line import/no-unresolved
+import type {Parent} from 'unist';
+// eslint-disable-next-line import/no-unresolved
+import type {StaticPhrasingContent, Heading} from 'mdast';
 
-export function toValue(node?: Node): string {
+function stringifyContent(node: Parent) {
+  return (node.children as StaticPhrasingContent[]).map(toValue).join('');
+}
+
+export function toValue(node: StaticPhrasingContent | Heading): string {
   if (node && node.type) {
     switch (node.type) {
       case 'text':
         return escapeHtml(node.value);
       case 'heading':
-        return node.children!.map(toValue).join('');
+        return stringifyContent(node);
       case 'inlineCode':
         return `<code>${escapeHtml(node.value)}</code>`;
       case 'emphasis':
-        return `<em>${node.children!.map(toValue).join('')}</em>`;
+        return `<em>${stringifyContent(node)}</em>`;
       case 'strong':
-        return `<strong>${node.children!.map(toValue).join('')}</strong>`;
+        return `<strong>${stringifyContent(node)}</strong>`;
       case 'delete':
-        return `<del>${node.children!.map(toValue).join('')}</del>`;
+        return `<del>${stringifyContent(node)}</del>`;
       default:
     }
   }
 
-  return toString(node!);
+  return toString(node);
 }
