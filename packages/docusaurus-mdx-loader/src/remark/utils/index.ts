@@ -12,8 +12,10 @@ import type {Parent} from 'unist';
 // eslint-disable-next-line import/no-unresolved
 import type {StaticPhrasingContent, Heading} from 'mdast';
 
-function stringifyContent(node: Parent) {
-  return (node.children as StaticPhrasingContent[]).map(toValue).join('');
+export function stringifyContent(node: Parent): string {
+  return ((node.children || []) as StaticPhrasingContent[])
+    .map(toValue)
+    .join('');
 }
 
 export function toValue(node: StaticPhrasingContent | Heading): string {

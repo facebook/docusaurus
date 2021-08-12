@@ -10,12 +10,12 @@ import {
   posixPath,
   escapePath,
 } from '@docusaurus/utils';
-import visit, {Visitor} from 'unist-util-visit';
+import visit from 'unist-util-visit';
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
-import {toValue} from '../utils';
+import {stringifyContent} from '../utils';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Link, Literal} from 'mdast';
@@ -67,7 +67,7 @@ function toAssetRequireNode({
   const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
     relativeRequireAssetPath,
   )}').default`;
-  const children = (node.children || []).map((n) => toValue(n)).join('');
+  const children = stringifyContent(node);
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
   ((node as unknown) as Literal).type = 'jsx';
@@ -131,8 +131,8 @@ async function processLinkNode({
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title = node.title ?? (node.children[0] as Literal).value ?? '?';
-    const line = node?.position?.start?.line ?? '?';
+    const title = node.title || (node.children[0] as Literal)?.value || '?';
+    const line = node?.position?.start?.line || '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
@@ -151,10 +151,9 @@ async function processLinkNode({
 const plugin: Plugin<[PluginOptions]> = (options) => {
   const transformer: Transformer = async (root) => {
     const promises: Promise<void>[] = [];
-    const visitor: Visitor<Link> = (node) => {
+    visit(root, 'link', (node: Link) => {
       promises.push(processLinkNode({node, ...options}));
-    };
-    visit(root, 'link', visitor);
+    });
     await Promise.all(promises);
   };
   return transformer;

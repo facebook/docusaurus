@@ -17,7 +17,7 @@ import {
   toMessageRelativeFilePath,
 } from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
-import type {Image} from 'mdast';
+import type {Image, Literal} from 'mdast';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -29,19 +29,27 @@ interface PluginOptions {
 }
 
 const createJSX = (node: Image, pathUrl: string) => {
-  const {url: _url, alt, title, ...strippedNode} = node;
-  const jsxNode = {
-    ...strippedNode,
-    type: 'jsx',
-    value: `<img ${node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''}${
-      node.url
-        ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
-            pathUrl,
-          )}").default}`
-        : ''
-    }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`,
-  };
-  return jsxNode;
+  const jsxNode = node;
+  ((jsxNode as unknown) as Literal).type = 'jsx';
+  ((jsxNode as unknown) as Literal).value = `<img ${
+    node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''
+  }${
+    node.url
+      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
+          pathUrl,
+        )}").default}`
+      : ''
+  }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
+
+  if (jsxNode.url) {
+    delete (jsxNode as Partial<Image>).url;
+  }
+  if (jsxNode.alt) {
+    delete jsxNode.alt;
+  }
+  if (jsxNode.title) {
+    delete jsxNode.title;
+  }
 };
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -75,8 +83,6 @@ async function processImageNode(
     // it's mostly to make next release less risky (2.0.0-alpha.59)
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
-    } else {
-      // noop
     }
   }
   // images without protocol

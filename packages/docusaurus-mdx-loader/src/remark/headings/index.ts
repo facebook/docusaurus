@@ -11,11 +11,11 @@ import {parseMarkdownHeadingId} from '@docusaurus/utils';
 import visit, {Visitor} from 'unist-util-visit';
 import toString from 'mdast-util-to-string';
 import Slugs from 'github-slugger';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Heading, Text} from 'mdast';
 
-const headings: Plugin<[]> = () => {
+function headings(): Transformer {
   const transformer: Transformer = (ast) => {
     new Slugs().reset();
 
@@ -75,6 +75,6 @@ const headings: Plugin<[]> = () => {
   };
 
   return transformer;
-};
+}
 
 export default headings;
