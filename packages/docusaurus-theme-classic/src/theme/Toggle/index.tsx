@@ -8,7 +8,7 @@
 import React, {useState, useRef, memo, CSSProperties} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import useIsClient from '@docusaurus/useIsClient';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import clsx from 'clsx';
 import './styles.css';
@@ -85,11 +85,11 @@ export default function (props: Props): JSX.Element {
       switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
     },
   } = useThemeConfig();
-  const isClient = useIsClient();
+  const isBrowser = useIsBrowser();
 
   return (
     <Toggle
-      disabled={!isClient}
+      disabled={!isBrowser}
       icons={{
         checked: <Dark icon={darkIcon} style={darkIconStyle} />,
         unchecked: <Light icon={lightIcon} style={lightIconStyle} />,

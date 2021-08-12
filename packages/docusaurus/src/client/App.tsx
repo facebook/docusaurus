@@ -9,7 +9,7 @@ import React from 'react';
 
 import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
-import {ClientContextProvider} from './exports/clientContext';
+import {BrowserContextProvider} from './exports/browserContext';
 import {DocusaurusContextProvider} from './exports/docusaurusContext';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
@@ -20,14 +20,14 @@ import './client-lifecycles-dispatcher';
 function App(): JSX.Element {
   return (
     <DocusaurusContextProvider>
-      <ClientContextProvider>
+      <BrowserContextProvider>
         <Root>
           <BaseUrlIssueBanner />
           <PendingNavigation routes={routes}>
             {renderRoutes(routes)}
           </PendingNavigation>
         </Root>
-      </ClientContextProvider>
+      </BrowserContextProvider>
     </DocusaurusContextProvider>
   );
 }

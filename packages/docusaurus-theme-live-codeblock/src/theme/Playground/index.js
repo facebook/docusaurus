@@ -10,7 +10,7 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useIsClient from '@docusaurus/useIsClient';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
@@ -52,7 +52,7 @@ function EditorWithHeader() {
 }
 
 export default function Playground({children, transformCode, ...props}) {
-  const isClient = useIsClient();
+  const isBrowser = useIsBrowser();
   const {
     siteConfig: {
       themeConfig: {
@@ -65,8 +65,8 @@ export default function Playground({children, transformCode, ...props}) {
   return (
     <div className={styles.playgroundContainer}>
       <LiveProvider
-        key={isClient}
-        code={isClient ? children.replace(/\n$/, '') : ''}
+        key={isBrowser}
+        code={isBrowser ? children.replace(/\n$/, '') : ''}
         transformCode={transformCode || ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>

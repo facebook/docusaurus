@@ -6,7 +6,7 @@
  */
 
 import React, {ComponentProps, ReactElement, useRef, useState} from 'react';
-import useIsClient from '@docusaurus/useIsClient';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
@@ -30,7 +30,7 @@ export type DetailsProps = {
 } & ComponentProps<'details'>;
 
 const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
-  const isClient = useIsClient();
+  const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   const {collapsed, setCollapsed} = useCollapsible({
@@ -48,7 +48,7 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
-        {[styles.isClient]: isClient},
+        {[styles.isBrowser]: isBrowser},
         props.className,
       )}
       onMouseDown={(e) => {

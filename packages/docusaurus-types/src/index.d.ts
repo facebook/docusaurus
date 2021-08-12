@@ -128,7 +128,7 @@ export interface DocusaurusContext {
 
   // Don't put mutable values here, to avoid triggering re-renders
   // We could reconsider that choice if context selectors are implemented
-  // isClient: boolean; // Not here on purpose!
+  // isBrowser: boolean; // Not here on purpose!
 }
 
 export interface Preset {

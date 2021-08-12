@@ -179,8 +179,8 @@ declare module '@docusaurus/useDocusaurusContext' {
   export default function useDocusaurusContext(): DocusaurusContext;
 }
 
-declare module '@docusaurus/useIsClient' {
-  export default function useIsClient(): boolean;
+declare module '@docusaurus/useIsBrowser' {
+  export default function useIsBrowser(): boolean;
 }
 
 declare module '@docusaurus/useBaseUrl' {

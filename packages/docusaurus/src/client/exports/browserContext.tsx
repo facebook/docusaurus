@@ -10,23 +10,23 @@ import React, {ReactNode, useEffect, useState} from 'react';
 // Encapsulate the logic to avoid React hydration problems
 // See https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 // On first client-side render, we need to render exactly as the server rendered
-// isClient is set to true only after a successful hydration
+// isBrowser is set to true only after a successful hydration
 
-// Note, isClient is not part of useDocusaurusContext() for perf reasons
+// Note, isBrowser is not part of useDocusaurusContext() for perf reasons
 // Using useDocusaurusContext() (much more common need) should not trigger re-rendering after a successful hydration
 
 export const Context = React.createContext<boolean>(false);
 
-export function ClientContextProvider({
+export function BrowserContextProvider({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const [isClient, setIsClient] = useState(false);
+  const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setIsBrowser(true);
   }, []);
 
-  return <Context.Provider value={isClient}>{children}</Context.Provider>;
+  return <Context.Provider value={isBrowser}>{children}</Context.Provider>;
 }

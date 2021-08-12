@@ -253,7 +253,6 @@ interface DocusaurusContext {
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-  isClient: boolean;
 }
 ```
 
@@ -272,6 +271,34 @@ const MyComponent = () => {
       <div>{siteMetadata.docusaurusVersion}</div>
     </div>
   );
+};
+```
+
+### `useIsBrowser` {#useIsBrowser}
+
+Returns `true` when the React app has successfully hydrated in the browser.
+
+:::caution
+
+Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js).
+
+Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+Usage example:
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  // highlight-start
+  const isBrowser = useIsBrowser();
+  // highlight-end
+  return <div>{isBrowser ? 'Client' : 'Server'}</div>;
 };
 ```
 
