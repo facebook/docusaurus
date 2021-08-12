@@ -46,7 +46,7 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated']},
+      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
     ],
     'import/extensions': OFF,
     'header/header': [
