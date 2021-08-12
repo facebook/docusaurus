@@ -37,6 +37,8 @@ jobs:
         run: |
           cd ../test-website
           yarn install
+        env:
+          npm_config_registry: http://localhost:4873
       - name: Start test-website project
         run: cd ../test-website && yarn start --no-open
         env:
