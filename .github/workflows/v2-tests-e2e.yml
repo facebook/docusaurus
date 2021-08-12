@@ -78,6 +78,8 @@ jobs:
           yarn config set enableGlobalCache true
 
           yarn install
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false # because we expect Yarn berry to create the lockfile in CI
 
       - name: Start test-website project
         run: cd ../test-website && yarn start --no-open
