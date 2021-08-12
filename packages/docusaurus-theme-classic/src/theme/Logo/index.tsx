@@ -17,7 +17,6 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 const Logo = (props: Props): JSX.Element => {
   const {
     siteConfig: {title},
-    isClient,
   } = useDocusaurusContext();
   const {
     navbar: {title: navbarTitle, logo = {src: ''}},
@@ -37,7 +36,6 @@ const Logo = (props: Props): JSX.Element => {
       {...(logo.target && {target: logo.target})}>
       {logo.src && (
         <ThemedImage
-          key={`${isClient}`} // TODO seems suspicious
           className={imageClassName}
           sources={sources}
           alt={logo.alt || navbarTitle || title}

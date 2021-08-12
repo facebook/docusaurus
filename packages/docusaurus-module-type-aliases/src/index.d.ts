@@ -179,6 +179,10 @@ declare module '@docusaurus/useDocusaurusContext' {
   export default function useDocusaurusContext(): DocusaurusContext;
 }
 
+declare module '@docusaurus/useIsBrowser' {
+  export default function useIsBrowser(): boolean;
+}
+
 declare module '@docusaurus/useBaseUrl' {
   export type BaseUrlOptions = {
     forcePrependBaseUrl?: boolean;
