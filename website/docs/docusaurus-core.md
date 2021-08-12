@@ -109,9 +109,13 @@ const Home = () => {
 
 ### `<BrowserOnly/>` {#browseronly}
 
-The `<BrowserOnly>` component permits to render React components only in the browser, after the React app has successfully hydrated.
+The `<BrowserOnly>` component permits to render React components only in the browser, after the React app has hydrated.
 
-This is useful for integrating with code and libraries that are not meant to be run inside Node.js (e.g. because `window`/`document` objects are being accessed).
+:::tip
+
+Use it for integrating with code that can't run in Node.js, because `window` or `document` objects are being accessed.
+
+:::
 
 #### Props {#browseronly-props}
 
