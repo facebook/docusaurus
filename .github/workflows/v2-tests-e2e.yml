@@ -42,12 +42,13 @@ jobs:
         env:
           CI: true
 
-  yarn-berry-pnp:
+  yarn-berry:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: ['14']
+        nodeLinker: ['pnp', 'node-modules']
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
@@ -61,7 +62,7 @@ jobs:
       - name: Setup test-website project against master release
         run: |
           KEEP_CONTAINER=true yarn test:build:v2 -s
-      - name: Setup test-website project for Yarn v2
+      - name: Setup test-website project for Yarn berry with nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           mv test-website ../test-website
           cd ../test-website
@@ -71,7 +72,7 @@ jobs:
           yarn set version canary
           yarn --version
 
-          yarn config set nodeLinker pnp
+          yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
@@ -85,9 +86,8 @@ jobs:
         run: cd ../test-website && yarn start --no-open
         env:
           E2E_TEST: true
+
       - name: Build test-website project
         run: cd ../test-website && yarn build
         env:
           CI: true
-# TODO add yarn-berry-pnp tests
-
