@@ -7,16 +7,17 @@
 
 import React from 'react';
 import Head from '@docusaurus/Head';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/BlogPostStructuredData';
 
 function BlogPostStructuredData(props: Props): JSX.Element {
+  const {withBaseUrl} = useBaseUrlUtils();
   const {frontMatter, frontMatterAssets, metadata} = props;
   const {date, title, description} = metadata;
 
   const image = frontMatterAssets.image ?? frontMatter.image;
-
+  const {author} = frontMatter;
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
-  const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
 
   // details on structured data support: https://developers.google.com/search/docs/data-types/article#non-amp
   // and https://schema.org/BlogPosting
@@ -25,11 +26,11 @@ function BlogPostStructuredData(props: Props): JSX.Element {
     '@type': 'BlogPosting',
     headline: title,
     description,
-    ...(image ? {image: [image]} : {}),
+    ...(image ? {image: [withBaseUrl(image, {absolute: true})]} : {}),
     datePublished: date,
     author: {
       '@type': 'Person',
-      name: authorTitle,
+      ...(author ? {name: author} : {}),
       url: authorURL,
     },
   };
