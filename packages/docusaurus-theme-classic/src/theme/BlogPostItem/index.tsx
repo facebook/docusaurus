@@ -114,9 +114,12 @@ function BlogPostItem(props: Props): JSX.Element {
                   <span itemProp="name">{author}</span>
                 </Link>
               </div>
-              <small className="avatar__subtitle" itemProp="description">
-                {authorTitle}
-              </small>
+
+              {authorTitle && (
+                <small className="avatar__subtitle" itemProp="description">
+                  {authorTitle}
+                </small>
+              )}
             </div>
           )}
         </div>
@@ -134,15 +137,18 @@ function BlogPostItem(props: Props): JSX.Element {
         itemScope
         itemType="http://schema.org/BlogPosting">
         {renderPostHeader()}
+
         {image && (
           <meta
             itemProp="image"
             content={withBaseUrl(image, {absolute: true})}
           />
         )}
+
         <div className="markdown" itemProp="articleBody">
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </div>
+
         {(tags.length > 0 || truncated) && (
           <footer
             className={clsx('row docusaurus-mt-lg', {
@@ -157,6 +163,7 @@ function BlogPostItem(props: Props): JSX.Element {
                     Tags:
                   </Translate>
                 </b>
+
                 {tags.map(({label, permalink: tagPermalink}) => (
                   <Link
                     key={tagPermalink}
