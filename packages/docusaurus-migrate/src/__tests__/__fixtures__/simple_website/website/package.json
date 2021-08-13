@@ -10,8 +10,8 @@
     "write-translations": "docusaurus-write-translations",
     "docusaurus-version": "docusaurus-version",
     "rename-version": "docusaurus-rename-version",
-    "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b main",
-    "crowdin-download": "crowdin --config ../crowdin.yaml download -b main"
+    "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
+    "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
   },
   "dependencies": {
     "docusaurus": "*"
