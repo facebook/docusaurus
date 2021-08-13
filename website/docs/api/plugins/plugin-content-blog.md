@@ -52,7 +52,7 @@ Accepted fields:
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
 | `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
-| `feedOptions.description` | `string` | <code>\`\${siteConfig.title} Blog\`</code> | Description of the feed. |
+| `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 
