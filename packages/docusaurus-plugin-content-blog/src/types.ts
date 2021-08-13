@@ -35,7 +35,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   routeBasePath: string;
   include: string[];
   exclude: string[];
-  postsPerPage: number;
+  postsPerPage: number | 'ALL';
   blogListComponent: string;
   blogPostComponent: string;
   blogTagsListComponent: string;

@@ -103,7 +103,12 @@ export default function pluginContentBlog(
 
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
-      const {postsPerPage, routeBasePath} = options;
+      const {
+        postsPerPage: postsPerPageOption,
+        routeBasePath,
+        blogDescription,
+        blogTitle,
+      } = options;
 
       const blogPosts: BlogPost[] = await generateBlogPosts(
         contentPaths,
@@ -143,6 +148,8 @@ export default function pluginContentBlog(
       // Blog pagination routes.
       // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
       const totalCount = blogPosts.length;
+      const postsPerPage =
+        postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
       const numberOfPages = Math.ceil(totalCount / postsPerPage);
       const {
         siteConfig: {baseUrl = ''},
@@ -170,8 +177,8 @@ export default function pluginContentBlog(
               page < numberOfPages - 1
                 ? blogPaginationPermalink(page + 1)
                 : null,
-            blogDescription: options.blogDescription,
-            blogTitle: options.blogTitle,
+            blogDescription,
+            blogTitle,
           },
           items: blogPosts
             .slice(page * postsPerPage, (page + 1) * postsPerPage)
