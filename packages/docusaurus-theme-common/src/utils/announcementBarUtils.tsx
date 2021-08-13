@@ -14,7 +14,7 @@ import React, {
   useContext,
   createContext,
 } from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import {createStorageSlot} from './storageUtils';
 import {useThemeConfig} from './useThemeConfig';
 
@@ -39,10 +39,10 @@ type AnnouncementBarAPI = {
 
 const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
   const {announcementBar} = useThemeConfig();
-  const {isClient} = useDocusaurusContext();
+  const isBrowser = useIsBrowser();
 
   const [isClosed, setClosed] = useState(() => {
-    return isClient
+    return isBrowser
       ? // On client navigation: init with localstorage value
         isDismissedInStorage()
       : // On server/hydration: always visible to prevent layout shifts (will be hidden with css if needed)

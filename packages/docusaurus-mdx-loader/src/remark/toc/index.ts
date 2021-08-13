@@ -5,34 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {parse} = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const stringifyObject = require('stringify-object');
-const search = require('./search');
+import {parse, ParserOptions} from '@babel/parser';
+import type {Identifier} from '@babel/types';
+import traverse from '@babel/traverse';
+import stringifyObject from 'stringify-object';
+import search from './search';
+import type {Plugin, Transformer} from 'unified';
+import type {Node, Parent} from 'unist';
+import type {Literal} from 'mdast';
 
-const parseOptions = {
+const parseOptions: ParserOptions = {
   plugins: ['jsx'],
   sourceType: 'module',
 };
-const isImport = (child) => child.type === 'import';
-const hasImports = (index) => index > -1;
-const isExport = (child) => child.type === 'export';
 
-const isTarget = (child, name) => {
+const isImport = (child: Node): child is Literal => child.type === 'import';
+const hasImports = (index: number) => index > -1;
+const isExport = (child: Node): child is Literal => child.type === 'export';
+
+interface PluginOptions {
+  name?: string;
+}
+
+const isTarget = (child: Literal, name: string) => {
   let found = false;
   const ast = parse(child.value, parseOptions);
   traverse(ast, {
     VariableDeclarator: (path) => {
-      if (path.node.id.name === name) {
+      if ((path.node.id as Identifier).name === name) {
         found = true;
       }
     },
   });
-
   return found;
 };
 
-const getOrCreateExistingTargetIndex = (children, name) => {
+const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   let importsIndex = -1;
   let targetIndex = -1;
 
@@ -58,12 +66,12 @@ const getOrCreateExistingTargetIndex = (children, name) => {
   return targetIndex;
 };
 
-const plugin = (options = {}) => {
+const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const name = options.name || 'toc';
 
-  const transformer = (node) => {
+  const transformer: Transformer = (node) => {
     const headings = search(node);
-    const {children} = node;
+    const {children} = node as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
     if (headings && headings.length) {
@@ -76,4 +84,4 @@ const plugin = (options = {}) => {
   return transformer;
 };
 
-module.exports = plugin;
+export default plugin;

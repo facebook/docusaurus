@@ -125,7 +125,10 @@ export interface DocusaurusContext {
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-  isClient: boolean;
+
+  // Don't put mutable values here, to avoid triggering re-renders
+  // We could reconsider that choice if context selectors are implemented
+  // isBrowser: boolean; // Not here on purpose!
 }
 
 export interface Preset {
