@@ -104,9 +104,18 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
-  const deploymentBranch =
-    process.env.DEPLOYMENT_BRANCH ||
-    (projectName.indexOf('.github.io') !== -1 ? 'main' : 'gh-pages');
+  // Organization deploys looks like:
+  // - Git repo: https://github.com/<organization>/<organization>.github.io
+  // - Site url: https://<organization>.github.io
+  const isGitHubPagesOrganizationDeploy =
+    projectName.indexOf('.github.io') !== -1;
+  if (isGitHubPagesOrganizationDeploy && !process.env.DEPLOYMENT_BRANCH) {
+    throw new Error(`For GitHub pages organization deployments, 'docusaurus deploy' does not assume anymore that 'master' is your default Git branch.
+Please provide the branch name to deploy to as an environment variable.
+Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
+  }
+
+  const deploymentBranch = process.env.DEPLOYMENT_BRANCH || 'gh-pages';
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
