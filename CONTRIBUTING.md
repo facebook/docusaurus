@@ -57,7 +57,7 @@ When a change made on GitHub is approved, it will be checked by our continuous i
 
 ### Branch Organization
 
-Docusaurus has one primary branche `main` and we use feature branches with deploy previews to deliver new features with pull requests.
+Docusaurus has one primary branch `main` and we use feature branches with deploy previews to deliver new features with pull requests.
 
 ## Bugs
 
