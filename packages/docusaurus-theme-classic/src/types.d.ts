@@ -255,11 +255,11 @@ declare module '@theme/hooks/useThemeContext' {
 }
 
 declare module '@theme/hooks/useTOCHighlight' {
-  export default function useTOCHighlight(
-    linkClassName: string,
-    linkActiveClassName: string,
-    topOffset: number,
-  ): void;
+  export type Params = {
+    linkClassName: string;
+    linkActiveClassName: string;
+  };
+  export default function useTOCHighlight(params: Params): void;
 }
 
 declare module '@theme/hooks/useUserPreferencesContext' {
