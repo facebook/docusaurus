@@ -490,16 +490,20 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {StrategyOption} from '@theme/NavbarStrategies';
 
-  export type LinkLikeNavbarItemProps =
+  export type LinkLikeNavbarItemProps = {
+    readonly statusStrategy?: StrategyOption<unknown>;
+  } & (
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+  );
 
-  export type Props = ComponentProps<'a'> & {
+  type NonLinkNavbarItemProps = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
+    readonly statusStrategy?: StrategyOption<unknown>;
   } & (
-      | LinkLikeNavbarItemProps
       | ({readonly type?: 'dropdown'} & DropdownNavbarItemProps)
       | ({
           readonly type: 'docsVersionDropdown';
@@ -510,10 +514,36 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
+  export type Props = NonLinkNavbarItemProps | LinkLikeNavbarItemProps;
   export type Types = Props['type'];
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/NavbarStrategies' {
+  export type StrategyOption<T> = {[type: string]: T} | string;
+  export type Status = 'active' | 'disabled' | 'hidden';
+  export type StatusStrategy<T> = (params: T) => Status;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const NavbarStrategies: Record<string, StatusStrategy<any>>;
+  export default NavbarStrategies;
+}
+
+declare module '@theme/NavbarStrategies/CustomStrategies' {
+  import type {StatusStrategy} from '@theme/NavbarStrategies';
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const CustomNavbarStrategies: Record<string, StatusStrategy<any>>;
+  export default CustomNavbarStrategies;
+}
+
+declare module '@theme/hooks/useNavbarItemStatus' {
+  import type {StrategyOption} from '@theme/NavbarStrategies';
+
+  export default function useNavbarItemStatus(
+    strategy: StrategyOption<unknown>,
+  ): Status;
 }
 
 declare module '@theme/TabItem' {
