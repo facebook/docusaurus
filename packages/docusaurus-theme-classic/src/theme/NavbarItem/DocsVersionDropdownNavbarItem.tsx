@@ -13,6 +13,7 @@ import {
   useLatestVersion,
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
+import {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
@@ -37,22 +38,25 @@ export default function DocsVersionDropdownNavbarItem({
     useDocsPreferredVersion(docsPluginId);
 
   function getItems() {
-    const versionLinks = versions.map((version) => {
-      // We try to link to the same doc, in another version
-      // When not possible, fallback to the "main doc" of the version
-      const versionDoc =
-        activeDocContext?.alternateDocVersions[version.name] ||
-        getVersionMainDoc(version);
-      return {
-        isNavLink: true,
-        label: version.label,
-        to: versionDoc.path,
-        isActive: () => version === activeDocContext?.activeVersion,
-        onClick: () => {
-          savePreferredVersionName(version.name);
-        },
-      };
-    });
+    const versionLinks = versions.map(
+      (version): LinkLikeNavbarItemProps => {
+        // We try to link to the same doc, in another version
+        // When not possible, fallback to the "main doc" of the version
+        const versionDoc =
+          activeDocContext?.alternateDocVersions[version.name] ||
+          getVersionMainDoc(version);
+        return {
+          isNavLink: true,
+          label: version.label,
+          to: versionDoc.path,
+          isActive: () => version === activeDocContext?.activeVersion,
+          onClick: () => {
+            savePreferredVersionName(version.name);
+          },
+          statusStrategy: 'alwaysActive',
+        };
+      },
+    );
 
     return [...dropdownItemsBefore, ...versionLinks, ...dropdownItemsAfter];
   }
