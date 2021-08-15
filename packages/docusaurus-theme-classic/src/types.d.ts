@@ -493,7 +493,7 @@ declare module '@theme/NavbarItem' {
   import type {StrategyOption} from '@theme/NavbarStrategies';
 
   export type LinkLikeNavbarItemProps = {
-    readonly statusStrategy?: StrategyOption<unknown>;
+    readonly statusStrategy: StrategyOption<unknown>;
   } & (
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
@@ -502,7 +502,7 @@ declare module '@theme/NavbarItem' {
 
   type NonLinkNavbarItemProps = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
-    readonly statusStrategy?: StrategyOption<unknown>;
+    readonly statusStrategy: StrategyOption<unknown>;
   } & (
       | ({readonly type?: 'dropdown'} & DropdownNavbarItemProps)
       | ({
@@ -539,7 +539,7 @@ declare module '@theme/NavbarStrategies/CustomStrategies' {
 }
 
 declare module '@theme/hooks/useNavbarItemStatus' {
-  import type {StrategyOption} from '@theme/NavbarStrategies';
+  import type {StrategyOption, Status} from '@theme/NavbarStrategies';
 
   export default function useNavbarItemStatus(
     strategy: StrategyOption<unknown>,

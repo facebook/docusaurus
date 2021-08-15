@@ -44,6 +44,7 @@ export default function LocaleDropdownNavbarItem({
         autoAddBaseUrl: false,
         className: locale === currentLocale ? 'dropdown__link--active' : '',
         style: {textTransform: 'capitalize'},
+        statusStrategy: 'alwaysActive',
       };
     },
   );
