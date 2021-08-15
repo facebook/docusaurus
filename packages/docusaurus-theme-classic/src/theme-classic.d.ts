@@ -488,10 +488,8 @@ declare module '@theme/NavbarItem' {
     | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
   );
 
-  type NonLinkNavbarItemProps = ComponentProps<'a'> & {
-    readonly position?: 'left' | 'right';
-    readonly statusStrategy: StrategyOption<unknown>;
-  } & (
+  type NonLinkNavbarItemProps = ComponentProps<'a'> &
+    (
       | ({readonly type?: 'dropdown'} & DropdownNavbarItemProps)
       | ({
           readonly type: 'docsVersionDropdown';
@@ -502,7 +500,10 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
-  export type Props = NonLinkNavbarItemProps | LinkLikeNavbarItemProps;
+  export type Props = {
+    readonly position?: 'left' | 'right';
+    readonly statusStrategy: StrategyOption<unknown>;
+  } & (NonLinkNavbarItemProps | LinkLikeNavbarItemProps);
   export type Types = Props['type'];
 
   const NavbarItem: (props: Props) => JSX.Element;
