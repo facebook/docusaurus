@@ -1309,7 +1309,7 @@ const Users: User[] = [
     website: 'http://drayman.io/',
     source: 'https://github.com/Claviz/drayman',
     tags: ['opensource']
-  }
+  },
 ];
 
 export const TagList = Object.keys(Tags) as TagType[];
