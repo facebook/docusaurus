@@ -13,7 +13,6 @@ import NavbarItemStrategies, {
 function normalizeStrategy<T>(
   strategy: StrategyOption<T>,
 ): {type: string; params: T | undefined} {
-  console.log(strategy);
   if (typeof strategy === 'string') {
     return {type: strategy, params: undefined};
   }

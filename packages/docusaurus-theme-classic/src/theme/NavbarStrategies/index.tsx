@@ -8,13 +8,15 @@
 import type {StatusStrategy} from '@theme/NavbarStrategies';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import CustomStrategies from '@theme/NavbarStrategies/CustomStrategies';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const alwaysActive: StatusStrategy<undefined> = () => {
   return 'active';
 };
 
-const routeMatch: StatusStrategy<string> = (routePattern) => {
-  if (typeof window === 'undefined') {
+const useRouteMatch: StatusStrategy<string> = (routePattern) => {
+  const isBrowser = useIsBrowser();
+  if (!isBrowser) {
     return 'hidden';
   }
   return new RegExp(routePattern).test(window.location.pathname)
@@ -22,8 +24,9 @@ const routeMatch: StatusStrategy<string> = (routePattern) => {
     : 'hidden';
 };
 
-const routeNotMatch: StatusStrategy<string> = (routePattern) => {
-  if (typeof window === 'undefined') {
+const useRouteNotMatch: StatusStrategy<string> = (routePattern) => {
+  const isBrowser = useIsBrowser();
+  if (!isBrowser) {
     return 'active';
   }
   return new RegExp(routePattern).test(window.location.pathname)
@@ -39,8 +42,8 @@ const useColorMode: StatusStrategy<string> = (mode) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const NavbarStrategies: Record<string, StatusStrategy<any>> = {
-  routeMatch,
-  routeNotMatch,
+  routeMatch: useRouteMatch,
+  routeNotMatch: useRouteNotMatch,
   colorMode: useColorMode,
   alwaysActive,
   ...CustomStrategies,
