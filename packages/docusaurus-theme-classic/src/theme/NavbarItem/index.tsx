@@ -13,6 +13,7 @@ import DropdownNavbarItem, {
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
 import type {Types, Props} from '@theme/NavbarItem';
+import useNavbarItemStatus from '@theme/hooks/useNavbarItemStatus';
 
 const NavbarItemComponents: Record<
   Exclude<Types, undefined>,
@@ -60,11 +61,21 @@ function getComponentType(
 export const getInfimaActiveClassName = (mobile?: boolean): string =>
   mobile ? 'menu__link--active' : 'navbar__link--active';
 
-export default function NavbarItem({type, ...props}: Props): JSX.Element {
+export default function NavbarItem({
+  type,
+  statusStrategy,
+  ...props
+}: Props): JSX.Element | null {
   const componentType = getComponentType(
     type,
     (props as DropdownNavbarItemProps).items !== undefined,
   );
   const NavbarItemComponent = getNavbarItemComponent(componentType);
-  return <NavbarItemComponent {...props} />;
+  const status = useNavbarItemStatus(statusStrategy ?? 'alwaysActive');
+  switch (status) {
+    case 'hidden':
+      return null;
+    default:
+      return <NavbarItemComponent {...props} />;
+  }
 }

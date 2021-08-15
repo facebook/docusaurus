@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module '@docusaurus/theme-classic' {
+ declare module '@docusaurus/theme-classic' {
   export type Options = Partial<import('./index').PluginOptions>;
 }
 
@@ -118,7 +118,7 @@ declare module '@theme/DocPaginator' {
 }
 
 declare module '@theme/DocSidebar' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
 
   export interface Props {
     readonly path: string;
@@ -134,7 +134,7 @@ declare module '@theme/DocSidebar' {
 }
 
 declare module '@theme/DocSidebarItem' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
@@ -166,13 +166,6 @@ declare module '@theme/EditThisPage' {
   }
   const EditThisPage: (props: Props) => JSX.Element;
   export default EditThisPage;
-}
-
-declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
-
-  const ErrorPageContent: typeof ErrorComponent;
-  export default ErrorPageContent;
 }
 
 declare module '@theme/Footer' {
@@ -296,7 +289,7 @@ declare module '@theme/Layout' {
     readonly permalink?: string;
     readonly wrapperClassName?: string;
     readonly pageClassName?: string;
-    readonly searchMetadata?: {
+    readonly searchMetadatas?: {
       readonly version?: string;
       readonly tag?: string;
     };
@@ -315,15 +308,15 @@ declare module '@theme/LayoutHead' {
   export default LayoutHead;
 }
 
-declare module '@theme/SearchMetadata' {
+declare module '@theme/SearchMetadatas' {
   export interface Props {
     readonly locale?: string;
     readonly version?: string;
     readonly tag?: string;
   }
 
-  const SearchMetadata: (props: Props) => JSX.Element;
-  export default SearchMetadata;
+  const SearchMetadatas: (props: Props) => JSX.Element;
+  export default SearchMetadatas;
 }
 
 declare module '@theme/LastUpdated' {
@@ -485,16 +478,20 @@ declare module '@theme/NavbarItem' {
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
   import type {Props as LocaleDropdownNavbarItemProps} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
   import type {Props as SearchNavbarItemProps} from '@theme/NavbarItem/SearchNavbarItem';
+  import type {StrategyOption} from '@theme/NavbarStrategies';
 
-  export type LinkLikeNavbarItemProps =
+  export type LinkLikeNavbarItemProps = {
+    readonly statusStrategy?: StrategyOption<unknown>;
+  } & (
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+  );
 
-  export type Props = ComponentProps<'a'> & {
+  type NonLinkNavbarItemProps = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
+    readonly statusStrategy?: StrategyOption<unknown>;
   } & (
-      | LinkLikeNavbarItemProps
       | ({readonly type?: 'dropdown'} & DropdownNavbarItemProps)
       | ({
           readonly type: 'docsVersionDropdown';
@@ -505,6 +502,7 @@ declare module '@theme/NavbarItem' {
         } & SearchNavbarItemProps)
     );
 
+  export type Props = NonLinkNavbarItemProps | LinkLikeNavbarItemProps;
   export type Types = Props['type'];
 
   const NavbarItem: (props: Props) => JSX.Element;
@@ -513,6 +511,31 @@ declare module '@theme/NavbarItem' {
 
 declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
+}
+
+declare module '@theme/NavbarStrategies' {
+  export type StrategyOption<T> = {[type: string]: T} | string;
+  export type Status = 'active' | 'disabled' | 'hidden';
+  export type StatusStrategy<T> = (params: T) => Status;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const NavbarStrategies: Record<string, StatusStrategy<any>>;
+  export default NavbarStrategies;
+}
+
+declare module '@theme/NavbarStrategies/CustomStrategies' {
+  import type {StatusStrategy} from '@theme/NavbarStrategies';
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const CustomNavbarStrategies: Record<string, StatusStrategy<any>>;
+  export default CustomNavbarStrategies;
+}
+
+declare module '@theme/hooks/useNavbarItemStatus' {
+  import type {StrategyOption} from '@theme/NavbarStrategies';
+
+  export default function useNavbarItemStatus(
+    strategy: StrategyOption<unknown>,
+  ): Status;
 }
 
 declare module '@theme/TabItem' {
@@ -780,7 +803,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink: string}>;
+  export type Tag = Readonly<{label: string; permalink}>;
   export interface Props {
     readonly tags: readonly Tag[];
   }
@@ -802,4 +825,11 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
+}
+
+declare module 'prism-react-renderer/prism' {
+  import type * as PrismNamespace from 'prismjs';
+
+  const Prism: typeof PrismNamespace;
+  export default Prism;
 }

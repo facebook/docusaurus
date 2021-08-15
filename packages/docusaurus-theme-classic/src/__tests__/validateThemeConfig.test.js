@@ -61,6 +61,7 @@ describe('themeConfig', () => {
             position: 'left',
             dropdownItemsBefore: [],
             dropdownItemsAfter: [],
+            statusStrategy: 'alwaysActive',
           },
           {
             to: 'docs/next/support',
@@ -68,6 +69,7 @@ describe('themeConfig', () => {
             position: 'left',
             activeBaseRegex: `docs/next/(support|team|resources)`,
             'aria-label': 'Community',
+            statusStrategy: 'alwaysActive',
           },
         ],
       },
@@ -112,6 +114,7 @@ describe('themeConfig', () => {
             position: 'left',
             docId: 'intro',
             label: 'Introduction',
+            statusStrategy: 'alwaysActive',
           },
           // Regular link
           {
@@ -119,6 +122,7 @@ describe('themeConfig', () => {
             label: 'Guide',
             position: 'left',
             activeBaseRegex: '/guide/',
+            statusStrategy: 'alwaysActive',
           },
           // Regular dropdown
           {
@@ -129,13 +133,16 @@ describe('themeConfig', () => {
                 label: 'Facebook',
                 href: 'https://.facebook.com/',
                 target: '_self',
+                statusStrategy: 'alwaysActive',
               },
               {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
                 className: 'github-link',
+                statusStrategy: 'alwaysActive',
               },
             ],
+            statusStrategy: 'alwaysActive',
           },
           // Dropdown with name
           {
@@ -147,12 +154,15 @@ describe('themeConfig', () => {
                 type: 'doc',
                 docId: 'npm',
                 label: 'NPM',
+                statusStrategy: 'alwaysActive',
               },
               {
                 to: '/yarn',
                 label: 'Yarn',
+                statusStrategy: 'alwaysActive',
               },
             ],
+            statusStrategy: 'alwaysActive',
           },
           // Doc version dropdown
           {
@@ -165,6 +175,7 @@ describe('themeConfig', () => {
                 label: 'Versions on npm',
                 className: 'npm-styled',
                 target: '_self',
+                statusStrategy: 'alwaysActive',
               },
             ],
             dropdownItemsAfter: [
@@ -172,8 +183,10 @@ describe('themeConfig', () => {
                 to: '/versions',
                 label: 'All versions',
                 className: 'all_vers',
+                statusStrategy: 'alwaysActive',
               },
             ],
+            statusStrategy: 'alwaysActive',
           },
           // External link with custom data attribute
           {
@@ -181,12 +194,14 @@ describe('themeConfig', () => {
             position: 'right',
             className: 'header-github-link',
             'aria-label': 'GitHub repository',
+            statusStrategy: 'alwaysActive',
           },
           // Docs version
           {
             type: 'docsVersion',
             position: 'left',
             label: 'Current version',
+            statusStrategy: 'alwaysActive',
           },
         ],
       },
