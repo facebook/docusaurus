@@ -211,6 +211,14 @@ declare module '@theme/hooks/useLockBodyScroll' {
   export default useLockBodyScroll;
 }
 
+declare module '@theme/hooks/useNavbarItemStatus' {
+  import type {StrategyOption, Status} from '@theme/NavbarStrategies';
+
+  export default function useNavbarItemStatus(
+    strategy: StrategyOption<unknown>,
+  ): Status;
+}
+
 declare module '@theme/hooks/usePrismTheme' {
   import defaultTheme from 'prism-react-renderer/themes/palenight';
 
@@ -516,7 +524,7 @@ declare module '@theme/SearchBar' {
 
 declare module '@theme/NavbarStrategies' {
   export type StrategyOption<T> = {[type: string]: T} | string;
-  export type Status = 'active' | 'disabled' | 'hidden';
+  export type Status = 'active' | 'hidden';
   export type StatusStrategy<T> = (params: T) => Status;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const NavbarStrategies: Record<string, StatusStrategy<any>>;
@@ -529,14 +537,6 @@ declare module '@theme/NavbarStrategies/CustomStrategies' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomNavbarStrategies: Record<string, StatusStrategy<any>>;
   export default CustomNavbarStrategies;
-}
-
-declare module '@theme/hooks/useNavbarItemStatus' {
-  import type {StrategyOption, Status} from '@theme/NavbarStrategies';
-
-  export default function useNavbarItemStatus(
-    strategy: StrategyOption<unknown>,
-  ): Status;
 }
 
 declare module '@theme/TabItem' {
