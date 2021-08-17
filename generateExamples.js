@@ -125,9 +125,9 @@ function updateStarters() {
 
 function run() {
   const branch = execSync('git rev-parse --abbrev-ref HEAD').toString();
-  if (branch === 'master') {
+  if (branch === 'main') {
     throw new Error(
-      "Please don't generate Docusaurus examples from the master branch!\nWe are going to commit during this process!",
+      "Please don't generate Docusaurus examples from the main branch!\nWe are going to commit during this process!",
     );
   }
   try {

@@ -83,10 +83,10 @@ Most Docusaurus users configure this plugin through the [preset options](#ex-con
 const config = {
   path: 'blog',
   // Simple use-case: string editUrl
-  // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl
   editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-    return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+    return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
   },
   editLocalizedFiles: false,
   blogTitle: 'Blog title',

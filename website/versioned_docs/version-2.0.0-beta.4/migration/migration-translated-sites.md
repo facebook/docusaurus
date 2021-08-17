@@ -158,7 +158,7 @@ This workflow has not been tested in practice, please report us how good it is.
 
 This way, you wouldn't need to create a new Crowdin project, transfer the translation memory, apply pre-translations, and try to fix the pre-translations errors.
 
-You could create a Crowdin branch for Docusaurus v2, where you upload the v2 sources, and merge the Crowdin branch to master once ready.
+You could create a Crowdin branch for Docusaurus v2, where you upload the v2 sources, and merge the Crowdin branch to main once ready.
 
 ### Use Git instead of Crowdin {#use-git-instead-of-crowdin}
 

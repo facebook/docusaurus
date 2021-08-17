@@ -127,8 +127,8 @@ Optional parameters, also set as environment variables:
 | Name | Description |
 | --- | --- |
 | `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
-| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages` for normal repos and `master` for repository names ending in `github.io`. |
-| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
+| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages`. For GitHub Pages Organization repos (`config.projectName` ending in `github.io`), this env variable is required. |
+| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `main`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 | `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
@@ -269,7 +269,7 @@ node_js:
   - '10'
 branches:
   only:
-    - master
+    - main
 cache:
   yarn: true
 script:
@@ -279,7 +279,7 @@ script:
   - yarn && GIT_USER="${GH_NAME}" yarn deploy
 ```
 
-Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+Now, whenever a new commit lands in `main`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
 
 ### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
 
@@ -312,7 +312,7 @@ After creating this simple pipeline, each new commit pushed to the branch you se
 
 ```yaml title="azure-pipelines.yml"
 trigger:
-  - master
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -329,7 +329,7 @@ steps:
   - script: |
       git config --global user.name "${GH_NAME}"
       git config --global user.email "${GH_EMAIL}"
-      git checkout -b master
+      git checkout -b main
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
       yarn && GIT_USER="${GH_NAME}" yarn deploy
     env:
@@ -394,7 +394,7 @@ While you set up the site, specify the build commands and directories as follows
 
 If you did not configure these build options, you may still go to "Site settings" -> "Build and deploy" after your site is created.
 
-Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
+Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `main`.
 
 :::warning
 

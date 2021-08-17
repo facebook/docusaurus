@@ -30,13 +30,13 @@ If you're publishing new v2 versions, 2FA might get in the way as the pin might 
 
 ### 1. Git setup
 
-From the **master branch** (up to date, main repo, not a fork), create a new branch for the release.
+From the **main branch** (up to date, main repo, not a fork), create a new branch for the release.
 
 The branch name does not matter much, but you can use the `<your_username>/<version_to_release>` pattern.
 
 ```sh
-# up to date master
-git co master
+# up to date main
+git co main
 git pull
 
 # create a new release branch

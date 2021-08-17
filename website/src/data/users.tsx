@@ -979,7 +979,7 @@ const Users: User[] = [
     description: 'The GraphQL client that scales with you',
     preview: require('./showcase/relay.png'),
     website: 'https://relay.dev/',
-    source: 'https://github.com/facebook/relay/tree/master/website',
+    source: 'https://github.com/facebook/relay/tree/main/website',
     tags: ['opensource','favorite','design','versioning'],
   },
   {
