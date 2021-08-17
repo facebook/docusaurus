@@ -130,9 +130,8 @@ function doProcessDocMetadata({
     custom_edit_url: customEditURL,
 
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
-    // but allow to disable this behavior with frontmatterr
-    // eslint-disable-next-line camelcase
-    parse_number_prefixes = true,
+    // but allow to disable this behavior with frontmatter
+    parse_number_prefixes: parseNumberPrefixes = true,
   } = frontMatter;
 
   // ex: api/plugins/myDoc -> myDoc
@@ -146,8 +145,7 @@ function doProcessDocMetadata({
   // ex: myDoc -> .
   const sourceDirName = path.dirname(source);
 
-  // eslint-disable-next-line camelcase
-  const {filename: unprefixedFileName, numberPrefix} = parse_number_prefixes
+  const {filename: unprefixedFileName, numberPrefix} = parseNumberPrefixes
     ? options.numberPrefixParser(sourceFileNameWithoutExtension)
     : {filename: sourceFileNameWithoutExtension, numberPrefix: undefined};
 
@@ -175,8 +173,7 @@ function doProcessDocMetadata({
       return undefined;
     }
     // Eventually remove the number prefixes from intermediate directories
-    // eslint-disable-next-line camelcase
-    return parse_number_prefixes
+    return parseNumberPrefixes
       ? stripPathNumberPrefixes(sourceDirName, options.numberPrefixParser)
       : sourceDirName;
   }
@@ -203,7 +200,7 @@ function doProcessDocMetadata({
         baseID,
         dirName: sourceDirName,
         frontmatterSlug: frontMatter.slug,
-        stripDirNumberPrefixes: parse_number_prefixes,
+        stripDirNumberPrefixes: parseNumberPrefixes,
         numberPrefixParser: options.numberPrefixParser,
       });
 

@@ -85,7 +85,7 @@ describe('base webpack config', () => {
     siteConfig: {},
     baseUrl: '',
     generatedFilesDir: '',
-    routesPaths: '',
+    routesPaths: [''],
     i18n: {
       currentLocale: 'en',
     },

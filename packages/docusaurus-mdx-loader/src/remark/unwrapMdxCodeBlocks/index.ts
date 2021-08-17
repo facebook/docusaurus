@@ -5,24 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const visit = require('unist-util-visit');
+import visit from 'unist-util-visit';
+import type {Transformer, Processor} from 'unified';
+import type {Code, Parent} from 'mdast';
 
 // This plugin is mostly to help integrating Docusaurus with translation systems
 // that do not support well MDX embedded JSX syntax (like Crowdin)
 // We wrap the JSX syntax in code blocks so that translation tools don't mess-up with the markup
 // But the JSX inside such code blocks should still be evaluated as JSX
 // See https://github.com/facebook/docusaurus/pull/4278
-function plugin() {
-  const transformer = (root) => {
-    visit(root, 'code', (node, _index, parent) => {
+function plugin(this: Processor): Transformer {
+  const transformer: Transformer = (root) => {
+    visit(root, 'code', (node: Code, _index, parent) => {
       if (node.lang === 'mdx-code-block') {
-        const newChildrens = this.parse(node.value).children;
+        const newChildren = (this!.parse(node.value) as Parent).children;
 
         // Replace the mdx code block by its content, parsed
-        parent.children.splice(
-          parent.children.indexOf(node),
+        parent!.children.splice(
+          parent!.children.indexOf(node),
           1,
-          ...newChildrens,
+          ...newChildren,
         );
       }
     });
@@ -31,4 +33,4 @@ function plugin() {
   return transformer;
 }
 
-module.exports = plugin;
+export default plugin;

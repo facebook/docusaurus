@@ -8,7 +8,6 @@
 import React from 'react';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
-import BlogPostStructuredData from '@theme/BlogPostStructuredData';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
@@ -31,11 +30,6 @@ function BlogPostPage(props: Props): JSX.Element {
           ? BlogPostContents.toc
           : undefined
       }>
-      <BlogPostStructuredData
-        frontMatter={frontMatter}
-        frontMatterAssets={frontMatterAssets}
-        metadata={metadata}
-      />
       <BlogPostItem
         frontMatter={frontMatter}
         frontMatterAssets={frontMatterAssets}

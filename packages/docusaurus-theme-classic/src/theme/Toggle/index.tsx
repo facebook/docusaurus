@@ -8,7 +8,7 @@
 import React, {useState, useRef, memo, CSSProperties} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import clsx from 'clsx';
 import './styles.css';
@@ -53,6 +53,7 @@ const Toggle = memo(
           'react-toggle--focus': focused,
           'react-toggle--disabled': disabled,
         })}>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
           className="react-toggle-track"
           role="button"
@@ -73,6 +74,11 @@ const Toggle = memo(
           onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              inputRef.current?.click();
+            }
+          }}
         />
       </div>
     );
@@ -85,11 +91,11 @@ export default function (props: Props): JSX.Element {
       switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
     },
   } = useThemeConfig();
-  const {isClient} = useDocusaurusContext();
+  const isBrowser = useIsBrowser();
 
   return (
     <Toggle
-      disabled={!isClient}
+      disabled={!isBrowser}
       icons={{
         checked: <Dark icon={darkIcon} style={darkIconStyle} />,
         unchecked: <Light icon={lightIcon} style={lightIconStyle} />,

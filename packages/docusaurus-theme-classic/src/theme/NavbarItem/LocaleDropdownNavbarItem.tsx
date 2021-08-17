@@ -11,6 +11,7 @@ import IconLanguage from '@theme/IconLanguage';
 import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
+import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 export default function LocaleDropdownNavbarItem({
   mobile,
@@ -23,25 +24,27 @@ export default function LocaleDropdownNavbarItem({
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
-  function getLocaleLabel(locale) {
+  function getLocaleLabel(locale: string) {
     return localeConfigs[locale].label;
   }
 
-  const localeItems = locales.map((locale) => {
-    const to = `pathname://${alternatePageUtils.createUrl({
-      locale,
-      fullyQualified: false,
-    })}`;
-    return {
-      isNavLink: true,
-      label: getLocaleLabel(locale),
-      to,
-      target: '_self',
-      autoAddBaseUrl: false,
-      className: locale === currentLocale ? 'dropdown__link--active' : '',
-      style: {textTransform: 'capitalize'},
-    };
-  });
+  const localeItems = locales.map(
+    (locale): LinkLikeNavbarItemProps => {
+      const to = `pathname://${alternatePageUtils.createUrl({
+        locale,
+        fullyQualified: false,
+      })}`;
+      return {
+        isNavLink: true,
+        label: getLocaleLabel(locale),
+        to,
+        target: '_self',
+        autoAddBaseUrl: false,
+        className: locale === currentLocale ? 'dropdown__link--active' : '',
+        style: {textTransform: 'capitalize'},
+      };
+    },
+  );
 
   const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 

@@ -39,6 +39,7 @@ import {
 } from './translations/translations';
 import {mapValues} from 'lodash';
 import {RuleSetRule} from 'webpack';
+import admonitions from 'remark-admonitions';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -225,6 +226,7 @@ function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     isMDXPartial: (_filename) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
+                    remarkPlugins: [admonitions],
                   },
                 },
               ],

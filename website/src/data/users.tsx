@@ -1310,6 +1310,19 @@ const Users: User[] = [
     source: 'https://github.com/Claviz/drayman',
     tags: ['opensource']
   },
+  {
+    title: 'Nocalhost',
+    description: 'An open-source toolsets help to build cloud-native applications easier and faster.',
+    preview: require('./showcase/nocalhost.png'),
+    website: 'https://nocalhost.dev/',
+    source: 'https://github.com/nocalhost/nocalhost',
+    tags: ['opensource', 'i18n']
+  }
+
+  /*
+  Pro Tip: add your site in alphabetical order.
+  Appending your site here (at the end) is more likely to produce Git conflicts.
+   */
 ];
 
 export const TagList = Object.keys(Tags) as TagType[];

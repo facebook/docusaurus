@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable camelcase */
-
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   URISchema,
@@ -15,6 +13,7 @@ import {
 import {Tag} from './types';
 
 export type BlogPostFrontMatter = {
+  /* eslint-disable camelcase */
   id?: string;
   title?: string;
   description?: string;
@@ -36,6 +35,7 @@ export type BlogPostFrontMatter = {
   authorTitle?: string;
   authorURL?: string;
   authorImageURL?: string;
+  /* eslint-enable camelcase */
 };
 
 // NOTE: we don't add any default value on purpose here

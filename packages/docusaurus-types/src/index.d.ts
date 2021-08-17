@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// ESLint doesn't understand types dependencies in d.ts
-// eslint-disable-next-line import/no-extraneous-dependencies
 import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
@@ -127,7 +125,10 @@ export interface DocusaurusContext {
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-  isClient: boolean;
+
+  // Don't put mutable values here, to avoid triggering re-renders
+  // We could reconsider that choice if context selectors are implemented
+  // isBrowser: boolean; // Not here on purpose!
 }
 
 export interface Preset {
@@ -346,7 +347,7 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
-  [propName: string]: any;
+  [propName: string]: unknown;
 }
 
 // Aliases used for Webpack resolution (when using docusaurus swizzle)

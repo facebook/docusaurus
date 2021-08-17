@@ -46,24 +46,6 @@ declare module '@theme/BlogPostItem' {
   export default BlogPostItem;
 }
 
-declare module '@theme/BlogPostStructuredData' {
-  import type {
-    FrontMatter,
-    FrontMatterAssets,
-    Metadata,
-  } from '@theme/BlogPostPage';
-
-  export type Props = {
-    readonly frontMatter: FrontMatter;
-    readonly frontMatterAssets: FrontMatterAssets;
-    readonly metadata: Metadata;
-    readonly truncated?: string | boolean;
-  };
-
-  const BlogPostStructuredData: (props: Props) => JSX.Element;
-  export default BlogPostStructuredData;
-}
-
 declare module '@theme/BlogPostPaginator' {
   type Item = {readonly title: string; readonly permalink: string};
 
@@ -255,11 +237,11 @@ declare module '@theme/hooks/useThemeContext' {
 }
 
 declare module '@theme/hooks/useTOCHighlight' {
-  export default function useTOCHighlight(
-    linkClassName: string,
-    linkActiveClassName: string,
-    topOffset: number,
-  ): void;
+  export type Params = {
+    linkClassName: string;
+    linkActiveClassName: string;
+  };
+  export default function useTOCHighlight(params: Params): void;
 }
 
 declare module '@theme/hooks/useUserPreferencesContext' {

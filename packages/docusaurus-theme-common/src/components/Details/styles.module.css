@@ -46,9 +46,9 @@ CSS variables, meant to be overriden by final theme
 }
 
 /* When JS disabled/failed to load: we use the open property for arrow animation: */
-.details[open]:not(.isClient) > summary:before,
+.details[open]:not(.isBrowser) > summary:before,
 /* When JS works: we use the data-attribute for arrow animation */
-.details[data-collapsed='false'].isClient > summary:before {
+.details[data-collapsed='false'].isBrowser > summary:before {
   transform: rotate(90deg);
 }
 

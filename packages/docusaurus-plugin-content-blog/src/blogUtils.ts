@@ -43,7 +43,7 @@ export function getSourceToPermalink(
   );
 }
 
-const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-\/]\d{1,2}[-\/]\d{1,2})[-\/]?(?<text>.*?)(\/index)?.mdx?$/;
+const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -60,22 +60,13 @@ export function parseBlogFileName(
     const text = dateFilenameMatch.groups!.text!;
     // Always treat dates as UTC by adding the `Z`
     const date = new Date(`${dateString}Z`);
-    // TODO use replaceAll once we require NodeJS 16
-    const slugDate = dateString.replace('-', '/').replace('-', '/');
+    const slugDate = dateString.replace(/-/g, '/');
     const slug = `/${slugDate}/${text}`;
-    return {
-      date,
-      text,
-      slug,
-    };
+    return {date, text, slug};
   } else {
     const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
     const slug = `/${text}`;
-    return {
-      date: undefined,
-      text,
-      slug,
-    };
+    return {date: undefined, text, slug};
   }
 }
 
@@ -204,10 +195,9 @@ async function processBlogSourceFile(
       return new Date(frontMatter.date);
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
-    } else {
-      // Fallback to file create time
-      return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
+    // Fallback to file create time
+    return (await fs.stat(blogSourceAbsolute)).birthtime;
   }
 
   const date = await getDate();
@@ -246,9 +236,8 @@ async function processBlogSourceFile(
       ]);
 
       return getEditUrl(blogPathRelative, contentPathEditUrl);
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 
   return {

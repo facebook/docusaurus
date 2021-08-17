@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import {DocusaurusContext} from '@docusaurus/types';
+import {useContext} from 'react';
+import {Context} from './browserContext';
 
-export default React.createContext<DocusaurusContext | null>(null);
+export default function useIsBrowser(): boolean {
+  return useContext(Context);
+}

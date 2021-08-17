@@ -6,16 +6,11 @@
  */
 
 import {useContext} from 'react';
-import context from './context';
+import {Context} from './docusaurusContext';
 import {DocusaurusContext} from '@docusaurus/types';
 
 function useDocusaurusContext(): DocusaurusContext {
-  const docusaurusContext = useContext(context);
-  if (docusaurusContext === null) {
-    // should not happen normally
-    throw new Error('Docusaurus context not provided.');
-  }
-  return docusaurusContext;
+  return useContext(Context);
 }
 
 export default useDocusaurusContext;

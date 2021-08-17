@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-duplicates */
-/* eslint-disable camelcase */
-
 declare module '@theme/BlogSidebar' {
   export type BlogSidebarItem = {title: string; permalink: string};
   export type BlogSidebar = {
@@ -28,6 +25,7 @@ declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
+    /* eslint-disable camelcase */
     readonly title: string;
     readonly author?: string;
     readonly image?: string;
@@ -40,12 +38,15 @@ declare module '@theme/BlogPostPage' {
     readonly author_image_url?: string;
     readonly authorImageURL?: string;
     readonly hide_table_of_contents?: boolean;
+    /* eslint-enable camelcase */
   };
 
   export type FrontMatterAssets = {
+    /* eslint-disable camelcase */
     readonly image?: string;
     readonly author_image_url?: string;
     readonly authorImageURL?: string;
+    /* eslint-enable camelcase */
   };
 
   export type Metadata = {

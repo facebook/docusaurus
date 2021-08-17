@@ -7,18 +7,25 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
-const {parseMarkdownHeadingId} = require('@docusaurus/utils');
-const visit = require('unist-util-visit');
-const toString = require('mdast-util-to-string');
-const slugs = require('github-slugger')();
+import {parseMarkdownHeadingId} from '@docusaurus/utils';
+import visit, {Visitor} from 'unist-util-visit';
+import toString from 'mdast-util-to-string';
+import Slugger from 'github-slugger';
+import type {Transformer} from 'unified';
+import type {Parent} from 'unist';
+import type {Heading, Text} from 'mdast';
 
-function headings() {
-  const transformer = (ast) => {
+const slugs = new Slugger();
+
+function headings(): Transformer {
+  const transformer: Transformer = (ast) => {
     slugs.reset();
 
-    function visitor(headingNode) {
-      const data = headingNode.data || (headingNode.data = {}); // eslint-disable-line
-      const properties = data.hProperties || (data.hProperties = {});
+    const visitor: Visitor<Heading> = (headingNode) => {
+      const data = headingNode.data || (headingNode.data = {});
+      const properties = (data.hProperties || (data.hProperties = {})) as {
+        id: string;
+      };
       let {id} = properties;
 
       if (id) {
@@ -29,7 +36,7 @@ function headings() {
         );
         const heading = toString(
           headingTextNodes.length > 0
-            ? {children: headingTextNodes}
+            ? ({children: headingTextNodes} as Parent)
             : headingNode,
         );
 
@@ -42,8 +49,9 @@ function headings() {
           // When there's an id, it is always in the last child node
           // Sometimes heading is in multiple "parts" (** syntax creates a child node):
           // ## part1 *part2* part3 {#id}
-          const lastNode =
-            headingNode.children[headingNode.children.length - 1];
+          const lastNode = headingNode.children[
+            headingNode.children.length - 1
+          ] as Text;
 
           if (headingNode.children.length > 1) {
             const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
@@ -63,7 +71,7 @@ function headings() {
 
       data.id = id;
       properties.id = id;
-    }
+    };
 
     visit(ast, 'heading', visitor);
   };
@@ -71,4 +79,4 @@ function headings() {
   return transformer;
 }
 
-module.exports = headings;
+export default headings;

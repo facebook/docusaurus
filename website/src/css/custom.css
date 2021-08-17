@@ -6,13 +6,28 @@
  */
 
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  /*
+  See css var + hsl color palette technique:
+  https://blog.maximeheckel.com/posts/the-power-of-composition-with-css-variables/
+   */
+  --site-primary-hue-saturation: 167, 68%;
+  --site-primary-hue-saturation-light: 167, 56%; /* do we really need this extra one? */
+
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
+  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation), 41%);
+  --ifm-color-primary-darker: hsl(var(--site-primary-hue-saturation), 38%);
+  --ifm-color-primary-darkest: hsl(var(--site-primary-hue-saturation), 32%);
+
+  --ifm-color-primary-light: hsl(var(--site-primary-hue-saturation-light), 54%);
+  --ifm-color-primary-lighter: hsl(
+    var(--site-primary-hue-saturation-light),
+    62%
+  );
+  --ifm-color-primary-lightest: hsl(
+    var(--site-primary-hue-saturation-light),
+    73%
+  );
+
   --ifm-color-feedback-background: #fff;
 }
 
@@ -112,4 +127,23 @@ html[data-theme='dark'] .DocSearch {
     var(--ifm-color-emphasis-200) 0%,
     var(--ifm-color-emphasis-100) 100%
   );
+}
+
+div[class^='announcementBar_'] {
+  --site-announcement-bar-stripe-color1: hsl(
+    var(--site-primary-hue-saturation),
+    85%
+  );
+  --site-announcement-bar-stripe-color2: hsl(
+    var(--site-primary-hue-saturation),
+    95%
+  );
+  background: repeating-linear-gradient(
+    35deg,
+    var(--site-announcement-bar-stripe-color1),
+    var(--site-announcement-bar-stripe-color1) 20px,
+    var(--site-announcement-bar-stripe-color2) 10px,
+    var(--site-announcement-bar-stripe-color2) 40px
+  );
+  font-weight: bold;
 }

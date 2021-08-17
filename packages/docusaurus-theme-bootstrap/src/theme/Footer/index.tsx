@@ -6,11 +6,20 @@
  */
 
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
-function FooterLink({to, href, label, ...props}) {
+function FooterLink({
+  to,
+  href,
+  label,
+  ...props
+}: {
+  to?: string;
+  href?: string;
+  label?: string;
+}) {
   const toUrl = useBaseUrl(to);
 
   return (
@@ -31,12 +40,9 @@ function FooterLink({to, href, label, ...props}) {
 }
 
 function Footer(): JSX.Element {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {themeConfig = {}} = siteConfig;
-  const {footer} = themeConfig;
+  const {footer} = useThemeConfig();
 
-  const {links} = footer || {};
+  const {links = []} = footer || {};
 
   return (
     <footer className="container-fluid p-0 align-self-end">

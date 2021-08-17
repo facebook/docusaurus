@@ -5,25 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {
+import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
-} = require('@docusaurus/utils');
-
-const visit = require('unist-util-visit');
-const path = require('path');
-const url = require('url');
-const fs = require('fs-extra');
-const escapeHtml = require('escape-html');
-const {toValue} = require('../utils');
-const {getFileLoaderUtils} = require('@docusaurus/core/lib/webpack/utils');
+} from '@docusaurus/utils';
+import visit from 'unist-util-visit';
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
+import escapeHtml from 'escape-html';
+import {stringifyContent} from '../utils';
+import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
+import type {Plugin, Transformer} from 'unified';
+import type {Link, Literal} from 'mdast';
 
 const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
+interface PluginOptions {
+  filePath: string;
+  staticDir: string;
+}
+
+async function ensureAssetFileExist(
+  fileSystemAssetPath: string,
+  sourceFilePath: string,
+) {
   const assetExists = await fs.pathExists(fileSystemAssetPath);
   if (!assetExists) {
     throw new Error(
@@ -35,7 +44,15 @@ async function ensureAssetFileExist(fileSystemAssetPath, sourceFilePath) {
 }
 
 // transform the link node to a jsx link with a require() call
-function toAssetRequireNode({node, filePath, requireAssetPath}) {
+function toAssetRequireNode({
+  node,
+  filePath,
+  requireAssetPath,
+}: {
+  node: Link;
+  filePath: string;
+  requireAssetPath: string;
+}) {
   /* eslint-disable no-param-reassign */
 
   let relativeRequireAssetPath = posixPath(
@@ -50,17 +67,21 @@ function toAssetRequireNode({node, filePath, requireAssetPath}) {
   const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
     relativeRequireAssetPath,
   )}').default`;
-  const children = (node.children || []).map((n) => toValue(n)).join('');
+  const children = stringifyContent(node);
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
-  node.type = 'jsx';
-  node.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  ((node as unknown) as Literal).type = 'jsx';
+  ((node as unknown) as Literal).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,
 // and use a require("assetUrl") (using webpack url-loader/file-loader)
 // instead of navigating to such link
-async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
+async function convertToAssetLinkIfNeeded({
+  node,
+  staticDir,
+  filePath,
+}: {node: Link} & PluginOptions) {
   const assetPath = node.url;
 
   const hasSiteAlias = assetPath.startsWith('@site/');
@@ -73,7 +94,7 @@ async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
     return;
   }
 
-  function toAssetLinkNode(requireAssetPath) {
+  function toAssetLinkNode(requireAssetPath: string) {
     toAssetRequireNode({
       node,
       filePath,
@@ -102,14 +123,16 @@ async function convertToAssetLinkIfNeeded({node, staticDir, filePath}) {
   }
 }
 
-async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
+async function processLinkNode({
+  node,
+  filePath,
+  staticDir,
+}: {node: Link} & PluginOptions) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title =
-      node.title || (node.children[0] && node.children[0].value) || '?';
-    const line =
-      (node.position && node.position.start && node.position.start.line) || '?';
+    const title = node.title || (node.children[0] as Literal)?.value || '?';
+    const line = node?.position?.start?.line || '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
@@ -122,22 +145,18 @@ async function processLinkNode({node, _index, _parent, filePath, staticDir}) {
     return;
   }
 
-  await convertToAssetLinkIfNeeded({
-    node,
-    staticDir,
-    filePath,
-  });
+  await convertToAssetLinkIfNeeded({node, staticDir, filePath});
 }
 
-const plugin = (options) => {
-  const transformer = async (root) => {
-    const promises = [];
-    visit(root, 'link', (node, index, parent) => {
-      promises.push(processLinkNode({node, index, parent, ...options}));
+const plugin: Plugin<[PluginOptions]> = (options) => {
+  const transformer: Transformer = async (root) => {
+    const promises: Promise<void>[] = [];
+    visit(root, 'link', (node: Link) => {
+      promises.push(processLinkNode({node, ...options}));
     });
     await Promise.all(promises);
   };
   return transformer;
 };
 
-module.exports = plugin;
+export default plugin;

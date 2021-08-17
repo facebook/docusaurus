@@ -5,94 +5,115 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect, useState} from 'react';
+import {Params} from '@theme/hooks/useTOCHighlight';
+import {useEffect, useRef} from 'react';
 
-function useTOCHighlight(
-  linkClassName: string,
-  linkActiveClassName: string,
-  topOffset: number,
-): void {
-  const [lastActiveLink, setLastActiveLink] = useState<
-    HTMLAnchorElement | undefined
-  >(undefined);
+// If the anchor has no height and is just a "marker" in the dom; we'll use the parent (normally the link text) rect boundaries instead
+function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
+  const rect = element.getBoundingClientRect();
+  const hasNoHeight = rect.top === rect.bottom;
+  if (hasNoHeight) {
+    return getVisibleBoundingClientRect(element.parentNode as HTMLElement);
+  }
+  return rect;
+}
+
+// Considering we divide viewport into 2 zones of each 50vh
+// This returns true if an element is in the first zone (ie, appear in viewport, near the top)
+function isInViewportTopHalf(boundingRect: DOMRect) {
+  return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
+}
+
+function getAnchors() {
+  // For toc highlighting, we only consider h2/h3 anchors
+  const selector = '.anchor.anchor__h2, .anchor.anchor__h3';
+  return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+}
+
+function getActiveAnchor(): Element | null {
+  const anchors = getAnchors();
+
+  const anchorTopOffset = 100; // Skip anchors that are too close to the viewport top
+
+  // Naming is hard
+  // The "nextVisibleAnchor" is the first anchor that appear under the viewport top boundary
+  // Note: it does not mean this anchor is visible yet, but if user continues scrolling down, it will be the first to become visible
+  const nextVisibleAnchor = anchors.find((anchor) => {
+    const boundingRect = getVisibleBoundingClientRect(anchor);
+    return boundingRect.top >= anchorTopOffset;
+  });
+
+  if (nextVisibleAnchor) {
+    const boundingRect = getVisibleBoundingClientRect(nextVisibleAnchor);
+    // If anchor is in the top half of the viewport: it is the one we consider "active"
+    // (unless it's too close to the top and and soon to be scrolled outside viewport)
+    if (isInViewportTopHalf(boundingRect)) {
+      return nextVisibleAnchor;
+    }
+    // If anchor is in the bottom half of the viewport, or under the viewport, we consider the active anchor is the previous one
+    // This is because the main text appearing in the user screen mostly belong to the previous anchor
+    else {
+      // Returns null for the first anchor, see https://github.com/facebook/docusaurus/issues/5318
+      return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
+    }
+  }
+  // no anchor under viewport top? (ie we are at the bottom of the page)
+  // => highlight the last anchor found
+  else {
+    return anchors[anchors.length - 1];
+  }
+}
+
+function getLinkAnchorValue(link: HTMLAnchorElement): string {
+  return decodeURIComponent(link.href.substring(link.href.indexOf('#') + 1));
+}
+
+function getLinks(linkClassName: string) {
+  return Array.from(
+    document.getElementsByClassName(linkClassName),
+  ) as HTMLAnchorElement[];
+}
+
+function useTOCHighlight(params: Params): void {
+  const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   useEffect(() => {
-    function setActiveLink() {
-      function getActiveHeaderAnchor(): Element | null {
-        const headersAnchors: Element[] = Array.from(
-          document.getElementsByClassName('anchor'),
-        );
+    const {linkClassName, linkActiveClassName} = params;
 
-        const firstAnchorUnderViewportTop = headersAnchors.find((anchor) => {
-          const {top} = anchor.getBoundingClientRect();
-          return top >= topOffset;
-        });
-
-        if (firstAnchorUnderViewportTop) {
-          // If first anchor in viewport is under a certain threshold, we consider it's not the active anchor.
-          // In such case, the active anchor is the previous one (if it exists), that may be above the viewport
-          if (
-            firstAnchorUnderViewportTop.getBoundingClientRect().top >= topOffset
-          ) {
-            const previousAnchor =
-              headersAnchors[
-                headersAnchors.indexOf(firstAnchorUnderViewportTop) - 1
-              ];
-            return previousAnchor ?? firstAnchorUnderViewportTop;
-          }
-          // If the anchor is at the top of the viewport, we consider it's the first anchor
-          else {
-            return firstAnchorUnderViewportTop;
-          }
+    function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
+      if (active) {
+        if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
+          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
         }
-        // no anchor under viewport top? (ie we are at the bottom of the page)
-        else {
-          // highlight the last anchor found
-          return headersAnchors[headersAnchors.length - 1];
-        }
-      }
-
-      const activeHeaderAnchor = getActiveHeaderAnchor();
-
-      if (activeHeaderAnchor) {
-        let index = 0;
-        let itemHighlighted = false;
-
-        // @ts-expect-error: Must be <a> tags.
-        const links: HTMLCollectionOf<HTMLAnchorElement> = document.getElementsByClassName(
-          linkClassName,
-        );
-        while (index < links.length && !itemHighlighted) {
-          const link = links[index];
-          const {href} = link;
-          const anchorValue = decodeURIComponent(
-            href.substring(href.indexOf('#') + 1),
-          );
-
-          if (activeHeaderAnchor.id === anchorValue) {
-            if (lastActiveLink) {
-              lastActiveLink.classList.remove(linkActiveClassName);
-            }
-            link.classList.add(linkActiveClassName);
-            setLastActiveLink(link);
-            itemHighlighted = true;
-          }
-
-          index += 1;
-        }
+        link.classList.add(linkActiveClassName);
+        lastActiveLinkRef.current = link;
+      } else {
+        link.classList.remove(linkActiveClassName);
       }
     }
 
-    document.addEventListener('scroll', setActiveLink);
-    document.addEventListener('resize', setActiveLink);
+    function updateActiveLink() {
+      const links = getLinks(linkClassName);
+      const activeAnchor = getActiveAnchor();
+      const activeLink = links.find(
+        (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
+      );
 
-    setActiveLink();
+      links.forEach((link) => {
+        updateLinkActiveClass(link, link === activeLink);
+      });
+    }
+
+    document.addEventListener('scroll', updateActiveLink);
+    document.addEventListener('resize', updateActiveLink);
+
+    updateActiveLink();
 
     return () => {
-      document.removeEventListener('scroll', setActiveLink);
-      document.removeEventListener('resize', setActiveLink);
+      document.removeEventListener('scroll', updateActiveLink);
+      document.removeEventListener('resize', updateActiveLink);
     };
-  });
+  }, [params]);
 }
 
 export default useTOCHighlight;
