@@ -47,9 +47,8 @@ export const PluginOptionSchema = Joi.object({
     .default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
-  postsPerPage: Joi.number()
-    .integer()
-    .min(1)
+  postsPerPage: Joi.alternatives()
+    .try(Joi.equal('ALL').required(), Joi.number().integer().min(1).required())
     .default(DEFAULT_OPTIONS.postsPerPage),
   blogListComponent: Joi.string().default(DEFAULT_OPTIONS.blogListComponent),
   blogPostComponent: Joi.string().default(DEFAULT_OPTIONS.blogPostComponent),
@@ -64,7 +63,7 @@ export const PluginOptionSchema = Joi.object({
     .allow('')
     .default(DEFAULT_OPTIONS.blogDescription),
   blogSidebarCount: Joi.alternatives()
-    .try(Joi.equal('ALL').required(), Joi.number().required())
+    .try(Joi.equal('ALL').required(), Joi.number().integer().min(0).required())
     .default(DEFAULT_OPTIONS.blogSidebarCount),
   blogSidebarTitle: Joi.string().default(DEFAULT_OPTIONS.blogSidebarTitle),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),

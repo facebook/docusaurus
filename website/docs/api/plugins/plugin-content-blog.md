@@ -38,7 +38,7 @@ Accepted fields:
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
-| `postsPerPage` | `number` | `10` | Number of posts to show per page in the listing page. |
+| `postsPerPage` | <code>number &#124; 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
 | `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
 | `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
 | `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
