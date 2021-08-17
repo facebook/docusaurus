@@ -59,11 +59,11 @@ export const PathnameSchema = Joi.string()
   );
 
 export const FrontMatterTagsSchema = JoiFrontMatter.array().items(
-  Joi.alternatives().try(
-    Joi.string().required(),
+  JoiFrontMatter.alternatives().try(
+    JoiFrontMatter.string().required(),
     JoiFrontMatter.object<Tag>({
-      label: Joi.string().required(),
-      permalink: Joi.string().required(),
+      label: JoiFrontMatter.string().required(),
+      permalink: JoiFrontMatter.string().required(),
     }).required(),
   ),
 );
