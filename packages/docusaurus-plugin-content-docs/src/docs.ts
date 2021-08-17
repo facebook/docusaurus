@@ -104,17 +104,6 @@ export async function readVersionDocs(
   );
 }
 
-function readFrontmatterTags(frontMatter: any): string[] {
-  const tags: string[] = frontMatter.tags ?? [];
-  if (tags instanceof Array && tags.every((tag) => typeof tag === 'string')) {
-    return tags;
-  } else {
-    throw new Error(
-      `Bad frontmatter document tags.\nTags should be an array of strings.\nExample => 'tags: [tag1, tag2, tag3]'\nActual value=${tags}`,
-    );
-  }
-}
-
 function doProcessDocMetadata({
   docFile,
   versionMetadata,
@@ -263,7 +252,7 @@ function doProcessDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
-    tags: readFrontmatterTags(frontMatter),
+    tags: frontMatter.tags, // TODO normalize here
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,

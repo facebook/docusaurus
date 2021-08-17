@@ -32,7 +32,7 @@ export function getVersionTags({
   }
 
   docs.forEach((doc) => {
-    const tags: string[] = doc.tags ?? [];
+    const tags: string[] = (doc.tags ?? []) as any; // TODO BAD, temporary
     tags.forEach((tag) => {
       const normalizedTag = normalizeTag(tag);
       // init data for a tag the first time we see it

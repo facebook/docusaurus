@@ -6,6 +6,7 @@
  */
 import Joi from './Joi';
 import {isValidPathname} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/utils';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[a-zA-Z_-]+$/)
@@ -55,3 +56,11 @@ export const PathnameSchema = Joi.string()
   .message(
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
+
+export const TagSchema = Joi.object<Tag>({
+  label: Joi.string().required(),
+  permalink: Joi.string().required(),
+});
+export const FrontMatterTagsSchema = Joi.array().items(
+  Joi.alternatives().try(Joi.string().required(), TagSchema.required()),
+);

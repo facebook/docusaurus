@@ -9,7 +9,8 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import {
+import type {FrontMatterTag} from '@docusaurus/utils';
+import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
@@ -201,6 +202,7 @@ export type DocFrontMatter = {
   /* eslint-disable camelcase */
   id?: string;
   title?: string;
+  tags?: FrontMatterTag[];
   hide_title?: boolean;
   hide_table_of_contents?: boolean;
   keywords?: string[];
@@ -228,7 +230,7 @@ export type DocMetadataBase = LastUpdateData & {
   permalink: string;
   sidebarPosition?: number;
   editUrl?: string | null;
-  tags: string[];
+  tags?: FrontMatterTag[]; // TODO normalize earlier!
   frontMatter: DocFrontMatter & Record<string, unknown>;
 };
 
