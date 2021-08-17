@@ -18,7 +18,7 @@ Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  presets: ['@docusaurus/preset-xxxx'],
+  presets: ['@docusaurus/preset-classic'],
 };
 ```
 
