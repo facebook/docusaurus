@@ -46,24 +46,6 @@ declare module '@theme/BlogPostItem' {
   export default BlogPostItem;
 }
 
-declare module '@theme/BlogPostStructuredData' {
-  import type {
-    FrontMatter,
-    FrontMatterAssets,
-    Metadata,
-  } from '@theme/BlogPostPage';
-
-  export type Props = {
-    readonly frontMatter: FrontMatter;
-    readonly frontMatterAssets: FrontMatterAssets;
-    readonly metadata: Metadata;
-    readonly truncated?: string | boolean;
-  };
-
-  const BlogPostStructuredData: (props: Props) => JSX.Element;
-  export default BlogPostStructuredData;
-}
-
 declare module '@theme/BlogPostPaginator' {
   type Item = {readonly title: string; readonly permalink: string};
 
