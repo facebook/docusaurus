@@ -50,48 +50,43 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
         styles.details,
         {[styles.isBrowser]: isBrowser},
         props.className,
-      )}>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-      <div
-        role="button"
-        tabIndex={0}
-        onMouseDown={(e) => {
-          const target = e.target as HTMLElement;
-          // Prevent a double-click to highlight summary text
-          if (isInSummary(target) && e.detail > 1) {
-            e.preventDefault();
-          }
-        }}
-        onClick={(e) => {
-          e.stopPropagation(); // For isolation of multiple nested details/summary
-          const target = e.target as HTMLElement;
-          const shouldToggle =
-            isInSummary(target) && hasParent(target, detailsRef.current!);
-          if (!shouldToggle) {
-            return;
-          }
+      )}
+      onMouseDown={(e) => {
+        const target = e.target as HTMLElement;
+        // Prevent a double-click to highlight summary text
+        if (isInSummary(target) && e.detail > 1) {
           e.preventDefault();
-          if (collapsed) {
-            setCollapsed(false);
-            setOpen(true);
-          } else {
-            setCollapsed(true);
-            // setOpen(false); // Don't do this, it breaks close animation!
-          }
-        }}>
-        {summary}
+        }
+      }}
+      onClick={(e) => {
+        e.stopPropagation(); // For isolation of multiple nested details/summary
+        const target = e.target as HTMLElement;
+        const shouldToggle =
+          isInSummary(target) && hasParent(target, detailsRef.current!);
+        if (!shouldToggle) {
+          return;
+        }
+        e.preventDefault();
+        if (collapsed) {
+          setCollapsed(false);
+          setOpen(true);
+        } else {
+          setCollapsed(true);
+          // setOpen(false); // Don't do this, it breaks close animation!
+        }
+      }}>
+      {summary}
 
-        <Collapsible
-          lazy={false} // Content might matter for SEO in this case
-          collapsed={collapsed}
-          disableSSRStyle // Allows component to work fine even with JS disabled!
-          onCollapseTransitionEnd={(newCollapsed) => {
-            setCollapsed(newCollapsed);
-            setOpen(!newCollapsed);
-          }}>
-          <div className={styles.collapsibleContent}>{children}</div>
-        </Collapsible>
-      </div>
+      <Collapsible
+        lazy={false} // Content might matter for SEO in this case
+        collapsed={collapsed}
+        disableSSRStyle // Allows component to work fine even with JS disabled!
+        onCollapseTransitionEnd={(newCollapsed) => {
+          setCollapsed(newCollapsed);
+          setOpen(!newCollapsed);
+        }}>
+        <div className={styles.collapsibleContent}>{children}</div>
+      </Collapsible>
     </details>
   );
 };
