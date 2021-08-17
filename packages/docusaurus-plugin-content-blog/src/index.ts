@@ -150,8 +150,7 @@ export default function pluginContentBlog(
       const totalCount = blogPosts.length;
       const postsPerPage =
         postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-      const numberOfPages =
-        postsPerPage === 0 ? 1 : Math.ceil(totalCount / postsPerPage);
+      const numberOfPages = Math.ceil(totalCount / postsPerPage);
       const {
         siteConfig: {baseUrl = ''},
       } = context;
