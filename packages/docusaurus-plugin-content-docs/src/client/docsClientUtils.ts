@@ -57,7 +57,7 @@ export function getActivePlugin(
 
   if (!activePlugin && options.failfast) {
     throw new Error(
-      `Can't find active docs plugin for pathname=${pathname}, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
+      `Can't find active docs plugin for "${pathname}" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
         allPluginDatas,
       )
         .map((plugin) => plugin.path)
@@ -121,7 +121,7 @@ export const getActiveDocContext = (
     data.versions.forEach((version) => {
       version.docs.forEach((doc) => {
         if (doc.id === docId) {
-          result[version.name!] = doc;
+          result[version.name] = doc;
         }
       });
     });
@@ -140,10 +140,10 @@ export const getActiveDocContext = (
 };
 
 export type DocVersionSuggestions = {
+  // suggest the latest version
+  latestVersionSuggestion: GlobalVersion;
   // suggest the same doc, in latest version (if exist)
   latestDocSuggestion?: GlobalDoc;
-  // suggest the latest version
-  latestVersionSuggestion?: GlobalVersion;
 };
 
 export const getDocVersionSuggestions = (
@@ -152,17 +152,7 @@ export const getDocVersionSuggestions = (
 ): DocVersionSuggestions => {
   const latestVersion = getLatestVersion(data);
   const activeDocContext = getActiveDocContext(data, pathname);
-
-  // We only suggest another doc/version if user is not using the latest version
-  const isNotOnLatestVersion = activeDocContext.activeVersion !== latestVersion;
-
-  const latestDocSuggestion: GlobalDoc | undefined = isNotOnLatestVersion
-    ? activeDocContext?.alternateDocVersions[latestVersion.name!]
-    : undefined;
-
-  const latestVersionSuggestion = isNotOnLatestVersion
-    ? latestVersion
-    : undefined;
-
-  return {latestDocSuggestion, latestVersionSuggestion};
+  const latestDocSuggestion: GlobalDoc | undefined =
+    activeDocContext?.alternateDocVersions[latestVersion.name];
+  return {latestDocSuggestion, latestVersionSuggestion: latestVersion};
 };

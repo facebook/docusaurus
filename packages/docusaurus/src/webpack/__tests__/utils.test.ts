@@ -5,18 +5,53 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  // @ts-expect-error: seems it's not in the typedefs???
-  validate,
-  Configuration,
-} from 'webpack';
+import {validate, Configuration, RuleSetRule} from 'webpack';
 import path from 'path';
 
-import {applyConfigureWebpack} from '../utils';
+import {
+  getCustomizableJSLoader,
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getFileLoaderUtils,
+} from '../utils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
 } from '@docusaurus/types';
+
+describe('customize JS loader', () => {
+  test('getCustomizableJSLoader defaults to babel loader', () => {
+    expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+    expect(getCustomizableJSLoader()({isServer: false}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+  });
+
+  test('getCustomizableJSLoader accepts loaders with preset', () => {
+    expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+    expect(getCustomizableJSLoader('babel')({isServer: false}).loader).toBe(
+      require.resolve('babel-loader'),
+    );
+  });
+
+  test('getCustomizableJSLoader allows customization', () => {
+    const customJSLoader = (isServer: boolean): RuleSetRule => ({
+      loader: 'my-fast-js-loader',
+      options: String(isServer),
+    });
+
+    expect(getCustomizableJSLoader(customJSLoader)({isServer: true})).toEqual(
+      customJSLoader(true),
+    );
+    expect(getCustomizableJSLoader(customJSLoader)({isServer: false})).toEqual(
+      customJSLoader(false),
+    );
+  });
+});
 
 describe('extending generated webpack config', () => {
   test('direct mutation on generated webpack config object', async () => {
@@ -42,7 +77,9 @@ describe('extending generated webpack config', () => {
       return {};
     };
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -51,7 +88,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with user webpack config object', async () => {
@@ -70,7 +107,9 @@ describe('extending generated webpack config', () => {
       },
     });
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -79,7 +118,7 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('webpack-merge with custom strategy', async () => {
@@ -102,6 +141,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack(),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(defaultStrategyMergeConfig).toEqual({
       module: {
@@ -113,6 +154,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({'module.rules': 'prepend'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(prependRulesStrategyConfig).toEqual({
       module: {
@@ -124,11 +167,147 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({uselessAttributeName: 'append'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(uselessMergeStrategyConfig).toEqual({
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
       },
     });
+  });
+});
+
+describe('getFileLoaderUtils()', () => {
+  test('plugin svgo/removeViewBox should be disabled', () => {
+    const {oneOf} = getFileLoaderUtils().rules.svg();
+    expect(oneOf[0].use).toContainEqual(
+      expect.objectContaining({
+        loader: '@svgr/webpack',
+        options: expect.objectContaining({
+          svgoConfig: {
+            plugins: [{removeViewBox: false}],
+          },
+        }),
+      }),
+    );
+  });
+});
+
+describe('extending PostCSS', () => {
+  test('user plugin should be appended in PostCSS loader', () => {
+    let webpackConfig: Configuration = {
+      output: {
+        path: __dirname,
+        filename: 'bundle.js',
+      },
+      module: {
+        rules: [
+          {
+            test: 'any',
+            use: [
+              {
+                loader: 'some-loader-1',
+                options: {},
+              },
+              {
+                loader: 'some-loader-2',
+                options: {},
+              },
+              {
+                loader: 'postcss-loader-1',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-1-plugin']],
+                  },
+                },
+              },
+              {
+                loader: 'some-loader-3',
+                options: {},
+              },
+            ],
+          },
+          {
+            test: '2nd-test',
+            use: [
+              {
+                loader: 'postcss-loader-2',
+                options: {
+                  postcssOptions: {
+                    plugins: [['default-postcss-loader-2-plugin']],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    function createFakePlugin(name: string) {
+      return [name, {}];
+    }
+
+    // Run multiple times: ensure last run does not override previous runs
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-1'),
+        ],
+      };
+    }, webpackConfig);
+
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          createFakePlugin('postcss-plugin-2'),
+          ...postCssOptions.plugins,
+        ],
+      };
+    }, webpackConfig);
+
+    webpackConfig = applyConfigurePostCss((postCssOptions) => {
+      return {
+        ...postCssOptions,
+        plugins: [
+          ...postCssOptions.plugins,
+          createFakePlugin('postcss-plugin-3'),
+        ],
+      };
+    }, webpackConfig);
+
+    // @ts-expect-error: relax type
+    const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
+    expect(postCssLoader1.loader).toEqual('postcss-loader-1');
+
+    const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
+      (p: unknown) => p[0],
+    );
+    expect(pluginNames1).toHaveLength(4);
+    expect(pluginNames1).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-1-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
+
+    // @ts-expect-error: relax type
+    const postCssLoader2 = webpackConfig.module?.rules[1].use[0];
+    expect(postCssLoader2.loader).toEqual('postcss-loader-2');
+
+    const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
+      (p: unknown) => p[0],
+    );
+    expect(pluginNames2).toHaveLength(4);
+    expect(pluginNames2).toEqual([
+      'postcss-plugin-2',
+      'default-postcss-loader-2-plugin',
+      'postcss-plugin-1',
+      'postcss-plugin-3',
+    ]);
   });
 });

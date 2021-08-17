@@ -5,8 +5,8 @@ labels: 'proposal, needs triage'
 ---
 
 <!--
-  Consider requesting the feature on https://docusaurus-2.netlify.com/feedback/ instead.
-  Feature requests on v1 are more likely to be missed as we're focusing on building v2.
+  This is not for feature requests.
+  Consider requesting the feature on https://docusaurus.io/feedback instead.
 -->
 
 ## 💥 Proposal

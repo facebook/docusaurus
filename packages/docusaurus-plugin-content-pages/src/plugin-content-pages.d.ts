@@ -6,7 +6,7 @@
  */
 
 declare module '@theme/MDXPage' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type Props = {
     readonly content: {
@@ -14,10 +14,11 @@ declare module '@theme/MDXPage' {
         readonly title: string;
         readonly description: string;
         readonly wrapperClassName?: string;
+        // eslint-disable-next-line camelcase
         readonly hide_table_of_contents?: string;
       };
       readonly metadata: {readonly permalink: string};
-      readonly rightToc: readonly MarkdownRightTableOfContents[];
+      readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
   };

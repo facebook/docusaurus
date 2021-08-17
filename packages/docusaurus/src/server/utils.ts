@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import chalk from 'chalk';
-import flatMap from 'lodash.flatmap';
-import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import {flatMap} from 'lodash';
+import {RouteConfig} from '@docusaurus/types';
+import nodePath from 'path';
+import {posixPath, Globby} from '@docusaurus/utils';
 
 // Recursively get the final routes (routes with no subroutes)
 export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
@@ -16,27 +17,17 @@ export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
   return flatMap(routeConfig, getFinalRoutes);
 }
 
-export function reportMessage(
-  message: string,
-  reportingSeverity: ReportingSeverity,
-): void {
-  switch (reportingSeverity) {
-    case 'ignore':
-      break;
-    case 'log':
-      console.log(chalk.bold.blue('info ') + chalk.blue(message));
-      break;
-    case 'warn':
-      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
-      break;
-    case 'error':
-      console.error(chalk.bold.red('error ') + chalk.red(message));
-      break;
-    case 'throw':
-      throw new Error(message);
-    default:
-      throw new Error(
-        `unexpected reportingSeverity value: ${reportingSeverity}`,
-      );
-  }
+// Globby that fix Windows path patterns
+// See https://github.com/facebook/docusaurus/pull/4222#issuecomment-795517329
+export async function safeGlobby(
+  patterns: string[],
+  options?: Globby.GlobbyOptions,
+): Promise<string[]> {
+  // Required for Windows support, as paths using \ should not be used by globby
+  // (also using the windows hard drive prefix like c: is not a good idea)
+  const globPaths = patterns.map((dirPath) =>
+    posixPath(nodePath.relative(process.cwd(), dirPath)),
+  );
+
+  return Globby(globPaths, options);
 }

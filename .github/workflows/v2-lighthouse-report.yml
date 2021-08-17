@@ -1,0 +1,66 @@
+name: V2 Lighthouse Report
+
+on:
+  pull_request_target:
+    branches:
+      - master
+    paths-ignore:
+      - 'website-1.x/**'
+      - 'packages/docusaurus-1.x/**'
+      - 'packages/docusaurus-init-1.x/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Wait for the Netlify Preview
+        uses: jakepartusch/wait-for-netlify-action@v1
+        id: netlify
+        with:
+          site_name: 'docusaurus-2'
+          max_timeout: 600
+      - name: Audit URLs using Lighthouse
+        id: lighthouse_audit
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          urls: |
+           https://deploy-preview-$PR_NUMBER--docusaurus-2.netlify.app/
+          configPath: ./.github/workflows/v2-lighthousesrc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number}}
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+            const links = ${{ steps.lighthouse_audit.outputs.links }}
+            const formatResult = (res) => Math.round((res * 100))
+            Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
+            const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+            const comment = [
+                `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:`,
+                '| Category | Score |',
+                '| --- | --- |',
+                `| ${score(result.performance)} Performance | ${result.performance} |`,
+                `| ${score(result.accessibility)} Accessibility | ${result.accessibility} |`,
+                `| ${score(result['best-practices'])} Best practices | ${result['best-practices']} |`,
+                `| ${score(result.seo)} SEO | ${result.seo} |`,
+                `| ${score(result.pwa)} PWA | ${result.pwa} |`,
+                ' ',
+                `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
+            ].join('\n')
+             core.setOutput("comment", comment);
+
+      - name: Add Lighthouse stats as comment
+        id: comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v2.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comment }}

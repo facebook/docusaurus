@@ -118,20 +118,4 @@ describe('validateThemeConfig', () => {
       },
     });
   });
-
-  test('contextualSearch + searchParameters.facetFilters config', () => {
-    const algolia = {
-      indexName: 'index',
-      apiKey: 'apiKey',
-      contextualSearch: true,
-      searchParameters: {
-        facetFilters: ['version:1.0'],
-      },
-    };
-    expect(() =>
-      testValidateThemeConfig({algolia}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"If you are using algolia.contextualSearch: true, you should not provide algolia.searchParameters.facetFilters, as it is computed for you dynamically"`,
-    );
-  });
 });

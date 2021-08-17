@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DEFAULT_CONFIG, validateConfig} from '../configValidation';
+import {
+  ConfigSchema,
+  DEFAULT_CONFIG,
+  validateConfig,
+} from '../configValidation';
 import {DocusaurusConfig} from '@docusaurus/types';
 
-const baseConfig = {
+const baseConfig: DocusaurusConfig = {
   baseUrl: '/',
-  favicon: 'some.ico',
   title: 'my site',
   url: 'https://mysite.com',
 };
@@ -88,12 +91,68 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('should throw error if plugins is not array', () => {
+  test.each([
+    ['should throw error if plugins is not array', {}],
+    [
+      "should throw error if plugins is not a string and it's not an array #1",
+      [123],
+    ],
+    [
+      'should throw error if plugins is not an array of [string, object][] #1',
+      [['example/path', 'wrong parameter here']],
+    ],
+    [
+      'should throw error if plugins is not an array of [string, object][] #2',
+      [[{}, 'example/path']],
+    ],
+    [
+      'should throw error if plugins is not an array of [string, object][] #3',
+      [[{}, {}]],
+    ],
+  ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
-        plugins: {},
+        plugins,
       });
     }).toThrowErrorMatchingSnapshot();
+  });
+
+  test.each([
+    ['should accept [string] for plugins', ['plain/string']],
+    [
+      'should accept string[] for plugins',
+      ['plain/string', 'another/plain/string/path'],
+    ],
+    [
+      'should accept [string, object] for plugins',
+      [['plain/string', {it: 'should work'}]],
+    ],
+    [
+      'should accept [string, object][] for plugins',
+      [
+        ['plain/string', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ],
+    ],
+    [
+      'should accept ([string, object]|string)[] for plugins',
+      [
+        'plain/string',
+        ['plain', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ],
+    ],
+    ['should accept function for plugin', [function (_context, _options) {}]],
+    [
+      'should accept [function, object] for plugin',
+      [[function (_context, _options) {}, {it: 'should work'}]],
+    ],
+  ])(`%s for the input of: %p`, (_message, plugins) => {
+    expect(() => {
+      normalizeConfig({
+        plugins,
+      });
+    }).not.toThrowError();
   });
 
   test('should throw error if themes is not array', () => {
@@ -139,5 +198,28 @@ describe('normalizeConfig', () => {
           scripts: {},
         } as unknown) as DocusaurusConfig), // to fields not in the type
     ).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('config warnings', () => {
+  function getWarning(config: unknown) {
+    return ConfigSchema.validate(config).warning;
+  }
+
+  test('baseConfig has no warning', () => {
+    const warning = getWarning(baseConfig);
+    expect(warning).toBeUndefined();
+  });
+
+  test('site url has warning when using subpath', () => {
+    const warning = getWarning({
+      ...baseConfig,
+      url: 'https://mysite.com/someSubpath',
+    });
+    expect(warning).toBeDefined();
+    expect(warning?.details.length).toEqual(1);
+    expect(warning?.details[0].message).toMatchInlineSnapshot(
+      `"Docusaurus config validation warning. Field \\"url\\": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
+    );
   });
 });

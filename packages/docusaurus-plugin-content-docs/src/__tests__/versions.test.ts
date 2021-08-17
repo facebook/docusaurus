@@ -14,61 +14,80 @@ import {
 } from '../versions';
 import {DEFAULT_OPTIONS} from '../options';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
-import {VersionMetadata} from '../types';
+import {PluginOptions, VersionMetadata} from '../types';
+import {I18n} from '@docusaurus/types';
+
+const DefaultI18N: I18n = {
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
+  localeConfigs: {},
+};
 
 describe('version paths', () => {
-  test('getVersionedDocsDirPath', () => {
+  test('getVersionsFilePath', () => {
     expect(getVersionsFilePath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versions.json',
+      `someSiteDir${path.sep}versions.json`,
     );
     expect(getVersionsFilePath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versions.json',
+      `otherSite${path.sep}dir${path.sep}pluginId_versions.json`,
     );
   });
 
   test('getVersionedDocsDirPath', () => {
     expect(getVersionedDocsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_docs',
+      `someSiteDir${path.sep}versioned_docs`,
     );
     expect(getVersionedDocsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_docs',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_docs`,
     );
   });
 
   test('getVersionedSidebarsDirPath', () => {
     expect(getVersionedSidebarsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_sidebars',
+      `someSiteDir${path.sep}versioned_sidebars`,
     );
     expect(getVersionedSidebarsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_sidebars',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_sidebars`,
     );
   });
 });
 
 describe('simple site', () => {
-  const simpleSiteDir = path.resolve(
-    path.join(__dirname, '__fixtures__', 'simple-site'),
-  );
-  const defaultOptions = {
-    id: DEFAULT_PLUGIN_ID,
-    ...DEFAULT_OPTIONS,
-  };
-  const defaultContext = {
-    siteDir: simpleSiteDir,
-    baseUrl: '/',
-  };
+  async function loadSite() {
+    const simpleSiteDir = path.resolve(
+      path.join(__dirname, '__fixtures__', 'simple-site'),
+    );
+    const defaultOptions: PluginOptions = {
+      id: DEFAULT_PLUGIN_ID,
+      ...DEFAULT_OPTIONS,
+    };
+    const defaultContext = {
+      siteDir: simpleSiteDir,
+      baseUrl: '/',
+      i18n: DefaultI18N,
+    };
 
-  const vCurrent: VersionMetadata = {
-    docsDirPath: path.join(simpleSiteDir, 'docs'),
-    isLast: true,
-    routePriority: -1,
-    sidebarFilePath: path.join(simpleSiteDir, 'sidebars.json'),
-    versionLabel: 'Next',
-    versionName: 'current',
-    versionPath: '/docs',
-  };
+    const vCurrent: VersionMetadata = {
+      contentPath: path.join(simpleSiteDir, 'docs'),
+      contentPathLocalized: path.join(
+        simpleSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs/current',
+      ),
+      isLast: true,
+      routePriority: -1,
+      sidebarFilePath: undefined,
+      versionLabel: 'Next',
+      versionName: 'current',
+      versionPath: '/docs',
+      versionBanner: 'none',
+    };
+    return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
+  }
 
-  test('readVersionsMetadata simple site', () => {
+  test('readVersionsMetadata simple site', async () => {
+    const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
@@ -77,7 +96,9 @@ describe('simple site', () => {
     expect(versionsMetadata).toEqual([vCurrent]);
   });
 
-  test('readVersionsMetadata simple site with base url', () => {
+  test('readVersionsMetadata simple site with base url', async () => {
+    const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
       context: {
@@ -94,7 +115,9 @@ describe('simple site', () => {
     ]);
   });
 
-  test('readVersionsMetadata simple site with current version config', () => {
+  test('readVersionsMetadata simple site with current version config', async () => {
+    const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {
         ...defaultOptions,
@@ -117,11 +140,16 @@ describe('simple site', () => {
         versionPath: '/myBaseUrl/docs/current-path',
         versionLabel: 'current-label',
         routePriority: undefined,
+        sidebarFilePath: undefined,
+        versionEditUrl: undefined,
+        versionEditUrlLocalized: undefined,
       },
     ]);
   });
 
-  test('readVersionsMetadata simple site with unknown lastVersion should throw', () => {
+  test('readVersionsMetadata simple site with unknown lastVersion should throw', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {...defaultOptions, lastVersion: 'unknownVersionName'},
@@ -132,7 +160,9 @@ describe('simple site', () => {
     );
   });
 
-  test('readVersionsMetadata simple site with unknown version configurations should throw', () => {
+  test('readVersionsMetadata simple site with unknown version configurations should throw', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -146,99 +176,146 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.versions: unknown versions found: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
+      `"Invalid docs option \\"versions\\": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
     );
   });
 
-  test('readVersionsMetadata simple site with disableVersioning while single version should throw', () => {
+  test('readVersionsMetadata simple site with disableVersioning while single version should throw', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {...defaultOptions, disableVersioning: true},
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs: using disableVersioning=true option on a non-versioned site does not make sense"`,
+      `"Docs: using \\"disableVersioning=true\\" option on a non-versioned site does not make sense."`,
     );
   });
 
-  test('readVersionsMetadata simple site without including current version should throw', () => {
+  test('readVersionsMetadata simple site without including current version should throw', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {...defaultOptions, includeCurrentVersion: false},
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=false"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=false\\"."`,
     );
   });
 });
 
 describe('versioned site, pluginId=default', () => {
-  const versionedSiteDir = path.resolve(
-    path.join(__dirname, '__fixtures__', 'versioned-site'),
-  );
-  const defaultOptions = {
-    id: DEFAULT_PLUGIN_ID,
-    ...DEFAULT_OPTIONS,
-  };
-  const defaultContext = {
-    siteDir: versionedSiteDir,
-    baseUrl: '/',
-  };
+  async function loadSite() {
+    const versionedSiteDir = path.resolve(
+      path.join(__dirname, '__fixtures__', 'versioned-site'),
+    );
+    const defaultOptions: PluginOptions = {
+      id: DEFAULT_PLUGIN_ID,
+      ...DEFAULT_OPTIONS,
+      sidebarPath: 'sidebars.json',
+    };
+    const defaultContext = {
+      siteDir: versionedSiteDir,
+      baseUrl: '/',
+      i18n: DefaultI18N,
+    };
 
-  const vCurrent: VersionMetadata = {
-    docsDirPath: path.join(versionedSiteDir, 'docs'),
-    isLast: false,
-    routePriority: undefined,
-    sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
-    versionLabel: 'Next',
-    versionName: 'current',
-    versionPath: '/docs/next',
-  };
+    const vCurrent: VersionMetadata = {
+      contentPath: path.join(versionedSiteDir, 'docs'),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs/current',
+      ),
+      isLast: false,
+      routePriority: undefined,
+      sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      versionLabel: 'Next',
+      versionName: 'current',
+      versionPath: '/docs/next',
+      versionBanner: 'unreleased',
+    };
 
-  const v101: VersionMetadata = {
-    docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
-    isLast: true,
-    routePriority: -1,
-    sidebarFilePath: path.join(
+    const v101: VersionMetadata = {
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
+      ),
+      isLast: true,
+      routePriority: -1,
+      sidebarFilePath: path.join(
+        versionedSiteDir,
+        'versioned_sidebars/version-1.0.1-sidebars.json',
+      ),
+      versionLabel: '1.0.1',
+      versionName: '1.0.1',
+      versionPath: '/docs',
+      versionBanner: 'none',
+    };
+
+    const v100: VersionMetadata = {
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
+      ),
+      isLast: false,
+      routePriority: undefined,
+      sidebarFilePath: path.join(
+        versionedSiteDir,
+        'versioned_sidebars/version-1.0.0-sidebars.json',
+      ),
+      versionLabel: '1.0.0',
+      versionName: '1.0.0',
+      versionPath: '/docs/1.0.0',
+      versionBanner: 'unmaintained',
+    };
+
+    const vwithSlugs: VersionMetadata = {
+      contentPath: path.join(
+        versionedSiteDir,
+        'versioned_docs/version-withSlugs',
+      ),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
+      ),
+      isLast: false,
+      routePriority: undefined,
+      sidebarFilePath: path.join(
+        versionedSiteDir,
+        'versioned_sidebars/version-withSlugs-sidebars.json',
+      ),
+      versionLabel: 'withSlugs',
+      versionName: 'withSlugs',
+      versionPath: '/docs/withSlugs',
+      versionBanner: 'unmaintained',
+    };
+
+    return {
       versionedSiteDir,
-      'versioned_sidebars/version-1.0.1-sidebars.json',
-    ),
-    versionLabel: '1.0.1',
-    versionName: '1.0.1',
-    versionPath: '/docs',
-  };
+      defaultOptions,
+      defaultContext,
+      vCurrent,
+      v101,
+      v100,
+      vwithSlugs,
+    };
+  }
 
-  const v100: VersionMetadata = {
-    docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
-    isLast: false,
-    routePriority: undefined,
-    sidebarFilePath: path.join(
-      versionedSiteDir,
-      'versioned_sidebars/version-1.0.0-sidebars.json',
-    ),
-    versionLabel: '1.0.0',
-    versionName: '1.0.0',
-    versionPath: '/docs/1.0.0',
-  };
+  test('readVersionsMetadata versioned site', async () => {
+    const {
+      defaultOptions,
+      defaultContext,
+      vCurrent,
+      v101,
+      v100,
+      vwithSlugs,
+    } = await loadSite();
 
-  const vwithSlugs: VersionMetadata = {
-    docsDirPath: path.join(
-      versionedSiteDir,
-      'versioned_docs/version-withSlugs',
-    ),
-    isLast: false,
-    routePriority: undefined,
-    sidebarFilePath: path.join(
-      versionedSiteDir,
-      'versioned_sidebars/version-withSlugs-sidebars.json',
-    ),
-    versionLabel: 'withSlugs',
-    versionName: 'withSlugs',
-    versionPath: '/docs/withSlugs',
-  };
-
-  test('readVersionsMetadata versioned site', () => {
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
@@ -247,7 +324,15 @@ describe('versioned site, pluginId=default', () => {
     expect(versionsMetadata).toEqual([vCurrent, v101, v100, vwithSlugs]);
   });
 
-  test('readVersionsMetadata versioned site with includeCurrentVersion=false', () => {
+  test('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
+    const {
+      defaultOptions,
+      defaultContext,
+      v101,
+      v100,
+      vwithSlugs,
+    } = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
       context: defaultContext,
@@ -261,7 +346,16 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with version options', () => {
+  test('readVersionsMetadata versioned site with version options', async () => {
+    const {
+      defaultOptions,
+      defaultContext,
+      vCurrent,
+      v101,
+      v100,
+      vwithSlugs,
+    } = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {
         ...defaultOptions,
@@ -269,9 +363,11 @@ describe('versioned site, pluginId=default', () => {
         versions: {
           current: {
             path: 'current-path',
+            banner: 'unmaintained',
           },
           '1.0.0': {
             label: '1.0.0-label',
+            banner: 'unreleased',
           },
         },
       },
@@ -279,12 +375,17 @@ describe('versioned site, pluginId=default', () => {
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, versionPath: '/docs/current-path'},
+      {
+        ...vCurrent,
+        versionPath: '/docs/current-path',
+        versionBanner: 'unmaintained',
+      },
       {
         ...v101,
         isLast: false,
         routePriority: undefined,
         versionPath: '/docs/1.0.1',
+        versionBanner: 'unreleased',
       },
       {
         ...v100,
@@ -292,12 +393,116 @@ describe('versioned site, pluginId=default', () => {
         routePriority: -1,
         versionLabel: '1.0.0-label',
         versionPath: '/docs',
+        versionBanner: 'unreleased',
       },
       vwithSlugs,
     ]);
   });
 
-  test('readVersionsMetadata versioned site with onlyIncludeVersions option', () => {
+  test('readVersionsMetadata versioned site with editUrl', async () => {
+    const {
+      defaultOptions,
+      defaultContext,
+      vCurrent,
+      v101,
+      v100,
+      vwithSlugs,
+    } = await loadSite();
+
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([
+      {
+        ...vCurrent,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v101,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.1',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
+      },
+      {
+        ...v100,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
+      },
+      {
+        ...vwithSlugs,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-withSlugs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
+      },
+    ]);
+  });
+
+  test('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
+    const {
+      defaultOptions,
+      defaultContext,
+      vCurrent,
+      v101,
+      v100,
+      vwithSlugs,
+    } = await loadSite();
+
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editCurrentVersion: true,
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([
+      {
+        ...vCurrent,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v101,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v100,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...vwithSlugs,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+    ]);
+  });
+
+  test('readVersionsMetadata versioned site with onlyIncludeVersions option', async () => {
+    const {defaultOptions, defaultContext, v101, vwithSlugs} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {
         ...defaultOptions,
@@ -310,18 +515,28 @@ describe('versioned site, pluginId=default', () => {
     expect(versionsMetadata).toEqual([v101, vwithSlugs]);
   });
 
-  test('readVersionsMetadata versioned site with disableVersioning', () => {
+  test('readVersionsMetadata versioned site with disableVersioning', async () => {
+    const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, disableVersioning: true},
       context: defaultContext,
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, isLast: true, routePriority: -1, versionPath: '/docs'},
+      {
+        ...vCurrent,
+        isLast: true,
+        routePriority: -1,
+        versionPath: '/docs',
+        versionBanner: 'none',
+      },
     ]);
   });
 
-  test('readVersionsMetadata versioned site with all versions disabled', () => {
+  test('readVersionsMetadata versioned site with all versions disabled', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -332,11 +547,13 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 
-  test('readVersionsMetadata versioned site with empty onlyIncludeVersions', () => {
+  test('readVersionsMetadata versioned site with empty onlyIncludeVersions', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -346,11 +563,13 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": an empty array is not allowed, at least one version is needed."`,
     );
   });
 
-  test('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', () => {
+  test('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -360,11 +579,13 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
     );
   });
 
-  test('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', () => {
+  test('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -375,11 +596,13 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array"`,
+      `"Invalid docs option \\"lastVersion\\": if you use both the \\"onlyIncludeVersions\\" and \\"lastVersion\\" options, then \\"lastVersion\\" must be present in the provided \\"onlyIncludeVersions\\" array."`,
     );
   });
 
-  test('readVersionsMetadata versioned site with invalid versions.json file', () => {
+  test('readVersionsMetadata versioned site with invalid versions.json file', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => {
       return {
         invalid: 'json',
@@ -392,54 +615,72 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The versions file should contain an array of versions! Found content={\\"invalid\\":\\"json\\"}"`,
+      `"The versions file should contain an array of versions! Found content: {\\"invalid\\":\\"json\\"}"`,
     );
     mock.mockRestore();
   });
 });
 
 describe('versioned site, pluginId=community', () => {
-  const versionedSiteDir = path.resolve(
-    path.join(__dirname, '__fixtures__', 'versioned-site'),
-  );
-  const defaultOptions = {
-    ...DEFAULT_OPTIONS,
-    id: 'community',
-    path: 'community',
-    routeBasePath: 'communityBasePath',
-  };
-  const defaultContext = {
-    siteDir: versionedSiteDir,
-    baseUrl: '/',
-  };
+  async function loadSite() {
+    const versionedSiteDir = path.resolve(
+      path.join(__dirname, '__fixtures__', 'versioned-site'),
+    );
+    const defaultOptions: PluginOptions = {
+      ...DEFAULT_OPTIONS,
+      id: 'community',
+      path: 'community',
+      routeBasePath: 'communityBasePath',
+      sidebarPath: 'sidebars.json',
+    };
+    const defaultContext = {
+      siteDir: versionedSiteDir,
+      baseUrl: '/',
+      i18n: DefaultI18N,
+    };
 
-  const vCurrent: VersionMetadata = {
-    docsDirPath: path.join(versionedSiteDir, 'community'),
-    isLast: false,
-    routePriority: undefined,
-    sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
-    versionLabel: 'Next',
-    versionName: 'current',
-    versionPath: '/communityBasePath/next',
-  };
+    const vCurrent: VersionMetadata = {
+      contentPath: path.join(versionedSiteDir, 'community'),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs-community/current',
+      ),
+      isLast: false,
+      routePriority: undefined,
+      sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      versionLabel: 'Next',
+      versionName: 'current',
+      versionPath: '/communityBasePath/next',
+      versionBanner: 'unreleased',
+    };
 
-  const v100: VersionMetadata = {
-    docsDirPath: path.join(
-      versionedSiteDir,
-      'community_versioned_docs/version-1.0.0',
-    ),
-    isLast: true,
-    routePriority: -1,
-    sidebarFilePath: path.join(
-      versionedSiteDir,
-      'community_versioned_sidebars/version-1.0.0-sidebars.json',
-    ),
-    versionLabel: '1.0.0',
-    versionName: '1.0.0',
-    versionPath: '/communityBasePath',
-  };
+    const v100: VersionMetadata = {
+      contentPath: path.join(
+        versionedSiteDir,
+        'community_versioned_docs/version-1.0.0',
+      ),
+      contentPathLocalized: path.join(
+        versionedSiteDir,
+        'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
+      ),
+      isLast: true,
+      routePriority: -1,
+      sidebarFilePath: path.join(
+        versionedSiteDir,
+        'community_versioned_sidebars/version-1.0.0-sidebars.json',
+      ),
+      versionLabel: '1.0.0',
+      versionName: '1.0.0',
+      versionPath: '/communityBasePath',
+      versionBanner: 'none',
+    };
 
-  test('readVersionsMetadata versioned site (community)', () => {
+    return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
+  }
+
+  test('readVersionsMetadata versioned site (community)', async () => {
+    const {defaultOptions, defaultContext, vCurrent, v100} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
@@ -448,7 +689,9 @@ describe('versioned site, pluginId=community', () => {
     expect(versionsMetadata).toEqual([vCurrent, v100]);
   });
 
-  test('readVersionsMetadata versioned site (community) with includeCurrentVersion=false', () => {
+  test('readVersionsMetadata versioned site (community) with includeCurrentVersion=false', async () => {
+    const {defaultOptions, defaultContext, v100} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
       context: defaultContext,
@@ -460,7 +703,9 @@ describe('versioned site, pluginId=community', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site (community) with disableVersioning', () => {
+  test('readVersionsMetadata versioned site (community) with disableVersioning', async () => {
+    const {defaultOptions, defaultContext, vCurrent} = await loadSite();
+
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, disableVersioning: true},
       context: defaultContext,
@@ -472,11 +717,14 @@ describe('versioned site, pluginId=community', () => {
         isLast: true,
         routePriority: -1,
         versionPath: '/communityBasePath',
+        versionBanner: 'none',
       },
     ]);
   });
 
-  test('readVersionsMetadata versioned site (community) with all versions disabled', () => {
+  test('readVersionsMetadata versioned site (community) with all versions disabled', async () => {
+    const {defaultOptions, defaultContext} = await loadSite();
+
     expect(() =>
       readVersionsMetadata({
         options: {
@@ -487,7 +735,7 @@ describe('versioned site, pluginId=community', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 });

@@ -9,10 +9,40 @@ import path from 'path';
 
 import writeRedirectFiles, {
   toRedirectFilesMetadata,
+  createToUrl,
 } from '../writeRedirectFiles';
 
+// Test to fix toUrl bugs we had:
+// - https://github.com/facebook/docusaurus/issues/3886
+// - https://github.com/facebook/docusaurus/issues/3925
+describe('createToUrl', () => {
+  test('should create appropriate redirect urls', async () => {
+    expect(createToUrl('/', '/docs/something/else')).toEqual(
+      '/docs/something/else',
+    );
+    expect(createToUrl('/', '/docs/something/else/')).toEqual(
+      '/docs/something/else/',
+    );
+    expect(createToUrl('/', 'docs/something/else')).toEqual(
+      '/docs/something/else',
+    );
+  });
+
+  test('should create appropriate redirect urls with baseUrl', async () => {
+    expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
+      '/baseUrl/docs/something/else',
+    );
+    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toEqual(
+      '/baseUrl/docs/something/else/',
+    );
+    expect(createToUrl('/baseUrl/', 'docs/something/else')).toEqual(
+      '/baseUrl/docs/something/else',
+    );
+  });
+});
+
 describe('toRedirectFilesMetadata', () => {
-  test('should create appropriate metadatas', async () => {
+  test('should create appropriate metadatas trailingSlash=undefined', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -25,10 +55,66 @@ describe('toRedirectFilesMetadata', () => {
         {from: '/xyz', to: '/'},
       ],
       pluginContext,
+      undefined,
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
       path.join(pluginContext.outDir, '/abc.html/index.html'),
+      path.join(pluginContext.outDir, '/def/index.html'),
+      path.join(pluginContext.outDir, '/xyz/index.html'),
+    ]);
+
+    expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
+      'fileContent',
+    );
+  });
+
+  test('should create appropriate metadatas trailingSlash=true', async () => {
+    const pluginContext = {
+      outDir: '/tmp/someFixedOutDir',
+      baseUrl: 'https://docusaurus.io',
+    };
+
+    const redirectFiles = toRedirectFilesMetadata(
+      [
+        {from: '/abc.html', to: '/abc'},
+        {from: '/def', to: '/def.html'},
+        {from: '/xyz', to: '/'},
+      ],
+      pluginContext,
+      true,
+    );
+
+    expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
+      path.join(pluginContext.outDir, '/abc.html/index.html'),
+      path.join(pluginContext.outDir, '/def/index.html'),
+      path.join(pluginContext.outDir, '/xyz/index.html'),
+    ]);
+
+    expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
+      'fileContent',
+    );
+  });
+
+  test('should create appropriate metadatas trailingSlash=false', async () => {
+    const pluginContext = {
+      outDir: '/tmp/someFixedOutDir',
+      baseUrl: 'https://docusaurus.io',
+    };
+
+    const redirectFiles = toRedirectFilesMetadata(
+      [
+        {from: '/abc.html', to: '/abc'},
+        {from: '/def', to: '/def.html'},
+        {from: '/xyz', to: '/'},
+      ],
+      pluginContext,
+      false,
+    );
+
+    expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
+      // path.join(pluginContext.outDir, '/abc.html/index.html'), // Can't be used because /abc.html already exists, and file/folder can't share same name on Unix!
+      path.join(pluginContext.outDir, '/abc.html.html'), // Weird but on purpose!
       path.join(pluginContext.outDir, '/def/index.html'),
       path.join(pluginContext.outDir, '/xyz/index.html'),
     ]);
@@ -46,6 +132,7 @@ describe('toRedirectFilesMetadata', () => {
     const redirectFiles = toRedirectFilesMetadata(
       [{from: '/abc.html', to: '/abc'}],
       pluginContext,
+      undefined,
     );
     expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
       'fileContent baseUrl=/',
@@ -60,6 +147,7 @@ describe('toRedirectFilesMetadata', () => {
     const redirectFiles = toRedirectFilesMetadata(
       [{from: '/abc.html', to: '/abc'}],
       pluginContext,
+      undefined,
     );
     expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
       'fileContent baseUrl=empty',
@@ -110,7 +198,7 @@ describe('writeRedirectFiles', () => {
     );
 
     await expect(writeRedirectFiles(filesMetadata)).rejects.toThrowError(
-      `Redirect file creation error for path=${filesMetadata[0].fileAbsolutePath}: Error: The redirect plugin is not supposed to override existing files`,
+      `Redirect file creation error for "${filesMetadata[0].fileAbsolutePath}" path: Error: The redirect plugin is not supposed to override existing files.`,
     );
   });
 });

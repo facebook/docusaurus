@@ -12,10 +12,11 @@ import glob from 'glob';
 import Color from 'color';
 
 import {
+  ClassicPresetEntries,
+  SidebarEntry,
+  SidebarEntries,
   VersionOneConfig,
   VersionTwoConfig,
-  ClassicPresetEntries,
-  SidebarEntries,
 } from './types';
 import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
 import migratePage from './transform';
@@ -106,8 +107,8 @@ export async function migrateDocusaurusProject(
     '@docusaurus/core': DOCUSAURUS_VERSION,
     '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
     clsx: '^1.1.1',
-    react: '^16.10.2',
-    'react-dom': '^16.10.2',
+    react: '^17.0.1',
+    'react-dom': '^17.0.1',
   };
   try {
     createClientRedirects(siteConfig, deps, config);
@@ -229,9 +230,9 @@ export function createConfigFile({
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
 
-  const customConfigFields: Record<string, any> = {};
+  const customConfigFields: Record<string, unknown> = {};
   // add fields that are unknown to v2 to customConfigFields
-  Object.keys(siteConfig).forEach((key: any) => {
+  Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
       'title',
       'tagline',
@@ -289,7 +290,7 @@ export function createConfigFile({
     v2DocsPath = path.relative(newDir, absoluteDocsPath);
   }
 
-  const result: VersionTwoConfig = {
+  return {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
     url: siteConfig.url ?? '',
@@ -302,6 +303,7 @@ export function createConfigFile({
     favicon: siteConfig.favicon ?? '',
     customFields: customConfigFields,
     onBrokenLinks: 'log',
+    onBrokenMarkdownLinks: 'log',
     presets: [
       [
         '@docusaurus/preset-classic',
@@ -329,22 +331,24 @@ export function createConfigFile({
           : undefined,
         items: (siteConfig.headerLinks ?? [])
           .map((link) => {
-            if (link.doc) {
+            const {doc, href, label, page} = link;
+            const position = 'left';
+            if (doc) {
               return {
-                to: `docs/${link.doc === homePageId ? '' : link.doc}`,
-                label: link.label,
-                position: 'left',
+                to: `docs/${doc === homePageId ? '' : doc}`,
+                label,
+                position,
               };
             }
-            if (link.page) {
+            if (page) {
               return {
-                to: `/${link.page}`,
-                label: link.label,
-                position: 'left',
+                to: `/${page}`,
+                label,
+                position,
               };
             }
-            if (link.href) {
-              return {href: link.href, label: link.label, position: 'left'};
+            if (href) {
+              return {href, label, position};
             }
             return null;
           })
@@ -378,7 +382,6 @@ export function createConfigFile({
         : undefined,
     },
   };
-  return result;
 }
 
 function createClientRedirects(
@@ -475,7 +478,7 @@ function handleVersioning(
     const loadedVersions: Array<string> = JSON.parse(
       String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
     );
-    fs.copyFile(
+    fs.copyFileSync(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
     );
@@ -582,26 +585,23 @@ function migrateVersionedSidebar(
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(
-        (topLevel: {[key: string]: any}, value) => {
+        (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
-          // eslint-disable-next-line no-param-reassign
           topLevel[key] = Object.entries(value[1]).reduce(
             (
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
-              acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
-                any
-              >).map((item) => {
+              acc[
+                val[0].replace(versionRegex, '')
+              ] = (val[1] as Array<SidebarEntry>).map((item) => {
                 if (typeof item === 'string') {
                   return item.replace(versionRegex, '');
                 }
                 return {
                   type: 'category',
                   label: item.label,
-                  ids: item.ids.map((id: string) =>
-                    id.replace(versionRegex, ''),
-                  ),
+                  ids: item.ids.map((id) => id.replace(versionRegex, '')),
                 };
               });
               return acc;
@@ -616,14 +616,13 @@ function migrateVersionedSidebar(
     });
     sidebars.forEach((sidebar) => {
       const newSidebar = Object.entries(sidebar.entries).reduce(
-        (acc: {[key: string]: any}, val) => {
+        (acc: SidebarEntries, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
-          // eslint-disable-next-line prefer-destructuring
           acc[key] = Object.entries(val[1]).map((value) => {
             return {
               type: 'category',
               label: value[0],
-              items: (value[1] as Array<any>).map((sidebarItem) => {
+              items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
                 if (typeof sidebarItem === 'string') {
                   return {
                     type: 'doc',
@@ -731,11 +730,10 @@ function migrateLatestDocs(
   classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    const docsPath = path.join(
+    classicPreset.docs.path = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'docs',
     );
-    classicPreset.docs.path = docsPath;
     const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
@@ -755,7 +753,10 @@ function migratePackageFile(
   newDir: string,
 ): void {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
-    [key: string]: any;
+    scripts?: Record<string, string>;
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+    [otherKey: string]: unknown;
   };
   packageFile.scripts = {
     ...packageFile.scripts,
@@ -796,5 +797,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  console.log(`Succesfully migrated ${siteDir} to ${newDir}`);
+  console.log(`Successfully migrated ${siteDir} to ${newDir}`);
 }

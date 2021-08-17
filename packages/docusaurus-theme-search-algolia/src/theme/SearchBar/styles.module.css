@@ -1,0 +1,20 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+@media (max-width: 996px) {
+  .searchBox {
+    position: absolute;
+    right: var(--ifm-navbar-padding-horizontal);
+  }
+}
+
+@media (min-width: 997px) {
+  .searchBox {
+    padding: var(--ifm-navbar-item-padding-vertical)
+      var(--ifm-navbar-item-padding-horizontal);
+  }
+}

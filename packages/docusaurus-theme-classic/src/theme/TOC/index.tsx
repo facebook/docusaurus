@@ -6,18 +6,26 @@
  */
 
 import React from 'react';
-
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
-import type {TOCProps} from '@theme/TOC';
+import clsx from 'clsx';
+import useTOCHighlight, {
+  Params as TOCHighlightParams,
+} from '@theme/hooks/useTOCHighlight';
+import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
-const TOP_OFFSET = 100;
+
+const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
+  linkClassName: LINK_CLASS_NAME,
+  linkActiveClassName: 'table-of-contents__link--active',
+};
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
-  if (!headings.length) {
+export function TOCHeadings({
+  toc,
+  isChild,
+}: TOCHeadingsProps): JSX.Element | null {
+  if (!toc.length) {
     return null;
   }
   return (
@@ -25,7 +33,7 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
       className={
         isChild ? '' : 'table-of-contents table-of-contents__left-border'
       }>
-      {headings.map((heading) => (
+      {toc.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -34,18 +42,18 @@ function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
-          <Headings isChild headings={heading.children} />
+          <TOCHeadings isChild toc={heading.children} />
         </li>
       ))}
     </ul>
   );
 }
 
-function TOC({headings}: TOCProps): JSX.Element {
-  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
+function TOC({toc}: TOCProps): JSX.Element {
+  useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
   return (
-    <div className={styles.tableOfContents}>
-      <Headings headings={headings} />
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
+      <TOCHeadings toc={toc} />
     </div>
   );
 }

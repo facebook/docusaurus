@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-alpha.66",
-  "description": "Pages content plugin for Docusaurus",
+  "version": "2.0.0-beta.4",
+  "description": "Pages plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-pages.d.ts",
   "scripts": {
@@ -17,28 +17,23 @@
     "directory": "packages/docusaurus-plugin-content-pages"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
-  },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/mdx-loader": "2.0.0-alpha.66",
-    "@docusaurus/types": "2.0.0-alpha.66",
-    "@docusaurus/utils": "2.0.0-alpha.66",
-    "@docusaurus/utils-validation": "2.0.0-alpha.66",
-    "@hapi/joi": "17.1.1",
-    "globby": "^10.0.1",
-    "loader-utils": "^1.2.3",
-    "minimatch": "^3.0.4",
+    "@docusaurus/core": "2.0.0-beta.4",
+    "@docusaurus/mdx-loader": "2.0.0-beta.4",
+    "@docusaurus/types": "2.0.0-beta.4",
+    "@docusaurus/utils": "2.0.0-beta.4",
+    "@docusaurus/utils-validation": "2.0.0-beta.4",
+    "globby": "^11.0.2",
+    "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
-    "slash": "^3.0.0",
-    "webpack": "^4.44.1"
+    "tslib": "^2.1.0",
+    "webpack": "^5.40.0"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.13.0"
   }
 }

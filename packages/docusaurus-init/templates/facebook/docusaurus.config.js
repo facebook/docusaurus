@@ -7,12 +7,14 @@
  * @format
  */
 
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
@@ -25,10 +27,10 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          label: 'Docs',
+          type: 'doc',
+          docId: 'intro',
           position: 'left',
+          label: 'Tutorial',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         // Please keep GitHub link to the right for consistency.
@@ -96,6 +98,14 @@ module.exports = {
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
+            },
+            {
+              label: 'Data Policy',
+              href: 'https://opensource.facebook.com/legal/data-policy/',
+            },
+            {
+              label: 'Cookie Policy',
+              href: 'https://opensource.facebook.com/legal/cookie-policy/',
             },
           ],
         },

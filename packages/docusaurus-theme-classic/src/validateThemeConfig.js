@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('@hapi/joi');
-const {URISchema} = require('@docusaurus/utils-validation');
+const {Joi, URISchema} = require('@docusaurus/utils-validation');
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -46,63 +45,47 @@ exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
-const BaseNavbarItemSchema = Joi.object({
-  to: Joi.string(),
-  href: URISchema,
+const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
   className: Joi.string(),
-  prependBaseUrlToHref: Joi.string(),
 })
   // We allow any unknown attributes on the links
   // (users may need additional attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
-// TODO we should probably create a custom navbar item type "dropdown"
-// having this recursive structure is bad because we only support 2 levels
-// + parent/child don't have exactly the same props
-const DefaultNavbarItemSchema = BaseNavbarItemSchema.append({
-  items: Joi.array().optional().items(BaseNavbarItemSchema),
-  position: NavbarItemPosition,
+const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
+  to: Joi.string(),
+  href: URISchema,
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
-});
-// TODO the dropdown parent item can have no href/to
-// should check should not apply to dropdown parent item
-// .xor('href', 'to');
+  prependBaseUrlToHref: Joi.bool(),
+  // This is only triggered in case of a nested dropdown
+  items: Joi.forbidden().messages({
+    'any.unknown': 'Nested dropdowns are not allowed',
+  }),
+})
+  .xor('href', 'to')
+  .messages({
+    'object.xor': 'One and only one between "to" and "href" should be provided',
+  });
 
-const DocsVersionNavbarItemSchema = Joi.object({
+const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
-  position: NavbarItemPosition,
-  label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
 });
 
-const DocsVersionDropdownNavbarItemSchema = Joi.object({
-  type: Joi.string().equal('docsVersionDropdown').required(),
-  position: NavbarItemPosition,
-  docsPluginId: Joi.string(),
-  dropdownActiveClassDisabled: Joi.boolean(),
-  dropdownItemsBefore: Joi.array().items(BaseNavbarItemSchema).default([]),
-  dropdownItemsAfter: Joi.array().items(BaseNavbarItemSchema).default([]),
-});
-
-const DocItemSchema = Joi.object({
+const DocItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('doc').required(),
-  position: NavbarItemPosition,
   docId: Joi.string().required(),
-  label: Joi.string(),
   docsPluginId: Joi.string(),
-  activeSidebarClassName: Joi.string().default('navbar__link--active'),
 });
 
-// Can this be made easier? :/
-const isOfType = (type) => {
-  let typeSchema = Joi.string().required();
+const itemWithType = (type) => {
   // because equal(undefined) is not supported :/
-  if (type) {
-    typeSchema = typeSchema.equal(type);
-  }
+  const typeSchema = type
+    ? Joi.string().required().equal(type)
+    : Joi.string().forbidden();
   return Joi.object({
     type: typeSchema,
   })
@@ -110,50 +93,105 @@ const isOfType = (type) => {
     .required();
 };
 
-const NavbarItemSchema = Joi.object().when({
+const DropdownSubitemSchema = Joi.object({
+  position: Joi.forbidden(),
+}).when({
   switch: [
     {
-      is: isOfType('docsVersion'),
+      is: itemWithType('docsVersion'),
       then: DocsVersionNavbarItemSchema,
     },
     {
-      is: isOfType('docsVersionDropdown'),
-      then: DocsVersionDropdownNavbarItemSchema,
-    },
-    {
-      is: isOfType('doc'),
+      is: itemWithType('doc'),
       then: DocItemSchema,
     },
     {
-      is: isOfType(undefined),
+      is: itemWithType(undefined),
+      then: DefaultNavbarItemSchema,
+    },
+    {
+      is: Joi.alternatives().try(
+        itemWithType('dropdown'),
+        itemWithType('docsVersionDropdown'),
+        itemWithType('localeDropdown'),
+        itemWithType('search'),
+      ),
       then: Joi.forbidden().messages({
-        'any.unknown': 'Bad nav item type {.type}',
+        'any.unknown': 'Nested dropdowns are not allowed',
       }),
     },
   ],
-  otherwise: DefaultNavbarItemSchema,
+  otherwise: Joi.forbidden().messages({
+    'any.unknown': 'Bad navbar item type {.type}',
+  }),
 });
 
-/*
+const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
+  items: Joi.array().items(DropdownSubitemSchema).required(),
+});
+
+const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
+  type: Joi.string().equal('docsVersionDropdown').required(),
+  docsPluginId: Joi.string(),
+  dropdownActiveClassDisabled: Joi.boolean(),
+  dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+});
+
+const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
+  type: Joi.string().equal('localeDropdown').required(),
+  dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
+  dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+});
+
+const SearchItemSchema = Joi.object({
+  type: Joi.string().equal('search').required(),
+});
+
 const NavbarItemSchema = Joi.object({
-  type: Joi.string().only(['docsVersion'])
-})
-  .when(Joi.object({ type: 'docsVersion' }).unknown(), {
-    then: Joi.object({ pepperoni: Joi.boolean() })
-  })
-  .when(Joi.object().unknown(), {
-    then: Joi.object({ croutons: Joi.boolean() })
-  })
-
- */
-
-/*
-const NavbarItemSchema = Joi.object().when('type', {
-  is: Joi.valid('docsVersion'),
-  then: DocsVersionNavbarItemSchema,
-  otherwise: DefaultNavbarItemSchema,
+  position: NavbarItemPosition,
+}).when({
+  switch: [
+    {
+      is: itemWithType('docsVersion'),
+      then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: itemWithType('dropdown'),
+      then: DropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('docsVersionDropdown'),
+      then: DocsVersionDropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('doc'),
+      then: DocItemSchema,
+    },
+    {
+      is: itemWithType('localeDropdown'),
+      then: LocaleDropdownNavbarItemSchema,
+    },
+    {
+      is: itemWithType('search'),
+      then: SearchItemSchema,
+    },
+    {
+      is: itemWithType(undefined),
+      then: Joi.object().when({
+        // Dropdown item can be specified without type field
+        is: Joi.object({
+          items: Joi.array().required(),
+        }).unknown(),
+        then: DropdownNavbarItemSchema,
+        otherwise: DefaultNavbarItemSchema,
+      }),
+    },
+  ],
+  otherwise: Joi.forbidden().messages({
+    'any.unknown': 'Bad navbar item type {.type}',
+  }),
 });
- */
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string()
@@ -227,8 +265,8 @@ const ThemeConfigSchema = Joi.object({
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string(),
-    backgroundColor: Joi.string().default('#fff'),
-    textColor: Joi.string().default('#000'),
+    backgroundColor: Joi.string(),
+    textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
   }).optional(),
   navbar: Joi.object({
@@ -254,15 +292,16 @@ const ThemeConfigSchema = Joi.object({
   footer: Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
-      alt: Joi.string(),
+      alt: Joi.string().allow(''),
       src: Joi.string(),
+      srcDark: Joi.string(),
       href: Joi.string(),
     }),
     copyright: Joi.string(),
     links: Joi.array()
       .items(
         Joi.object({
-          title: Joi.string().required(),
+          title: Joi.string().allow(null),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
       )
@@ -285,6 +324,10 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  sidebarCollapsible: Joi.forbidden().messages({
+    'any.unknown':
+      'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
+  }),
 });
 exports.ThemeConfigSchema = ThemeConfigSchema;
 

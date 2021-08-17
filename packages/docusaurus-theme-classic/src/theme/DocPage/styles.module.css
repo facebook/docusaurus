@@ -7,14 +7,35 @@
 
 :root {
   --doc-sidebar-width: 300px;
+  --doc-sidebar-hidden-width: 30px;
+}
+
+:global(.docs-wrapper) {
+  display: flex;
+}
+
+.docPage,
+.docMainContainer {
+  display: flex;
+  width: 100%;
+}
+
+.docSidebarContainer {
+  display: none;
 }
 
 @media (min-width: 997px) {
-  .docPage {
-    display: flex;
+  .docMainContainer {
+    flex-grow: 1;
+    max-width: calc(100% - var(--doc-sidebar-width));
+  }
+
+  .docMainContainerEnhanced {
+    max-width: calc(100% - var(--doc-sidebar-hidden-width));
   }
 
   .docSidebarContainer {
+    display: block;
     width: var(--doc-sidebar-width);
     margin-top: calc(-1 * var(--ifm-navbar-height));
     border-right: 1px solid var(--ifm-toc-border-color);
@@ -24,8 +45,8 @@
   }
 
   .docSidebarContainerHidden {
-    width: 30px;
-    cursor: e-resize;
+    width: var(--doc-sidebar-hidden-width);
+    cursor: pointer;
   }
 
   .collapsedDocSidebar {
@@ -44,48 +65,21 @@
     background-color: var(--ifm-color-emphasis-200);
   }
 
+  .expandSidebarButtonIcon {
+    transform: rotate(0);
+  }
+  html[dir='rtl'] .expandSidebarButtonIcon {
+    transform: rotate(180deg);
+  }
+
   html[data-theme='dark'] .collapsedDocSidebar:hover,
   html[data-theme='dark'] .collapsedDocSidebar:focus {
     background-color: var(--collapse-button-bg-color-dark);
   }
 
-  .collapsedDocSidebar:before {
-    content: '';
-    background-image: url('~!file-loader!../icons/arrow.svg');
-    width: 20px;
-    height: 20px;
-  }
-
-  .docMainContainer {
-    flex-grow: 1;
-  }
-
-  .docItemWrapperEnhanced {
-    max-width: calc(var(--ifm-container-width) + var(--doc-sidebar-width));
-  }
-}
-
-@media (max-width: 996px) {
-  .docPage {
-    display: inherit;
-  }
-
-  .docSidebarContainer {
-    margin-top: 0;
-  }
-}
-
-@media (min-width: 997px) and (max-width: 1320px) {
-  .docItemWrapper {
-    max-width: calc(
-      var(--ifm-container-width) - var(--doc-sidebar-width) -
-        var(--ifm-spacing-horizontal) * 2
-    );
-  }
-
   .docItemWrapperEnhanced {
     max-width: calc(
-      var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2
-    );
+      var(--ifm-container-width) + var(--doc-sidebar-width)
+    ) !important;
   }
 }

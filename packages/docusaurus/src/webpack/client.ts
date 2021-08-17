@@ -24,10 +24,14 @@ export default function createClientConfig(
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
+    // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
-      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      // note: the one in ./dev is modified to work with Docusaurus
+      // !isProd && require.resolve('react-dev-utils/hotDevServer.js'),
+      !isProd &&
+        require.resolve('./react-dev-utils-webpack5/webpackHotDevClient.js'),
       path.resolve(__dirname, '../client/clientEntry.js'),
     ].filter(Boolean) as string[],
     optimization: {
@@ -55,10 +59,6 @@ export default function createClientConfig(
                 'Client bundle compiled with errors therefore further build is impossible.',
               ),
             );
-
-            stats.toJson('errors-only').errors.forEach((e) => {
-              console.error(e);
-            });
 
             process.exit(1);
           }

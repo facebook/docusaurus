@@ -7,13 +7,34 @@
 
 import path from 'path';
 import {generateBlogFeed} from '../blogUtils';
-import {LoadContext} from '@docusaurus/types';
-import {PluginOptions} from '../types';
+import {LoadContext, I18n} from '@docusaurus/types';
+import {PluginOptions, BlogContentPaths} from '../types';
+import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
+
+const DefaultI18N: I18n = {
+  currentLocale: 'en',
+  locales: ['en'],
+  defaultLocale: 'en',
+  localeConfigs: {},
+};
+
+function getBlogContentPaths(siteDir: string): BlogContentPaths {
+  return {
+    contentPath: path.resolve(siteDir, 'blog'),
+    contentPathLocalized: path.resolve(
+      siteDir,
+      'i18n',
+      'en',
+      'docusaurus-plugin-content-blog',
+    ),
+  };
+}
 
 describe('blogFeed', () => {
-  ['atom', 'rss'].forEach((feedType) => {
+  (['atom', 'rss'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
-      test('can show feed without posts', async () => {
+      test('should not show feed without posts', async () => {
+        const siteDir = __dirname;
         const siteConfig = {
           title: 'Hello',
           baseUrl: '/',
@@ -22,16 +43,18 @@ describe('blogFeed', () => {
         };
 
         const feed = await generateBlogFeed(
+          getBlogContentPaths(siteDir),
           {
-            siteDir: __dirname,
+            siteDir,
             siteConfig,
+            i18n: DefaultI18N,
           } as LoadContext,
           {
             path: 'invalid-blog-path',
             routeBasePath: 'blog',
             include: ['*.md', '*.mdx'],
             feedOptions: {
-              type: feedType,
+              type: [feedType],
               copyright: 'Copyright',
             },
           } as PluginOptions,
@@ -46,23 +69,26 @@ describe('blogFeed', () => {
         const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
         const siteConfig = {
           title: 'Hello',
-          baseUrl: '/',
+          baseUrl: '/myBaseUrl/',
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };
 
         const feed = await generateBlogFeed(
+          getBlogContentPaths(siteDir),
           {
             siteDir,
             siteConfig,
             generatedFilesDir,
+            i18n: DefaultI18N,
           } as LoadContext,
           {
             path: 'blog',
             routeBasePath: 'blog',
-            include: ['*r*.md', '*.mdx'], // skip no-date.md - it won't play nice with snapshots
+            include: DEFAULT_OPTIONS.include,
+            exclude: DEFAULT_OPTIONS.exclude,
             feedOptions: {
-              type: feedType,
+              type: [feedType],
               copyright: 'Copyright',
             },
           } as PluginOptions,

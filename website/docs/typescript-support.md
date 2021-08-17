@@ -3,11 +3,21 @@ id: typescript-support
 title: TypeScript Support
 ---
 
-## Setup
+## Initialization {#initialization}
 
-Docusaurus supports writing and using TypeScript theme components. To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
+Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
+npx @docusaurus/init@latest init my-website classic --typescript
+```
+
+Below are some guides on how to migrate an existing project to TypeScript.
+
+## Setup {#setup}
+
+To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
+
+```bash npm2yarn
 npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet @tsconfig/docusaurus
 ```
 
@@ -24,12 +34,12 @@ Docusaurus doesn't use this `tsconfig.json` to compile your project. It is added
 
 Now you can start writing TypeScript theme components.
 
-## Swizzling TypeScript theme components
+## Swizzling TypeScript theme components {#swizzling-typescript-theme-components}
 
 For themes that supports TypeScript theme components, you can add the `--typescript` flag to the end of swizzling command to get TypeScript source code. For example, the following command will generate `index.tsx` and `styles.module.css` into `src/theme/Footer`.
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Footer --typescript
+npm run swizzle @docusaurus/theme-classic Footer -- --typescript
 ```
 
 At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./lifecycle-apis.md#gettypescriptthemepath).

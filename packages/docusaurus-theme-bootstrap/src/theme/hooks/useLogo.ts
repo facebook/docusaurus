@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import type {LogoLinkProps, useLogoReturns} from '@theme/hooks/useLogo';
 
 const useLogo = (): useLogoReturns => {
   const {
-    siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
-  } = useDocusaurusContext();
-  const logoLink = useBaseUrl(logo.href || '/');
+    navbar: {logo},
+  } = useThemeConfig();
+  const logoLink = useBaseUrl(logo?.href || '/');
   let logoLinkProps: LogoLinkProps = {};
 
-  if (logo.target) {
+  if (logo?.target) {
     logoLinkProps = {target: logo.target};
   } else if (!isInternalUrl(logoLink)) {
     logoLinkProps = {
@@ -25,13 +25,13 @@ const useLogo = (): useLogoReturns => {
       target: '_blank',
     };
   }
-  const logoImageUrl = useBaseUrl(logo.src);
+  const logoImageUrl = useBaseUrl(logo?.src);
 
   return {
     logoLink,
     logoLinkProps,
     logoImageUrl,
-    logoAlt: logo.alt,
+    logoAlt: logo?.alt ?? '',
   };
 };
 

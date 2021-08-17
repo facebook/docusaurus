@@ -10,7 +10,7 @@ import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {Helmet} from 'react-helmet';
-import {getBundles} from 'react-loadable-ssr-addon';
+import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
@@ -18,9 +18,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
 import packageJson from '../../package.json';
-// eslint-disable-next-line import/no-unresolved
 import preload from './preload';
-// eslint-disable-next-line import/no-unresolved
 import App from './App';
 import {
   createStatefulLinksCollector,
@@ -47,10 +45,21 @@ export default async function render(locals) {
   } catch (e) {
     console.error(
       chalk.red(
-        `Docusaurus Node/SSR could not render static page with path=${locals.path} because of error: ${e.message}`,
+        `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
       ),
     );
-    throw e;
+
+    const isNotDefinedErrorRegex = /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+
+    if (isNotDefinedErrorRegex.test(e.message)) {
+      console.error(
+        chalk.green(
+          'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
+        ),
+      );
+    }
+
+    throw new Error('Server-side rendering fails due to the error above.');
   }
 }
 
@@ -90,6 +99,7 @@ async function doRender(locals) {
     helmet.title.toString(),
     helmet.meta.toString(),
     helmet.link.toString(),
+    helmet.script.toString(),
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
@@ -147,7 +157,7 @@ async function doRender(locals) {
     ) {
       console.error(
         chalk.red(
-          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
+          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, please see https://github.com/facebook/docusaurus/issues/3515\n',
         ),
       );
     }

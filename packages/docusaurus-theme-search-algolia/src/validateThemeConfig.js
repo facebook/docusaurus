@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('@hapi/joi');
+const {Joi} = require('@docusaurus/utils-validation');
 
 const DEFAULT_CONFIG = {
   contextualSearch: false, // future: maybe we want to enable this by default
@@ -41,17 +41,5 @@ exports.validateThemeConfig = function validateThemeConfig({
   validate,
   themeConfig,
 }) {
-  const normalizedThemeConfig = validate(Schema, themeConfig);
-
-  if (
-    normalizedThemeConfig &&
-    normalizedThemeConfig.algolia.contextualSearch &&
-    normalizedThemeConfig.algolia.searchParameters &&
-    normalizedThemeConfig.algolia.searchParameters.facetFilters
-  ) {
-    throw new Error(
-      'If you are using algolia.contextualSearch: true, you should not provide algolia.searchParameters.facetFilters, as it is computed for you dynamically',
-    );
-  }
-  return normalizedThemeConfig;
+  return validate(Schema, themeConfig);
 };

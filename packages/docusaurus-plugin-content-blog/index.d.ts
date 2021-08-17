@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-duplicates */
-/* eslint-disable camelcase */
-
 declare module '@theme/BlogSidebar' {
   export type BlogSidebarItem = {title: string; permalink: string};
   export type BlogSidebar = {
@@ -24,10 +21,11 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {MarkdownRightTableOfContents} from '@docusaurus/types';
+  import type {TOCItem} from '@docusaurus/types';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
+    /* eslint-disable camelcase */
     readonly title: string;
     readonly author?: string;
     readonly image?: string;
@@ -40,11 +38,21 @@ declare module '@theme/BlogPostPage' {
     readonly author_image_url?: string;
     readonly authorImageURL?: string;
     readonly hide_table_of_contents?: boolean;
+    /* eslint-enable camelcase */
+  };
+
+  export type FrontMatterAssets = {
+    /* eslint-disable camelcase */
+    readonly image?: string;
+    readonly author_image_url?: string;
+    readonly authorImageURL?: string;
+    /* eslint-enable camelcase */
   };
 
   export type Metadata = {
     readonly title: string;
     readonly date: string;
+    readonly formattedDate: string;
     readonly permalink: string;
     readonly description?: string;
     readonly editUrl?: string;
@@ -60,8 +68,9 @@ declare module '@theme/BlogPostPage' {
 
   export type Content = {
     readonly frontMatter: FrontMatter;
+    readonly frontMatterAssets: FrontMatterAssets;
     readonly metadata: Metadata;
-    readonly rightToc: readonly MarkdownRightTableOfContents[];
+    readonly toc: readonly TOCItem[];
     (): JSX.Element;
   };
 

@@ -13,7 +13,8 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    max-height: 100vh;
+    height: 100%;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);
@@ -29,6 +30,7 @@
     opacity: 0;
     height: 0;
     overflow: hidden;
+    visibility: hidden;
   }
 
   .sidebarLogo {
@@ -51,51 +53,30 @@
     padding: 0.5rem;
   }
 
-  .menu::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  .menu::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  .menu::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-
-  .menu::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-  .menuLinkText {
-    cursor: initial;
-  }
-
-  .menuLinkText:hover {
-    background: none;
-  }
-
   .menuWithAnnouncementBar {
     margin-bottom: var(--docusaurus-announcement-bar-height);
   }
 
   .collapseSidebarButton {
     display: block !important;
-    background: url('~!file-loader!../icons/arrow.svg') no-repeat center center;
     background-color: var(--ifm-button-background-color);
     height: 40px;
     position: sticky;
     bottom: 0;
     border-radius: 0;
+    border: 1px solid var(--ifm-toc-border-color);
+  }
+
+  .collapseSidebarButtonIcon {
     transform: rotate(180deg);
+    margin-top: 4px;
+  }
+  html[dir='rtl'] .collapseSidebarButtonIcon {
+    transform: rotate(0);
   }
 
   html[data-theme='dark'] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
-    border: none;
-    border-left: 1px solid var(--ifm-toc-border-color);
   }
 
   html[data-theme='dark'] .collapseSidebarButton:hover,
@@ -122,16 +103,4 @@
   font-weight: var(--ifm-font-weight-bold);
   line-height: 0.9;
   width: 24px;
-}
-
-/* TODO: Move to Infima */
-:global(.menu__list) :global(.menu__list) {
-  overflow-y: hidden;
-  will-change: height;
-  /* Same as "arrow" transition */
-  transition: height var(--ifm-transition-fast) linear;
-}
-
-:global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0px !important;
 }

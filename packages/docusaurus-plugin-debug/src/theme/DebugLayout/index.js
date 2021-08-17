@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
@@ -24,19 +25,30 @@ const DebugNavLink = ({to, children}) => (
 
 function DebugLayout({children}) {
   return (
-    <div>
-      <nav className={styles.nav}>
-        <DebugNavLink to="/__docusaurus/debug">Config</DebugNavLink>
-        <DebugNavLink to="/__docusaurus/debug/metadata">Metadata</DebugNavLink>
-        <DebugNavLink to="/__docusaurus/debug/registry">Registry</DebugNavLink>
-        <DebugNavLink to="/__docusaurus/debug/routes">Routes</DebugNavLink>
-        <DebugNavLink to="/__docusaurus/debug/content">Content</DebugNavLink>
-        <DebugNavLink to="/__docusaurus/debug/globalData">
-          Global data
-        </DebugNavLink>
-      </nav>
-      <main className={styles.container}>{children}</main>
-    </div>
+    <>
+      <Head>
+        <html lang="en" />
+        <title>Docusaurus debug panel</title>
+      </Head>
+
+      <div>
+        <nav className={styles.nav}>
+          <DebugNavLink to="/__docusaurus/debug">Config</DebugNavLink>
+          <DebugNavLink to="/__docusaurus/debug/metadata">
+            Metadata
+          </DebugNavLink>
+          <DebugNavLink to="/__docusaurus/debug/registry">
+            Registry
+          </DebugNavLink>
+          <DebugNavLink to="/__docusaurus/debug/routes">Routes</DebugNavLink>
+          <DebugNavLink to="/__docusaurus/debug/content">Content</DebugNavLink>
+          <DebugNavLink to="/__docusaurus/debug/globalData">
+            Global data
+          </DebugNavLink>
+        </nav>
+        <main className={styles.container}>{children}</main>
+      </div>
+    </>
   );
 }
 

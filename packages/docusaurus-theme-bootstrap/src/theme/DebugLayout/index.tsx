@@ -9,6 +9,7 @@ import React from 'react';
 
 import Head from '@docusaurus/Head';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {useTitleFormatter, useThemeConfig} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -17,14 +18,9 @@ import Footer from '@theme/Footer';
 import type {Props} from '@theme/Layout';
 
 function Layout(props: Props): JSX.Element {
-  const {siteConfig = {}} = useDocusaurusContext();
-  const {
-    favicon,
-    title: siteTitle,
-    themeConfig: {image: defaultImage, metadatas},
-    url: siteUrl,
-    titleDelimiter,
-  } = siteConfig;
+  const {siteConfig} = useDocusaurusContext();
+  const {favicon, url: siteUrl} = siteConfig;
+  const {image: defaultImage, metadatas} = useThemeConfig();
   const {
     children,
     title,
@@ -34,9 +30,7 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
   } = props;
-  const metaTitle = title
-    ? `${title} ${titleDelimiter} ${siteTitle}`
-    : siteTitle;
+  const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
@@ -61,7 +55,7 @@ function Layout(props: Props): JSX.Element {
           <meta name="keywords" content={keywords.join(',')} />
         )}
         {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}

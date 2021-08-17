@@ -7,16 +7,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useThemeConfig from '../../utils/useThemeConfig';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
+import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {
-    isAnnouncementBarClosed,
-    closeAnnouncementBar,
-  } = useUserPreferencesContext();
+  const {isClosed, close} = useAnnouncementBar();
   const {announcementBar} = useThemeConfig();
 
   if (!announcementBar) {
@@ -24,7 +21,8 @@ function AnnouncementBar(): JSX.Element | null {
   }
 
   const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-  if (!content || (isCloseable && isAnnouncementBarClosed)) {
+
+  if (!content || (isCloseable && isClosed)) {
     return null;
   }
 
@@ -44,9 +42,13 @@ function AnnouncementBar(): JSX.Element | null {
       {isCloseable ? (
         <button
           type="button"
-          className={styles.announcementBarClose}
-          onClick={closeAnnouncementBar}
-          aria-label="Close">
+          className={clsx(styles.announcementBarClose, 'clean-btn')}
+          onClick={close}
+          aria-label={translate({
+            id: 'theme.AnnouncementBar.closeButtonAriaLabel',
+            message: 'Close',
+            description: 'The ARIA label for close button of announcement bar',
+          })}>
           <span aria-hidden="true">×</span>
         </button>
       ) : null}

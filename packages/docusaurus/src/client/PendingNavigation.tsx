@@ -7,18 +7,19 @@
 
 import React from 'react';
 import {Route, withRouter} from 'react-router-dom';
+import {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 
-import 'nprogress/nprogress.css';
+import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
 interface Props {
-  routes: any[];
+  routes: RouteConfig[];
   delay: number;
   location: any;
 }
@@ -77,7 +78,7 @@ class PendingNavigation extends React.Component<Props, State> {
           if (!hash) {
             window.scrollTo(0, 0);
           } else {
-            const id = hash.substring(1);
+            const id = decodeURIComponent(hash.substring(1));
             const element = document.getElementById(id);
             if (element) {
               element.scrollIntoView();
@@ -104,7 +105,7 @@ class PendingNavigation extends React.Component<Props, State> {
     }
   }
 
-  startProgressBar(delay) {
+  startProgressBar(delay: number) {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({

@@ -17,15 +17,42 @@ import {
   createToExtensionsRedirects,
 } from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
+import {
+  applyTrailingSlash,
+  ApplyTrailingSlashParams,
+} from '@docusaurus/utils-common';
 
 import chalk from 'chalk';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
+  trailingSlash: boolean | undefined,
 ): RedirectMetadata[] {
-  const redirects = doCollectRedirects(pluginContext);
+  let redirects = doCollectRedirects(pluginContext);
+
+  redirects = applyRedirectsTrailingSlash(redirects, {
+    trailingSlash,
+    baseUrl: pluginContext.baseUrl,
+  });
+
   validateCollectedRedirects(redirects, pluginContext);
   return filterUnwantedRedirects(redirects, pluginContext);
+}
+
+// If users wants to redirect to=/abc and they enable trailingSlash=true then
+// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid path now)
+// => we want to redirect to=/abc/ without the user having to change all its redirect plugin options
+// It should be easy to toggle siteConfig.trailingSlash option without having to change other configs
+function applyRedirectsTrailingSlash(
+  redirects: RedirectMetadata[],
+  params: ApplyTrailingSlashParams,
+) {
+  return redirects.map((redirect) => {
+    return {
+      ...redirect,
+      to: applyTrailingSlash(redirect.to, params),
+    };
+  });
 }
 
 function validateCollectedRedirects(
@@ -85,11 +112,11 @@ It is not possible to redirect the same pathname to multiple destinations:
       }
     },
   );
-  redirects = uniqBy(redirects, (redirect) => redirect.from);
+  const collectedRedirects = uniqBy(redirects, (redirect) => redirect.from);
 
   // We don't want to override an already existing route with a redirect file!
-  const redirectsOverridingExistingPath = redirects.filter((redirect) =>
-    pluginContext.relativeRoutesPaths.includes(redirect.from),
+  const redirectsOverridingExistingPath = collectedRedirects.filter(
+    (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
@@ -100,11 +127,9 @@ It is not possible to redirect the same pathname to multiple destinations:
       ),
     );
   }
-  redirects = redirects.filter(
+  return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
-
-  return redirects;
 }
 
 // For each plugin config option, create the appropriate redirects

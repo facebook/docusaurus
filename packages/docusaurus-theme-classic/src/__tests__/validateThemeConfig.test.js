@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import merge from 'lodash/merge';
+import {merge} from 'lodash';
 
 const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
+const theme = require('prism-react-renderer/themes/github');
+const darkTheme = require('prism-react-renderer/themes/dracula');
 
 function testValidateThemeConfig(partialThemeConfig) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -31,8 +33,8 @@ describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme,
+        darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
       },
@@ -106,7 +108,6 @@ describe('themeConfig', () => {
             position: 'left',
             docId: 'intro',
             label: 'Introduction',
-            activeSidebarClassName: 'custom-class',
           },
           // Regular link
           {
@@ -129,6 +130,23 @@ describe('themeConfig', () => {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
                 className: 'github-link',
+              },
+            ],
+          },
+          // Dropdown with name
+          {
+            type: 'dropdown',
+            label: 'Tools',
+            position: 'left',
+            items: [
+              {
+                type: 'doc',
+                docId: 'npm',
+                label: 'NPM',
+              },
+              {
+                to: '/yarn',
+                label: 'Yarn',
               },
             ],
           },
@@ -179,6 +197,112 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should reject unknown navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'joke',
+            position: 'left',
+            label: 'haha',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [
+              {
+                label: 'Still a dropdown',
+                items: [
+                  {
+                    label: 'Should reject this',
+                    to: '/rejected',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [{type: 'docsVersionDropdown'}],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject position attribute within dropdown', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Dropdown',
+            items: [
+              {
+                label: 'Hi',
+                position: 'left',
+                to: '/link',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"navbar.items[0].items[0].position\\" is not allowed"`,
+    );
+  });
+
+  test('should give friendly error when href and to coexist', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            to: '/link',
+            href: 'http://example.com/link',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"One and only one between \\"to\\" and \\"href\\" should be provided"`,
+    );
+  });
+
   test('should allow empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {
@@ -194,6 +318,26 @@ describe('themeConfig', () => {
       navbar: {
         ...DEFAULT_CONFIG.navbar,
         ...altTagConfig.navbar,
+      },
+    });
+  });
+
+  test('should allow empty alt tags for the logo image in the footer', () => {
+    const partialConfig = {
+      footer: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+        },
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
       },
     });
   });

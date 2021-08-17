@@ -82,6 +82,34 @@ test('should convert all feed type to array with other feed type', () => {
   });
 });
 
+test('should accept null type and return same', () => {
+  const {value, error} = PluginOptionSchema.validate({
+    feedOptions: {type: null},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: null},
+  });
+  expect(error).toBe(undefined);
+});
+
+test('should contain array with rss + atom for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {},
+  });
+  expect(value).toEqual(DEFAULT_OPTIONS);
+});
+
+test('should have array with rss + atom, title for missing feed type', () => {
+  const {value} = PluginOptionSchema.validate({
+    feedOptions: {title: 'title'},
+  });
+  expect(value).toEqual({
+    ...DEFAULT_OPTIONS,
+    feedOptions: {type: ['rss', 'atom'], title: 'title'},
+  });
+});
+
 describe('blog sidebar', () => {
   test('should accept 0 sidebar count', () => {
     const userOptions = {blogSidebarCount: 0};

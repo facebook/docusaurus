@@ -6,6 +6,8 @@
 
 ![img](./img.png 'Title') ![img](/img.png)
 
+![img with "quotes"](./img.png ''Quoted' title')
+
 ## Heading
 
 ```md

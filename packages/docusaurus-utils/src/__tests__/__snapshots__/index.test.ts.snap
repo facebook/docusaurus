@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getFolderContainingFile throw if no folder contain such file 1`] = `
+"File \\"index.test.ts\\" does not exist in any of these folders:
+- /abcdef
+- /gehij
+- /klmn]"
+`;

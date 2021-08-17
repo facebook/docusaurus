@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import {
+  BrokenMarkdownLink,
+  ContentPaths,
+} from '@docusaurus/utils/lib/markdownLinks';
+
+export type BlogContentPaths = ContentPaths;
+
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
@@ -12,19 +20,22 @@ export interface BlogContent {
   blogTagsListPath: string | null;
 }
 
-export interface DateLink {
-  date: Date;
-  link: string;
-}
-
 export type FeedType = 'rss' | 'atom';
 
-export interface PluginOptions {
+export type EditUrlFunction = (editUrlParams: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+
+export interface PluginOptions extends RemarkAndRehypePluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
-  postsPerPage: number;
+  exclude: string[];
+  postsPerPage: number | 'ALL';
   blogListComponent: string;
   blogPostComponent: string;
   blogTagsListComponent: string;
@@ -33,21 +44,18 @@ export interface PluginOptions {
   blogDescription: string;
   blogSidebarCount: number | 'ALL';
   blogSidebarTitle: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  beforeDefaultRehypePlugins: ([Function, object] | Function)[];
-  beforeDefaultRemarkPlugins: ([Function, object] | Function)[];
-  rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type: [FeedType];
+    type?: [FeedType] | null;
     title?: string;
     description?: string;
     copyright: string;
     language?: string;
   };
-  editUrl?: string;
-  admonitions: any;
+  editUrl?: string | EditUrlFunction;
+  editLocalizedFiles?: boolean;
+  admonitions: Record<string, unknown>;
 }
 
 export interface BlogTags {
@@ -87,6 +95,7 @@ export interface MetaData {
   source: string;
   description: string;
   date: Date;
+  formattedDate: string;
   tags: (Tag | string)[];
   title: string;
   readingTime?: number;
@@ -121,3 +130,12 @@ export interface TagModule {
   count: number;
   permalink: string;
 }
+
+export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
+export type BlogMarkdownLoaderOptions = {
+  siteDir: string;
+  contentPaths: BlogContentPaths;
+  truncateMarker: RegExp;
+  sourceToPermalink: Record<string, string>;
+  onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
+};

@@ -13,6 +13,7 @@ import visit from 'unist-util-visit';
 import remarkStringify from 'remark-stringify';
 import htmlTags from 'html-tags';
 import toText from 'hast-util-to-string';
+import type {Code, InlineCode} from 'mdast';
 
 const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
   acc[tag] = true;
@@ -20,24 +21,20 @@ const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
 }, {});
 
 export default function sanitizeMD(code: string): string {
-  const markdownTree = unified()
-    .use(markdown as any)
-    .parse(code);
-  visit(markdownTree, 'code', (node) => {
+  const markdownTree = unified().use(markdown).parse(code);
+  visit(markdownTree, 'code', (node: Code) => {
     node.value = `\n<!--${node.value}-->\n`;
   });
-  visit(markdownTree, 'inlineCode', (node) => {
+  visit(markdownTree, 'inlineCode', (node: InlineCode) => {
     node.value = `<!--${node.value}-->`;
   });
 
   const markdownString = unified()
-    .use(remarkStringify as any, {fence: '`', fences: true})
+    .use(remarkStringify, {fence: '`', fences: true})
     .stringify(markdownTree);
 
-  const htmlTree = unified()
-    .use(parse as any)
-    .parse(markdownString);
-  visit(htmlTree, 'element', (node) => {
+  const htmlTree = unified().use(parse).parse(markdownString);
+  visit(htmlTree, 'element', (node: any) => {
     if (!tags[node.tagName as string]) {
       node.type = 'text';
       node.value = node.tagName + toText(node);

@@ -31,6 +31,7 @@ module.exports = {
     facebookAppId: '199138890728411',
   },
   onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'log',
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -70,7 +71,7 @@ module.exports = {
           items: [{label: 'Twitter', to: 'https://twitter.com/docusaurus'}],
         },
       ],
-      copyright: 'Copyright © 2020 Facebook Inc.',
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook Inc.`,
       logo: {src: 'img/docusaurus_monochrome.svg'},
     },
     algolia: {
