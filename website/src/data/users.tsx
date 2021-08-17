@@ -1301,6 +1301,14 @@ const Users: User[] = [
     website: 'https://haochenqi.com/',
     source: 'https://github.com/HaochenQ/Haochen-Blog',
     tags: ['personal', 'opensource']
+  },
+  {
+    title: 'Nocalhost',
+    description: 'An open-source toolsets help to build cloud-native applications easier and faster.',
+    preview: require('./showcase/nocalhost.png'),
+    website: 'https://nocalhost.dev/',
+    source: 'https://github.com/nocalhost/nocalhost',
+    tags: ['opensource', 'i18n']
   }
 ];
 
