@@ -6,7 +6,7 @@
  */
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag} from '@docusaurus/utils-validation';
+import type {Tag} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink,
   ContentPaths,
