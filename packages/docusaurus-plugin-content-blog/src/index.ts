@@ -17,12 +17,13 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  groupTaggedItems,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {flatten, take, kebabCase} from 'lodash';
+import {flatten, take, mapValues} from 'lodash';
 
 import {
   PluginOptions,
@@ -65,7 +66,7 @@ export default function pluginContentBlog(
 
   const {
     siteDir,
-    siteConfig: {onBrokenMarkdownLinks},
+    siteConfig: {onBrokenMarkdownLinks, baseUrl},
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
@@ -151,17 +152,14 @@ export default function pluginContentBlog(
       const postsPerPage =
         postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
       const numberOfPages = Math.ceil(totalCount / postsPerPage);
-      const {
-        siteConfig: {baseUrl = ''},
-      } = context;
-      const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
+      const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
 
       const blogListPaginated: BlogPaginated[] = [];
 
       function blogPaginationPermalink(page: number) {
         return page > 0
-          ? normalizeUrl([basePageUrl, `page/${page + 1}`])
-          : basePageUrl;
+          ? normalizeUrl([baseBlogUrl, `page/${page + 1}`])
+          : baseBlogUrl;
       }
 
       for (let page = 0; page < numberOfPages; page += 1) {
@@ -186,41 +184,25 @@ export default function pluginContentBlog(
         });
       }
 
-      const blogTags: BlogTags = {};
-      const tagsPath = normalizeUrl([basePageUrl, 'tags']);
-      blogPosts.forEach((blogPost) => {
-        const {tags} = blogPost.metadata;
-        if (!tags || tags.length === 0) {
-          // TODO: Extract tags out into a separate plugin.
-          // eslint-disable-next-line no-param-reassign
-          blogPost.metadata.tags = [];
-          return;
-        }
+      // Legacy conversion layer, can be refactored
+      function getBlogPostTags(): BlogTags {
+        const blogPostsByTag = groupTaggedItems(
+          blogPosts,
+          (blogPost) => blogPost.metadata.tags,
+        );
 
-        // eslint-disable-next-line no-param-reassign
-        blogPost.metadata.tags = tags.map((tag) => {
-          if (typeof tag === 'string') {
-            const normalizedTag = kebabCase(tag);
-            const permalink = normalizeUrl([tagsPath, normalizedTag]);
-            if (!blogTags[normalizedTag]) {
-              blogTags[normalizedTag] = {
-                // Will only use the name of the first occurrence of the tag.
-                name: tag.toLowerCase(),
-                items: [],
-                permalink,
-              };
-            }
-
-            blogTags[normalizedTag].items.push(blogPost.id);
-
-            return {
-              label: tag,
-              permalink,
-            };
-          }
-          return tag;
+        return mapValues(blogPostsByTag, (blogPostGroup) => {
+          return {
+            name: blogPostGroup.tag.label,
+            items: blogPostGroup.items.map((item) => item.id),
+            permalink: blogPostGroup.tag.permalink,
+          };
         });
-      });
+      }
+
+      const blogTags: BlogTags = getBlogPostTags();
+
+      const tagsPath = normalizeUrl([baseBlogUrl, 'tags']);
 
       const blogTagsListPath =
         Object.keys(blogTags).length > 0 ? tagsPath : null;
@@ -535,7 +517,6 @@ export default function pluginContentBlog(
       const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
-        baseUrl,
       } = context;
       const feedsConfig = {
         rss: {

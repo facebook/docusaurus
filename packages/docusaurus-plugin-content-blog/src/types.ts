@@ -97,7 +97,7 @@ export interface MetaData {
   description: string;
   date: Date;
   formattedDate: string;
-  tags: (Tag | string)[]; // TODO normalize tags earlier!
+  tags: Tag[];
   title: string;
   readingTime?: number;
   prevItem?: Paginator;

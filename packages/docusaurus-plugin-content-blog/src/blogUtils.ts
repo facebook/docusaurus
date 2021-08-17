@@ -26,6 +26,7 @@ import {
   posixPath,
   replaceMarkdownLinks,
   Globby,
+  normalizeFrontMatterTags,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -240,6 +241,8 @@ async function processBlogSourceFile(
     return undefined;
   }
 
+  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+
   return {
     id: frontMatter.slug ?? title,
     metadata: {
@@ -250,7 +253,7 @@ async function processBlogSourceFile(
       description,
       date,
       formattedDate,
-      tags: frontMatter.tags ?? [],
+      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime ? readingTime(content).minutes : undefined,
       truncated: truncateMarker?.test(content) || false,
     },
