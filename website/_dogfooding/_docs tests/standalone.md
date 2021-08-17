@@ -1,3 +1,7 @@
+---
+tags: [test-tag2]
+---
+
 # Standalone doc
 
 This doc is not in any sidebar, on purpose, to measure the build size impact of the huge sidebar
