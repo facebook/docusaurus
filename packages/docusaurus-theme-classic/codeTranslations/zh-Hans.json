@@ -50,6 +50,7 @@
   "theme.lastUpdated.byUser": "由 {user} ",
   "theme.lastUpdated.lastUpdatedAtBy": "最后{byUser}{atDate}更新",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← 回到主菜单",
+  "theme.navbar.mobileVersionsDropdown.label": "选择版本",
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
   "theme.tags.tagsPageTitle": "标签"
