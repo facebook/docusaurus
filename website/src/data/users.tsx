@@ -1308,7 +1308,7 @@ const Users: User[] = [
     preview: require('./showcase/nocalhost.png'),
     website: 'https://nocalhost.dev/',
     source: 'https://github.com/nocalhost/nocalhost',
-    tags: ['favorite', 'opensource', 'i18n']
+    tags: ['opensource', 'i18n']
   }
 ];
 
