@@ -47,16 +47,16 @@ export function getTranslationFiles(options: PluginOptions): TranslationFiles {
   ];
 }
 
-export function translateLoadedContent(
-  loadedContent: BlogContent,
+export function translateContent(
+  content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
   const {content: translations} = translationFiles[0];
   return {
-    ...loadedContent,
+    ...content,
     blogSidebarTitle: translations['sidebar.title'].message,
     blogListPaginated: translateListPage(
-      loadedContent.blogListPaginated,
+      content.blogListPaginated,
       translations,
     ),
   };

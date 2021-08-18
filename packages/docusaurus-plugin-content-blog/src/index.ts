@@ -22,7 +22,7 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {translateLoadedContent, getTranslationFiles} from './translations';
+import {translateContent, getTranslationFiles} from './translations';
 import {flatten, take, kebabCase} from 'lodash';
 
 import {
@@ -414,7 +414,7 @@ export default function pluginContentBlog(
     },
 
     translateContent({content, translationFiles}) {
-      return translateLoadedContent(content, translationFiles);
+      return translateContent(content, translationFiles);
     },
 
     configureWebpack(
