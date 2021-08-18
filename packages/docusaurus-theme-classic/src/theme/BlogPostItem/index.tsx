@@ -127,9 +127,20 @@ function BlogPostItem(props: Props): JSX.Element {
     );
   };
 
+  const metaTags = isBlogPostPage
+    ? {
+        'og:type': 'article',
+        'article:published_time': date,
+        ...(authorURL ? {'article:author': authorURL} : {}),
+        ...(frontMatter.tags
+          ? {'article:tag': frontMatter.tags.join(',')}
+          : {}),
+      }
+    : undefined;
+
   return (
     <>
-      <Seo {...{keywords, image}} />
+      <Seo {...{keywords, image, metaTags}} />
 
       <article
         className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}

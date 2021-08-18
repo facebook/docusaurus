@@ -17,6 +17,7 @@ export default function Seo({
   description,
   keywords,
   image,
+  metaTags,
 }: Props): JSX.Element {
   const {image: defaultImage} = useThemeConfig();
   const pageTitle = useTitleFormatter(title);
@@ -26,6 +27,11 @@ export default function Seo({
     <Head>
       {title && <title>{pageTitle}</title>}
       {title && <meta property="og:title" content={pageTitle} />}
+
+      {metaTags &&
+        Object.entries(metaTags).map(([property, content]) => (
+          <meta key={property} property={property} content={content} />
+        ))}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
