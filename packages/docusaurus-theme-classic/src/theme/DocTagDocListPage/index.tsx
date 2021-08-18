@@ -21,22 +21,23 @@ type Props = {
 };
 
 // Very simple pluralization: probably good enough for now
-function useDocsPlural() {
+function useNDocsTaggedPlural() {
   const {selectMessage} = usePluralForm();
   return (count: number) =>
     selectMessage(
       count,
       translate(
         {
-          id: 'theme.docs.plurals',
+          id: 'theme.docs.tagDocListPageTitle.nDocsTagged',
           description:
-            'Pluralized label for "{count} docs". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
-          message: 'One doc|{count} docs',
+            'Pluralized label for "{count} docs tagged". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One doc tagged|{count} docs tagged',
         },
         {count},
       ),
     );
 }
+
 function DocItem({doc}: {doc: PropTagDocListDoc}): JSX.Element {
   return (
     <div className="margin-vert--lg">
@@ -49,14 +50,14 @@ function DocItem({doc}: {doc: PropTagDocListDoc}): JSX.Element {
 }
 
 export default function DocTagDocListPage({tag}: Props): JSX.Element {
-  const docsPlural = useDocsPlural();
+  const nDocsTaggedPlural = useNDocsTaggedPlural();
   const title = translate(
     {
       id: 'theme.docs.tagDocListPageTitle',
       description: 'The title of the page for a docs tag',
-      message: '{nDocs} tagged with "{tagName}"',
+      message: '{nDocsTagged} with "{tagName}"',
     },
-    {nDocs: docsPlural(tag.docs.length), tagName: tag.name},
+    {nDocsTagged: nDocsTaggedPlural(tag.docs.length), tagName: tag.name},
   );
 
   return (
