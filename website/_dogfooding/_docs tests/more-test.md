@@ -1,5 +1,5 @@
 ---
-tags: [a, e]
+tags: [a, e, some-tag, some_tag]
 ---
 
 # Another test page
