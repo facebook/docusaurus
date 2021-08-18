@@ -10,16 +10,14 @@ import React from 'react';
 import BlogLayout from '@theme/BlogLayout';
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
-import {translate} from '@docusaurus/Translate';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  translateTagsPageTitle,
+} from '@docusaurus/theme-common';
 
 function BlogTagsListPage(props: Props): JSX.Element {
   const {tags, sidebar} = props;
-  const title = translate({
-    id: 'theme.tags.tagsPageTitle',
-    message: 'Tags',
-    description: 'The title of the tag list page',
-  });
+  const title = translateTagsPageTitle();
   return (
     <BlogLayout
       title={title}

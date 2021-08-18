@@ -68,3 +68,5 @@ export {
 } from './utils/announcementBarUtils';
 
 export {useLocalPathname} from './utils/useLocalPathname';
+
+export {translateTagsPageTitle} from './utils/tagsUtils';

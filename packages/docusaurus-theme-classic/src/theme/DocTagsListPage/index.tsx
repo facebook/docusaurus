@@ -8,17 +8,15 @@
 import React from 'react';
 
 import Layout from '@theme/Layout';
-import {translate} from '@docusaurus/Translate';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  translateTagsPageTitle,
+} from '@docusaurus/theme-common';
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/DocTagsListPage';
 
 function DocTagsListPage({tags}: Props): JSX.Element {
-  const title = translate({
-    id: 'theme.tags.tagsPageTitle',
-    message: 'Tags',
-    description: 'The title of the tag list page',
-  });
+  const title = translateTagsPageTitle();
   return (
     <Layout
       title={title}
