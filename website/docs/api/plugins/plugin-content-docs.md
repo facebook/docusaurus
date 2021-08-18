@@ -109,10 +109,10 @@ Most Docusaurus users configure this plugin through the [preset options](#ex-con
 const config = {
   path: 'docs',
   // Simple use-case: string editUrl
-  // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl
   editUrl: ({versionDocsDirPath, docPath}) =>
-    `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`,
+    `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
   editLocalizedFiles: false,
   editCurrentVersion: false,
   routeBasePath: 'docs',
@@ -263,7 +263,7 @@ hide_table_of_contents: false
 sidebar_label: Markdown
 sidebar_position: 3
 pagination_label: Markdown features
-custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
+custom_edit_url: https://github.com/facebook/docusaurus/edit/main/docs/api-doc-markdown.md
 description: How do I find you when I cannot solve this problem
 keywords:
   - docs

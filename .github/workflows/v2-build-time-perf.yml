@@ -3,7 +3,7 @@ name: V2 Build Time Perf
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website/docs/**'
       - 'website-1.x/**'
@@ -31,5 +31,4 @@ jobs:
       - name: Build (warm cache)
         run: yarn workspace docusaurus-2-website build --locale en
         timeout-minutes: 2
-
     # TODO post a Github comment with build with perf warnings?

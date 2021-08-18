@@ -3,7 +3,7 @@ name: Canary Release
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'packages/**'
 
@@ -26,7 +26,7 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout master
+          git checkout main
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
           echo "npm whoami"

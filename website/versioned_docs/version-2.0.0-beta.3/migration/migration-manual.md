@@ -122,7 +122,7 @@ yarn-error.log*
 
 ### `README` {#readme}
 
-The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-init/templates/classic/README.md).
+The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/main/packages/docusaurus-init/templates/classic/README.md).
 
 ## Site configurations {#site-configurations}
 
@@ -154,7 +154,7 @@ module.exports = {
 };
 ```
 
-We recommend moving the `docs` folder into the `website` folder and that is also the default directory structure in v2. [Now](https://zeit.co/now) supports [Docusaurus project deployments out-of-the-box](https://github.com/zeit/now-examples/tree/master/docusaurus) if the `docs` directory is within the `website`. It is also generally better for the docs to be within the website so that the docs and the rest of the website code are co-located within one `website` directory.
+We recommend moving the `docs` folder into the `website` folder and that is also the default directory structure in v2. [Vercel](https://vercel.com) supports [Docusaurus project deployments out-of-the-box](https://github.com/vercel/vercel/tree/main/examples/docusaurus) if the `docs` directory is within the `website`. It is also generally better for the docs to be within the website so that the docs and the rest of the website code are co-located within one `website` directory.
 
 If you are migrating your Docusaurus v1 website, and there are pending documentation pull requests, you can temporarily keep the `/docs` folder to its original place, to avoid producing conflicts.
 
@@ -344,7 +344,7 @@ module.exports = {
           // Equivalent to `customDocsPath`.
           path: 'docs',
           // Equivalent to `editUrl` but should point to `website` dir instead of `website/docs`.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.
@@ -553,8 +553,8 @@ export default MyPage;
 
 The following code could be helpful for migration of various pages:
 
-- Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js/) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js/), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js/)
-- Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js/), [Flux](http://facebook.github.io/flux/support)
+- Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js/) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/main/website/src/pages/index.js/), [Hermes](https://github.com/facebook/hermes/blob/main/website/src/pages/index.js/)
+- Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/main/website/src/pages/help.js/), [Flux](http://facebook.github.io/flux/support)
 
 ## Content {#content}
 

@@ -22,7 +22,7 @@ exports.dogfoodingPluginInstances = [
       path: '_dogfooding/_blog tests',
       routeBasePath: '/tests/blog',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/_dogfooding/_blog-tests',
+        'https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_blog-tests',
       postsPerPage: 3,
       feedOptions: {
         type: 'all',
