@@ -69,4 +69,5 @@ export {
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {translateTagsPageTitle} from './utils/tagsUtils';
+export {translateTagsPageTitle, listTagsByLetters} from './utils/tagsUtils';
+export type {TagLetterEntry} from './utils/tagsUtils';
