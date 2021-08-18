@@ -18,8 +18,8 @@ function translateListPage(
       items,
       metadata: {
         ...metadata,
-        blogTitle: translations.blogTitle.message,
-        blogDescription: translations.blogDescription.message,
+        blogTitle: translations.title.message,
+        blogDescription: translations.description.message,
       },
     };
   });
@@ -54,7 +54,7 @@ export function translateLoadedContent(
   const {content: translations} = translationFiles[0];
   return {
     ...loadedContent,
-    blogSidebarTitle: translations.blogSidebarTitle.message,
+    blogSidebarTitle: translations['sidebar.title'].message,
     blogListPaginated: translateListPage(
       loadedContent.blogListPaginated,
       translations,
