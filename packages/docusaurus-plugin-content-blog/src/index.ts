@@ -22,6 +22,7 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
+import {translateLoadedContent, getTranslationFiles} from './translations';
 import {flatten, take, kebabCase} from 'lodash';
 
 import {
@@ -101,6 +102,10 @@ export default function pluginContentBlog(
       );
     },
 
+    async getTranslationFiles() {
+      return getTranslationFiles(options);
+    },
+
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
       const {
@@ -108,6 +113,7 @@ export default function pluginContentBlog(
         routeBasePath,
         blogDescription,
         blogTitle,
+        blogSidebarTitle,
       } = options;
 
       const blogPosts: BlogPost[] = await generateBlogPosts(
@@ -118,6 +124,7 @@ export default function pluginContentBlog(
 
       if (!blogPosts.length) {
         return {
+          blogSidebarTitle,
           blogPosts: [],
           blogListPaginated: [],
           blogTags: {},
@@ -226,6 +233,7 @@ export default function pluginContentBlog(
         Object.keys(blogTags).length > 0 ? tagsPath : null;
 
       return {
+        blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
@@ -247,6 +255,7 @@ export default function pluginContentBlog(
 
       const {addRoute, createData} = actions;
       const {
+        blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
@@ -267,7 +276,7 @@ export default function pluginContentBlog(
         `blog-post-list-prop-${pluginId}.json`,
         JSON.stringify(
           {
-            title: options.blogSidebarTitle,
+            title: blogSidebarTitle,
             items: sidebarBlogPosts.map((blogPost) => ({
               title: blogPost.metadata.title,
               permalink: blogPost.metadata.permalink,
@@ -402,6 +411,10 @@ export default function pluginContentBlog(
           },
         });
       }
+    },
+
+    translateContent({content, translationFiles}) {
+      return translateLoadedContent(content, translationFiles);
     },
 
     configureWebpack(

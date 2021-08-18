@@ -14,6 +14,7 @@ import {
 export type BlogContentPaths = ContentPaths;
 
 export interface BlogContent {
+  blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
