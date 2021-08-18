@@ -8,24 +8,17 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 
-// TODO add TS types later
-// import type {Props} from '@theme/DocTagsListPage';
-
-type TagItem = {name: string; permalink: string; count: number};
-
-type Props = {
-  tags: TagItem[];
-};
+import type {Props, TagsListItem} from '@theme/TagsListByLetter';
 
 function getTagLetter(tag: string): string {
   return tag[0].toUpperCase();
 }
 
-type TagLetterEntry = {letter: string; tags: TagItem[]};
+type TagLetterEntry = Readonly<{letter: string; tags: TagsListItem[]}>;
 
-function listTagsByLetters(tags: TagItem[]): TagLetterEntry[] {
+function listTagsByLetters(tags: readonly TagsListItem[]): TagLetterEntry[] {
   // Group by letters
-  const groups: Record<string, TagItem[]> = {};
+  const groups: Record<string, TagsListItem[]> = {};
   Object.values(tags).forEach((tag) => {
     const letter = getTagLetter(tag.name);
     groups[letter] = groups[letter] ?? [];

@@ -93,6 +93,10 @@ declare module '@theme/DocItem' {
     readonly version?: string;
     readonly previous?: {readonly permalink: string; readonly title: string};
     readonly next?: {readonly permalink: string; readonly title: string};
+    readonly tags: readonly {
+      readonly label: string;
+      readonly permalink: string;
+    }[];
   };
 
   export type Props = {
@@ -109,6 +113,12 @@ declare module '@theme/DocItem' {
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
+}
+
+declare module '@theme/DocItemFooter' {
+  import type {Props} from '@theme/DocItem';
+
+  export default function DocItemFooter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionBanner' {
