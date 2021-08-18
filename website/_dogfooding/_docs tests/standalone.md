@@ -1,5 +1,8 @@
 ---
-tags: [test-tag2]
+tags:
+  - b
+  - label: d
+    permalink: d-custom-permalink
 ---
 
 # Standalone doc

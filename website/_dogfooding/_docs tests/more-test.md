@@ -1,5 +1,5 @@
 ---
-tags: [testTag3, test-tag1]
+tags: [a, e]
 ---
 
 # Another test page
