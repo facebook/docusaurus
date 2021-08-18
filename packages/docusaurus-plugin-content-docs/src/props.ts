@@ -20,7 +20,7 @@ import type {
   PropTagDocList,
   PropTagDocListDoc,
 } from '@docusaurus/plugin-content-docs-types';
-import {keyBy, mapValues} from 'lodash';
+import {compact, keyBy, mapValues} from 'lodash';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
@@ -91,10 +91,12 @@ export function toTagDocListProp({
 }: {
   allTagsPath: string;
   tag: VersionTag;
-  docs: DocMetadata[];
+  docs: Pick<DocMetadata, 'id' | 'title' | 'description' | 'permalink'>[];
 }): PropTagDocList {
   function toDocListProp(): PropTagDocListDoc[] {
-    const list = tag.docIds.map((id) => docs.find((doc) => doc.id === id)!);
+    const list = compact(
+      tag.docIds.map((id) => docs.find((doc) => doc.id === id)),
+    );
     // Sort docs by title
     list.sort((doc1, doc2) => doc1.title.localeCompare(doc2.title));
     return list.map((doc) => ({
