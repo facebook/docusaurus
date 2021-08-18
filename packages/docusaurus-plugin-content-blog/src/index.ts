@@ -17,13 +17,12 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-  groupTaggedItems,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {flatten, take, mapValues} from 'lodash';
+import {flatten, take} from 'lodash';
 
 import {
   PluginOptions,
@@ -52,6 +51,7 @@ import {
   generateBlogPosts,
   getContentPathList,
   getSourceToPermalink,
+  getBlogTags,
 } from './blogUtils';
 
 export default function pluginContentBlog(
@@ -184,23 +184,7 @@ export default function pluginContentBlog(
         });
       }
 
-      // Legacy conversion layer, can be refactored
-      function getBlogPostTags(): BlogTags {
-        const blogPostsByTag = groupTaggedItems(
-          blogPosts,
-          (blogPost) => blogPost.metadata.tags,
-        );
-
-        return mapValues(blogPostsByTag, (blogPostGroup) => {
-          return {
-            name: blogPostGroup.tag.label,
-            items: blogPostGroup.items.map((item) => item.id),
-            permalink: blogPostGroup.tag.permalink,
-          };
-        });
-      }
-
-      const blogTags: BlogTags = getBlogPostTags();
+      const blogTags: BlogTags = getBlogTags(blogPosts);
 
       const tagsPath = normalizeUrl([baseBlogUrl, 'tags']);
 

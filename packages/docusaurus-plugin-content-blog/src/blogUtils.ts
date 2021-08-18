@@ -16,6 +16,7 @@ import {
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
+  BlogTags,
 } from './types';
 import {
   parseMarkdownFile,
@@ -27,6 +28,7 @@ import {
   replaceMarkdownLinks,
   Globby,
   normalizeFrontMatterTags,
+  groupTaggedItems,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -42,6 +44,22 @@ export function getSourceToPermalink(
     keyBy(blogPosts, (item) => item.metadata.source),
     (v) => v.metadata.permalink,
   );
+}
+
+// Legacy conversion layer, can be refactored
+export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
+  const groups = groupTaggedItems(
+    blogPosts,
+    (blogPost) => blogPost.metadata.tags,
+  );
+
+  return mapValues(groups, (blogPostGroup) => {
+    return {
+      name: blogPostGroup.tag.label,
+      items: blogPostGroup.items.map((item) => item.id),
+      permalink: blogPostGroup.tag.permalink,
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;

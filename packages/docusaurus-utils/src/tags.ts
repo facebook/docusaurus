@@ -44,6 +44,10 @@ export type TaggedItemGroup<Item> = {
   items: Item[];
 };
 
+// Note: groups are indexed by permalink, because routes must be unique in the end
+// Labels may vary on 2 md files but they are normalized.
+// Docs with label='some label' and label='some-label' should end-up in the same group/page in the end
+// We can't create 2 routes /some-label because one would override the other
 export function groupTaggedItems<Item>(
   items: Item[],
   getItemTags: (item: Item) => Tag[],
@@ -54,13 +58,13 @@ export function groupTaggedItems<Item>(
     // Init missing tag groups
     // TODO: it's not really clear what should be the behavior if 2 items have the same tag but the permalink is different for each
     // For now, the first tag found wins
-    result[tag.label] = result[tag.label] ?? {
+    result[tag.permalink] = result[tag.permalink] ?? {
       tag,
       items: [],
     };
 
     // Add item to group
-    result[tag.label].items.push(item);
+    result[tag.permalink].items.push(item);
   }
 
   items.forEach((item) => {

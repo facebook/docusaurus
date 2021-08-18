@@ -5,43 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import {groupTaggedItems} from '@docusaurus/utils';
 import {VersionTags, DocMetadata} from './types';
-import {kebabCase} from 'lodash';
+import {mapValues} from 'lodash';
 
-function normalizeTag(tag: string) {
-  return kebabCase(tag);
-}
-
-export function getVersionTags({
-  tagsPath,
-  docs,
-}: {
-  tagsPath: string;
-  docs: DocMetadata[];
-}): VersionTags {
-  const versionTags: VersionTags = {};
-
-  function initTagData(tag: string) {
+export function getVersionTags(docs: DocMetadata[]): VersionTags {
+  const groups = groupTaggedItems(docs, (doc) => doc.tags);
+  return mapValues(groups, (group) => {
     return {
-      // Will only use the name of the first occurrence of the tag
-      name: tag.toLowerCase(),
-      permalink: normalizeUrl([tagsPath, normalizeTag(tag)]),
-      docIds: [],
+      name: group.tag.label,
+      docIds: group.items.map((item) => item.id),
+      permalink: group.tag.permalink,
     };
-  }
-
-  docs.forEach((doc) => {
-    const tags: string[] = (doc.tags ?? []) as any; // TODO BAD, temporary
-    tags.forEach((tag) => {
-      const normalizedTag = normalizeTag(tag);
-      // init data for a tag the first time we see it
-      if (!versionTags[normalizedTag]) {
-        versionTags[normalizedTag] = initTagData(tag);
-      }
-      versionTags[normalizedTag].docIds.push(doc.id);
-    });
   });
-
-  return versionTags;
 }

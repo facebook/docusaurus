@@ -7,16 +7,11 @@
 
 import React from 'react';
 
-import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
+import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
 import {translate} from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-
-function getCategoryOfTag(tag: string) {
-  // tag's category should be customizable
-  return tag[0].toUpperCase();
-}
 
 function BlogTagsListPage(props: Props): JSX.Element {
   const {tags, sidebar} = props;
@@ -25,33 +20,6 @@ function BlogTagsListPage(props: Props): JSX.Element {
     message: 'Tags',
     description: 'The title of the tag list page',
   });
-
-  const tagCategories: {[category: string]: string[]} = {};
-  Object.keys(tags).forEach((tag) => {
-    const category = getCategoryOfTag(tag);
-    tagCategories[category] = tagCategories[category] || [];
-    tagCategories[category].push(tag);
-  });
-  const tagsList = Object.entries(tagCategories).sort(([a], [b]) =>
-    a.localeCompare(b),
-  );
-  const tagsSection = tagsList
-    .map(([category, tagsForCategory]) => (
-      <article key={category}>
-        <h2>{category}</h2>
-        {tagsForCategory.map((tag) => (
-          <Link
-            className="padding-right--md"
-            href={tags[tag].permalink}
-            key={tag}>
-            {tags[tag].name} ({tags[tag].count})
-          </Link>
-        ))}
-        <hr />
-      </article>
-    ))
-    .filter((item) => item != null);
-
   return (
     <BlogLayout
       title={title}
@@ -63,7 +31,7 @@ function BlogTagsListPage(props: Props): JSX.Element {
       }}
       sidebar={sidebar}>
       <h1>{title}</h1>
-      <section className="margin-vert--lg">{tagsSection}</section>
+      <TagsListByLetter tags={Object.values(tags)} />
     </BlogLayout>
   );
 }

@@ -248,16 +248,10 @@ export default function pluginContentDocs(
           }
         }
 
-        const tags = getVersionTags({
-          docs,
-          tagsPath: versionMetadata.tagsPath,
-        });
-
         return {
           ...versionMetadata,
           mainDocId: getMainDoc().unversionedId,
           sidebars,
-          tags,
           docs: docs.map(addNavData),
         };
       }
@@ -323,13 +317,14 @@ export default function pluginContentDocs(
       };
 
       async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
-        async function createTagsListRoute() {
-          const tagsProp = mapValues(loadedVersion.tags, (tagValue) => ({
+        const versionTags = getVersionTags(loadedVersion.docs);
+
+        async function createTagsListPage() {
+          const tagsProp = mapValues(versionTags, (tagValue) => ({
             name: tagValue.name,
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
-          console.log(`version tags  info, ${JSON.stringify(loadedVersion)}`);
           const tagsPropPath = await createData(
             `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
             JSON.stringify(tagsProp, null, 2),
@@ -345,35 +340,26 @@ export default function pluginContentDocs(
         }
 
         async function createTagPage(tag: VersionTag) {
-          /**
-           * To create a page per Tag for relevant Docs
-           */
-          // TODO
-          console.log(`todo createTagPage for tag=${tag.name}`);
-          console.log(
-            `tags information is, = ${JSON.stringify(loadedVersion.tags)}`,
+          const tagProps = {
+            ...tag,
+            allTagsPath: loadedVersion.tagsPath,
+          };
+          const tagPropPath = await createData(
+            `${docuHash(`tag-${tag.permalink}`)}.json`,
+            JSON.stringify(tagProps, null, 2),
           );
-
-          const copiedTag = JSON.parse(JSON.stringify(tag));
-          copiedTag.allTagsPath = loadedVersion.tagsPath;
-
-          const tagsPath = await createData(
-            `${docuHash(`${tag.permalink}`)}.json`,
-            JSON.stringify(copiedTag, null, 2),
-          );
-
           addRoute({
             path: tag.permalink,
             component: '@theme/DocTagsPage',
             exact: true,
             modules: {
-              tag: aliasedSource(tagsPath),
+              tag: aliasedSource(tagPropPath),
             },
           });
         }
 
-        await createTagsListRoute();
-        await Promise.all(Object.values(loadedVersion.tags).map(createTagPage));
+        await createTagsListPage();
+        await Promise.all(Object.values(versionTags).map(createTagPage));
       }
 
       async function doCreateVersionRoutes(

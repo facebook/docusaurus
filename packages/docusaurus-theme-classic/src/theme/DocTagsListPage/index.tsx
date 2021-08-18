@@ -8,7 +8,9 @@
 import React from 'react';
 
 import Layout from '@theme/Layout';
-import Link from '@docusaurus/Link';
+import {translate} from '@docusaurus/Translate';
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import TagsListByLetter from '@theme/TagsListByLetter';
 
 // TODO add TS types later
 // import type {Props} from '@theme/DocTagsListPage';
@@ -16,48 +18,26 @@ type Props = {
   tags: Record<string, {name: string; permalink: string; count: number}>;
 };
 
-function getCategoryOfTag(tag: string) {
-  // tag's category should be customizable
-  return tag[0].toUpperCase();
-}
-
 function DocTagsListPage({tags}: Props): JSX.Element {
-  const tagCategories: {[category: string]: string[]} = {};
-  Object.keys(tags).forEach((tag) => {
-    const category = getCategoryOfTag(tag);
-    tagCategories[category] = tagCategories[category] || [];
-    tagCategories[category].push(tag);
+  const title = translate({
+    id: 'theme.tags.tagsPageTitle',
+    message: 'Tags',
+    description: 'The title of the tag list page',
   });
-  const tagsList = Object.entries(tagCategories).sort(([a], [b]) => {
-    if (a === b) {
-      return 0;
-    }
-    return a > b ? 1 : -1;
-  });
-  const tagsSection = tagsList
-    .map(([category, tagsForCategory]) => (
-      <div key={category}>
-        <h3>{category}</h3>
-        {tagsForCategory.map((tag) => (
-          <Link
-            className="padding-right--md"
-            href={tags[tag].permalink}
-            key={tag}>
-            {tags[tag].name} ({tags[tag].count})
-          </Link>
-        ))}
-        <hr />
-      </div>
-    ))
-    .filter((item) => item != null);
-
   return (
-    <Layout title="Tags" description="Doc Tags">
+    <Layout
+      title={title}
+      wrapperClassName={ThemeClassNames.wrapper.docPages}
+      pageClassName={ThemeClassNames.page.docsTagsListPage}
+      searchMetadatas={{
+        // assign unique search tag to exclude this page from search results!
+        tag: 'doc_tags_list',
+      }}>
       <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">
-            <h1>Tags</h1>
-            <div className="margin-vert--lg">{tagsSection}</div>
+            <h1>{title}</h1>
+            <TagsListByLetter tags={Object.values(tags)} />
           </main>
         </div>
       </div>
