@@ -10,7 +10,6 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
-
 import type {
   PropTagDocList,
   PropTagDocListDoc,

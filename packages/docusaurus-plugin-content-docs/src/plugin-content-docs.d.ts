@@ -58,6 +58,14 @@ declare module '@docusaurus/plugin-content-docs-types' {
     permalink: string; // pathname of the tag
     docs: PropTagDocListDoc[];
   };
+
+  export type PropTagsListPage = {
+    tags: {
+      name: string;
+      permalink: string;
+      count: number;
+    }[];
+  };
 }
 
 declare module '@theme/DocItem' {
@@ -118,6 +126,13 @@ declare module '@theme/DocItem' {
 declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
+  export default function DocItemFooter(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocTagsListPage' {
+  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+
+  export type Props = PropTagsListPage;
   export default function DocItemFooter(props: Props): JSX.Element;
 }
 

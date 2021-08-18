@@ -46,18 +46,16 @@ export function getSourceToPermalink(
   );
 }
 
-// Legacy conversion layer, can be refactored
 export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
   const groups = groupTaggedItems(
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-
-  return mapValues(groups, (blogPostGroup) => {
+  return mapValues(groups, (group) => {
     return {
-      name: blogPostGroup.tag.label,
-      items: blogPostGroup.items.map((item) => item.id),
-      permalink: blogPostGroup.tag.permalink,
+      name: group.tag.label,
+      items: group.items.map((item) => item.id),
+      permalink: group.tag.permalink,
     };
   });
 }

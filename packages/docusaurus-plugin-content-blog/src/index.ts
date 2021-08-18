@@ -314,6 +314,7 @@ export default function pluginContentBlog(
         Object.keys(blogTags).map(async (tag) => {
           const {name, items, permalink} = blogTags[tag];
 
+          // Refactor all this, see docs implementation
           tagsModule[tag] = {
             allTagsPath: blogTagsListPath,
             slug: tag,

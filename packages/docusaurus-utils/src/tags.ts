@@ -44,6 +44,7 @@ export type TaggedItemGroup<Item> = {
   items: Item[];
 };
 
+// Permits to group docs/blogPosts by tag (provided by FrontMatter)
 // Note: groups are indexed by permalink, because routes must be unique in the end
 // Labels may vary on 2 md files but they are normalized.
 // Docs with label='some label' and label='some-label' should end-up in the same group/page in the end

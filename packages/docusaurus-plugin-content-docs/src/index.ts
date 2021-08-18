@@ -52,6 +52,7 @@ import {
 import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 import chalk from 'chalk';
 import {getVersionTags} from './tags';
+import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -320,7 +321,9 @@ export default function pluginContentDocs(
         const versionTags = getVersionTags(loadedVersion.docs);
 
         async function createTagsListPage() {
-          const tagsProp = mapValues(versionTags, (tagValue) => ({
+          const tagsProp: PropTagsListPage['tags'] = Object.values(
+            versionTags,
+          ).map((tagValue) => ({
             name: tagValue.name,
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,

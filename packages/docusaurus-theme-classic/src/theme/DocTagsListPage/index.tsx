@@ -11,12 +11,7 @@ import Layout from '@theme/Layout';
 import {translate} from '@docusaurus/Translate';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import TagsListByLetter from '@theme/TagsListByLetter';
-
-// TODO add TS types later
-// import type {Props} from '@theme/DocTagsListPage';
-type Props = {
-  tags: Record<string, {name: string; permalink: string; count: number}>;
-};
+import type {Props} from '@theme/DocTagsListPage';
 
 function DocTagsListPage({tags}: Props): JSX.Element {
   const title = translate({
@@ -37,7 +32,7 @@ function DocTagsListPage({tags}: Props): JSX.Element {
         <div className="row">
           <main className="col col--8 col--offset-2">
             <h1>{title}</h1>
-            <TagsListByLetter tags={Object.values(tags)} />
+            <TagsListByLetter tags={tags} />
           </main>
         </div>
       </div>
