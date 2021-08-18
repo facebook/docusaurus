@@ -92,6 +92,8 @@ export type PluginOptions = MetadataOptions &
     exclude: string[];
     docLayoutComponent: string;
     docItemComponent: string;
+    docTagDocListComponent: string;
+    docTagsListComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     includeCurrentVersion: boolean;

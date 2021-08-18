@@ -335,7 +335,7 @@ export default function pluginContentDocs(
           addRoute({
             path: loadedVersion.tagsPath,
             exact: true,
-            component: '@theme/DocTagsListPage',
+            component: options.docTagsListComponent,
             modules: {
               tags: aliasedSource(tagsPropPath),
             },
@@ -354,7 +354,7 @@ export default function pluginContentDocs(
           );
           addRoute({
             path: tag.permalink,
-            component: '@theme/DocTagDocListPage',
+            component: options.docTagDocListComponent,
             exact: true,
             modules: {
               tag: aliasedSource(tagPropPath),
