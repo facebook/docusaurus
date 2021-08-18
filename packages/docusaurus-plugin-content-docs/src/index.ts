@@ -44,7 +44,7 @@ import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
-import {toVersionMetadataProp} from './props';
+import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
@@ -339,18 +339,19 @@ export default function pluginContentDocs(
           });
         }
 
-        async function createTagPage(tag: VersionTag) {
-          const tagProps = {
-            ...tag,
+        async function createTagDocListPage(tag: VersionTag) {
+          const tagProps = toTagDocListProp({
             allTagsPath: loadedVersion.tagsPath,
-          };
+            tag,
+            docs: loadedVersion.docs,
+          });
           const tagPropPath = await createData(
             `${docuHash(`tag-${tag.permalink}`)}.json`,
             JSON.stringify(tagProps, null, 2),
           );
           addRoute({
             path: tag.permalink,
-            component: '@theme/DocTagsPage',
+            component: '@theme/DocTagDocListPage',
             exact: true,
             modules: {
               tag: aliasedSource(tagPropPath),
@@ -359,7 +360,7 @@ export default function pluginContentDocs(
         }
 
         await createTagsListPage();
-        await Promise.all(Object.values(versionTags).map(createTagPage));
+        await Promise.all(Object.values(versionTags).map(createTagDocListPage));
       }
 
       async function doCreateVersionRoutes(

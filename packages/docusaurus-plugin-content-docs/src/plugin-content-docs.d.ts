@@ -9,6 +9,9 @@ declare module '@docusaurus/plugin-content-docs-types' {
   type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
+  type VersionTag = import('./types').VersionTag;
+
+  export type {GlobalDataVersion, GlobalDataDoc};
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -43,7 +46,18 @@ declare module '@docusaurus/plugin-content-docs-types' {
     [sidebarId: string]: PropSidebarItem[];
   };
 
-  export type {GlobalDataVersion, GlobalDataDoc};
+  export type PropTagDocListDoc = {
+    id: string;
+    title: string;
+    description: string;
+    permalink: string;
+  };
+  export type PropTagDocList = {
+    allTagsPath: string;
+    name: string; // normalized name/label of the tag
+    permalink: string; // pathname of the tag
+    docs: PropTagDocListDoc[];
+  };
 }
 
 declare module '@theme/DocItem' {

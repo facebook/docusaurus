@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {kebabCase} from 'lodash';
+import {kebabCase, uniq} from 'lodash';
 import {normalizeUrl} from './normalizeUrl';
 
 export type Tag = {
@@ -71,6 +71,12 @@ export function groupTaggedItems<Item>(
     getItemTags(item).forEach((tag) => {
       handleItemTag(item, tag);
     });
+  });
+
+  // If user add twice the same tag to a md doc (weird but possible),
+  // we don't want the item to appear twice in the list...
+  Object.values(result).forEach((group) => {
+    group.items = uniq(group.items);
   });
 
   return result;
