@@ -28,7 +28,7 @@ function translateListPage(
 export function getTranslationFiles(options: PluginOptions): TranslationFiles {
   return [
     {
-      path: 'blog',
+      path: 'options',
       content: {
         title: {
           message: options.blogTitle,
