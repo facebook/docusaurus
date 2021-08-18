@@ -68,7 +68,7 @@ export default function DocItemFooter(props: Props): JSX.Element {
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
 
-  const canDisplayFooter = canDisplayTagsRow && canDisplayEditMetaRow;
+  const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
 
   if (!canDisplayFooter) {
     return <></>;
