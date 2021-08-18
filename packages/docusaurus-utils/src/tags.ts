@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {kebabCase, uniq} from 'lodash';
+import {kebabCase, uniq, uniqBy} from 'lodash';
 import {normalizeUrl} from './normalizeUrl';
 
 export type Tag = {
@@ -17,26 +17,38 @@ export type FrontMatterTag = string | Tag;
 
 export function normalizeFrontMatterTag(
   tagsPath: string,
-  tag: FrontMatterTag,
+  frontMatterTag: FrontMatterTag,
 ): Tag {
-  if (typeof tag === 'string') {
-    const normalizedTag = kebabCase(tag);
-    const permalink = normalizeUrl([tagsPath, normalizedTag]);
+  function toTagObject(tagString: string): Tag {
     return {
-      label: tag,
-      permalink,
+      label: tagString,
+      permalink: kebabCase(tagString),
     };
   }
-  return tag;
+
+  function normalizeTagPermalink(permalink: string): string {
+    return normalizeUrl([tagsPath, permalink]);
+  }
+
+  const tag: Tag =
+    typeof frontMatterTag === 'string'
+      ? toTagObject(frontMatterTag)
+      : frontMatterTag;
+
+  return {
+    label: tag.label,
+    permalink: normalizeTagPermalink(tag.permalink),
+  };
 }
 
 export function normalizeFrontMatterTags(
   tagsPath: string,
   frontMatterTags: FrontMatterTag[] | undefined,
 ): Tag[] {
-  return (
-    frontMatterTags?.map((tag) => normalizeFrontMatterTag(tagsPath, tag)) ?? []
-  );
+  const tags =
+    frontMatterTags?.map((tag) => normalizeFrontMatterTag(tagsPath, tag)) ?? [];
+
+  return uniqBy(tags, (tag) => tag.permalink);
 }
 
 export type TaggedItemGroup<Item> = {
