@@ -15,16 +15,3 @@
 .tag {
   margin-right: 0.4rem;
 }
-
-.tag a {
-  border-radius: 0.5rem;
-  padding: 0.3rem 0.5rem;
-  font-size: 90%;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  transition: border var(--ifm-transition-fast);
-}
-
-.tag a:hover {
-  border: 1px solid var(--ifm-link-color);
-  text-decoration: none;
-}

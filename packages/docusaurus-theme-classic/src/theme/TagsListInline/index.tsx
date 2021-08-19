@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
+import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
@@ -25,7 +25,7 @@ export default function TagsListInline({tags}: Props) {
       <ul className={styles.tags}>
         {tags.map(({label, permalink: tagPermalink}) => (
           <li key={tagPermalink} className={styles.tag}>
-            <Link to={tagPermalink}>{label}</Link>
+            <Tag name={label} permalink={tagPermalink} />
           </li>
         ))}
       </ul>

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
+import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
 import {listTagsByLetters, TagLetterEntry} from '@docusaurus/theme-common';
 
@@ -19,9 +19,7 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
       <ul className={styles.tags}>
         {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>
-            <Link href={tag.permalink}>
-              {tag.name} <span>{tag.count}</span>
-            </Link>
+            <Tag {...tag} />
           </li>
         ))}
       </ul>
