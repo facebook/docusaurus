@@ -15,7 +15,7 @@ import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
 import styles from './styles.module.css';
 
-export default function Index({
+export default function LocaleDropdownNavbarItem({
   mobile,
   dropdownItemsBefore,
   dropdownItemsAfter,

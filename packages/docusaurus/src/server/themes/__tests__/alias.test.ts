@@ -41,8 +41,30 @@ describe('themeAlias', () => {
     expect(alias).toEqual({
       '@theme/Navbar': path.join(themePath, 'Navbar.js'),
       '@theme-original/Navbar': path.join(themePath, 'Navbar.js'),
+
       '@theme/Layout': path.join(themePath, 'Layout/index.js'),
       '@theme-original/Layout': path.join(themePath, 'Layout/index.js'),
+
+      '@theme/NavbarItem': path.join(themePath, 'NavbarItem/index.js'),
+      '@theme-original/NavbarItem': path.join(themePath, 'NavbarItem/index.js'),
+
+      '@theme/NavbarItem/NestedNavbarItem': path.join(
+        themePath,
+        'NavbarItem/NestedNavbarItem/index.js',
+      ),
+      '@theme-original/NavbarItem/NestedNavbarItem': path.join(
+        themePath,
+        'NavbarItem/NestedNavbarItem/index.js',
+      ),
+
+      '@theme/NavbarItem/SiblingNavbarItem': path.join(
+        themePath,
+        'NavbarItem/SiblingNavbarItem.js',
+      ),
+      '@theme-original/NavbarItem/SiblingNavbarItem': path.join(
+        themePath,
+        'NavbarItem/SiblingNavbarItem.js',
+      ),
     });
     expect(alias).not.toEqual({});
   });
@@ -54,6 +76,15 @@ describe('themeAlias', () => {
     expect(alias).toEqual({
       '@theme/Navbar': path.join(themePath, 'Navbar.js'),
       '@theme/Layout': path.join(themePath, 'Layout/index.js'),
+      '@theme/NavbarItem': path.join(themePath, 'NavbarItem/index.js'),
+      '@theme/NavbarItem/NestedNavbarItem': path.join(
+        themePath,
+        'NavbarItem/NestedNavbarItem/index.js',
+      ),
+      '@theme/NavbarItem/SiblingNavbarItem': path.join(
+        themePath,
+        'NavbarItem/SiblingNavbarItem.js',
+      ),
     });
     expect(alias).not.toEqual({});
   });
