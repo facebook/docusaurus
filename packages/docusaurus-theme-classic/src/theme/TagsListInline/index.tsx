@@ -10,6 +10,8 @@ import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/TagsListInline';
 
+import styles from './styles.module.css';
+
 export default function TagsListInline({tags}: Props) {
   return (
     <>
@@ -20,11 +22,13 @@ export default function TagsListInline({tags}: Props) {
           Tags:
         </Translate>
       </b>
-      {tags.map(({label, permalink: tagPermalink}) => (
-        <Link key={tagPermalink} className="margin-horiz--sm" to={tagPermalink}>
-          {label}
-        </Link>
-      ))}
+      <ul className={styles.tags}>
+        {tags.map(({label, permalink: tagPermalink}) => (
+          <li key={tagPermalink} className={styles.tag}>
+            <Link to={tagPermalink}>{label}</Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

@@ -1,0 +1,70 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+:root {
+  --docusaurus-tag-list-border: var(--ifm-color-emphasis-300);
+}
+
+.tags {
+  padding: 0;
+}
+
+.tag {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0 1rem;
+}
+
+.tag a {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 0.5rem 0 1rem;
+  border: 1px solid var(--docusaurus-tag-list-border);
+  border-left: 0;
+  transition: border var(--ifm-transition-fast);
+}
+
+.tag a:hover {
+  --docusaurus-tag-list-border: var(--ifm-link-color);
+  text-decoration: none;
+}
+
+.tag a:before,
+.tag a:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  border: 1px solid var(--docusaurus-tag-list-border);
+  transition: inherit;
+}
+
+.tag a:before {
+  right: 100%;
+  transform: translateY(-50%) translateX(50%) rotate(-45deg);
+  width: 1.18rem;
+  height: 1.18rem;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.tag a:after {
+  left: 0;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.tag a span {
+  background: var(--ifm-color-secondary);
+  color: var(--ifm-color-black);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  border-radius: 50%;
+  padding: 0.1rem 0.4rem;
+  margin-left: 0.3rem;
+}
