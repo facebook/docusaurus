@@ -11,8 +11,12 @@ export const ThemeClassNames = {
     blogListPage: 'blog-list-page',
     blogPostPage: 'blog-post-page',
     blogTagsListPage: 'blog-tags-list-page',
-    blogTagsPostPage: 'blog-tags-post-page',
-    docPage: 'doc-page',
+    blogTagPostListPage: 'blog-tags-post-list-page',
+
+    docsDocPage: 'docs-doc-page',
+    docsTagsListPage: 'docs-tags-list-page', // List of tags
+    docsTagDocListPage: 'docs-tags-doc-list-page', // Docs for a tag
+
     mdxPage: 'mdx-page',
   },
   wrapper: {

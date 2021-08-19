@@ -48,6 +48,8 @@ describe('normalizeDocsPluginOptions', () => {
       numberPrefixParser: DefaultNumberPrefixParser,
       docLayoutComponent: '@theme/DocPage',
       docItemComponent: '@theme/DocItem',
+      docTagDocListComponent: '@theme/DocTagDocListPage',
+      docTagsListComponent: '@theme/DocTagsListPage',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],

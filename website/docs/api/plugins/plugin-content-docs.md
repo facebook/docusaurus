@@ -42,6 +42,8 @@ Accepted fields:
 | `numberPrefixParser` | <code>boolean &#124; PrefixParser</code> | _Omitted_ | Custom parsing logic to extract number prefixes from file names. Use `false` to disable this behavior and leave the docs untouched, and `true` to use the default parser. See also [Using number prefixes](/docs/sidebar#using-number-prefixes) |
 | `docLayoutComponent` | `string` | `'@theme/DocPage'` | Root Layout component of each doc page. |
 | `docItemComponent` | `string` | `'@theme/DocItem'` | Main doc container, with TOC, pagination, etc. |
+| `docTagsListComponent` | `string` | `'@theme/DocTagsListPage'` | Root component of the tags list page |
+| `docTagDocListComponent` | `string` | `'@theme/DocTagDocListPage'` | Root component of the "docs containing tag" page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
@@ -249,8 +251,13 @@ Accepted fields:
 | `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
 | `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
+| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 
 </small>
+
+```typescript
+type Tag = string | {label: string; permalink: string};
+```
 
 Example:
 

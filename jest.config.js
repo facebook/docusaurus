@@ -33,6 +33,11 @@ module.exports = {
   },
   setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
   moduleNameMapper: {
+    // TODO we need to allow Jest to resolve core Webpack aliases automatically
     '@docusaurus/router': 'react-router-dom',
+    '@docusaurus/Translate': '@docusaurus/core/lib/client/exports/Translate',
+    '@docusaurus/Interpolate':
+      '@docusaurus/core/lib/client/exports/Interpolate',
+    '@generated/codeTranslations': '<rootDir>/jest/emptyModule.js',
   },
 };

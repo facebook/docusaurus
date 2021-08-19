@@ -9,15 +9,16 @@ import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   URISchema,
   validateFrontMatter,
+  FrontMatterTagsSchema,
 } from '@docusaurus/utils-validation';
-import {Tag} from './types';
+import type {FrontMatterTag} from '@docusaurus/utils';
 
 export type BlogPostFrontMatter = {
   /* eslint-disable camelcase */
   id?: string;
   title?: string;
   description?: string;
-  tags?: (string | Tag)[];
+  tags?: FrontMatterTag[];
   slug?: string;
   draft?: boolean;
   date?: Date | string; // Yaml automagically convert some string patterns as Date, but not all
@@ -38,23 +39,11 @@ export type BlogPostFrontMatter = {
   /* eslint-enable camelcase */
 };
 
-// NOTE: we don't add any default value on purpose here
-// We don't want default values to magically appear in doc metadatas and props
-// While the user did not provide those values explicitly
-// We use default values in code instead
-const BlogTagSchema = Joi.alternatives().try(
-  Joi.string().required(),
-  Joi.object<Tag>({
-    label: Joi.string().required(),
-    permalink: Joi.string().required(),
-  }),
-);
-
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''),
   description: Joi.string().allow(''),
-  tags: Joi.array().items(BlogTagSchema),
+  tags: FrontMatterTagsSchema,
   draft: Joi.boolean(),
   date: Joi.date().raw(),
 
