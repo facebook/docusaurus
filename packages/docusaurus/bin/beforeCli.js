@@ -55,7 +55,7 @@ if (
 function ignoreUpdate(update) {
   const isCanaryRelease =
     update && update.current && update.current.startsWith('0.0.0');
-  return !isCanaryRelease;
+  return isCanaryRelease;
 }
 
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
