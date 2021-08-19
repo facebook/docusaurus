@@ -16,7 +16,7 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
     <article>
       <h2>{letterEntry.letter}</h2>
-      <ul className={styles.tags}>
+      <ul className="padding--none">
         {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>
             <Tag {...tag} />

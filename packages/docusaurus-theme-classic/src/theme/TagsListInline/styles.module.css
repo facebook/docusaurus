@@ -8,8 +8,6 @@
 .tags {
   list-style: none;
   display: inline-flex;
-  padding: 0;
-  margin: 0 0 0 0.5rem;
 }
 
 .tag {

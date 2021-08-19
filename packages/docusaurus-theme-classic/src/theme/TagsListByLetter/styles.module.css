@@ -5,14 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:root {
-  --docusaurus-tag-list-border: var(--ifm-color-emphasis-300);
-}
-
-.tags {
-  padding: 0;
-}
-
 .tag {
   display: inline-block;
   margin: 0.5rem 0.5rem 0 1rem;

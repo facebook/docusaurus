@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListInline';
@@ -22,7 +23,7 @@ export default function TagsListInline({tags}: Props) {
           Tags:
         </Translate>
       </b>
-      <ul className={styles.tags}>
+      <ul className={clsx(styles.tags, 'padding--none', 'margin-left--sm')}>
         {tags.map(({label, permalink: tagPermalink}) => (
           <li key={tagPermalink} className={styles.tag}>
             <Tag name={label} permalink={tagPermalink} />
