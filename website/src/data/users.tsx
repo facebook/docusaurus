@@ -261,6 +261,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'BoxyHQ',
+    description: 'Enterprise Readiness made simple',
+    preview: require('./showcase/boxyhq.png'),
+    website: 'https://boxyhq.com/',
+    source: 'https://github.com/boxyhq/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
