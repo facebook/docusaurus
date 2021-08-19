@@ -15,7 +15,7 @@ import {sortBy} from 'lodash';
 // This ensure @theme/NavbarItem alias is after @theme/NavbarItem/LocaleDropdown
 // See https://github.com/facebook/docusaurus/pull/3922
 // See https://github.com/facebook/docusaurus/issues/5382
-function sortAliases(aliases: ThemeAliases): ThemeAliases {
+export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   // Alphabetical order by default
   const entries = sortBy(Object.entries(aliases), ([alias]) => alias);
   // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
