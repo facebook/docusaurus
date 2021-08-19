@@ -38,7 +38,7 @@ function formatMessage(message) {
   }
 
   // Strip webpack-added headers off errors/warnings
-  // https://github.com/webpack/webpack/blob/master/lib/ModuleError.js
+  // https://github.com/webpack/webpack/blob/main/lib/ModuleError.js
   lines = lines.filter((line) => !/Module [A-z ]+\(from/.test(line));
 
   // Transform parsing error into syntax error

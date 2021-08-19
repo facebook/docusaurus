@@ -33,6 +33,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
+  docTagDocListComponent: '@theme/DocTagDocListPage',
+  docTagsListComponent: '@theme/DocTagsListPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -94,6 +96,12 @@ export const OptionsSchema = Joi.object({
     .default(() => DEFAULT_OPTIONS.numberPrefixParser),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
+  docTagsListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagsListComponent,
+  ),
+  docTagDocListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(

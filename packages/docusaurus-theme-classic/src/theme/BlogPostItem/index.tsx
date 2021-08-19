@@ -18,6 +18,7 @@ import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
+import TagsListInline from '@theme/TagsListInline';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
@@ -156,22 +157,7 @@ function BlogPostItem(props: Props): JSX.Element {
             })}>
             {tags.length > 0 && (
               <div className="col">
-                <b>
-                  <Translate
-                    id="theme.tags.tagsListLabel"
-                    description="The label alongside a tag list">
-                    Tags:
-                  </Translate>
-                </b>
-
-                {tags.map(({label, permalink: tagPermalink}) => (
-                  <Link
-                    key={tagPermalink}
-                    className="margin-horiz--sm"
-                    to={tagPermalink}>
-                    {label}
-                  </Link>
-                ))}
+                <TagsListInline tags={tags} />
               </div>
             )}
 

@@ -10,13 +10,17 @@ import {
   SidebarItemDoc,
   SidebarItemLink,
   SidebarItem,
+  VersionTag,
+  DocMetadata,
 } from './types';
-import {
+import type {
   PropSidebars,
   PropVersionMetadata,
   PropSidebarItem,
+  PropTagDocList,
+  PropTagDocListDoc,
 } from '@docusaurus/plugin-content-docs-types';
-import {keyBy, mapValues} from 'lodash';
+import {compact, keyBy, mapValues} from 'lodash';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
@@ -77,5 +81,36 @@ export function toVersionMetadataProp(
     banner: loadedVersion.versionBanner,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
+  };
+}
+
+export function toTagDocListProp({
+  allTagsPath,
+  tag,
+  docs,
+}: {
+  allTagsPath: string;
+  tag: VersionTag;
+  docs: Pick<DocMetadata, 'id' | 'title' | 'description' | 'permalink'>[];
+}): PropTagDocList {
+  function toDocListProp(): PropTagDocListDoc[] {
+    const list = compact(
+      tag.docIds.map((id) => docs.find((doc) => doc.id === id)),
+    );
+    // Sort docs by title
+    list.sort((doc1, doc2) => doc1.title.localeCompare(doc2.title));
+    return list.map((doc) => ({
+      id: doc.id,
+      title: doc.title,
+      description: doc.description,
+      permalink: doc.permalink,
+    }));
+  }
+
+  return {
+    name: tag.name,
+    permalink: tag.permalink,
+    docs: toDocListProp(),
+    allTagsPath,
   };
 }

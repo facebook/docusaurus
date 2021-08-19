@@ -112,7 +112,7 @@ const TwitterSvg =
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
           }
-          return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
@@ -239,7 +239,7 @@ const TwitterSvg =
             // We want users to submit doc updates to the upstream/next version!
             // Otherwise we risk losing the update on the next release.
             const nextVersionDocsDirPath = 'docs';
-            return `https://github.com/facebook/docusaurus/edit/master/website/${nextVersionDocsDirPath}/${docPath}`;
+            return `https://github.com/facebook/docusaurus/edit/main/website/${nextVersionDocsDirPath}/${docPath}`;
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
@@ -267,7 +267,7 @@ const TwitterSvg =
             if (locale !== 'en') {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
             }
-            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+            return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
           postsPerPage: 3,
           feedOptions: {

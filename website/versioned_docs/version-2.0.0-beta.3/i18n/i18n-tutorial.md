@@ -8,7 +8,7 @@ This tutorial will walk you through the basis of the **Docusaurus i18n system**.
 
 We will add **French** translations to a **newly initialized English Docusaurus website**.
 
-Initialize a new site with `npx @docusaurus/init@latest init website classic` (like [this one](https://github.com/facebook/docusaurus/tree/master/examples/classic)).
+Initialize a new site with `npx @docusaurus/init@latest init website classic` (like [this one](https://github.com/facebook/docusaurus/tree/main/examples/classic)).
 
 ## Configure your site {#configure-your-site}
 
@@ -64,7 +64,7 @@ We haven't provided any translation, and the site is **mostly untranslated**.
 
 Docusaurus provides **default translations** for generic theme labels, such as "Next" and "Previous" for the pagination.
 
-Please help us complete those **[default translations](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)**.
+Please help us complete those **[default translations](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/codeTranslations)**.
 
 :::
 

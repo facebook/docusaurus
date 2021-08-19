@@ -18,7 +18,7 @@ In 2018, we proposed to rebuild [Docusaurus from the ground up](https://github.c
 
 D2's killer features are **Dark Mode** and its **superb performance**. D2 has dark mode support out-of-the-box and it is near effortless to create a dark mode-friendly documentation site. Endilie put in great effort into optimizing the performance of the site and a bunch of performance optimization tricks have been done under the hood by default - optimized images, prerendering every route to static HTML and client-side routing thereafter, prefetching assets needed by future navigations whenever the user hovers over a navigation link, etc.
 
-Last but not least, we implemented a plugins architecture and turned the repo into a [Lerna monorepo](https://github.com/facebook/docusaurus/tree/master/packages). We believe this plugin architecture will be helpful towards building a community and also allowing users to build their own features for their unique use cases.
+Last but not least, we implemented a plugins architecture and turned the repo into a [Lerna monorepo](https://github.com/facebook/docusaurus/tree/main/packages). We believe this plugin architecture will be helpful towards building a community and also allowing users to build their own features for their unique use cases.
 
 ## GitHub Activity
 
@@ -52,7 +52,7 @@ Yangshun gave a classroom session during F8 about [Using Docusaurus to Create Op
 
 A few third-party hosting/development services also has first-class integration with a Docusaurus setup:
 
-- [ZEIT Now deployment](https://github.com/zeit/now-examples/tree/master/docusaurus)
+- [Vercel deployment](https://github.com/vercel/vercel/tree/main/examples/docusaurus)
 - [CodeSandbox](https://codesandbox.io/s/docusaurus-template-x3vg9)
 - [Render](https://render.com/docs/deploy-docusaurus)
 

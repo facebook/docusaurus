@@ -15,6 +15,7 @@ import {
   parseMarkdownString,
   posixPath,
   Globby,
+  normalizeFrontMatterTags,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -252,6 +253,7 @@ function doProcessDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
+    tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,

@@ -6,7 +6,8 @@
  */
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import {
+import type {Tag} from '@docusaurus/utils';
+import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
@@ -97,7 +98,7 @@ export interface MetaData {
   description: string;
   date: Date;
   formattedDate: string;
-  tags: (Tag | string)[];
+  tags: Tag[];
   title: string;
   readingTime?: number;
   prevItem?: Paginator;
@@ -108,11 +109,6 @@ export interface MetaData {
 
 export interface Paginator {
   title: string;
-  permalink: string;
-}
-
-export interface Tag {
-  label: string;
   permalink: string;
 }
 
