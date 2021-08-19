@@ -8,7 +8,7 @@
 import React, {useEffect} from 'react';
 import Layout from '@theme/Layout';
 
-import canny from '../../scripts/canny';
+import cannyScript from './cannyScript';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
@@ -16,22 +16,18 @@ const BOARD_TOKEN = '054e0e53-d951-b14c-7e74-9eb8f9ed2f91';
 
 function Feedback() {
   useEffect(() => {
-    canny();
+    cannyScript();
     (window as any).Canny &&
       (window as any).Canny('render', {
         boardToken: BOARD_TOKEN,
-        basePath: '/feedback',
+        basePath: '/feature-requests',
       });
   }, []);
 
   return (
-    <Layout title="Feedback" description="Docusaurus 2 Feedback page">
+    <Layout title="Feedback" description="Docusaurus 2 Feature Requests page">
       <main
-        className={clsx(
-          'container',
-          'margin-vert--xl',
-          styles.feedbackBackground,
-        )}
+        className={clsx('container', 'margin-vert--lg', styles.main)}
         data-canny
       />
     </Layout>

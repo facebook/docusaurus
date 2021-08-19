@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.feedbackBackground {
+.main {
   padding: var(--ifm-spacing-horizontal);
   border-radius: 4px;
   background: var(--ifm-color-feedback-background);
+  min-height: 500px;
 }

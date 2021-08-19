@@ -7,7 +7,7 @@
 
 // Provided by Canny.
 
-function canny() {
+function cannyScript() {
   !(function (w, d, i, s) {
     function l() {
       if (!d.getElementById(i)) {
@@ -34,4 +34,4 @@ function canny() {
   })(window, document, 'canny-jssdk', 'script');
 }
 
-export default canny;
+export default cannyScript;
