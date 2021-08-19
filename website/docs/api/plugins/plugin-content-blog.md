@@ -229,7 +229,7 @@ website/i18n/<locale>/docusaurus-plugin-content-blog
 │
 │ # translations for website/blog
 ├── first-blog-post.md
-├── first-blog-post.md
+├── second-blog-post.md
 │
 │ # translations for the plugin options that will be rendered
 └── options.json
