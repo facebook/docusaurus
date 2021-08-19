@@ -129,18 +129,7 @@ function BlogPostItem(props: Props): JSX.Element {
 
   return (
     <>
-      {isBlogPostPage ? (
-        <Seo {...{keywords, image}}>
-          <meta property="og:type" content="article" />
-          <meta property="article:published_time" content={date} />
-          {authorURL && <meta property="article:author" content={authorURL} />}
-          {frontMatter.tags && (
-            <meta property="article:tag" content={frontMatter.tags.join(',')} />
-          )}
-        </Seo>
-      ) : (
-        <Seo {...{keywords, image}} />
-      )}
+      <Seo {...{keywords, image}} />
 
       <article
         className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}

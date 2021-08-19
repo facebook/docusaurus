@@ -132,7 +132,6 @@ declare module '@theme/Seo' {
     readonly description?: string;
     readonly keywords?: readonly string[] | string;
     readonly image?: string;
-    readonly children?: ReactNode;
   };
 
   const Seo: (props: Props) => JSX.Element;

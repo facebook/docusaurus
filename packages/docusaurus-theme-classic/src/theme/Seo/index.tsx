@@ -17,7 +17,6 @@ export default function Seo({
   description,
   keywords,
   image,
-  children,
 }: Props): JSX.Element {
   const {image: defaultImage} = useThemeConfig();
   const pageTitle = useTitleFormatter(title);
@@ -42,7 +41,6 @@ export default function Seo({
 
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
-      {children}
     </Head>
   );
 }
