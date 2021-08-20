@@ -34,7 +34,7 @@ const sampleBlogPosts: BlogPost[] = [
 ];
 
 const sampleBlogContent: BlogContent = {
-  blogSidebarTitle: 'All my posts',
+  blogSidebarTitle: sampleBlogOptions.blogSidebarTitle,
   blogListPaginated: [
     {
       items: ['hello'],
