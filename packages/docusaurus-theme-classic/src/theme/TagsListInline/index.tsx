@@ -6,9 +6,12 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
+import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
+import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListInline';
+
+import styles from './styles.module.css';
 
 export default function TagsListInline({tags}: Props) {
   return (
@@ -20,11 +23,13 @@ export default function TagsListInline({tags}: Props) {
           Tags:
         </Translate>
       </b>
-      {tags.map(({label, permalink: tagPermalink}) => (
-        <Link key={tagPermalink} className="margin-horiz--sm" to={tagPermalink}>
-          {label}
-        </Link>
-      ))}
+      <ul className={clsx(styles.tags, 'padding--none', 'margin-left--sm')}>
+        {tags.map(({label, permalink: tagPermalink}) => (
+          <li key={tagPermalink} className={styles.tag}>
+            <Tag name={label} permalink={tagPermalink} />
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

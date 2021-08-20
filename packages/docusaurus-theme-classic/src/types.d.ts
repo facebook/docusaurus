@@ -723,3 +723,11 @@ declare module '@theme/TagsListInline' {
   }>;
   export default function TagsListInline(props: Props): JSX.Element;
 }
+
+declare module '@theme/Tag' {
+  import type {TagsListItem} from '@theme/TagsListByLetter';
+
+  export type Props = Optional<TagsListItem, 'count'>;
+
+  export default function Tag(props: Props): JSX.Element;
+}

@@ -6,24 +6,25 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
+import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
 import {listTagsByLetters, TagLetterEntry} from '@docusaurus/theme-common';
 
+import styles from './styles.module.css';
+
 function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
-    <div>
+    <article>
       <h2>{letterEntry.letter}</h2>
-      {letterEntry.tags.map((tag) => (
-        <Link
-          className="padding-right--md"
-          href={tag.permalink}
-          key={tag.permalink}>
-          {tag.name} ({tag.count})
-        </Link>
-      ))}
+      <ul className="padding--none">
+        {letterEntry.tags.map((tag) => (
+          <li key={tag.permalink} className={styles.tag}>
+            <Tag {...tag} />
+          </li>
+        ))}
+      </ul>
       <hr />
-    </div>
+    </article>
   );
 }
 

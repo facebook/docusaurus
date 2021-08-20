@@ -14,7 +14,7 @@ import type {
   PropTagDocList,
   PropTagDocListDoc,
 } from '@docusaurus/plugin-content-docs-types';
-import {translate} from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 
 type Props = {
   tag: PropTagDocList;
@@ -40,12 +40,12 @@ function useNDocsTaggedPlural() {
 
 function DocItem({doc}: {doc: PropTagDocListDoc}): JSX.Element {
   return (
-    <div className="margin-vert--lg">
+    <article className="margin-vert--lg">
       <Link to={doc.permalink}>
         <h2>{doc.title}</h2>
       </Link>
       {doc.description && <p>{doc.description}</p>}
-    </div>
+    </article>
   );
 }
 
@@ -74,13 +74,19 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
           <main className="col col--8 col--offset-2">
             <header className="margin-bottom--xl">
               <h1>{title}</h1>
-              <Link href={tag.allTagsPath}>View All Tags</Link>
+              <Link href={tag.allTagsPath}>
+                <Translate
+                  id="theme.tags.tagsPageLink"
+                  description="The label of the link targeting the tag list page">
+                  View All Tags
+                </Translate>
+              </Link>
             </header>
-            <div className="margin-vert--lg">
+            <section className="margin-vert--lg">
               {tag.docs.map((doc) => (
                 <DocItem key={doc.id} doc={doc} />
               ))}
-            </div>
+            </section>
           </main>
         </div>
       </div>
