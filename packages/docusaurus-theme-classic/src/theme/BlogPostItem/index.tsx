@@ -13,7 +13,6 @@ import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {usePluralForm} from '@docusaurus/theme-common';
 import MDXComponents from '@theme/MDXComponents';
-import Seo from '@theme/Seo';
 import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/BlogPostItem';
 
@@ -60,7 +59,7 @@ function BlogPostItem(props: Props): JSX.Element {
     title,
     editUrl,
   } = metadata;
-  const {author, keywords} = frontMatter;
+  const {author} = frontMatter;
 
   const image = frontMatterAssets.image ?? frontMatter.image;
 
@@ -129,63 +128,56 @@ function BlogPostItem(props: Props): JSX.Element {
   };
 
   return (
-    <>
-      <Seo {...{keywords, image}} />
+    <article
+      className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}
+      itemProp="blogPost"
+      itemScope
+      itemType="http://schema.org/BlogPosting">
+      {renderPostHeader()}
 
-      <article
-        className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}
-        itemProp="blogPost"
-        itemScope
-        itemType="http://schema.org/BlogPosting">
-        {renderPostHeader()}
+      {image && (
+        <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
+      )}
 
-        {image && (
-          <meta
-            itemProp="image"
-            content={withBaseUrl(image, {absolute: true})}
-          />
-        )}
+      <div className="markdown" itemProp="articleBody">
+        <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+      </div>
 
-        <div className="markdown" itemProp="articleBody">
-          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-        </div>
+      {(tags.length > 0 || truncated) && (
+        <footer
+          className={clsx('row docusaurus-mt-lg', {
+            [styles.blogPostDetailsFull]: isBlogPostPage,
+          })}>
+          {tags.length > 0 && (
+            <div className="col">
+              <TagsListInline tags={tags} />
+            </div>
+          )}
 
-        {(tags.length > 0 || truncated) && (
-          <footer
-            className={clsx('row docusaurus-mt-lg', {
-              [styles.blogPostDetailsFull]: isBlogPostPage,
-            })}>
-            {tags.length > 0 && (
-              <div className="col">
-                <TagsListInline tags={tags} />
-              </div>
-            )}
+          {isBlogPostPage && editUrl && (
+            <div className="col margin-top--sm">
+              <EditThisPage editUrl={editUrl} />
+            </div>
+          )}
 
-            {isBlogPostPage && editUrl && (
-              <div className="col margin-top--sm">
-                <EditThisPage editUrl={editUrl} />
-              </div>
-            )}
-
-            {!isBlogPostPage && truncated && (
-              <div className="col text--right">
-                <Link
-                  to={metadata.permalink}
-                  aria-label={`Read more about ${title}`}>
-                  <b>
-                    <Translate
-                      id="theme.blog.post.readMore"
-                      description="The label used in blog post item excerpts to link to full blog posts">
-                      Read More
-                    </Translate>
-                  </b>
-                </Link>
-              </div>
-            )}
-          </footer>
-        )}
-      </article>
-    </>
+          {!isBlogPostPage && truncated && (
+            <div className="col text--right">
+              <Link
+                to={metadata.permalink}
+                aria-label={`Read more about ${title}`}>
+                <b>
+                  <Translate
+                    id="theme.blog.post.readMore"
+                    description="The label used in blog post item excerpts to link to full blog posts">
+                    Read More
+                  </Translate>
+                </b>
+              </Link>
+            </div>
+          )}
+        </footer>
+      )}
+    </article>
   );
 }
 

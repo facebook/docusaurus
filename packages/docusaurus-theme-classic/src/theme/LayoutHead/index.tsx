@@ -104,13 +104,14 @@ export default function LayoutHead(props: Props): JSX.Element {
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
-        {image ||
-          (defaultImage && (
-            <meta name="twitter:card" content="summary_large_image" />
-          ))}
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <Seo {...{description, keywords, image}} />
+      {/* image can override the default image */}
+      {defaultImage && <Seo image={defaultImage} />}
+      {image && <Seo image={image} />}
+
+      <Seo description={description} keywords={keywords} />
 
       <CanonicalUrlHeaders />
 
