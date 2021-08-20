@@ -97,7 +97,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
-    copyright: Joi.string().default(DEFAULT_OPTIONS.feedOptions.copyright),
+    copyright: Joi.string(),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
 });
