@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 🚀 Feature request
-    url: https://docusaurus.io/feedback/
+    url: https://docusaurus.io/feature-requests
     about: The Canny board to send us feature requests, vote and measure the interest of users. Useful to submit a featurre request when you have an idea but no concrete api design proposal.
   - name: ❓ Simple question - Discord chat
     url: https://discord.gg/docusaurus

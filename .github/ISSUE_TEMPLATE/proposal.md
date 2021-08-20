@@ -6,7 +6,7 @@ labels: 'proposal, needs triage'
 
 <!--
   This is not for feature requests.
-  Consider requesting the feature on https://docusaurus.io/feedback instead.
+  Consider requesting the feature on https://docusaurus.io/feature-requests instead.
 -->
 
 ## 💥 Proposal
