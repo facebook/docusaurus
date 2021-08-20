@@ -102,7 +102,7 @@ const TwitterSvg =
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    require('./src/plugins/CannyPlugin'),
+    require('./src/featureRequests/FeatureRequestsPlugin'),
     [
       '@docusaurus/plugin-content-docs',
       {

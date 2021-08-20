@@ -6,17 +6,17 @@
  */
 
 /** @type {import('@docusaurus/types').Plugin} */
-function CannyPlugin() {
+function FeatureRequestsPlugin() {
   return {
-    name: 'site-canny-plugin',
+    name: 'feature-requests-plugin',
     contentLoaded({actions}) {
       actions.addRoute({
         path: '/feature-requests',
         exact: false,
-        component: '@site/src/components/Canny',
+        component: '@site/src/featureRequests/FeatureRequestsPage',
       });
     },
   };
 }
 
-module.exports = CannyPlugin;
+module.exports = FeatureRequestsPlugin;
