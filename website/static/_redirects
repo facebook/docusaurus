@@ -27,3 +27,7 @@ https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:spl
 # Redirect Docusaurus v1 blog RSS feed
 /blog/feed.xml   /blog/rss.xml
 
+
+# Feature requests redirects
+/feedback/*                 /feature-requests/:splat    301!
+/feature-requests/*         /feature-requests           200
