@@ -474,7 +474,7 @@ export default function pluginContentBlog(
     },
 
     async postBuild({outDir}: Props) {
-      if (!options.feedOptions?.type) {
+      if (!options.feedOptions.type) {
         return;
       }
 

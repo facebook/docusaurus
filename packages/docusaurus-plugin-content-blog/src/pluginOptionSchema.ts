@@ -97,7 +97,14 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
-    copyright: Joi.string(),
+    // only add default value when user actually wants a feed (type is not null)
+    copyright: Joi.when('type', {
+      is: Joi.any().valid(null),
+      then: Joi.string().optional(),
+      otherwise: Joi.string()
+        .allow('')
+        .default(DEFAULT_OPTIONS.feedOptions.copyright),
+    }),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
 });
