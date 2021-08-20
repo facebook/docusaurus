@@ -23,8 +23,18 @@ function BlogPostPage(props: Props): JSX.Element {
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
 
   return (
-    <>
+    <BlogLayout
+      wrapperClassName={ThemeClassNames.wrapper.blogPages}
+      pageClassName={ThemeClassNames.page.blogPostPage}
+      sidebar={sidebar}
+      toc={
+        !hideTableOfContents && BlogPostContents.toc
+          ? BlogPostContents.toc
+          : undefined
+      }>
       <Seo
+        // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
+        // otherwise  default image (set by BlogLayout) would shadow the custom blog post image
         title={title}
         description={description}
         keywords={keywords}
@@ -39,27 +49,19 @@ function BlogPostPage(props: Props): JSX.Element {
           />
         )}
       </Seo>
-      <BlogLayout
-        wrapperClassName={ThemeClassNames.wrapper.blogPages}
-        pageClassName={ThemeClassNames.page.blogPostPage}
-        sidebar={sidebar}
-        toc={
-          !hideTableOfContents && BlogPostContents.toc
-            ? BlogPostContents.toc
-            : undefined
-        }>
-        <BlogPostItem
-          frontMatter={frontMatter}
-          frontMatterAssets={frontMatterAssets}
-          metadata={metadata}
-          isBlogPostPage>
-          <BlogPostContents />
-        </BlogPostItem>
-        {(nextItem || prevItem) && (
-          <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-        )}
-      </BlogLayout>
-    </>
+
+      <BlogPostItem
+        frontMatter={frontMatter}
+        frontMatterAssets={frontMatterAssets}
+        metadata={metadata}
+        isBlogPostPage>
+        <BlogPostContents />
+      </BlogPostItem>
+
+      {(nextItem || prevItem) && (
+        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+      )}
+    </BlogLayout>
   );
 }
 

@@ -7,8 +7,8 @@
 
 import React from 'react';
 import Head from '@docusaurus/Head';
-import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useTitleFormatter} from '@docusaurus/theme-common';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 import type {Props} from '@theme/Seo';
 
@@ -19,9 +19,9 @@ export default function Seo({
   image,
   children,
 }: Props): JSX.Element {
-  const {image: defaultImage} = useThemeConfig();
   const pageTitle = useTitleFormatter(title);
-  const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
+  const {withBaseUrl} = useBaseUrlUtils();
+  const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
 
   return (
     <Head>
@@ -42,6 +42,7 @@ export default function Seo({
 
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
+
       {children}
     </Head>
   );
