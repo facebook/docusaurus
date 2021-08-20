@@ -13,16 +13,15 @@ import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
-import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
+import DocItemFooter from '@theme/DocItemFooter';
 import TOC from '@theme/TOC';
 import TOCCollapsible from '@theme/TOCCollapsible';
-import EditThisPage from '@theme/EditThisPage';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
 
-function DocItem(props: Props): JSX.Element {
+export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
   const {metadata, frontMatter} = DocContent;
   const {
@@ -31,14 +30,7 @@ function DocItem(props: Props): JSX.Element {
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
-  const {
-    description,
-    title,
-    editUrl,
-    lastUpdatedAt,
-    formattedLastUpdatedAt,
-    lastUpdatedBy,
-  } = metadata;
+  const {description, title} = metadata;
 
   const {pluginId} = useActivePlugin({failfast: true})!;
   const versions = useVersions(pluginId);
@@ -98,23 +90,7 @@ function DocItem(props: Props): JSX.Element {
                 <DocContent />
               </div>
 
-              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <footer className="row docusaurus-mt-lg">
-                  <div className="col">
-                    {editUrl && <EditThisPage editUrl={editUrl} />}
-                  </div>
-
-                  <div className={clsx('col', styles.lastUpdated)}>
-                    {(lastUpdatedAt || lastUpdatedBy) && (
-                      <LastUpdated
-                        lastUpdatedAt={lastUpdatedAt}
-                        formattedLastUpdatedAt={formattedLastUpdatedAt}
-                        lastUpdatedBy={lastUpdatedBy}
-                      />
-                    )}
-                  </div>
-                </footer>
-              )}
+              <DocItemFooter {...props} />
             </article>
 
             <DocPaginator metadata={metadata} />
@@ -129,5 +105,3 @@ function DocItem(props: Props): JSX.Element {
     </>
   );
 }
-
-export default DocItem;

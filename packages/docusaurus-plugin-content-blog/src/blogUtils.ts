@@ -16,6 +16,7 @@ import {
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
+  BlogTags,
 } from './types';
 import {
   parseMarkdownFile,
@@ -26,6 +27,8 @@ import {
   posixPath,
   replaceMarkdownLinks,
   Globby,
+  normalizeFrontMatterTags,
+  groupTaggedItems,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -41,6 +44,20 @@ export function getSourceToPermalink(
     keyBy(blogPosts, (item) => item.metadata.source),
     (v) => v.metadata.permalink,
   );
+}
+
+export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
+  const groups = groupTaggedItems(
+    blogPosts,
+    (blogPost) => blogPost.metadata.tags,
+  );
+  return mapValues(groups, (group) => {
+    return {
+      name: group.tag.label,
+      items: group.items.map((item) => item.id),
+      permalink: group.tag.permalink,
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
@@ -240,6 +257,8 @@ async function processBlogSourceFile(
     return undefined;
   }
 
+  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+
   return {
     id: frontMatter.slug ?? title,
     metadata: {
@@ -250,7 +269,7 @@ async function processBlogSourceFile(
       description,
       date,
       formattedDate,
-      tags: frontMatter.tags ?? [],
+      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime ? readingTime(content).minutes : undefined,
       truncated: truncateMarker?.test(content) || false,
     },

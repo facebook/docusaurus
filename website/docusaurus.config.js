@@ -102,6 +102,7 @@ const TwitterSvg =
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
+    require('./src/featureRequests/FeatureRequestsPlugin'),
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -414,8 +415,8 @@ const TwitterSvg =
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
             },
             {
-              label: 'Feedback',
-              to: 'feedback',
+              label: 'Feature Requests',
+              to: '/feature-requests',
             },
             {
               label: 'Discord',

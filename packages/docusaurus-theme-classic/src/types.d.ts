@@ -703,3 +703,31 @@ declare module '@theme/IconExternalLink' {
   const IconExternalLink: (props: Props) => JSX.Element;
   export default IconExternalLink;
 }
+
+declare module '@theme/TagsListByLetter' {
+  export type TagsListItem = Readonly<{
+    name: string;
+    permalink: string;
+    count: number;
+  }>;
+  export type Props = Readonly<{
+    tags: readonly TagsListItem[];
+  }>;
+  export default function TagsListByLetter(props: Props): JSX.Element;
+}
+
+declare module '@theme/TagsListInline' {
+  export type Tag = Readonly<{label: string; permalink}>;
+  export type Props = Readonly<{
+    tags: readonly Tag[];
+  }>;
+  export default function TagsListInline(props: Props): JSX.Element;
+}
+
+declare module '@theme/Tag' {
+  import type {TagsListItem} from '@theme/TagsListByLetter';
+
+  export type Props = Optional<TagsListItem, 'count'>;
+
+  export default function Tag(props: Props): JSX.Element;
+}

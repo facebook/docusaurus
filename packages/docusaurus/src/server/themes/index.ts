@@ -8,7 +8,7 @@
 import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
 import path from 'path';
 import {THEME_PATH} from '../../constants';
-import themeAlias from './alias';
+import themeAlias, {sortAliases} from './alias';
 
 const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
 
@@ -44,7 +44,7 @@ export function loadThemeAliases(
     aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
   });
 
-  return aliases;
+  return sortAliases(aliases);
 }
 
 export function loadPluginsThemeAliases({

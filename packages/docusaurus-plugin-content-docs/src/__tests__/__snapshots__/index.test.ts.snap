@@ -177,6 +177,7 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"bar\\",
@@ -199,12 +200,30 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/bazSlug.html\\",
   \\"permalink\\": \\"/docs/foo/bazSlug.html\\",
+  \\"tags\\": [
+    {
+      \\"label\\": \\"tag 1\\",
+      \\"permalink\\": \\"/docs/tags/tag-1\\"
+    },
+    {
+      \\"label\\": \\"tag 2\\",
+      \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\"
+    }
+  ],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"baz\\",
     \\"title\\": \\"baz\\",
     \\"slug\\": \\"bazSlug.html\\",
-    \\"pagination_label\\": \\"baz pagination_label\\"
+    \\"pagination_label\\": \\"baz pagination_label\\",
+    \\"tags\\": [
+      \\"tag 1\\",
+      \\"tag-1\\",
+      {
+        \\"label\\": \\"tag 2\\",
+        \\"permalink\\": \\"tag2-custom-permalink\\"
+      }
+    ]
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -226,6 +245,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/headingAsTitle\\",
   \\"permalink\\": \\"/docs/headingAsTitle\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {}
 }",
@@ -239,11 +259,25 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
+  \\"tags\\": [
+    {
+      \\"label\\": \\"tag-1\\",
+      \\"permalink\\": \\"/docs/tags/tag-1\\"
+    },
+    {
+      \\"label\\": \\"tag 3\\",
+      \\"permalink\\": \\"/docs/tags/tag-3\\"
+    }
+  ],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"id\\": \\"hello\\",
     \\"title\\": \\"Hello, World !\\",
-    \\"sidebar_label\\": \\"Hello sidebar_label\\"
+    \\"sidebar_label\\": \\"Hello sidebar_label\\",
+    \\"tags\\": [
+      \\"tag-1\\",
+      \\"tag 3\\"
+    ]
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -262,6 +296,7 @@ Object {
   \\"slug\\": \\"/ipsum\\",
   \\"permalink\\": \\"/docs/ipsum\\",
   \\"editUrl\\": null,
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"custom_edit_url\\": null
@@ -278,6 +313,7 @@ Object {
   \\"slug\\": \\"/lorem\\",
   \\"permalink\\": \\"/docs/lorem\\",
   \\"editUrl\\": \\"https://github.com/customUrl/docs/lorem.md\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"custom_edit_url\\": \\"https://github.com/customUrl/docs/lorem.md\\",
@@ -294,6 +330,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/rootAbsoluteSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"/rootAbsoluteSlug\\"
@@ -309,6 +346,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/rootRelativeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"rootRelativeSlug\\"
@@ -324,6 +362,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/hey/rootResolvedSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
@@ -339,6 +378,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/rootTryToEscapeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
@@ -354,6 +394,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/absoluteSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
@@ -369,6 +410,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/slugs/relativeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
@@ -384,6 +426,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/slugs/hey/resolvedSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
@@ -399,11 +442,74 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/tryToEscapeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
   }
 }",
+  "tag-docs-tags-tag-1-b3f.json": "{
+  \\"name\\": \\"tag 1\\",
+  \\"permalink\\": \\"/docs/tags/tag-1\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Images\\",
+      \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+    },
+    {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"Hello, World !\\",
+      \\"description\\": \\"Hi, Endilie here :)\\",
+      \\"permalink\\": \\"/docs/\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/tags\\"
+}",
+  "tag-docs-tags-tag-2-custom-permalink-825.json": "{
+  \\"name\\": \\"tag 2\\",
+  \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Images\\",
+      \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/tags\\"
+}",
+  "tag-docs-tags-tag-3-ab5.json": "{
+  \\"name\\": \\"tag 3\\",
+  \\"permalink\\": \\"/docs/tags/tag-3\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"Hello, World !\\",
+      \\"description\\": \\"Hi, Endilie here :)\\",
+      \\"permalink\\": \\"/docs/\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/tags\\"
+}",
+  "tags-list-current-prop-15a.json": "[
+  {
+    \\"name\\": \\"tag 1\\",
+    \\"permalink\\": \\"/docs/tags/tag-1\\",
+    \\"count\\": 2
+  },
+  {
+    \\"name\\": \\"tag 2\\",
+    \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\",
+    \\"count\\": 1
+  },
+  {
+    \\"name\\": \\"tag 3\\",
+    \\"permalink\\": \\"/docs/tags/tag-3\\",
+    \\"count\\": 1
+  }
+]",
   "version-current-metadata-prop-751.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"current\\",
@@ -560,6 +666,38 @@ Object {
 
 exports[`simple website content: route config 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-current-prop-15a.json",
+    },
+    "path": "/docs/tags",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
+    },
+    "path": "/docs/tags/tag-1",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
+    },
+    "path": "/docs/tags/tag-3",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
+    },
+    "path": "/docs/tags/tag2-custom-permalink",
+  },
   Object {
     "component": "@theme/DocPage",
     "exact": false,
@@ -857,6 +995,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/team\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/community\\"
@@ -871,12 +1010,15 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/team\\",
   \\"permalink\\": \\"/community/next/team\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"title\\": \\"Team title translated\\"
   },
   \\"sidebar\\": \\"community\\"
 }",
+  "tags-list-1-0-0-prop-483.json": "[]",
+  "tags-list-current-prop-15a.json": "[]",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
@@ -954,6 +1096,22 @@ Object {
 
 exports[`versioned website (community) content: route config 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-current-prop-15a.json",
+    },
+    "path": "/community/next/tags",
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-1-0-0-prop-483.json",
+    },
+    "path": "/community/tags",
+  },
   Object {
     "component": "@theme/DocPage",
     "exact": false,
@@ -1106,9 +1264,31 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/next/foo/barSlug\\",
+  \\"tags\\": [
+    {
+      \\"label\\": \\"barTag 1\\",
+      \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\"
+    },
+    {
+      \\"label\\": \\"barTag-2\\",
+      \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\"
+    },
+    {
+      \\"label\\": \\"barTag 3\\",
+      \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\"
+    }
+  ],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
-    \\"slug\\": \\"barSlug\\"
+    \\"slug\\": \\"barSlug\\",
+    \\"tags\\": [
+      \\"barTag 1\\",
+      \\"barTag-2\\",
+      {
+        \\"label\\": \\"barTag 3\\",
+        \\"permalink\\": \\"barTag-3-permalink\\"
+      }
+    ]
   },
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
@@ -1126,6 +1306,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/next/\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"docs\\",
@@ -1144,6 +1325,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/next/absoluteSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
@@ -1159,6 +1341,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/relativeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
@@ -1174,6 +1357,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/next/slugs/hey/resolvedSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
@@ -1189,6 +1373,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/next/tryToEscapeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
@@ -1204,6 +1389,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/1.0.0/\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/docs\\",
@@ -1222,6 +1408,7 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/barSlug\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/barSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"barSlug\\"
@@ -1242,6 +1429,7 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/baz\\",
   \\"permalink\\": \\"/docs/1.0.0/foo/baz\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.0/docs\\",
@@ -1264,6 +1452,7 @@ Object {
   \\"sourceDirName\\": \\"foo\\",
   \\"slug\\": \\"/foo/bar\\",
   \\"permalink\\": \\"/docs/foo/bar\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.1/docs\\",
@@ -1282,6 +1471,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/\\",
   \\"permalink\\": \\"/docs/\\",
+  \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
   \\"frontMatter\\": {},
   \\"sidebar\\": \\"version-1.0.1/docs\\",
@@ -1300,6 +1490,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootAbsoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"/rootAbsoluteSlug\\"
@@ -1316,6 +1507,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootRelativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootRelativeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"rootRelativeSlug\\"
@@ -1331,6 +1523,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/hey/rootResolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/hey/rootResolvedSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
@@ -1346,6 +1539,7 @@ Object {
   \\"sourceDirName\\": \\".\\",
   \\"slug\\": \\"/rootTryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/rootTryToEscapeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
@@ -1361,6 +1555,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/absoluteSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/absoluteSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
@@ -1376,6 +1571,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/relativeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/relativeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
@@ -1391,6 +1587,7 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/slugs/hey/resolvedSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/slugs/hey/resolvedSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
@@ -1406,11 +1603,71 @@ Object {
   \\"sourceDirName\\": \\"slugs\\",
   \\"slug\\": \\"/tryToEscapeSlug\\",
   \\"permalink\\": \\"/docs/withSlugs/tryToEscapeSlug\\",
+  \\"tags\\": [],
   \\"version\\": \\"withSlugs\\",
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
   }
 }",
+  "tag-docs-next-tags-bar-tag-1-a8f.json": "{
+  \\"name\\": \\"barTag 1\\",
+  \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"This is next version of bar.\\",
+      \\"permalink\\": \\"/docs/next/foo/barSlug\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/next/tags\\"
+}",
+  "tag-docs-next-tags-bar-tag-2-216.json": "{
+  \\"name\\": \\"barTag-2\\",
+  \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"This is next version of bar.\\",
+      \\"permalink\\": \\"/docs/next/foo/barSlug\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/next/tags\\"
+}",
+  "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
+  \\"name\\": \\"barTag 3\\",
+  \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\",
+  \\"docs\\": [
+    {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"This is next version of bar.\\",
+      \\"permalink\\": \\"/docs/next/foo/barSlug\\"
+    }
+  ],
+  \\"allTagsPath\\": \\"/docs/next/tags\\"
+}",
+  "tags-list-1-0-0-prop-483.json": "[]",
+  "tags-list-1-0-1-prop-c39.json": "[]",
+  "tags-list-current-prop-15a.json": "[
+  {
+    \\"name\\": \\"barTag 1\\",
+    \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\",
+    \\"count\\": 1
+  },
+  {
+    \\"name\\": \\"barTag-2\\",
+    \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\",
+    \\"count\\": 1
+  },
+  {
+    \\"name\\": \\"barTag 3\\",
+    \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\",
+    \\"count\\": 1
+  }
+]",
+  "tags-list-with-slugs-prop-1ca.json": "[]",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
@@ -1699,6 +1956,62 @@ Object {
 
 exports[`versioned website content: route config 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-1-0-0-prop-483.json",
+    },
+    "path": "/docs/1.0.0/tags",
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-current-prop-15a.json",
+    },
+    "path": "/docs/next/tags",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
+    },
+    "path": "/docs/next/tags/bar-tag-1",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
+    },
+    "path": "/docs/next/tags/bar-tag-2",
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
+    },
+    "path": "/docs/next/tags/barTag-3-permalink",
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-1-0-1-prop-c39.json",
+    },
+    "path": "/docs/tags",
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-with-slugs-prop-1ca.json",
+    },
+    "path": "/docs/withSlugs/tags",
+  },
   Object {
     "component": "@theme/DocPage",
     "exact": false,

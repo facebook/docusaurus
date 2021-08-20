@@ -49,7 +49,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     <BlogLayout
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogTagsPostPage}
+      pageClassName={ThemeClassNames.page.blogTagPostListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',

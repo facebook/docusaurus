@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Thu gọn thanh bên",
   "theme.docs.sidebar.expandButtonAriaLabel": "Mở rộng thanh bên",
   "theme.docs.sidebar.expandButtonTitle": "Mở rộng thanh bên",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "phiên bản mới nhất",
   "theme.docs.versions.latestVersionSuggestionLabel": "Để xem các cập nhật mới nhất, vui lòng xem phiên bản {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Đây là tài liệu của {siteTitle} {versionLabel}, hiện không còn được bảo trì.",
