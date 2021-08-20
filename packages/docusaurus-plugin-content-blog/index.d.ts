@@ -21,7 +21,7 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {TOCItem} from '@docusaurus/types';
+  import type {FrontMatterTag} from '@docusaurus/utils';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = {
@@ -29,7 +29,7 @@ declare module '@theme/BlogPostPage' {
     readonly title: string;
     readonly author?: string;
     readonly image?: string;
-    readonly tags?: readonly string[];
+    readonly tags?: readonly FrontMatterTag[];
     readonly keywords?: readonly string[];
     readonly author_url?: string;
     readonly authorURL?: string;
