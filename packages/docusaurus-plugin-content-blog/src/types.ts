@@ -52,7 +52,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
     type?: FeedType[] | null;
     title?: string;
     description?: string;
-    copyright?: string;
+    copyright: string;
     language?: string;
   };
   editUrl?: string | EditUrlFunction;
