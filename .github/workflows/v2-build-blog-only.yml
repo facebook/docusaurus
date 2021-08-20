@@ -20,4 +20,4 @@ jobs:
         with:
           install-command: yarn
       - name: Build blog-only
-        run: yarn workspace docusaurus-2-website build:blogOnly
+        run: yarn workspace website build:blogOnly
