@@ -57,7 +57,7 @@ yarn install
 ```sh
 # This will build all the packages and publish them in a local Verdaccio npm registry
 # and then initialize a new website in the `test-website` directory using those locally published packages
-yarn test:build:v2
+yarn test:build:website
 
 # Now you can test the site in dev/prod mode
 cd test-website
@@ -103,7 +103,7 @@ yarn changelog --from v2.0.0-beta.0
 ### 4. Cut a new version of the docs
 
 ```sh
-yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-beta.0
+yarn workspace website docusaurus docs:version 2.0.0-beta.0
 ```
 
 Test running the website with the new version locally.

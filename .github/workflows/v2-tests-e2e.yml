@@ -31,7 +31,7 @@ jobs:
           install-command: yarn
       - name: Generate test-website project against main branch
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2 -s
+          KEEP_CONTAINER=true yarn test:build:website -s
           mv test-website ../test-website
       - name: Install test-website project with Yarn v1
         run: |
@@ -68,7 +68,7 @@ jobs:
 
       - name: Generate test-website project against main branch
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2 -s
+          KEEP_CONTAINER=true yarn test:build:website -s
           mv test-website ../test-website
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
