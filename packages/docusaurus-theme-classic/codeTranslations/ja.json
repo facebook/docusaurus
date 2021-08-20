@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": "{user}が",
   "theme.lastUpdated.lastUpdatedAtBy": "{atDate}{byUser}最終更新",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "タグ:",
   "theme.tags.tagsPageLink": "全てのタグを見る",
   "theme.tags.tagsPageTitle": "タグ"

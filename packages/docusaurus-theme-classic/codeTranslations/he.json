@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " על ידי {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "עודכן{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← חזרה לתפריט הראשי",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "תגיות:",
   "theme.tags.tagsPageLink": "כל התגיות",
   "theme.tags.tagsPageTitle": "תגיות"

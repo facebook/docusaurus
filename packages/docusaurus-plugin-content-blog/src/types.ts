@@ -15,6 +15,7 @@ import type {
 export type BlogContentPaths = ContentPaths;
 
 export interface BlogContent {
+  blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
@@ -48,7 +49,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type?: [FeedType] | null;
+    type?: FeedType[] | null;
     title?: string;
     description?: string;
     copyright: string;

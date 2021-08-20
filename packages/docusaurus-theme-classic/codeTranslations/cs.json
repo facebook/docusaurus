@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " od {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Naposledy aktualizováno{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Zpět na hlavní menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tagy:",
   "theme.tags.tagsPageLink": "Zobrazit všechny tagy",
   "theme.tags.tagsPageTitle": "Tagy"

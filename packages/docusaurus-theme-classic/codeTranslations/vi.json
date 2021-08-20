@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " bởi {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Cập nhật lần cuối{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Thẻ:",
   "theme.tags.tagsPageLink": "Xem tất cả Thẻ",
   "theme.tags.tagsPageTitle": "Thẻ"

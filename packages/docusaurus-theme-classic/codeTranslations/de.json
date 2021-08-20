@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " von {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Letztes Update{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Alle Tags anzeigen",
   "theme.tags.tagsPageTitle": "Tags"

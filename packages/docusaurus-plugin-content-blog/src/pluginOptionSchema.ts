@@ -13,9 +13,10 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
+import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS = {
-  feedOptions: {type: ['rss', 'atom']},
+export const DEFAULT_OPTIONS: PluginOptions = {
+  feedOptions: {type: ['rss', 'atom'], copyright: ''},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
@@ -39,7 +40,7 @@ export const DEFAULT_OPTIONS = {
   editLocalizedFiles: false,
 };
 
-export const PluginOptionSchema = Joi.object({
+export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
@@ -96,7 +97,14 @@ export const PluginOptionSchema = Joi.object({
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
-    copyright: Joi.string(),
+    // only add default value when user actually wants a feed (type is not null)
+    copyright: Joi.when('type', {
+      is: Joi.any().valid(null),
+      then: Joi.string().optional(),
+      otherwise: Joi.string()
+        .allow('')
+        .default(DEFAULT_OPTIONS.feedOptions.copyright),
+    }),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
 });

@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " {user} tarafından",
   "theme.lastUpdated.lastUpdatedAtBy": "En son{atDate}{byUser} güncellendi",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler"

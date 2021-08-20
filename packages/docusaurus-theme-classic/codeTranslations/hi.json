@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " {user} द्वारा",
   "theme.lastUpdated.lastUpdatedAtBy": "आखरी अपडेट{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← मुख्य मेनू में वापस जाएं",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "टैग:",
   "theme.tags.tagsPageLink": "सारे टैग देखें",
   "theme.tags.tagsPageTitle": "टैग"

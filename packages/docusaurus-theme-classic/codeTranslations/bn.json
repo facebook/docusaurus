@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": "{user} দ্বারা",
   "theme.lastUpdated.lastUpdatedAtBy": "সর্বশেষ সংষ্করণ{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← মেন মেনুতে যান",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "ট্যাগ্স:",
   "theme.tags.tagsPageLink": "সমস্ত ট্যাগ্স দেখুন",
   "theme.tags.tagsPageTitle": "ট্যাগ্স"

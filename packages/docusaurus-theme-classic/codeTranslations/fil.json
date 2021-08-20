@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " ni {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Huling inapdeyt{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Mga Tag:",
   "theme.tags.tagsPageLink": "Tingnan Lahat ng mga Tag",
   "theme.tags.tagsPageTitle": "Mga Tag"

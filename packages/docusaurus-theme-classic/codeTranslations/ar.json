@@ -52,6 +52,7 @@
   "theme.lastUpdated.byUser": " بواسطة {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "آخر تحديث{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "الوسوم:",
   "theme.tags.tagsPageLink": "عرض كل الوسوم",
   "theme.tags.tagsPageTitle": "الوسوم"
