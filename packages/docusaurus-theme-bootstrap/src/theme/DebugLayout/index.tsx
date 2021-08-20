@@ -34,7 +34,7 @@ function Layout(props: Props): JSX.Element {
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
-    metaImageUrl = metaImage;
+    metaImageUrl = metaImage as string;
   }
   const faviconUrl = useBaseUrl(favicon);
 
