@@ -13,8 +13,9 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
+import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom']},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -39,7 +40,7 @@ export const DEFAULT_OPTIONS = {
   editLocalizedFiles: false,
 };
 
-export const PluginOptionSchema = Joi.object({
+export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374

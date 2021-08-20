@@ -49,10 +49,10 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type?: [FeedType] | null;
+    type?: FeedType[] | null;
     title?: string;
     description?: string;
-    copyright: string;
+    copyright?: string;
     language?: string;
   };
   editUrl?: string | EditUrlFunction;

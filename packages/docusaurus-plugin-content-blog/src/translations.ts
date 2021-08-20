@@ -51,13 +51,13 @@ export function translateContent(
   content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
-  const {content: translations} = translationFiles[0];
+  const [{content: optonsTranslations}] = translationFiles;
   return {
     ...content,
-    blogSidebarTitle: translations['sidebar.title'].message,
+    blogSidebarTitle: optonsTranslations['sidebar.title'].message,
     blogListPaginated: translateListPage(
       content.blogListPaginated,
-      translations,
+      optonsTranslations,
     ),
   };
 }
