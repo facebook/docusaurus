@@ -17,12 +17,9 @@ function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, frontMatterAssets, metadata} = BlogPostContents;
   const {title, description, nextItem, prevItem, date, tags} = metadata;
-  const {
-    hide_table_of_contents: hideTableOfContents,
-    keywords,
-    image,
-  } = frontMatter;
+  const {hide_table_of_contents: hideTableOfContents, keywords} = frontMatter;
 
+  const image = frontMatterAssets.image ?? frontMatter.image;
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
 
   return (
