@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Réduire le menu latéral",
   "theme.docs.sidebar.expandButtonAriaLabel": "Déplier le menu latéral",
   "theme.docs.sidebar.expandButtonTitle": "Déplier le menu latéral",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} avec \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "Un document tagué|{count} documents tagués",
   "theme.docs.versions.latestVersionLinkLabel": "dernière version",
   "theme.docs.versions.latestVersionSuggestionLabel": "Pour une documentation à jour, consultez la {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ceci est la documentation de {siteTitle} {versionLabel}, qui n'est plus activement maintenue.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " par {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Dernière mise à jour{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Retour au menu principal",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags :",
   "theme.tags.tagsPageLink": "Voir tous les tags",
   "theme.tags.tagsPageTitle": "Tags"

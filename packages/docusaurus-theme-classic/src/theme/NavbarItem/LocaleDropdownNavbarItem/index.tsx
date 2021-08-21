@@ -13,6 +13,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
+import styles from './styles.module.css';
+
 export default function LocaleDropdownNavbarItem({
   mobile,
   dropdownItemsBefore,
@@ -58,9 +60,7 @@ export default function LocaleDropdownNavbarItem({
       mobile={mobile}
       label={
         <span>
-          <IconLanguage
-            style={{verticalAlign: 'text-bottom', marginRight: 5}}
-          />
+          <IconLanguage className={styles.iconLanguage} />
           <span>{dropdownLabel}</span>
         </span>
       }

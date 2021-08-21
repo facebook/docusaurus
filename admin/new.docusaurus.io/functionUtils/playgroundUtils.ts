@@ -13,7 +13,7 @@ const PlaygroundConfigs = {
   codesandbox: 'https://codesandbox.io/s/docusaurus',
 
   // stackblitz: 'https://stackblitz.com/fork/docusaurus', // not updated
-  // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/master/examples/classic', // slow to load
+  // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic', // slow to load
   stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/starter', // dedicated branch: faster load
 };
 

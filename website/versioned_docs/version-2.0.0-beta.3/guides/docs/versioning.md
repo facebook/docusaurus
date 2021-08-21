@@ -20,8 +20,8 @@ To better understand how versioning works and see if it suits your needs, you ca
 
 ```shell
 website
-├── sidebars.json        # sidebar for master (next) version
-├── docs                 # docs directory for master (next) version
+├── sidebars.json        # sidebar for the current docs version
+├── docs                 # docs directory for the current docs version
 │   ├── foo
 │   │   └── bar.md       # https://mysite.com/docs/next/foo/bar
 │   └── hello.md         # https://mysite.com/docs/next/hello
@@ -48,11 +48,19 @@ The table below explains how a versioned file maps to its version and the genera
 | --------------------------------------- | -------------- | ----------------- |
 | `versioned_docs/version-1.0.0/hello.md` | 1.0.0          | /docs/1.0.0/hello |
 | `versioned_docs/version-1.1.0/hello.md` | 1.1.0 (latest) | /docs/hello       |
-| `docs/hello.md`                         | next           | /docs/next/hello  |
+| `docs/hello.md`                         | current        | /docs/next/hello  |
+
+:::tip
+
+The files in the `docs` directory belong to the `current` docs version.
+
+By default, the `current` docs version is labelled as `Next` and hosted under `/docs/next/*`, but is entirely configurable to fit your project's release lifecycle.
+
+:::
 
 ### Tagging a new version {#tagging-a-new-version}
 
-1. First, make sure your content in the `docs` directory is ready to be frozen as a version. A version always should be based from master.
+1. First, make sure the current docs version (the `docs` directory) is ready to be frozen.
 1. Enter a new version number.
 
 ```bash npm2yarn
@@ -72,7 +80,7 @@ When tagging a new version, the document versioning mechanism will:
 1. Place the new file into the corresponding version folder.
 1. Include the reference for the new file into the corresponding sidebar file, according to version number.
 
-**Master docs**
+**Current version docs**
 
 ```shell
 # The new file.
@@ -82,7 +90,7 @@ docs/new.md
 sidebar.js
 ```
 
-**Older docs**
+**Older version docs**
 
 ```shell
 # The new file.

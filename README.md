@@ -67,7 +67,7 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 ### Contributing guide
 
-Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
+Read our [contributing guide](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
 
 ### Beginner-friendly bugs
 

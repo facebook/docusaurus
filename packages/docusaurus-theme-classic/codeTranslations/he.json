@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "סגור",
   "theme.docs.sidebar.expandButtonAriaLabel": "פתח",
   "theme.docs.sidebar.expandButtonTitle": "פתח",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "גרסא אחרונה",
   "theme.docs.versions.latestVersionSuggestionLabel": "לדוקומנטאציה עדכנית, ראה {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "דוקומנטאציה זו {siteTitle} {versionLabel}, כבר לא נתמכת.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " על ידי {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "עודכן{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← חזרה לתפריט הראשי",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "תגיות:",
   "theme.tags.tagsPageLink": "כל התגיות",
   "theme.tags.tagsPageTitle": "תגיות"

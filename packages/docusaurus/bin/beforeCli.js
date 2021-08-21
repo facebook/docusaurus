@@ -50,10 +50,22 @@ if (
   notifier.check();
 }
 
+// We don't want to display update message for canary releases
+// See https://github.com/facebook/docusaurus/issues/5378
+function ignoreUpdate(update) {
+  const isCanaryRelease =
+    update && update.current && update.current.startsWith('0.0.0');
+  return isCanaryRelease;
+}
+
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
   // Because notifier clears cached data after reading it, leading to notifier not consistently displaying the update
   // See https://github.com/yeoman/update-notifier/issues/209
   notifier.config.set('update', notifier.update);
+
+  if (ignoreUpdate(notifier.update)) {
+    return;
+  }
 
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const sitePkg = require(path.resolve(process.cwd(), 'package.json'));

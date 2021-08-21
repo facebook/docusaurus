@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Seitenleiste einklappen",
   "theme.docs.sidebar.expandButtonAriaLabel": "Seitenleiste ausklappen",
   "theme.docs.sidebar.expandButtonTitle": "Seitenleiste ausklappen",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "letzte Version",
   "theme.docs.versions.latestVersionSuggestionLabel": "Für die aktuellste Dokumentation bitte auf {latestVersionLink} ({versionLabel}) gehen.",
   "theme.docs.versions.unmaintainedVersionLabel": "Das ist die Dokumentation für {siteTitle} {versionLabel} und wird nicht weiter gewartet.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " von {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Letztes Update{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Alle Tags anzeigen",
   "theme.tags.tagsPageTitle": "Tags"

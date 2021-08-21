@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Свернуть сайдбар",
   "theme.docs.sidebar.expandButtonAriaLabel": "Развернуть сайдбар",
   "theme.docs.sidebar.expandButtonTitle": "Развернуть сайдбар",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "последней версии",
   "theme.docs.versions.latestVersionSuggestionLabel": "Актуальная документация находится на странице {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Это документация {siteTitle} для версии {versionLabel}, которая уже не поддерживается.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " от {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Последнее обновление{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Перейти к главному меню",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Теги:",
   "theme.tags.tagsPageLink": "Посмотреть все теги",
   "theme.tags.tagsPageTitle": "Теги"

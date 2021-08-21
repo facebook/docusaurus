@@ -3,10 +3,10 @@ name: V2 Tests E2E
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
@@ -29,9 +29,9 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn
-      - name: Generate test-website project against master release
+      - name: Generate test-website project against main branch
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2 -s
+          KEEP_CONTAINER=true yarn test:build:website -s
           mv test-website ../test-website
       - name: Install test-website project with Yarn v1
         run: |
@@ -66,9 +66,9 @@ jobs:
         with:
           install-command: yarn
 
-      - name: Generate test-website project against master release
+      - name: Generate test-website project against main branch
         run: |
-          KEEP_CONTAINER=true yarn test:build:v2 -s
+          KEEP_CONTAINER=true yarn test:build:website -s
           mv test-website ../test-website
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |

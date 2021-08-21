@@ -3,7 +3,7 @@ name: V2 Windows Tests
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
@@ -29,6 +29,6 @@ jobs:
       - name: Docusaurus Jest Tests
         run: yarn test
       - name: Docusaurus Build
-        run: yarn build:v2 --locale en
+        run: yarn build:website --locale en
         env:
           CI: true

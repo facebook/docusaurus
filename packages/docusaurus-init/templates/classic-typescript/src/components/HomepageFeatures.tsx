@@ -17,7 +17,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Use',
-    image: '/img/undraw_docusaurus_tree.svg',
+    image: '/img/undraw_docusaurus_mountain.svg',
     description: (
       <>
         Docusaurus was designed from the ground up to be easily installed and
@@ -37,7 +37,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Powered by React',
-    image: '/img/undraw_docusaurus_tree.svg',
+    image: '/img/undraw_docusaurus_react.svg',
     description: (
       <>
         Extend or customize your website layout by reusing React. Docusaurus can

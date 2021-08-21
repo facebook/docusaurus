@@ -24,7 +24,7 @@ export const MainHeading: HeadingComponent = function MainHeading({...props}) {
       <h1
         {...props}
         id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-        className={styles.h1Heading}>
+      >
         {props.children}
       </h1>
     </header>
@@ -48,7 +48,7 @@ const createAnchorHeading = (
         <a
           aria-hidden="true"
           tabIndex={-1}
-          className={clsx('anchor', {
+          className={clsx('anchor', `anchor__${Tag}`, {
             [styles.enhancedAnchor]: !hideOnScroll,
           })}
           id={id}

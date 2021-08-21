@@ -6,7 +6,8 @@
  */
 
 import Joi from '../Joi';
-import {JoiFrontMatter, validateFrontMatter} from '../validationUtils';
+import {JoiFrontMatter} from '../JoiFrontMatter';
+import {validateFrontMatter} from '../validationUtils';
 
 describe('validateFrontMatter', () => {
   test('should accept good values', () => {

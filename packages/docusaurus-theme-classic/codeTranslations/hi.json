@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "साइडबार बंद करें",
   "theme.docs.sidebar.expandButtonAriaLabel": "साइडबार खोलें",
   "theme.docs.sidebar.expandButtonTitle": "साइडबार खोलें",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "सबसे नया वर्जन",
   "theme.docs.versions.latestVersionSuggestionLabel": "अप-टू-डेट डॉक्यूमेंटेशन के लिए {latestVersionLink} ({versionLabel}) देखें।",
   "theme.docs.versions.unmaintainedVersionLabel": "यह {siteTitle} {versionLabel} के लिए डॉक्यूमेंटेशन है, जिसे अब सक्रिय रूप से नहीं बनाए रखा गया है।",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " {user} द्वारा",
   "theme.lastUpdated.lastUpdatedAtBy": "आखरी अपडेट{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← मुख्य मेनू में वापस जाएं",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "टैग:",
   "theme.tags.tagsPageLink": "सारे टैग देखें",
   "theme.tags.tagsPageTitle": "टैग"

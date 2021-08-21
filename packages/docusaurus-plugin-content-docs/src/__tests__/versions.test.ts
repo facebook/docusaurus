@@ -77,6 +77,7 @@ describe('simple site', () => {
       isLast: true,
       routePriority: -1,
       sidebarFilePath: undefined,
+      tagsPath: '/docs/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
@@ -111,6 +112,7 @@ describe('simple site', () => {
       {
         ...vCurrent,
         versionPath: '/myBaseUrl/docs',
+        tagsPath: '/myBaseUrl/docs/tags',
       },
     ]);
   });
@@ -141,6 +143,7 @@ describe('simple site', () => {
         versionLabel: 'current-label',
         routePriority: undefined,
         sidebarFilePath: undefined,
+        tagsPath: '/myBaseUrl/docs/current-path/tags',
         versionEditUrl: undefined,
         versionEditUrlLocalized: undefined,
       },
@@ -232,6 +235,7 @@ describe('versioned site, pluginId=default', () => {
       isLast: false,
       routePriority: undefined,
       sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      tagsPath: '/docs/next/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs/next',
@@ -250,6 +254,7 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-1.0.1-sidebars.json',
       ),
+      tagsPath: '/docs/tags',
       versionLabel: '1.0.1',
       versionName: '1.0.1',
       versionPath: '/docs',
@@ -268,6 +273,7 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-1.0.0-sidebars.json',
       ),
+      tagsPath: '/docs/1.0.0/tags',
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/docs/1.0.0',
@@ -289,6 +295,7 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-withSlugs-sidebars.json',
       ),
+      tagsPath: '/docs/withSlugs/tags',
       versionLabel: 'withSlugs',
       versionName: 'withSlugs',
       versionPath: '/docs/withSlugs',
@@ -377,6 +384,7 @@ describe('versioned site, pluginId=default', () => {
     expect(versionsMetadata).toEqual([
       {
         ...vCurrent,
+        tagsPath: '/docs/current-path/tags',
         versionPath: '/docs/current-path',
         versionBanner: 'unmaintained',
       },
@@ -384,6 +392,7 @@ describe('versioned site, pluginId=default', () => {
         ...v101,
         isLast: false,
         routePriority: undefined,
+        tagsPath: '/docs/1.0.1/tags',
         versionPath: '/docs/1.0.1',
         versionBanner: 'unreleased',
       },
@@ -391,6 +400,7 @@ describe('versioned site, pluginId=default', () => {
         ...v100,
         isLast: true,
         routePriority: -1,
+        tagsPath: '/docs/tags',
         versionLabel: '1.0.0-label',
         versionPath: '/docs',
         versionBanner: 'unreleased',
@@ -412,7 +422,7 @@ describe('versioned site, pluginId=default', () => {
     const versionsMetadata = readVersionsMetadata({
       options: {
         ...defaultOptions,
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
       },
       context: defaultContext,
     });
@@ -421,30 +431,30 @@ describe('versioned site, pluginId=default', () => {
       {
         ...vCurrent,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
       {
         ...v101,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.1',
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.1',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
       },
       {
         ...v100,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0',
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
       },
       {
         ...vwithSlugs,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-withSlugs',
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
       },
     ]);
   });
@@ -462,7 +472,7 @@ describe('versioned site, pluginId=default', () => {
     const versionsMetadata = readVersionsMetadata({
       options: {
         ...defaultOptions,
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         editCurrentVersion: true,
       },
       context: defaultContext,
@@ -472,30 +482,30 @@ describe('versioned site, pluginId=default', () => {
       {
         ...vCurrent,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
       {
         ...v101,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
       {
         ...v100,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
       {
         ...vwithSlugs,
         versionEditUrl:
-          'https://github.com/facebook/docusaurus/edit/master/website/docs',
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
-          'https://github.com/facebook/docusaurus/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current',
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
     ]);
   });
@@ -528,6 +538,7 @@ describe('versioned site, pluginId=default', () => {
         ...vCurrent,
         isLast: true,
         routePriority: -1,
+        tagsPath: '/docs/tags',
         versionPath: '/docs',
         versionBanner: 'none',
       },
@@ -648,6 +659,7 @@ describe('versioned site, pluginId=community', () => {
       isLast: false,
       routePriority: undefined,
       sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      tagsPath: '/communityBasePath/next/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/communityBasePath/next',
@@ -669,6 +681,7 @@ describe('versioned site, pluginId=community', () => {
         versionedSiteDir,
         'community_versioned_sidebars/version-1.0.0-sidebars.json',
       ),
+      tagsPath: '/communityBasePath/tags',
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/communityBasePath',
@@ -716,6 +729,7 @@ describe('versioned site, pluginId=community', () => {
         ...vCurrent,
         isLast: true,
         routePriority: -1,
+        tagsPath: '/communityBasePath/tags',
         versionPath: '/communityBasePath',
         versionBanner: 'none',
       },

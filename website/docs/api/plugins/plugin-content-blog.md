@@ -38,7 +38,7 @@ Accepted fields:
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
-| `postsPerPage` | `number` | `10` | Number of posts to show per page in the listing page. |
+| `postsPerPage` | <code>number &#124; 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
 | `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
 | `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
 | `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
@@ -83,10 +83,10 @@ Most Docusaurus users configure this plugin through the [preset options](#ex-con
 const config = {
   path: 'blog',
   // Simple use-case: string editUrl
-  // editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl
   editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-    return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+    return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
   },
   editLocalizedFiles: false,
   blogTitle: 'Blog title',
@@ -219,7 +219,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 - **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-blog-<pluginId>`
-- **JSON files**: N/A
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
 
 ### Example file-system structure {#example-file-system-structure}
@@ -229,5 +229,8 @@ website/i18n/<locale>/docusaurus-plugin-content-blog
 │
 │ # translations for website/blog
 ├── first-blog-post.md
-└── second-blog-post.md
+├── second-blog-post.md
+│
+│ # translations for the plugin options that will be rendered
+└── options.json
 ```

@@ -6,7 +6,8 @@
  */
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import {
+import type {Tag} from '@docusaurus/utils';
+import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
@@ -14,6 +15,7 @@ import {
 export type BlogContentPaths = ContentPaths;
 
 export interface BlogContent {
+  blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
@@ -35,7 +37,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   routeBasePath: string;
   include: string[];
   exclude: string[];
-  postsPerPage: number;
+  postsPerPage: number | 'ALL';
   blogListComponent: string;
   blogPostComponent: string;
   blogTagsListComponent: string;
@@ -47,7 +49,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type?: [FeedType] | null;
+    type?: FeedType[] | null;
     title?: string;
     description?: string;
     copyright: string;
@@ -96,7 +98,7 @@ export interface MetaData {
   description: string;
   date: Date;
   formattedDate: string;
-  tags: (Tag | string)[];
+  tags: Tag[];
   title: string;
   readingTime?: number;
   prevItem?: Paginator;
@@ -107,11 +109,6 @@ export interface MetaData {
 
 export interface Paginator {
   title: string;
-  permalink: string;
-}
-
-export interface Tag {
-  label: string;
   permalink: string;
 }
 

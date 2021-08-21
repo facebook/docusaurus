@@ -18,8 +18,8 @@ module.exports = {
     },
     {
       type: 'link',
-      href: '/feedback',
-      label: 'Feedback',
+      href: '/feature-requests',
+      label: 'Feature Requests',
     },
     {
       type: 'link',

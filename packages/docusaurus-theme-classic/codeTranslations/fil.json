@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Itupî ang sidebar",
   "theme.docs.sidebar.expandButtonAriaLabel": "Palakihin ang sidebar",
   "theme.docs.sidebar.expandButtonTitle": "Palakihin ang sidebar",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "pinakahuling bersiyón",
   "theme.docs.versions.latestVersionSuggestionLabel": "Para sa up-to-date na dokumentasyón, tingnan ang {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ito ay dokumentasyón para sa {siteTitle} {versionLabel} na hindi na aktibong mine-maintain.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " ni {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Huling inapdeyt{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Mga Tag:",
   "theme.tags.tagsPageLink": "Tingnan Lahat ng mga Tag",
   "theme.tags.tagsPageTitle": "Mga Tag"

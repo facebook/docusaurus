@@ -3,7 +3,7 @@ name: Lint
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   lint:
@@ -15,8 +15,8 @@ jobs:
       - name: Installation
         uses: bahmutov/npm-install@v1
         with:
-         install-command: yarn install
-         # install-command: yarn install --immutable # Fails if yarn.lock is modified  (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
+          install-command: yarn install
+          # install-command: yarn install --immutable # Fails if yarn.lock is modified  (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
       - name: Check immutable yarn.lock
         run: git diff --exit-code
       - name: Lint

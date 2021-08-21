@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "收起侧边栏",
   "theme.docs.sidebar.expandButtonAriaLabel": "展开侧边栏",
   "theme.docs.sidebar.expandButtonTitle": "展开侧边栏",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} 含有标签「{tagName}」",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 篇文档带有标签",
   "theme.docs.versions.latestVersionLinkLabel": "最新版本",
   "theme.docs.versions.latestVersionSuggestionLabel": "最新的文档请参阅 {latestVersionLink} ({versionLabel})。",
   "theme.docs.versions.unmaintainedVersionLabel": "此为 {siteTitle} {versionLabel} 版的文档，现已不再积极维护。",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": "由 {user} ",
   "theme.lastUpdated.lastUpdatedAtBy": "最后{byUser}{atDate}更新",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← 回到主菜单",
+  "theme.navbar.mobileVersionsDropdown.label": "选择版本",
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
   "theme.tags.tagsPageTitle": "标签"

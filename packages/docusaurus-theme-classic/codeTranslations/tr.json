@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Kenar çubuğunu daralt",
   "theme.docs.sidebar.expandButtonAriaLabel": "Kenar çubuğunu genişlet",
   "theme.docs.sidebar.expandButtonTitle": "Kenar çubuğunu genişlet",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "en son sürüm",
   "theme.docs.versions.latestVersionSuggestionLabel": "Güncel belgeler için bkz. {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Bu, {siteTitle} {versionLabel} dokümantasyonudur ve bakımı sonlanmıştır.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " {user} tarafından",
   "theme.lastUpdated.lastUpdatedAtBy": "En son{atDate}{byUser} güncellendi",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler"

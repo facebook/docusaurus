@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Sammenlæg sidenavigation",
   "theme.docs.sidebar.expandButtonAriaLabel": "Udvid sidenavigation",
   "theme.docs.sidebar.expandButtonTitle": "Udvid sidenavigation",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "seneste version",
   "theme.docs.versions.latestVersionSuggestionLabel": "For seneste dokumentation, se {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Dette er dokumentationen for {siteTitle} {versionLabel}, som ikke længere bliver aktivt vedligeholdt.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " af {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Senest opdateret{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Se alle Tags",
   "theme.tags.tagsPageTitle": "Tags"

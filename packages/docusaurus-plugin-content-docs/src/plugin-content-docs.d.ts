@@ -9,6 +9,9 @@ declare module '@docusaurus/plugin-content-docs-types' {
   type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
+  type VersionTag = import('./types').VersionTag;
+
+  export type {GlobalDataVersion, GlobalDataDoc};
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -43,7 +46,26 @@ declare module '@docusaurus/plugin-content-docs-types' {
     [sidebarId: string]: PropSidebarItem[];
   };
 
-  export type {GlobalDataVersion, GlobalDataDoc};
+  export type PropTagDocListDoc = {
+    id: string;
+    title: string;
+    description: string;
+    permalink: string;
+  };
+  export type PropTagDocList = {
+    allTagsPath: string;
+    name: string; // normalized name/label of the tag
+    permalink: string; // pathname of the tag
+    docs: PropTagDocListDoc[];
+  };
+
+  export type PropTagsListPage = {
+    tags: {
+      name: string;
+      permalink: string;
+      count: number;
+    }[];
+  };
 }
 
 declare module '@theme/DocItem' {
@@ -79,6 +101,10 @@ declare module '@theme/DocItem' {
     readonly version?: string;
     readonly previous?: {readonly permalink: string; readonly title: string};
     readonly next?: {readonly permalink: string; readonly title: string};
+    readonly tags: readonly {
+      readonly label: string;
+      readonly permalink: string;
+    }[];
   };
 
   export type Props = {
@@ -95,6 +121,19 @@ declare module '@theme/DocItem' {
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
+}
+
+declare module '@theme/DocItemFooter' {
+  import type {Props} from '@theme/DocItem';
+
+  export default function DocItemFooter(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocTagsListPage' {
+  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+
+  export type Props = PropTagsListPage;
+  export default function DocItemFooter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionBanner' {
@@ -132,6 +171,7 @@ declare module '@theme/Seo' {
     readonly description?: string;
     readonly keywords?: readonly string[] | string;
     readonly image?: string;
+    readonly children?: ReactNode;
   };
 
   const Seo: (props: Props) => JSX.Element;

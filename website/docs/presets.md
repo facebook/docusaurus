@@ -10,7 +10,7 @@ Presets are collections of plugins and themes.
 A preset is usually a npm package, so you install them like other npm packages using npm.
 
 ```bash npm2yarn
-npm install --save docusaurus-preset-name
+npm install --save @docusaurus/preset-classic
 ```
 
 Then, add it in your site's `docusaurus.config.js`'s `presets` option:
@@ -18,7 +18,7 @@ Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  presets: ['@docusaurus/preset-xxxx'],
+  presets: ['@docusaurus/preset-classic'],
 };
 ```
 

@@ -34,12 +34,12 @@ module.exports = {
          * Base url to edit your site.
          * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
          */
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         /**
          * For advanced cases, compute the edit url for each Markdown file yourself.
          */
         editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-          return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+          return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
         },
         /**
          * Useful if you commit localized files to git.

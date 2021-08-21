@@ -19,11 +19,21 @@ https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:spl
 /classic/blog/2020/01/19/docusaurus-2020-recap    /classic/blog/2021/01/19/docusaurus-2020-recap
 
 
-# Redirect each country sub-path to appropriate localized 404 file
-# See https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling
-/fr/*         /fr/404.html          404
-
-
 # Redirect Docusaurus v1 blog RSS feed
 /blog/feed.xml   /blog/rss.xml
 
+
+# Feature requests redirects
+/feedback/*                 /feature-requests/:splat    301!
+/feature-requests/*         /feature-requests           200
+
+
+# FALLBACK: PUT THIS LAST (rules above are more important)
+# Redirect each country sub-path to appropriate localized 404 file
+# Note: the 404 won't be served if the path match an existing static file
+# Note: useless for /* => Netlify already serve /404.html
+# See https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling
+/fr/*             /fr/404             404
+/pt-BR/*          /pt-BR/404          404
+/ko/*             /ko/404             404
+/zh-CN/*          /zh-CN/404          404

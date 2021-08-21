@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Zavřít postranní lištu",
   "theme.docs.sidebar.expandButtonAriaLabel": "Otevřít postranní lištu",
   "theme.docs.sidebar.expandButtonTitle": "Otevřít postranní lištu",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "Nejnovější verze",
   "theme.docs.versions.latestVersionSuggestionLabel": "Aktuální dokumentace viz {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Tato dokumentace je pro {siteTitle} {versionLabel}, která už není aktivně udržována.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " od {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Naposledy aktualizováno{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Zpět na hlavní menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tagy:",
   "theme.tags.tagsPageLink": "Zobrazit všechny tagy",
   "theme.tags.tagsPageTitle": "Tagy"

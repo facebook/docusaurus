@@ -3,7 +3,7 @@ name: V2 Tests
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'

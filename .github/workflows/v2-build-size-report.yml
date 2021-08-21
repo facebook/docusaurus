@@ -1,4 +1,3 @@
-
 name: V2 Build Size Report
 
 on:
@@ -9,7 +8,7 @@ on:
   # See https://securitylab.github.com/research/github-actions-preventing-pwn-requests
   pull_request:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'website-1.x/**'
       - 'packages/docusaurus-1.x/**'
@@ -25,7 +24,7 @@ jobs:
       - uses: preactjs/compressed-size-action@v2
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
-          build-script: 'build:v2:en'
+          build-script: 'build:website:en'
           pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30

@@ -37,19 +37,22 @@ import {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
+  VersionTag,
 } from './types';
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {flatten, keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
-import {toVersionMetadataProp} from './props';
+import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
 import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 import chalk from 'chalk';
+import {getVersionTags} from './tags';
+import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -314,9 +317,60 @@ export default function pluginContentDocs(
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
+      async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
+        const versionTags = getVersionTags(loadedVersion.docs);
+
+        async function createTagsListPage() {
+          const tagsProp: PropTagsListPage['tags'] = Object.values(
+            versionTags,
+          ).map((tagValue) => ({
+            name: tagValue.name,
+            permalink: tagValue.permalink,
+            count: tagValue.docIds.length,
+          }));
+          const tagsPropPath = await createData(
+            `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
+            JSON.stringify(tagsProp, null, 2),
+          );
+          addRoute({
+            path: loadedVersion.tagsPath,
+            exact: true,
+            component: options.docTagsListComponent,
+            modules: {
+              tags: aliasedSource(tagsPropPath),
+            },
+          });
+        }
+
+        async function createTagDocListPage(tag: VersionTag) {
+          const tagProps = toTagDocListProp({
+            allTagsPath: loadedVersion.tagsPath,
+            tag,
+            docs: loadedVersion.docs,
+          });
+          const tagPropPath = await createData(
+            `${docuHash(`tag-${tag.permalink}`)}.json`,
+            JSON.stringify(tagProps, null, 2),
+          );
+          addRoute({
+            path: tag.permalink,
+            component: options.docTagDocListComponent,
+            exact: true,
+            modules: {
+              tag: aliasedSource(tagPropPath),
+            },
+          });
+        }
+
+        await createTagsListPage();
+        await Promise.all(Object.values(versionTags).map(createTagDocListPage));
+      }
+
       async function doCreateVersionRoutes(
         loadedVersion: LoadedVersion,
       ): Promise<void> {
+        await createVersionTagsRoutes(loadedVersion);
+
         const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
         const versionMetadataPropPath = await createData(
           `${docuHash(

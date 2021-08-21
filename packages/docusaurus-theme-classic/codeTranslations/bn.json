@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "সাইডবারটি সঙ্কুচিত করুন",
   "theme.docs.sidebar.expandButtonAriaLabel": "সাইডবারটি প্রসারিত করুন",
   "theme.docs.sidebar.expandButtonTitle": "সাইডবারটি প্রসারিত করুন",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "লেটেস্ট ভার্সন",
   "theme.docs.versions.latestVersionSuggestionLabel": "আপ-টু-ডেট ডকুমেন্টেশনের জন্য, {latestVersionLink} ({versionLabel}) দেখুন।",
   "theme.docs.versions.unmaintainedVersionLabel": "এটি {siteTitle} {versionLabel} এর জন্যে ডকুমেন্টেশন, যা আর সক্রিয়ভাবে রক্ষণাবেক্ষণ করা হয় না।",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": "{user} দ্বারা",
   "theme.lastUpdated.lastUpdatedAtBy": "সর্বশেষ সংষ্করণ{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← মেন মেনুতে যান",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "ট্যাগ্স:",
   "theme.tags.tagsPageLink": "সমস্ত ট্যাগ্স দেখুন",
   "theme.tags.tagsPageTitle": "ট্যাগ্স"

@@ -22,7 +22,8 @@ import {
   STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
-import {flatten, take, kebabCase} from 'lodash';
+import {translateContent, getTranslationFiles} from './translations';
+import {flatten, take} from 'lodash';
 
 import {
   PluginOptions,
@@ -51,6 +52,7 @@ import {
   generateBlogPosts,
   getContentPathList,
   getSourceToPermalink,
+  getBlogTags,
 } from './blogUtils';
 
 export default function pluginContentBlog(
@@ -65,7 +67,7 @@ export default function pluginContentBlog(
 
   const {
     siteDir,
-    siteConfig: {onBrokenMarkdownLinks},
+    siteConfig: {onBrokenMarkdownLinks, baseUrl},
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
@@ -101,9 +103,19 @@ export default function pluginContentBlog(
       );
     },
 
+    async getTranslationFiles() {
+      return getTranslationFiles(options);
+    },
+
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
-      const {postsPerPage, routeBasePath} = options;
+      const {
+        postsPerPage: postsPerPageOption,
+        routeBasePath,
+        blogDescription,
+        blogTitle,
+        blogSidebarTitle,
+      } = options;
 
       const blogPosts: BlogPost[] = await generateBlogPosts(
         contentPaths,
@@ -113,6 +125,7 @@ export default function pluginContentBlog(
 
       if (!blogPosts.length) {
         return {
+          blogSidebarTitle,
           blogPosts: [],
           blogListPaginated: [],
           blogTags: {},
@@ -143,18 +156,17 @@ export default function pluginContentBlog(
       // Blog pagination routes.
       // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
       const totalCount = blogPosts.length;
+      const postsPerPage =
+        postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
       const numberOfPages = Math.ceil(totalCount / postsPerPage);
-      const {
-        siteConfig: {baseUrl = ''},
-      } = context;
-      const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
+      const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
 
       const blogListPaginated: BlogPaginated[] = [];
 
       function blogPaginationPermalink(page: number) {
         return page > 0
-          ? normalizeUrl([basePageUrl, `page/${page + 1}`])
-          : basePageUrl;
+          ? normalizeUrl([baseBlogUrl, `page/${page + 1}`])
+          : baseBlogUrl;
       }
 
       for (let page = 0; page < numberOfPages; page += 1) {
@@ -170,8 +182,8 @@ export default function pluginContentBlog(
               page < numberOfPages - 1
                 ? blogPaginationPermalink(page + 1)
                 : null,
-            blogDescription: options.blogDescription,
-            blogTitle: options.blogTitle,
+            blogDescription,
+            blogTitle,
           },
           items: blogPosts
             .slice(page * postsPerPage, (page + 1) * postsPerPage)
@@ -179,46 +191,15 @@ export default function pluginContentBlog(
         });
       }
 
-      const blogTags: BlogTags = {};
-      const tagsPath = normalizeUrl([basePageUrl, 'tags']);
-      blogPosts.forEach((blogPost) => {
-        const {tags} = blogPost.metadata;
-        if (!tags || tags.length === 0) {
-          // TODO: Extract tags out into a separate plugin.
-          // eslint-disable-next-line no-param-reassign
-          blogPost.metadata.tags = [];
-          return;
-        }
+      const blogTags: BlogTags = getBlogTags(blogPosts);
 
-        // eslint-disable-next-line no-param-reassign
-        blogPost.metadata.tags = tags.map((tag) => {
-          if (typeof tag === 'string') {
-            const normalizedTag = kebabCase(tag);
-            const permalink = normalizeUrl([tagsPath, normalizedTag]);
-            if (!blogTags[normalizedTag]) {
-              blogTags[normalizedTag] = {
-                // Will only use the name of the first occurrence of the tag.
-                name: tag.toLowerCase(),
-                items: [],
-                permalink,
-              };
-            }
-
-            blogTags[normalizedTag].items.push(blogPost.id);
-
-            return {
-              label: tag,
-              permalink,
-            };
-          }
-          return tag;
-        });
-      });
+      const tagsPath = normalizeUrl([baseBlogUrl, 'tags']);
 
       const blogTagsListPath =
         Object.keys(blogTags).length > 0 ? tagsPath : null;
 
       return {
+        blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
@@ -240,6 +221,7 @@ export default function pluginContentBlog(
 
       const {addRoute, createData} = actions;
       const {
+        blogSidebarTitle,
         blogPosts,
         blogListPaginated,
         blogTags,
@@ -260,7 +242,7 @@ export default function pluginContentBlog(
         `blog-post-list-prop-${pluginId}.json`,
         JSON.stringify(
           {
-            title: options.blogSidebarTitle,
+            title: blogSidebarTitle,
             items: sidebarBlogPosts.map((blogPost) => ({
               title: blogPost.metadata.title,
               permalink: blogPost.metadata.permalink,
@@ -341,6 +323,7 @@ export default function pluginContentBlog(
         Object.keys(blogTags).map(async (tag) => {
           const {name, items, permalink} = blogTags[tag];
 
+          // Refactor all this, see docs implementation
           tagsModule[tag] = {
             allTagsPath: blogTagsListPath,
             slug: tag,
@@ -395,6 +378,10 @@ export default function pluginContentBlog(
           },
         });
       }
+    },
+
+    translateContent({content, translationFiles}) {
+      return translateContent(content, translationFiles);
     },
 
     configureWebpack(
@@ -487,7 +474,7 @@ export default function pluginContentBlog(
     },
 
     async postBuild({outDir}: Props) {
-      if (!options.feedOptions?.type) {
+      if (!options.feedOptions.type) {
         return;
       }
 
@@ -528,7 +515,6 @@ export default function pluginContentBlog(
       const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
-        baseUrl,
       } = context;
       const feedsConfig = {
         rss: {

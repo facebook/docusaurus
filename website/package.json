@@ -1,5 +1,5 @@
 {
-  "name": "docusaurus-2-website",
+  "name": "website",
   "version": "2.0.0-beta.4",
   "private": true,
   "scripts": {
@@ -22,9 +22,9 @@
     "netlify:build:deployPreview": "yarn docusaurus write-translations --locale fr --messagePrefix '(fr) ' && yarn build",
     "netlify:crowdin:delay": "node delayCrowdin.js",
     "netlify:crowdin:wait": "node waitForCrowdin.js",
-    "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:v2",
-    "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:v2 || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
-    "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:v2",
+    "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:website",
+    "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:website || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
+    "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:website",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {

@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Colapsar barra lateral",
   "theme.docs.sidebar.expandButtonAriaLabel": "Expandir barra lateral",
   "theme.docs.sidebar.expandButtonTitle": "Expandir barra lateral",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "última versión",
   "theme.docs.versions.latestVersionSuggestionLabel": "Para documentación actualizada, ver {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Esta es documentación para {siteTitle} {versionLabel}, que ya no se mantiene activamente.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " por {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Última actualización{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Etiquetas:",
   "theme.tags.tagsPageLink": "Ver Todas las Etiquetas",
   "theme.tags.tagsPageTitle": "Etiquetas"

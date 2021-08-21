@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "Zwiń boczny panel",
   "theme.docs.sidebar.expandButtonAriaLabel": "Rozszerz boczny panel",
   "theme.docs.sidebar.expandButtonTitle": "Rozszerz boczny panel",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "bieżącej wersji",
   "theme.docs.versions.latestVersionSuggestionLabel": "Aby zobaczyć bieżącą dokumentację, przejdź do wersji {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ta dokumentacja dotyczy {siteTitle} w wersji {versionLabel} i nie jest już aktywnie aktualizowana.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " przez {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Ostatnia aktualizacja{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "Tagi:",
   "theme.tags.tagsPageLink": "Wyświetl wszystkie tagi",
   "theme.tags.tagsPageTitle": "Tagi"

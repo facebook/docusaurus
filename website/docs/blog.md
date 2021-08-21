@@ -112,7 +112,7 @@ Not this.
 Or this.
 ```
 
-By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. You can also add meta description to the blog list page for better SEO:
+By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. If you set `postsPerPage: 'ALL'`, pagination will be disabled and all posts will be displayed on the first page. You can also add meta description to the blog list page for better SEO:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -125,7 +125,7 @@ module.exports = {
           // highlight-start
           blogTitle: 'Docusaurus blog!',
           blogDescription: 'A Docusaurus powered blog!',
-          postsPerPage: 20,
+          postsPerPage: 'ALL',
           // highlight-end
         },
       },

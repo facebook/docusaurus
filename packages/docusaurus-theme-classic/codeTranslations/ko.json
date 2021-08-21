@@ -42,6 +42,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "사이드바 숨기기",
   "theme.docs.sidebar.expandButtonAriaLabel": "사이드바 열기",
   "theme.docs.sidebar.expandButtonTitle": "사이드바 열기",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "최신 버전",
   "theme.docs.versions.latestVersionSuggestionLabel": "최신 문서는 {latestVersionLink} ({versionLabel})을 확인하세요.",
   "theme.docs.versions.unmaintainedVersionLabel": "{siteTitle} {versionLabel} 문서는 업데이트되지 않습니다.",
@@ -50,6 +52,7 @@
   "theme.lastUpdated.byUser": " {user}가",
   "theme.lastUpdated.lastUpdatedAtBy": "{atDate}{byUser} 마지막으로 업데이트했습니다.",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Back to main menu",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "태그:",
   "theme.tags.tagsPageLink": "모든 태그 보기",
   "theme.tags.tagsPageTitle": "태그"
