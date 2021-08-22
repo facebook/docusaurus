@@ -66,88 +66,81 @@ const AuthorSchema = Joi.object({
 
 // All possible ways to declare blog post authors.
 const AuthorFrontMatterSchemas = [
-  {
-    is: Joi.object({
-      author_key: Joi.string(),
-      author: Joi.string(),
-
-      author_keys: Joi.forbidden(),
-      authors: Joi.forbidden(),
-    }).or('author_key', 'author'),
-    then: BlogFrontMatterBaseSchema.append({
-      author_title: Joi.string(),
-      author_url: URISchema,
-      author_image_url: URISchema,
-      authorTitle: Joi.string().warning('deprecate.error', {
-        alternative: '"author_title"',
-      }),
-      authorURL: URISchema.warning('deprecate.error', {
-        alternative: '"author_url"',
-      }),
-      authorImageURL: URISchema.warning('deprecate.error', {
-        alternative: '"author_image_url"',
-      }),
-    }).messages({
-      'deprecate.error':
-        '{#label} blog front matter field is deprecated. Please use {#alternative} instead.',
+  Joi.object({
+    author_key: Joi.string(),
+    author: Joi.string(),
+    author_title: Joi.string(),
+    author_url: URISchema,
+    author_image_url: URISchema,
+    authorTitle: Joi.string().warning('deprecate.error', {
+      alternative: '"author_title"',
     }),
-  },
-  {
-    is: Joi.object({
-      author: AuthorSchema.required(),
-
-      author_title: Joi.forbidden(),
-      author_url: Joi.forbidden(),
-      author_image_url: Joi.forbidden(),
-      author_keys: Joi.forbidden(),
-      authors: Joi.forbidden(),
-      authorTitle: Joi.forbidden(),
-      authorURL: Joi.forbidden(),
-      authorImageURL: Joi.forbidden(),
+    authorURL: URISchema.warning('deprecate.error', {
+      alternative: '"author_url"',
     }),
-    then: BlogFrontMatterBaseSchema,
-  },
-  {
-    is: Joi.object({
-      author_keys: Joi.array().items(Joi.string()),
-      authors: Joi.array().items(AuthorSchema.allow(null)),
-
-      author: Joi.forbidden(),
-      author_title: Joi.forbidden(),
-      author_url: Joi.forbidden(),
-      author_image_url: Joi.forbidden(),
-      authorTitle: Joi.forbidden(),
-      authorURL: Joi.forbidden(),
-      authorImageURL: Joi.forbidden(),
-    }).or('author_keys', 'authors'),
-    then: BlogFrontMatterBaseSchema,
-  },
-  {
-    is: Joi.object({
-      author: Joi.forbidden(),
-      author_title: Joi.forbidden(),
-      author_url: Joi.forbidden(),
-      author_image_url: Joi.forbidden(),
-      author_key: Joi.forbidden(),
-      author_keys: Joi.forbidden(),
-      authors: Joi.forbidden(),
-      authorTitle: Joi.forbidden(),
-      authorURL: Joi.forbidden(),
-      authorImageURL: Joi.forbidden(),
+    authorImageURL: URISchema.warning('deprecate.error', {
+      alternative: '"author_image_url"',
     }),
-    then: BlogFrontMatterBaseSchema,
-  },
+
+    author_keys: Joi.forbidden(),
+    authors: Joi.forbidden(),
+  }).or('author_key', 'author'),
+  Joi.object({
+    author: AuthorSchema.required(),
+
+    author_title: Joi.forbidden(),
+    author_url: Joi.forbidden(),
+    author_image_url: Joi.forbidden(),
+    author_keys: Joi.forbidden(),
+    authors: Joi.forbidden(),
+    authorTitle: Joi.forbidden(),
+    authorURL: Joi.forbidden(),
+    authorImageURL: Joi.forbidden(),
+  }),
+  Joi.object({
+    author_keys: Joi.array().items(Joi.string()),
+    authors: Joi.array().items(AuthorSchema.allow(null)),
+
+    author: Joi.forbidden(),
+    author_title: Joi.forbidden(),
+    author_url: Joi.forbidden(),
+    author_image_url: Joi.forbidden(),
+    authorTitle: Joi.forbidden(),
+    authorURL: Joi.forbidden(),
+    authorImageURL: Joi.forbidden(),
+  }).or('author_keys', 'authors'),
+  Joi.object({
+    author: Joi.forbidden(),
+    author_title: Joi.forbidden(),
+    author_url: Joi.forbidden(),
+    author_image_url: Joi.forbidden(),
+    author_key: Joi.forbidden(),
+    author_keys: Joi.forbidden(),
+    authors: Joi.forbidden(),
+    authorTitle: Joi.forbidden(),
+    authorURL: Joi.forbidden(),
+    authorImageURL: Joi.forbidden(),
+  }),
 ];
 
 const BlogFrontMatterSchema = Joi.object()
   .when('.', {
-    switch: AuthorFrontMatterSchemas,
+    switch: AuthorFrontMatterSchemas.map((schema) => {
+      return {
+        is: schema,
+        then: BlogFrontMatterBaseSchema,
+      };
+    }),
     otherwise: Joi.forbidden().messages({
       'any.unknown':
-        "The author declaration doesn't match any of the accepted formats. Visit  for more details.",
+        "The author declaration doesn't match any of the accepted formats. Visit  for more details. Note that the fields are not allowed to be empty.",
     }),
   })
-  .unknown();
+  .unknown()
+  .messages({
+    'deprecate.error':
+      '{#label} blog front matter field is deprecated. Please use {#alternative} instead.',
+  });
 
 export function validateBlogPostFrontMatter(
   frontMatter: Record<string, unknown>,

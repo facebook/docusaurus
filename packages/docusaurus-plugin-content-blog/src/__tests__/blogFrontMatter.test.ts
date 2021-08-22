@@ -99,7 +99,7 @@ describe('validateBlogPostFrontMatter id', () => {
   testField({
     fieldName: 'id',
     validFrontMatters: [{id: '123'}, {id: 'id'}],
-    invalidFrontMatters: [[{id: ''}, 'is not allowed to be empty']],
+    invalidFrontMatters: [[{id: ''}, 'not allowed to be empty']],
   });
 });
 
@@ -107,9 +107,7 @@ describe('validateBlogPostFrontMatter author', () => {
   testField({
     fieldName: 'author',
     validFrontMatters: [{author: '123'}, {author: 'author'}],
-    invalidFrontMatters: [
-      [{author: ''}, "doesn't match any of the accepted formats"],
-    ],
+    invalidFrontMatters: [[{author: ''}, 'not allowed to be empty']],
   });
 });
 
@@ -121,7 +119,7 @@ describe('validateBlogPostFrontMatter author_title', () => {
       {author: '123', author_title: 'author_title'},
     ],
     invalidFrontMatters: [
-      [{author: '123', author_title: ''}, 'is not allowed to be empty'],
+      [{author: '123', author_title: ''}, 'not allowed to be empty'],
     ],
   });
 
@@ -132,7 +130,7 @@ describe('validateBlogPostFrontMatter author_title', () => {
       {author: '123', authorTitle: 'authorTitle'},
     ],
     invalidFrontMatters: [
-      [{author: '123', authorTitle: ''}, 'is not allowed to be empty'],
+      [{author: '123', authorTitle: ''}, 'not allowed to be empty'],
     ],
   });
 });
@@ -146,10 +144,7 @@ describe('validateBlogPostFrontMatter author_url', () => {
       {author: '123', author_url: '/absolute'},
     ],
     invalidFrontMatters: [
-      [
-        {author: '123', author_url: ''},
-        '"author_url" does not match any of the allowed types',
-      ],
+      [{author: '123', author_url: ''}, 'not allowed to be empty'],
     ],
   });
 
@@ -162,10 +157,7 @@ describe('validateBlogPostFrontMatter author_url', () => {
     ],
 
     invalidFrontMatters: [
-      [
-        {author: '123', authorURL: ''},
-        '"authorURL" does not match any of the allowed types',
-      ],
+      [{author: '123', authorURL: ''}, 'not allowed to be empty'],
     ],
   });
 });
@@ -182,10 +174,7 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
       {author: '123', author_image_url: '/absolute'},
     ],
     invalidFrontMatters: [
-      [
-        {author: '123', author_image_url: ''},
-        '"author_image_url" does not match any of the allowed types',
-      ],
+      [{author: '123', author_image_url: ''}, 'not allowed to be empty'],
     ],
   });
 
@@ -197,10 +186,7 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
       {author: '123', authorImageURL: '/absolute'},
     ],
     invalidFrontMatters: [
-      [
-        {author: '123', authorImageURL: ''},
-        '"authorImageURL" does not match any of the allowed types',
-      ],
+      [{author: '123', authorImageURL: ''}, 'not allowed to be empty'],
     ],
   });
 });
