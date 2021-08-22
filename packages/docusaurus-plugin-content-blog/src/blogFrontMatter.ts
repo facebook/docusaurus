@@ -84,7 +84,7 @@ const AuthorFrontMatterSchemas = [
 
     author_keys: Joi.forbidden(),
     authors: Joi.forbidden(),
-  }).or('author_key', 'author'),
+  }),
   Joi.object({
     author: AuthorSchema.required(),
 
@@ -108,7 +108,7 @@ const AuthorFrontMatterSchemas = [
     authorTitle: Joi.forbidden(),
     authorURL: Joi.forbidden(),
     authorImageURL: Joi.forbidden(),
-  }).or('author_keys', 'authors'),
+  }),
   Joi.object({
     author: Joi.forbidden(),
     author_title: Joi.forbidden(),
