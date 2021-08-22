@@ -58,18 +58,10 @@ function BlogPostItem(props: Props): JSX.Element {
     readingTime,
     title,
     editUrl,
+    authors,
   } = metadata;
-  const {author} = frontMatter;
 
   const image = frontMatterAssets.image ?? frontMatter.image;
-
-  const authorURL = frontMatter.author_url || frontMatter.authorURL;
-  const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
-  const authorImageURL =
-    frontMatterAssets.author_image_url ||
-    frontMatterAssets.authorImageURL ||
-    frontMatter.author_image_url ||
-    frontMatter.authorImageURL;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -90,39 +82,40 @@ function BlogPostItem(props: Props): JSX.Element {
             {formattedDate}
           </time>
 
-          {readingTime && (
+          {typeof readingTime !== 'undefined' && (
             <>
               {' · '}
               {readingTimePlural(readingTime)}
             </>
           )}
         </div>
-        <div className="avatar margin-vert--md">
-          {authorImageURL && (
-            <Link className="avatar__photo-link avatar__photo" href={authorURL}>
-              <img src={authorImageURL} alt={author} />
-            </Link>
-          )}
-          {author && (
-            <div
-              className="avatar__intro"
-              itemProp="author"
-              itemScope
-              itemType="https://schema.org/Person">
-              <div className="avatar__name">
-                <Link href={authorURL} itemProp="url">
-                  <span itemProp="name">{author}</span>
-                </Link>
+        {authors.map(({name, title: authorTitle, url, imageURL}) => (
+          <div className="avatar margin-vert--md">
+            {imageURL && (
+              <Link className="avatar__photo-link avatar__photo" href={url}>
+                <img src={imageURL} alt={name} />
+              </Link>
+            )}
+            {name && (
+              <div
+                className="avatar__intro"
+                itemProp="author"
+                itemScope
+                itemType="https://schema.org/Person">
+                <div className="avatar__name">
+                  <Link href={url} itemProp="url">
+                    <span itemProp="name">{name}</span>
+                  </Link>
+                </div>
+                {authorTitle && (
+                  <small className="avatar__subtitle" itemProp="description">
+                    {authorTitle}
+                  </small>
+                )}
               </div>
-
-              {authorTitle && (
-                <small className="avatar__subtitle" itemProp="description">
-                  {authorTitle}
-                </small>
-              )}
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ))}
       </header>
     );
   };

@@ -1,9 +1,6 @@
 ---
 title: Docusaurus 2020 Recap
-author: Sébastien Lorber
-authorTitle: Docusaurus maintainer
-authorURL: https://sebastienlorber.com
-authorImageURL: https://github.com/slorber.png
+author_key: slorber
 authorTwitter: sebastienlorber
 tags: [recap]
 image: /img/docusaurus-2020-recap.png

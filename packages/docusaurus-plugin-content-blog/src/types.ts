@@ -58,6 +58,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editUrl?: string | EditUrlFunction;
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
+  authorMapPath: string;
 }
 
 export interface BlogTags {
@@ -92,6 +93,13 @@ export interface BlogPaginated {
   items: string[];
 }
 
+export interface Author {
+  name?: string;
+  imageURL?: string;
+  url?: string;
+  title?: string;
+}
+
 export interface MetaData {
   permalink: string;
   source: string;
@@ -105,6 +113,7 @@ export interface MetaData {
   nextItem?: Paginator;
   truncated: boolean;
   editUrl?: string;
+  authors: Author[];
 }
 
 export interface Paginator {

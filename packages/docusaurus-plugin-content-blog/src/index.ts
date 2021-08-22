@@ -32,7 +32,6 @@ import {
   BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
-  BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
 } from './types';
@@ -117,11 +116,7 @@ export default function pluginContentBlog(
         blogSidebarTitle,
       } = options;
 
-      const blogPosts: BlogPost[] = await generateBlogPosts(
-        contentPaths,
-        context,
-        options,
-      );
+      const blogPosts = await generateBlogPosts(contentPaths, context, options);
 
       if (!blogPosts.length) {
         return {

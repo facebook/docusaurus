@@ -16,11 +16,18 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, frontMatterAssets, metadata} = BlogPostContents;
-  const {title, description, nextItem, prevItem, date, tags} = metadata;
+  const {
+    title,
+    description,
+    nextItem,
+    prevItem,
+    date,
+    tags,
+    authors,
+  } = metadata;
   const {hide_table_of_contents: hideTableOfContents, keywords} = frontMatter;
 
   const image = frontMatterAssets.image ?? frontMatter.image;
-  const authorURL = frontMatter.author_url || frontMatter.authorURL;
 
   return (
     <BlogLayout
@@ -41,7 +48,12 @@ function BlogPostPage(props: Props): JSX.Element {
         image={image}>
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={date} />
-        {authorURL && <meta property="article:author" content={authorURL} />}
+        {authors.length > 0 && (
+          <meta
+            property="article:author"
+            content={authors.map((author) => author.url).join(',')}
+          />
+        )}
         {tags.length > 0 && (
           <meta
             property="article:tag"

@@ -10,8 +10,9 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {compact, keyBy, mapValues} from 'lodash';
+import {compact, keyBy, mapValues, pickBy, identity} from 'lodash';
 import {
+  Author,
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -30,8 +31,13 @@ import {
   normalizeFrontMatterTags,
   groupTaggedItems,
 } from '@docusaurus/utils';
+import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {LoadContext} from '@docusaurus/types';
-import {validateBlogPostFrontMatter} from './blogFrontMatter';
+import {
+  validateBlogPostFrontMatter,
+  BlogPostFrontMatter,
+} from './blogFrontMatter';
+import Yaml from 'js-yaml';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -100,6 +106,112 @@ function formatBlogPostDate(locale: string, date: Date): string {
   }
 }
 
+type AuthorMap = Record<string, Author>;
+
+async function readAuthorMapFile(
+  filePath: string,
+): Promise<AuthorMap | undefined> {
+  const AuthorMapSchema = Joi.object<AuthorMap>().pattern(
+    Joi.string(),
+    Joi.object({
+      name: Joi.string(),
+      url: URISchema,
+      imageURL: URISchema,
+      title: Joi.string(),
+    }).rename('image_url', 'imageURL'),
+  );
+
+  function validateAuthorMapFile(content: unknown): AuthorMap {
+    return Joi.attempt(content, AuthorMapSchema);
+  }
+
+  if (await fs.pathExists(filePath)) {
+    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
+    const parse =
+      filePath.endsWith('.yml') || filePath.endsWith('.yaml')
+        ? Yaml.load
+        : JSON.parse;
+    try {
+      const unsafeContent = parse(contentString);
+      return validateAuthorMapFile(unsafeContent);
+    } catch (e) {
+      console.error(chalk.red('The author list file looks invalid!'));
+      throw e;
+    }
+  }
+  return undefined;
+}
+
+async function getAuthorMap(contentPaths: BlogContentPaths, filePath: string) {
+  async function getAuthorMapFilePath() {
+    try {
+      return await getFolderContainingFile(
+        getContentPathList(contentPaths),
+        filePath,
+      );
+    } catch {
+      return undefined;
+    }
+  }
+  const authorMapDir = await getAuthorMapFilePath();
+  if (!authorMapDir) {
+    return undefined;
+  }
+  return readAuthorMapFile(path.join(authorMapDir, filePath));
+}
+
+function normalizeAuthor(
+  frontMatter: BlogPostFrontMatter,
+): Pick<BlogPostFrontMatter, 'author_keys' | 'authors'> {
+  /* eslint-disable camelcase */
+  const {
+    author,
+    authors,
+    author_key,
+    author_keys,
+    author_title,
+    author_url,
+    author_image_url,
+    authorTitle,
+    authorURL,
+    authorImageURL,
+  } = frontMatter;
+  if (
+    typeof author === 'string' ||
+    (typeof author === 'undefined' &&
+      (author_title ||
+        author_url ||
+        author_image_url ||
+        authorTitle ||
+        authorURL ||
+        authorImageURL ||
+        author_key))
+  ) {
+    return {
+      author_keys: author_key ? [author_key] : undefined,
+      authors: [
+        {
+          name: author,
+          title: author_title || authorTitle,
+          url: author_url || authorURL,
+          imageURL: author_image_url || authorImageURL,
+        },
+      ],
+    };
+  }
+  if (author) {
+    return {
+      author_keys: author_key ? [author_key] : undefined,
+      authors: [author],
+    };
+  }
+  return {
+    author_keys,
+    authors: authors || [],
+  };
+  /* eslint-enable camelcase */
+}
+
 export async function generateBlogFeed(
   contentPaths: BlogContentPaths,
   context: LoadContext,
@@ -138,7 +250,7 @@ export async function generateBlogFeed(
   blogPosts.forEach((post) => {
     const {
       id,
-      metadata: {title: metadataTitle, permalink, date, description},
+      metadata: {title: metadataTitle, permalink, date, description, authors},
     } = post;
     feed.addItem({
       title: metadataTitle,
@@ -146,6 +258,13 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      ...(authors
+        ? {
+            author: authors.map((author) => {
+              return {name: author.name, link: author.url};
+            }),
+          }
+        : undefined),
     });
   });
 
@@ -167,6 +286,7 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  authorMap?: AuthorMap,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -257,7 +377,40 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']);
+  const {
+    author_keys: authorKeys,
+    authors: frontMatterAuthors,
+  } = normalizeAuthor(frontMatter);
+  let authors: Author[] = [];
+  console.log(title, authorKeys, frontMatterAuthors);
+  if (authorKeys) {
+    if (!authorMap) {
+      throw Error(
+        `The "author_key" front matter is used but no author list file is found at path ${options.authorMapPath}.`,
+      );
+    }
+    authors = authorKeys.map((key) => {
+      if (!authorMap[key]) {
+        throw Error(`Author with key "${key}" not found in the list file. Available keys are:
+${Object.keys(authorMap)
+  .map((validKey) => `- ${validKey}`)
+  .join('\n')}`);
+      }
+      return authorMap[key];
+    });
+  }
+  if (frontMatterAuthors) {
+    authors = frontMatterAuthors.map((author, index) => {
+      if (index < authors.length) {
+        return {
+          ...pickBy(authors[index], identity()),
+          ...pickBy(author, identity()),
+        };
+      }
+      return author;
+    });
+  }
 
   return {
     id: frontMatter.slug ?? title,
@@ -272,6 +425,7 @@ async function processBlogSourceFile(
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime ? readingTime(content).minutes : undefined,
       truncated: truncateMarker?.test(content) || false,
+      authors,
     },
   };
 }
@@ -292,6 +446,8 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
+  const authorMap = await getAuthorMap(contentPaths, options.authorMapPath);
+
   const blogPosts: BlogPost[] = compact(
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
@@ -301,6 +457,7 @@ export async function generateBlogPosts(
             contentPaths,
             context,
             options,
+            authorMap,
           );
         } catch (e) {
           console.error(

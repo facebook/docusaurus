@@ -158,9 +158,147 @@ module.exports = {
 };
 ```
 
-:::note
+## Blog post author {#blog-post-author}
 
-Because the sidebar title is hard-coded in the configuration file, it is currently untranslatable.
+Docusaurus supports multiple author declaration patterns. The simplest way is through the front matter:
+
+```yml title="some-blogpost.md"
+---
+# As string fields
+author: Joel Marcey # required
+author_title: Co-creator of Docusaurus 1
+author_url: https://github.com/JoelMarcey
+author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+---
+# OR
+---
+# As an object
+author:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+---
+# OR
+---
+# As a list of objects
+authors:
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+  - name: Sébastien Lorber
+    title: Docusaurus maintainer
+    url: https://sebastienlorber.com
+    image_url: https://github.com/slorber.png
+---
+
+```
+
+Alternatively, you can supply default values for the author profile through a global author map. By default, the file should be at `blog/authors.yml`, but you can configure it through plugin options.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-next-line
+          authorMapPath: 'data/authors.json',
+        },
+      },
+    ],
+  ],
+};
+```
+
+The file should be a map from string keys to author objects, in either JSON or YAML format:
+
+```yml title="authors.yml"
+JMarcey:
+  name: Joel Marcey
+  title: Technical Lead and Developer Advocate at Facebook
+Endi:
+  name: Endilie Yacop Sucipto
+  url: https://github.com/endiliey
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+```
+
+And then, in the blog front matter, you can reference the author's profile with the `author_key`:
+
+```yml title="some-blogpost.md"
+---
+# Single author
+author_key: JMarcey
+---
+# OR
+---
+# Multiple authors
+author_keys:
+  - JMarcey
+  - slorber
+---
+
+```
+
+You can override any of the global profile information by redefining the author. The local front matter will always take precedence, only substituting those undefined values with the global information.
+
+```yml title="authors.yml"
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+```
+
+```yml title="some-blogpost.md"
+---
+author_key: slorber
+author_url: https://github.com/slorber
+---
+# The above front matter expands to:
+---
+author: Sébastien Lorber
+author_title: Docusaurus maintainer
+author_url: https://github.com/slorber
+author_image_url: https://github.com/slorber.png
+---
+
+```
+
+Multiple authors will also be handled one-to-one. Since `author_keys` only supply default values, you can even have more authors than the length of `author_keys`:
+
+```yml title="some-blogpost.md"
+---
+author_keys:
+  - slorber
+authors:
+  -
+  - name: Joel Marcey
+    title: Technical Lead and Developer Advocate at Facebook
+---
+# The above front matter expands to:
+---
+authors:
+  - name: Sébastien Lorber
+    title: Docusaurus maintainer
+    url: https://sebastienlorber.com
+    image_url: https://github.com/slorber.png
+  - name: Joel Marcey
+    title: Technical Lead and Developer Advocate at Facebook
+---
+
+```
+
+:::caution
+
+The plurals must match. `author_key` should be only used with `author`, and `author_keys` should only be used with `authors`. The difference is that singulars only accept single objects and plurals only accept arrays.
 
 :::
 

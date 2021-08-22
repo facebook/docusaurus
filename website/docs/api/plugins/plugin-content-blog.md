@@ -174,10 +174,13 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `author` | `string` | `undefined` | The author name to be displayed. |
+| `author` | <code>string &#124; Author</code> | `undefined` | The author's information. If set as string, it is the author's name. |
+| `authors` | `Author[]` | `undefined` | A list of authors. |
 | `author_url` | `string` | `undefined` | The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
 | `author_image_url` | `string` | `undefined` | The URL to the author's thumbnail image. |
 | `author_title` | `string` | `undefined` | A description of the author. |
+| `author_key` | `string` | `undefined` | A string key that corresponds to an author's profile in the global author map. |
+| `author_keys` | `string[]` | `undefined` | String keys that correspond to several authors' profiles in the global author map. |
 | `title` | `string` | Markdown title | The blog post title. |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
@@ -192,6 +195,45 @@ Accepted fields:
 
 ```typescript
 type Tag = string | {label: string; permalink: string};
+type Author = {
+  name?: string;
+  title?: string;
+  url?: string;
+  image_url?: string;
+};
+```
+
+Author-related front matter has to conform to one of the following patterns:
+
+```typescript
+type authorFrontMatter =
+  | {
+      author: string;
+      author_title?: string;
+      author_url?: string;
+      author_image_url?: string;
+    }
+  | {
+      author: Author;
+    }
+  | {
+      authors: Author[];
+    }
+  | {
+      author_key: string;
+      author?: string;
+      author_title?: string;
+      author_url?: string;
+      author_image_url?: string;
+    }
+  | {
+      author_key: string;
+      author?: Author;
+    }
+  | {
+      author_keys: string[];
+      authors?: Author[];
+    };
 ```
 
 Example:

@@ -107,21 +107,33 @@ describe('validateBlogPostFrontMatter author', () => {
   testField({
     fieldName: 'author',
     validFrontMatters: [{author: '123'}, {author: 'author'}],
-    invalidFrontMatters: [[{author: ''}, 'is not allowed to be empty']],
+    invalidFrontMatters: [
+      [{author: ''}, "doesn't match any of the accepted formats"],
+    ],
   });
 });
 
 describe('validateBlogPostFrontMatter author_title', () => {
   testField({
     fieldName: 'author_title',
-    validFrontMatters: [{author_title: '123'}, {author_title: 'author_title'}],
-    invalidFrontMatters: [[{author_title: ''}, 'is not allowed to be empty']],
+    validFrontMatters: [
+      {author: '123', author_title: '123'},
+      {author: '123', author_title: 'author_title'},
+    ],
+    invalidFrontMatters: [
+      [{author: '123', author_title: ''}, 'is not allowed to be empty'],
+    ],
   });
 
   testField({
     fieldName: 'authorTitle',
-    validFrontMatters: [{authorTitle: '123'}, {authorTitle: 'authorTitle'}],
-    invalidFrontMatters: [[{authorTitle: ''}, 'is not allowed to be empty']],
+    validFrontMatters: [
+      {author: '123', authorTitle: '123'},
+      {author: '123', authorTitle: 'authorTitle'},
+    ],
+    invalidFrontMatters: [
+      [{author: '123', authorTitle: ''}, 'is not allowed to be empty'],
+    ],
   });
 });
 
@@ -129,13 +141,13 @@ describe('validateBlogPostFrontMatter author_url', () => {
   testField({
     fieldName: 'author_url',
     validFrontMatters: [
-      {author_url: 'https://docusaurus.io'},
-      {author_url: '../../relative'},
-      {author_url: '/absolute'},
+      {author: '123', author_url: 'https://docusaurus.io'},
+      {author: '123', author_url: '../../relative'},
+      {author: '123', author_url: '/absolute'},
     ],
     invalidFrontMatters: [
       [
-        {author_url: ''},
+        {author: '123', author_url: ''},
         '"author_url" does not match any of the allowed types',
       ],
     ],
@@ -144,13 +156,16 @@ describe('validateBlogPostFrontMatter author_url', () => {
   testField({
     fieldName: 'authorURL',
     validFrontMatters: [
-      {authorURL: 'https://docusaurus.io'},
-      {authorURL: '../../relative'},
-      {authorURL: '/absolute'},
+      {author: '123', authorURL: 'https://docusaurus.io'},
+      {author: '123', authorURL: '../../relative'},
+      {author: '123', authorURL: '/absolute'},
     ],
 
     invalidFrontMatters: [
-      [{authorURL: ''}, '"authorURL" does not match any of the allowed types'],
+      [
+        {author: '123', authorURL: ''},
+        '"authorURL" does not match any of the allowed types',
+      ],
     ],
   });
 });
@@ -159,13 +174,16 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
   testField({
     fieldName: 'author_image_url',
     validFrontMatters: [
-      {author_image_url: 'https://docusaurus.io/asset/image.png'},
-      {author_image_url: '../../relative'},
-      {author_image_url: '/absolute'},
+      {
+        author: '123',
+        author_image_url: 'https://docusaurus.io/asset/image.png',
+      },
+      {author: '123', author_image_url: '../../relative'},
+      {author: '123', author_image_url: '/absolute'},
     ],
     invalidFrontMatters: [
       [
-        {author_image_url: ''},
+        {author: '123', author_image_url: ''},
         '"author_image_url" does not match any of the allowed types',
       ],
     ],
@@ -174,13 +192,13 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
   testField({
     fieldName: 'authorImageURL',
     validFrontMatters: [
-      {authorImageURL: 'https://docusaurus.io/asset/image.png'},
-      {authorImageURL: '../../relative'},
-      {authorImageURL: '/absolute'},
+      {author: '123', authorImageURL: 'https://docusaurus.io/asset/image.png'},
+      {author: '123', authorImageURL: '../../relative'},
+      {author: '123', authorImageURL: '/absolute'},
     ],
     invalidFrontMatters: [
       [
-        {authorImageURL: ''},
+        {author: '123', authorImageURL: ''},
         '"authorImageURL" does not match any of the allowed types',
       ],
     ],
@@ -304,9 +322,7 @@ describe('validateBlogPostFrontMatter date', () => {
     fieldName: 'date',
     validFrontMatters: [
       {date: new Date('2020-01-01')},
-      // @ts-expect-error: string for test
       {date: '2020-01-01'},
-      // @ts-expect-error: string for test
       {date: '2020'},
     ],
     invalidFrontMatters: [
