@@ -498,6 +498,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Gotenberg',
+    description: 'A Docker-powered stateless API for PDF files',
+    preview: require('./showcase/gotenberg.png'),
+    website: 'https://gotenberg.dev/',
+    source: 'https://github.com/gotenberg/gotenberg.dev',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'GraphQL Code Generator',
     description:
       'Generate code from your GraphQL schema and operations with a simple CLI',
