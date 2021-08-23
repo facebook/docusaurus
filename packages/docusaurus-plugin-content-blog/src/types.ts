@@ -93,7 +93,8 @@ export interface BlogPaginated {
   items: string[];
 }
 
-export interface Author {
+// We allow passing custom fields to authors, e.g., twitter
+export interface Author extends Record<string, unknown> {
   name?: string;
   imageURL?: string;
   url?: string;

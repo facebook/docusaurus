@@ -304,14 +304,6 @@ author_keys:
 
 You can override any of the global profile information by redefining the author. The local front matter will always take precedence, only substituting those undefined values with the global information.
 
-```yml title="authors.yml"
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-```
-
 ````mdx-code-block
 <Tabs
   defaultValue="strings"
@@ -404,17 +396,18 @@ The authors in `author_keys` always come before the additional authors in `autho
 </Tabs>
 ````
 
-:::note For site builders
-
-If you want to render additional author information (`twitter`, etc.), object notation is more preferable than string fields (prefer `author: {twitter: 'id'}` to `author_twitter: 'id'`), because the former will be packed into the blog post's `metadata.authors`, while the latter will stay in the front matter.
-
-:::
-
 :::caution
 
 The plurals must match. `author_key` should be only used with `author`, and `author_keys` should only be used with `authors`. The difference is that singulars only accept single objects and plurals only accept arrays.
 
 :::
+
+<details>
+  <summary>Technical details for site builders</summary>
+
+No matter how authors are declared in front matter, the result is always normalized into the `authors` field in the blog post's metadata. If you want to render additional author information (`twitter`, etc.), object notation is more preferable than string fields (prefer `author: {twitter: 'id'}` to `author_twitter: 'id'`), because the former will be packed into metadata, while the latter will not be picked up and will stay in the front matter.
+
+</details>
 
 ## Feed {#feed}
 

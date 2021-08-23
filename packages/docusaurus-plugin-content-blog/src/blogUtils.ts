@@ -203,10 +203,9 @@ function normalizeAuthor(
   }
   if (author) {
     // TODO: not optimal, but seems the image_url is not transformed during validation
-    if ((author as any).image_url) {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      author.imageURL = (author as any).image_url;
-      delete (author as any).image_url;
+    if (author.image_url) {
+      author.imageURL = author.image_url as string;
+      delete author.image_url;
     }
     return {
       author_keys: author_key ? [author_key] : undefined,
@@ -214,10 +213,9 @@ function normalizeAuthor(
     };
   }
   authors?.forEach((authorInList) => {
-    if ((authorInList as any)?.image_url) {
-      authorInList.imageURL = (authorInList as any).image_url;
-      delete (authorInList as any).image_url;
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+    if (authorInList?.image_url) {
+      authorInList.imageURL = authorInList.image_url as string;
+      delete authorInList.image_url;
     }
   });
   return {
