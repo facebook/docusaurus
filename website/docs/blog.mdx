@@ -3,6 +3,10 @@ id: blog
 title: Blog
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
 The blog feature enables you to deploy in no time a full-featured blog.
 
 :::info
@@ -162,7 +166,17 @@ module.exports = {
 
 Docusaurus supports multiple author declaration patterns. The simplest way is through the front matter:
 
-<!-- prettier-ignore-start -->
+````mdx-code-block
+<Tabs
+  defaultValue="strings"
+  groupId="author-format"
+  values={[
+    {label: 'String fields', value: 'strings'},
+    {label: 'Single author object', value: 'object'},
+    {label: 'Multiple authors', value: 'multiple'},
+  ]}>
+  <TabItem value="strings">
+
 ```yml title="some-blogpost.md"
 ---
 author: Joel Marcey
@@ -171,14 +185,12 @@ author_url: https://github.com/JoelMarcey
 author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 ---
 ```
-<!-- prettier-ignore-end -->
 
-Or as an object:
+  </TabItem>
+  <TabItem value="object">
 
-<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
-# As an object
 author:
   name: Joel Marcey
   title: Co-creator of Docusaurus 1
@@ -186,11 +198,10 @@ author:
   image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 ---
 ```
-<!-- prettier-ignore-end -->
 
-Or as a list of objects:
+  </TabItem>
+  <TabItem value="multiple">
 
-<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
 authors:
@@ -204,7 +215,10 @@ authors:
     image_url: https://github.com/slorber.png
 ---
 ```
-<!-- prettier-ignore-end -->
+
+  </TabItem>
+</Tabs>
+````
 
 Alternatively, you can supply default values for the author profile through a global author map. By default, the file should be at `blog/authors.yml`, but you can configure it through plugin options.
 
@@ -243,17 +257,35 @@ slorber:
 
 And then, in the blog front matter, you can reference the author's profile with the `author_key`:
 
-<!-- prettier-ignore-start -->
+````mdx-code-block
+<Tabs
+  defaultValue="strings"
+  groupId="author-format"
+  values={[
+    {label: 'String fields', value: 'strings'},
+    {label: 'Single author object', value: 'object'},
+    {label: 'Multiple authors', value: 'multiple'},
+  ]}>
+  <TabItem value="strings">
+
 ```yml title="some-blogpost.md"
 ---
-author_key: JMarcey
+author_key: slorber
 ---
 ```
-<!-- prettier-ignore-end -->
 
-Or multiple authors:
+  </TabItem>
+  <TabItem value="object">
 
-<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
+---
+author_key: slorber
+---
+```
+
+  </TabItem>
+  <TabItem value="multiple">
+
 ```yml title="some-blogpost.md"
 ---
 author_keys:
@@ -261,7 +293,10 @@ author_keys:
   - slorber
 ---
 ```
-<!-- prettier-ignore-end -->
+
+  </TabItem>
+</Tabs>
+````
 
 You can override any of the global profile information by redefining the author. The local front matter will always take precedence, only substituting those undefined values with the global information.
 
@@ -273,18 +308,26 @@ slorber:
   image_url: https://github.com/slorber.png
 ```
 
-<!-- prettier-ignore-start -->
+````mdx-code-block
+<Tabs
+  defaultValue="strings"
+  groupId="author-format"
+  values={[
+    {label: 'String fields', value: 'strings'},
+    {label: 'Single author object', value: 'object'},
+    {label: 'Multiple authors', value: 'multiple'},
+  ]}>
+  <TabItem value="strings">
+
 ```yml title="some-blogpost.md"
 ---
 author_key: slorber
 author_url: https://github.com/slorber
 ---
 ```
-<!-- prettier-ignore-end -->
 
 The above front matter expands to:
 
-<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
 author: Sébastien Lorber
@@ -293,11 +336,35 @@ author_url: https://github.com/slorber
 author_image_url: https://github.com/slorber.png
 ---
 ```
-<!-- prettier-ignore-end -->
 
-Multiple authors will also be handled one-to-one. Since `author_keys` only supply default values, you can even have more authors than the length of `author_keys`:
+  </TabItem>
+  <TabItem value="object">
 
-<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
+---
+author_key: slorber
+author:
+  url: https://github.com/slorber
+---
+```
+
+The above front matter expands to:
+
+```yml title="some-blogpost.md"
+---
+author:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://github.com/slorber
+  image_url: https://github.com/slorber.png
+---
+```
+
+  </TabItem>
+  <TabItem value="multiple">
+
+Multiple authors will be handled one-to-one. Since `author_keys` only supply default values, you can even have more authors than the length of `author_keys`:
+
 ```yml title="some-blogpost.md"
 ---
 author_keys:
@@ -308,11 +375,9 @@ authors:
     title: Technical Lead and Developer Advocate at Facebook
 ---
 ```
-<!-- prettier-ignore-end -->
 
 The above front matter expands to:
 
-<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
 authors:
@@ -324,7 +389,10 @@ authors:
     title: Technical Lead and Developer Advocate at Facebook
 ---
 ```
-<!-- prettier-ignore-end -->
+
+  </TabItem>
+</Tabs>
+````
 
 :::caution
 

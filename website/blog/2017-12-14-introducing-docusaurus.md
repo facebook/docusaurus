@@ -1,8 +1,8 @@
 ---
 title: Introducing Docusaurus
 author_key: JMarcey
-authorFBID: 611217057
-authorTwitter: JoelMarcey
+author_FBID: 611217057
+author_twitter: JoelMarcey
 tags: [documentation, blog, docusaurus]
 ---
 

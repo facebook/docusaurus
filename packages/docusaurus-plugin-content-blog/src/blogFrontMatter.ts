@@ -62,7 +62,7 @@ const AuthorSchema = Joi.object({
   title: Joi.string(),
   url: URISchema,
   image_url: Joi.string(),
-});
+}).unknown();
 
 // All possible ways to declare blog post authors.
 const AuthorFrontMatterSchemas = [
@@ -84,6 +84,9 @@ const AuthorFrontMatterSchemas = [
 
     author_keys: Joi.forbidden(),
     authors: Joi.forbidden(),
+  }).messages({
+    'deprecate.error':
+      '{#label} blog front matter field is deprecated. Please use {#alternative} instead.',
   }),
   Joi.object({
     author_key: Joi.string(),
@@ -126,11 +129,7 @@ const BlogFrontMatterSchema = Joi.object()
         "The author declaration doesn't match any of the accepted formats. Visit  for more details. Note that the fields are not allowed to be empty.",
     }),
   })
-  .unknown()
-  .messages({
-    'deprecate.error':
-      '{#label} blog front matter field is deprecated. Please use {#alternative} instead.',
-  });
+  .unknown();
 
 export function validateBlogPostFrontMatter(
   frontMatter: Record<string, unknown>,

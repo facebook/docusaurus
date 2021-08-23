@@ -1,7 +1,7 @@
 ---
 title: Docusaurus 2020 Recap
 author_key: slorber
-authorTwitter: sebastienlorber
+author_twitter: sebastienlorber
 tags: [recap]
 image: /img/docusaurus-2020-recap.png
 ---

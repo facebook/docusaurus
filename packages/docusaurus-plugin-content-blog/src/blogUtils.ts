@@ -383,7 +383,6 @@ async function processBlogSourceFile(
     authors: frontMatterAuthors,
   } = normalizeAuthor(frontMatter);
   let authors: Author[] = [];
-  console.log(title, authorKeys, frontMatterAuthors);
   if (authorKeys) {
     if (!authorMap) {
       throw Error(

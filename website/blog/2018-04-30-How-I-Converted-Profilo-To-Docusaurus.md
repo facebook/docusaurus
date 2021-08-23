@@ -1,10 +1,10 @@
 ---
 title: How I Converted Profilo to Docusaurus in Under 2 Hours
 author: Christine Abernathy
-authorURL: http://twitter.com/abernathyca
-authorImageURL: https://graph.facebook.com/1424840234/picture/?height=200&width=200
-authorFBID: 1424840234
-authorTwitter: abernathyca
+author_url: http://twitter.com/abernathyca
+author_image_url: https://graph.facebook.com/1424840234/picture/?height=200&width=200
+author_FBID: 1424840234
+author_twitter: abernathyca
 tags: [profilo, adoption]
 ---
 
