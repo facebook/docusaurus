@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
+import {pickBy, identity} from 'lodash';
 import {Author, BlogContentPaths} from './types';
 import {getFolderContainingFile} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
@@ -74,7 +75,7 @@ export async function getAuthorMap(
   return readAuthorMapFile(path.join(authorMapDir, filePath));
 }
 
-export function normalizeAuthor(
+function normalizeAuthor(
   frontMatter: BlogPostFrontMatter,
 ): Pick<BlogPostFrontMatter, 'author_keys' | 'authors'> {
   /* eslint-disable camelcase */
@@ -135,4 +136,43 @@ export function normalizeAuthor(
     authors: authors || [],
   };
   /* eslint-enable camelcase */
+}
+
+export function mergeAuthorMap(
+  authorMap: AuthorMap | undefined,
+  frontMatter: BlogPostFrontMatter,
+): Author[] {
+  const {
+    author_keys: authorKeys,
+    authors: frontMatterAuthors,
+  } = normalizeAuthor(frontMatter);
+  let authors: Author[] = [];
+  if (authorKeys) {
+    if (!authorMap) {
+      throw Error(
+        `The "author_key" front matter is used but no author list file is found.`,
+      );
+    }
+    authors = authorKeys.map((key) => {
+      if (!authorMap[key]) {
+        throw Error(`Author with key "${key}" not found in the list file. Available keys are:
+${Object.keys(authorMap)
+  .map((validKey) => `- ${validKey}`)
+  .join('\n')}`);
+      }
+      return authorMap[key];
+    });
+  }
+  if (frontMatterAuthors) {
+    authors = frontMatterAuthors.map((author, index) => {
+      if (index < authors.length) {
+        return {
+          ...pickBy(authors[index], identity()),
+          ...pickBy(author, identity()),
+        };
+      }
+      return author;
+    });
+  }
+  return authors;
 }

@@ -10,9 +10,8 @@ import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {compact, keyBy, mapValues, pickBy, identity} from 'lodash';
+import {compact, keyBy, mapValues} from 'lodash';
 import {
-  Author,
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -33,7 +32,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorMap, getAuthorMap, normalizeAuthor} from './authors';
+import {AuthorMap, getAuthorMap, mergeAuthorMap} from './authors';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -267,38 +266,7 @@ async function processBlogSourceFile(
   }
 
   const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
-  const {
-    author_keys: authorKeys,
-    authors: frontMatterAuthors,
-  } = normalizeAuthor(frontMatter);
-  let authors: Author[] = [];
-  if (authorKeys) {
-    if (!authorMap) {
-      throw Error(
-        `The "author_key" front matter is used but no author list file is found at path ${options.authorMapPath}.`,
-      );
-    }
-    authors = authorKeys.map((key) => {
-      if (!authorMap[key]) {
-        throw Error(`Author with key "${key}" not found in the list file. Available keys are:
-${Object.keys(authorMap)
-  .map((validKey) => `- ${validKey}`)
-  .join('\n')}`);
-      }
-      return authorMap[key];
-    });
-  }
-  if (frontMatterAuthors) {
-    authors = frontMatterAuthors.map((author, index) => {
-      if (index < authors.length) {
-        return {
-          ...pickBy(authors[index], identity()),
-          ...pickBy(author, identity()),
-        };
-      }
-      return author;
-    });
-  }
+  const authors = mergeAuthorMap(authorMap, frontMatter);
 
   return {
     id: frontMatter.slug ?? title,
