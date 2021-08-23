@@ -1,7 +1,6 @@
 ---
 title: Towards Docusaurus 2
 author_key: Endi
-author_twitter: endiliey
 tags: [new, adoption]
 ---
 

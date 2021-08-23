@@ -1,8 +1,8 @@
 ---
 title: Tribute to Endi
 author_key: JMarcey
-author_url: https://github.com/JoelMarcey
-author_twitter: JoelMarcey
+author:
+  url: https://github.com/JoelMarcey
 tags: [endi, tribute]
 ---
 

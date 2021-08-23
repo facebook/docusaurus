@@ -48,10 +48,13 @@ function BlogPostPage(props: Props): JSX.Element {
         image={image}>
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={date} />
-        {authors.length > 0 && (
+        {authors.some((author) => author.url) && (
           <meta
             property="article:author"
-            content={authors.map((author) => author.url).join(',')}
+            content={authors
+              .map((author) => author.url)
+              .filter(Boolean)
+              .join(',')}
           />
         )}
         {tags.length > 0 && (

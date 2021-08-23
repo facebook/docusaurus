@@ -148,13 +148,12 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
-      ...(authors
-        ? {
-            author: authors.map((author) => {
+      author:
+        authors.length > 0
+          ? authors.map((author) => {
               return {name: author.name, link: author.url};
-            }),
-          }
-        : undefined),
+            })
+          : undefined,
     });
   });
 
@@ -267,7 +266,7 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']);
+  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
   const {
     author_keys: authorKeys,
     authors: frontMatterAuthors,

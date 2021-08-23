@@ -1,7 +1,6 @@
 ---
 title: Docusaurus 2019 Recap
 author_key: yangshun
-author_twitter: yangshunz
 tags: [recap]
 ---
 

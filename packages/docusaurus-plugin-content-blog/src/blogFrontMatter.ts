@@ -126,7 +126,7 @@ const BlogFrontMatterSchema = Joi.object()
     }),
     otherwise: Joi.forbidden().messages({
       'any.unknown':
-        "The author declaration doesn't match any of the accepted formats. Visit  for more details. Note that the fields are not allowed to be empty.",
+        "The author declaration doesn't match any of the accepted formats. Visit https://docusaurus.io/docs/blog/#blog-post-author for more details. Note that the fields are not allowed to be empty.",
     }),
   })
   .unknown();
