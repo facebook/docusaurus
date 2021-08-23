@@ -453,7 +453,7 @@ export default function pluginContentBlog(
                     frontMatterAssetKeys: [
                       'image',
                       'authorImageURL',
-                      'author_image_URL',
+                      'author_image_url',
                     ],
                   },
                 },
