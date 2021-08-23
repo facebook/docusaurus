@@ -224,6 +224,12 @@ authors:
 </Tabs>
 ````
 
+:::caution
+
+The object format and multiple authors currently only support referencing images using URLs. Only the string fields format allows referencing the author's image using file-system relative paths (e.g. `author_image_url: ./img/avatar.png`).
+
+:::
+
 Alternatively, you can supply default values for the author profile through a global author map. The file should be a map from string keys to author objects, in either JSON or YAML format:
 
 ```yml title="authors.yml"
