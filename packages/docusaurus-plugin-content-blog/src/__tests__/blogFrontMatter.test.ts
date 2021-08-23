@@ -118,20 +118,13 @@ describe('validateBlogPostFrontMatter author_title', () => {
       {author: '123', author_title: '123'},
       {author: '123', author_title: 'author_title'},
     ],
-    invalidFrontMatters: [
-      [{author: '123', author_title: ''}, 'not allowed to be empty'],
-    ],
+    invalidFrontMatters: [[{author_title: ''}, 'not allowed to be empty']],
   });
 
   testField({
     fieldName: 'authorTitle',
-    validFrontMatters: [
-      {author: '123', authorTitle: '123'},
-      {author: '123', authorTitle: 'authorTitle'},
-    ],
-    invalidFrontMatters: [
-      [{author: '123', authorTitle: ''}, 'not allowed to be empty'],
-    ],
+    validFrontMatters: [{authorTitle: '123'}, {authorTitle: 'authorTitle'}],
+    invalidFrontMatters: [[{authorTitle: ''}, 'not allowed to be empty']],
   });
 });
 
@@ -139,26 +132,22 @@ describe('validateBlogPostFrontMatter author_url', () => {
   testField({
     fieldName: 'author_url',
     validFrontMatters: [
-      {author: '123', author_url: 'https://docusaurus.io'},
-      {author: '123', author_url: '../../relative'},
-      {author: '123', author_url: '/absolute'},
+      {author_url: 'https://docusaurus.io'},
+      {author_url: '../../relative'},
+      {author_url: '/absolute'},
     ],
-    invalidFrontMatters: [
-      [{author: '123', author_url: ''}, 'not allowed to be empty'],
-    ],
+    invalidFrontMatters: [[{author_url: ''}, 'not allowed to be empty']],
   });
 
   testField({
     fieldName: 'authorURL',
     validFrontMatters: [
-      {author: '123', authorURL: 'https://docusaurus.io'},
-      {author: '123', authorURL: '../../relative'},
-      {author: '123', authorURL: '/absolute'},
+      {authorURL: 'https://docusaurus.io'},
+      {authorURL: '../../relative'},
+      {authorURL: '/absolute'},
     ],
 
-    invalidFrontMatters: [
-      [{author: '123', authorURL: ''}, 'not allowed to be empty'],
-    ],
+    invalidFrontMatters: [[{authorURL: ''}, 'not allowed to be empty']],
   });
 });
 
@@ -166,27 +155,59 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
   testField({
     fieldName: 'author_image_url',
     validFrontMatters: [
-      {
-        author: '123',
-        author_image_url: 'https://docusaurus.io/asset/image.png',
-      },
-      {author: '123', author_image_url: '../../relative'},
-      {author: '123', author_image_url: '/absolute'},
+      {author_image_url: 'https://docusaurus.io/asset/image.png'},
+      {author_image_url: '../../relative'},
+      {author_image_url: '/absolute'},
     ],
-    invalidFrontMatters: [
-      [{author: '123', author_image_url: ''}, 'not allowed to be empty'],
-    ],
+    invalidFrontMatters: [[{author_image_url: ''}, 'not allowed to be empty']],
   });
 
   testField({
     fieldName: 'authorImageURL',
     validFrontMatters: [
-      {author: '123', authorImageURL: 'https://docusaurus.io/asset/image.png'},
-      {author: '123', authorImageURL: '../../relative'},
-      {author: '123', authorImageURL: '/absolute'},
+      {authorImageURL: 'https://docusaurus.io/asset/image.png'},
+      {authorImageURL: '../../relative'},
+      {authorImageURL: '/absolute'},
+    ],
+    invalidFrontMatters: [[{authorImageURL: ''}, 'not allowed to be empty']],
+  });
+});
+
+describe('validateBlogPostFrontMatter author_image_url', () => {
+  testField({
+    fieldName: 'author_image_url',
+    validFrontMatters: [
+      {author_image_url: 'https://docusaurus.io/asset/image.png'},
+      {author_image_url: '../../relative'},
+      {author_image_url: '/absolute'},
+    ],
+    invalidFrontMatters: [[{author_image_url: ''}, 'not allowed to be empty']],
+  });
+
+  testField({
+    fieldName: 'authorImageURL',
+    validFrontMatters: [
+      {authorImageURL: 'https://docusaurus.io/asset/image.png'},
+      {authorImageURL: '../../relative'},
+      {authorImageURL: '/absolute'},
+    ],
+    invalidFrontMatters: [[{authorImageURL: ''}, 'not allowed to be empty']],
+  });
+});
+
+describe('validateBlogPostFrontMatter author object', () => {
+  testField({
+    fieldName: 'author',
+    validFrontMatters: [
+      {author: {name: '123'}},
+      {author: {title: '123'}},
+      {author_key: '123', author: {title: '123'}},
     ],
     invalidFrontMatters: [
-      [{author: '123', authorImageURL: ''}, 'not allowed to be empty'],
+      [
+        {author: '123', author_keys: ['123']},
+        "doesn't match any of the accepted formats",
+      ],
     ],
   });
 });
@@ -204,7 +225,7 @@ describe('validateBlogPostFrontMatter slug', () => {
       {slug: '/api/plugins/@docusaurus/plugin-debug'},
       {slug: '@site/api/asset/image.png'},
     ],
-    invalidFrontMatters: [[{slug: ''}, 'is not allowed to be empty']],
+    invalidFrontMatters: [[{slug: ''}, 'not allowed to be empty']],
   });
 });
 
@@ -240,7 +261,7 @@ describe('validateBlogPostFrontMatter tags', () => {
     ],
     invalidFrontMatters: [
       [{tags: ''}, 'must be an array'],
-      [{tags: ['']}, 'is not allowed to be empty'],
+      [{tags: ['']}, 'not allowed to be empty'],
     ],
     // See https://github.com/facebook/docusaurus/issues/4642
     convertibleFrontMatter: [
@@ -264,7 +285,7 @@ describe('validateBlogPostFrontMatter keywords', () => {
     ],
     invalidFrontMatters: [
       [{keywords: ''}, 'must be an array'],
-      [{keywords: ['']}, 'is not allowed to be empty'],
+      [{keywords: ['']}, 'not allowed to be empty'],
       [{keywords: []}, 'does not contain 1 required value(s)'],
     ],
   });

@@ -208,30 +208,18 @@ Author-related front matter has to conform to one of the following patterns:
 ```typescript
 type authorFrontMatter =
   | {
-      author: string;
-      author_title?: string;
-      author_url?: string;
-      author_image_url?: string;
-    }
-  | {
-      author: Author;
-    }
-  | {
-      authors: Author[];
-    }
-  | {
-      author_key: string;
+      author_key?: string;
       author?: string;
       author_title?: string;
       author_url?: string;
       author_image_url?: string;
     }
   | {
-      author_key: string;
+      author_key?: string;
       author?: Author;
     }
   | {
-      author_keys: string[];
+      author_keys?: string[];
       authors?: Author[];
     };
 ```
