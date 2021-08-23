@@ -1,9 +1,10 @@
 ---
 title: Happy 1st Birthday Slash!
 author_key: JMarcey
-author_title: Co-creator of Docusaurus
-author_FBID: 611217057
-author_twitter: JoelMarcey
+author:
+  title: Co-creator of Docusaurus
+  FBID: 611217057
+  twitter: JoelMarcey
 tags: [birth]
 ---
 

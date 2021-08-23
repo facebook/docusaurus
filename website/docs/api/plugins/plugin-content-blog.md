@@ -4,7 +4,7 @@ title: '📦 plugin-content-blog'
 slug: '/api/plugins/@docusaurus/plugin-content-blog'
 ---
 
-Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus.
+Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
 ## Installation {#installation}
 

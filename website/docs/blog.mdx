@@ -164,7 +164,11 @@ module.exports = {
 
 ## Blog post author {#blog-post-author}
 
-Docusaurus supports multiple author declaration patterns. The simplest way is through the front matter:
+Docusaurus supports multiple author declaration patterns. Front matter accepts three formats:
+
+- Simple string fields;
+- An author object;
+- A list of multiple author objects.
 
 ````mdx-code-block
 <Tabs
@@ -390,9 +394,21 @@ authors:
 ---
 ```
 
+:::note
+
+The authors in `author_keys` always come before the additional authors in `authors`.
+
+:::
+
   </TabItem>
 </Tabs>
 ````
+
+:::note For site builders
+
+If you want to render additional author information (`twitter`, etc.), object notation is more preferable than string fields (prefer `author: {twitter: 'id'}` to `author_twitter: 'id'`), because the former will be packed into the blog post's `metadata.authors`, while the latter will stay in the front matter.
+
+:::
 
 :::caution
 

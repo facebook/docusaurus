@@ -61,8 +61,8 @@ const AuthorSchema = Joi.object({
   name: Joi.string(),
   title: Joi.string(),
   url: URISchema,
-  image_url: Joi.string(),
-}).unknown();
+  imageURL: Joi.string(),
+}).rename('image_url', 'imageURL');
 
 // All possible ways to declare blog post authors.
 const AuthorFrontMatterSchemas = [

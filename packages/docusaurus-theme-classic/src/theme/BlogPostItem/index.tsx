@@ -89,8 +89,8 @@ function BlogPostItem(props: Props): JSX.Element {
             </>
           )}
         </div>
-        {authors.map(({name, title: authorTitle, url, imageURL}) => (
-          <div className="avatar margin-vert--md">
+        {authors.map(({name, title: authorTitle, url, imageURL}, idx) => (
+          <div className="avatar margin-vert--md" key={idx}>
             {imageURL && (
               <Link className="avatar__photo-link avatar__photo" href={url}>
                 <img src={imageURL} alt={name} />
