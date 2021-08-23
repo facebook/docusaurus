@@ -162,15 +162,21 @@ module.exports = {
 
 Docusaurus supports multiple author declaration patterns. The simplest way is through the front matter:
 
+<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
-# As string fields
-author: Joel Marcey # required
+author: Joel Marcey
 author_title: Co-creator of Docusaurus 1
 author_url: https://github.com/JoelMarcey
 author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 ---
-# OR
+```
+<!-- prettier-ignore-end -->
+
+Or as an object:
+
+<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
 ---
 # As an object
 author:
@@ -179,9 +185,14 @@ author:
   url: https://github.com/JoelMarcey
   image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 ---
-# OR
+```
+<!-- prettier-ignore-end -->
+
+Or as a list of objects:
+
+<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
 ---
-# As a list of objects
 authors:
   - name: Joel Marcey
     title: Co-creator of Docusaurus 1
@@ -192,8 +203,8 @@ authors:
     url: https://sebastienlorber.com
     image_url: https://github.com/slorber.png
 ---
-
 ```
+<!-- prettier-ignore-end -->
 
 Alternatively, you can supply default values for the author profile through a global author map. By default, the file should be at `blog/authors.yml`, but you can configure it through plugin options.
 
@@ -232,20 +243,25 @@ slorber:
 
 And then, in the blog front matter, you can reference the author's profile with the `author_key`:
 
+<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
-# Single author
 author_key: JMarcey
 ---
-# OR
+```
+<!-- prettier-ignore-end -->
+
+Or multiple authors:
+
+<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
 ---
-# Multiple authors
 author_keys:
   - JMarcey
   - slorber
 ---
-
 ```
+<!-- prettier-ignore-end -->
 
 You can override any of the global profile information by redefining the author. The local front matter will always take precedence, only substituting those undefined values with the global information.
 
@@ -257,23 +273,31 @@ slorber:
   image_url: https://github.com/slorber.png
 ```
 
+<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
 author_key: slorber
 author_url: https://github.com/slorber
 ---
-# The above front matter expands to:
+```
+<!-- prettier-ignore-end -->
+
+The above front matter expands to:
+
+<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
 ---
 author: Sébastien Lorber
 author_title: Docusaurus maintainer
 author_url: https://github.com/slorber
 author_image_url: https://github.com/slorber.png
 ---
-
 ```
+<!-- prettier-ignore-end -->
 
 Multiple authors will also be handled one-to-one. Since `author_keys` only supply default values, you can even have more authors than the length of `author_keys`:
 
+<!-- prettier-ignore-start -->
 ```yml title="some-blogpost.md"
 ---
 author_keys:
@@ -283,7 +307,13 @@ authors:
   - name: Joel Marcey
     title: Technical Lead and Developer Advocate at Facebook
 ---
-# The above front matter expands to:
+```
+<!-- prettier-ignore-end -->
+
+The above front matter expands to:
+
+<!-- prettier-ignore-start -->
+```yml title="some-blogpost.md"
 ---
 authors:
   - name: Sébastien Lorber
@@ -293,8 +323,8 @@ authors:
   - name: Joel Marcey
     title: Technical Lead and Developer Advocate at Facebook
 ---
-
 ```
+<!-- prettier-ignore-end -->
 
 :::caution
 
