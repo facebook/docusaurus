@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {Feed} from 'feed';
+import {Feed, Author as FeedAuthor} from 'feed';
 import {compact, keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
@@ -17,6 +17,7 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  Author,
 } from './types';
 import {
   parseMarkdownFile,
@@ -136,6 +137,12 @@ export async function generateBlogFeed(
     copyright: feedOptions.copyright,
   });
 
+  function toFeedAuthor(author: Author): FeedAuthor {
+    // TODO ask author emails?
+    // RSS feed requires email to render authors
+    return {name: author.name, link: author.url};
+  }
+
   blogPosts.forEach((post) => {
     const {
       id,
@@ -147,12 +154,7 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
-      author:
-        authors.length > 0
-          ? authors.map((author) => {
-              return {name: author.name, link: author.url};
-            })
-          : undefined,
+      author: authors.map(toFeedAuthor),
     });
   });
 
