@@ -1,6 +1,10 @@
 ---
 title: Towards Docusaurus 2
-author_key: Endi
+author: Endilie Yacop Sucipto
+authorTitle: Maintainer of Docusaurus
+authorURL: https://github.com/endiliey
+authorImageURL: https://github.com/endiliey.png
+authorTwitter: endiliey
 tags: [new, adoption]
 ---
 
