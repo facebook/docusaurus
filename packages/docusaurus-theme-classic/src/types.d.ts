@@ -46,6 +46,27 @@ declare module '@theme/BlogPostItem' {
   export default BlogPostItem;
 }
 
+declare module '@theme/BlogPostAuthor' {
+  import type {Metadata} from '@theme/BlogPostPage';
+
+  export type Props = {
+    readonly author: Metadata['authors'][number];
+  };
+
+  export default function BlogPostAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostAuthors' {
+  import type {Metadata, FrontMatterAssets} from '@theme/BlogPostPage';
+
+  export type Props = {
+    readonly authors: Metadata['authors'];
+    readonly frontMatterAssets: FrontMatterAssets;
+  };
+
+  export default function BlogPostAuthors(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogPostPaginator' {
   type Item = {readonly title: string; readonly permalink: string};
 

@@ -18,6 +18,7 @@ import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 import TagsListInline from '@theme/TagsListInline';
+import BlogPostAuthors from '@theme/BlogPostAuthors';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
@@ -89,42 +90,10 @@ function BlogPostItem(props: Props): JSX.Element {
             </>
           )}
         </div>
-        {authors.map(({name, title: authorTitle, url, imageURL}, idx) => (
-          <div className="avatar margin-vert--md" key={idx}>
-            {imageURL && (
-              <Link className="avatar__photo-link avatar__photo" href={url}>
-                {/* Author image is only converted to asset if declared at top level, i.e. single author */}
-                {/* TODO: process multiple authors as well */}
-                <img
-                  src={
-                    frontMatterAssets.author_image_url ||
-                    frontMatterAssets.authorImageURL ||
-                    imageURL
-                  }
-                  alt={name}
-                />
-              </Link>
-            )}
-            {name && (
-              <div
-                className="avatar__intro"
-                itemProp="author"
-                itemScope
-                itemType="https://schema.org/Person">
-                <div className="avatar__name">
-                  <Link href={url} itemProp="url">
-                    <span itemProp="name">{name}</span>
-                  </Link>
-                </div>
-                {authorTitle && (
-                  <small className="avatar__subtitle" itemProp="description">
-                    {authorTitle}
-                  </small>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+        <BlogPostAuthors
+          authors={authors}
+          frontMatterAssets={frontMatterAssets}
+        />
       </header>
     );
   };
