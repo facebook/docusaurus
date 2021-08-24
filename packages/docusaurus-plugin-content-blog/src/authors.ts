@@ -138,7 +138,7 @@ function normalizeAuthor(
   /* eslint-enable camelcase */
 }
 
-export function mergeAuthorsMap(
+export function getBlogPostAuthors(
   authorsMap: AuthorsMap | undefined,
   frontMatter: BlogPostFrontMatter,
 ): Author[] {

@@ -33,7 +33,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, mergeAuthorsMap} from './authors';
+import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -268,7 +268,7 @@ async function processBlogSourceFile(
   }
 
   const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
-  const authors = mergeAuthorsMap(authorsMap, frontMatter);
+  const authors = getBlogPostAuthors(authorsMap, frontMatter);
 
   return {
     id: frontMatter.slug ?? title,
