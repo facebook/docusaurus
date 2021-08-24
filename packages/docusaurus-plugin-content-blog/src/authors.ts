@@ -10,7 +10,7 @@ import chalk from 'chalk';
 import path from 'path';
 import {pickBy, identity} from 'lodash';
 import {Author, BlogContentPaths} from './types';
-import {getFolderContainingFile} from '@docusaurus/utils';
+import {findFolderContainingFile} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {BlogPostFrontMatter} from './blogFrontMatter';
 import {getContentPathList} from './blogUtils';
@@ -47,6 +47,7 @@ async function readAuthorsMapFile(
       const unsafeContent = parse(contentString);
       return validateAuthorsMapFile(unsafeContent);
     } catch (e) {
+      // TODO replace later by error cause: see https://v8.dev/features/error-cause
       console.error(chalk.red('The author list file looks invalid!'));
       throw e;
     }
@@ -54,25 +55,42 @@ async function readAuthorsMapFile(
   return undefined;
 }
 
-export async function getAuthorsMap(
-  contentPaths: BlogContentPaths,
-  filePath: string,
-): Promise<AuthorsMap | undefined> {
-  async function getAuthorsMapFilePath() {
-    try {
-      return await getFolderContainingFile(
-        getContentPathList(contentPaths),
-        filePath,
-      );
-    } catch {
-      return undefined;
-    }
+type AuthorsMapParams = {
+  authorsMapPath: string;
+  contentPaths: BlogContentPaths;
+};
+
+export async function getAuthorsMapFilePath({
+  authorsMapPath,
+  contentPaths,
+}: AuthorsMapParams): Promise<string | undefined> {
+  // Useful to load an eventually localize authors map
+  const contentPath = await findFolderContainingFile(
+    getContentPathList(contentPaths),
+    authorsMapPath,
+  );
+
+  if (contentPath) {
+    return path.join(contentPath, authorsMapPath);
   }
-  const authorsMapDir = await getAuthorsMapFilePath();
-  if (!authorsMapDir) {
+
+  return undefined;
+}
+
+export async function getAuthorsMap(
+  params: AuthorsMapParams,
+): Promise<AuthorsMap | undefined> {
+  const filePath = await getAuthorsMapFilePath(params);
+  if (!filePath) {
     return undefined;
   }
-  return readAuthorsMapFile(path.join(authorsMapDir, filePath));
+  try {
+    return await readAuthorsMapFile(filePath);
+  } catch (e) {
+    // TODO replace later by error cause, see https://v8.dev/features/error-cause
+    console.log(`Couldn't read blog authors map at path=${filePath}`);
+    throw e;
+  }
 }
 
 function normalizeAuthor(

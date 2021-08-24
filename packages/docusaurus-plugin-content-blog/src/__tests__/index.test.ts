@@ -60,7 +60,7 @@ describe('loadBlog', () => {
 
   const BaseEditUrl = 'https://baseEditUrl.com/edit';
 
-  const getBlogPosts = async (
+  const getPlugin = async (
     siteDir: string,
     pluginOptions: Partial<PluginOptions> = {},
     i18n: I18n = DefaultI18N,
@@ -71,7 +71,7 @@ describe('loadBlog', () => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
     } as DocusaurusConfig;
-    const plugin = pluginContentBlog(
+    return pluginContentBlog(
       {
         siteDir,
         siteConfig,
@@ -84,10 +84,31 @@ describe('loadBlog', () => {
         ...pluginOptions,
       }),
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+  };
 
+  const getBlogPosts = async (
+    siteDir: string,
+    pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
+  ) => {
+    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+    const {blogPosts} = (await plugin.loadContent!())!;
     return blogPosts;
   };
+
+  test('getPathsToWatch', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const plugin = await getPlugin(siteDir);
+    const pathsToWatch = plugin.getPathsToWatch!();
+    const relativePathsToWatch = pathsToWatch.map((p) =>
+      path.relative(siteDir, p),
+    );
+    expect(relativePathsToWatch).toEqual([
+      'blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
+      'blog/**/*.{md,mdx}',
+    ]);
+  });
 
   test('simple website', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');

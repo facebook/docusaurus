@@ -94,12 +94,22 @@ export default function pluginContentBlog(
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include = []} = options;
-      return flatten(
+      const {include, authorsMapPath} = options;
+      const contentMarkdownGlobs = flatten(
         getContentPathList(contentPaths).map((contentPath) => {
           return include.map((pattern) => `${contentPath}/${pattern}`);
         }),
       );
+
+      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
+      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
+      // simplified impl, better than nothing for now:
+      const authorsMapFilePath = path.join(
+        contentPaths.contentPath,
+        authorsMapPath,
+      );
+
+      return [authorsMapFilePath, ...contentMarkdownGlobs];
     },
 
     async getTranslationFiles() {

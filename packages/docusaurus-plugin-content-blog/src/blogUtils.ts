@@ -304,7 +304,10 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
-  const authorsMap = await getAuthorsMap(contentPaths, options.authorsMapPath);
+  const authorsMap = await getAuthorsMap({
+    contentPaths,
+    authorsMapPath: options.authorsMapPath,
+  });
 
   const blogPosts: BlogPost[] = compact(
     await Promise.all(
