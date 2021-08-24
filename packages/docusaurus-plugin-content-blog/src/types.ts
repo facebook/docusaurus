@@ -58,7 +58,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editUrl?: string | EditUrlFunction;
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
-  authorMapPath: string;
+  authorsMapPath: string;
 }
 
 export interface BlogTags {

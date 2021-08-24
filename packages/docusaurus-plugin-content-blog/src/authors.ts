@@ -16,12 +16,12 @@ import {BlogPostFrontMatter} from './blogFrontMatter';
 import {getContentPathList} from './blogUtils';
 import Yaml from 'js-yaml';
 
-export type AuthorMap = Record<string, Author>;
+export type AuthorsMap = Record<string, Author>;
 
-async function readAuthorMapFile(
+async function readAuthorsMapFile(
   filePath: string,
-): Promise<AuthorMap | undefined> {
-  const AuthorMapSchema = Joi.object<AuthorMap>().pattern(
+): Promise<AuthorsMap | undefined> {
+  const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     Joi.string(),
     Joi.object({
       name: Joi.string(),
@@ -33,8 +33,8 @@ async function readAuthorMapFile(
       .unknown(),
   );
 
-  function validateAuthorMapFile(content: unknown): AuthorMap {
-    return Joi.attempt(content, AuthorMapSchema);
+  function validateAuthorsMapFile(content: unknown): AuthorsMap {
+    return Joi.attempt(content, AuthorsMapSchema);
   }
 
   if (await fs.pathExists(filePath)) {
@@ -45,7 +45,7 @@ async function readAuthorMapFile(
         : JSON.parse;
     try {
       const unsafeContent = parse(contentString);
-      return validateAuthorMapFile(unsafeContent);
+      return validateAuthorsMapFile(unsafeContent);
     } catch (e) {
       console.error(chalk.red('The author list file looks invalid!'));
       throw e;
@@ -54,11 +54,11 @@ async function readAuthorMapFile(
   return undefined;
 }
 
-export async function getAuthorMap(
+export async function getAuthorsMap(
   contentPaths: BlogContentPaths,
   filePath: string,
-): Promise<AuthorMap | undefined> {
-  async function getAuthorMapFilePath() {
+): Promise<AuthorsMap | undefined> {
+  async function getAuthorsMapFilePath() {
     try {
       return await getFolderContainingFile(
         getContentPathList(contentPaths),
@@ -68,11 +68,11 @@ export async function getAuthorMap(
       return undefined;
     }
   }
-  const authorMapDir = await getAuthorMapFilePath();
-  if (!authorMapDir) {
+  const authorsMapDir = await getAuthorsMapFilePath();
+  if (!authorsMapDir) {
     return undefined;
   }
-  return readAuthorMapFile(path.join(authorMapDir, filePath));
+  return readAuthorsMapFile(path.join(authorsMapDir, filePath));
 }
 
 function normalizeAuthor(
@@ -138,8 +138,8 @@ function normalizeAuthor(
   /* eslint-enable camelcase */
 }
 
-export function mergeAuthorMap(
-  authorMap: AuthorMap | undefined,
+export function mergeAuthorsMap(
+  authorsMap: AuthorsMap | undefined,
   frontMatter: BlogPostFrontMatter,
 ): Author[] {
   const {
@@ -148,19 +148,19 @@ export function mergeAuthorMap(
   } = normalizeAuthor(frontMatter);
   let authors: Author[] = [];
   if (authorKeys) {
-    if (!authorMap) {
+    if (!authorsMap) {
       throw Error(
         `The "author_key" front matter is used but no author list file is found.`,
       );
     }
     authors = authorKeys.map((key) => {
-      if (!authorMap[key]) {
+      if (!authorsMap[key]) {
         throw Error(`Author with key "${key}" not found in the list file. Available keys are:
-${Object.keys(authorMap)
+${Object.keys(authorsMap)
   .map((validKey) => `- ${validKey}`)
   .join('\n')}`);
       }
-      return authorMap[key];
+      return authorsMap[key];
     });
   }
   if (frontMatterAuthors) {

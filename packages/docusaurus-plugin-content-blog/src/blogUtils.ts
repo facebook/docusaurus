@@ -33,7 +33,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorMap, getAuthorMap, mergeAuthorMap} from './authors';
+import {AuthorsMap, getAuthorsMap, mergeAuthorsMap} from './authors';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -176,7 +176,7 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
-  authorMap?: AuthorMap,
+  authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -268,7 +268,7 @@ async function processBlogSourceFile(
   }
 
   const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
-  const authors = mergeAuthorMap(authorMap, frontMatter);
+  const authors = mergeAuthorsMap(authorsMap, frontMatter);
 
   return {
     id: frontMatter.slug ?? title,
@@ -304,7 +304,7 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
-  const authorMap = await getAuthorMap(contentPaths, options.authorMapPath);
+  const authorsMap = await getAuthorsMap(contentPaths, options.authorsMapPath);
 
   const blogPosts: BlogPost[] = compact(
     await Promise.all(
@@ -315,7 +315,7 @@ export async function generateBlogPosts(
             contentPaths,
             context,
             options,
-            authorMap,
+            authorsMap,
           );
         } catch (e) {
           console.error(

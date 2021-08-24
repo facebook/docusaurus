@@ -49,7 +49,7 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `string` | `/<!--\s*(truncate)\s*-->/` | Truncate marker, can be a regex or string. |
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
-| `authorMapPath` | `string` | `'authors.yml'` | Path to the global author map file, relative to the blog directory. |
+| `authorsMapPath` | `string` | `'authors.yml'` | Path to the global author map file, relative to the blog directory. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
 | `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
