@@ -21,7 +21,7 @@ CSS variables, meant to be overriden by final theme
   padding-left: 1rem;
 }
 
-/* TODO: remove this after Safari will support `::marker` */
+/* TODO: deprecation, need to remove this after Safari will support `::marker` */
 .details > summary::-webkit-details-marker {
   display: none;
 }
