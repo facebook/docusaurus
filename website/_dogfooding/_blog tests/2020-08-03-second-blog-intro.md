@@ -3,7 +3,6 @@ title: Using twice the blog plugin
 author: Sebastien Lorber
 author_url: https://sebastienlorber.com
 author_image_url: https://github.com/slorber.png
-author_FBID: 611217057
 author_twitter: sebastienlorber
 tags: [blog, docusaurus]
 ---

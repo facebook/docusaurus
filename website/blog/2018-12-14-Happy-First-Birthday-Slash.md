@@ -3,7 +3,6 @@ title: Happy 1st Birthday Slash!
 author_key: JMarcey
 author:
   title: Co-creator of Docusaurus
-  FBID: 611217057
 tags: [birth]
 ---
 

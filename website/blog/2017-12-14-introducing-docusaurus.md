@@ -1,8 +1,6 @@
 ---
 title: Introducing Docusaurus
 author_key: JMarcey
-author:
-  FBID: 611217057
 tags: [documentation, blog, docusaurus]
 ---
 

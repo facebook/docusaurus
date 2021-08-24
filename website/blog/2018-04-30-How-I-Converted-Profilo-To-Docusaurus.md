@@ -4,7 +4,6 @@ author:
   name: Christine Abernathy
   url: http://twitter.com/abernathyca
   image_url: https://graph.facebook.com/1424840234/picture/?height=200&width=200
-  FBID: 1424840234
   twitter: abernathyca
 tags: [profilo, adoption]
 ---
