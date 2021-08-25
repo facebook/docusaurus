@@ -592,6 +592,7 @@ const Users: User[] = [
     description: 'Indent provides on-demand access control for cloud apps and infrastructure.',
     preview: require('./showcase/indent.png'),
     website: 'https://indent.com/developers',
+    source: null,
     tags: ['product','design'],
   },
   {
