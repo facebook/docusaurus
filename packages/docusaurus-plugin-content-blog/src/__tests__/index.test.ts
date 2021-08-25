@@ -150,7 +150,16 @@ describe('loadBlog', () => {
       ),
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
-      authors: [],
+      authors: [
+        {
+          name: 'Yangshun Tay (translated)',
+        },
+        {
+          key: 'slorber',
+          name: 'Sébastien Lorber (translated)',
+          title: 'Docusaurus maintainer (translated)',
+        },
+      ],
       date: new Date('2018-12-14'),
       formattedDate: 'December 14, 2018',
       tags: [],
@@ -193,7 +202,14 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,
-      authors: [],
+      authors: [
+        {
+          name: 'Sébastien Lorber',
+          title: 'Docusaurus maintainer',
+          url: 'https://sebastienlorber.com',
+          imageURL: undefined,
+        },
+      ],
       prevItem: undefined,
       nextItem: {
         permalink: '/blog/draft',
