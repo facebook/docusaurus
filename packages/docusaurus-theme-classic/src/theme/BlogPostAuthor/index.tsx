@@ -12,30 +12,34 @@ import type {Props} from '@theme/BlogPostAuthor';
 function BlogPostAuthor({author}: Props): JSX.Element {
   const {name, title, url, imageURL} = author;
   return (
-    <div className="avatar margin-vert--md">
+    <div className="avatar margin-bottom--sm">
       {imageURL && (
         <Link className="avatar__photo-link avatar__photo" href={url}>
           <img src={imageURL} alt={name} />
         </Link>
       )}
-      {name && (
-        <div
-          className="avatar__intro"
-          itemProp="author"
-          itemScope
-          itemType="https://schema.org/Person">
-          <div className="avatar__name">
-            <Link href={url} itemProp="url">
-              <span itemProp="name">{name}</span>
-            </Link>
+
+      {
+        // Note: only legacy author frontmatter allow empty name (not frontMatter.authors)
+        name && (
+          <div
+            className="avatar__intro"
+            itemProp="author"
+            itemScope
+            itemType="https://schema.org/Person">
+            <div className="avatar__name">
+              <Link href={url} itemProp="url">
+                <span itemProp="name">{name}</span>
+              </Link>
+            </div>
+            {title && (
+              <small className="avatar__subtitle" itemProp="description">
+                {title}
+              </small>
+            )}
           </div>
-          {title && (
-            <small className="avatar__subtitle" itemProp="description">
-              {title}
-            </small>
-          )}
-        </div>
-      )}
+        )
+      }
     </div>
   );
 }

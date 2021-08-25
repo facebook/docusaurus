@@ -14,7 +14,7 @@ export default function BlogPostAuthors({
   frontMatterAssets,
 }: Props): JSX.Element {
   return (
-    <div className="row">
+    <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
         <div className="col col--4">
           <BlogPostAuthor

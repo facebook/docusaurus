@@ -1,8 +1,8 @@
 JMarcey:
   name: Joel Marcey
+  title: Technical Lead & Developer Advocate at Facebook
   url: http://twitter.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
-  title: Technical Lead and Developer Advocate at Facebook
   twitter: JoelMarcey
 
 slorber:
@@ -18,3 +18,9 @@ yangshun:
   url: https://github.com/yangshun
   image_url: https://github.com/yangshun.png
   twitter: yangshunz
+
+lex111:
+  name: Alexey Pyltsyn
+  title: Open-source enthusiast
+  url: https://github.com/lex111
+  image_url: https://github.com/lex111.png
