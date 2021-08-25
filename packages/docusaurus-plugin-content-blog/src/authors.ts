@@ -38,7 +38,7 @@ export function validateAuthorsMapFile(content: unknown): AuthorsMap {
   return Joi.attempt(content, AuthorsMapSchema);
 }
 
-async function readAuthorsMapFile(
+export async function readAuthorsMapFile(
   filePath: string,
 ): Promise<AuthorsMap | undefined> {
   if (await fs.pathExists(filePath)) {

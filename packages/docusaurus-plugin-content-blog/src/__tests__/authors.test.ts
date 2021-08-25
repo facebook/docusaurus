@@ -9,10 +9,86 @@ import {
   AuthorsMap,
   getAuthorsMapFilePath,
   validateAuthorsMapFile,
+  readAuthorsMapFile,
 } from '../authors';
 import path from 'path';
 
-describe.only('validateAuthorsMapFile', () => {
+describe('readAuthorsMapFile', () => {
+  const fixturesDir = path.join(__dirname, '__fixtures__/readAuthorsMapFile');
+
+  test('read valid yml author file', async () => {
+    const filePath = path.join(fixturesDir, 'authors.yml');
+    expect(await readAuthorsMapFile(filePath)).toBeDefined();
+  });
+
+  test('read valid json author file', async () => {
+    const filePath = path.join(fixturesDir, 'authors.json');
+    expect(await readAuthorsMapFile(filePath)).toBeDefined();
+  });
+
+  test('read yml and json should lead to the same result', async () => {
+    const content1 = await readAuthorsMapFile(
+      path.join(fixturesDir, 'authors.yml'),
+    );
+    const content2 = await readAuthorsMapFile(
+      path.join(fixturesDir, 'authors.json'),
+    );
+    expect(content1).toEqual(content2);
+  });
+
+  test('fail to read invalid yml 1', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad1.yml');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber.name\\" is required"`,
+    );
+  });
+  test('fail to read invalid json 1', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad1.json');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber.name\\" is required"`,
+    );
+  });
+
+  test('fail to read invalid yml 2', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad2.yml');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"name\\" must be of type object"`,
+    );
+  });
+  test('fail to read invalid json 2', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad2.json');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"name\\" must be of type object"`,
+    );
+  });
+
+  test('fail to read invalid yml 3', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad3.yml');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"value\\" must be of type object"`,
+    );
+  });
+  test('fail to read invalid json 3', async () => {
+    const filePath = path.join(fixturesDir, 'authorsBad3.json');
+    await expect(
+      readAuthorsMapFile(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"value\\" must be of type object"`,
+    );
+  });
+});
+
+describe('validateAuthorsMapFile', () => {
   test('accept valid authors map', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
