@@ -5,8 +5,116 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getAuthorsMapFilePath} from '../authors';
+import {
+  AuthorsMap,
+  getAuthorsMapFilePath,
+  validateAuthorsMapFile,
+} from '../authors';
 import path from 'path';
+
+describe.only('validateAuthorsMapFile', () => {
+  test('accept valid authors map', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        url: 'https://sebastienlorber.com',
+        imageURL: 'https://github.com/slorber.png',
+      },
+      yangshun: {
+        name: 'Yangshun Tay',
+        imageURL: 'https://github.com/yangshun.png',
+        randomField: 42,
+      },
+      jmarcey: {
+        name: 'Joel',
+        title: 'creator of Docusaurus',
+        hello: new Date(),
+      },
+    };
+    expect(validateAuthorsMapFile(authorsMap)).toEqual(authorsMap);
+  });
+
+  test('rename snake case image_url to camelCase imageURL', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        name: 'Sébastien Lorber',
+        image_url: 'https://github.com/slorber.png',
+      },
+    };
+    expect(validateAuthorsMapFile(authorsMap)).toEqual({
+      slorber: {
+        name: 'Sébastien Lorber',
+        imageURL: 'https://github.com/slorber.png',
+      },
+    });
+  });
+
+  test('reject author without name', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        image_url: 'https://github.com/slorber.png',
+      },
+    };
+    expect(() =>
+      validateAuthorsMapFile(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
+  });
+
+  test('reject undefined author', () => {
+    expect(() =>
+      validateAuthorsMapFile({
+        slorber: undefined,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber\\" is required"`);
+  });
+
+  test('reject null author', () => {
+    expect(() =>
+      validateAuthorsMapFile({
+        slorber: null,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must be of type object"`,
+    );
+  });
+
+  test('reject array author', () => {
+    expect(() =>
+      validateAuthorsMapFile({slorber: []}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must be of type object"`,
+    );
+  });
+
+  test('reject array content', () => {
+    expect(() => validateAuthorsMapFile([])).toThrowErrorMatchingInlineSnapshot(
+      // TODO improve this error message
+      `"\\"value\\" must be of type object"`,
+    );
+  });
+
+  test('reject flat author', () => {
+    expect(() =>
+      validateAuthorsMapFile({name: 'Sébastien'}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      // TODO improve this error message
+      `"\\"name\\" must be of type object"`,
+    );
+  });
+
+  test('reject non-map author', () => {
+    const authorsMap: AuthorsMap = {
+      // @ts-expect-error: for tests
+      slorber: [],
+    };
+    expect(() =>
+      validateAuthorsMapFile(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must be of type object"`,
+    );
+  });
+});
 
 describe('getAuthorsMapFilePath', () => {
   const fixturesDir = path.join(

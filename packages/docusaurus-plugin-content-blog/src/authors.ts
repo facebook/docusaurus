@@ -30,16 +30,17 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     title: Joi.string(),
   })
     .rename('image_url', 'imageURL')
-    .unknown(),
+    .unknown()
+    .required(),
 );
+
+export function validateAuthorsMapFile(content: unknown): AuthorsMap {
+  return Joi.attempt(content, AuthorsMapSchema);
+}
 
 async function readAuthorsMapFile(
   filePath: string,
 ): Promise<AuthorsMap | undefined> {
-  function validateAuthorsMapFile(content: unknown): AuthorsMap {
-    return Joi.attempt(content, AuthorsMapSchema);
-  }
-
   if (await fs.pathExists(filePath)) {
     const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
     const parse =
