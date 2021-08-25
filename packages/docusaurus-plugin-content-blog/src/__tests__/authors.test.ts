@@ -11,8 +11,276 @@ import {
   validateAuthorsMapFile,
   readAuthorsMapFile,
   getAuthorsMap,
+  getBlogPostAuthors,
 } from '../authors';
 import path from 'path';
+
+describe('getBlogPostAuthors', () => {
+  test('can read no authors', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {},
+        authorsMap: undefined,
+      }),
+    ).toEqual([]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [],
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([]);
+  });
+
+  test('can read author from legacy frontmatter', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          author: 'Sébastien Lorber',
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([{name: 'Sébastien Lorber'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authorTitle: 'maintainer',
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([{title: 'maintainer'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authorImageURL: 'https://github.com/slorber.png',
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([{imageURL: 'https://github.com/slorber.png'}]);
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          author: 'Sébastien Lorber',
+          author_title: 'maintainer1',
+          authorTitle: 'maintainer2',
+          author_image_url: 'https://github.com/slorber1.png',
+          authorImageURL: 'https://github.com/slorber2.png',
+          author_url: 'https://github.com/slorber1',
+          authorURL: 'https://github.com/slorber2',
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer1',
+        imageURL: 'https://github.com/slorber1.png',
+        url: 'https://github.com/slorber1',
+      },
+    ]);
+  });
+
+  test('can read authors string', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+      }),
+    ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
+  });
+
+  test('can read authors string[]', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['slorber', 'yangshun'],
+        },
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
+          yangshun: {name: 'Yangshun Tay'},
+        },
+      }),
+    ).toEqual([
+      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
+      {key: 'yangshun', name: 'Yangshun Tay'},
+    ]);
+  });
+
+  test('can read authors Author', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: {name: 'Sébastien Lorber', title: 'maintainer'},
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
+  });
+
+  test('can read authors Author[]', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [
+            {name: 'Sébastien Lorber', title: 'maintainer'},
+            {name: 'Yangshun Tay'},
+          ],
+        },
+        authorsMap: undefined,
+      }),
+    ).toEqual([
+      {name: 'Sébastien Lorber', title: 'maintainer'},
+      {name: 'Yangshun Tay'},
+    ]);
+  });
+
+  test('can read authors complex (string | Author)[] setup with keys and local overrides', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [
+            'slorber',
+            {
+              key: 'yangshun',
+              title: 'Yangshun title local override',
+              extra: 42,
+            },
+            {name: 'Alexey'},
+          ],
+        },
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
+          yangshun: {name: 'Yangshun Tay', title: 'Yangshun title original'},
+        },
+      }),
+    ).toEqual([
+      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
+      {
+        key: 'yangshun',
+        name: 'Yangshun Tay',
+        title: 'Yangshun title local override',
+        extra: 42,
+      },
+      {name: 'Alexey'},
+    ]);
+  });
+
+  test('throw when using author key with no authorsMap', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: undefined,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty and valid!"
+    `);
+  });
+
+  test('throw when using author key with empty authorsMap', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {},
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty and valid!"
+    `);
+  });
+
+  test('throw when using bad author key in string', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: 'slorber',
+        },
+        authorsMap: {
+          yangshun: {name: 'Yangshun Tay'},
+          jmarcey: {name: 'Joel Marcey'},
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Blog author with key \\"slorber\\" not found in the authors map file.
+      Valid author keys are:
+      - yangshun
+      - jmarcey"
+    `);
+  });
+
+  test('throw when using bad author key in string[]', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['yangshun', 'jmarcey', 'slorber'],
+        },
+        authorsMap: {
+          yangshun: {name: 'Yangshun Tay'},
+          jmarcey: {name: 'Joel Marcey'},
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Blog author with key \\"slorber\\" not found in the authors map file.
+      Valid author keys are:
+      - yangshun
+      - jmarcey"
+    `);
+  });
+
+  test('throw when using bad author key in Author[].key', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{key: 'yangshun'}, {key: 'jmarcey'}, {key: 'slorber'}],
+        },
+        authorsMap: {
+          yangshun: {name: 'Yangshun Tay'},
+          jmarcey: {name: 'Joel Marcey'},
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Blog author with key \\"slorber\\" not found in the authors map file.
+      Valid author keys are:
+      - yangshun
+      - jmarcey"
+    `);
+  });
+
+  test('throw when mixing legacy/new authors frontmatter', () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{name: 'Sébastien Lorber'}],
+          author: 'Yangshun Tay',
+        },
+        authorsMap: undefined,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "To declare blog post authors, use the 'authors' FrontMatter in priority.
+      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+    `);
+
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{key: 'slorber'}],
+          author_title: 'legacy title',
+        },
+        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "To declare blog post authors, use the 'authors' FrontMatter in priority.
+      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+    `);
+  });
+});
 
 describe('readAuthorsMapFile', () => {
   const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
