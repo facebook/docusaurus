@@ -162,44 +162,30 @@ module.exports = {
 };
 ```
 
-## Blog post author {#blog-post-author}
+## Blog post authors {#blog-post-authors}
 
-Docusaurus supports multiple author declaration patterns in the front matter:
+Use the `authors` FrontMatter field to declare blog post authors.
 
-- Simple string fields;
-- An author object;
-- A list of multiple author objects.
+### Inline authors {#inline-authors}
+
+Blog post authors can be declared directly inside the FrontMatter:
 
 ````mdx-code-block
 <Tabs
-  defaultValue="strings"
-  groupId="author-format"
+  defaultValue="single"
   values={[
-    {label: 'String fields', value: 'strings'},
-    {label: 'Single author object', value: 'object'},
+    {label: 'Single author', value: 'single'},
     {label: 'Multiple authors', value: 'multiple'},
   ]}>
-  <TabItem value="strings">
+  <TabItem value="single">
 
 ```yml title="some-blogpost.md"
 ---
-author: Joel Marcey
-author_title: Co-creator of Docusaurus 1
-author_url: https://github.com/JoelMarcey
-author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
----
-```
-
-  </TabItem>
-  <TabItem value="object">
-
-```yml title="some-blogpost.md"
----
-author:
+authors:
   name: Joel Marcey
   title: Co-creator of Docusaurus 1
   url: https://github.com/JoelMarcey
-  image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+  image_url: https://github.com/JoelMarcey.png
 ---
 ```
 
@@ -212,7 +198,7 @@ authors:
   - name: Joel Marcey
     title: Co-creator of Docusaurus 1
     url: https://github.com/JoelMarcey
-    image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+    image_url: https://github.com/JoelMarcey.png
   - name: Sébastien Lorber
     title: Docusaurus maintainer
     url: https://sebastienlorber.com
@@ -224,21 +210,41 @@ authors:
 </Tabs>
 ````
 
-:::caution
+:::tip
 
-The object format and multiple authors currently only support referencing images using URLs. Only the string fields format allows referencing the author's image using file-system relative paths (e.g. `author_image_url: ./img/avatar.png`).
+This option works best to get started, or for casual, irregular authors.
 
 :::
 
-Alternatively, you can supply default values for the author profile through a global author map. The file should be a map from string keys to author objects, in either JSON or YAML format:
+:::info
 
-```yml title="authors.yml"
-JMarcey:
+It is preferable to use the `authors` FrontMatter, but the following legacy author syntax remains supported:
+
+```yml title="some-blogpost.md"
+---
+author: Joel Marcey
+author_title: Co-creator of Docusaurus 1
+author_url: https://github.com/JoelMarcey
+author_image_url: https://github.com/JoelMarcey.png
+---
+
+```
+
+:::
+
+### Global authors {#global-authors}
+
+For regular blog post authors, it can be tedious to maintain authors information inlined in each blog post.
+
+It is possible declare those authors globally in a configuration file:
+
+```yml title="website/blog/authors.yml"
+jmarcey:
   name: Joel Marcey
-  title: Technical Lead and Developer Advocate at Facebook
-Endi:
-  name: Endilie Yacop Sucipto
-  url: https://github.com/endiliey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+
 slorber:
   name: Sébastien Lorber
   title: Docusaurus maintainer
@@ -246,31 +252,26 @@ slorber:
   image_url: https://github.com/slorber.png
 ```
 
-And then, in the blog front matter, you can reference the author's profile with the `author_key`:
+:::tip
+
+Use the `authorsMapPath` plugin option to configure the path. JSON is also supported.
+
+:::
+
+In blog posts FrontMatter, you can reference the authors declared in the global configuration file:
 
 ````mdx-code-block
 <Tabs
-  defaultValue="strings"
-  groupId="author-format"
+  defaultValue="single"
   values={[
-    {label: 'String fields', value: 'strings'},
-    {label: 'Single author object', value: 'object'},
+    {label: 'Single author', value: 'single'},
     {label: 'Multiple authors', value: 'multiple'},
   ]}>
-  <TabItem value="strings">
+  <TabItem value="single">
 
 ```yml title="some-blogpost.md"
 ---
-author_key: slorber
----
-```
-
-  </TabItem>
-  <TabItem value="object">
-
-```yml title="some-blogpost.md"
----
-author_key: slorber
+authors: jmarcey
 ---
 ```
 
@@ -279,9 +280,7 @@ author_key: slorber
 
 ```yml title="some-blogpost.md"
 ---
-author_keys:
-  - JMarcey
-  - slorber
+authors: [jmarcey, slorber]
 ---
 ```
 
@@ -289,131 +288,60 @@ author_keys:
 </Tabs>
 ````
 
-You can override any of the global profile information by redefining the author. The local front matter will always take precedence, and only those undefined values will be substituted with the global information.
+:::info
 
-````mdx-code-block
-<Tabs
-  defaultValue="strings"
-  groupId="author-format"
-  values={[
-    {label: 'String fields', value: 'strings'},
-    {label: 'Single author object', value: 'object'},
-    {label: 'Multiple authors', value: 'multiple'},
-  ]}>
-  <TabItem value="strings">
-
-```yml title="some-blogpost.md"
----
-author_key: slorber
-author_url: https://github.com/slorber
----
-```
-
-The above front matter is equivalent to:
-
-```yml title="some-blogpost.md"
----
-author: Sébastien Lorber
-author_title: Docusaurus maintainer
-author_url: https://github.com/slorber
-author_image_url: https://github.com/slorber.png
----
-```
-
-  </TabItem>
-  <TabItem value="object">
-
-```yml title="some-blogpost.md"
----
-author_key: slorber
-author:
-  url: https://github.com/slorber
----
-```
-
-The above front matter is equivalent to:
-
-```yml title="some-blogpost.md"
----
-author:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://github.com/slorber
-  image_url: https://github.com/slorber.png
----
-```
-
-  </TabItem>
-  <TabItem value="multiple">
-
-Multiple authors will be handled one-to-one. Since `author_keys` only supply default values, you can even have more authors than the length of `author_keys`:
-
-```yml title="some-blogpost.md"
----
-author_keys:
-  - slorber
-authors:
-  -
-  - name: Joel Marcey
-    title: Technical Lead and Developer Advocate at Facebook
----
-```
-
-The above front matter is equivalent to:
-
-```yml title="some-blogpost.md"
----
-authors:
-  - name: Sébastien Lorber
-    title: Docusaurus maintainer
-    url: https://sebastienlorber.com
-    image_url: https://github.com/slorber.png
-  - name: Joel Marcey
-    title: Technical Lead and Developer Advocate at Facebook
----
-```
-
-:::note
-
-The authors in `author_keys` always come before the additional authors in `authors`.
-
-:::
-
-  </TabItem>
-</Tabs>
-````
-
-:::caution
-
-The plurals must match. `author_key` should be only used with `author`, and `author_keys` should only be used with `authors`. The difference is that singulars only accept single objects and plurals only accept arrays.
-
-:::
-
-By default, this author map file should be at `<your-blog-path>/authors.yml` (i.e., in the same folder as all the other Markdown files), but you can configure it through plugin options.
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // ...
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        blog: {
-          // highlight-next-line
-          authorsMapPath: 'data/authors.json',
-        },
-      },
-    ],
-  ],
-};
-```
+The `authors` system is very flexible and can suit more advanced use-case:
 
 <details>
-  <summary>Technical details for site builders</summary>
+  <summary>Mix inline authors and global authors</summary>
 
-No matter how authors are declared in front matter, the result is always normalized into the `authors` field in the blog post's metadata. If you want to render additional author information (`twitter`, etc.), object notation is more preferable than string fields (prefer `author: {twitter: 'id'}` to `author_twitter: 'id'`), because the former will be packed into metadata, while the latter will not be picked up and will stay in the front matter.
+You can use global authors most of the time, and still use inline authors:
+
+```yml title="some-blogpost.md"
+---
+authors:
+  - jmarcey
+  - slorber
+  - name: Inline Author name
+    title: Inline Author Title
+    url: https://github.com/inlineAuthor
+    image_url: https://github.com/inlineAuthor
+---
+
+```
 
 </details>
+
+<details>
+  <summary>Local override of global authors</summary>
+
+You can customize the global author's data on per-blog-post basis
+
+```yml title="some-blogpost.md"
+---
+authors:
+  - key: jmarcey
+    title: Joel Marcey's new title
+  - key: slorber
+    name: Sébastien Lorber's new name
+---
+
+```
+
+</details>
+
+<details>
+  <summary>Localize the author's configuration file</summary>
+
+The configuration file can be localized, just create a localized copy of it at:
+
+```bash
+website/i18n/<locale>/docusaurus-plugin-content-blog/authors.yml
+```
+
+</details>
+
+:::
 
 ## Feed {#feed}
 
