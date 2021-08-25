@@ -14,6 +14,7 @@ import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
 import {Joi} from '@docusaurus/utils-validation';
+import {posixPath} from '@docusaurus/utils';
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -101,7 +102,7 @@ describe('loadBlog', () => {
     const plugin = await getPlugin(siteDir);
     const pathsToWatch = plugin.getPathsToWatch!();
     const relativePathsToWatch = pathsToWatch.map((p) =>
-      path.relative(siteDir, p),
+      posixPath(path.relative(siteDir, p)),
     );
     expect(relativePathsToWatch).toEqual([
       'blog/authors.yml',
