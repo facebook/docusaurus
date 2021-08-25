@@ -10,11 +10,12 @@ import {
   getAuthorsMapFilePath,
   validateAuthorsMapFile,
   readAuthorsMapFile,
+  getAuthorsMap,
 } from '../authors';
 import path from 'path';
 
 describe('readAuthorsMapFile', () => {
-  const fixturesDir = path.join(__dirname, '__fixtures__/readAuthorsMapFile');
+  const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
 
   test('read valid yml author file', async () => {
     const filePath = path.join(fixturesDir, 'authors.yml');
@@ -85,6 +86,40 @@ describe('readAuthorsMapFile', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"\\"value\\" must be of type object"`,
     );
+  });
+});
+describe('getAuthorsMap', () => {
+  const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
+  const contentPaths = {
+    contentPathLocalized: fixturesDir,
+    contentPath: fixturesDir,
+  };
+
+  test('getAuthorsMap can read yml file', async () => {
+    expect(
+      await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: 'authors.yml',
+      }),
+    ).toBeDefined();
+  });
+
+  test('getAuthorsMap can read json file', async () => {
+    expect(
+      await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: 'authors.json',
+      }),
+    ).toBeDefined();
+  });
+
+  test('getAuthorsMap can return undefined if yaml file not found', async () => {
+    expect(
+      await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: 'authors_does_not_exist.yml',
+      }),
+    ).toBeUndefined();
   });
 });
 
