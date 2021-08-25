@@ -88,7 +88,7 @@ export async function getAuthorsMap(
     return await readAuthorsMapFile(filePath);
   } catch (e) {
     // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.log(`Couldn't read blog authors map at path=${filePath}`);
+    console.log(`Couldn't read blog authors map at path ${filePath}`);
     throw e;
   }
 }
@@ -160,10 +160,8 @@ export function getBlogPostAuthors(
   authorsMap: AuthorsMap | undefined,
   frontMatter: BlogPostFrontMatter,
 ): Author[] {
-  const {
-    author_keys: authorKeys,
-    authors: frontMatterAuthors,
-  } = normalizeAuthor(frontMatter);
+  const {author_keys: authorKeys, authors: frontMatterAuthors} =
+    normalizeAuthor(frontMatter);
   let authors: Author[] = [];
   if (authorKeys) {
     if (!authorsMap) {
