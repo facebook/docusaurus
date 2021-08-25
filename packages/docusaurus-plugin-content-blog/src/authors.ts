@@ -21,21 +21,21 @@ import Yaml from 'js-yaml';
 
 export type AuthorsMap = Record<string, Author>;
 
+const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
+  Joi.string(),
+  Joi.object({
+    name: Joi.string().required(),
+    url: URISchema,
+    imageURL: URISchema,
+    title: Joi.string(),
+  })
+    .rename('image_url', 'imageURL')
+    .unknown(),
+);
+
 async function readAuthorsMapFile(
   filePath: string,
 ): Promise<AuthorsMap | undefined> {
-  const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
-    Joi.string(),
-    Joi.object({
-      name: Joi.string().required(),
-      url: URISchema,
-      imageURL: URISchema,
-      title: Joi.string(),
-    })
-      .rename('image_url', 'imageURL')
-      .unknown(),
-  );
-
   function validateAuthorsMapFile(content: unknown): AuthorsMap {
     return Joi.attempt(content, AuthorsMapSchema);
   }
