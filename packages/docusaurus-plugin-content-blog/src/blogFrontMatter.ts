@@ -68,6 +68,9 @@ export type BlogPostFrontMatter = {
   /* eslint-enable camelcase */
 };
 
+const FrontMatterAuthorErrorMessage =
+  '{{#label}} does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).';
+
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''),
@@ -77,11 +80,20 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   date: Joi.date().raw(),
 
   // New multi-authors frontmatter:
-  authors: Joi.alternatives().try(
-    Joi.string(),
-    BlogPostFrontMatterAuthorSchema,
-    Joi.array().items(Joi.string(), BlogPostFrontMatterAuthorSchema),
-  ),
+  authors: Joi.alternatives()
+    .try(
+      Joi.string(),
+      BlogPostFrontMatterAuthorSchema,
+      Joi.array()
+        .items(Joi.string(), BlogPostFrontMatterAuthorSchema)
+        .messages({
+          'array.sparse': FrontMatterAuthorErrorMessage,
+          'array.includes': FrontMatterAuthorErrorMessage,
+        }),
+    )
+    .messages({
+      'alternatives.match': FrontMatterAuthorErrorMessage,
+    }),
   // Legacy author frontmatter
   author: Joi.string(),
   author_title: Joi.string(),

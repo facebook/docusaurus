@@ -136,7 +136,12 @@ describe('validateBlogPostFrontMatter author_url', () => {
       {author_url: '../../relative'},
       {author_url: '/absolute'},
     ],
-    invalidFrontMatters: [[{author_url: ''}, 'not allowed to be empty']],
+    invalidFrontMatters: [
+      [
+        {author_url: ''},
+        '"author_url" does not look like a valid url (value=\'\')',
+      ],
+    ],
   });
 
   testField({
@@ -147,7 +152,12 @@ describe('validateBlogPostFrontMatter author_url', () => {
       {authorURL: '/absolute'},
     ],
 
-    invalidFrontMatters: [[{authorURL: ''}, 'not allowed to be empty']],
+    invalidFrontMatters: [
+      [
+        {authorURL: ''},
+        '"authorURL" does not look like a valid url (value=\'\')',
+      ],
+    ],
   });
 });
 
@@ -159,7 +169,12 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
       {author_image_url: '../../relative'},
       {author_image_url: '/absolute'},
     ],
-    invalidFrontMatters: [[{author_image_url: ''}, 'not allowed to be empty']],
+    invalidFrontMatters: [
+      [
+        {author_image_url: ''},
+        '"author_image_url" does not look like a valid url (value=\'\')',
+      ],
+    ],
   });
 
   testField({
@@ -169,36 +184,60 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
       {authorImageURL: '../../relative'},
       {authorImageURL: '/absolute'},
     ],
-    invalidFrontMatters: [[{authorImageURL: ''}, 'not allowed to be empty']],
+    invalidFrontMatters: [
+      [
+        {authorImageURL: ''},
+        '"authorImageURL" does not look like a valid url (value=\'\')',
+      ],
+    ],
   });
 });
 
-describe('validateBlogPostFrontMatter author_image_url', () => {
-  testField({
-    fieldName: 'author_image_url',
-    validFrontMatters: [
-      {author_image_url: 'https://docusaurus.io/asset/image.png'},
-      {author_image_url: '../../relative'},
-      {author_image_url: '/absolute'},
-    ],
-    invalidFrontMatters: [[{author_image_url: ''}, 'not allowed to be empty']],
-  });
-
-  testField({
-    fieldName: 'authorImageURL',
-    validFrontMatters: [
-      {authorImageURL: 'https://docusaurus.io/asset/image.png'},
-      {authorImageURL: '../../relative'},
-      {authorImageURL: '/absolute'},
-    ],
-    invalidFrontMatters: [[{authorImageURL: ''}, 'not allowed to be empty']],
-  });
-});
-
-describe('validateBlogPostFrontMatter author object', () => {
+describe('validateBlogPostFrontMatter authors', () => {
   testField({
     fieldName: 'author',
-    validFrontMatters: [{author: {name: '123'}}, {author: {title: '123'}}],
+    validFrontMatters: [
+      {authors: []},
+      {authors: 'authorKey'},
+      {authors: ['authorKey1', 'authorKey2']},
+      {
+        authors: {
+          name: 'Author Name',
+          imageURL: '/absolute',
+        },
+      },
+      {
+        authors: {
+          key: 'authorKey',
+          title: 'Author title',
+        },
+      },
+      {
+        authors: [
+          'authorKey1',
+          {key: 'authorKey3'},
+          'authorKey3',
+          {name: 'Author Name 4'},
+          {key: 'authorKey5'},
+        ],
+      },
+    ],
+
+    invalidFrontMatters: [
+      [{authors: ''}, '"authors" is not allowed to be empty'],
+      [
+        {authors: [undefined]},
+        '"authors[0]" does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).',
+      ],
+      [
+        {authors: [null]},
+        '"authors[0]" does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).',
+      ],
+      [
+        {authors: [{}]},
+        '"authors[0]" does not look like a valid blog post author. Please use an author key or an author object (with a key and/or name).',
+      ],
+    ],
   });
 });
 
@@ -234,7 +273,7 @@ describe('validateBlogPostFrontMatter image', () => {
       {image: '@site/api/asset/image.png'},
     ],
     invalidFrontMatters: [
-      [{image: ''}, '"image" does not match any of the allowed types'],
+      [{image: ''}, '"image" does not look like a valid url (value=\'\')'],
     ],
   });
 });
