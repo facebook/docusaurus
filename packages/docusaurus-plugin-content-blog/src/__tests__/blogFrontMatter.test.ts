@@ -11,6 +11,8 @@ import {
 } from '../blogFrontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
 
+// TODO this abstraction reduce verbosity but it makes it harder to debug
+// It would be preferable to just expose helper methods
 function testField(params: {
   fieldName: keyof BlogPostFrontMatter;
   validFrontMatters: BlogPostFrontMatter[];
@@ -100,6 +102,29 @@ describe('validateBlogPostFrontMatter id', () => {
     fieldName: 'id',
     validFrontMatters: [{id: '123'}, {id: 'id'}],
     invalidFrontMatters: [[{id: ''}, 'not allowed to be empty']],
+  });
+});
+
+describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', () => {
+  test('allow legacy author frontmatter', () => {
+    const frontMatter: BlogPostFrontMatter = {
+      author: 'Sebastien',
+      author_url: 'https://sebastienlorber.com',
+      author_title: 'maintainer',
+      author_image_url: 'https://github.com/slorber.png',
+    };
+    expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
+  });
+
+  test('allow new authors frontmatter', () => {
+    const frontMatter: BlogPostFrontMatter = {
+      authors: [
+        'slorber',
+        {name: 'Yangshun'},
+        {key: 'JMarcey', title: 'creator', random: '42'},
+      ],
+    };
+    expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 });
 

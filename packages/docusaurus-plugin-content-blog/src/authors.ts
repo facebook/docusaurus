@@ -186,7 +186,8 @@ export function getBlogPostAuthors(params: AuthorsParam): Author[] {
     // Technically, we could allow mixing legacy/authors frontmatter, but do we really want to?
     if (authors.length > 0) {
       throw new Error(
-        "To declare authors of a blog post, please use the 'authors' FrontMatter in priority, and don't mix it with other existing 'author_*' FrontMatter: choose one or the other.",
+        `To declare blog post authors, use the 'authors' FrontMatter in priority.
+Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time.`,
       );
     }
     return [authorLegacy];

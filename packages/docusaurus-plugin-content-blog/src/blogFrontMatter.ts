@@ -13,7 +13,7 @@ import {
 } from '@docusaurus/utils-validation';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
-export type BlogPostFrontMatterAuthor = {
+export type BlogPostFrontMatterAuthor = Record<string, unknown> & {
   key?: string;
   name?: string;
   imageURL?: string;
