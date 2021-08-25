@@ -9,13 +9,16 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/BlogPostAuthor';
 
+import styles from './styles.module.css';
+import clsx from 'clsx';
+
 function BlogPostAuthor({author}: Props): JSX.Element {
   const {name, title, url, imageURL} = author;
   return (
     <div className="avatar margin-bottom--sm">
       {imageURL && (
         <Link className="avatar__photo-link avatar__photo" href={url}>
-          <img src={imageURL} alt={name} />
+          <img className={styles.image} src={imageURL} alt={name} />
         </Link>
       )}
 
@@ -29,11 +32,15 @@ function BlogPostAuthor({author}: Props): JSX.Element {
             itemType="https://schema.org/Person">
             <div className="avatar__name">
               <Link href={url} itemProp="url">
-                <span itemProp="name">{name}</span>
+                <span itemProp="name" className={styles.name}>
+                  {name}
+                </span>
               </Link>
             </div>
             {title && (
-              <small className="avatar__subtitle" itemProp="description">
+              <small
+                className={clsx('avatar__subtitle', styles.title)}
+                itemProp="description">
                 {title}
               </small>
             )}
