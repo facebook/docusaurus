@@ -9,6 +9,7 @@ import React from 'react';
 import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
 
+// Component responsible for the authors layout
 export default function BlogPostAuthors({
   authors,
   frontMatterAssets,
@@ -16,9 +17,8 @@ export default function BlogPostAuthors({
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
-        <div className="col col--4">
+        <div className="col col--4" key={idx}>
           <BlogPostAuthor
-            key={idx}
             author={{
               ...author,
               // Author image is only converted to asset if declared at top level, i.e. single author
