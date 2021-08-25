@@ -34,6 +34,8 @@ import {
   BlogPaginated,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
+  MetaData,
+  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -53,6 +55,7 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
+import {BlogPostFrontMatter} from './blogFrontMatter';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -459,12 +462,22 @@ export default function pluginContentBlog(
                     // For blog posts a title in markdown is always removed
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
-                    // those frontMatter fields will be exported as "frontMatterAssets" and eventually be converted to require() calls for relative file paths
-                    frontMatterAssetKeys: [
-                      'image',
-                      'authorImageURL',
-                      'author_image_url',
-                    ],
+
+                    // Assets allow to convert some relative images paths to require() calls
+                    createAssets: ({
+                      frontMatter,
+                      metadata,
+                    }: {
+                      frontMatter: BlogPostFrontMatter;
+                      metadata: MetaData;
+                    }): Assets => {
+                      return {
+                        image: frontMatter.image,
+                        authorsImageUrls: metadata.authors.map(
+                          (author) => author.imageURL,
+                        ),
+                      };
+                    },
                   },
                 },
                 {

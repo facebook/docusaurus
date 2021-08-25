@@ -27,15 +27,11 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {
-    FrontMatter,
-    FrontMatterAssets,
-    Metadata,
-  } from '@theme/BlogPostPage';
+  import type {FrontMatter, Assets, Metadata} from '@theme/BlogPostPage';
 
   export type Props = {
     readonly frontMatter: FrontMatter;
-    readonly frontMatterAssets: FrontMatterAssets;
+    readonly assets: Assets;
     readonly metadata: Metadata;
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;
@@ -57,11 +53,11 @@ declare module '@theme/BlogPostAuthor' {
 }
 
 declare module '@theme/BlogPostAuthors' {
-  import type {Metadata, FrontMatterAssets} from '@theme/BlogPostPage';
+  import type {Metadata, Assets} from '@theme/BlogPostPage';
 
   export type Props = {
     readonly authors: Metadata['authors'];
-    readonly frontMatterAssets: FrontMatterAssets;
+    readonly assets: Assets;
   };
 
   export default function BlogPostAuthors(props: Props): JSX.Element;

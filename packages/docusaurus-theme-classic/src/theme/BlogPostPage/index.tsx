@@ -15,7 +15,7 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
-  const {frontMatter, frontMatterAssets, metadata} = BlogPostContents;
+  const {frontMatter, assets, metadata} = BlogPostContents;
   const {
     title,
     description,
@@ -27,7 +27,7 @@ function BlogPostPage(props: Props): JSX.Element {
   } = metadata;
   const {hide_table_of_contents: hideTableOfContents, keywords} = frontMatter;
 
-  const image = frontMatterAssets.image ?? frontMatter.image;
+  const image = assets.image ?? frontMatter.image;
 
   return (
     <BlogLayout
@@ -69,7 +69,7 @@ function BlogPostPage(props: Props): JSX.Element {
 
       <BlogPostItem
         frontMatter={frontMatter}
-        frontMatterAssets={frontMatterAssets}
+        assets={assets}
         metadata={metadata}
         isBlogPostPage>
         <BlogPostContents />

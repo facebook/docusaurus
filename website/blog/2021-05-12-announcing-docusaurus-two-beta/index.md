@@ -2,7 +2,7 @@
 title: Announcing Docusaurus 2 Beta
 authors:
   - key: slorber
-    image_url: ./img/slorberLocalImage.jpeg
+    image_url: ./img/slorber.png
   - JMarcey
   - yangshun
   - lex111

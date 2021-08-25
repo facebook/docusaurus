@@ -10,10 +10,7 @@ import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
 
 // Component responsible for the authors layout
-export default function BlogPostAuthors({
-  authors,
-  frontMatterAssets,
-}: Props): JSX.Element {
+export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
@@ -21,12 +18,8 @@ export default function BlogPostAuthors({
           <BlogPostAuthor
             author={{
               ...author,
-              // Author image is only converted to asset if declared at top level, i.e. single author
-              // TODO: process multiple authors as well
-              imageURL:
-                frontMatterAssets.author_image_url ||
-                frontMatterAssets.authorImageURL ||
-                author.imageURL,
+              // Handle author images using relative paths
+              imageURL: assets.authorsImageUrls[idx] ?? author.imageURL,
             }}
           />
         </div>

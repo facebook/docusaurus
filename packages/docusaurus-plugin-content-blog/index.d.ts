@@ -24,14 +24,7 @@ declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
   export type FrontMatter = import('./src/blogFrontMatter').BlogPostFrontMatter;
-
-  export type FrontMatterAssets = {
-    /* eslint-disable camelcase */
-    readonly image?: string;
-    readonly author_image_url?: string;
-    readonly authorImageURL?: string;
-    /* eslint-enable camelcase */
-  };
+  export type Assets = import('./src/types').Assets;
 
   export type Metadata = {
     readonly title: string;
@@ -53,7 +46,7 @@ declare module '@theme/BlogPostPage' {
 
   export type Content = {
     readonly frontMatter: FrontMatter;
-    readonly frontMatterAssets: FrontMatterAssets;
+    readonly assets: Assets;
     readonly metadata: Metadata;
     readonly toc: readonly TOCItem[];
     (): JSX.Element;

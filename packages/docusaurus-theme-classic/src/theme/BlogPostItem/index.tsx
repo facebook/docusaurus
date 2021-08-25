@@ -46,7 +46,7 @@ function BlogPostItem(props: Props): JSX.Element {
   const {
     children,
     frontMatter,
-    frontMatterAssets,
+    assets,
     metadata,
     truncated,
     isBlogPostPage = false,
@@ -62,7 +62,7 @@ function BlogPostItem(props: Props): JSX.Element {
     authors,
   } = metadata;
 
-  const image = frontMatterAssets.image ?? frontMatter.image;
+  const image = assets.image ?? frontMatter.image;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -90,10 +90,7 @@ function BlogPostItem(props: Props): JSX.Element {
             </>
           )}
         </div>
-        <BlogPostAuthors
-          authors={authors}
-          frontMatterAssets={frontMatterAssets}
-        />
+        <BlogPostAuthors authors={authors} assets={assets} />
       </header>
     );
   };
