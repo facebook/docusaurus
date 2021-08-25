@@ -151,7 +151,7 @@ describe('validateDocFrontMatter image', () => {
       {image: '../relative/image.png'},
     ],
     invalidFrontMatters: [
-      [{image: ''}, 'does not match any of the allowed types'],
+      [{image: ''}, '"image" does not look like a valid url (value=\'\')'],
     ],
   });
 });
