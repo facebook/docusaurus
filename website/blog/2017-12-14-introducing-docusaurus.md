@@ -1,6 +1,6 @@
 ---
 title: Introducing Docusaurus
-author_key: JMarcey
+authors: JMarcey
 tags: [documentation, blog, docusaurus]
 ---
 

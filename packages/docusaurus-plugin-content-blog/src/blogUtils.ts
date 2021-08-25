@@ -268,7 +268,7 @@ async function processBlogSourceFile(
   }
 
   const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
-  const authors = getBlogPostAuthors(authorsMap, frontMatter);
+  const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
     id: frontMatter.slug ?? title,

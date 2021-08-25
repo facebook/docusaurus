@@ -8,11 +8,14 @@
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
-import {pickBy, identity} from 'lodash';
 import {Author, BlogContentPaths} from './types';
 import {findFolderContainingFile} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import {
+  BlogPostFrontMatter,
+  BlogPostFrontMatterAuthor,
+  BlogPostFrontMatterAuthors,
+} from './blogFrontMatter';
 import {getContentPathList} from './blogUtils';
 import Yaml from 'js-yaml';
 
@@ -24,7 +27,7 @@ async function readAuthorsMapFile(
   const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     Joi.string(),
     Joi.object({
-      name: Joi.string(),
+      name: Joi.string().required(),
       url: URISchema,
       imageURL: URISchema,
       title: Joi.string(),
@@ -88,107 +91,106 @@ export async function getAuthorsMap(
     return await readAuthorsMapFile(filePath);
   } catch (e) {
     // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.log(`Couldn't read blog authors map at path ${filePath}`);
+    console.error(
+      chalk.red(`Couldn't read blog authors map at path ${filePath}`),
+    );
     throw e;
   }
 }
 
-function normalizeAuthor(
+type AuthorsParam = {
+  frontMatter: BlogPostFrontMatter;
+  authorsMap: AuthorsMap | undefined;
+};
+
+// Legacy v1/early-v2 frontmatter fields
+// We may want to deprecate those in favor of using only frontMatter.authors
+function getFrontMatterAuthorLegacy(
   frontMatter: BlogPostFrontMatter,
-): Pick<BlogPostFrontMatter, 'author_keys' | 'authors'> {
-  /* eslint-disable camelcase */
-  const {
-    author,
-    authors,
-    author_key,
-    author_keys,
-    author_title,
-    author_url,
-    author_image_url,
-    authorTitle,
-    authorURL,
-    authorImageURL,
-  } = frontMatter;
-  if (
-    typeof author === 'string' ||
-    (typeof author === 'undefined' &&
-      (author_title ||
-        author_url ||
-        author_image_url ||
-        authorTitle ||
-        authorURL ||
-        authorImageURL ||
-        author_key))
-  ) {
+): BlogPostFrontMatterAuthor | undefined {
+  const name = frontMatter.author;
+  const title = frontMatter.author_title ?? frontMatter.authorTitle;
+  const url = frontMatter.author_url ?? frontMatter.authorURL;
+  const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
+
+  // Shouldn't we require at least an author name?
+  if (name || title || url || imageURL) {
     return {
-      author_keys: author_key ? [author_key] : undefined,
-      authors: [
-        {
-          name: author,
-          title: author_title || authorTitle,
-          url: author_url || authorURL,
-          imageURL: author_image_url || authorImageURL,
-        },
-      ],
+      name,
+      title,
+      url,
+      imageURL,
     };
   }
-  if (author) {
-    // TODO: not optimal, but seems the image_url is not transformed during validation
-    if (author.image_url) {
-      author.imageURL = author.image_url as string;
-      delete author.image_url;
-    }
-    return {
-      author_keys: author_key ? [author_key] : undefined,
-      authors: [author],
-    };
-  }
-  authors?.forEach((authorInList) => {
-    if (authorInList?.image_url) {
-      authorInList.imageURL = authorInList.image_url as string;
-      delete authorInList.image_url;
-    }
-  });
-  return {
-    author_keys,
-    authors: authors || [],
-  };
-  /* eslint-enable camelcase */
+
+  return undefined;
 }
 
-export function getBlogPostAuthors(
-  authorsMap: AuthorsMap | undefined,
-  frontMatter: BlogPostFrontMatter,
-): Author[] {
-  const {author_keys: authorKeys, authors: frontMatterAuthors} =
-    normalizeAuthor(frontMatter);
-  let authors: Author[] = [];
-  if (authorKeys) {
-    if (!authorsMap) {
-      throw Error(
-        `The "author_key" front matter is used but no author list file is found.`,
-      );
+function normalizeFrontMatterAuthors(
+  frontMatterAuthors: BlogPostFrontMatterAuthors = [],
+): BlogPostFrontMatterAuthor[] {
+  function normalizeAuthor(
+    authorInput: string | BlogPostFrontMatterAuthor,
+  ): BlogPostFrontMatterAuthor {
+    if (typeof authorInput === 'string') {
+      // Technically, we could allow users to provide an author's name here
+      // IMHO it's better to only support keys here
+      // Reason: a typo in a key would fallback to becoming a name and may end-up un-noticed
+      return {key: authorInput};
     }
-    authors = authorKeys.map((key) => {
-      if (!authorsMap[key]) {
-        throw Error(`Author with key "${key}" not found in the list file. Available keys are:
+    return authorInput;
+  }
+
+  return Array.isArray(frontMatterAuthors)
+    ? frontMatterAuthors.map(normalizeAuthor)
+    : [normalizeAuthor(frontMatterAuthors)];
+}
+
+function getFrontMatterAuthors(params: AuthorsParam): Author[] {
+  const authorsMap = params.authorsMap ?? {};
+  const frontMatterAuthors = normalizeFrontMatterAuthors(
+    params.frontMatter.authors,
+  );
+
+  function getAuthorsMapAuthor(key: string | undefined): Author | undefined {
+    if (key) {
+      const author = authorsMap[key];
+      if (!author) {
+        throw Error(`Blog author with key "${key}" not found in the authors map file.
+Valid author keys are:
 ${Object.keys(authorsMap)
   .map((validKey) => `- ${validKey}`)
   .join('\n')}`);
       }
-      return authorsMap[key];
-    });
-  }
-  if (frontMatterAuthors) {
-    authors = frontMatterAuthors.map((author, index) => {
-      if (index < authors.length) {
-        return {
-          ...pickBy(authors[index], identity()),
-          ...pickBy(author, identity()),
-        };
-      }
       return author;
-    });
+    }
+    return undefined;
   }
+
+  function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
+    return {
+      // Author def from authorsMap can be locally overridden by frontmatter
+      ...getAuthorsMapAuthor(frontMatterAuthor.key),
+      ...frontMatterAuthor,
+    };
+  }
+
+  return frontMatterAuthors.map(toAuthor);
+}
+
+export function getBlogPostAuthors(params: AuthorsParam): Author[] {
+  const authorLegacy = getFrontMatterAuthorLegacy(params.frontMatter);
+  const authors = getFrontMatterAuthors(params);
+
+  if (authorLegacy) {
+    // Technically, we could allow mixing legacy/authors frontmatter, but do we really want to?
+    if (authors.length > 0) {
+      throw new Error(
+        "To declare authors of a blog post, please use the 'authors' FrontMatter in priority, and don't mix it with other existing 'author_*' FrontMatter: choose one or the other.",
+      );
+    }
+    return [authorLegacy];
+  }
+
   return authors;
 }

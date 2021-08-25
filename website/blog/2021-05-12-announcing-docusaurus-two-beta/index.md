@@ -1,7 +1,8 @@
 ---
 title: Announcing Docusaurus 2 Beta
-author_key: slorber
-author_image_url: ./img/author.jpeg
+authors:
+  - key: slorber
+    image_url: ./img/author.jpeg
 tags: [release, beta]
 image: ./img/social-card.png
 ---

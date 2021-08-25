@@ -1,8 +1,8 @@
 ---
 title: Happy 1st Birthday Slash!
-author_key: JMarcey
-author:
-  title: Co-creator of Docusaurus
+authors:
+  - key: JMarcey
+    title: Co-creator of Docusaurus
 tags: [birth]
 ---
 

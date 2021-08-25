@@ -198,17 +198,7 @@ describe('validateBlogPostFrontMatter author_image_url', () => {
 describe('validateBlogPostFrontMatter author object', () => {
   testField({
     fieldName: 'author',
-    validFrontMatters: [
-      {author: {name: '123'}},
-      {author: {title: '123'}},
-      {author_key: '123', author: {title: '123'}},
-    ],
-    invalidFrontMatters: [
-      [
-        {author: '123', author_keys: ['123']},
-        "doesn't match any of the accepted formats",
-      ],
-    ],
+    validFrontMatters: [{author: {name: '123'}}, {author: {title: '123'}}],
   });
 });
 
