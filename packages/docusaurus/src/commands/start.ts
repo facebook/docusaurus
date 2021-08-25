@@ -20,7 +20,6 @@ import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSou
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {STATIC_DIR_NAME} from '../constants';
@@ -141,8 +140,6 @@ export default async function start(
         preBodyTags,
         postBodyTags,
       }),
-      // This is necessary to emit hot updates for webpack-dev-server.
-      new HotModuleReplacementPlugin(),
     ],
   });
 
@@ -167,48 +164,43 @@ export default async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    ...{
-      compress: true,
-      clientLogLevel: 'error',
-      hot: true,
-      hotOnly: cliOptions.hotOnly,
-      // Use 'ws' instead of 'sockjs-node' on server since we're using native
-      // websockets in `webpackHotDevClient`.
-      transportMode: 'ws',
-      // Prevent a WS client from getting injected as we're already including
-      // `webpackHotDevClient`.
-      injectClient: false,
-      quiet: true,
-      https: getHttpsConfig(),
-      headers: {
-        'access-control-allow-origin': '*',
-      },
+    compress: true,
+    hot: cliOptions.hotOnly ? 'only' : true,
+    // Prevent a WS client from getting injected as we're already including
+    // `webpackHotDevClient`.
+    client: false as WebpackDevServer.Configuration['client'],
+    https: getHttpsConfig(),
+    headers: {
+      'access-control-allow-origin': '*',
+    },
+    devMiddleware: {
       publicPath: baseUrl,
-      watchOptions: {
-        poll: cliOptions.poll,
+    },
+    static: {
+      watch: {
+        usePolling: !!cliOptions.poll,
 
         // Useful options for our own monorepo using symlinks!
         // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
         followSymlinks: true,
         ignored: /node_modules\/(?!@docusaurus)/,
       },
-      historyApiFallback: {
-        rewrites: [{from: /\/*/, to: baseUrl}],
-      },
-      disableHostCheck: true,
-      // Disable overlay on browser since we use CRA's overlay error reporting.
-      overlay: false,
-      host,
-      before: (app, server) => {
-        app.use(
-          baseUrl,
-          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
-        );
-        // This lets us fetch source contents from webpack for the error overlay.
-        app.use(evalSourceMapMiddleware(server));
-        // This lets us open files from the runtime error overlay.
-        app.use(errorOverlayMiddleware());
-      },
+    },
+    historyApiFallback: {
+      rewrites: [{from: /\/*/, to: baseUrl}],
+    },
+    allowedHosts: 'all',
+    host,
+    port,
+    onBeforeSetupMiddleware: (devServer) => {
+      devServer.app.use(
+        baseUrl,
+        express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
+      );
+      // This lets us fetch source contents from webpack for the error overlay.
+      devServer.app.use(evalSourceMapMiddleware(devServer));
+      // This lets us open files from the runtime error overlay.
+      devServer.app.use(errorOverlayMiddleware());
     },
   };
   const compiler = webpack(config);
@@ -223,11 +215,8 @@ export default async function start(
     });
   }
 
-  const devServer = new WebpackDevServer(compiler, devServerConfig);
-  devServer.listen(port, host, (err) => {
-    if (err) {
-      console.log(err);
-    }
+  const devServer = new WebpackDevServer(devServerConfig, compiler);
+  devServer.startCallback(() => {
     if (cliOptions.open) {
       openBrowser(openUrl);
     }
