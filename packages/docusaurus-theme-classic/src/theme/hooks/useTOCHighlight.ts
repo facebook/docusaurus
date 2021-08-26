@@ -7,6 +7,7 @@
 
 import {Params} from '@theme/hooks/useTOCHighlight';
 import {useEffect, useRef} from 'react';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 // If the anchor has no height and is just a "marker" in the dom; we'll use the parent (normally the link text) rect boundaries instead
 function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
@@ -30,10 +31,12 @@ function getAnchors() {
   return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
 }
 
-function getActiveAnchor(): Element | null {
+function getActiveAnchor({
+  anchorTopOffset,
+}: {
+  anchorTopOffset: number;
+}): Element | null {
   const anchors = getAnchors();
-
-  const anchorTopOffset = 100; // Skip anchors that are too close to the viewport top
 
   // Naming is hard
   // The "nextVisibleAnchor" is the first anchor that appear under the viewport top boundary
@@ -74,8 +77,29 @@ function getLinks(linkClassName: string) {
   ) as HTMLAnchorElement[];
 }
 
+function getNavbarHeight(): number {
+  // Not ideal to obtain actual height this way
+  // Using TS ! (not ?) because otherwise a bad selector would be un-noticed
+  return document.querySelector('.navbar')!.clientHeight;
+}
+
+function useAnchorTopOffsetRef() {
+  const anchorTopOffsetRef = useRef<number>(0);
+  const {
+    navbar: {hideOnScroll},
+  } = useThemeConfig();
+
+  useEffect(() => {
+    anchorTopOffsetRef.current = hideOnScroll ? 0 : getNavbarHeight();
+  }, [hideOnScroll]);
+
+  return anchorTopOffsetRef;
+}
+
 function useTOCHighlight(params: Params): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
+
+  const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
   useEffect(() => {
     const {linkClassName, linkActiveClassName} = params;
@@ -94,7 +118,9 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const activeAnchor = getActiveAnchor();
+      const activeAnchor = getActiveAnchor({
+        anchorTopOffset: anchorTopOffsetRef.current,
+      });
       const activeLink = links.find(
         (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
       );
@@ -113,7 +139,7 @@ function useTOCHighlight(params: Params): void {
       document.removeEventListener('scroll', updateActiveLink);
       document.removeEventListener('resize', updateActiveLink);
     };
-  }, [params]);
+  }, [params, anchorTopOffsetRef]);
 }
 
 export default useTOCHighlight;
