@@ -42,12 +42,18 @@ const notifier = updateNotifier({
 // Hacky way to ensure we check for updates on first run
 // Note: the notification will only happen in the 2nd run
 // See https://github.com/yeoman/update-notifier/issues/209
-if (
-  !notifier.disabled &&
-  Date.now() - notifier.config.get('lastUpdateCheck') < 50
-) {
-  notifier.config.set('lastUpdateCheck', 0);
-  notifier.check();
+try {
+  if (
+    notifier.config &&
+    !notifier.disabled &&
+    Date.now() - notifier.config.get('lastUpdateCheck') < 50
+  ) {
+    notifier.config.set('lastUpdateCheck', 0);
+    notifier.check();
+  }
+} catch (e) {
+  // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
+  console.error(e);
 }
 
 // We don't want to display update message for canary releases
@@ -58,7 +64,11 @@ function ignoreUpdate(update) {
   return isCanaryRelease;
 }
 
-if (notifier.update && notifier.update.current !== notifier.update.latest) {
+if (
+  notifier.config &&
+  notifier.update &&
+  notifier.update.current !== notifier.update.latest
+) {
   // Because notifier clears cached data after reading it, leading to notifier not consistently displaying the update
   // See https://github.com/yeoman/update-notifier/issues/209
   notifier.config.set('update', notifier.update);
