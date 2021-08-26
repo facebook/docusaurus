@@ -90,11 +90,7 @@ function useAnchorTopOffsetRef() {
   } = useThemeConfig();
 
   useEffect(() => {
-    if (hideOnScroll) {
-      anchorTopOffsetRef.current = 0;
-    } else {
-      anchorTopOffsetRef.current = getNavbarHeight();
-    }
+    anchorTopOffsetRef.current = hideOnScroll ? 0 : getNavbarHeight();
   }, [hideOnScroll]);
 
   return anchorTopOffsetRef;
