@@ -157,7 +157,7 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
     if (key) {
       if (!authorsMap || Object.keys(authorsMap).length === 0) {
         throw new Error(`Can't reference blog post authors by a key (such as '${key}') because no authors map file could be loaded.
-Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty and valid!`);
+Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!`);
       }
       const author = authorsMap[key];
       if (!author) {

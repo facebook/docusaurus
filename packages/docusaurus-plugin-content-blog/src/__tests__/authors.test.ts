@@ -178,7 +178,7 @@ describe('getBlogPostAuthors', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
-      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty and valid!"
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!"
     `);
   });
 
@@ -192,7 +192,7 @@ describe('getBlogPostAuthors', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
-      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty and valid!"
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!"
     `);
   });
 
