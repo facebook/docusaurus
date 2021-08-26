@@ -10,22 +10,3 @@
   height: 100%;
   object-fit: cover;
 }
-
-/*
-Clamping line numbers is useful for multi-authors (less space) + long names/titles
-Best effort: not a big deal if browser does not support it
- */
-.name {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
