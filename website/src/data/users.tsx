@@ -588,6 +588,14 @@ const Users: User[] = [
     tags: ['opensource','product'],
   },
   {
+    title: 'Indent',
+    description: 'Indent provides on-demand access control for cloud apps and infrastructure.',
+    preview: require('./showcase/indent.png'),
+    website: 'https://indent.com/developers',
+    source: null,
+    tags: ['product','design'],
+  },
+  {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
