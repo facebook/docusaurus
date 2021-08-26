@@ -276,6 +276,12 @@ Accepted fields:
 
 </small>
 
+:::note
+
+In addition to the fields above, you can specify other arbitrary attributes that can be applied to a HTML link.
+
+:::
+
 Example configuration:
 
 ```js title="docusaurus.config.js"
@@ -291,6 +297,7 @@ module.exports = {
           label: 'Introduction',
           position: 'left',
           activeBaseRegex: 'docs/(next|v8)',
+          target: '_blank',
         },
         // highlight-end
       ],
