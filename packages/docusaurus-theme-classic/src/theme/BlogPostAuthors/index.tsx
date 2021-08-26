@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
 
-function getAuthorsPerLine(authorsCount: number): 1 | 2 | 3 {
+function getAuthorsPerLine(authorsCount: number): 1 | 2 {
   switch (authorsCount) {
     case 0:
     case 1:
@@ -26,8 +26,6 @@ function getColClassName(authorsCount: number): string {
       return 'col--12';
     case 2:
       return 'col--6';
-    case 3:
-      return 'col--4';
     default:
       throw Error('unexpected');
   }
