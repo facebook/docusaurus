@@ -49,7 +49,8 @@ const createAnchorHeading = (
           aria-hidden="true"
           tabIndex={-1}
           className={clsx('anchor', `anchor__${Tag}`, {
-            [styles.enhancedAnchor]: !hideOnScroll,
+            [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
+            [styles.anchorWithStickyNavbar]: !hideOnScroll,
           })}
           id={id}
         />
