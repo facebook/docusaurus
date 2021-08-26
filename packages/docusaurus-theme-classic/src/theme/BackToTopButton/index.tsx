@@ -7,6 +7,7 @@
 
 import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
+import {useLocation} from '@docusaurus/router';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
@@ -66,38 +67,42 @@ function useSmoothScrollToTop(): UseSmoothScrollTopReturn {
 }
 
 function BackToTopButton(): JSX.Element {
+  const location = useLocation();
   const {smoothScrollTop, cancelScrollToTop} = useSmoothScrollToTop();
   const [show, setShow] = useState(false);
 
-  useScrollPosition(({scrollY: scrollTop}, lastPosition) => {
-    // No lastPosition means component is just being mounted.
-    // Not really a scroll event from the user, so we ignore it
-    if (!lastPosition) {
-      return;
-    }
-    const lastScrollTop = lastPosition.scrollY;
-
-    const isScrollingUp = scrollTop < lastScrollTop;
-
-    if (!isScrollingUp) {
-      cancelScrollToTop();
-    }
-
-    if (scrollTop < threshold) {
-      setShow(false);
-      return;
-    }
-
-    if (isScrollingUp) {
-      const documentHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
-      if (scrollTop + windowHeight < documentHeight) {
-        setShow(true);
+  useScrollPosition(
+    ({scrollY: scrollTop}, lastPosition) => {
+      // No lastPosition means component is just being mounted.
+      // Not really a scroll event from the user, so we ignore it
+      if (!lastPosition) {
+        return;
       }
-    } else {
-      setShow(false);
-    }
-  }, []);
+      const lastScrollTop = lastPosition.scrollY;
+
+      const isScrollingUp = scrollTop < lastScrollTop;
+
+      if (!isScrollingUp) {
+        cancelScrollToTop();
+      }
+
+      if (scrollTop < threshold) {
+        setShow(false);
+        return;
+      }
+
+      if (isScrollingUp) {
+        const documentHeight = document.documentElement.scrollHeight;
+        const windowHeight = window.innerHeight;
+        if (scrollTop + windowHeight < documentHeight) {
+          setShow(true);
+        }
+      } else {
+        setShow(false);
+      }
+    },
+    [location],
+  );
 
   return (
     <button
@@ -105,7 +110,6 @@ function BackToTopButton(): JSX.Element {
         [styles.backToTopButtonShow]: show,
       })}
       type="button"
-      title="Scroll to top"
       onClick={() => smoothScrollTop()}>
       <svg viewBox="0 0 24 24" width="28">
         <path
