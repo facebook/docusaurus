@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
 
@@ -38,11 +39,10 @@ export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
   if (authorsCount === 0) {
     return <></>;
   }
-  const colClassName = getColClassName(authorsCount);
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
-        <div className={`col ${colClassName}`} key={idx}>
+        <div className={clsx('col', getColClassName(authorsCount))} key={idx}>
           <BlogPostAuthor
             author={{
               ...author,
