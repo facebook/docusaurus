@@ -164,43 +164,45 @@ export default async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    compress: true,
-    hot: cliOptions.hotOnly ? 'only' : true,
-    // Prevent a WS client from getting injected as we're already including
-    // `webpackHotDevClient`.
-    client: false as WebpackDevServer.Configuration['client'],
-    https: getHttpsConfig(),
-    headers: {
-      'access-control-allow-origin': '*',
-    },
-    devMiddleware: {
-      publicPath: baseUrl,
-    },
-    static: {
-      watch: {
-        usePolling: !!cliOptions.poll,
-
-        // Useful options for our own monorepo using symlinks!
-        // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
-        followSymlinks: true,
-        ignored: /node_modules\/(?!@docusaurus)/,
+    ...{
+      compress: true,
+      hot: cliOptions.hotOnly ? 'only' : true,
+      // Prevent a WS client from getting injected as we're already including
+      // `webpackHotDevClient`.
+      client: false as WebpackDevServer.Configuration['client'],
+      https: getHttpsConfig(),
+      headers: {
+        'access-control-allow-origin': '*',
       },
-    },
-    historyApiFallback: {
-      rewrites: [{from: /\/*/, to: baseUrl}],
-    },
-    allowedHosts: 'all',
-    host,
-    port,
-    onBeforeSetupMiddleware: (devServer) => {
-      devServer.app.use(
-        baseUrl,
-        express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
-      );
-      // This lets us fetch source contents from webpack for the error overlay.
-      devServer.app.use(evalSourceMapMiddleware(devServer));
-      // This lets us open files from the runtime error overlay.
-      devServer.app.use(errorOverlayMiddleware());
+      devMiddleware: {
+        publicPath: baseUrl,
+      },
+      static: {
+        watch: {
+          usePolling: !!cliOptions.poll,
+
+          // Useful options for our own monorepo using symlinks!
+          // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
+          followSymlinks: true,
+          ignored: /node_modules\/(?!@docusaurus)/,
+        },
+      },
+      historyApiFallback: {
+        rewrites: [{from: /\/*/, to: baseUrl}],
+      },
+      allowedHosts: 'all',
+      host,
+      port,
+      onBeforeSetupMiddleware: (devServer) => {
+        devServer.app.use(
+          baseUrl,
+          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
+        );
+        // This lets us fetch source contents from webpack for the error overlay.
+        devServer.app.use(evalSourceMapMiddleware(devServer));
+        // This lets us open files from the runtime error overlay.
+        devServer.app.use(errorOverlayMiddleware());
+      },
     },
   };
   const compiler = webpack(config);
