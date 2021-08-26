@@ -11,10 +11,10 @@ the browser does not scroll that anchor behind the navbar
 See https://twitter.com/JoshWComeau/status/1332015868725891076
  */
 .anchorWithStickyNavbar {
-  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.8rem);
-  /*   top: calc(var(--ifm-navbar-height) * -1 - 0.8rem); */
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+  /*   top: calc(var(--ifm-navbar-height) * -1 - 0.5rem); */
 }
 
 .anchorWithHideOnScrollNavbar {
-  scroll-margin-top: 0.8rem;
+  scroll-margin-top: 0.5rem;
 }
