@@ -18,9 +18,10 @@ CSS variables, meant to be overriden by final theme
   position: relative;
   cursor: pointer;
   list-style: none;
-  margin-left: 1.8rem;
+  padding-left: 1rem;
 }
 
+/* TODO: deprecation, need to remove this after Safari will support `::marker` */
 .details > summary::-webkit-details-marker {
   display: none;
 }
@@ -28,15 +29,13 @@ CSS variables, meant to be overriden by final theme
 .details > summary:before {
   position: absolute;
   top: 0.45rem;
-  left: -1.2rem;
+  left: 0;
 
   /* CSS-only Arrow */
   content: '';
-  width: 0;
-  height: 0;
-  border-top: var(--docusaurus-details-summary-arrow-size) solid transparent;
-  border-bottom: var(--docusaurus-details-summary-arrow-size) solid transparent;
-  border-left: var(--docusaurus-details-summary-arrow-size) solid
+  border-width: var(--docusaurus-details-summary-arrow-size);
+  border-style: solid;
+  border-color: transparent transparent transparent
     var(--docusaurus-details-decoration-color);
 
   /* Arrow rotation anim */
