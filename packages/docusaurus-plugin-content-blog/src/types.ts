@@ -58,6 +58,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editUrl?: string | EditUrlFunction;
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
+  authorsMapPath: string;
 }
 
 export interface BlogTags {
@@ -92,6 +93,14 @@ export interface BlogPaginated {
   items: string[];
 }
 
+// We allow passing custom fields to authors, e.g., twitter
+export interface Author extends Record<string, unknown> {
+  name?: string;
+  imageURL?: string;
+  url?: string;
+  title?: string;
+}
+
 export interface MetaData {
   permalink: string;
   source: string;
@@ -105,6 +114,12 @@ export interface MetaData {
   nextItem?: Paginator;
   truncated: boolean;
   editUrl?: string;
+  authors: Author[];
+}
+
+export interface Assets {
+  image?: string;
+  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
 }
 
 export interface Paginator {

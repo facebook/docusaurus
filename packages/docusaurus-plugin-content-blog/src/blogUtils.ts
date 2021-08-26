@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {Feed} from 'feed';
+import {Feed, Author as FeedAuthor} from 'feed';
 import {compact, keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
@@ -17,6 +17,7 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  Author,
 } from './types';
 import {
   parseMarkdownFile,
@@ -32,6 +33,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
+import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -135,10 +137,16 @@ export async function generateBlogFeed(
     copyright: feedOptions.copyright,
   });
 
+  function toFeedAuthor(author: Author): FeedAuthor {
+    // TODO ask author emails?
+    // RSS feed requires email to render authors
+    return {name: author.name, link: author.url};
+  }
+
   blogPosts.forEach((post) => {
     const {
       id,
-      metadata: {title: metadataTitle, permalink, date, description},
+      metadata: {title: metadataTitle, permalink, date, description, authors},
     } = post;
     feed.addItem({
       title: metadataTitle,
@@ -146,6 +154,7 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      author: authors.map(toFeedAuthor),
     });
   });
 
@@ -167,6 +176,7 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -258,6 +268,7 @@ async function processBlogSourceFile(
   }
 
   const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+  const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
     id: frontMatter.slug ?? title,
@@ -272,6 +283,7 @@ async function processBlogSourceFile(
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime ? readingTime(content).minutes : undefined,
       truncated: truncateMarker?.test(content) || false,
+      authors,
     },
   };
 }
@@ -292,6 +304,11 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
+  const authorsMap = await getAuthorsMap({
+    contentPaths,
+    authorsMapPath: options.authorsMapPath,
+  });
+
   const blogPosts: BlogPost[] = compact(
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
@@ -301,6 +318,7 @@ export async function generateBlogPosts(
             contentPaths,
             context,
             options,
+            authorsMap,
           );
         } catch (e) {
           console.error(

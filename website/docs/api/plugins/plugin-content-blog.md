@@ -4,7 +4,7 @@ title: '📦 plugin-content-blog'
 slug: '/api/plugins/@docusaurus/plugin-content-blog'
 ---
 
-Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus.
+Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
 ## Installation {#installation}
 
@@ -28,7 +28,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `path` | `string` | `'blog'` | Path to data on filesystem relative to site dir. |
+| `path` | `string` | `'blog'` | Path to the blog content directory on the filesystem, relative to site dir. |
 | `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
@@ -49,6 +49,7 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `string` | `/<!--\s*(truncate)\s*-->/` | Truncate marker, can be a regex or string. |
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
+| `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory specified with `path`. Can also be a `json` file. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
 | `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
@@ -174,10 +175,11 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `author` | `string` | `undefined` | The author name to be displayed. |
-| `author_url` | `string` | `undefined` | The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
-| `author_image_url` | `string` | `undefined` | The URL to the author's thumbnail image. |
-| `author_title` | `string` | `undefined` | A description of the author. |
+| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` FrontMatter fields, even for single author blog posts. |
+| `author` | `string` | `undefined` | ⚠️ Prefer using `authors`. The blog post author's name. |
+| `author_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
+| `author_image_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image. |
+| `author_title` | `string` | `undefined` | ⚠️ Prefer using `authors`. A description of the author. |
 | `title` | `string` | Markdown title | The blog post title. |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
@@ -192,6 +194,20 @@ Accepted fields:
 
 ```typescript
 type Tag = string | {label: string; permalink: string};
+
+// An author key references an author from the global plugin authors.yml file
+type AuthorKey = string;
+
+type Author = {
+  key?: AuthorKey;
+  name: string;
+  title?: string;
+  url?: string;
+  image_url?: string;
+};
+
+// The FrontMatter authors field allows various possible shapes
+type Authors = AuthorKey | Author | (AuthorKey | Author)[];
 ```
 
 Example:
@@ -199,10 +215,13 @@ Example:
 ```yml
 ---
 title: Welcome Docusaurus v2
-author: Joel Marcey
-author_title: Co-creator of Docusaurus 1
-author_url: https://github.com/JoelMarcey
-author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
+authors:
+  - slorber
+  - yangshun
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
 tags: [hello, docusaurus-v2]
 description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
@@ -228,6 +247,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 website/i18n/<locale>/docusaurus-plugin-content-blog
 │
 │ # translations for website/blog
+├── authors.yml
 ├── first-blog-post.md
 ├── second-blog-post.md
 │

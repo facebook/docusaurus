@@ -14,6 +14,7 @@ import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
 import {Joi} from '@docusaurus/utils-validation';
+import {posixPath} from '@docusaurus/utils';
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -60,7 +61,7 @@ describe('loadBlog', () => {
 
   const BaseEditUrl = 'https://baseEditUrl.com/edit';
 
-  const getBlogPosts = async (
+  const getPlugin = async (
     siteDir: string,
     pluginOptions: Partial<PluginOptions> = {},
     i18n: I18n = DefaultI18N,
@@ -71,7 +72,7 @@ describe('loadBlog', () => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
     } as DocusaurusConfig;
-    const plugin = pluginContentBlog(
+    return pluginContentBlog(
       {
         siteDir,
         siteConfig,
@@ -84,10 +85,31 @@ describe('loadBlog', () => {
         ...pluginOptions,
       }),
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+  };
 
+  const getBlogPosts = async (
+    siteDir: string,
+    pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
+  ) => {
+    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+    const {blogPosts} = (await plugin.loadContent!())!;
     return blogPosts;
   };
+
+  test('getPathsToWatch', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const plugin = await getPlugin(siteDir);
+    const pathsToWatch = plugin.getPathsToWatch!();
+    const relativePathsToWatch = pathsToWatch.map((p) =>
+      posixPath(path.relative(siteDir, p)),
+    );
+    expect(relativePathsToWatch).toEqual([
+      'blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
+      'blog/**/*.{md,mdx}',
+    ]);
+  });
 
   test('simple website', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -103,6 +125,7 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
+      authors: [],
       date: new Date('2019-01-01'),
       formattedDate: 'January 1, 2019',
       prevItem: undefined,
@@ -128,6 +151,16 @@ describe('loadBlog', () => {
       ),
       title: 'Happy 1st Birthday Slash! (translated)',
       description: `Happy birthday! (translated)`,
+      authors: [
+        {
+          name: 'Yangshun Tay (translated)',
+        },
+        {
+          key: 'slorber',
+          name: 'Sébastien Lorber (translated)',
+          title: 'Docusaurus maintainer (translated)',
+        },
+      ],
       date: new Date('2018-12-14'),
       formattedDate: 'December 14, 2018',
       tags: [],
@@ -148,6 +181,7 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'complex-slug.md'),
       title: 'Complex Slug',
       description: `complex url slug`,
+      authors: [],
       prevItem: undefined,
       nextItem: {
         permalink: '/blog/simple/slug',
@@ -169,6 +203,14 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,
+      authors: [
+        {
+          name: 'Sébastien Lorber',
+          title: 'Docusaurus maintainer',
+          url: 'https://sebastienlorber.com',
+          imageURL: undefined,
+        },
+      ],
       prevItem: undefined,
       nextItem: {
         permalink: '/blog/draft',
@@ -190,6 +232,7 @@ describe('loadBlog', () => {
       source: path.posix.join('@site', PluginPath, 'heading-as-title.md'),
       title: 'some heading',
       description: '',
+      authors: [],
       date: new Date('2019-01-02'),
       formattedDate: 'January 2, 2019',
       prevItem: undefined,
@@ -325,6 +368,7 @@ describe('loadBlog', () => {
       source: noDateSource,
       title: 'no date',
       description: `no date`,
+      authors: [],
       date: noDateSourceBirthTime,
       formattedDate,
       tags: [],

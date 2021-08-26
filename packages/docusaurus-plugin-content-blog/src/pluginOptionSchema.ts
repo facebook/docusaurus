@@ -38,6 +38,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   routeBasePath: 'blog',
   path: 'blog',
   editLocalizedFiles: false,
+  authorsMapPath: 'authors.yml',
 };
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -107,4 +108,5 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     }),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
+  authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
 });

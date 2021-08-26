@@ -44,7 +44,10 @@ export const URISchema = Joi.alternatives(
       return helpers.error('any.invalid');
     }
   }),
-);
+).messages({
+  'alternatives.match':
+    "{{#label}} does not look like a valid url (value='{{.value}}')",
+});
 
 export const PathnameSchema = Joi.string()
   .custom((val) => {

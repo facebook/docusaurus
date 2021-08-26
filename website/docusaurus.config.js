@@ -270,7 +270,7 @@ const TwitterSvg =
             }
             return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
-          postsPerPage: 3,
+          postsPerPage: 5,
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,

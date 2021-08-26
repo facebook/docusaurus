@@ -1,10 +1,11 @@
 ---
-slug: hola
-title: Hola
-author: Gao Wei
-author_title: Docusaurus Core Team
-author_url: https://github.com/wgao19
-author_image_url: https://avatars1.githubusercontent.com/u/2055384?v=4
+slug: first-blog-post
+title: First Blog Post
+authors:
+  name: Gao Wei
+  title: Docusaurus Core Team
+  url: https://github.com/wgao19
+  image_url: https://github.com/wgao19.png
 tags: [hola, docusaurus]
 ---
 

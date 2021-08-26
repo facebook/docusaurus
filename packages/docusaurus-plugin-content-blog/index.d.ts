@@ -21,33 +21,10 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {FrontMatterTag} from '@docusaurus/utils';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
-  export type FrontMatter = {
-    /* eslint-disable camelcase */
-    readonly title: string;
-    readonly author?: string;
-    readonly image?: string;
-    readonly tags?: readonly FrontMatterTag[];
-    readonly keywords?: readonly string[];
-    readonly author_url?: string;
-    readonly authorURL?: string;
-    readonly author_title?: string;
-    readonly authorTitle?: string;
-    readonly author_image_url?: string;
-    readonly authorImageURL?: string;
-    readonly hide_table_of_contents?: boolean;
-    /* eslint-enable camelcase */
-  };
-
-  export type FrontMatterAssets = {
-    /* eslint-disable camelcase */
-    readonly image?: string;
-    readonly author_image_url?: string;
-    readonly authorImageURL?: string;
-    /* eslint-enable camelcase */
-  };
+  export type FrontMatter = import('./src/blogFrontMatter').BlogPostFrontMatter;
+  export type Assets = import('./src/types').Assets;
 
   export type Metadata = {
     readonly title: string;
@@ -60,6 +37,7 @@ declare module '@theme/BlogPostPage' {
     readonly truncated?: string;
     readonly nextItem?: {readonly title: string; readonly permalink: string};
     readonly prevItem?: {readonly title: string; readonly permalink: string};
+    readonly authors: import('./src/types').Author[];
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -68,7 +46,7 @@ declare module '@theme/BlogPostPage' {
 
   export type Content = {
     readonly frontMatter: FrontMatter;
-    readonly frontMatterAssets: FrontMatterAssets;
+    readonly assets: Assets;
     readonly metadata: Metadata;
     readonly toc: readonly TOCItem[];
     (): JSX.Element;

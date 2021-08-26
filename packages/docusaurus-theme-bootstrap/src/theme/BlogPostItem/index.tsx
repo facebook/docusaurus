@@ -40,11 +40,7 @@ function BlogPostItem(props: Props): JSX.Element {
   } = props;
 
   const {date, readingTime, tags, permalink, editUrl} = metadata;
-  const {author, title} = frontMatter;
-
-  const authorURL = frontMatter.author_url || frontMatter.authorURL;
-  const authorImageURL =
-    frontMatter.author_image_url || frontMatter.authorImageURL;
+  const {author, title, authorURL, authorImageURL} = frontMatter;
 
   const match = date.substring(0, 10).split('-');
   const year = match[0];
@@ -56,13 +52,17 @@ function BlogPostItem(props: Props): JSX.Element {
       <div className="row no-gutters rows-col-2 m-3">
         <div className="col-xs mr-3">
           {authorImageURL && (
-            <img style={{width: '50px'}} src={authorImageURL} alt={author} />
+            <img
+              style={{width: '50px'}}
+              src={authorImageURL}
+              alt={author as string}
+            />
           )}
         </div>
         <div className="col">
           {author && (
             <h5>
-              <a href={authorURL} rel={author}>
+              <a href={authorURL} rel={author as string}>
                 {author}
               </a>
             </h5>

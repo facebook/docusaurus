@@ -3,6 +3,9 @@ id: blog
 title: Blog
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 The blog feature enables you to deploy in no time a full-featured blog.
 
 :::info
@@ -36,17 +39,23 @@ module.exports = {
 
 To publish in the blog, create a Markdown file within the blog directory.
 
-For example, create a file at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
+For example, create a file at `website/blog/2019-09-05-hello-docusaurus-v2.md`:
 
-```yml
+```yml title="website/blog/2019-09-05-hello-docusaurus-v2.md"
 ---
 title: Welcome Docusaurus v2
-author: Joel Marcey
-author_title: Co-creator of Docusaurus 1
-author_url: https://github.com/JoelMarcey
-author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
-tags: [hello, docusaurus-v2]
 description: This is my first post on Docusaurus 2.
+slug: welcome-docusaurus-v2
+authors:
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
+  - name: Sébastien Lorber
+    title: Docusaurus maintainer
+    url: https://sebastienlorber.com
+    image_url: https://github.com/slorber.png
+tags: [hello, docusaurus-v2]
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
 ---
@@ -158,9 +167,184 @@ module.exports = {
 };
 ```
 
-:::note
+## Blog post authors {#blog-post-authors}
 
-Because the sidebar title is hard-coded in the configuration file, it is currently untranslatable.
+Use the `authors` FrontMatter field to declare blog post authors.
+
+### Inline authors {#inline-authors}
+
+Blog post authors can be declared directly inside the FrontMatter:
+
+````mdx-code-block
+<Tabs
+  defaultValue="single"
+  values={[
+    {label: 'Single author', value: 'single'},
+    {label: 'Multiple authors', value: 'multiple'},
+  ]}>
+  <TabItem value="single">
+
+```yml title="my-blog-post.md"
+---
+authors:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+---
+```
+
+  </TabItem>
+  <TabItem value="multiple">
+
+```yml title="my-blog-post.md"
+---
+authors:
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
+  - name: Sébastien Lorber
+    title: Docusaurus maintainer
+    url: https://sebastienlorber.com
+    image_url: https://github.com/slorber.png
+---
+```
+
+  </TabItem>
+</Tabs>
+````
+
+:::tip
+
+This option works best to get started, or for casual, irregular authors.
+
+:::
+
+:::info
+
+Prefer usage of the `authors` FrontMatter, but the legacy `author_*` FrontMatter remains supported:
+
+```yml title="my-blog-post.md"
+---
+author: Joel Marcey
+author_title: Co-creator of Docusaurus 1
+author_url: https://github.com/JoelMarcey
+author_image_url: https://github.com/JoelMarcey.png
+---
+
+```
+
+:::
+
+### Global authors {#global-authors}
+
+For regular blog post authors, it can be tedious to maintain authors information inlined in each blog post.
+
+It is possible declare those authors globally in a configuration file:
+
+```yml title="website/blog/authors.yml"
+jmarcey:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+```
+
+:::tip
+
+Use the `authorsMapPath` plugin option to configure the path. JSON is also supported.
+
+:::
+
+In blog posts FrontMatter, you can reference the authors declared in the global configuration file:
+
+````mdx-code-block
+<Tabs
+  defaultValue="single"
+  values={[
+    {label: 'Single author', value: 'single'},
+    {label: 'Multiple authors', value: 'multiple'},
+  ]}>
+  <TabItem value="single">
+
+```yml title="my-blog-post.md"
+---
+authors: jmarcey
+---
+```
+
+  </TabItem>
+  <TabItem value="multiple">
+
+```yml title="my-blog-post.md"
+---
+authors: [jmarcey, slorber]
+---
+```
+
+  </TabItem>
+</Tabs>
+````
+
+:::info
+
+The `authors` system is very flexible and can suit more advanced use-case:
+
+<details>
+  <summary>Mix inline authors and global authors</summary>
+
+You can use global authors most of the time, and still use inline authors:
+
+```yml title="my-blog-post.md"
+---
+authors:
+  - jmarcey
+  - slorber
+  - name: Inline Author name
+    title: Inline Author Title
+    url: https://github.com/inlineAuthor
+    image_url: https://github.com/inlineAuthor
+---
+
+```
+
+</details>
+
+<details>
+  <summary>Local override of global authors</summary>
+
+You can customize the global author's data on per-blog-post basis
+
+```yml title="my-blog-post.md"
+---
+authors:
+  - key: jmarcey
+    title: Joel Marcey's new title
+  - key: slorber
+    name: Sébastien Lorber's new name
+---
+
+```
+
+</details>
+
+<details>
+  <summary>Localize the author's configuration file</summary>
+
+The configuration file can be localized, just create a localized copy of it at:
+
+```bash
+website/i18n/<locale>/docusaurus-plugin-content-blog/authors.yml
+```
+
+</details>
 
 :::
 

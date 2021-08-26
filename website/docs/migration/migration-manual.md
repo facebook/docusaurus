@@ -576,7 +576,7 @@ Refer to the [multi-language support code blocks](../guides/markdown-features/ma
 
 The Docusaurus front matter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
 
-The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
+The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `authors` field.
 
 ## Deployment {#deployment}
 

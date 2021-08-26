@@ -18,6 +18,7 @@ import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
 import TagsListInline from '@theme/TagsListInline';
+import BlogPostAuthors from '@theme/BlogPostAuthors';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
@@ -45,7 +46,7 @@ function BlogPostItem(props: Props): JSX.Element {
   const {
     children,
     frontMatter,
-    frontMatterAssets,
+    assets,
     metadata,
     truncated,
     isBlogPostPage = false,
@@ -58,18 +59,10 @@ function BlogPostItem(props: Props): JSX.Element {
     readingTime,
     title,
     editUrl,
+    authors,
   } = metadata;
-  const {author} = frontMatter;
 
-  const image = frontMatterAssets.image ?? frontMatter.image;
-
-  const authorURL = frontMatter.author_url || frontMatter.authorURL;
-  const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
-  const authorImageURL =
-    frontMatterAssets.author_image_url ||
-    frontMatterAssets.authorImageURL ||
-    frontMatter.author_image_url ||
-    frontMatter.authorImageURL;
+  const image = assets.image ?? frontMatter.image;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -90,39 +83,14 @@ function BlogPostItem(props: Props): JSX.Element {
             {formattedDate}
           </time>
 
-          {readingTime && (
+          {typeof readingTime !== 'undefined' && (
             <>
               {' · '}
               {readingTimePlural(readingTime)}
             </>
           )}
         </div>
-        <div className="avatar margin-vert--md">
-          {authorImageURL && (
-            <Link className="avatar__photo-link avatar__photo" href={authorURL}>
-              <img src={authorImageURL} alt={author} />
-            </Link>
-          )}
-          {author && (
-            <div
-              className="avatar__intro"
-              itemProp="author"
-              itemScope
-              itemType="https://schema.org/Person">
-              <div className="avatar__name">
-                <Link href={authorURL} itemProp="url">
-                  <span itemProp="name">{author}</span>
-                </Link>
-              </div>
-
-              {authorTitle && (
-                <small className="avatar__subtitle" itemProp="description">
-                  {authorTitle}
-                </small>
-              )}
-            </div>
-          )}
-        </div>
+        <BlogPostAuthors authors={authors} assets={assets} />
       </header>
     );
   };
