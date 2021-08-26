@@ -10,26 +10,7 @@ import clsx from 'clsx';
 import type {Props} from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
 
-function getAuthorsPerLine(authorsCount: number): 1 | 2 {
-  switch (authorsCount) {
-    case 0:
-    case 1:
-      return 1;
-    default:
-      return 2;
-  }
-}
-
-function getColClassName(authorsCount: number): string {
-  switch (getAuthorsPerLine(authorsCount)) {
-    case 1:
-      return 'col--12';
-    case 2:
-      return 'col--6';
-    default:
-      throw Error('unexpected');
-  }
-}
+import styles from './styles.module.css';
 
 // Component responsible for the authors layout
 export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
@@ -40,7 +21,7 @@ export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
-        <div className={clsx('col', getColClassName(authorsCount))} key={idx}>
+        <div className={clsx('col col--6', styles.authorCol)} key={idx}>
           <BlogPostAuthor
             author={{
               ...author,
