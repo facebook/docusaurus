@@ -125,6 +125,9 @@ export default async function start(
   );
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
+    infrastructureLogging: {
+      level: 'warn',
+    },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
