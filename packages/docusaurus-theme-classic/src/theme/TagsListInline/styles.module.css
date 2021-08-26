@@ -6,10 +6,10 @@
  */
 
 .tags {
-  list-style: none;
-  display: inline-flex;
+  display: inline;
 }
 
 .tag {
-  margin-right: 0.4rem;
+  margin: 0 0.4rem 0.5rem 0;
+  display: inline-block;
 }
