@@ -175,7 +175,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [author's guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` FrontMatter fields, even for single author blog posts. |
+| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` FrontMatter fields, even for single author blog posts. |
 | `author` | `string` | `undefined` | ⚠️ Prefer using `authors`. The blog post author's name. |
 | `author_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
 | `author_image_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image. |

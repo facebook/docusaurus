@@ -5,7 +5,6 @@ title: Blog
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
 
 The blog feature enables you to deploy in no time a full-featured blog.
 
@@ -40,9 +39,9 @@ module.exports = {
 
 To publish in the blog, create a Markdown file within the blog directory.
 
-For example, create a file at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
+For example, create a file at `website/blog/2019-09-05-hello-docusaurus-v2.md`:
 
-```yml
+```yml title="website/blog/2019-09-05-hello-docusaurus-v2.md"
 ---
 title: Welcome Docusaurus v2
 author: Joel Marcey
@@ -179,7 +178,7 @@ Blog post authors can be declared directly inside the FrontMatter:
   ]}>
   <TabItem value="single">
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors:
   name: Joel Marcey
@@ -192,7 +191,7 @@ authors:
   </TabItem>
   <TabItem value="multiple">
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors:
   - name: Joel Marcey
@@ -218,9 +217,9 @@ This option works best to get started, or for casual, irregular authors.
 
 :::info
 
-It is preferable to use the `authors` FrontMatter, but the following legacy author syntax remains supported:
+Prefer usage of the `authors` FrontMatter, but the legacy `author_*` FrontMatter remains supported:
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 author: Joel Marcey
 author_title: Co-creator of Docusaurus 1
@@ -269,7 +268,7 @@ In blog posts FrontMatter, you can reference the authors declared in the global 
   ]}>
   <TabItem value="single">
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors: jmarcey
 ---
@@ -278,7 +277,7 @@ authors: jmarcey
   </TabItem>
   <TabItem value="multiple">
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors: [jmarcey, slorber]
 ---
@@ -297,7 +296,7 @@ The `authors` system is very flexible and can suit more advanced use-case:
 
 You can use global authors most of the time, and still use inline authors:
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors:
   - jmarcey
@@ -317,7 +316,7 @@ authors:
 
 You can customize the global author's data on per-blog-post basis
 
-```yml title="some-blogpost.md"
+```yml title="my-blog-post.md"
 ---
 authors:
   - key: jmarcey
