@@ -14,11 +14,8 @@ function getAuthorsPerLine(authorsCount: number): 1 | 2 | 3 {
     case 0:
     case 1:
       return 1;
-    case 2:
-    case 4:
-      return 2;
     default:
-      return 3;
+      return 2;
   }
 }
 
@@ -37,7 +34,11 @@ function getColClassName(authorsCount: number): string {
 
 // Component responsible for the authors layout
 export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
-  const colClassName = getColClassName(authors.length);
+  const authorsCount = authors.length;
+  if (authorsCount === 0) {
+    return <></>;
+  }
+  const colClassName = getColClassName(authorsCount);
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
