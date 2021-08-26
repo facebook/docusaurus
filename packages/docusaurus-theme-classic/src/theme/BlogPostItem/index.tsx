@@ -117,7 +117,7 @@ function BlogPostItem(props: Props): JSX.Element {
             [styles.blogPostDetailsFull]: isBlogPostPage,
           })}>
           {tags.length > 0 && (
-            <div className="col">
+            <div className={clsx('col', {'col--9': !isBlogPostPage})}>
               <TagsListInline tags={tags} />
             </div>
           )}
@@ -129,7 +129,7 @@ function BlogPostItem(props: Props): JSX.Element {
           )}
 
           {!isBlogPostPage && truncated && (
-            <div className="col text--right">
+            <div className="col col--3 text--right">
               <Link
                 to={metadata.permalink}
                 aria-label={`Read more about ${title}`}>
