@@ -11,7 +11,7 @@
 
 .announcementBar {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   height: var(--docusaurus-announcement-bar-height);
   background-color: var(--ifm-color-white);
   color: var(--ifm-color-black);
@@ -24,7 +24,8 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
 
 .announcementBarClose {
   flex: 0 0 10%;
-  font-size: 1.25rem;
+  align-self: stretch;
+  padding: 0;
 }
 
 .announcementBarContent {
@@ -48,11 +49,6 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
 @media screen and (min-width: 1024px) {
   :root {
     --docusaurus-announcement-bar-height: 30px;
-  }
-
-  /* Adjust line-height for proper vertical centering on desktop */
-  .announcementBarContent {
-    line-height: 1.3;
   }
 
   .announcementBarClose {

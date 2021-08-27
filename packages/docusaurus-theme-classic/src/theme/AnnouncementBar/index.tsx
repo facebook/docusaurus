@@ -42,7 +42,7 @@ function AnnouncementBar(): JSX.Element | null {
       {isCloseable ? (
         <button
           type="button"
-          className={clsx(styles.announcementBarClose, 'clean-btn')}
+          className={clsx(styles.announcementBarClose, 'close clean-btn')}
           onClick={close}
           aria-label={translate({
             id: 'theme.AnnouncementBar.closeButtonAriaLabel',
