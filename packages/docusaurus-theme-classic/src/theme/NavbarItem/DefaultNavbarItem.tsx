@@ -112,7 +112,14 @@ function DefaultNavbarItem({
   ...props
 }: Props): JSX.Element {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
-  return <Comp {...props} activeClassName={getInfimaActiveClassName(mobile)} />;
+  return (
+    <Comp
+      {...props}
+      activeClassName={
+        props.activeClassName ?? getInfimaActiveClassName(mobile)
+      }
+    />
+  );
 }
 
 export default DefaultNavbarItem;
