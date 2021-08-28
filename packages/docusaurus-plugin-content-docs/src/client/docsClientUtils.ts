@@ -20,22 +20,11 @@ export type ActivePlugin = {
   pluginData: GlobalPluginData;
 };
 
-export type GetActivePluginOptions = {failfast?: boolean};
+export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
 
 // get the data of the plugin that is currently "active"
 // ie the docs of that plugin are currently browsed
 // it is useful to support multiple docs plugin instances
-export function getActivePlugin(
-  allPluginDatas: Record<string, GlobalPluginData>,
-  pathname: string,
-  options: {failfast: true}, // use fail-fast option if you know for sure one plugin instance is active
-): ActivePlugin;
-export function getActivePlugin(
-  allPluginDatas: Record<string, GlobalPluginData>,
-  pathname: string,
-  options?: GetActivePluginOptions,
-): ActivePlugin | undefined;
-
 export function getActivePlugin(
   allPluginDatas: Record<string, GlobalPluginData>,
   pathname: string,

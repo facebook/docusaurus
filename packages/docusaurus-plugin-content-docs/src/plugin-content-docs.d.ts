@@ -166,6 +166,8 @@ declare module '@theme/DocPage' {
 }
 
 declare module '@theme/Seo' {
+  import type {ReactNode} from 'react';
+
   export type Props = {
     readonly title?: string;
     readonly description?: string;
@@ -184,15 +186,16 @@ declare module '@theme/hooks/useDocs' {
   type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
   type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
   type DocVersionSuggestions = import('./client/docsClientUtils').DocVersionSuggestions;
+  type GetActivePluginOptions = import('./client/docsClientUtils').GetActivePluginOptions;
 
   export type {GlobalPluginData, GlobalVersion};
   export const useAllDocsData: () => Record<string, GlobalPluginData>;
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (
-    options: GetActivePluginOptions = {},
+    options?: GetActivePluginOptions,
   ) => ActivePlugin | undefined;
   export const useActivePluginAndVersion: (
-    options: GetActivePluginOptions = {},
+    options?: GetActivePluginOptions,
   ) =>
     | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
     | undefined;

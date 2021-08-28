@@ -22,6 +22,7 @@ declare module '@theme/BlogSidebar' {
 
 declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {TOCItem} from '@docusaurus/types';
 
   export type FrontMatter = import('./src/blogFrontMatter').BlogPostFrontMatter;
   export type Assets = import('./src/types').Assets;

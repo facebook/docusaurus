@@ -51,7 +51,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.5",
-    "@types/parse-numeric-range": "^0.0.1"
+    "@types/parse-numeric-range": "^0.0.1",
+    "utility-types": "^3.10.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
