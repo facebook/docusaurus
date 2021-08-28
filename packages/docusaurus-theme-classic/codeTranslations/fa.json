@@ -52,7 +52,7 @@
   "theme.lastUpdated.byUser": " توسط {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "آخرین بروزرسانی{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ بازگشت به منو اصلی",
-  "theme.navbar.mobileVersionsDropdown.label": "ورژن ها",
+  "theme.navbar.mobileVersionsDropdown.label": "نسخه ها",
   "theme.tags.tagsListLabel": "برچسب ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب ها",
   "theme.tags.tagsPageTitle": "برچسب ها"
