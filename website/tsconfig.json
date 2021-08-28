@@ -2,11 +2,11 @@
   // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "@site/*": ["./*"]
-    }
+    },
+    "baseUrl": ".",
+    "resolveJsonModule": true
   },
   "include": ["src/"]
 }
