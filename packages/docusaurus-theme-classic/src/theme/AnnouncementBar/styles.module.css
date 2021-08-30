@@ -22,7 +22,10 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
   display: none;
 }
 
-.announcementBarPlaceholder,
+.announcementBarPlaceholder {
+  flex: 0 0 10px;
+}
+
 .announcementBarClose {
   flex: 0 0 30px;
 }
