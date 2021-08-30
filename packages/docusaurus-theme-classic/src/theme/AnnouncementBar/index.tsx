@@ -31,6 +31,7 @@ function AnnouncementBar(): JSX.Element | null {
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
+      {isCloseable && <div className={styles.announcementBarPlaceholder} />}
       <div
         className={clsx(styles.announcementBarContent, {
           [styles.announcementBarCloseable]: isCloseable,

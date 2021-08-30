@@ -22,8 +22,12 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
   display: none;
 }
 
+.announcementBarPlaceholder,
 .announcementBarClose {
-  flex: 0 0 10%;
+  flex: 0 0 30px;
+}
+
+.announcementBarClose {
   align-self: stretch;
   padding: 0;
 }
@@ -51,7 +55,8 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
     --docusaurus-announcement-bar-height: 30px;
   }
 
+  .announcementBarPlaceholder,
   .announcementBarClose {
-    flex: 0 0 4%;
+    flex-basis: 50px;
   }
 }
