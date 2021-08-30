@@ -8,5 +8,5 @@
     "baseUrl": ".",
     "resolveJsonModule": true
   },
-  "include": ["src/"]
+  "exclude": ["src/sw.js"]
 }
