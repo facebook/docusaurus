@@ -38,7 +38,13 @@ And you will get the following:
 </Tabs>
 ```
 
-Alternatively, you can put all the values in the `Tabs` props, and then only declare the respective `value` in each `TabItem`. The `values` and `defaultValue` configured in `Tabs` take precedence over the `label` and `default` props inlined in each `TabItem`.
+Alternatively, you can pass the labels and default value through the `Tabs` props, and then only declare the respective `value` in each `TabItem`.
+
+:::info
+
+The `values` and `defaultValue` configured in `Tabs` take precedence over the `label` and `default` props inlined in each `TabItem`. If no `label` is configured for a tab item, the `value` is used by default.
+
+:::
 
 ```jsx
 <Tabs
@@ -54,7 +60,7 @@ Alternatively, you can put all the values in the `Tabs` props, and then only dec
 </Tabs>
 ```
 
-:::info
+:::tip
 
 By default, tabs are rendered eagerly, but it is possible to load them lazily by passing the `lazy` prop to the `Tabs` component.
 
@@ -156,27 +162,24 @@ Tab choices with different `groupId`s will not interfere with each other:
 
 You might want to customize the appearance of certain set of tabs. To do that you can pass the string in `className` prop and the specified CSS class will be added to the `Tabs` component:
 
-```jsx {5}
+```jsx
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+// highlight-next-line
 <Tabs className="unique-tabs">
-  <TabItem value="apple" label="Apple" default>
+  <TabItem value="Apple" default>
     This is an apple 🍎
   </TabItem>
-  <TabItem value="orange" label="Orange">
-    This is an orange 🍊
-  </TabItem>
-  <TabItem value="banana" label="Banana">
-    This is a banana 🍌
-  </TabItem>
+  <TabItem value="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="Banana">This is a banana 🍌</TabItem>
 </Tabs>;
 ```
 
 ```mdx-code-block
 <Tabs className="unique-tabs">
-  <TabItem value="apple" label="Apple" default>This is an apple 🍎</TabItem>
-  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
-  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+  <TabItem value="Apple" default>This is an apple 🍎</TabItem>
+  <TabItem value="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="Banana">This is a banana 🍌</TabItem>
 </Tabs>
 ```
