@@ -686,6 +686,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'netboot.xyz',
+    description: 'Your favorite operating systems in one place!',
+    preview: require('./showcase/netbootxyz.png'),
+    website: 'https://netboot.xyz',
+    source: 'https://github.com/netbootxyz/netboot.xyz-docs/',
+    tags: ['opensource'],
+  },
+  {
     title: 'Netdata Learn',
     description: 'An educational site for monitoring and troubleshooting systems',
     preview: require('./showcase/netdata.png'),
