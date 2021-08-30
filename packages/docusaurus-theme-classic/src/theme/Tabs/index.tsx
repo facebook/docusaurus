@@ -95,12 +95,14 @@ function Tabs(props: Props): JSX.Element {
     let focusElement: HTMLLIElement | null = null;
 
     switch (event.key) {
-      case 'right': {
+      case 'ArrowRight':
+      case 'Right': {
         const nextTab = tabRefs.indexOf(event.target as HTMLLIElement) + 1;
         focusElement = tabRefs[nextTab] || tabRefs[0];
         break;
       }
-      case 'left': {
+      case 'ArrowLeft':
+      case 'Left': {
         const prevTab = tabRefs.indexOf(event.target as HTMLLIElement) - 1;
         focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
         break;
