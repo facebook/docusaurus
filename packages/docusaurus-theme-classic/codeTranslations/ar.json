@@ -50,7 +50,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "هذه وثائق لم يتم طرحها للإصدار {siteTitle} {versionLabel}.",
   "theme.lastUpdated.atDate": " في {date}",
   "theme.lastUpdated.byUser": " بواسطة {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "آخر تحديث في{atDate}بواسطة{byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "آخر تحديث{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ العودة إلى القائمة الرئيسية",
   "theme.navbar.mobileVersionsDropdown.label": "إصدارات",
   "theme.tags.tagsListLabel": "الوسوم:",
