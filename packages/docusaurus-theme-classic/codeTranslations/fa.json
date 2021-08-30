@@ -50,7 +50,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "نسخه {siteTitle} {versionLabel} هنوز به صورت کامل منتشر نشده است.",
   "theme.lastUpdated.atDate": " در تاریخ {date}",
   "theme.lastUpdated.byUser": " توسط {user}",
-  "theme.lastUpdated.lastUpdatedAtBy": "آخرین بروزرسانی در {atDate} توسط {byUser}",
+  "theme.lastUpdated.lastUpdatedAtBy": "آخرین بروزرسانی در{atDate}توسط{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ بازگشت به منو اصلی",
   "theme.navbar.mobileVersionsDropdown.label": "نسخه ها",
   "theme.tags.tagsListLabel": "برچسب ها:",
