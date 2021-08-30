@@ -25,7 +25,8 @@
     "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:website",
     "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:website || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
     "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:website",
-    "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
+    "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@crowdin/cli": "^3.5.2",
@@ -63,7 +64,7 @@
     ]
   },
   "devDependencies": {
-    "@tsconfig/docusaurus": "^1.0.3",
+    "@tsconfig/docusaurus": "^1.0.4",
     "cross-env": "^7.0.3",
     "raw-loader": "^4.0.2"
   }

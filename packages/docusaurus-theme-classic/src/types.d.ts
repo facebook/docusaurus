@@ -743,6 +743,7 @@ declare module '@theme/TagsListInline' {
 
 declare module '@theme/Tag' {
   import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {Optional} from 'utility-types';
 
   export type Props = Optional<TagsListItem, 'count'>;
 
