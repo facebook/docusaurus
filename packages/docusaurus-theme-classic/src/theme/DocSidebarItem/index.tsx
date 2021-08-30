@@ -12,6 +12,7 @@ import {
   usePrevious,
   Collapsible,
   useCollapsible,
+  ThemeClassNames,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -117,9 +118,13 @@ function DocSidebarItemCategory({
 
   return (
     <li
-      className={clsx('menu__list-item', {
-        'menu__list-item--collapsed': collapsed,
-      })}>
+      className={clsx(
+        ThemeClassNames.docs.docSidebarItemCategory,
+        'menu__list-item',
+        {
+          'menu__list-item--collapsed': collapsed,
+        },
+      )}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         className={clsx('menu__link', {
@@ -161,7 +166,12 @@ function DocSidebarItemLink({
   const {href, label} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   return (
-    <li className="menu__list-item" key={label}>
+    <li
+      className={clsx(
+        ThemeClassNames.docs.docSidebarItemLink,
+        'menu__list-item',
+      )}
+      key={label}>
       <Link
         className={clsx('menu__link', {
           'menu__link--active': isActive,

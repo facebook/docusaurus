@@ -55,7 +55,7 @@ function DocPageContent({
 
   return (
     <Layout
-      wrapperClassName={ThemeClassNames.wrapper.docPages}
+      wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsDocPage}
       searchMetadatas={{
         version,

@@ -20,6 +20,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -67,7 +68,11 @@ export default function DocItem(props: Props): JSX.Element {
           <div className={styles.docItemContainer}>
             <article>
               {showVersionBadge && (
-                <span className="badge badge--secondary">
+                <span
+                  className={clsx(
+                    ThemeClassNames.docs.docVersionBadge,
+                    'badge badge--secondary',
+                  )}>
                   Version: {versionMetadata.label}
                 </span>
               )}
@@ -75,11 +80,15 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
-                  className={styles.tocMobile}
+                  className={clsx(
+                    ThemeClassNames.docs.docTocMobile,
+                    styles.tocMobile,
+                  )}
                 />
               )}
 
-              <div className="markdown">
+              <div
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
                 Title can be declared inside md content or declared through frontmatter and added manually
                 To make both cases consistent, the added title is added under the same div.markdown block
@@ -98,7 +107,10 @@ export default function DocItem(props: Props): JSX.Element {
         </div>
         {renderTocDesktop && (
           <div className="col col--3">
-            <TOC toc={DocContent.toc} />
+            <TOC
+              toc={DocContent.toc}
+              className={ThemeClassNames.docs.docTocDesktop}
+            />
           </div>
         )}
       </div>

@@ -579,6 +579,7 @@ declare module '@theme/TOC' {
 
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
