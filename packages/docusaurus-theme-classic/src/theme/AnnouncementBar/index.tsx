@@ -31,6 +31,7 @@ function AnnouncementBar(): JSX.Element | null {
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
+      {isCloseable && <div className={styles.announcementBarPlaceholder} />}
       <div
         className={clsx(styles.announcementBarContent, {
           [styles.announcementBarCloseable]: isCloseable,
@@ -42,7 +43,7 @@ function AnnouncementBar(): JSX.Element | null {
       {isCloseable ? (
         <button
           type="button"
-          className={clsx(styles.announcementBarClose, 'clean-btn')}
+          className={clsx('clean-btn close', styles.announcementBarClose)}
           onClick={close}
           aria-label={translate({
             id: 'theme.AnnouncementBar.closeButtonAriaLabel',
