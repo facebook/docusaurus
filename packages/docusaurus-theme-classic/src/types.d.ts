@@ -768,6 +768,6 @@ declare module '@theme/prism-include-languages' {
 declare module 'prism-react-renderer/prism' {
   import type * as PrismNamespace from 'prismjs';
 
-  const Prism: PrismNamespace;
+  const Prism: typeof PrismNamespace;
   export default Prism;
 }
