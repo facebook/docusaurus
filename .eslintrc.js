@@ -63,6 +63,7 @@ module.exports = {
     ],
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
+    'jsx-a11y/html-has-lang': OFF,
     'no-console': OFF,
     'no-else-return': OFF,
     'no-param-reassign': [WARNING, {props: false}],

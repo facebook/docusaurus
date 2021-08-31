@@ -33,6 +33,8 @@ export type VersionMetadata = ContentPaths & {
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
   versionBanner: VersionBanner;
+  versionBadge: boolean;
+  versionClassName: string;
   isLast: boolean;
   sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
@@ -69,6 +71,8 @@ export type VersionOptions = {
   path?: string;
   label?: string;
   banner?: VersionBanner;
+  badge?: boolean;
+  className?: string;
 };
 
 export type VersionsOptions = {

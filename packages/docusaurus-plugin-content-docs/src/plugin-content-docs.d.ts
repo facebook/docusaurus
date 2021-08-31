@@ -18,6 +18,8 @@ declare module '@docusaurus/plugin-content-docs-types' {
     version: string;
     label: string;
     banner: VersionBanner;
+    badge: boolean;
+    className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
   };

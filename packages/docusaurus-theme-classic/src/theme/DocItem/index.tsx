@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
@@ -32,14 +31,6 @@ export default function DocItem(props: Props): JSX.Element {
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
   const {description, title} = metadata;
-
-  const {pluginId} = useActivePlugin({failfast: true})!;
-  const versions = useVersions(pluginId);
-
-  // If site is not versioned or only one version is included
-  // we don't show the version badge
-  // See https://github.com/facebook/docusaurus/issues/3362
-  const showVersionBadge = versions.length > 1;
 
   // We only add a title if:
   // - user asks to hide it with frontmatter
@@ -67,7 +58,7 @@ export default function DocItem(props: Props): JSX.Element {
           <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
-              {showVersionBadge && (
+              {versionMetadata.badge && (
                 <span
                   className={clsx(
                     ThemeClassNames.docs.docVersionBadge,

@@ -24,6 +24,7 @@ import {translate} from '@docusaurus/Translate';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
+import Head from '@docusaurus/Head';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -150,11 +151,17 @@ function DocPage(props: Props): JSX.Element {
     return <NotFound {...props} />;
   }
   return (
-    <DocPageContent
-      currentDocRoute={currentDocRoute}
-      versionMetadata={versionMetadata}>
-      {renderRoutes(docRoutes, {versionMetadata})}
-    </DocPageContent>
+    <>
+      <Head>
+        {/* TODO we should add a core addRoute({htmlClassName}) generic plugin option */}
+        <html className={versionMetadata.className} />
+      </Head>
+      <DocPageContent
+        currentDocRoute={currentDocRoute}
+        versionMetadata={versionMetadata}>
+        {renderRoutes(docRoutes, {versionMetadata})}
+      </DocPageContent>
+    </>
   );
 }
 
