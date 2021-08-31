@@ -515,6 +515,8 @@ Object {
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"banner\\": \\"none\\",
+  \\"badge\\": false,
+  \\"className\\": \\"docs-version-current\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -1024,6 +1026,8 @@ Object {
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"banner\\": \\"none\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-1.0.0\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.0/community\\": [
@@ -1040,6 +1044,8 @@ Object {
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"banner\\": \\"unreleased\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-current\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"community\\": [
@@ -1673,6 +1679,8 @@ Object {
   \\"version\\": \\"1.0.0\\",
   \\"label\\": \\"1.0.0\\",
   \\"banner\\": \\"unmaintained\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-1.0.0\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.0/docs\\": [
@@ -1715,6 +1723,8 @@ Object {
   \\"version\\": \\"1.0.1\\",
   \\"label\\": \\"1.0.1\\",
   \\"banner\\": \\"none\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-1.0.1\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
@@ -1752,6 +1762,8 @@ Object {
   \\"version\\": \\"current\\",
   \\"label\\": \\"Next\\",
   \\"banner\\": \\"unreleased\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-current\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"docs\\": [
@@ -1789,6 +1801,8 @@ Object {
   \\"version\\": \\"withSlugs\\",
   \\"label\\": \\"withSlugs\\",
   \\"banner\\": \\"unmaintained\\",
+  \\"badge\\": true,
+  \\"className\\": \\"docs-version-withSlugs\\",
   \\"isLast\\": false,
   \\"docsSidebars\\": {
     \\"version-1.0.1/docs\\": [
