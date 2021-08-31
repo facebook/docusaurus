@@ -33,9 +33,7 @@ function AnnouncementBar(): JSX.Element | null {
       role="banner">
       {isCloseable && <div className={styles.announcementBarPlaceholder} />}
       <div
-        className={clsx(styles.announcementBarContent, {
-          [styles.announcementBarCloseable]: isCloseable,
-        })}
+        className={styles.announcementBarContent}
         // Developer provided the HTML, so assume it's safe.
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{__html: content}}
@@ -50,7 +48,9 @@ function AnnouncementBar(): JSX.Element | null {
             message: 'Close',
             description: 'The ARIA label for close button of announcement bar',
           })}>
-          <span aria-hidden="true">×</span>
+          <svg width="14" height="14" viewBox="0 0 24 24">
+            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
+          </svg>
         </button>
       ) : null}
     </div>
