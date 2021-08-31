@@ -257,7 +257,7 @@ const TwitterSvg =
               : undefined,
           versions: {
             current: {
-              label: `ho ${getNextBetaVersionName()} 🚧`,
+              label: `${getNextBetaVersionName()} 🚧`,
             },
           },
         },
