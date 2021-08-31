@@ -14,9 +14,13 @@ import {
   useDocVersionSuggestions,
   GlobalVersion,
 } from '@theme/hooks/useDocs';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  useDocsPreferredVersion,
+} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
+import clsx from 'clsx';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
@@ -131,7 +135,12 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 
   return (
-    <div className="alert alert--warning margin-bottom--md" role="alert">
+    <div
+      className={clsx(
+        ThemeClassNames.docs.docVersionBanner,
+        'alert alert--warning margin-bottom--md',
+      )}
+      role="alert">
       <div>
         <BannerLabel siteTitle={siteTitle} versionMetadata={versionMetadata} />
       </div>

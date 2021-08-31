@@ -12,6 +12,7 @@ import {
   useAnnouncementBar,
   MobileSecondaryMenuFiller,
   MobileSecondaryMenuComponent,
+  ThemeClassNames,
 } from '@docusaurus/theme-common';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
@@ -78,7 +79,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
           [styles.menuWithAnnouncementBar]:
             !isAnnouncementBarClosed && showAnnouncementBar,
         })}>
-        <ul className="menu__list">
+        <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
           <DocSidebarItems items={sidebar} activePath={path} />
         </ul>
       </nav>
@@ -93,7 +94,7 @@ const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
   path,
 }) => {
   return (
-    <ul className="menu__list">
+    <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
       <DocSidebarItems
         items={sidebar}
         activePath={path}

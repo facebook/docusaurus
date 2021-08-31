@@ -20,7 +20,7 @@ function DocTagsListPage({tags}: Props): JSX.Element {
   return (
     <Layout
       title={title}
-      wrapperClassName={ThemeClassNames.wrapper.docPages}
+      wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsTagsListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!

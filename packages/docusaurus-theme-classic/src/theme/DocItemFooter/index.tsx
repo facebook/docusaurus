@@ -16,10 +16,15 @@ import TagsListInline, {
 } from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function TagsRow(props: TagsListInlineProps) {
   return (
-    <div className="row margin-bottom--sm">
+    <div
+      className={clsx(
+        ThemeClassNames.docs.docFooterTagsRow,
+        'row margin-bottom--sm',
+      )}>
       <div className="col">
         <TagsListInline {...props} />
       </div>
@@ -38,7 +43,7 @@ function EditMetaRow({
   formattedLastUpdatedAt,
 }: EditMetaRowProps) {
   return (
-    <div className="row">
+    <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
       <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
 
       <div className={clsx('col', styles.lastUpdated)}>
@@ -75,7 +80,8 @@ export default function DocItemFooter(props: Props): JSX.Element {
   }
 
   return (
-    <footer className="docusaurus-mt-lg">
+    <footer
+      className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}>
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <EditMetaRow
