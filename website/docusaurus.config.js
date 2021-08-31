@@ -258,7 +258,6 @@ const TwitterSvg =
           versions: {
             current: {
               label: `ho ${getNextBetaVersionName()} 🚧`,
-              badge: false,
             },
           },
         },
