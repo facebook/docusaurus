@@ -42,7 +42,9 @@ Alternatively, you can pass the labels and default value through the `Tabs` prop
 
 :::info
 
-The `values` and `defaultValue` configured in `Tabs` take precedence over the `label` and `default` props inlined in each `TabItem`. If no `label` is configured for a tab item, the `value` is used by default.
+The `values` and `defaultValue` configured in `Tabs` take precedence over the `label` and `default` props inlined in each `TabItem`.
+
+If no `label` is configured for a tab item, the `value` is used by default.
 
 :::
 
@@ -72,7 +74,7 @@ Add `default` to one of the tab items to make it displayed by default. You can a
 
 For example, in the example above, setting `default` for the `value="apple"` tab forces it to be open by default.
 
-If non of the children contains the `default` prop, neither is the `defaultValue` prop provided or it refers to an non-existing value, only the tab headings appear until the user clicks on a tab.
+If none of the children contains the `default` prop, neither is the `defaultValue` provided for the `Tabs`, or it refers to an non-existing value, only the tab headings appear until the user clicks on a tab.
 
 ## Syncing tab choices {#syncing-tab-choices}
 
