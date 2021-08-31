@@ -18,7 +18,7 @@ exports.dogfoodingPluginInstances = [
 
   [
     '@docusaurus/plugin-content-blog',
-    /** @type {import('@docusaurus/plugin-content-pages').Options} */
+    /** @type {import('@docusaurus/plugin-content-blog').Options} */
     ({
       id: 'blog-tests',
       path: '_dogfooding/_blog tests',
