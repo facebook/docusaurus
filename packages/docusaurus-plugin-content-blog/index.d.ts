@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export type Options = import('./src/types').PluginOptions;
+
 declare module '@theme/BlogSidebar' {
   export type BlogSidebarItem = {title: string; permalink: string};
   export type BlogSidebar = {

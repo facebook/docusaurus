@@ -89,7 +89,7 @@ function getInfimaCSSFile(direction) {
   }.css`;
 }
 
-type PluginOptions = {
+export type PluginOptions = {
   customCss?: string;
 };
 
