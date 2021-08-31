@@ -68,11 +68,11 @@ By default, tabs are rendered eagerly, but it is possible to load them lazily by
 
 ## Displaying a default tab
 
-Set the `defaultValue` prop in the `Tabs` component to the label value of your choice to show the matching tab by default.
+Add `default` to one of the tab items to make it displayed by default. You can also set the `defaultValue` prop in the `Tabs` component to the label value of your choice.
 
-For example, in the example above, `defaultValue="apple"` forces the `Apple` tab to be open by default.
+For example, in the example above, setting `default` for the `value="apple"` tab forces it to be open by default.
 
-If the `defaultValue` prop is not provided or refers to an non-existing value, neither does any of the children contain the `default` prop, only the tab headings appear until the user clicks on a tab.
+If non of the children contains the `default` prop, neither is the `defaultValue` prop provided or it refers to an non-existing value, only the tab headings appear until the user clicks on a tab.
 
 ## Syncing tab choices {#syncing-tab-choices}
 
