@@ -19,8 +19,9 @@ import styles from './styles.module.css';
 import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
+const languageTypes = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
 const getHighlightDirectiveRegex = (
-  languages = ['js', 'jsBlock', 'jsx', 'python', 'html'],
+  languages: ReadonlyArray<typeof languageTypes[number]> = languageTypes,
 ) => {
   // supported types of comments
   const comments = {

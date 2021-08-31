@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {Joi, URISchema} = require('@docusaurus/utils-validation');
+import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -81,7 +82,7 @@ const DocItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
-const itemWithType = (type) => {
+const itemWithType = (type: string | undefined) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
     ? Joi.string().required().equal(type)
@@ -95,7 +96,7 @@ const itemWithType = (type) => {
 
 const DropdownSubitemSchema = Joi.object({
   position: Joi.forbidden(),
-}).when({
+}).when('.', {
   switch: [
     {
       is: itemWithType('docsVersion'),
@@ -150,7 +151,7 @@ const SearchItemSchema = Joi.object({
 
 const NavbarItemSchema = Joi.object({
   position: NavbarItemPosition,
-}).when({
+}).when('.', {
   switch: [
     {
       is: itemWithType('docsVersion'),
@@ -178,7 +179,7 @@ const NavbarItemSchema = Joi.object({
     },
     {
       is: itemWithType(undefined),
-      then: Joi.object().when({
+      then: Joi.object().when('.', {
         // Dropdown item can be specified without type field
         is: Joi.object({
           items: Joi.array().required(),
@@ -246,12 +247,12 @@ const CustomCssSchema = Joi.alternatives()
 
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
-  disableDarkMode: Joi.any().forbidden(false).messages({
+  disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',
   }),
   // TODO temporary (@alpha-58)
-  defaultDarkMode: Joi.any().forbidden(false).messages({
+  defaultDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
@@ -329,8 +330,15 @@ const ThemeConfigSchema = Joi.object({
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
   }),
 });
-exports.ThemeConfigSchema = ThemeConfigSchema;
 
-exports.validateThemeConfig = ({validate, themeConfig}) => {
+export {ThemeConfigSchema};
+
+export function validateThemeConfig({
+  validate,
+  themeConfig,
+}: {
+  validate: Validate<ThemeConfig>;
+  themeConfig: ThemeConfig;
+}): ValidationResult<ThemeConfig> {
   return validate(ThemeConfigSchema, themeConfig);
-};
+}

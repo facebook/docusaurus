@@ -75,7 +75,12 @@ const BannerLabelComponents: Record<
 
 function BannerLabel(props: BannerLabelComponentProps) {
   const BannerLabelComponent =
-    BannerLabelComponents[props.versionMetadata.banner];
+    BannerLabelComponents[
+      props.versionMetadata.banner as Exclude<
+        Props['versionMetadata']['banner'],
+        'none'
+      >
+    ];
   return <BannerLabelComponent {...props} />;
 }
 
