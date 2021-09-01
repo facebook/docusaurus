@@ -124,4 +124,7 @@ declare module '@theme/BlogTagsPostsPage' {
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
   };
+
+  const BlogTagsPostsPage: (props: Props) => JSX.Element;
+  export default BlogTagsPostsPage;
 }
