@@ -32,7 +32,7 @@ export type VersionMetadata = ContentPaths & {
   tagsPath: string;
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
-  versionBanner: VersionBanner;
+  versionBanner: VersionBanner | null;
   versionBadge: boolean;
   versionClassName: string;
   isLast: boolean;
@@ -65,12 +65,12 @@ export type PathOptions = {
 };
 
 // TODO support custom version banner? {type: "error", content: "html content"}
-export type VersionBanner = 'none' | 'unreleased' | 'unmaintained';
+export type VersionBanner = 'unreleased' | 'unmaintained';
 
 export type VersionOptions = {
   path?: string;
   label?: string;
-  banner?: VersionBanner;
+  banner?: 'none' | VersionBanner;
   badge?: boolean;
   className?: string;
 };

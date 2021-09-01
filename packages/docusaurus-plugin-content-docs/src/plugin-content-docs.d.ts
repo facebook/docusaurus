@@ -11,7 +11,7 @@ declare module '@docusaurus/plugin-content-docs' {
 
 // TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
 declare module '@docusaurus/plugin-content-docs-types' {
-  type VersionBanner = import('./types').VersionBanner;
+  export type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
   type VersionTag = import('./types').VersionTag;
@@ -22,7 +22,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
     pluginId: string;
     version: string;
     label: string;
-    banner: VersionBanner;
+    banner: VersionBanner | null;
     badge: boolean;
     className: string;
     isLast: boolean;
