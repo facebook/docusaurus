@@ -15,6 +15,7 @@ import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
   usePrevious,
+  useHistoryBackwardForwardHandler,
 } from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
@@ -56,6 +57,16 @@ function useMobileSidebar() {
   const shouldRender = windowSize === 'mobile'; // || windowSize === 'ssr';
 
   const [shown, setShown] = useState(false);
+
+  // If sidebar is open, replace backward/forward navigation by close sidebar
+  // Useful so that we can close sidebar with Android back button
+  useHistoryBackwardForwardHandler(() => {
+    if (shown) {
+      setShown(false);
+      return false; // block transition
+    }
+    return undefined; // don't block
+  });
 
   const toggle = useCallback(() => {
     setShown((s) => !s);
