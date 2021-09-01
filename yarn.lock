@@ -16049,16 +16049,7 @@ postcss-zindex@^5.0.1:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.1.7, postcss@^8.2.15, postcss@^8.2.4, postcss@^8.2.9:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.1.tgz#71f380151c227f83b898294a46481f689f86b70a"
-  integrity sha512-9qH0MGjsSm+fjxOi3GnwViL1otfi7qkj+l/WX5gcRGmZNGsIcqc+A5fBkE6PUobEQK4APqYVaES+B3Uti98TCw==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.23"
-    source-map-js "^0.6.2"
-
-postcss@^8.2.x:
+postcss@^8.1.7, postcss@^8.2.15, postcss@^8.2.4, postcss@^8.2.9, postcss@^8.2.x:
   version "8.3.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.6.tgz#2730dd76a97969f37f53b9a6096197be311cc4ea"
   integrity sha512-wG1cc/JhRgdqB6WHEuyLTedf3KIRuD0hG6ldkFEZNCjRxiC+3i6kkWUUbiJQayP28iwG35cEmAbe98585BYV0A==
