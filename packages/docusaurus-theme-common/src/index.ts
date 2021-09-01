@@ -72,4 +72,4 @@ export {useLocalPathname} from './utils/useLocalPathname';
 export {translateTagsPageTitle, listTagsByLetters} from './utils/tagsUtils';
 export type {TagLetterEntry} from './utils/tagsUtils';
 
-export {useHistoryBackwardForwardHandler} from './utils/historyUtils';
+export {useHistoryBlock, useHistoryBlockPop} from './utils/historyUtils';

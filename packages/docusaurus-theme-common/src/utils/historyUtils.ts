@@ -7,25 +7,12 @@
 
 import {useEffect, useRef} from 'react';
 import {useHistory} from '@docusaurus/router';
-import type {Location} from '@docusaurus/history';
+import type {Location, Action} from '@docusaurus/history';
 
-/*
-Permits to register a handler that will be called when a backward/forward navigation is detected
-If the handler returns false, the backward/forward transition will be blocked
+type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
-Limitations:
-- can't detect backward/forward direction
-- only handles navigation to direct backward/forward "sibling". history.go(-2) won't trigger the handler.
-
-Unfortunately there's no good way to detect the direction of the history POP event.
-This code is a best effort to make it possible to handle Android back-button,
-
-Only use this when it's not a big deal to handle backward/forward navigations in a similar way (like closing menus/sidebars/drawers)
- */
-export function useHistoryBackwardForwardHandler(
-  handler: () => void | false,
-): void {
-  const {location, block} = useHistory();
+export function useHistoryBlock(handler: HistoryBlockHandler): void {
+  const {block} = useHistory();
 
   // Avoid stale closure issues without triggering useless re-renders
   const lastHandlerRef = useRef(handler);
@@ -33,32 +20,30 @@ export function useHistoryBackwardForwardHandler(
     lastHandlerRef.current = handler;
   }, [handler]);
 
-  // Unfortunately there's no easy way to detect a backward/forward navigation
-  // We only track the last 2 locations because it's enough to detect a back navigation
-  const last2LocationsRef = useRef<[Location, Location | undefined]>([
-    location,
-    undefined,
-  ]);
-
-  useEffect(() => {
-    last2LocationsRef.current = [location, last2LocationsRef.current[0]];
-  }, [location]);
-
   useEffect(() => {
     // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    return block((newLocation, action) => {
-      const previousLocation = last2LocationsRef.current[1];
-      const isBackNavigation =
-        action === 'POP' &&
-        newLocation.key &&
-        newLocation.key === previousLocation?.key;
-
-      if (isBackNavigation) {
-        // Block backward/forward navigation if handler returns false
-        return lastHandlerRef.current();
-      }
-      // Don't block other navigation events
-      return undefined;
+    return block((location, action) => {
+      return lastHandlerRef.current(location, action);
     });
   }, [block, lastHandlerRef]);
+}
+
+/*
+Permits to register a handler that will be called on history pop navigation (backward/forward)
+If the handler returns false, the backward/forward transition will be blocked
+
+Unfortunately there's no good way to detect the "direction" (backward/forward) of the POP event.
+
+Only use this when it's not a big deal to handle backward/forward navigations in a similar way (like closing menus/sidebars/drawers)
+This code is a best effort to make it possible to handle Android back-button
+ */
+export function useHistoryBlockPop(handler: HistoryBlockHandler): void {
+  useHistoryBlock((location, action) => {
+    if (action === 'POP') {
+      // Block navigation if handler returns false
+      return handler(location, action);
+    }
+    // Don't block other navigation actions
+    return undefined;
+  });
 }
