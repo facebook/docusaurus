@@ -636,6 +636,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'MapillaryJS',
+    description: 'Interactive, extendable street imagery map experiences',
+    preview: require('./showcase/mapillaryjs.png'),
+    website: 'https://mapillary.github.io/mapillary-js/',
+    source: 'https://github.com/mapillary/mapillary-js',
+    tags: ['opensource', 'facebook'],
+  },
+  {
     title: 'MediaMachine',
     description: 'Infrastructure for User-Generated Video content',
     preview: require('./showcase/mediamachine.png'),
