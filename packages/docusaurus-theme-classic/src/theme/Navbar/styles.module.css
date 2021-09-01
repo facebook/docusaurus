@@ -21,3 +21,7 @@ Hide toggle in small viewports
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
+
+.navbarSidebarCloseSvg {
+  fill: var(--ifm-color-emphasis-600);
+}

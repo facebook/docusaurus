@@ -710,6 +710,14 @@ declare module '@theme/IconMenu' {
   export default IconMenu;
 }
 
+declare module '@theme/IconClose' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+
+  export default function IconClose(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconLanguage' {
   import type {ComponentProps} from 'react';
 

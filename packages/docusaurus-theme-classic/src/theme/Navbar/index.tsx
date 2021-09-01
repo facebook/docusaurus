@@ -23,6 +23,7 @@ import {useActivePlugin} from '@theme/hooks/useDocs';
 import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
+import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
@@ -155,12 +156,22 @@ function NavbarMobileSidebar({
           imageClassName="navbar__logo"
           titleClassName="navbar__title"
         />
-        {!colorModeToggle.disabled && sidebarShown && (
+        {!colorModeToggle.disabled && (
           <Toggle
             checked={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
           />
         )}
+        <button
+          type="button"
+          className="clean-btn navbar-sidebar__close"
+          onClick={toggleSidebar}>
+          <IconClose
+            width={20}
+            height={20}
+            className={styles.navbarSidebarCloseSvg}
+          />
+        </button>
       </div>
 
       <div
