@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+declare module '@docusaurus/plugin-content-docs' {
+  export type Options = import('./types').PluginOptions;
+}
+
+// TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
 declare module '@docusaurus/plugin-content-docs-types' {
   type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;

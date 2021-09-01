@@ -14,8 +14,6 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
     "build:baseUrl": "cross-env BASE_URL='/build/' yarn build",
-    "start:bootstrap": "cross-env DOCUSAURUS_PRESET=bootstrap yarn start",
-    "build:bootstrap": "cross-env DOCUSAURUS_PRESET=bootstrap yarn build",
     "start:blogOnly": "cross-env yarn start --config=docusaurus.config-blog-only.js",
     "build:blogOnly": "cross-env yarn build --config=docusaurus.config-blog-only.js",
     "netlify:build:production": "yarn docusaurus write-translations && yarn netlify:crowdin:delay && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",

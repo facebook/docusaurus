@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+declare module '@docusaurus/plugin-content-blog' {
+  export type Options = import('./types').PluginOptions;
+}
+
 declare module '@theme/BlogSidebar' {
   export type BlogSidebarItem = {title: string; permalink: string};
   export type BlogSidebar = {
@@ -24,8 +28,8 @@ declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {TOCItem} from '@docusaurus/types';
 
-  export type FrontMatter = import('./src/blogFrontMatter').BlogPostFrontMatter;
-  export type Assets = import('./src/types').Assets;
+  export type FrontMatter = import('./blogFrontMatter').BlogPostFrontMatter;
+  export type Assets = import('./types').Assets;
 
   export type Metadata = {
     readonly title: string;
@@ -38,7 +42,7 @@ declare module '@theme/BlogPostPage' {
     readonly truncated?: string;
     readonly nextItem?: {readonly title: string; readonly permalink: string};
     readonly prevItem?: {readonly title: string; readonly permalink: string};
-    readonly authors: import('./src/types').Author[];
+    readonly authors: import('./types').Author[];
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -122,4 +126,7 @@ declare module '@theme/BlogTagsPostsPage' {
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
   };
+
+  const BlogTagsPostsPage: (props: Props) => JSX.Element;
+  export default BlogTagsPostsPage;
 }
