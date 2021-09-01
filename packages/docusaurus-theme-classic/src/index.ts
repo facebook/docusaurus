@@ -28,10 +28,7 @@ const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: {
-  defaultMode: string;
-  respectPrefersColorScheme: boolean;
-}) => {
+}: ThemeConfig['colorMode']) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
