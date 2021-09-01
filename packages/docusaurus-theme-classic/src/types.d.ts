@@ -522,6 +522,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
+    readonly default?: boolean;
+    readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
   };
@@ -539,7 +541,7 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string;
-    readonly values: readonly {value: string; label: string}[];
+    readonly values?: readonly {value: string; label?: string}[];
     readonly groupId?: string;
     readonly className?: string;
   };
