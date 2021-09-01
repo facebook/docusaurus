@@ -81,7 +81,7 @@ describe('simple site', () => {
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
-      versionBanner: 'none',
+      versionBanner: null,
       versionBadge: false,
       versionClassName: 'docs-version-current',
     };
@@ -262,7 +262,7 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: '1.0.1',
       versionName: '1.0.1',
       versionPath: '/docs',
-      versionBanner: 'none',
+      versionBanner: null,
       versionBadge: true,
       versionClassName: 'docs-version-1.0.1',
     };
@@ -554,7 +554,7 @@ describe('versioned site, pluginId=default', () => {
         routePriority: -1,
         tagsPath: '/docs/tags',
         versionPath: '/docs',
-        versionBanner: 'none',
+        versionBanner: null,
         versionBadge: false,
       },
     ]);
@@ -702,7 +702,7 @@ describe('versioned site, pluginId=community', () => {
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/communityBasePath',
-      versionBanner: 'none',
+      versionBanner: null,
       versionBadge: true,
       versionClassName: 'docs-version-1.0.0',
     };
@@ -750,7 +750,7 @@ describe('versioned site, pluginId=community', () => {
         routePriority: -1,
         tagsPath: '/communityBasePath/tags',
         versionPath: '/communityBasePath',
-        versionBanner: 'none',
+        versionBanner: null,
         versionBadge: false,
       },
     ]);

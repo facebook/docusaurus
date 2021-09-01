@@ -756,3 +756,18 @@ declare module '@theme/Tag' {
 
   export default function Tag(props: Props): JSX.Element;
 }
+
+declare module '@theme/prism-include-languages' {
+  import type * as PrismNamespace from 'prismjs';
+
+  export default function prismIncludeLanguages(
+    PrismObject: typeof PrismNamespace,
+  ): void;
+}
+
+declare module 'prism-react-renderer/prism' {
+  import type * as PrismNamespace from 'prismjs';
+
+  const Prism: typeof PrismNamespace;
+  export default Prism;
+}

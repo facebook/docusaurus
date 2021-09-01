@@ -264,10 +264,10 @@ function getDefaultVersionBanner({
   versionName: string;
   versionNames: string[];
   lastVersionName: string;
-}): VersionBanner {
+}): VersionBanner | null {
   // Current version: good, no banner
   if (versionName === lastVersionName) {
-    return 'none';
+    return null;
   }
   // Upcoming versions: unreleased banner
   else if (
@@ -291,17 +291,16 @@ function getVersionBanner({
   versionNames: string[];
   lastVersionName: string;
   options: Pick<PluginOptions, 'versions'>;
-}): VersionBanner {
-  const versionOptionBanner = options.versions[versionName]?.banner;
-
-  return (
-    versionOptionBanner ??
-    getDefaultVersionBanner({
-      versionName,
-      versionNames,
-      lastVersionName,
-    })
-  );
+}): VersionBanner | null {
+  const versionBannerOption = options.versions[versionName]?.banner;
+  if (versionBannerOption) {
+    return versionBannerOption === 'none' ? null : versionBannerOption;
+  }
+  return getDefaultVersionBanner({
+    versionName,
+    versionNames,
+    lastVersionName,
+  });
 }
 
 function getVersionBadge({

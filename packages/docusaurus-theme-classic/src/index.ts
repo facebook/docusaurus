@@ -10,7 +10,7 @@ import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import Module from 'module';
-import type {AcceptedPlugin, Result, Plugin as PostCssPlugin} from 'postcss';
+import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
@@ -25,7 +25,10 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
-const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
+const noFlashColorMode = ({
+  defaultMode,
+  respectPrefersColorScheme,
+}: ThemeConfig['colorMode']) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
@@ -83,7 +86,7 @@ const AnnouncementBarInlineJavaScript = `
   document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
 })();`;
 
-function getInfimaCSSFile(direction) {
+function getInfimaCSSFile(direction: string) {
   return `infima/dist/css/default/default${
     direction === 'rtl' ? '-rtl' : ''
   }.css`;
@@ -183,13 +186,13 @@ export default function docusaurusThemeClassic(
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
-          prepare: (result: Result) => {
+          prepare: (result) => {
             const file = result.root?.source?.input?.file;
             // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss(result.root);
+            return rtlcss((result.root as unknown) as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);

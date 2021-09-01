@@ -26,7 +26,10 @@ import type {
 
 import styles from './styles.module.css';
 
-const isActiveSidebarItem = (item: Props['item'], activePath: string) => {
+const isActiveSidebarItem = (
+  item: Props['item'],
+  activePath: string,
+): boolean => {
   if (item.type === 'link') {
     return isSamePath(item.href, activePath);
   }

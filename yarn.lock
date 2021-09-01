@@ -4220,6 +4220,13 @@
   dependencies:
     "@types/unist" "*"
 
+"@types/mdx-js__react@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@types/mdx-js__react/-/mdx-js__react-1.5.4.tgz#75ed343b5a1f56d9518e902d956e1b611da4a297"
+  integrity sha512-hce+Hymj3cEMOma13eQRhpT3mhQrOkN4CAYEwKWB/qj2BiuUrrTpCkOShEERGmLVgDc3nxF4Dc0k7W999EQxnQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/micromatch@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.2.tgz#ce29c8b166a73bf980a5727b1e4a4d099965151d"
@@ -4418,6 +4425,13 @@
   integrity sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==
   dependencies:
     "@types/node" "*"
+
+"@types/rtlcss@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@types/rtlcss/-/rtlcss-3.1.1.tgz#f091b04a2c48b92317228113a2a235c755d51c77"
+  integrity sha512-xj8SSY1sadjWrU9we6pm0jaSsZiZoZeEuzN5ebYW6SKCi6xIWLFCkKr58bHTaopqoDiyhwLbCvxIQ7uW4SK98g==
+  dependencies:
+    postcss "^8.2.x"
 
 "@types/sax@^1.2.1":
   version "1.2.1"
@@ -16035,10 +16049,10 @@ postcss-zindex@^5.0.1:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.1.7, postcss@^8.2.15, postcss@^8.2.4, postcss@^8.2.9:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.1.tgz#71f380151c227f83b898294a46481f689f86b70a"
-  integrity sha512-9qH0MGjsSm+fjxOi3GnwViL1otfi7qkj+l/WX5gcRGmZNGsIcqc+A5fBkE6PUobEQK4APqYVaES+B3Uti98TCw==
+postcss@^8.1.7, postcss@^8.2.15, postcss@^8.2.4, postcss@^8.2.9, postcss@^8.2.x:
+  version "8.3.6"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.6.tgz#2730dd76a97969f37f53b9a6096197be311cc4ea"
+  integrity sha512-wG1cc/JhRgdqB6WHEuyLTedf3KIRuD0hG6ldkFEZNCjRxiC+3i6kkWUUbiJQayP28iwG35cEmAbe98585BYV0A==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.23"

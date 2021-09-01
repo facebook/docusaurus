@@ -16,9 +16,10 @@ import {
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
 
-const getVersionMainDoc = (version) =>
-  version.docs.find((doc) => doc.id === version.mainDocId);
+const getVersionMainDoc = (version: GlobalDataVersion) =>
+  version.docs.find((doc) => doc.id === version.mainDocId)!;
 
 export default function DocsVersionDropdownNavbarItem({
   mobile,

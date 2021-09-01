@@ -21,6 +21,7 @@ import {
 
 import type {Props} from '@theme/DocVersionBanner';
 import clsx from 'clsx';
+import type {VersionBanner} from '@docusaurus/plugin-content-docs-types';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
@@ -66,7 +67,7 @@ function UnmaintainedVersionLabel({
 }
 
 const BannerLabelComponents: Record<
-  Exclude<Props['versionMetadata']['banner'], 'none'>,
+  VersionBanner,
   ComponentType<BannerLabelComponentProps>
 > = {
   unreleased: UnreleasedVersionLabel,
@@ -75,7 +76,7 @@ const BannerLabelComponents: Record<
 
 function BannerLabel(props: BannerLabelComponentProps) {
   const BannerLabelComponent =
-    BannerLabelComponents[props.versionMetadata.banner];
+    BannerLabelComponents[props.versionMetadata.banner!];
   return <BannerLabelComponent {...props} />;
 }
 
@@ -156,11 +157,10 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
 }
 
 function DocVersionBanner({versionMetadata}: Props): JSX.Element {
-  if (versionMetadata.banner === 'none') {
-    return <></>;
-  } else {
+  if (versionMetadata.banner) {
     return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
   }
+  return <></>;
 }
 
 export default DocVersionBanner;

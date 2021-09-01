@@ -35,7 +35,7 @@ function useShowAnnouncementBar() {
   return showAnnouncementBar;
 }
 
-function HideableSidebarButton({onClick}) {
+function HideableSidebarButton({onClick}: {onClick: React.MouseEventHandler}) {
   return (
     <button
       type="button"
