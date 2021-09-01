@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconMenu';
+import type {Props} from '@theme/IconCloseThin';
 
-export default function IconClose({
+export default function IconCloseThin({
   width = 20,
   height = 20,
   className,
@@ -17,12 +17,12 @@ export default function IconClose({
   return (
     <svg
       className={className}
-      viewBox="0 0 24 24"
+      viewBox="0 0 413.348 413.348"
       width={width}
       height={height}
       fill="currentColor"
       {...restProps}>
-      <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
+      <path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z" />
     </svg>
   );
 }

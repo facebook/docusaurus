@@ -23,7 +23,7 @@ import {useActivePlugin} from '@theme/hooks/useDocs';
 import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
-import IconClose from '@theme/IconClose';
+import IconCloseThin from '@theme/IconCloseThin';
 
 import styles from './styles.module.css';
 
@@ -158,6 +158,7 @@ function NavbarMobileSidebar({
         />
         {!colorModeToggle.disabled && (
           <Toggle
+            className={styles.navbarSidebarToggle}
             checked={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
           />
@@ -166,7 +167,7 @@ function NavbarMobileSidebar({
           type="button"
           className="clean-btn navbar-sidebar__close"
           onClick={toggleSidebar}>
-          <IconClose
+          <IconCloseThin
             width={20}
             height={20}
             className={styles.navbarSidebarCloseSvg}
