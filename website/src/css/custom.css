@@ -69,7 +69,6 @@ html[data-theme='dark'] .header-github-link:before {
 }
 
 .unique-tabs .tabs__item {
-  height: 18px;
   line-height: 16px;
   margin-right: 8px;
 }
