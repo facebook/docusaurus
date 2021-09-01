@@ -50,9 +50,7 @@ const MDXComponents: MDXComponentsObject = {
     const {children} = props;
 
     // See comment for `code` above
-    // @ts-expect-error: bypass TS
     if (isValidElement(children) && isValidElement(children?.props?.children)) {
-      // @ts-expect-error: bypass TS
       return children.props.children;
     }
 
