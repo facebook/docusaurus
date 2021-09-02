@@ -7,11 +7,11 @@
 
 import React from 'react';
 
-import DebugLayout from '../DebugLayout';
+import DebugLayout from '@theme/DebugLayout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-function DebugMetadata() {
+function DebugMetadata(): JSX.Element {
   const {siteMetadata} = useDocusaurusContext();
   return (
     <DebugLayout>
@@ -28,11 +28,12 @@ function DebugMetadata() {
         {Object.entries(siteMetadata.pluginVersions).map(
           ([name, versionInformation]) => (
             <li key={name} className={styles.listItem}>
-              {versionInformation.version && (
-                <div className={styles.version}>
-                  <code>{versionInformation.version}</code>
-                </div>
-              )}
+              {versionInformation.type === 'package' &&
+                versionInformation.version && (
+                  <div className={styles.version}>
+                    <code>{versionInformation.version}</code>
+                  </div>
+                )}
               <div className={styles.name}>{name}</div>
               <div>Type: {versionInformation.type}</div>
             </li>

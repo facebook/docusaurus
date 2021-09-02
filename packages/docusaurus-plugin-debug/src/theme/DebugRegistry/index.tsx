@@ -7,11 +7,11 @@
 
 import React from 'react';
 
-import DebugLayout from '../DebugLayout';
+import DebugLayout from '@theme/DebugLayout';
 import registry from '@generated/registry';
 import styles from './styles.module.css';
 
-function DebugRegistry() {
+function DebugRegistry(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Registry</h2>

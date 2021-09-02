@@ -38,6 +38,7 @@ declare module '@generated/routes' {
     readonly path: string;
     readonly component: RouteConfig['component'];
     readonly exact?: boolean;
+    readonly routes?: Route[];
   };
   const routes: Route[];
   export default routes;
