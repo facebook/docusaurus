@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-const DebugNavLink = ({to, children}) => (
+const DebugNavLink = ({to, children}: {to: string; children: ReactNode}) => (
   <Link
     className={styles.navlink}
     isNavLink
@@ -23,7 +23,7 @@ const DebugNavLink = ({to, children}) => (
   </Link>
 );
 
-function DebugLayout({children}) {
+function DebugLayout({children}: {children: ReactNode}): JSX.Element {
   return (
     <>
       <Head>

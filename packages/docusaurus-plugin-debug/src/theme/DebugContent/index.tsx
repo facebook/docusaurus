@@ -7,17 +7,30 @@
 
 import React from 'react';
 
-import DebugLayout from '../DebugLayout';
-import DebugJsonView from '../DebugJsonView';
+import DebugLayout from '@theme/DebugLayout';
+import DebugJsonView from '@theme/DebugJsonView';
+import type {Props} from '@theme/DebugContent';
 
-const PluginInstanceContent = ({pluginId, pluginInstanceContent}) => (
+const PluginInstanceContent = ({
+  pluginId,
+  pluginInstanceContent,
+}: {
+  pluginId: string;
+  pluginInstanceContent: unknown;
+}) => (
   <section style={{marginBottom: 30}}>
     <code>{pluginId}</code>
-    <DebugJsonView src={pluginInstanceContent} collapseDepth="2" />
+    <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
   </section>
 );
 
-const PluginContent = ({pluginName, pluginContent}) => {
+const PluginContent = ({
+  pluginName,
+  pluginContent,
+}: {
+  pluginName: string;
+  pluginContent: Record<string, unknown>;
+}) => {
   return (
     <section style={{marginBottom: 60}}>
       <h3>{pluginName}</h3>
@@ -41,7 +54,7 @@ const PluginContent = ({pluginName, pluginContent}) => {
   );
 };
 
-function DebugContent({allContent}) {
+function DebugContent({allContent}: Props): JSX.Element {
   return (
     <DebugLayout>
       <h2>Plugin content</h2>

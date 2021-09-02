@@ -3,9 +3,10 @@
   "version": "2.0.0-beta.5",
   "description": "Debug plugin for Docusaurus.",
   "main": "lib/index.js",
+  "types": "src/types.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc && node copyUntypedFiles.js",
+    "watch": "node copyUntypedFiles.js && tsc --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -20,6 +21,7 @@
     "@docusaurus/core": "2.0.0-beta.5",
     "@docusaurus/types": "2.0.0-beta.5",
     "@docusaurus/utils": "2.0.0-beta.5",
+    "fs-extra": "^9.1.0",
     "react-json-view": "^1.21.3",
     "tslib": "^2.1.0"
   },
