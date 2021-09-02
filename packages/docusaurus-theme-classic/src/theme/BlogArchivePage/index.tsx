@@ -9,6 +9,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
+import {translate} from '@docusaurus/Translate';
 
 type YearProp = {
   year: string;
@@ -65,13 +66,23 @@ function listPostsByYears(blogPosts: readonly ArchiveBlogPost[]): YearProp[] {
 }
 
 export default function BlogArchive({archive}: Props) {
+  const title = translate({
+    id: 'theme.blog.archive.title',
+    message: 'Archive',
+    description: 'The page & hero title of the blog archive page',
+  });
+  const description = translate({
+    id: 'theme.blog.archive.description',
+    message: 'Archive',
+    description: 'The page & hero description of the blog archive page',
+  });
   const years = listPostsByYears(archive.blogPosts);
   return (
-    <Layout title="Archive">
+    <Layout title={title} description={description}>
       <header className="hero hero--primary">
         <div className="container">
-          <h1 className="hero__title">Archive</h1>
-          <p className="hero__subtitle">All Posts</p>
+          <h1 className="hero__title">{title}</h1>
+          <p className="hero__subtitle">{description}</p>
         </div>
       </header>
       <main>{years.length > 0 && <YearsSection years={years} />}</main>
