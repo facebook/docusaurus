@@ -15,6 +15,7 @@ import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
   usePrevious,
+  useHistoryPopHandler,
 } from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
@@ -57,6 +58,18 @@ function useMobileSidebar() {
   const shouldRender = windowSize === 'mobile'; // || windowSize === 'ssr';
 
   const [shown, setShown] = useState(false);
+
+  // Close mobile sidebar on navigation pop
+  // Most likely firing when using the Android back button (but not only)
+  useHistoryPopHandler(() => {
+    if (shown) {
+      setShown(false);
+      // Should we prevent the navigation here?
+      // See https://github.com/facebook/docusaurus/pull/5462#issuecomment-911699846
+      // return false; // prevent pop navigation
+    }
+    return undefined;
+  });
 
   const toggle = useCallback(() => {
     setShown((s) => !s);
