@@ -6,12 +6,9 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
-
-import styles from './styles.module.css';
 
 type YearProp = {
   year: string;
@@ -20,7 +17,7 @@ type YearProp = {
 
 function Year({year, posts}: YearProp) {
   return (
-    <div className={clsx('col col--4', styles.feature)}>
+    <>
       <h3>{year}</h3>
       <ul>
         {posts.map((post) => (
@@ -31,7 +28,23 @@ function Year({year, posts}: YearProp) {
           </li>
         ))}
       </ul>
-    </div>
+    </>
+  );
+}
+
+function YearsSection({years}: {years: YearProp[]}) {
+  return (
+    <section className="margin-vert--lg">
+      <div className="container">
+        <div className="row">
+          {years.map((_props, idx) => (
+            <div key={idx} className="col col--4 margin-vert--lg">
+              <Year {..._props} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -53,7 +66,6 @@ function listPostsByYears(blogPosts: readonly ArchiveBlogPost[]): YearProp[] {
 
 export default function BlogArchive({archive}: Props) {
   const years = listPostsByYears(archive.blogPosts);
-
   return (
     <Layout title="Archive">
       <header className="hero hero--primary">
@@ -62,19 +74,7 @@ export default function BlogArchive({archive}: Props) {
           <p className="hero__subtitle">All Posts</p>
         </div>
       </header>
-      <main>
-        {years.length > 0 && (
-          <section className={styles.features}>
-            <div className="container">
-              <div className="row">
-                {years.map((_props, idx) => (
-                  <Year key={idx} {..._props} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-      </main>
+      <main>{years.length > 0 && <YearsSection years={years} />}</main>
     </Layout>
   );
 }
