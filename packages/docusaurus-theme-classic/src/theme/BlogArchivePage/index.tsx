@@ -9,10 +9,16 @@ import React from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
 
 import styles from './styles.module.css';
 
-function Year(/** @type {{ year: string; posts: BlogPost[]}} */ {year, posts}) {
+type YearProp = {
+  year: string;
+  posts: ArchiveBlogPost[];
+};
+
+function Year({year, posts}: YearProp) {
   return (
     <div className={clsx('col col--4', styles.feature)}>
       <h3>{year}</h3>
@@ -29,32 +35,39 @@ function Year(/** @type {{ year: string; posts: BlogPost[]}} */ {year, posts}) {
   );
 }
 
-function BlogArchive({archiveData}) {
-  const postsByYear = archiveData.reduceRight((posts, post) => {
-    const year = post.metadata.date.split('-')[0];
-    const yearPosts = posts.get(year) || [];
-    return posts.set(year, [post, ...yearPosts]);
-  }, /** @type {Map<string, BlogPost[]>}>} */ new Map());
+function listPostsByYears(blogPosts: readonly ArchiveBlogPost[]): YearProp[] {
+  const postsByYear: Map<string, ArchiveBlogPost[]> = blogPosts.reduceRight(
+    (posts, post) => {
+      const year = post.metadata.date.split('-')[0];
+      const yearPosts = posts.get(year) || [];
+      return posts.set(year, [post, ...yearPosts]);
+    },
+    new Map(),
+  );
 
-  const yearsOfPosts = Array.from(postsByYear, ([year, posts]) => ({
+  return Array.from(postsByYear, ([year, posts]) => ({
     year,
     posts,
   }));
+}
+
+export default function BlogArchive({archive}: Props) {
+  const years = listPostsByYears(archive.blogPosts);
 
   return (
     <Layout title="Archive">
-      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <header className="hero hero--primary">
         <div className="container">
           <h1 className="hero__title">Archive</h1>
           <p className="hero__subtitle">All Posts</p>
         </div>
       </header>
       <main>
-        {yearsOfPosts && yearsOfPosts.length > 0 && (
+        {years.length > 0 && (
           <section className={styles.features}>
             <div className="container">
               <div className="row">
-                {yearsOfPosts.map((_props, idx) => (
+                {years.map((_props, idx) => (
                   <Year key={idx} {..._props} />
                 ))}
               </div>
@@ -65,5 +78,3 @@ function BlogArchive({archiveData}) {
     </Layout>
   );
 }
-
-export default BlogArchive;

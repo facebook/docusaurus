@@ -251,18 +251,17 @@ export default function pluginContentBlog(
         archiveBasePath,
       ]);
 
-      const archiveDataPath = await createData(
+      // creates a blog archive route
+      const archiveProp = await createData(
         `${docuHash(archiveUrl)}.json`,
-        JSON.stringify(blogPosts, null, 2),
+        JSON.stringify({blogPosts}, null, 2),
       );
-
-      // creates a blog archive a
       addRoute({
         path: archiveUrl,
         component: '@theme/BlogArchivePage',
         exact: true,
         modules: {
-          archiveData: aliasedSource(archiveDataPath),
+          archive: aliasedSource(archiveProp),
         },
       });
 
