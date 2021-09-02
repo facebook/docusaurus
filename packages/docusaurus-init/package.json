@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/init",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "Create Docusaurus apps easily.",
   "repository": {
     "type": "git",
