@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "I-type and inyong hinahanap dito",
   "theme.SearchPage.noResultsText": "Walang resultang nahanap",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Nabegasyón para sa pahina na listahan ng blog",
   "theme.blog.paginator.newerEntries": "Mas bagong mga éntri",
   "theme.blog.paginator.olderEntries": "Mas lumang mga éntri",

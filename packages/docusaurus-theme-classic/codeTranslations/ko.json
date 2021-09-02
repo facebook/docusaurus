@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "여기에 검색할 키워드를 입력하세요.",
   "theme.SearchPage.noResultsText": "검색 결과가 없습니다.",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "블로그 게시물 목록 탐색",
   "theme.blog.paginator.newerEntries": "이전 페이지",
   "theme.blog.paginator.olderEntries": "다음 페이지",

@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Indtast din søgning her",
   "theme.SearchPage.noResultsText": "Ingen resultater fundet",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Blogoversigt navigation",
   "theme.blog.paginator.newerEntries": "Nyere indslag",
   "theme.blog.paginator.olderEntries": "Tidligere indslag",

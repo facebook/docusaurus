@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Введите фразу для поиска",
   "theme.SearchPage.noResultsText": "По запросу ничего не найдено",
   "theme.TOCCollapsible.toggleButtonLabel": "Содержание этой страницы",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Навигация по странице списка блогов",
   "theme.blog.paginator.newerEntries": "Следующие записи",
   "theme.blog.paginator.olderEntries": "Предыдущие записи",

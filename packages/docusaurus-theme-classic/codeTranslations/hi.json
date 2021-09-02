@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "अपनी खोज यहाँ टाइप करें",
   "theme.SearchPage.noResultsText": "कोई परिणाम नहीं मिलें",
   "theme.TOCCollapsible.toggleButtonLabel": "इस पेज पर",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "ब्लॉग सूची पेज नेविगेशन",
   "theme.blog.paginator.newerEntries": "नए एंट्रीज़",
   "theme.blog.paginator.olderEntries": "पुराने एंट्रीज़",
