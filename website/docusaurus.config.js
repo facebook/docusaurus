@@ -38,7 +38,6 @@ const isDeployPreview =
   process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 const baseUrl = process.env.BASE_URL || '/';
-const isBootstrapPreset = process.env.DOCUSAURUS_PRESET === 'bootstrap';
 
 // Special deployment for staging locales until they get enough translations
 // https://app.netlify.com/sites/docusaurus-i18n-staging
@@ -105,7 +104,8 @@ const TwitterSvg =
     require('./src/featureRequests/FeatureRequestsPlugin'),
     [
       '@docusaurus/plugin-content-docs',
-      {
+      /** @type {import('@docusaurus/plugin-content-docs').Options} */
+      ({
         id: 'community',
         path: 'community',
         routeBasePath: 'community',
@@ -119,11 +119,12 @@ const TwitterSvg =
         sidebarPath: require.resolve('./sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
-      },
+      }),
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      {
+      /** @type {import('@docusaurus/plugin-client-redirects').Options} */
+      ({
         fromExtensions: ['html'],
         createRedirects: function (path) {
           // redirect to /docs from /docs/introduction,
@@ -146,7 +147,7 @@ const TwitterSvg =
             to: '/community/resources',
           },
         ],
-      },
+      }),
     ],
     [
       '@docusaurus/plugin-ideal-image',
@@ -222,10 +223,9 @@ const TwitterSvg =
   ],
   presets: [
     [
-      isBootstrapPreset
-        ? '@docusaurus/preset-bootstrap'
-        : '@docusaurus/preset-classic',
-      {
+      '@docusaurus/preset-classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
         debug: true, // force debug plugin usage
         docs: {
           // routeBasePath: '/',
@@ -284,203 +284,206 @@ const TwitterSvg =
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
         },
-      },
+      }),
     ],
   ],
-  themeConfig: {
-    liveCodeBlock: {
-      playgroundPosition: 'bottom',
-    },
-    hideableSidebar: true,
-    colorMode: {
-      defaultMode: 'light',
-      disableSwitch: false,
-      respectPrefersColorScheme: true,
-    },
-    announcementBar: {
-      id: 'announcementBar-2', // Increment on change
-      content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
-    },
-    prism: {
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/dracula'),
-      additionalLanguages: ['java'],
-    },
-    image: 'img/docusaurus-soc.png',
-    // metadatas: [{name: 'twitter:card', content: 'summary'}],
-    gtag: !isDeployPreview
-      ? {
-          trackingID: 'UA-141789564-1',
-        }
-      : undefined,
-    algolia: {
-      apiKey: '47ecd3b21be71c5822571b9f59e52544',
-      indexName: 'docusaurus-2',
-      contextualSearch: true,
-    },
-    navbar: {
-      hideOnScroll: true,
-      title: 'Docusaurus',
-      logo: {
-        alt: 'Docusaurus Logo',
-        src: 'img/docusaurus.svg',
-        srcDark: 'img/docusaurus_keytar.svg',
+
+  themeConfig:
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    ({
+      liveCodeBlock: {
+        playgroundPosition: 'bottom',
       },
-      items: [
-        {
-          type: 'doc',
-          position: 'left',
-          docId: 'introduction',
-          label: 'Docs',
+      hideableSidebar: true,
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: false,
+        respectPrefersColorScheme: true,
+      },
+      announcementBar: {
+        id: 'announcementBar-2', // Increment on change
+        content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
+      },
+      prism: {
+        theme: require('prism-react-renderer/themes/github'),
+        darkTheme: require('prism-react-renderer/themes/dracula'),
+        additionalLanguages: ['java'],
+      },
+      image: 'img/docusaurus-soc.png',
+      // metadatas: [{name: 'twitter:card', content: 'summary'}],
+      gtag: !isDeployPreview
+        ? {
+            trackingID: 'UA-141789564-1',
+          }
+        : undefined,
+      algolia: {
+        apiKey: '47ecd3b21be71c5822571b9f59e52544',
+        indexName: 'docusaurus-2',
+        contextualSearch: true,
+      },
+      navbar: {
+        hideOnScroll: true,
+        title: 'Docusaurus',
+        logo: {
+          alt: 'Docusaurus Logo',
+          src: 'img/docusaurus.svg',
+          srcDark: 'img/docusaurus_keytar.svg',
         },
-        {
-          type: 'doc',
-          position: 'left',
-          docId: 'cli',
-          label: 'API',
-        },
-        {to: 'blog', label: 'Blog', position: 'left'},
-        {to: 'showcase', label: 'Showcase', position: 'left'},
-        {
-          to: '/community/support',
-          label: 'Community',
-          position: 'left',
-          activeBaseRegex: `/community/`,
-        },
-        // right
-        {
-          type: 'docsVersionDropdown',
-          position: 'right',
-          dropdownActiveClassDisabled: true,
-          dropdownItemsAfter: [
-            ...Object.entries(VersionsArchived).map(
-              ([versionName, versionUrl]) => ({
-                label: versionName,
-                href: versionUrl,
-              }),
-            ),
-            {
-              href: 'https://v1.docusaurus.io',
-              label: '1.x.x',
-            },
-            {
-              to: '/versions',
-              label: 'All versions',
-            },
-          ],
-        },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-          dropdownItemsAfter: [
-            {
-              href: 'https://github.com/facebook/docusaurus/issues/3526',
-              label: 'Help Us Translate',
-            },
-          ],
-        },
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          position: 'right',
-          className: 'header-github-link',
-          'aria-label': 'GitHub repository',
-        },
-      ],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Learn',
-          items: [
-            {
-              label: 'Introduction',
-              to: 'docs',
-            },
-            {
-              label: 'Installation',
-              to: 'docs/installation',
-            },
-            {
-              label: 'Migration from v1 to v2',
-              to: 'docs/migration',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Feature Requests',
-              to: '/feature-requests',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Help',
-              to: '/community/support',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: 'blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-            {
-              html: `
+        items: [
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'introduction',
+            label: 'Docs',
+          },
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'cli',
+            label: 'API',
+          },
+          {to: 'blog', label: 'Blog', position: 'left'},
+          {to: 'showcase', label: 'Showcase', position: 'left'},
+          {
+            to: '/community/support',
+            label: 'Community',
+            position: 'left',
+            activeBaseRegex: `/community/`,
+          },
+          // right
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
+            dropdownItemsAfter: [
+              ...Object.entries(VersionsArchived).map(
+                ([versionName, versionUrl]) => ({
+                  label: versionName,
+                  href: versionUrl,
+                }),
+              ),
+              {
+                href: 'https://v1.docusaurus.io',
+                label: '1.x.x',
+              },
+              {
+                to: '/versions',
+                label: 'All versions',
+              },
+            ],
+          },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+            dropdownItemsAfter: [
+              {
+                href: 'https://github.com/facebook/docusaurus/issues/3526',
+                label: 'Help Us Translate',
+              },
+            ],
+          },
+          {
+            href: 'https://github.com/facebook/docusaurus',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Learn',
+            items: [
+              {
+                label: 'Introduction',
+                to: 'docs',
+              },
+              {
+                label: 'Installation',
+                to: 'docs/installation',
+              },
+              {
+                label: 'Migration from v1 to v2',
+                to: 'docs/migration',
+              },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Stack Overflow',
+                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              },
+              {
+                label: 'Feature Requests',
+                to: '/feature-requests',
+              },
+              {
+                label: 'Discord',
+                href: 'https://discordapp.com/invite/docusaurus',
+              },
+              {
+                label: 'Help',
+                to: '/community/support',
+              },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              {
+                label: 'Blog',
+                to: 'blog',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/facebook/docusaurus',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/docusaurus',
+              },
+              {
+                html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
                   <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
                 </a>
               `,
-            },
-          ],
+              },
+            ],
+          },
+          {
+            title: 'Legal',
+            // Please do not remove the privacy and terms, it's a legal requirement.
+            items: [
+              {
+                label: 'Privacy',
+                href: 'https://opensource.facebook.com/legal/privacy/',
+              },
+              {
+                label: 'Terms',
+                href: 'https://opensource.facebook.com/legal/terms/',
+              },
+              {
+                label: 'Data Policy',
+                href: 'https://opensource.facebook.com/legal/data-policy/',
+              },
+              {
+                label: 'Cookie Policy',
+                href: 'https://opensource.facebook.com/legal/cookie-policy/',
+              },
+            ],
+          },
+        ],
+        logo: {
+          alt: 'Facebook Open Source Logo',
+          src: 'img/oss_logo.png',
+          href: 'https://opensource.facebook.com',
         },
-        {
-          title: 'Legal',
-          // Please do not remove the privacy and terms, it's a legal requirement.
-          items: [
-            {
-              label: 'Privacy',
-              href: 'https://opensource.facebook.com/legal/privacy/',
-            },
-            {
-              label: 'Terms',
-              href: 'https://opensource.facebook.com/legal/terms/',
-            },
-            {
-              label: 'Data Policy',
-              href: 'https://opensource.facebook.com/legal/data-policy/',
-            },
-            {
-              label: 'Cookie Policy',
-              href: 'https://opensource.facebook.com/legal/cookie-policy/',
-            },
-          ],
-        },
-      ],
-      logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
+        copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
-    },
-  },
+    }),
 });

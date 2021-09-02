@@ -12,6 +12,10 @@
 /// <reference types="@docusaurus/plugin-content-docs" />
 /// <reference types="@docusaurus/plugin-content-pages" />
 
+declare module '@docusaurus/theme-classic' {
+  export type Options = import('./index').PluginOptions;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
@@ -518,6 +522,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
+    readonly default?: boolean;
+    readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
   };
@@ -535,7 +541,7 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string;
-    readonly values: readonly {value: string; label: string}[];
+    readonly values?: readonly {value: string; label?: string}[];
     readonly groupId?: string;
     readonly className?: string;
   };
@@ -579,6 +585,7 @@ declare module '@theme/TOC' {
 
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
@@ -703,6 +710,20 @@ declare module '@theme/IconMenu' {
   export default IconMenu;
 }
 
+declare module '@theme/IconCloseThick' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+  export default function IconCloseThick(props: Props): JSX.Element;
+}
+
+declare module '@theme/IconCloseThin' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+  export default function IconCloseThin(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconLanguage' {
   import type {ComponentProps} from 'react';
 
@@ -743,8 +764,24 @@ declare module '@theme/TagsListInline' {
 
 declare module '@theme/Tag' {
   import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {Optional} from 'utility-types';
 
   export type Props = Optional<TagsListItem, 'count'>;
 
   export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/prism-include-languages' {
+  import type * as PrismNamespace from 'prismjs';
+
+  export default function prismIncludeLanguages(
+    PrismObject: typeof PrismNamespace,
+  ): void;
+}
+
+declare module 'prism-react-renderer/prism' {
+  import type * as PrismNamespace from 'prismjs';
+
+  const Prism: typeof PrismNamespace;
+  export default Prism;
 }

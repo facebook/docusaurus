@@ -91,6 +91,8 @@ type Versions = Record<
     label: string; // the label of the version
     path: string; // the route path of the version
     banner: 'none' | 'unreleased' | 'unmaintained'; // the banner to show at the top of a doc of that version
+    badge: boolean; // show a badge with the version name at the top of a doc of that version
+    className; // add a custom className to the <html> element when browsing docs of that version
   }
 >;
 ```

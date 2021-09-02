@@ -32,7 +32,7 @@ function useBlogPostsPlural() {
     );
 }
 
-function BlogTagsPostPage(props: Props): JSX.Element {
+export default function BlogTagsPostsPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
   const blogPostsPlural = useBlogPostsPlural();
@@ -80,5 +80,3 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogTagsPostPage;

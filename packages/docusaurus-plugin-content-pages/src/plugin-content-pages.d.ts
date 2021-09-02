@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+declare module '@docusaurus/plugin-content-pages' {
+  export type Options = import('./types').PluginOptions;
+}
+
 declare module '@theme/MDXPage' {
   import type {TOCItem} from '@docusaurus/types';
 

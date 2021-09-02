@@ -31,7 +31,7 @@
     "@docusaurus/module-type-aliases": "2.0.0-beta.5"
   },
   "scripts": {
-    "build": "tsc --noEmit && yarn babel && yarn prettier",
+    "build": "yarn babel && yarn prettier",
     "watch": "yarn babel --watch",
     "babel": "babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts}\""

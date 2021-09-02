@@ -7,12 +7,12 @@
 
 import React from 'react';
 
-import DebugLayout from '../DebugLayout';
-import DebugJsonView from '../DebugJsonView';
+import DebugLayout from '@theme/DebugLayout';
+import DebugJsonView from '@theme/DebugJsonView';
 import routes from '@generated/routes';
 import styles from './styles.module.css';
 
-function DebugRoutes() {
+function DebugRoutes(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Routes</h2>

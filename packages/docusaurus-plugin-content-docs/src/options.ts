@@ -56,6 +56,8 @@ const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
   banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
+  badge: Joi.boolean().optional(),
+  className: Joi.string().optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()

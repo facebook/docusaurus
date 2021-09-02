@@ -636,6 +636,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'MapillaryJS',
+    description: 'Interactive, extendable street imagery map experiences',
+    preview: require('./showcase/mapillaryjs.png'),
+    website: 'https://mapillary.github.io/mapillary-js/',
+    source: 'https://github.com/mapillary/mapillary-js',
+    tags: ['opensource', 'facebook'],
+  },
+  {
     title: 'MediaMachine',
     description: 'Infrastructure for User-Generated Video content',
     preview: require('./showcase/mediamachine.png'),
@@ -683,6 +691,14 @@ const Users: User[] = [
     preview: require('./showcase/motion-layout.png'),
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
+    tags: ['opensource'],
+  },
+  {
+    title: 'netboot.xyz',
+    description: 'Your favorite operating systems in one place!',
+    preview: require('./showcase/netbootxyz.png'),
+    website: 'https://netboot.xyz',
+    source: 'https://github.com/netbootxyz/netboot.xyz-docs/',
     tags: ['opensource'],
   },
   {
