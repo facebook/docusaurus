@@ -11,7 +11,7 @@ import type {Props} from '@theme/DebugJsonView';
 import type {ReactJsonViewProps} from 'react-json-view';
 
 // avoids "react-json-view" to display  "root"
-const RootName = false;
+const RootName = null;
 
 // Seems ReactJson does not work with SSR
 // https://github.com/mac-s-g/react-json-view/issues/121
@@ -45,7 +45,6 @@ function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
         // By default, we collapse the json for performance reasons
         // See https://github.com/mac-s-g/react-json-view/issues/235
         // Non-root elements that are larger than 50 fields are collapsed
-        // @ts-expect-error: TODO: I have no idea why RootName is a boolean
         return field.name !== RootName && Object.keys(field.src).length > 50;
       }}
       collapsed={collapseDepth}
