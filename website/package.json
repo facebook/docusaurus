@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -29,13 +29,13 @@
   "dependencies": {
     "@crowdin/cli": "^3.5.2",
     "@crowdin/crowdin-api-client": "^1.10.6",
-    "@docusaurus/core": "2.0.0-beta.5",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.5",
-    "@docusaurus/plugin-ideal-image": "2.0.0-beta.5",
-    "@docusaurus/plugin-pwa": "2.0.0-beta.5",
-    "@docusaurus/preset-classic": "2.0.0-beta.5",
-    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.5",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.5",
+    "@docusaurus/core": "2.0.0-beta.6",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.6",
+    "@docusaurus/plugin-ideal-image": "2.0.0-beta.6",
+    "@docusaurus/plugin-pwa": "2.0.0-beta.6",
+    "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.6",
+    "@docusaurus/theme-live-codeblock": "2.0.0-beta.6",
     "clsx": "^1.1.1",
     "color": "^3.1.3",
     "esbuild-loader": "2.13.1",
