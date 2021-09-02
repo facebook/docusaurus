@@ -6,10 +6,13 @@
  */
 
 :root {
-  --docusaurus-btt-background: var(--ifm-color-primary);
-  --docusaurus-btt-color: var(--ifm-button-color);
+  --docusaurus-btt-color: var(--ifm-color-gray-900);
+  --docusaurus-btt-background-color: var(--ifm-color-secondary);
+  --docusaurus-btt-hover-background-color: var(--ifm-color-secondary-dark);
   --docusaurus-btt-position-right: 1.3rem;
   --docusaurus-btt-position-bottom: 1.3rem;
+  --docusaurus-btt-icon: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem
+    no-repeat;
 }
 
 .backToTopButton {
@@ -20,20 +23,27 @@
   right: var(--docusaurus-btt-position-right);
   bottom: var(--docusaurus-btt-position-bottom);
   border-radius: 50%;
-  background: var(--docusaurus-btt-background);
-  color: var(--docusaurus-btt-color);
+  background-color: var(--docusaurus-btt-background-color);
   width: 3rem;
   height: 3rem;
   z-index: var(--ifm-z-index-fixed);
-  box-shadow: var(--ifm-global-shadow-md);
+  box-shadow: var(--ifm-global-shadow-lw);
   transition: all var(--ifm-transition-fast)
     var(--ifm-transition-timing-default);
   opacity: 0;
   transform: scale(0);
 }
 
+.backToTopButton:after {
+  content: ' ';
+  mask: var(--docusaurus-btt-icon);
+  background-color: var(--docusaurus-btt-color);
+  width: 100%;
+  height: 100%;
+}
+
 .backToTopButton:not(:focus):hover {
-  opacity: 0.8;
+  background-color: var(--docusaurus-btt-hover-background-color);
 }
 
 .backToTopButtonShow {

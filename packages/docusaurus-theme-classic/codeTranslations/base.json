@@ -112,5 +112,7 @@
   "theme.tags.tagsPageLink": "View All Tags",
   "theme.tags.tagsPageLink___DESCRIPTION": "The label of the link targeting the tag list page",
   "theme.tags.tagsPageTitle": "Tags",
-  "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page"
+  "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
+  "theme.BackToTopButton.buttonAriaLabel___DESCRIPTION": "The ARIA label for the back to top button"
 }
