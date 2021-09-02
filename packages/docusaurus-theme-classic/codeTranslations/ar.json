@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "اكتب ما تبحث عنه هنا",
   "theme.SearchPage.noResultsText": "لم يتم العثور على نتائج",
   "theme.TOCCollapsible.toggleButtonLabel": "محتويات هذه الصفحة",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "التنقل في صفحة قائمة المدونة",
   "theme.blog.paginator.newerEntries": "إدخالات أحدث",
   "theme.blog.paginator.olderEntries": "إدخالات أقدم",

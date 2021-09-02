@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "在此輸入搜尋字詞",
   "theme.SearchPage.noResultsText": "未找到任何結果",
   "theme.TOCCollapsible.toggleButtonLabel": "本頁導覽",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "部落格文章列表分頁導覽",
   "theme.blog.paginator.newerEntries": "較新的文章",
   "theme.blog.paginator.olderEntries": "較舊的文章",

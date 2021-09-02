@@ -70,10 +70,6 @@ declare module '@theme/BlogListPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
-  export type Item = {
-    readonly content: () => JSX.Element;
-  };
-
   export type Metadata = {
     readonly blogTitle: string;
     readonly blogDescription: string;
@@ -129,4 +125,18 @@ declare module '@theme/BlogTagsPostsPage' {
 
   const BlogTagsPostsPage: (props: Props) => JSX.Element;
   export default BlogTagsPostsPage;
+}
+
+declare module '@theme/BlogArchivePage' {
+  import type {Content} from '@theme/BlogPostPage';
+
+  export type ArchiveBlogPost = Content;
+
+  export type Props = {
+    readonly archive: {
+      blogPosts: readonly ArchiveBlogPost[];
+    };
+  };
+
+  export default function BlogArchivePage(props: Props): JSX.Element;
 }

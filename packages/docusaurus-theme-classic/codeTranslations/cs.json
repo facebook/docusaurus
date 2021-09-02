@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Zde napište hledaný text",
   "theme.SearchPage.noResultsText": "Nic nebylo nalezeno",
   "theme.TOCCollapsible.toggleButtonLabel": "Na této stránce",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Stránkování článků na blogu",
   "theme.blog.paginator.newerEntries": "Novější záznamy",
   "theme.blog.paginator.olderEntries": "Starší záznamy",

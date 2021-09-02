@@ -36,6 +36,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   include: ['**/*.{md,mdx}'],
   exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
+  archiveBasePath: 'archive',
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
@@ -43,6 +44,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
+  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')

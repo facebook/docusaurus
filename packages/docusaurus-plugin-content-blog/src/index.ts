@@ -225,6 +225,8 @@ export default function pluginContentBlog(
         blogPostComponent,
         blogTagsListComponent,
         blogTagsPostsComponent,
+        routeBasePath,
+        archiveBasePath,
       } = options;
 
       const {addRoute, createData} = actions;
@@ -242,6 +244,26 @@ export default function pluginContentBlog(
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : take(blogPosts, options.blogSidebarCount);
+
+      const archiveUrl = normalizeUrl([
+        baseUrl,
+        routeBasePath,
+        archiveBasePath,
+      ]);
+
+      // creates a blog archive route
+      const archiveProp = await createData(
+        `${docuHash(archiveUrl)}.json`,
+        JSON.stringify({blogPosts}, null, 2),
+      );
+      addRoute({
+        path: archiveUrl,
+        component: '@theme/BlogArchivePage',
+        exact: true,
+        modules: {
+          archive: aliasedSource(archiveProp),
+        },
+      });
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
