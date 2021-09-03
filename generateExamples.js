@@ -157,7 +157,7 @@ function run() {
   console.log('');
   const excludes = ['README.md', 'shared'];
   const templates = readdirSync('./packages/docusaurus-init/templates').filter(
-    (name) => !excludes.include(name),
+    (name) => !excludes.includes(name),
   );
   console.log(`Will generate examples for templates: ${templates}`);
   templates.forEach(generateTemplateExample);
