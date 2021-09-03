@@ -66,7 +66,7 @@ function useMobileSidebar() {
       setShown(false);
       // Should we prevent the navigation here?
       // See https://github.com/facebook/docusaurus/pull/5462#issuecomment-911699846
-      // return false; // prevent pop navigation
+      return false; // prevent pop navigation
     }
     return undefined;
   });
