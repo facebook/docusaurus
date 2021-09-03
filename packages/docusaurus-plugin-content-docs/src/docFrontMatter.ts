@@ -8,6 +8,7 @@
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   URISchema,
+  FrontMatterTagsSchema,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {DocFrontMatter} from './types';
@@ -27,10 +28,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
-  tags: [Joi.string(), Joi.array().items(Joi.object({
-    label: Joi.string,
-    permalink: Joi.string
-  }))]
+  tags: FrontMatterTagsSchema,
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
