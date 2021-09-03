@@ -183,7 +183,7 @@ function run() {
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');
   execSync('git add examples');
-  execSync("git commit -am 'update examples'");
+  execSync("git commit -am 'update examples' --allow-empty");
   console.log('');
 
   // update starters
