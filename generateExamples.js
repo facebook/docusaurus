@@ -155,8 +155,11 @@ function run() {
   console.log('-------');
   console.log('## Generate example folders...');
   console.log('');
-  const data = readdirSync('./packages/docusaurus-init/templates');
-  const templates = data.filter((i) => i !== 'README.MD');
+  const excludes = ['README.md', 'shared'];
+  const templates = readdirSync('./packages/docusaurus-init/templates').filter(
+    (name) => !excludes.include(name),
+  );
+  console.log(`Will generate examples for templates: ${templates}`);
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');
   execSync('git add examples');
