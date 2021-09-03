@@ -44,16 +44,13 @@ const createAnchorHeading = (
     }
 
     return (
-      <Tag {...props}>
-        <a
-          aria-hidden="true"
-          tabIndex={-1}
-          className={clsx('anchor', `anchor__${Tag}`, {
-            [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
-            [styles.anchorWithStickyNavbar]: !hideOnScroll,
-          })}
-          id={id}
-        />
+      <Tag
+        {...props}
+        className={clsx('anchor', `anchor__${Tag}`, {
+          [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
+          [styles.anchorWithStickyNavbar]: !hideOnScroll,
+        })}
+        id={id}>
         {props.children}
         <a
           className="hash-link"
