@@ -27,6 +27,10 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
+  tags: [Joi.string(), Joi.array().items(Joi.object({
+    label: Joi.string,
+    permalink: Joi.string
+  }))]
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
