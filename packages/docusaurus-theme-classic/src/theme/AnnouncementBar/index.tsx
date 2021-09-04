@@ -9,7 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
-import IconCloseThick from '@theme/IconCloseThick';
+import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
@@ -49,7 +49,7 @@ function AnnouncementBar(): JSX.Element | null {
             message: 'Close',
             description: 'The ARIA label for close button of announcement bar',
           })}>
-          <IconCloseThick width={14} height={14} />
+          <IconClose width={14} height={14} strokeWidth={3.1} />
         </button>
       ) : null}
     </div>

@@ -24,7 +24,7 @@ import {useActivePlugin} from '@theme/hooks/useDocs';
 import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
-import IconCloseThin from '@theme/IconCloseThin';
+import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
@@ -180,9 +180,8 @@ function NavbarMobileSidebar({
           type="button"
           className="clean-btn navbar-sidebar__close"
           onClick={toggleSidebar}>
-          <IconCloseThin
-            width={20}
-            height={20}
+          <IconClose
+            color="var(--ifm-color-emphasis-600)"
             className={styles.navbarSidebarCloseSvg}
           />
         </button>
