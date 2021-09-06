@@ -53,3 +53,4 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - Algolia
 - Callstack
 - Sauce Labs
+- LambdaTest
