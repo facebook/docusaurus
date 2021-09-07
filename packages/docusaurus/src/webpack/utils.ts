@@ -326,8 +326,9 @@ type FileLoaderUtils = {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < 10kb will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = 10000;
+  // files/images < 10kb (overridable via 'URL_LOADER_LIMIT' environment
+  // variable) will be inlined as base64 strings directly in the html
+  const urlLoaderLimit = process.env.URL_LOADER_LIMIT || 10000;
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
