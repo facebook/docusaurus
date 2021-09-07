@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Aramanızı buraya yazın",
   "theme.SearchPage.noResultsText": "Hiçbir sonuç bulunamadı",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Blog gönderi sayfası navigasyonu",
   "theme.blog.paginator.newerEntries": "Yeni Girdiler",
   "theme.blog.paginator.olderEntries": "Eski Girdiler",

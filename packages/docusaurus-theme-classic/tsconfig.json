@@ -4,7 +4,6 @@
     "lib": ["DOM", "ES2019"],
     "module": "esnext",
     "noEmit": true,
-    "noImplicitAny": false,
     "jsx": "react",
     "baseUrl": "src"
   },

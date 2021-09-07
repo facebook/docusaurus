@@ -29,7 +29,7 @@
   transform: scale(0);
 }
 
-.backToTopButton:hover {
+.backToTopButton:not(:focus):hover {
   opacity: 0.8;
 }
 

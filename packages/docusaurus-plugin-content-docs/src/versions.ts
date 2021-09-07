@@ -264,10 +264,10 @@ function getDefaultVersionBanner({
   versionName: string;
   versionNames: string[];
   lastVersionName: string;
-}): VersionBanner {
+}): VersionBanner | null {
   // Current version: good, no banner
   if (versionName === lastVersionName) {
-    return 'none';
+    return null;
   }
   // Upcoming versions: unreleased banner
   else if (
@@ -291,17 +291,45 @@ function getVersionBanner({
   versionNames: string[];
   lastVersionName: string;
   options: Pick<PluginOptions, 'versions'>;
-}): VersionBanner {
-  const versionOptionBanner = options.versions[versionName]?.banner;
+}): VersionBanner | null {
+  const versionBannerOption = options.versions[versionName]?.banner;
+  if (versionBannerOption) {
+    return versionBannerOption === 'none' ? null : versionBannerOption;
+  }
+  return getDefaultVersionBanner({
+    versionName,
+    versionNames,
+    lastVersionName,
+  });
+}
 
-  return (
-    versionOptionBanner ??
-    getDefaultVersionBanner({
-      versionName,
-      versionNames,
-      lastVersionName,
-    })
-  );
+function getVersionBadge({
+  versionName,
+  versionNames,
+  options,
+}: {
+  versionName: string;
+  versionNames: string[];
+  options: Pick<PluginOptions, 'versions'>;
+}): boolean {
+  const versionBadgeOption = options.versions[versionName]?.badge;
+  // If site is not versioned or only one version is included
+  // we don't show the version badge by default
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const versionBadgeDefault = versionNames.length !== 1;
+  return versionBadgeOption ?? versionBadgeDefault;
+}
+
+function getVersionClassName({
+  versionName,
+  options,
+}: {
+  versionName: string;
+  options: Pick<PluginOptions, 'versions'>;
+}): string {
+  const versionClassNameOption = options.versions[versionName]?.className;
+  const versionClassNameDefault = `docs-version-${versionName}`;
+  return versionClassNameOption ?? versionClassNameDefault;
 }
 
 function createVersionMetadata({
@@ -387,6 +415,8 @@ function createVersionMetadata({
       lastVersionName,
       options,
     }),
+    versionBadge: getVersionBadge({versionName, versionNames, options}),
+    versionClassName: getVersionClassName({versionName, options}),
     isLast,
     routePriority,
     sidebarFilePath,

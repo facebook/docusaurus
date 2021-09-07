@@ -26,6 +26,10 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
         <link href=\\"https://docusaurus.io/myBaseUrl/blog/simple/slug\\"/>
         <updated>2020-08-15T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[simple url slug]]></summary>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[draft]]></title>
@@ -53,6 +57,12 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
         <link href=\\"https://docusaurus.io/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash\\"/>
         <updated>2018-12-14T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[Happy birthday! (translated)]]></summary>
+        <author>
+            <name>Yangshun Tay (translated)</name>
+        </author>
+        <author>
+            <name>Sébastien Lorber (translated)</name>
+        </author>
     </entry>
 </feed>"
 `;

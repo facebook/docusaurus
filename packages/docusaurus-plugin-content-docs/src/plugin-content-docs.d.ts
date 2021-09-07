@@ -5,8 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+declare module '@docusaurus/plugin-content-docs' {
+  export type Options = import('./types').PluginOptions;
+}
+
+// TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
 declare module '@docusaurus/plugin-content-docs-types' {
-  type VersionBanner = import('./types').VersionBanner;
+  export type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
   type VersionTag = import('./types').VersionTag;
@@ -17,7 +22,9 @@ declare module '@docusaurus/plugin-content-docs-types' {
     pluginId: string;
     version: string;
     label: string;
-    banner: VersionBanner;
+    banner: VersionBanner | null;
+    badge: boolean;
+    className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
   };
@@ -166,6 +173,8 @@ declare module '@theme/DocPage' {
 }
 
 declare module '@theme/Seo' {
+  import type {ReactNode} from 'react';
+
   export type Props = {
     readonly title?: string;
     readonly description?: string;
@@ -184,15 +193,16 @@ declare module '@theme/hooks/useDocs' {
   type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
   type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
   type DocVersionSuggestions = import('./client/docsClientUtils').DocVersionSuggestions;
+  type GetActivePluginOptions = import('./client/docsClientUtils').GetActivePluginOptions;
 
   export type {GlobalPluginData, GlobalVersion};
   export const useAllDocsData: () => Record<string, GlobalPluginData>;
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (
-    options: GetActivePluginOptions = {},
+    options?: GetActivePluginOptions,
   ) => ActivePlugin | undefined;
   export const useActivePluginAndVersion: (
-    options: GetActivePluginOptions = {},
+    options?: GetActivePluginOptions,
   ) =>
     | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
     | undefined;

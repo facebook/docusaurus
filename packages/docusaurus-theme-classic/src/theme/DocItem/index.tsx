@@ -8,7 +8,6 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
@@ -20,6 +19,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -31,14 +31,6 @@ export default function DocItem(props: Props): JSX.Element {
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
   const {description, title} = metadata;
-
-  const {pluginId} = useActivePlugin({failfast: true})!;
-  const versions = useVersions(pluginId);
-
-  // If site is not versioned or only one version is included
-  // we don't show the version badge
-  // See https://github.com/facebook/docusaurus/issues/3362
-  const showVersionBadge = versions.length > 1;
 
   // We only add a title if:
   // - user asks to hide it with frontmatter
@@ -66,8 +58,12 @@ export default function DocItem(props: Props): JSX.Element {
           <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
-              {showVersionBadge && (
-                <span className="badge badge--secondary">
+              {versionMetadata.badge && (
+                <span
+                  className={clsx(
+                    ThemeClassNames.docs.docVersionBadge,
+                    'badge badge--secondary',
+                  )}>
                   Version: {versionMetadata.label}
                 </span>
               )}
@@ -75,11 +71,15 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
-                  className={styles.tocMobile}
+                  className={clsx(
+                    ThemeClassNames.docs.docTocMobile,
+                    styles.tocMobile,
+                  )}
                 />
               )}
 
-              <div className="markdown">
+              <div
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
                 Title can be declared inside md content or declared through frontmatter and added manually
                 To make both cases consistent, the added title is added under the same div.markdown block
@@ -98,7 +98,10 @@ export default function DocItem(props: Props): JSX.Element {
         </div>
         {renderTocDesktop && (
           <div className="col col--3">
-            <TOC toc={DocContent.toc} />
+            <TOC
+              toc={DocContent.toc}
+              className={ThemeClassNames.docs.docTocDesktop}
+            />
           </div>
         )}
       </div>

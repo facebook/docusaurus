@@ -53,43 +53,45 @@ async function readMetadataPath(metadataPath: string) {
   }
 }
 
-// For some specific FrontMatter fields, we want to allow referencing local relative assets so that they enter the Webpack asset pipeline
-// We don't do that for all frontMatters, only for the configured keys
+// Converts assets an object with Webpack require calls code
+// This is useful for mdx files to reference co-located assets using relative paths
+// Those assets should enter the Webpack assets pipeline and be hashed
+// For now, we only handle that for images and paths starting with ./
 // {image: "./myImage.png"} => {image: require("./myImage.png")}
-function createFrontMatterAssetsExportCode(
-  frontMatter: Record<string, unknown>,
-  frontMatterAssetKeys: string[] = [],
-) {
-  if (frontMatterAssetKeys.length === 0) {
+function createAssetsExportCode(assets: Record<string, unknown>) {
+  if (Object.keys(assets).length === 0) {
     return 'undefined';
   }
 
-  function createFrontMatterAssetRequireCode(value: unknown) {
+  // TODO implementation can be completed/enhanced
+  function createAssetValueCode(assetValue: unknown): string | undefined {
+    if (Array.isArray(assetValue)) {
+      const arrayItemCodes = assetValue.map(
+        (item) => createAssetValueCode(item) ?? 'undefined',
+      );
+      return `[${arrayItemCodes.join(', ')}]`;
+    }
     // Only process string values starting with ./
     // We could enhance this logic and check if file exists on disc?
-    if (typeof value === 'string' && value.startsWith('./')) {
+    if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
       // TODO do we have other use-cases than image assets?
       // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
       const inlineLoader = inlineMarkdownImageFileLoader;
-      return `require("${inlineLoader}${escapePath(value)}").default`;
+      return `require("${inlineLoader}${escapePath(assetValue)}").default`;
     }
     return undefined;
   }
 
-  const frontMatterAssetEntries = Object.entries(frontMatter).filter(([key]) =>
-    frontMatterAssetKeys.includes(key),
-  );
+  const assetEntries = Object.entries(assets);
 
-  const lines = frontMatterAssetEntries
+  const codeLines = assetEntries
     .map(([key, value]) => {
-      const assetRequireCode = createFrontMatterAssetRequireCode(value);
+      const assetRequireCode = createAssetValueCode(value);
       return assetRequireCode ? `"${key}": ${assetRequireCode},` : undefined;
     })
     .filter(Boolean);
 
-  const exportValue = `{\n${lines.join('\n')}\n}`;
-
-  return exportValue;
+  return `{\n${codeLines.join('\n')}\n}`;
 }
 
 const docusaurusMdxLoader: Loader = async function (fileString) {
@@ -130,18 +132,9 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
     return callback(err);
   }
 
-  let exportStr = `
-export const frontMatter = ${stringifyObject(frontMatter)};
-export const frontMatterAssets = ${createFrontMatterAssetsExportCode(
-    frontMatter,
-    reqOptions.frontMatterAssetKeys,
-  )};
-export const contentTitle = ${stringifyObject(contentTitle)};`;
-
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have an associated metadata file or frontmatter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
-
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
@@ -158,26 +151,46 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     }
   }
 
-  if (!isMDXPartial) {
-    // Read metadata for this MDX and export it.
-    if (options.metadataPath && typeof options.metadataPath === 'function') {
-      const metadataPath = options.metadataPath(filePath);
-
-      if (metadataPath) {
-        const metadata = await readMetadataPath(metadataPath);
-        exportStr += `\nexport const metadata = ${metadata};`;
-        // Add as dependency of this loader result so that we can
-        // recompile if metadata is changed.
-        this.addDependency(metadataPath);
+  function getMetadataPath(): string | undefined {
+    if (!isMDXPartial) {
+      // Read metadata for this MDX and export it.
+      if (options.metadataPath && typeof options.metadataPath === 'function') {
+        return options.metadataPath(filePath);
       }
     }
+    return undefined;
   }
+
+  const metadataPath = getMetadataPath();
+  if (metadataPath) {
+    this.addDependency(metadataPath);
+  }
+
+  const metadataJsonString = metadataPath
+    ? await readMetadataPath(metadataPath)
+    : undefined;
+
+  const metadata = metadataJsonString
+    ? JSON.parse(metadataJsonString)
+    : undefined;
+
+  const assets =
+    reqOptions.createAssets && metadata
+      ? reqOptions.createAssets({frontMatter, metadata})
+      : undefined;
+
+  const exportsCode = `
+export const frontMatter = ${stringifyObject(frontMatter)};
+export const contentTitle = ${stringifyObject(contentTitle)};
+${metadataJsonString ? `export const metadata = ${metadataJsonString};` : ''}
+${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
+`;
 
   const code = `
 import React from 'react';
 import { mdx } from '@mdx-js/react';
 
-${exportStr}
+${exportsCode}
 ${result}
 `;
 

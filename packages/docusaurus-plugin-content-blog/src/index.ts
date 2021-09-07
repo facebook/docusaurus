@@ -32,9 +32,10 @@ import {
   BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
-  BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
+  MetaData,
+  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -54,6 +55,7 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
+import {BlogPostFrontMatter} from './blogFrontMatter';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -95,12 +97,22 @@ export default function pluginContentBlog(
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include = []} = options;
-      return flatten(
+      const {include, authorsMapPath} = options;
+      const contentMarkdownGlobs = flatten(
         getContentPathList(contentPaths).map((contentPath) => {
           return include.map((pattern) => `${contentPath}/${pattern}`);
         }),
       );
+
+      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
+      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
+      // simplified impl, better than nothing for now:
+      const authorsMapFilePath = path.join(
+        contentPaths.contentPath,
+        authorsMapPath,
+      );
+
+      return [authorsMapFilePath, ...contentMarkdownGlobs];
     },
 
     async getTranslationFiles() {
@@ -117,11 +129,7 @@ export default function pluginContentBlog(
         blogSidebarTitle,
       } = options;
 
-      const blogPosts: BlogPost[] = await generateBlogPosts(
-        contentPaths,
-        context,
-        options,
-      );
+      const blogPosts = await generateBlogPosts(contentPaths, context, options);
 
       if (!blogPosts.length) {
         return {
@@ -217,6 +225,8 @@ export default function pluginContentBlog(
         blogPostComponent,
         blogTagsListComponent,
         blogTagsPostsComponent,
+        routeBasePath,
+        archiveBasePath,
       } = options;
 
       const {addRoute, createData} = actions;
@@ -234,6 +244,26 @@ export default function pluginContentBlog(
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : take(blogPosts, options.blogSidebarCount);
+
+      const archiveUrl = normalizeUrl([
+        baseUrl,
+        routeBasePath,
+        archiveBasePath,
+      ]);
+
+      // creates a blog archive route
+      const archiveProp = await createData(
+        `${docuHash(archiveUrl)}.json`,
+        JSON.stringify({blogPosts}, null, 2),
+      );
+      addRoute({
+        path: archiveUrl,
+        component: '@theme/BlogArchivePage',
+        exact: true,
+        modules: {
+          archive: aliasedSource(archiveProp),
+        },
+      });
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
@@ -454,12 +484,22 @@ export default function pluginContentBlog(
                     // For blog posts a title in markdown is always removed
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
-                    // those frontMatter fields will be exported as "frontMatterAssets" and eventually be converted to require() calls for relative file paths
-                    frontMatterAssetKeys: [
-                      'image',
-                      'authorImageURL',
-                      'author_image_URL',
-                    ],
+
+                    // Assets allow to convert some relative images paths to require() calls
+                    createAssets: ({
+                      frontMatter,
+                      metadata,
+                    }: {
+                      frontMatter: BlogPostFrontMatter;
+                      metadata: MetaData;
+                    }): Assets => {
+                      return {
+                        image: frontMatter.image,
+                        authorsImageUrls: metadata.authors.map(
+                          (author) => author.imageURL,
+                        ),
+                      };
+                    },
                   },
                 },
                 {

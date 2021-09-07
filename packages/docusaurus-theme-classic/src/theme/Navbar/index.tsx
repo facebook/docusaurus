@@ -15,6 +15,7 @@ import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
   usePrevious,
+  useHistoryPopHandler,
 } from '@docusaurus/theme-common';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
@@ -23,6 +24,7 @@ import {useActivePlugin} from '@theme/hooks/useDocs';
 import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
+import IconCloseThin from '@theme/IconCloseThin';
 
 import styles from './styles.module.css';
 
@@ -56,6 +58,18 @@ function useMobileSidebar() {
   const shouldRender = windowSize === 'mobile'; // || windowSize === 'ssr';
 
   const [shown, setShown] = useState(false);
+
+  // Close mobile sidebar on navigation pop
+  // Most likely firing when using the Android back button (but not only)
+  useHistoryPopHandler(() => {
+    if (shown) {
+      setShown(false);
+      // Should we prevent the navigation here?
+      // See https://github.com/facebook/docusaurus/pull/5462#issuecomment-911699846
+      return false; // prevent pop navigation
+    }
+    return undefined;
+  });
 
   const toggle = useCallback(() => {
     setShown((s) => !s);
@@ -155,12 +169,23 @@ function NavbarMobileSidebar({
           imageClassName="navbar__logo"
           titleClassName="navbar__title"
         />
-        {!colorModeToggle.disabled && sidebarShown && (
+        {!colorModeToggle.disabled && (
           <Toggle
+            className={styles.navbarSidebarToggle}
             checked={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
           />
         )}
+        <button
+          type="button"
+          className="clean-btn navbar-sidebar__close"
+          onClick={toggleSidebar}>
+          <IconCloseThin
+            width={20}
+            height={20}
+            className={styles.navbarSidebarCloseSvg}
+          />
+        </button>
       </div>
 
       <div

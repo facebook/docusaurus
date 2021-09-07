@@ -79,6 +79,8 @@ export function toVersionMetadataProp(
     version: loadedVersion.versionName,
     label: loadedVersion.versionLabel,
     banner: loadedVersion.versionBanner,
+    badge: loadedVersion.versionBadge,
+    className: loadedVersion.versionClassName,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
   };

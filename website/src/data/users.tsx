@@ -588,6 +588,14 @@ const Users: User[] = [
     tags: ['opensource','product'],
   },
   {
+    title: 'Indent',
+    description: 'Indent provides on-demand access control for cloud apps and infrastructure.',
+    preview: require('./showcase/indent.png'),
+    website: 'https://indent.com/developers',
+    source: null,
+    tags: ['product','design'],
+  },
+  {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
@@ -626,6 +634,14 @@ const Users: User[] = [
     website: 'https://mailgo.dev/',
     source: 'https://github.com/manzinello/mailgo.dev',
     tags: ['opensource'],
+  },
+  {
+    title: 'MapillaryJS',
+    description: 'Interactive, extendable street imagery map experiences',
+    preview: require('./showcase/mapillaryjs.png'),
+    website: 'https://mapillary.github.io/mapillary-js/',
+    source: 'https://github.com/mapillary/mapillary-js',
+    tags: ['opensource', 'facebook'],
   },
   {
     title: 'MediaMachine',
@@ -675,6 +691,14 @@ const Users: User[] = [
     preview: require('./showcase/motion-layout.png'),
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
+    tags: ['opensource'],
+  },
+  {
+    title: 'netboot.xyz',
+    description: 'Your favorite operating systems in one place!',
+    preview: require('./showcase/netbootxyz.png'),
+    website: 'https://netboot.xyz',
+    source: 'https://github.com/netbootxyz/netboot.xyz-docs/',
     tags: ['opensource'],
   },
   {

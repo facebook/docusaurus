@@ -63,7 +63,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
   return (
     <Layout
       title={title}
-      wrapperClassName={ThemeClassNames.wrapper.docPages}
+      wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsTagDocListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!

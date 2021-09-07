@@ -3,6 +3,7 @@
   "workspaces": [
     "packages/*",
     "website",
+    "test-website-in-workspace",
     "packages/docusaurus-init/templates/*",
     "admin/new.docusaurus.io"
   ],

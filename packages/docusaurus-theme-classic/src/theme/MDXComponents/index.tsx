@@ -51,7 +51,7 @@ const MDXComponents: MDXComponentsObject = {
 
     // See comment for `code` above
     if (isValidElement(children) && isValidElement(children?.props?.children)) {
-      return children?.props.children;
+      return children.props.children;
     }
 
     return (

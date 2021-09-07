@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "הקלד כאן לחיפוש",
   "theme.SearchPage.noResultsText": "לא נמצאו תוצאות",
   "theme.TOCCollapsible.toggleButtonLabel": "בעמוד זה",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "רשימת דפי הבלוג",
   "theme.blog.paginator.newerEntries": "הכי חדש",
   "theme.blog.paginator.olderEntries": "ישן יותר",

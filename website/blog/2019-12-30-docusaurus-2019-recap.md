@@ -1,10 +1,6 @@
 ---
 title: Docusaurus 2019 Recap
-author: Yangshun Tay
-authorTitle: Front End Engineer at Facebook
-authorURL: https://github.com/yangshun
-authorImageURL: https://avatars1.githubusercontent.com/u/1315101?s=460&v=4
-authorTwitter: yangshunz
+authors: yangshun
 tags: [recap]
 ---
 

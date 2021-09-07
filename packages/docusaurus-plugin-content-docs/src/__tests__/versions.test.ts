@@ -81,7 +81,9 @@ describe('simple site', () => {
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
-      versionBanner: 'none',
+      versionBanner: null,
+      versionBadge: false,
+      versionClassName: 'docs-version-current',
     };
     return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
   }
@@ -240,6 +242,8 @@ describe('versioned site, pluginId=default', () => {
       versionName: 'current',
       versionPath: '/docs/next',
       versionBanner: 'unreleased',
+      versionBadge: true,
+      versionClassName: 'docs-version-current',
     };
 
     const v101: VersionMetadata = {
@@ -258,7 +262,9 @@ describe('versioned site, pluginId=default', () => {
       versionLabel: '1.0.1',
       versionName: '1.0.1',
       versionPath: '/docs',
-      versionBanner: 'none',
+      versionBanner: null,
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.1',
     };
 
     const v100: VersionMetadata = {
@@ -278,6 +284,8 @@ describe('versioned site, pluginId=default', () => {
       versionName: '1.0.0',
       versionPath: '/docs/1.0.0',
       versionBanner: 'unmaintained',
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.0',
     };
 
     const vwithSlugs: VersionMetadata = {
@@ -300,6 +308,8 @@ describe('versioned site, pluginId=default', () => {
       versionName: 'withSlugs',
       versionPath: '/docs/withSlugs',
       versionBanner: 'unmaintained',
+      versionBadge: true,
+      versionClassName: 'docs-version-withSlugs',
     };
 
     return {
@@ -371,6 +381,8 @@ describe('versioned site, pluginId=default', () => {
           current: {
             path: 'current-path',
             banner: 'unmaintained',
+            badge: false,
+            className: 'custom-current-className',
           },
           '1.0.0': {
             label: '1.0.0-label',
@@ -387,6 +399,8 @@ describe('versioned site, pluginId=default', () => {
         tagsPath: '/docs/current-path/tags',
         versionPath: '/docs/current-path',
         versionBanner: 'unmaintained',
+        versionBadge: false,
+        versionClassName: 'custom-current-className',
       },
       {
         ...v101,
@@ -540,7 +554,8 @@ describe('versioned site, pluginId=default', () => {
         routePriority: -1,
         tagsPath: '/docs/tags',
         versionPath: '/docs',
-        versionBanner: 'none',
+        versionBanner: null,
+        versionBadge: false,
       },
     ]);
   });
@@ -664,6 +679,8 @@ describe('versioned site, pluginId=community', () => {
       versionName: 'current',
       versionPath: '/communityBasePath/next',
       versionBanner: 'unreleased',
+      versionBadge: true,
+      versionClassName: 'docs-version-current',
     };
 
     const v100: VersionMetadata = {
@@ -685,7 +702,9 @@ describe('versioned site, pluginId=community', () => {
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/communityBasePath',
-      versionBanner: 'none',
+      versionBanner: null,
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.0',
     };
 
     return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
@@ -712,7 +731,7 @@ describe('versioned site, pluginId=community', () => {
 
     expect(versionsMetadata).toEqual([
       // vCurrent removed
-      v100,
+      {...v100, versionBadge: false},
     ]);
   });
 
@@ -731,7 +750,8 @@ describe('versioned site, pluginId=community', () => {
         routePriority: -1,
         tagsPath: '/communityBasePath/tags',
         versionPath: '/communityBasePath',
-        versionBanner: 'none',
+        versionBanner: null,
+        versionBadge: false,
       },
     ]);
   });

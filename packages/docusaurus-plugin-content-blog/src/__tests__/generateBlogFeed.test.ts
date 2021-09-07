@@ -52,6 +52,7 @@ describe('blogFeed', () => {
           {
             path: 'invalid-blog-path',
             routeBasePath: 'blog',
+            authorsMapPath: 'authors.yml',
             include: ['*.md', '*.mdx'],
             feedOptions: {
               type: [feedType],
@@ -85,6 +86,7 @@ describe('blogFeed', () => {
           {
             path: 'blog',
             routeBasePath: 'blog',
+            authorsMapPath: 'authors.yml',
             include: DEFAULT_OPTIONS.include,
             exclude: DEFAULT_OPTIONS.exclude,
             feedOptions: {

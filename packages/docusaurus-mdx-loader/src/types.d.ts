@@ -6,6 +6,9 @@
  */
 
 declare module '@docusaurus/mdx-loader' {
+  type RemarkOrRehypePlugin =
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    [Function, Record<string, unknown>] | Function;
   export interface RemarkAndRehypePluginOptions {
     remarkPlugins: RemarkOrRehypePlugin[];
     rehypePlugins: string[];
@@ -18,7 +21,7 @@ declare module '@docusaurus/mdx-loader' {
 declare module '@mdx-js/mdx' {
   import type {Plugin, Processor} from 'unified';
 
-  export namespace mdx {
+  namespace mdx {
     interface Options {
       filepath?: string;
       skipExport?: boolean;
@@ -31,8 +34,7 @@ declare module '@mdx-js/mdx' {
     function createMdxAstCompiler(options?: Options): Processor;
     function createCompiler(options?: Options): Processor;
   }
-  export default function mdx(
-    content: string,
-    options?: mdx.Options,
-  ): Promise<string>;
+  function mdx(content: string, options?: mdx.Options): Promise<string>;
+
+  export default mdx;
 }
