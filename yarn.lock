@@ -4533,10 +4533,10 @@
     tapable "^2.1.1"
     webpack "^5.38.1"
 
-"@types/webpack-dev-server@*", "@types/webpack-dev-server@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack-dev-server/-/webpack-dev-server-4.0.0.tgz#d900a731a4d6908956aa3f92aae24868ac46771d"
-  integrity sha512-N4deHpkNcWjqrbiqQDjt8TrkaMjgJabJj0Fjfs3B5ql1rhPyJPIEptWuQHx6M73mVc8o4kTR4u3kg65ddZMiQg==
+"@types/webpack-dev-server@*", "@types/webpack-dev-server@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@types/webpack-dev-server/-/webpack-dev-server-4.1.0.tgz#d2907eb3705919aec2e25c60b15d47af994375f4"
+  integrity sha512-7nylorFi/q2+TDro3U6q7S/AKIKs0x1hQUqgXAGNRC84owYVH/Av6ishEhgU2z9YUx2pNYU9BWz0qF4S34b6/g==
   dependencies:
     "@types/bonjour" "*"
     "@types/connect-history-api-fallback" "*"
@@ -4546,7 +4546,7 @@
     "@types/webpack" "^4"
     "@types/webpack-dev-middleware" "*"
     chokidar "^3.5.1"
-    http-proxy-middleware "^1.0.0"
+    http-proxy-middleware "^2.0.0"
 
 "@types/webpack-sources@*":
   version "2.1.0"
@@ -5067,10 +5067,10 @@ ansi-escapes@^4.2.1, ansi-escapes@^4.3.0, ansi-escapes@^4.3.1, ansi-escapes@^4.3
   dependencies:
     type-fest "^0.21.3"
 
-ansi-html@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ansi-html/-/ansi-html-0.0.7.tgz#813584021962a9e9e6fd039f940d12f56ca7859e"
-  integrity sha1-gTWEAhliqenm/QOflA0S9WynhZ4=
+ansi-html-community@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
+  integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
 
 ansi-regex@^0.2.0, ansi-regex@^0.2.1:
   version "0.2.1"
@@ -20137,12 +20137,12 @@ webpack-dev-middleware@^5.0.0:
     range-parser "^1.2.1"
     schema-utils "^3.0.0"
 
-webpack-dev-server@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.0.0.tgz#fb4906e91182154bba54a66e6e06f84c1e3c0a80"
-  integrity sha512-ya5cjoBSf3LqrshZn2HMaRZQx8YRNBE+tx+CQNFGaLLHrvs4Y1aik0sl5SFhLz2cW1O9/NtyaZhthc+8UiuvkQ==
+webpack-dev-server@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.1.1.tgz#e8eb8f0ce1a0e1fa65e234641763c97735398bed"
+  integrity sha512-Kl1mnCEw8Cy1Kw173gCxLIB242LfPKEOj9WoKhKz/MbryZTNrILzOJTk8kiczw/YUEPzn3gcltCQv6hDsLudRg==
   dependencies:
-    ansi-html "^0.0.7"
+    ansi-html-community "^0.0.8"
     bonjour "^3.5.0"
     chokidar "^3.5.1"
     colorette "^1.2.2"
