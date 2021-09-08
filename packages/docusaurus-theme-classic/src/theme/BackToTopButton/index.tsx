@@ -12,6 +12,7 @@ import {translate} from '@docusaurus/Translate';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 const threshold = 300;
 
@@ -112,9 +113,14 @@ function BackToTopButton(): JSX.Element {
         message: 'Scroll back to top',
         description: 'The ARIA label for the back to top button',
       })}
-      className={clsx('clean-btn', styles.backToTopButton, {
-        [styles.backToTopButtonShow]: show,
-      })}
+      className={clsx(
+        'clean-btn',
+        ThemeClassNames.common.backToTopButton,
+        styles.backToTopButton,
+        {
+          [styles.backToTopButtonShow]: show,
+        },
+      )}
       type="button"
       onClick={() => smoothScrollTop()}
     />

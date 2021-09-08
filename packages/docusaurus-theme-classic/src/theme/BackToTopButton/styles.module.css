@@ -5,25 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:root {
-  --docusaurus-btt-color: var(--ifm-color-gray-900);
-  --docusaurus-btt-background-color: var(--ifm-color-secondary);
-  --docusaurus-btt-hover-background-color: var(--ifm-color-secondary-dark);
-  --docusaurus-btt-position-right: 1.3rem;
-  --docusaurus-btt-position-bottom: 1.3rem;
-  --docusaurus-btt-icon: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem
-    no-repeat;
-}
-
 .backToTopButton {
   display: flex;
   align-items: center;
   justify-content: center;
   position: fixed;
-  right: var(--docusaurus-btt-position-right);
-  bottom: var(--docusaurus-btt-position-bottom);
+  right: 1.3rem;
+  bottom: 1.3rem;
   border-radius: 50%;
-  background-color: var(--docusaurus-btt-background-color);
+  background-color: var(--ifm-color-secondary);
   width: 3rem;
   height: 3rem;
   z-index: var(--ifm-z-index-fixed);
@@ -36,14 +26,20 @@
 
 .backToTopButton:after {
   content: ' ';
-  mask: var(--docusaurus-btt-icon);
-  background-color: var(--docusaurus-btt-color);
+  mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;
+  background-color: var(--ifm-color-gray-900);
   width: 100%;
   height: 100%;
 }
 
-.backToTopButton:not(:focus):hover {
-  background-color: var(--docusaurus-btt-hover-background-color);
+@media (hover: hover) {
+  .backToTopButton:hover {
+    background-color: var(--ifm-color-secondary-dark);
+  }
+}
+
+.backToTopButton:active {
+  background-color: var(--ifm-color-secondary-darkest);
 }
 
 .backToTopButtonShow {
