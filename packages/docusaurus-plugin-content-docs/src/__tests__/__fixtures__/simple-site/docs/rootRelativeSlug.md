@@ -1,5 +1,0 @@
----
-slug: rootRelativeSlug
----
-
-Lorem

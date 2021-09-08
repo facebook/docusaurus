@@ -1,1 +1,0 @@
-translated markdown page (fr)
