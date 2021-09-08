@@ -328,7 +328,7 @@ type FileLoaderUtils = {
 export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < 10kb (overridable via 'URL_LOADER_LIMIT' environment
   // variable) will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = process.env.URL_LOADER_LIMIT || 10000;
+  const urlLoaderLimit = process.env.URL_LOADER_LIMIT ?? 10000;
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
