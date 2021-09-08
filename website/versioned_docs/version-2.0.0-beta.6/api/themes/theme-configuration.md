@@ -20,7 +20,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultMode` | <code>'light' &#124; 'dark' </code> | `'light'` | The color mode when user first visits the site. |
+| `defaultMode` | <code>'light' \| 'dark'</code> | `'light'` | The color mode when user first visits the site. |
 | `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
 | `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
 | `switchConfig` | _See below_ | _See below_ | Dark/light switch icon options. |
@@ -166,7 +166,7 @@ Accepted fields:
 | `logo` | _See below_ | `undefined` | Customization of the logo object. |
 | `items` | `NavbarItem[]` | `[]` | A list of navbar items. See specification below. |
 | `hideOnScroll` | `boolean` | `false` | Whether the navbar is hidden when the user scrolls down. |
-| `style` | <code>'primary' &#124; 'dark' </code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
+| `style` | <code>'primary' \| 'dark'</code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
 
 </small>
 
@@ -269,7 +269,7 @@ Accepted fields:
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `activeBasePath` | `string` | `to` / `href` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. |
 | `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
 | `className` | `string` | `''` | Custom CSS class (for styling any item). |
@@ -326,7 +326,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -374,7 +374,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
 </small>
@@ -412,7 +412,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
@@ -453,7 +453,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `label` | `string` | The active/latest version label. | The name to be shown for this item. |
 | `to` | `string` | The active/latest version. | The internal link that this item points to. |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 
 </small>
@@ -491,7 +491,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 
@@ -532,7 +532,7 @@ However, with this special navbar item type, you can change the default location
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' &#124; 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -655,7 +655,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
 | `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
-| `style` | <code>'dark' &#124; 'light'</code> | `'light'` | The color theme of the footer component. |
+| `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
 | `items` | `FooterItem[]` | `[]` | The link groups to be present. |
 
 </small>
