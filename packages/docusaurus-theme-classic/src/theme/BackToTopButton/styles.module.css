@@ -39,7 +39,7 @@
 }
 
 .backToTopButton:active {
-  background-color: var(--ifm-color-secondary-darkest);
+  background-color: var(--ifm-color-secondary-darker);
 }
 
 .backToTopButtonShow {
