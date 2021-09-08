@@ -269,7 +269,7 @@ Accepted fields:
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `activeBasePath` | `string` | `to` / `href` | To apply the active class styling on all routes starting with this path. This usually isn't necessary. |
 | `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
 | `className` | `string` | `''` | Custom CSS class (for styling any item). |
@@ -326,7 +326,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
@@ -374,7 +374,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
 </small>
@@ -412,7 +412,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
@@ -453,7 +453,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `label` | `string` | The active/latest version label. | The name to be shown for this item. |
 | `to` | `string` | The active/latest version. | The internal link that this item points to. |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 
 </small>
@@ -491,7 +491,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 
@@ -532,7 +532,7 @@ However, with this special navbar item type, you can change the default location
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | <code>'left' \| 'right'</code | `'left'` | The side of the navbar this item should appear on. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
 
