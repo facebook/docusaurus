@@ -1,5 +1,0 @@
-# https://help.github.com/articles/about-codeowners/
-
-/packages/ @slorber @lex111
-/website/  @slorber @lex111
-/website-1.x/  @slorber
