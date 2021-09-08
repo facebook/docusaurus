@@ -13,7 +13,7 @@
   right: 1.3rem;
   bottom: 1.3rem;
   border-radius: 50%;
-  background-color: var(--ifm-color-emphasis-300);
+  background-color: var(--ifm-color-emphasis-200);
   width: 3rem;
   height: 3rem;
   z-index: var(--ifm-z-index-fixed);
@@ -34,12 +34,12 @@
 
 @media (hover: hover) {
   .backToTopButton:hover {
-    background-color: var(--ifm-color-emphasis-400);
+    background-color: var(--ifm-color-emphasis-300);
   }
 }
 
 .backToTopButton:active {
-  background-color: var(--ifm-color-emphasis-500);
+  background-color: var(--ifm-color-emphasis-400);
 }
 
 .backToTopButtonShow {
