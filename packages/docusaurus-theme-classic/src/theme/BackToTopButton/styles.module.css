@@ -13,7 +13,7 @@
   right: 1.3rem;
   bottom: 1.3rem;
   border-radius: 50%;
-  background-color: var(--ifm-color-secondary);
+  background-color: var(--ifm-color-emphasis-300);
   width: 3rem;
   height: 3rem;
   z-index: var(--ifm-z-index-fixed);
@@ -27,19 +27,19 @@
 .backToTopButton:after {
   content: ' ';
   mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;
-  background-color: var(--ifm-color-gray-900);
+  background-color: var(--ifm-color-emphasis-1000);
   width: 100%;
   height: 100%;
 }
 
 @media (hover: hover) {
   .backToTopButton:hover {
-    background-color: var(--ifm-color-secondary-dark);
+    background-color: var(--ifm-color-emphasis-400);
   }
 }
 
 .backToTopButton:active {
-  background-color: var(--ifm-color-secondary-darker);
+  background-color: var(--ifm-color-emphasis-500);
 }
 
 .backToTopButtonShow {
