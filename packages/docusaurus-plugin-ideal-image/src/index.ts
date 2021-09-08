@@ -14,16 +14,18 @@ export default function (
   _context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  const isProd = process.env.NODE_ENV === 'production';
-
   return {
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {
+      if (process.env.NODE_ENV !== 'production') {
+        return {};
+      }
+
       return {
         mergeStrategy: {
           'module.rules': 'prepend',
@@ -38,7 +40,6 @@ export default function (
                   loader: require.resolve('@docusaurus/responsive-loader'),
                   options: {
                     emitFile: !isServer, // don't emit for server-side rendering
-                    disable: !isProd,
                     // eslint-disable-next-line global-require
                     adapter: require('@docusaurus/responsive-loader/sharp'),
                     name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',
