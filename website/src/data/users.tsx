@@ -1236,6 +1236,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Unleash',
+    description: 'A feature managment solution.',
+    preview: require('./showcase/unleash.png'),
+    website: 'https://docs.getunleash.io/',
+    source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
