@@ -183,7 +183,13 @@ async function processBlogSourceFile(
     siteDir,
     i18n,
   } = context;
-  const {routeBasePath, truncateMarker, showReadingTime, editUrl} = options;
+  const {
+    routeBasePath,
+    tagsBasePath: tagsRouteBasePath,
+    truncateMarker,
+    showReadingTime,
+    editUrl,
+  } = options;
 
   // Lookup in localized folder in priority
   const blogDirPath = await getFolderContainingFile(
@@ -267,7 +273,11 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+  const tagsBasePath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    tagsRouteBasePath,
+  ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {

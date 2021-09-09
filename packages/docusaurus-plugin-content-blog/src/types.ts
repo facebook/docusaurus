@@ -35,6 +35,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
+  tagsBasePath: string;
   archiveBasePath: string;
   include: string[];
   exclude: string[];

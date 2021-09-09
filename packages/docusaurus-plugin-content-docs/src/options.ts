@@ -26,6 +26,7 @@ import {
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
+  tagsBasePath: 'tags', // URL Tags Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   exclude: GlobExcludeDefault,
@@ -73,6 +74,7 @@ export const OptionsSchema = Joi.object({
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),

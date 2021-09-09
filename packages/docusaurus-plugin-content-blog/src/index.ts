@@ -124,6 +124,7 @@ export default function pluginContentBlog(
       const {
         postsPerPage: postsPerPageOption,
         routeBasePath,
+        tagsBasePath,
         blogDescription,
         blogTitle,
         blogSidebarTitle,
@@ -201,7 +202,7 @@ export default function pluginContentBlog(
 
       const blogTags: BlogTags = getBlogTags(blogPosts);
 
-      const tagsPath = normalizeUrl([baseBlogUrl, 'tags']);
+      const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
       const blogTagsListPath =
         Object.keys(blogTags).length > 0 ? tagsPath : null;
