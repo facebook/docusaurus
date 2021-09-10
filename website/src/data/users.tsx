@@ -685,6 +685,15 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning'],
   },
   {
+    title: 'Mint Metrics',
+    description:
+      'Conversion optimisation and web analytics agency from Melbourne, Australia.',
+    preview: require('./showcase/mintmetrics.png'),
+    website: 'https://mintmetrics.io/',
+    source: null,
+    tags: ['design'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
