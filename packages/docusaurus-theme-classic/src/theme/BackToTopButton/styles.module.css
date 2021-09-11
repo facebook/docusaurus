@@ -36,10 +36,6 @@
   }
 }
 
-.backToTopButton:active {
-  background-color: var(--ifm-color-emphasis-400);
-}
-
 .backToTopButtonShow {
   opacity: 1;
   transform: scale(1);
