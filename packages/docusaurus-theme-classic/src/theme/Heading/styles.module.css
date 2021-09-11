@@ -12,7 +12,6 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
  */
 .anchorWithStickyNavbar {
   scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
-  /*   top: calc(var(--ifm-navbar-height) * -1 - 0.5rem); */
 }
 
 .anchorWithHideOnScrollNavbar {

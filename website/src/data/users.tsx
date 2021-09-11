@@ -636,6 +636,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'MapillaryJS',
+    description: 'Interactive, extendable street imagery map experiences',
+    preview: require('./showcase/mapillaryjs.png'),
+    website: 'https://mapillary.github.io/mapillary-js/',
+    source: 'https://github.com/mapillary/mapillary-js',
+    tags: ['opensource', 'facebook'],
+  },
+  {
     title: 'MediaMachine',
     description: 'Infrastructure for User-Generated Video content',
     preview: require('./showcase/mediamachine.png'),
@@ -675,6 +683,15 @@ const Users: User[] = [
     website: 'https://mikro-orm.io',
     source: 'https://github.com/mikro-orm/mikro-orm',
     tags: ['opensource', 'large', 'versioning'],
+  },
+  {
+    title: 'Mint Metrics',
+    description:
+      'Conversion optimisation and web analytics agency from Melbourne, Australia.',
+    preview: require('./showcase/mintmetrics.png'),
+    website: 'https://mintmetrics.io/',
+    source: null,
+    tags: ['design'],
   },
   {
     title: 'Motion Layout',
@@ -1226,6 +1243,14 @@ const Users: User[] = [
     website: 'https://uniforms.tools/',
     source: 'https://github.com/vazco/uniforms',
     tags: ['opensource'],
+  },
+  {
+    title: 'Unleash',
+    description: 'A feature managment solution.',
+    preview: require('./showcase/unleash.png'),
+    website: 'https://docs.getunleash.io/',
+    source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Vue NodeGui',

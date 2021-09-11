@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Escreva aqui a sua pesquisa",
   "theme.SearchPage.noResultsText": "Nenhum resultado encontrado",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Navegação da página de listagem do blog",
   "theme.blog.paginator.newerEntries": "Publicações mais recentes",
   "theme.blog.paginator.olderEntries": "Publicações mais antigas",

@@ -21,6 +21,8 @@
   "theme.SearchPage.inputPlaceholder": "Nhập từ khóa cần tìm vào đây",
   "theme.SearchPage.noResultsText": "Không tìm thấy kết quả nào",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "Thanh điều hướng của trang danh sách bài viết",
   "theme.blog.paginator.newerEntries": "Các bài mới hơn",
   "theme.blog.paginator.olderEntries": "Các bài cũ hơn",

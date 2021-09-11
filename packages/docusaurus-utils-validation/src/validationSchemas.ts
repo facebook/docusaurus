@@ -61,12 +61,22 @@ export const PathnameSchema = Joi.string()
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
-export const FrontMatterTagsSchema = JoiFrontMatter.array().items(
-  JoiFrontMatter.alternatives().try(
+const FrontMatterTagSchema = JoiFrontMatter.alternatives()
+  .try(
     JoiFrontMatter.string().required(),
     JoiFrontMatter.object<Tag>({
       label: JoiFrontMatter.string().required(),
       permalink: JoiFrontMatter.string().required(),
     }).required(),
-  ),
-);
+  )
+  .messages({
+    'alternatives.match': '{{#label}} does not look like a valid tag',
+    'alternatives.types': '{{#label}} does not look like a valid tag',
+  });
+
+export const FrontMatterTagsSchema = JoiFrontMatter.array()
+  .items(FrontMatterTagSchema)
+  .messages({
+    'array.base':
+      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+  });
