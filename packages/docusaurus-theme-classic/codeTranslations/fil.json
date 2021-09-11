@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "Isara",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "Kinopya",
   "theme.CodeBlock.copy": "Kopyahin",
   "theme.CodeBlock.copyButtonAriaLabel": "Kopyahin ang code sa clipboard",
