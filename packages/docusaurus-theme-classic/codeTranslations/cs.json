@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "Zavřít",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "Zkopírováno",
   "theme.CodeBlock.copy": "Zkopírovat",
   "theme.CodeBlock.copyButtonAriaLabel": "Zkopírovat kód do schránky",

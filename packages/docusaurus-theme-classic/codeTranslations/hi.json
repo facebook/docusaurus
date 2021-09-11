@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "बंद करे",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "कॉपीड",
   "theme.CodeBlock.copy": "कॉपी",
   "theme.CodeBlock.copyButtonAriaLabel": "क्लिपबोर्ड पर कोड कॉपी करें",

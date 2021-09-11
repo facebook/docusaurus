@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "Đóng",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "Đã sao chép",
   "theme.CodeBlock.copy": "Sao chép",
   "theme.CodeBlock.copyButtonAriaLabel": "Sao chép code vào bộ nhớ tạm",
