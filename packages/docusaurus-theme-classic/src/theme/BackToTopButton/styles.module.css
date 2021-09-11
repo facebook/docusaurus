@@ -6,9 +6,6 @@
  */
 
 .backToTopButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: fixed;
   right: 1.3rem;
   bottom: 1.3rem;
@@ -26,6 +23,7 @@
 
 .backToTopButton:after {
   content: ' ';
+  display: inline-block;
   mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;
   background-color: var(--ifm-color-emphasis-1000);
   width: 100%;
