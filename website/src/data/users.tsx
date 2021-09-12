@@ -1102,7 +1102,7 @@ const Users: User[] = [
     preview: require('./showcase/seyoon20087-github-io.png'),
     website: 'https://seyoon20087.github.io/',
     source: 'https://github.com/seyoon20087/seyoon20087.github.io/',
-    tags: ['personal'],
+    tags: ['personal','opensource'],
   },
   {
     title: 'Single SPA',
