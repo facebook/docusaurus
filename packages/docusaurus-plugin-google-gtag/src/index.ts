@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import path from 'path';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
 
-module.exports = function (context) {
-  const {siteConfig} = context;
-  const {themeConfig} = siteConfig;
-  const {gtag} = themeConfig || {};
+export default function pluginGoogleGtag(context: LoadContext): Plugin {
+  const {
+    siteConfig: {themeConfig},
+  } = context;
+  const {gtag} = themeConfig as ThemeConfig;
 
   if (!gtag) {
     throw new Error(
@@ -40,7 +43,7 @@ module.exports = function (context) {
       if (!isProd) {
         return {};
       }
-      return {
+      const HTMLTags = {
         // Gtag includes GA by default, so we also preconnect to google-analytics.
         headTags: [
           {
@@ -77,6 +80,7 @@ module.exports = function (context) {
           },
         ],
       };
+      return HTMLTags;
     },
   };
-};
+}

@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import path from 'path';
+import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/plugin-google-analytics';
 
-module.exports = function (context) {
-  const {siteConfig} = context;
-  const {themeConfig} = siteConfig;
-  const {googleAnalytics} = themeConfig || {};
+export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
+  const {
+    siteConfig: {themeConfig},
+  } = context;
+  const {googleAnalytics} = themeConfig as ThemeConfig;
 
   if (!googleAnalytics) {
     throw new Error(
@@ -40,7 +43,7 @@ module.exports = function (context) {
       if (!isProd) {
         return {};
       }
-      return {
+      const HTMLTags = {
         headTags: [
           {
             tagName: 'link',
@@ -68,6 +71,7 @@ module.exports = function (context) {
           },
         ],
       };
+      return HTMLTags;
     },
   };
-};
+}

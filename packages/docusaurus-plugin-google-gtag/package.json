@@ -2,7 +2,12 @@
   "name": "@docusaurus/plugin-google-gtag",
   "version": "2.0.0-beta.6",
   "description": "Global Site Tag (gtag.js) plugin for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/plugin-google-gtag.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
   "publishConfig": {
     "access": "public"
   },
