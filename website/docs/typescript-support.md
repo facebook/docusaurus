@@ -3,7 +3,7 @@ id: typescript-support
 title: TypeScript Support
 ---
 
-Docusaurus is written in TypeScript, and provide first-class TypeScript support.
+Docusaurus is written in TypeScript, and provides first-class TypeScript support.
 
 ## Initialization {#initialization}
 
