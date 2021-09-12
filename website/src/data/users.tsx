@@ -1097,6 +1097,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'seyoon20087.github.io',
+    description: '@seyoon20087\'s personal website, built with Docusaurus and Bootstrap',
+    preview: require('./showcase/seyoon20087-github-io.png'),
+    website: 'https://seyoon20087.github.io/',
+    source: 'https://github.com/seyoon20087/seyoon20087.github.io/',
+    tags: ['personal'],
+  },
+  {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
