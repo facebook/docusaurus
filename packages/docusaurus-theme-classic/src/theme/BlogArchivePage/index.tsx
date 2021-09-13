@@ -65,7 +65,7 @@ function listPostsByYears(blogPosts: readonly ArchiveBlogPost[]): YearProp[] {
   }));
 }
 
-export default function BlogArchive({archive}: Props) {
+export default function BlogArchive({archive}: Props): JSX.Element {
   const title = translate({
     id: 'theme.blog.archive.title',
     message: 'Archive',
