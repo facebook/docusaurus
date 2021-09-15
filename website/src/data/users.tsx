@@ -255,7 +255,7 @@ const Users: User[] = [
   {
     title: 'Blogasaurus',
     description: 'A blog written using Docasaurus.',
-    preview: require('./showcase/Blogasaurus.png'),
+    preview: require('./showcase/Blogasaurus.PNG'),
     website: 'https://blog.palashsh.me/',
     source: 'https://github.com/BattleOfPlassey/blogasaurus',
     tags: ['personal', 'opensource']
