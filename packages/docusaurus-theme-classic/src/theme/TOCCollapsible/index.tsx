@@ -45,7 +45,7 @@ export default function TOCCollapsible({
         lazy
         className={styles.tocCollapsibleContent}
         collapsed={collapsed}>
-        <TOCHeadings toc={toc} />
+        <TOCHeadings toc={toc} depth={2} />
       </Collapsible>
     </div>
   );

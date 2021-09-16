@@ -25,19 +25,26 @@ function isInViewportTopHalf(boundingRect: DOMRect) {
   return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
 }
 
-function getAnchors() {
-  // For toc highlighting, we only consider h2/h3 anchors
-  const selector = '.anchor.anchor__h2, .anchor.anchor__h3';
-  return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+function getAnchors(maxDepth: number = 3) {
+  const selectors = [];
+
+  for (let i = 2; i <= maxDepth; i += 1) {
+    selectors.push(`.anchor.anchor__h${i}`);
+  }
+
+  return Array.from(
+    document.querySelectorAll(selectors.join(', ')),
+  ) as HTMLElement[];
 }
 
-function getActiveAnchor({
-  anchorTopOffset,
-}: {
-  anchorTopOffset: number;
-}): Element | null {
-  const anchors = getAnchors();
-
+function getActiveAnchor(
+  anchors: HTMLElement[],
+  {
+    anchorTopOffset,
+  }: {
+    anchorTopOffset: number;
+  },
+): Element | null {
   // Naming is hard
   // The "nextVisibleAnchor" is the first anchor that appear under the viewport top boundary
   // Note: it does not mean this anchor is visible yet, but if user continues scrolling down, it will be the first to become visible
@@ -100,6 +107,7 @@ function useTOCHighlight(params: Params): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
+  const {tableOfContents} = useThemeConfig();
 
   useEffect(() => {
     const {linkClassName, linkActiveClassName} = params;
@@ -118,7 +126,8 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const activeAnchor = getActiveAnchor({
+      const anchors = getAnchors(tableOfContents?.maxDepth);
+      const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });
       const activeLink = links.find(

@@ -757,6 +757,32 @@ module.exports = {
 };
 ```
 
+## Table of Contents {#table-of-contents}
+
+You can adjust the table of contents via `themeConfig.tableOfContents`.
+
+<small>
+
+| Name       | Type     | Default | Description                            |
+| ---------- | -------- | ------- | -------------------------------------- |
+| `maxDepth` | `number` | `3`     | Max heading level displayed in the TOC |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    tableOfContents: {
+      maxDepth: 5,
+    },
+    // highlight-end
+  },
+};
+```
+
 ## Hooks {#hooks}
 
 ### `useThemeContext` {#usethemecontext}

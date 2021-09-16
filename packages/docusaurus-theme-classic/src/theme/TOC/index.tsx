@@ -12,6 +12,7 @@ import useTOCHighlight, {
 } from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 
@@ -24,8 +25,14 @@ const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
 export function TOCHeadings({
   toc,
   isChild,
+  depth: headingLevel,
 }: TOCHeadingsProps): JSX.Element | null {
+  const {tableOfContents} = useThemeConfig();
+  const maxDepth = tableOfContents?.maxDepth ?? 3;
   if (!toc.length) {
+    return null;
+  }
+  if (headingLevel > maxDepth) {
     return null;
   }
   return (
@@ -42,7 +49,11 @@ export function TOCHeadings({
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
-          <TOCHeadings isChild toc={heading.children} />
+          <TOCHeadings
+            isChild
+            toc={heading.children}
+            depth={headingLevel + 1}
+          />
         </li>
       ))}
     </ul>
@@ -53,7 +64,7 @@ function TOC({toc}: TOCProps): JSX.Element {
   useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings toc={toc} />
+      <TOCHeadings toc={toc} depth={2} />
     </div>
   );
 }

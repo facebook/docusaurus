@@ -591,6 +591,7 @@ declare module '@theme/TOC' {
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
+    readonly depth: number;
   };
 
   export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;

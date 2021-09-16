@@ -85,6 +85,10 @@ export type Footer = {
   links: FooterLinks[];
 };
 
+export type TableOfContents = {
+  maxDepth: number;
+};
+
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
@@ -104,6 +108,7 @@ export type ThemeConfig = {
   image?: string;
   metadatas: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
+  tableOfContents: TableOfContents;
 };
 
 export function useThemeConfig(): ThemeConfig {
