@@ -12,7 +12,7 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
-const processFixture = async (name, options) => {
+const processFixture = async (name, options?) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
@@ -209,4 +209,9 @@ test('empty headings', async () => {
     ## ![](an-image.svg)
     "
   `);
+});
+
+test('should process all heading levels', async () => {
+  const result = await processFixture('maximum-depth-6');
+  expect(result).toMatchSnapshot();
 });

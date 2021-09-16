@@ -83,3 +83,50 @@ exports[`non text phrasing content 1`] = `
 ## \`inline.code()\`
 "
 `;
+
+exports[`should process all heading levels 1`] = `
+"export const toc = [
+	{
+		value: 'Bravo',
+		id: 'bravo',
+		children: [
+			{
+				value: 'Charlie',
+				id: 'charlie',
+				children: [
+					{
+						value: 'Delta',
+						id: 'delta',
+						children: [
+							{
+								value: 'Echo',
+								id: 'echo',
+								children: [
+									{
+										value: 'Foxtrot',
+										id: 'foxtrot',
+										children: []
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+];
+
+# Alpha
+
+## Bravo
+
+### Charlie
+
+#### Delta
+
+##### Echo
+
+###### Foxtrot
+"
+`;
