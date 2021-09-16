@@ -784,6 +784,14 @@ const Users: User[] = [
     source: null,
     tags: ["product"],
   },
+    {
+    title: 'PIPELINE-UI',
+    description: 'PIPELINE-UI Documentation',
+    preview: require('./showcase/pipeline-ui.png'),
+    website: 'https://github.com/headline-design/pipeline-ui',
+    source: null,
+    tags: ['opensource'],
+  },
   {
     title: 'Plausible Analytics Docs',
     description: 'Plausible Analytics is a simple, open source, lightweight (< 1 KB) and privacy-friendly alternative to Google Analytics. ',
