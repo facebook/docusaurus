@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
 
 export default function pluginGoogleGtag(context: LoadContext): Plugin {
@@ -43,7 +43,7 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
       if (!isProd) {
         return {};
       }
-      const HTMLTags = {
+      return {
         // Gtag includes GA by default, so we also preconnect to google-analytics.
         headTags: [
           {
@@ -78,9 +78,8 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
               anonymizeIP ? "'anonymize_ip': true" : ''
             } });`,
           },
-        ],
+        ] as HtmlTags,
       };
-      return HTMLTags;
     },
   };
 }

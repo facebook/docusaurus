@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/plugin-google-analytics';
 
 export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
@@ -43,7 +43,7 @@ export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
       if (!isProd) {
         return {};
       }
-      const HTMLTags = {
+      return {
         headTags: [
           {
             tagName: 'link',
@@ -69,9 +69,8 @@ export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
               src: 'https://www.google-analytics.com/analytics.js',
             },
           },
-        ],
+        ] as HtmlTags,
       };
-      return HTMLTags;
     },
   };
 }
