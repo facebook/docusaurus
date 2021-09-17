@@ -126,7 +126,7 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const anchors = getAnchors(tableOfContents?.maxDepth);
+      const anchors = getAnchors(tableOfContents.maxDepth);
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });

@@ -28,7 +28,7 @@ export function TOCHeadings({
   depth: headingLevel,
 }: TOCHeadingsProps): JSX.Element | null {
   const {tableOfContents} = useThemeConfig();
-  const maxDepth = tableOfContents?.maxDepth ?? 3;
+  const {maxDepth} = tableOfContents;
   if (!toc.length) {
     return null;
   }

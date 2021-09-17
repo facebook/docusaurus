@@ -338,7 +338,7 @@ const ThemeConfigSchema = Joi.object({
       .min(2)
       .max(6)
       .default(DEFAULT_CONFIG.tableOfContents.maxDepth),
-  }),
+  }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
 export {ThemeConfigSchema};
