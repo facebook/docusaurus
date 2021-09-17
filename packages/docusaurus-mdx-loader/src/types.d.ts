@@ -9,12 +9,12 @@ declare module '@docusaurus/mdx-loader' {
   type RemarkOrRehypePlugin =
     // eslint-disable-next-line @typescript-eslint/ban-types
     [Function, Record<string, unknown>] | Function;
-  export interface RemarkAndRehypePluginOptions {
+  export type RemarkAndRehypePluginOptions = {
     remarkPlugins: RemarkOrRehypePlugin[];
     rehypePlugins: string[];
     beforeDefaultRemarkPlugins: RemarkOrRehypePlugin[];
     beforeDefaultRehypePlugins: RemarkOrRehypePlugin[];
-  }
+  };
 }
 
 // TODO Types provided by MDX 2.0 https://github.com/mdx-js/mdx/blob/main/packages/mdx/types/index.d.ts
