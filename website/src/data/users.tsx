@@ -788,8 +788,8 @@ const Users: User[] = [
     title: 'PIPELINE-UI',
     description: 'PIPELINE-UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
-    website: 'https://github.com/headline-design/pipeline-ui',
-    source: null,
+    website: 'https://www.pipeline-ui.com/',
+    source: 'https://github.com/headline-design/pipeline-ui',
     tags: ['opensource'],
   },
   {
