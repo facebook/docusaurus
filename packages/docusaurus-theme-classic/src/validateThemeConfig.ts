@@ -42,7 +42,7 @@ const DEFAULT_CONFIG = {
   },
   hideableSidebar: false,
   tableOfContents: {
-    maxDepth: 3,
+    maxHeadingLevel: 3,
   },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
@@ -333,11 +333,11 @@ const ThemeConfigSchema = Joi.object({
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
   }),
   tableOfContents: Joi.object({
-    maxDepth: Joi.number()
+    maxHeadingLevel: Joi.number()
       .integer()
       .min(2)
       .max(6)
-      .default(DEFAULT_CONFIG.tableOfContents.maxDepth),
+      .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
   }).default(DEFAULT_CONFIG.tableOfContents),
 });
 

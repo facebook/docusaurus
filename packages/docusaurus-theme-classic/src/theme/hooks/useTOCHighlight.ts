@@ -25,10 +25,10 @@ function isInViewportTopHalf(boundingRect: DOMRect) {
   return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
 }
 
-function getAnchors(maxDepth: number = 3) {
+function getAnchors(maxHeadingLevel: number) {
   const selectors = [];
 
-  for (let i = 2; i <= maxDepth; i += 1) {
+  for (let i = 2; i <= maxHeadingLevel; i += 1) {
     selectors.push(`.anchor.anchor__h${i}`);
   }
 
@@ -126,7 +126,7 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const anchors = getAnchors(tableOfContents.maxDepth);
+      const anchors = getAnchors(tableOfContents.maxHeadingLevel);
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });

@@ -86,7 +86,7 @@ export type Footer = {
 };
 
 export type TableOfContents = {
-  maxDepth: number;
+  maxHeadingLevel: number;
 };
 
 export type ThemeConfig = {

@@ -28,11 +28,11 @@ export function TOCHeadings({
   depth: headingLevel,
 }: TOCHeadingsProps): JSX.Element | null {
   const {tableOfContents} = useThemeConfig();
-  const {maxDepth} = tableOfContents;
+  const {maxHeadingLevel} = tableOfContents;
   if (!toc.length) {
     return null;
   }
-  if (headingLevel > maxDepth) {
+  if (headingLevel > maxHeadingLevel) {
     return null;
   }
   return (

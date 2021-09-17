@@ -92,7 +92,7 @@ describe('themeConfig', () => {
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
       tableOfContents: {
-        maxDepth: 4,
+        maxHeadingLevel: 4,
       },
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({

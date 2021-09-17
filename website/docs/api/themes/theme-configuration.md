@@ -763,9 +763,9 @@ You can adjust the table of contents via `themeConfig.tableOfContents`.
 
 <small>
 
-| Name       | Type     | Default | Description                            |
-| ---------- | -------- | ------- | -------------------------------------- |
-| `maxDepth` | `number` | `3`     | Max heading level displayed in the TOC |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `maxHeadingLevel` | `number` | `3` | Max heading level displayed in the TOC. Should be an integer between 2 and 6. |
 
 </small>
 
@@ -776,7 +776,7 @@ module.exports = {
   themeConfig: {
     // highlight-start
     tableOfContents: {
-      maxDepth: 5,
+      maxHeadingLevel: 5,
     },
     // highlight-end
   },
