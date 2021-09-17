@@ -27,7 +27,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 ### Join our Discord channel {#join-our-discord-channel}
 
-To participate in Docusaurus 2 dev, join the [#docusaurus-2-dev](https://discord.gg/Je6Ash6) channel.
+To participate in Docusaurus 2 dev, join the [#contributors](https://discord.gg/6g6ASPA) channel.
 
 ## Our development process {#our-development-process}
 
