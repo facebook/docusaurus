@@ -13,6 +13,7 @@ import nprogress from 'nprogress';
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
+import type {Location} from '@docusaurus/history';
 
 import './nprogress.css';
 
@@ -21,14 +22,14 @@ nprogress.configure({showSpinner: false});
 interface Props {
   routes: RouteConfig[];
   delay: number;
-  location: any;
+  location: Location;
 }
 interface State {
   nextRouteHasLoaded: boolean;
 }
 
 class PendingNavigation extends React.Component<Props, State> {
-  previousLocation: any;
+  previousLocation: Location | null;
   progressBarTimeout: NodeJS.Timeout | null;
 
   constructor(props: Props) {
