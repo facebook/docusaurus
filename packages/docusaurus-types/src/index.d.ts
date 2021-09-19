@@ -23,18 +23,18 @@ export type ThemeConfig = {
 
 export interface DocusaurusConfig {
   baseUrl: string;
-  baseUrlIssueBanner: boolean;
+  baseUrlIssueBanner?: boolean;
   favicon?: string;
   tagline?: string;
   title: string;
   url: string;
   // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
-  trailingSlash: boolean | undefined;
-  i18n: I18nConfig;
-  onBrokenLinks: ReportingSeverity;
-  onBrokenMarkdownLinks: ReportingSeverity;
-  onDuplicateRoutes: ReportingSeverity;
-  noIndex: boolean;
+  trailingSlash?: boolean | undefined;
+  i18n?: I18nConfig;
+  onBrokenLinks?: ReportingSeverity;
+  onBrokenMarkdownLinks?: ReportingSeverity;
+  onDuplicateRoutes?: ReportingSeverity;
+  noIndex?: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
