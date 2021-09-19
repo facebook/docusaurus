@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, RouteComponentProps} from 'react-router-dom';
 import {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
@@ -19,7 +19,7 @@ import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-interface Props {
+interface Props extends RouteComponentProps {
   routes: RouteConfig[];
   delay: number;
   location: Location;
@@ -129,4 +129,4 @@ class PendingNavigation extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(PendingNavigation as any) as any;
+export default withRouter(PendingNavigation);
