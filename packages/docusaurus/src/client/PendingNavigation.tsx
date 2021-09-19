@@ -47,7 +47,7 @@ class PendingNavigation extends React.Component<Props, State> {
   // is done loading.
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
-    const {routes, delay = 1000} = this.props;
+    const {routes, delay} = this.props;
 
     // If `routeDidChange` is true, means the router is trying to navigate to a new
     // route. We will preload the new route.
