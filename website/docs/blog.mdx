@@ -176,14 +176,8 @@ Use the `authors` FrontMatter field to declare blog post authors.
 Blog post authors can be declared directly inside the FrontMatter:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="single"
-  values={[
-    {label: 'Single author', value: 'single'},
-    {label: 'Multiple authors', value: 'multiple'},
-  ]}
-  groupId="author-frontmatter">
-  <TabItem value="single">
+<Tabs groupId="author-frontmatter">
+  <TabItem value="single" label="Single author" default>
 
 ```yml title="my-blog-post.md"
 ---
@@ -196,7 +190,7 @@ authors:
 ```
 
   </TabItem>
-  <TabItem value="multiple">
+  <TabItem value="multiple" label="Multiple authors">
 
 ```yml title="my-blog-post.md"
 ---
@@ -268,14 +262,8 @@ Use the `authorsMapPath` plugin option to configure the path. JSON is also suppo
 In blog posts FrontMatter, you can reference the authors declared in the global configuration file:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="single"
-  values={[
-    {label: 'Single author', value: 'single'},
-    {label: 'Multiple authors', value: 'multiple'},
-  ]}
-  groupId="author-frontmatter">
-  <TabItem value="single">
+<Tabs groupId="author-frontmatter">
+  <TabItem value="single" label="Single author" default>
 
 ```yml title="my-blog-post.md"
 ---
@@ -284,7 +272,7 @@ authors: jmarcey
 ```
 
   </TabItem>
-  <TabItem value="multiple">
+  <TabItem value="multiple" label="Multiple authors">
 
 ```yml title="my-blog-post.md"
 ---
