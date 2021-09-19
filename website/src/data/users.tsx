@@ -1306,7 +1306,7 @@ const Users: User[] = [
     title: 'Whirl',
     description:
       'Whirl\'s Personal Website and Blog',
-    preview: require('./showcase/whirl.png'),
+    preview: require('./showcase/whirlcodes.png'),
     website: 'https://whirl.codes',
     source: 'https://github.com/whirl21/website',
     tags: ['opensource', 'personal']
