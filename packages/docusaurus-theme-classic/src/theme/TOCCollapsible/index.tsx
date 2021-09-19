@@ -16,6 +16,7 @@ import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 export default function TOCCollapsible({
   toc,
   className,
+  maxHeadingLevel,
 }: TOCCollapsibleProps): JSX.Element {
   const {collapsed, toggleCollapsed} = useCollapsible({
     initialState: true,
@@ -45,7 +46,7 @@ export default function TOCCollapsible({
         lazy
         className={styles.tocCollapsibleContent}
         collapsed={collapsed}>
-        <TOCHeadings toc={toc} depth={2} />
+        <TOCHeadings toc={toc} recurseDepth={maxHeadingLevel - 1} />
       </Collapsible>
     </div>
   );

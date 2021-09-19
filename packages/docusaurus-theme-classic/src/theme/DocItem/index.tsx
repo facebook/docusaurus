@@ -19,7 +19,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -39,6 +39,7 @@ export default function DocItem(props: Props): JSX.Element {
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const windowSize = useWindowSize();
+  const {tableOfContents} = useThemeConfig();
 
   const canRenderTOC =
     !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
@@ -71,6 +72,7 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
+                  maxHeadingLevel={tableOfContents.maxHeadingLevel}
                   className={clsx(
                     ThemeClassNames.docs.docTocMobile,
                     styles.tocMobile,
@@ -99,6 +101,7 @@ export default function DocItem(props: Props): JSX.Element {
         {renderTocDesktop && (
           <div className="col col--3">
             <TOC
+              maxHeadingLevel={tableOfContents.maxHeadingLevel}
               toc={DocContent.toc}
               className={ThemeClassNames.docs.docTocDesktop}
             />

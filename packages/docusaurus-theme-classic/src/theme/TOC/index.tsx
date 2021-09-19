@@ -12,7 +12,6 @@ import useTOCHighlight, {
 } from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
-import {useThemeConfig} from '@docusaurus/theme-common';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 
@@ -25,14 +24,9 @@ const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
 export function TOCHeadings({
   toc,
   isChild,
-  depth: headingLevel,
+  recurseDepth,
 }: TOCHeadingsProps): JSX.Element | null {
-  const {tableOfContents} = useThemeConfig();
-  const {maxHeadingLevel} = tableOfContents;
-  if (!toc.length) {
-    return null;
-  }
-  if (headingLevel > maxHeadingLevel) {
+  if (!toc.length || recurseDepth < 1) {
     return null;
   }
   return (
@@ -52,7 +46,7 @@ export function TOCHeadings({
           <TOCHeadings
             isChild
             toc={heading.children}
-            depth={headingLevel + 1}
+            recurseDepth={recurseDepth - 1}
           />
         </li>
       ))}
@@ -60,11 +54,12 @@ export function TOCHeadings({
   );
 }
 
-function TOC({toc}: TOCProps): JSX.Element {
+function TOC({toc, maxHeadingLevel}: TOCProps): JSX.Element {
   useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
+  const recurseDepth = maxHeadingLevel - 1;
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings toc={toc} depth={2} />
+      <TOCHeadings toc={toc} recurseDepth={recurseDepth} />
     </div>
   );
 }

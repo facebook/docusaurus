@@ -585,13 +585,14 @@ declare module '@theme/TOC' {
 
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly maxHeadingLevel: number;
     readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
-    readonly depth: number;
+    readonly recurseDepth: number;
   };
 
   export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
@@ -605,6 +606,7 @@ declare module '@theme/TOCInline' {
 
   export type TOCInlineProps = {
     readonly toc: readonly TOCItem[];
+    readonly maxHeadingLevel?: number;
   };
 
   const TOCInline: (props: TOCInlineProps) => JSX.Element;
@@ -616,6 +618,7 @@ declare module '@theme/TOCCollapsible' {
 
   export type TOCCollapsibleProps = {
     readonly className?: string;
+    readonly maxHeadingLevel: number;
     readonly toc: readonly TOCItem[];
   };
 
