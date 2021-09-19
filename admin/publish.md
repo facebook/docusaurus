@@ -207,7 +207,7 @@ Create a separate branch/PR and run `yarn examples:generate`
 
 ### 9. Notify people about new release (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After new release, it is cool to notify our users about this in the Discord chat (`#announcements` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 
