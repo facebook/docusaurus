@@ -21,20 +21,26 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+export interface UserDocusaurusConfig extends Partial<DocusaurusConfig> {
+  baseUrl: string;
+  url: string;
+  title: string;
+}
+
 export interface DocusaurusConfig {
   baseUrl: string;
-  baseUrlIssueBanner?: boolean;
+  baseUrlIssueBanner: boolean;
   favicon?: string;
   tagline?: string;
   title: string;
   url: string;
   // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
-  trailingSlash?: boolean | undefined;
-  i18n?: I18nConfig;
-  onBrokenLinks?: ReportingSeverity;
-  onBrokenMarkdownLinks?: ReportingSeverity;
-  onDuplicateRoutes?: ReportingSeverity;
-  noIndex?: boolean;
+  trailingSlash: boolean | undefined;
+  i18n: I18nConfig;
+  onBrokenLinks: ReportingSeverity;
+  onBrokenMarkdownLinks: ReportingSeverity;
+  onDuplicateRoutes: ReportingSeverity;
+  noIndex: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
