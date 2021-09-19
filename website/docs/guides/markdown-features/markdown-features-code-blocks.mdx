@@ -445,7 +445,7 @@ If you have multiple of these multi-language code tabs, and you want to sync the
 
 ### Docusaurus npm2yarn remark plugin {#npm2yarn-remark-plugin}
 
-Display CLI commands in both NPM and Yarn is a very common need, for example:
+Displaying CLI commands in both NPM and Yarn is a very common need, for example:
 
 ```bash npm2yarn
 npm install @docusaurus/remark-plugin-npm2yarn
@@ -477,7 +477,7 @@ module.exports = {
 };
 ```
 
-And then use it by adding the `npm2yarn` key:
+And then use it by adding the `npm2yarn` key to the code block:
 
 ````md
 ```bash npm2yarn
@@ -485,4 +485,4 @@ npm install @docusaurus/remark-plugin-npm2yarn
 ```
 ````
 
-Using the `{sync: true}` option would make all tab choices synced (see [Syncing tab choices](https://docusaurus.io/docs/next/markdown-features/tabs#syncing-tab-choices)). Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
+Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
