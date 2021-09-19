@@ -253,6 +253,14 @@ const Users: User[] = [
     tags: ['opensource','personal','large'],
   },
   {
+    title: 'Blogasaurus',
+    description: 'A blog written using Docasaurus.',
+    preview: require('./showcase/Blogasaurus.png'),
+    website: 'https://blog.palashsh.me/',
+    source: 'https://github.com/BattleOfPlassey/blogasaurus',
+    tags: ['personal', 'opensource']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
