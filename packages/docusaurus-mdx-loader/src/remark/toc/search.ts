@@ -39,6 +39,7 @@ export default function search(node: Node): TOCItem[] {
         value: toValue(child),
         id: child.data!.id as string,
         children: [],
+        level: child.depth,
       },
       level: child.depth,
       parentIndex: -1,

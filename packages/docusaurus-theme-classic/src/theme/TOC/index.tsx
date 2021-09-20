@@ -24,17 +24,15 @@ const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
 export function TOCHeadings({
   toc,
   isChild,
-  recurseDepth,
+  maxHeadingLevel,
 }: TOCHeadingsProps): JSX.Element | null {
-  if (!toc.length || recurseDepth < 1) {
+  if (!toc.length) {
     return null;
   }
-  return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
-      {toc.map((heading) => (
+
+  const prunedTOC = toc.map((heading) => {
+    if (heading.level <= maxHeadingLevel) {
+      return (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -46,20 +44,30 @@ export function TOCHeadings({
           <TOCHeadings
             isChild
             toc={heading.children}
-            recurseDepth={recurseDepth - 1}
+            maxHeadingLevel={maxHeadingLevel}
           />
         </li>
-      ))}
+      );
+    } else {
+      return null;
+    }
+  });
+
+  return (
+    <ul
+      className={
+        isChild ? '' : 'table-of-contents table-of-contents__left-border'
+      }>
+      {prunedTOC}
     </ul>
   );
 }
 
 function TOC({toc, maxHeadingLevel}: TOCProps): JSX.Element {
   useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
-  const recurseDepth = maxHeadingLevel - 1;
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings toc={toc} recurseDepth={recurseDepth} />
+      <TOCHeadings toc={toc} maxHeadingLevel={maxHeadingLevel} />
     </div>
   );
 }

@@ -16,18 +16,19 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 function HeadingsInline({
   toc,
   isChild,
-  recurseDepth,
+  maxHeadingLevel,
 }: {
   toc: readonly TOCItem[];
   isChild?: boolean;
-  recurseDepth: number;
+  maxHeadingLevel: number;
 }) {
-  if (!toc.length || recurseDepth < 1) {
+  if (!toc.length) {
     return null;
   }
-  return (
-    <ul className={isChild ? '' : 'table-of-contents'}>
-      {toc.map((heading) => (
+
+  const prunedTOC = toc.map((heading) => {
+    if (heading.level <= maxHeadingLevel) {
+      return (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -38,20 +39,28 @@ function HeadingsInline({
           <HeadingsInline
             isChild
             toc={heading.children}
-            recurseDepth={recurseDepth - 1}
+            maxHeadingLevel={maxHeadingLevel}
           />
         </li>
-      ))}
-    </ul>
-  );
+      );
+    } else {
+      return null;
+    }
+  });
+
+  return <ul className={isChild ? '' : 'table-of-contents'}>{prunedTOC}</ul>;
 }
 
 function TOCInline({toc, maxHeadingLevel}: TOCInlineProps): JSX.Element {
   const {tableOfContents} = useThemeConfig();
-  const recurseDepth = (maxHeadingLevel ?? tableOfContents.maxHeadingLevel) - 1;
   return (
     <div className={clsx(styles.tableOfContentsInline)}>
-      <HeadingsInline toc={toc} recurseDepth={recurseDepth} />
+      <HeadingsInline
+        toc={toc}
+        maxHeadingLevel={
+          maxHeadingLevel ?? tableOfContents.maxHeadingLevel ?? 6
+        }
+      />
     </div>
   );
 }
