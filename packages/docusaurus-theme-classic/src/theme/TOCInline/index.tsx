@@ -16,19 +16,23 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 function HeadingsInline({
   toc,
   isChild,
+  isInnerList,
   maxHeadingLevel,
   minHeadingLevel,
 }: {
   toc: readonly TOCItem[];
   isChild?: boolean;
+  isInnerList?: boolean;
   maxHeadingLevel: number;
   minHeadingLevel: number;
 }) {
-  if (!toc.length) {
+  // if no headings or every heading is too deep, return nothing
+  if (!toc.length || toc.every((heading) => heading.level > maxHeadingLevel)) {
     return null;
   }
 
   const prunedTOC = toc.map((heading) => {
+    // return a normal list item if we're between the min and max heading level
     if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
       return (
         <li key={heading.id}>
@@ -46,23 +50,35 @@ function HeadingsInline({
           />
         </li>
       );
-    } else if (heading.level < minHeadingLevel) {
+      // if we're not at the min level yet AND we have children at future levels, don't
+      // wrap the recursive `TOCHeadings` component with another <ul>
+    } else if (heading.level < minHeadingLevel && heading.children) {
       return (
-        <li key={heading.id}>
-          <HeadingsInline
-            isChild
-            toc={heading.children}
-            maxHeadingLevel={maxHeadingLevel}
-            minHeadingLevel={minHeadingLevel}
-          />
-        </li>
+        <HeadingsInline
+          isChild
+          isInnerList
+          toc={heading.children}
+          maxHeadingLevel={maxHeadingLevel}
+          minHeadingLevel={minHeadingLevel}
+        />
       );
     } else {
       return null;
     }
   });
 
-  return <ul className={isChild ? '' : 'table-of-contents'}>{prunedTOC}</ul>;
+  if (isInnerList) {
+    return <>{prunedTOC}</>;
+  } else {
+    return (
+      <ul
+        className={
+          isChild ? '' : 'table-of-contents table-of-contents__left-border'
+        }>
+        {prunedTOC}
+      </ul>
+    );
+  }
 }
 
 function TOCInline({

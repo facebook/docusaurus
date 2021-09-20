@@ -19,12 +19,15 @@ export function TOCHeadings({
   isChild,
   maxHeadingLevel,
   minHeadingLevel,
+  isInnerList,
 }: TOCHeadingsProps): JSX.Element | null {
-  if (!toc.length) {
+  // if no headings or every heading is too deep, return nothing
+  if (!toc.length || toc.every((heading) => heading.level > maxHeadingLevel)) {
     return null;
   }
 
   const prunedTOC = toc.map((heading) => {
+    // return a normal list item if we're between the min and max heading level
     if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
       return (
         <li key={heading.id}>
@@ -43,30 +46,35 @@ export function TOCHeadings({
           />
         </li>
       );
-    } else if (heading.level < minHeadingLevel) {
+      // if we're not at the min level yet AND we have children at future levels, don't
+      // wrap the recursive `TOCHeadings` component with another <ul>
+    } else if (heading.level < minHeadingLevel && heading.children) {
       return (
-        <li key={heading.id}>
-          <TOCHeadings
-            isChild
-            toc={heading.children}
-            maxHeadingLevel={maxHeadingLevel}
-            minHeadingLevel={minHeadingLevel}
-          />
-        </li>
+        <TOCHeadings
+          isChild
+          isInnerList
+          toc={heading.children}
+          maxHeadingLevel={maxHeadingLevel}
+          minHeadingLevel={minHeadingLevel}
+        />
       );
     } else {
       return null;
     }
   });
 
-  return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
-      {prunedTOC}
-    </ul>
-  );
+  if (isInnerList) {
+    return <>{prunedTOC}</>;
+  } else {
+    return (
+      <ul
+        className={
+          isChild ? '' : 'table-of-contents table-of-contents__left-border'
+        }>
+        {prunedTOC}
+      </ul>
+    );
+  }
 }
 
 function TOC({toc, maxHeadingLevel, minHeadingLevel}: TOCProps): JSX.Element {
