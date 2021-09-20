@@ -17,17 +17,19 @@ function HeadingsInline({
   toc,
   isChild,
   maxHeadingLevel,
+  minHeadingLevel,
 }: {
   toc: readonly TOCItem[];
   isChild?: boolean;
   maxHeadingLevel: number;
+  minHeadingLevel: number;
 }) {
   if (!toc.length) {
     return null;
   }
 
   const prunedTOC = toc.map((heading) => {
-    if (heading.level <= maxHeadingLevel) {
+    if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
       return (
         <li key={heading.id}>
           <a
@@ -40,6 +42,18 @@ function HeadingsInline({
             isChild
             toc={heading.children}
             maxHeadingLevel={maxHeadingLevel}
+            minHeadingLevel={minHeadingLevel}
+          />
+        </li>
+      );
+    } else if (heading.level < minHeadingLevel) {
+      return (
+        <li key={heading.id}>
+          <HeadingsInline
+            isChild
+            toc={heading.children}
+            maxHeadingLevel={maxHeadingLevel}
+            minHeadingLevel={minHeadingLevel}
           />
         </li>
       );
@@ -51,15 +65,20 @@ function HeadingsInline({
   return <ul className={isChild ? '' : 'table-of-contents'}>{prunedTOC}</ul>;
 }
 
-function TOCInline({toc, maxHeadingLevel}: TOCInlineProps): JSX.Element {
+function TOCInline({
+  toc,
+  maxHeadingLevel,
+  minHeadingLevel,
+}: TOCInlineProps): JSX.Element {
   const {tableOfContents} = useThemeConfig();
   return (
     <div className={clsx(styles.tableOfContentsInline)}>
       <HeadingsInline
         toc={toc}
         maxHeadingLevel={
-          maxHeadingLevel ?? tableOfContents.maxHeadingLevel ?? 6
+          maxHeadingLevel ?? tableOfContents.maxHeadingLevel ?? 4
         }
+        minHeadingLevel={minHeadingLevel ?? 2}
       />
     </div>
   );

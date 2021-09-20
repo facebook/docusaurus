@@ -32,6 +32,14 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  toc_max_heading_level: Joi.number().min(2).max(6),
+  toc_min_heading_level: Joi.number()
+    .min(2)
+    .max(6)
+    .when('toc_max_heading_level', {
+      is: Joi.number(),
+      then: Joi.number().max(Joi.ref('toc_max_heading_level')),
+    }),
 }).unknown();
 
 export function validateDocFrontMatter(

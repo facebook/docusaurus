@@ -7,31 +7,25 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useTOCHighlight, {
-  Params as TOCHighlightParams,
-} from '@theme/hooks/useTOCHighlight';
+import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
-
-const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
-  linkClassName: LINK_CLASS_NAME,
-  linkActiveClassName: 'table-of-contents__link--active',
-};
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 export function TOCHeadings({
   toc,
   isChild,
   maxHeadingLevel,
+  minHeadingLevel,
 }: TOCHeadingsProps): JSX.Element | null {
   if (!toc.length) {
     return null;
   }
 
   const prunedTOC = toc.map((heading) => {
-    if (heading.level <= maxHeadingLevel) {
+    if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
       return (
         <li key={heading.id}>
           <a
@@ -45,6 +39,18 @@ export function TOCHeadings({
             isChild
             toc={heading.children}
             maxHeadingLevel={maxHeadingLevel}
+            minHeadingLevel={minHeadingLevel}
+          />
+        </li>
+      );
+    } else if (heading.level < minHeadingLevel) {
+      return (
+        <li key={heading.id}>
+          <TOCHeadings
+            isChild
+            toc={heading.children}
+            maxHeadingLevel={maxHeadingLevel}
+            minHeadingLevel={minHeadingLevel}
           />
         </li>
       );
@@ -63,11 +69,21 @@ export function TOCHeadings({
   );
 }
 
-function TOC({toc, maxHeadingLevel}: TOCProps): JSX.Element {
-  useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
+function TOC({toc, maxHeadingLevel, minHeadingLevel}: TOCProps): JSX.Element {
+  const minLevel = minHeadingLevel ?? 2;
+  useTOCHighlight({
+    linkClassName: LINK_CLASS_NAME,
+    linkActiveClassName: 'table-of-contents__link--active',
+    maxHeadingLevel,
+    minHeadingLevel: minLevel,
+  });
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings toc={toc} maxHeadingLevel={maxHeadingLevel} />
+      <TOCHeadings
+        toc={toc}
+        maxHeadingLevel={maxHeadingLevel}
+        minHeadingLevel={minLevel}
+      />
     </div>
   );
 }

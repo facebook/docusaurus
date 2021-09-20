@@ -29,6 +29,8 @@ export default function DocItem(props: Props): JSX.Element {
     keywords,
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
+    toc_max_heading_level: tocMaxHeadingLevel,
+    toc_min_heading_level: tocMinHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
 
@@ -72,7 +74,10 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
-                  maxHeadingLevel={tableOfContents.maxHeadingLevel}
+                  maxHeadingLevel={
+                    tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
+                  }
+                  minHeadingLevel={tocMinHeadingLevel}
                   className={clsx(
                     ThemeClassNames.docs.docTocMobile,
                     styles.tocMobile,
@@ -101,7 +106,10 @@ export default function DocItem(props: Props): JSX.Element {
         {renderTocDesktop && (
           <div className="col col--3">
             <TOC
-              maxHeadingLevel={tableOfContents.maxHeadingLevel}
+              maxHeadingLevel={
+                tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
+              }
+              minHeadingLevel={tocMinHeadingLevel}
               toc={DocContent.toc}
               className={ThemeClassNames.docs.docTocDesktop}
             />

@@ -46,7 +46,11 @@ export default function TOCCollapsible({
         lazy
         className={styles.tocCollapsibleContent}
         collapsed={collapsed}>
-        <TOCHeadings toc={toc} maxHeadingLevel={maxHeadingLevel} />
+        <TOCHeadings
+          toc={toc}
+          maxHeadingLevel={maxHeadingLevel}
+          minHeadingLevel={2}
+        />
       </Collapsible>
     </div>
   );
