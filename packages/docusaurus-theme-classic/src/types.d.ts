@@ -84,6 +84,8 @@ declare module '@theme/BlogLayout' {
   export type Props = LayoutProps & {
     readonly sidebar?: BlogSidebar;
     readonly toc?: readonly TOCItem[];
+    readonly tocMaxHeadingLevel?: number;
+    readonly tocMinHeadingLevel?: number;
   };
 
   const BlogLayout: (props: Props) => JSX.Element;

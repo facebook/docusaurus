@@ -16,7 +16,14 @@ import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogLayout';
 
 function BlogLayout(props: Props): JSX.Element {
-  const {sidebar, toc, children, ...layoutProps} = props;
+  const {
+    sidebar,
+    toc,
+    children,
+    tocMaxHeadingLevel,
+    tocMinHeadingLevel,
+    ...layoutProps
+  } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
   const {tableOfContents} = useThemeConfig();
 
@@ -42,7 +49,10 @@ function BlogLayout(props: Props): JSX.Element {
             <div className="col col--2">
               <TOC
                 toc={toc}
-                maxHeadingLevel={tableOfContents.maxHeadingLevel}
+                maxHeadingLevel={
+                  tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
+                }
+                minHeadingLevel={tocMinHeadingLevel}
               />
             </div>
           )}

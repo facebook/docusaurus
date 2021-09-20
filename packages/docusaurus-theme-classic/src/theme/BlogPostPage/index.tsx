@@ -25,7 +25,12 @@ function BlogPostPage(props: Props): JSX.Element {
     tags,
     authors,
   } = metadata;
-  const {hide_table_of_contents: hideTableOfContents, keywords} = frontMatter;
+  const {
+    hide_table_of_contents: hideTableOfContents,
+    keywords,
+    toc_max_heading_level: tocMaxHeadingLevel,
+    toc_min_heading_level: tocMinHeadingLevel,
+  } = frontMatter;
 
   const image = assets.image ?? frontMatter.image;
 
@@ -38,7 +43,9 @@ function BlogPostPage(props: Props): JSX.Element {
         !hideTableOfContents && BlogPostContents.toc
           ? BlogPostContents.toc
           : undefined
-      }>
+      }
+      tocMaxHeadingLevel={tocMaxHeadingLevel}
+      tocMinHeadingLevel={tocMinHeadingLevel}>
       <Seo
         // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
         // otherwise  default image (set by BlogLayout) would shadow the custom blog post image
