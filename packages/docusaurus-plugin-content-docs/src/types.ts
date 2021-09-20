@@ -229,6 +229,7 @@ export type DocMetadataBase = LastUpdateData & {
   id: string;
   isDocsHomePage: boolean;
   title: string;
+  sidebar_label?: string;
   description: string;
   source: string;
   sourceDirName: string; // relative to the docs folder (can be ".")

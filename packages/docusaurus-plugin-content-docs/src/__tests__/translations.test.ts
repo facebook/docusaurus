@@ -24,7 +24,7 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
     permalink: 'any',
     slug: 'any',
     source: 'any',
-    unversionedId: 'any',
+    unversionedId: `foo/${doc.id}`,
     version: 'any',
     title: `${doc.id} title`,
     sidebar_label: `${doc.id} title`,

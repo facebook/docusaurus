@@ -11,6 +11,7 @@ import {
   LoadedContent,
   Sidebars,
   SidebarItem,
+  DocMetadata,
 } from './types';
 
 import {chain, mapValues, flatten, keyBy} from 'lodash';
@@ -54,9 +55,6 @@ function getNormalizedSidebarName({
   return rest.join('/');
 }
 
-/*
-// Do we need to translate doc metadatas?
-// It seems translating frontmatter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {
@@ -95,7 +93,6 @@ function translateDocs(
 ): DocMetadata[] {
   return docs.map((doc) => translateDoc(doc, docsTranslations));
 }
- */
 
 function getSidebarTranslationFileContent(
   sidebar: Sidebar,
@@ -197,7 +194,7 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
     version,
   );
 
-  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
+  const docsTranslations: TranslationFileContent = getDocsTranslations(version);
 
   return [
     {
@@ -205,7 +202,7 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
       content: mergeTranslations([
         versionTranslations,
         sidebarsTranslations,
-        // docsTranslations,
+        docsTranslations,
       ]),
     },
   ];
@@ -220,7 +217,7 @@ function translateVersion(
     ...version,
     versionLabel: versionTranslations['version.label']?.message,
     sidebars: translateSidebars(version, versionTranslations),
-    // docs: translateDocs(version.docs, versionTranslations),
+    docs: translateDocs(version.docs, versionTranslations),
   };
 }
 
