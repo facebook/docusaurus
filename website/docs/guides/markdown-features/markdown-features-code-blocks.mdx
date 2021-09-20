@@ -461,11 +461,14 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          // highlight-start
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
+          // highlight-end
         },
         pages: {
+          // highlight-next-line
           remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         blog: {
