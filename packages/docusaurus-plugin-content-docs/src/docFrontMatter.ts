@@ -33,13 +33,11 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
   toc_max_heading_level: Joi.number().min(2).max(6),
-  toc_min_heading_level: Joi.number()
-    .min(2)
-    .max(6)
-    .when('toc_max_heading_level', {
-      is: Joi.number(),
-      then: Joi.number().max(Joi.ref('toc_max_heading_level')),
-    }),
+  toc_min_heading_level: Joi.number().when('toc_max_heading_level', {
+    is: Joi.exist(),
+    then: Joi.number().min(2).max(Joi.ref('toc_max_heading_level')),
+    otherwise: Joi.number().min(2).max(6),
+  }),
 }).unknown();
 
 export function validateDocFrontMatter(
