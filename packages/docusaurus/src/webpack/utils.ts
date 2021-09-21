@@ -244,7 +244,7 @@ export function applyConfigurePostCss(
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
