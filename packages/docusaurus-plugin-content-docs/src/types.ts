@@ -101,6 +101,7 @@ export type PluginOptions = MetadataOptions &
     disableVersioning: boolean;
     includeCurrentVersion: boolean;
     sidebarItemsGenerator: SidebarItemsGeneratorOption;
+    tagsBasePath: string;
   };
 
 export type SidebarItemBase = {
