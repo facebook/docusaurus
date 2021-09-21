@@ -53,8 +53,6 @@ function toAssetRequireNode({
   filePath: string;
   requireAssetPath: string;
 }) {
-  /* eslint-disable no-param-reassign */
-
   let relativeRequireAssetPath = posixPath(
     path.relative(path.dirname(filePath), requireAssetPath),
   );

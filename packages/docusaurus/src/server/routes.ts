@@ -37,7 +37,7 @@ const createRouteCodeString = ({
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
-  props: {[propName: string]: any};
+  props: {[propName: string]: unknown};
 }) => {
   const parts = [
     `path: '${routePath}'`,

@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';

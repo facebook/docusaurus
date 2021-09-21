@@ -89,7 +89,7 @@ export function getStyleLoaders(
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: [
-            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            // eslint-disable-next-line global-require
             require('autoprefixer'),
           ],
         },
@@ -244,7 +244,7 @@ export function applyConfigurePostCss(
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
