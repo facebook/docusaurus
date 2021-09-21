@@ -20,6 +20,9 @@ const MarkdownPluginsSchema = Joi.array()
     Joi.function(),
     Joi.object(),
   )
+  .messages({
+    'array.includes': 'remarkPlugins must be the type of function or object',
+  })
   .default([]);
 
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
