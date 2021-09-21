@@ -48,29 +48,20 @@ export default function search(node: Node): TOCItem[] {
 
   visit(node, 'heading', visitor);
 
-  const getParentIndex = (prevParentIndex: number, currLevel: number) => {
-    let parentIndex = prevParentIndex;
-    // We start at the parent of the previous heading
-    // Recurse through its ancestors until the current heading would be a child
-    while (parentIndex >= 0 && currLevel < headings[parentIndex].level) {
-      parentIndex = headings[parentIndex].parentIndex;
-    }
-    return parentIndex >= 0 ? headings[parentIndex].parentIndex : parentIndex;
-  };
+  // Keep track of which previous index would be the current heading's direcy parent.
+  // Each entry <i> is the last index of the `headings` array at heading level <i>.
+  // We will modify these indices as we iterate through all headings.
+  // e.g. if an ### H3 was last seen at index 2, then prevIndexForLevel[3] === 2
+  // indices 0 and 1 will remain unused.
+  const prevIndexForLevel = Array(7).fill(-1);
 
-  // Assign the correct `parentIndex` for each heading.
   headings.forEach((curr, currIndex) => {
-    if (currIndex > 0) {
-      const prevIndex = currIndex - 1;
-      const prev = headings[prevIndex];
-      if (curr.level > prev.level) {
-        curr.parentIndex = prevIndex;
-      } else if (curr.level < prev.level) {
-        curr.parentIndex = getParentIndex(prev.parentIndex, curr.level);
-      } else {
-        curr.parentIndex = prev.parentIndex;
-      }
-    }
+    // take the last seen index for each ancestor level. the highest
+    // index will be the direct ancestor of the current heading.
+    const ancestorLevelIndexes = prevIndexForLevel.slice(2, curr.level);
+    curr.parentIndex = Math.max(...ancestorLevelIndexes);
+    // mark that curr.level was last seen at the current index
+    prevIndexForLevel[curr.level] = currIndex;
   });
 
   const rootNodeIndexes: number[] = [];
