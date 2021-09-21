@@ -22,6 +22,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-lunr-search](https://github.com/lelouch77/docusaurus-lunr-search) - Offline Search for Docusaurus v2
 - [docusaurus-search-local](https://github.com/cmfcmf/docusaurus-search-local) - Offline/local search for Docusaurus v2
 - [@easyops-cn/docusaurus-search-local](https://github.com/easyops-cn/docusaurus-search-local) - Offline/local search for Docusaurus v2 (language of zh supported)
+- [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) - Docusaurus v2 plugin for [Typesense DocSearch](https://typesense.org/docs/latest/guide/docsearch.html).
 
 ### Integrations {#integrations}
 
