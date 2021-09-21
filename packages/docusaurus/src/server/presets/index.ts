@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Module from 'module';
+import {createRequire} from 'module';
 import importFresh from 'import-fresh';
 import {
   LoadContext,
@@ -22,9 +22,6 @@ export default function loadPresets(
 } {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
-  // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
-  // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
-  const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(context.siteConfigPath);
 
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];

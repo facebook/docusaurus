@@ -33,6 +33,7 @@ export const ThemeClassNames = {
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
+    backToTopButton: 'theme-back-to-top-button',
   },
   layout: {
     // TODO add other stable classNames here

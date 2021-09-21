@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "Zamknij",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "Skopiowano!",
   "theme.CodeBlock.copy": "Kopiuj",
   "theme.CodeBlock.copyButtonAriaLabel": "Kopiuj do schowka",

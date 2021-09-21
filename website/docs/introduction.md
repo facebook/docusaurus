@@ -177,7 +177,7 @@ In comparison with statically generated HTML and interactivity added using `<scr
 - [GitHub](https://github.com/facebook/docusaurus)
 - [Twitter](https://twitter.com/docusaurus)
 - [Blog](/blog)
-- [Discord](https://discord.gg/Je6Ash6)
+- [Discord](https://discord.gg/docusaurus)
 
 ## Something missing? {#something-missing}
 

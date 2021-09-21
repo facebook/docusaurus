@@ -8,9 +8,11 @@
 import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
 import {useLocation} from '@docusaurus/router';
+import {translate} from '@docusaurus/Translate';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 const threshold = 300;
 
@@ -106,18 +108,22 @@ function BackToTopButton(): JSX.Element {
 
   return (
     <button
-      className={clsx('clean-btn', styles.backToTopButton, {
-        [styles.backToTopButtonShow]: show,
+      aria-label={translate({
+        id: 'theme.BackToTopButton.buttonAriaLabel',
+        message: 'Scroll back to top',
+        description: 'The ARIA label for the back to top button',
       })}
+      className={clsx(
+        'clean-btn',
+        ThemeClassNames.common.backToTopButton,
+        styles.backToTopButton,
+        {
+          [styles.backToTopButtonShow]: show,
+        },
+      )}
       type="button"
-      onClick={() => smoothScrollTop()}>
-      <svg viewBox="0 0 24 24" width="28">
-        <path
-          d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
-          fill="currentColor"
-        />
-      </svg>
-    </button>
+      onClick={() => smoothScrollTop()}
+    />
   );
 }
 

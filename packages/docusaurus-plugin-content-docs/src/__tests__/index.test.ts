@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';

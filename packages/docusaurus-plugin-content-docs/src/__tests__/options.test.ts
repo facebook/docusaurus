@@ -40,6 +40,7 @@ describe('normalizeDocsPluginOptions', () => {
     const userOptions = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
+      tagsBasePath: 'tags', // URL Tags Route.
       homePageId: 'home', // Document id for docs home page.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       exclude: GlobExcludeDefault,

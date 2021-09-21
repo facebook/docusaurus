@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "閉じる",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "コピーしました",
   "theme.CodeBlock.copy": "コピー",
   "theme.CodeBlock.copyButtonAriaLabel": "クリップボードにコードをコピー",
