@@ -15,7 +15,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/test'],
+      [{routePath: '/'}, {routePath: '/test'}],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -40,7 +40,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/404.html', '/mypage'],
+      [{routePath: '/'}, {routePath: '/404.html'}, {routePath: '/mypage'}],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -56,7 +56,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: undefined,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [
+        {routePath: '/'},
+        {routePath: '/test'},
+        {routePath: '/nested/test'},
+        {routePath: '/nested/test2/'},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -75,7 +80,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: true,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [
+        {routePath: '/'},
+        {routePath: '/test'},
+        {routePath: '/nested/test'},
+        {routePath: '/nested/test2/'},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -94,7 +104,12 @@ describe('createSitemap', () => {
         url: 'https://example.com',
         trailingSlash: false,
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [
+        {routePath: '/'},
+        {routePath: '/test'},
+        {routePath: '/nested/test'},
+        {routePath: '/nested/test2/'},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -112,7 +127,12 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
+      [
+        {routePath: '/'},
+        {routePath: '/test'},
+        {routePath: '/nested/test'},
+        {routePath: '/nested/test2/'},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,

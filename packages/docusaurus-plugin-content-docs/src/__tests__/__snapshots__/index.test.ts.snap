@@ -563,6 +563,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -572,6 +573,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/hello.md",
         },
@@ -581,6 +583,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
@@ -589,6 +592,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
@@ -598,6 +602,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/foo/baz.md",
         },
@@ -607,6 +612,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/headingAsTitle.md",
         },
@@ -615,6 +621,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/rootResolvedSlug.md",
         },
@@ -623,6 +630,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/ipsum.md",
         },
@@ -631,6 +639,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/lorem.md",
         },
@@ -639,6 +648,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/rootAbsoluteSlug.md",
         },
@@ -647,6 +657,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/rootRelativeSlug.md",
         },
@@ -655,6 +666,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/rootTryToEscapeSlug.md",
         },
@@ -663,6 +675,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/resolvedSlug.md",
         },
@@ -671,6 +684,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/relativeSlug.md",
         },
@@ -679,6 +693,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/tryToEscapeSlug.md",
         },
@@ -957,6 +972,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -966,6 +982,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
@@ -977,6 +994,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
@@ -986,6 +1004,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
@@ -1702,6 +1721,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
@@ -1711,6 +1731,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
@@ -1720,6 +1741,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
@@ -1729,6 +1751,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
@@ -1740,6 +1763,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -1749,6 +1773,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/hello.md",
         },
@@ -1758,6 +1783,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
@@ -1766,6 +1792,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
@@ -1775,6 +1802,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/resolvedSlug.md",
         },
@@ -1783,6 +1811,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/relativeSlug.md",
         },
@@ -1791,6 +1820,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/docs/slugs/tryToEscapeSlug.md",
         },
@@ -1801,6 +1831,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-with-slugs-metadata-prop-2bf.json",
     },
@@ -1810,6 +1841,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
         },
@@ -1818,6 +1850,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/rootResolvedSlug.md",
         },
@@ -1826,6 +1859,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
@@ -1835,6 +1869,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/rootRelativeSlug.md",
         },
@@ -1843,6 +1878,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
         },
@@ -1851,6 +1887,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
         },
@@ -1859,6 +1896,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
         },
@@ -1867,6 +1905,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
         },
@@ -1877,6 +1916,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
+    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-1-metadata-prop-e87.json",
     },
@@ -1886,6 +1926,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
@@ -1895,6 +1936,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": null,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },

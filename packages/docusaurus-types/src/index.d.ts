@@ -149,6 +149,11 @@ export type ConfigOptions = {
   config: string;
 };
 
+export type RouteInfo = {
+  routePath: string;
+  lastmod?: number;
+};
+
 export type StartCLIOptions = HostPortCLIOptions &
   ConfigOptions & {
     hotOnly: boolean;
@@ -197,7 +202,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   siteMetadata: DocusaurusSiteMetadata;
   routes: RouteConfig[];
-  routesPaths: string[];
+  routesPaths: RouteInfo[];
   plugins: LoadedPlugin[];
 }
 

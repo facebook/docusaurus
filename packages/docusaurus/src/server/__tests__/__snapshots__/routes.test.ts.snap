@@ -52,8 +52,13 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    "/404.html",
-    "/blog",
+    Object {
+      "routePath": "/404.html",
+    },
+    Object {
+      "lastmod": undefined,
+      "routePath": "/blog",
+    },
   ],
 }
 `;
@@ -135,9 +140,17 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    "/404.html",
-    "/docs/hello",
-    "docs/foo/baz",
+    Object {
+      "routePath": "/404.html",
+    },
+    Object {
+      "lastmod": undefined,
+      "routePath": "/docs/hello",
+    },
+    Object {
+      "lastmod": undefined,
+      "routePath": "docs/foo/baz",
+    },
   ],
 }
 `;
@@ -171,8 +184,13 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    "/404.html",
-    "",
+    Object {
+      "routePath": "/404.html",
+    },
+    Object {
+      "lastmod": undefined,
+      "routePath": "",
+    },
   ],
 }
 `;

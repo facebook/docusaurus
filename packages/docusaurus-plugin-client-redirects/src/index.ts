@@ -29,7 +29,8 @@ export default function pluginClientRedirectsPages(
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
-          (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,
+          (path) =>
+            `${addLeadingSlash(removePrefix(path.routePath, props.baseUrl))}`,
         ),
         baseUrl: props.baseUrl,
         outDir: props.outDir,

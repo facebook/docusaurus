@@ -7,13 +7,13 @@
 
 import {SitemapStream, streamToPromise} from 'sitemap';
 import {PluginOptions} from './types';
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig, RouteInfo} from '@docusaurus/types';
 import {addTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
-  routesPaths: string[],
+  routesPaths: RouteInfo[],
   options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
@@ -40,14 +40,23 @@ export default async function createSitemap(
   }
 
   routesPaths
-    .filter((route) => !route.endsWith('404.html'))
-    .map((routePath) =>
-      sitemapStream.write({
-        url: applySitemapTrailingSlash(routePath),
-        changefreq,
-        priority,
-      }),
-    );
+    .filter((route) => !route.routePath.endsWith('404.html'))
+    .map((routePath) => {
+      if (typeof routePath.lastmod === 'number') {
+        sitemapStream.write({
+          url: applySitemapTrailingSlash(routePath.routePath),
+          changefreq,
+          priority,
+          lastmod: routePath.lastmod,
+        });
+      } else {
+        sitemapStream.write({
+          url: applySitemapTrailingSlash(routePath.routePath),
+          changefreq,
+          priority,
+        });
+      }
+    });
 
   sitemapStream.end();
 

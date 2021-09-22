@@ -51,7 +51,7 @@ async function readLastUpdateData(
         ? await getFileLastUpdate(filePath)
         : {
             author: 'Author',
-            timestamp: 1539502055,
+            timestamp: 1539502055, // seconds
           };
 
     if (fileLastUpdateData) {

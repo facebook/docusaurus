@@ -283,7 +283,8 @@ export default function pluginContentDocs(
 
       const createDocRoutes = async (
         docs: DocMetadata[],
-      ): Promise<RouteConfig[]> => {
+      ): Promise<{routes: RouteConfig[]; lastmod: number}> => {
+        const lastModifiedArray: number[] = [];
         const routes = await Promise.all(
           docs.map(async (metadataItem) => {
             await createData(
@@ -305,13 +306,24 @@ export default function pluginContentDocs(
               ...(metadataItem.sidebar && {
                 sidebar: metadataItem.sidebar,
               }),
+              // Pass lastMod date for routes in milliseconds
+              lastmod: metadataItem.lastUpdatedAt
+                ? metadataItem.lastUpdatedAt * 1000
+                : null,
             };
-
+            if (typeof metadataItem.lastUpdatedAt !== 'undefined') {
+              lastModifiedArray.push(metadataItem.lastUpdatedAt);
+            }
             return docRoute;
           }),
         );
 
-        return routes.sort((a, b) => a.path.localeCompare(b.path));
+        return {
+          routes: routes.sort((a, b) => a.path.localeCompare(b.path)),
+          lastmod: lastModifiedArray.reduce((a, b) => {
+            return Math.max(a, b);
+          }, 0),
+        };
       };
 
       async function doCreateVersionRoutes(
@@ -325,6 +337,8 @@ export default function pluginContentDocs(
           JSON.stringify(versionMetadata, null, 2),
         );
 
+        const {routes, lastmod} = await createDocRoutes(loadedVersion.docs);
+
         addRoute({
           path: loadedVersion.versionPath,
           // allow matching /docs/* as well
@@ -332,11 +346,12 @@ export default function pluginContentDocs(
           // main docs component (DocPage)
           component: docLayoutComponent,
           // sub-routes for each doc
-          routes: await createDocRoutes(loadedVersion.docs),
+          routes,
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },
           priority: loadedVersion.routePriority,
+          lastmod: lastmod ? lastmod * 1000 : null, // unixtime(seconds) to milliseconds
         });
       }
 

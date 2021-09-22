@@ -272,6 +272,8 @@ export default function pluginContentBlog(
       );
 
       // Create routes for blog entries.
+      // add date catcher to get latest date?
+      const lastMods: Date[] = [];
       await Promise.all(
         blogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
@@ -290,7 +292,9 @@ export default function pluginContentBlog(
               sidebar: aliasedSource(sidebarProp),
               content: metadata.source,
             },
+            lastmod: metadata.date.getTime(), // Date object
           });
+          lastMods.push(metadata.date);
 
           blogItemsToMetadata[id] = metadata;
         }),
@@ -304,6 +308,14 @@ export default function pluginContentBlog(
           const pageMetadataPath = await createData(
             `${docuHash(permalink)}.json`,
             JSON.stringify(metadata, null, 2),
+          );
+          const lastMod = new Date(
+            Math.max.apply(
+              null,
+              lastMods.map((date) => {
+                return date.getTime();
+              }),
+            ),
           );
 
           addRoute({
@@ -326,6 +338,7 @@ export default function pluginContentBlog(
               }),
               metadata: aliasedSource(pageMetadataPath),
             },
+            lastmod: lastMod.getTime(),
           });
         }),
       );
