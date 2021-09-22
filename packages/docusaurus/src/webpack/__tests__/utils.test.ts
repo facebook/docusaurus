@@ -285,7 +285,6 @@ describe('extending PostCSS', () => {
     expect(postCssLoader1.loader).toEqual('postcss-loader-1');
 
     const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
-      // @ts-expect-error: relax type
       (p: unknown) => p[0],
     );
     expect(pluginNames1).toHaveLength(4);
@@ -301,7 +300,6 @@ describe('extending PostCSS', () => {
     expect(postCssLoader2.loader).toEqual('postcss-loader-2');
 
     const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
-      // @ts-expect-error: relax type
       (p: unknown) => p[0],
     );
     expect(pluginNames2).toHaveLength(4);

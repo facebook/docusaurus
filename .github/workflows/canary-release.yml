@@ -3,7 +3,7 @@ name: Canary Release
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'packages/**'
 
@@ -15,6 +15,8 @@ jobs:
         node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -24,7 +26,7 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout master
+          git checkout main
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           cat .npmrc
           echo "npm whoami"

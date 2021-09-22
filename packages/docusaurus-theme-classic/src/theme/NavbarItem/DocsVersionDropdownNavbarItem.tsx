@@ -15,9 +15,11 @@ import {
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {translate} from '@docusaurus/Translate';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
 
-const getVersionMainDoc = (version) =>
-  version.docs.find((doc) => doc.id === version.mainDocId);
+const getVersionMainDoc = (version: GlobalDataVersion) =>
+  version.docs.find((doc) => doc.id === version.mainDocId)!;
 
 export default function DocsVersionDropdownNavbarItem({
   mobile,
@@ -62,7 +64,15 @@ export default function DocsVersionDropdownNavbarItem({
     activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
   // Mobile dropdown is handled a bit differently
-  const dropdownLabel = mobile && items ? 'Versions' : dropdownVersion.label;
+  const dropdownLabel =
+    mobile && items
+      ? translate({
+          id: 'theme.navbar.mobileVersionsDropdown.label',
+          message: 'Versions',
+          description:
+            'The label for the navbar versions dropdown on mobile view',
+        })
+      : dropdownVersion.label;
   const dropdownTo =
     mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
 

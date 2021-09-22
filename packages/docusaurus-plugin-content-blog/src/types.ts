@@ -6,7 +6,8 @@
  */
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import {
+import type {Tag} from '@docusaurus/utils';
+import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
@@ -14,15 +15,11 @@ import {
 export type BlogContentPaths = ContentPaths;
 
 export interface BlogContent {
+  blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
   blogTagsListPath: string | null;
-}
-
-export interface DateLink {
-  date: Date;
-  link: string;
 }
 
 export type FeedType = 'rss' | 'atom';
@@ -34,13 +31,15 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
-export interface PluginOptions extends RemarkAndRehypePluginOptions {
+export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
   routeBasePath: string;
+  tagsBasePath: string;
+  archiveBasePath: string;
   include: string[];
   exclude: string[];
-  postsPerPage: number;
+  postsPerPage: number | 'ALL';
   blogListComponent: string;
   blogPostComponent: string;
   blogTagsListComponent: string;
@@ -52,7 +51,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type?: [FeedType] | null;
+    type?: FeedType[] | null;
     title?: string;
     description?: string;
     copyright: string;
@@ -61,7 +60,8 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editUrl?: string | EditUrlFunction;
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
-}
+  authorsMapPath: string;
+};
 
 export interface BlogTags {
   [key: string]: BlogTag;
@@ -95,28 +95,37 @@ export interface BlogPaginated {
   items: string[];
 }
 
+// We allow passing custom fields to authors, e.g., twitter
+export interface Author extends Record<string, unknown> {
+  name?: string;
+  imageURL?: string;
+  url?: string;
+  title?: string;
+}
+
 export interface MetaData {
   permalink: string;
   source: string;
   description: string;
   date: Date;
   formattedDate: string;
-  tags: (Tag | string)[];
+  tags: Tag[];
   title: string;
   readingTime?: number;
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
   editUrl?: string;
+  authors: Author[];
+}
+
+export interface Assets {
+  image?: string;
+  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
 }
 
 export interface Paginator {
   title: string;
-  permalink: string;
-}
-
-export interface Tag {
-  label: string;
   permalink: string;
 }
 

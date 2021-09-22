@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "סגור",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "הועתק",
   "theme.CodeBlock.copy": "העתק",
   "theme.CodeBlock.copyButtonAriaLabel": "העתק קוד ללוח העריכה",
@@ -21,6 +22,8 @@
   "theme.SearchPage.inputPlaceholder": "הקלד כאן לחיפוש",
   "theme.SearchPage.noResultsText": "לא נמצאו תוצאות",
   "theme.TOCCollapsible.toggleButtonLabel": "בעמוד זה",
+  "theme.blog.archive.description": "Archive",
+  "theme.blog.archive.title": "Archive",
   "theme.blog.paginator.navAriaLabel": "רשימת דפי הבלוג",
   "theme.blog.paginator.newerEntries": "הכי חדש",
   "theme.blog.paginator.olderEntries": "ישן יותר",
@@ -42,6 +45,8 @@
   "theme.docs.sidebar.collapseButtonTitle": "סגור",
   "theme.docs.sidebar.expandButtonAriaLabel": "פתח",
   "theme.docs.sidebar.expandButtonTitle": "פתח",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
   "theme.docs.versions.latestVersionLinkLabel": "גרסא אחרונה",
   "theme.docs.versions.latestVersionSuggestionLabel": "לדוקומנטאציה עדכנית, ראה {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "דוקומנטאציה זו {siteTitle} {versionLabel}, כבר לא נתמכת.",
@@ -50,6 +55,7 @@
   "theme.lastUpdated.byUser": " על ידי {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "עודכן{atDate}{byUser}",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← חזרה לתפריט הראשי",
+  "theme.navbar.mobileVersionsDropdown.label": "Versions",
   "theme.tags.tagsListLabel": "תגיות:",
   "theme.tags.tagsPageLink": "כל התגיות",
   "theme.tags.tagsPageTitle": "תגיות"

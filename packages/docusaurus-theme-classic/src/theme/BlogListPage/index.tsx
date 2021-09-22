@@ -38,6 +38,7 @@ function BlogListPage(props: Props): JSX.Element {
         <BlogPostItem
           key={BlogPostContent.metadata.permalink}
           frontMatter={BlogPostContent.frontMatter}
+          assets={BlogPostContent.assets}
           metadata={BlogPostContent.metadata}
           truncated={BlogPostContent.metadata.truncated}>
           <BlogPostContent />

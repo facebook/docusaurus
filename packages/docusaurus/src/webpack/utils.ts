@@ -33,6 +33,7 @@ import {
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
+  WEBPACK_URL_LOADER_LIMIT,
 } from '../constants';
 import {memoize} from 'lodash';
 
@@ -89,7 +90,7 @@ export function getStyleLoaders(
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: [
-            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            // eslint-disable-next-line global-require
             require('autoprefixer'),
           ],
         },
@@ -244,7 +245,7 @@ export function applyConfigurePostCss(
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
@@ -326,8 +327,8 @@ type FileLoaderUtils = {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < 10kb will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = 10000;
+  // files/images < urlLoaderLimit will be inlined as base64 strings directly in the html
+  const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
@@ -561,6 +562,7 @@ export function getMinimizer(
             level: {
               1: {
                 all: false,
+                removeWhitespace: true,
               },
               2: {
                 all: true,

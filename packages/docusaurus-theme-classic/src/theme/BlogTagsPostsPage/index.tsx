@@ -32,7 +32,7 @@ function useBlogPostsPlural() {
     );
 }
 
-function BlogTagsPostPage(props: Props): JSX.Element {
+export default function BlogTagsPostsPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
   const blogPostsPlural = useBlogPostsPlural();
@@ -49,7 +49,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     <BlogLayout
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogTagsPostPage}
+      pageClassName={ThemeClassNames.page.blogTagPostListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',
@@ -71,6 +71,7 @@ function BlogTagsPostPage(props: Props): JSX.Element {
         <BlogPostItem
           key={BlogPostContent.metadata.permalink}
           frontMatter={BlogPostContent.frontMatter}
+          assets={BlogPostContent.assets}
           metadata={BlogPostContent.metadata}
           truncated>
           <BlogPostContent />
@@ -79,5 +80,3 @@ function BlogTagsPostPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogTagsPostPage;

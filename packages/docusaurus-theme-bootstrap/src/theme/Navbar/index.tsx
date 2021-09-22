@@ -7,7 +7,7 @@
 
 import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLogo from '@theme/hooks/useLogo';
 import {
@@ -18,6 +18,16 @@ import {
   NavItem as NavItemBase,
 } from 'reactstrap';
 
+interface NavItemProps {
+  activeBasePath?: string;
+  activeBaseRegex?: RegExp;
+  href?: string;
+  label?: string;
+  to?: string;
+  activeClassName?: string;
+  prependBaseUrlToHref?: boolean;
+}
+
 function NavItem({
   activeBasePath,
   activeBaseRegex,
@@ -27,7 +37,7 @@ function NavItem({
   activeClassName = 'nav-link text-info',
   prependBaseUrlToHref,
   ...props
-}) {
+}: NavItemProps) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
@@ -63,12 +73,7 @@ function NavItem({
 }
 
 function Navbar(): JSX.Element {
-  const {
-    siteConfig: {
-      themeConfig: {navbar: {title = '', items: links = []} = {}},
-    },
-    isClient,
-  } = useDocusaurusContext();
+  const {navbar: {title = '', items: links = []} = {}} = useThemeConfig();
 
   const [navbarShown, setNavbarShown] = useState(false);
   const handleNavbarToggle = useCallback(() => {
@@ -86,7 +91,6 @@ function Navbar(): JSX.Element {
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img
-            key={isClient}
             width="50"
             height="50"
             style={{

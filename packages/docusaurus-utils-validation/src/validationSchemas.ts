@@ -6,6 +6,8 @@
  */
 import Joi from './Joi';
 import {isValidPathname} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/utils';
+import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[a-zA-Z_-]+$/)
@@ -42,7 +44,10 @@ export const URISchema = Joi.alternatives(
       return helpers.error('any.invalid');
     }
   }),
-);
+).messages({
+  'alternatives.match':
+    "{{#label}} does not look like a valid url (value='{{.value}}')",
+});
 
 export const PathnameSchema = Joi.string()
   .custom((val) => {
@@ -55,3 +60,23 @@ export const PathnameSchema = Joi.string()
   .message(
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
+
+const FrontMatterTagSchema = JoiFrontMatter.alternatives()
+  .try(
+    JoiFrontMatter.string().required(),
+    JoiFrontMatter.object<Tag>({
+      label: JoiFrontMatter.string().required(),
+      permalink: JoiFrontMatter.string().required(),
+    }).required(),
+  )
+  .messages({
+    'alternatives.match': '{{#label}} does not look like a valid tag',
+    'alternatives.types': '{{#label}} does not look like a valid tag',
+  });
+
+export const FrontMatterTagsSchema = JoiFrontMatter.array()
+  .items(FrontMatterTagSchema)
+  .messages({
+    'array.base':
+      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+  });

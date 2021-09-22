@@ -47,10 +47,6 @@ function useWindowSize(): WindowSize {
   });
 
   useEffect(() => {
-    if (!ExecutionEnvironment.canUseDOM) {
-      return undefined;
-    }
-
     function updateWindowSize() {
       setWindowSize(getWindowSize());
     }

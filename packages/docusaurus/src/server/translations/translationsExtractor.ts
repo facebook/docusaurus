@@ -80,6 +80,7 @@ export async function extractSiteSourceCodeTranslations(
   siteDir: string,
   plugins: InitializedPlugin[],
   babelOptions: TransformOptions,
+  extraSourceCodeFilePaths: string[] = [],
 ): Promise<TranslationFileContent> {
   // Should we warn here if the same translation "key" is found in multiple source code files?
   function toTranslationFileContent(
@@ -92,8 +93,13 @@ export async function extractSiteSourceCodeTranslations(
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);
 
+  const allSourceCodeFilePaths = [
+    ...sourceCodeFilePaths,
+    ...extraSourceCodeFilePaths,
+  ];
+
   const sourceCodeFilesTranslations = await extractAllSourceCodeFileTranslations(
-    sourceCodeFilePaths,
+    allSourceCodeFilePaths,
     babelOptions,
   );
 

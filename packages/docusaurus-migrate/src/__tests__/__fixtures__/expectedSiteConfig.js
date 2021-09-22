@@ -40,7 +40,7 @@ module.exports = {
           homePageId: 'installation',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/docs/',
         },
         blog: {},
         theme: {},

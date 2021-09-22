@@ -18,9 +18,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
 import packageJson from '../../package.json';
-// eslint-disable-next-line import/no-unresolved
 import preload from './preload';
-// eslint-disable-next-line import/no-unresolved
 import App from './App';
 import {
   createStatefulLinksCollector,

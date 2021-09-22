@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.6",
   "description": "Docusaurus module type aliases.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "url": "https://github.com/facebook/docusaurus.git",
     "directory": "packages/docusaurus-module-type-aliases"
   },
-  "devDependencies": {
+  "dependencies": {
     "@types/react": "*",
     "@types/react-helmet": "*",
     "@types/react-loadable": "*",

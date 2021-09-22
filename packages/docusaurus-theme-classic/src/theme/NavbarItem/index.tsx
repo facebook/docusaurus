@@ -16,7 +16,9 @@ import type {Types, Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents: Record<
   Exclude<Types, undefined>,
-  () => (props) => JSX.Element
+  // TODO: properly type this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  () => (props: any) => JSX.Element
 > = {
   default: () => DefaultNavbarItem,
   localeDropdown: () => LocaleDropdownNavbarItem,
@@ -54,6 +56,9 @@ function getComponentType(
   }
   return type as NavbarItemComponentType;
 }
+
+export const getInfimaActiveClassName = (mobile?: boolean): string =>
+  mobile ? 'menu__link--active' : 'navbar__link--active';
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const componentType = getComponentType(

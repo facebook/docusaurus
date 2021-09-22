@@ -1,5 +1,6 @@
 ---
 slug: /
+tags: [a, b, c, some tag]
 ---
 
 # Docs tests

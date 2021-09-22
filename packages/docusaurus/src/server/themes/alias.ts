@@ -11,6 +11,20 @@ import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
 import {ThemeAliases} from '@docusaurus/types';
 import {sortBy} from 'lodash';
 
+// Order of Webpack aliases is important because one alias can shadow another
+// This ensure @theme/NavbarItem alias is after @theme/NavbarItem/LocaleDropdown
+// See https://github.com/facebook/docusaurus/pull/3922
+// See https://github.com/facebook/docusaurus/issues/5382
+export function sortAliases(aliases: ThemeAliases): ThemeAliases {
+  // Alphabetical order by default
+  const entries = sortBy(Object.entries(aliases), ([alias]) => alias);
+  // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
+  entries.sort(([alias1], [alias2]) => {
+    return alias1.includes(`${alias2}/`) ? -1 : 0;
+  });
+  return Object.fromEntries(entries);
+}
+
 // TODO make async
 export default function themeAlias(
   themePath: string,
@@ -24,15 +38,9 @@ export default function themeAlias(
     cwd: themePath,
   });
 
-  // See https://github.com/facebook/docusaurus/pull/3922
-  // ensure @theme/NavbarItem alias is created after @theme/NavbarItem/LocaleDropdown
-  const sortedThemeComponentFiles = sortBy(themeComponentFiles, (file) =>
-    file.endsWith('/index.js'),
-  );
-
   const aliases: ThemeAliases = {};
 
-  sortedThemeComponentFiles.forEach((relativeSource) => {
+  themeComponentFiles.forEach((relativeSource) => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
 
@@ -50,5 +58,5 @@ export default function themeAlias(
     }
   });
 
-  return aliases;
+  return sortAliases(aliases);
 }

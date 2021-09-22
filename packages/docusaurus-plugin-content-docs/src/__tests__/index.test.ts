@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
@@ -60,6 +58,7 @@ const defaultDocMetadata: Partial<DocMetadata> = {
   lastUpdatedAt: undefined,
   lastUpdatedBy: undefined,
   formattedLastUpdatedAt: undefined,
+  tags: [],
 };
 
 const createFakeActions = (contentDir: string) => {
@@ -364,7 +363,23 @@ describe('simple website', () => {
         title: 'baz',
         slug: 'bazSlug.html',
         pagination_label: 'baz pagination_label',
+        tags: [
+          'tag 1',
+          'tag-1', // This one will be de-duplicated as it would lead to the same permalink as the first
+          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
+        ],
       },
+
+      tags: [
+        {
+          label: 'tag 1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 2',
+          permalink: '/docs/tags/tag2-custom-permalink',
+        },
+      ],
     });
 
     expect(findDocById(currentVersion, 'hello')).toEqual({
@@ -392,7 +407,18 @@ describe('simple website', () => {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        tags: ['tag-1', 'tag 3'],
       },
+      tags: [
+        {
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 3',
+          permalink: '/docs/tags/tag-3',
+        },
+      ],
     });
 
     expect(getDocById(currentVersion, 'foo/bar')).toEqual({
@@ -579,6 +605,11 @@ describe('versioned website', () => {
       description: 'This is next version of bar.',
       frontMatter: {
         slug: 'barSlug',
+        tags: [
+          'barTag 1',
+          'barTag-2',
+          {label: 'barTag 3', permalink: 'barTag-3-permalink'},
+        ],
       },
       version: 'current',
       sidebar: 'docs',
@@ -586,6 +617,11 @@ describe('versioned website', () => {
         title: 'hello',
         permalink: '/docs/next/',
       },
+      tags: [
+        {label: 'barTag 1', permalink: '/docs/next/tags/bar-tag-1'},
+        {label: 'barTag-2', permalink: '/docs/next/tags/bar-tag-2'},
+        {label: 'barTag 3', permalink: '/docs/next/tags/barTag-3-permalink'},
+      ],
     });
     expect(getDocById(currentVersion, 'hello')).toEqual({
       ...defaultDocMetadata,

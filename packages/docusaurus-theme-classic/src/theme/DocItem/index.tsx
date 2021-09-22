@@ -8,21 +8,20 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {useActivePlugin, useVersions} from '@theme/hooks/useDocs';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
-import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
+import DocItemFooter from '@theme/DocItemFooter';
 import TOC from '@theme/TOC';
 import TOCCollapsible from '@theme/TOCCollapsible';
-import EditThisPage from '@theme/EditThisPage';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
-function DocItem(props: Props): JSX.Element {
+export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
   const {metadata, frontMatter} = DocContent;
   const {
@@ -31,22 +30,7 @@ function DocItem(props: Props): JSX.Element {
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
-  const {
-    description,
-    title,
-    editUrl,
-    lastUpdatedAt,
-    formattedLastUpdatedAt,
-    lastUpdatedBy,
-  } = metadata;
-
-  const {pluginId} = useActivePlugin({failfast: true});
-  const versions = useVersions(pluginId);
-
-  // If site is not versioned or only one version is included
-  // we don't show the version badge
-  // See https://github.com/facebook/docusaurus/issues/3362
-  const showVersionBadge = versions.length > 1;
+  const {description, title} = metadata;
 
   // We only add a title if:
   // - user asks to hide it with frontmatter
@@ -74,8 +58,12 @@ function DocItem(props: Props): JSX.Element {
           <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
-              {showVersionBadge && (
-                <span className="badge badge--secondary">
+              {versionMetadata.badge && (
+                <span
+                  className={clsx(
+                    ThemeClassNames.docs.docVersionBadge,
+                    'badge badge--secondary',
+                  )}>
                   Version: {versionMetadata.label}
                 </span>
               )}
@@ -83,11 +71,15 @@ function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
-                  className={styles.tocMobile}
+                  className={clsx(
+                    ThemeClassNames.docs.docTocMobile,
+                    styles.tocMobile,
+                  )}
                 />
               )}
 
-              <div className="markdown">
+              <div
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
                 Title can be declared inside md content or declared through frontmatter and added manually
                 To make both cases consistent, the added title is added under the same div.markdown block
@@ -98,23 +90,7 @@ function DocItem(props: Props): JSX.Element {
                 <DocContent />
               </div>
 
-              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <footer className="row docusaurus-mt-lg">
-                  <div className="col">
-                    {editUrl && <EditThisPage editUrl={editUrl} />}
-                  </div>
-
-                  <div className={clsx('col', styles.lastUpdated)}>
-                    {(lastUpdatedAt || lastUpdatedBy) && (
-                      <LastUpdated
-                        lastUpdatedAt={lastUpdatedAt}
-                        formattedLastUpdatedAt={formattedLastUpdatedAt}
-                        lastUpdatedBy={lastUpdatedBy}
-                      />
-                    )}
-                  </div>
-                </footer>
-              )}
+              <DocItemFooter {...props} />
             </article>
 
             <DocPaginator metadata={metadata} />
@@ -122,12 +98,13 @@ function DocItem(props: Props): JSX.Element {
         </div>
         {renderTocDesktop && (
           <div className="col col--3">
-            <TOC toc={DocContent.toc} />
+            <TOC
+              toc={DocContent.toc}
+              className={ThemeClassNames.docs.docTocDesktop}
+            />
           </div>
         )}
       </div>
     </>
   );
 }
-
-export default DocItem;

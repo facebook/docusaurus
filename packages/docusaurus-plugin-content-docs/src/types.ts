@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import {
+import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
@@ -28,9 +28,12 @@ export type VersionMetadata = ContentPaths & {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
+  tagsPath: string;
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
-  versionBanner: VersionBanner;
+  versionBanner: VersionBanner | null;
+  versionBadge: boolean;
+  versionClassName: string;
   isLast: boolean;
   sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
@@ -61,12 +64,14 @@ export type PathOptions = {
 };
 
 // TODO support custom version banner? {type: "error", content: "html content"}
-export type VersionBanner = 'none' | 'unreleased' | 'unmaintained';
+export type VersionBanner = 'unreleased' | 'unmaintained';
 
 export type VersionOptions = {
   path?: string;
   label?: string;
-  banner?: VersionBanner;
+  banner?: 'none' | VersionBanner;
+  badge?: boolean;
+  className?: string;
 };
 
 export type VersionsOptions = {
@@ -90,10 +95,13 @@ export type PluginOptions = MetadataOptions &
     exclude: string[];
     docLayoutComponent: string;
     docItemComponent: string;
+    docTagDocListComponent: string;
+    docTagsListComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     includeCurrentVersion: boolean;
     sidebarItemsGenerator: SidebarItemsGeneratorOption;
+    tagsBasePath: string;
   };
 
 export type SidebarItemBase = {
@@ -200,6 +208,7 @@ export type DocFrontMatter = {
   /* eslint-disable camelcase */
   id?: string;
   title?: string;
+  tags?: FrontMatterTag[];
   hide_title?: boolean;
   hide_table_of_contents?: boolean;
   keywords?: string[];
@@ -227,6 +236,7 @@ export type DocMetadataBase = LastUpdateData & {
   permalink: string;
   sidebarPosition?: number;
   editUrl?: string | null;
+  tags: Tag[];
   frontMatter: DocFrontMatter & Record<string, unknown>;
 };
 
@@ -244,6 +254,16 @@ export type DocMetadata = DocMetadataBase & {
 export type SourceToPermalink = {
   [source: string]: string;
 };
+
+export type VersionTag = {
+  name: string; // normalized name/label of the tag
+  docIds: string[]; // all doc ids having this tag
+  permalink: string; // pathname of the tag
+};
+export type VersionTags = {
+  [key: string]: VersionTag;
+};
+
 export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;

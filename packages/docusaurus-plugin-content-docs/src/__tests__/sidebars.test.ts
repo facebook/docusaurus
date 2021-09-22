@@ -30,8 +30,6 @@ import {
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 
-/* eslint-disable global-require, import/no-dynamic-require */
-
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
   const options: SidebarOptions = {

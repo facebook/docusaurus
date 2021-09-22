@@ -1,10 +1,6 @@
 ---
 title: Using twice the blog plugin
-author: Sebastien Lorber
-authorURL: https://sebastienlorber.com
-authorImageURL: https://github.com/slorber.png
-authorFBID: 611217057
-authorTwitter: sebastienlorber
+authors: [slorber]
 tags: [blog, docusaurus]
 ---
 

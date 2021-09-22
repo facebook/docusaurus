@@ -38,7 +38,7 @@ const createRouteCodeString = ({
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
-  props: {[propName: string]: any};
+  props: {[propName: string]: unknown};
 }) => {
   const parts = [
     `path: '${routePath}'`,
@@ -131,7 +131,6 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       priority,
       ...props
     } = routeConfig;

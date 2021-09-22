@@ -30,13 +30,13 @@ If you're publishing new v2 versions, 2FA might get in the way as the pin might 
 
 ### 1. Git setup
 
-From the **master branch** (up to date, main repo, not a fork), create a new branch for the release.
+From the **main branch** (up to date, main repo, not a fork), create a new branch for the release.
 
 The branch name does not matter much, but you can use the `<your_username>/<version_to_release>` pattern.
 
 ```sh
-# up to date master
-git co master
+# up to date main
+git co main
 git pull
 
 # create a new release branch
@@ -57,7 +57,7 @@ yarn install
 ```sh
 # This will build all the packages and publish them in a local Verdaccio npm registry
 # and then initialize a new website in the `test-website` directory using those locally published packages
-yarn test:build:v2
+yarn test:build:website
 
 # Now you can test the site in dev/prod mode
 cd test-website
@@ -103,10 +103,14 @@ yarn changelog --from v2.0.0-beta.0
 ### 4. Cut a new version of the docs
 
 ```sh
-yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-beta.0
+yarn workspace website docusaurus docs:version 2.0.0-beta.0
 ```
 
 Test running the website with the new version locally.
+
+To keep versions number small, delete the oldest version and add a link to it in `archivedVersions.json`.
+
+Check [Netlify site deployments](https://app.netlify.com/sites/docusaurus-2/deploys) to pick a recent immutable deployment url.
 
 ### 5. Create a Pull Request
 
@@ -203,7 +207,7 @@ Create a separate branch/PR and run `yarn examples:generate`
 
 ### 9. Notify people about new release (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After new release, it is cool to notify our users about this in the Discord chat (`#announcements` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 

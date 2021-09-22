@@ -7,13 +7,18 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import useTOCHighlight, {
+  Params as TOCHighlightParams,
+} from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
-const TOP_OFFSET = 100;
+
+const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
+  linkClassName: LINK_CLASS_NAME,
+  linkActiveClassName: 'table-of-contents__link--active',
+};
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 export function TOCHeadings({
@@ -45,7 +50,7 @@ export function TOCHeadings({
 }
 
 function TOC({toc}: TOCProps): JSX.Element {
-  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
+  useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
       <TOCHeadings toc={toc} />

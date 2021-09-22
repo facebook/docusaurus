@@ -9,10 +9,19 @@ import React, {ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-import {useActivePlugin, useDocVersionSuggestions} from '@theme/hooks/useDocs';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {
+  useActivePlugin,
+  useDocVersionSuggestions,
+  GlobalVersion,
+} from '@theme/hooks/useDocs';
+import {
+  ThemeClassNames,
+  useDocsPreferredVersion,
+} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
+import clsx from 'clsx';
+import type {VersionBanner} from '@docusaurus/plugin-content-docs-types';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
@@ -58,7 +67,7 @@ function UnmaintainedVersionLabel({
 }
 
 const BannerLabelComponents: Record<
-  Exclude<Props['versionMetadata']['banner'], 'none'>,
+  VersionBanner,
   ComponentType<BannerLabelComponentProps>
 > = {
   unreleased: UnreleasedVersionLabel,
@@ -67,7 +76,7 @@ const BannerLabelComponents: Record<
 
 function BannerLabel(props: BannerLabelComponentProps) {
   const BannerLabelComponent =
-    BannerLabelComponents[props.versionMetadata.banner];
+    BannerLabelComponents[props.versionMetadata.banner!];
   return <BannerLabelComponent {...props} />;
 }
 
@@ -109,10 +118,10 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const {pluginId} = useActivePlugin({failfast: true});
+  const {pluginId} = useActivePlugin({failfast: true})!;
 
-  const getVersionMainDoc = (version) =>
-    version.docs.find((doc) => doc.id === version.mainDocId);
+  const getVersionMainDoc = (version: GlobalVersion) =>
+    version.docs.find((doc) => doc.id === version.mainDocId)!;
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
@@ -127,7 +136,12 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 
   return (
-    <div className="alert alert--warning margin-bottom--md" role="alert">
+    <div
+      className={clsx(
+        ThemeClassNames.docs.docVersionBanner,
+        'alert alert--warning margin-bottom--md',
+      )}
+      role="alert">
       <div>
         <BannerLabel siteTitle={siteTitle} versionMetadata={versionMetadata} />
       </div>
@@ -143,11 +157,10 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
 }
 
 function DocVersionBanner({versionMetadata}: Props): JSX.Element {
-  if (versionMetadata.banner === 'none') {
-    return <></>;
-  } else {
+  if (versionMetadata.banner) {
     return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
   }
+  return <></>;
 }
 
 export default DocVersionBanner;

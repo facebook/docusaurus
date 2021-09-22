@@ -5,12 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-duplicates */
-/* eslint-disable spaced-comment */
 /// <reference types="@docusaurus/module-type-aliases" />
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-docs" />
 /// <reference types="@docusaurus/plugin-content-pages" />
+
+declare module '@docusaurus/theme-classic' {
+  export type Options = import('./index').PluginOptions;
+}
 
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
@@ -27,10 +29,11 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+  import type {FrontMatter, Assets, Metadata} from '@theme/BlogPostPage';
 
   export type Props = {
     readonly frontMatter: FrontMatter;
+    readonly assets: Assets;
     readonly metadata: Metadata;
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;
@@ -39,6 +42,27 @@ declare module '@theme/BlogPostItem' {
 
   const BlogPostItem: (props: Props) => JSX.Element;
   export default BlogPostItem;
+}
+
+declare module '@theme/BlogPostAuthor' {
+  import type {Metadata} from '@theme/BlogPostPage';
+
+  export type Props = {
+    readonly author: Metadata['authors'][number];
+  };
+
+  export default function BlogPostAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostAuthors' {
+  import type {Metadata, Assets} from '@theme/BlogPostPage';
+
+  export type Props = {
+    readonly authors: Metadata['authors'];
+    readonly assets: Assets;
+  };
+
+  export default function BlogPostAuthors(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostPaginator' {
@@ -232,11 +256,11 @@ declare module '@theme/hooks/useThemeContext' {
 }
 
 declare module '@theme/hooks/useTOCHighlight' {
-  export default function useTOCHighlight(
-    linkClassName: string,
-    linkActiveClassName: string,
-    topOffset: number,
-  ): void;
+  export type Params = {
+    linkClassName: string;
+    linkActiveClassName: string;
+  };
+  export default function useTOCHighlight(params: Params): void;
 }
 
 declare module '@theme/hooks/useUserPreferencesContext' {
@@ -328,8 +352,10 @@ declare module '@theme/SkipToContent' {
 declare module '@theme/MDXComponents' {
   import type {ComponentProps} from 'react';
   import type CodeBlock from '@theme/CodeBlock';
+  import type Head from '@docusaurus/Head';
 
   export type MDXComponentsObject = {
+    readonly head: typeof Head;
     readonly code: typeof CodeBlock;
     readonly a: (props: ComponentProps<'a'>) => JSX.Element;
     readonly pre: typeof CodeBlock;
@@ -446,7 +472,6 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
 
   export type Props = DefaultNavbarItemProps & {
     readonly docId: string;
-    readonly activeSidebarClassName: string;
     readonly docsPluginId?: string;
   };
 
@@ -495,6 +520,8 @@ declare module '@theme/TabItem' {
   export type Props = {
     readonly children: ReactNode;
     readonly value: string;
+    readonly default?: boolean;
+    readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
   };
@@ -512,7 +539,7 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string;
-    readonly values: readonly {value: string; label: string}[];
+    readonly values?: readonly {value: string; label?: string}[];
     readonly groupId?: string;
     readonly className?: string;
   };
@@ -556,6 +583,7 @@ declare module '@theme/TOC' {
 
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
@@ -680,6 +708,13 @@ declare module '@theme/IconMenu' {
   export default IconMenu;
 }
 
+declare module '@theme/IconClose' {
+  import type {ComponentProps} from 'react';
+
+  export type Props = ComponentProps<'svg'>;
+  export default function IconClose(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconLanguage' {
   import type {ComponentProps} from 'react';
 
@@ -696,4 +731,48 @@ declare module '@theme/IconExternalLink' {
 
   const IconExternalLink: (props: Props) => JSX.Element;
   export default IconExternalLink;
+}
+
+declare module '@theme/TagsListByLetter' {
+  export type TagsListItem = Readonly<{
+    name: string;
+    permalink: string;
+    count: number;
+  }>;
+  export type Props = Readonly<{
+    tags: readonly TagsListItem[];
+  }>;
+  export default function TagsListByLetter(props: Props): JSX.Element;
+}
+
+declare module '@theme/TagsListInline' {
+  export type Tag = Readonly<{label: string; permalink}>;
+  export type Props = Readonly<{
+    tags: readonly Tag[];
+  }>;
+  export default function TagsListInline(props: Props): JSX.Element;
+}
+
+declare module '@theme/Tag' {
+  import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {Optional} from 'utility-types';
+
+  export type Props = Optional<TagsListItem, 'count'>;
+
+  export default function Tag(props: Props): JSX.Element;
+}
+
+declare module '@theme/prism-include-languages' {
+  import type * as PrismNamespace from 'prismjs';
+
+  export default function prismIncludeLanguages(
+    PrismObject: typeof PrismNamespace,
+  ): void;
+}
+
+declare module 'prism-react-renderer/prism' {
+  import type * as PrismNamespace from 'prismjs';
+
+  const Prism: typeof PrismNamespace;
+  export default Prism;
 }

@@ -46,7 +46,7 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated']},
+      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
     ],
     'import/extensions': OFF,
     'header/header': [
@@ -63,6 +63,7 @@ module.exports = {
     ],
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
+    'jsx-a11y/html-has-lang': OFF,
     'no-console': OFF,
     'no-else-return': OFF,
     'no-param-reassign': [WARNING, {props: false}],
@@ -93,7 +94,10 @@ module.exports = {
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
     '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
-    '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
+    '@typescript-eslint/no-unused-vars': [
+      ERROR,
+      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+    ],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
@@ -126,12 +130,14 @@ module.exports = {
   overrides: [
     {
       files: [
-        'packages/docusaurus-init/templates/bootstrap/**/*.js',
-        'packages/docusaurus-init/templates/classic/**/*.js',
+        'packages/docusaurus-init/templates/**/*.js',
+        'packages/docusaurus-init/templates/**/*.ts',
+        'packages/docusaurus-init/templates/**/*.tsx',
       ],
       rules: {
         'header/header': OFF,
         'global-require': OFF,
+        '@typescript-eslint/no-var-requires': OFF,
       },
     },
     {

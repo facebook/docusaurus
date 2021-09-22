@@ -26,6 +26,7 @@ import {
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
+  tagsBasePath: 'tags', // URL Tags Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   exclude: GlobExcludeDefault,
@@ -33,6 +34,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
+  docTagDocListComponent: '@theme/DocTagDocListPage',
+  docTagsListComponent: '@theme/DocTagsListPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -54,6 +57,8 @@ const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
   banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
+  badge: Joi.boolean().optional(),
+  className: Joi.string().optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
@@ -69,6 +74,7 @@ export const OptionsSchema = Joi.object({
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
@@ -94,6 +100,12 @@ export const OptionsSchema = Joi.object({
     .default(() => DEFAULT_OPTIONS.numberPrefixParser),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
+  docTagsListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagsListComponent,
+  ),
+  docTagDocListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
