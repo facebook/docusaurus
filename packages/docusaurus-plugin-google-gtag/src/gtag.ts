@@ -7,20 +7,19 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
+import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
 
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
-  const {
-    themeConfig: {
-      gtag: {trackingID},
-    },
-  } = siteConfig;
+  const {themeConfig} = siteConfig;
+  const {gtag} = themeConfig as ThemeConfig;
+  const {trackingID} = gtag!;
 
   return {
-    onRouteUpdate({location}) {
+    onRouteUpdate({location}: {location: Location}) {
       // Always refer to the variable on window in-case it gets overridden elsewhere.
       window.gtag('config', trackingID, {
         page_path: location.pathname,
