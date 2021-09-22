@@ -6,17 +6,59 @@ keywords:
   - search
 ---
 
-Docusaurus' own `@docusaurus/preset-classic` supports a search integration.
+There are a few options you can use to add search to your website:
 
-There are two main options, you can use [Algolia DocSearch](https://docsearch.algolia.com) or bring in your own `SearchBar` component.
+- 🥇 [Algolia DocSearch](#using-algolia-docsearch) (**official**)
+- 👥 [Typesense DocSearch](#using-typesense-docsearch)
+- 👥 [Local Search](#using-local-search)
+- 👥 [Your own `SearchBar` component](#using-your-own-search)
 
-## Using Algolia DocSearch {#using-algolia-docsearch}
+:::info
 
-Algolia DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (i.e., not behind a firewall). The service is free.
+🥇 Docusaurus provides **first-class support** for [Algolia DocSearch](#using-algolia-docsearch).
 
-If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler. For best results, you may want to use a config file based on the [Docusaurus 2 config](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+👥 Other options are **maintained by the community**: please report bugs to their respective repositories.
+
+:::
+
+## 🥇 Using Algolia DocSearch {#using-algolia-docsearch}
+
+Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
+
+The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/docs/apply).
+
+It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
+
+If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
+
+:::note
+
+By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.io/sitemap.xml) that the Algolia crawler can use.
+
+:::
+
+### Index Configuration {#algolia-index-configuration}
+
+After applying, your site's DocSearch config should be created at:
+
+```
+https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json
+```
+
+This configuration file can be updated by:
+
+- [**asking for help**](#algolia-support): the DocSearch team can help you maintain it
+- opening a pull-requests in [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs)
+
+:::caution
+
+It is highly recommended using a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+
+:::
 
 ### Connecting Algolia {#connecting-algolia}
+
+Docusaurus' own `@docusaurus/preset-classic` supports an Algolia DocSearch integration.
 
 To connect your docs with Algolia, first add the package to your website:
 
@@ -182,7 +224,37 @@ If you prefer to edit the Algolia search React component, swizzle the `SearchBar
 npm run swizzle @docusaurus/theme-search-algolia SearchBar
 ```
 
-## Using your own search {#using-your-own-search}
+### Support {#algolia-support}
+
+The Algolia DocSearch team can help you figure out search problems on your site.
+
+You can contact them by [email](mailto:documentationsearch@algolia.com) or on [Discord](https://discord.gg/tXdr5mP).
+
+Docusaurus also has an `#algolia` channel on [Discord](https://discordapp.com/invite/docusaurus).
+
+## 👥 Using Typesense DocSearch {#using-typesense-docsearch}
+
+[Typesense](https://typesense.org) DocSearch works similar to Algolia DocSearch, except that your website is indexed into a Typesense search cluster.
+
+Typesense is an [open source](https://github.com/typesense/typesense) instant-search engine that you can either:
+
+- [Self-Host](https://typesense.org/docs/latest/guide/install-typesense.html#option-2-local-machine-self-hosting) on your own servers or
+- Use the Managed [Typesense Cloud](https://cloud.typesense.org) service.
+
+Similar to Algolia DocSearch, there are two components:
+
+- [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - which scrapes your website and indexes the data in your Typesense cluster.
+- [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) - a search bar UI component to add to your website.
+
+Read a step-by-step walk-through of how to [run typesense-docsearch-scraper here](https://typesense.org/docs/latest/guide/docsearch.html#step-1-set-up-docsearch-scraper) and how to [install the Search Bar in your Docusaurus Site here](https://typesense.org/docs/latest/guide/docsearch.html#option-a-docusaurus-powered-sites).
+
+## 👥 Using Local Search {#using-local-search}
+
+You can use a local search plugin for websites where the search index is small and can be downloaded to your users' browsers when they visit your website.
+
+You'll find a list of community-supported [local search plugins listed here](https://docusaurus.io/community/resources#search).
+
+## 👥 Using your own search {#using-your-own-search}
 
 To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-classic`
 
