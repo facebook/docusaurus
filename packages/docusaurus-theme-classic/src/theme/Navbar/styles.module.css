@@ -25,7 +25,3 @@ Hide toggle in small viewports
 .navbarSidebarToggle {
   margin-right: 1rem;
 }
-
-.navbarSidebarCloseSvg {
-  fill: var(--ifm-color-emphasis-600);
-}
