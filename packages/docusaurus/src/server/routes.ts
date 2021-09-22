@@ -240,7 +240,13 @@ function genRouteChunkNames(
 
   const newValue: ChunkNames = {};
   Object.keys(value).forEach((key) => {
-    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+    // TODO: type assertion shouldn't be necessary here, probably a TS bug?
+    newValue[key] = genRouteChunkNames(
+      registry,
+      value[key] as Module,
+      key,
+      name,
+    );
   });
   return newValue;
 }

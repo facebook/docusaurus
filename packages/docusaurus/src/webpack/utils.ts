@@ -529,7 +529,7 @@ function getTerserParallel() {
 export function getMinimizer(
   useSimpleCssMinifier = false,
 ): WebpackPluginInstance[] {
-  const minimizer = [
+  const minimizer: WebpackPluginInstance[] = [
     new TerserPlugin({
       parallel: getTerserParallel(),
       terserOptions: {
@@ -539,10 +539,11 @@ export function getMinimizer(
           // into invalid ecma 5 code. This is why the 'compress' and 'output'
           // sections only apply transformations that are ecma 5 safe
           // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 8,
+          ecma: 2020,
         },
         compress: {
           ecma: 5,
+          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -572,6 +573,7 @@ export function getMinimizer(
           },
           // CleanCss options
           {
+            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {
