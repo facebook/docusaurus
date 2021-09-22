@@ -25,11 +25,11 @@ There are a few options you can use to add search to your website:
 
 Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
 
-It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (i.e., not behind a firewall). The service is free.
+It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
 The service is **free for most Docusaurus sites**, and require you to [apply to the DocSearch program](https://docsearch.algolia.com/docs/apply).
 
-If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
+If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
 
 :::note
 
@@ -39,9 +39,16 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 ### Index Configuration {#algolia-index-configuration}
 
-After applying, your site's DocSearch config should be created at `https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json`.
+After applying, your site's DocSearch config should be created at:
 
-You can ask the DocSearch team to [help you](#algolia-support) create and maintain this configuration, or update it yourself by opening a pull-requests to [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs).
+```
+https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json
+```
+
+This configuration file can be updated by:
+
+- [**asking for help**](#algolia-support): the DocSearch team can help you maintain it
+- opening a pull-requests in [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs)
 
 :::caution
 
