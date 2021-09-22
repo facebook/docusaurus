@@ -1019,8 +1019,6 @@ Object {
   },
   \\"sidebar\\": \\"community\\"
 }",
-  "tags-list-1-0-0-prop-483.json": "[]",
-  "tags-list-current-prop-15a.json": "[]",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"community\\",
   \\"version\\": \\"1.0.0\\",
@@ -1102,22 +1100,6 @@ Object {
 
 exports[`versioned website (community) content: route config 1`] = `
 Array [
-  Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/community/next/tags",
-  },
-  Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-1-0-0-prop-483.json",
-    },
-    "path": "/community/tags",
-  },
   Object {
     "component": "@theme/DocPage",
     "exact": false,
@@ -1654,8 +1636,6 @@ Object {
   ],
   \\"allTagsPath\\": \\"/docs/next/tags\\"
 }",
-  "tags-list-1-0-0-prop-483.json": "[]",
-  "tags-list-1-0-1-prop-c39.json": "[]",
   "tags-list-current-prop-15a.json": "[
   {
     \\"name\\": \\"barTag 1\\",
@@ -1673,7 +1653,6 @@ Object {
     \\"count\\": 1
   }
 ]",
-  "tags-list-with-slugs-prop-1ca.json": "[]",
   "version-1-0-0-metadata-prop-608.json": "{
   \\"pluginId\\": \\"default\\",
   \\"version\\": \\"1.0.0\\",
@@ -1974,14 +1953,6 @@ Array [
     "component": "@theme/DocTagsListPage",
     "exact": true,
     "modules": Object {
-      "tags": "~docs/tags-list-1-0-0-prop-483.json",
-    },
-    "path": "/docs/1.0.0/tags",
-  },
-  Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
       "tags": "~docs/tags-list-current-prop-15a.json",
     },
     "path": "/docs/next/tags",
@@ -2009,22 +1980,6 @@ Array [
       "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
     },
     "path": "/docs/next/tags/barTag-3-permalink",
-  },
-  Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-1-0-1-prop-c39.json",
-    },
-    "path": "/docs/tags",
-  },
-  Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-with-slugs-prop-1ca.json",
-    },
-    "path": "/docs/withSlugs/tags",
   },
   Object {
     "component": "@theme/DocPage",
