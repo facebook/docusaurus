@@ -4,11 +4,19 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import React from 'react';
 import IdealImage from '@endiliey/react-ideal-image';
+import type {Props} from '@theme/IdealImage';
 
-function Image(props) {
+function Image(props: Props): JSX.Element {
   const {alt, className, img} = props;
+
+  // In dev env just use regular img with original file
+  if (img.default) {
+    return <img src={img.default} className={className} alt={alt} {...props} />;
+  }
+
   return (
     <IdealImage
       {...props}
