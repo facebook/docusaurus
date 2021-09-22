@@ -31,7 +31,7 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
-export interface PluginOptions extends RemarkAndRehypePluginOptions {
+export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
   routeBasePath: string;
@@ -61,7 +61,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
-}
+};
 
 export interface BlogTags {
   [key: string]: BlogTag;
