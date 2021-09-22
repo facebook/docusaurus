@@ -12,7 +12,7 @@ import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -27,6 +27,8 @@ function MDXPage(props: Props): JSX.Element {
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
   const {permalink} = metadata;
+
+  const {tableOfContents} = useThemeConfig();
 
   return (
     <Layout
@@ -44,7 +46,10 @@ function MDXPage(props: Props): JSX.Element {
           </div>
           {!hideTableOfContents && MDXPageContent.toc && (
             <div className="col col--2">
-              <TOC toc={MDXPageContent.toc} />
+              <TOC
+                toc={MDXPageContent.toc}
+                maxHeadingLevel={tableOfContents.maxHeadingLevel}
+              />
             </div>
           )}
         </div>

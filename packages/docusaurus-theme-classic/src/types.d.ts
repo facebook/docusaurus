@@ -82,6 +82,8 @@ declare module '@theme/BlogLayout' {
   export type Props = LayoutProps & {
     readonly sidebar?: BlogSidebar;
     readonly toc?: readonly TOCItem[];
+    readonly tocMaxHeadingLevel?: number;
+    readonly tocMinHeadingLevel?: number;
   };
 
   const BlogLayout: (props: Props) => JSX.Element;
@@ -259,6 +261,8 @@ declare module '@theme/hooks/useTOCHighlight' {
   export type Params = {
     linkClassName: string;
     linkActiveClassName: string;
+    maxHeadingLevel: number;
+    minHeadingLevel: number;
   };
   export default function useTOCHighlight(params: Params): void;
 }
@@ -581,14 +585,22 @@ declare module '@theme/ThemeProvider' {
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
+  // minHeadingLevel only exists as a per-doc option,
+  // and won't have a default set by Joi. See TOC, TOCInline,
+  // TOCCollapsible for examples
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly maxHeadingLevel: number;
+    readonly minHeadingLevel?: number;
     readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
+    readonly isInnerList?: boolean;
+    readonly maxHeadingLevel: number;
+    readonly minHeadingLevel: number;
   };
 
   export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
@@ -602,6 +614,8 @@ declare module '@theme/TOCInline' {
 
   export type TOCInlineProps = {
     readonly toc: readonly TOCItem[];
+    readonly maxHeadingLevel?: number;
+    readonly minHeadingLevel?: number;
   };
 
   const TOCInline: (props: TOCInlineProps) => JSX.Element;
@@ -613,6 +627,8 @@ declare module '@theme/TOCCollapsible' {
 
   export type TOCCollapsibleProps = {
     readonly className?: string;
+    readonly maxHeadingLevel: number;
+    readonly minHeadingLevel?: number;
     readonly toc: readonly TOCItem[];
   };
 

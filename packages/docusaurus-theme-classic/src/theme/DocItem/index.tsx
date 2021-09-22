@@ -19,7 +19,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import {MainHeading} from '@theme/Heading';
 
 import styles from './styles.module.css';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -29,6 +29,8 @@ export default function DocItem(props: Props): JSX.Element {
     keywords,
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
+    toc_max_heading_level: tocMaxHeadingLevel,
+    toc_min_heading_level: tocMinHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
 
@@ -39,6 +41,7 @@ export default function DocItem(props: Props): JSX.Element {
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const windowSize = useWindowSize();
+  const {tableOfContents} = useThemeConfig();
 
   const canRenderTOC =
     !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
@@ -71,6 +74,10 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
+                  maxHeadingLevel={
+                    tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
+                  }
+                  minHeadingLevel={tocMinHeadingLevel}
                   className={clsx(
                     ThemeClassNames.docs.docTocMobile,
                     styles.tocMobile,
@@ -99,6 +106,10 @@ export default function DocItem(props: Props): JSX.Element {
         {renderTocDesktop && (
           <div className="col col--3">
             <TOC
+              maxHeadingLevel={
+                tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
+              }
+              minHeadingLevel={tocMinHeadingLevel}
               toc={DocContent.toc}
               className={ThemeClassNames.docs.docTocDesktop}
             />
