@@ -13254,13 +13254,6 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-map-age-cleaner@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/map-age-cleaner/-/map-age-cleaner-0.1.3.tgz#7d583a7306434c055fe474b0f45078e6e1b4b92a"
-  integrity sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==
-  dependencies:
-    p-defer "^1.0.0"
-
 map-cache@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
@@ -13421,14 +13414,6 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
-
-mem@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/mem/-/mem-8.1.1.tgz#cf118b357c65ab7b7e0817bdf00c8062297c0122"
-  integrity sha512-qFCFUDs7U3b8mBDPyz5EToEKoAkgCzqquIgi9nkkR9bixxOVOre+09lbuH7+9Kn2NFpm56M3GUWVbU2hQgdACA==
-  dependencies:
-    map-age-cleaner "^0.1.3"
-    mimic-fn "^3.1.0"
 
 memfs@^3.2.2:
   version "3.2.2"
@@ -15020,11 +15005,6 @@ p-cancelable@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-2.1.1.tgz#aab7fbd416582fa32a3db49859c122487c5ed2cf"
   integrity sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==
-
-p-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
-  integrity sha1-n26xgvbJqozXQwBKfU+WsZaw+ww=
 
 p-each-series@^2.1.0:
   version "2.2.0"
@@ -20125,22 +20105,21 @@ webpack-bundle-analyzer@^4.4.2:
     sirv "^1.0.7"
     ws "^7.3.1"
 
-webpack-dev-middleware@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.0.0.tgz#0abe825275720e0a339978aea5f0b03b140c1584"
-  integrity sha512-9zng2Z60pm6A98YoRcA0wSxw1EYn7B7y5owX/Tckyt9KGyULTkLtiavjaXlWqOMkM0YtqGgL3PvMOFgyFLq8vw==
+webpack-dev-middleware@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.1.0.tgz#90a645b077e85f661c5bb967dc32adc3eceb5cfd"
+  integrity sha512-oT660AR1gOnU/NTdUQi3EiGR0iXG7CFxmKsj3ylWCBA2khJ8LFHK+sKv3BZEsC11gl1eChsltRhzUq7nWj7XIQ==
   dependencies:
     colorette "^1.2.2"
-    mem "^8.1.1"
     memfs "^3.2.2"
     mime-types "^2.1.31"
     range-parser "^1.2.1"
-    schema-utils "^3.0.0"
+    schema-utils "^3.1.0"
 
-webpack-dev-server@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.1.1.tgz#e8eb8f0ce1a0e1fa65e234641763c97735398bed"
-  integrity sha512-Kl1mnCEw8Cy1Kw173gCxLIB242LfPKEOj9WoKhKz/MbryZTNrILzOJTk8kiczw/YUEPzn3gcltCQv6hDsLudRg==
+webpack-dev-server@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.2.1.tgz#12e912b3cad8ddd5222a4ba2c41c6fc69d2545fb"
+  integrity sha512-SQrIyQDZsTaF84p/WMAXNRKxjTeIaewhDIiHYZ423ENhNAsQWyubvqPTn0IoLMGkbhWyWv8/GYnCjItt0ZNC5w==
   dependencies:
     ansi-html-community "^0.0.8"
     bonjour "^3.5.0"
@@ -20165,7 +20144,7 @@ webpack-dev-server@^4.1.1:
     spdy "^4.0.2"
     strip-ansi "^7.0.0"
     url "^0.11.0"
-    webpack-dev-middleware "^5.0.0"
+    webpack-dev-middleware "^5.1.0"
     ws "^8.1.0"
 
 webpack-merge@^5.7.3, webpack-merge@^5.8.0:
