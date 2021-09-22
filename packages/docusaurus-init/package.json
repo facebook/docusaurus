@@ -29,9 +29,13 @@
     "prompts": "^2.4.1",
     "semver": "^7.3.4",
     "shelljs": "^0.8.4",
+    "supports-color": "^8.1.1",
     "tslib": "^2.2.0"
   },
   "engines": {
     "node": ">=12.13.0"
+  },
+  "devDependencies": {
+    "@types/supports-color": "^8.1.1"
   }
 }
