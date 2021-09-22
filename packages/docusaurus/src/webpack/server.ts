@@ -37,7 +37,7 @@ export default function createServerConfig({
   } = props;
   const config = createBaseConfig(props, true);
 
-  const routesLocation = {};
+  const routesLocation: Record<string, string> = {};
   // Array of paths to be rendered. Relative to output directory
   const ssgPaths = routesPaths.map((str) => {
     const ssgPath =

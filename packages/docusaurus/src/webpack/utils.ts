@@ -249,7 +249,7 @@ export function applyConfigurePostCss(
   }
 
   // Does not handle all edge cases, but good enough for now
-  function overridePostCssOptions(entry) {
+  function overridePostCssOptions(entry: RuleSetRule) {
     if (isPostCssLoader(entry)) {
       entry.options.postcssOptions = configurePostCss(
         entry.options.postcssOptions,
@@ -259,11 +259,13 @@ export function applyConfigurePostCss(
     } else if (Array.isArray(entry.use)) {
       entry.use
         .filter((u) => typeof u === 'object')
-        .forEach(overridePostCssOptions);
+        .forEach((rule) => overridePostCssOptions(rule as RuleSetRule));
     }
   }
 
-  config.module?.rules?.forEach(overridePostCssOptions);
+  config.module?.rules?.forEach((rule) =>
+    overridePostCssOptions(rule as RuleSetRule),
+  );
 
   return config;
 }
@@ -442,12 +444,23 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error
-function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
-  let encrypted;
+function validateKeyAndCerts({
+  cert,
+  key,
+  keyFile,
+  crtFile,
+}: {
+  cert: Buffer;
+  key: Buffer;
+  keyFile: string;
+  crtFile: string;
+}) {
+  let encrypted: Buffer;
   try {
     // publicEncrypt will throw an error with an invalid cert
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     throw new Error(
       `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`,
     );
@@ -456,7 +469,8 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
   try {
     // privateDecrypt will throw an error with an invalid key
     crypto.privateDecrypt(key, encrypted);
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     throw new Error(
       `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
         err.message
@@ -466,7 +480,7 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
 }
 
 // Read file and throw an error if it doesn't exist
-function readEnvFile(file, type) {
+function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
       `You specified ${chalk.cyan(

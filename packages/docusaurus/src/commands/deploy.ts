@@ -16,14 +16,14 @@ import os from 'os';
 import {buildUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
-function obfuscateGitPass(str) {
+function obfuscateGitPass(str: string) {
   const gitPass = process.env.GIT_PASS;
   return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
 }
 
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
-function shellExecLog(cmd) {
+function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
     console.log(
@@ -162,7 +162,7 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = async (outputDirectory) => {
+  const runDeploy = async (outputDirectory: string) => {
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
