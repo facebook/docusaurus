@@ -224,7 +224,7 @@ export default function CodeBlock({
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
-                    line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                    line[0].content = '\n';
                   }
 
                   const lineProps = getLineProps({line, key: i});

@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';

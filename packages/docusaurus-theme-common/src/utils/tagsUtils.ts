@@ -7,7 +7,7 @@
 
 import {translate} from '@docusaurus/Translate';
 
-export const translateTagsPageTitle = () =>
+export const translateTagsPageTitle = (): string =>
   translate({
     id: 'theme.tags.tagsPageTitle',
     message: 'Tags',

@@ -1,5 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "关闭",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "复制成功",
   "theme.CodeBlock.copy": "复制",
   "theme.CodeBlock.copyButtonAriaLabel": "复制代码到剪贴板",

@@ -253,6 +253,14 @@ const Users: User[] = [
     tags: ['opensource','personal','large'],
   },
   {
+    title: 'Blogasaurus',
+    description: 'A blog written using Docasaurus.',
+    preview: require('./showcase/Blogasaurus.png'),
+    website: 'https://blog.palashsh.me/',
+    source: 'https://github.com/BattleOfPlassey/blogasaurus',
+    tags: ['personal', 'opensource']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
@@ -685,6 +693,15 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning'],
   },
   {
+    title: 'Mint Metrics',
+    description:
+      'Conversion optimisation and web analytics agency from Melbourne, Australia.',
+    preview: require('./showcase/mintmetrics.png'),
+    website: 'https://mintmetrics.io/',
+    source: null,
+    tags: ['design'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
@@ -774,6 +791,14 @@ const Users: User[] = [
     website: 'https://docs.paubox.com/',
     source: null,
     tags: ["product"],
+  },
+    {
+    title: 'Pipeline UI',
+    description: 'Pipeline UI Documentation',
+    preview: require('./showcase/pipeline-ui.png'),
+    website: 'https://www.pipeline-ui.com/',
+    source: 'https://github.com/headline-design/pipeline-ui',
+    tags: ['opensource'],
   },
   {
     title: 'Plausible Analytics Docs',
@@ -1234,6 +1259,14 @@ const Users: User[] = [
     website: 'https://uniforms.tools/',
     source: 'https://github.com/vazco/uniforms',
     tags: ['opensource'],
+  },
+  {
+    title: 'Unleash',
+    description: 'A feature managment solution.',
+    preview: require('./showcase/unleash.png'),
+    website: 'https://docs.getunleash.io/',
+    source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Vue NodeGui',

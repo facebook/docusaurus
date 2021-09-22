@@ -27,7 +27,7 @@
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
-No time? Check our [5 minutes tutorial ⏱️](https://tutorial.docusaurus.io).
+Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusaurus.io)!
 
 **Tip**: use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in a playground.
 
@@ -77,9 +77,9 @@ To help you get your feet wet and get you familiar with our contribution process
 
 We have a few channels for contact:
 
-- [Discord](https://discord.gg/docusaurus) with two text channels:
-  - `#docusaurus-users` for those using Docusaurus.
-  - `#docusaurus-dev` for those wanting to contribute to the Docusaurus core.
+- [Discord](https://discord.gg/docusaurus):
+  - `#general` for those using Docusaurus.
+  - `#contributors` for those wanting to contribute to the Docusaurus core.
 - [@docusaurus](https://twitter.com/docusaurus) on Twitter
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 

@@ -1,6 +1,7 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "Close",
   "theme.AnnouncementBar.closeButtonAriaLabel___DESCRIPTION": "The ARIA label for close button of announcement bar",
+  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
   "theme.CodeBlock.copied": "Copied",
   "theme.CodeBlock.copied___DESCRIPTION": "The copied button label on code blocks",
   "theme.CodeBlock.copy": "Copy",
@@ -96,7 +97,7 @@
   "theme.docs.versions.latestVersionLinkLabel": "latest version",
   "theme.docs.versions.latestVersionLinkLabel___DESCRIPTION": "The label used for the latest version suggestion link label",
   "theme.docs.versions.latestVersionSuggestionLabel": "For up-to-date documentation, see the {latestVersionLink} ({versionLabel}).",
-  "theme.docs.versions.latestVersionSuggestionLabel___DESCRIPTION": "The label used to tell the user to check the latest version",
+  "theme.docs.versions.latestVersionSuggestionLabel___DESCRIPTION": "The label userd to tell the user that he's browsing an unmaintained doc version",
   "theme.docs.versions.unmaintainedVersionLabel": "This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.",
   "theme.docs.versions.unmaintainedVersionLabel___DESCRIPTION": "The label used to tell the user that he's browsing an unmaintained doc version",
   "theme.docs.versions.unreleasedVersionLabel": "This is unreleased documentation for {siteTitle} {versionLabel} version.",

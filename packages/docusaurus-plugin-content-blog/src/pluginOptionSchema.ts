@@ -36,6 +36,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   include: ['**/*.{md,mdx}'],
   exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
+  tagsBasePath: 'tags',
   archiveBasePath: 'archive',
   path: 'blog',
   editLocalizedFiles: false,
@@ -49,6 +50,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   postsPerPage: Joi.alternatives()

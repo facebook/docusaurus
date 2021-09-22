@@ -29,17 +29,17 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'blog'` | Path to the blog content directory on the filesystem, relative to site dir. |
-| `editUrl` | <code>string &#124; EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editUrl` | <code>string \| EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
 | `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
-| `blogSidebarCount` | <code>number &#124; 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
+| `blogSidebarCount` | <code>number \| 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
 | `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `archiveBasePath` | `string` | `'/archive'` | URL route for the archive blog section of your site. It is prepended to the `routeBasePath`. **DO NOT** include a trailing slash. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
-| `postsPerPage` | <code>number &#124; 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
+| `postsPerPage` | <code>number \| 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
 | `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
 | `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
 | `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
@@ -52,7 +52,7 @@ Accepted fields:
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory specified with `path`. Can also be a `json` file. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
-| `feedOptions.type` | <code>'rss' &#124; 'atom' &#124; 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
+| `feedOptions.type` | <code>'rss' \| 'atom' \| 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |

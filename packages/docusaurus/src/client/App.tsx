@@ -23,7 +23,7 @@ function App(): JSX.Element {
       <BrowserContextProvider>
         <Root>
           <BaseUrlIssueBanner />
-          <PendingNavigation routes={routes}>
+          <PendingNavigation routes={routes} delay={1000}>
             {renderRoutes(routes)}
           </PendingNavigation>
         </Root>

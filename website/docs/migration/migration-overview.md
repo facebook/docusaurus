@@ -94,7 +94,7 @@ The [manual migration guide](./migration-manual.md) will give you all the manual
 
 ## Support {#support}
 
-For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord channel](https://discordapp.com/invite/kYaNd6V).
+For any questions, you can ask in the [`#migration-v1-to-v2` Discord channel](https://discord.gg/C3P6CxMMxY).
 
 Feel free to tag [@slorber](https://github.com/slorber) in any migration PRs if you would like us to have a look.
 
