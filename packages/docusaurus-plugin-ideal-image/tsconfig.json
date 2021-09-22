@@ -4,7 +4,6 @@
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
-    "outDir": "lib",
-    "noImplicitAny": false
+    "outDir": "lib"
   }
 }

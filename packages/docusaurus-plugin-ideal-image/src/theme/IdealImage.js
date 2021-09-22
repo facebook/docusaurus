@@ -7,9 +7,8 @@
 
 import React from 'react';
 import IdealImage from '@endiliey/react-ideal-image';
-import type {Props} from '@theme/IdealImage';
 
-function Image(props: Props): JSX.Element {
+function Image(props) {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file

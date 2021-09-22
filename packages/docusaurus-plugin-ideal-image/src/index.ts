@@ -18,7 +18,7 @@ export default function (
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return path.resolve(__dirname, './theme');
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {
