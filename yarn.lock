@@ -4357,7 +4357,7 @@
     "@types/webpack" "^4"
     "@types/webpack-dev-server" "*"
 
-"@types/react-helmet@*", "@types/react-helmet@^6.0.0", "@types/react-helmet@^6.1.2":
+"@types/react-helmet@*", "@types/react-helmet@^6.0.0":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.1.2.tgz#e9d7d16b29e4ec5716711c52c35c3cec45819eac"
   integrity sha512-dcfAZNlWb5JYFbO9CGfrPWLJAyFcT6UeR3u35eBbv8liY2Rg4K7fM1G5+HnwVgot+C+kVwXAZ8pLEn2jsMfTDg==
@@ -4381,7 +4381,7 @@
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router-dom@*", "@types/react-router-dom@^5.1.8":
+"@types/react-router-dom@*":
   version "5.1.8"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.8.tgz#bf3e1c8149b3d62eaa206d58599de82df0241192"
   integrity sha512-03xHyncBzG0PmDmf8pf3rehtjY0NpUj7TIN46FrT5n1ZWHPZvXz32gUyNboJ+xsL8cpg8bQVLcllptcQHvocrw==
@@ -4398,7 +4398,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.14", "@types/react@^17.0.2":
+"@types/react@*", "@types/react@^17.0.2":
   version "17.0.15"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.15.tgz#c7533dc38025677e312606502df7656a6ea626d0"
   integrity sha512-uTKHDK9STXFHLaKv6IMnwp52fm0hwU+N89w/p9grdUqcFA6WuqDyPhaWopbNyE1k/VhgzmHl8pu1L4wITtmlLw==
