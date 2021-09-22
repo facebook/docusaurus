@@ -21,6 +21,12 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+export interface UserDocusaurusConfig extends Partial<DocusaurusConfig> {
+  baseUrl: string;
+  url: string;
+  title: string;
+}
+
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
