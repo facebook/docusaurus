@@ -9,6 +9,7 @@ import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {Required} from 'utility-types';
 
 // Convert webpack-merge webpack-merge enum to union type
 // For type retro-compatible webpack-merge upgrade: we used string literals before)
@@ -21,11 +22,10 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
-export interface UserDocusaurusConfig extends Partial<DocusaurusConfig> {
-  baseUrl: string;
-  url: string;
-  title: string;
-}
+export type UserDocusaurusConfig = Required<
+  Partial<DocusaurusConfig>,
+  'baseUrl' | 'url' | 'title'
+>;
 
 export interface DocusaurusConfig {
   baseUrl: string;
