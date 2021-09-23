@@ -123,7 +123,7 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
-  const globalData = {};
+  const globalData: Record<string, Record<string, unknown>> = {};
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(

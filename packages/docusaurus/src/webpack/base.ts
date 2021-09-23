@@ -51,7 +51,7 @@ export function getDocusaurusAliases(): Record<string, string> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases = {};
+  const aliases: Record<string, string> = {};
 
   fs.readdirSync(dirPath)
     .filter((fileName) => extensions.includes(path.extname(fileName)))
