@@ -7,5 +7,5 @@
 
 declare module '@babel/cli/lib/babel/dir' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export default async function dir(options: any): Promise<void>;
+  export default async function transformDir(options: any): Promise<void>;
 }

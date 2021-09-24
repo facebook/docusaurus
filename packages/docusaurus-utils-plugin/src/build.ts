@@ -6,8 +6,9 @@
  */
 
 // This relies on an internal implementation detail, but probably good for now
-import handleDir from '@babel/cli/lib/babel/dir';
+import transformDir from '@babel/cli/lib/babel/dir';
 import path from 'path';
+import fs from 'fs';
 
 export default async function build(
   options: Partial<{
@@ -16,15 +17,17 @@ export default async function build(
     theme: boolean;
     themeDir: string;
     themeTargetDir: string;
+    watch: boolean;
+    prettier: boolean;
   }> = {},
 ): Promise<void> {
   const {
     sourceDir = 'src',
     targetDir = 'lib',
-    themeDir,
+    themeDir = 'theme',
     themeTargetDir = 'js-theme',
   } = options;
-  handleDir({
+  transformDir({
     cliOptions: {
       filenames: [sourceDir],
       outDir: targetDir,
@@ -43,8 +46,8 @@ export default async function build(
       ],
     },
   });
-  if (themeDir) {
-    handleDir({
+  if (fs.existsSync(path.resolve(sourceDir, themeDir))) {
+    transformDir({
       cliOptions: {
         filenames: [path.resolve(sourceDir, themeDir)],
         outDir: path.resolve(targetDir, themeTargetDir),

@@ -115,18 +115,8 @@ export default function docusaurusThemeClassic(
   return {
     name: 'docusaurus-theme-classic',
 
-    /*
-    Does not seem needed: webpack can already hot reload theme files
-    getPathsToWatch() {
-      return [
-        path.join(__dirname, '..', 'lib'),
-        path.join(__dirname, '..', 'lib-next'),
-      ];
-    },
-     */
-
     getThemePath() {
-      return path.join(__dirname, '..', 'lib-next', 'theme');
+      return path.join(__dirname, 'js-theme');
     },
 
     getTypeScriptThemePath() {
@@ -191,7 +181,7 @@ export default function docusaurusThemeClassic(
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
+            return rtlcss((result.root as unknown) as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);

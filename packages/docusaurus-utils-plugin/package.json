@@ -2,6 +2,9 @@
   "name": "@docusaurus/utils-plugin",
   "version": "2.0.0-beta.6",
   "description": "Build and pack docusaurus plugins in one command",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
@@ -14,8 +17,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@babel/cli": "^7.15.4",
-    "@babel/core": "^7.15.5",
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.12.16",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
@@ -24,15 +27,6 @@
     "commander": "^5.1.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.6",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
-    "eslint": "^7.32.0",
-    "eslint-config-jc": "^1.0.6",
-    "eslint-config-prettier": "^8.3.0",
-    "husky": "^7.0.1",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.4.0",
-    "typescript": "^4.3.5"
+    "@docusaurus/types": "2.0.0-beta.6"
   }
 }

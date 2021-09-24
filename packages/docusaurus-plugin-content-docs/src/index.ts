@@ -77,7 +77,7 @@ export default function pluginContentDocs(
     name: 'docusaurus-plugin-content-docs',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, 'js-theme');
     },
 
     getTypeScriptThemePath() {

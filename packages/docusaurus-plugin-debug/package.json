@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "src/types.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
+    "build": "docusaurus-plugin build",
     "watch": "node copyUntypedFiles.js && tsc --watch"
   },
   "publishConfig": {
@@ -24,6 +24,9 @@
     "fs-extra": "^10.0.0",
     "react-json-view": "^1.21.3",
     "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/utils-plugin": "2.0.0-beta.6"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

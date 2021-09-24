@@ -12,7 +12,7 @@ const globby = require('globby');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
 
 const CodeDirPaths = [
-  path.join(__dirname, 'lib-next'),
+  path.join(__dirname, 'lib'),
   // TODO other themes should rather define their own translations in the future?
   path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
   path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),

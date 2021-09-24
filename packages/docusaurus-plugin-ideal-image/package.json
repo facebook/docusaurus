@@ -4,7 +4,7 @@
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
+    "build": "docusaurus-plugin build",
     "watch": "node copyUntypedFiles.js && tsc --watch"
   },
   "publishConfig": {
@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/utils-plugin": "2.0.0-beta.6",
     "fs-extra": "^10.0.0"
   },
   "dependencies": {
