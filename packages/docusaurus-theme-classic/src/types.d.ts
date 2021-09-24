@@ -600,7 +600,6 @@ declare module '@theme/TOC' {
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
     readonly isChild?: boolean;
-    readonly isInnerList?: boolean;
     readonly maxHeadingLevel: number;
     readonly minHeadingLevel: number;
   };

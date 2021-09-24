@@ -5,31 +5,81 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import clsx from 'clsx';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
+import {TOCItem} from '@docusaurus/types';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
-export function TOCHeadings({
+type FilterTOCParam = {
+  toc: readonly TOCItem[];
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+};
+
+function filterTOC({
   toc,
-  isChild,
-  maxHeadingLevel,
   minHeadingLevel,
-  isInnerList,
-}: TOCHeadingsProps): JSX.Element | null {
-  // if no headings or every heading is too deep, return nothing
-  if (!toc.length || toc.every((heading) => heading.level > maxHeadingLevel)) {
-    return null;
+  maxHeadingLevel,
+}: FilterTOCParam): TOCItem[] {
+  function isValid(item: TOCItem) {
+    return item.level >= minHeadingLevel && item.level <= maxHeadingLevel;
   }
 
-  const prunedTOC = toc.map((heading) => {
-    // return a normal list item if we're between the min and max heading level
-    if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
-      return (
+  return toc.flatMap((item) => {
+    const filteredChildren = filterTOC({
+      toc: item.children,
+      minHeadingLevel,
+      maxHeadingLevel,
+    });
+    if (isValid(item)) {
+      return [
+        {
+          ...item,
+          children: filteredChildren,
+        },
+      ];
+    } else {
+      return filteredChildren;
+    }
+  });
+}
+
+// Memoize potentially expensive filtering logic
+function useTOCFiltered({
+  toc,
+  maxHeadingLevel,
+  minHeadingLevel,
+}: FilterTOCParam): readonly TOCItem[] {
+  return useMemo(() => filterTOC({toc, maxHeadingLevel, minHeadingLevel}), [
+    toc,
+    maxHeadingLevel,
+    minHeadingLevel,
+  ]);
+}
+
+type TOCHeadingListProps = {
+  readonly toc: readonly TOCItem[];
+  readonly isChild?: boolean;
+};
+
+/* eslint-disable jsx-a11y/control-has-associated-label */
+function TOCHeadingList({
+  toc,
+  isChild,
+}: TOCHeadingListProps): JSX.Element | null {
+  if (!toc.length) {
+    return null;
+  }
+  return (
+    <ul
+      className={
+        isChild ? '' : 'table-of-contents table-of-contents__left-border'
+      }>
+      {toc.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -38,59 +88,41 @@ export function TOCHeadings({
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
-          <TOCHeadings
-            isChild
-            toc={heading.children}
-            maxHeadingLevel={maxHeadingLevel}
-            minHeadingLevel={minHeadingLevel}
-          />
+          <TOCHeadingList isChild toc={heading.children} />
         </li>
-      );
-      // if we're not at the min level yet AND we have children at future levels, don't
-      // wrap the recursive `TOCHeadings` component with another <ul>
-    } else if (heading.level < minHeadingLevel && heading.children) {
-      return (
-        <TOCHeadings
-          isChild
-          isInnerList
-          toc={heading.children}
-          maxHeadingLevel={maxHeadingLevel}
-          minHeadingLevel={minHeadingLevel}
-        />
-      );
-    } else {
-      return null;
-    }
-  });
-
-  if (isInnerList) {
-    return <>{prunedTOC}</>;
-  } else {
-    return (
-      <ul
-        className={
-          isChild ? '' : 'table-of-contents table-of-contents__left-border'
-        }>
-        {prunedTOC}
-      </ul>
-    );
-  }
+      ))}
+    </ul>
+  );
 }
 
-function TOC({toc, maxHeadingLevel, minHeadingLevel}: TOCProps): JSX.Element {
-  const minLevel = minHeadingLevel ?? 2;
+/* eslint-disable jsx-a11y/control-has-associated-label */
+export function TOCHeadings({
+  toc,
+  maxHeadingLevel,
+  minHeadingLevel,
+}: TOCHeadingsProps): JSX.Element | null {
+  const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
+  return <TOCHeadingList toc={tocFiltered} />;
+}
+
+function TOC({toc, ...props}: TOCProps): JSX.Element {
+  // TODO defaults from themeConfig
+  const minHeadingLevel = props.minHeadingLevel ?? 2;
+  const maxHeadingLevel = props.maxHeadingLevel ?? 3;
+
   useTOCHighlight({
     linkClassName: LINK_CLASS_NAME,
     linkActiveClassName: 'table-of-contents__link--active',
     maxHeadingLevel,
-    minHeadingLevel: minLevel,
+    minHeadingLevel,
   });
+
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
       <TOCHeadings
         toc={toc}
+        minHeadingLevel={minHeadingLevel}
         maxHeadingLevel={maxHeadingLevel}
-        minHeadingLevel={minLevel}
       />
     </div>
   );
