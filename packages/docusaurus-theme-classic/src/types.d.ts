@@ -592,16 +592,15 @@ declare module '@theme/TOC' {
   // TOCCollapsible for examples
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
-    readonly maxHeadingLevel: number;
+    readonly maxHeadingLevel?: number;
     readonly minHeadingLevel?: number;
     readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
-    readonly isChild?: boolean;
-    readonly maxHeadingLevel: number;
-    readonly minHeadingLevel: number;
+    readonly maxHeadingLevel?: number;
+    readonly minHeadingLevel?: number;
   };
 
   export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;

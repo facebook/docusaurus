@@ -11,6 +11,7 @@ import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
 
@@ -49,16 +50,14 @@ function filterTOC({
 }
 
 // Memoize potentially expensive filtering logic
-function useTOCFiltered({
+export function useTOCFiltered({
   toc,
-  maxHeadingLevel,
   minHeadingLevel,
+  maxHeadingLevel,
 }: FilterTOCParam): readonly TOCItem[] {
-  return useMemo(() => filterTOC({toc, maxHeadingLevel, minHeadingLevel}), [
-    toc,
-    maxHeadingLevel,
-    minHeadingLevel,
-  ]);
+  return useMemo(() => {
+    return filterTOC({toc, minHeadingLevel, maxHeadingLevel});
+  }, [toc, maxHeadingLevel, minHeadingLevel]);
 }
 
 type TOCHeadingListProps = {
@@ -95,35 +94,37 @@ function TOCHeadingList({
   );
 }
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
 export function TOCHeadings({
   toc,
-  maxHeadingLevel,
-  minHeadingLevel,
+  minHeadingLevel: minHeadingLevelOption,
+  maxHeadingLevel: maxHeadingLevelOption,
 }: TOCHeadingsProps): JSX.Element | null {
+  const themeConfig = useThemeConfig();
+
+  const minHeadingLevel =
+    minHeadingLevelOption ?? themeConfig.tableOfContents.minHeadingLevel;
+  const maxHeadingLevel =
+    maxHeadingLevelOption ?? themeConfig.tableOfContents.maxHeadingLevel;
+
   const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
+
   return <TOCHeadingList toc={tocFiltered} />;
 }
 
-function TOC({toc, ...props}: TOCProps): JSX.Element {
-  // TODO defaults from themeConfig
-  const minHeadingLevel = props.minHeadingLevel ?? 2;
-  const maxHeadingLevel = props.maxHeadingLevel ?? 3;
-
+function TOC({className, ...props}: TOCProps): JSX.Element {
+  // TODO not good place !
   useTOCHighlight({
     linkClassName: LINK_CLASS_NAME,
     linkActiveClassName: 'table-of-contents__link--active',
-    maxHeadingLevel,
-    minHeadingLevel,
+
+    // TODO temporary hardcoded values
+    minHeadingLevel: props.minHeadingLevel ?? 2,
+    maxHeadingLevel: props.maxHeadingLevel ?? 3,
   });
 
   return (
-    <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings
-        toc={toc}
-        minHeadingLevel={minHeadingLevel}
-        maxHeadingLevel={maxHeadingLevel}
-      />
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
+      <TOCHeadings {...props} />
     </div>
   );
 }

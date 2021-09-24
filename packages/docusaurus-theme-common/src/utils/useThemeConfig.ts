@@ -86,6 +86,7 @@ export type Footer = {
 };
 
 export type TableOfContents = {
+  minHeadingLevel: number;
   maxHeadingLevel: number;
 };
 

@@ -8,33 +8,26 @@
 import React from 'react';
 import clsx from 'clsx';
 import type {TOCInlineProps} from '@theme/TOCInline';
+// @ts-expect-error: TODO temp: extract in theme-common
+import {useTOCFiltered} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
-function HeadingsInline({
+function HeadingListInline({
   toc,
   isChild,
-  isInnerList,
-  maxHeadingLevel,
-  minHeadingLevel,
 }: {
   toc: readonly TOCItem[];
   isChild?: boolean;
-  isInnerList?: boolean;
-  maxHeadingLevel: number;
-  minHeadingLevel: number;
 }) {
-  // if no headings or every heading is too deep, return nothing
-  if (!toc.length || toc.every((heading) => heading.level > maxHeadingLevel)) {
+  if (!toc.length) {
     return null;
   }
-
-  const prunedTOC = toc.map((heading) => {
-    // return a normal list item if we're between the min and max heading level
-    if (heading.level >= minHeadingLevel && heading.level <= maxHeadingLevel) {
-      return (
+  return (
+    <ul className={isChild ? '' : 'table-of-contents'}>
+      {toc.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -42,43 +35,24 @@ function HeadingsInline({
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
-          <HeadingsInline
-            isChild
-            toc={heading.children}
-            maxHeadingLevel={maxHeadingLevel}
-            minHeadingLevel={minHeadingLevel}
-          />
+          <HeadingListInline isChild toc={heading.children} />
         </li>
-      );
-      // if we're not at the min level yet AND we have children at future levels, don't
-      // wrap the recursive `TOCHeadings` component with another <ul>
-    } else if (heading.level < minHeadingLevel && heading.children) {
-      return (
-        <HeadingsInline
-          isChild
-          isInnerList
-          toc={heading.children}
-          maxHeadingLevel={maxHeadingLevel}
-          minHeadingLevel={minHeadingLevel}
-        />
-      );
-    } else {
-      return null;
-    }
-  });
+      ))}
+    </ul>
+  );
+}
 
-  if (isInnerList) {
-    return <>{prunedTOC}</>;
-  } else {
-    return (
-      <ul
-        className={
-          isChild ? '' : 'table-of-contents table-of-contents__left-border'
-        }>
-        {prunedTOC}
-      </ul>
-    );
-  }
+function HeadingsInline({
+  toc,
+  maxHeadingLevel,
+  minHeadingLevel,
+}: {
+  toc: readonly TOCItem[];
+  maxHeadingLevel: number;
+  minHeadingLevel: number;
+}) {
+  const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
+  return <HeadingListInline toc={tocFiltered} />;
 }
 
 function TOCInline({
@@ -91,6 +65,7 @@ function TOCInline({
     <div className={clsx(styles.tableOfContentsInline)}>
       <HeadingsInline
         toc={toc}
+        // TODO remove this
         maxHeadingLevel={
           maxHeadingLevel ?? tableOfContents.maxHeadingLevel ?? 4
         }
