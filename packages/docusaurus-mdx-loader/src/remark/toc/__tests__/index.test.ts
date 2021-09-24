@@ -224,8 +224,3 @@ test('empty headings', async () => {
     "
   `);
 });
-
-test('should process all heading levels', async () => {
-  const result = await processFixture('maximum-depth-6');
-  expect(result).toMatchSnapshot();
-});
