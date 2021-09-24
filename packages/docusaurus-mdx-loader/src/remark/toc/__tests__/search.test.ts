@@ -92,11 +92,11 @@ some text
 
 some text
 
-### subsection 1-1
+### subsection 1-2
 
 some text
 
-### subsection 1-2
+### subsection 1-3
 
 some text
 
@@ -148,13 +148,8 @@ some text
           level: 3,
           value: 'subsection 1-1',
         },
-        {
-          children: [],
-          id: 'subsection-1-1-3',
-          level: 3,
-          value: 'subsection 1-1',
-        },
         {children: [], id: 'subsection-1-2', level: 3, value: 'subsection 1-2'},
+        {children: [], id: 'subsection-1-3', level: 3, value: 'subsection 1-3'},
       ],
       id: 'section-1',
       level: 2,
