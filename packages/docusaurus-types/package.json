@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "commander": "^5.1.0",
-    "joi": "^17.4.0",
+    "joi": "^17.4.2",
     "querystring": "0.2.0",
     "webpack": "^5.40.0",
     "webpack-merge": "^5.8.0"
