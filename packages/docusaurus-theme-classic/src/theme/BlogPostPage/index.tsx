@@ -28,8 +28,8 @@ function BlogPostPage(props: Props): JSX.Element {
   const {
     hide_table_of_contents: hideTableOfContents,
     keywords,
-    toc_max_heading_level: tocMaxHeadingLevel,
     toc_min_heading_level: tocMinHeadingLevel,
+    toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
 
   const image = assets.image ?? frontMatter.image;

@@ -29,8 +29,8 @@ export default function DocItem(props: Props): JSX.Element {
     keywords,
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
-    toc_max_heading_level: tocMaxHeadingLevel,
     toc_min_heading_level: tocMinHeadingLevel,
+    toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
 

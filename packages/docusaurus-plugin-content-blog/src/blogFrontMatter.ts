@@ -65,8 +65,8 @@ export type BlogPostFrontMatter = {
   image?: string;
   keywords?: string[];
   hide_table_of_contents?: boolean;
-  toc_max_heading_level?: number;
   toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
   /* eslint-enable camelcase */
 };
 
