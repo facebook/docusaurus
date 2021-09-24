@@ -76,7 +76,9 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
-export function parseFrontMatter(markdownFileContent: string): {
+export function parseFrontMatter(
+  markdownFileContent: string,
+): {
   frontMatter: Record<string, unknown>;
   content: string;
 } {
@@ -105,11 +107,10 @@ export function parseMarkdownContentTitle(
 
   const content = contentUntrimmed.trim();
 
-  const IMPORT_STATEMENT =
-    /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/.source;
-  const REGULAR_TITLE =
-    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
-      .source;
+  const IMPORT_STATEMENT = /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/
+    .source;
+  const REGULAR_TITLE = /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
+    .source;
   const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
 
   const regularTitleMatch = new RegExp(
@@ -149,8 +150,9 @@ export function parseMarkdownString(
   options?: {removeContentTitle?: boolean},
 ): ParsedMarkdown {
   try {
-    const {frontMatter, content: contentWithoutFrontMatter} =
-      parseFrontMatter(markdownFileContent);
+    const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
+      markdownFileContent,
+    );
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
