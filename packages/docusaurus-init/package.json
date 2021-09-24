@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
@@ -30,7 +30,7 @@
     "semver": "^7.3.4",
     "shelljs": "^0.8.4",
     "supports-color": "^8.1.1",
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.1"
   },
   "engines": {
     "node": ">=12.13.0"

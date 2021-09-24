@@ -183,7 +183,7 @@ export async function parseMarkdownFile(
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
     return parseMarkdownString(markdownString, options);
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(
       `Error while parsing Markdown file ${source}: "${e.message}".`,
     );
