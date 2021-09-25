@@ -257,10 +257,7 @@ export async function load(
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
-    await loadPlugins({
-      pluginConfigs,
-      context,
-    });
+    await loadPlugins({pluginConfigs, context});
 
   // Side-effect to replace the untranslated themeConfig by the translated one
   context.siteConfig.themeConfig = themeConfigTranslated;
