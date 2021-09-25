@@ -15,8 +15,7 @@ cli
   .option('--target-dir <dir>')
   .option('--theme-dir <dir>')
   .option('--theme-target-dir <dir>')
-  .option('--watch')
-  .option('--prettier')
+  .option('--ignore <pattern>')
   .action(build);
 
 cli.arguments('<command>').action((cmd) => {

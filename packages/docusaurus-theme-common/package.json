@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
+    "build": "node copyUntypedFiles.js && tsc",
     "watch": "node copyUntypedFiles.js && tsc --watch"
   },
   "publishConfig": {
