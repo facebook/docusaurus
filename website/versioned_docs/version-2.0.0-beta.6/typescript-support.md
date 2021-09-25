@@ -42,6 +42,7 @@ It is **not possible** to use a TypeScript config file in Docusaurus, unless you
 
 We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html):
 
+<!-- prettier-ignore-start -->
 ```js title="docusaurus.config.js"
 // highlight-start
 /** @type {import('@docusaurus/types').Plugin} */
@@ -99,6 +100,7 @@ function MyPlugin(context, options) {
     }),
 });
 ```
+<!-- prettier-ignore-end -->
 
 :::tip
 
