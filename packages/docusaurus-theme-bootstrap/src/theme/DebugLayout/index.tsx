@@ -21,15 +21,8 @@ function Layout(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   const {favicon, url: siteUrl} = siteConfig;
   const {image: defaultImage, metadatas} = useThemeConfig();
-  const {
-    children,
-    title,
-    noFooter,
-    description,
-    image,
-    keywords,
-    permalink,
-  } = props;
+  const {children, title, noFooter, description, image, keywords, permalink} =
+    props;
   const metaTitle = useTitleFormatter(title);
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);

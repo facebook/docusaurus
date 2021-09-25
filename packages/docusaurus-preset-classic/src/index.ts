@@ -29,11 +29,8 @@ export default function preset(
 ): Preset {
   const {siteConfig} = context;
   const {themeConfig} = siteConfig;
-  const {
-    algolia,
-    googleAnalytics,
-    gtag,
-  } = (themeConfig as unknown) as ThemeConfig;
+  const {algolia, googleAnalytics, gtag} =
+    themeConfig as unknown as ThemeConfig;
   const isProd = process.env.NODE_ENV === 'production';
 
   const themes: PluginConfig[] = [];

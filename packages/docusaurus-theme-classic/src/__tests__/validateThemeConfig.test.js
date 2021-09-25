@@ -157,8 +157,7 @@ describe('themeConfig', () => {
             dropdownActiveClassDisabled: true,
             dropdownItemsBefore: [
               {
-                href:
-                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                href: 'https://www.npmjs.com/package/docusaurus?activeTab=versions',
                 label: 'Versions on npm',
                 className: 'npm-styled',
                 target: '_self',

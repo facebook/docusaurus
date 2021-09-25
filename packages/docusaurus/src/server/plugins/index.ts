@@ -87,28 +87,29 @@ export async function loadPlugins({
   type ContentLoadedTranslatedPlugin = LoadedPlugin & {
     translationFiles: TranslationFiles;
   };
-  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
-    loadedPlugins.map(async (contentLoadedPlugin) => {
-      const translationFiles =
-        (await contentLoadedPlugin?.getTranslationFiles?.({
-          content: contentLoadedPlugin.content,
-        })) ?? [];
-      const localizedTranslationFiles = await Promise.all(
-        translationFiles.map((translationFile) =>
-          localizePluginTranslationFile({
-            locale: context.i18n.currentLocale,
-            siteDir: context.siteDir,
-            translationFile,
-            plugin: contentLoadedPlugin,
-          }),
-        ),
-      );
-      return {
-        ...contentLoadedPlugin,
-        translationFiles: localizedTranslationFiles,
-      };
-    }),
-  );
+  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] =
+    await Promise.all(
+      loadedPlugins.map(async (contentLoadedPlugin) => {
+        const translationFiles =
+          (await contentLoadedPlugin?.getTranslationFiles?.({
+            content: contentLoadedPlugin.content,
+          })) ?? [];
+        const localizedTranslationFiles = await Promise.all(
+          translationFiles.map((translationFile) =>
+            localizePluginTranslationFile({
+              locale: context.i18n.currentLocale,
+              siteDir: context.siteDir,
+              translationFile,
+              plugin: contentLoadedPlugin,
+            }),
+          ),
+        );
+        return {
+          ...contentLoadedPlugin,
+          translationFiles: localizedTranslationFiles,
+        };
+      }),
+    );
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)

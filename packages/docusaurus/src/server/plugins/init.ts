@@ -193,9 +193,8 @@ export default function initPlugins({
         pluginConfig,
         pluginRequire,
       );
-      const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
-        normalizedPluginConfig,
-      );
+      const pluginVersion: DocusaurusPluginVersionInformation =
+        doGetPluginVersion(normalizedPluginConfig);
       const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
       // Side-effect: merge the normalized theme config in the original one

@@ -16,15 +16,8 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {frontMatter, assets, metadata} = BlogPostContents;
-  const {
-    title,
-    description,
-    nextItem,
-    prevItem,
-    date,
-    tags,
-    authors,
-  } = metadata;
+  const {title, description, nextItem, prevItem, date, tags, authors} =
+    metadata;
   const {hide_table_of_contents: hideTableOfContents, keywords} = frontMatter;
 
   const image = assets.image ?? frontMatter.image;

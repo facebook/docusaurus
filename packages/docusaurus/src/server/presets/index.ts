@@ -14,9 +14,7 @@ import {
   PresetConfig,
 } from '@docusaurus/types';
 
-export default function loadPresets(
-  context: LoadContext,
-): {
+export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {

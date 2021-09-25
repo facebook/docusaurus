@@ -57,9 +57,9 @@ async function extractThemeCodeMessages() {
     // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const filePaths = (
-    await globSourceCodeFilePaths(CodeDirPaths)
-  ).filter((filePath) => ['.js', '.jsx'].includes(path.extname(filePath)));
+  const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
+    (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
+  );
 
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,

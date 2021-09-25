@@ -151,18 +151,18 @@ function getDefaultBabelLoader({
   };
 }
 
-export const getCustomizableJSLoader = (
-  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel',
-) => ({
-  isServer,
-  babelOptions,
-}: {
-  isServer: boolean;
-  babelOptions?: TransformOptions | string;
-}): RuleSetRule =>
-  jsLoader === 'babel'
-    ? getDefaultBabelLoader({isServer, babelOptions})
-    : jsLoader(isServer);
+export const getCustomizableJSLoader =
+  (jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel') =>
+  ({
+    isServer,
+    babelOptions,
+  }: {
+    isServer: boolean;
+    babelOptions?: TransformOptions | string;
+  }): RuleSetRule =>
+    jsLoader === 'babel'
+      ? getDefaultBabelLoader({isServer, babelOptions})
+      : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(function () {
