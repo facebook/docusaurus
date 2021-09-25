@@ -8,6 +8,8 @@
 const chalk = require('chalk');
 const cli = require('commander');
 const build = require('../lib/build').default;
+const watch = require('../lib/watch').default;
+const tsc = require('../lib/tsc').default;
 
 cli
   .command('build')
@@ -17,6 +19,15 @@ cli
   .option('--theme-target-dir <dir>')
   .option('--ignore <pattern>')
   .action(build);
+
+cli
+  .command('watch')
+  .option('--source-dir <dir>')
+  .option('--target-dir <dir>')
+  .option('--ignore <pattern>')
+  .action(watch);
+
+cli.command('tsc').action(tsc);
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();

@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {transformFileSync} from '@babel/core';
-import {Globby} from '@docusaurus/utils';
-import prettier from 'prettier';
 import path from 'path';
 import fs from 'fs';
+import {transformFileSync} from '@babel/core';
+import {Globby} from '@docusaurus/utils';
+import prettier, {Options as PrettierOptions} from 'prettier';
 
-function compileOrCopy(
+export function compileOrCopy(
   filePath: string,
   sourceDir: string,
   targetDir: string,
   compileAction: (file: string) => string,
-) {
+): void {
   const targetPath = path
     .resolve(targetDir, path.relative(sourceDir, filePath))
     .replace(/\.tsx?/g, '.js');
@@ -43,6 +43,33 @@ function transformDir(
   );
 }
 
+export function fullyTranspile(file: string): string {
+  return (
+    transformFileSync(file, {
+      presets: [
+        ['@babel/preset-typescript', {isTSX: true, allExtensions: true}],
+      ],
+      plugins: [
+        '@babel/plugin-transform-modules-commonjs',
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+        '@babel/plugin-proposal-optional-chaining',
+      ],
+    })?.code ?? ''
+  );
+}
+
+function stripTypes(file: string, prettierConfig: PrettierOptions) {
+  // TODO let's hope for the pipeline operator :D
+  return prettier.format(
+    transformFileSync(file, {
+      presets: [
+        ['@babel/preset-typescript', {isTSX: true, allExtensions: true}],
+      ],
+    })?.code ?? '',
+    {parser: 'babel', ...prettierConfig},
+  );
+}
+
 export default async function build(
   options: Partial<{
     sourceDir: string;
@@ -60,22 +87,7 @@ export default async function build(
     ignore = ['**/__tests__/**'],
   } = options;
   // Compile: src/*.ts -> lib/*.js
-  transformDir(
-    sourceDir,
-    targetDir,
-    (file) =>
-      transformFileSync(file, {
-        presets: [
-          ['@babel/preset-typescript', {isTSX: true, allExtensions: true}],
-        ],
-        plugins: [
-          '@babel/plugin-transform-modules-commonjs',
-          '@babel/plugin-proposal-nullish-coalescing-operator',
-          '@babel/plugin-proposal-optional-chaining',
-        ],
-      })?.code ?? '',
-    [...ignore, '**/*.d.ts'],
-  );
+  transformDir(sourceDir, targetDir, fullyTranspile, [...ignore, '**/*.d.ts']);
   // Re-compile & prettier: src/theme/*.tsx -> lib/js-theme/*.js (for swizzling)
   if (fs.existsSync(themeDir)) {
     const prettierConfig = await prettier.resolveConfig(themeDir);
@@ -85,16 +97,7 @@ export default async function build(
     transformDir(
       themeDir,
       themeTargetDir,
-      (file) =>
-        // TODO let's hope for the pipeline operator :D
-        prettier.format(
-          transformFileSync(file, {
-            presets: [
-              ['@babel/preset-typescript', {isTSX: true, allExtensions: true}],
-            ],
-          })?.code ?? '',
-          {parser: 'babel', ...prettierConfig},
-        ),
+      (file) => stripTypes(file, prettierConfig),
       [...ignore, '**/*.d.ts'],
     );
   }

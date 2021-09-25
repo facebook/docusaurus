@@ -6,7 +6,7 @@
   "types": "src/plugin-google-gtag.d.ts",
   "scripts": {
     "build": "docusaurus-plugin build",
-    "watch": "tsc --watch"
+    "watch": "docusaurus-plugin watch"
   },
   "publishConfig": {
     "access": "public"

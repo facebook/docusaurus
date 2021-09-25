@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "docusaurus-plugin build",
-    "watch": "node copyUntypedFiles.js && tsc --watch"
+    "watch": "docusaurus-plugin watch"
   },
   "publishConfig": {
     "access": "public"

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "docusaurus-plugin build",
-    "watch": "tsc --watch"
+    "watch": "docusaurus-plugin watch"
   },
   "repository": {
     "type": "git",

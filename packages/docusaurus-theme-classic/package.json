@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "build": "docusaurus-plugin build",
-    "watch": "concurrently --names \"lib,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn tsc --watch\"",
+    "watch": "docusaurus-plugin watch",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
   },
