@@ -8,6 +8,7 @@
 import {useEffect, useRef} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {ScrollPosition} from '@theme/hooks/useScrollPosition';
+import useScrollMonitorContext from '@theme/hooks/useScrollMonitorContext';
 
 const getScrollPosition = (): ScrollPosition | null => {
   return ExecutionEnvironment.canUseDOM
@@ -25,9 +26,13 @@ const useScrollPosition = (
   ) => void,
   deps = [],
 ): void => {
+  const {isScrollMonitorEnabledRef} = useScrollMonitorContext();
   const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
 
   const handleScroll = () => {
+    if (!isScrollMonitorEnabledRef.current) {
+      return;
+    }
     const currentPosition = getScrollPosition()!;
 
     if (effect) {

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.tabItem {
-  margin-top: 0 !important;
-}
+import {createContext} from 'react';
+
+const ScrollMonitorContext = createContext(undefined);
+
+export default ScrollMonitorContext;

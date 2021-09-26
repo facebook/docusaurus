@@ -8,6 +8,7 @@
 import React from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
+import ScrollMonitorProvider from '@theme/ScrollMonitorProvider';
 import {
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
@@ -20,11 +21,13 @@ export default function LayoutProviders({children}: Props): JSX.Element {
     <ThemeProvider>
       <AnnouncementBarProvider>
         <UserPreferencesProvider>
-          <DocsPreferredVersionContextProvider>
-            <MobileSecondaryMenuProvider>
-              {children}
-            </MobileSecondaryMenuProvider>
-          </DocsPreferredVersionContextProvider>
+          <ScrollMonitorProvider>
+            <DocsPreferredVersionContextProvider>
+              <MobileSecondaryMenuProvider>
+                {children}
+              </MobileSecondaryMenuProvider>
+            </DocsPreferredVersionContextProvider>
+          </ScrollMonitorProvider>
         </UserPreferencesProvider>
       </AnnouncementBarProvider>
     </ThemeProvider>

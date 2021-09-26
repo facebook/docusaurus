@@ -5,21 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement, Children, ReactElement} from 'react';
+import React, {
+  useState,
+  cloneElement,
+  Children,
+  ReactElement,
+  useLayoutEffect,
+} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import useScrollMonitorContext from '@theme/hooks/useScrollMonitorContext';
+import {useRestoreTop} from '@theme/hooks/useRestoreTop';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
-
-function isInViewport(element: HTMLElement): boolean {
-  const {top, left, bottom, right} = element.getBoundingClientRect();
-  const {innerHeight, innerWidth} = window;
-
-  return top >= 0 && right <= innerWidth && bottom <= innerHeight && left >= 0;
-}
 
 function Tabs(props: Props): JSX.Element {
   const {
@@ -48,6 +49,25 @@ function Tabs(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
+  const {enableScrollMonitor, disableScrollMonitor} = useScrollMonitorContext();
+  const {measureTop, restoreTop} = useRestoreTop();
+
+  useLayoutEffect(() => {
+    // prevent `restoreTop` from triggering the navbar auto hide/show by
+    // disabling the scroll monitoring temporarily
+    disableScrollMonitor();
+    restoreTop();
+    setTimeout(() => {
+      enableScrollMonitor();
+    }, 150);
+  }, [
+    // reactive deps:
+    tabGroupChoices,
+    // stable formalities:
+    restoreTop,
+    enableScrollMonitor,
+    disableScrollMonitor,
+  ]);
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -67,27 +87,11 @@ function Tabs(props: Props): JSX.Element {
     const selectedTabIndex = tabRefs.indexOf(selectedTab);
     const selectedTabValue = values[selectedTabIndex].value;
 
+    measureTop(selectedTab);
     setSelectedValue(selectedTabValue);
 
     if (groupId != null) {
       setTabGroupChoices(groupId, selectedTabValue);
-
-      setTimeout(() => {
-        if (isInViewport(selectedTab)) {
-          return;
-        }
-
-        selectedTab.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
-        });
-
-        selectedTab.classList.add(styles.tabItemActive);
-        setTimeout(
-          () => selectedTab.classList.remove(styles.tabItemActive),
-          2000,
-        );
-      }, 150);
     }
   };
 
