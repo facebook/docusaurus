@@ -12,6 +12,7 @@ import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import {kebabCase, sortBy} from 'lodash';
+import supportsColor from 'supports-color';
 
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
@@ -239,11 +240,15 @@ ${chalk.cyan('Creating new Docusaurus project...')}
     console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
 
     try {
+      // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
       shell.exec(
-        `cd "${name}" && ${
-          // Force coloring the output, because the command is invoked by shelljs, not in the interative shell
-          useYarn ? 'FORCE_COLOR=true yarn' : 'npm install --color always'
-        }`,
+        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        {
+          env: {
+            ...process.env,
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
+        },
       );
     } catch (err) {
       console.log(chalk.red('Installation failed.'));

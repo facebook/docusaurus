@@ -18,6 +18,7 @@ export function createExcerpt(fileString: string): string | undefined {
     // Remove Markdown alternate title
     .replace(/^[^\n]*\n[=]+/g, '')
     .split('\n');
+  let inCode = false;
 
   /* eslint-disable no-continue */
   // eslint-disable-next-line no-restricted-syntax
@@ -29,6 +30,14 @@ export function createExcerpt(fileString: string): string | undefined {
 
     // Skip import/export declaration.
     if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
+      continue;
+    }
+
+    // Skip code block line.
+    if (fileLine.trim().startsWith('```')) {
+      inCode = !inCode;
+      continue;
+    } else if (inCode) {
       continue;
     }
 
@@ -174,7 +183,7 @@ export async function parseMarkdownFile(
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
     return parseMarkdownString(markdownString, options);
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(
       `Error while parsing Markdown file ${source}: "${e.message}".`,
     );

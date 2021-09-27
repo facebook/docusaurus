@@ -363,20 +363,15 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-<Tabs
-  defaultValue="bash"
-  values={[
-    { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }
-]}>
-  <TabItem value="bash">
+<Tabs>
+  <TabItem value="bash" label="Bash" default>
 
   ```bash
   GIT_USER=<GITHUB_USERNAME> yarn deploy
   ```
 
   </TabItem>
-  <TabItem value="windows">
+  <TabItem value="windows" label="Windows">
 
   ```batch
   cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"

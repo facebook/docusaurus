@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
-'use strict';
-Object.defineProperty(exports, '__esModule', {value: true});
+export interface ThemeConfig {
+  gtag?: {
+    trackingID: string;
+    anonymizeIP?: boolean;
+  };
+}

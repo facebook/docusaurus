@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {EnumChangefreq} from 'sitemap';
+/// <reference types="@docusaurus/module-type-aliases" />
 
-export type PluginOptions = {
-  changefreq?: EnumChangefreq;
-  priority?: number;
-  trailingSlash?: boolean;
-};
+interface Window {
+  ga: (command: string, ...fields: string[]) => void;
+}

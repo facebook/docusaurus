@@ -14,10 +14,10 @@ export type Options = {
   theme?: import('@docusaurus/theme-classic').Options;
 };
 
-export type ThemeConfig = import('@docusaurus/theme-common').ThemeConfig & {
-  // Those themeConfigs should rather be moved to preset/plugin options
-  // Plugin data can be made available to browser thank to the globalData api
-  algolia?: unknown; // TODO type plugin
-  googleAnalytics?: unknown; // TODO type plugin
-  gtag?: unknown; // TODO type plugin
-};
+export type ThemeConfig = import('@docusaurus/theme-common').ThemeConfig &
+  import('@docusaurus/plugin-google-analytics').ThemeConfig &
+  import('@docusaurus/plugin-google-gtag').ThemeConfig & {
+    // Those themeConfigs should rather be moved to preset/plugin options
+    // Plugin data can be made available to browser thank to the globalData api
+    algolia?: unknown; // TODO type plugin
+  };

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {EnumChangefreq} from 'sitemap';
-
-export type PluginOptions = {
-  changefreq?: EnumChangefreq;
-  priority?: number;
-  trailingSlash?: boolean;
-};
+export interface ThemeConfig {
+  googleAnalytics?: {
+    trackingID: string;
+    anonymizeIP?: boolean;
+  };
+}

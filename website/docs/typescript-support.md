@@ -17,10 +17,10 @@ Below are some guides on how to migrate an existing project to TypeScript.
 
 ## Setup {#setup}
 
-To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
+To start using TypeScript, add `@docusaurus/module-type-aliases` and the base TS config to your project:
 
 ```bash npm2yarn
-npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet @tsconfig/docusaurus
+npm install --save-dev typescript @docusaurus/module-type-aliases @tsconfig/docusaurus
 ```
 
 Then add `tsconfig.json` to your project root with the following content:

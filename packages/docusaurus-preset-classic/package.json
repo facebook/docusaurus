@@ -2,8 +2,12 @@
   "name": "@docusaurus/preset-classic",
   "version": "2.0.0-beta.6",
   "description": "Classic preset for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "types": "src/preset-classic.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
   "publishConfig": {
     "access": "public"
   },

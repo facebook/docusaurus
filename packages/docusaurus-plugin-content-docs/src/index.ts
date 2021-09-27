@@ -328,18 +328,22 @@ export default function pluginContentDocs(
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
-          const tagsPropPath = await createData(
-            `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
-            JSON.stringify(tagsProp, null, 2),
-          );
-          addRoute({
-            path: loadedVersion.tagsPath,
-            exact: true,
-            component: options.docTagsListComponent,
-            modules: {
-              tags: aliasedSource(tagsPropPath),
-            },
-          });
+
+          // Only create /tags page if there are tags.
+          if (Object.keys(tagsProp).length > 0) {
+            const tagsPropPath = await createData(
+              `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
+              JSON.stringify(tagsProp, null, 2),
+            );
+            addRoute({
+              path: loadedVersion.tagsPath,
+              exact: true,
+              component: options.docTagsListComponent,
+              modules: {
+                tags: aliasedSource(tagsPropPath),
+              },
+            });
+          }
         }
 
         async function createTagDocListPage(tag: VersionTag) {

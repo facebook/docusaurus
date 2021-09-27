@@ -6,8 +6,9 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib",
-    "noImplicitAny": false,
-    "jsx": "react"
+    "jsx": "react",
+    "allowJs": true
   },
-  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*", "src/client"]
+  "include": ["src"],
+  "exclude": ["**/__tests__/**/*", "src/client"]
 }
