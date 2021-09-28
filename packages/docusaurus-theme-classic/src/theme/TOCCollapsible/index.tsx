@@ -16,6 +16,7 @@ import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 export default function TOCCollapsible({
   toc,
   className,
+  minHeadingLevel,
   maxHeadingLevel,
 }: TOCCollapsibleProps): JSX.Element {
   const {collapsed, toggleCollapsed} = useCollapsible({
@@ -48,8 +49,8 @@ export default function TOCCollapsible({
         collapsed={collapsed}>
         <TOCHeadings
           toc={toc}
+          minHeadingLevel={minHeadingLevel}
           maxHeadingLevel={maxHeadingLevel}
-          minHeadingLevel={2}
         />
       </Collapsible>
     </div>

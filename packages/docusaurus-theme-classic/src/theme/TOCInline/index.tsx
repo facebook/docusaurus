@@ -44,12 +44,12 @@ function HeadingListInline({
 
 function HeadingsInline({
   toc,
-  maxHeadingLevel,
   minHeadingLevel,
+  maxHeadingLevel,
 }: {
   toc: readonly TOCItem[];
-  maxHeadingLevel: number;
   minHeadingLevel: number;
+  maxHeadingLevel: number;
 }) {
   const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
   return <HeadingListInline toc={tocFiltered} />;
@@ -57,8 +57,8 @@ function HeadingsInline({
 
 function TOCInline({
   toc,
-  maxHeadingLevel,
   minHeadingLevel,
+  maxHeadingLevel,
 }: TOCInlineProps): JSX.Element {
   const {tableOfContents} = useThemeConfig();
   return (
@@ -66,10 +66,10 @@ function TOCInline({
       <HeadingsInline
         toc={toc}
         // TODO remove this
+        minHeadingLevel={minHeadingLevel ?? 2}
         maxHeadingLevel={
           maxHeadingLevel ?? tableOfContents.maxHeadingLevel ?? 4
         }
-        minHeadingLevel={minHeadingLevel ?? 2}
       />
     </div>
   );

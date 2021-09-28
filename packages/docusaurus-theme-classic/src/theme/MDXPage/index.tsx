@@ -48,6 +48,7 @@ function MDXPage(props: Props): JSX.Element {
             <div className="col col--2">
               <TOC
                 toc={MDXPageContent.toc}
+                minHeadingLevel={tableOfContents.minHeadingLevel}
                 maxHeadingLevel={tableOfContents.maxHeadingLevel}
               />
             </div>

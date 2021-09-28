@@ -57,7 +57,7 @@ export function useTOCFiltered({
 }: FilterTOCParam): readonly TOCItem[] {
   return useMemo(() => {
     return filterTOC({toc, minHeadingLevel, maxHeadingLevel});
-  }, [toc, maxHeadingLevel, minHeadingLevel]);
+  }, [toc, minHeadingLevel, maxHeadingLevel]);
 }
 
 type TOCHeadingListProps = {

@@ -74,10 +74,10 @@ export default function DocItem(props: Props): JSX.Element {
               {canRenderTOC && (
                 <TOCCollapsible
                   toc={DocContent.toc}
+                  minHeadingLevel={tocMinHeadingLevel}
                   maxHeadingLevel={
                     tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
                   }
-                  minHeadingLevel={tocMinHeadingLevel}
                   className={clsx(
                     ThemeClassNames.docs.docTocMobile,
                     styles.tocMobile,
@@ -106,10 +106,10 @@ export default function DocItem(props: Props): JSX.Element {
         {renderTocDesktop && (
           <div className="col col--3">
             <TOC
+              minHeadingLevel={tocMinHeadingLevel}
               maxHeadingLevel={
                 tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
               }
-              minHeadingLevel={tocMinHeadingLevel}
               toc={DocContent.toc}
               className={ThemeClassNames.docs.docTocDesktop}
             />

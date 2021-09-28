@@ -20,8 +20,8 @@ function BlogLayout(props: Props): JSX.Element {
     sidebar,
     toc,
     children,
-    tocMaxHeadingLevel,
     tocMinHeadingLevel,
+    tocMaxHeadingLevel,
     ...layoutProps
   } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
@@ -49,10 +49,10 @@ function BlogLayout(props: Props): JSX.Element {
             <div className="col col--2">
               <TOC
                 toc={toc}
+                minHeadingLevel={tocMinHeadingLevel}
                 maxHeadingLevel={
                   tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
                 }
-                minHeadingLevel={tocMinHeadingLevel}
               />
             </div>
           )}

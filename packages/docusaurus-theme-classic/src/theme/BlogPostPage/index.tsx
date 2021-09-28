@@ -44,8 +44,8 @@ function BlogPostPage(props: Props): JSX.Element {
           ? BlogPostContents.toc
           : undefined
       }
-      tocMaxHeadingLevel={tocMaxHeadingLevel}
-      tocMinHeadingLevel={tocMinHeadingLevel}>
+      tocMinHeadingLevel={tocMinHeadingLevel}
+      tocMaxHeadingLevel={tocMaxHeadingLevel}>
       <Seo
         // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
         // otherwise  default image (set by BlogLayout) would shadow the custom blog post image

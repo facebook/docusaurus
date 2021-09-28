@@ -26,11 +26,11 @@ function isInViewportTopHalf(boundingRect: DOMRect) {
 }
 
 function getAnchors({
-  maxHeadingLevel,
   minHeadingLevel,
+  maxHeadingLevel,
 }: {
-  maxHeadingLevel: number;
   minHeadingLevel: number;
+  maxHeadingLevel: number;
 }) {
   const selectors = [];
 
@@ -131,8 +131,8 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const {maxHeadingLevel, minHeadingLevel} = params;
-      const anchors = getAnchors({maxHeadingLevel, minHeadingLevel});
+      const {minHeadingLevel, maxHeadingLevel} = params;
+      const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });
