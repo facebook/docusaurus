@@ -5,10 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import type {TOCItemsProps} from '@theme/TOCItems';
 import {TOCItem} from '@docusaurus/types';
-import {useThemeConfig, useTOCFilter} from '@docusaurus/theme-common';
+import {
+  TOCHighlightConfig,
+  useThemeConfig,
+  useTOCFilter,
+  useTOCHighlight,
+} from '@docusaurus/theme-common';
 
 // Recursive component rendering the toc tree
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -19,8 +24,8 @@ function TOCItemList({
   isChild,
 }: {
   readonly toc: readonly TOCItem[];
-  readonly className?: string;
-  readonly linkClassName?: string;
+  readonly className: string;
+  readonly linkClassName: string;
   readonly isChild?: boolean;
 }): JSX.Element | null {
   if (!toc.length) {
@@ -51,6 +56,9 @@ function TOCItemList({
 
 export default function TOCItems({
   toc,
+  className = 'table-of-contents table-of-contents__left-border',
+  linkClassName = 'table-of-contents__link',
+  linkActiveClassName = undefined,
   minHeadingLevel: minHeadingLevelOption,
   maxHeadingLevel: maxHeadingLevelOption,
   ...props
@@ -64,5 +72,25 @@ export default function TOCItems({
 
   const tocFiltered = useTOCFilter({toc, minHeadingLevel, maxHeadingLevel});
 
-  return <TOCItemList toc={tocFiltered} {...props} />;
+  const tocHighlightConfig: TOCHighlightConfig | undefined = useMemo(() => {
+    if (linkClassName && linkActiveClassName) {
+      return {
+        linkClassName,
+        linkActiveClassName,
+        minHeadingLevel,
+        maxHeadingLevel,
+      };
+    }
+    return undefined;
+  }, [linkClassName, linkActiveClassName, minHeadingLevel, maxHeadingLevel]);
+  useTOCHighlight(tocHighlightConfig);
+
+  return (
+    <TOCItemList
+      toc={tocFiltered}
+      className={className}
+      linkClassName={linkClassName}
+      {...props}
+    />
+  );
 }

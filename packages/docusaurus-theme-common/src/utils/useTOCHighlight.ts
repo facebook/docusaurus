@@ -37,14 +37,12 @@ function getAnchors({
   maxHeadingLevel: number;
 }) {
   const selectors = [];
-
   for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
     selectors.push(`.anchor.anchor__h${i}`);
   }
+  const selector = selectors.join(', ');
 
-  return Array.from(
-    document.querySelectorAll(selectors.join(', ')),
-  ) as HTMLElement[];
+  return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
 }
 
 function getActiveAnchor(
@@ -113,20 +111,30 @@ function useAnchorTopOffsetRef() {
   return anchorTopOffsetRef;
 }
 
-type Params = {
+export type TOCHighlightConfig = {
   linkClassName: string;
   linkActiveClassName: string;
   minHeadingLevel: number;
   maxHeadingLevel: number;
 };
 
-function useTOCHighlight(params: Params): void {
+function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
   useEffect(() => {
-    const {linkClassName, linkActiveClassName} = params;
+    if (!config) {
+      // no-op, highlighting is disabled
+      return () => {};
+    }
+
+    const {
+      linkClassName,
+      linkActiveClassName,
+      minHeadingLevel,
+      maxHeadingLevel,
+    } = config;
 
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
       if (active) {
@@ -142,7 +150,6 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const {minHeadingLevel, maxHeadingLevel} = params;
       const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
@@ -165,7 +172,7 @@ function useTOCHighlight(params: Params): void {
       document.removeEventListener('scroll', updateActiveLink);
       document.removeEventListener('resize', updateActiveLink);
     };
-  }, [params, anchorTopOffsetRef]);
+  }, [config, anchorTopOffsetRef]);
 }
 
 export default useTOCHighlight;

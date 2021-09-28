@@ -10,24 +10,20 @@ import clsx from 'clsx';
 import type {TOCProps} from '@theme/TOC';
 import TOCItems from '@theme/TOCItems';
 import styles from './styles.module.css';
-import {useTOCHighlight} from '@docusaurus/theme-common';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
+// Using a custom className
+// This prevents TOC highlighting to highlight TOCInline/TOCCollapsible by mistake
+const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
+const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
 function TOC({className, ...props}: TOCProps): JSX.Element {
-  // TODO not good place !
-  useTOCHighlight({
-    linkClassName: LINK_CLASS_NAME,
-    linkActiveClassName: 'table-of-contents__link--active',
-
-    // TODO temporary hardcoded values
-    minHeadingLevel: props.minHeadingLevel ?? 2,
-    maxHeadingLevel: props.maxHeadingLevel ?? 3,
-  });
-
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
-      <TOCItems {...props} />
+      <TOCItems
+        {...props}
+        linkClassName={LINK_CLASS_NAME}
+        linkActiveClassName={LINK_ACTIVE_CLASS_NAME}
+      />
     </div>
   );
 }

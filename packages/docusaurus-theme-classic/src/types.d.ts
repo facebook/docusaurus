@@ -580,6 +580,7 @@ declare module '@theme/TOCItems' {
     readonly maxHeadingLevel?: number;
     readonly className?: string;
     readonly linkClassName?: string;
+    readonly linkActiveClassName?: string;
   };
 
   export default function TOCItems(props: TOCItemsProps): JSX.Element;
