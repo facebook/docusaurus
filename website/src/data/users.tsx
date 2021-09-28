@@ -609,7 +609,7 @@ const Users: User[] = [
     preview: require('./showcase/iota-wiki.png'),
     website: 'https://wiki.iota.org',
     source: 'https://github.com/iota-community/iota-wiki',
-    tags: ['opensource'],
+    tags: ['favorite', 'opensource'],
   },
   {
     title: 'Jest',
