@@ -571,6 +571,20 @@ declare module '@theme/ThemeProvider' {
   export default ThemeProvider;
 }
 
+declare module '@theme/TOCItems' {
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type TOCItemsProps = {
+    readonly toc: readonly TOCItem[];
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
+    readonly className?: string;
+    readonly linkClassName?: string;
+  };
+
+  export default function TOCItems(props: TOCItemsProps): JSX.Element;
+}
+
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 

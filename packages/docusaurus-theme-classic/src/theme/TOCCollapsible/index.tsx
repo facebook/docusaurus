@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {useCollapsible, Collapsible} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
-import {TOCHeadings} from '@theme/TOC';
+import TOCItems from '@theme/TOCItems';
 import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
 
 export default function TOCCollapsible({
@@ -47,7 +47,7 @@ export default function TOCCollapsible({
         lazy
         className={styles.tocCollapsibleContent}
         collapsed={collapsed}>
-        <TOCHeadings
+        <TOCItems
           toc={toc}
           minHeadingLevel={minHeadingLevel}
           maxHeadingLevel={maxHeadingLevel}
