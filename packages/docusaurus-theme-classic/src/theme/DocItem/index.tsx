@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
@@ -17,9 +16,8 @@ import DocItemFooter from '@theme/DocItemFooter';
 import TOC from '@theme/TOC';
 import TOCCollapsible from '@theme/TOCCollapsible';
 import {MainHeading} from '@theme/Heading';
-
 import styles from './styles.module.css';
-import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent, versionMetadata} = props;
@@ -41,7 +39,6 @@ export default function DocItem(props: Props): JSX.Element {
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const windowSize = useWindowSize();
-  const {tableOfContents} = useThemeConfig();
 
   const canRenderTOC =
     !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
@@ -75,9 +72,7 @@ export default function DocItem(props: Props): JSX.Element {
                 <TOCCollapsible
                   toc={DocContent.toc}
                   minHeadingLevel={tocMinHeadingLevel}
-                  maxHeadingLevel={
-                    tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
-                  }
+                  maxHeadingLevel={tocMaxHeadingLevel}
                   className={clsx(
                     ThemeClassNames.docs.docTocMobile,
                     styles.tocMobile,
@@ -106,11 +101,9 @@ export default function DocItem(props: Props): JSX.Element {
         {renderTocDesktop && (
           <div className="col col--3">
             <TOC
-              minHeadingLevel={tocMinHeadingLevel}
-              maxHeadingLevel={
-                tocMaxHeadingLevel ?? tableOfContents.maxHeadingLevel
-              }
               toc={DocContent.toc}
+              minHeadingLevel={tocMinHeadingLevel}
+              maxHeadingLevel={tocMaxHeadingLevel}
               className={ThemeClassNames.docs.docTocDesktop}
             />
           </div>

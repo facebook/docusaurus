@@ -12,6 +12,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import TOC from '@theme/TOC';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
@@ -45,12 +46,16 @@ function BlogPostPage(props: Props): JSX.Element {
       pageClassName={ThemeClassNames.page.blogPostPage}
       sidebar={sidebar}
       toc={
-        !hideTableOfContents && BlogPostContents.toc
-          ? BlogPostContents.toc
-          : undefined
-      }
-      tocMinHeadingLevel={tocMinHeadingLevel}
-      tocMaxHeadingLevel={tocMaxHeadingLevel}>
+        !hideTableOfContents &&
+        BlogPostContents.toc &&
+        BlogPostContents.toc.length > 0 ? (
+          <TOC
+            toc={BlogPostContents.toc}
+            minHeadingLevel={tocMinHeadingLevel}
+            maxHeadingLevel={tocMaxHeadingLevel}
+          />
+        ) : undefined
+      }>
       <Seo
         // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
         // otherwise  default image (set by BlogLayout) would shadow the custom blog post image

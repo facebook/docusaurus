@@ -79,13 +79,10 @@ declare module '@theme/BlogPostPaginator' {
 declare module '@theme/BlogLayout' {
   import type {Props as LayoutProps} from '@theme/Layout';
   import type {BlogSidebar} from '@theme/BlogSidebar';
-  import type {TOCItem} from '@docusaurus/types';
 
   export type Props = LayoutProps & {
     readonly sidebar?: BlogSidebar;
-    readonly toc?: readonly TOCItem[];
-    readonly tocMinHeadingLevel?: number;
-    readonly tocMaxHeadingLevel?: number;
+    readonly toc?: ReactNode;
   };
 
   const BlogLayout: (props: Props) => JSX.Element;
@@ -628,7 +625,7 @@ declare module '@theme/TOCCollapsible' {
   export type TOCCollapsibleProps = {
     readonly className?: string;
     readonly minHeadingLevel?: number;
-    readonly maxHeadingLevel: number;
+    readonly maxHeadingLevel?: number;
     readonly toc: readonly TOCItem[];
   };
 
