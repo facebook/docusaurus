@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Params} from '@theme/hooks/useTOCHighlight';
 import {useEffect, useRef} from 'react';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig} from './useThemeConfig';
+
+/*
+TODO make the hardcoded theme-classic classnames configurable
+(or add them to ThemeClassNames?)
+ */
 
 // If the anchor has no height and is just a "marker" in the dom; we'll use the parent (normally the link text) rect boundaries instead
 function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
@@ -108,6 +112,13 @@ function useAnchorTopOffsetRef() {
 
   return anchorTopOffsetRef;
 }
+
+type Params = {
+  linkClassName: string;
+  linkActiveClassName: string;
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+};
 
 function useTOCHighlight(params: Params): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);

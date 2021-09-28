@@ -5,60 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useMemo} from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {
+  useThemeConfig,
+  useTOCHighlight,
+  useTOCFilter,
+} from '@docusaurus/theme-common';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
-
-type FilterTOCParam = {
-  toc: readonly TOCItem[];
-  minHeadingLevel: number;
-  maxHeadingLevel: number;
-};
-
-function filterTOC({
-  toc,
-  minHeadingLevel,
-  maxHeadingLevel,
-}: FilterTOCParam): TOCItem[] {
-  function isValid(item: TOCItem) {
-    return item.level >= minHeadingLevel && item.level <= maxHeadingLevel;
-  }
-
-  return toc.flatMap((item) => {
-    const filteredChildren = filterTOC({
-      toc: item.children,
-      minHeadingLevel,
-      maxHeadingLevel,
-    });
-    if (isValid(item)) {
-      return [
-        {
-          ...item,
-          children: filteredChildren,
-        },
-      ];
-    } else {
-      return filteredChildren;
-    }
-  });
-}
-
-// Memoize potentially expensive filtering logic
-export function useTOCFiltered({
-  toc,
-  minHeadingLevel,
-  maxHeadingLevel,
-}: FilterTOCParam): readonly TOCItem[] {
-  return useMemo(() => {
-    return filterTOC({toc, minHeadingLevel, maxHeadingLevel});
-  }, [toc, minHeadingLevel, maxHeadingLevel]);
-}
 
 type TOCHeadingListProps = {
   readonly toc: readonly TOCItem[];
@@ -106,7 +64,7 @@ export function TOCHeadings({
   const maxHeadingLevel =
     maxHeadingLevelOption ?? themeConfig.tableOfContents.maxHeadingLevel;
 
-  const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
+  const tocFiltered = useTOCFilter({toc, minHeadingLevel, maxHeadingLevel});
 
   return <TOCHeadingList toc={tocFiltered} />;
 }

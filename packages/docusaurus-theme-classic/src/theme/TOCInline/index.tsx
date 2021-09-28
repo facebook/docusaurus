@@ -8,11 +8,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import type {TOCInlineProps} from '@theme/TOCInline';
-// @ts-expect-error: TODO temp: extract in theme-common
-import {useTOCFiltered} from '@theme/TOC';
 import styles from './styles.module.css';
 import {TOCItem} from '@docusaurus/types';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig, useTOCFilter} from '@docusaurus/theme-common';
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function HeadingListInline({
@@ -51,7 +49,7 @@ function HeadingsInline({
   minHeadingLevel: number;
   maxHeadingLevel: number;
 }) {
-  const tocFiltered = useTOCFiltered({toc, minHeadingLevel, maxHeadingLevel});
+  const tocFiltered = useTOCFilter({toc, minHeadingLevel, maxHeadingLevel});
   return <HeadingListInline toc={tocFiltered} />;
 }
 

@@ -256,16 +256,6 @@ declare module '@theme/hooks/useThemeContext' {
   export default function useThemeContext(): ThemeContextProps;
 }
 
-declare module '@theme/hooks/useTOCHighlight' {
-  export type Params = {
-    linkClassName: string;
-    linkActiveClassName: string;
-    minHeadingLevel: number;
-    maxHeadingLevel: number;
-  };
-  export default function useTOCHighlight(params: Params): void;
-}
-
 declare module '@theme/hooks/useUserPreferencesContext' {
   export type UserPreferencesContextProps = {
     tabGroupChoices: {readonly [groupId: string]: string};

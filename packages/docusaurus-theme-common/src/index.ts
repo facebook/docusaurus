@@ -73,3 +73,6 @@ export {translateTagsPageTitle, listTagsByLetters} from './utils/tagsUtils';
 export type {TagLetterEntry} from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';
+
+export {default as useTOCHighlight} from './utils/useTOCHighlight';
+export {useTOCFilter} from './utils/tocUtils';
