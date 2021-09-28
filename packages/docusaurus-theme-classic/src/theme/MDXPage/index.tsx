@@ -12,13 +12,17 @@ import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
-import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
-  const {frontMatter, metadata} = MDXPageContent;
+  const {
+    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
+    frontMatter,
+    metadata,
+  } = MDXPageContent;
 
   const {
     title,
@@ -27,8 +31,6 @@ function MDXPage(props: Props): JSX.Element {
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
   const {permalink} = metadata;
-
-  const {tableOfContents} = useThemeConfig();
 
   return (
     <Layout
@@ -48,8 +50,8 @@ function MDXPage(props: Props): JSX.Element {
             <div className="col col--2">
               <TOC
                 toc={MDXPageContent.toc}
-                minHeadingLevel={tableOfContents.minHeadingLevel}
-                maxHeadingLevel={tableOfContents.maxHeadingLevel}
+                minHeadingLevel={frontMatter.toc_min_heading_level}
+                maxHeadingLevel={frontMatter.toc_max_heading_level}
               />
             </div>
           )}

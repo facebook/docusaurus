@@ -15,7 +15,12 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
-  const {frontMatter, assets, metadata} = BlogPostContents;
+  const {
+    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
+    frontMatter,
+    assets,
+    metadata,
+  } = BlogPostContents;
   const {
     title,
     description,

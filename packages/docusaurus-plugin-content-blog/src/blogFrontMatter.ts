@@ -10,6 +10,7 @@ import {
   URISchema,
   validateFrontMatter,
   FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
 } from '@docusaurus/utils-validation';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
@@ -113,6 +114,8 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   image: URISchema,
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
+
+  ...FrontMatterTOCHeadingLevels,
 }).messages({
   'deprecate.error':
     '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
