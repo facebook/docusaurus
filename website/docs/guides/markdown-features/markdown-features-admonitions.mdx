@@ -121,3 +121,35 @@ import TabItem from '@theme/TabItem';
 ```
 
 :::
+
+## Custom Admonitions
+
+If you're using `@docusaurus/preset-classic`, you can create custom admonitions by adding them to your website's `docusaurus.config.js`. 
+
+For example, the following configuration adds an admonition with the `custom` keyword. This admonition will be styled as an [Infima `alert-info` component](https://infima.dev/docs/components/alert):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      "@docusaurus/preset-classic",
+      {
+        docs: {
+          // ...
+          admonitions: {
+            customTypes: {
+              custom: {
+                ifmClass: "info",
+                svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"></path></svg>'
+              },
+            },
+          },
+        },
+      }
+    ]
+  ]
+};
+```
+
+Further documentation is available on [Remark's own repository](https://github.com/elviswolcott/remark-admonitions#custom-types).
