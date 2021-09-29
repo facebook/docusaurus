@@ -1622,7 +1622,7 @@ Starting with this release for a proper work of i18n functionality, you need to 
 - [#3899](https://github.com/facebook/docusaurus/pull/3899) docs(v2): Move sidebar content to its own page ([@ArtFlag](https://github.com/ArtFlag))
 - [#3856](https://github.com/facebook/docusaurus/pull/3856) docs(v2): typo ([@borool](https://github.com/borool))
 - [#3891](https://github.com/facebook/docusaurus/pull/3891) docs(v2): Wrap section about custom domains in :::info ([@Alex1304](https://github.com/Alex1304))
-- [#3871](https://github.com/facebook/docusaurus/pull/3871) docs(v2): missing <ColorGenerator/> mdx import ([@slorber](https://github.com/slorber))
+- [#3871](https://github.com/facebook/docusaurus/pull/3871) docs(v2): missing `<ColorGenerator/>` mdx import ([@slorber](https://github.com/slorber))
 - [#3873](https://github.com/facebook/docusaurus/pull/3873) docs(v2): From docusaurus-migrate to @docusaurus/migrate ([@manzinello](https://github.com/manzinello))
 - [#3867](https://github.com/facebook/docusaurus/pull/3867) docs(v2): Add docusaurus-plugin-moesif to community plugins ([@dgilling](https://github.com/dgilling))
 - [#3851](https://github.com/facebook/docusaurus/pull/3851) docs(v2): Fixed Typo: Hided => Hidden ([@woodrufs](https://github.com/woodrufs))
