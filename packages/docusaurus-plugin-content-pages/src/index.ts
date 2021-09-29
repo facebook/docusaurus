@@ -121,6 +121,7 @@ export default function pluginContentPages(
           encodePath(fileToPath(relativeSource)),
         ]);
         if (isMarkdownSource(relativeSource)) {
+          // TODO: missing frontmatter validation/normalization here
           return {
             type: 'mdx',
             permalink,

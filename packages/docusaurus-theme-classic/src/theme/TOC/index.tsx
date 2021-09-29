@@ -7,53 +7,23 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useTOCHighlight, {
-  Params as TOCHighlightParams,
-} from '@theme/hooks/useTOCHighlight';
-import type {TOCProps, TOCHeadingsProps} from '@theme/TOC';
+import type {TOCProps} from '@theme/TOC';
+import TOCItems from '@theme/TOCItems';
 import styles from './styles.module.css';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
+// Using a custom className
+// This prevents TOC highlighting to highlight TOCInline/TOCCollapsible by mistake
+const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
+const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
-const TOC_HIGHLIGHT_PARAMS: TOCHighlightParams = {
-  linkClassName: LINK_CLASS_NAME,
-  linkActiveClassName: 'table-of-contents__link--active',
-};
-
-/* eslint-disable jsx-a11y/control-has-associated-label */
-export function TOCHeadings({
-  toc,
-  isChild,
-}: TOCHeadingsProps): JSX.Element | null {
-  if (!toc.length) {
-    return null;
-  }
+function TOC({className, ...props}: TOCProps): JSX.Element {
   return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
-      {toc.map((heading) => (
-        <li key={heading.id}>
-          <a
-            href={`#${heading.id}`}
-            className={LINK_CLASS_NAME}
-            // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: heading.value}}
-          />
-          <TOCHeadings isChild toc={heading.children} />
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function TOC({toc}: TOCProps): JSX.Element {
-  useTOCHighlight(TOC_HIGHLIGHT_PARAMS);
-  return (
-    <div className={clsx(styles.tableOfContents, 'thin-scrollbar')}>
-      <TOCHeadings toc={toc} />
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
+      <TOCItems
+        {...props}
+        linkClassName={LINK_CLASS_NAME}
+        linkActiveClassName={LINK_ACTIVE_CLASS_NAME}
+      />
     </div>
   );
 }

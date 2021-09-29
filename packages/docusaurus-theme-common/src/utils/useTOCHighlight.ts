@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Params} from '@theme/hooks/useTOCHighlight';
 import {useEffect, useRef} from 'react';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig} from './useThemeConfig';
+
+/*
+TODO make the hardcoded theme-classic classnames configurable
+(or add them to ThemeClassNames?)
+ */
 
 // If the anchor has no height and is just a "marker" in the dom; we'll use the parent (normally the link text) rect boundaries instead
 function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
@@ -25,19 +29,30 @@ function isInViewportTopHalf(boundingRect: DOMRect) {
   return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
 }
 
-function getAnchors() {
-  // For toc highlighting, we only consider h2/h3 anchors
-  const selector = '.anchor.anchor__h2, .anchor.anchor__h3';
+function getAnchors({
+  minHeadingLevel,
+  maxHeadingLevel,
+}: {
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+}) {
+  const selectors = [];
+  for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
+    selectors.push(`.anchor.anchor__h${i}`);
+  }
+  const selector = selectors.join(', ');
+
   return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
 }
 
-function getActiveAnchor({
-  anchorTopOffset,
-}: {
-  anchorTopOffset: number;
-}): Element | null {
-  const anchors = getAnchors();
-
+function getActiveAnchor(
+  anchors: HTMLElement[],
+  {
+    anchorTopOffset,
+  }: {
+    anchorTopOffset: number;
+  },
+): Element | null {
   // Naming is hard
   // The "nextVisibleAnchor" is the first anchor that appear under the viewport top boundary
   // Note: it does not mean this anchor is visible yet, but if user continues scrolling down, it will be the first to become visible
@@ -96,13 +111,30 @@ function useAnchorTopOffsetRef() {
   return anchorTopOffsetRef;
 }
 
-function useTOCHighlight(params: Params): void {
+export type TOCHighlightConfig = {
+  linkClassName: string;
+  linkActiveClassName: string;
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+};
+
+function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
   useEffect(() => {
-    const {linkClassName, linkActiveClassName} = params;
+    if (!config) {
+      // no-op, highlighting is disabled
+      return () => {};
+    }
+
+    const {
+      linkClassName,
+      linkActiveClassName,
+      minHeadingLevel,
+      maxHeadingLevel,
+    } = config;
 
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
       if (active) {
@@ -118,7 +150,8 @@ function useTOCHighlight(params: Params): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const activeAnchor = getActiveAnchor({
+      const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
+      const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });
       const activeLink = links.find(
@@ -139,7 +172,7 @@ function useTOCHighlight(params: Params): void {
       document.removeEventListener('scroll', updateActiveLink);
       document.removeEventListener('resize', updateActiveLink);
     };
-  }, [params, anchorTopOffsetRef]);
+  }, [config, anchorTopOffsetRef]);
 }
 
 export default useTOCHighlight;

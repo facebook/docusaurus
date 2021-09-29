@@ -80,3 +80,14 @@ export const FrontMatterTagsSchema = JoiFrontMatter.array()
     'array.base':
       '{{#label}} does not look like a valid FrontMatter Yaml array.',
   });
+
+export const FrontMatterTOCHeadingLevels = {
+  toc_min_heading_level: JoiFrontMatter.number().when('toc_max_heading_level', {
+    is: JoiFrontMatter.exist(),
+    then: JoiFrontMatter.number()
+      .min(2)
+      .max(JoiFrontMatter.ref('toc_max_heading_level')),
+    otherwise: JoiFrontMatter.number().min(2).max(6),
+  }),
+  toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
+};

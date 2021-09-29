@@ -757,6 +757,34 @@ module.exports = {
 };
 ```
 
+## Table of Contents {#table-of-contents}
+
+You can adjust the default table of contents via `themeConfig.tableOfContents`.
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `minHeadingLevel` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
+| `maxHeadingLevel` | `number` | `3` | Max heading level displayed in the TOC. Should be an integer between 2 and 6. |
+
+</small>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+    },
+    // highlight-end
+  },
+};
+```
+
 ## Hooks {#hooks}
 
 ### `useThemeContext` {#usethemecontext}
