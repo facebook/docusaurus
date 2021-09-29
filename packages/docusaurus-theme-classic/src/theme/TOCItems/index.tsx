@@ -19,25 +19,25 @@ import {
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function TOCItemList({
   toc,
-  className = 'table-of-contents table-of-contents__left-border',
-  linkClassName = 'table-of-contents__link',
+  className,
+  linkClassName,
   isChild,
 }: {
   readonly toc: readonly TOCItem[];
   readonly className: string;
-  readonly linkClassName: string;
+  readonly linkClassName: string | null;
   readonly isChild?: boolean;
 }): JSX.Element | null {
   if (!toc.length) {
     return null;
   }
   return (
-    <ul className={isChild ? '' : className}>
+    <ul className={isChild ? undefined : className}>
       {toc.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
-            className={linkClassName}
+            className={linkClassName ?? undefined}
             // Developer provided the HTML, so assume it's safe.
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}

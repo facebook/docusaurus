@@ -578,7 +578,7 @@ declare module '@theme/TOCItems' {
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
     readonly className?: string;
-    readonly linkClassName?: string;
+    readonly linkClassName?: string | null;
     readonly linkActiveClassName?: string;
   };
 
