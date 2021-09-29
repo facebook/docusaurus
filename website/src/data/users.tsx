@@ -1072,6 +1072,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Rexpondo',
+    description: 'Ticketing solution based on OTOBO',
+    preview: require('./showcase/repeaterjs.png'),
+    website: 'https://api.rexpondo.com/',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
