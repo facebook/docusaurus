@@ -75,13 +75,13 @@ declare module '@theme/BlogPostPaginator' {
 }
 
 declare module '@theme/BlogLayout' {
+  import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
   import type {BlogSidebar} from '@theme/BlogSidebar';
-  import type {TOCItem} from '@docusaurus/types';
 
   export type Props = LayoutProps & {
     readonly sidebar?: BlogSidebar;
-    readonly toc?: readonly TOCItem[];
+    readonly toc?: ReactNode;
   };
 
   const BlogLayout: (props: Props) => JSX.Element;
@@ -253,14 +253,6 @@ declare module '@theme/hooks/useThemeContext' {
   };
 
   export default function useThemeContext(): ThemeContextProps;
-}
-
-declare module '@theme/hooks/useTOCHighlight' {
-  export type Params = {
-    linkClassName: string;
-    linkActiveClassName: string;
-  };
-  export default function useTOCHighlight(params: Params): void;
 }
 
 declare module '@theme/hooks/useUserPreferencesContext' {
@@ -578,17 +570,38 @@ declare module '@theme/ThemeProvider' {
   export default ThemeProvider;
 }
 
+declare module '@theme/TOCItems' {
+  import type {TOCItem} from '@docusaurus/types';
+
+  export type TOCItemsProps = {
+    readonly toc: readonly TOCItem[];
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
+    readonly className?: string;
+    readonly linkClassName?: string;
+    readonly linkActiveClassName?: string;
+  };
+
+  export default function TOCItems(props: TOCItemsProps): JSX.Element;
+}
+
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
+  // minHeadingLevel only exists as a per-doc option,
+  // and won't have a default set by Joi. See TOC, TOCInline,
+  // TOCCollapsible for examples
   export type TOCProps = {
     readonly toc: readonly TOCItem[];
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
     readonly className?: string;
   };
 
   export type TOCHeadingsProps = {
     readonly toc: readonly TOCItem[];
-    readonly isChild?: boolean;
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
   };
 
   export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
@@ -602,6 +615,8 @@ declare module '@theme/TOCInline' {
 
   export type TOCInlineProps = {
     readonly toc: readonly TOCItem[];
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
   };
 
   const TOCInline: (props: TOCInlineProps) => JSX.Element;
@@ -613,6 +628,8 @@ declare module '@theme/TOCCollapsible' {
 
   export type TOCCollapsibleProps = {
     readonly className?: string;
+    readonly minHeadingLevel?: number;
+    readonly maxHeadingLevel?: number;
     readonly toc: readonly TOCItem[];
   };
 

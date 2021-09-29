@@ -417,4 +417,5 @@ export interface TOCItem {
   readonly value: string;
   readonly id: string;
   readonly children: TOCItem[];
+  readonly level: number;
 }

@@ -220,6 +220,8 @@ export type DocFrontMatter = {
   pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
+  toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
   /* eslint-enable camelcase */
 };
 

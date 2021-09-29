@@ -604,6 +604,14 @@ const Users: User[] = [
     tags: ['product','design'],
   },
   {
+    title: 'IOTA-Wiki',
+    description: 'Documantation and wiki for the IOTA project',
+    preview: require('./showcase/iota-wiki.png'),
+    website: 'https://wiki.iota.org',
+    source: 'https://github.com/iota-community/iota-wiki',
+    tags: ['favorite', 'opensource'],
+  },
+  {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
