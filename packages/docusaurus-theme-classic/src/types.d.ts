@@ -77,6 +77,7 @@ declare module '@theme/BlogPostPaginator' {
 }
 
 declare module '@theme/BlogLayout' {
+  import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
   import type {BlogSidebar} from '@theme/BlogSidebar';
 
