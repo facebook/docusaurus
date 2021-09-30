@@ -9,7 +9,7 @@ import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
-import type {Required} from 'utility-types';
+import type {Overwrite, DeepPartial} from 'utility-types';
 
 // Convert webpack-merge webpack-merge enum to union type
 // For type retro-compatible webpack-merge upgrade: we used string literals before)
@@ -70,12 +70,17 @@ export interface DocusaurusConfig {
   };
 }
 
-// Docusaurus config, as provided by the user, unvalidated
+// Docusaurus config, as provided by the user (partial/unnormalized)
 // This type is used to provide type-safety / IDE auto-complete on the config file
 // See https://docusaurus.io/docs/typescript-support
-export type Config = Required<
+export type Config = Overwrite<
   Partial<DocusaurusConfig>,
-  'baseUrl' | 'url' | 'title'
+  {
+    title: Required<DocusaurusConfig['title']>;
+    url: Required<DocusaurusConfig['url']>;
+    baseUrl: Required<DocusaurusConfig['baseUrl']>;
+    i18n?: DeepPartial<DocusaurusConfig['i18n']>;
+  }
 >;
 
 /**
@@ -257,11 +262,7 @@ export interface Plugin<Content = unknown> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
-  injectHtmlTags?({
-    content,
-  }: {
-    content: Content;
-  }): {
+  injectHtmlTags?({content}: {content: Content}): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
