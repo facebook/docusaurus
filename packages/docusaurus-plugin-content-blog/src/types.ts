@@ -11,6 +11,7 @@ import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
+import {Overwrite} from 'utility-types';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -23,6 +24,20 @@ export interface BlogContent {
 }
 
 export type FeedType = 'rss' | 'atom';
+
+export type FeedOptions = {
+  type?: FeedType[] | null;
+  title?: string;
+  description?: string;
+  copyright: string;
+  language?: string;
+};
+
+// Feed options, as provided by user config
+export type UserFeedOptions = Overwrite<
+  Partial<FeedOptions>,
+  {type?: FeedOptions['type'] | 'all'} // Handle the type: "all" shortcut
+>;
 
 export type EditUrlFunction = (editUrlParams: {
   blogDirPath: string;
@@ -61,6 +76,12 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
 }
+
+// Options, as provided in the user config (before normalization)
+export type UserPluginOptions = Overwrite<
+  Partial<PluginOptions>,
+  {feedOptions?: UserFeedOptions}
+>;
 
 export interface BlogTags {
   [key: string]: BlogTag;

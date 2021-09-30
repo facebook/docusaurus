@@ -14,7 +14,7 @@ export type Options = {
   theme?: import('@docusaurus/theme-classic').Options;
 };
 
-export type ThemeConfig = import('@docusaurus/theme-common').ThemeConfig & {
+export type ThemeConfig = import('@docusaurus/theme-common').UserThemeConfig & {
   // Those themeConfigs should rather be moved to preset/plugin options
   // Plugin data can be made available to browser thank to the globalData api
   algolia?: unknown; // TODO type plugin

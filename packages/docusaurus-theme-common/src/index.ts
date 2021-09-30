@@ -9,6 +9,7 @@ export {useThemeConfig} from './utils/useThemeConfig';
 
 export type {
   ThemeConfig,
+  UserThemeConfig,
   Navbar,
   NavbarItem,
   NavbarLogo,

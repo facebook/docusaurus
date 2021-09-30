@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-content-pages' {
-  export type Options = import('./types').PluginOptions;
+  export type Options = Partial<import('./types').PluginOptions>;
 }
 
 declare module '@theme/MDXPage' {

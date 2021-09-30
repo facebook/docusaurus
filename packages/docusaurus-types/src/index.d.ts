@@ -22,11 +22,7 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
-export type UserDocusaurusConfig = Required<
-  Partial<DocusaurusConfig>,
-  'baseUrl' | 'url' | 'title'
->;
-
+// Docusaurus config, after validation/normalization
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
@@ -73,6 +69,14 @@ export interface DocusaurusConfig {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
 }
+
+// Docusaurus config, as provided by the user, unvalidated
+// This type is used to provide type-safety / IDE auto-complete on the config file
+// See https://docusaurus.io/docs/typescript-support
+export type Config = Required<
+  Partial<DocusaurusConfig>,
+  'baseUrl' | 'url' | 'title'
+>;
 
 /**
  * - `type: 'package'`, plugin is in a different package.

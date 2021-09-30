@@ -7,6 +7,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {PrismTheme} from 'prism-react-renderer';
 import {CSSProperties} from 'react';
+import {DeepPartial} from 'utility-types';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -16,7 +17,7 @@ export type NavbarItem = {
   items?: NavbarItem[];
   label?: string;
   position?: 'left' | 'right';
-};
+} & Record<string, unknown>;
 
 export type NavbarLogo = {
   src: string;
@@ -85,6 +86,7 @@ export type Footer = {
   links: FooterLinks[];
 };
 
+// Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
@@ -105,6 +107,9 @@ export type ThemeConfig = {
   metadatas: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
 };
+
+// User-provided theme config, unnormalized
+export type UserThemeConfig = DeepPartial<ThemeConfig>;
 
 export function useThemeConfig(): ThemeConfig {
   return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
