@@ -247,11 +247,7 @@ export interface Plugin<Content = unknown> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
-  injectHtmlTags?({
-    content,
-  }: {
-    content: Content;
-  }): {
+  injectHtmlTags?({content}: {content: Content}): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;

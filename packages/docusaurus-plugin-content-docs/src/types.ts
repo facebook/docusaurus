@@ -306,6 +306,7 @@ export type DocsMarkdownOption = {
   onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
 };
 
-export type NumberPrefixParser = (
-  filename: string,
-) => {filename: string; numberPrefix?: number};
+export type NumberPrefixParser = (filename: string) => {
+  filename: string;
+  numberPrefix?: number;
+};

@@ -22,15 +22,8 @@ function BlogPostPage(props: Props): JSX.Element {
     assets,
     metadata,
   } = BlogPostContents;
-  const {
-    title,
-    description,
-    nextItem,
-    prevItem,
-    date,
-    tags,
-    authors,
-  } = metadata;
+  const {title, description, nextItem, prevItem, date, tags, authors} =
+    metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
     keywords,

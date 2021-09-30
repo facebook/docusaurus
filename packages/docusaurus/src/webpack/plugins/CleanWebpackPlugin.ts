@@ -236,9 +236,10 @@ class CleanWebpackPlugin {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const needsForce = /Cannot delete files\/folders outside the current working directory\./.test(
-        error.message,
-      );
+      const needsForce =
+        /Cannot delete files\/folders outside the current working directory\./.test(
+          error.message,
+        );
 
       if (needsForce) {
         const message =

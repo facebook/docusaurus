@@ -30,23 +30,21 @@ export default function LocaleDropdownNavbarItem({
     return localeConfigs[locale].label;
   }
 
-  const localeItems = locales.map(
-    (locale): LinkLikeNavbarItemProps => {
-      const to = `pathname://${alternatePageUtils.createUrl({
-        locale,
-        fullyQualified: false,
-      })}`;
-      return {
-        isNavLink: true,
-        label: getLocaleLabel(locale),
-        to,
-        target: '_self',
-        autoAddBaseUrl: false,
-        className: locale === currentLocale ? 'dropdown__link--active' : '',
-        style: {textTransform: 'capitalize'},
-      };
-    },
-  );
+  const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
+    const to = `pathname://${alternatePageUtils.createUrl({
+      locale,
+      fullyQualified: false,
+    })}`;
+    return {
+      isNavLink: true,
+      label: getLocaleLabel(locale),
+      to,
+      target: '_self',
+      autoAddBaseUrl: false,
+      className: locale === currentLocale ? 'dropdown__link--active' : '',
+      style: {textTransform: 'capitalize'},
+    };
+  });
 
   const items = [...dropdownItemsBefore, ...localeItems, ...dropdownItemsAfter];
 

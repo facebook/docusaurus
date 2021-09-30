@@ -49,7 +49,8 @@ export default async function render(locals) {
       ),
     );
 
-    const isNotDefinedErrorRegex = /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+    const isNotDefinedErrorRegex =
+      /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
       console.error(
