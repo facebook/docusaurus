@@ -349,6 +349,7 @@ function createVersionMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'versions'
     | 'editUrl'
     | 'editCurrentVersion'
@@ -358,11 +359,7 @@ function createVersionMetadata({
     sidebarFilePath,
     contentPath,
     contentPathLocalized,
-  } = getVersionMetadataPaths({
-    versionName,
-    context,
-    options,
-  });
+  } = getVersionMetadataPaths({versionName, context, options});
 
   const isLast = versionName === lastVersionName;
 
@@ -400,7 +397,7 @@ function createVersionMetadata({
 
   // the path that will be used to refer the docs tags
   // example below will be using /docs/tags
-  const tagsPath = normalizeUrl([versionPath, 'tags']);
+  const tagsPath = normalizeUrl([versionPath, options.tagsBasePath]);
 
   return {
     versionName,
@@ -561,6 +558,7 @@ export function readVersionsMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'includeCurrentVersion'
     | 'disableVersioning'
     | 'lastVersion'

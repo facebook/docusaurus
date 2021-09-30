@@ -604,6 +604,14 @@ const Users: User[] = [
     tags: ['product','design'],
   },
   {
+    title: 'IOTA-Wiki',
+    description: 'Documantation and wiki for the IOTA project',
+    preview: require('./showcase/iota-wiki.png'),
+    website: 'https://wiki.iota.org',
+    source: 'https://github.com/iota-community/iota-wiki',
+    tags: ['favorite', 'opensource'],
+  },
+  {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
@@ -1302,6 +1310,15 @@ const Users: User[] = [
     source: 'https://github.com/Wisdom/dev-docs',
     tags: ['opensource', 'design', 'product'],
   },
+{
+    title: 'Whirl',
+    description:
+      'Whirl\'s Personal Website and Blog',
+    preview: require('./showcase/whirlcodes.png'),
+    website: 'https://whirl.codes',
+    source: 'https://github.com/whirl21/website',
+    tags: ['opensource', 'personal']
+  },
   {
     title: 'KubeVela',
     description:
@@ -1390,7 +1407,8 @@ const Users: User[] = [
     website: 'https://nocalhost.dev/',
     source: 'https://github.com/nocalhost/nocalhost',
     tags: ['opensource', 'i18n']
-  }
+  },
+
 
   /*
   Pro Tip: add your site in alphabetical order.

@@ -86,6 +86,11 @@ export type Footer = {
   links: FooterLinks[];
 };
 
+export type TableOfContents = {
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+};
+
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
@@ -106,6 +111,7 @@ export type ThemeConfig = {
   image?: string;
   metadatas: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
+  tableOfContents: TableOfContents;
 };
 
 // User-provided theme config, unnormalized

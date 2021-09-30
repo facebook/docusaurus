@@ -46,10 +46,11 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
-export interface PluginOptions extends RemarkAndRehypePluginOptions {
+export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
   routeBasePath: string;
+  tagsBasePath: string;
   archiveBasePath: string;
   include: string[];
   exclude: string[];
@@ -75,7 +76,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
-}
+};
 
 // Options, as provided in the user config (before normalization)
 export type UserPluginOptions = Overwrite<

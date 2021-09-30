@@ -21,6 +21,10 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
+type RegistryMap = {
+  [chunkName: string]: ChunkRegistry;
+};
+
 function indent(str: string) {
   const spaces = '  ';
   return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
@@ -37,7 +41,7 @@ const createRouteCodeString = ({
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
-  props: {[propName: string]: any};
+  props: {[propName: string]: unknown};
 }) => {
   const parts = [
     `path: '${routePath}'`,
@@ -184,14 +188,37 @@ ${indent(NotFoundRouteCode)}
 }
 
 function genRouteChunkNames(
+  registry: RegistryMap,
+  value: Module,
+  prefix?: string,
+  name?: string,
+): string;
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule,
+  prefix?: string,
+  name?: string,
+): ChunkNames;
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule[],
+  prefix?: string,
+  name?: string,
+): ChunkNames[];
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule | RouteModule[] | Module,
+  prefix?: string,
+  name?: string,
+): ChunkNames | ChunkNames[] | string;
+
+function genRouteChunkNames(
   // TODO instead of passing a mutating the registry, return a registry slice?
-  registry: {
-    [chunkName: string]: ChunkRegistry;
-  },
+  registry: RegistryMap,
   value: RouteModule | RouteModule[] | Module | null | undefined,
   prefix?: string,
   name?: string,
-) {
+): null | string | ChunkNames | ChunkNames[] {
   if (!value) {
     return null;
   }

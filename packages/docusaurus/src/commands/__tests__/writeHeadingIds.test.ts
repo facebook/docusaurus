@@ -22,39 +22,39 @@ describe('transformMarkdownHeadingLine', () => {
 
   test('works for simple level-2 heading', () => {
     expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
-      '## ABC {#abc}',
+      '## ABC {#-abc}',
     );
   });
 
   test('works for simple level-3 heading', () => {
-    expect(transformMarkdownHeadingLine('###ABC', new GithubSlugger())).toEqual(
-      '###ABC {#abc}',
-    );
+    expect(
+      transformMarkdownHeadingLine('### ABC', new GithubSlugger()),
+    ).toEqual('### ABC {#-abc}');
   });
 
   test('works for simple level-4 heading', () => {
     expect(
       transformMarkdownHeadingLine('#### ABC', new GithubSlugger()),
-    ).toEqual('#### ABC {#abc}');
+    ).toEqual('#### ABC {#-abc}');
   });
 
   test('works for simple level-2 heading', () => {
     expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
-      '## ABC {#abc}',
+      '## ABC {#-abc}',
     );
   });
 
   test('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
     expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
-      `${input} {#hello-facebook-crowdin}`,
+      `${input} {#-hello-facebook-crowdin}`,
     );
   });
 
   test('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
     expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
-      `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
+      `${input} {#-abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
 
@@ -99,15 +99,15 @@ describe('transformMarkdownContent', () => {
 
 # Ignorerd title
 
-## abc {#abc}
+## abc {#-abc}
 
-### Hello world {#hello-world}
+### Hello world {#-hello-world}
 
 \`\`\`
 # Heading in code block
 \`\`\`
 
-## Hello world {#hello-world-1}
+## Hello world {#-hello-world-1}
 
     \`\`\`
     # Heading in escaped code block

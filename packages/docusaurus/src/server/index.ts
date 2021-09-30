@@ -224,7 +224,7 @@ function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    isMDXPartial: (_filename) => true, // External mdx files are always meant to be imported as partials
+                    isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
                     remarkPlugins: [admonitions],
                   },
@@ -261,10 +261,7 @@ export async function load(
     pluginsRouteConfigs,
     globalData,
     themeConfigTranslated,
-  } = await loadPlugins({
-    pluginConfigs,
-    context,
-  });
+  } = await loadPlugins({pluginConfigs, context});
 
   // Side-effect to replace the untranslated themeConfig by the translated one
   context.siteConfig.themeConfig = themeConfigTranslated;

@@ -176,14 +176,8 @@ Use the `authors` FrontMatter field to declare blog post authors.
 Blog post authors can be declared directly inside the FrontMatter:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="single"
-  values={[
-    {label: 'Single author', value: 'single'},
-    {label: 'Multiple authors', value: 'multiple'},
-  ]}
-  groupId="author-frontmatter">
-  <TabItem value="single">
+<Tabs groupId="author-frontmatter">
+  <TabItem value="single" label="Single author" default>
 
 ```yml title="my-blog-post.md"
 ---
@@ -196,7 +190,7 @@ authors:
 ```
 
   </TabItem>
-  <TabItem value="multiple">
+  <TabItem value="multiple" label="Multiple authors">
 
 ```yml title="my-blog-post.md"
 ---
@@ -226,7 +220,6 @@ This option works best to get started, or for casual, irregular authors.
 
 Prefer usage of the `authors` FrontMatter, but the legacy `author_*` FrontMatter remains supported:
 
-<!-- prettier-ignore-start -->
 ```yml title="my-blog-post.md"
 ---
 author: Joel Marcey
@@ -234,8 +227,8 @@ author_title: Co-creator of Docusaurus 1
 author_url: https://github.com/JoelMarcey
 author_image_url: https://github.com/JoelMarcey.png
 ---
+
 ```
-<!-- prettier-ignore-end -->
 
 :::
 
@@ -268,14 +261,8 @@ Use the `authorsMapPath` plugin option to configure the path. JSON is also suppo
 In blog posts FrontMatter, you can reference the authors declared in the global configuration file:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="single"
-  values={[
-    {label: 'Single author', value: 'single'},
-    {label: 'Multiple authors', value: 'multiple'},
-  ]}
-  groupId="author-frontmatter">
-  <TabItem value="single">
+<Tabs groupId="author-frontmatter">
+  <TabItem value="single" label="Single author" default>
 
 ```yml title="my-blog-post.md"
 ---
@@ -284,7 +271,7 @@ authors: jmarcey
 ```
 
   </TabItem>
-  <TabItem value="multiple">
+  <TabItem value="multiple" label="Multiple authors">
 
 ```yml title="my-blog-post.md"
 ---
@@ -305,7 +292,6 @@ The `authors` system is very flexible and can suit more advanced use-case:
 
 You can use global authors most of the time, and still use inline authors:
 
-<!-- prettier-ignore-start -->
 ```yml title="my-blog-post.md"
 ---
 authors:
@@ -316,8 +302,8 @@ authors:
     url: https://github.com/inlineAuthor
     image_url: https://github.com/inlineAuthor
 ---
+
 ```
-<!-- prettier-ignore-end -->
 
 </details>
 
@@ -326,7 +312,6 @@ authors:
 
 You can customize the global author's data on per-blog-post basis:
 
-<!-- prettier-ignore-start -->
 ```yml title="my-blog-post.md"
 ---
 authors:
@@ -335,8 +320,8 @@ authors:
   - key: slorber
     name: Sébastien Lorber's new name
 ---
+
 ```
-<!-- prettier-ignore-end -->
 
 </details>
 

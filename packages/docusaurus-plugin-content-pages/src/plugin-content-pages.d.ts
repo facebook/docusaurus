@@ -18,8 +18,11 @@ declare module '@theme/MDXPage' {
         readonly title: string;
         readonly description: string;
         readonly wrapperClassName?: string;
-        // eslint-disable-next-line camelcase
+        /* eslint-disable camelcase */
         readonly hide_table_of_contents?: string;
+        readonly toc_min_heading_level?: number;
+        readonly toc_max_heading_level?: number;
+        /* eslint-enable camelcase */
       };
       readonly metadata: {readonly permalink: string};
       readonly toc: readonly TOCItem[];

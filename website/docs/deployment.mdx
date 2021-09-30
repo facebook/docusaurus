@@ -143,28 +143,22 @@ GitHub enterprise installations should work in the same manner as github.com; yo
 Finally, to deploy your site to GitHub Pages, run:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="bash"
-  values={[
-    { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' },
-    { label: 'PowerShell', value: 'powershell' }
-]}>
-<TabItem value="bash">
+<Tabs>
+<TabItem value="bash" label="Bash" default>
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
 </TabItem>
-<TabItem value="windows">
+<TabItem value="windows" label="Windows">
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
 </TabItem>
-<TabItem value="powershell">
+<TabItem value="powershell" label="PowerShell">
 
 ```powershell
 cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'

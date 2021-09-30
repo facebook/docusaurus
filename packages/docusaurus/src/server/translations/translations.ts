@@ -55,7 +55,8 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
       throw new Error(`Invalid translation file at ${filePath}.\n${e.message}`);
     }
   }

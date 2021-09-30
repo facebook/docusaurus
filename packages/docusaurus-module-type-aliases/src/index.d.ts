@@ -86,16 +86,21 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
-  export type LinkProps = NavLinkProps & {
-    readonly isNavLink?: boolean;
-    readonly to?: string;
-    readonly href?: string;
-    readonly autoAddBaseUrl?: boolean;
+  import type {CSSProperties, ComponentProps} from 'react';
 
-    // escape hatch in case broken links check is annoying for a specific link
-    readonly 'data-noBrokenLinkCheck'?: boolean;
-  };
+  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  export type LinkProps = NavLinkProps &
+    ComponentProps<'a'> & {
+      readonly className?: string;
+      readonly style?: CSSProperties;
+      readonly isNavLink?: boolean;
+      readonly to?: string;
+      readonly href?: string;
+      readonly autoAddBaseUrl?: boolean;
+
+      // escape hatch in case broken links check is annoying for a specific link
+      readonly 'data-noBrokenLinkCheck'?: boolean;
+    };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
 }

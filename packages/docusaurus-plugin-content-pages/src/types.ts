@@ -7,7 +7,7 @@
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
-export interface PluginOptions extends RemarkAndRehypePluginOptions {
+export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
   routeBasePath: string;
@@ -15,7 +15,7 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   exclude: string[];
   mdxPageComponent: string;
   admonitions: Record<string, unknown>;
-}
+};
 
 export type JSXPageMetadata = {
   type: 'jsx';

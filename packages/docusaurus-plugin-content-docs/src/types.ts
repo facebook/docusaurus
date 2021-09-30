@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
@@ -102,6 +101,7 @@ export type PluginOptions = MetadataOptions &
     disableVersioning: boolean;
     includeCurrentVersion: boolean;
     sidebarItemsGenerator: SidebarItemsGeneratorOption;
+    tagsBasePath: string;
   };
 
 export type SidebarItemBase = {
@@ -220,6 +220,8 @@ export type DocFrontMatter = {
   pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
+  toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
   /* eslint-enable camelcase */
 };
 
@@ -306,4 +308,7 @@ export type DocsMarkdownOption = {
 
 export type NumberPrefixParser = (
   filename: string,
-) => {filename: string; numberPrefix?: number};
+) => {
+  filename: string;
+  numberPrefix?: number;
+};

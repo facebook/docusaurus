@@ -129,6 +129,19 @@ describe('createExcerpt', () => {
         `),
     ).toEqual('Markdown title');
   });
+
+  test('should create excerpt for content with various code blocks', () => {
+    expect(
+      createExcerpt(dedent`
+          \`\`\`jsx
+          import React from 'react';
+          import Layout from '@theme/Layout';
+          \`\`\`
+
+          Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
+        `),
+    ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {

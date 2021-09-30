@@ -7,10 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
-import TOC from '@theme/TOC';
 
 import type {Props} from '@theme/BlogLayout';
 
@@ -33,14 +31,11 @@ function BlogLayout(props: Props): JSX.Element {
               'col--9 col--offset-1': !hasSidebar,
             })}
             itemScope
-            itemType="http://schema.org/Blog">
+            itemType="http://schema.org/Blog"
+          >
             {children}
           </main>
-          {toc && (
-            <div className="col col--2">
-              <TOC toc={toc} />
-            </div>
-          )}
+          {toc && <div className="col col--2">{toc}</div>}
         </div>
       </div>
     </Layout>

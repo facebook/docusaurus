@@ -13,7 +13,9 @@ But it is also possible to display an inline table of contents directly inside a
 
 ## Full table of contents {#full-table-of-contents}
 
-The `toc` variable is available in any MDX document, and contain all the top level headings of a MDX document.
+The `toc` variable is available in any MDX document, and contains all the headings of a MDX document.
+
+By default, only `h2` and `h3` headings are displayed in the TOC. You can change which heading levels are visible by setting `minHeadingLevel` or `maxHeadingLevel`.
 
 ```jsx
 import TOCInline from '@theme/TOCInline';
@@ -40,6 +42,7 @@ type TOCItem = {
   value: string;
   id: string;
   children: TOCItem[];
+  level: number;
 };
 ```
 

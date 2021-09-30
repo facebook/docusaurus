@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
@@ -46,11 +44,12 @@ const createAnchorHeading = (
     return (
       <Tag
         {...props}
-        className={clsx('anchor', `anchor__${Tag}`, {
+        className={clsx('anchor', {
           [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
           [styles.anchorWithStickyNavbar]: !hideOnScroll,
         })}
-        id={id}>
+        id={id}
+      >
         {props.children}
         <a
           className="hash-link"
@@ -59,7 +58,8 @@ const createAnchorHeading = (
             id: 'theme.common.headingLinkTitle',
             message: 'Direct link to heading',
             description: 'Title for link to heading',
-          })}>
+          })}
+        >
           #
         </a>
       </Tag>

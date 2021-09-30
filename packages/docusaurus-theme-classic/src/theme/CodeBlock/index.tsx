@@ -207,7 +207,8 @@ export default function CodeBlock({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      language={language}>
+      language={language}
+    >
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div className={styles.codeBlockContainer}>
           {codeBlockTitle && (
@@ -220,11 +221,12 @@ export default function CodeBlock({
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-              style={style}>
+              style={style}
+            >
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
-                    line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                    line[0].content = '\n';
                   }
 
                   const lineProps = getLineProps({line, key: i});
@@ -253,17 +255,20 @@ export default function CodeBlock({
                 description: 'The ARIA label for copy code blocks button',
               })}
               className={clsx(styles.copyButton, 'clean-btn')}
-              onClick={handleCopyCode}>
+              onClick={handleCopyCode}
+            >
               {showCopied ? (
                 <Translate
                   id="theme.CodeBlock.copied"
-                  description="The copied button label on code blocks">
+                  description="The copied button label on code blocks"
+                >
                   Copied
                 </Translate>
               ) : (
                 <Translate
                   id="theme.CodeBlock.copy"
-                  description="The copy button label on code blocks">
+                  description="The copy button label on code blocks"
+                >
                   Copy
                 </Translate>
               )}

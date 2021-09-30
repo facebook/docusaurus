@@ -36,6 +36,7 @@ Accepted fields:
 | `blogSidebarCount` | <code>number \| 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable |
 | `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
+| `tagsBasePath` | `string` | `'tags'` | URL route for the tags list page of your site. It is prepended to the `routeBasePath`. |
 | `archiveBasePath` | `string` | `'/archive'` | URL route for the archive blog section of your site. It is prepended to the `routeBasePath`. **DO NOT** include a trailing slash. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
@@ -186,6 +187,8 @@ Accepted fields:
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
 | `draft` | `boolean` | `false` | A boolean flag to indicate that the blog post is work-in-progress and therefore should not be published yet. However, draft blog posts will be displayed during development. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
+| `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
+| `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |
 | `keywords` | `string[]` | `undefined` | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines. |
 | `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
