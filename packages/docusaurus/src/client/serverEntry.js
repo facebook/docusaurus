@@ -133,7 +133,7 @@ async function doRender(locals) {
   try {
     // Minify html with https://github.com/DanielRuf/html-minifier-terser
     return await minify(renderedHtml, {
-      removeComments: true,
+      removeComments: false,
       removeRedundantAttributes: true,
       removeEmptyAttributes: true,
       removeScriptTypeAttributes: true,
