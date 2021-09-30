@@ -31,17 +31,14 @@ export default function TOCCollapsible({
           [styles.tocCollapsibleExpanded]: !collapsed,
         },
         className,
-      )}
-    >
+      )}>
       <button
         type="button"
         className={clsx('clean-btn', styles.tocCollapsibleButton)}
-        onClick={toggleCollapsed}
-      >
+        onClick={toggleCollapsed}>
         <Translate
           id="theme.TOCCollapsible.toggleButtonLabel"
-          description="The label used by the button on the collapsible TOC component"
-        >
+          description="The label used by the button on the collapsible TOC component">
           On this page
         </Translate>
       </button>
@@ -49,8 +46,7 @@ export default function TOCCollapsible({
       <Collapsible
         lazy
         className={styles.tocCollapsibleContent}
-        collapsed={collapsed}
-      >
+        collapsed={collapsed}>
         <TOCItems
           toc={toc}
           minHeadingLevel={minHeadingLevel}

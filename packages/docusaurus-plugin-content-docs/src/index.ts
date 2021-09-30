@@ -201,11 +201,8 @@ export default function pluginContentDocs(
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
-          const {
-            sidebarName,
-            previousId,
-            nextId,
-          } = sidebarsUtils.getDocNavigation(doc.id);
+          const {sidebarName, previousId, nextId} =
+            sidebarsUtils.getDocNavigation(doc.id);
           const toDocNavLink = (navDocId: string): DocNavLink => {
             const {title, permalink, frontMatter} = docsBaseById[navDocId];
             return {
@@ -239,7 +236,8 @@ export default function pluginContentDocs(
             (doc) =>
               doc.unversionedId === options.homePageId || doc.slug === '/',
           );
-          const firstDocIdOfFirstSidebar = sidebarsUtils.getFirstDocIdOfFirstSidebar();
+          const firstDocIdOfFirstSidebar =
+            sidebarsUtils.getFirstDocIdOfFirstSidebar();
           if (versionHomeDoc) {
             return versionHomeDoc;
           } else if (firstDocIdOfFirstSidebar) {

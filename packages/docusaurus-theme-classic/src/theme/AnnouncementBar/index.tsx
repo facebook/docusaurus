@@ -31,8 +31,7 @@ function AnnouncementBar(): JSX.Element | null {
     <div
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
-      role="banner"
-    >
+      role="banner">
       {isCloseable && <div className={styles.announcementBarPlaceholder} />}
       <div
         className={styles.announcementBarContent}
@@ -49,8 +48,7 @@ function AnnouncementBar(): JSX.Element | null {
             id: 'theme.AnnouncementBar.closeButtonAriaLabel',
             message: 'Close',
             description: 'The ARIA label for close button of announcement bar',
-          })}
-        >
+          })}>
           <IconClose width={14} height={14} strokeWidth={3.1} />
         </button>
       ) : null}

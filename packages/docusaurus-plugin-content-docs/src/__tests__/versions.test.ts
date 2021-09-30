@@ -324,14 +324,8 @@ describe('versioned site, pluginId=default', () => {
   }
 
   test('readVersionsMetadata versioned site', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
@@ -342,13 +336,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
@@ -364,14 +353,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with version options', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {
@@ -424,14 +407,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with editUrl', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {
@@ -474,14 +451,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {

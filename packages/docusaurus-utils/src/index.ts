@@ -427,9 +427,7 @@ export function updateTranslationFileMessages(
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(
-  heading: string,
-): {
+export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {

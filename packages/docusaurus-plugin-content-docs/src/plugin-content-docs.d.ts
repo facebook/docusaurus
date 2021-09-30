@@ -194,8 +194,10 @@ declare module '@theme/hooks/useDocs' {
   type GlobalVersion = import('./types').GlobalVersion;
   type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
   type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
-  type DocVersionSuggestions = import('./client/docsClientUtils').DocVersionSuggestions;
-  type GetActivePluginOptions = import('./client/docsClientUtils').GetActivePluginOptions;
+  type DocVersionSuggestions =
+    import('./client/docsClientUtils').DocVersionSuggestions;
+  type GetActivePluginOptions =
+    import('./client/docsClientUtils').GetActivePluginOptions;
 
   export type {GlobalPluginData, GlobalVersion};
   export const useAllDocsData: () => Record<string, GlobalPluginData>;

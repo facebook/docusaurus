@@ -19,9 +19,8 @@ module.exports = function (contentBuffer) {
   config.palette = 'palette' in config ? config.palette : false;
 
   let content = contentBuffer.toString('utf8');
-  const contentIsUrlExport = /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(
-    content,
-  );
+  const contentIsUrlExport =
+    /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(content);
   const contentIsFileExport = /^(?:export default|module.exports =) (.*)/.test(
     content,
   );

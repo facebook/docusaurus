@@ -38,8 +38,7 @@ function MDXPage(props: Props): JSX.Element {
       description={description}
       permalink={permalink}
       wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
-      pageClassName={ThemeClassNames.page.mdxPage}
-    >
+      pageClassName={ThemeClassNames.page.mdxPage}>
       <main className="container container--fluid margin-vert--lg">
         <div className={clsx('row', styles.mdxPageWrapper)}>
           <div className={clsx('col', !hideTableOfContents && 'col--8')}>

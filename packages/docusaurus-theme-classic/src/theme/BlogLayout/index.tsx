@@ -31,8 +31,7 @@ function BlogLayout(props: Props): JSX.Element {
               'col--9 col--offset-1': !hasSidebar,
             })}
             itemScope
-            itemType="http://schema.org/Blog"
-          >
+            itemType="http://schema.org/Blog">
             {children}
           </main>
           {toc && <div className="col col--2">{toc}</div>}

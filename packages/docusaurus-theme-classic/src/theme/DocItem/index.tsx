@@ -54,8 +54,7 @@ export default function DocItem(props: Props): JSX.Element {
         <div
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
-          })}
-        >
+          })}>
           <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
@@ -64,8 +63,7 @@ export default function DocItem(props: Props): JSX.Element {
                   className={clsx(
                     ThemeClassNames.docs.docVersionBadge,
                     'badge badge--secondary',
-                  )}
-                >
+                  )}>
                   Version: {versionMetadata.label}
                 </span>
               )}
@@ -83,8 +81,7 @@ export default function DocItem(props: Props): JSX.Element {
               )}
 
               <div
-                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}
-              >
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
                 Title can be declared inside md content or declared through frontmatter and added manually
                 To make both cases consistent, the added title is added under the same div.markdown block

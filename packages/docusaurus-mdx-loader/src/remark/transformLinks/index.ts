@@ -68,8 +68,10 @@ function toAssetRequireNode({
   const children = stringifyContent(node);
   const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
 
-  ((node as unknown) as Literal).type = 'jsx';
-  ((node as unknown) as Literal).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  (node as unknown as Literal).type = 'jsx';
+  (
+    node as unknown as Literal
+  ).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,

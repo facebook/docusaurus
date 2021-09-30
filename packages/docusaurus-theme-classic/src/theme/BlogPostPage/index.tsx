@@ -22,15 +22,8 @@ function BlogPostPage(props: Props): JSX.Element {
     assets,
     metadata,
   } = BlogPostContents;
-  const {
-    title,
-    description,
-    nextItem,
-    prevItem,
-    date,
-    tags,
-    authors,
-  } = metadata;
+  const {title, description, nextItem, prevItem, date, tags, authors} =
+    metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
     keywords,
@@ -55,16 +48,14 @@ function BlogPostPage(props: Props): JSX.Element {
             maxHeadingLevel={tocMaxHeadingLevel}
           />
         ) : undefined
-      }
-    >
+      }>
       <Seo
         // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
         // otherwise  default image (set by BlogLayout) would shadow the custom blog post image
         title={title}
         description={description}
         keywords={keywords}
-        image={image}
-      >
+        image={image}>
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={date} />
 
@@ -90,8 +81,7 @@ function BlogPostPage(props: Props): JSX.Element {
         frontMatter={frontMatter}
         assets={assets}
         metadata={metadata}
-        isBlogPostPage
-      >
+        isBlogPostPage>
         <BlogPostContents />
       </BlogPostItem>
 

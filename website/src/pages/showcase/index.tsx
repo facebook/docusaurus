@@ -50,11 +50,10 @@ function useFilteredUsers(
   selectedTags: TagType[],
   operator: Operator,
 ) {
-  return useMemo(() => filterUsers(users, selectedTags, operator), [
-    users,
-    selectedTags,
-    operator,
-  ]);
+  return useMemo(
+    () => filterUsers(users, selectedTags, operator),
+    [users, selectedTags, operator],
+  );
 }
 
 const TagQueryStringKey = 'tags';
@@ -108,8 +107,7 @@ function ShowcaseHeader() {
         <a
           className={'button button--primary'}
           href={EDIT_URL}
-          target={'_blank'}
-        >
+          target={'_blank'}>
           🙏 Add your site now!
         </a>
       </p>
@@ -161,8 +159,7 @@ function ShowcaseFilters({
             name="operator"
             label="Filter: "
             value={operator}
-            onChange={(e) => setOperator(e.target.value as Operator)}
-          >
+            onChange={(e) => setOperator(e.target.value as Operator)}>
             <option value="OR">OR</option>
             <option value="AND">AND</option>
           </ShowcaseSelect>

@@ -62,7 +62,8 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
   });
 }
 
-const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+const DATE_FILENAME_REGEX =
+  /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -199,12 +200,8 @@ async function processBlogSourceFile(
 
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
 
-  const {
-    frontMatter,
-    content,
-    contentTitle,
-    excerpt,
-  } = await parseBlogPostMarkdownFile(blogSourceAbsolute);
+  const {frontMatter, content, contentTitle, excerpt} =
+    await parseBlogPostMarkdownFile(blogSourceAbsolute);
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 

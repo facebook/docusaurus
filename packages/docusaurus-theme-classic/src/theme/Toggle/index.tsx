@@ -51,15 +51,13 @@ const Toggle = memo(
           [styles.toggleChecked]: checked,
           [styles.toggleFocused]: focused,
           [styles.toggleDisabled]: disabled,
-        })}
-      >
+        })}>
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
           className={styles.toggleTrack}
           role="button"
           tabIndex={-1}
-          onClick={() => inputRef.current?.click()}
-        >
+          onClick={() => inputRef.current?.click()}>
           <div className={styles.toggleTrackCheck}>{icons.checked}</div>
           <div className={styles.toggleTrackX}>{icons.unchecked}</div>
           <div className={styles.toggleTrackThumb} />

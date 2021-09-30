@@ -24,8 +24,7 @@ function TagsRow(props: TagsListInlineProps) {
       className={clsx(
         ThemeClassNames.docs.docFooterTagsRow,
         'row margin-bottom--sm',
-      )}
-    >
+      )}>
       <div className="col">
         <TagsListInline {...props} />
       </div>
@@ -63,13 +62,8 @@ function EditMetaRow({
 export default function DocItemFooter(props: Props): JSX.Element {
   const {content: DocContent} = props;
   const {metadata} = DocContent;
-  const {
-    editUrl,
-    lastUpdatedAt,
-    formattedLastUpdatedAt,
-    lastUpdatedBy,
-    tags,
-  } = metadata;
+  const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
+    metadata;
 
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
@@ -82,8 +76,7 @@ export default function DocItemFooter(props: Props): JSX.Element {
 
   return (
     <footer
-      className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}
-    >
+      className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}>
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <EditMetaRow

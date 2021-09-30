@@ -93,9 +93,7 @@ async function readCategoryMetadatasFile(
 }
 
 // [...parents, tail]
-function parseBreadcrumb(
-  breadcrumb: string[],
-): {
+function parseBreadcrumb(breadcrumb: string[]): {
   parents: string[];
   tail: string;
 } {
@@ -248,9 +246,8 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         } else {
           sidebarItems.push(newCategory);
         }
-        categoriesByBreadcrumb[
-          breadcrumb.join(BreadcrumbSeparator)
-        ] = newCategory;
+        categoriesByBreadcrumb[breadcrumb.join(BreadcrumbSeparator)] =
+          newCategory;
         return newCategory;
       }
     }

@@ -20,15 +20,8 @@ import type {Props} from '@theme/Layout';
 function Layout(props: Props): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   const {favicon, title: siteTitle, url: siteUrl} = siteConfig;
-  const {
-    children,
-    title,
-    noFooter,
-    description,
-    image,
-    keywords,
-    permalink,
-  } = props;
+  const {children, title, noFooter, description, image, keywords, permalink} =
+    props;
   const {image: defaultImage, metadatas} = useThemeConfig();
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 

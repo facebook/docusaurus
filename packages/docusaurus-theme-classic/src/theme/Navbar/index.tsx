@@ -179,8 +179,7 @@ function NavbarMobileSidebar({
         <button
           type="button"
           className="clean-btn navbar-sidebar__close"
-          onClick={toggleSidebar}
-        >
+          onClick={toggleSidebar}>
           <IconClose
             color="var(--ifm-color-emphasis-600)"
             className={styles.navbarSidebarCloseSvg}
@@ -191,8 +190,7 @@ function NavbarMobileSidebar({
       <div
         className={clsx('navbar-sidebar__items', {
           'navbar-sidebar__items--show-secondary': secondaryMenu.shown,
-        })}
-      >
+        })}>
         <div className="navbar-sidebar__item menu">
           <ul className="menu__list">
             {items.map((item, i) => (
@@ -206,12 +204,10 @@ function NavbarMobileSidebar({
             <button
               type="button"
               className="clean-btn navbar-sidebar__back"
-              onClick={secondaryMenu.hide}
-            >
+              onClick={secondaryMenu.hide}>
               <Translate
                 id="theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel"
-                description="The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
-              >
+                description="The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)">
                 ← Back to main menu
               </Translate>
             </button>
@@ -246,8 +242,7 @@ function Navbar(): JSX.Element {
         'navbar-sidebar--show': mobileSidebar.shown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
-      })}
-    >
+      })}>
       <div className="navbar__inner">
         <div className="navbar__items">
           {(items?.length > 0 || activeDocPlugin) && (
@@ -257,8 +252,7 @@ function Navbar(): JSX.Element {
               type="button"
               tabIndex={0}
               onClick={mobileSidebar.toggle}
-              onKeyDown={mobileSidebar.toggle}
-            >
+              onKeyDown={mobileSidebar.toggle}>
               <IconMenu />
             </button>
           )}

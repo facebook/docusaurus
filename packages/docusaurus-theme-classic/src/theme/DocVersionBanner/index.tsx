@@ -39,8 +39,7 @@ function UnreleasedVersionLabel({
       values={{
         siteTitle,
         versionLabel: <b>{versionMetadata.label}</b>,
-      }}
-    >
+      }}>
       {
         'This is unreleased documentation for {siteTitle} {versionLabel} version.'
       }
@@ -59,8 +58,7 @@ function UnmaintainedVersionLabel({
       values={{
         siteTitle,
         versionLabel: <b>{versionMetadata.label}</b>,
-      }}
-    >
+      }}>
       {
         'This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.'
       }
@@ -102,15 +100,13 @@ function LatestVersionSuggestionLabel({
             <Link to={to} onClick={onClick}>
               <Translate
                 id="theme.docs.versions.latestVersionLinkLabel"
-                description="The label used for the latest version suggestion link label"
-              >
+                description="The label used for the latest version suggestion link label">
                 latest version
               </Translate>
             </Link>
           </b>
         ),
-      }}
-    >
+      }}>
       {
         'For up-to-date documentation, see the {latestVersionLink} ({versionLabel}).'
       }
@@ -129,10 +125,8 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
-  const {
-    latestDocSuggestion,
-    latestVersionSuggestion,
-  } = useDocVersionSuggestions(pluginId);
+  const {latestDocSuggestion, latestVersionSuggestion} =
+    useDocVersionSuggestions(pluginId);
 
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version
@@ -145,8 +139,7 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
         ThemeClassNames.docs.docVersionBanner,
         'alert alert--warning margin-bottom--md',
       )}
-      role="alert"
-    >
+      role="alert">
       <div>
         <BannerLabel siteTitle={siteTitle} versionMetadata={versionMetadata} />
       </div>

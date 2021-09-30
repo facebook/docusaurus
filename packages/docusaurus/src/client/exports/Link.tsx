@@ -84,9 +84,9 @@ function Link({
   }
 
   const preloaded = useRef(false);
-  const LinkComponent = (isNavLink
-    ? NavLink
-    : RRLink) as ComponentType<LinkProps>;
+  const LinkComponent = (
+    isNavLink ? NavLink : RRLink
+  ) as ComponentType<LinkProps>;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 

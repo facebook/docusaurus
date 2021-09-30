@@ -48,8 +48,7 @@ const createAnchorHeading = (
           [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
           [styles.anchorWithStickyNavbar]: !hideOnScroll,
         })}
-        id={id}
-      >
+        id={id}>
         {props.children}
         <a
           className="hash-link"
@@ -58,8 +57,7 @@ const createAnchorHeading = (
             id: 'theme.common.headingLinkTitle',
             message: 'Direct link to heading',
             description: 'Title for link to heading',
-          })}
-        >
+          })}>
           #
         </a>
       </Tag>

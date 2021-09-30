@@ -19,8 +19,7 @@ export default function TagsListInline({tags}: Props): JSX.Element {
       <b>
         <Translate
           id="theme.tags.tagsListLabel"
-          description="The label alongside a tag list"
-        >
+          description="The label alongside a tag list">
           Tags:
         </Translate>
       </b>
