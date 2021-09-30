@@ -56,53 +56,54 @@ function MyPlugin(context, options) {
   };
 }
 
-module.exports =
-  // highlight-start
-  /** @type {import('@docusaurus/types').Config} */
-  // highlight-end
-  ({
-    title: 'Docusaurus',
-    tagline: 'Build optimized websites quickly, focus on your content',
-    organizationName: 'facebook',
-    projectName: 'docusaurus',
-    plugins: [MyPlugin],
-    presets: [
-      [
-        '@docusaurus/preset-classic',
-        // highlight-start
-        /** @type {import('@docusaurus/preset-classic').Options} */
-        // highlight-end
-        ({
-          docs: {
-            path: 'docs',
-            sidebarPath: 'sidebars.js',
-          },
-          blog: {
-            path: 'blog',
-            postsPerPage: 5,
-          },
-        }),
-      ],
-    ],
-    themeConfig:
+// highlight-start
+/** @type {import('@docusaurus/types').Config} */
+// highlight-end
+const config = {
+  title: 'Docusaurus',
+  tagline: 'Build optimized websites quickly, focus on your content',
+  organizationName: 'facebook',
+  projectName: 'docusaurus',
+  plugins: [MyPlugin],
+  presets: [
+    [
+      '@docusaurus/preset-classic',
       // highlight-start
-      /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+      /** @type {import('@docusaurus/preset-classic').Options} */
       // highlight-end
       ({
-        colorMode: {
-          defaultMode: 'dark',
+        docs: {
+          path: 'docs',
+          sidebarPath: 'sidebars.js',
         },
-        navbar: {
-          hideOnScroll: true,
-          title: 'Docusaurus',
-          logo: {
-            alt: 'Docusaurus Logo',
-            src: 'img/docusaurus.svg',
-            srcDark: 'img/docusaurus_keytar.svg',
-          },
+        blog: {
+          path: 'blog',
+          postsPerPage: 5,
         },
       }),
-  });
+    ],
+  ],
+  themeConfig:
+    // highlight-start
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    // highlight-end
+    ({
+      colorMode: {
+        defaultMode: 'dark',
+      },
+      navbar: {
+        hideOnScroll: true,
+        title: 'Docusaurus',
+        logo: {
+          alt: 'Docusaurus Logo',
+          src: 'img/docusaurus.svg',
+          srcDark: 'img/docusaurus_keytar.svg',
+        },
+      },
+    }),
+};
+
+module.exports = config;
 ```
 
 :::tip
