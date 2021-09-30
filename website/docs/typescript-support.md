@@ -42,8 +42,11 @@ It is **not possible** to use a TypeScript config file in Docusaurus, unless you
 
 We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html):
 
-<!-- prettier-ignore-start -->
 ```js title="docusaurus.config.js"
+// highlight-start
+// @ts-check
+// highlight-end
+
 // highlight-start
 /** @type {import('@docusaurus/types').Plugin} */
 // highlight-end
@@ -54,9 +57,9 @@ function MyPlugin(context, options) {
 }
 
 // highlight-start
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
+/** @type {import('@docusaurus/types').Config} */
 // highlight-end
-(module.exports = {
+const config = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
@@ -98,15 +101,28 @@ function MyPlugin(context, options) {
         },
       },
     }),
-});
+};
+
+module.exports = config;
 ```
-<!-- prettier-ignore-end -->
 
 :::tip
 
 Type annotations are very useful and help your IDE understand the type of config objects!
 
 The best IDEs (VSCode, WebStorm, Intellij...) will provide a nice auto-completion experience.
+
+:::
+
+:::info
+
+By default, the Docusaurus TypeScript config does not type-check JavaScript files.
+
+The `// @ts-check` comment ensures the config file is properly type-checked when running:
+
+```bash npm2yarn
+npm run tsc
+```
 
 :::
 

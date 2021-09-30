@@ -51,7 +51,7 @@
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
-    "watch": "yarn lerna run --parallel --no-private watch",
+    "watch": "yarn lerna run --parallel watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx yarn-deduplicate"

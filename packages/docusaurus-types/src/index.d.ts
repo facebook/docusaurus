@@ -9,6 +9,7 @@ import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {Overwrite, DeepPartial} from 'utility-types';
 
 // Convert webpack-merge webpack-merge enum to union type
 // For type retro-compatible webpack-merge upgrade: we used string literals before)
@@ -21,6 +22,7 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+// Docusaurus config, after validation/normalization
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
@@ -67,6 +69,19 @@ export interface DocusaurusConfig {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
 }
+
+// Docusaurus config, as provided by the user (partial/unnormalized)
+// This type is used to provide type-safety / IDE auto-complete on the config file
+// See https://docusaurus.io/docs/typescript-support
+export type Config = Overwrite<
+  Partial<DocusaurusConfig>,
+  {
+    title: Required<DocusaurusConfig['title']>;
+    url: Required<DocusaurusConfig['url']>;
+    baseUrl: Required<DocusaurusConfig['baseUrl']>;
+    i18n?: DeepPartial<DocusaurusConfig['i18n']>;
+  }
+>;
 
 /**
  * - `type: 'package'`, plugin is in a different package.

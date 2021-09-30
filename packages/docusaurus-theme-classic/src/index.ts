@@ -92,7 +92,7 @@ function getInfimaCSSFile(direction: string) {
 }
 
 export type PluginOptions = {
-  customCss?: string;
+  customCss?: string | string[];
 };
 
 export default function docusaurusThemeClassic(

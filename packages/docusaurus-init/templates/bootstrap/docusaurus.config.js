@@ -1,5 +1,8 @@
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
-module.exports = {
+// @ts-check
+// Note: type annotations allow type checking and IDEs autocompletion
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
   title: 'My Site',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
@@ -86,3 +89,5 @@ module.exports = {
     ],
   ],
 };
+
+module.exports = config;

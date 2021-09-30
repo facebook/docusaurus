@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-content-blog' {
-  export type Options = import('./types').PluginOptions;
+  export type Options = Partial<import('./types').UserPluginOptions>;
 }
 
 declare module '@theme/BlogSidebar' {

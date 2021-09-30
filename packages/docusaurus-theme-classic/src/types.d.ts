@@ -11,7 +11,7 @@
 /// <reference types="@docusaurus/plugin-content-pages" />
 
 declare module '@docusaurus/theme-classic' {
-  export type Options = import('./index').PluginOptions;
+  export type Options = Partial<import('./index').PluginOptions>;
 }
 
 declare module '@theme/AnnouncementBar' {
