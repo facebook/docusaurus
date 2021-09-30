@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import type {TOCInlineProps} from '@theme/TOCInline';
 import styles from './styles.module.css';
 import TOCItems from '@theme/TOCItems';
@@ -17,13 +16,13 @@ function TOCInline({
   maxHeadingLevel,
 }: TOCInlineProps): JSX.Element {
   return (
-    <div className={clsx(styles.tableOfContentsInline)}>
+    <div className={styles.tableOfContentsInline}>
       <TOCItems
         toc={toc}
         minHeadingLevel={minHeadingLevel}
         maxHeadingLevel={maxHeadingLevel}
         className="table-of-contents"
-        linkClassName=""
+        linkClassName={null}
       />
     </div>
   );

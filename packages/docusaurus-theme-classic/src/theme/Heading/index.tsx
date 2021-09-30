@@ -44,7 +44,7 @@ const createAnchorHeading = (
     return (
       <Tag
         {...props}
-        className={clsx('anchor', `anchor__${Tag}`, {
+        className={clsx('anchor', {
           [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
           [styles.anchorWithStickyNavbar]: !hideOnScroll,
         })}

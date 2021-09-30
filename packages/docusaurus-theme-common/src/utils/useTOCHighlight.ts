@@ -38,11 +38,12 @@ function getAnchors({
 }) {
   const selectors = [];
   for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
-    selectors.push(`.anchor.anchor__h${i}`);
+    selectors.push(`h${i}.anchor`);
   }
-  const selector = selectors.join(', ');
 
-  return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+  return Array.from(
+    document.querySelectorAll(selectors.join()),
+  ) as HTMLElement[];
 }
 
 function getActiveAnchor(
