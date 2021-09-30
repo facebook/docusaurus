@@ -68,9 +68,7 @@ type EditUrlFunction = (params: {
   locale: string;
 }) => string | undefined;
 
-type PrefixParser = (
-  filename: string,
-) => {
+type PrefixParser = (filename: string) => {
   filename: string;
   numberPrefix?: number;
 };
