@@ -42,7 +42,6 @@ It is **not possible** to use a TypeScript config file in Docusaurus, unless you
 
 We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html):
 
-<!-- prettier-ignore-start -->
 ```js title="docusaurus.config.js"
 // highlight-start
 // @ts-check
@@ -57,54 +56,54 @@ function MyPlugin(context, options) {
   };
 }
 
-// highlight-start
-/** @type {import('@docusaurus/types').Config} */
-// highlight-end
-(module.exports = {
-  title: 'Docusaurus',
-  tagline: 'Build optimized websites quickly, focus on your content',
-  organizationName: 'facebook',
-  projectName: 'docusaurus',
-  plugins: [MyPlugin],
-  presets: [
-    [
-      '@docusaurus/preset-classic',
+module.exports =
+  // highlight-start
+  /** @type {import('@docusaurus/types').Config} */
+  // highlight-end
+  ({
+    title: 'Docusaurus',
+    tagline: 'Build optimized websites quickly, focus on your content',
+    organizationName: 'facebook',
+    projectName: 'docusaurus',
+    plugins: [MyPlugin],
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        // highlight-start
+        /** @type {import('@docusaurus/preset-classic').Options} */
+        // highlight-end
+        ({
+          docs: {
+            path: 'docs',
+            sidebarPath: 'sidebars.js',
+          },
+          blog: {
+            path: 'blog',
+            postsPerPage: 5,
+          },
+        }),
+      ],
+    ],
+    themeConfig:
       // highlight-start
-      /** @type {import('@docusaurus/preset-classic').Options} */
+      /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
       // highlight-end
       ({
-        docs: {
-          path: 'docs',
-          sidebarPath: 'sidebars.js',
+        colorMode: {
+          defaultMode: 'dark',
         },
-        blog: {
-          path: 'blog',
-          postsPerPage: 5,
+        navbar: {
+          hideOnScroll: true,
+          title: 'Docusaurus',
+          logo: {
+            alt: 'Docusaurus Logo',
+            src: 'img/docusaurus.svg',
+            srcDark: 'img/docusaurus_keytar.svg',
+          },
         },
       }),
-    ],
-  ],
-  themeConfig:
-    // highlight-start
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    // highlight-end
-    ({
-      colorMode: {
-        defaultMode: 'dark',
-      },
-      navbar: {
-        hideOnScroll: true,
-        title: 'Docusaurus',
-        logo: {
-          alt: 'Docusaurus Logo',
-          src: 'img/docusaurus.svg',
-          srcDark: 'img/docusaurus_keytar.svg',
-        },
-      },
-    }),
-});
+  });
 ```
-<!-- prettier-ignore-end -->
 
 :::tip
 
