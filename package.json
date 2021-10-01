@@ -12,7 +12,6 @@
     "start:website": "yarn workspace website start",
     "start:website:watch": "nodemon --watch \"./packages/*/lib/**/*.*\" --exec \"yarn start:website\"",
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
-    "start:website:bootstrap": "yarn workspace website start:bootstrap",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node generateExamples",

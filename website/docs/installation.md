@@ -40,12 +40,6 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 npx @docusaurus/init@latest init my-website facebook
 ```
 
-**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following:
-
-```bash
-npx @docusaurus/init@latest init my-website bootstrap
-```
-
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
 ```bash
