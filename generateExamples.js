@@ -168,7 +168,6 @@ function run() {
   rimraf.sync('./examples/classic');
   rimraf.sync('./examples/classic-typescript');
   rimraf.sync('./examples/facebook');
-  rimraf.sync('./examples/bootstrap');
   console.log('');
 
   // get the list of all available templates
