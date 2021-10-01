@@ -131,7 +131,6 @@ module.exports = {
         'api/themes/themes-overview',
         'api/themes/theme-configuration',
         'api/themes/theme-classic',
-        'api/themes/theme-bootstrap',
         'api/themes/theme-live-codeblock',
         'api/themes/theme-search-algolia',
       ],
