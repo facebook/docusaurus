@@ -75,7 +75,12 @@ module.exports = {
     // ...
     // highlight-start
     algolia: {
-      apiKey: 'YOUR_API_KEY',
+      // If Algolia did not provide you any appId, use 'BH4D9OD16A'
+      appId: 'YOUR_APP_ID',
+
+      // Public API key: it is safe to commit it
+      apiKey: 'YOUR_SEARCH_API_KEY',
+
       indexName: 'YOUR_INDEX_NAME',
 
       // Optional: see doc section below
@@ -130,24 +135,6 @@ module.exports = {
 When using `contextualSearch: true`, the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters`.
 
 :::
-
-### Custom Application ID {#custom-application-id}
-
-When [running your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler, it is [required to set the `appId` configuration key](https://docsearch.algolia.com/docs/behavior/#appid) to your own Application ID. If left unset, the `appId` will fallback to the one used with the free, hosted version of Algolia DocSearch.
-
-```jsx title="docusaurus.config.js"
-module.exports = {
-  // ...
-  themeConfig: {
-    // ...
-    // highlight-start
-    algolia: {
-      appId: 'YOUR_APP_ID',
-    },
-    // highlight-end
-  },
-};
-```
 
 ### Styling your Algolia search {#styling-your-algolia-search}
 
