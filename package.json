@@ -4,7 +4,7 @@
     "packages/*",
     "website",
     "test-website-in-workspace",
-    "packages/docusaurus-init/templates/*",
+    "packages/create-docusaurus/templates/*",
     "admin/new.docusaurus.io"
   ],
   "scripts": {
