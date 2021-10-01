@@ -35,16 +35,13 @@ module.exports = {
 
 ## Presets -> themes and plugins {#presets---themes-and-plugins}
 
-Presets in some way are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
+Presets are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
 
 ```js
 module.exports = function preset(context, opts = {}) {
   return {
-    themes: [
-      require.resolve('@docusaurus/themes-cool'),
-      require.resolve('@docusaurus/themes-bootstrap'),
-    ],
-    plugins: [require.resolve('@docusaurus/plugin-blog')],
+    themes: ['@docusaurus/theme-cool', opts.cool],
+    plugins: ['@docusaurus/plugin-blog', opts.blog],
   };
 };
 ```
@@ -53,8 +50,10 @@ then in your Docusaurus config, you may configure the preset instead:
 
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
-  // ...
-  presets: ['@docusaurus/preset-my-own'],
+  presets: [
+    '@docusaurus/preset-my-own',
+    {cool: {hello: 'world'}, blog: {path: '/blog'}},
+  ],
 };
 ```
 
@@ -62,8 +61,8 @@ This is equivalent of doing:
 
 ```jsx title="docusaurus.config.js"
 module.exports = {
-  themes: ['@docusaurus/themes-cool', '@docusaurus/themes-bootstrap'],
-  plugins: ['@docusaurus/plugin-blog'],
+  themes: ['@docusaurus/themes-cool', {hello: 'world'}],
+  plugins: ['@docusaurus/plugin-blog', {path: '/blog'}],
 };
 ```
 
@@ -132,51 +131,3 @@ module.exports = {
   ],
 };
 ```
-
-### `@docusaurus/preset-bootstrap` {#docusauruspreset-bootstrap}
-
-An alternative preset that uses Bootstrap styling.
-
-| Themes                        | Plugins                            |
-| ----------------------------- | ---------------------------------- |
-| `@docusaurus/theme-bootstrap` | `@docusaurus/plugin-content-docs`  |
-|                               | `@docusaurus/plugin-content-blog`  |
-|                               | `@docusaurus/plugin-content-pages` |
-|                               | `@docusaurus/plugin-debug`         |
-
-To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `docs` for `@docusaurus/theme-bootstrap`, pass them in the preset field, like this:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-bootstrap',
-      {
-        // Debug defaults to true in dev, false in prod
-        debug: undefined,
-        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
-        docs: {},
-        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
-        blog: {},
-      },
-    ],
-  ],
-};
-```
-
-:::caution
-
-This preset is work in progress
-
-:::
-
-<!--
-
-Advanced guide on using and configuring presets
-
-References
----
-- [classic themes](/packages/docusaurus-preset-classic/src/index.js)
-- [babel docs on presets](https://babeljs.io/docs/en/presets)
-
--->
