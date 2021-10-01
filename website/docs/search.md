@@ -79,7 +79,7 @@ module.exports = {
       appId: 'YOUR_APP_ID',
 
       // Public API key: it is safe to commit it
-      apiKey: 'YOUR_API_KEY',
+      apiKey: 'YOUR_SEARCH_API_KEY',
 
       indexName: 'YOUR_INDEX_NAME',
 
