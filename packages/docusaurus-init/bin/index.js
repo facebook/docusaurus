@@ -36,7 +36,7 @@ program
   .usage('<command> [options]');
 
 program
-  .command('init [siteName] [template] [rootDir]')
+  .command(' [siteName] [template] [rootDir]')
   .option('--use-npm')
   .option('--skip-install')
   .option('--typescript')
