@@ -719,6 +719,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'nanos world documentation',
+    description: "nanos world is the next-generation multiplayer open world sandbox game.",
+    preview: require('./showcase/nanos-world.png'),
+    website: 'https://docs.nanos.world/',
+    source: 'https://github.com/nanos-world/docs',
+    tags: ['opensource', 'versioning', 'i18n', 'product'],
+  },
+  {
     title: 'netboot.xyz',
     description: 'Your favorite operating systems in one place!',
     preview: require('./showcase/netbootxyz.png'),
