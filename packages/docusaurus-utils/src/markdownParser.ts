@@ -44,6 +44,8 @@ export function createExcerpt(fileString: string): string | undefined {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<\/?[A-Za-z][^>]*>/gm, '')
+      // Remove incomplete tags. This is impossible to happen (build time errors) but makes CI happy
+      .replace(/<\/?[A-Za-z][^>]*/g, '')
       // Remove Title headers
       .replace(/^#\s*([^#]*)\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
