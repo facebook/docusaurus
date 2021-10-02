@@ -116,7 +116,7 @@ declare module '@theme/DocItem' {
     }[];
   };
 
-  export type Props = {
+  export interface Props {
     readonly route: DocumentRoute;
     readonly versionMetadata: PropVersionMetadata;
     readonly content: {
@@ -126,7 +126,7 @@ declare module '@theme/DocItem' {
       readonly contentTitle: string | undefined;
       (): JSX.Element;
     };
-  };
+  }
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
@@ -141,16 +141,25 @@ declare module '@theme/DocItemFooter' {
 declare module '@theme/DocTagsListPage' {
   import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
 
-  export type Props = PropTagsListPage;
-  export default function DocItemFooter(props: Props): JSX.Element;
+  export interface Props extends PropTagsListPage {}
+  export default function DocTagsListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocTagDocListPage' {
+  import type {PropTagDocList} from '@docusaurus/plugin-content-docs-types';
+
+  export interface Props {
+    readonly tag: PropTagDocList;
+  }
+  export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionBanner' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 
-  export type Props = {
+  export interface Props {
     readonly versionMetadata: PropVersionMetadata;
-  };
+  }
 
   const DocVersionBanner: (props: Props) => JSX.Element;
   export default DocVersionBanner;
@@ -160,7 +169,7 @@ declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
   import type {DocumentRoute} from '@theme/DocItem';
 
-  export type Props = {
+  export interface Props {
     readonly location: {readonly pathname: string};
     readonly versionMetadata: PropVersionMetadata;
     readonly route: {
@@ -168,7 +177,7 @@ declare module '@theme/DocPage' {
       readonly component: () => JSX.Element;
       readonly routes: DocumentRoute[];
     };
-  };
+  }
 
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
@@ -177,13 +186,13 @@ declare module '@theme/DocPage' {
 declare module '@theme/Seo' {
   import type {ReactNode} from 'react';
 
-  export type Props = {
+  export interface Props {
     readonly title?: string;
     readonly description?: string;
     readonly keywords?: readonly string[] | string;
     readonly image?: string;
     readonly children?: ReactNode;
-  };
+  }
 
   const Seo: (props: Props) => JSX.Element;
   export default Seo;

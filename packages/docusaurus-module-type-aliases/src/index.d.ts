@@ -228,10 +228,10 @@ declare module '@docusaurus/ComponentCreator' {
 }
 
 declare module '@docusaurus/BrowserOnly' {
-  export type Props = {
-    children?: () => JSX.Element;
-    fallback?: JSX.Element;
-  };
+  export interface Props {
+    readonly children?: () => JSX.Element;
+    readonly fallback?: JSX.Element;
+  }
   const BrowserOnly: (props: Props) => JSX.Element | null;
   export default BrowserOnly;
 }

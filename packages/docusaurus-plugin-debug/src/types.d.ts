@@ -14,9 +14,9 @@ declare module '@theme/DebugConfig' {
 declare module '@theme/DebugContent' {
   import type {AllContent} from '@docusaurus/types';
 
-  export type Props = {
-    allContent: AllContent;
-  };
+  export interface Props {
+    readonly allContent: AllContent;
+  }
   export default function DebugContent(props: Props): JSX.Element;
 }
 
@@ -25,10 +25,10 @@ declare module '@theme/DebugGlobalData' {
 }
 
 declare module '@theme/DebugJsonView' {
-  export type Props = {
-    src: unknown;
-    collapseDepth?: number;
-  };
+  export interface Props {
+    readonly src: unknown;
+    readonly collapseDepth?: number;
+  }
   export default function DebugJsonView(props: Props): JSX.Element;
 }
 

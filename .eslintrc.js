@@ -126,6 +126,12 @@ module.exports = {
     '@typescript-eslint/no-shadow': ERROR,
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
+    '@typescript-eslint/no-empty-interface': [
+      'error',
+      {
+        allowSingleExtends: true,
+      },
+    ],
   },
   overrides: [
     {
