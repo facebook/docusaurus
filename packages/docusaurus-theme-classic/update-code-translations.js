@@ -46,7 +46,7 @@ function logSection(title) {
 }
 
 function logKeys(keys) {
-  return `Keys:\n- ${keys.join('\n- ')}\``;
+  return `Keys:\n- ${keys.join('\n- ')}`;
 }
 
 async function extractThemeCodeMessages() {
