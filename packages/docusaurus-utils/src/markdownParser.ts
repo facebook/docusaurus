@@ -44,6 +44,7 @@ export function createExcerpt(fileString: string): string | undefined {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
+      // .replace(/<\/?[A-Za-z][^>]*>/gm, '')
       // Remove Title headers
       .replace(/^#\s*([^#]*)\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
@@ -181,6 +182,7 @@ export async function parseMarkdownFile(
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
     return parseMarkdownString(markdownString, options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     throw new Error(
       `Error while parsing Markdown file ${source}: "${e.message}".`,
