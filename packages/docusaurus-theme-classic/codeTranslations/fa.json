@@ -1,6 +1,6 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "بستن",
-  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
+  "theme.BackToTopButton.buttonAriaLabel": "بازگشت به بالا",
   "theme.CodeBlock.copied": "کپی شد",
   "theme.CodeBlock.copy": "کپی",
   "theme.CodeBlock.copyButtonAriaLabel": "کپی به کلیپ بورد",
@@ -22,8 +22,8 @@
   "theme.SearchPage.inputPlaceholder": "عبارت مورد نظر را اینجا بنویسید",
   "theme.SearchPage.noResultsText": "هیچ نتیجه ای پیدا نشد",
   "theme.TOCCollapsible.toggleButtonLabel": "مطالب این صفحه",
-  "theme.blog.archive.description": "Archive",
-  "theme.blog.archive.title": "Archive",
+  "theme.blog.archive.description": "آرشیو",
+  "theme.blog.archive.title": "آرشیو",
   "theme.blog.paginator.navAriaLabel": "کنترل لیست مطالب وبلاک",
   "theme.blog.paginator.newerEntries": "مطالب جدید تر",
   "theme.blog.paginator.olderEntries": "مطالب قدیمی تر",
