@@ -636,6 +636,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Lux Algo',
+    description: 'Creation of technical trading tools',
+    preview: require('./showcase/lux-algo.png'),
+    website: 'https://docs.luxalgo.com',
+    source: 'https://github.com/smack0202/luxdocs',
+    tags: ['opensource', 'design', 'i18n', 'product'],
+  },
+  {
     title: 'SICOPE Model',
     description: 'An open source model-based testing tool for web applications',
     preview: require('./showcase/sicope-model.png'),
