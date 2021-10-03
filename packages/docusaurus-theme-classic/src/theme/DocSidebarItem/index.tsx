@@ -100,6 +100,7 @@ function DocSidebarItemCategory({
   item,
   onItemClick,
   activePath,
+  level,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible} = item;
@@ -123,6 +124,7 @@ function DocSidebarItemCategory({
     <li
       className={clsx(
         ThemeClassNames.docs.docSidebarItemCategory,
+        ThemeClassNames.docs.docSidebarItemCategoryLevel(level),
         'menu__list-item',
         {
           'menu__list-item--collapsed': collapsed,
@@ -154,6 +156,7 @@ function DocSidebarItemCategory({
           tabIndex={collapsed ? -1 : 0}
           onItemClick={onItemClick}
           activePath={activePath}
+          level={level + 1}
         />
       </Collapsible>
     </li>
@@ -164,6 +167,7 @@ function DocSidebarItemLink({
   item,
   onItemClick,
   activePath,
+  level,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label} = item;
@@ -172,6 +176,7 @@ function DocSidebarItemLink({
     <li
       className={clsx(
         ThemeClassNames.docs.docSidebarItemLink,
+        ThemeClassNames.docs.docSidebarItemLinkLevel(level),
         'menu__list-item',
       )}
       key={label}>
