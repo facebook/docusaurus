@@ -30,6 +30,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   type PropsSidebarItemBase = {
+    className?: string;
     customProps?: Record<string, unknown>;
   };
 
@@ -37,7 +38,6 @@ declare module '@docusaurus/plugin-content-docs-types' {
     type: 'link';
     href: string;
     label: string;
-    className?: string;
   };
 
   export type PropSidebarItemCategory = PropsSidebarItemBase & {
@@ -46,7 +46,6 @@ declare module '@docusaurus/plugin-content-docs-types' {
     items: PropSidebarItem[];
     collapsed: boolean;
     collapsible: boolean;
-    className?: string;
   };
 
   export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
