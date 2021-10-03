@@ -51,9 +51,9 @@ export const ThemeClassNames = {
     docSidebarItemCategory: 'theme-doc-sidebar-item-category',
     docSidebarItemLink: 'theme-doc-sidebar-item-link',
     docSidebarItemCategoryLevel: (level: number) =>
-      `theme-doc-sidebar-item-category-level-${level}`,
+      `theme-doc-sidebar-item-category-level-${level}` as const,
     docSidebarItemLinkLevel: (level: number) =>
-      `theme-doc-sidebar-item-link-level-${level}`,
+      `theme-doc-sidebar-item-link-level-${level}` as const,
     // TODO add other stable classNames here
   },
   blog: {
