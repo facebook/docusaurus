@@ -146,3 +146,7 @@ div[class^='announcementBar_'] {
   );
   font-weight: bold;
 }
+
+.red > a {
+  color: red;
+}

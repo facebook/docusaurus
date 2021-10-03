@@ -103,7 +103,7 @@ function DocSidebarItemCategory({
   level,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
-  const {items, label, collapsible} = item;
+  const {items, label, collapsible, className} = item;
 
   const isActive = isActiveSidebarItem(item, activePath);
 
@@ -129,6 +129,7 @@ function DocSidebarItemCategory({
         {
           'menu__list-item--collapsed': collapsed,
         },
+        className,
       )}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
@@ -170,7 +171,7 @@ function DocSidebarItemLink({
   level,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
-  const {href, label} = item;
+  const {href, label, className} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   return (
     <li
@@ -178,6 +179,7 @@ function DocSidebarItemLink({
         ThemeClassNames.docs.docSidebarItemLink,
         ThemeClassNames.docs.docSidebarItemLinkLevel(level),
         'menu__list-item',
+        className,
       )}
       key={label}>
       <Link
