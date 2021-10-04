@@ -173,6 +173,7 @@ type SidebarItemDoc =
       type: 'doc';
       id: string;
       label: string; // Sidebar label text
+      className?: string; // Class name for sidebar label
     }
 
   // Shorthand syntax
@@ -244,6 +245,7 @@ type SidebarItemLink = {
   type: 'link';
   label: string;
   href: string;
+  className?: string;
 };
 ```
 
@@ -282,6 +284,7 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
+  className?: string;
 
   // Category options:
   collapsible: boolean; // Set the category to be collapsible
@@ -519,7 +522,8 @@ This is the easy tutorial!
 ```json title="docs/tutorials/_category_.json"
 {
   "label": "Tutorial",
-  "position": 3
+  "position": 3,
+  "className": "red"
 }
 ```
 

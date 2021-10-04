@@ -179,8 +179,8 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       ...(doc.frontMatter.sidebar_label && {
         label: doc.frontMatter.sidebar_label,
       }),
-      ...(doc.frontMatter.sidebar_className && {
-        className: doc.frontMatter.sidebar_className,
+      ...(doc.frontMatter.sidebar_class_name && {
+        className: doc.frontMatter.sidebar_class_name,
       }),
       ...(typeof doc.sidebarPosition !== 'undefined' && {
         position: doc.sidebarPosition,
