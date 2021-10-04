@@ -47,6 +47,11 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
       }
     }
 
+    // Root route should get placed last.
+    if (a.path === '/' || b.path === '/') {
+      return -1;
+    }
+
     return a.path.localeCompare(b.path);
   });
 
