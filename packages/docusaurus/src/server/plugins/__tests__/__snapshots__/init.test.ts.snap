@@ -40,10 +40,6 @@ Array [
   },
   Object {
     "component": "",
-    "path": "/",
-  },
-  Object {
-    "component": "",
     "path": "/docs",
     "routes": Array [
       Object {
@@ -55,6 +51,10 @@ Array [
         "path": "/docs/someOtherDoc",
       },
     ],
+  },
+  Object {
+    "component": "",
+    "path": "/",
   },
   Object {
     "component": "",

@@ -30,6 +30,14 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
+    // Root route should get placed last.
+    if (a.path === '/' && b.path !== '/') {
+      return 1;
+    }
+    if (a.path !== '/' && b.path === '/') {
+      return -1;
+    }
+
     if (a.routes && !b.routes) {
       return 1;
     }
@@ -45,11 +53,6 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
       if (score !== 0) {
         return score;
       }
-    }
-
-    // Root route should get placed last.
-    if (a.path === '/' || b.path === '/') {
-      return -1;
     }
 
     return a.path.localeCompare(b.path);
