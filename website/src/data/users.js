@@ -658,7 +658,7 @@ const Users = [
     preview: require('./showcase/ory.png'),
     website: 'https://www.ory.sh/docs',
     source: 'https://github.com/ory/docs/',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'Oxidizer',
