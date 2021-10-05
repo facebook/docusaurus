@@ -387,7 +387,7 @@ const Users: User[] = [
     title: 'Djamaile Rahamat',
     description: 'Djamaile Rahamat Blog on making cool stuff',
     preview: require('./showcase/djamaile.png'),
-    website: 'https://djamail.dev/',
+    website: 'https://djamaile.dev/',
     source: 'https://github.com/djamaile/portfolio',
     tags: ['opensource','personal'],
   },
