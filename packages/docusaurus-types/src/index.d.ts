@@ -211,10 +211,10 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
-  siteMetadata: DocusaurusSiteMetadata;
-  routes: RouteConfig[];
-  routesPaths: string[];
-  plugins: LoadedPlugin[];
+  readonly siteMetadata: DocusaurusSiteMetadata;
+  readonly routes: RouteConfig[];
+  readonly routesPaths: string[];
+  readonly plugins: LoadedPlugin[];
 }
 
 export interface PluginContentLoadedActions {

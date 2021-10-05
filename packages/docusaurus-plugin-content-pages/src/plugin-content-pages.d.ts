@@ -12,7 +12,7 @@ declare module '@docusaurus/plugin-content-pages' {
 declare module '@theme/MDXPage' {
   import type {TOCItem} from '@docusaurus/types';
 
-  export type Props = {
+  export interface Props {
     readonly content: {
       readonly frontMatter: {
         readonly title: string;
@@ -28,7 +28,7 @@ declare module '@theme/MDXPage' {
       readonly toc: readonly TOCItem[];
       (): JSX.Element;
     };
-  };
+  }
 
   const MDXPage: (props: Props) => JSX.Element;
   export default MDXPage;
