@@ -652,6 +652,15 @@ const Users = [
     tags: ['opensource'],
   },
   {
+    title: 'Ory Documentation',
+    description:
+      'Ory is an open source ecosystem and a cloud offering authentication, authorization, access control, and delegation (OAuth2 & OpenID Connect) services and APIs.',
+    preview: require('./showcase/ory.png'),
+    website: 'https://www.ory.sh/docs',
+    source: 'https://github.com/ory/docs/',
+    tags: ['opensource', 'large'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
