@@ -166,5 +166,12 @@ function TabsComponent(props: Props): JSX.Element {
 
 export default function Tabs(props: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  return <TabsComponent key={String(isBrowser)} {...props} />;
+  return (
+    <TabsComponent
+      // Remount tabs after hydration
+      // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
+      key={String(isBrowser)}
+      {...props}
+    />
+  );
 }
