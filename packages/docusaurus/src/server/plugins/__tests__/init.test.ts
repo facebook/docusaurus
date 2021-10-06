@@ -51,14 +51,19 @@ describe('sortConfig', () => {
       {
         path: '/',
         component: '',
-      },
-      {
-        path: '/',
-        component: '',
         routes: [
           {path: '/someDoc', component: ''},
           {path: '/someOtherDoc', component: ''},
         ],
+      },
+      {
+        path: '/',
+        component: '',
+      },
+      {
+        path: '/',
+        component: '',
+        routes: [{path: '/subroute', component: ''}],
       },
       {
         path: '/docs',

@@ -70,5 +70,15 @@ Array [
       },
     ],
   },
+  Object {
+    "component": "",
+    "path": "/",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/subroute",
+      },
+    ],
+  },
 ]
 `;
