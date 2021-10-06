@@ -5,7 +5,7 @@ description: Handling assets in Docusaurus Markdown
 slug: /markdown-features/assets
 ---
 
-Sometimes you want to link to static assets directly from Markdown files, and it is convenient to co-locate the asset next to the markdown file using it.
+Sometimes you want to link to static assets directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
 
 We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
 
@@ -22,29 +22,29 @@ Let's imagine the following file structure:
 
 ## Images {#images}
 
-You can use images in Markdown, or by requiring them and using a JSX image tag:
+You can display images in three different ways: Markdown syntax, JSX require or ES imports syntax.
+
+Display images using simple Markdown syntax:
 
 ```mdx
-# My Markdown page
+![Example banner](./assets/docusaurus-asset-example-banner.png)
+```
 
+Display images using inline CommonJS `require` in JSX image tag:
+
+```mdx
 <img
   src={require('./assets/docusaurus-asset-example-banner.png').default}
   alt="Example banner"
 />
-
-or
-
-![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
-The ES imports syntax also works:
+Display images using ES `import` syntax and JSX image tag:
 
 ```mdx
-# My Markdown page
-
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl} alt="My image alternative text" />
+<img src={myImageUrl} alt="Example banner" />
 ```
 
 This results in displaying the image:
@@ -119,7 +119,7 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 
 ## Themed Images {#themed-images}
 
-Docusaurus supports themed images: the `ThemedImage` component (included in the classic/bootstrap themes) allows you to switch the image source based on the current theme.
+Docusaurus supports themed images: the `ThemedImage` component (included in the themes) allows you to switch the image source based on the current theme.
 
 ```jsx {5-8}
 import ThemedImage from '@theme/ThemedImage';

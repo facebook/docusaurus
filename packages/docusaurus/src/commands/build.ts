@@ -53,7 +53,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      console.error(`Unable to build website for locale ${locale}.`);
+      console.error(`Unable to build website for locale "${locale}".`);
       throw e;
     }
   }
@@ -72,7 +72,7 @@ export default async function build(
     if (i18n.locales.length > 1) {
       console.log(
         chalk.yellow(
-          `\nSite will be built for all these locales:
+          `\nWebsite will be built for all these locales:
 - ${i18n.locales.join('\n- ')}`,
         ),
       );
@@ -184,17 +184,19 @@ async function buildLocale({
 
     if (configureWebpack) {
       clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
         clientConfig,
         false,
         props.siteConfig.webpack?.jsLoader,
+        plugin.content,
       );
 
       serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
         serverConfig,
         true,
         props.siteConfig.webpack?.jsLoader,
+        plugin.content,
       );
     }
   });
@@ -239,16 +241,16 @@ async function buildLocale({
   });
 
   console.log(
-    `${chalk.green(`Success!`)} Generated static files in ${chalk.cyan(
+    `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
       path.relative(process.cwd(), outDir),
-    )}.`,
+    )}".`,
   );
 
   if (isLastLocale) {
     console.log(
       `\nUse ${chalk.greenBright(
         '`npm run serve`',
-      )} to test your build locally.\n`,
+      )} command to test your build locally.\n`,
     );
   }
 

@@ -17,6 +17,7 @@ coverage
 .cache-loader
 types
 test-website
+test-website-in-workspace
 
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*

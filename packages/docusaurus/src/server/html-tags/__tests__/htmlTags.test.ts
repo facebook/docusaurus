@@ -14,8 +14,7 @@ describe('htmlTagObjectToString', () => {
         tagName: 'script',
         attributes: {
           type: 'text/javascript',
-          src:
-            'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
           async: true,
           'data-options': '{"prop":true}',
         },
@@ -93,7 +92,7 @@ describe('htmlTagObjectToString', () => {
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"tagName\\":\\"endiliey\\",\\"attributes\\":{\\"this\\":\\"is invalid\\"}}, \\"endiliey\\" is not a valid HTML tags"`,
+      `"Error loading {\\"tagName\\":\\"endiliey\\",\\"attributes\\":{\\"this\\":\\"is invalid\\"}}, \\"endiliey\\" is not a valid HTML tags."`,
     );
   });
 
@@ -103,7 +102,7 @@ describe('htmlTagObjectToString', () => {
         tagName: true,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"{\\"tagName\\":true} is not a valid HTML tag object. \\"tagName\\" must be defined as a string"`,
+      `"{\\"tagName\\":true} is not a valid HTML tag object. \\"tagName\\" must be defined as a string."`,
     );
   });
 
@@ -111,13 +110,13 @@ describe('htmlTagObjectToString', () => {
     expect(() =>
       htmlTagObjectToString('fooofofoofo'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"fooofofoofo\\" is not a valid HTML tag object"`,
+      `"\\"fooofofoofo\\" is not a valid HTML tag object."`,
     );
 
     expect(() =>
       htmlTagObjectToString(null),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"null\\" is not a valid HTML tag object"`,
+      `"\\"null\\" is not a valid HTML tag object."`,
     );
   });
 });

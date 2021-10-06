@@ -12,7 +12,9 @@ module.exports = `
   <ShortName><%= it.title %></ShortName>
   <Description>Search <%= it.title %></Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon"><%= it.favicon %></Image>
+  <% if (it.favicon) { _%>
+    <Image width="16" height="16" type="image/x-icon"><%= it.favicon %></Image>
+  <% } _%>
   <Url type="text/html" method="get" template="<%= it.url %>search?q={searchTerms}"/>
   <Url type="application/opensearchdescription+xml" rel="self" template="<%= it.url %>opensearch.xml" />
   <moz:SearchForm><%= it.url %></moz:SearchForm>

@@ -21,18 +21,32 @@ function isInViewport(element: HTMLElement): boolean {
   return top >= 0 && right <= innerWidth && bottom <= innerHeight && left >= 0;
 }
 
-const keys = {
-  left: 37,
-  right: 39,
-} as const;
-
 function Tabs(props: Props): JSX.Element {
-  const {lazy, block, defaultValue, values, groupId, className} = props;
-  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const {
+    lazy,
+    block,
+    defaultValue: defaultValueProp,
+    values: valuesProp,
+    groupId,
+    className,
+  } = props;
   const children = Children.toArray(
     props.children,
   ) as ReactElement<TabItemProps>[];
+  const values =
+    valuesProp ??
+    children.map((child) => {
+      return {
+        value: child.props.value,
+        label: child.props.label,
+      };
+    });
+  const defaultValue =
+    defaultValueProp ??
+    children.find((child) => child.props.default)?.props.value;
+
+  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
 
   if (groupId != null) {
@@ -77,17 +91,17 @@ function Tabs(props: Props): JSX.Element {
     }
   };
 
-  const handleKeydown = (event) => {
-    let focusElement;
+  const handleKeydown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+    let focusElement: HTMLLIElement | null = null;
 
-    switch (event.keyCode) {
-      case keys.right: {
-        const nextTab = tabRefs.indexOf(event.target) + 1;
+    switch (event.key) {
+      case 'ArrowRight': {
+        const nextTab = tabRefs.indexOf(event.target as HTMLLIElement) + 1;
         focusElement = tabRefs[nextTab] || tabRefs[0];
         break;
       }
-      case keys.left: {
-        const prevTab = tabRefs.indexOf(event.target) - 1;
+      case 'ArrowLeft': {
+        const prevTab = tabRefs.indexOf(event.target as HTMLLIElement) - 1;
         focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
         break;
       }
@@ -123,7 +137,7 @@ function Tabs(props: Props): JSX.Element {
             onKeyDown={handleKeydown}
             onFocus={handleTabChange}
             onClick={handleTabChange}>
-            {label}
+            {label ?? value}
           </li>
         ))}
       </ul>

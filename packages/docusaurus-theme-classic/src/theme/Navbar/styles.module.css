@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@media screen and (max-width: 997px) {
-  .displayOnlyInLargeViewport {
-    display: none !important;
+/*
+Hide toggle in small viewports
+ */
+@media (max-width: 996px) {
+  .toggle {
+    display: none;
   }
 }
 
@@ -16,5 +19,9 @@
 }
 
 .navbarHidden {
-  transform: translate3d(0, calc(var(--ifm-navbar-height) * -1), 0);
+  transform: translate3d(0, calc(-100% - 2px), 0);
+}
+
+.navbarSidebarToggle {
+  margin-right: 1rem;
 }

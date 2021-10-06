@@ -53,14 +53,6 @@
     padding: 0.5rem;
   }
 
-  .menuLinkText {
-    cursor: initial;
-  }
-
-  .menuLinkText:hover {
-    background: none;
-  }
-
   .menuWithAnnouncementBar {
     margin-bottom: var(--docusaurus-announcement-bar-height);
   }
@@ -111,14 +103,4 @@
   font-weight: var(--ifm-font-weight-bold);
   line-height: 0.9;
   width: 24px;
-}
-
-:global(.menu__list) :global(.menu__list) {
-  overflow-y: hidden;
-  will-change: height;
-  transition: height var(--ifm-transition-fast) linear;
-}
-
-:global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0 !important;
 }

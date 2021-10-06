@@ -187,6 +187,7 @@ describe('simple site', () => {
         id: 'bar',
         title: 'Bar',
       },
+      tags: [],
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
@@ -202,7 +203,18 @@ describe('simple site', () => {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        tags: ['tag-1', 'tag 3'],
       },
+      tags: [
+        {
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 3',
+          permalink: '/docs/tags/tag-3',
+        },
+      ],
     });
   });
 
@@ -232,7 +244,18 @@ describe('simple site', () => {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        tags: ['tag-1', 'tag 3'],
       },
+      tags: [
+        {
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 3',
+          permalink: '/docs/tags/tag-3',
+        },
+      ],
     });
   });
 
@@ -263,13 +286,14 @@ describe('simple site', () => {
         id: 'bar',
         title: 'Bar',
       },
+      tags: [],
     });
   });
 
   test('docs with editUrl', async () => {
     const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
       },
     });
 
@@ -290,13 +314,29 @@ describe('simple site', () => {
       slug: '/foo/bazSlug.html',
       title: 'baz',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/docs/foo/baz.md',
       description: 'Images',
       frontMatter: {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
+        tags: [
+          'tag 1',
+          'tag-1',
+          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
+        ],
       },
+      tags: [
+        {
+          label: 'tag 1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 2',
+          permalink: '/docs/tags/tag2-custom-permalink',
+        },
+      ],
     });
   });
 
@@ -318,6 +358,7 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_frontmatter: "won't be part of metadata",
       },
+      tags: [],
     });
   });
 
@@ -354,7 +395,23 @@ describe('simple site', () => {
         id: 'baz',
         slug: 'bazSlug.html',
         title: 'baz',
+        pagination_label: 'baz pagination_label',
+        tags: [
+          'tag 1',
+          'tag-1',
+          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
+        ],
       },
+      tags: [
+        {
+          label: 'tag 1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          label: 'tag 2',
+          permalink: '/docs/tags/tag2-custom-permalink',
+        },
+      ],
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -400,6 +457,7 @@ describe('simple site', () => {
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
+      tags: [],
     });
   });
 
@@ -453,7 +511,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id [Hello/world] cannot include \\"/\\"."`,
+      `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
 
@@ -505,12 +563,8 @@ describe('versioned site', () => {
       options,
     });
     expect(versionsMetadata.length).toEqual(4);
-    const [
-      currentVersion,
-      version101,
-      version100,
-      versionWithSlugs,
-    ] = versionsMetadata;
+    const [currentVersion, version101, version100, versionWithSlugs] =
+      versionsMetadata;
 
     const currentVersionTestUtils = createTestUtils({
       siteDir,
@@ -557,6 +611,7 @@ describe('versioned site', () => {
 
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
+      version: 'current',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
       isDocsHomePage: false,
@@ -564,11 +619,35 @@ describe('versioned site', () => {
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
-      frontMatter: {slug: 'barSlug'},
-      version: 'current',
+      frontMatter: {
+        slug: 'barSlug',
+        tags: [
+          'barTag 1',
+          'barTag-2',
+          {
+            label: 'barTag 3',
+            permalink: 'barTag-3-permalink',
+          },
+        ],
+      },
+      tags: [
+        {
+          label: 'barTag 1',
+          permalink: '/docs/next/tags/bar-tag-1',
+        },
+        {
+          label: 'barTag-2',
+          permalink: '/docs/next/tags/bar-tag-2',
+        },
+        {
+          label: 'barTag 3',
+          permalink: '/docs/next/tags/barTag-3-permalink',
+        },
+      ],
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
+      version: 'current',
       unversionedId: 'hello',
       sourceDirName: '.',
       isDocsHomePage: false,
@@ -577,7 +656,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello next !',
       frontMatter: {},
-      version: 'current',
+      tags: [],
     });
   });
 
@@ -595,6 +674,7 @@ describe('versioned site', () => {
       description: 'Bar 1.0.0 !',
       frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
+      tags: [],
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
@@ -609,6 +689,7 @@ describe('versioned site', () => {
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      tags: [],
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
@@ -621,6 +702,7 @@ describe('versioned site', () => {
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
       frontMatter: {},
+      tags: [],
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -633,6 +715,7 @@ describe('versioned site', () => {
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
       frontMatter: {},
+      tags: [],
     });
   });
 
@@ -727,6 +810,7 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
+      tags: [],
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -742,7 +826,7 @@ describe('versioned site', () => {
   test('translated doc with editUrl', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         // editCurrentVersion: true,
       },
     });
@@ -768,14 +852,15 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
+      tags: [],
     });
   });
 
   test('translated en doc with editUrl and editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editCurrentVersion: true,
       },
     });
@@ -801,14 +886,15 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
+      tags: [],
     });
   });
 
   test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editLocalizedFiles: true,
       },
       locale: 'fr',
@@ -835,14 +921,15 @@ describe('versioned site', () => {
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
+      tags: [],
     });
   });
 
   test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
         editCurrentVersion: true,
         editLocalizedFiles: true,
       },
@@ -870,7 +957,8 @@ describe('versioned site', () => {
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
+        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
+      tags: [],
     });
   });
 });

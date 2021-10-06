@@ -18,7 +18,11 @@ import styles from './styles.module.css';
 
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
-  const {frontMatter, metadata} = MDXPageContent;
+  const {
+    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
+    frontMatter,
+    metadata,
+  } = MDXPageContent;
 
   const {
     title,
@@ -36,7 +40,7 @@ function MDXPage(props: Props): JSX.Element {
       wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
       pageClassName={ThemeClassNames.page.mdxPage}>
       <main className="container container--fluid margin-vert--lg">
-        <div className={clsx('row', styles.MdxPageWrapper)}>
+        <div className={clsx('row', styles.mdxPageWrapper)}>
           <div className={clsx('col', !hideTableOfContents && 'col--8')}>
             <MDXProvider components={MDXComponents}>
               <MDXPageContent />
@@ -44,7 +48,11 @@ function MDXPage(props: Props): JSX.Element {
           </div>
           {!hideTableOfContents && MDXPageContent.toc && (
             <div className="col col--2">
-              <TOC toc={MDXPageContent.toc} />
+              <TOC
+                toc={MDXPageContent.toc}
+                minHeadingLevel={frontMatter.toc_min_heading_level}
+                maxHeadingLevel={frontMatter.toc_max_heading_level}
+              />
             </div>
           )}
         </div>

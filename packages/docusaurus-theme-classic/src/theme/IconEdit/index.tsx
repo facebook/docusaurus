@@ -16,8 +16,8 @@ const IconEdit = ({className, ...restProps}: Props): JSX.Element => {
   return (
     <svg
       fill="currentColor"
-      height="1.2em"
-      width="1.2em"
+      height="20"
+      width="20"
       viewBox="0 0 40 40"
       className={clsx(styles.iconEdit, className)}
       aria-hidden="true"

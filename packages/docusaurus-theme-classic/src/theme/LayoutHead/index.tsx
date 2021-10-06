@@ -16,6 +16,7 @@ import {
   DEFAULT_SEARCH_TAG,
   useTitleFormatter,
   useAlternatePageUtils,
+  useThemeConfig,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
 
@@ -83,12 +84,10 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
 
 export default function LayoutHead(props: Props): JSX.Element {
   const {
-    siteConfig: {
-      favicon,
-      themeConfig: {metadatas, image: defaultImage},
-    },
+    siteConfig: {favicon},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
+  const {metadatas, image: defaultImage} = useThemeConfig();
   const {title, description, image, keywords, searchMetadatas} = props;
   const faviconUrl = useBaseUrl(favicon);
   const pageTitle = useTitleFormatter(title);
@@ -105,13 +104,14 @@ export default function LayoutHead(props: Props): JSX.Element {
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
-        {image ||
-          (defaultImage && (
-            <meta name="twitter:card" content="summary_large_image" />
-          ))}
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <Seo {...{description, keywords, image}} />
+      {/* image can override the default image */}
+      {defaultImage && <Seo image={defaultImage} />}
+      {image && <Seo image={image} />}
+
+      <Seo description={description} keywords={keywords} />
 
       <CanonicalUrlHeaders />
 

@@ -38,7 +38,7 @@ export default function pluginSitemap(
       try {
         await fs.outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
-        throw new Error(`Sitemap error: ${err}`);
+        throw new Error(`Writing sitemap failed: ${err}`);
       }
     },
   };

@@ -16,10 +16,9 @@ const IconExternalLink = ({
 }: Props): JSX.Element => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      role="img"
+      aria-hidden="true"
       viewBox="0 0 24 24"
       className={styles.iconExternalLink}>
       <path

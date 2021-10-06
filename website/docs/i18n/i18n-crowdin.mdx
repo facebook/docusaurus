@@ -363,20 +363,15 @@ import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
 
-<Tabs
-  defaultValue="bash"
-  values={[
-    { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' }
-]}>
-  <TabItem value="bash">
+<Tabs>
+  <TabItem value="bash" label="Bash" default>
 
   ```bash
   GIT_USER=<GITHUB_USERNAME> yarn deploy
   ```
 
   </TabItem>
-  <TabItem value="windows">
+  <TabItem value="windows" label="Windows">
 
   ```batch
   cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
@@ -484,7 +479,7 @@ module.exports = {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
             }
             // Link to Github for English docs
-            return `https://github.com/facebook/docusaurus/edit/master/website/${versionDocsDirPath}/${docPath}`;
+            return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
           },
           // highlight-end
         },
@@ -494,7 +489,7 @@ module.exports = {
             if (locale !== DefaultLocale) {
               return `https://crowdin.com/project/docusaurus-v2/${locale}`;
             }
-            return `https://github.com/facebook/docusaurus/edit/master/website/${blogDirPath}/${blogPath}`;
+            return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
           // highlight-start
         },

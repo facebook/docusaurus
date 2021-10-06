@@ -39,6 +39,8 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
+### Theming {#theming}
+
 By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `theme` field in `prism` as `themeConfig` in your docusaurus.config.js.
 
 For example, if you prefer to use the `dracula` highlighting theme:
@@ -52,6 +54,8 @@ module.exports = {
   },
 };
 ```
+
+### Supported Languages {#supported-languages}
 
 By default, Docusaurus comes with a subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
@@ -76,6 +80,8 @@ module.exports = {
   },
 };
 ```
+
+After adding `additionalLanguages`, restart Docusaurus.
 
 If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
@@ -142,6 +148,8 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 ```
 
+### Multiple line highlighting {#multiple-line-highlighting}
+
 To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
     ```jsx {1,4-6,11}
@@ -171,6 +179,8 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+### Highlighting with comments {#highlighting-with-comments}
 
 You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
@@ -364,15 +374,8 @@ The following example is how you can have multi-language code tabs in your docs.
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Tabs
-  defaultValue="js"
-  values={[
-    { label: 'JavaScript', value: 'js', },
-    { label: 'Python', value: 'py', },
-    { label: 'Java', value: 'java', },
-  ]
-}>
-<TabItem value="js">
+<Tabs>
+<TabItem value="js" label="JavaScript" default>
 
 ```js
 function helloWorld() {
@@ -381,7 +384,7 @@ function helloWorld() {
 ```
 
 </TabItem>
-<TabItem value="py">
+<TabItem value="py" label="Python">
 
 ```py
 def hello_world():
@@ -389,7 +392,7 @@ def hello_world():
 ```
 
 </TabItem>
-<TabItem value="java">
+<TabItem value="java" label="Java">
 
 ```java
 class HelloWorld {
@@ -406,15 +409,8 @@ class HelloWorld {
 And you will get the following:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="js"
-  values={[
-    { label: 'JavaScript', value: 'js', },
-    { label: 'Python', value: 'py', },
-    { label: 'Java', value: 'java', },
-  ]
-}>
-<TabItem value="js">
+<Tabs>
+<TabItem value="js" label="JavaScript" default>
 
 ```js
 function helloWorld() {
@@ -423,7 +419,7 @@ function helloWorld() {
 ```
 
 </TabItem>
-<TabItem value="py">
+<TabItem value="py" label="Python">
 
 ```py
 def hello_world():
@@ -431,7 +427,7 @@ def hello_world():
 ```
 
 </TabItem>
-<TabItem value="java">
+<TabItem value="java" label="Java">
 
 ```java
 class HelloWorld {
@@ -445,6 +441,51 @@ class HelloWorld {
 </Tabs>
 ````
 
-You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
+If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](markdown-features-tabs.mdx#syncing-tab-choices).
 
-If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](#syncing-tab-choices).
+### Docusaurus npm2yarn remark plugin {#npm2yarn-remark-plugin}
+
+Displaying CLI commands in both NPM and Yarn is a very common need, for example:
+
+```bash npm2yarn
+npm install @docusaurus/remark-plugin-npm2yarn
+```
+
+Docusaurus provides such a utility out of the box, freeing you from using the `Tabs` component every time. To enable this feature, first install the `@docusaurus/remark-plugin-npm2yarn` package as above, and then in `docusaurus.config.js`, for the plugins where you need this feature (doc, blog, pages, etc.), register it in the `remarkPlugins` option. (See [Docs configuration](../../api/plugins/plugin-content-docs.md#ex-config) for more details on configuration format)
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ],
+          // highlight-end
+        },
+        pages: {
+          // highlight-next-line
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+        },
+        blog: {
+          // ...
+        },
+      },
+    ],
+  ],
+};
+```
+
+And then use it by adding the `npm2yarn` key to the code block:
+
+````md
+```bash npm2yarn
+npm install @docusaurus/remark-plugin-npm2yarn
+```
+````
+
+Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.

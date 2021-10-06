@@ -2,6 +2,7 @@
 id: creating-pages
 title: Creating Pages
 slug: /creating-pages
+sidebar_label: Pages
 ---
 
 In this section, we will learn about creating pages in Docusaurus.
@@ -15,6 +16,12 @@ You can use React components, or Markdown.
 :::note
 
 Pages do not have sidebars, only [docs](./docs/docs-introduction.md) do.
+
+:::
+
+:::info
+
+Check the [Pages Plugin API Reference documentation](./../api/plugins/plugin-content-pages.md) for an exhaustive list of options.
 
 :::
 
@@ -38,7 +45,7 @@ function Hello() {
           fontSize: '20px',
         }}>
         <p>
-          Edit <code>pages/hello.js</code> and save to reload.
+          Edit <code>pages/helloReact.js</code> and save to reload.
         </p>
       </div>
     </Layout>

@@ -92,5 +92,11 @@ export default function Interpolate<Str extends string>({
   children,
   values,
 }: InterpolateProps<Str>): ReactNode {
+  if (typeof children !== 'string') {
+    console.warn('Illegal <Interpolate> children', children);
+    throw new Error(
+      'The Docusaurus <Interpolate> component only accept simple string values',
+    );
+  }
   return interpolate(children, values);
 }

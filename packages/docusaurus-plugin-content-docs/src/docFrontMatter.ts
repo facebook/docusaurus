@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable camelcase */
-
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
+  URISchema,
+  FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {DocFrontMatter} from './types';
@@ -23,13 +24,16 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   hide_title: Joi.boolean(),
   hide_table_of_contents: Joi.boolean(),
   keywords: Joi.array().items(Joi.string().required()),
-  image: Joi.string().uri({allowRelative: false}),
+  image: URISchema,
   description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   slug: Joi.string(),
   sidebar_label: Joi.string(),
-  sidebar_position: Joi.number().min(0),
-  custom_edit_url: Joi.string().uri({allowRelative: true}).allow('', null),
+  sidebar_position: Joi.number(),
+  tags: FrontMatterTagsSchema,
+  pagination_label: Joi.string(),
+  custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  ...FrontMatterTOCHeadingLevels,
 }).unknown();
 
 export function validateDocFrontMatter(

@@ -10,10 +10,15 @@ import Translate from '@docusaurus/Translate';
 
 import type {Props} from '@theme/EditThisPage';
 import IconEdit from '@theme/IconEdit';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function EditThisPage({editUrl}: Props): JSX.Element {
   return (
-    <a href={editUrl} target="_blank" rel="noreferrer noopener">
+    <a
+      href={editUrl}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={ThemeClassNames.common.editThisPage}>
       <IconEdit />
       <Translate
         id="theme.common.editThisPage"

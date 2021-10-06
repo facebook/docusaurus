@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin')
-  .default;
+const LogPlugin =
+  require('@docusaurus/core/lib/webpack/plugins/LogPlugin').default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
+const {normalizeUrl} = require('@docusaurus/utils');
 const path = require('path');
 const webpack = require('webpack');
 const {injectManifest} = require('workbox-build');
@@ -78,7 +79,8 @@ function plugin(context, options) {
               `${config.output.publicPath || '/'}`,
               'sw.js',
             ),
-            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: offlineModeActivationStrategies,
+            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
+              offlineModeActivationStrategies,
             PWA_RELOAD_POPUP: reloadPopup,
           }),
         ],
@@ -88,12 +90,27 @@ function plugin(context, options) {
     injectHtmlTags() {
       const headTags = [];
       if (isProd && pwaHead) {
-        pwaHead.forEach(({tagName, ...attributes}) =>
-          headTags.push({
+        pwaHead.forEach(({tagName, ...attributes}) => {
+          ['href', 'content'].forEach((attribute) => {
+            const attributeValue = attributes[attribute];
+
+            if (!attributeValue) {
+              return;
+            }
+
+            const attributePath =
+              !!path.extname(attributeValue) && attributeValue;
+
+            if (attributePath && !attributePath.startsWith(baseUrl)) {
+              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+            }
+          });
+
+          return headTags.push({
             tagName,
             attributes,
-          }),
-        );
+          });
+        });
       }
       return {headTags};
     },

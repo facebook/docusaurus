@@ -9,6 +9,7 @@ import path from 'path';
 import {generateBlogFeed} from '../blogUtils';
 import {LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptions, BlogContentPaths} from '../types';
+import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -51,6 +52,8 @@ describe('blogFeed', () => {
           {
             path: 'invalid-blog-path',
             routeBasePath: 'blog',
+            tagsBasePath: 'tags',
+            authorsMapPath: 'authors.yml',
             include: ['*.md', '*.mdx'],
             feedOptions: {
               type: [feedType],
@@ -84,7 +87,10 @@ describe('blogFeed', () => {
           {
             path: 'blog',
             routeBasePath: 'blog',
-            include: ['*r*.md', '*.mdx'], // skip no-date.md - it won't play nice with snapshots
+            tagsBasePath: 'tags',
+            authorsMapPath: 'authors.yml',
+            include: DEFAULT_OPTIONS.include,
+            exclude: DEFAULT_OPTIONS.exclude,
             feedOptions: {
               type: [feedType],
               copyright: 'Copyright',

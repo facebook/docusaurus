@@ -11,12 +11,16 @@ declare module '@generated/client-modules' {
 }
 
 declare module '@generated/docusaurus.config' {
-  const config: any;
+  import type {DocusaurusConfig} from '@docusaurus/types';
+
+  const config: DocusaurusConfig;
   export default config;
 }
 
 declare module '@generated/site-metadata' {
-  const siteMetadata: any;
+  import type {DocusaurusSiteMetadata} from '@docusaurus/types';
+
+  const siteMetadata: DocusaurusSiteMetadata;
   export default siteMetadata;
 }
 
@@ -28,10 +32,13 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
+  import type {RouteConfig} from 'react-router-config';
+
   type Route = {
     readonly path: string;
-    readonly component: any;
+    readonly component: RouteConfig['component'];
     readonly exact?: boolean;
+    readonly routes?: Route[];
   };
   const routes: Route[];
   export default routes;
@@ -79,21 +86,21 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  import type {ReactNode} from 'react';
+  import type {CSSProperties, ComponentProps} from 'react';
 
-  type RRLinkProps = Partial<import('react-router-dom').LinkProps>;
-  export type LinkProps = RRLinkProps & {
-    readonly isNavLink?: boolean;
-    readonly to?: string;
-    readonly href?: string;
-    readonly activeClassName?: string;
-    readonly children?: ReactNode;
-    readonly isActive?: (match: any, location: any) => boolean;
-    readonly autoAddBaseUrl?: boolean;
+  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  export type LinkProps = NavLinkProps &
+    ComponentProps<'a'> & {
+      readonly className?: string;
+      readonly style?: CSSProperties;
+      readonly isNavLink?: boolean;
+      readonly to?: string;
+      readonly href?: string;
+      readonly autoAddBaseUrl?: boolean;
 
-    // escape hatch in case broken links check is annoying for a specific link
-    readonly 'data-noBrokenLinkCheck'?: boolean;
-  };
+      // escape hatch in case broken links check is annoying for a specific link
+      readonly 'data-noBrokenLinkCheck'?: boolean;
+    };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
 }
@@ -108,7 +115,7 @@ declare module '@docusaurus/Interpolate' {
 
   export type InterpolateValues<
     Str extends string,
-    Value extends ReactNode
+    Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
   // TS function overload: if all the values are plain strings, then interpolate returns a simple string
@@ -167,9 +174,19 @@ declare module '@docusaurus/router' {
   // eslint-disable-next-line import/no-extraneous-dependencies
   export * from 'react-router-dom';
 }
+declare module '@docusaurus/history' {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  export * from 'history';
+}
 
 declare module '@docusaurus/useDocusaurusContext' {
-  export default function (): any;
+  import type {DocusaurusContext} from '@docusaurus/types';
+
+  export default function useDocusaurusContext(): DocusaurusContext;
+}
+
+declare module '@docusaurus/useIsBrowser' {
+  export default function useIsBrowser(): boolean;
 }
 
 declare module '@docusaurus/useBaseUrl' {
@@ -211,10 +228,10 @@ declare module '@docusaurus/ComponentCreator' {
 }
 
 declare module '@docusaurus/BrowserOnly' {
-  export type Props = {
-    children?: () => JSX.Element;
-    fallback?: JSX.Element;
-  };
+  export interface Props {
+    readonly children?: () => JSX.Element;
+    readonly fallback?: JSX.Element;
+  }
   const BrowserOnly: (props: Props) => JSX.Element | null;
   export default BrowserOnly;
 }

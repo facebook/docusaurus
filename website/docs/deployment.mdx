@@ -27,7 +27,7 @@ A Docusaurus site is statically rendered, and it can generally work without Java
 
 It is important to test your build locally before deploying to production.
 
-Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command for that:
+Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) command for that:
 
 ```bash npm2yarn
 npm run serve
@@ -51,7 +51,7 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 ## Self-Hosting {#self-hosting}
 
-Docusaurus can be self-hosted using [`docusaurus serve`](cli.md#docusaurus-serve). Change port using `--port` and `--host` to change host.
+Docusaurus can be self-hosted using [`docusaurus serve`](cli.md#docusaurus-serve-sitedir). Change port using `--port` and `--host` to change host.
 
 ```bash npm2yarn
 npm run serve -- --build --port 80 --host 0.0.0.0
@@ -90,7 +90,7 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 :::caution
 
-GitHub Pages adds a trailing slash to Docusaurus URLs by default. Adjusting the `trailingSlash` setting can be useful.
+GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommended to set a `trailingSlash` config (`true` or `false`, not `undefined`).
 
 :::
 
@@ -127,8 +127,8 @@ Optional parameters, also set as environment variables:
 | Name | Description |
 | --- | --- |
 | `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
-| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages` for normal repos and `master` for repository names ending in `github.io`. |
-| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
+| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages`. For GitHub Pages Organization repos (`config.projectName` ending in `github.io`), this env variable is required. |
+| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `main`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 | `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
@@ -143,28 +143,22 @@ GitHub enterprise installations should work in the same manner as github.com; yo
 Finally, to deploy your site to GitHub Pages, run:
 
 ````mdx-code-block
-<Tabs
-  defaultValue="bash"
-  values={[
-    { label: 'Bash', value: 'bash' },
-    { label: 'Windows', value: 'windows' },
-    { label: 'PowerShell', value: 'powershell' }
-]}>
-<TabItem value="bash">
+<Tabs>
+<TabItem value="bash" label="Bash" default>
 
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
 </TabItem>
-<TabItem value="windows">
+<TabItem value="windows" label="Windows">
 
 ```batch
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
 </TabItem>
-<TabItem value="powershell">
+<TabItem value="powershell" label="PowerShell">
 
 ```powershell
 cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
@@ -185,7 +179,7 @@ This workflow assumes your documentation resided in `documentation` branch of yo
 1. Copy key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
 1. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
 1. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with name `GH_PAGES_DEPLOY`. Copy file content if the command line doesn't work for you. Save your secret.
-1. Create you [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
+1. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
 
 :::warning
 
@@ -214,11 +208,11 @@ jobs:
       - name: Test Build
         run: |
           if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
+            yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
-          npm ci
+            npm ci
           else
-          npm i
+            npm i
           fi
           npm run build
   gh-release:
@@ -240,11 +234,11 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "gh-actions"
           if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
+            yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
-          npm ci
+            npm ci
           else
-          npm i
+            npm i
           fi
           npm run deploy
 ```
@@ -266,10 +260,10 @@ Continuous integration (CI) services are typically used to perform routine tasks
 ```yaml title=".travis.yml"
 language: node_js
 node_js:
-  - '10'
+  - '12.13.0'
 branches:
   only:
-    - master
+    - main
 cache:
   yarn: true
 script:
@@ -279,7 +273,29 @@ script:
   - yarn && GIT_USER="${GH_NAME}" yarn deploy
 ```
 
-Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+Now, whenever a new commit lands in `main`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+
+### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
+
+[Buddy](https://buddy.works/) is an easy-to-use CI/CD tool that allows you to automate the deployment of your portal to different environments, including GitHub Pages.
+
+Follow these steps to create a pipeline that automatically deploys a new version of your website whenever you push changes to the selected branch of your project:
+
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
+1. Sign in to your Buddy account and create a new project.
+1. Choose GitHub as your git hosting provider and select the repository with the code of your website.
+1. Using the left navigation panel, switch to the `Pipelines` view.
+1. Create a new pipeline. Define its name, set the trigger mode to `On push`, and select the branch that triggers the pipeline execution.
+1. Add a `Node.js` action.
+1. Add these command in the action's terminal:
+   ```bash
+   GIT_USER=<GH_PERSONAL_ACCESS_TOKEN>
+   git config --global user.email "<YOUR_GH_EMAIL>"
+   git config --global user.name "<YOUR_GH_USERNAME>"
+   yarn deploy
+   ```
+
+After creating this simple pipeline, each new commit pushed to the branch you selected deploys your website to GitHub Pages using `yarn deploy`. Read [this guide](https://buddy.works/guides/react-docusaurus) to learn more about setting up a CI/CD pipeline for Docusaurus.
 
 ### Using Azure Pipelines {#using-azure-pipelines}
 
@@ -290,7 +306,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 ```yaml title="azure-pipelines.yml"
 trigger:
-  - master
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -307,7 +323,7 @@ steps:
   - script: |
       git config --global user.name "${GH_NAME}"
       git config --global user.email "${GH_EMAIL}"
-      git checkout -b master
+      git checkout -b main
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
       yarn && GIT_USER="${GH_NAME}" yarn deploy
     env:
@@ -372,7 +388,26 @@ While you set up the site, specify the build commands and directories as follows
 
 If you did not configure these build options, you may still go to "Site settings" -> "Build and deploy" after your site is created.
 
-Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
+Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `main`.
+
+:::caution
+
+Some Docusaurus sites put the `docs` folder outside of `website` (most likely former Docusaurus v1 sites):
+
+```bash
+repo           # git root
+├── docs       # md files
+└── website    # docusaurus root
+```
+
+If you decide to use the `website` folder as Netlify's base directory, Netlify will not trigger builds when you update the `docs` folder, and you need to configure a [custom `ignore` command](https://docs.netlify.com/configure-builds/common-configurations/ignore-builds/):
+
+```toml title="website/netlify.toml"
+[build]
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../docs/"
+```
+
+:::
 
 :::warning
 
@@ -404,31 +439,38 @@ After your project has been imported, all subsequent pushes to branches will gen
 
 ## Deploying to Qovery {#deploying-to-qovery}
 
-[Qovery](https://qovery.com) is a fully-managed cloud platform that runs on your AWS, GCP, Azure and Digital Ocean account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
+[Qovery](https://www.qovery.com) is a fully-managed cloud platform that runs on your AWS, Digital Ocean and Scaleway account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
 
-1. Create a Qovery account.
-
-Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
+1. Create a Qovery account. Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
 
 2. Create a project
 
-Click on "Create a new project" and give a name to your project.
+- Click on **Create project** and give a name to your project.
+- Click on **Next**.
 
-Click on "Next".
+3. Create a new environment
 
-3. Add an application
+- Click on **Create environment** and give a name (e.g. staging, production).
 
-Click on "Create an application" then choose "I have an application" and select your GitHub or GitLab repository where your app is located.
+4. Add an application
 
-Click on "Next".
+- Click on **Create an application**, give a name and select your GitHub or GitLab repository where your Docusaurus app is located.
+- Define the main branch name and the root application path.
+- Click on **Create**.
 
-Skip adding services
+After the application is created:
 
-4. Deploy
+- Navigate to your application **Settings**
+- Select **Port**
+- Add port used by your Docusaurus application
 
-Click on "Deploy".
+5. Deploy All you have to do now is to navigate to your application and click on **Deploy**
 
-You can see the status in real time by clicking on deployment logs.
+![Deploy the app](https://hub.qovery.com/img/heroku/heroku-1.png)
+
+That's it. Watch the status and wait till the app is deployed.
+
+To open the application in your browser, click on **Action** and **Open** in your application overview
 
 ## Deploying to Hostman {#deploying-to-hostman}
 

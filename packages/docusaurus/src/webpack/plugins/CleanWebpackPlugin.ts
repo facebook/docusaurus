@@ -117,7 +117,6 @@ class CleanWebpackPlugin {
 
   apply(compiler: Compiler): void {
     if (!compiler.options.output || !compiler.options.output.path) {
-      // eslint-disable-next-line no-console
       console.warn(
         'clean-webpack-plugin: options.output.path not defined. Plugin disabled...',
       );
@@ -163,7 +162,6 @@ class CleanWebpackPlugin {
      */
     if (stats.hasErrors()) {
       if (this.verbose) {
-        // eslint-disable-next-line no-console
         console.warn('clean-webpack-plugin: pausing due to webpack errors');
       }
 
@@ -233,18 +231,19 @@ class CleanWebpackPlugin {
            * https://github.com/webpack/webpack/issues/1904
            * https://github.com/johnagan/clean-webpack-plugin/issues/11
            */
-          // eslint-disable-next-line no-console
           console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
-    } catch (error) {
-      const needsForce = /Cannot delete files\/folders outside the current working directory\./.test(
-        error.message,
-      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const needsForce =
+        /Cannot delete files\/folders outside the current working directory\./.test(
+          error.message,
+        );
 
       if (needsForce) {
         const message =
-          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the `dangerouslyAllowCleanPatternsOutsideProject` option.';
+          'clean-webpack-plugin: Cannot delete files/folders outside the current working directory. Can be overridden with the "dangerouslyAllowCleanPatternsOutsideProject" option.';
 
         throw new Error(message);
       }

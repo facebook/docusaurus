@@ -18,51 +18,63 @@ import styles from './styles.module.css';
 
 import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 
-const highlightLinesRangeRegex = /{([\d,-]+)}/;
+const HighlightLinesRangeRegex = /{([\d,-]+)}/;
+
+const HighlightLanguages = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
+type HighlightLanguage = typeof HighlightLanguages[number];
+
+type HighlightLanguageConfig = {
+  start: string;
+  end: string;
+};
+
+// Supported types of highlight comments
+const HighlightComments: Record<HighlightLanguage, HighlightLanguageConfig> = {
+  js: {
+    start: '\\/\\/',
+    end: '',
+  },
+  jsBlock: {
+    start: '\\/\\*',
+    end: '\\*\\/',
+  },
+  jsx: {
+    start: '\\{\\s*\\/\\*',
+    end: '\\*\\/\\s*\\}',
+  },
+  python: {
+    start: '#',
+    end: '',
+  },
+  html: {
+    start: '<!--',
+    end: '-->',
+  },
+};
+
+// Supported highlight directives
+const HighlightDirectives = [
+  'highlight-next-line',
+  'highlight-start',
+  'highlight-end',
+];
+
 const getHighlightDirectiveRegex = (
-  languages = ['js', 'jsBlock', 'jsx', 'python', 'html'],
+  languages: readonly HighlightLanguage[] = HighlightLanguages,
 ) => {
-  // supported types of comments
-  const comments = {
-    js: {
-      start: '\\/\\/',
-      end: '',
-    },
-    jsBlock: {
-      start: '\\/\\*',
-      end: '\\*\\/',
-    },
-    jsx: {
-      start: '\\{\\s*\\/\\*',
-      end: '\\*\\/\\s*\\}',
-    },
-    python: {
-      start: '#',
-      end: '',
-    },
-    html: {
-      start: '<!--',
-      end: '-->',
-    },
-  };
-  // supported directives
-  const directives = [
-    'highlight-next-line',
-    'highlight-start',
-    'highlight-end',
-  ].join('|');
   // to be more reliable, the opening and closing comment must match
   const commentPattern = languages
-    .map(
-      (lang) =>
-        `(?:${comments[lang].start}\\s*(${directives})\\s*${comments[lang].end})`,
-    )
+    .map((lang) => {
+      const {start, end} = HighlightComments[lang];
+      return `(?:${start}\\s*(${HighlightDirectives.join('|')})\\s*${end})`;
+    })
     .join('|');
   // white space is allowed, but otherwise it should be on it's own line
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
 };
+
 // select comment styles based on language
-const highlightDirectiveRegex = (lang) => {
+const highlightDirectiveRegex = (lang: string) => {
   switch (lang) {
     case 'js':
     case 'javascript':
@@ -119,23 +131,20 @@ export default function CodeBlock({
   const prismTheme = usePrismTheme();
 
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
-  const content = Array.isArray(children) ? children.join('') : children;
+  const content = Array.isArray(children)
+    ? children.join('')
+    : (children as string);
 
-  if (metastring && highlightLinesRangeRegex.test(metastring)) {
+  if (metastring && HighlightLinesRangeRegex.test(metastring)) {
     // Tested above
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
+    const highlightLinesRange = metastring.match(HighlightLinesRangeRegex)![1];
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
-  let language =
-    languageClassName &&
-    // Force Prism's language union type to `any` because it does not contain all available languages
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((languageClassName.replace(/language-/, '') as Language) as any);
+  let language = languageClassName?.replace(/language-/, '') as Language;
 
   if (!language && prism.defaultLanguage) {
-    language = prism.defaultLanguage;
+    language = prism.defaultLanguage as Language;
   }
 
   // only declaration OR directive highlight can be used for a block
@@ -145,7 +154,7 @@ export default function CodeBlock({
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
     const lines = content.replace(/\n$/, '').split('\n');
-    let blockStart;
+    let blockStart: number;
     // loop through lines
     for (let index = 0; index < lines.length; ) {
       const line = lines[index];
@@ -169,7 +178,7 @@ export default function CodeBlock({
             break;
 
           case 'highlight-end':
-            range += `${blockStart}-${lineNumber - 1},`;
+            range += `${blockStart!}-${lineNumber - 1},`;
             break;
 
           default:
@@ -210,14 +219,12 @@ export default function CodeBlock({
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar', {
-                [styles.codeBlockWithTitle]: codeBlockTitle,
-              })}
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
               style={style}>
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
-                    line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                    line[0].content = '\n';
                   }
 
                   const lineProps = getLineProps({line, key: i});
@@ -245,7 +252,7 @@ export default function CodeBlock({
                 message: 'Copy code to clipboard',
                 description: 'The ARIA label for copy code blocks button',
               })}
-              className={clsx(styles.copyButton)}
+              className={clsx(styles.copyButton, 'clean-btn')}
               onClick={handleCopyCode}>
               {showCopied ? (
                 <Translate

@@ -51,7 +51,7 @@ website
 
 `website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
 
-**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (i.e., Bootstrap).
+**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs.
 
 For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
@@ -98,11 +98,11 @@ Use this component to render React Context providers and global stateful logic.
 
 ## Swizzling theme components {#swizzling-theme-components}
 
-:::caution
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
 
-We discourage swizzling of components during the Docusaurus 2 beta phase. The theme components APIs are likely to evolve and have breaking changes. If possible, stick with the default appearance for now.
-
-:::
+<SwizzleWarning/>
+```
 
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 

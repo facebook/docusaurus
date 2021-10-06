@@ -24,7 +24,9 @@ export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
         message: 'Blog recent posts navigation',
         description: 'The ARIA label for recent posts in the blog sidebar',
       })}>
-      <h3 className={styles.sidebarItemTitle}>{sidebar.title}</h3>
+      <div className={clsx(styles.sidebarItemTitle, 'margin-bottom--md')}>
+        {sidebar.title}
+      </div>
       <ul className={styles.sidebarItemList}>
         {sidebar.items.map((item) => {
           return (

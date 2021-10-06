@@ -16,7 +16,7 @@ const DEFAULT_PLUGIN_ID = 'default';
 export default function useGlobalData(): Record<string, unknown> {
   const {globalData} = useDocusaurusContext();
   if (!globalData) {
-    throw new Error('Docusaurus global data not found');
+    throw new Error('Docusaurus global data not found.');
   }
   return globalData;
 }
@@ -28,7 +28,7 @@ export function useAllPluginInstancesData<T = unknown>(
   const pluginGlobalData = globalData[pluginName];
   if (!pluginGlobalData) {
     throw new Error(
-      `Docusaurus plugin global data not found for pluginName=${pluginName}`,
+      `Docusaurus plugin global data not found for "${pluginName}" plugin.`,
     );
   }
   return pluginGlobalData as Record<string, T>;
@@ -42,7 +42,7 @@ export function usePluginData<T = unknown>(
   const pluginInstanceGlobalData = pluginGlobalData[pluginId];
   if (!pluginInstanceGlobalData) {
     throw new Error(
-      `Docusaurus plugin global data not found for pluginName=${pluginName} and pluginId=${pluginId}`,
+      `Docusaurus plugin global data not found for "${pluginName}" plugin with id "${pluginId}".`,
     );
   }
   return pluginInstanceGlobalData as T;

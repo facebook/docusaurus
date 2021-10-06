@@ -48,7 +48,7 @@ export default async function serve(
     customConfigFilePath: cliOptions.config,
   });
 
-  const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
+  const servingUrl = `http://${host}:${port}`;
 
   const server = http.createServer((req, res) => {
     // Automatically redirect requests to /baseUrl/
@@ -73,9 +73,9 @@ export default async function serve(
 
   console.log(
     boxen(
-      `${chalk.green(
-        `Serving "${cliOptions.dir}" directory at ${servingUrl + baseUrl}`,
-      )}`,
+      chalk.green(
+        `Serving "${cliOptions.dir}" directory at "${servingUrl + baseUrl}".`,
+      ),
       {
         borderColor: 'green',
         padding: 1,

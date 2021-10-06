@@ -8,7 +8,7 @@
 import {useState, useCallback, useEffect, useRef} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
-import {useChangeRoute} from '@docusaurus/theme-common';
+import {useLocationChange} from '@docusaurus/theme-common';
 import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 
 const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
@@ -23,7 +23,9 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
   }, []);
 
   useScrollPosition(
-    ({scrollY: scrollTop}, {scrollY: lastScrollTop}) => {
+    (currentPosition, lastPosition) => {
+      const scrollTop = currentPosition.scrollY;
+      const lastScrollTop = lastPosition?.scrollY;
       if (!hideOnScroll) {
         return;
       }
@@ -56,8 +58,8 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
     [navbarHeight, isFocusedAnchor],
   );
 
-  useChangeRoute(() => {
-    if (!hideOnScroll) {
+  useLocationChange((locationChangeEvent) => {
+    if (!hideOnScroll || locationChangeEvent.location.hash) {
       return;
     }
 

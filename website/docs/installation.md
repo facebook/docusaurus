@@ -3,13 +3,13 @@ id: installation
 title: Installation
 ---
 
-Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages).
+Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
 
 :::tip
 
 Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
 :::
 
@@ -40,16 +40,16 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 npx @docusaurus/init@latest init my-website facebook
 ```
 
-**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following:
-
-```bash
-npx @docusaurus/init@latest init my-website bootstrap
-```
-
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
 ```bash
 npx @docusaurus/init@latest init my-website classic --skip-install
+```
+
+You can also use the template's TypeScript variant by passing the `--typescript` flag.
+
+```bash
+npx @docusaurus/init@latest init my-website classic --typescript
 ```
 
 ## Project structure {#project-structure}
@@ -84,7 +84,7 @@ my-website
 
 ### Project structure rundown {#project-structure-rundown}
 
-- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.md)
+- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.mdx)
 - `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. More details can be found in the [docs guide](./guides/docs/docs-markdown-features.mdx)
 - `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files in here but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
   - `/src/pages` - Any files within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
@@ -151,8 +151,14 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```bash
-yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
+yarn upgrade @docusaurus/core@latest @docusaurus/preset-classic@latest
 ```
+
+:::tip
+
+Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/community/canary)
+
+:::
 
 ## Problems? {#problems}
 

@@ -17,6 +17,7 @@ import {
   processSidebars,
   DefaultSidebars,
   DisabledSidebars,
+  fixSidebarItemInconsistencies,
 } from '../sidebars';
 import {
   Sidebar,
@@ -24,22 +25,26 @@ import {
   SidebarItemsGenerator,
   Sidebars,
   UnprocessedSidebars,
+  SidebarOptions,
+  SidebarItemCategory,
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
 
-/* eslint-disable global-require, import/no-dynamic-require */
-
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
+  const options: SidebarOptions = {
+    sidebarCollapsed: true,
+    sidebarCollapsible: true,
+  };
   test('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars with deep level of category', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-category.js');
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
@@ -49,8 +54,8 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-shorthand.js',
     );
-    const sidebar1 = loadSidebars(sidebarPath1);
-    const sidebar2 = loadSidebars(sidebarPath2);
+    const sidebar1 = loadSidebars(sidebarPath1, options);
+    const sidebar2 = loadSidebars(sidebarPath2, options);
     expect(sidebar1).toEqual(sidebar2);
   });
 
@@ -59,8 +64,10 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-items.json',
     );
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}. \\"items\\" must be an array."`,
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: \\"items\\" must be an array."`,
     );
   });
 
@@ -69,8 +76,10 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-label.json',
     );
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}. \\"label\\" must be a string."`,
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}: \\"label\\" must be a string."`,
     );
   });
 
@@ -79,8 +88,10 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-doc-id-not-string.json',
     );
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}. \\"id\\" must be a string."`,
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}: \\"id\\" must be a string."`,
     );
   });
 
@@ -89,59 +100,67 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-first-level-not-category.js',
     );
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link.json');
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link wrong label', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}. \\"label\\" must be a string."`,
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}: \\"label\\" must be a string."`,
     );
   });
 
   test('sidebars link wrong href', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" must be a string."`,
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}: \\"href\\" must be a string."`,
     );
   });
 
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item type [superman]. Sidebar item={\\"type\\":\\"superman\\"} "`,
-    );
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Unknown sidebar item type \\"superman\\". Sidebar item is {\\"type\\":\\"superman\\"}.
+      "
+    `);
   });
 
   test('sidebars with known sidebar item type but wrong field', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
-    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
+    expect(() =>
+      loadSidebars(sidebarPath, options),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"Unknown sidebar item keys: href. Item: {\\"type\\":\\"category\\",\\"label\\":\\"category\\",\\"href\\":\\"https://github.com\\"}"`,
     );
   });
 
   test('unexisting path', () => {
-    expect(loadSidebars('badpath')).toEqual(DisabledSidebars);
+    expect(loadSidebars('badpath', options)).toEqual(DisabledSidebars);
   });
 
   test('undefined path', () => {
-    expect(loadSidebars(undefined)).toEqual(DefaultSidebars);
+    expect(loadSidebars(undefined, options)).toEqual(DefaultSidebars);
   });
 
   test('literal false path', () => {
-    expect(loadSidebars(false)).toEqual(DisabledSidebars);
+    expect(loadSidebars(false, options)).toEqual(DisabledSidebars);
   });
 
   test('sidebars with category.collapsed property', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
@@ -150,7 +169,7 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
-    const result = loadSidebars(sidebarPath);
+    const result = loadSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 });
@@ -161,23 +180,27 @@ describe('collectSidebarDocItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category1',
         items: [
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
           },
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 2',
             items: [
               {type: 'doc', id: 'doc2'},
               {
                 type: 'category',
                 collapsed: false,
+                collapsible: true,
                 label: 'Sub sub category 1',
                 items: [{type: 'doc', id: 'doc3'}],
               },
@@ -188,6 +211,7 @@ describe('collectSidebarDocItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category2',
         items: [
           {type: 'doc', id: 'doc4'},
@@ -212,23 +236,27 @@ describe('collectSidebarCategories', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category1',
         items: [
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
           },
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 2',
             items: [
               {type: 'doc', id: 'doc2'},
               {
                 type: 'category',
                 collapsed: false,
+                collapsible: true,
                 label: 'Sub sub category 1',
                 items: [{type: 'doc', id: 'doc3'}],
               },
@@ -239,6 +267,7 @@ describe('collectSidebarCategories', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category2',
         items: [
           {type: 'doc', id: 'doc4'},
@@ -265,6 +294,7 @@ describe('collectSidebarLinks', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category1',
         items: [
           {
@@ -275,6 +305,7 @@ describe('collectSidebarLinks', () => {
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 2',
             items: [
               {
@@ -301,11 +332,13 @@ describe('collectSidebarsDocIds', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category1',
         items: [
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
           },
@@ -318,6 +351,7 @@ describe('collectSidebarsDocIds', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category2',
         items: [
           {type: 'doc', id: 'doc3'},
@@ -344,11 +378,13 @@ describe('transformSidebarItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category1',
         items: [
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
             customProps: {fakeProp: false},
@@ -356,12 +392,14 @@ describe('transformSidebarItems', () => {
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'Subcategory 2',
             items: [
               {type: 'doc', id: 'doc2'},
               {
                 type: 'category',
                 collapsed: false,
+                collapsible: true,
                 label: 'Sub sub category 1',
                 items: [
                   {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
@@ -374,6 +412,7 @@ describe('transformSidebarItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'Category2',
         items: [
           {type: 'doc', id: 'doc4'},
@@ -393,11 +432,13 @@ describe('transformSidebarItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'MODIFIED LABEL: Category1',
         items: [
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'MODIFIED LABEL: Subcategory 1',
             items: [{type: 'doc', id: 'doc1'}],
             customProps: {fakeProp: false},
@@ -405,12 +446,14 @@ describe('transformSidebarItems', () => {
           {
             type: 'category',
             collapsed: false,
+            collapsible: true,
             label: 'MODIFIED LABEL: Subcategory 2',
             items: [
               {type: 'doc', id: 'doc2'},
               {
                 type: 'category',
                 collapsed: false,
+                collapsible: true,
                 label: 'MODIFIED LABEL: Sub sub category 1',
                 items: [
                   {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
@@ -423,6 +466,7 @@ describe('transformSidebarItems', () => {
       {
         type: 'category',
         collapsed: false,
+        collapsible: true,
         label: 'MODIFIED LABEL: Category2',
         items: [
           {type: 'doc', id: 'doc4'},
@@ -462,6 +506,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [{type: 'doc', id: 'doc2'}],
           label: 'Category',
         },
@@ -473,6 +518,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [{type: 'doc', id: 'doc4'}],
           label: 'Category',
         },
@@ -490,6 +536,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [
             {type: 'doc', id: 'doc2'},
             {type: 'autogenerated', dirName: 'dir1'},
@@ -506,6 +553,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [{type: 'doc', id: 'doc4'}],
           label: 'Category',
         },
@@ -540,6 +588,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [{type: 'doc', id: 'doc2'}, ...StaticGeneratedSidebarSlice],
           label: 'Category',
         },
@@ -553,6 +602,7 @@ describe('processSidebars', () => {
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           items: [{type: 'doc', id: 'doc4'}],
           label: 'Category',
         },
@@ -566,11 +616,13 @@ describe('createSidebarsUtils', () => {
     {
       type: 'category',
       collapsed: false,
+      collapsible: true,
       label: 'Category1',
       items: [
         {
           type: 'category',
           collapsed: false,
+          collapsible: true,
           label: 'Subcategory 1',
           items: [{type: 'doc', id: 'doc1'}],
         },
@@ -583,6 +635,7 @@ describe('createSidebarsUtils', () => {
     {
       type: 'category',
       collapsed: false,
+      collapsible: true,
       label: 'Category2',
       items: [
         {type: 'doc', id: 'doc3'},
@@ -593,11 +646,8 @@ describe('createSidebarsUtils', () => {
 
   const sidebars: Sidebars = {sidebar1, sidebar2};
 
-  const {
-    getFirstDocIdOfFirstSidebar,
-    getSidebarNameByDocId,
-    getDocNavigation,
-  } = createSidebarsUtils(sidebars);
+  const {getFirstDocIdOfFirstSidebar, getSidebarNameByDocId, getDocNavigation} =
+    createSidebarsUtils(sidebars);
 
   test('getSidebarNameByDocId', async () => {
     expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
@@ -633,6 +683,59 @@ describe('createSidebarsUtils', () => {
       sidebarName: 'sidebar2',
       previousId: 'doc3',
       nextId: undefined,
+    });
+  });
+});
+
+describe('fixSidebarItemInconsistencies', () => {
+  test('should not fix good category', () => {
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [],
+      collapsible: true,
+      collapsed: true,
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual(category);
+  });
+
+  test('should fix bad category', () => {
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [],
+      collapsible: false,
+      collapsed: true, // Bad because collapsible=false
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual({
+      ...category,
+      collapsed: false,
+    });
+  });
+
+  test('should fix bad subcategory', () => {
+    const subCategory: SidebarItemCategory = {
+      type: 'category',
+      label: 'SubCat',
+      items: [],
+      collapsible: false,
+      collapsed: true, // Bad because collapsible=false
+    };
+    const category: SidebarItemCategory = {
+      type: 'category',
+      label: 'Cat',
+      items: [subCategory],
+      collapsible: true,
+      collapsed: true,
+    };
+    expect(fixSidebarItemInconsistencies(category)).toEqual({
+      ...category,
+      items: [
+        {
+          ...subCategory,
+          collapsed: false,
+        },
+      ],
     });
   });
 });

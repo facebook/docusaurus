@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Module from 'module';
+import {createRequire} from 'module';
 import importFresh from 'import-fresh';
 import {
   DocusaurusPluginVersionInformation,
   ImportedPluginModule,
   LoadContext,
   PluginModule,
-  Plugin,
   PluginConfig,
   PluginOptions,
+  InitializedPlugin,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
@@ -90,7 +90,7 @@ function normalizePluginConfig(
   }
 
   throw new Error(
-    `Unexpected: cant load plugin for plugin config = ${JSON.stringify(
+    `Unexpected: can't load plugin for following plugin config.\n${JSON.stringify(
       pluginConfig,
     )}`,
   );
@@ -124,23 +124,15 @@ function getThemeValidationFunction(
   }
 }
 
-export type InitPlugin = Plugin<unknown> & {
-  readonly options: PluginOptions;
-  readonly version: DocusaurusPluginVersionInformation;
-};
-
 export default function initPlugins({
   pluginConfigs,
   context,
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): InitPlugin[] {
+}): InitializedPlugin[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
-  // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
-  // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
-  const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(context.siteConfigPath);
 
   function doGetPluginVersion(
@@ -192,7 +184,7 @@ export default function initPlugins({
     }
   }
 
-  const plugins: InitPlugin[] = pluginConfigs
+  const plugins: InitializedPlugin[] = pluginConfigs
     .map((pluginConfig) => {
       if (!pluginConfig) {
         return null;
@@ -201,9 +193,8 @@ export default function initPlugins({
         pluginConfig,
         pluginRequire,
       );
-      const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
-        normalizedPluginConfig,
-      );
+      const pluginVersion: DocusaurusPluginVersionInformation =
+        doGetPluginVersion(normalizedPluginConfig);
       const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
       // Side-effect: merge the normalized theme config in the original one
