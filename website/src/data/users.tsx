@@ -384,6 +384,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Djamaile Rahamat',
+    description: 'Djamaile Rahamat Blog on making cool stuff',
+    preview: require('./showcase/djamaile.png'),
+    website: 'https://djamaile.dev/',
+    source: 'https://github.com/djamaile/portfolio',
+    tags: ['opensource','personal'],
+  },
+  {
     title: 'Draft.js',
     description: 'Rich Text Editor Framework for React',
     preview: require('./showcase/draftjs.png'),
