@@ -27,3 +27,58 @@ Example valid plugin config:
 
 "
 `;
+
+exports[`sortConfig should sort route config correctly 1`] = `
+Array [
+  Object {
+    "component": "",
+    "path": "/community",
+  },
+  Object {
+    "component": "",
+    "path": "/some-page",
+  },
+  Object {
+    "component": "",
+    "path": "/docs",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/docs/someDoc",
+      },
+      Object {
+        "component": "",
+        "path": "/docs/someOtherDoc",
+      },
+    ],
+  },
+  Object {
+    "component": "",
+    "path": "/",
+  },
+  Object {
+    "component": "",
+    "path": "/",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/someDoc",
+      },
+      Object {
+        "component": "",
+        "path": "/someOtherDoc",
+      },
+    ],
+  },
+  Object {
+    "component": "",
+    "path": "/",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/subroute",
+      },
+    ],
+  },
+]
+`;
