@@ -19,7 +19,7 @@ import {difference, sortBy} from '../utils/jsUtils';
  * Instructions:
  * - Add your site in the json array below
  * - Add a local image preview (decent screenshot of your Docusaurus site)
- * - Use relevant tags to qualify your site (read the tag descriptions bellow)
+ * - Use relevant tags to qualify your site (read the tag descriptions below)
  * - The image MUST be added to the GitHub repository, and use `require("image")`
  * - Open a PR and check for reported CI errors
  *
@@ -798,6 +798,15 @@ const Users: User[] = [
     preview: require('./showcase/ocpeasy.png'),
     website: 'https://www.ocpeasy.org',
     source: 'https://github.com/ocpeasy/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Ory Documentation',
+    description:
+      'Ory is an open source ecosystem and a cloud offering authentication, authorization, access control, and delegation (OAuth2 & OpenID Connect) services and APIs.',
+    preview: require('./showcase/ory.png'),
+    website: 'https://www.ory.sh/docs',
+    source: 'https://github.com/ory/docs/',
     tags: ['opensource'],
   },
   {
