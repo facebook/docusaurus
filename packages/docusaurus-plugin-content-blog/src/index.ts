@@ -554,19 +554,17 @@ export default function pluginContentBlog(
       }
 
       const feedTypes = options.feedOptions.type;
-      const {
-        siteConfig: {title},
-      } = context;
+      const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
       const feedsConfig = {
         rss: {
           type: 'application/rss+xml',
           path: 'rss.xml',
-          title: `${title} Blog RSS Feed`,
+          title: `${feedTitle} RSS Feed`,
         },
         atom: {
           type: 'application/atom+xml',
           path: 'atom.xml',
-          title: `${title} Blog Atom Feed`,
+          title: `${feedTitle} Atom Feed`,
         },
       };
       const headTags: HtmlTags = [];
