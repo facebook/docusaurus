@@ -44,7 +44,8 @@ function TabsComponent(props: Props): JSX.Element {
     });
   const defaultValue =
     defaultValueProp ??
-    children.find((child) => child.props.default)?.props.value;
+    children.find((child) => child.props.default)?.props.value ??
+    children[0]?.props.value;
 
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
