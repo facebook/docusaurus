@@ -9,24 +9,20 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import MDX from '@mdx-js/runtime';
 import removeImports from 'remark-mdx-remove-imports';
+import removeExports from 'remark-mdx-remove-exports';
 
-type MDXToHtmlOptions = {
-  remarkPlugins?: unknown[];
-};
-
-// TODO this was created to convert Docusaurus blog posts for the RSS feed
-// The implementation won't work well in all cases
-// Some MDX won't render correctly
 /**
- * Transform mdx text to plain html text.
- * Without import node
+ * Transform mdx text to plain html text
+ * Initially created to convert MDX blog posts to HTML for the RSS feed
+ * without import/export nodes
+ *
+ * TODO not ideal implementation, won't work well with MDX elements!
+ * TODO theme+global site config should be able to declare MDX comps in scope for rendering the RSS feeds
+ * see also https://github.com/facebook/docusaurus/issues/4625
  */
-export function mdxToHtml(
-  mdxStr: string,
-  options: MDXToHtmlOptions = {},
-): string {
+export function mdxToHtml(mdxStr: string): string {
   return ReactDOMServer.renderToString(
-    React.createElement(MDX, {remarkPlugins: [removeImports], ...options}, [
+    React.createElement(MDX, {remarkPlugins: [removeImports, removeExports]}, [
       mdxStr,
     ]),
   );
