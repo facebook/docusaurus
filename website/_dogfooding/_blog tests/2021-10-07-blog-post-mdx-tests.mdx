@@ -8,19 +8,41 @@ Some MDX tests, mostly to test how the RSS feed render those
 
 <!-- truncate -->
 
-```mdx-code-block
+## Imports
+
+Here are some imports:
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+## Exports
+
+Here are some exports:
+
+export const someExport = 42;
+
+## Tabs test
+
+Here are some tabs:
+
 <Tabs>
-  <TabItem value="apple" label="Apple" default>
+  <TabItem value="apple" label="Apple">
     This is an apple 🍎
   </TabItem>
   <TabItem value="orange" label="Orange">
     This is an orange 🍊
   </TabItem>
-  <TabItem value="banana" label="Banana">
-    This is a banana 🍌
+</Tabs>
+
+Here are some tabs, inside `mdx-code-block`:
+
+```mdx-code-block
+<Tabs>
+  <TabItem value="apple" label="Apple">
+    This is an apple 🍎
+  </TabItem>
+  <TabItem value="orange" label="Orange">
+    This is an orange 🍊
   </TabItem>
 </Tabs>
 ```
