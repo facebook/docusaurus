@@ -22,13 +22,13 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
-```bash npm2yarn
+```bash
 npm init docusaurus@latest [name] [template]
 ```
 
 Example:
 
-```bash npm2yarn
+```bash
 npm init docusaurus@latest website classic
 ```
 
