@@ -1,0 +1,147 @@
+---
+id: assets
+title: Assets
+description: Handling assets in Docusaurus Markdown
+slug: /markdown-features/assets
+---
+
+Sometimes you want to link to static assets directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
+
+We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
+
+Let's imagine the following file structure:
+
+```
+# Your doc
+/website/docs/myFeature.mdx
+
+# Some assets you want to use
+/website/docs/assets/docusaurus-asset-example-banner.png
+/website/docs/assets/docusaurus-asset-example-pdf.pdf
+```
+
+## Images {#images}
+
+You can display images in three different ways: Markdown syntax, JSX require or ES imports syntax.
+
+Display images using simple Markdown syntax:
+
+```mdx
+![Example banner](./assets/docusaurus-asset-example-banner.png)
+```
+
+Display images using inline CommonJS `require` in JSX image tag:
+
+```mdx
+<img
+  src={require('./assets/docusaurus-asset-example-banner.png').default}
+  alt="Example banner"
+/>
+```
+
+Display images using ES `import` syntax and JSX image tag:
+
+```mdx
+import myImageUrl from './assets/docusaurus-asset-example-banner.png';
+
+<img src={myImageUrl} alt="Example banner" />
+```
+
+This results in displaying the image:
+
+![My image alternative text](../../assets/docusaurus-asset-example-banner.png)
+
+:::note
+
+If you are using [@docusaurus/plugin-ideal-image](../../api/plugins/plugin-ideal-image.md), you need to use the dedicated image component, as documented.
+
+:::
+
+## Files {#files}
+
+In the same way, you can link to existing assets by requiring them and using the returned url in videos, links etc.
+
+```mdx
+# My Markdown page
+
+<a
+  target="_blank"
+  href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF
+</a>
+
+or
+
+[Download this PDF using Markdown](./assets/docusaurus-asset-example-pdf.pdf)
+```
+
+<a
+  target="_blank"
+  href={require('../../assets/docusaurus-asset-example-pdf.pdf').default}>
+  Download this PDF
+</a>
+
+[Download this PDF using Markdown](../../assets/docusaurus-asset-example-pdf.pdf)
+
+## Inline SVGs {#inline-svgs}
+
+Docusaurus supports inlining SVGs out of the box.
+
+```jsx
+import DocusaurusSvg from './docusaurus.svg';
+
+<DocusaurusSvg />;
+```
+
+import DocusaurusSvg from '@site/static/img/docusaurus.svg';
+
+<DocusaurusSvg />
+
+This can be useful, if you want to alter the part of the SVG image via CSS. For example, you can change one of the SVG colors based on the current theme.
+
+```jsx
+import DocusaurusSvg from './docusaurus.svg';
+
+<DocusaurusSvg className="themedDocusaurus" />;
+```
+
+```css
+html[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: greenyellow;
+}
+
+html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: seagreen;
+}
+```
+
+<DocusaurusSvg className="themedDocusaurus" />
+
+## Themed Images {#themed-images}
+
+Docusaurus supports themed images: the `ThemedImage` component (included in the classic/bootstrap themes) allows you to switch the image source based on the current theme.
+
+```jsx {5-8}
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('/img/docusaurus_light.svg'),
+    dark: useBaseUrl('/img/docusaurus_dark.svg'),
+  }}
+/>;
+```
+
+```mdx-code-block
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('/img/docusaurus_keytar.svg'),
+    dark: useBaseUrl('/img/docusaurus_speed.svg'),
+  }}
+/>
+```

@@ -7,12 +7,12 @@ slug: '/api/themes'
 
 We provide official Docusaurus themes.
 
-## Main themes
+## Main themes {#main-themes}
 
 The main themes implement the user interface for the [docs](../plugins/plugin-content-docs.md), [blog](../plugins/plugin-content-blog.md) and [pages](../plugins/plugin-content-pages.md) plugins.
 
 - [@docusaurus/theme-classic](./theme-classic.md)
-- [@docusaurus/theme-bootstrap](./theme-bootstrap.md) 🚧
+- 🚧 other themes are planned
 
 :::caution
 
@@ -24,7 +24,7 @@ We are not there yet: only the classic theme is production ready.
 
 :::
 
-## Enhancement themes
+## Enhancement themes {#enhancement-themes}
 
 These themes will enhance the existing main themes with additional user-interface related features.
 

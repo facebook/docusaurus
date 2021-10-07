@@ -7,7 +7,7 @@
 
 // @ts-check
 
-const sortBy = require('lodash.sortby');
+const {sortBy} = require('lodash');
 
 /**
  * toBase64

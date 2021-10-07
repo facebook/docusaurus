@@ -9,6 +9,7 @@ import path from 'path';
 import {generateBlogFeed} from '../blogUtils';
 import {LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptions, BlogContentPaths} from '../types';
+import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -32,7 +33,7 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 describe('blogFeed', () => {
   (['atom', 'rss'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
-      test('can show feed without posts', async () => {
+      test('should not show feed without posts', async () => {
         const siteDir = __dirname;
         const siteConfig = {
           title: 'Hello',
@@ -51,6 +52,8 @@ describe('blogFeed', () => {
           {
             path: 'invalid-blog-path',
             routeBasePath: 'blog',
+            tagsBasePath: 'tags',
+            authorsMapPath: 'authors.yml',
             include: ['*.md', '*.mdx'],
             feedOptions: {
               type: [feedType],
@@ -68,7 +71,7 @@ describe('blogFeed', () => {
         const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
         const siteConfig = {
           title: 'Hello',
-          baseUrl: '/',
+          baseUrl: '/myBaseUrl/',
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };
@@ -84,7 +87,10 @@ describe('blogFeed', () => {
           {
             path: 'blog',
             routeBasePath: 'blog',
-            include: ['*r*.md', '*.mdx'], // skip no-date.md - it won't play nice with snapshots
+            tagsBasePath: 'tags',
+            authorsMapPath: 'authors.yml',
+            include: DEFAULT_OPTIONS.include,
+            exclude: DEFAULT_OPTIONS.exclude,
             feedOptions: {
               type: [feedType],
               copyright: 'Copyright',

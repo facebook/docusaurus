@@ -46,7 +46,7 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated']},
+      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
     ],
     'import/extensions': OFF,
     'header/header': [
@@ -63,8 +63,10 @@ module.exports = {
     ],
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
+    'jsx-a11y/html-has-lang': OFF,
     'no-console': OFF,
     'no-else-return': OFF,
+    'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
@@ -90,7 +92,12 @@ module.exports = {
     ],
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
-    '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
+    '@typescript-eslint/no-empty-function': OFF,
+    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
+    '@typescript-eslint/no-unused-vars': [
+      ERROR,
+      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+    ],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
@@ -102,18 +109,16 @@ module.exports = {
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
-    'no-param-reassign': WARNING,
     'no-template-curly-in-string': WARNING,
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
     'no-unused-expressions': WARNING,
-    '@typescript-eslint/no-empty-function': WARNING,
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
     'no-control-regex': WARNING,
-    'no-empty': WARNING,
+    'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
     'no-undef': OFF,
@@ -121,15 +126,30 @@ module.exports = {
     '@typescript-eslint/no-shadow': ERROR,
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
+    '@typescript-eslint/no-empty-interface': [
+      'error',
+      {
+        allowSingleExtends: true,
+      },
+    ],
   },
   overrides: [
     {
       files: [
-        'packages/docusaurus-init/templates/bootstrap/**/*.js',
-        'packages/docusaurus-init/templates/classic/**/*.js',
+        'packages/create-docusaurus/templates/**/*.js',
+        'packages/create-docusaurus/templates/**/*.ts',
+        'packages/create-docusaurus/templates/**/*.tsx',
       ],
       rules: {
         'header/header': OFF,
+        'global-require': OFF,
+        '@typescript-eslint/no-var-requires': OFF,
+      },
+    },
+    {
+      files: ['*.d.ts'],
+      rules: {
+        'import/no-duplicates': OFF,
       },
     },
     {

@@ -10,27 +10,24 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
-function Header({translateId, description, text}) {
-  return (
-    <div className={clsx(styles.playgroundHeader)}>
-      <Translate id={translateId} description={description}>
-        {text}
-      </Translate>
-    </div>
-  );
+function Header({children}) {
+  return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
 }
 
 function ResultWithHeader() {
   return (
     <>
-      <Header
-        translateId="theme.Playground.result"
-        description="The result label of the live codeblocks"
-        text="Result"
-      />
+      <Header>
+        <Translate
+          id="theme.Playground.result"
+          description="The result label of the live codeblocks">
+          Result
+        </Translate>
+      </Header>
       <div className={styles.playgroundPreview}>
         <LivePreview />
         <LiveError />
@@ -42,19 +39,21 @@ function ResultWithHeader() {
 function EditorWithHeader() {
   return (
     <>
-      <Header
-        translateId="theme.Playground.liveEditor"
-        description="The live editor label of the live codeblocks"
-        text="Live Editor"
-      />
+      <Header>
+        <Translate
+          id="theme.Playground.liveEditor"
+          description="The live editor label of the live codeblocks">
+          Live Editor
+        </Translate>
+      </Header>
       <LiveEditor className={styles.playgroundEditor} />
     </>
   );
 }
 
 export default function Playground({children, transformCode, ...props}) {
+  const isBrowser = useIsBrowser();
   const {
-    isClient,
     siteConfig: {
       themeConfig: {
         liveCodeBlock: {playgroundPosition},
@@ -66,8 +65,8 @@ export default function Playground({children, transformCode, ...props}) {
   return (
     <div className={styles.playgroundContainer}>
       <LiveProvider
-        key={isClient}
-        code={isClient ? children.replace(/\n$/, '') : ''}
+        key={isBrowser}
+        code={isBrowser ? children.replace(/\n$/, '') : ''}
         transformCode={transformCode || ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>

@@ -6,6 +6,12 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./index.html",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://docusaurus.io/manifest.json"
+    }
+  ],
   "icons": [
     {
       "src": "img/icons/icon-72x72.png",

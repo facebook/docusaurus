@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
 import chalk from 'chalk';
@@ -14,12 +13,13 @@ import initPlugins from '../server/plugins/init';
 
 import {flatten} from 'lodash';
 import {parseMarkdownHeadingId} from '@docusaurus/utils';
+import {safeGlobby} from '../server/utils';
 
-export function unwrapMarkdownLinks(line) {
+export function unwrapMarkdownLinks(line: string): string {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
-function addHeadingId(line, slugger) {
+function addHeadingId(line: string, slugger: GithubSlugger): string {
   let headingLevel = 0;
   while (line.charAt(headingLevel) === '#') {
     headingLevel += 1;
@@ -35,9 +35,9 @@ function addHeadingId(line, slugger) {
 export function transformMarkdownHeadingLine(
   line: string,
   slugger: GithubSlugger,
-) {
+): string {
   if (!line.startsWith('#')) {
-    throw new Error(`Line is not a markdown heading: ${line}`);
+    throw new Error(`Line is not a Markdown heading: ${line}.`);
   }
 
   const parsedHeading = parseMarkdownHeadingId(line);
@@ -53,7 +53,8 @@ export function transformMarkdownLine(
   line: string,
   slugger: GithubSlugger,
 ): string {
-  if (line.startsWith('#')) {
+  // Ignore h1 headings on purpose, as we don't create anchor links for those
+  if (line.startsWith('##')) {
     return transformMarkdownHeadingLine(line, slugger);
   } else {
     return line;
@@ -107,7 +108,7 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 }
 
 export default async function writeHeadingIds(siteDir: string): Promise<void> {
-  const markdownFiles = await globby(await getPathsToWatch(siteDir), {
+  const markdownFiles = await safeGlobby(await getPathsToWatch(siteDir), {
     expandDirectories: ['**/*.{md,mdx}'],
   });
 
@@ -117,7 +118,7 @@ export default async function writeHeadingIds(siteDir: string): Promise<void> {
 
   if (pathsModified.length) {
     console.log(
-      chalk.green(`Heading ids added to markdown files (${
+      chalk.green(`Heading ids added to Markdown files (${
         pathsModified.length
       }/${markdownFiles.length} files):
 - ${pathsModified.join('\n- ')}`),
@@ -125,7 +126,7 @@ export default async function writeHeadingIds(siteDir: string): Promise<void> {
   } else {
     console.log(
       chalk.yellow(
-        `${markdownFiles.length} markdown files already have explicit heading ids`,
+        `${markdownFiles.length} Markdown files already have explicit heading ids.`,
       ),
     );
   }

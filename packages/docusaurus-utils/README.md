@@ -1,3 +1,3 @@
 # `@docusaurus/utils`
 
-Node validation utility functions for Docusaurus packages.
+Node utility functions for Docusaurus packages.

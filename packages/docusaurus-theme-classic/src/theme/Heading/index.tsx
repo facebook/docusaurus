@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
@@ -16,7 +14,24 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import './styles.css';
 import styles from './styles.module.css';
 
-const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
+type HeadingComponent = (props: Props) => JSX.Element;
+
+export const MainHeading: HeadingComponent = function MainHeading({...props}) {
+  return (
+    <header>
+      <h1
+        {...props}
+        id={undefined} // h1 headings do not need an id because they don't appear in the TOC
+      >
+        {props.children}
+      </h1>
+    </header>
+  );
+};
+
+const createAnchorHeading = (
+  Tag: HeadingType,
+): ((props: Props) => JSX.Element) =>
   function TargetComponent({id, ...props}) {
     const {
       navbar: {hideOnScroll},
@@ -27,15 +42,13 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
     }
 
     return (
-      <Tag {...props}>
-        <a
-          aria-hidden="true"
-          tabIndex={-1}
-          className={clsx('anchor', {
-            [styles.enhancedAnchor]: !hideOnScroll,
-          })}
-          id={id}
-        />
+      <Tag
+        {...props}
+        className={clsx('anchor', {
+          [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
+          [styles.anchorWithStickyNavbar]: !hideOnScroll,
+        })}
+        id={id}>
         {props.children}
         <a
           className="hash-link"
@@ -50,5 +63,9 @@ const Heading = (Tag: HeadingType): ((props: Props) => JSX.Element) =>
       </Tag>
     );
   };
+
+const Heading = (headingType: HeadingType): ((props: Props) => JSX.Element) => {
+  return headingType === 'h1' ? MainHeading : createAnchorHeading(headingType);
+};
 
 export default Heading;

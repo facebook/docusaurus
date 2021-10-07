@@ -375,16 +375,19 @@ function SearchPage() {
           )}
         </form>
 
-        <div className={clsx('row', 'margin-vert--sm')}>
+        <div className="row">
           <div className={clsx('col', 'col--8', styles.searchResultsColumn)}>
-            {!!searchResultState.totalResults && (
-              <strong>
-                {documentsFoundPlural(searchResultState.totalResults)}
-              </strong>
-            )}
+            {!!searchResultState.totalResults &&
+              documentsFoundPlural(searchResultState.totalResults)}
           </div>
 
-          <div className={clsx('col', 'col--4', styles.searchLogoColumn)}>
+          <div
+            className={clsx(
+              'col',
+              'col--4',
+              'text--right',
+              styles.searchLogoColumn,
+            )}>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -394,10 +397,7 @@ function SearchPage() {
                 message: 'Search by Algolia',
                 description: 'The ARIA label for Algolia mention',
               })}>
-              <svg
-                viewBox="0 0 168 24"
-                className={styles.algoliaLogo}
-                xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 168 24" className={styles.algoliaLogo}>
                 <g fill="none">
                   <path
                     className={styles.algoliaLogoPathFill}
@@ -418,34 +418,32 @@ function SearchPage() {
         </div>
 
         {searchResultState.items.length > 0 ? (
-          <section>
+          <main>
             {searchResultState.items.map(
               ({title, url, summary, breadcrumbs}, i) => (
                 <article key={i} className={styles.searchResultItem}>
-                  <Link
-                    to={url}
-                    className={styles.searchResultItemHeading}
-                    dangerouslySetInnerHTML={{__html: title}}
-                  />
+                  <h2 className={styles.searchResultItemHeading}>
+                    <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
+                  </h2>
 
                   {breadcrumbs.length > 0 && (
-                    <span className={styles.searchResultItemPath}>
-                      {breadcrumbs.map((html, index) => (
-                        <React.Fragment key={index}>
-                          {index !== 0 && (
-                            <span
-                              className={styles.searchResultItemPathSeparator}>
-                              ›
-                            </span>
-                          )}
-                          <span
+                    <nav aria-label="breadcrumbs">
+                      <ul
+                        className={clsx(
+                          'breadcrumbs',
+                          styles.searchResultItemPath,
+                        )}>
+                        {breadcrumbs.map((html, index) => (
+                          <li
+                            key={index}
+                            className="breadcrumbs__item"
                             // Developer provided the HTML, so assume it's safe.
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
-                        </React.Fragment>
-                      ))}
-                    </span>
+                        ))}
+                      </ul>
+                    </nav>
                   )}
 
                   {summary && (
@@ -459,7 +457,7 @@ function SearchPage() {
                 </article>
               ),
             )}
-          </section>
+          </main>
         ) : (
           [
             searchQuery && !searchResultState.loading && (
@@ -479,13 +477,11 @@ function SearchPage() {
 
         {searchResultState.hasMore && (
           <div className={styles.loader} ref={setLoaderRef}>
-            <span>
-              <Translate
-                id="theme.SearchPage.fetchingNewResults"
-                description="The paragraph for fetching new search results">
-                Fetching new results...
-              </Translate>
-            </span>
+            <Translate
+              id="theme.SearchPage.fetchingNewResults"
+              description="The paragraph for fetching new search results">
+              Fetching new results...
+            </Translate>
           </div>
         )}
       </div>

@@ -10,11 +10,34 @@
 }
 
 .announcementBar {
-  position: relative;
-  width: 100%;
+  display: flex;
+  align-items: center;
   height: var(--docusaurus-announcement-bar-height);
-  background-color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-white);
   color: var(--ifm-color-black);
+  border-bottom: 1px solid var(--ifm-color-emphasis-100);
+}
+
+html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
+  display: none;
+}
+
+.announcementBarPlaceholder {
+  flex: 0 0 10px;
+}
+
+.announcementBarClose {
+  flex: 0 0 30px;
+  align-self: stretch;
+  padding: 0;
+  line-height: 0;
+}
+
+.announcementBarContent {
+  flex: 1 1 auto;
+  font-size: 85%;
+  text-align: center;
+  padding: 5px 0;
 }
 
 @media print {
@@ -23,50 +46,18 @@
   }
 }
 
-@media screen and (min-width: 1024px) {
-  :root {
-    --docusaurus-announcement-bar-height: 30px;
-  }
-}
-
-.announcementBarClose {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 55px;
-  font-size: 1.25rem;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-  background: none;
-  color: inherit;
-  height: 100%;
-}
-
-.announcementBarContent {
-  font-size: 85%;
-  width: 100%;
-  text-align: center;
-  padding: 5px 0;
-}
-
-.announcementBarCloseable {
-  margin-right: 55px;
-}
-
-@media screen and (max-width: 576px) {
-  .announcementBarClose {
-    width: 35px;
-  }
-  .announcementBarContent {
-    width: auto;
-  }
-  .announcementBarCloseable {
-    margin-right: 35px;
-  }
-}
-
 .announcementBarContent a {
   color: inherit;
   text-decoration: underline;
+}
+
+@media (min-width: 997px) {
+  :root {
+    --docusaurus-announcement-bar-height: 30px;
+  }
+
+  .announcementBarPlaceholder,
+  .announcementBarClose {
+    flex-basis: 50px;
+  }
 }

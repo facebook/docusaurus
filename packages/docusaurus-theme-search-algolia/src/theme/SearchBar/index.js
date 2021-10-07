@@ -16,6 +16,7 @@ import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
 import {translate} from '@docusaurus/Translate';
+import styles from './styles.module.css';
 
 let DocSearchModal = null;
 
@@ -164,17 +165,19 @@ function DocSearch({contextualSearch, ...props}) {
         />
       </Head>
 
-      <DocSearchButton
-        onTouchStart={importDocSearchModalIfNeeded}
-        onFocus={importDocSearchModalIfNeeded}
-        onMouseOver={importDocSearchModalIfNeeded}
-        onClick={onOpen}
-        ref={searchButtonRef}
-        translations={{
-          buttonText: translatedSearchLabel,
-          buttonAriaLabel: translatedSearchLabel,
-        }}
-      />
+      <div className={styles.searchBox}>
+        <DocSearchButton
+          onTouchStart={importDocSearchModalIfNeeded}
+          onFocus={importDocSearchModalIfNeeded}
+          onMouseOver={importDocSearchModalIfNeeded}
+          onClick={onOpen}
+          ref={searchButtonRef}
+          translations={{
+            buttonText: translatedSearchLabel,
+            buttonAriaLabel: translatedSearchLabel,
+          }}
+        />
+      </div>
 
       {isOpen &&
         createPortal(

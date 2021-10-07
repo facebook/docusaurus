@@ -1,0 +1,29 @@
+{
+  "JMarcey": {
+    "name": "Joel Marcey",
+    "title": "Technical Lead & Developer Advocate at Facebook",
+    "url": "http://twitter.com/JoelMarcey",
+    "image_url": "https://github.com/JoelMarcey.png",
+    "twitter": "JoelMarcey"
+  },
+  "slorber": {
+    "name": "Sébastien Lorber",
+    "title": "Docusaurus maintainer",
+    "url": "https://sebastienlorber.com",
+    "image_url": "https://github.com/slorber.png",
+    "twitter": "sebastienlorber"
+  },
+  "yangshun": {
+    "name": "Yangshun Tay",
+    "title": "Front End Engineer at Facebook",
+    "url": "https://github.com/yangshun",
+    "image_url": "https://github.com/yangshun.png",
+    "twitter": "yangshunz"
+  },
+  "lex111": {
+    "name": "Alexey Pyltsyn",
+    "title": "Open-source enthusiast",
+    "url": "https://github.com/lex111",
+    "image_url": "https://github.com/lex111.png"
+  }
+}

@@ -11,76 +11,113 @@ Example:
 
     :::note
 
-    The content and title *can* include markdown.
+    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
     :::
 
-    :::tip You can specify an optional title
+    :::tip
 
-    Heads up! Here's a pro-tip.
+    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
     :::
 
     :::info
 
-    Useful information.
+    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
     :::
 
     :::caution
 
-    Warning! You better pay attention!
+    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
     :::
 
     :::danger
 
-    Danger danger, mayday!
+    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
     :::
 
 :::note
 
-The content and title _can_ include markdown.
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
-:::tip You can specify an optional title
+:::tip
 
-Heads up! Here's a pro-tip.
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
 :::info
 
-Useful information.
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
 :::caution
 
-Warning! You better pay attention!
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
 :::danger
 
-Danger danger, mayday!
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
-## Specifying title
+## Specifying title {#specifying-title}
 
 You may also specify an optional title
 
     :::note Your Title
 
-    The content and title *can* include markdown.
+    Some **content** with _markdown_ `syntax`.
 
     :::
 
 :::note Your Title
 
-The content and title _can_ include Markdown.
+Some **content** with _markdown_ `syntax`.
+
+:::
+
+## Admonitions with MDX
+
+You can use MDX inside admonitions too!
+
+```jsx
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+:::tip Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+```
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+:::tip Use tabs in admonitions
+
+```mdx-code-block
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+```
 
 :::

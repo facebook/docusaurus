@@ -12,7 +12,7 @@ import {validateConfig} from './configValidation';
 
 export default function loadConfig(configPath: string): DocusaurusConfig {
   if (!fs.existsSync(configPath)) {
-    throw new Error(`Config file "${configPath}" not found`);
+    throw new Error(`Config file at "${configPath}" not found.`);
   }
 
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
