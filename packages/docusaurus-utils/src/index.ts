@@ -17,11 +17,6 @@ import {
   TranslationFileContent,
   TranslationFile,
 } from '@docusaurus/types';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import MDX from '@mdx-js/runtime';
-import removeImports from 'remark-mdx-remove-imports';
-import {MDXToHtmlOptions} from './types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
@@ -30,6 +25,7 @@ import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
 import {normalizeUrl} from './normalizeUrl';
 
+export * from './mdxUtils';
 export * from './normalizeUrl';
 export * from './tags';
 
@@ -446,19 +442,4 @@ export function parseMarkdownHeadingId(heading: string): {
   } else {
     return {text: heading, id: undefined};
   }
-}
-
-/**
- * Transform mdx text to plain html text.
- * Without import node
- */
-export function mdxToHtml(
-  mdxStr: string,
-  options: MDXToHtmlOptions = {},
-): string {
-  return ReactDOMServer.renderToString(
-    React.createElement(MDX, {remarkPlugins: [removeImports], ...options}, [
-      mdxStr,
-    ]),
-  );
 }
