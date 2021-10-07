@@ -294,6 +294,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Cloudy with a chance of Big Data',
+    description: 'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
+    preview: require('./showcase/cloudywithachanceofbigdata.png'),
+    website: 'https://cloudywithachanceofbigdata.com/',
+    source: 'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+    tags: ['opensource'],
+  },  
+  {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
