@@ -1326,6 +1326,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Warrant Docs',
+    description:
+      'APIs and devtools for implementing authorization and access control.',
+    preview: require('./showcase/warrant.png'),
+    website: 'https://docs.warrant.dev/',
+    source: null,
+    tags: ['product'],
+  },  
+  {
     title: 'Wasp',
     description:
       'A DSL for building full-stack web apps with less boilerplate.',
