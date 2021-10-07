@@ -18,7 +18,6 @@ import {
   TranslationFile,
 } from '@docusaurus/types';
 
-// @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
