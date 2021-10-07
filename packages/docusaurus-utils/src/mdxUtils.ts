@@ -20,7 +20,10 @@ import removeExports from 'remark-mdx-remove-exports';
  * TODO theme+global site config should be able to declare MDX comps in scope for rendering the RSS feeds
  * see also https://github.com/facebook/docusaurus/issues/4625
  */
-export function mdxToHtml(mdxStr: string): string {
+export function mdxToHtml(
+  mdxStr: string,
+  // TODO allow providing components/scope here, see https://github.com/mdx-js/mdx/tree/v1.6.13/packages/runtime
+): string {
   return ReactDOMServer.renderToString(
     React.createElement(MDX, {remarkPlugins: [removeImports, removeExports]}, [
       mdxStr,
