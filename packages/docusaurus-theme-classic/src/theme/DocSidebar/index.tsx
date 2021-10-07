@@ -80,7 +80,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
             !isAnnouncementBarClosed && showAnnouncementBar,
         })}>
         <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-          <DocSidebarItems items={sidebar} activePath={path} />
+          <DocSidebarItems items={sidebar} activePath={path} level={1} />
         </ul>
       </nav>
       {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
@@ -99,6 +99,7 @@ const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
         items={sidebar}
         activePath={path}
         onItemClick={() => toggleSidebar()}
+        level={1}
       />
     </ul>
   );

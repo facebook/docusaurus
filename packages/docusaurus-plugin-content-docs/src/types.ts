@@ -105,6 +105,7 @@ export type PluginOptions = MetadataOptions &
   };
 
 export type SidebarItemBase = {
+  className?: string;
   customProps?: Record<string, unknown>;
 };
 
@@ -217,6 +218,7 @@ export type DocFrontMatter = {
   slug?: string;
   sidebar_label?: string;
   sidebar_position?: number;
+  sidebar_class_name?: string;
   pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;

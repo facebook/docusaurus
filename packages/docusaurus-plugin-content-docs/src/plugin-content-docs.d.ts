@@ -30,6 +30,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   type PropsSidebarItemBase = {
+    className?: string;
     customProps?: Record<string, unknown>;
   };
 
