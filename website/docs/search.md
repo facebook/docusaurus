@@ -105,6 +105,14 @@ The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1
 
 :::
 
+:::caution
+
+The search feature will not work reliably until Algolia crawls your site with the **search plugin enabled**.
+
+If you are installing the Algolia plugin for the first time and want to ensure the search feature works before deploying it to production, you can ask the DocSearch team to trigger a crawl on a staging environment url or deploy preview.
+
+:::
+
 ### Contextual search {#contextual-search}
 
 Contextual search is mostly useful for versioned Docusaurus sites.
