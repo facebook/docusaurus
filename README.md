@@ -48,13 +48,13 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 Use the initialization cli to create your site:
 
 ```bash
-npx @docusaurus/init@latest init [name] [template]
+npm init docusaurus@latest [name] [template]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic
+npm init docusaurus@latest my-website classic
 ```
 
 ## Contributing

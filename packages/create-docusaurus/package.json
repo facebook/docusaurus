@@ -1,21 +1,22 @@
 {
-  "name": "@docusaurus/init",
+  "name": "create-docusaurus",
   "version": "2.0.0-beta.6",
   "description": "Create Docusaurus apps easily.",
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
-    "directory": "packages/docusaurus-init"
+    "directory": "packages/create-docusaurus"
   },
   "bugs": {
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
+    "create-docusaurus": "create-docusaurus",
     "build": "tsc",
     "watch": "tsc --watch"
   },
   "bin": {
-    "docusaurus-init": "bin/index.js"
+    "create-docusaurus": "bin/index.js"
   },
   "publishConfig": {
     "access": "public"

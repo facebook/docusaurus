@@ -4,7 +4,7 @@
     "packages/*",
     "website",
     "test-website-in-workspace",
-    "packages/docusaurus-init/templates/*",
+    "packages/create-docusaurus/templates/*",
     "admin/new.docusaurus.io"
   ],
   "scripts": {
@@ -119,10 +119,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --config .prettierrc --write"
     ],
     "*.{md,mdx}": [
-      "prettier --write"
+      "prettier --config .prettierrc --write"
     ]
   },
   "engines": {

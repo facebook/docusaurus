@@ -26,7 +26,7 @@ Create a new Docusaurus site and follow the **very short** embedded tutorial.
 Install [Node.js](https://nodejs.org/en/download/) and create a new Docusaurus site:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic
+npm init docusaurus@latest my-website classic
 ```
 
 Start the site:

@@ -23,33 +23,33 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/init@latest init [name] [template]
+npm init docusaurus@latest [name] [template]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic
+npm init docusaurus@latest website classic
 ```
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
 **[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
-npx @docusaurus/init@latest init my-website facebook
+npm init docusaurus@latest my-website facebook
 ```
 
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic --skip-install
+npm init docusaurus@latest my-website classic --skip-install
 ```
 
 You can also use the template's TypeScript variant by passing the `--typescript` flag.
 
 ```bash
-npx @docusaurus/init@latest init my-website classic --typescript
+npm init docusaurus@latest my-website classic --typescript
 ```
 
 ## Project structure {#project-structure}

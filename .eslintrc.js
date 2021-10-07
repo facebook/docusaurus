@@ -136,9 +136,9 @@ module.exports = {
   overrides: [
     {
       files: [
-        'packages/docusaurus-init/templates/**/*.js',
-        'packages/docusaurus-init/templates/**/*.ts',
-        'packages/docusaurus-init/templates/**/*.tsx',
+        'packages/create-docusaurus/templates/**/*.js',
+        'packages/create-docusaurus/templates/**/*.ts',
+        'packages/create-docusaurus/templates/**/*.tsx',
       ],
       rules: {
         'header/header': OFF,

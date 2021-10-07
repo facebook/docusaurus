@@ -1,6 +1,14 @@
-# `@docusaurus/init`
+# `create-docusaurus`
 
-Create Docusaurus apps easily.
+Create Docusaurus apps easily with simplified commands:
+
+```bash
+npm init docusaurus
+```
+
+```bash
+yarn create docusaurus
+```
 
 ## Usage
 
@@ -13,7 +21,7 @@ For Docusaurus maintainers, templates can be tested with:
 ```bash
 cd `git rev-parse --show-toplevel` # Back to repo root
 rm -rf test-website
-yarn docusaurus-init init test-website classic
+yarn create-docusaurus test-website classic
 cd test-website
 yarn start
 ```
@@ -25,7 +33,7 @@ Use the following to test the templates against local packages:
 ```bash
 cd `git rev-parse --show-toplevel` # Back to repo root
 rm -rf test-website-in-workspace
-yarn docusaurus-init init test-website-in-workspace classic
+yarn create-docusaurus test-website-in-workspace classic
 cd test-website-in-workspace
 yarn start
 ```

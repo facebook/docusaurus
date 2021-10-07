@@ -36,7 +36,7 @@ program
   .usage('<command> [options]');
 
 program
-  .command('init [siteName] [template] [rootDir]')
+  .command('init [siteName] [template] [rootDir]', {isDefault: true})
   .option('--use-npm')
   .option('--skip-install')
   .option('--typescript')
@@ -59,6 +59,6 @@ program.arguments('<command>').action((cmd) => {
 
 program.parse(process.argv);
 
-if (!process.argv.slice(2).length) {
+if (!process.argv.slice(1).length) {
   program.outputHelp();
 }

@@ -7,7 +7,8 @@ coverage
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
-packages/docusaurus-init/templates/*/docusaurus.config.js
+packages/create-docusaurus/lib/*
+packages/create-docusaurus/templates/*/docusaurus.config.js
 __fixtures__
 
 website/i18n
