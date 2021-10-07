@@ -282,7 +282,7 @@ Inside that directory, you can run several commands:
 We recommend that you begin by typing:
 
   ${chalk.cyan('cd')} ${cdpath}
-  ${chalk.cyan(`${pkgManager} start`)}
+  ${chalk.cyan(`npx docusaurus start`)}
 
 Happy building awesome websites!
 `);
