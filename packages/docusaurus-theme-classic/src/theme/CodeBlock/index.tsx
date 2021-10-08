@@ -223,8 +223,8 @@ export default function CodeBlock({
               style={style}>
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
-                  if (line.length === 1 && line[0].content === '') {
-                    line[0].content = '\n';
+                  if (line.length === 1 && line[0].content === '\n') {
+                    line[0].content = '';
                   }
 
                   const lineProps = getLineProps({line, key: i});
@@ -238,6 +238,7 @@ export default function CodeBlock({
                       {line.map((token, key) => (
                         <span key={key} {...getTokenProps({token, key})} />
                       ))}
+                      <br />
                     </span>
                   );
                 })}
