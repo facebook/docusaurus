@@ -115,6 +115,8 @@ test('transform to correct links', () => {
   expect(transformedContent).not.toContain('](./doc2.md)');
   expect(transformedContent).not.toContain('](subdir/doc3.md)');
   expect(transformedContent).not.toContain('](/doc-localized');
+  expect(transformedContent).not.toContain('md-link-in-single-line-comment.md');
+  expect(transformedContent).not.toContain('md-link-in-multi-line-comment.md');
   expect(content).not.toEqual(transformedContent);
 });
 

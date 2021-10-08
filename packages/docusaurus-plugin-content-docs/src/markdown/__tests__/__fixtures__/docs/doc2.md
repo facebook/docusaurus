@@ -10,3 +10,8 @@
 - [doc2](./doc2.md)
 
 - [doc-localized](./doc-localized.md)
+<!-- [doc4](md-link-in-single-line-comment.md) -->
+
+<!--
+  [doc5](md-link-in-multi-line-comment.md)
+-->

@@ -32,6 +32,10 @@ export type ReplaceMarkdownLinksReturn<T extends ContentPaths> = {
   brokenMarkdownLinks: BrokenMarkdownLink<T>[];
 };
 
+const stripHtmlComments = (fileString: string) => {
+  return fileString.replace(/<!--(.*?)-->/gs, '');
+};
+
 export function replaceMarkdownLinks<T extends ContentPaths>({
   siteDir,
   fileString,
@@ -39,13 +43,14 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   contentPaths,
   sourceToPermalink,
 }: ReplaceMarkdownLinksParams<T>): ReplaceMarkdownLinksReturn<T> {
+  const fileStringWithoutHtmlComments = stripHtmlComments(fileString);
   const {contentPath, contentPathLocalized} = contentPaths;
 
   const brokenMarkdownLinks: BrokenMarkdownLink<T>[] = [];
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;
-  const lines = fileString.split('\n').map((line) => {
+  const lines = fileStringWithoutHtmlComments.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }
