@@ -56,7 +56,6 @@ export default [
       "routePath": "/404.html",
     },
     Object {
-      "lastmod": undefined,
       "routePath": "/blog",
     },
   ],
@@ -144,11 +143,9 @@ export default [
       "routePath": "/404.html",
     },
     Object {
-      "lastmod": undefined,
       "routePath": "/docs/hello",
     },
     Object {
-      "lastmod": undefined,
       "routePath": "docs/foo/baz",
     },
   ],
@@ -188,7 +185,6 @@ export default [
       "routePath": "/404.html",
     },
     Object {
-      "lastmod": undefined,
       "routePath": "",
     },
   ],

@@ -286,8 +286,7 @@ export default function pluginContentDocs(
 
       const createDocRoutes = async (
         docs: DocMetadata[],
-      ): Promise<{routes: RouteConfig[]; lastmod: number}> => {
-        const lastModifiedArray: number[] = [];
+      ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
           docs.map(async (metadataItem) => {
             await createData(
@@ -296,6 +295,23 @@ export default function pluginContentDocs(
               `${docuHash(metadataItem.source)}.json`,
               JSON.stringify(metadataItem, null, 2),
             );
+
+            // returns the update date as a timestamp in milliseconds. (frontmatter | git commit | null)
+            function getUpdateDate(doc: DocMetadata) {
+              // console.log(doc);
+              const frontMatterDate = doc.frontMatter.last_modified;
+              // return frontMatterDate ?? (doc.lastUpdatedAt ? doc.lastUpdatedAt * 1000 : null) ?? fs.stat(doc.source).time ?? null;
+              if (
+                typeof frontMatterDate !== 'undefined' &&
+                frontMatterDate !== null
+              ) {
+                return frontMatterDate;
+              } else if (typeof doc.lastUpdatedAt !== 'undefined') {
+                return doc.lastUpdatedAt * 1000;
+              } else {
+                return null;
+              }
+            }
 
             const docRoute: RouteConfig = {
               path: metadataItem.permalink,
@@ -309,24 +325,14 @@ export default function pluginContentDocs(
               ...(metadataItem.sidebar && {
                 sidebar: metadataItem.sidebar,
               }),
-              // Pass lastMod date for routes in milliseconds
-              lastmod: metadataItem.lastUpdatedAt
-                ? metadataItem.lastUpdatedAt * 1000
-                : null,
+              // Get the frontmatter override for last modified date or Pass lastMod date for routes in milliseconds
+              lastmod: getUpdateDate(metadataItem),
             };
-            if (typeof metadataItem.lastUpdatedAt !== 'undefined') {
-              lastModifiedArray.push(metadataItem.lastUpdatedAt);
-            }
             return docRoute;
           }),
         );
 
-        return {
-          routes: routes.sort((a, b) => a.path.localeCompare(b.path)),
-          lastmod: lastModifiedArray.reduce((a, b) => {
-            return Math.max(a, b);
-          }, 0),
-        };
+        return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
       async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
@@ -391,7 +397,7 @@ export default function pluginContentDocs(
           JSON.stringify(versionMetadata, null, 2),
         );
 
-        const {routes, lastmod} = await createDocRoutes(loadedVersion.docs);
+        const routes = await createDocRoutes(loadedVersion.docs);
 
         addRoute({
           path: loadedVersion.versionPath,
@@ -405,7 +411,6 @@ export default function pluginContentDocs(
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },
           priority: loadedVersion.routePriority,
-          lastmod: lastmod ? lastmod * 1000 : null, // unixtime(seconds) to milliseconds
         });
       }
 

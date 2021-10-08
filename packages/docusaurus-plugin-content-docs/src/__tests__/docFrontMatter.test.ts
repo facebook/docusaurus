@@ -263,3 +263,21 @@ describe('validateDocFrontMatter tags', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter last_modified', () => {
+  testField({
+    fieldName: 'last_modified',
+    validFrontMatters: [
+      {},
+      {last_modified: undefined},
+      {last_modified: new Date('2020-01-01').valueOf()},
+      {last_modified: 0},
+    ],
+    convertibleFrontMatter: [
+      [
+        {last_modified: '2020-01-01'},
+        {last_modified: new Date('2020-01-01').valueOf()},
+      ],
+    ],
+  });
+});

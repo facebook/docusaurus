@@ -52,7 +52,7 @@ async function readLastUpdateData(
         ? await getFileLastUpdate(filePath)
         : {
             author: 'Author',
-            timestamp: 1539502055, // seconds
+            timestamp: 1539502055,
           };
 
     if (fileLastUpdateData) {
@@ -60,6 +60,14 @@ async function readLastUpdateData(
       return {
         lastUpdatedAt: showLastUpdateTime ? timestamp : undefined,
         lastUpdatedBy: showLastUpdateAuthor ? author : undefined,
+      };
+    } else {
+      const stats = fs.statSync(filePath);
+      return {
+        lastUpdatedAt: showLastUpdateTime
+          ? stats.mtime.getTime() / 1000
+          : undefined,
+        lastUpdatedBy: undefined,
       };
     }
   }

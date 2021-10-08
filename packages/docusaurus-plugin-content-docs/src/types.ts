@@ -221,6 +221,7 @@ export type DocFrontMatter = {
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;
   /* eslint-enable camelcase */
+  last_modified?: number;
 };
 
 export type DocMetadataBase = LastUpdateData & {

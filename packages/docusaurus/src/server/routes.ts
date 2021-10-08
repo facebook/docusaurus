@@ -147,13 +147,16 @@ export default async function loadRoutes(
     // This is useful for plugins like sitemaps, redirects etc...
     // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
     if (!subroutes) {
-      routesPaths.push({
-        routePath,
-        lastmod:
-          typeof routeConfig.lastmod === 'number'
-            ? <number>routeConfig.lastmod
-            : undefined,
-      });
+      if (typeof routeConfig.lastmod === 'number') {
+        routesPaths.push({
+          routePath,
+          lastmod: <number>routeConfig.lastmod,
+        });
+      } else {
+        routesPaths.push({
+          routePath,
+        });
+      }
     }
 
     // We hash the route to generate the key, because 2 routes can conflict with

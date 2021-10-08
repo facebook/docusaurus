@@ -703,7 +703,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -1136,7 +1135,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -1158,7 +1156,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
@@ -2048,7 +2045,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
@@ -2090,7 +2086,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
@@ -2158,7 +2153,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-with-slugs-metadata-prop-2bf.json",
     },
@@ -2243,7 +2237,6 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "exact": false,
-    "lastmod": null,
     "modules": Object {
       "versionMetadata": "~docs/version-1-0-1-metadata-prop-e87.json",
     },

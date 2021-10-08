@@ -32,6 +32,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  last_modified: Joi.date().cast('number'),
 }).unknown();
 
 export function validateDocFrontMatter(
