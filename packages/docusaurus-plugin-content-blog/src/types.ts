@@ -97,6 +97,7 @@ export interface BlogTag {
 export interface BlogPost {
   id: string;
   metadata: MetaData;
+  content: string;
 }
 
 export interface BlogPaginatedMetadata {

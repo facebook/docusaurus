@@ -28,6 +28,7 @@ const dogfoodingPluginInstances = [
       postsPerPage: 3,
       feedOptions: {
         type: 'all',
+        title: 'Docusaurus Tests Blog',
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
       },
     }),

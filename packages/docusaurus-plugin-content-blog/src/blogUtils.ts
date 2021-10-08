@@ -26,6 +26,7 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
+  mdxToHtml,
   replaceMarkdownLinks,
   Globby,
   normalizeFrontMatterTags,
@@ -155,6 +156,7 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      content: mdxToHtml(post.content),
       author: authors.map(toFeedAuthor),
     });
   });
@@ -292,6 +294,7 @@ async function processBlogSourceFile(
       truncated: truncateMarker?.test(content) || false,
       authors,
     },
+    content,
   };
 }
 
