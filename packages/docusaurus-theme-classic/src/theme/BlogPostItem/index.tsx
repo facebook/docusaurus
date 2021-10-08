@@ -63,6 +63,7 @@ function BlogPostItem(props: Props): JSX.Element {
   } = metadata;
 
   const image = assets.image ?? frontMatter.image;
+  const truncatedPost = !isBlogPostPage && truncated;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -117,7 +118,7 @@ function BlogPostItem(props: Props): JSX.Element {
             [styles.blogPostDetailsFull]: isBlogPostPage,
           })}>
           {tags.length > 0 && (
-            <div className={clsx('col', {'col--9': !isBlogPostPage})}>
+            <div className={clsx('col', {'col--9': truncatedPost})}>
               <TagsListInline tags={tags} />
             </div>
           )}
@@ -128,7 +129,7 @@ function BlogPostItem(props: Props): JSX.Element {
             </div>
           )}
 
-          {!isBlogPostPage && truncated && (
+          {truncatedPost && (
             <div className="col col--3 text--right">
               <Link
                 to={metadata.permalink}
