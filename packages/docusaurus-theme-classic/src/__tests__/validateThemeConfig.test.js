@@ -91,6 +91,10 @@ describe('themeConfig', () => {
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 5,
+      },
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({
       ...DEFAULT_CONFIG,
@@ -157,8 +161,7 @@ describe('themeConfig', () => {
             dropdownActiveClassDisabled: true,
             dropdownItemsBefore: [
               {
-                href:
-                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                href: 'https://www.npmjs.com/package/docusaurus?activeTab=versions',
                 label: 'Versions on npm',
                 className: 'npm-styled',
                 target: '_self',
@@ -451,5 +454,133 @@ describe('themeConfig', () => {
         colorMode: withDefaultValues(colorMode),
       });
     });
+  });
+});
+
+describe('themeConfig tableOfContents', () => {
+  test('toc undefined', () => {
+    const tableOfContents = undefined;
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc empty', () => {
+    const tableOfContents = {};
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc with min', () => {
+    const tableOfContents = {
+      minHeadingLevel: 3,
+    };
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: 3,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc with max', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 5,
+    };
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: 5,
+      },
+    });
+  });
+
+  test('toc with min 2.5', () => {
+    const tableOfContents = {
+      minHeadingLevel: 2.5,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be an integer"`,
+    );
+  });
+
+  test('toc with max 2.5', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 2.5,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be an integer"`,
+    );
+  });
+
+  test('toc with min 1', () => {
+    const tableOfContents = {
+      minHeadingLevel: 1,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be greater than or equal to 2"`,
+    );
+  });
+
+  test('toc with min 7', () => {
+    const tableOfContents = {
+      minHeadingLevel: 7,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+    );
+  });
+
+  test('toc with max 1', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 1,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be greater than or equal to 2"`,
+    );
+  });
+
+  test('toc with max 7', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 7,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be less than or equal to 6"`,
+    );
+  });
+
+  test('toc with bad min 5 + max 3', () => {
+    const tableOfContents = {
+      minHeadingLevel: 5,
+      maxHeadingLevel: 3,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+    );
   });
 });

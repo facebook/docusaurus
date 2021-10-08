@@ -26,8 +26,7 @@ export const PluginOptionSchema = Joi.object({
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
   trailingSlash: Joi.bool().default(false).warning('deprecate.error', {
-    msg:
-      'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',
+    msg: 'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',
   }),
 }).messages({
   'deprecate.error':

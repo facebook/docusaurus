@@ -35,7 +35,7 @@ import TabItem from '@theme/TabItem';
 ```mdx-code-block
 <BrowserWindow>
   <Tabs>
-    <TabItem value="apple" label="Apple" default>This is an apple 🍎</TabItem>
+    <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
     <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
     <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
   </Tabs>
@@ -111,7 +111,7 @@ It is also possible to provide `values` and `defaultValue` props to `Tabs`:
     ]}>
     <TabItem value="apple" label="Apple 2">This is an apple 🍎</TabItem>
     <TabItem value="orange" label="Orange 2">This is an orange 🍊</TabItem>
-    <TabItem value="banana" label="Banana 2">This is a banana 🍌</TabItem>
+    <TabItem value="banana" label="Banana 2" default>This is a banana 🍌</TabItem>
   </Tabs>
 </BrowserWindow>
 <br/>
@@ -123,17 +123,15 @@ It is also possible to provide `values` and `defaultValue` props to `Tabs`:
 
 By default, all tabs are rendered eagerly during the build process, and search engines can index hidden tabs.
 
-It is possible to only render the default tab with `<Tabs lazy={true} />`.
+It is possible to only render the default tab with `<Tabs lazy />`.
 
 :::
 
 ## Displaying a default tab
 
-Add `default` to one of the tab items to make it displayed by default. You can also set the `defaultValue` prop in the `Tabs` component to the label value of your choice.
+The first tab is displayed by default, and to override this behavior, you can specify a default tab by adding `default` to one of the tab items. You can also set the `defaultValue` prop of the `Tabs` component to the label value of your choice. For example, in the example above, either setting `default` for the `value="apple"` tab or setting `defaultValue="apple"` for the tabs forces the "Apple" tab to be open by default.
 
-For example, in the example above, setting `default` for the `value="apple"` tab forces it to be open by default.
-
-If none of the children contains the `default` prop, neither is the `defaultValue` provided for the `Tabs`, or it refers to an non-existing value, only the tab headings appear until the user clicks on a tab.
+If `defaultValue` is provided for the `Tabs`, but it refers to an non-existing value, only the tab headings will appear until the user clicks on a tab.
 
 ## Syncing tab choices {#syncing-tab-choices}
 
@@ -142,13 +140,13 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 ```jsx
 // highlight-next-line
 <Tabs groupId="operating-systems">
-  <TabItem value="win" label="Windows" default>Use Ctrl + C to copy.</TabItem>
+  <TabItem value="win" label="Windows">Use Ctrl + C to copy.</TabItem>
   <TabItem value="mac" label="MacOS">Use Command + C to copy.</TabItem>
 </Tabs>
 
 // highlight-next-line
 <Tabs groupId="operating-systems">
-  <TabItem value="win" label="Windows" default>Use Ctrl + V to paste.</TabItem>
+  <TabItem value="win" label="Windows">Use Ctrl + V to paste.</TabItem>
   <TabItem value="mac" label="MacOS">Use Command + V to paste.</TabItem>
 </Tabs>
 ```
@@ -156,12 +154,12 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 ```mdx-code-block
 <BrowserWindow>
   <Tabs groupId="operating-systems">
-    <TabItem value="win" label="Windows" default>Use Ctrl + C to copy.</TabItem>
+    <TabItem value="win" label="Windows">Use Ctrl + C to copy.</TabItem>
     <TabItem value="mac" label="MacOS">Use Command + C to copy.</TabItem>
   </Tabs>
 
   <Tabs groupId="operating-systems">
-    <TabItem value="win" label="Windows" default>Use Ctrl + V to paste.</TabItem>
+    <TabItem value="win" label="Windows">Use Ctrl + V to paste.</TabItem>
     <TabItem value="mac" label="MacOS">Use Command + V to paste.</TabItem>
   </Tabs>
 </BrowserWindow>
@@ -172,7 +170,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
 
 ```jsx
 <Tabs groupId="operating-systems">
-  <TabItem value="win" label="Windows" default>
+  <TabItem value="win" label="Windows">
     I am Windows.
   </TabItem>
   <TabItem value="mac" label="MacOS">
@@ -187,7 +185,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
 ```mdx-code-block
 <BrowserWindow>
   <Tabs groupId="operating-systems">
-    <TabItem value="win" label="Windows" default>I am Windows.</TabItem>
+    <TabItem value="win" label="Windows">I am Windows.</TabItem>
     <TabItem value="mac" label="MacOS">I am macOS.</TabItem>
     <TabItem value="linux" label="Linux">I am Linux.</TabItem>
   </Tabs>
@@ -201,13 +199,13 @@ Tab choices with different `groupId`s will not interfere with each other:
 ```jsx
 // highlight-next-line
 <Tabs groupId="operating-systems">
-  <TabItem value="win" label="Windows" default>Windows in windows.</TabItem>
+  <TabItem value="win" label="Windows">Windows in windows.</TabItem>
   <TabItem value="mac" label="MacOS">macOS is macOS.</TabItem>
 </Tabs>
 
 // highlight-next-line
 <Tabs groupId="non-mac-operating-systems">
-  <TabItem value="win" label="Windows" default>Windows is windows.</TabItem>
+  <TabItem value="win" label="Windows">Windows is windows.</TabItem>
   <TabItem value="unix" label="Unix">Unix is unix.</TabItem>
 </Tabs>
 ```
@@ -215,12 +213,12 @@ Tab choices with different `groupId`s will not interfere with each other:
 ```mdx-code-block
 <BrowserWindow>
   <Tabs groupId="operating-systems">
-    <TabItem value="win" label="Windows" default>Windows in windows.</TabItem>
+    <TabItem value="win" label="Windows">Windows in windows.</TabItem>
     <TabItem value="mac" label="MacOS">macOS is macOS.</TabItem>
   </Tabs>
 
   <Tabs groupId="non-mac-operating-systems">
-    <TabItem value="win" label="Windows" default>Windows is windows.</TabItem>
+    <TabItem value="win" label="Windows">Windows is windows.</TabItem>
     <TabItem value="unix" label="Unix">Unix is unix.</TabItem>
   </Tabs>
 </BrowserWindow>
@@ -236,9 +234,7 @@ import TabItem from '@theme/TabItem';
 
 // highlight-next-line
 <Tabs className="unique-tabs">
-  <TabItem value="Apple" default>
-    This is an apple 🍎
-  </TabItem>
+  <TabItem value="Apple">This is an apple 🍎</TabItem>
   <TabItem value="Orange">This is an orange 🍊</TabItem>
   <TabItem value="Banana">This is a banana 🍌</TabItem>
 </Tabs>;
@@ -247,7 +243,7 @@ import TabItem from '@theme/TabItem';
 ```mdx-code-block
 <BrowserWindow>
   <Tabs className="unique-tabs">
-    <TabItem value="Apple" default>This is an apple 🍎</TabItem>
+    <TabItem value="Apple">This is an apple 🍎</TabItem>
     <TabItem value="Orange">This is an orange 🍊</TabItem>
     <TabItem value="Banana">This is a banana 🍌</TabItem>
   </Tabs>

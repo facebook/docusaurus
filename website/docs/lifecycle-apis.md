@@ -396,7 +396,7 @@ module.exports = function (context, options) {
 Called when a (production) build finishes.
 
 ```ts
-type Props = {
+interface Props {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
@@ -407,7 +407,7 @@ type Props = {
   postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
-};
+}
 ```
 
 Example:

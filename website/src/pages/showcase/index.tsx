@@ -50,11 +50,10 @@ function useFilteredUsers(
   selectedTags: TagType[],
   operator: Operator,
 ) {
-  return useMemo(() => filterUsers(users, selectedTags, operator), [
-    users,
-    selectedTags,
-    operator,
-  ]);
+  return useMemo(
+    () => filterUsers(users, selectedTags, operator),
+    [users, selectedTags, operator],
+  );
 }
 
 const TagQueryStringKey = 'tags';

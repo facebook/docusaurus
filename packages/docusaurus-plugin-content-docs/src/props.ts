@@ -47,6 +47,7 @@ Available document ids are:
       type: 'link',
       label: sidebarLabel || item.label || title,
       href: permalink,
+      className: item.className,
       customProps: item.customProps,
     };
   };

@@ -11,7 +11,7 @@ declare module '@docusaurus/mdx-loader' {
     [Function, Record<string, unknown>] | Function;
   export type RemarkAndRehypePluginOptions = {
     remarkPlugins: RemarkOrRehypePlugin[];
-    rehypePlugins: string[];
+    rehypePlugins: RemarkOrRehypePlugin[];
     beforeDefaultRemarkPlugins: RemarkOrRehypePlugin[];
     beforeDefaultRehypePlugins: RemarkOrRehypePlugin[];
   };

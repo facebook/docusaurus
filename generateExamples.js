@@ -27,7 +27,7 @@ function generateTemplateExample(template) {
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
-      `npx @docusaurus/init@latest init examples/${template} ${command}`,
+      `npm init docusaurus@latest examples/${template} ${command}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
       {
         stdio: 'inherit',
@@ -168,7 +168,6 @@ function run() {
   rimraf.sync('./examples/classic');
   rimraf.sync('./examples/classic-typescript');
   rimraf.sync('./examples/facebook');
-  rimraf.sync('./examples/bootstrap');
   console.log('');
 
   // get the list of all available templates
@@ -176,9 +175,9 @@ function run() {
   console.log('## Generate example folders...');
   console.log('');
   const excludes = ['README.md', 'shared'];
-  const templates = readdirSync('./packages/docusaurus-init/templates').filter(
-    (name) => !excludes.includes(name),
-  );
+  const templates = readdirSync(
+    './packages/create-docusaurus/templates',
+  ).filter((name) => !excludes.includes(name));
   console.log(`Will generate examples for templates: ${templates}`);
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');

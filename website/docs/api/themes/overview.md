@@ -12,7 +12,7 @@ We provide official Docusaurus themes.
 The main themes implement the user interface for the [docs](../plugins/plugin-content-docs.md), [blog](../plugins/plugin-content-blog.md) and [pages](../plugins/plugin-content-pages.md) plugins.
 
 - [@docusaurus/theme-classic](./theme-classic.md)
-- [@docusaurus/theme-bootstrap](./theme-bootstrap.md) 🚧
+- 🚧 other themes are planned
 
 :::caution
 

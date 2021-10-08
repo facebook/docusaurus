@@ -19,7 +19,7 @@ import {difference, sortBy} from '../utils/jsUtils';
  * Instructions:
  * - Add your site in the json array below
  * - Add a local image preview (decent screenshot of your Docusaurus site)
- * - Use relevant tags to qualify your site (read the tag descriptions bellow)
+ * - Use relevant tags to qualify your site (read the tag descriptions below)
  * - The image MUST be added to the GitHub repository, and use `require("image")`
  * - Open a PR and check for reported CI errors
  *
@@ -294,6 +294,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Cloudy with a chance of Big Data',
+    description: 'A blog only Docusaurus site showcasing cloud, data and full stack design patterns and tutorials',
+    preview: require('./showcase/cloudywithachanceofbigdata.png'),
+    website: 'https://cloudywithachanceofbigdata.com/',
+    source: 'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
+    tags: ['opensource', 'personal'],
+  },  
+  {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
@@ -382,6 +390,14 @@ const Users: User[] = [
     website: 'https://devspace.sh/cli/docs/',
     source: 'https://github.com/loft-sh/devspace',
     tags: ['opensource'],
+  },
+  {
+    title: 'Djamaile Rahamat',
+    description: 'Djamaile Rahamat Blog on making cool stuff',
+    preview: require('./showcase/djamaile.png'),
+    website: 'https://djamaile.dev/',
+    source: 'https://github.com/djamaile/portfolio',
+    tags: ['opensource','personal'],
   },
   {
     title: 'Draft.js',
@@ -604,6 +620,14 @@ const Users: User[] = [
     tags: ['product','design'],
   },
   {
+    title: 'IOTA-Wiki',
+    description: 'Documantation and wiki for the IOTA project',
+    preview: require('./showcase/iota-wiki.png'),
+    website: 'https://wiki.iota.org',
+    source: 'https://github.com/iota-community/iota-wiki',
+    tags: ['favorite', 'opensource'],
+  },
+  {
     title: 'Jest',
     description: 'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
@@ -626,6 +650,14 @@ const Users: User[] = [
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
     tags: ['opensource'],
+  },
+  {
+    title: 'Lux Algo',
+    description: 'Creation of technical trading tools',
+    preview: require('./showcase/lux-algo.png'),
+    website: 'https://docs.luxalgo.com',
+    source: 'https://github.com/smack0202/luxdocs',
+    tags: ['opensource', 'design', 'i18n', 'product'],
   },
   {
     title: 'SICOPE Model',
@@ -711,6 +743,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'nanos world documentation',
+    description: "nanos world is the next-generation multiplayer open world sandbox game.",
+    preview: require('./showcase/nanos-world.png'),
+    website: 'https://docs.nanos.world/',
+    source: 'https://github.com/nanos-world/docs',
+    tags: ['opensource', 'versioning', 'i18n', 'product'],
+  },
+  {
     title: 'netboot.xyz',
     description: 'Your favorite operating systems in one place!',
     preview: require('./showcase/netbootxyz.png'),
@@ -766,6 +806,15 @@ const Users: User[] = [
     preview: require('./showcase/ocpeasy.png'),
     website: 'https://www.ocpeasy.org',
     source: 'https://github.com/ocpeasy/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Ory Documentation',
+    description:
+      'Ory is an open source ecosystem and a cloud offering authentication, authorization, access control, and delegation (OAuth2 & OpenID Connect) services and APIs.',
+    preview: require('./showcase/ory.png'),
+    website: 'https://www.ory.sh/docs',
+    source: 'https://github.com/ory/docs/',
     tags: ['opensource'],
   },
   {
@@ -1276,6 +1325,15 @@ const Users: User[] = [
     source: 'https://github.com/nodegui/vue-nodegui',
     tags: ['opensource'],
   },
+  {
+    title: 'Warrant Docs',
+    description:
+      'APIs and devtools for implementing authorization and access control.',
+    preview: require('./showcase/warrant.png'),
+    website: 'https://docs.warrant.dev/',
+    source: null,
+    tags: ['product'],
+  },  
   {
     title: 'Wasp',
     description:

@@ -15,4 +15,5 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 
-packages/docusaurus-init/templates/facebook/.eslintrc.js
+packages/create-docusaurus/lib/*
+packages/create-docusaurus/templates/facebook/.eslintrc.js

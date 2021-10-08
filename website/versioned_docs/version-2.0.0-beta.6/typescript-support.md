@@ -10,7 +10,7 @@ Docusaurus is written in TypeScript, and provide first-class TypeScript support.
 Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
-npx @docusaurus/init@latest init my-website classic --typescript
+npm init docusaurus@latest my-website classic --typescript
 ```
 
 Below are some guides on how to migrate an existing project to TypeScript.
@@ -42,6 +42,7 @@ It is **not possible** to use a TypeScript config file in Docusaurus, unless you
 
 We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html):
 
+<!-- prettier-ignore-start -->
 ```js title="docusaurus.config.js"
 // highlight-start
 /** @type {import('@docusaurus/types').Plugin} */
@@ -99,6 +100,7 @@ function MyPlugin(context, options) {
     }),
 });
 ```
+<!-- prettier-ignore-end -->
 
 :::tip
 

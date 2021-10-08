@@ -9,6 +9,7 @@ import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
   URISchema,
   FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {DocFrontMatter} from './types';
@@ -28,10 +29,12 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
+  sidebar_class_name: Joi.string(),
   tags: FrontMatterTagsSchema,
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  ...FrontMatterTOCHeadingLevels,
 }).unknown();
 
 export function validateDocFrontMatter(

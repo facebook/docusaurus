@@ -86,16 +86,21 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
-  export type LinkProps = NavLinkProps & {
-    readonly isNavLink?: boolean;
-    readonly to?: string;
-    readonly href?: string;
-    readonly autoAddBaseUrl?: boolean;
+  import type {CSSProperties, ComponentProps} from 'react';
 
-    // escape hatch in case broken links check is annoying for a specific link
-    readonly 'data-noBrokenLinkCheck'?: boolean;
-  };
+  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  export type LinkProps = NavLinkProps &
+    ComponentProps<'a'> & {
+      readonly className?: string;
+      readonly style?: CSSProperties;
+      readonly isNavLink?: boolean;
+      readonly to?: string;
+      readonly href?: string;
+      readonly autoAddBaseUrl?: boolean;
+
+      // escape hatch in case broken links check is annoying for a specific link
+      readonly 'data-noBrokenLinkCheck'?: boolean;
+    };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
 }
@@ -110,7 +115,7 @@ declare module '@docusaurus/Interpolate' {
 
   export type InterpolateValues<
     Str extends string,
-    Value extends ReactNode
+    Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
   // TS function overload: if all the values are plain strings, then interpolate returns a simple string
@@ -223,10 +228,10 @@ declare module '@docusaurus/ComponentCreator' {
 }
 
 declare module '@docusaurus/BrowserOnly' {
-  export type Props = {
-    children?: () => JSX.Element;
-    fallback?: JSX.Element;
-  };
+  export interface Props {
+    readonly children?: () => JSX.Element;
+    readonly fallback?: JSX.Element;
+  }
   const BrowserOnly: (props: Props) => JSX.Element | null;
   export default BrowserOnly;
 }

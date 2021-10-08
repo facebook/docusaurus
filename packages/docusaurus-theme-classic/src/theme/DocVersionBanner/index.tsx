@@ -125,10 +125,8 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
 
   const {savePreferredVersionName} = useDocsPreferredVersion(pluginId);
 
-  const {
-    latestDocSuggestion,
-    latestVersionSuggestion,
-  } = useDocVersionSuggestions(pluginId);
+  const {latestDocSuggestion, latestVersionSuggestion} =
+    useDocVersionSuggestions(pluginId);
 
   // try to link to same doc in latest version (not always possible)
   // fallback to main doc of latest version

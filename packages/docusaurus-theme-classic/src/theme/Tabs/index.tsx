@@ -12,6 +12,7 @@ import React, {
   ReactElement,
   useLayoutEffect,
 } from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useScrollMonitorContext from '@theme/hooks/useScrollMonitorContext';
 import {useRestoreTop} from '@theme/hooks/useRestoreTop';
@@ -22,7 +23,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-function Tabs(props: Props): JSX.Element {
+function TabsComponent(props: Props): JSX.Element {
   const {
     lazy,
     block,
@@ -44,7 +45,8 @@ function Tabs(props: Props): JSX.Element {
     });
   const defaultValue =
     defaultValueProp ??
-    children.find((child) => child.props.default)?.props.value;
+    children.find((child) => child.props.default)?.props.value ??
+    children[0]?.props.value;
 
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
@@ -167,4 +169,14 @@ function Tabs(props: Props): JSX.Element {
   );
 }
 
-export default Tabs;
+export default function Tabs(props: Props): JSX.Element {
+  const isBrowser = useIsBrowser();
+  return (
+    <TabsComponent
+      // Remount tabs after hydration
+      // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
+      key={String(isBrowser)}
+      {...props}
+    />
+  );
+}

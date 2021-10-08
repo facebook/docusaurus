@@ -10,15 +10,9 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
-import type {
-  PropTagDocList,
-  PropTagDocListDoc,
-} from '@docusaurus/plugin-content-docs-types';
+import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs-types';
 import Translate, {translate} from '@docusaurus/Translate';
-
-type Props = {
-  tag: PropTagDocList;
-};
+import type {Props} from '@theme/DocTagDocListPage';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {

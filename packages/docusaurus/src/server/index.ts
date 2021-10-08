@@ -256,15 +256,8 @@ export async function load(
   } = context;
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {
-    plugins,
-    pluginsRouteConfigs,
-    globalData,
-    themeConfigTranslated,
-  } = await loadPlugins({
-    pluginConfigs,
-    context,
-  });
+  const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
+    await loadPlugins({pluginConfigs, context});
 
   // Side-effect to replace the untranslated themeConfig by the translated one
   context.siteConfig.themeConfig = themeConfigTranslated;
@@ -299,12 +292,8 @@ export async function load(
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
   // Routing.
-  const {
-    registry,
-    routesChunkNames,
-    routesConfig,
-    routesPaths,
-  } = await loadRoutes(pluginsRouteConfigs, baseUrl);
+  const {registry, routesChunkNames, routesConfig, routesPaths} =
+    await loadRoutes(pluginsRouteConfigs, baseUrl);
 
   const genRegistry = generate(
     generatedFilesDir,

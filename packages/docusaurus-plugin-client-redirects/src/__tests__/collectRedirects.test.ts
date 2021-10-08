@@ -291,7 +291,7 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return ([[`/fromPath`]] as unknown) as string;
+                return [[`/fromPath`]] as unknown as string;
               }
               return undefined;
             },
