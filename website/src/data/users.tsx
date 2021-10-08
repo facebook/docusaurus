@@ -299,7 +299,7 @@ const Users: User[] = [
     preview: require('./showcase/cloudywithachanceofbigdata.png'),
     website: 'https://cloudywithachanceofbigdata.com/',
     source: 'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
-    tags: ['opensource'],
+    tags: ['opensource', 'personal'],
   },  
   {
     title: 'Clutch',
