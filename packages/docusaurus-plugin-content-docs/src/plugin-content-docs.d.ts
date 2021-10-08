@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-content-docs' {
-  export type Options = import('./types').PluginOptions;
+  export type Options = Partial<import('./types').PluginOptions>;
 }
 
 // TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
@@ -30,6 +30,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   };
 
   type PropsSidebarItemBase = {
+    className?: string;
     customProps?: Record<string, unknown>;
   };
 
@@ -94,6 +95,8 @@ declare module '@theme/DocItem' {
     /* eslint-disable camelcase */
     readonly hide_title?: boolean;
     readonly hide_table_of_contents?: boolean;
+    readonly toc_min_heading_level?: number;
+    readonly toc_max_heading_level?: number;
     /* eslint-enable camelcase */
   };
 
@@ -114,7 +117,7 @@ declare module '@theme/DocItem' {
     }[];
   };
 
-  export type Props = {
+  export interface Props {
     readonly route: DocumentRoute;
     readonly versionMetadata: PropVersionMetadata;
     readonly content: {
@@ -124,7 +127,7 @@ declare module '@theme/DocItem' {
       readonly contentTitle: string | undefined;
       (): JSX.Element;
     };
-  };
+  }
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
@@ -139,16 +142,25 @@ declare module '@theme/DocItemFooter' {
 declare module '@theme/DocTagsListPage' {
   import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
 
-  export type Props = PropTagsListPage;
-  export default function DocItemFooter(props: Props): JSX.Element;
+  export interface Props extends PropTagsListPage {}
+  export default function DocTagsListPage(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocTagDocListPage' {
+  import type {PropTagDocList} from '@docusaurus/plugin-content-docs-types';
+
+  export interface Props {
+    readonly tag: PropTagDocList;
+  }
+  export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionBanner' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
 
-  export type Props = {
+  export interface Props {
     readonly versionMetadata: PropVersionMetadata;
-  };
+  }
 
   const DocVersionBanner: (props: Props) => JSX.Element;
   export default DocVersionBanner;
@@ -158,7 +170,7 @@ declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
   import type {DocumentRoute} from '@theme/DocItem';
 
-  export type Props = {
+  export interface Props {
     readonly location: {readonly pathname: string};
     readonly versionMetadata: PropVersionMetadata;
     readonly route: {
@@ -166,7 +178,7 @@ declare module '@theme/DocPage' {
       readonly component: () => JSX.Element;
       readonly routes: DocumentRoute[];
     };
-  };
+  }
 
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
@@ -175,13 +187,13 @@ declare module '@theme/DocPage' {
 declare module '@theme/Seo' {
   import type {ReactNode} from 'react';
 
-  export type Props = {
+  export interface Props {
     readonly title?: string;
     readonly description?: string;
     readonly keywords?: readonly string[] | string;
     readonly image?: string;
     readonly children?: ReactNode;
-  };
+  }
 
   const Seo: (props: Props) => JSX.Element;
   export default Seo;
@@ -192,8 +204,10 @@ declare module '@theme/hooks/useDocs' {
   type GlobalVersion = import('./types').GlobalVersion;
   type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
   type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
-  type DocVersionSuggestions = import('./client/docsClientUtils').DocVersionSuggestions;
-  type GetActivePluginOptions = import('./client/docsClientUtils').GetActivePluginOptions;
+  type DocVersionSuggestions =
+    import('./client/docsClientUtils').DocVersionSuggestions;
+  type GetActivePluginOptions =
+    import('./client/docsClientUtils').GetActivePluginOptions;
 
   export type {GlobalPluginData, GlobalVersion};
   export const useAllDocsData: () => Record<string, GlobalPluginData>;

@@ -251,23 +251,26 @@ describe('loadBlog', () => {
   test('simple website blog dates localized', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(6);
+    expect(blogPostsFrench).toHaveLength(7);
     expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
-      `"16 août 2020"`,
+      `"5 mars 2021"`,
     );
     expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
-      `"15 août 2020"`,
+      `"16 août 2020"`,
     );
     expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
+      `"15 août 2020"`,
     );
     expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"2 janvier 2019"`,
+      `"27 février 2020"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"2 janvier 2019"`,
     );
     expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[6].metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });
@@ -297,7 +300,7 @@ describe('loadBlog', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(6);
+    expect(editUrlFunction).toHaveBeenCalledTimes(7);
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
@@ -308,6 +311,12 @@ describe('loadBlog', () => {
       blogDirPath: 'blog',
       blogPath: 'draft.md',
       permalink: '/blog/draft',
+      locale: 'en',
+    });
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      blogDirPath: 'blog',
+      blogPath: 'mdx-blog-post.mdx',
+      permalink: '/blog/mdx-blog-post',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({

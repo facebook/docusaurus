@@ -88,14 +88,14 @@ export default async function start(
   }, 500);
   const {siteConfig, plugins = []} = props;
 
-  const normalizeToSiteDir = (filepath) => {
+  const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
       return posixPath(path.relative(siteDir, filepath));
     }
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = ([] as string[])
+  const pluginPaths = ([] as string[])
     .concat(
       ...plugins
         .map((plugin) => plugin.getPathsToWatch?.() ?? [])
@@ -103,7 +103,7 @@ export default async function start(
     )
     .map(normalizeToSiteDir);
 
-  const pathsToWatch: string[] = [
+  const pathsToWatch = [
     ...pluginPaths,
     props.siteConfigPath,
     getTranslationsLocaleDirPath({

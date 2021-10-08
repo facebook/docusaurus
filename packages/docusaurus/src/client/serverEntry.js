@@ -49,7 +49,8 @@ export default async function render(locals) {
       ),
     );
 
-    const isNotDefinedErrorRegex = /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+    const isNotDefinedErrorRegex =
+      /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
       console.error(
@@ -129,10 +130,10 @@ async function doRender(locals) {
     version: packageJson.version,
   });
 
-  // Minify html with https://github.com/DanielRuf/html-minifier-terser
-  function doMinify() {
-    return minify(renderedHtml, {
-      removeComments: true,
+  try {
+    // Minify html with https://github.com/DanielRuf/html-minifier-terser
+    return await minify(renderedHtml, {
+      removeComments: false,
       removeRedundantAttributes: true,
       removeEmptyAttributes: true,
       removeScriptTypeAttributes: true,
@@ -140,27 +141,12 @@ async function doRender(locals) {
       useShortDoctype: true,
       minifyJS: true,
     });
-  }
-
-  // TODO this is a temporary error affecting only monorepos due to Terser 5 (async) being used by html-minifier-terser,
-  // instead of the expected Terser 4 (sync)
-  // TODO, remove this once we upgrade everything to Terser 5 (https://github.com/terser/html-minifier-terser/issues/46)
-  // See also
-  // - https://github.com/facebook/docusaurus/issues/3515
-  // - https://github.com/terser/html-minifier-terser/issues/49
-  try {
-    return doMinify();
   } catch (e) {
-    if (
-      e.message &&
-      e.message.includes("Cannot read property 'replace' of undefined")
-    ) {
-      console.error(
-        chalk.red(
-          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, please see https://github.com/facebook/docusaurus/issues/3515\n',
-        ),
-      );
-    }
+    console.error(
+      chalk.red(
+        `Minification page with path "${locals.path}" failed because of following error:\n\n${e.stack}\n`,
+      ),
+    );
     throw e;
   }
 }

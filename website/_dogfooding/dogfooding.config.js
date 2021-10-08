@@ -1,7 +1,7 @@
 const fs = require('fs');
-const path = require('path');
 
-exports.dogfoodingPluginInstances = [
+/** @type {import('@docusaurus/types').PluginConfig[]} */
+const dogfoodingPluginInstances = [
   [
     '@docusaurus/plugin-content-docs',
     /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -28,6 +28,7 @@ exports.dogfoodingPluginInstances = [
       postsPerPage: 3,
       feedOptions: {
         type: 'all',
+        title: 'Docusaurus Tests Blog',
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
       },
     }),
@@ -43,3 +44,5 @@ exports.dogfoodingPluginInstances = [
     }),
   ],
 ];
+
+exports.dogfoodingPluginInstances = dogfoodingPluginInstances;

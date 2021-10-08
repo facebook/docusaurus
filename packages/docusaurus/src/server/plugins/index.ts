@@ -30,6 +30,14 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
+    // Root route should get placed last.
+    if (a.path === '/' && b.path !== '/') {
+      return 1;
+    }
+    if (a.path !== '/' && b.path === '/') {
+      return -1;
+    }
+
     if (a.routes && !b.routes) {
       return 1;
     }
@@ -87,28 +95,29 @@ export async function loadPlugins({
   type ContentLoadedTranslatedPlugin = LoadedPlugin & {
     translationFiles: TranslationFiles;
   };
-  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
-    loadedPlugins.map(async (contentLoadedPlugin) => {
-      const translationFiles =
-        (await contentLoadedPlugin?.getTranslationFiles?.({
-          content: contentLoadedPlugin.content,
-        })) ?? [];
-      const localizedTranslationFiles = await Promise.all(
-        translationFiles.map((translationFile) =>
-          localizePluginTranslationFile({
-            locale: context.i18n.currentLocale,
-            siteDir: context.siteDir,
-            translationFile,
-            plugin: contentLoadedPlugin,
-          }),
-        ),
-      );
-      return {
-        ...contentLoadedPlugin,
-        translationFiles: localizedTranslationFiles,
-      };
-    }),
-  );
+  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] =
+    await Promise.all(
+      loadedPlugins.map(async (contentLoadedPlugin) => {
+        const translationFiles =
+          (await contentLoadedPlugin?.getTranslationFiles?.({
+            content: contentLoadedPlugin.content,
+          })) ?? [];
+        const localizedTranslationFiles = await Promise.all(
+          translationFiles.map((translationFile) =>
+            localizePluginTranslationFile({
+              locale: context.i18n.currentLocale,
+              siteDir: context.siteDir,
+              translationFile,
+              plugin: contentLoadedPlugin,
+            }),
+          ),
+        );
+        return {
+          ...contentLoadedPlugin,
+          translationFiles: localizedTranslationFiles,
+        };
+      }),
+    );
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)
@@ -123,7 +132,7 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
-  const globalData = {};
+  const globalData: Record<string, Record<string, unknown>> = {};
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(

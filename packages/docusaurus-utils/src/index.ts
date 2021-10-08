@@ -25,6 +25,7 @@ import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
 import {normalizeUrl} from './normalizeUrl';
 
+export * from './mdxUtils';
 export * from './normalizeUrl';
 export * from './tags';
 
@@ -427,9 +428,7 @@ export function updateTranslationFileMessages(
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(
-  heading: string,
-): {
+export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {

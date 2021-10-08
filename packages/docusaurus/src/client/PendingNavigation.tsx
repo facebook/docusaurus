@@ -20,9 +20,9 @@ import './nprogress.css';
 nprogress.configure({showSpinner: false});
 
 interface Props extends RouteComponentProps {
-  routes: RouteConfig[];
-  delay: number;
-  location: Location;
+  readonly routes: RouteConfig[];
+  readonly delay: number;
+  readonly location: Location;
 }
 interface State {
   nextRouteHasLoaded: boolean;

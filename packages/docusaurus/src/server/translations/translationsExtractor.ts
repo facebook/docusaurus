@@ -98,10 +98,11 @@ export async function extractSiteSourceCodeTranslations(
     ...extraSourceCodeFilePaths,
   ];
 
-  const sourceCodeFilesTranslations = await extractAllSourceCodeFileTranslations(
-    allSourceCodeFilePaths,
-    babelOptions,
-  );
+  const sourceCodeFilesTranslations =
+    await extractAllSourceCodeFileTranslations(
+      allSourceCodeFilePaths,
+      babelOptions,
+    );
 
   logSourceCodeFileTranslationsWarnings(sourceCodeFilesTranslations);
 
@@ -157,7 +158,8 @@ export async function extractSourceCodeFileTranslations(
     }) as Node;
 
     return await extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
-  } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
     e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
     throw e;
   }
@@ -214,9 +216,10 @@ function extractSourceCodeAstTranslations(
         if (attributePath) {
           const attributeValue = attributePath.get('value') as NodePath;
 
-          const attributeValueEvaluated = attributeValue.isJSXExpressionContainer()
-            ? (attributeValue.get('expression') as NodePath).evaluate()
-            : attributeValue.evaluate();
+          const attributeValueEvaluated =
+            attributeValue.isJSXExpressionContainer()
+              ? (attributeValue.get('expression') as NodePath).evaluate()
+              : attributeValue.evaluate();
 
           if (
             attributeValueEvaluated.confident &&
@@ -264,9 +267,9 @@ function extractSourceCodeAstTranslations(
         singleChildren.isJSXExpressionContainer() &&
         (singleChildren.get('expression') as NodePath).evaluate().confident
       ) {
-        const message = (singleChildren.get(
-          'expression',
-        ) as NodePath).evaluate().value;
+        const message = (
+          singleChildren.get('expression') as NodePath
+        ).evaluate().value;
 
         const id = evaluateJSXProp('id');
         const description = evaluateJSXProp('description');

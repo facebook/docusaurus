@@ -9,7 +9,7 @@ import {Compiler} from 'webpack';
 // import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import formatWebpackMessages from '../react-dev-utils-webpack5/formatWebpackMessages';
 
-function showError(arr) {
+function showError(arr: string[]) {
   console.log(`\n\n${arr.join('\n')}`);
 }
 

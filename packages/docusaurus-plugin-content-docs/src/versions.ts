@@ -355,15 +355,8 @@ function createVersionMetadata({
     | 'editCurrentVersion'
   >;
 }): VersionMetadata {
-  const {
-    sidebarFilePath,
-    contentPath,
-    contentPathLocalized,
-  } = getVersionMetadataPaths({
-    versionName,
-    context,
-    options,
-  });
+  const {sidebarFilePath, contentPath, contentPathLocalized} =
+    getVersionMetadataPaths({versionName, context, options});
 
   const isLast = versionName === lastVersionName;
 
