@@ -28,19 +28,21 @@ const Logo = (props: Props): JSX.Element => {
     light: useBaseUrl(logo.src),
     dark: useBaseUrl(logo.srcDark || logo.src),
   };
+  const themedImage = (
+    <ThemedImage sources={sources} alt={logo.alt || navbarTitle || title} />
+  );
 
   return (
     <Link
       to={logoLink}
       {...propsRest}
       {...(logo.target && {target: logo.target})}>
-      {logo.src && (
-        <ThemedImage
-          className={imageClassName}
-          sources={sources}
-          alt={logo.alt || navbarTitle || title}
-        />
-      )}
+      {logo.src &&
+        (imageClassName ? (
+          <div className={imageClassName}>{themedImage}</div>
+        ) : (
+          <>{themedImage}</>
+        ))}
       {navbarTitle != null && <b className={titleClassName}>{navbarTitle}</b>}
     </Link>
   );
