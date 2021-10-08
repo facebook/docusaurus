@@ -219,19 +219,6 @@ declare module '@theme/hooks/usePrismTheme' {
   export default usePrismTheme;
 }
 
-declare module '@theme/hooks/useScrollPosition' {
-  export type ScrollPosition = {scrollX: number; scrollY: number};
-
-  const useScrollPosition: (
-    effect: (
-      position: ScrollPosition,
-      lastPosition: ScrollPosition | null,
-    ) => void,
-    deps?: unknown[],
-  ) => void;
-  export default useScrollPosition;
-}
-
 declare module '@theme/hooks/useTabGroupChoice' {
   export type useTabGroupChoiceReturns = {
     readonly tabGroupChoices: {readonly [groupId: string]: string};
@@ -270,44 +257,6 @@ declare module '@theme/hooks/useUserPreferencesContext' {
   };
 
   export default function useUserPreferencesContext(): UserPreferencesContextProps;
-}
-
-declare module '@theme/hooks/useScrollMonitorContext' {
-  export type ScrollMonitorContextProps = {
-    /**
-     * Enables scroll position monitoring for `useScrollPosition`
-     */
-    enableScrollMonitor: () => void;
-    /**
-     * Disables scroll position monitoring for `useScrollPosition`
-     */
-    disableScrollMonitor: () => void;
-    /**
-     * A boolean ref tracking whether scroll monitoring is enabled
-     */
-    isScrollMonitorEnabledRef: React.MutableRefObject<boolean>;
-  };
-
-  export default function useScrollMonitorContext(): ScrollMonitorContextProps;
-}
-
-declare module '@theme/hooks/useRestoreTop' {
-  export type UseRestoreTopReturn = {
-    /**
-     * Measure the top of an element, and store the details
-     */
-    measureTop: (elem: HTMLElement) => void;
-    /**
-     * Restore the page position to keep the stored element's position from
-     * the top of the viewport, and remove the stored details
-     */
-    restoreTop: () => void;
-  };
-
-  /**
-   * Provides methods to store & restore an element's position from the top of the viewport
-   */
-  export function useRestoreTop(): UseRestoreTopReturn;
 }
 
 declare module '@theme/hooks/useWindowSize' {
@@ -711,15 +660,6 @@ declare module '@theme/UserPreferencesProvider' {
 
   const UserPreferencesProvider: (props: Props) => JSX.Element;
   export default UserPreferencesProvider;
-}
-
-declare module '@theme/ScrollMonitorProvider' {
-  import type {ReactNode} from 'react';
-
-  export type Props = {readonly children: ReactNode};
-
-  const ScrollMonitorProvider: (props: Props) => JSX.Element;
-  export default ScrollMonitorProvider;
 }
 
 declare module '@theme/LayoutProviders' {

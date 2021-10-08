@@ -14,8 +14,7 @@ import React, {
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import useScrollMonitorContext from '@theme/hooks/useScrollMonitorContext';
-import {useRestoreTop} from '@theme/hooks/useRestoreTop';
+import {useScrollController, useRestoreTop} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -51,24 +50,24 @@ function TabsComponent(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
-  const {enableScrollMonitor, disableScrollMonitor} = useScrollMonitorContext();
+  const {enableScrollEvents, disableScrollEvents} = useScrollController();
   const {measureTop, restoreTop} = useRestoreTop();
 
   useLayoutEffect(() => {
     // prevent `restoreTop` from triggering the navbar auto hide/show by
     // disabling the scroll monitoring temporarily
-    disableScrollMonitor();
+    disableScrollEvents();
     restoreTop();
     setTimeout(() => {
-      enableScrollMonitor();
+      enableScrollEvents();
     }, 150);
   }, [
     // reactive deps:
     tabGroupChoices,
     // stable formalities:
     restoreTop,
-    enableScrollMonitor,
-    disableScrollMonitor,
+    enableScrollEvents,
+    disableScrollEvents,
   ]);
 
   if (groupId != null) {

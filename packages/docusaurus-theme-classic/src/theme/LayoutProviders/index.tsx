@@ -8,11 +8,11 @@
 import React from 'react';
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import ScrollMonitorProvider from '@theme/ScrollMonitorProvider';
 import {
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
   MobileSecondaryMenuProvider,
+  ScrollControllerProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
 
@@ -21,13 +21,13 @@ export default function LayoutProviders({children}: Props): JSX.Element {
     <ThemeProvider>
       <AnnouncementBarProvider>
         <UserPreferencesProvider>
-          <ScrollMonitorProvider>
+          <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
               <MobileSecondaryMenuProvider>
                 {children}
               </MobileSecondaryMenuProvider>
             </DocsPreferredVersionContextProvider>
-          </ScrollMonitorProvider>
+          </ScrollControllerProvider>
         </UserPreferencesProvider>
       </AnnouncementBarProvider>
     </ThemeProvider>
