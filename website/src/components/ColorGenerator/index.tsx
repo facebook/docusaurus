@@ -91,7 +91,10 @@ function ColorGenerator() {
           className={styles.input}
           defaultValue={baseColor}
           onChange={(event) => {
-            const colorValue = event.target.value;
+            // Replace all the prefix '#' with an empty string.
+            // For example, '#ccc' -> 'ccc', '##ccc' -> 'ccc'
+            const colorValue = event.target.value.replace(/^#+/, '');
+
             try {
               Color('#' + colorValue);
               setBaseColor(colorValue);
