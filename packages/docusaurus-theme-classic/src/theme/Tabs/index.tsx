@@ -5,16 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useState,
-  cloneElement,
-  Children,
-  ReactElement,
-  useLayoutEffect,
-} from 'react';
+import React, {useState, cloneElement, Children, ReactElement} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {useScrollController, useRestoreTop} from '@docusaurus/theme-common';
+import {useScrollPositionBlocker} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -50,9 +44,11 @@ function TabsComponent(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
-  const {enableScrollEvents, disableScrollEvents} = useScrollController();
-  const {measureTop, restoreTop} = useRestoreTop();
+  // const {measureTop, restoreTop} = useRestoreTop();
+  const {blockElementScrollPositionUntilNextRender} =
+    useScrollPositionBlocker();
 
+  /*
   useLayoutEffect(() => {
     // prevent `restoreTop` from triggering the navbar auto hide/show by
     // disabling the scroll monitoring temporarily
@@ -69,6 +65,8 @@ function TabsComponent(props: Props): JSX.Element {
     enableScrollEvents,
     disableScrollEvents,
   ]);
+
+   */
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -88,11 +86,13 @@ function TabsComponent(props: Props): JSX.Element {
     const selectedTabIndex = tabRefs.indexOf(selectedTab);
     const selectedTabValue = values[selectedTabIndex].value;
 
-    measureTop(selectedTab);
-    setSelectedValue(selectedTabValue);
+    if (selectedTabValue !== selectedValue) {
+      blockElementScrollPositionUntilNextRender(selectedTab);
+      setSelectedValue(selectedTabValue);
 
-    if (groupId != null) {
-      setTabGroupChoices(groupId, selectedTabValue);
+      if (groupId != null) {
+        setTabGroupChoices(groupId, selectedTabValue);
+      }
     }
   };
 

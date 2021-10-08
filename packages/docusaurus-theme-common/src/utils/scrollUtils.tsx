@@ -11,6 +11,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
 } from 'react';
@@ -43,9 +44,11 @@ function useScrollControllerContextValue(): ScrollController {
     () => ({
       scrollEventsEnabledRef,
       enableScrollEvents: () => {
+        console.log('enable');
         scrollEventsEnabledRef.current = true;
       },
       disableScrollEvents: () => {
+        console.log('disable');
         scrollEventsEnabledRef.current = false;
       },
     }),
@@ -125,37 +128,38 @@ export function useScrollPosition(
   }, deps);
 }
 
-type UseRestoreTopReturn = {
+type UseScrollPositionSaver = {
   /**
    * Measure the top of an element, and store the details
    */
-  measureTop: (elem: HTMLElement) => void;
+  save: (elem: HTMLElement) => void;
   /**
    * Restore the page position to keep the stored element's position from
    * the top of the viewport, and remove the stored details
+   * @return boolean true if a scroll
    */
-  restoreTop: () => void;
+  restore: () => boolean;
 };
 
-export const useRestoreTop = (): UseRestoreTopReturn => {
+function useScrollPositionSaver(): UseScrollPositionSaver {
   const lastElementRef = useRef<{elem: HTMLElement | null; top: number}>({
     elem: null,
     top: 0,
   });
 
-  const measureTop = useCallback((elem: HTMLElement) => {
+  const save = useCallback((elem: HTMLElement) => {
     lastElementRef.current = {
       elem,
       top: elem.getBoundingClientRect().top,
     };
   }, []);
 
-  const restoreTop = useCallback(() => {
+  const restore = useCallback(() => {
     const {
       current: {elem, top},
     } = lastElementRef;
     if (!elem) {
-      return;
+      return false;
     }
     const newTop = elem.getBoundingClientRect().top;
     const heightDiff = newTop - top;
@@ -163,7 +167,52 @@ export const useRestoreTop = (): UseRestoreTopReturn => {
       window.scrollBy({left: 0, top: heightDiff});
     }
     lastElementRef.current = {elem: null, top: 0};
+
+    return heightDiff !== 0;
   }, []);
 
-  return {measureTop, restoreTop};
+  return useMemo(() => ({save, restore}), []);
+}
+
+type UseScrollPositionBlockerReturn = {
+  blockElementScrollPositionUntilNextRender: (el: HTMLElement) => void;
 };
+export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
+  const scrollController = useScrollController();
+  const scrollPositionSaver = useScrollPositionSaver();
+
+  const nextLayoutEffectCallbackRef = useRef<(() => void) | undefined>(
+    undefined,
+  );
+
+  const blockElementScrollPositionUntilNextRender = useCallback(
+    (el: HTMLElement) => {
+      scrollPositionSaver.save(el);
+      scrollController.disableScrollEvents();
+      nextLayoutEffectCallbackRef.current = () => {
+        const restored = scrollPositionSaver.restore();
+        console.log({restored});
+        nextLayoutEffectCallbackRef.current = undefined;
+
+        if (restored) {
+          const handleScrollRestoreEvent = () => {
+            scrollController.enableScrollEvents();
+            window.removeEventListener('scroll', handleScrollRestoreEvent);
+          };
+          window.addEventListener('scroll', handleScrollRestoreEvent);
+        } else {
+          scrollController.enableScrollEvents();
+        }
+      };
+    },
+    [scrollController],
+  );
+
+  useLayoutEffect(() => {
+    nextLayoutEffectCallbackRef.current?.();
+  });
+
+  return {
+    blockElementScrollPositionUntilNextRender,
+  };
+}

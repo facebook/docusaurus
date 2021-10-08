@@ -84,5 +84,5 @@ export {
   ScrollControllerProvider,
   useScrollController,
   useScrollPosition,
-  useRestoreTop,
+  useScrollPositionBlocker,
 } from './utils/scrollUtils';
