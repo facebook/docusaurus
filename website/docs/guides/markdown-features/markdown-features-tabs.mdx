@@ -131,7 +131,7 @@ It is possible to only render the default tab with `<Tabs lazy />`.
 
 The first tab is displayed by default, and to override this behavior, you can specify a default tab by adding `default` to one of the tab items. You can also set the `defaultValue` prop of the `Tabs` component to the label value of your choice. For example, in the example above, either setting `default` for the `value="apple"` tab or setting `defaultValue="apple"` for the tabs forces the "Apple" tab to be open by default.
 
-If `defaultValue` is provided for the `Tabs`, but it refers to an non-existing value, only the tab headings will appear until the user clicks on a tab.
+Docusaurus will throw an error if a `defaultValue` is provided for the `Tabs` but it refers to an non-existing value. If you want none of the tabs to be shown by default, use `defaultValue={null}`.
 
 ## Syncing tab choices {#syncing-tab-choices}
 

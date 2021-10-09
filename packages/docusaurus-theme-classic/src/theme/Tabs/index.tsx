@@ -36,10 +36,25 @@ function TabsComponent(props: Props): JSX.Element {
         label: child.props.label,
       };
     });
+  // When defaultValueProp is null, don't show a default tab
   const defaultValue =
-    defaultValueProp ??
-    children.find((child) => child.props.default)?.props.value ??
-    children[0]?.props.value;
+    defaultValueProp === null
+      ? defaultValueProp
+      : defaultValueProp ??
+        children.find((child) => child.props.default)?.props.value ??
+        children[0]?.props.value;
+  if (
+    defaultValue !== null &&
+    !values.some(({value}) => value === defaultValue)
+  ) {
+    throw new Error(
+      `Docusaurus error: the <Tabs> has a defaultValue set but none of its children has the corresponding value. Available values are: ${values
+        .map(({value}) => value)
+        .join(
+          ', ',
+        )}. If you intend to show no default tab, use defaultValue={null} instead.`,
+    );
+  }
 
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
