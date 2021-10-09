@@ -5,16 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement, Children, ReactElement} from 'react';
+import React, {useState, cloneElement, Children, isValidElement} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import {useScrollPositionBlocker} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
-import type {Props as TabItemProps} from '@theme/TabItem';
+import type TabItem from '@theme/TabItem';
 
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
+
+function isTabItem(comp: unknown): comp is typeof TabItem {
+  return (
+    (comp as typeof TabItem).displayName === 'TabItem' ||
+    // The name is MDXCreateElement on SSR
+    (comp as typeof TabItem).displayName === 'MDXCreateElement'
+  );
+}
 
 function TabsComponent(props: Props): JSX.Element {
   const {
@@ -25,9 +33,18 @@ function TabsComponent(props: Props): JSX.Element {
     groupId,
     className,
   } = props;
-  const children = Children.toArray(
-    props.children,
-  ) as ReactElement<TabItemProps>[];
+  const children = Children.map(props.children, (child) => {
+    if (isValidElement(child) && isTabItem(child.type)) {
+      return child;
+    }
+    // child.type.name will give non-sensical values in prod because of
+    // minification, but we assume it won't throw in prod.
+    throw new Error(
+      `Bad <Tabs> child <${
+        typeof child.type === 'string' ? child.type : child.type.name
+      }>: all children of the <Tabs> component should be <TabItem>.`,
+    );
+  });
   const values =
     valuesProp ??
     children.map((child) => {
@@ -48,7 +65,7 @@ function TabsComponent(props: Props): JSX.Element {
     !values.some(({value}) => value === defaultValue)
   ) {
     throw new Error(
-      `Docusaurus error: the <Tabs> has a defaultValue set but none of its children has the corresponding value. Available values are: ${values
+      `Docusaurus error: the <Tabs> has a defaultValue set ("${defaultValue}") but none of its children has the corresponding value. Available values are: ${values
         .map(({value}) => value)
         .join(
           ', ',

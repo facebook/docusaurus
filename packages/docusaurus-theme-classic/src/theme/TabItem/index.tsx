@@ -16,4 +16,7 @@ function TabItem({children, hidden, className}: Props): JSX.Element {
   );
 }
 
+// For Tabs children validation
+TabItem.displayName = 'TabItem';
+
 export default TabItem;

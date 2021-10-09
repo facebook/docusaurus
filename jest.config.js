@@ -33,11 +33,13 @@ module.exports = {
   },
   setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
   moduleNameMapper: {
+    // Jest can't resolve CSS imports
+    '^.+\\.css$': '<rootDir>/jest/emptyModule.js',
     // TODO we need to allow Jest to resolve core Webpack aliases automatically
-    '@docusaurus/router': 'react-router-dom',
-    '@docusaurus/Translate': '@docusaurus/core/lib/client/exports/Translate',
-    '@docusaurus/Interpolate':
-      '@docusaurus/core/lib/client/exports/Interpolate',
+    '@docusaurus/(useIsBrowser|router|Translate|Interpolate)':
+      '@docusaurus/core/lib/client/exports/$1',
     '@generated/codeTranslations': '<rootDir>/jest/emptyModule.js',
+    // TODO maybe use "projects" + multiple configs if we plan to add tests to another theme?
+    '@theme/(.*)': '@docusaurus/theme-classic/lib-next/theme/$1',
   },
 };
