@@ -33,7 +33,7 @@ export type ReplaceMarkdownLinksReturn<T extends ContentPaths> = {
 };
 
 const stripHtmlComments = (fileString: string) => {
-  return fileString.replace(/<!--(.*?)-->/gs, '');
+  return fileString.replace(/<!--.*?-->/gs, '');
 };
 
 export function replaceMarkdownLinks<T extends ContentPaths>({
