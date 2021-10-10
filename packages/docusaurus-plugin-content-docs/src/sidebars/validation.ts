@@ -17,12 +17,6 @@ import type {
   SidebarsConfig,
 } from './types';
 
-export function isCategoriesShorthand(
-  item: SidebarItemConfig,
-): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
-}
-
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
   customProps: Joi.object().unknown(),

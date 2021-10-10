@@ -17,27 +17,20 @@ import type {
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 
-export function fixSidebarItemInconsistencies(item: SidebarItem): SidebarItem {
-  function fixCategoryInconsistencies(
-    category: SidebarItemCategory,
-  ): SidebarItemCategory {
-    // A non-collapsible category can't be collapsed!
-    if (!category.collapsible && category.collapsed) {
-      return {
-        ...category,
-        collapsed: false,
-      };
+export function transformSidebarItems(
+  sidebar: Sidebar,
+  updateFn: (item: SidebarItem) => SidebarItem,
+): Sidebar {
+  function transformRecursive(item: SidebarItem): SidebarItem {
+    if (item.type === 'category') {
+      return updateFn({
+        ...item,
+        items: item.items.map(transformRecursive),
+      });
     }
-    return category;
+    return updateFn(item);
   }
-
-  if (item.type === 'category') {
-    return {
-      ...fixCategoryInconsistencies(item),
-      items: item.items.map(fixSidebarItemInconsistencies),
-    };
-  }
-  return item;
+  return sidebar.map(transformRecursive);
 }
 
 function collectSidebarItemsOfType<
@@ -75,22 +68,6 @@ export function collectSidebarsDocIds(
   return mapValues(sidebars, (sidebar) => {
     return collectSidebarDocItems(sidebar).map((docItem) => docItem.id);
   });
-}
-
-export function transformSidebarItems(
-  sidebar: Sidebar,
-  updateFn: (item: SidebarItem) => SidebarItem,
-): Sidebar {
-  function transformRecursive(item: SidebarItem): SidebarItem {
-    if (item.type === 'category') {
-      return updateFn({
-        ...item,
-        items: item.items.map(transformRecursive),
-      });
-    }
-    return updateFn(item);
-  }
-  return sidebar.map(transformRecursive);
 }
 
 export function createSidebarsUtils(sidebars: Sidebars): {

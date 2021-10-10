@@ -21,7 +21,7 @@ import {
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
-import {loadSidebars, processSidebars} from './sidebars';
+import {loadSidebars} from './sidebars';
 import {createSidebarsUtils} from './sidebars/utils';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {readVersionDocs, processDocMetadata} from './docs';
@@ -162,26 +162,13 @@ export default function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const unprocessedSidebars = loadSidebars(
-          versionMetadata.sidebarFilePath,
-          {
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          },
-        );
-
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
-        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
-          docsBase,
-          (doc) => doc.id,
-        );
 
-        const sidebars = await processSidebars({
+        const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
           numberPrefixParser: options.numberPrefixParser,
-          unprocessedSidebars,
           docs: docsBase,
           version: versionMetadata,
           options: {
@@ -189,6 +176,10 @@ export default function pluginContentDocs(
             sidebarCollapsible: options.sidebarCollapsible,
           },
         });
+        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
+          docsBase,
+          (doc) => doc.id,
+        );
 
         const {
           checkSidebarsDocIds,

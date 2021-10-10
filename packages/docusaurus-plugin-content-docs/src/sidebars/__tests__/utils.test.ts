@@ -6,7 +6,6 @@
  */
 
 import {
-  fixSidebarItemInconsistencies,
   createSidebarsUtils,
   collectSidebarDocItems,
   collectSidebarCategories,
@@ -14,60 +13,7 @@ import {
   transformSidebarItems,
   collectSidebarsDocIds,
 } from '../utils';
-import type {SidebarItemCategory, Sidebar, Sidebars} from '../types';
-
-describe('fixSidebarItemInconsistencies', () => {
-  test('should not fix good category', () => {
-    const category: SidebarItemCategory = {
-      type: 'category',
-      label: 'Cat',
-      items: [],
-      collapsible: true,
-      collapsed: true,
-    };
-    expect(fixSidebarItemInconsistencies(category)).toEqual(category);
-  });
-
-  test('should fix bad category', () => {
-    const category: SidebarItemCategory = {
-      type: 'category',
-      label: 'Cat',
-      items: [],
-      collapsible: false,
-      collapsed: true, // Bad because collapsible=false
-    };
-    expect(fixSidebarItemInconsistencies(category)).toEqual({
-      ...category,
-      collapsed: false,
-    });
-  });
-
-  test('should fix bad subcategory', () => {
-    const subCategory: SidebarItemCategory = {
-      type: 'category',
-      label: 'SubCat',
-      items: [],
-      collapsible: false,
-      collapsed: true, // Bad because collapsible=false
-    };
-    const category: SidebarItemCategory = {
-      type: 'category',
-      label: 'Cat',
-      items: [subCategory],
-      collapsible: true,
-      collapsed: true,
-    };
-    expect(fixSidebarItemInconsistencies(category)).toEqual({
-      ...category,
-      items: [
-        {
-          ...subCategory,
-          collapsed: false,
-        },
-      ],
-    });
-  });
-});
+import type {Sidebar, Sidebars} from '../types';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [

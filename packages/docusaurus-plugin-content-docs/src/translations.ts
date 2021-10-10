@@ -6,7 +6,7 @@
  */
 
 import type {LoadedVersion, LoadedContent} from './types';
-import type {Sidebar, Sidebars, SidebarItem} from './sidebars/types';
+import type {Sidebar, Sidebars} from './sidebars/types';
 
 import {chain, mapValues, keyBy} from 'lodash';
 import {
@@ -126,7 +126,7 @@ function translateSidebar({
   sidebarName: string;
   sidebarsTranslations: TranslationFileContent;
 }): Sidebar {
-  return transformSidebarItems(sidebar, (item: SidebarItem): SidebarItem => {
+  return transformSidebarItems(sidebar, (item) => {
     if (item.type === 'category') {
       return {
         ...item,

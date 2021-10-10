@@ -6,8 +6,8 @@
  */
 
 import type {SidebarOptions} from '../types';
-import {isCategoriesShorthand, validateSidebarItem} from './validation';
-import type {
+import {validateSidebarItem} from './validation';
+import {
   NormalizedSidebarItem,
   NormalizedSidebar,
   NormalizedSidebars,
@@ -16,6 +16,7 @@ import type {
   SidebarItemConfig,
   SidebarConfig,
   SidebarsConfig,
+  isCategoriesShorthand,
 } from './types';
 import {mapValues} from 'lodash';
 
