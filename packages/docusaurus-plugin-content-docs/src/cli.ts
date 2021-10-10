@@ -12,12 +12,8 @@ import {
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import {
-  PathOptions,
-  UnprocessedSidebarItem,
-  UnprocessedSidebars,
-  SidebarOptions,
-} from './types';
+import type {PathOptions, SidebarOptions} from './types';
+import type {NormalizedSidebarItem, NormalizedSidebars} from './sidebars/types';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
@@ -46,8 +42,8 @@ function createVersionedSidebarFile({
     // TODO try to get rid of it
     // Transform id in original sidebar to versioned id.
     const normalizeItem = (
-      item: UnprocessedSidebarItem,
-    ): UnprocessedSidebarItem => {
+      item: NormalizedSidebarItem,
+    ): NormalizedSidebarItem => {
       switch (item.type) {
         case 'category':
           return {...item, items: item.items.map(normalizeItem)};
@@ -62,9 +58,9 @@ function createVersionedSidebarFile({
       }
     };
 
-    const versionedSidebar: UnprocessedSidebars = Object.entries(
+    const versionedSidebar: NormalizedSidebars = Object.entries(
       loadedSidebars,
-    ).reduce((acc: UnprocessedSidebars, [sidebarId, sidebarItems]) => {
+    ).reduce((acc: NormalizedSidebars, [sidebarId, sidebarItems]) => {
       const newVersionedSidebarId = `version-${version}/${sidebarId}`;
       acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
       return acc;

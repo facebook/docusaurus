@@ -7,6 +7,7 @@
 
 declare module '@docusaurus/plugin-content-docs' {
   export type Options = Partial<import('./types').PluginOptions>;
+  export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
 }
 
 // TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"

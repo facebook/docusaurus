@@ -14,7 +14,7 @@ import {
   transformSidebarItems,
   collectSidebarsDocIds,
 } from '../utils';
-import type {SidebarItemCategory, Sidebar, Sidebars} from '../../types';
+import type {SidebarItemCategory, Sidebar, Sidebars} from '../types';
 
 describe('fixSidebarItemInconsistencies', () => {
   test('should not fix good category', () => {

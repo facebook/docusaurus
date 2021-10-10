@@ -9,7 +9,7 @@ import {
   CategoryMetadatasFile,
   DefaultSidebarItemsGenerator,
 } from '../generator';
-import {Sidebar, SidebarItemsGenerator} from '../../types';
+import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 

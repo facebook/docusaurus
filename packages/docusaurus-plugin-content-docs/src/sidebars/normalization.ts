@@ -5,20 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {SidebarOptions} from '../types';
+import {isCategoriesShorthand, validateSidebarItem} from './validation';
 import type {
-  SidebarOptions,
-  UnprocessedSidebarItem,
-  UnprocessedSidebar,
-  UnprocessedSidebars,
-} from '../types';
-import {
+  NormalizedSidebarItem,
+  NormalizedSidebar,
+  NormalizedSidebars,
   SidebarCategoriesShorthand,
   SidebarItemCategoryConfig,
   SidebarItemConfig,
-  isCategoriesShorthand,
   SidebarConfig,
   SidebarsConfig,
-} from './validation';
+} from './types';
 import {flatMap, mapValues} from 'lodash';
 
 function normalizeCategoriesShorthand(
@@ -41,7 +39,7 @@ function normalizeCategoriesShorthand(
 function normalizeItem(
   item: SidebarItemConfig,
   options: SidebarOptions,
-): UnprocessedSidebarItem[] {
+): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
     return [
       {
@@ -55,6 +53,8 @@ function normalizeItem(
       normalizeItem(subitem, options),
     );
   }
+  // TODO: remove once we can validate the entire sidebars file in one go
+  validateSidebarItem(item);
   return item.type === 'category'
     ? [
         {
@@ -72,7 +72,7 @@ function normalizeItem(
 function normalizeSidebar(
   sidebar: SidebarConfig,
   options: SidebarOptions,
-): UnprocessedSidebar {
+): NormalizedSidebar {
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
     : normalizeCategoriesShorthand(sidebar, options);
@@ -85,6 +85,6 @@ function normalizeSidebar(
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
   options: SidebarOptions,
-): UnprocessedSidebars {
+): NormalizedSidebars {
   return mapValues(sidebars, (subitem) => normalizeSidebar(subitem, options));
 }

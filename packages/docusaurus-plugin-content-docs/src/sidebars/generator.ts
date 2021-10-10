@@ -11,7 +11,7 @@ import {
   SidebarItemCategory,
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
-} from '../types';
+} from './types';
 import {sortBy, take, last, orderBy} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';

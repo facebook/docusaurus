@@ -13,7 +13,7 @@ import type {
   SidebarItemLink,
   SidebarItemDoc,
   SidebarItemType,
-} from '../types';
+} from './types';
 import {flatten, mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 

@@ -5,13 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  LoadedVersion,
-  Sidebar,
-  LoadedContent,
-  Sidebars,
-  SidebarItem,
-} from './types';
+import type {LoadedVersion, LoadedContent} from './types';
+import type {Sidebar, Sidebars, SidebarItem} from './sidebars/types';
 
 import {chain, mapValues, flatten, keyBy} from 'lodash';
 import {

@@ -12,13 +12,13 @@ import {
   DefaultSidebars,
   DisabledSidebars,
 } from '../index';
-import {
+import type {SidebarOptions} from '../../types';
+import type {
   SidebarItem,
   SidebarItemsGenerator,
   Sidebars,
-  UnprocessedSidebars,
-  SidebarOptions,
-} from '../../types';
+  NormalizedSidebars,
+} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
 
 describe('loadSidebars', () => {
@@ -55,9 +55,17 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-items.json',
     );
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot();
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"label\\": \\"Category Label\\",
+        \\"items\\": \\"doc1\\",
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars with category but category label is not a string', async () => {
@@ -65,11 +73,19 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-label.json',
     );
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}: \\"label\\" must be a string."`,
-    );
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"label\\": true,
+        \\"items\\": [
+          \\"doc1\\"
+        ],
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars item doc but id is not a string', async () => {
@@ -77,11 +93,18 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-doc-id-not-string.json',
     );
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}: \\"id\\" must be a string."`,
-    );
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"doc\\",
+        \\"id\\": [
+          \\"doc1\\"
+        ],
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars with first level not a category', async () => {
@@ -101,30 +124,62 @@ describe('loadSidebars', () => {
 
   test('sidebars link wrong label', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot();
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"link\\",
+        \\"label\\": false,
+        \\"href\\": \\"https://github.com\\",
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars link wrong href', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot();
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"link\\",
+        \\"label\\": \\"GitHub\\",
+        \\"href\\": [
+          \\"example.com\\"
+        ],
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot();
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"superman\\",
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('sidebars with known sidebar item type but wrong field', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
-    expect(() =>
-      loadSidebars(sidebarPath, options),
-    ).toThrowErrorMatchingInlineSnapshot();
+    expect(() => loadSidebars(sidebarPath, options))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"label\\": \\"category\\",
+        \\"href\\": \\"https://github.com\\",
+        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" does not match any of the allowed types[0m"
+    `);
   });
 
   test('unexisting path', () => {
@@ -167,7 +222,7 @@ describe('processSidebars', () => {
     },
   );
 
-  async function testProcessSidebars(unprocessedSidebars: UnprocessedSidebars) {
+  async function testProcessSidebars(unprocessedSidebars: NormalizedSidebars) {
     return processSidebars({
       sidebarItemsGenerator: StaticSidebarItemsGenerator,
       unprocessedSidebars,
@@ -178,7 +233,7 @@ describe('processSidebars', () => {
   }
 
   test('let sidebars without autogenerated items untouched', async () => {
-    const unprocessedSidebars: UnprocessedSidebars = {
+    const unprocessedSidebars: NormalizedSidebars = {
       someSidebar: [
         {type: 'doc', id: 'doc1'},
         {
@@ -208,7 +263,7 @@ describe('processSidebars', () => {
   });
 
   test('replace autogenerated items by generated sidebars slices', async () => {
-    const unprocessedSidebars: UnprocessedSidebars = {
+    const unprocessedSidebars: NormalizedSidebars = {
       someSidebar: [
         {type: 'doc', id: 'doc1'},
         {
