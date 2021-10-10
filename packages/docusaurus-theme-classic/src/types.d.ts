@@ -517,10 +517,7 @@ declare module '@theme/TabItem' {
     readonly className?: string;
   }
 
-  const TabItem: {
-    displayName: string;
-    (props: Props): JSX.Element;
-  };
+  const TabItem: (props: Props) => JSX.Element;
   export default TabItem;
 }
 

@@ -5,23 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement, Children, isValidElement} from 'react';
+import React, {
+  useState,
+  cloneElement,
+  Children,
+  isValidElement,
+  ReactElement,
+} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import {useScrollPositionBlocker} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
-import type TabItem from '@theme/TabItem';
+import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-function isTabItem(comp: unknown): comp is typeof TabItem {
-  return (
-    (comp as typeof TabItem).displayName === 'TabItem' ||
-    // The name is MDXCreateElement on SSR
-    (comp as typeof TabItem).displayName === 'MDXCreateElement'
-  );
+// A very rough duck type, but good enough to guard against mistakes while
+// allowing customization
+function isTabItem(comp: ReactElement): comp is ReactElement<TabItemProps> {
+  return typeof comp.props.value === 'string';
 }
 
 function TabsComponent(props: Props): JSX.Element {
@@ -34,15 +38,16 @@ function TabsComponent(props: Props): JSX.Element {
     className,
   } = props;
   const children = Children.map(props.children, (child) => {
-    if (isValidElement(child) && isTabItem(child.type)) {
+    if (isValidElement(child) && isTabItem(child)) {
       return child;
     }
     // child.type.name will give non-sensical values in prod because of
     // minification, but we assume it won't throw in prod.
     throw new Error(
-      `Bad <Tabs> child <${
+      `Docusaurus error: Bad <Tabs> child <${
+        // @ts-expect-error: guarding against unexpected cases
         typeof child.type === 'string' ? child.type : child.type.name
-      }>: all children of the <Tabs> component should be <TabItem>.`,
+      }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
     );
   });
   const values =
@@ -53,6 +58,14 @@ function TabsComponent(props: Props): JSX.Element {
         label: child.props.label,
       };
     });
+  const duplicate = values
+    .map(({value}) => value)
+    .find((v, i, arr) => arr.indexOf(v) !== i);
+  if (duplicate) {
+    throw new Error(
+      `Docusaurus error: Duplicate values "${duplicate}" found in <Tabs>. Every value needs to be unique.`,
+    );
+  }
   // When defaultValueProp is null, don't show a default tab
   const defaultValue =
     defaultValueProp === null
@@ -65,7 +78,7 @@ function TabsComponent(props: Props): JSX.Element {
     !values.some(({value}) => value === defaultValue)
   ) {
     throw new Error(
-      `Docusaurus error: the <Tabs> has a defaultValue set ("${defaultValue}") but none of its children has the corresponding value. Available values are: ${values
+      `Docusaurus error: The <Tabs> has a defaultValue "${defaultValue}" but none of its children has the corresponding value. Available values are: ${values
         .map(({value}) => value)
         .join(
           ', ',

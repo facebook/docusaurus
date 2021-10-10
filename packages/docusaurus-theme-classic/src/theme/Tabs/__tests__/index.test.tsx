@@ -16,11 +16,11 @@ describe('Tabs validation', () => {
       renderer.create(
         <Tabs>
           <div>Naughty</div>
-          <TabItem>Good</TabItem>
+          <TabItem value="good">Good</TabItem>
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>."`,
+      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique \\"value\\" prop."`,
     );
   });
   test('Should reject bad Tabs defaultValue', () => {
@@ -32,7 +32,19 @@ describe('Tabs validation', () => {
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: the <Tabs> has a defaultValue set (\\"bad\\") but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
+      `"Docusaurus error: The <Tabs> has a defaultValue \\"bad\\" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
+    );
+  });
+  test('Should reject duplicate values', () => {
+    expect(() => {
+      renderer.create(
+        <Tabs>
+          <TabItem value="v1">Tab 1</TabItem>
+          <TabItem value="v1">Tab 2</TabItem>
+        </Tabs>,
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Docusaurus error: Duplicate values \\"v1\\" found in <Tabs>. Every value needs to be unique."`,
     );
   });
 });
