@@ -6,7 +6,6 @@
  */
 
 import type {SidebarOptions} from '../types';
-import {validateSidebarItem} from './validation';
 import {
   NormalizedSidebarItem,
   NormalizedSidebar,
@@ -54,8 +53,6 @@ function normalizeItem(
       normalizeItem(subitem, options),
     );
   }
-  // TODO: remove once we can validate the entire sidebars file in one go
-  validateSidebarItem(item);
   return item.type === 'category'
     ? [
         {

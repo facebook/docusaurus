@@ -151,9 +151,3 @@ export type SidebarItemsGeneratorOptionArgs = {
 export type SidebarItemsGeneratorOption = (
   generatorArgs: SidebarItemsGeneratorOptionArgs,
 ) => Promise<SidebarItem[]>;
-
-export type OrderMetadata = {
-  previous?: string;
-  next?: string;
-  sidebar?: string;
-};

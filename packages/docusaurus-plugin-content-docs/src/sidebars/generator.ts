@@ -12,9 +12,9 @@ import type {
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
 } from './types';
+import {sortBy} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import {sortBy} from 'lodash';
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs-extra';

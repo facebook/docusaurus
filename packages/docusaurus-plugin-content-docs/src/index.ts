@@ -165,6 +165,10 @@ export default function pluginContentDocs(
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
+        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
+          docsBase,
+          (doc) => doc.id,
+        );
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
@@ -176,10 +180,6 @@ export default function pluginContentDocs(
             sidebarCollapsible: options.sidebarCollapsible,
           },
         });
-        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
-          docsBase,
-          (doc) => doc.id,
-        );
 
         const {
           checkSidebarsDocIds,

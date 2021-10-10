@@ -54,8 +54,8 @@ function createVersionedSidebarFile({
 
     const versionedSidebar = Object.entries(loadedSidebars).reduce(
       (acc: NormalizedSidebars, [sidebarId, sidebar]) => {
-        const versionedSidebarId = `version-${version}/${sidebarId}`;
-        acc[versionedSidebarId] = transformSidebarItems(
+        const versionedId = `version-${version}/${sidebarId}`;
+        acc[versionedId] = transformSidebarItems(
           sidebar as Sidebar,
           prependVersion,
         );

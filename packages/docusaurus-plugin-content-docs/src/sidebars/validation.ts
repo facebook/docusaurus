@@ -6,7 +6,7 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {
+import {
   SidebarItemConfig,
   SidebarCategoriesShorthand,
   SidebarItemBase,
@@ -15,6 +15,7 @@ import type {
   SidebarItemLink,
   SidebarItemCategoryConfig,
   SidebarsConfig,
+  isCategoriesShorthand,
 } from './types';
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
@@ -61,7 +62,7 @@ const sidebarCategoriesShorthandSchema =
     Joi.array(), // .items(Joi.link('#sidebarItemSchema')),
   );
 
-const sidebarItemSchema = Joi.alternatives()
+const sidebarItemSchema: Joi.Schema<SidebarItemConfig> = Joi.alternatives()
   .try(
     Joi.object().when('.type', {
       switch: [
@@ -99,17 +100,25 @@ const sidebarSchema = Joi.alternatives().try(
 
 const sidebarsSchema = Joi.object().pattern(Joi.string(), sidebarSchema);
 
-export function validateSidebarItem(
-  item: Record<string, unknown>,
-): asserts item is Exclude<
-  SidebarItemConfig,
-  string | SidebarCategoriesShorthand
-> {
+function validateSidebarItem(item: unknown): asserts item is SidebarItemConfig {
   Joi.assert(item, sidebarItemSchema);
+  if (isCategoriesShorthand(item as SidebarItemConfig)) {
+    Object.values(item as SidebarItemConfig).forEach(validateSidebarItem);
+  }
+  if ((item as SidebarItemCategoryConfig).type === 'category') {
+    (item as SidebarItemCategoryConfig).items.forEach(validateSidebarItem);
+  }
 }
 
 export function validateSidebars(
-  item: unknown,
-): asserts item is SidebarsConfig {
-  Joi.assert(item, sidebarsSchema);
+  sidebars: unknown,
+): asserts sidebars is SidebarsConfig {
+  Joi.assert(sidebars, sidebarsSchema);
+  // Because we can't use Joi to validate nested items (see above), we do it manually
+  Object.values(sidebars as SidebarsConfig).forEach((sidebar) => {
+    if (Array.isArray(sidebar)) {
+      sidebar.forEach(validateSidebarItem);
+    }
+    validateSidebarItem(sidebar);
+  });
 }
