@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import Interpolate, {
-  interpolate,
-  InterpolateValues,
-} from '@docusaurus/Interpolate';
+import {ReactNode} from 'react';
+import {interpolate, InterpolateValues} from '@docusaurus/Interpolate';
 import type {TranslateParam, TranslateProps} from '@docusaurus/Translate';
 
 // Can't read it from context, due to exposing imperative API
@@ -17,7 +14,7 @@ import codeTranslations from '@generated/codeTranslations';
 
 function getLocalizedMessage({
   id,
-  message,
+  message = '',
 }: {
   message: string;
   id?: string;
@@ -32,7 +29,7 @@ export function translate<Str extends string>(
   {message, id}: TranslateParam<Str>,
   values?: InterpolateValues<Str, string | number>,
 ): string {
-  const localizedMessage = getLocalizedMessage({message, id}) ?? message;
+  const localizedMessage = getLocalizedMessage({message, id});
   return interpolate(localizedMessage, values);
 }
 
@@ -42,16 +39,7 @@ export default function Translate<Str extends string>({
   children,
   id,
   values,
-}: TranslateProps<Str>): JSX.Element {
-  if (typeof children !== 'string') {
-    console.warn('Illegal <Translate> children', children);
-    throw new Error(
-      'The Docusaurus <Translate> component only accept simple string values',
-    );
-  }
-
-  const localizedMessage: string =
-    getLocalizedMessage({message: children, id}) ?? children;
-
-  return <Interpolate values={values}>{localizedMessage}</Interpolate>;
+}: TranslateProps<Str>): ReactNode {
+  const localizedMessage: string = getLocalizedMessage({message: children, id});
+  return interpolate(localizedMessage, values);
 }

@@ -253,6 +253,16 @@ export default function Home() {
 }
 ```
 
+:::note
+
+You can even omit a children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
+
+```jsx
+<Translate id="homepage.title" />
+```
+
+:::
+
 ## Hooks {#hooks}
 
 ### `useDocusaurusContext` {#usedocusauruscontext}
