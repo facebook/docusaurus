@@ -17,7 +17,7 @@ import type {
   SidebarConfig,
   SidebarsConfig,
 } from './types';
-import {flatMap, mapValues} from 'lodash';
+import {mapValues} from 'lodash';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -49,7 +49,7 @@ function normalizeItem(
     ];
   }
   if (isCategoriesShorthand(item)) {
-    return flatMap(normalizeCategoriesShorthand(item, options), (subitem) =>
+    return normalizeCategoriesShorthand(item, options).flatMap((subitem) =>
       normalizeItem(subitem, options),
     );
   }
@@ -59,7 +59,7 @@ function normalizeItem(
     ? [
         {
           ...item,
-          items: flatMap(item.items, (subItem) =>
+          items: item.items.flatMap((subItem) =>
             normalizeItem(subItem, options),
           ),
           collapsible: item.collapsible ?? options.sidebarCollapsible,
@@ -77,7 +77,7 @@ function normalizeSidebar(
     ? sidebar
     : normalizeCategoriesShorthand(sidebar, options);
 
-  return flatMap(normalizedSidebar, (subitem) =>
+  return normalizedSidebar.flatMap((subitem) =>
     normalizeItem(subitem, options),
   );
 }

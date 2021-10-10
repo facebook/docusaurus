@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
+import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
   SidebarItemConfig,
   SidebarCategoriesShorthand,
@@ -47,7 +47,7 @@ const sidebarItemDocSchema = sidebarItemBaseSchema.append<SidebarItemDoc>({
 
 const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
   type: 'link',
-  href: Joi.string().required(),
+  href: URISchema.required(),
   label: Joi.string().required(),
 });
 
@@ -55,7 +55,7 @@ const sidebarItemCategorySchema =
   sidebarItemBaseSchema.append<SidebarItemCategoryConfig>({
     type: 'category',
     label: Joi.string().required(),
-    // TODO: Joi doesn't allow mutual recursion
+    // TODO: Joi doesn't allow mutual recursion. See https://github.com/sideway/joi/issues/2611
     items: Joi.array().required(), // .items(Joi.link('#sidebarItemSchema')),
     collapsed: Joi.boolean(),
     collapsible: Joi.boolean(),
@@ -64,7 +64,6 @@ const sidebarItemCategorySchema =
 const sidebarCategoriesShorthandSchema =
   Joi.object<SidebarCategoriesShorthand>().pattern(
     Joi.string(),
-    // TODO: Joi doesn't allow mutual recursion
     Joi.array(), // .items(Joi.link('#sidebarItemSchema')),
   );
 

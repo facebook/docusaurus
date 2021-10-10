@@ -14,7 +14,7 @@ import type {
   SidebarItemDoc,
   SidebarItemType,
 } from './types';
-import {flatten, mapValues, difference} from 'lodash';
+import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 
 export function fixSidebarItemInconsistencies(item: SidebarItem): SidebarItem {
@@ -49,12 +49,12 @@ function collectSidebarItemsOfType<
       item.type === type ? [item as Item] : [];
 
     const childItemsCollected: Item[] =
-      item.type === 'category' ? flatten(item.items.map(collectRecursive)) : [];
+      item.type === 'category' ? item.items.flatMap(collectRecursive) : [];
 
     return [...currentItemsCollected, ...childItemsCollected];
   }
 
-  return flatten(sidebar.map(collectRecursive));
+  return sidebar.flatMap(collectRecursive);
 }
 
 export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
@@ -143,7 +143,7 @@ export function createSidebarsUtils(sidebars: Sidebars): {
   }
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
-    const allSidebarDocIds = flatten(Object.values(sidebarNameToDocIds));
+    const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
     const invalidSidebarDocIds = difference(allSidebarDocIds, validDocIds);
     if (invalidSidebarDocIds.length > 0) {
       throw new Error(

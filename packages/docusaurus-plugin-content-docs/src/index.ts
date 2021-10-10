@@ -44,7 +44,7 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {flatten, keyBy, compact, mapValues} from 'lodash';
+import {keyBy, compact, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {
@@ -117,11 +117,9 @@ export default function pluginContentDocs(
     getPathsToWatch() {
       function getVersionPathsToWatch(version: VersionMetadata): string[] {
         const result = [
-          ...flatten(
-            options.include.map((pattern) =>
-              getDocsDirPaths(version).map(
-                (docsDirPath) => `${docsDirPath}/${pattern}`,
-              ),
+          ...options.include.flatMap((pattern) =>
+            getDocsDirPaths(version).map(
+              (docsDirPath) => `${docsDirPath}/${pattern}`,
             ),
           ),
           `${version.contentPath}/**/${CategoryMetadataFilenamePattern}`,
@@ -132,7 +130,7 @@ export default function pluginContentDocs(
         return result;
       }
 
-      return flatten(versionsMetadata.map(getVersionPathsToWatch));
+      return versionsMetadata.flatMap(getVersionPathsToWatch);
     },
 
     async loadContent() {
@@ -432,7 +430,7 @@ export default function pluginContentDocs(
       } = options;
 
       function getSourceToPermalink(): SourceToPermalink {
-        const allDocs = flatten(content.loadedVersions.map((v) => v.docs));
+        const allDocs = content.loadedVersions.flatMap((v) => v.docs);
         return mapValues(
           keyBy(allDocs, (d) => d.source),
           (d) => d.permalink,
@@ -455,7 +453,7 @@ export default function pluginContentDocs(
       };
 
       function createMDXLoaderRule(): RuleSetRule {
-        const contentDirs = flatten(versionsMetadata.map(getDocsDirPaths));
+        const contentDirs = versionsMetadata.flatMap(getDocsDirPaths);
         return {
           test: /(\.mdx?)$/,
           include: contentDirs

@@ -8,7 +8,7 @@
 import type {LoadedVersion, LoadedContent} from './types';
 import type {Sidebar, Sidebars, SidebarItem} from './sidebars/types';
 
-import {chain, mapValues, flatten, keyBy} from 'lodash';
+import {chain, mapValues, keyBy} from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
@@ -217,7 +217,7 @@ function translateVersion(
 function getVersionsTranslationFiles(
   versions: LoadedVersion[],
 ): TranslationFiles {
-  return flatten(versions.map(getVersionTranslationFiles));
+  return versions.flatMap(getVersionTranslationFiles);
 }
 function translateVersions(
   versions: LoadedVersion[],
