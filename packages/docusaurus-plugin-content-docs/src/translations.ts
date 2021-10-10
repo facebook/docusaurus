@@ -18,7 +18,7 @@ import {
   collectSidebarCategories,
   transformSidebarItems,
   collectSidebarLinks,
-} from './sidebars';
+} from './sidebars/utils';
 import {
   TranslationFileContent,
   TranslationFile,

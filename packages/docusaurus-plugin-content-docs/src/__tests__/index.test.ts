@@ -32,7 +32,7 @@ import {
 import {toSidebarsProp} from '../props';
 
 import {validate} from 'webpack';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {

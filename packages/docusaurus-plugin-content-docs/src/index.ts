@@ -21,7 +21,9 @@ import {
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
-import {loadSidebars, createSidebarsUtils, processSidebars} from './sidebars';
+import {loadSidebars, processSidebars} from './sidebars';
+import {createSidebarsUtils} from './sidebars/utils';
+import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {readVersionDocs, processDocMetadata} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
@@ -49,7 +51,6 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import {CategoryMetadataFilenamePattern} from './sidebarItemsGenerator';
 import chalk from 'chalk';
 import {getVersionTags} from './tags';
 import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
@@ -191,18 +192,21 @@ export default function pluginContentDocs(
           },
         });
 
-        const sidebarsUtils = createSidebarsUtils(sidebars);
+        const {
+          checkSidebarsDocIds,
+          getDocNavigation,
+          getFirstDocIdOfFirstSidebar,
+        } = createSidebarsUtils(sidebars);
 
         const validDocIds = Object.keys(docsBaseById);
-        sidebarsUtils.checkSidebarsDocIds(
+        checkSidebarsDocIds(
           validDocIds,
           versionMetadata.sidebarFilePath as string,
         );
 
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
-          const {sidebarName, previousId, nextId} =
-            sidebarsUtils.getDocNavigation(doc.id);
+          const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
           const toDocNavLink = (navDocId: string): DocNavLink => {
             const {title, permalink, frontMatter} = docsBaseById[navDocId];
             return {
@@ -236,8 +240,7 @@ export default function pluginContentDocs(
             (doc) =>
               doc.unversionedId === options.homePageId || doc.slug === '/',
           );
-          const firstDocIdOfFirstSidebar =
-            sidebarsUtils.getFirstDocIdOfFirstSidebar();
+          const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
           if (versionHomeDoc) {
             return versionHomeDoc;
           } else if (firstDocIdOfFirstSidebar) {
