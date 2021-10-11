@@ -103,7 +103,9 @@ const sidebarsSchema = Joi.object().pattern(Joi.string(), sidebarSchema);
 function validateSidebarItem(item: unknown): asserts item is SidebarItemConfig {
   Joi.assert(item, sidebarItemSchema);
   if (isCategoriesShorthand(item as SidebarItemConfig)) {
-    Object.values(item as SidebarItemConfig).forEach(validateSidebarItem);
+    Object.values(item as SidebarCategoriesShorthand).forEach((category) =>
+      category.forEach(validateSidebarItem),
+    );
   }
   if ((item as SidebarItemCategoryConfig).type === 'category') {
     (item as SidebarItemCategoryConfig).items.forEach(validateSidebarItem);
