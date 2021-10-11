@@ -11,7 +11,7 @@
 
 - [doc-localized](./doc-localized.md)
 <!-- [doc4](md-link-in-single-line-comment.md) -->
-
+- [doc-localized](./doc-localized.md)
 <!--
   [doc5](md-link-in-multi-line-comment.md)
 -->
