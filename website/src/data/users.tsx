@@ -342,6 +342,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Country State City API',
+    description: 'Get simplified countries, states & cities data without bloating up your database.',
+    preview: require('./showcase/countrystatecity.png'),
+    website: 'https://countrystatecity.in/',
+    source: 'https://github.com/dr5hn/csc-website',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Create React App',
     description: 'Set up a modern web app by running one command',
     preview: require('./showcase/create-react-app.png'),
