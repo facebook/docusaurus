@@ -21,6 +21,8 @@ import fs from 'fs-extra';
 import Yaml from 'js-yaml';
 
 const BreadcrumbSeparator = '/';
+// To avoid possible name clashes with a folder of the same name as the ID
+const docIdPrefix = '$doc$/';
 
 export const CategoryMetadataFilenameBase = '_category_';
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
@@ -41,8 +43,8 @@ type WithPosition<T> = T & {position?: number};
 
 /**
  * A representation of the fs structure. For each object entry:
- * If it's a folder, the key is the directory name and value is the directory content;
- * If it's a doc file, the key is the doc id and value is null
+ * If it's a folder, the key is the directory name, and value is the directory content;
+ * If it's a doc file, the key is the doc id prefixed with '$doc$/', and value is null
  */
 type Dir = {
   [item: string]: Dir | null;
@@ -157,7 +159,7 @@ const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         }
         currentDir = currentDir[dir]!; // Go into the subdirectory.
       }
-      currentDir[doc.id] = null; // We've walked through the file path. Register the file in this directory.
+      currentDir[`${docIdPrefix}${doc.id}`] = null; // We've walked through the file path. Register the file in this directory.
     });
     return treeRoot;
   }
@@ -213,7 +215,7 @@ const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     ): Promise<WithPosition<SidebarItem>> {
       return dir
         ? createCategoryItem(dir, fullPath, itemKey)
-        : createDocItem(itemKey);
+        : createDocItem(itemKey.substring(docIdPrefix.length));
     }
     return Promise.all(
       Object.entries(fsModel).map(([key, content]) =>
