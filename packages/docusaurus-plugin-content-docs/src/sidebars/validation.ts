@@ -102,12 +102,13 @@ const sidebarsSchema = Joi.object().pattern(Joi.string(), sidebarSchema);
 
 function validateSidebarItem(item: unknown): asserts item is SidebarItemConfig {
   Joi.assert(item, sidebarItemSchema);
+  // TODO: remove once with proper Joi support
+  // Because we can't use Joi to validate nested items (see above), we do it manually
   if (isCategoriesShorthand(item as SidebarItemConfig)) {
     Object.values(item as SidebarCategoriesShorthand).forEach((category) =>
       category.forEach(validateSidebarItem),
     );
-  }
-  if ((item as SidebarItemCategoryConfig).type === 'category') {
+  } else if ((item as SidebarItemCategoryConfig).type === 'category') {
     (item as SidebarItemCategoryConfig).items.forEach(validateSidebarItem);
   }
 }
@@ -116,11 +117,11 @@ export function validateSidebars(
   sidebars: unknown,
 ): asserts sidebars is SidebarsConfig {
   Joi.assert(sidebars, sidebarsSchema);
-  // Because we can't use Joi to validate nested items (see above), we do it manually
   Object.values(sidebars as SidebarsConfig).forEach((sidebar) => {
     if (Array.isArray(sidebar)) {
       sidebar.forEach(validateSidebarItem);
+    } else {
+      validateSidebarItem(sidebar);
     }
-    validateSidebarItem(sidebar);
   });
 }
