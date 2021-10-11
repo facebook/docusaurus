@@ -165,7 +165,7 @@ export type ConfigOptions = {
   config: string;
 };
 
-export type RouteInfo = {
+export type RoutePathInfo = {
   routePath: string;
   lastmod?: number;
 };
@@ -218,7 +218,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   readonly siteMetadata: DocusaurusSiteMetadata;
   readonly routes: RouteConfig[];
-  readonly routesPaths: RouteInfo[];
+  readonly routesPaths: RoutePathInfo[];
   readonly plugins: LoadedPlugin[];
 }
 

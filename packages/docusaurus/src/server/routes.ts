@@ -19,7 +19,7 @@ import {
   RouteConfig,
   RouteModule,
   ChunkNames,
-  RouteInfo,
+  RoutePathInfo,
 } from '@docusaurus/types';
 
 type RegistryMap = {
@@ -110,7 +110,7 @@ type LoadedRoutes = {
   routesChunkNames: {
     [routePath: string]: ChunkNames;
   };
-  routesPaths: RouteInfo[];
+  routesPaths: RoutePathInfo[];
 };
 
 export default async function loadRoutes(
@@ -120,7 +120,7 @@ export default async function loadRoutes(
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
-  const routesPaths: RouteInfo[] = [
+  const routesPaths: RoutePathInfo[] = [
     {routePath: normalizeUrl([baseUrl, '404.html'])},
   ];
   const routesChunkNames: {

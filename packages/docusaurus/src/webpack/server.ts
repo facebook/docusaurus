@@ -44,7 +44,7 @@ export default function createServerConfig({
       baseUrl === '/'
         ? str.routePath
         : str.routePath.replace(new RegExp(`^${baseUrl}`), '/');
-    routesLocation[ssgPath] = str;
+    routesLocation[ssgPath] = str.routePath;
     return ssgPath;
   });
   const serverConfig = merge(config, {
