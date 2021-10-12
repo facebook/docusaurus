@@ -16,5 +16,13 @@ const {transform, features: bubleFeatures} = require('@philpl/buble');
 exports.features = bubleFeatures;
 
 exports.transform = function customTransform(source, options) {
-  return transform(source, {...options, transforms: {asyncAwait: false}});
+  return transform(source, {
+    ...options,
+    transforms: {
+      asyncAwait: false,
+      classes: false,
+      getterSetter: false,
+      ...options.transforms,
+    },
+  });
 };
