@@ -81,18 +81,19 @@ export function createSidebarsUtils(sidebars: Sidebars): {
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 } {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
+  // Reverse mapping
+  const docIdToSidebarName = Object.fromEntries(
+    Object.entries(sidebarNameToDocIds).flatMap(([sidebarName, docIds]) =>
+      docIds.map((docId) => [docId, sidebarName]),
+    ),
+  );
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {
     return Object.values(sidebarNameToDocIds)[0]?.[0];
   }
 
   function getSidebarNameByDocId(docId: string): string | undefined {
-    // TODO lookup speed can be optimized
-    const entry = Object.entries(sidebarNameToDocIds).find(([, docIds]) =>
-      docIds.includes(docId),
-    );
-
-    return entry?.[0];
+    return docIdToSidebarName[docId];
   }
 
   function getDocNavigation(docId: string): {
