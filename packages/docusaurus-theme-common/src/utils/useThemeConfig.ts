@@ -49,11 +49,11 @@ export type ColorModeConfig = {
 };
 
 export type AnnouncementBarConfig = {
-  id: string;
-  content: string;
-  backgroundColor: string;
-  textColor: string;
-  isCloseable: boolean;
+  id?: string;
+  content?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  isCloseable?: boolean;
 };
 
 export type PrismConfig = {

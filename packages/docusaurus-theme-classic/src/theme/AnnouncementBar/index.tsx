@@ -7,25 +7,20 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
+import {useAnnouncementBar} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
 import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {isClosed, close} = useAnnouncementBar();
-  const {announcementBar} = useThemeConfig();
+  const {isActive, close, ...announcementBar} = useAnnouncementBar();
 
-  if (!announcementBar) {
+  if (!isActive) {
     return null;
   }
 
   const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-
-  if (!content || (isCloseable && isClosed)) {
-    return null;
-  }
 
   return (
     <div
@@ -37,7 +32,7 @@ function AnnouncementBar(): JSX.Element | null {
         className={styles.announcementBarContent}
         // Developer provided the HTML, so assume it's safe.
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{__html: content}}
+        dangerouslySetInnerHTML={{__html: content as string}}
       />
       {isCloseable ? (
         <button
