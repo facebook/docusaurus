@@ -99,7 +99,7 @@ async function readCategoryMetadatasFile(
 }
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
-const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
+export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   numberPrefixParser,
   docs: allDocs,
   options,
@@ -251,5 +251,3 @@ const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   const sortedSidebar = sortItems(sidebarWithPosition);
   return sortedSidebar;
 };
-
-export {DefaultSidebarItemsGenerator};

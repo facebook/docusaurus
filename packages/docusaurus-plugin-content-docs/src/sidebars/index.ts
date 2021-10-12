@@ -80,6 +80,5 @@ export async function loadSidebars(
     sidebarFilePath,
     options.options,
   );
-  const sidebars = await processSidebars(unprocessedSidebars, options);
-  return sidebars;
+  return processSidebars(unprocessedSidebars, options);
 }

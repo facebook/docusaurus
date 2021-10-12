@@ -114,23 +114,11 @@ async function processSidebar(
 
 export async function processSidebars(
   unprocessedSidebars: NormalizedSidebars,
-  {
-    sidebarItemsGenerator,
-    numberPrefixParser,
-    docs,
-    version,
-    options,
-  }: SidebarProcessorProps,
+  props: SidebarProcessorProps,
 ): Promise<Sidebars> {
   return combinePromises(
     mapValues(unprocessedSidebars, (unprocessedSidebar) =>
-      processSidebar(unprocessedSidebar, {
-        sidebarItemsGenerator,
-        numberPrefixParser,
-        docs,
-        version,
-        options,
-      }),
+      processSidebar(unprocessedSidebar, props),
     ),
   );
 }
