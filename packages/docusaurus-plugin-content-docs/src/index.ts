@@ -399,8 +399,6 @@ export default function pluginContentDocs(
           JSON.stringify(versionMetadata, null, 2),
         );
 
-        const routes = await createDocRoutes(loadedVersion.docs);
-
         addRoute({
           path: loadedVersion.versionPath,
           // allow matching /docs/* as well
@@ -408,7 +406,7 @@ export default function pluginContentDocs(
           // main docs component (DocPage)
           component: docLayoutComponent,
           // sub-routes for each doc
-          routes,
+          routes: await createDocRoutes(loadedVersion.docs),
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },

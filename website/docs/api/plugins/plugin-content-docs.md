@@ -259,7 +259,7 @@ Accepted fields:
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
 | `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
-| `last_modified` | `date` | `undefined` | Date string to override github commit date in sitemap. Building converts the date from local timezone to UTC unless manually specified. |
+| `last_modified` | `date` | `undefined` | Date string to set the lastmod field in the sitemap. Overrides github commit date if used. Building converts the date from local timezone to UTC unless manually specified. |
 
 </small>
 
