@@ -26,4 +26,3 @@ exports.transform = function customTransform(source, options) {
     },
   });
 };
-
