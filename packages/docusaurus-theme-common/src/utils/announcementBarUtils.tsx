@@ -16,7 +16,7 @@ import React, {
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {createStorageSlot} from './storageUtils';
-import {AnnouncementBarConfig, useThemeConfig} from './useThemeConfig';
+import {useThemeConfig} from './useThemeConfig';
 
 export const AnnouncementBarDismissStorageKey =
   'docusaurus.announcement.dismiss';
@@ -32,7 +32,7 @@ const isDismissedInStorage = () =>
 const setDismissedInStorage = (bool: boolean) =>
   AnnouncementBarDismissStorage.set(String(bool));
 
-type AnnouncementBarAPI = AnnouncementBarConfig & {
+type AnnouncementBarAPI = {
   readonly isActive: boolean;
   readonly close: () => void;
 };
@@ -74,7 +74,7 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
     const isNewAnnouncement = id !== viewedId;
 
-    IdStorage.set(id as string);
+    IdStorage.set(id);
 
     if (isNewAnnouncement) {
       setDismissedInStorage(false);
@@ -87,9 +87,8 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
   return useMemo(() => {
     return {
-      isActive: !!(announcementBar && announcementBar?.content) && !isClosed,
+      isActive: !!announcementBar && !isClosed,
       close: handleClose,
-      ...announcementBar,
     };
   }, [isClosed]);
 };

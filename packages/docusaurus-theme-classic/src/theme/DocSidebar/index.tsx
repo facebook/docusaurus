@@ -28,12 +28,14 @@ function useShowAnnouncementBar() {
   const {isActive} = useAnnouncementBar();
   const [showAnnouncementBar, setShowAnnouncementBar] = useState(isActive);
 
-  useScrollPosition(({scrollY}) => {
-    if (isActive) {
-      setShowAnnouncementBar(scrollY === 0);
-    }
-  });
-
+  useScrollPosition(
+    ({scrollY}) => {
+      if (isActive) {
+        setShowAnnouncementBar(scrollY === 0);
+      }
+    },
+    [isActive],
+  );
   return isActive && showAnnouncementBar;
 }
 
