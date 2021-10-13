@@ -44,29 +44,8 @@ function TabsComponent(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
-  // const {measureTop, restoreTop} = useRestoreTop();
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
-
-  /*
-  useLayoutEffect(() => {
-    // prevent `restoreTop` from triggering the navbar auto hide/show by
-    // disabling the scroll monitoring temporarily
-    disableScrollEvents();
-    restoreTop();
-    setTimeout(() => {
-      enableScrollEvents();
-    }, 150);
-  }, [
-    // reactive deps:
-    tabGroupChoices,
-    // stable formalities:
-    restoreTop,
-    enableScrollEvents,
-    disableScrollEvents,
-  ]);
-
-   */
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];

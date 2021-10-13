@@ -19,8 +19,10 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
  * We need a way to update the scroll position while ignoring scroll events
- * Permits to update the scroll position without changing Navbar/BackToTop button visibility
- * This API is motivated by https://github.com/facebook/docusaurus/pull/5618
+ * without affecting Navbar/BackToTop visibility
+ *
+ * This API permits to temporarily disable/ignore scroll events
+ * Motivated by https://github.com/facebook/docusaurus/pull/5618
  */
 type ScrollController = {
   /**
@@ -44,11 +46,9 @@ function useScrollControllerContextValue(): ScrollController {
     () => ({
       scrollEventsEnabledRef,
       enableScrollEvents: () => {
-        console.log('enable');
         scrollEventsEnabledRef.current = true;
       },
       disableScrollEvents: () => {
-        console.log('disable');
         scrollEventsEnabledRef.current = false;
       },
     }),
@@ -136,9 +136,8 @@ type UseScrollPositionSaver = {
   /**
    * Restore the page position to keep the stored element's position from
    * the top of the viewport, and remove the stored details
-   * @return boolean true if a scroll
    */
-  restore: () => boolean;
+  restore: () => {restored: boolean};
 };
 
 function useScrollPositionSaver(): UseScrollPositionSaver {
@@ -159,7 +158,7 @@ function useScrollPositionSaver(): UseScrollPositionSaver {
       current: {elem, top},
     } = lastElementRef;
     if (!elem) {
-      return false;
+      return {restored: false};
     }
     const newTop = elem.getBoundingClientRect().top;
     const heightDiff = newTop - top;
@@ -168,7 +167,7 @@ function useScrollPositionSaver(): UseScrollPositionSaver {
     }
     lastElementRef.current = {elem: null, top: 0};
 
-    return heightDiff !== 0;
+    return {restored: heightDiff !== 0};
   }, []);
 
   return useMemo(() => ({save, restore}), []);
@@ -177,6 +176,17 @@ function useScrollPositionSaver(): UseScrollPositionSaver {
 type UseScrollPositionBlockerReturn = {
   blockElementScrollPositionUntilNextRender: (el: HTMLElement) => void;
 };
+
+/**
+ * This hook permits to "block" the scroll position of a dom element
+ * The idea is that we should be able to update DOM content above this element
+ * but the screen position of this element should not change
+ *
+ * Feature motivated by the Tabs groups:
+ * clicking on a tab may affect tabs of the same group upper in the tree
+ * Yet to avoid a bad UX, the clicked tab must remain under the user mouse!
+ * See GIF here: https://github.com/facebook/docusaurus/pull/5618
+ */
 export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
   const scrollController = useScrollController();
   const scrollPositionSaver = useScrollPositionSaver();
@@ -190,10 +200,12 @@ export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
       scrollPositionSaver.save(el);
       scrollController.disableScrollEvents();
       nextLayoutEffectCallbackRef.current = () => {
-        const restored = scrollPositionSaver.restore();
-        console.log({restored});
+        const {restored} = scrollPositionSaver.restore();
         nextLayoutEffectCallbackRef.current = undefined;
 
+        // Restoring the former scroll position will trigger a scroll event
+        // We need to wait for next scroll event to happen
+        // before enabling again the scrollController events
         if (restored) {
           const handleScrollRestoreEvent = () => {
             scrollController.enableScrollEvents();
