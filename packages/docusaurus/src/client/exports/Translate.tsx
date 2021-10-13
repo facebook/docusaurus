@@ -14,7 +14,7 @@ import codeTranslations from '@generated/codeTranslations';
 
 function getLocalizedMessage({
   id,
-  message = '',
+  message,
 }: {
   message: string;
   id?: string;
@@ -40,6 +40,13 @@ export default function Translate<Str extends string>({
   id,
   values,
 }: TranslateProps<Str>): ReactNode {
+  if (children && typeof children !== 'string') {
+    console.warn('Illegal <Translate> children', children);
+    throw new Error(
+      'The Docusaurus <Translate> component only accept simple string values',
+    );
+  }
+
   const localizedMessage: string = getLocalizedMessage({message: children, id});
   return interpolate(localizedMessage, values);
 }

@@ -109,7 +109,7 @@ export default function MyComponent() {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
-        codeId1: {message: ''},
+        codeId1: {message: 'codeId1'},
       },
       warnings: [],
     });
@@ -142,7 +142,7 @@ export default function MyComponent() {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
-        codeId1: {message: ''},
+        codeId1: {message: 'codeId1'},
       },
       warnings: [],
     });

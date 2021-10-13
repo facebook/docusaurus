@@ -236,7 +236,7 @@ function extractSourceCodeAstTranslations(
 
       const id = evaluateJSXProp('id');
       const description = evaluateJSXProp('description');
-      let message = '';
+      let message;
       const childrenPath = path.get('children');
 
       // Handle empty content
@@ -249,7 +249,7 @@ function extractSourceCodeAstTranslations(
           `);
         } else {
           translations[id] = {
-            message,
+            message: message ?? id,
             ...(description && {description}),
           };
         }
@@ -312,9 +312,9 @@ function extractSourceCodeAstTranslations(
           firstArgEvaluated.confident &&
           typeof firstArgEvaluated.value === 'object'
         ) {
-          const {message = '', id, description} = firstArgEvaluated.value;
+          const {message, id, description} = firstArgEvaluated.value;
           translations[id ?? message] = {
-            message,
+            message: message ?? id,
             ...(description && {description}),
           };
         } else {
