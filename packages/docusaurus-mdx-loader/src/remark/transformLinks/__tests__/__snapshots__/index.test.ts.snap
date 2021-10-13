@@ -14,7 +14,9 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}>asset</a>
 
-<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}title=\\"Title\\">asset</a>
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default + '#page=2'}>asset with hash</a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default} title=\\"Title\\">asset</a>
 
 ## Heading
 
@@ -31,6 +33,8 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>staticAsset.pdf</a>
 
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>@site/static/staticAsset.pdf</a>
+
+<a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default + '#page=2'} title=\\"Title\\">@site/static/staticAsset.pdf</a>
 
 <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>Just staticAsset.pdf</a>, and <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}><strong>awesome</strong> staticAsset 2.pdf &#39;It is really &quot;AWESOME&quot;&#39;</a>, but also <a target=\\"_blank\\" href={require('!file-loader?name=assets/files/[name]-[hash].[ext]!./static/staticAsset.pdf').default}>coded <code>staticAsset 3.pdf</code></a>
 
