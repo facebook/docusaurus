@@ -52,11 +52,10 @@ describe('loadUnprocessedSidebars', () => {
       "{
         \\"type\\": \\"category\\",
         \\"label\\": \\"Category Label\\",
-        \\"items\\": \\"doc1\\",
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        \\"items\\" [31m[1][0m: \\"doc1\\"
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"items\\" must be an array[0m"
     `);
   });
 
@@ -69,14 +68,13 @@ describe('loadUnprocessedSidebars', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"category\\",
-        \\"label\\": true,
         \\"items\\": [
           \\"doc1\\"
         ],
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        \\"label\\" [31m[1][0m: true
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"label\\" must be a string[0m"
     `);
   });
 
@@ -89,13 +87,12 @@ describe('loadUnprocessedSidebars', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"doc\\",
-        \\"id\\": [
+        \\"id\\" [31m[1][0m: [
           \\"doc1\\"
-        ],
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        ]
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"id\\" must be a string[0m"
     `);
   });
 
@@ -120,12 +117,11 @@ describe('loadUnprocessedSidebars', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"link\\",
-        \\"label\\": false,
         \\"href\\": \\"https://github.com\\",
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        \\"label\\" [31m[1][0m: false
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"label\\" must be a string[0m"
     `);
   });
 
@@ -136,13 +132,12 @@ describe('loadUnprocessedSidebars', () => {
       "{
         \\"type\\": \\"link\\",
         \\"label\\": \\"GitHub\\",
-        \\"href\\": [
+        \\"href\\" [31m[1][0m: [
           \\"example.com\\"
-        ],
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        ]
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"href\\" contains an invalid value[0m"
     `);
   });
 
@@ -155,7 +150,7 @@ describe('loadUnprocessedSidebars', () => {
         [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] Unknown sidebar item type \\"superman\\".[0m"
     `);
   });
 
@@ -167,10 +162,10 @@ describe('loadUnprocessedSidebars', () => {
         \\"type\\": \\"category\\",
         \\"label\\": \\"category\\",
         \\"href\\": \\"https://github.com\\",
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        [41m\\"items\\"[0m[31m [1]: -- missing --[0m
       }
       [31m
-      [1] \\"value\\" does not match any of the allowed types[0m"
+      [1] \\"items\\" is required[0m"
     `);
   });
 
