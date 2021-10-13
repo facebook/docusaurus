@@ -8,19 +8,13 @@
 import React, {useState, cloneElement, Children, ReactElement} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {useScrollPositionBlocker} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
-
-function isInViewport(element: HTMLElement): boolean {
-  const {top, left, bottom, right} = element.getBoundingClientRect();
-  const {innerHeight, innerWidth} = window;
-
-  return top >= 0 && right <= innerWidth && bottom <= innerHeight && left >= 0;
-}
 
 function TabsComponent(props: Props): JSX.Element {
   const {
@@ -50,6 +44,8 @@ function TabsComponent(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
+  const {blockElementScrollPositionUntilNextRender} =
+    useScrollPositionBlocker();
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -65,31 +61,17 @@ function TabsComponent(props: Props): JSX.Element {
   const handleTabChange = (
     event: React.FocusEvent<HTMLLIElement> | React.MouseEvent<HTMLLIElement>,
   ) => {
-    const selectedTab = event.currentTarget;
-    const selectedTabIndex = tabRefs.indexOf(selectedTab);
-    const selectedTabValue = values[selectedTabIndex].value;
+    const newTab = event.currentTarget;
+    const newTabIndex = tabRefs.indexOf(newTab);
+    const newTabValue = values[newTabIndex].value;
 
-    setSelectedValue(selectedTabValue);
+    if (newTabValue !== selectedValue) {
+      blockElementScrollPositionUntilNextRender(newTab);
+      setSelectedValue(newTabValue);
 
-    if (groupId != null) {
-      setTabGroupChoices(groupId, selectedTabValue);
-
-      setTimeout(() => {
-        if (isInViewport(selectedTab)) {
-          return;
-        }
-
-        selectedTab.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
-        });
-
-        selectedTab.classList.add(styles.tabItemActive);
-        setTimeout(
-          () => selectedTab.classList.remove(styles.tabItemActive),
-          2000,
-        );
-      }, 150);
+      if (groupId != null) {
+        setTabGroupChoices(groupId, newTabValue);
+      }
     }
   };
 

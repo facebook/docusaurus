@@ -9,10 +9,9 @@ import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
 import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
-import useScrollPosition from '@theme/hooks/useScrollPosition';
 
 import styles from './styles.module.css';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useScrollPosition} from '@docusaurus/theme-common';
 
 const threshold = 300;
 

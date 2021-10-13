@@ -8,16 +8,3 @@
 .tabItem {
   margin-top: 0 !important;
 }
-
-.tabItemActive {
-  animation: blink 0.5s ease-in-out 5;
-}
-
-@keyframes blink {
-  0% {
-    background-color: var(--ifm-hover-overlay);
-  }
-  100% {
-    background-color: rgba(0, 0, 0, 0);
-  }
-}

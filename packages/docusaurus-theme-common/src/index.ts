@@ -79,3 +79,10 @@ export {default as useTOCHighlight} from './utils/useTOCHighlight';
 export type {TOCHighlightConfig} from './utils/useTOCHighlight';
 
 export {useTOCFilter} from './utils/tocUtils';
+
+export {
+  ScrollControllerProvider,
+  useScrollController,
+  useScrollPosition,
+  useScrollPositionBlocker,
+} from './utils/scrollUtils';

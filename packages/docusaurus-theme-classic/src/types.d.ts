@@ -219,19 +219,6 @@ declare module '@theme/hooks/usePrismTheme' {
   export default usePrismTheme;
 }
 
-declare module '@theme/hooks/useScrollPosition' {
-  export type ScrollPosition = {scrollX: number; scrollY: number};
-
-  const useScrollPosition: (
-    effect: (
-      position: ScrollPosition,
-      lastPosition: ScrollPosition | null,
-    ) => void,
-    deps?: unknown[],
-  ) => void;
-  export default useScrollPosition;
-}
-
 declare module '@theme/hooks/useTabGroupChoice' {
   export type useTabGroupChoiceReturns = {
     readonly tabGroupChoices: {readonly [groupId: string]: string};

@@ -7,8 +7,7 @@
 
 import {useState, useCallback, useEffect, useRef} from 'react';
 import {useLocation} from '@docusaurus/router';
-import useScrollPosition from '@theme/hooks/useScrollPosition';
-import {useLocationChange} from '@docusaurus/theme-common';
+import {useLocationChange, useScrollPosition} from '@docusaurus/theme-common';
 import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 
 const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
