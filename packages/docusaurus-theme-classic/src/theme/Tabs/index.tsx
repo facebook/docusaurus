@@ -61,16 +61,16 @@ function TabsComponent(props: Props): JSX.Element {
   const handleTabChange = (
     event: React.FocusEvent<HTMLLIElement> | React.MouseEvent<HTMLLIElement>,
   ) => {
-    const selectedTab = event.currentTarget;
-    const selectedTabIndex = tabRefs.indexOf(selectedTab);
-    const selectedTabValue = values[selectedTabIndex].value;
+    const newTab = event.currentTarget;
+    const newTabIndex = tabRefs.indexOf(newTab);
+    const newTabValue = values[newTabIndex].value;
 
-    if (selectedTabValue !== selectedValue) {
-      blockElementScrollPositionUntilNextRender(selectedTab);
-      setSelectedValue(selectedTabValue);
+    if (newTabValue !== selectedValue) {
+      blockElementScrollPositionUntilNextRender(newTab);
+      setSelectedValue(newTabValue);
 
       if (groupId != null) {
-        setTabGroupChoices(groupId, selectedTabValue);
+        setTabGroupChoices(groupId, newTabValue);
       }
     }
   };
