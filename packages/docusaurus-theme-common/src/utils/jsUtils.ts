@@ -11,7 +11,7 @@
  * Gets the duplicate values in an array.
  * @param arr The array.
  * @param comparator Compares two values and returns `true` if they are equal (duplicated).
- * @returns Value of the elements `v` that has a preceding element `u` where `comparator(u, v) === true`. Values within the returned array are not guaranteed to be unique.
+ * @returns Value of the elements `v` that have a preceding element `u` where `comparator(u, v) === true`. Values within the returned array are not guaranteed to be unique.
  */
 export function getDuplicateValues<T>(
   arr: readonly T[],

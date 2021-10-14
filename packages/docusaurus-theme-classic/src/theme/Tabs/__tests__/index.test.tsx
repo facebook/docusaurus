@@ -10,7 +10,7 @@ import renderer from 'react-test-renderer';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
 
-describe('Tabs validation', () => {
+describe('Tabs', () => {
   test('Should reject bad Tabs child', () => {
     expect(() => {
       renderer.create(
@@ -44,7 +44,59 @@ describe('Tabs validation', () => {
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values \\"v1\\" found in <Tabs>. Every value needs to be unique."`,
+      `"Docusaurus error: Duplicate values \\"v1, v1\\" found in <Tabs>. Every value needs to be unique."`,
     );
+  });
+  test('Should accept valid Tabs config', () => {
+    expect(() => {
+      renderer.create(
+        <>
+          <Tabs>
+            <TabItem value="v1">Tab 1</TabItem>
+            <TabItem value="v2">Tab 2</TabItem>
+          </Tabs>
+          <Tabs>
+            <TabItem value="v1">Tab 1</TabItem>
+            <TabItem value="v2" default>
+              Tab 2
+            </TabItem>
+          </Tabs>
+          <Tabs defaultValue="v1">
+            <TabItem value="v1" label="V1">
+              Tab 1
+            </TabItem>
+            <TabItem value="v2" label="V2">
+              Tab 2
+            </TabItem>
+          </Tabs>
+          <Tabs
+            defaultValue="v1"
+            values={[
+              {value: 'v1', label: 'V1'},
+              {value: 'v2', label: 'V2'},
+            ]}>
+            <TabItem>Tab 1</TabItem>
+            <TabItem>Tab 2</TabItem>
+          </Tabs>
+          <Tabs
+            defaultValue={null}
+            values={[
+              {value: 'v1', label: 'V1'},
+              {value: 'v2', label: 'V2'},
+            ]}>
+            <TabItem>Tab 1</TabItem>
+            <TabItem>Tab 2</TabItem>
+          </Tabs>
+          <Tabs defaultValue={null}>
+            <TabItem value="v1" label="V1">
+              Tab 1
+            </TabItem>
+            <TabItem value="v2" label="V2">
+              Tab 2
+            </TabItem>
+          </Tabs>
+        </>,
+      );
+    }).toMatchInlineSnapshot(`[Function]`); // This is just a check that the function returns. We don't care about the actual DOM.
   });
 });

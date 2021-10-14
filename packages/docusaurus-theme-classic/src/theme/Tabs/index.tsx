@@ -67,6 +67,7 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
   // When defaultValueProp is null, don't show a default tab
+  // Should we check if child has default but defaultValue={null}? Should we be super strict?
   const defaultValue =
     defaultValueProp === null
       ? defaultValueProp
