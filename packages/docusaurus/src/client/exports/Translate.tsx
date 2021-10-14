@@ -16,10 +16,16 @@ function getLocalizedMessage({
   id,
   message,
 }: {
-  message: string;
+  message?: string;
   id?: string;
 }): string {
-  return codeTranslations[id ?? message] ?? message;
+  if (typeof id === 'undefined' && typeof message === 'undefined') {
+    throw new Error(
+      'Docusaurus translation declarations must have at least a translation id or a default translation message',
+    );
+  }
+
+  return codeTranslations[(id ?? message)!] ?? message ?? id;
 }
 
 // Imperative translation API is useful for some edge-cases:
