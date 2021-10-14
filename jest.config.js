@@ -36,7 +36,7 @@ module.exports = {
     // Jest can't resolve CSS imports
     '^.+\\.css$': '<rootDir>/jest/emptyModule.js',
     // TODO we need to allow Jest to resolve core Webpack aliases automatically
-    '@docusaurus/(useIsBrowser|router|Translate|Interpolate)':
+    '@docusaurus/(useIsBrowser|router|Translate|Interpolate|useDocusaurusContext)':
       '@docusaurus/core/lib/client/exports/$1',
     '@generated/codeTranslations': '<rootDir>/jest/emptyModule.js',
     // TODO maybe use "projects" + multiple configs if we plan to add tests to another theme?
