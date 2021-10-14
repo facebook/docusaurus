@@ -8,10 +8,10 @@
 import {
   CategoryMetadatasFile,
   DefaultSidebarItemsGenerator,
-} from '../sidebarItemsGenerator';
+} from '../generator';
 import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
-import {DefaultNumberPrefixParser} from '../numberPrefix';
+import {DefaultNumberPrefixParser} from '../../numberPrefix';
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(

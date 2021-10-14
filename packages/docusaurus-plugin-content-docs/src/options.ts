@@ -17,7 +17,7 @@ import {GlobExcludeDefault} from '@docusaurus/utils';
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
-import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
