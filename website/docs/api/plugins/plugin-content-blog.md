@@ -51,6 +51,7 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `string` | `/<!--\s*(truncate)\s*-->/` | Truncate marker, can be a regex or string. |
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
+| `readingTime` | `ReadingTimeFunction` |  | A callback to customize the reading time number displayed. |
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory specified with `path`. Can also be a `json` file. |
 | `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
 | `feedOptions.type` | <code>'rss' \| 'atom' \| 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
@@ -68,6 +69,11 @@ type EditUrlFunction = (params: {
   permalink: string;
   locale: string;
 }) => string | undefined;
+type ReadingTimeFunction = (params: {
+  content: string;
+  frontMatter: Record<string, unknown>;
+  defaultReadingTime: (text: string, options?: ReadingTimeOptions) => number; // Uses the reading-time package. See options: https://github.com/ngryman/reading-time#readme
+}) => number | undefined;
 ```
 
 ## Example configuration {#ex-config}

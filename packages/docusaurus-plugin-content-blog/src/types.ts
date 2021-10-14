@@ -12,6 +12,8 @@ import type {
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
 import {Overwrite} from 'utility-types';
+import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {Options as ReadingTimeOptions} from 'reading-time';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -76,6 +78,15 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
+  readingTime: ({
+    content,
+    frontMatter,
+    defaultReadingTime,
+  }: {
+    content: string;
+    frontMatter: BlogPostFrontMatter & Record<string, unknown>;
+    defaultReadingTime: (text: string, options?: ReadingTimeOptions) => number;
+  }) => number | undefined;
 };
 
 // Options, as provided in the user config (before normalization)
