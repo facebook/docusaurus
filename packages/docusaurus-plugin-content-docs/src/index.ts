@@ -196,22 +196,31 @@ export default function pluginContentDocs(
         // Add sidebar/next/previous to the docs
         function addNavData(doc: DocMetadataBase): DocMetadata {
           const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
-          const toDocNavLink = (navDocId: string): DocNavLink => {
-            const {title, permalink, frontMatter} = docsBaseById[navDocId];
-            return {
-              title:
-                frontMatter.pagination_label ??
-                frontMatter.sidebar_label ??
-                title,
+          const toDocNavLink = (
+            navDocId?: string | null,
+          ): DocNavLink | undefined => {
+            if (!navDocId) {
+              return undefined;
+            }
+            const {
+              title,
               permalink,
-            };
+              frontMatter: {
+                pagination_label: paginationLabel,
+                sidebar_label: sidebarLabel,
+              },
+            } = docsBaseById[navDocId];
+            return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
           };
-          return {
-            ...doc,
-            sidebar: sidebarName,
-            previous: previousId ? toDocNavLink(previousId) : undefined,
-            next: nextId ? toDocNavLink(nextId) : undefined,
-          };
+          const {
+            frontMatter: {
+              pagination_next: paginationNext = nextId,
+              pagination_prev: paginationPrev = previousId,
+            },
+          } = doc;
+          const previous = toDocNavLink(paginationNext);
+          const next = toDocNavLink(paginationPrev);
+          return {...doc, sidebar: sidebarName, previous, next};
         }
 
         const docs = docsBase.map(addNavData);
