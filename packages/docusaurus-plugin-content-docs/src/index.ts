@@ -218,8 +218,8 @@ export default function pluginContentDocs(
               pagination_prev: paginationPrev = previousId,
             },
           } = doc;
-          const previous = toDocNavLink(paginationNext);
-          const next = toDocNavLink(paginationPrev);
+          const previous = toDocNavLink(paginationPrev);
+          const next = toDocNavLink(paginationNext);
           return {...doc, sidebar: sidebarName, previous, next};
         }
 
