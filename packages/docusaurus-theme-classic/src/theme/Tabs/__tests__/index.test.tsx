@@ -40,11 +40,15 @@ describe('Tabs', () => {
       renderer.create(
         <Tabs>
           <TabItem value="v1">Tab 1</TabItem>
-          <TabItem value="v1">Tab 2</TabItem>
+          <TabItem value="v2">Tab 2</TabItem>
+          <TabItem value="v3">Tab 3</TabItem>
+          <TabItem value="v4">Tab 4</TabItem>
+          <TabItem value="v1">Tab 5</TabItem>
+          <TabItem value="v2">Tab 6</TabItem>
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values \\"v1, v1\\" found in <Tabs>. Every value needs to be unique."`,
+      `"Docusaurus error: Duplicate values \\"v1, v2\\" found in <Tabs>. Every value needs to be unique."`,
     );
   });
   test('Should accept valid Tabs config', () => {
