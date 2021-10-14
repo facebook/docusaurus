@@ -14,10 +14,7 @@ import React, {
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {
-  useScrollPositionBlocker,
-  getDuplicateValues,
-} from '@docusaurus/theme-common';
+import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -58,16 +55,15 @@ function TabsComponent(props: Props): JSX.Element {
     children.map(({props: {value, label}}) => {
       return {value, label};
     });
-  const duplicates = getDuplicateValues(values, (a, b) => a.value === b.value);
-  if (duplicates.length > 0) {
+  const dup = duplicates(values, (a, b) => a.value === b.value);
+  if (dup.length > 0) {
     throw new Error(
-      `Docusaurus error: Duplicate values "${duplicates
+      `Docusaurus error: Duplicate values "${dup
         .map((a) => a.value)
         .join(', ')}" found in <Tabs>. Every value needs to be unique.`,
     );
   }
   // When defaultValueProp is null, don't show a default tab
-  // Should we check if child has default but defaultValue={null}? Should we be super strict?
   const defaultValue =
     defaultValueProp === null
       ? defaultValueProp

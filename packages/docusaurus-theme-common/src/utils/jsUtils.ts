@@ -13,13 +13,11 @@
  * @param comparator Compares two values and returns `true` if they are equal (duplicated).
  * @returns Value of the elements `v` that have a preceding element `u` where `comparator(u, v) === true`. Values within the returned array are not guaranteed to be unique.
  */
-export function getDuplicateValues<T>(
+export function duplicates<T>(
   arr: readonly T[],
   comparator: (a: T, b: T) => boolean = (a, b) => a === b,
 ): T[] {
   return arr.filter(
-    (v, vIndex) =>
-      arr.find((u, uIndex) => comparator(u, v) && vIndex !== uIndex) !==
-      undefined,
+    (v, vIndex) => arr.findIndex((u) => comparator(u, v)) !== vIndex,
   );
 }
