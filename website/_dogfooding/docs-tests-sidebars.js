@@ -23,7 +23,6 @@ module.exports = {
       type: 'category',
       label: 'Huge sidebar category',
       items: [
-        ...generateHugeSidebarItems(4),
         ...[
           {
             type: 'link',
@@ -31,6 +30,7 @@ module.exports = {
             label: 'Test Test test test test test test',
           },
         ],
+        ...generateHugeSidebarItems(4),
       ],
     },
     {
