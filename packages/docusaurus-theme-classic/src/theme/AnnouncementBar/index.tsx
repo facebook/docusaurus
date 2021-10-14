@@ -14,18 +14,14 @@ import IconClose from '@theme/IconClose';
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {isClosed, close} = useAnnouncementBar();
+  const {isActive, close} = useAnnouncementBar();
   const {announcementBar} = useThemeConfig();
 
-  if (!announcementBar) {
+  if (!isActive) {
     return null;
   }
 
-  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-
-  if (!content || (isCloseable && isClosed)) {
-    return null;
-  }
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar!;
 
   return (
     <div
