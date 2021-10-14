@@ -5,16 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement, Children, ReactElement} from 'react';
+import React, {
+  useState,
+  cloneElement,
+  Children,
+  isValidElement,
+  ReactElement,
+} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {useScrollPositionBlocker} from '@docusaurus/theme-common';
+import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
+
+// A very rough duck type, but good enough to guard against mistakes while
+// allowing customization
+function isTabItem(comp: ReactElement): comp is ReactElement<TabItemProps> {
+  return typeof comp.props.value === 'string';
+}
 
 function TabsComponent(props: Props): JSX.Element {
   const {
@@ -25,21 +37,48 @@ function TabsComponent(props: Props): JSX.Element {
     groupId,
     className,
   } = props;
-  const children = Children.toArray(
-    props.children,
-  ) as ReactElement<TabItemProps>[];
+  const children = Children.map(props.children, (child) => {
+    if (isValidElement(child) && isTabItem(child)) {
+      return child;
+    }
+    // child.type.name will give non-sensical values in prod because of
+    // minification, but we assume it won't throw in prod.
+    throw new Error(
+      `Docusaurus error: Bad <Tabs> child <${
+        // @ts-expect-error: guarding against unexpected cases
+        typeof child.type === 'string' ? child.type : child.type.name
+      }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
+    );
+  });
   const values =
     valuesProp ??
-    children.map((child) => {
-      return {
-        value: child.props.value,
-        label: child.props.label,
-      };
+    children.map(({props: {value, label}}) => {
+      return {value, label};
     });
+  const dup = duplicates(values, (a, b) => a.value === b.value);
+  if (dup.length > 0) {
+    throw new Error(
+      `Docusaurus error: Duplicate values "${dup
+        .map((a) => a.value)
+        .join(', ')}" found in <Tabs>. Every value needs to be unique.`,
+    );
+  }
+  // When defaultValueProp is null, don't show a default tab
   const defaultValue =
-    defaultValueProp ??
-    children.find((child) => child.props.default)?.props.value ??
-    children[0]?.props.value;
+    defaultValueProp === null
+      ? defaultValueProp
+      : defaultValueProp ??
+        children.find((child) => child.props.default)?.props.value ??
+        children[0]?.props.value;
+  if (defaultValue !== null && !values.some((a) => a.value === defaultValue)) {
+    throw new Error(
+      `Docusaurus error: The <Tabs> has a defaultValue "${defaultValue}" but none of its children has the corresponding value. Available values are: ${values
+        .map((a) => a.value)
+        .join(
+          ', ',
+        )}. If you intend to show no default tab, use defaultValue={null} instead.`,
+    );
+  }
 
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
@@ -80,12 +119,12 @@ function TabsComponent(props: Props): JSX.Element {
 
     switch (event.key) {
       case 'ArrowRight': {
-        const nextTab = tabRefs.indexOf(event.target as HTMLLIElement) + 1;
+        const nextTab = tabRefs.indexOf(event.currentTarget) + 1;
         focusElement = tabRefs[nextTab] || tabRefs[0];
         break;
       }
       case 'ArrowLeft': {
-        const prevTab = tabRefs.indexOf(event.target as HTMLLIElement) - 1;
+        const prevTab = tabRefs.indexOf(event.currentTarget) - 1;
         focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
         break;
       }
