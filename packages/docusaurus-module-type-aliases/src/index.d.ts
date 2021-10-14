@@ -141,16 +141,16 @@ declare module '@docusaurus/Interpolate' {
 }
 
 declare module '@docusaurus/Translate' {
-  import type {
-    InterpolateProps,
-    InterpolateValues,
-  } from '@docusaurus/Interpolate';
+  import type {ReactNode} from 'react';
+  import type {InterpolateValues} from '@docusaurus/Interpolate';
 
-  export type TranslateParam<Str extends string> = Partial<
-    InterpolateProps<Str>
-  > & {
-    message: Str;
-    id?: string;
+  // TS type to ensure that at least one of id or message is always provided
+  // (Generic permits to handled message provided as React children)
+  type IdOrMessage<MessageKey extends 'children' | 'message'> =
+    | ({[key in MessageKey]: string} & {id?: string})
+    | ({[key in MessageKey]?: string} & {id: string});
+
+  export type TranslateParam<Str extends string> = IdOrMessage<'message'> & {
     description?: string;
     values?: InterpolateValues<Str, string | number>;
   };
@@ -160,9 +160,9 @@ declare module '@docusaurus/Translate' {
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  export type TranslateProps<Str extends string> = InterpolateProps<Str> & {
-    id?: string;
+  export type TranslateProps<Str extends string> = IdOrMessage<'children'> & {
     description?: string;
+    values?: InterpolateValues<Str, ReactNode>;
   };
 
   export default function Translate<Str extends string>(

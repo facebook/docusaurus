@@ -177,14 +177,10 @@ function extractSourceCodeAstTranslations(
   ast: Node,
   sourceCodeFilePath: string,
 ): SourceCodeFileTranslations {
-  function staticTranslateJSXWarningPart() {
-    return 'Translate content could not be extracted.\nIt has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.';
-  }
-  function sourceFileWarningPart(node: Node) {
-    return `File=${sourceCodeFilePath} at line=${node.loc?.start.line}`;
-  }
-  function generateCode(node: Node) {
-    return generate(node).code;
+  function sourceWarningPart(node: Node) {
+    return `File: ${sourceCodeFilePath} at ${
+      node.loc?.start.line
+    } line\nFull code: ${generate(node).code}`;
   }
 
   const translations: Record<string, TranslationMessage> = {};
@@ -228,9 +224,9 @@ function extractSourceCodeAstTranslations(
             return attributeValueEvaluated.value;
           } else {
             warnings.push(
-              `<Translate> prop=${propName} should be a statically evaluable object.\nExample: <Translate id="optional.id" description="optional description">Message</Translate>\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
+              `<Translate> prop=${propName} should be a statically evaluable object.\nExample: <Translate id="optional.id" description="optional description">Message</Translate>\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceWarningPart(
                 path.node,
-              )}\n${generateCode(path.node)}`,
+              )}`,
             );
           }
         }
@@ -238,41 +234,51 @@ function extractSourceCodeAstTranslations(
         return undefined;
       }
 
-      // We only handle the optimistic case where we have a single non-empty content
-      const singleChildren = path
-        .get('children')
+      const id = evaluateJSXProp('id');
+      const description = evaluateJSXProp('description');
+      let message;
+      const childrenPath = path.get('children');
+
+      // Handle empty content
+      if (!childrenPath.length) {
+        if (!id) {
+          warnings.push(`
+            <Translate> without children must have id prop.\nExample: <Translate id="my-id" />\n${sourceWarningPart(
+              path.node,
+            )}
+          `);
+        } else {
+          translations[id] = {
+            message: message ?? id,
+            ...(description && {description}),
+          };
+        }
+
+        return;
+      }
+
+      // Handle single non-empty content
+      const singleChildren = childrenPath
         // Remove empty/useless text nodes that might be around our translation!
         // Makes the translation system more reliable to JSX formatting issues
         .filter(
-          (childrenPath) =>
+          (children) =>
             !(
-              childrenPath.isJSXText() &&
-              childrenPath.node.value.replace('\n', '').trim() === ''
+              children.isJSXText() &&
+              children.node.value.replace('\n', '').trim() === ''
             ),
         )
         .pop();
-
-      if (singleChildren && singleChildren.isJSXText()) {
-        const message = singleChildren.node.value.trim().replace(/\s+/g, ' ');
-
-        const id = evaluateJSXProp('id');
-        const description = evaluateJSXProp('description');
-
-        translations[id ?? message] = {
-          message,
-          ...(description && {description}),
-        };
-      } else if (
+      const isJSXText = singleChildren && singleChildren.isJSXText();
+      const isJSXExpressionContainer =
         singleChildren &&
         singleChildren.isJSXExpressionContainer() &&
-        (singleChildren.get('expression') as NodePath).evaluate().confident
-      ) {
-        const message = (
-          singleChildren.get('expression') as NodePath
-        ).evaluate().value;
+        (singleChildren.get('expression') as NodePath).evaluate().confident;
 
-        const id = evaluateJSXProp('id');
-        const description = evaluateJSXProp('description');
+      if (isJSXText || isJSXExpressionContainer) {
+        message = isJSXText
+          ? singleChildren.node.value.trim().replace(/\s+/g, ' ')
+          : (singleChildren.get('expression') as NodePath).evaluate().value;
 
         translations[id ?? message] = {
           message,
@@ -280,9 +286,9 @@ function extractSourceCodeAstTranslations(
         };
       } else {
         warnings.push(
-          `${staticTranslateJSXWarningPart()}\n${sourceFileWarningPart(
+          `Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.\n${sourceWarningPart(
             path.node,
-          )}\n${generateCode(path.node)}`,
+          )}`,
         );
       }
     },
@@ -308,21 +314,21 @@ function extractSourceCodeAstTranslations(
         ) {
           const {message, id, description} = firstArgEvaluated.value;
           translations[id ?? message] = {
-            message,
+            message: message ?? id,
             ...(description && {description}),
           };
         } else {
           warnings.push(
-            `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceFileWarningPart(
+            `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceWarningPart(
               path.node,
-            )}\n${generateCode(path.node)}`,
+            )}`,
           );
         }
       } else {
         warnings.push(
-          `translate() function only takes 1 or 2 args\n${sourceFileWarningPart(
+          `translate() function only takes 1 or 2 args\n${sourceWarningPart(
             path.node,
-          )}\n${generateCode(path.node)}`,
+          )}`,
         );
       }
     },
