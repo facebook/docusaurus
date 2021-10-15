@@ -89,7 +89,7 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
 
 // Fill the secondary menu placeholder with some real content
 export function MobileSecondaryMenuFiller<
-  Props extends Record<string, unknown>
+  Props extends Record<string, unknown>,
 >({
   component,
   props,

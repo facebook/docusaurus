@@ -7,10 +7,6 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - 'website-1.x/**'
-      - 'packages/docusaurus-1.x/**'
-      - 'packages/docusaurus-init-1.x/**'
 
 jobs:
   yarn-v1:

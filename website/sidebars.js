@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
+// @ts-check
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
   docs: [
     'introduction',
     {
@@ -131,10 +134,11 @@ module.exports = {
         'api/themes/themes-overview',
         'api/themes/theme-configuration',
         'api/themes/theme-classic',
-        'api/themes/theme-bootstrap',
         'api/themes/theme-live-codeblock',
         'api/themes/theme-search-algolia',
       ],
     },
   ],
 };
+
+module.exports = sidebars;

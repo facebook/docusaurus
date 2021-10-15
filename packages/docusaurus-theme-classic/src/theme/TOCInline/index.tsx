@@ -6,43 +6,24 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import type {TOCInlineProps} from '@theme/TOCInline';
 import styles from './styles.module.css';
-import {TOCItem} from '@docusaurus/types';
+import TOCItems from '@theme/TOCItems';
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
-function HeadingsInline({
+function TOCInline({
   toc,
-  isChild,
-}: {
-  toc: readonly TOCItem[];
-  isChild?: boolean;
-}) {
-  if (!toc.length) {
-    return null;
-  }
+  minHeadingLevel,
+  maxHeadingLevel,
+}: TOCInlineProps): JSX.Element {
   return (
-    <ul className={isChild ? '' : 'table-of-contents'}>
-      {toc.map((heading) => (
-        <li key={heading.id}>
-          <a
-            href={`#${heading.id}`}
-            // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: heading.value}}
-          />
-          <HeadingsInline isChild toc={heading.children} />
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function TOCInline({toc}: TOCInlineProps): JSX.Element {
-  return (
-    <div className={clsx(styles.tableOfContentsInline)}>
-      <HeadingsInline toc={toc} />
+    <div className={styles.tableOfContentsInline}>
+      <TOCItems
+        toc={toc}
+        minHeadingLevel={minHeadingLevel}
+        maxHeadingLevel={maxHeadingLevel}
+        className="table-of-contents"
+        linkClassName={null}
+      />
     </div>
   );
 }

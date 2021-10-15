@@ -23,6 +23,7 @@ import type {Link, Literal} from 'mdast';
 const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
+const hashRegex = /#.*$/;
 
 interface PluginOptions {
   filePath: string;
@@ -56,6 +57,9 @@ function toAssetRequireNode({
   let relativeRequireAssetPath = posixPath(
     path.relative(path.dirname(filePath), requireAssetPath),
   );
+  const hash = hashRegex.test(node.url)
+    ? node.url.substr(node.url.indexOf('#'))
+    : '';
 
   // nodejs does not like require("assets/file.pdf")
   relativeRequireAssetPath = relativeRequireAssetPath.startsWith('.')
@@ -64,12 +68,14 @@ function toAssetRequireNode({
 
   const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
     relativeRequireAssetPath,
-  )}').default`;
+  )}').default${hash ? ` + '${hash}'` : ''}`;
   const children = stringifyContent(node);
-  const title = node.title ? `title="${escapeHtml(node.title)}"` : '';
+  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
 
-  ((node as unknown) as Literal).type = 'jsx';
-  ((node as unknown) as Literal).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  (node as unknown as Literal).type = 'jsx';
+  (
+    node as unknown as Literal
+  ).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 // If the link looks like an asset link, we'll link to the asset,
@@ -80,7 +86,7 @@ async function convertToAssetLinkIfNeeded({
   staticDir,
   filePath,
 }: {node: Link} & PluginOptions) {
-  const assetPath = node.url;
+  const assetPath = node.url.replace(hashRegex, '');
 
   const hasSiteAlias = assetPath.startsWith('@site/');
   const hasAssetLikeExtension =

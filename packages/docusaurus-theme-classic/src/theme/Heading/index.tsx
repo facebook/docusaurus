@@ -44,13 +44,14 @@ const createAnchorHeading = (
     return (
       <Tag
         {...props}
-        className={clsx('anchor', `anchor__${Tag}`, {
+        className={clsx('anchor', {
           [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
           [styles.anchorWithStickyNavbar]: !hideOnScroll,
         })}
         id={id}>
         {props.children}
         <a
+          aria-hidden="true"
           className="hash-link"
           href={`#${id}`}
           title={translate({
@@ -58,7 +59,7 @@ const createAnchorHeading = (
             message: 'Direct link to heading',
             description: 'Title for link to heading',
           })}>
-          #
+          &#8203;
         </a>
       </Tag>
     );

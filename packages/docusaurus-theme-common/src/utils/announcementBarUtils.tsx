@@ -33,7 +33,7 @@ const setDismissedInStorage = (bool: boolean) =>
   AnnouncementBarDismissStorage.set(String(bool));
 
 type AnnouncementBarAPI = {
-  readonly isClosed: boolean;
+  readonly isActive: boolean;
   readonly close: () => void;
 };
 
@@ -87,7 +87,7 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
   return useMemo(() => {
     return {
-      isClosed,
+      isActive: !!announcementBar && !isClosed,
       close: handleClose,
     };
   }, [isClosed]);

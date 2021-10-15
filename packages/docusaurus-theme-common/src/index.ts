@@ -9,6 +9,7 @@ export {useThemeConfig} from './utils/useThemeConfig';
 
 export type {
   ThemeConfig,
+  UserThemeConfig,
   Navbar,
   NavbarItem,
   NavbarLogo,
@@ -58,6 +59,8 @@ export {
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
+export {duplicates} from './utils/jsUtils';
+
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
@@ -73,3 +76,15 @@ export {translateTagsPageTitle, listTagsByLetters} from './utils/tagsUtils';
 export type {TagLetterEntry} from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';
+
+export {default as useTOCHighlight} from './utils/useTOCHighlight';
+export type {TOCHighlightConfig} from './utils/useTOCHighlight';
+
+export {useTOCFilter} from './utils/tocUtils';
+
+export {
+  ScrollControllerProvider,
+  useScrollController,
+  useScrollPosition,
+  useScrollPositionBlocker,
+} from './utils/scrollUtils';

@@ -9,7 +9,7 @@
 function FeatureRequestsPlugin() {
   return {
     name: 'feature-requests-plugin',
-    contentLoaded({actions}) {
+    async contentLoaded({actions}) {
       actions.addRoute({
         path: '/feature-requests',
         exact: false,

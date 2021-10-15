@@ -592,9 +592,9 @@ function migrateVersionedSidebar(
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
-              acc[
-                val[0].replace(versionRegex, '')
-              ] = (val[1] as Array<SidebarEntry>).map((item) => {
+              acc[val[0].replace(versionRegex, '')] = (
+                val[1] as Array<SidebarEntry>
+              ).map((item) => {
                 if (typeof item === 'string') {
                   return item.replace(versionRegex, '');
                 }

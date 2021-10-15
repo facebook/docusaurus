@@ -4,7 +4,7 @@
     "packages/*",
     "website",
     "test-website-in-workspace",
-    "packages/docusaurus-init/templates/*",
+    "packages/create-docusaurus/templates/*",
     "admin/new.docusaurus.io"
   ],
   "scripts": {
@@ -12,7 +12,6 @@
     "start:website": "yarn workspace website start",
     "start:website:watch": "nodemon --watch \"./packages/*/lib/**/*.*\" --exec \"yarn start:website\"",
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
-    "start:website:bootstrap": "yarn workspace website start:bootstrap",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node generateExamples",
@@ -51,7 +50,7 @@
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
-    "watch": "yarn lerna run --parallel --no-private watch",
+    "watch": "yarn lerna run --parallel watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx yarn-deduplicate"
@@ -82,6 +81,7 @@
     "@types/react-helmet": "^6.0.0",
     "@types/react-loadable": "^5.5.3",
     "@types/react-router-config": "^5.0.1",
+    "@types/react-test-renderer": "^17.0.1",
     "@types/semver": "^7.1.0",
     "@types/shelljs": "^0.8.6",
     "@types/wait-on": "^5.2.0",
@@ -108,9 +108,10 @@
     "netlify-cli": "^2.58.0",
     "nodemon": "^2.0.13",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
+    "prettier": "^2.4.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "serve": "^12.0.1",
     "stylelint": "^13.10.0",
@@ -120,10 +121,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --config .prettierrc --write"
     ],
     "*.{md,mdx}": [
-      "prettier --write"
+      "prettier --config .prettierrc --write"
     ]
   },
   "engines": {

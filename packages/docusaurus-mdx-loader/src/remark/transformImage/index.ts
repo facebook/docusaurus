@@ -30,8 +30,8 @@ interface PluginOptions {
 
 const createJSX = (node: Image, pathUrl: string) => {
   const jsxNode = node;
-  ((jsxNode as unknown) as Literal).type = 'jsx';
-  ((jsxNode as unknown) as Literal).value = `<img ${
+  (jsxNode as unknown as Literal).type = 'jsx';
+  (jsxNode as unknown as Literal).value = `<img ${
     node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''
   }${
     node.url

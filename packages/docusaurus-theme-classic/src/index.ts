@@ -92,7 +92,7 @@ function getInfimaCSSFile(direction: string) {
 }
 
 export type PluginOptions = {
-  customCss?: string;
+  customCss?: string | string[];
 };
 
 export default function docusaurusThemeClassic(
@@ -191,7 +191,7 @@ export default function docusaurusThemeClassic(
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss((result.root as unknown) as rtlcss.ConfigOptions);
+            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);

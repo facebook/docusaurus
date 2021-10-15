@@ -41,6 +41,10 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  tableOfContents: {
+    minHeadingLevel: 2,
+    maxHeadingLevel: 3,
+  },
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
@@ -265,7 +269,7 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.metadatas),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
-    content: Joi.string(),
+    content: Joi.string().required(),
     backgroundColor: Joi.string(),
     textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
@@ -329,6 +333,24 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
   }),
+  tableOfContents: Joi.object({
+    minHeadingLevel: Joi.number()
+      .default(DEFAULT_CONFIG.tableOfContents.minHeadingLevel)
+      .when('maxHeadingLevel', {
+        is: Joi.exist(),
+        then: Joi.number()
+          .integer()
+          .min(2)
+          .max(6)
+          .max(Joi.ref('maxHeadingLevel')),
+        otherwise: Joi.number().integer().min(2).max(6),
+      }),
+    maxHeadingLevel: Joi.number()
+      .integer()
+      .min(2)
+      .max(6)
+      .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
+  }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
 export {ThemeConfigSchema};

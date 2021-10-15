@@ -26,6 +26,7 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
+  mdxToHtml,
   replaceMarkdownLinks,
   Globby,
   normalizeFrontMatterTags,
@@ -62,7 +63,8 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
   });
 }
 
-const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+const DATE_FILENAME_REGEX =
+  /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -154,6 +156,7 @@ export async function generateBlogFeed(
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      content: mdxToHtml(post.content),
       author: authors.map(toFeedAuthor),
     });
   });
@@ -199,12 +202,8 @@ async function processBlogSourceFile(
 
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
 
-  const {
-    frontMatter,
-    content,
-    contentTitle,
-    excerpt,
-  } = await parseBlogPostMarkdownFile(blogSourceAbsolute);
+  const {frontMatter, content, contentTitle, excerpt} =
+    await parseBlogPostMarkdownFile(blogSourceAbsolute);
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
@@ -295,6 +294,7 @@ async function processBlogSourceFile(
       truncated: truncateMarker?.test(content) || false,
       authors,
     },
+    content,
   };
 }
 

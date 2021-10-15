@@ -51,7 +51,7 @@ html[data-announcement-bar-initially-dismissed='true'] .announcementBar {
   text-decoration: underline;
 }
 
-@media screen and (min-width: 1024px) {
+@media (min-width: 997px) {
   :root {
     --docusaurus-announcement-bar-height: 30px;
   }

@@ -563,12 +563,8 @@ describe('versioned site', () => {
       options,
     });
     expect(versionsMetadata.length).toEqual(4);
-    const [
-      currentVersion,
-      version101,
-      version100,
-      versionWithSlugs,
-    ] = versionsMetadata;
+    const [currentVersion, version101, version100, versionWithSlugs] =
+      versionsMetadata;
 
     const currentVersionTestUtils = createTestUtils({
       siteDir,

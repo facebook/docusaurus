@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-// TODO remove when fixed: https://github.com/Stuk/eslint-plugin-header/issues/39
-/* eslint-disable header/header */
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -10,7 +7,7 @@
  */
 
 const chalk = require('chalk');
-const path = require('path');
+const fs = require('fs');
 const cli = require('commander');
 const {
   build,
@@ -25,6 +22,8 @@ const {
 } = require('../lib');
 
 require('./beforeCli');
+
+const resolveDir = (dir = '.') => fs.realpathSync(dir);
 
 cli.version(require('../package.json').version).usage('<command> [options]');
 
@@ -51,8 +50,8 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(path.resolve(siteDir), {
+  .action((siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
+    build(resolveDir(siteDir), {
       bundleAnalyzer,
       outDir,
       config,
@@ -69,14 +68,8 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for internal component of themes')
-  .action((themeName, componentName, siteDir = '.', {typescript, danger}) => {
-    swizzle(
-      path.resolve(siteDir),
-      themeName,
-      componentName,
-      typescript,
-      danger,
-    );
+  .action((themeName, componentName, siteDir, {typescript, danger}) => {
+    swizzle(resolveDir(siteDir), themeName, componentName, typescript, danger);
   });
 
 cli
@@ -98,8 +91,8 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action((siteDir = '.', {outDir, skipBuild, config}) => {
-    deploy(path.resolve(siteDir), {
+  .action((siteDir, {outDir, skipBuild, config}) => {
+    deploy(resolveDir(siteDir), {
       outDir,
       config,
       skipBuild,
@@ -125,19 +118,17 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
-  .action(
-    (siteDir = '.', {port, host, locale, config, hotOnly, open, poll}) => {
-      start(path.resolve(siteDir), {
-        port,
-        host,
-        locale,
-        config,
-        hotOnly,
-        open,
-        poll,
-      });
-    },
-  );
+  .action((siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
+    start(resolveDir(siteDir), {
+      port,
+      host,
+      locale,
+      config,
+      hotOnly,
+      open,
+      poll,
+    });
+  });
 
 cli
   .command('serve [siteDir]')
@@ -155,7 +146,7 @@ cli
   .option('-h, --host <host>', 'use specified host (default: localhost)')
   .action(
     (
-      siteDir = '.',
+      siteDir,
       {
         dir = 'build',
         port = 3000,
@@ -164,7 +155,7 @@ cli
         config,
       },
     ) => {
-      serve(path.resolve(siteDir), {
+      serve(resolveDir(siteDir), {
         dir,
         port,
         build: buildSite,
@@ -177,8 +168,8 @@ cli
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action((siteDir = '.') => {
-    clear(path.resolve(siteDir));
+  .action((siteDir) => {
+    clear(resolveDir(siteDir));
   });
 
 cli
@@ -202,10 +193,10 @@ cli
   )
   .action(
     (
-      siteDir = '.',
+      siteDir,
       {locale = undefined, override = false, messagePrefix = '', config},
     ) => {
-      writeTranslations(path.resolve(siteDir), {
+      writeTranslations(resolveDir(siteDir), {
         locale,
         override,
         config,
@@ -217,7 +208,7 @@ cli
 cli
   .command('write-heading-ids [contentDir]')
   .description('Generate heading ids in Markdown content.')
-  .action((siteDir = '.') => {
+  .action((siteDir) => {
     writeHeadingIds(siteDir);
   });
 
@@ -242,7 +233,7 @@ function isInternalCommand(command) {
 
 async function run() {
   if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, path.resolve('.'));
+    await externalCommand(cli, resolveDir('.'));
   }
 
   cli.parse(process.argv);
