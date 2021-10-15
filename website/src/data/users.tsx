@@ -300,7 +300,7 @@ const Users: User[] = [
     website: 'https://cloudywithachanceofbigdata.com/',
     source: 'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
     tags: ['opensource', 'personal'],
-  },  
+  },
   {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
@@ -815,6 +815,14 @@ const Users: User[] = [
     website: 'https://www.ocpeasy.org',
     source: 'https://github.com/ocpeasy/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Orca',
+    description: 'Modern, open-source community platform.',
+    preview: require('./showcase/getorca.org-dark.png'),
+    website: 'https://getorca.org',
+    source: 'https://github.com/elevensymbols/getorca.org',
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'Ory Documentation',
@@ -1341,7 +1349,7 @@ const Users: User[] = [
     website: 'https://docs.warrant.dev/',
     source: null,
     tags: ['product'],
-  },  
+  },
   {
     title: 'Wasp',
     description:
