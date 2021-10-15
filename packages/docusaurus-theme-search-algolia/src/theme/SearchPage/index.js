@@ -16,7 +16,11 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useTitleFormatter, usePluralForm} from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  usePluralForm,
+  useDynamicCallback,
+} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
@@ -173,6 +177,7 @@ function SearchPage() {
     },
     initialSearchResultState,
   );
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
@@ -271,7 +276,7 @@ function SearchPage() {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = (page = 0) => {
+  const makeSearch = useDynamicCallback((page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
@@ -285,18 +290,16 @@ function SearchPage() {
     );
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
-  };
+  });
 
   useEffect(() => {
     if (!loaderRef) {
       return undefined;
     }
+    const currentObserver = observer.current;
 
-    observer.current.observe(loaderRef);
-
-    return () => {
-      observer.current.unobserve(loaderRef);
-    };
+    currentObserver.observe(loaderRef);
+    return () => currentObserver.unobserve(loaderRef);
   }, [loaderRef]);
 
   useEffect(() => {
@@ -311,7 +314,12 @@ function SearchPage() {
         makeSearch();
       }, 300);
     }
-  }, [searchQuery, docsSearchVersionsHelpers.searchVersions]);
+  }, [
+    searchQuery,
+    docsSearchVersionsHelpers.searchVersions,
+    updateSearchPath,
+    makeSearch,
+  ]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -319,13 +327,13 @@ function SearchPage() {
     }
 
     makeSearch(searchResultState.lastPage);
-  }, [searchResultState.lastPage]);
+  }, [makeSearch, searchResultState.lastPage]);
 
   useEffect(() => {
     if (searchValue && searchValue !== searchQuery) {
       setSearchQuery(searchValue);
     }
-  }, [searchValue]);
+  }, [searchQuery, searchValue]);
 
   return (
     <Layout wrapperClassName="search-page-wrapper">

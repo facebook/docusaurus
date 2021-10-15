@@ -9,6 +9,7 @@ import {useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {Location} from '@docusaurus/history';
 import {usePrevious} from './usePrevious';
+import {useDynamicCallback} from './reactUtils';
 
 type LocationChangeEvent = {
   location: Location;
@@ -21,10 +22,12 @@ export function useLocationChange(onLocationChange: OnLocationChange): void {
   const location = useLocation();
   const previousLocation = usePrevious(location);
 
+  const onLocationChangeDynamic = useDynamicCallback(onLocationChange);
+
   useEffect(() => {
-    onLocationChange({
+    onLocationChangeDynamic({
       location,
       previousLocation,
     });
-  }, [location]);
+  }, [onLocationChangeDynamic, location, previousLocation]);
 }
