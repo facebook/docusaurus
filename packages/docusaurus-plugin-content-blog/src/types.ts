@@ -13,7 +13,6 @@ import type {
 } from '@docusaurus/utils/lib/markdownLinks';
 import {Overwrite} from 'utility-types';
 import {BlogPostFrontMatter} from './blogFrontMatter';
-import type {Options as ReadingTimeOptions} from 'reading-time';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -48,6 +47,24 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
+// Duplicate from ngryman/reading-time to keep stability of API
+type ReadingTimeOptions = {
+  wordsPerMinute: number;
+  wordBound: (char: string) => boolean;
+};
+
+export type ReadingTimeFunction = (params: {
+  content: string;
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
+  options: ReadingTimeOptions;
+}) => number;
+
+export type ReadingTimeFunctionOption = (
+  params: Omit<Parameters<ReadingTimeFunction>[0], 'options'> & {
+    defaultReadingTime: ReadingTimeFunction;
+  },
+) => number | undefined;
+
 export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
@@ -78,15 +95,7 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
-  readingTime: ({
-    content,
-    frontMatter,
-    defaultReadingTime,
-  }: {
-    content: string;
-    frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-    defaultReadingTime: (text: string, options?: ReadingTimeOptions) => number;
-  }) => number | undefined;
+  readingTime: ReadingTimeFunctionOption;
 };
 
 // Options, as provided in the user config (before normalization)

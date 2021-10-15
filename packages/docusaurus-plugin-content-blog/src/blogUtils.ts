@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
-import defaultReadingTime from 'reading-time';
+import readingTime from 'reading-time';
 import {Feed, Author as FeedAuthor} from 'feed';
 import {compact, keyBy, mapValues} from 'lodash';
 import {
@@ -17,6 +17,8 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  Author,
+  ReadingTimeFunction,
 } from './types';
 import {
   parseMarkdownFile,
@@ -111,6 +113,10 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
     frontMatter: validateBlogPostFrontMatter(result.frontMatter),
   };
 }
+
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) => {
+  return readingTime(content, options).minutes;
+};
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -216,11 +222,6 @@ async function processBlogSourceFile(
     tagsRouteBasePath,
   ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
-  const readingTime = options.readingTime({
-    content,
-    frontMatter,
-    defaultReadingTime: (...args) => defaultReadingTime(...args).minutes,
-  });
 
   return {
     id: frontMatter.slug ?? title,
@@ -233,7 +234,13 @@ async function processBlogSourceFile(
       date,
       formattedDate,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
-      readingTime: showReadingTime ? readingTime : undefined,
+      readingTime: showReadingTime
+        ? options.readingTime({
+            content,
+            frontMatter,
+            defaultReadingTime,
+          })
+        : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
     },
