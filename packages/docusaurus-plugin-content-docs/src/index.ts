@@ -22,14 +22,8 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
-import {createSidebarsUtils} from './sidebars/utils';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {
-  readVersionDocs,
-  processDocMetadata,
-  addNavData,
-  getMainDoc,
-} from './docs';
+import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
@@ -169,10 +163,6 @@ export default function pluginContentDocs(
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
-        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
-          docsBase,
-          (doc) => doc.id,
-        );
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
@@ -184,29 +174,14 @@ export default function pluginContentDocs(
             sidebarCollapsible: options.sidebarCollapsible,
           },
         });
-
-        const {
-          checkSidebarsDocIds,
-          getDocNavigation,
-          getFirstDocIdOfFirstSidebar,
-        } = createSidebarsUtils(sidebars);
-
-        const validDocIds = Object.keys(docsBaseById);
-        checkSidebarsDocIds(
-          validDocIds,
-          versionMetadata.sidebarFilePath as string,
-        );
-
-        const docs = docsBase.map(addNavData(getDocNavigation, docsBaseById));
-        // sort to ensure consistent output for tests
-        docs.sort((a, b) => a.id.localeCompare(b.id));
-
         return {
           ...versionMetadata,
-          mainDocId: getMainDoc(docs, getFirstDocIdOfFirstSidebar)
-            .unversionedId,
+          ...handleNavigation(
+            docsBase,
+            sidebars,
+            versionMetadata.sidebarFilePath as string,
+          ),
           sidebars,
-          docs,
         };
       }
 
