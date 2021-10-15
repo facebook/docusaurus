@@ -49,18 +49,18 @@ export type EditUrlFunction = (editUrlParams: {
 
 // Duplicate from ngryman/reading-time to keep stability of API
 type ReadingTimeOptions = {
-  wordsPerMinute: number;
-  wordBound: (char: string) => boolean;
+  wordsPerMinute?: number;
+  wordBound?: (char: string) => boolean;
 };
 
 export type ReadingTimeFunction = (params: {
   content: string;
-  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-  options: ReadingTimeOptions;
+  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+  options?: ReadingTimeOptions;
 }) => number;
 
 export type ReadingTimeFunctionOption = (
-  params: Omit<Parameters<ReadingTimeFunction>[0], 'options'> & {
+  params: Required<Omit<Parameters<ReadingTimeFunction>[0], 'options'>> & {
     defaultReadingTime: ReadingTimeFunction;
   },
 ) => number | undefined;

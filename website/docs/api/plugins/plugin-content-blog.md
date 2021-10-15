@@ -77,8 +77,8 @@ type ReadingTimeOptions = {
 
 type ReadingTimeFunction = (params: {
   content: string;
-  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-  options: ReadingTimeOptions;
+  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+  options?: ReadingTimeOptions;
 }) => number;
 
 type ReadingTimeFunctionOption = (params: {

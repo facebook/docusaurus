@@ -34,7 +34,7 @@ const dogfoodingPluginInstances = [
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time
           ? undefined
-          : defaultReadingTime(content, {wordsPerMinute: 5}),
+          : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
     }),
   ],
 
