@@ -78,7 +78,7 @@ describe('blogFeed', () => {
               copyright: 'Copyright',
             },
             readingTime: ({content, defaultReadingTime}) =>
-              defaultReadingTime(content),
+              defaultReadingTime({content}),
           } as PluginOptions,
         );
 
@@ -114,7 +114,7 @@ describe('blogFeed', () => {
               copyright: 'Copyright',
             },
             readingTime: ({content, defaultReadingTime}) =>
-              defaultReadingTime(content),
+              defaultReadingTime({content}),
           } as PluginOptions,
         );
         const feedContent =
