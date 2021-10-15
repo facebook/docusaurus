@@ -24,7 +24,12 @@ import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {createSidebarsUtils} from './sidebars/utils';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {readVersionDocs, processDocMetadata} from './docs';
+import {
+  readVersionDocs,
+  processDocMetadata,
+  addNavData,
+  getMainDoc,
+} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
@@ -35,7 +40,6 @@ import {
   DocMetadata,
   GlobalPluginData,
   VersionMetadata,
-  DocNavLink,
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
@@ -193,66 +197,16 @@ export default function pluginContentDocs(
           versionMetadata.sidebarFilePath as string,
         );
 
-        // Add sidebar/next/previous to the docs
-        function addNavData(doc: DocMetadataBase): DocMetadata {
-          const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
-          const toDocNavLink = (
-            navDocId?: string | null,
-          ): DocNavLink | undefined => {
-            if (!navDocId) {
-              return undefined;
-            }
-            const {
-              title,
-              permalink,
-              frontMatter: {
-                pagination_label: paginationLabel,
-                sidebar_label: sidebarLabel,
-              },
-            } = docsBaseById[navDocId];
-            return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
-          };
-          const {
-            frontMatter: {
-              pagination_next: paginationNext = nextId,
-              pagination_prev: paginationPrev = previousId,
-            },
-          } = doc;
-          const previous = toDocNavLink(paginationPrev);
-          const next = toDocNavLink(paginationNext);
-          return {...doc, sidebar: sidebarName, previous, next};
-        }
-
-        const docs = docsBase.map(addNavData);
-
+        const docs = docsBase.map(addNavData(getDocNavigation, docsBaseById));
         // sort to ensure consistent output for tests
         docs.sort((a, b) => a.id.localeCompare(b.id));
 
-        // The "main doc" is the "version entry point"
-        // We browse this doc by clicking on a version:
-        // - the "home" doc (at '/docs/')
-        // - the first doc of the first sidebar
-        // - a random doc (if no docs are in any sidebar... edge case)
-        function getMainDoc(): DocMetadata {
-          const versionHomeDoc = docs.find(
-            (doc) =>
-              doc.unversionedId === options.homePageId || doc.slug === '/',
-          );
-          const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
-          if (versionHomeDoc) {
-            return versionHomeDoc;
-          } else if (firstDocIdOfFirstSidebar) {
-            return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
-          } else {
-            return docs[0];
-          }
-        }
-
         return {
           ...versionMetadata,
-          mainDocId: getMainDoc().unversionedId,
+          mainDocId: getMainDoc(docs, getFirstDocIdOfFirstSidebar)
+            .unversionedId,
           sidebars,
-          docs: docs.map(addNavData),
+          docs,
         };
       }
 

@@ -23,6 +23,8 @@ import {getFileLastUpdate} from './lastUpdate';
 import {
   DocFile,
   DocMetadataBase,
+  DocMetadata,
+  DocNavLink,
   LastUpdateData,
   MetadataOptions,
   PluginOptions,
@@ -282,5 +284,72 @@ export function processDocMetadata(args: {
       ),
     );
     throw e;
+  }
+}
+
+// Add sidebar/next/previous to the docs
+export function addNavData(
+  getDocNavigation: (docId: string) => {
+    sidebarName: string | undefined;
+    previousId: string | undefined;
+    nextId: string | undefined;
+  },
+  docsBaseById: Record<string, DocMetadataBase>,
+) {
+  return (doc: DocMetadataBase): DocMetadata => {
+    const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
+    const toDocNavLink = (
+      docId: string | null | undefined,
+      type: 'prev' | 'next',
+    ): DocNavLink | undefined => {
+      if (!docId) {
+        return undefined;
+      }
+      if (!docsBaseById[docId]) {
+        throw new Error(
+          `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
+        );
+      }
+      const {
+        title,
+        permalink,
+        frontMatter: {
+          pagination_label: paginationLabel,
+          sidebar_label: sidebarLabel,
+        },
+      } = docsBaseById[docId];
+      return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+    };
+    const {
+      frontMatter: {
+        pagination_next: paginationNext = nextId,
+        pagination_prev: paginationPrev = previousId,
+      },
+    } = doc;
+    const previous = toDocNavLink(paginationPrev, 'prev');
+    const next = toDocNavLink(paginationNext, 'next');
+    return {...doc, sidebar: sidebarName, previous, next};
+  };
+}
+
+/**
+ * The "main doc" is the "version entry point"
+ * We browse this doc by clicking on a version:
+ * - the "home" doc (at '/docs/')
+ * - the first doc of the first sidebar
+ * - a random doc (if no docs are in any sidebar... edge case)
+ */
+export function getMainDoc(
+  docs: DocMetadata[],
+  getFirstDocIdOfFirstSidebar: () => string | undefined,
+): DocMetadata {
+  const versionHomeDoc = docs.find((doc) => doc.slug === '/');
+  const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
+  if (versionHomeDoc) {
+    return versionHomeDoc;
+  } else if (firstDocIdOfFirstSidebar) {
+    return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+  } else {
+    return docs[0];
   }
 }
