@@ -99,6 +99,7 @@ export function useScrollPosition(
     position: ScrollPosition,
     lastPosition: ScrollPosition | null,
   ) => void,
+  deps: unknown[] = [],
 ): void {
   const {scrollEventsEnabledRef} = useScrollController();
   const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
@@ -127,7 +128,12 @@ export function useScrollPosition(
     window.addEventListener('scroll', handleScroll, opts);
 
     return () => window.removeEventListener('scroll', handleScroll, opts);
-  }, [dynamicEffect, scrollEventsEnabledRef]);
+  }, [
+    dynamicEffect,
+    scrollEventsEnabledRef,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...deps,
+  ]);
 }
 
 type UseScrollPositionSaver = {
