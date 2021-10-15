@@ -22,7 +22,16 @@ module.exports = {
     {
       type: 'category',
       label: 'Huge sidebar category',
-      items: generateHugeSidebarItems(4),
+      items: [
+        ...[
+          {
+            type: 'link',
+            href: '/',
+            label: 'Test Test test test test test test',
+          },
+        ],
+        ...generateHugeSidebarItems(4),
+      ],
     },
     {
       type: 'link',
@@ -46,8 +55,8 @@ module.exports = {
 
 function generateHugeSidebarItems() {
   const maxLevel = 4;
-  const linksCount = 5;
-  const categoriesCount = 5;
+  const linksCount = 8;
+  const categoriesCount = 8;
 
   function generateRecursive(maxLevel, currentLevel = 0) {
     if (currentLevel === maxLevel) {

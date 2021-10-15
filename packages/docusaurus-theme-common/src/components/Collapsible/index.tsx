@@ -197,21 +197,8 @@ function CollapsibleBase({
           return;
         }
 
-        const el = collapsibleRef.current!;
-        const currentCollapsibleElementHeight = el.style.height;
-
-        if (
-          !collapsed &&
-          parseInt(currentCollapsibleElementHeight, 10) === el.scrollHeight
-        ) {
-          applyCollapsedStyle(el, false);
-          onCollapseTransitionEnd?.(false);
-        }
-
-        if (currentCollapsibleElementHeight === CollapsedStyles.height) {
-          applyCollapsedStyle(el, true);
-          onCollapseTransitionEnd?.(true);
-        }
+        applyCollapsedStyle(collapsibleRef.current!, collapsed);
+        onCollapseTransitionEnd?.(collapsed);
       }}
       className={className}>
       {children}
