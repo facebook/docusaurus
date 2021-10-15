@@ -11,7 +11,11 @@ import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
-import {ThemeClassNames, useScrollPosition} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  useScrollPosition,
+  useLocationChange,
+} from '@docusaurus/theme-common';
 
 const threshold = 300;
 
@@ -79,6 +83,14 @@ function BackToTopButton(): JSX.Element {
       if (!lastPosition) {
         return;
       }
+
+      // Ignore for anchor links
+      // if (location.hash) {
+      //   return;
+      // }
+
+      console.log('b1');
+
       const lastScrollTop = lastPosition.scrollY;
 
       const isScrollingUp = scrollTop < lastScrollTop;
@@ -102,8 +114,16 @@ function BackToTopButton(): JSX.Element {
         setShow(false);
       }
     },
-    [location],
+    // [location],
   );
+
+  useLocationChange((locationChangeEvent) => {
+    console.log('b2');
+    if (locationChangeEvent.location.hash) {
+      console.log('b3');
+      setShow(false);
+    }
+  });
 
   return (
     <button

@@ -24,10 +24,11 @@ export function useLocationChange(onLocationChange: OnLocationChange): void {
 
   useEffect(() => {
     // Prevent first effect to trigger the listener on mount
-    if (isFirst.current) {
-      isFirst.current = false;
-      return;
-    }
+    // if (isFirst.current) {
+    //   console.log('2');
+    //   isFirst.current = false;
+    //   return;
+    // }
 
     onLocationChange({
       location,
