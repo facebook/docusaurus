@@ -43,13 +43,13 @@ npm init docusaurus@latest my-website facebook
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
 ```bash
-npm init docusaurus@latest my-website classic --skip-install
+npm init docusaurus@latest my-website classic -- --skip-install
 ```
 
 You can also use the template's TypeScript variant by passing the `--typescript` flag.
 
 ```bash
-npm init docusaurus@latest my-website classic --typescript
+npm init docusaurus@latest my-website classic -- --typescript
 ```
 
 ## Project structure {#project-structure}
