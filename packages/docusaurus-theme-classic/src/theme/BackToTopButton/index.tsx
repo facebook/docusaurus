@@ -7,7 +7,6 @@
 
 import React, {useRef, useState} from 'react';
 import clsx from 'clsx';
-import {useLocation} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
@@ -72,55 +71,49 @@ function useSmoothScrollToTop(): UseSmoothScrollTopReturn {
 }
 
 function BackToTopButton(): JSX.Element {
-  const location = useLocation();
-  const {smoothScrollTop, cancelScrollToTop} = useSmoothScrollToTop();
   const [show, setShow] = useState(false);
+  const isFocusedAnchor = useRef(false);
+  const {smoothScrollTop, cancelScrollToTop} = useSmoothScrollToTop();
 
-  useScrollPosition(
-    ({scrollY: scrollTop}, lastPosition) => {
-      // No lastPosition means component is just being mounted.
-      // Not really a scroll event from the user, so we ignore it
-      if (!lastPosition) {
-        return;
+  useScrollPosition(({scrollY: scrollTop}, lastPosition) => {
+    const lastScrollTop = lastPosition?.scrollY;
+
+    // No lastScrollTop means component is just being mounted.
+    // Not really a scroll event from the user, so we ignore it
+    if (!lastScrollTop) {
+      return;
+    }
+
+    if (isFocusedAnchor.current) {
+      isFocusedAnchor.current = false;
+      return;
+    }
+
+    const isScrollingUp = scrollTop < lastScrollTop;
+
+    if (!isScrollingUp) {
+      cancelScrollToTop();
+    }
+
+    if (scrollTop < threshold) {
+      setShow(false);
+      return;
+    }
+
+    if (isScrollingUp) {
+      const documentHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      if (scrollTop + windowHeight < documentHeight) {
+        setShow(true);
       }
-
-      // Ignore for anchor links
-      // if (location.hash) {
-      //   return;
-      // }
-
-      console.log('b1');
-
-      const lastScrollTop = lastPosition.scrollY;
-
-      const isScrollingUp = scrollTop < lastScrollTop;
-
-      if (!isScrollingUp) {
-        cancelScrollToTop();
-      }
-
-      if (scrollTop < threshold) {
-        setShow(false);
-        return;
-      }
-
-      if (isScrollingUp) {
-        const documentHeight = document.documentElement.scrollHeight;
-        const windowHeight = window.innerHeight;
-        if (scrollTop + windowHeight < documentHeight) {
-          setShow(true);
-        }
-      } else {
-        setShow(false);
-      }
-    },
-    // [location],
-  );
+    } else {
+      setShow(false);
+    }
+  });
 
   useLocationChange((locationChangeEvent) => {
-    console.log('b2');
     if (locationChangeEvent.location.hash) {
-      console.log('b3');
+      isFocusedAnchor.current = true;
       setShow(false);
     }
   });
