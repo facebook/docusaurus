@@ -6,10 +6,11 @@
  *
  * @format
  */
+// @ts-check
+// Note: type annotations allow type checking and IDEs autocompletion
 
-// With JSDoc @type annotations, IDEs can provide config autocompletion
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
-(module.exports = {
+/** @type {import('@docusaurus/types').Config} */
+const config = {
   title: 'My Site',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
@@ -146,4 +147,6 @@
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
     }),
-});
+};
+
+module.exports = config;
