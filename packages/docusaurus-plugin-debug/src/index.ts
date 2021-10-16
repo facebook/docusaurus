@@ -24,7 +24,7 @@ export default function pluginDebug({
     name: 'docusaurus-plugin-debug',
 
     getThemePath() {
-      return path.resolve(__dirname, 'js-theme');
+      return path.resolve(__dirname, 'theme');
     },
 
     getTypeScriptThemePath() {

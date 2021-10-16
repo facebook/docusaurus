@@ -8,7 +8,7 @@
 import React from 'react';
 import IdealImage from '@endiliey/react-ideal-image';
 
-function Image(props) {
+function Image(props: React.ComponentProps<'img'> & {img: any}): JSX.Element {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file
@@ -25,7 +25,7 @@ function Image(props) {
       width={img.src.width || 100}
       placeholder={{lqip: img.preSrc}}
       src={img.src.src}
-      srcSet={img.src.images.map((image) => ({
+      srcSet={img.src.images.map((image: any) => ({
         ...image,
         src: image.path,
       }))}

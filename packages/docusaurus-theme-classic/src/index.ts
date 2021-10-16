@@ -116,7 +116,7 @@ export default function docusaurusThemeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, 'js-theme');
+      return path.join(__dirname, 'theme');
     },
 
     getTypeScriptThemePath() {
@@ -181,7 +181,7 @@ export default function docusaurusThemeClassic(
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss((result.root as unknown) as rtlcss.ConfigOptions);
+            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);

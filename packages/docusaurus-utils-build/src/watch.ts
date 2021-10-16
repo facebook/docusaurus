@@ -8,31 +8,43 @@
 import chokidar from 'chokidar';
 import {debounce} from 'lodash';
 import chalk from 'chalk';
-import {fullyTranspile, compileOrCopy} from './build';
+import {fullyTranspile, stripTypes, compileOrCopy} from './compiler';
 
 export default async function watch(
   options: Partial<{
     sourceDir: string;
     targetDir: string;
+    themeDir: string;
+    themeTargetDir: string;
     ignore: string[];
   }> = {},
 ): Promise<void> {
   const {
     sourceDir = 'src',
     targetDir = 'lib',
+    themeDir = 'src/theme',
+    themeTargetDir = 'lib/theme',
     ignore = ['**/__tests__/**'],
   } = options;
-  const watcher = chokidar.watch(sourceDir, {
+  const watcher = chokidar.watch([sourceDir, themeDir], {
     ignoreInitial: true,
-    ignored: ignore,
+    ignored: [...ignore, '**/*.d.ts'],
     awaitWriteFinish: {
       stabilityThreshold: 50,
       pollInterval: 10,
     },
   });
-  const debouncedCompile = debounce((filePath) => {
+  const debouncedCompile = debounce((filePath: string) => {
     try {
-      compileOrCopy(filePath, sourceDir, targetDir, fullyTranspile);
+      // TODO: is check this good enough?
+      if (filePath.includes(themeDir)) {
+        // For perf reasons, we don't do prettier in watch mode
+        compileOrCopy(filePath, themeDir, themeTargetDir, (file) =>
+          stripTypes(file, {}),
+        );
+      } else {
+        compileOrCopy(filePath, sourceDir, targetDir, fullyTranspile);
+      }
     } catch (e) {
       console.log(chalk.red(`Error while processing ${chalk.cyan(filePath)}:`));
       console.error(e);

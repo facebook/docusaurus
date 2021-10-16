@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Configuration} from 'webpack';
 
 import path from 'path';
@@ -18,7 +18,11 @@ export default function (
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, 'theme');
+    },
+
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {

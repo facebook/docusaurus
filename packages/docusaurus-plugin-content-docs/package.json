@@ -18,8 +18,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/utils-build": "2.0.0-beta.7",
     "@docusaurus/module-type-aliases": "2.0.0-beta.7",
+    "@docusaurus/types": "2.0.0-beta.7",
+    "@docusaurus/utils-build": "2.0.0-beta.7",
     "@types/js-yaml": "^4.0.0",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.1.0",
@@ -29,7 +30,6 @@
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.7",
     "@docusaurus/mdx-loader": "2.0.0-beta.7",
-    "@docusaurus/types": "2.0.0-beta.7",
     "@docusaurus/utils": "2.0.0-beta.7",
     "@docusaurus/utils-validation": "2.0.0-beta.7",
     "chalk": "^4.1.2",

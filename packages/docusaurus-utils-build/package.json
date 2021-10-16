@@ -1,6 +1,6 @@
 {
-  "name": "@docusaurus/utils-plugin",
-  "version": "2.0.0-beta.6",
+  "name": "@docusaurus/utils-build",
+  "version": "2.0.0-beta.7",
   "description": "Build and pack docusaurus plugins in one command",
   "license": "MIT",
   "publishConfig": {
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
-    "directory": "packages/docusaurus-utils-plugin"
+    "directory": "packages/docusaurus-utils-build"
   },
   "bin": {
     "docusaurus-plugin": "bin/index.js"
@@ -23,15 +23,15 @@
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
-    "@docusaurus/utils": "2.0.0-beta.6",
+    "@docusaurus/utils": "2.0.0-beta.7",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
     "commander": "^5.1.0",
-    "lodash": "^4.17.20",
-    "prettier": "^2.2.1",
-    "typescript": "^4.1.5"
+    "lodash": "^4.17.21",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.6"
+    "@docusaurus/types": "2.0.0-beta.7"
   }
 }
