@@ -8,7 +8,7 @@
 import fs from 'fs';
 import {Globby} from '@docusaurus/utils';
 import Prettier from 'prettier';
-import {compileOrCopy, fullyTranspile, stripTypes} from './compiler';
+import {compileOrCopy, compileServerCode, compileClientCode} from './compiler';
 
 function transformDir(
   sourceDir: string,
@@ -40,17 +40,22 @@ export default async function build(
     ignore = ['**/__tests__/**'],
   } = options;
   // Compile: src/*.ts -> lib/*.js
-  transformDir(sourceDir, targetDir, fullyTranspile, [...ignore, '**/*.d.ts']);
+  transformDir(sourceDir, targetDir, compileServerCode, [
+    ...ignore,
+    '**/*.d.ts',
+  ]);
   // Strip types & prettier: src/theme/*.tsx -> lib/theme/*.js (client code will be swizzlable)
   if (fs.existsSync(themeDir)) {
     const prettierConfig = await Prettier.resolveConfig(themeDir);
     if (!prettierConfig) {
-      throw new Error('Prettier config file not found');
+      throw new Error(
+        'Prettier config file not found. Building the theme code requires using Prettier to format the JS code, which will be used for swizzling.',
+      );
     }
     transformDir(
       themeDir,
       themeTargetDir,
-      (file) => stripTypes(file, prettierConfig),
+      (file) => compileClientCode(file, prettierConfig),
       [...ignore, '**/*.d.ts'],
     );
   }

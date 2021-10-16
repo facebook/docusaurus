@@ -27,7 +27,7 @@ export function compileOrCopy(
   }
 }
 
-export function fullyTranspile(file: string): string {
+export function compileServerCode(file: string): string {
   return (
     transformFileSync(file, {
       presets: [
@@ -42,17 +42,18 @@ export function fullyTranspile(file: string): string {
   );
 }
 
-export function stripTypes(
+export function compileClientCode(
   file: string,
-  prettierConfig: Prettier.Options,
+  prettierConfig?: Prettier.Options,
 ): string {
-  // TODO let's hope for the pipeline operator :D
-  return Prettier.format(
+  const code =
     transformFileSync(file, {
       presets: [
         ['@babel/preset-typescript', {isTSX: true, allExtensions: true}],
       ],
-    })?.code ?? '',
-    {parser: 'babel', ...prettierConfig},
-  );
+    })?.code ?? '';
+  if (!prettierConfig) {
+    return code;
+  }
+  return Prettier.format(code, {parser: 'babel', ...prettierConfig});
 }

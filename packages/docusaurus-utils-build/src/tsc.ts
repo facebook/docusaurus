@@ -5,47 +5,83 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs';
 import ts from 'typescript';
 
-export default function tsc(): void {
-  const currentDir = process.cwd();
-  const configFile = ts.findConfigFile(
-    currentDir,
+const formatHost: ts.FormatDiagnosticsHost = {
+  getCanonicalFileName: (path) => path,
+  getCurrentDirectory: ts.sys.getCurrentDirectory,
+  getNewLine: () => ts.sys.newLine,
+};
+
+function reportDiagnostic(diagnostic: ts.Diagnostic) {
+  console.error(
+    'Error',
+    diagnostic.code,
+    ':',
+    ts.flattenDiagnosticMessageText(
+      diagnostic.messageText,
+      formatHost.getNewLine(),
+    ),
+  );
+}
+
+/**
+ * Prints a diagnostic every time the watch status changes.
+ * This is mainly for messages like "Starting compilation" or "Compilation completed".
+ */
+function reportWatchStatusChanged(diagnostic: ts.Diagnostic) {
+  console.info(ts.formatDiagnostic(diagnostic, formatHost));
+}
+
+export function watch(): void {
+  const configPath = ts.findConfigFile(
+    './',
     ts.sys.fileExists,
     'tsconfig.json',
   );
-  if (!configFile) {
-    throw Error('tsconfig.json not found');
+  if (!configPath) {
+    throw new Error(
+      'Could not find a valid tsconfig.json file in current directory',
+    );
   }
-  const {config} = ts.readConfigFile(configFile, ts.sys.readFile);
 
-  const {options, fileNames, errors} = ts.parseJsonConfigFileContent(
-    config,
+  const createProgram = ts.createSemanticDiagnosticsBuilderProgram;
+
+  const compilerHost = ts.createWatchCompilerHost(
+    configPath,
+    {},
     ts.sys,
-    currentDir,
+    createProgram,
+    reportDiagnostic,
+    reportWatchStatusChanged,
   );
 
-  const program = ts.createIncrementalProgram({
-    options,
-    rootNames: fileNames,
-    configFileParsingDiagnostics: errors,
-  });
+  ts.createWatchProgram(compilerHost);
+}
 
-  const {diagnostics, emitSkipped} = program.emit();
-
-  const allDiagnostics = diagnostics.concat(errors);
-
-  if (allDiagnostics.length) {
-    const formatHost: ts.FormatDiagnosticsHost = {
-      getCanonicalFileName: (path) => path,
-      getCurrentDirectory: ts.sys.getCurrentDirectory,
-      getNewLine: () => ts.sys.newLine,
-    };
-    const message = ts.formatDiagnostics(allDiagnostics, formatHost);
-    console.warn(message);
+export function compile(fileNames: string[]): void {
+  const configPath = ts.findConfigFile(
+    './',
+    ts.sys.fileExists,
+    'tsconfig.json',
+  );
+  if (!configPath) {
+    throw new Error(
+      'Could not find a valid tsconfig.json file in current directory',
+    );
   }
+  const {config} = ts.readConfigFile(configPath, (p) =>
+    fs.readFileSync(p).toString(),
+  );
+  // Create a Program with an in-memory emit
+  const createdFiles: Record<string, string> = {};
+  const host = ts.createCompilerHost(config);
+  host.writeFile = (fileName: string, contents: string) => {
+    createdFiles[fileName] = contents;
+  };
 
-  if (emitSkipped) {
-    process.exit(1);
-  }
+  // Prepare and emit the d.ts files
+  const program = ts.createProgram(fileNames, config, host);
+  program.emit();
 }

@@ -8,7 +8,7 @@
 import chokidar from 'chokidar';
 import {debounce} from 'lodash';
 import chalk from 'chalk';
-import {fullyTranspile, stripTypes, compileOrCopy} from './compiler';
+import {compileOrCopy, compileClientCode, compileServerCode} from './compiler';
 
 export default async function watch(
   options: Partial<{
@@ -34,16 +34,14 @@ export default async function watch(
       pollInterval: 10,
     },
   });
-  const debouncedCompile = debounce((filePath: string) => {
+  const compile = debounce((filePath: string) => {
     try {
       // TODO: is check this good enough?
       if (filePath.includes(themeDir)) {
         // For perf reasons, we don't do prettier in watch mode
-        compileOrCopy(filePath, themeDir, themeTargetDir, (file) =>
-          stripTypes(file, {}),
-        );
+        compileOrCopy(filePath, themeDir, themeTargetDir, compileClientCode);
       } else {
-        compileOrCopy(filePath, sourceDir, targetDir, fullyTranspile);
+        compileOrCopy(filePath, sourceDir, targetDir, compileServerCode);
       }
     } catch (e) {
       console.log(chalk.red(`Error while processing ${chalk.cyan(filePath)}:`));
@@ -53,7 +51,7 @@ export default async function watch(
 
   ['add', 'change'].forEach((event) =>
     watcher.on(event, async (filePath: string) => {
-      debouncedCompile(filePath);
+      compile(filePath);
       console.log(
         chalk.green(`Compilation of ${chalk.cyan(filePath)} finished`),
       );
