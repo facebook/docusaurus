@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs';
 import chokidar from 'chokidar';
 import {debounce} from 'lodash';
 import chalk from 'chalk';
@@ -58,6 +59,12 @@ export default async function watch(
     }),
   );
   console.log(
-    chalk.green(`Watching file changes in ${chalk.cyan(sourceDir)}...`),
+    chalk.green(
+      `Watching file changes in ${chalk.cyan(sourceDir)}${
+        fs.existsSync(themeDir)
+          ? ` (server) and ${chalk.cyan(themeDir)} (client)`
+          : ''
+      }...`,
+    ),
   );
 }
