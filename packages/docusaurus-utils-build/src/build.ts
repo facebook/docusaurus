@@ -53,7 +53,10 @@ export default async function build(
   console.log(
     chalk.cyan('Typechecking and generating declaration with TSC...'),
   );
-  shelljs.exec('tsc --emitDeclarationOnly'); // 😅
+  const res = shelljs.exec('tsc --emitDeclarationOnly'); // 😅
+  if (res.code !== 0) {
+    throw new Error('Typechecking failed.');
+  }
   // Strip types & prettier: src/theme/*.tsx -> lib/theme/*.js (client code will be swizzlable)
   if (fs.existsSync(themeDir)) {
     const prettierConfig = await Prettier.resolveConfig(themeDir);
