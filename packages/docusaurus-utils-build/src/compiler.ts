@@ -10,15 +10,24 @@ import path from 'path';
 import Prettier from 'prettier';
 import {transformFileSync} from '@babel/core';
 
+export function getTargetPath(
+  filePath: string,
+  sourceDir: string,
+  targetDir: string,
+): string {
+  return path.resolve(targetDir, path.relative(sourceDir, filePath));
+}
+
 export function compileOrCopy(
   filePath: string,
   sourceDir: string,
   targetDir: string,
   compileAction: (file: string) => string,
 ): void {
-  const targetPath = path
-    .resolve(targetDir, path.relative(sourceDir, filePath))
-    .replace(/\.tsx?/g, '.js');
+  const targetPath = getTargetPath(filePath, sourceDir, targetDir).replace(
+    /\.tsx?/g,
+    '.js',
+  );
   fs.mkdirSync(path.dirname(targetPath), {recursive: true});
   if (/\.tsx?/.test(path.extname(filePath))) {
     fs.writeFileSync(targetPath, compileAction(filePath));

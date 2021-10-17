@@ -7,9 +7,11 @@
 
 import fs from 'fs';
 import ts from 'typescript';
+import {Globby} from '@docusaurus/utils';
+import {getTargetPath} from './compiler';
 
 const formatHost: ts.FormatDiagnosticsHost = {
-  getCanonicalFileName: (path) => path,
+  getCanonicalFileName: (p) => p,
   getCurrentDirectory: ts.sys.getCurrentDirectory,
   getNewLine: () => ts.sys.newLine,
 };
@@ -60,7 +62,28 @@ export function watch(): void {
   ts.createWatchProgram(compilerHost);
 }
 
-export function compile(fileNames: string[]): void {
+/**
+ * There's no API for unrolling the `extends` field in tsconfig, so we do it ourselves.
+ */
+function resolveCompilerOptions(configEntryPath: string): ts.CompilerOptions {
+  let configPath: string | undefined = configEntryPath;
+  let compilerOptions = {};
+  while (configPath) {
+    const {config} = ts.readConfigFile(configPath, ts.sys.readFile);
+    compilerOptions = {...config.compilerOptions, ...compilerOptions};
+    configPath = config.extends;
+  }
+  return compilerOptions;
+}
+
+/**
+ * Typechecking and emitting declaration
+ */
+export async function tsc(
+  sourceDir: string,
+  targetDir: string,
+  ignore: string[],
+): Promise<void> {
   const configPath = ts.findConfigFile(
     './',
     ts.sys.fileExists,
@@ -71,17 +94,21 @@ export function compile(fileNames: string[]): void {
       'Could not find a valid tsconfig.json file in current directory',
     );
   }
-  const {config} = ts.readConfigFile(configPath, (p) =>
-    fs.readFileSync(p).toString(),
-  );
-  // Create a Program with an in-memory emit
-  const createdFiles: Record<string, string> = {};
-  const host = ts.createCompilerHost(config);
-  host.writeFile = (fileName: string, contents: string) => {
-    createdFiles[fileName] = contents;
-  };
+  const {config} = ts.readConfigFile(configPath, ts.sys.readFile);
+  const compilerOptions = resolveCompilerOptions(configPath);
+  // Fix error: TS expects moduleResolution to be an enum
+  if ((compilerOptions.moduleResolution as unknown) === 'node') {
+    compilerOptions.moduleResolution = ts.ModuleResolutionKind.NodeJs;
+  }
 
-  // Prepare and emit the d.ts files
-  const program = ts.createProgram(fileNames, config, host);
-  program.emit();
+  const host = ts.createCompilerHost(config);
+
+  const program = ts.createProgram(
+    await Globby(`${sourceDir}/**/*`, {ignore}),
+    {...compilerOptions, emitDeclarationOnly: true},
+    host,
+  );
+  program.emit(undefined, (filepath, data) => {
+    fs.writeFileSync(getTargetPath(filepath, sourceDir, targetDir), data);
+  });
 }

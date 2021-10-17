@@ -6,14 +6,17 @@
  */
 
 import fs from 'fs';
+import chalk from 'chalk';
 import {Globby} from '@docusaurus/utils';
 import Prettier from 'prettier';
+import shelljs from 'shelljs';
 import {compileOrCopy, compileServerCode, compileClientCode} from './compiler';
+// import {tsc} from './tsc';
 
 function transformDir(
   sourceDir: string,
   targetDir: string,
-  compileAction: (file: string) => string,
+  compileAction: (content: string) => string,
   ignore: string[],
 ) {
   Globby(`${sourceDir}/**/*`, {ignore}).then((files) =>
@@ -40,10 +43,17 @@ export default async function build(
     ignore = ['**/__tests__/**'],
   } = options;
   // Compile: src/*.ts -> lib/*.js
+  console.log(chalk.cyan('Compiling source with Babel...'));
   transformDir(sourceDir, targetDir, compileServerCode, [
     ...ignore,
     '**/*.d.ts',
   ]);
+  // Generate declaration: src/*.ts -> lib/*.d.ts
+  // await tsc(sourceDir, targetDir, ignore);
+  console.log(
+    chalk.cyan('Typechecking and generating declaration with TSC...'),
+  );
+  shelljs.exec('tsc --emitDeclarationOnly'); // 😅
   // Strip types & prettier: src/theme/*.tsx -> lib/theme/*.js (client code will be swizzlable)
   if (fs.existsSync(themeDir)) {
     const prettierConfig = await Prettier.resolveConfig(themeDir);
@@ -52,6 +62,7 @@ export default async function build(
         'Prettier config file not found. Building the theme code requires using Prettier to format the JS code, which will be used for swizzling.',
       );
     }
+    console.log(chalk.cyan('Compiling theme with Babel + Prettier...'));
     transformDir(
       themeDir,
       themeTargetDir,
