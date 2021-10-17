@@ -75,9 +75,9 @@ declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    children: ReactNode;
-    title: string;
-    description: string;
+    readonly children: ReactNode;
+    readonly title?: string;
+    readonly description?: string;
   }
   export default function Layout(props: Props): JSX.Element;
 }
@@ -95,7 +95,10 @@ declare module '@theme/NotFound' {
 declare module '@theme/Root' {
   import type {ReactNode} from 'react';
 
-  export default function Root({children}: {children: ReactNode}): JSX.Element;
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function Root({children}: Props): JSX.Element;
 }
 
 declare module '@docusaurus/constants' {
