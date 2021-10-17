@@ -2,6 +2,7 @@
 id: docusaurus-core
 title: Docusaurus Client API
 sidebar_label: Client API
+toc_max_heading_level: 4
 ---
 
 Docusaurus provides some APIs on the clients that can be helpful to you when building your site.
