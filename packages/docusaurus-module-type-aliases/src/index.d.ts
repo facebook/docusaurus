@@ -89,7 +89,7 @@ declare module '@theme/Loading' {
 }
 
 declare module '@theme/NotFound' {
-  export default function NotFound(): JSX.Element;
+  export default function NotFound(props: any): JSX.Element;
 }
 
 declare module '@theme/Root' {
