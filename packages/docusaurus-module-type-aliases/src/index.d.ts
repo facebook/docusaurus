@@ -69,11 +69,11 @@ declare module '@generated/codeTranslations' {
   export default codeTranslations;
 }
 
-declare module '@theme/*';
-
 declare module '@theme-original/*';
 
-declare module '@docusaurus/*';
+declare module '@docusaurus/constants' {
+  export const DEFAULT_PLUGIN_ID: 'default';
+}
 
 declare module '@docusaurus/Head' {
   import type {HelmetProps} from 'react-helmet';
