@@ -466,6 +466,14 @@ const Users: User[] = [
     tags: ['opensource', 'facebook'],
   },
   {
+    title: 'Fenghua Frontend Developer',
+    description: 'Blogs and videos about frontend development',
+    preview: require('./showcase/zxuqian.png'),
+    website: 'https://zxuqian.cn',
+    source: null,
+    tags: ['personal'],
+  },
+  {
     title: 'FireCMS',
     description: 'Firebase/Firestore based headless CMS',
     preview: require('./showcase/firecms.png'),
