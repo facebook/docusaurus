@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-ideal-image' {
-  export interface PluginOptions {
+  export type PluginOptions = {
     /**
      * Filename template for output files.
      */
@@ -35,7 +35,7 @@ declare module '@docusaurus/plugin-ideal-image' {
      * JPEG compression quality
      */
     quality?: number;
-  }
+  };
 }
 
 declare module '@theme/IdealImage' {
@@ -46,3 +46,5 @@ declare module '@theme/IdealImage' {
   }
   export default function IdealImage(props: Props): JSX.Element;
 }
+
+declare module '@endiliey/react-ideal-image';
