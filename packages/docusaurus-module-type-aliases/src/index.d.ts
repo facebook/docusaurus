@@ -71,6 +71,33 @@ declare module '@generated/codeTranslations' {
 
 declare module '@theme-original/*';
 
+declare module '@theme/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+    title: string;
+    description: string;
+  }
+  export default function Layout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Loading' {
+  import type {LoadingComponentProps} from 'react-loadable';
+
+  export default function Loading(props: LoadingComponentProps): JSX.Element;
+}
+
+declare module '@theme/NotFound' {
+  export default function NotFound(): JSX.Element;
+}
+
+declare module '@theme/Root' {
+  import type {ReactNode} from 'react';
+
+  export default function Root({children}: {children: ReactNode}): JSX.Element;
+}
+
 declare module '@docusaurus/constants' {
   export const DEFAULT_PLUGIN_ID: 'default';
 }
