@@ -29,19 +29,7 @@ function TabsComponent(props: Props): JSX.Element {
     props.children,
   ) as ReactElement<TabItemProps>[];
   const values =
-    valuesProp ??
-    children.map(({props: {value, label}, type}) => {
-      if (value === undefined) {
-        // child.type.name will give non-sensical values in prod because of
-        // minification, but we assume it won't throw in prod.
-        throw new Error(
-          `Docusaurus error: Bad <Tabs> child <${
-            typeof type === 'string' ? type : type.name
-          }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
-        );
-      }
-      return {value, label};
-    });
+    valuesProp ?? children.map(({props: {value, label}}) => ({value, label}));
   const dup = duplicates(values, (a, b) => a.value === b.value);
   if (dup.length > 0) {
     throw new Error(

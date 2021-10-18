@@ -11,18 +11,6 @@ import Tabs from '../index';
 import TabItem from '../../TabItem';
 
 describe('Tabs', () => {
-  test('Should reject bad Tabs child', () => {
-    expect(() => {
-      renderer.create(
-        <Tabs>
-          <div>Naughty</div>
-          <TabItem value="good">Good</TabItem>
-        </Tabs>,
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique \\"value\\" prop."`,
-    );
-  });
   test('Should reject bad Tabs defaultValue', () => {
     expect(() => {
       renderer.create(
