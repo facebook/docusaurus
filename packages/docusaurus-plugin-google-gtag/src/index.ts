@@ -60,12 +60,12 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
               href: 'https://www.googletagmanager.com',
             },
           },
-          // https://developers.google.com/analytics/devguides/collection/gtagjs/#install_the_global_site_tag
+          // https://developers.google.com/tag-manager/quickstart
           {
             tagName: 'script',
             attributes: {
               async: true,
-              src: `https://www.googletagmanager.com/gtag/js?id=${trackingID}`,
+              src: `https://www.googletagmanager.com/gtm.js?id=${trackingID}`,
             },
           },
           {
