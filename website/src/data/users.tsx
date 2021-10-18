@@ -203,7 +203,7 @@ const Users: User[] = [
     tags: ['opensource','i18n','large'],
   },
   {
-    title: 'Apex FP'
+    title: 'Apex FP',
     description: 'Functional programming library for Salesforce Apex',
     preview: require('./showcase/apexfp.png'),
     website: 'https://www.apexfp.org',
