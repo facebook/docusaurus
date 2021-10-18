@@ -40,7 +40,7 @@ describe('Tabs', () => {
     );
   });
   test('Should accept valid Tabs config', () => {
-    expect(function () {
+    expect(() => {
       renderer.create(
         <>
           <Tabs>
