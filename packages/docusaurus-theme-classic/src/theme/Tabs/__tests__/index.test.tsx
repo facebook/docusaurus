@@ -52,7 +52,7 @@ describe('Tabs', () => {
     );
   });
   test('Should accept valid Tabs config', () => {
-    expect(() => {
+    expect(function () {
       renderer.create(
         <>
           <Tabs>
@@ -101,6 +101,25 @@ describe('Tabs', () => {
           </Tabs>
         </>,
       );
-    }).toMatchInlineSnapshot(`[Function]`); // This is just a check that the function returns. We don't care about the actual DOM.
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"useUserPreferencesContext\\" is used outside of \\"Layout\\" component."`,
+    ); // TODO Better Jest infrastructure to mock the Layout
+  });
+  // https://github.com/facebook/docusaurus/issues/5729
+  test('Should accept dynamic Tabs', () => {
+    expect(() => {
+      const tabs = ['Apple', 'Banana', 'Carrot'];
+      renderer.create(
+        <Tabs
+          values={tabs.map((t, idx) => ({label: t, value: idx}))}
+          defaultValue={0}>
+          {tabs.map((t, idx) => (
+            <TabItem value={idx}>{t}</TabItem>
+          ))}
+        </Tabs>,
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"useUserPreferencesContext\\" is used outside of \\"Layout\\" component."`,
+    );
   });
 });
