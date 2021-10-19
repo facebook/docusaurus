@@ -21,11 +21,14 @@ function ShowcaseCheckbox({
   ...props
 }: Props): JSX.Element {
   const id = `showcase_checkbox_id_${props.name};`;
+
   return (
-    <div className={clsx(className, styles.checkboxContainer)} title={title}>
-      <input type="checkbox" id={id} {...props} />
-      <label htmlFor={id}>{label}</label>
-    </div>
+    <li title={title} className={clsx(className, styles.checkboxListItem)}>
+      <input type="checkbox" id={id} className="sr-only" {...props} />
+      <label tabIndex={0} htmlFor={id} className={styles.checkboxLabel}>
+        {label}
+      </label>
+    </li>
   );
 }
 

@@ -5,17 +5,65 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.checkboxContainer {
-  display: inline;
-  padding: 5px;
+.checkboxListItem {
+  position: relative;
+  background-color: transparent;
   user-select: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  outline: 0px;
+  text-decoration: none;
+  padding: 0px;
+  font-size: 0.8rem;
+  vertical-align: middle;
+  box-sizing: border-box;
 }
 
-.checkboxContainer, .checkboxContainer > * {
+.checkboxListItem {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.checkboxListItem:last-child {
+  margin-right: 0;
+}
+
+.checkboxLabel {
+  display: block;
   cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  padding: 0.275rem 0.8rem;
+  line-height: 20px;
+  white-space: nowrap;
+  opacity: 0.85;
+  transition: opacity 200ms ease-out;
+  border: 2px solid var(--ifm-color-secondary-darkest);
+  background-color: inherit;
 }
 
-.checkboxContainer label {
-  margin-left: 0.5rem;
-  text-overflow: ellipsis;
+.checkboxLabel:focus,
+.checkboxLabel:focus-visible,
+.checkboxLabel:hover {
+  opacity: 1;
+  outline: 0;
+  box-shadow: 0px 0px 2px 1px var(--ifm-color-secondary-darkest);
+}
+
+input:checked + .checkboxLabel {
+  opacity: 0.9;
+  transition: opacity 200ms ease-out;
+  border: 2px solid var(--ifm-color-primary-darkest);
+}
+
+input:checked + .checkboxLabel:focus,
+input:checked + .checkboxLabel:focus-visible,
+input:checked + .checkboxLabel:hover {
+  outline: 0;
+  opacity: 0.75;
+  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
 }

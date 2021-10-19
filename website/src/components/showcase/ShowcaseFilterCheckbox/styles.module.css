@@ -1,0 +1,72 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.checkboxLabel {
+  width: 80px;
+  height: 25px;
+  position: relative;
+  border-radius: 25px;
+  border: 2px solid var(--ifm-color-primary-darkest);
+  background-color: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.75;
+  transition: opacity 200ms ease-out;
+}
+
+.checkboxLabel:focus,
+.checkboxLabel:focus-visible,
+.checkboxLabel:hover {
+  opacity: 1;
+  outline: 0;
+  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
+}
+
+.checkboxLabelWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.checkboxLabelWrapper > * {
+  font-size: 0.8rem;
+  color: inherit;
+  transition: opacity 650ms ease-in 600ms;
+}
+
+input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelAnd,
+input:checked + .checkboxLabelWrapper > .checkboxLabelOr {
+  opacity: 1;
+}
+
+input:checked + .checkboxLabelWrapper > .checkboxLabelAnd,
+input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
+  transition: opacity 150ms ease-out;
+  opacity: 0;
+}
+
+.checkboxBox {
+  position: absolute;
+  content: '';
+  top: -2px;
+  left: -2px;
+  width: 40px;
+  height: 25px;
+  border-radius: 20px;
+  background-color: var(--ifm-color-primary-darkest);
+  box-sizing: border-box;
+  border: 0.04em solid var(--ifm-color-primary-darkest);
+  transition-property: transform;
+  transition-duration: 600ms;
+  transition-timing-function: ease-out;
+  transition-delay: 150ms;
+  transform: translateX(0);
+}
+
+input:checked ~ .checkboxBox {
+  transform: translateX(38px);
+}

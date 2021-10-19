@@ -13,23 +13,22 @@ import Image from '@theme/IdealImage';
 import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
-function TagIcon({label, description, icon}: Tag) {
+function Tag({label, description}: Tag) {
   return (
-    <span
-      className={styles.tagIcon}
+    <li
+      aria-label={label}
+      className={styles.tag}
       // TODO add a proper tooltip
-      title={`${label}: ${description}`}>
-      {icon}
-    </span>
+      title={description}>
+      <span>{label.toLowerCase()}</span>
+    </li>
   );
 }
 
-function ShowcaseCardTagIcons({tags}: {tags: TagType[]}) {
-  const tagObjects = tags
-    .map((tag) => ({tag, ...Tags[tag]}))
-    .filter((tagObject) => !!tagObject.icon);
+function ShowcaseCardTag({tags}: {tags: TagType[]}) {
+  const tagObjects = tags.map((tag) => ({tag, ...Tags[tag]}));
 
-  // Keep same order of icons for all tags
+  // Keep same order for all tags
   const tagObjectsSorted = sortBy(tagObjects, (tagObject) =>
     TagList.indexOf(tagObject.tag),
   );
@@ -37,7 +36,7 @@ function ShowcaseCardTagIcons({tags}: {tags: TagType[]}) {
   return (
     <>
       {tagObjectsSorted.map((tagObject, index) => (
-        <TagIcon key={index} {...tagObject} />
+        <Tag key={index} {...tagObject} />
       ))}
     </>
   );
@@ -45,52 +44,42 @@ function ShowcaseCardTagIcons({tags}: {tags: TagType[]}) {
 
 const ShowcaseCard = memo(function ({user}: {user: User}) {
   return (
-    <div key={user.title} className="col col--4 margin-bottom--lg">
-      <div className={clsx('card', styles.showcaseCard)}>
-        <div className={clsx('card__image', styles.showcaseCardImage)}>
-          <Image img={user.preview} alt={user.title} />
-        </div>
-        <div className="card__body">
-          <div className="avatar">
-            <div className="avatar__intro margin-left--none">
-              <div className={styles.titleIconsRow}>
-                <div className={styles.titleIconsRowTitle}>
-                  <div className="avatar__name">{user.title}</div>
-                </div>
-                <div className={styles.titleIconsRowIcons}>
-                  <ShowcaseCardTagIcons tags={user.tags} />
-                </div>
-              </div>
-              <small className="avatar__subtitle">{user.description}</small>
-            </div>
-          </div>
-        </div>
-        {(user.website || user.source) && (
-          <div className="card__footer">
-            <div className="button-group button-group--block">
-              {user.website && (
-                <a
-                  className="button button--small button--secondary button--block"
-                  href={user.website}
-                  target="_blank"
-                  rel="noreferrer noopener">
-                  Website
-                </a>
-              )}
-              {user.source && (
-                <a
-                  className="button button--small button--secondary button--block"
-                  href={user.source}
-                  target="_blank"
-                  rel="noreferrer noopener">
-                  Source
-                </a>
-              )}
-            </div>
-          </div>
-        )}
+    <li
+      key={user.title}
+      tabIndex={0}
+      title={user.title}
+      className={clsx('card shadow--md', styles.showcaseCard)}>
+      <div className="card__image">
+        <Image img={user.preview} alt={user.title} />
       </div>
-    </div>
+      <div className={clsx('card__body', styles.showcaseContent)}>
+        <div>
+          <div className={styles.showcaseCardHeader}>
+            <h4 className={styles.showcaseCardTitle}>
+              <a
+                href={user.website}
+                tabIndex={0}
+                className={styles.showcaseCardLink}>
+                {user.title}
+              </a>
+            </h4>
+            <a
+              href={user.source}
+              tabIndex={0}
+              className={clsx(
+                'button button--secondary button--sm',
+                styles.showcaseCardSrcBtn,
+              )}>
+              source
+            </a>
+          </div>
+          <p className={styles.showcaseCardBody}>{user.description}</p>
+          <ul className={styles.cardFooter}>
+            <ShowcaseCardTag tags={user.tags} />
+          </ul>
+        </div>
+      </div>
+    </li>
   );
 });
 

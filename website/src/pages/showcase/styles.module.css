@@ -4,3 +4,40 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+.filterCheckbox {
+  justify-content: space-between;
+}
+
+.filterCheckbox,
+.checkboxList {
+  display: flex;
+  align-items: center;
+}
+
+.filterCheckbox > span {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.filterCheckbox > span > * {
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+
+.checkboxList {
+  flex-wrap: wrap;
+}
+
+.checkboxList,
+.showcaseGrid {
+  list-style: none;
+  padding: 0px;
+}
+
+.showcaseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  position: relative;
+}
