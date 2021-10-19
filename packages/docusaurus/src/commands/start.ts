@@ -11,19 +11,25 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack, getHttpsConfig} from '../webpack/utils';
+import {
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getHttpsConfig,
+} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
@@ -37,6 +43,7 @@ export default async function start(
 
   function loadSite() {
     return load(siteDir, {
+      customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
     });
@@ -58,31 +65,37 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(chalk.cyanBright(`Docusaurus website is running at: ${openUrl}`));
+  console.log(
+    chalk.cyanBright(`Docusaurus website is running at "${openUrl}".`),
+  );
 
   // Reload files processing.
-  const reload = () => {
+  const reload = debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
-        console.log(
-          chalk.cyanBright(`Docusaurus website is running at: ${newOpenUrl}`),
-        );
+        if (newOpenUrl !== openUrl) {
+          console.log(
+            chalk.cyanBright(
+              `Docusaurus website is running at "${newOpenUrl}".`,
+            ),
+          );
+        }
       })
       .catch((err) => {
         console.error(chalk.red(err.stack));
       });
-  };
+  }, 500);
   const {siteConfig, plugins = []} = props;
 
-  const normalizeToSiteDir = (filepath) => {
+  const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
       return posixPath(path.relative(siteDir, filepath));
     }
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = ([] as string[])
+  const pluginPaths = ([] as string[])
     .concat(
       ...plugins
         .map((plugin) => plugin.getPathsToWatch?.() ?? [])
@@ -90,9 +103,9 @@ export default async function start(
     )
     .map(normalizeToSiteDir);
 
-  const pathsToWatch: string[] = [
+  const pathsToWatch = [
     ...pluginPaths,
-    CONFIG_FILE_NAME,
+    props.siteConfigPath,
     getTranslationsLocaleDirPath({
       siteDir,
       locale: props.i18n.currentLocale,
@@ -133,18 +146,23 @@ export default async function start(
     ],
   });
 
-  // Plugin Lifecycle - configureWebpack.
+  // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
-    const {configureWebpack} = plugin;
-    if (!configureWebpack) {
-      return;
+    const {configureWebpack, configurePostCss} = plugin;
+
+    if (configurePostCss) {
+      config = applyConfigurePostCss(configurePostCss, config);
     }
 
-    config = applyConfigureWebpack(
-      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-      config,
-      false,
-    );
+    if (configureWebpack) {
+      config = applyConfigureWebpack(
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        config,
+        false,
+        props.siteConfig.webpack?.jsLoader,
+        plugin.content,
+      );
+    }
   });
 
   // https://webpack.js.org/configuration/dev-server
@@ -167,8 +185,12 @@ export default async function start(
       },
       publicPath: baseUrl,
       watchOptions: {
-        ignored: /node_modules/,
         poll: cliOptions.poll,
+
+        // Useful options for our own monorepo using symlinks!
+        // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
+        followSymlinks: true,
+        ignored: /node_modules\/(?!@docusaurus)/,
       },
       historyApiFallback: {
         rewrites: [{from: /\/*/, to: baseUrl}],
@@ -182,16 +204,12 @@ export default async function start(
           baseUrl,
           express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
         );
-
         // This lets us fetch source contents from webpack for the error overlay.
         app.use(evalSourceMapMiddleware(server));
         // This lets us open files from the runtime error overlay.
         app.use(errorOverlayMiddleware());
-
-        // TODO: add plugins beforeDevServer and afterDevServer hook
       },
     },
-    ...config.devServer,
   };
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
@@ -204,6 +222,7 @@ export default async function start(
       process.exit(0);
     });
   }
+
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {

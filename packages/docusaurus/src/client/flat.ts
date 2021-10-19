@@ -6,7 +6,7 @@
  */
 
 // Too dynamic
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function flat(target: unknown): Record<string, any> {
   const delimiter = '.';
   const output: Record<string, any> = {};

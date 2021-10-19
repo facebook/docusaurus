@@ -6,170 +6,109 @@
  */
 
 import React from 'react';
-
-import Head from '@docusaurus/Head';
-import {useTitleFormatter} from '@docusaurus/theme-common';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
-import type {Props} from '@theme/DocItem';
-import TOC from '@theme/TOC';
-import IconEdit from '@theme/IconEdit';
-
 import clsx from 'clsx';
+import useWindowSize from '@theme/hooks/useWindowSize';
+import DocPaginator from '@theme/DocPaginator';
+import DocVersionBanner from '@theme/DocVersionBanner';
+import Seo from '@theme/Seo';
+import type {Props} from '@theme/DocItem';
+import DocItemFooter from '@theme/DocItemFooter';
+import TOC from '@theme/TOC';
+import TOCCollapsible from '@theme/TOCCollapsible';
+import {MainHeading} from '@theme/Heading';
 import styles from './styles.module.css';
-import {
-  useActivePlugin,
-  useVersions,
-  useActiveVersion,
-} from '@theme/hooks/useDocs';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
-function DocItem(props: Props): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
-  const {url: siteUrl} = siteConfig;
-  const {content: DocContent} = props;
+export default function DocItem(props: Props): JSX.Element {
+  const {content: DocContent, versionMetadata} = props;
+  const {metadata, frontMatter} = DocContent;
   const {
-    metadata,
-    frontMatter: {
-      image: metaImage,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
-  } = DocContent;
-  const {
-    description,
-    title,
-    permalink,
-    editUrl,
-    lastUpdatedAt,
-    lastUpdatedBy,
-  } = metadata;
+    image,
+    keywords,
+    hide_title: hideTitle,
+    hide_table_of_contents: hideTableOfContents,
+    toc_min_heading_level: tocMinHeadingLevel,
+    toc_max_heading_level: tocMaxHeadingLevel,
+  } = frontMatter;
+  const {description, title} = metadata;
 
-  const {pluginId} = useActivePlugin({failfast: true});
-  const versions = useVersions(pluginId);
-  const version = useActiveVersion(pluginId);
+  // We only add a title if:
+  // - user asks to hide it with frontmatter
+  // - the markdown content does not already contain a top-level h1 heading
+  const shouldAddTitle =
+    !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
-  // If site is not versioned or only one version is included
-  // we don't show the version badge
-  // See https://github.com/facebook/docusaurus/issues/3362
-  const showVersionBadge = versions.length > 1;
+  const windowSize = useWindowSize();
 
-  const metaTitle = useTitleFormatter(title);
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
+  const canRenderTOC =
+    !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
+
+  const renderTocDesktop =
+    canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
+
   return (
     <>
-      <Head>
-        <title>{metaTitle}</title>
-        <meta property="og:title" content={metaTitle} />
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta name="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
-        )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
-      </Head>
+      <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
         <div
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionSuggestions />
+          <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
-              {showVersionBadge && (
-                <div>
-                  <span className="badge badge--secondary">
-                    Version: {version.label}
-                  </span>
-                </div>
+              {versionMetadata.badge && (
+                <span
+                  className={clsx(
+                    ThemeClassNames.docs.docVersionBadge,
+                    'badge badge--secondary',
+                  )}>
+                  Version: {versionMetadata.label}
+                </span>
               )}
-              {!hideTitle && (
-                <header>
-                  <h1 className={styles.docTitle}>{title}</h1>
-                </header>
+
+              {canRenderTOC && (
+                <TOCCollapsible
+                  toc={DocContent.toc}
+                  minHeadingLevel={tocMinHeadingLevel}
+                  maxHeadingLevel={tocMaxHeadingLevel}
+                  className={clsx(
+                    ThemeClassNames.docs.docTocMobile,
+                    styles.tocMobile,
+                  )}
+                />
               )}
-              <div className="markdown">
+
+              <div
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
                 <DocContent />
               </div>
+
+              <DocItemFooter {...props} />
             </article>
-            {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className="margin-vert--xl">
-                <div className="row">
-                  <div className="col">
-                    {editUrl && (
-                      <a
-                        href={editUrl}
-                        target="_blank"
-                        rel="noreferrer noopener">
-                        <IconEdit />
-                        Edit this page
-                      </a>
-                    )}
-                  </div>
-                  {(lastUpdatedAt || lastUpdatedBy) && (
-                    <div className="col text--right">
-                      <em>
-                        <small>
-                          Last updated{' '}
-                          {lastUpdatedAt && (
-                            <>
-                              on{' '}
-                              <time
-                                dateTime={new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toISOString()}
-                                className={styles.docLastUpdatedAt}>
-                                {new Date(
-                                  lastUpdatedAt * 1000,
-                                ).toLocaleDateString()}
-                              </time>
-                              {lastUpdatedBy && ' '}
-                            </>
-                          )}
-                          {lastUpdatedBy && (
-                            <>
-                              by <strong>{lastUpdatedBy}</strong>
-                            </>
-                          )}
-                          {process.env.NODE_ENV === 'development' && (
-                            <div>
-                              <small>
-                                {' '}
-                                (Simulated during dev for better perf)
-                              </small>
-                            </div>
-                          )}
-                        </small>
-                      </em>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-            <div className="margin-vert--lg">
-              <DocPaginator metadata={metadata} />
-            </div>
+
+            <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {!hideTableOfContents && DocContent.toc && (
+        {renderTocDesktop && (
           <div className="col col--3">
-            <TOC toc={DocContent.toc} />
+            <TOC
+              toc={DocContent.toc}
+              minHeadingLevel={tocMinHeadingLevel}
+              maxHeadingLevel={tocMaxHeadingLevel}
+              className={ThemeClassNames.docs.docTocDesktop}
+            />
           </div>
         )}
       </div>
     </>
   );
 }
-
-export default DocItem;

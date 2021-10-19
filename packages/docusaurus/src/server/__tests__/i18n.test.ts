@@ -5,25 +5,100 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadI18n, localizePath, defaultLocaleConfig} from '../i18n';
+import {
+  loadI18n,
+  localizePath,
+  getDefaultLocaleConfig,
+  shouldWarnAboutNodeVersion,
+} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
+import {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
-  return chain(locales).keyBy(identity).mapValues(defaultLocaleConfig).value();
+  return chain(locales)
+    .keyBy(identity)
+    .mapValues(getDefaultLocaleConfig)
+    .value();
 }
 
+function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
+  return loadI18n(
+    // @ts-expect-error: enough for this test
+    {
+      i18n: i18nConfig,
+    },
+    {locale},
+  );
+}
+
+describe('defaultLocaleConfig', () => {
+  // @ts-expect-error: wait for TS support of ES2021 feature
+  const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
+
+  test('returns correct labels', () => {
+    expect(getDefaultLocaleConfig('fr')).toEqual({
+      label: canComputeLabel ? 'français' : 'fr',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('fr-FR')).toEqual({
+      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en')).toEqual({
+      label: canComputeLabel ? 'English' : 'en',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en-US')).toEqual({
+      label: canComputeLabel ? 'American English' : 'en-US',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('zh')).toEqual({
+      label: canComputeLabel ? '中文' : 'zh',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('zh-CN')).toEqual({
+      label: canComputeLabel ? '中文（中国）' : 'zh-CN',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('en-US')).toEqual({
+      label: canComputeLabel ? 'American English' : 'en-US',
+      direction: 'ltr',
+    });
+    expect(getDefaultLocaleConfig('fa')).toEqual({
+      label: canComputeLabel ? 'فارسی' : 'fa',
+      direction: 'rtl',
+    });
+    expect(getDefaultLocaleConfig('fa-IR')).toEqual({
+      label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
+      direction: 'rtl',
+    });
+  });
+});
+
+describe('shouldWarnAboutNodeVersion', () => {
+  test('warns for old NodeJS version and [en,fr]', () => {
+    expect(shouldWarnAboutNodeVersion(12, ['en', 'fr'])).toEqual(true);
+  });
+
+  test('not warn for old NodeJS version and [en]', () => {
+    expect(shouldWarnAboutNodeVersion(12, ['en'])).toEqual(false);
+  });
+
+  test('not warn for recent NodeJS version and [en,fr]', () => {
+    expect(shouldWarnAboutNodeVersion(14, ['en', 'fr'])).toEqual(false);
+  });
+});
+
 describe('loadI18n', () => {
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
+
   test('should load I18n for default config', async () => {
-    await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: DEFAULT_I18N_CONFIG,
-        },
-      ),
-    ).resolves.toEqual({
+    await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
@@ -33,16 +108,11 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-lang config', async () => {
     await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
-        },
-      ),
+      loadI18nTest({
+        defaultLocale: 'fr',
+        locales: ['en', 'fr', 'de'],
+        localeConfigs: {},
+      }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       locales: ['en', 'fr', 'de'],
@@ -53,16 +123,13 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-locale config with specified locale', async () => {
     await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
+      loadI18nTest(
         {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
         },
-        {locale: 'de'},
+        'de',
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
@@ -74,46 +141,41 @@ describe('loadI18n', () => {
 
   test('should load I18n for multi-locale config with some xcustom locale configs', async () => {
     await expect(
-      loadI18n(
+      loadI18nTest(
         {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {
-              fr: {label: 'Français'},
-              // @ts-expect-error: empty on purpose
-              en: {},
-            },
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {
+            fr: {label: 'Français'},
+            en: {},
           },
         },
-        {locale: 'de'},
+        'de',
       ),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français'},
-        en: defaultLocaleConfig('en'),
-        de: defaultLocaleConfig('de'),
+        fr: {label: 'Français', direction: 'ltr'},
+        en: getDefaultLocaleConfig('en'),
+        de: getDefaultLocaleConfig('de'),
       },
     });
   });
 
-  test('should throw when trying to load undeclared locale', async () => {
-    await expect(
-      loadI18n(
-        // @ts-expect-error: enough for this test
-        {
-          i18n: {
-            defaultLocale: 'fr',
-            locales: ['en', 'fr', 'de'],
-            localeConfigs: {},
-          },
-        },
-        {locale: 'it'},
-      ),
-    ).rejects.toThrowErrorMatchingSnapshot();
+  test('should warn when trying to load undeclared locale', async () => {
+    await loadI18nTest(
+      {
+        defaultLocale: 'fr',
+        locales: ['en', 'fr', 'de'],
+        localeConfigs: {},
+      },
+      'it',
+    );
+    expect(consoleSpy.mock.calls[0][0]).toMatch(
+      /The locale "it" was not found in your site configuration/,
+    );
   });
 });
 

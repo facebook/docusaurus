@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getContentTranslationFiles should return translation files matching snapshot 1`] = `
+Array [
+  Object {
+    "content": Object {
+      "description": Object {
+        "description": "The description for the blog used in SEO",
+        "message": "Someone's random blog",
+      },
+      "sidebar.title": Object {
+        "description": "The label for the left sidebar",
+        "message": "All my posts",
+      },
+      "title": Object {
+        "description": "The title for the blog used in SEO",
+        "message": "My blog",
+      },
+    },
+    "path": "options",
+  },
+]
+`;
+
+exports[`translateContent should return translated loaded content matching snapshot 1`] = `
+Object {
+  "blogListPaginated": Array [
+    Object {
+      "items": Array [
+        "hello",
+      ],
+      "metadata": Object {
+        "blogDescription": "Someone's random blog (translated)",
+        "blogTitle": "My blog (translated)",
+        "nextPage": null,
+        "page": 1,
+        "permalink": "/",
+        "postsPerPage": 10,
+        "previousPage": null,
+        "totalCount": 1,
+        "totalPages": 1,
+      },
+    },
+  ],
+  "blogPosts": Array [
+    Object {
+      "id": "hello",
+      "metadata": Object {
+        "date": 2021-07-19T00:00:00.000Z,
+        "description": "/blog/2021/06/19/hello",
+        "formattedDate": "June 19, 2021",
+        "permalink": "/blog/2021/06/19/hello",
+        "source": "/blog/2021/06/19/hello",
+        "tags": Array [],
+        "title": "Hello",
+        "truncated": true,
+      },
+    },
+  ],
+  "blogSidebarTitle": "All my posts (translated)",
+  "blogTags": Object {},
+  "blogTagsListPath": "/tags",
+}
+`;

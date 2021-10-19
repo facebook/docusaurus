@@ -57,7 +57,11 @@ const nodeForImport = {
 module.exports = (options = {}) => {
   const {sync = false} = options;
   let transformed = false;
+  let alreadyImported = false;
   const transformer = (node) => {
+    if (node.type === 'import' && node.value.includes('@theme/Tabs')) {
+      alreadyImported = true;
+    }
     if (matchNode(node)) {
       transformed = true;
       return transformNode(node, sync);
@@ -74,7 +78,7 @@ module.exports = (options = {}) => {
         }
       }
     }
-    if (node.type === 'root' && transformed) {
+    if (node.type === 'root' && transformed && !alreadyImported) {
       node.children.unshift(nodeForImport);
     }
     return null;

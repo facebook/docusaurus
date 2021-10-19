@@ -14,7 +14,7 @@ import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
 import chalk from 'chalk';
-import inquirer from 'inquirer';
+import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -101,7 +101,7 @@ export default async function choosePort(
         if (isInteractive) {
           clearConsole();
           const existingProcess = getProcessForPort(defaultPort);
-          const question: Record<string, unknown> = {
+          const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
             message: `${chalk.yellow(
@@ -109,10 +109,10 @@ export default async function choosePort(
                 existingProcess ? ` Probably:\n  ${existingProcess}` : ''
               }`,
             )}\n\nWould you like to run the app on another port instead?`,
-            default: true,
+            initial: true,
           };
-          inquirer.prompt(question).then((answer: any) => {
-            if (answer.shouldChangePort) {
+          prompts(question).then((answer) => {
+            if (answer.shouldChangePort === true) {
               resolve(port);
             } else {
               resolve(null);
@@ -127,7 +127,7 @@ export default async function choosePort(
     (err) => {
       throw new Error(
         `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: ${err.message}` || err
+          `Network error message: "${err.message}".` || err
         }\n`,
       );
     },

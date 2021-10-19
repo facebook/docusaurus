@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.admonition h5 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.admonition-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.4em;
+}
+
+.admonition-icon svg {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  stroke-width: 0;
+  fill: var(--ifm-alert-foreground-color);
+  stroke: var(--ifm-alert-foreground-color);
+}
+
+.admonition-content > :last-child {
+  margin-bottom: 0;
+}
+
+.admonition {
+  margin-bottom: 1em;
+}
