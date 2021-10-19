@@ -213,14 +213,8 @@ cli
     "keep the headings' casing, otherwise make all lowercase (default: false)",
   )
   .option('--overwrite', 'overwrite existing heading IDs (default: false)')
-  .action(
-    (
-      siteDir,
-      files = '**/*.{md,mdx}',
-      {maintainCase = false, overwrite = false},
-    ) => {
-      writeHeadingIds(resolveDir(siteDir), files, {maintainCase, overwrite});
-    },
+  .action((siteDir, files, options) =>
+    writeHeadingIds(resolveDir(siteDir), files, options),
   );
 
 cli.arguments('<command>').action((cmd) => {

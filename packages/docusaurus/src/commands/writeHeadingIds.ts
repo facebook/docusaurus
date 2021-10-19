@@ -46,8 +46,9 @@ function addHeadingId(
 export function transformMarkdownHeadingLine(
   line: string,
   slugger: GithubSlugger,
-  {maintainCase, overwrite}: Options,
+  options: Options = {maintainCase: false, overwrite: false},
 ): string {
+  const {maintainCase = false, overwrite = false} = options;
   if (!line.startsWith('#')) {
     throw new Error(`Line is not a Markdown heading: ${line}.`);
   }
@@ -64,7 +65,7 @@ export function transformMarkdownHeadingLine(
 export function transformMarkdownLine(
   line: string,
   slugger: GithubSlugger,
-  options: Options,
+  options?: Options,
 ): string {
   // Ignore h1 headings on purpose, as we don't create anchor links for those
   if (line.startsWith('##')) {
@@ -74,7 +75,7 @@ export function transformMarkdownLine(
   }
 }
 
-function transformMarkdownLines(lines: string[], options: Options): string[] {
+function transformMarkdownLines(lines: string[], options?: Options): string[] {
   let inCode = false;
   const slugger = new GithubSlugger();
 
@@ -93,14 +94,14 @@ function transformMarkdownLines(lines: string[], options: Options): string[] {
 
 export function transformMarkdownContent(
   content: string,
-  options: Options,
+  options?: Options,
 ): string {
   return transformMarkdownLines(content.split('\n'), options).join('\n');
 }
 
 async function transformMarkdownFile(
   filepath: string,
-  options: Options,
+  options?: Options,
 ): Promise<string | undefined> {
   const content = await fs.readFile(filepath, 'utf8');
   const updatedContent = transformMarkdownLines(
@@ -129,8 +130,8 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 
 export default async function writeHeadingIds(
   siteDir: string,
-  files: string,
-  options: Options,
+  files?: string,
+  options?: Options,
 ): Promise<void> {
   const markdownFiles = await safeGlobby(
     files ? [files] : await getPathsToWatch(siteDir),
