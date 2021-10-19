@@ -35,10 +35,10 @@ function addHeadingId(
 
   const headingText = line.slice(headingLevel).trimEnd();
   const headingHashes = line.slice(0, headingLevel);
-  const slug = slugger.slug(
-    unwrapMarkdownLinks(headingText).trim(),
-    maintainCase,
-  );
+  const slug = slugger
+    .slug(unwrapMarkdownLinks(headingText).trim(), maintainCase)
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
 
   return `${headingHashes}${headingText} {#${slug}}`;
 }
