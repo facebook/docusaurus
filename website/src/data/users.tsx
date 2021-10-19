@@ -203,6 +203,14 @@ const Users: User[] = [
     tags: ['opensource','i18n','large'],
   },
   {
+    title: 'Apex FP',
+    description: 'Functional programming library for Salesforce Apex',
+    preview: require('./showcase/apexfp.png'),
+    website: 'https://www.apexfp.org',
+    source: 'https://github.com/ipavlic/apex-fp/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'AttoBot',
     description:
       'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
