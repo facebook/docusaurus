@@ -6,30 +6,29 @@
  */
 
 import React from 'react';
-import {Route, withRouter, RouteComponentProps} from 'react-router-dom';
+import {Route, withRouter} from 'react-router-dom';
 import {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
-import type {Location} from '@docusaurus/history';
 
 import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-interface Props extends RouteComponentProps {
-  readonly routes: RouteConfig[];
-  readonly delay: number;
-  readonly location: Location;
+interface Props {
+  routes: RouteConfig[];
+  delay: number;
+  location: any;
 }
 interface State {
   nextRouteHasLoaded: boolean;
 }
 
 class PendingNavigation extends React.Component<Props, State> {
-  previousLocation: Location | null;
+  previousLocation: any;
   progressBarTimeout: NodeJS.Timeout | null;
 
   constructor(props: Props) {
@@ -47,7 +46,7 @@ class PendingNavigation extends React.Component<Props, State> {
   // is done loading.
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
-    const {routes, delay} = this.props;
+    const {routes, delay = 1000} = this.props;
 
     // If `routeDidChange` is true, means the router is trying to navigate to a new
     // route. We will preload the new route.
@@ -129,4 +128,4 @@ class PendingNavigation extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(PendingNavigation);
+export default withRouter(PendingNavigation as any) as any;

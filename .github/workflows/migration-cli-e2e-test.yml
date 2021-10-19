@@ -1,0 +1,40 @@
+name: Migration CLI E2E Test
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      migration: ${{ steps.filter.outputs.migration }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            migration:
+              - 'packages/docusaurus-migration/**'
+  build:
+    needs: check
+    if: ${{ needs.check.outputs.migration == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['10']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Installation
+        run: yarn
+      - name: Migrate D1 website
+        run: yarn test:v1Migration:migrate
+      - name: Build D1 migrated website
+        run: yarn test:v1Migration:build
+        env:
+          CI: true

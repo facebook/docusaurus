@@ -5,15 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  ConfigSchema,
-  DEFAULT_CONFIG,
-  validateConfig,
-} from '../configValidation';
+import {DEFAULT_CONFIG, validateConfig} from '../configValidation';
 import {DocusaurusConfig} from '@docusaurus/types';
 
-const baseConfig: DocusaurusConfig = {
+const baseConfig = {
   baseUrl: '/',
+  favicon: 'some.ico',
   title: 'my site',
   url: 'https://mysite.com',
 };
@@ -94,8 +91,22 @@ describe('normalizeConfig', () => {
   test.each([
     ['should throw error if plugins is not array', {}],
     [
+      'should throw error if plugins is not array',
+      function () {
+        console.log('noop');
+      },
+    ],
+    [
       "should throw error if plugins is not a string and it's not an array #1",
       [123],
+    ],
+    [
+      "should throw error if plugins is not a string and it's not an array #2",
+      [
+        function () {
+          console.log('noop');
+        },
+      ],
     ],
     [
       'should throw error if plugins is not an array of [string, object][] #1',
@@ -142,11 +153,6 @@ describe('normalizeConfig', () => {
         ['this/should/work', {too: 'yes'}],
       ],
     ],
-    ['should accept function for plugin', [function (_context, _options) {}]],
-    [
-      'should accept [function, object] for plugin',
-      [[function (_context, _options) {}, {it: 'should work'}]],
-    ],
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
@@ -190,36 +196,13 @@ describe('normalizeConfig', () => {
   test('should throw error for required fields', () => {
     expect(
       () =>
-        validateConfig({
+        validateConfig(({
           invalidField: true,
           presets: {},
           stylesheets: {},
           themes: {},
           scripts: {},
-        } as unknown as DocusaurusConfig), // to fields not in the type
+        } as unknown) as DocusaurusConfig), // to fields not in the type
     ).toThrowErrorMatchingSnapshot();
-  });
-});
-
-describe('config warnings', () => {
-  function getWarning(config: unknown) {
-    return ConfigSchema.validate(config).warning;
-  }
-
-  test('baseConfig has no warning', () => {
-    const warning = getWarning(baseConfig);
-    expect(warning).toBeUndefined();
-  });
-
-  test('site url has warning when using subpath', () => {
-    const warning = getWarning({
-      ...baseConfig,
-      url: 'https://mysite.com/someSubpath',
-    });
-    expect(warning).toBeDefined();
-    expect(warning?.details.length).toEqual(1);
-    expect(warning?.details[0].message).toMatchInlineSnapshot(
-      `"Docusaurus config validation warning. Field \\"url\\": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
-    );
   });
 });

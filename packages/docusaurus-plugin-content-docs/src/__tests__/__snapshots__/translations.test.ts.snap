@@ -60,8 +60,6 @@ exports[`translateLoadedContent should return translated loaded content matching
 Object {
   "loadedVersions": Array [
     Object {
-      "contentPath": "any",
-      "contentPathLocalized": "any",
       "docs": Array [
         Object {
           "description": "doc1 description",
@@ -149,8 +147,11 @@ Object {
           "version": "any",
         },
       ],
+      "docsDirPath": "any",
+      "docsDirPathLocalized": "any",
       "isLast": true,
       "mainDocId": "",
+      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {
@@ -200,8 +201,6 @@ Object {
       "versionPath": "/docs/",
     },
     Object {
-      "contentPath": "any",
-      "contentPathLocalized": "any",
       "docs": Array [
         Object {
           "description": "doc1 description",
@@ -289,8 +288,11 @@ Object {
           "version": "any",
         },
       ],
+      "docsDirPath": "any",
+      "docsDirPathLocalized": "any",
       "isLast": true,
       "mainDocId": "",
+      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {
@@ -340,8 +342,6 @@ Object {
       "versionPath": "/docs/",
     },
     Object {
-      "contentPath": "any",
-      "contentPathLocalized": "any",
       "docs": Array [
         Object {
           "description": "doc1 description",
@@ -429,8 +429,11 @@ Object {
           "version": "any",
         },
       ],
+      "docsDirPath": "any",
+      "docsDirPathLocalized": "any",
       "isLast": true,
       "mainDocId": "",
+      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {

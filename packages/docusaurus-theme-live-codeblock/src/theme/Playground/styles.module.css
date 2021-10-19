@@ -5,36 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.playgroundContainer {
-  margin-bottom: var(--ifm-leading);
-  border-radius: var(--ifm-global-radius);
-  box-shadow: var(--ifm-global-shadow-lw);
-  overflow: hidden;
-}
-
 .playgroundHeader {
   letter-spacing: 0.08rem;
   padding: 0.75rem;
   text-transform: uppercase;
   font-weight: bold;
-  background: var(--ifm-color-emphasis-200);
-  color: var(--ifm-color-content);
-  font-size: var(--ifm-code-font-size);
 }
 
-.playgroundHeader:first-of-type {
+.playgroundEditorHeader {
   background: var(--ifm-color-emphasis-600);
   color: var(--ifm-color-content-inverse);
 }
 
+.playgroundPreviewHeader {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+}
+
 .playgroundEditor {
-  font: var(--ifm-code-font-size) / var(--ifm-pre-line-height)
-    var(--ifm-font-family-monospace) !important;
-  /*rtl:ignore*/
-  direction: ltr;
+  font-family: var(--ifm-font-family-monospace) !important;
 }
 
 .playgroundPreview {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom-left-radius: var(--ifm-global-radius);
+  border-bottom-right-radius: var(--ifm-global-radius);
+  position: relative;
   padding: 1rem;
-  background-color: var(--ifm-pre-background);
 }

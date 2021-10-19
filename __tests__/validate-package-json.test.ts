@@ -14,13 +14,11 @@ const readFile = util.promisify(fsCb.readFile);
 
 type PackageJsonFile = {
   file: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any;
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await glob('packages/*/package.json');
-
   return Promise.all(
     files.map(async (file) => {
       return {

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`readMetadata readSidebar should verify sub category data and verify order 1`] = `
+Object {
+  "doc1": Object {
+    "category": "First Category",
+    "next": "doc2",
+    "order": 1,
+    "previous": null,
+    "sidebar": "docs",
+    "subcategory": null,
+  },
+  "doc2": Object {
+    "category": "First Category",
+    "next": "doc3",
+    "order": 2,
+    "previous": "doc1",
+    "sidebar": "docs",
+    "subcategory": null,
+  },
+  "doc3": Object {
+    "category": "Second Category",
+    "next": "doc4",
+    "order": 3,
+    "previous": "doc2",
+    "sidebar": "docs",
+    "subcategory": null,
+  },
+  "doc4": Object {
+    "category": "Second Category",
+    "next": "doc5",
+    "order": 4,
+    "previous": "doc3",
+    "sidebar": "docs",
+    "subcategory": "First Subcategory",
+  },
+  "doc5": Object {
+    "category": "Second Category",
+    "next": "doc6",
+    "order": 5,
+    "previous": "doc4",
+    "sidebar": "docs",
+    "subcategory": null,
+  },
+  "doc6": Object {
+    "category": "Third Category",
+    "next": "doc7",
+    "order": 6,
+    "previous": "doc5",
+    "sidebar": "docs",
+    "subcategory": "Second Subcategory",
+  },
+  "doc7": Object {
+    "category": "Third Category",
+    "next": "doc8",
+    "order": 7,
+    "previous": "doc6",
+    "sidebar": "docs",
+    "subcategory": "Second Subcategory",
+  },
+  "doc8": Object {
+    "category": "Third Category",
+    "next": null,
+    "order": 8,
+    "previous": "doc7",
+    "sidebar": "docs",
+    "subcategory": "Third Subcategory",
+  },
+}
+`;

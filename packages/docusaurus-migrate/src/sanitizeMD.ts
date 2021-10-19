@@ -13,7 +13,6 @@ import visit from 'unist-util-visit';
 import remarkStringify from 'remark-stringify';
 import htmlTags from 'html-tags';
 import toText from 'hast-util-to-string';
-import type {Code, InlineCode} from 'mdast';
 
 const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
   acc[tag] = true;
@@ -22,10 +21,10 @@ const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
 
 export default function sanitizeMD(code: string): string {
   const markdownTree = unified().use(markdown).parse(code);
-  visit(markdownTree, 'code', (node: Code) => {
+  visit(markdownTree, 'code', (node) => {
     node.value = `\n<!--${node.value}-->\n`;
   });
-  visit(markdownTree, 'inlineCode', (node: InlineCode) => {
+  visit(markdownTree, 'inlineCode', (node) => {
     node.value = `<!--${node.value}-->`;
   });
 
@@ -34,7 +33,7 @@ export default function sanitizeMD(code: string): string {
     .stringify(markdownTree);
 
   const htmlTree = unified().use(parse).parse(markdownString);
-  visit(htmlTree, 'element', (node: any) => {
+  visit(htmlTree, 'element', (node) => {
     if (!tags[node.tagName as string]) {
       node.type = 'text';
       node.value = node.tagName + toText(node);

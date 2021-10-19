@@ -6,15 +6,11 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
+import {InitPlugin} from '../plugins/init';
 import {mapValues, difference} from 'lodash';
-import {
-  TranslationFileContent,
-  TranslationFile,
-  TranslationMessage,
-  InitializedPlugin,
-} from '@docusaurus/types';
+import {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
-import {Joi} from '@docusaurus/utils-validation';
+import * as Joi from 'joi';
 import chalk from 'chalk';
 
 export type WriteTranslationsOptions = {
@@ -55,9 +51,10 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      throw new Error(`Invalid translation file at ${filePath}.\n${e.message}`);
+    } catch (e) {
+      throw new Error(
+        `Invalid translation file at path=${filePath}.\n${e.message}`,
+      );
     }
   }
   return undefined;
@@ -134,9 +131,9 @@ Maybe you should remove them?
         .padStart(
           3,
           ' ',
-        )} translations will be written at "${toMessageRelativeFilePath(
+        )} translations will be written at ${toMessageRelativeFilePath(
         filePath,
-      )}".`,
+      )}`,
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
@@ -182,7 +179,7 @@ export async function writeCodeTranslations(
 function addTranslationFileExtension(translationFilePath: string) {
   if (translationFilePath.endsWith('.json')) {
     throw new Error(
-      `Translation file path at "${translationFilePath}" does not need to end with ".json", we add the extension automatically.`,
+      `Translation file path does  not need to end  with .json, we addt the extension automatically. translationFilePath=${translationFilePath}`,
     );
   }
   return `${translationFilePath}.json`;
@@ -194,7 +191,7 @@ function getPluginTranslationFilePath({
   locale,
   translationFilePath,
 }: TranslationContext & {
-  plugin: InitializedPlugin;
+  plugin: InitPlugin;
   translationFilePath: string;
 }): string {
   const dirPath = getPluginI18nPath({
@@ -214,7 +211,7 @@ export async function writePluginTranslations({
   translationFile,
   options,
 }: TranslationContext & {
-  plugin: InitializedPlugin;
+  plugin: InitPlugin;
   translationFile: TranslationFile;
   options?: WriteTranslationsOptions;
 }): Promise<void> {
@@ -237,7 +234,7 @@ export async function localizePluginTranslationFile({
   locale,
   translationFile,
 }: TranslationContext & {
-  plugin: InitializedPlugin;
+  plugin: InitPlugin;
   translationFile: TranslationFile;
 }): Promise<TranslationFile> {
   const filePath = getPluginTranslationFilePath({
@@ -261,47 +258,4 @@ export async function localizePluginTranslationFile({
   } else {
     return translationFile;
   }
-}
-
-export async function getPluginsDefaultCodeTranslationMessages(
-  plugins: InitializedPlugin[],
-): Promise<Record<string, string>> {
-  const pluginsMessages = await Promise.all(
-    plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
-  );
-
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
-}
-
-export function applyDefaultCodeTranslations({
-  extractedCodeTranslations,
-  defaultCodeMessages,
-}: {
-  extractedCodeTranslations: Record<string, TranslationMessage>;
-  defaultCodeMessages: Record<string, string>;
-}): Record<string, TranslationMessage> {
-  const unusedDefaultCodeMessages = difference(
-    Object.keys(defaultCodeMessages),
-    Object.keys(extractedCodeTranslations),
-  );
-  if (unusedDefaultCodeMessages.length > 0) {
-    console.warn(
-      chalk.yellow(`Unused default message codes found.
-Please report this Docusaurus issue.
-- ${unusedDefaultCodeMessages.join('\n- ')}
-`),
-    );
-  }
-
-  return mapValues(
-    extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
-  );
 }

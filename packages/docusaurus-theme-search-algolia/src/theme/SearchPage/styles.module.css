@@ -8,20 +8,23 @@
 .searchQueryInput,
 .searchVersionInput {
   border-radius: var(--ifm-global-radius);
-  border: 2px solid var(--ifm-toc-border-color);
-  font: var(--ifm-font-size-base) var(--ifm-font-family-base);
+  border: 0;
+  font-size: var(--ifm-font-size-base);
+  font-family: var(--ifm-font-family-base);
   padding: 0.8rem;
   width: 100%;
   background: var(--docsearch-searchbox-focus-background);
   color: var(--docsearch-text-color);
-  margin-bottom: 0.5rem;
-  transition: border var(--ifm-transition-fast) ease;
+  margin-bottom: 1rem;
+  box-shadow: inset 0 0 0 2px var(--ifm-toc-border-color);
+  transition: var(--ifm-transition-fast) ease box-shadow;
 }
 
+.searchQueryInput:active,
 .searchQueryInput:focus,
+.searchVersionInput:active,
 .searchVersionInput:focus {
-  border-color: var(--docsearch-primary-color);
-  outline: none;
+  box-shadow: var(--docsearch-searchbox-shadow);
 }
 
 .searchQueryInput::placeholder {
@@ -30,7 +33,10 @@
 
 .searchResultsColumn {
   font-size: 0.9rem;
-  font-weight: bold;
+}
+
+.searchLogoColumn {
+  text-align: right;
 }
 
 .algoliaLogo {
@@ -47,14 +53,20 @@
 }
 
 .searchResultItemHeading {
-  font-weight: 400;
-  margin-bottom: 0;
+  font-size: var(--ifm-h2-font-size);
 }
 
 .searchResultItemPath {
   font-size: 0.8rem;
   color: var(--ifm-color-content-secondary);
-  --ifm-breadcrumb-separator-size-multiplier: 1;
+  display: block;
+}
+
+.searchResultItemPathSeparator {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-400);
 }
 
 .searchResultItemSummary {
@@ -71,11 +83,16 @@
     max-width: 40% !important;
   }
 
+  .algoliaLogo {
+    width: 100%;
+  }
+
   .searchResultsColumn {
     max-width: 60% !important;
   }
 
   .searchLogoColumn {
+    overflow: hidden;
     max-width: 40% !important;
     padding-left: 0 !important;
   }
@@ -93,9 +110,11 @@
 }
 
 .loadingSpinner {
+  pointer-events: none;
   width: 3rem;
   height: 3rem;
-  border: 0.4em solid #eee;
+  border: 0.4em solid transparent;
+  border-color: #eee;
   border-top-color: var(--ifm-color-primary);
   border-radius: 50%;
   animation: loadingspin 1s linear infinite;

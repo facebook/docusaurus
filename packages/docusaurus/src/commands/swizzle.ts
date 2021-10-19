@@ -9,7 +9,7 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
+import {Plugin, LoadContext, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 import {partition} from 'lodash';
 import {THEME_PATH} from '../constants';
@@ -18,57 +18,46 @@ import initPlugins from '../server/plugins/init';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 export function getPluginNames(plugins: PluginConfig[]): string[] {
-  return plugins
-    .filter(
-      (plugin) =>
-        typeof plugin === 'string' ||
-        (Array.isArray(plugin) && typeof plugin[0] === 'string'),
-    )
-    .map((plugin) => {
-      const pluginPath = Array.isArray(plugin) ? plugin[0] : plugin;
-      if (typeof pluginPath === 'string') {
-        let packagePath = path.dirname(pluginPath);
-        while (packagePath) {
-          if (fs.existsSync(path.join(packagePath, 'package.json'))) {
-            break;
-          } else {
-            packagePath = path.dirname(packagePath);
-          }
-        }
-        if (packagePath === '.') {
-          return pluginPath;
-        }
-        return importFresh<{name: string}>(
-          path.join(packagePath, 'package.json'),
-        ).name;
+  return plugins.map((plugin) => {
+    const pluginPath = Array.isArray(plugin) ? plugin[0] : plugin;
+    let packagePath = path.dirname(pluginPath);
+    while (packagePath) {
+      if (fs.existsSync(path.join(packagePath, 'package.json'))) {
+        break;
+      } else {
+        packagePath = path.dirname(packagePath);
       }
+    }
+    if (packagePath === '.') {
+      return pluginPath;
+    }
+    return (importFresh(path.join(packagePath, 'package.json')) as {
+      name: string;
+    }).name as string;
+  });
+}
 
-      return '';
-    })
-    .filter((plugin) => plugin !== '');
+function walk(dir: string): Array<string> {
+  let results: Array<string> = [];
+  const list = fs.readdirSync(dir);
+  list.forEach((file: string) => {
+    const fullPath = path.join(dir, file);
+    const stat = fs.statSync(fullPath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(walk(fullPath));
+    } else if (!/node_modules|.css|.d.ts|.d.map/.test(fullPath)) {
+      results.push(fullPath);
+    }
+  });
+  return results;
 }
 
 const formatComponentName = (componentName: string): string =>
   componentName
-    .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
-    .replace(/\.(js|tsx|ts|jsx)/, '');
+    .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, '')
+    .replace(/.(js|tsx|ts|jsx)/, '');
 
 function readComponent(themePath: string) {
-  function walk(dir: string): Array<string> {
-    let results: Array<string> = [];
-    const list = fs.readdirSync(dir);
-    list.forEach((file: string) => {
-      const fullPath = path.join(dir, file);
-      const stat = fs.statSync(fullPath);
-      if (stat && stat.isDirectory()) {
-        results = results.concat(walk(fullPath));
-      } else if (!/\.css|\.d\.ts|\.d\.map/.test(fullPath)) {
-        results.push(fullPath);
-      }
-    });
-    return results;
-  }
-
   return walk(themePath).map((filePath) =>
     formatComponentName(path.relative(themePath, filePath)),
   );
@@ -77,7 +66,7 @@ function readComponent(themePath: string) {
 // load components from theme based on configurations
 function getComponentName(
   themePath: string,
-  plugin: ImportedPluginModule,
+  plugin: any,
   danger: boolean,
 ): Array<string> {
   // support both commonjs and ES style exports
@@ -93,34 +82,28 @@ function getComponentName(
   return readComponent(themePath);
 }
 
-function themeComponents(
-  themePath: string,
-  plugin: ImportedPluginModule,
-): string {
+function themeComponents(themePath: string, plugin: Plugin<unknown>): string {
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${chalk.red('No component to swizzle.')}`;
+    return `${chalk.red('No component to swizzle')}`;
   }
 
   return `
-${chalk.cyan('Theme components available for swizzle.')}
+${chalk.cyan('Theme components available for swizzle')}
 
-${chalk.green('green  =>')} safe: lower breaking change risk
-${chalk.red('red    =>')} unsafe: higher breaking change risk
+${chalk.green('green  =>')} recommended: lower breaking change risk
+${chalk.red('red    =>')} internal: higher breaking change risk
 
 ${components.join('\n')}
 `;
 }
 
 function formattedThemeNames(themeNames: string[]): string {
-  return `Themes available for swizzle:\n- ${themeNames.join('\n- ')}`;
+  return `Themes available for swizzle:\n${themeNames.join('\n')}`;
 }
 
-function colorCode(
-  themePath: string,
-  plugin: ImportedPluginModule,
-): Array<string> {
+function colorCode(themePath: string, plugin: any): Array<string> {
   // support both commonjs and ES style exports
   const getSwizzleComponentList =
     plugin.default?.getSwizzleComponentList ?? plugin.getSwizzleComponentList;
@@ -135,8 +118,8 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(`safe: ${component}`)),
-    ...redComponents.map((component) => chalk.red(`unsafe: ${component}`)),
+    ...greenComponents.map((component) => chalk.green(component)),
+    ...redComponents.map((component) => chalk.red(component)),
   ];
 }
 
@@ -165,9 +148,11 @@ export default async function swizzle(
     process.exit(1);
   }
 
-  let pluginModule: ImportedPluginModule;
+  let pluginModule;
   try {
-    pluginModule = importFresh(themeName);
+    pluginModule = importFresh(themeName) as (
+      context: LoadContext,
+    ) => Plugin<unknown>;
   } catch {
     let suggestion;
     themeNames.forEach((name) => {
@@ -185,12 +170,15 @@ export default async function swizzle(
     process.exit(1);
   }
 
-  let pluginOptions = {};
+  const plugin = pluginModule.default ?? pluginModule;
+  const validateOptions =
+    pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+  let pluginOptions;
   const resolvedThemeName = require.resolve(themeName);
   // find the plugin from list of plugin and get options if specified
   pluginConfigs.forEach((pluginConfig) => {
     // plugin can be a [string], [string,object] or string.
-    if (Array.isArray(pluginConfig) && typeof pluginConfig[0] === 'string') {
+    if (Array.isArray(pluginConfig)) {
       if (require.resolve(pluginConfig[0]) === resolvedThemeName) {
         if (pluginConfig.length === 2) {
           const [, options] = pluginConfig;
@@ -200,9 +188,6 @@ export default async function swizzle(
     }
   });
 
-  // support both commonjs and ES style exports
-  const validateOptions =
-    pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
   if (validateOptions) {
     pluginOptions = validateOptions({
       validate: normalizePluginOptions,
@@ -210,8 +195,6 @@ export default async function swizzle(
     });
   }
 
-  // support both commonjs and ES style exports
-  const plugin = pluginModule.default ?? pluginModule;
   const pluginInstance = plugin(context, pluginOptions);
   const themePath = typescript
     ? pluginInstance.getTypeScriptThemePath?.()
@@ -257,7 +240,7 @@ export default async function swizzle(
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
       console.log(
-        chalk.red(`Component "${componentName}" doesn't exist.`),
+        chalk.red(`Component "${componentName}" doesn't exists.`),
         chalk.yellow(
           `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
         ),
@@ -296,7 +279,7 @@ export default async function swizzle(
   if (!components.includes(mostSuitableComponent) && !danger) {
     console.warn(
       chalk.red(
-        `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
+        `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
       ),
     );
     process.exit(1);

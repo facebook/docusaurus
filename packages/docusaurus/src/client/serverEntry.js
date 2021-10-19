@@ -10,7 +10,7 @@ import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {Helmet} from 'react-helmet';
-import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
+import {getBundles} from 'react-loadable-ssr-addon';
 import Loadable from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
@@ -18,7 +18,9 @@ import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
 import packageJson from '../../package.json';
+// eslint-disable-next-line import/no-unresolved
 import preload from './preload';
+// eslint-disable-next-line import/no-unresolved
 import App from './App';
 import {
   createStatefulLinksCollector,
@@ -45,22 +47,10 @@ export default async function render(locals) {
   } catch (e) {
     console.error(
       chalk.red(
-        `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
+        `Docusaurus Node/SSR could not render static page with path=${locals.path} because of error: ${e.message}`,
       ),
     );
-
-    const isNotDefinedErrorRegex =
-      /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
-
-    if (isNotDefinedErrorRegex.test(e.message)) {
-      console.error(
-        chalk.green(
-          'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
-        ),
-      );
-    }
-
-    throw new Error('Server-side rendering fails due to the error above.');
+    throw e;
   }
 }
 
@@ -130,10 +120,10 @@ async function doRender(locals) {
     version: packageJson.version,
   });
 
-  try {
-    // Minify html with https://github.com/DanielRuf/html-minifier-terser
-    return await minify(renderedHtml, {
-      removeComments: false,
+  // Minify html with https://github.com/DanielRuf/html-minifier-terser
+  function doMinify() {
+    return minify(renderedHtml, {
+      removeComments: true,
       removeRedundantAttributes: true,
       removeEmptyAttributes: true,
       removeScriptTypeAttributes: true,
@@ -141,12 +131,27 @@ async function doRender(locals) {
       useShortDoctype: true,
       minifyJS: true,
     });
+  }
+
+  // TODO this is a temporary error affecting only monorepos due to Terser 5 (async) being used by html-minifier-terser,
+  // instead of the expected Terser 4 (sync)
+  // TODO, remove this once we upgrade everything to Terser 5 (https://github.com/terser/html-minifier-terser/issues/46)
+  // See also
+  // - https://github.com/facebook/docusaurus/issues/3515
+  // - https://github.com/terser/html-minifier-terser/issues/49
+  try {
+    return doMinify();
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Minification page with path "${locals.path}" failed because of following error:\n\n${e.stack}\n`,
-      ),
-    );
+    if (
+      e.message &&
+      e.message.includes("Cannot read property 'replace' of undefined")
+    ) {
+      console.error(
+        chalk.red(
+          '\nDocusaurus user: you probably have this known error due to using a monorepo/workspace.\nWe have a workaround for you, check https://github.com/facebook/docusaurus/issues/3515\n',
+        ),
+      );
+    }
     throw e;
   }
 }

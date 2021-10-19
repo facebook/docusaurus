@@ -1,6 +1,6 @@
-# `stylelint-copyright`
+# stylelint-copyright
 
-Stylelint plugin to check CSS files for a copyright header.
+stylelint plugin to check CSS files for a copyright header.
 
 ```css
 /*

@@ -1,0 +1,58 @@
+@media only screen and (min-width: 997px) {
+  .sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    transition: all 0.5s;
+    min-height: 100vh;
+    margin-left: 0;
+    font-size: 16px;
+  }
+
+  .isOpen {
+    margin-left: 0;
+    transition: .5s;
+  }
+
+  .sidebar ul p {
+    color: #fff;
+    padding: 10px;
+  }
+  .sidebarFAB {
+    display: none;
+  }
+}
+
+
+@media only screen and (max-width: 500px) {
+  .isOpen .sideMenu{
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    display: inherit;
+    background-color: #17a2b8;
+    align-items: stretch;
+    overflow: hidden;
+    transition: all 0.5s, height 0s;
+  }
+
+  .sideMenu {
+    display: none;
+  }
+
+  .sidebar {
+    width: 0;
+  }
+
+  .sidebarFAB {
+    display: inline-flex;
+    position: fixed;
+    z-index: 2;
+    right: 1rem;
+    bottom: 2rem;
+  }
+
+}

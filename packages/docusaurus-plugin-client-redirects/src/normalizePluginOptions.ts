@@ -6,7 +6,8 @@
  */
 
 import {PluginOptions, RedirectOption, UserPluginOptions} from './types';
-import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
+import * as Joi from 'joi';
+import {PathnameSchema} from '@docusaurus/utils-validation';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 export const DefaultPluginOptions: PluginOptions = {

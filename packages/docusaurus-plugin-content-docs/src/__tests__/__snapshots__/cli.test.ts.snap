@@ -5,11 +5,9 @@ Object {
   "version-1.0.0/docs": Array [
     Object {
       "collapsed": true,
-      "collapsible": true,
       "items": Array [
         Object {
           "collapsed": true,
-          "collapsible": true,
           "items": Array [
             Object {
               "id": "version-1.0.0/foo/bar",
@@ -38,7 +36,6 @@ Object {
     },
     Object {
       "collapsed": true,
-      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.0/hello",
@@ -57,7 +54,6 @@ Object {
   "version-2.0.0/docs": Array [
     Object {
       "collapsed": true,
-      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/foo/bar",
@@ -69,7 +65,6 @@ Object {
     },
     Object {
       "collapsed": true,
-      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/hello",

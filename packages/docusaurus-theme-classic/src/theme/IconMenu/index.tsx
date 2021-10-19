@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/IconMenu';
+import {Props} from '@theme/IconMenu';
 
 const IconMenu = ({
   width = 30,
@@ -16,12 +16,15 @@ const IconMenu = ({
 }: Props): JSX.Element => {
   return (
     <svg
+      aria-label="Menu"
       className={className}
       width={width}
       height={height}
       viewBox="0 0 30 30"
-      aria-hidden="true"
+      role="img"
+      focusable="false"
       {...restProps}>
+      <title>Menu</title>
       <path
         stroke="currentColor"
         strokeLinecap="round"

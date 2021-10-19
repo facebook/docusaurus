@@ -7,7 +7,6 @@
 
 import {useState, useCallback, useEffect} from 'react';
 import type {useTabGroupChoiceReturns} from '@theme/hooks/useTabGroupChoice';
-import {createStorageSlot, listStorageKeys} from '@docusaurus/theme-common';
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
@@ -16,18 +15,23 @@ const useTabGroupChoice = (): useTabGroupChoiceReturns => {
     readonly [groupId: string]: string;
   }>({});
   const setChoiceSyncWithLocalStorage = useCallback((groupId, newChoice) => {
-    createStorageSlot(`${TAB_CHOICE_PREFIX}${groupId}`).set(newChoice);
+    try {
+      localStorage.setItem(`${TAB_CHOICE_PREFIX}${groupId}`, newChoice);
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   useEffect(() => {
     try {
-      const localStorageChoices: Record<string, string> = {};
-      listStorageKeys().forEach((storageKey) => {
+      const localStorageChoices = {};
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const storageKey = localStorage.key(i) as string;
         if (storageKey.startsWith(TAB_CHOICE_PREFIX)) {
           const groupId = storageKey.substring(TAB_CHOICE_PREFIX.length);
-          localStorageChoices[groupId] = createStorageSlot(storageKey).get()!;
+          localStorageChoices[groupId] = localStorage.getItem(storageKey);
         }
-      });
+      }
       setChoices(localStorageChoices);
     } catch (err) {
       console.error(err);

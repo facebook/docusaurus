@@ -16,7 +16,7 @@ function useUserPreferencesContext(): UserPreferencesContextProps {
   );
   if (context == null) {
     throw new Error(
-      '"useUserPreferencesContext" is used outside of "Layout" component.',
+      '`useUserPreferencesContext` is used outside of `Layout` Component.',
     );
   }
   return context;

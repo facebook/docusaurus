@@ -5,18 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as Joi from 'joi';
 import {
-  Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
-import {GlobExcludeDefault} from '@docusaurus/utils';
-import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom'], copyright: ''},
+export const DEFAULT_OPTIONS = {
+  feedOptions: {type: ['rss', 'atom']},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
@@ -33,28 +31,21 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   blogSidebarCount: 5,
   blogSidebarTitle: 'Recent posts',
   postsPerPage: 10,
-  include: ['**/*.{md,mdx}'],
-  exclude: GlobExcludeDefault,
+  include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',
-  tagsBasePath: 'tags',
-  archiveBasePath: 'archive',
   path: 'blog',
-  editLocalizedFiles: false,
-  authorsMapPath: 'authors.yml',
 };
 
-export const PluginOptionSchema = Joi.object<PluginOptions>({
+export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')
     .default(DEFAULT_OPTIONS.routeBasePath),
-  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
-  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
-  postsPerPage: Joi.alternatives()
-    .try(Joi.equal('ALL').required(), Joi.number().integer().min(1).required())
+  postsPerPage: Joi.number()
+    .integer()
+    .min(1)
     .default(DEFAULT_OPTIONS.postsPerPage),
   blogListComponent: Joi.string().default(DEFAULT_OPTIONS.blogListComponent),
   blogPostComponent: Joi.string().default(DEFAULT_OPTIONS.blogPostComponent),
@@ -69,15 +60,14 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     .allow('')
     .default(DEFAULT_OPTIONS.blogDescription),
   blogSidebarCount: Joi.alternatives()
-    .try(Joi.equal('ALL').required(), Joi.number().integer().min(0).required())
+    .try(Joi.equal('ALL').required(), Joi.number().required())
     .default(DEFAULT_OPTIONS.blogSidebarCount),
   blogSidebarTitle: Joi.string().default(DEFAULT_OPTIONS.blogSidebarTitle),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
-  editUrl: Joi.alternatives().try(URISchema, Joi.function()),
-  editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
+  editUrl: URISchema,
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
@@ -102,15 +92,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
-    // only add default value when user actually wants a feed (type is not null)
-    copyright: Joi.when('type', {
-      is: Joi.any().valid(null),
-      then: Joi.string().optional(),
-      otherwise: Joi.string()
-        .allow('')
-        .default(DEFAULT_OPTIONS.feedOptions.copyright),
-    }),
+    copyright: Joi.string(),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
-  authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
 });

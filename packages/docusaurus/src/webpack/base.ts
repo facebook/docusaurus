@@ -7,32 +7,22 @@
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
-  getCustomizableJSLoader,
+  getBabelLoader,
+  getCacheLoader,
   getStyleLoaders,
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {STATIC_DIR_NAME} from '../constants';
-import SharedModuleAliases from './sharedModuleAliases';
-import {loadPluginsThemeAliases} from '../server/themes';
-import {md5Hash} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
-
-const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
-];
-
-const LibrariesToTranspileRegex = new RegExp(
-  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
-);
 
 export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
@@ -42,8 +32,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     /node_modules/.test(modulePath) &&
-    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
+    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
   );
 }
 
@@ -51,7 +40,7 @@ export function getDocusaurusAliases(): Record<string, string> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: Record<string, string> = {};
+  const aliases = {};
 
   fs.readdirSync(dirPath)
     .filter((fileName) => extensions.includes(path.extname(fileName)))
@@ -72,17 +61,8 @@ export function createBaseConfig(
   isServer: boolean,
   minify: boolean = true,
 ): Configuration {
-  const {
-    outDir,
-    siteDir,
-    siteConfig,
-    siteConfigPath,
-    baseUrl,
-    generatedFilesDir,
-    routesPaths,
-    siteMetadata,
-    plugins,
-  } = props;
+  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
+
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
@@ -90,39 +70,11 @@ export function createBaseConfig(
 
   const fileLoaderUtils = getFileLoaderUtils();
 
-  const name = isServer ? 'server' : 'client';
-  const mode = isProd ? 'production' : 'development';
-
-  const themeAliases = loadPluginsThemeAliases({siteDir, plugins});
-
   return {
-    mode,
-    name,
-    cache: {
-      type: 'filesystem',
-      // Can we share the same cache across locales?
-      // Exploring that question at https://github.com/webpack/webpack/issues/13034
-      // name: `${name}-${mode}`,
-      name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      // When version string changes, cache is evicted
-      version: [
-        siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change, so we force eviction.
-        // See https://github.com/webpack/webpack/issues/13627
-        md5Hash(JSON.stringify(themeAliases)),
-      ].join('-'),
-      // When one of those modules/dependencies change (including transitive deps), cache is invalidated
-      buildDependencies: {
-        config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd rather evict the cache.
-          // See https://github.com/questdb/questdb.io/issues/493
-          siteConfigPath,
-        ],
-      },
-    },
+    mode: isProd ? 'production' : 'development',
     output: {
+      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
+      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
       filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
@@ -135,22 +87,11 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: isProd ? undefined : 'eval-cheap-module-source-map',
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
-      unsafeCache: false, // not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-      symlinks: true, // see https://github.com/facebook/docusaurus/issues/3272
-      roots: [
-        // Allow resolution of url("/fonts/xyz.ttf") by webpack
-        // See https://webpack.js.org/configuration/resolve/#resolveroots
-        // See https://github.com/webpack-contrib/css-loader/issues/1256
-        path.join(siteDir, STATIC_DIR_NAME),
-        siteDir,
-        process.cwd(),
-      ],
+      symlinks: true,
       alias: {
-        ...SharedModuleAliases,
-
         '@site': siteDir,
         '@generated': generatedFilesDir,
 
@@ -158,7 +99,6 @@ export function createBaseConfig(
         // so we use fine-grained aliases instead
         // '@docusaurus': path.resolve(__dirname, '../client/exports'),
         ...getDocusaurusAliases(),
-        ...themeAliases,
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
@@ -169,8 +109,10 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
+      plugins: [PnpWebpackPlugin],
     },
     resolveLoader: {
+      plugins: [PnpWebpackPlugin.moduleLoader(module)],
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
@@ -183,7 +125,7 @@ export function createBaseConfig(
       splitChunks: isServer
         ? false
         : {
-            // Since the chunk name includes all origin chunk names it's recommended for production builds with long term caching to NOT include [name] in the filenames
+            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
             name: false,
             cacheGroups: {
               // disable the built-in cacheGroups
@@ -199,7 +141,7 @@ export function createBaseConfig(
               // See https://github.com/facebook/docusaurus/issues/2006
               styles: {
                 name: 'styles',
-                type: 'css/mini-extract',
+                test: /\.css$/,
                 chunks: `all`,
                 enforce: true,
                 priority: 50,
@@ -210,7 +152,6 @@ export function createBaseConfig(
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
-        fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
@@ -218,11 +159,9 @@ export function createBaseConfig(
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
-              isServer,
-              babelOptions: getCustomBabelConfigFilePath(siteDir),
-            }),
-          ],
+            getCacheLoader(isServer),
+            getBabelLoader(isServer, getCustomBabelConfigFilePath(siteDir)),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,
@@ -239,12 +178,12 @@ export function createBaseConfig(
           use: getStyleLoaders(isServer, {
             modules: {
               localIdentName: isProd
-                ? `[local]_[contenthash:base64:4]`
-                : `[local]_[path][name]`,
-              exportOnlyLocals: isServer,
+                ? `[local]_[hash:base64:4]`
+                : `[local]_[path]`,
             },
             importLoaders: 1,
             sourceMap: !isProd,
+            onlyLocals: isServer,
           }),
         },
       ],

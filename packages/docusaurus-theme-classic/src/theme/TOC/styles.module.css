@@ -6,13 +6,14 @@
  */
 
 .tableOfContents {
+  display: inherit;
   max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
   overflow-y: auto;
   position: sticky;
-  top: calc(var(--ifm-navbar-height) + 1rem);
+  top: calc(var(--ifm-navbar-height) + 2rem);
 }
 
-@media (max-width: 996px) {
+@media only screen and (max-width: 996px) {
   .tableOfContents {
     display: none;
   }

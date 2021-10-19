@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function support(feature: string) {
+function support(feature) {
   if (typeof document === 'undefined') {
     return false;
   }
@@ -43,7 +43,7 @@ function linkPrefetchStrategy(url: string) {
   });
 }
 
-function xhrPrefetchStrategy(url: string): Promise<void> {
+function xhrPrefetchStrategy(url: string) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('GET', url, true);
@@ -65,7 +65,7 @@ const supportedPrefetchStrategy = support('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: Record<string, boolean> = {};
+const preFetched = {};
 
 function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {
@@ -79,6 +79,7 @@ function prefetch(url: string): Promise<void> {
         resolve();
         preFetched[url] = true;
       })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .catch(() => {}); // 404s are logged to the console anyway.
   });
 }

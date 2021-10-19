@@ -5,23 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, ComponentType} from 'react';
+import React, {ReactNode, useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
-import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
-
-import type {LinkProps} from '@docusaurus/Link';
-import type docusaurus from '../docusaurus';
 
 declare global {
   interface Window {
-    docusaurus: typeof docusaurus;
+    docusaurus: any;
   }
+}
+
+interface Props {
+  readonly isNavLink?: boolean;
+  readonly to?: string;
+  readonly href?: string;
+  readonly activeClassName?: string;
+  readonly children?: ReactNode;
+  readonly isActive?: () => boolean;
+  readonly autoAddBaseUrl?: boolean;
+
+  // escape hatch in case broken links check is annoying for a specific link
+  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -40,10 +48,7 @@ function Link({
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   autoAddBaseUrl = true,
   ...props
-}: LinkProps): JSX.Element {
-  const {
-    siteConfig: {trailingSlash, baseUrl},
-  } = useDocusaurusContext();
+}: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
@@ -74,24 +79,18 @@ function Link({
 
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
-  let targetLink =
+  const targetLink =
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
-  if (targetLink && isInternal) {
-    targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
-  }
-
   const preloaded = useRef(false);
-  const LinkComponent = (
-    isNavLink ? NavLink : RRLink
-  ) as ComponentType<LinkProps>;
+  const LinkComponent = isNavLink ? NavLink : RRLink;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  let io: IntersectionObserver;
-  const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
+  let io;
+  const handleIntersection = (el, cb) => {
     io = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
@@ -110,19 +109,17 @@ function Link({
     io.observe(el);
   };
 
-  const handleRef = (ref: HTMLAnchorElement | null) => {
+  const handleRef = (ref) => {
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {
-        if (targetLink != null) {
-          window.docusaurus.prefetch(targetLink);
-        }
+        window.docusaurus.prefetch(targetLink);
       });
     }
   };
 
   const onMouseEnter = () => {
-    if (!preloaded.current && targetLink != null) {
+    if (!preloaded.current) {
       window.docusaurus.preload(targetLink);
       preloaded.current = true;
     }
@@ -131,9 +128,7 @@ function Link({
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
     if (!IOSupported && isInternal) {
-      if (targetLink != null) {
-        window.docusaurus.prefetch(targetLink);
-      }
+      window.docusaurus.prefetch(targetLink);
     }
 
     // When unmounting, stop intersection observer from watching.

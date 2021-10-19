@@ -5,32 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
-import path from 'path';
-import {THEME_PATH} from '../../constants';
-import themeAlias, {sortAliases} from './alias';
-
-const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
+import {ThemeAlias} from '@docusaurus/types';
+import themeAlias from './alias';
 
 function buildThemeAliases(
-  themeAliases: ThemeAliases,
-  aliases: ThemeAliases = {},
-): ThemeAliases {
+  themeAliases: ThemeAlias,
+  aliases: ThemeAlias = {},
+): ThemeAlias {
   Object.keys(themeAliases).forEach((aliasKey) => {
     if (aliasKey in aliases) {
       const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+      // eslint-disable-next-line no-param-reassign
       aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
     }
+    // eslint-disable-next-line no-param-reassign
     aliases[aliasKey] = themeAliases[aliasKey];
   });
   return aliases;
 }
 
-export function loadThemeAliases(
+export default function loadThemeAlias(
   themePaths: string[],
   userThemePaths: string[] = [],
-): ThemeAliases {
-  let aliases = {}; // TODO refactor, inelegant side-effect
+): ThemeAlias {
+  let aliases = {};
 
   themePaths.forEach((themePath) => {
     const themeAliases = themeAlias(themePath, true);
@@ -42,19 +40,5 @@ export function loadThemeAliases(
     aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
   });
 
-  return sortAliases(aliases);
-}
-
-export function loadPluginsThemeAliases({
-  siteDir,
-  plugins,
-}: {
-  siteDir: string;
-  plugins: LoadedPlugin[];
-}): ThemeAliases {
-  const pluginThemes: string[] = plugins
-    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
-    .filter((x): x is string => Boolean(x));
-  const userTheme = path.resolve(siteDir, THEME_PATH);
-  return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);
+  return aliases;
 }

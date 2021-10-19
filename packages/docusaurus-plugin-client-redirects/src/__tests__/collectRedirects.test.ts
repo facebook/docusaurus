@@ -25,17 +25,12 @@ function createTestPluginContext(
 describe('collectRedirects', () => {
   test('should collect no redirect for undefined config', () => {
     expect(
-      collectRedirects(
-        createTestPluginContext(undefined, ['/', '/path']),
-        undefined,
-      ),
+      collectRedirects(createTestPluginContext(undefined, ['/', '/path'])),
     ).toEqual([]);
   });
 
   test('should collect no redirect for empty config', () => {
-    expect(collectRedirects(createTestPluginContext({}), undefined)).toEqual(
-      [],
-    );
+    expect(collectRedirects(createTestPluginContext({}))).toEqual([]);
   });
 
   test('should collect redirects to html/exe extension', () => {
@@ -47,7 +42,6 @@ describe('collectRedirects', () => {
           },
           ['/', '/somePath', '/otherPath.html'],
         ),
-        undefined,
       ),
     ).toEqual([
       {
@@ -70,7 +64,6 @@ describe('collectRedirects', () => {
           },
           ['/', '/somePath', '/otherPath.html'],
         ),
-        undefined,
       ),
     ).toEqual([
       {
@@ -98,79 +91,6 @@ describe('collectRedirects', () => {
           },
           ['/', '/somePath'],
         ),
-        undefined,
-      ),
-    ).toEqual([
-      {
-        from: '/someLegacyPath',
-        to: '/somePath',
-      },
-      {
-        from: '/someLegacyPathArray1',
-        to: '/',
-      },
-      {
-        from: '/someLegacyPathArray2',
-        to: '/',
-      },
-    ]);
-  });
-
-  test('should collect redirects from plugin option redirects with trailingSlash=true', () => {
-    expect(
-      collectRedirects(
-        createTestPluginContext(
-          {
-            redirects: [
-              {
-                from: '/someLegacyPath',
-                to: '/somePath',
-              },
-              {
-                from: ['/someLegacyPathArray1', '/someLegacyPathArray2'],
-                to: '/',
-              },
-            ],
-          },
-          ['/', '/somePath/'],
-        ),
-        true,
-      ),
-    ).toEqual([
-      {
-        from: '/someLegacyPath',
-        to: '/somePath/',
-      },
-      {
-        from: '/someLegacyPathArray1',
-        to: '/',
-      },
-      {
-        from: '/someLegacyPathArray2',
-        to: '/',
-      },
-    ]);
-  });
-
-  test('should collect redirects from plugin option redirects with trailingSlash=false', () => {
-    expect(
-      collectRedirects(
-        createTestPluginContext(
-          {
-            redirects: [
-              {
-                from: '/someLegacyPath',
-                to: '/somePath/',
-              },
-              {
-                from: ['/someLegacyPathArray1', '/someLegacyPathArray2'],
-                to: '/',
-              },
-            ],
-          },
-          ['/', '/somePath'],
-        ),
-        false,
       ),
     ).toEqual([
       {
@@ -210,7 +130,6 @@ describe('collectRedirects', () => {
           },
           ['/', '/someExistingPath', '/anotherExistingPath'],
         ),
-        undefined,
       ),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -229,7 +148,6 @@ describe('collectRedirects', () => {
           },
           ['/', '/testpath', '/otherPath.html'],
         ),
-        undefined,
       ),
     ).toEqual([
       {
@@ -279,7 +197,6 @@ describe('collectRedirects', () => {
           },
           ['/'],
         ),
-        undefined,
       ),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -291,14 +208,13 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return [[`/fromPath`]] as unknown as string;
+                return ([[`/fromPath`]] as unknown) as string;
               }
               return undefined;
             },
           },
           ['/'],
         ),
-        undefined,
       ),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -320,7 +236,6 @@ describe('collectRedirects', () => {
             '/toShouldWork',
           ],
         ),
-        undefined,
       ),
     ).toEqual([
       {

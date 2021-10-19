@@ -9,10 +9,6 @@
   font-size: 3rem;
 }
 
-.blogPostData {
+.blogPostDate {
   font-size: 0.9rem;
-}
-
-.blogPostDetailsFull {
-  flex-direction: column;
 }

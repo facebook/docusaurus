@@ -31,16 +31,17 @@ describe('lastUpdate', () => {
   test('non-existing file', async () => {
     const consoleMock = jest.spyOn(console, 'error');
     consoleMock.mockImplementation();
-    const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
       __dirname,
       '__fixtures__',
-      nonExistingFileName,
+      '.nonExisting',
     );
     expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls[0][0].message).toContain(
-      `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFileName}`,
+    expect(consoleMock).toHaveBeenCalledWith(
+      new Error(
+        `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFilePath}`,
+      ),
     );
     expect(await getFileLastUpdate(null)).toBeNull();
     expect(await getFileLastUpdate(undefined)).toBeNull();

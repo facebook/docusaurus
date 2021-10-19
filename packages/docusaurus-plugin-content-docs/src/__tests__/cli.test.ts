@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import {PathOptions, SidebarOptions} from '../types';
+import {PathOptions} from '../types';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
@@ -21,12 +21,9 @@ const fixtureDir = path.join(__dirname, '__fixtures__');
 describe('docsVersion', () => {
   const simpleSiteDir = path.join(fixtureDir, 'simple-site');
   const versionedSiteDir = path.join(fixtureDir, 'versioned-site');
-
-  const DEFAULT_OPTIONS: PathOptions & SidebarOptions = {
+  const DEFAULT_OPTIONS: PathOptions = {
     path: 'docs',
     sidebarPath: '',
-    sidebarCollapsed: true,
-    sidebarCollapsible: true,
   };
 
   test('no version tag provided', () => {
@@ -38,7 +35,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
+      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -48,7 +45,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
+      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -58,7 +55,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
+      `"[docs] No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0"`,
     );
   });
 
@@ -71,7 +68,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Do not include slash (/) or (\\\\). Try something like: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -81,7 +78,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Do not include slash (/) or (\\\\). Try something like: 1.0.0"`,
     );
   });
 
@@ -94,7 +91,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0"`,
     );
   });
 
@@ -107,7 +104,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -117,7 +114,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0"`,
     );
   });
 
@@ -130,7 +127,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -140,7 +137,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
     expect(() =>
       cliDocsVersionCommand(
@@ -150,7 +147,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
+      `"[docs] Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0"`,
     );
   });
 
@@ -163,7 +160,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: this version already exists! Use a version tag that does not already exist."`,
+      `"[docs] This version already exists!. Use a version tag that does not already exist."`,
     );
   });
 
@@ -177,7 +174,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: there is no docs to version!"`,
+      `"[docs] There is no docs to version !"`,
     );
   });
 
@@ -189,17 +186,17 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content as string);
+      versionedSidebar = JSON.parse(content);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content as string);
+      versions = JSON.parse(content);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
-      ...DEFAULT_OPTIONS,
+      path: 'docs',
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
@@ -221,7 +218,7 @@ describe('docsVersion', () => {
       getVersionsFilePath(simpleSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['1.0.0']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 1.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith('[docs] Version 1.0.0 created!');
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -237,17 +234,17 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content as string);
+      versionedSidebar = JSON.parse(content);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content as string);
+      versions = JSON.parse(content);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
-      ...DEFAULT_OPTIONS,
+      path: 'docs',
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand(
@@ -274,7 +271,7 @@ describe('docsVersion', () => {
       getVersionsFilePath(versionedSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 2.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith('[docs] Version 2.0.0 created!');
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -292,17 +289,16 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content as string);
+      versionedSidebar = JSON.parse(content);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content as string);
+      versions = JSON.parse(content);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
-      ...DEFAULT_OPTIONS,
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };
@@ -326,7 +322,7 @@ describe('docsVersion', () => {
     );
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
-      '[community]: version 2.0.0 created!',
+      '[community] Version 2.0.0 created!',
     );
 
     copyMock.mockRestore();

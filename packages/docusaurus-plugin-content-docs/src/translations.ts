@@ -5,15 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedVersion, LoadedContent} from './types';
-import type {Sidebar, Sidebars} from './sidebars/types';
+import {
+  LoadedVersion,
+  Sidebar,
+  LoadedContent,
+  Sidebars,
+  SidebarItem,
+} from './types';
 
-import {chain, mapValues, keyBy} from 'lodash';
+import {chain, mapValues, flatten, keyBy} from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
   collectSidebarLinks,
-} from './sidebars/utils';
+} from './sidebars';
 import {
   TranslationFileContent,
   TranslationFile,
@@ -126,25 +131,29 @@ function translateSidebar({
   sidebarName: string;
   sidebarsTranslations: TranslationFileContent;
 }): Sidebar {
-  return transformSidebarItems(sidebar, (item) => {
-    if (item.type === 'category') {
-      return {
-        ...item,
-        label:
-          sidebarsTranslations[`sidebar.${sidebarName}.category.${item.label}`]
-            ?.message ?? item.label,
-      };
-    }
-    if (item.type === 'link') {
-      return {
-        ...item,
-        label:
-          sidebarsTranslations[`sidebar.${sidebarName}.link.${item.label}`]
-            ?.message ?? item.label,
-      };
-    }
-    return item;
-  });
+  return transformSidebarItems(
+    sidebar,
+    (item: SidebarItem): SidebarItem => {
+      if (item.type === 'category') {
+        return {
+          ...item,
+          label:
+            sidebarsTranslations[
+              `sidebar.${sidebarName}.category.${item.label}`
+            ]?.message ?? item.label,
+        };
+      }
+      if (item.type === 'link') {
+        return {
+          ...item,
+          label:
+            sidebarsTranslations[`sidebar.${sidebarName}.link.${item.label}`]
+              ?.message ?? item.label,
+        };
+      }
+      return item;
+    },
+  );
 }
 
 function getSidebarsTranslations(
@@ -184,8 +193,9 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
     },
   };
 
-  const sidebarsTranslations: TranslationFileContent =
-    getSidebarsTranslations(version);
+  const sidebarsTranslations: TranslationFileContent = getSidebarsTranslations(
+    version,
+  );
 
   // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
 
@@ -217,7 +227,7 @@ function translateVersion(
 function getVersionsTranslationFiles(
   versions: LoadedVersion[],
 ): TranslationFiles {
-  return versions.flatMap(getVersionTranslationFiles);
+  return flatten(versions.map(getVersionTranslationFiles));
 }
 function translateVersions(
   versions: LoadedVersion[],

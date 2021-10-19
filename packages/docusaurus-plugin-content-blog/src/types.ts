@@ -5,56 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag} from '@docusaurus/utils';
-import type {
-  BrokenMarkdownLink,
-  ContentPaths,
-} from '@docusaurus/utils/lib/markdownLinks';
-import {Overwrite} from 'utility-types';
-
-export type BlogContentPaths = ContentPaths;
+export type BlogContentPaths = {
+  contentPath: string;
+  contentPathLocalized: string;
+};
 
 export interface BlogContent {
-  blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
   blogTagsListPath: string | null;
 }
 
+export interface DateLink {
+  date: Date;
+  link: string;
+}
+
 export type FeedType = 'rss' | 'atom';
 
-export type FeedOptions = {
-  type?: FeedType[] | null;
-  title?: string;
-  description?: string;
-  copyright: string;
-  language?: string;
-};
-
-// Feed options, as provided by user config
-export type UserFeedOptions = Overwrite<
-  Partial<FeedOptions>,
-  {type?: FeedOptions['type'] | 'all'} // Handle the type: "all" shortcut
->;
-
-export type EditUrlFunction = (editUrlParams: {
-  blogDirPath: string;
-  blogPath: string;
-  permalink: string;
-  locale: string;
-}) => string | undefined;
-
-export type PluginOptions = RemarkAndRehypePluginOptions & {
+export interface PluginOptions {
   id?: string;
   path: string;
   routeBasePath: string;
-  tagsBasePath: string;
-  archiveBasePath: string;
   include: string[];
-  exclude: string[];
-  postsPerPage: number | 'ALL';
+  postsPerPage: number;
   blogListComponent: string;
   blogPostComponent: string;
   blogTagsListComponent: string;
@@ -63,26 +38,28 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   blogDescription: string;
   blogSidebarCount: number | 'ALL';
   blogSidebarTitle: string;
+  remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
+  beforeDefaultRehypePlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
+  beforeDefaultRemarkPlugins: (
+    | [Function, Record<string, unknown>]
+    | Function
+  )[];
+  rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type?: FeedType[] | null;
+    type?: [FeedType] | null;
     title?: string;
     description?: string;
     copyright: string;
     language?: string;
   };
-  editUrl?: string | EditUrlFunction;
-  editLocalizedFiles?: boolean;
+  editUrl?: string;
   admonitions: Record<string, unknown>;
-  authorsMapPath: string;
-};
-
-// Options, as provided in the user config (before normalization)
-export type UserPluginOptions = Overwrite<
-  Partial<PluginOptions>,
-  {feedOptions?: UserFeedOptions}
->;
+}
 
 export interface BlogTags {
   [key: string]: BlogTag;
@@ -97,7 +74,6 @@ export interface BlogTag {
 export interface BlogPost {
   id: string;
   metadata: MetaData;
-  content: string;
 }
 
 export interface BlogPaginatedMetadata {
@@ -117,37 +93,27 @@ export interface BlogPaginated {
   items: string[];
 }
 
-// We allow passing custom fields to authors, e.g., twitter
-export interface Author extends Record<string, unknown> {
-  name?: string;
-  imageURL?: string;
-  url?: string;
-  title?: string;
-}
-
 export interface MetaData {
   permalink: string;
   source: string;
   description: string;
   date: Date;
-  formattedDate: string;
-  tags: Tag[];
+  tags: (Tag | string)[];
   title: string;
   readingTime?: number;
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
   editUrl?: string;
-  authors: Author[];
-}
-
-export interface Assets {
-  image?: string;
-  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
 }
 
 export interface Paginator {
   title: string;
+  permalink: string;
+}
+
+export interface Tag {
+  label: string;
   permalink: string;
 }
 
@@ -167,11 +133,15 @@ export interface TagModule {
   permalink: string;
 }
 
-export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
+export type BlogBrokenMarkdownLink = {
+  folderPath: string;
+  filePath: string;
+  link: string;
+};
 export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  sourceToPermalink: Record<string, string>;
+  blogPosts: BlogPost[];
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };

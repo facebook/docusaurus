@@ -12,10 +12,6 @@ Array [
         "description": "Navbar item with label Dropdown item 1",
         "message": "Dropdown item 1",
       },
-      "item.label.Dropdown item 2": Object {
-        "description": "Navbar item with label Dropdown item 2",
-        "message": "Dropdown item 2",
-      },
       "title": Object {
         "description": "The title in the navbar",
         "message": "navbar title",
@@ -98,11 +94,7 @@ Object {
         "items": Array [
           Object {
             "items": Array [],
-            "label": "Dropdown item 1 (translated)",
-          },
-          Object {
-            "items": Array [],
-            "label": "Dropdown item 2 (translated)",
+            "label": "Dropdown item 1",
           },
         ],
         "label": "Dropdown (translated)",

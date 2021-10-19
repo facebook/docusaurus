@@ -5,32 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {loader} from 'webpack';
 import {truncate, linkify} from './blogUtils';
-import {parseQuery} from 'loader-utils';
+import {parseQuery, getOptions} from 'loader-utils';
 import {BlogMarkdownLoaderOptions} from './types';
 
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): string | Buffer | void | undefined;
-}
-
-const markdownLoader: Loader = function (source) {
+const markdownLoader: loader.Loader = function (source) {
   const filePath = this.resourcePath;
-  const fileString = source as string;
+  const fileContent = source as string;
   const callback = this.async();
-  const markdownLoaderOptions = this.getOptions() as BlogMarkdownLoaderOptions;
+  const markdownLoaderOptions = getOptions(this) as BlogMarkdownLoaderOptions;
 
   // Linkify blog posts
   let finalContent = linkify({
-    fileString,
+    fileContent,
     filePath,
     ...markdownLoaderOptions,
   });
 
   // Truncate content if requested (e.g: file.md?truncated=true).
-  const truncated: boolean | undefined = this.resourceQuery
-    ? !!parseQuery(this.resourceQuery).truncated
+  const truncated: string | undefined = this.resourceQuery
+    ? parseQuery(this.resourceQuery).truncated
     : undefined;
 
   if (truncated) {

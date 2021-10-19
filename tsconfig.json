@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "es2017",
     "module": "commonjs",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["es2017","es2019.array", "DOM"],
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "jsx": "react",
 
     /* Strict Type-Checking Options */
@@ -28,15 +28,9 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "isolatedModules": true,
 
     /* Advanced Options */
-    "resolveJsonModule": true,
-    "skipLibCheck": true, // @types/webpack and webpack/types.d.ts are not the same thing
-
-    /* Use tslib */
-    "importHelpers": true,
-    "noEmitHelpers": true
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }

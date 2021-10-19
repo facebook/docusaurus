@@ -6,23 +6,15 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
-import {ThemeClassNames} from '@docusaurus/theme-common';
-
-import styles from './styles.module.css';
 
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
-  const {
-    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
-    frontMatter,
-    metadata,
-  } = MDXPageContent;
+  const {frontMatter, metadata} = MDXPageContent;
 
   const {
     title,
@@ -37,24 +29,25 @@ function MDXPage(props: Props): JSX.Element {
       title={title}
       description={description}
       permalink={permalink}
-      wrapperClassName={wrapperClassName ?? ThemeClassNames.wrapper.mdxPages}
-      pageClassName={ThemeClassNames.page.mdxPage}>
-      <main className="container container--fluid margin-vert--lg">
-        <div className={clsx('row', styles.mdxPageWrapper)}>
-          <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-            <MDXProvider components={MDXComponents}>
-              <MDXPageContent />
-            </MDXProvider>
-          </div>
-          {!hideTableOfContents && MDXPageContent.toc && (
-            <div className="col col--2">
-              <TOC
-                toc={MDXPageContent.toc}
-                minHeadingLevel={frontMatter.toc_min_heading_level}
-                maxHeadingLevel={frontMatter.toc_max_heading_level}
-              />
+      wrapperClassName={wrapperClassName}>
+      <main>
+        <div className="container container--fluid">
+          <div className="margin-vert--lg padding-vert--lg">
+            <div className="row">
+              <div className="col col--8 col--offset-2">
+                <div className="container">
+                  <MDXProvider components={MDXComponents}>
+                    <MDXPageContent />
+                  </MDXProvider>
+                </div>
+              </div>
+              {!hideTableOfContents && MDXPageContent.toc && (
+                <div className="col col--2">
+                  <TOC toc={MDXPageContent.toc} />
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </main>
     </Layout>

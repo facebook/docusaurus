@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const loaderUtils = require('loader-utils');
 const lqip = require('./lqip');
 
 module.exports = function (contentBuffer) {
@@ -14,13 +15,14 @@ module.exports = function (contentBuffer) {
   const callback = this.async();
   const imgPath = this.resourcePath;
 
-  const config = this.getOptions() || {};
+  const config = loaderUtils.getOptions(this) || {};
   config.base64 = 'base64' in config ? config.base64 : true;
   config.palette = 'palette' in config ? config.palette : false;
 
   let content = contentBuffer.toString('utf8');
-  const contentIsUrlExport =
-    /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(content);
+  const contentIsUrlExport = /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(
+    content,
+  );
   const contentIsFileExport = /^(?:export default|module.exports =) (.*)/.test(
     content,
   );

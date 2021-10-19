@@ -5,16 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RuleSetRule, Configuration} from 'webpack';
-import type {Command} from 'commander';
-import type {ParsedUrlQueryInput} from 'querystring';
-import type Joi from 'joi';
-import type {Overwrite, DeepPartial} from 'utility-types';
-
-// Convert webpack-merge webpack-merge enum to union type
-// For type retro-compatible webpack-merge upgrade: we used string literals before)
-// see https://github.com/survivejs/webpack-merge/issues/179
-type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
+// ESLint doesn't understand types dependencies in d.ts
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {Loader, Configuration} from 'webpack';
+import {Command} from 'commander';
+import {ParsedUrlQueryInput} from 'querystring';
+import {MergeStrategy} from 'webpack-merge';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -22,16 +18,13 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
-// Docusaurus config, after validation/normalization
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
-  favicon?: string;
+  favicon: string;
   tagline?: string;
   title: string;
   url: string;
-  // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
-  trailingSlash: boolean | undefined;
   i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;
@@ -40,7 +33,6 @@ export interface DocusaurusConfig {
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
-  githubPort?: string;
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
   presets?: PresetConfig[];
@@ -65,23 +57,7 @@ export interface DocusaurusConfig {
       }
   )[];
   titleDelimiter?: string;
-  webpack?: {
-    jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
-  };
 }
-
-// Docusaurus config, as provided by the user (partial/unnormalized)
-// This type is used to provide type-safety / IDE auto-complete on the config file
-// See https://docusaurus.io/docs/typescript-support
-export type Config = Overwrite<
-  Partial<DocusaurusConfig>,
-  {
-    title: Required<DocusaurusConfig['title']>;
-    url: Required<DocusaurusConfig['url']>;
-    baseUrl: Required<DocusaurusConfig['baseUrl']>;
-    i18n?: DeepPartial<DocusaurusConfig['i18n']>;
-  }
->;
 
 /**
  * - `type: 'package'`, plugin is in a different package.
@@ -118,32 +94,25 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
-  direction: string;
 };
 
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
+  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
-export type I18n = {
-  defaultLocale: string;
-  locales: [string, ...string[]];
+export type I18n = I18nConfig & {
   currentLocale: string;
-  localeConfigs: Record<string, I18nLocaleConfig>;
 };
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
-  globalData: Record<string, unknown>;
+  globalData: Record<string, any>;
   i18n: I18n;
   codeTranslations: Record<string, string>;
-
-  // Don't put mutable values here, to avoid triggering re-renders
-  // We could reconsider that choice if context selectors are implemented
-  // isBrowser: boolean; // Not here on purpose!
+  isClient: boolean;
 }
 
 export interface Preset {
@@ -161,25 +130,19 @@ export type HostPortCLIOptions = {
   port?: string;
 };
 
-export type ConfigOptions = {
-  config: string;
+export type StartCLIOptions = HostPortCLIOptions & {
+  hotOnly: boolean;
+  open: boolean;
+  poll: boolean | number;
+  locale?: string;
 };
 
-export type StartCLIOptions = HostPortCLIOptions &
-  ConfigOptions & {
-    hotOnly: boolean;
-    open: boolean;
-    poll: boolean | number;
-    locale?: string;
-  };
+export type ServeCLIOptions = HostPortCLIOptions & {
+  build: boolean;
+  dir: string;
+};
 
-export type ServeCLIOptions = HostPortCLIOptions &
-  ConfigOptions & {
-    dir: string;
-    build: boolean;
-  };
-
-export type BuildOptions = ConfigOptions & {
+export type BuildOptions = {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
@@ -194,9 +157,8 @@ export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
-  siteConfigPath: string;
   outDir: string;
-  baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
+  baseUrl: string;
   i18n: I18n;
   ssrTemplate?: string;
   codeTranslations: Record<string, string>;
@@ -211,15 +173,13 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
-  readonly siteMetadata: DocusaurusSiteMetadata;
-  readonly routes: RouteConfig[];
-  readonly routesPaths: string[];
-  readonly plugins: LoadedPlugin[];
+  routes: RouteConfig[];
+  routesPaths: string[];
+  plugins: Plugin<any, unknown>[];
 }
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createData(name: string, data: any): Promise<string>;
   setGlobalData<T = unknown>(data: T): void;
 }
@@ -232,62 +192,48 @@ export type AllContent = Record<
   >
 >;
 
-// TODO improve type (not exposed by postcss-loader)
-export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
-
-export interface Plugin<Content = unknown> {
+export interface Plugin<T, U = unknown> {
   name: string;
-  loadContent?(): Promise<Content>;
+  loadContent?(): Promise<T>;
+  validateOptions?(): ValidationResult<U>;
+  validateThemeConfig?(): ValidationResult<any>;
   contentLoaded?({
     content,
     actions,
   }: {
-    content: Content; // the content loaded by this plugin instance
+    content: T; // the content loaded by this plugin instance
     allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
-  }): Promise<void>;
+  }): void;
   routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
-  // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
-    content: Content,
   ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
-  configurePostCss?(options: PostCssOptions): PostCssOptions;
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
-  injectHtmlTags?({content}: {content: Content}): {
+  injectHtmlTags?(): {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
   };
-  // TODO before/afterDevServer implementation
+  getSwizzleComponentList?(): string[];
 
   // translations
-  getTranslationFiles?({
-    content,
-  }: {
-    content: Content;
-  }): Promise<TranslationFiles>;
-  getDefaultCodeTranslationMessages?(): Promise<
-    Record<
-      string, // id
-      string // message
-    >
-  >;
+  getTranslationFiles?(): Promise<TranslationFiles>;
   translateContent?({
     content,
     translationFiles,
   }: {
-    content: Content; // the content loaded by this plugin instance
+    content: T; // the content loaded by this plugin instance
     translationFiles: TranslationFiles;
-  }): Content;
+  }): T;
   translateThemeConfig?({
     themeConfig,
     translationFiles,
@@ -297,38 +243,12 @@ export interface Plugin<Content = unknown> {
   }): ThemeConfig;
 }
 
-export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
-  readonly options: PluginOptions;
-  readonly version: DocusaurusPluginVersionInformation;
-};
-
-export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
-  readonly content: Content;
-};
-
-export type PluginModule = {
-  <T, X>(context: LoadContext, options: T): Plugin<X>;
-  validateOptions?<T>(data: OptionValidationContext<T>): T;
-  validateThemeConfig?<T>(data: ThemeConfigValidationContext<T>): T;
-  getSwizzleComponentList?(): string[];
-};
-
-export type ImportedPluginModule = PluginModule & {
-  default?: PluginModule;
-};
-
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
-export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
-export type PluginConfig =
-  | [string, PluginOptions]
-  | [string]
-  | string
-  | [PluginModule, PluginOptions]
-  | PluginModule;
+export type PluginConfig = [string, PluginOptions] | [string] | string;
 
 export interface ChunkRegistry {
   loader: string;
@@ -358,11 +278,9 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
-  [propName: string]: unknown;
 }
 
-// Aliases used for Webpack resolution (when using docusaurus swizzle)
-export interface ThemeAliases {
+export interface ThemeAlias {
   [alias: string]: string;
 }
 
@@ -372,23 +290,15 @@ export interface ConfigureWebpackUtils {
     cssOptions: {
       [key: string]: unknown;
     },
-  ) => RuleSetRule[];
-  getJSLoader: (options: {
-    isServer: boolean;
-    babelOptions?: Record<string, unknown>;
-  }) => RuleSetRule;
-
-  // TODO deprecated: remove before end of 2021?
+  ) => Loader[];
   getCacheLoader: (
     isServer: boolean,
     cacheOptions?: Record<string, unknown>,
-  ) => RuleSetRule | null;
-
-  // TODO deprecated: remove before end of 2021?
+  ) => Loader | null;
   getBabelLoader: (
     isServer: boolean,
-    options?: Record<string, unknown>,
-  ) => RuleSetRule;
+    babelOptions?: Record<string, unknown>,
+  ) => Loader;
 }
 
 interface HtmlTagObject {
@@ -409,28 +319,38 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export type ValidationResult<T> = T;
+export interface ValidationResult<T, E extends Error = Error> {
+  error?: E;
+  value: T;
+}
 
-export type ValidationSchema<T> = Joi.ObjectSchema<T>;
-
-export type Validate<T> = (
+export type Validate<T, E extends Error = Error> = (
   validationSchema: ValidationSchema<T>,
   options: Partial<T>,
-) => ValidationResult<T>;
+) => ValidationResult<T, E>;
 
-export interface OptionValidationContext<T> {
-  validate: Validate<T>;
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
   options: Partial<T>;
 }
 
-export interface ThemeConfigValidationContext<T> {
-  validate: Validate<T>;
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
   themeConfig: Partial<T>;
+}
+
+// TODO we should use a Joi type here
+export interface ValidationSchema<T> {
+  validate(
+    options: Partial<T>,
+    opt: Record<string, unknown>,
+  ): ValidationResult<T>;
+  unknown(): ValidationSchema<T>;
+  append(data: any): ValidationSchema<T>;
 }
 
 export interface TOCItem {
   readonly value: string;
   readonly id: string;
   readonly children: TOCItem[];
-  readonly level: number;
 }

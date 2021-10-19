@@ -11,7 +11,9 @@ import {
   removeSuffix,
   simpleHash,
 } from '@docusaurus/utils';
-import {has, isPlainObject, isString} from 'lodash';
+import has from 'lodash.has';
+import isPlainObject from 'lodash.isplainobject';
+import isString from 'lodash.isstring';
 import {stringify} from 'querystring';
 import {
   ChunkRegistry,
@@ -21,56 +23,30 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
-type RegistryMap = {
-  [chunkName: string]: ChunkRegistry;
-};
-
-function indent(str: string) {
-  const spaces = '  ';
-  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
-}
-
 const createRouteCodeString = ({
   routePath,
   routeHash,
   exact,
   subroutesCodeStrings,
-  props,
 }: {
   routePath: string;
   routeHash: string;
   exact?: boolean;
   subroutesCodeStrings?: string[];
-  props: {[propName: string]: unknown};
 }) => {
-  const parts = [
-    `path: '${routePath}'`,
-    `component: ComponentCreator('${routePath}','${routeHash}')`,
-  ];
-
-  if (exact) {
-    parts.push(`exact: true`);
-  }
-
-  if (subroutesCodeStrings) {
-    parts.push(
-      `routes: [
-${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
-]`,
-    );
-  }
-
-  Object.entries(props).forEach(([propName, propValue]) => {
-    // Figure out how to "unquote" JS attributes that don't need to be quoted
-    // Is this lib reliable? https://github.com/armanozak/should-quote
-    const shouldQuote = true; // TODO
-    const key = shouldQuote ? `'${propName}'` : propName;
-    parts.push(`${key}: ${JSON.stringify(propValue)}`);
-  });
-
-  return `{
-${indent(parts.join(',\n'))}
-}`;
+  const str = `{
+  path: '${routePath}',
+  component: ComponentCreator('${routePath}','${routeHash}'),
+  ${exact ? `exact: true,` : ''}
+${
+  subroutesCodeStrings
+    ? `  routes: [
+${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
+]
+`
+    : ''
+}}`;
+  return str;
 };
 
 const NotFoundRouteCode = `{
@@ -132,13 +108,11 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
-      priority,
-      ...props
     } = routeConfig;
 
     if (!isString(routePath) || !component) {
       throw new Error(
-        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
+        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
           routeConfig,
         )}`,
       );
@@ -162,22 +136,19 @@ export default async function loadRoutes(
     };
 
     return createRouteCodeString({
-      routePath: routeConfig.path.replace(/'/g, "\\'"),
+      routePath: routeConfig.path,
       routeHash,
       exact,
       subroutesCodeStrings: subroutes?.map(generateRouteCode),
-      props,
     });
   }
 
   const routesConfig = `
 ${RoutesImportsCode}
-
 export default [
-${indent(`${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},`)}
-${indent(NotFoundRouteCode)}
-];
-`;
+${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},
+${NotFoundRouteCode}
+];\n`;
 
   return {
     registry,
@@ -188,37 +159,14 @@ ${indent(NotFoundRouteCode)}
 }
 
 function genRouteChunkNames(
-  registry: RegistryMap,
-  value: Module,
-  prefix?: string,
-  name?: string,
-): string;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule,
-  prefix?: string,
-  name?: string,
-): ChunkNames;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule[],
-  prefix?: string,
-  name?: string,
-): ChunkNames[];
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule | RouteModule[] | Module,
-  prefix?: string,
-  name?: string,
-): ChunkNames | ChunkNames[] | string;
-
-function genRouteChunkNames(
   // TODO instead of passing a mutating the registry, return a registry slice?
-  registry: RegistryMap,
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  },
   value: RouteModule | RouteModule[] | Module | null | undefined,
   prefix?: string,
   name?: string,
-): null | string | ChunkNames | ChunkNames[] {
+) {
   if (!value) {
     return null;
   }

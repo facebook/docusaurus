@@ -40,11 +40,12 @@ function createSampleVersion(
     versionLabel: `${version.versionName} label`,
     versionPath: '/docs/',
     mainDocId: '',
+    permalinkToSidebar: {},
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,
-    contentPath: 'any',
-    contentPathLocalized: 'any',
+    docsDirPath: 'any',
+    docsDirPathLocalized: 'any',
     docs: [
       createSampleDoc({
         id: 'doc1',

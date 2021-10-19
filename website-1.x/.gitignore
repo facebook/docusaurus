@@ -1,0 +1,6 @@
+build/
+i18n/*
+node_modules
+package-lock.json
+translated_docs
+yarn.lock

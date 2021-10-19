@@ -25,7 +25,6 @@ describe('loadRoutes', () => {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
           },
-          sidebar: 'main',
         },
         {
           path: 'docs/foo/baz',
@@ -34,7 +33,6 @@ describe('loadRoutes', () => {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
           },
-          sidebar: 'secondary',
         },
       ],
     };
@@ -77,7 +75,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid route config: path must be a string and component is required.
+      [Error: Invalid routeConfig (Path must be a string and component is required) 
       {"component":"hello/world.js"}]
     `);
 
@@ -87,7 +85,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid route config: path must be a string and component is required.
+      [Error: Invalid routeConfig (Path must be a string and component is required) 
       {"path":"/hello/world"}]
     `);
   });

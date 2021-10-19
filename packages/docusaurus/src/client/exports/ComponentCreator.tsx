@@ -12,8 +12,6 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
 
-type OptsLoader = Record<string, typeof registry[keyof typeof registry][0]>;
-
 function ComponentCreator(
   path: string,
   hash: string,
@@ -30,7 +28,7 @@ function ComponentCreator(
   const chunkNames = routesChunkNames[chunkNamesKey];
   const optsModules: string[] = [];
   const optsWebpack: string[] = [];
-  const optsLoader: OptsLoader = {};
+  const optsLoader = {};
 
   /* Prepare opts data that react-loadable needs
   https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded

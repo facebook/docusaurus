@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createStorageSlot} from '../storageUtils';
 import {DocsVersionPersistence} from '../useThemeConfig';
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
@@ -16,18 +15,30 @@ const DocsPreferredVersionStorage = {
     persistence: DocsVersionPersistence,
     versionName: string,
   ): void => {
-    createStorageSlot(storageKey(pluginId), {persistence}).set(versionName);
+    if (persistence === 'none') {
+      // noop
+    } else {
+      window.localStorage.setItem(storageKey(pluginId), versionName);
+    }
   },
 
   read: (
     pluginId: string,
     persistence: DocsVersionPersistence,
   ): string | null => {
-    return createStorageSlot(storageKey(pluginId), {persistence}).get();
+    if (persistence === 'none') {
+      return null;
+    } else {
+      return window.localStorage.getItem(storageKey(pluginId));
+    }
   },
 
   clear: (pluginId: string, persistence: DocsVersionPersistence): void => {
-    createStorageSlot(storageKey(pluginId), {persistence}).del();
+    if (persistence === 'none') {
+      // noop
+    } else {
+      window.localStorage.removeItem(storageKey(pluginId));
+    }
   },
 };
 

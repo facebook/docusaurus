@@ -8,11 +8,11 @@
 import React from 'react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import BlogLayout from '@theme/BlogLayout';
+import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import BlogSidebar from '@theme/BlogSidebar';
 
 function BlogListPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
@@ -22,30 +22,31 @@ function BlogListPage(props: Props): JSX.Element {
   const {blogDescription, blogTitle, permalink} = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
-
   return (
-    <BlogLayout
+    <Layout
       title={title}
       description={blogDescription}
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogListPage}
-      searchMetadatas={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'blog_posts_list',
-      }}
-      sidebar={sidebar}>
-      {items.map(({content: BlogPostContent}) => (
-        <BlogPostItem
-          key={BlogPostContent.metadata.permalink}
-          frontMatter={BlogPostContent.frontMatter}
-          assets={BlogPostContent.assets}
-          metadata={BlogPostContent.metadata}
-          truncated={BlogPostContent.metadata.truncated}>
-          <BlogPostContent />
-        </BlogPostItem>
-      ))}
-      <BlogListPaginator metadata={metadata} />
-    </BlogLayout>
+      wrapperClassName="blog-wrapper">
+      <div className="container margin-vert--lg">
+        <div className="row">
+          <div className="col col--2">
+            <BlogSidebar sidebar={sidebar} />
+          </div>
+          <main className="col col--8">
+            {items.map(({content: BlogPostContent}) => (
+              <BlogPostItem
+                key={BlogPostContent.metadata.permalink}
+                frontMatter={BlogPostContent.frontMatter}
+                metadata={BlogPostContent.metadata}
+                truncated={BlogPostContent.metadata.truncated}>
+                <BlogPostContent />
+              </BlogPostItem>
+            ))}
+            <BlogListPaginator metadata={metadata} />
+          </main>
+        </div>
+      </div>
+    </Layout>
   );
 }
 

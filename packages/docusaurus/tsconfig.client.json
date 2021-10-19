@@ -2,11 +2,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "incremental": true,
-    "lib": ["DOM", "ES2019"],
+    "lib": ["DOM"],
     "module": "esnext",
     "tsBuildInfoFile": "./lib/client/.tsbuildinfo",
     "outDir": "lib/client",
-    "jsx": "react"
+    "noImplicitAny": false,
+    "jsx": "react",
   },
   "include": ["src/client"]
 }

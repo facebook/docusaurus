@@ -7,10 +7,10 @@
 
 import htmlTagObjectToString from './htmlTags';
 import {
+  Plugin,
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,
-  LoadedPlugin,
 } from '@docusaurus/types';
 
 function toString(val: string | HtmlTagObject): string {
@@ -21,14 +21,14 @@ export function createHtmlTagsString(tags: HtmlTags): string {
   return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
-export function loadHtmlTags(plugins: LoadedPlugin[]): InjectedHtmlTags {
+export function loadHtmlTags(plugins: Plugin<unknown>[]): InjectedHtmlTags {
   const htmlTags = plugins.reduce(
     (acc, plugin) => {
       if (!plugin.injectHtmlTags) {
         return acc;
       }
       const {headTags, preBodyTags, postBodyTags} =
-        plugin.injectHtmlTags({content: plugin.content}) || {};
+        plugin.injectHtmlTags() || {};
       return {
         headTags: headTags
           ? `${acc.headTags}\n${createHtmlTagsString(headTags)}`

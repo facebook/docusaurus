@@ -6,24 +6,46 @@
  */
 
 import React from 'react';
-import type {TOCInlineProps} from '@theme/TOCInline';
+import clsx from 'clsx';
+import type {TOCProps} from '@theme/TOC';
 import styles from './styles.module.css';
-import TOCItems from '@theme/TOCItems';
+import {TOCItem} from '@docusaurus/types';
 
-function TOCInline({
+const LINK_CLASS_NAME = styles['table-of-contents__link--inline'];
+
+/* eslint-disable jsx-a11y/control-has-associated-label */
+function HeadingsInline({
   toc,
-  minHeadingLevel,
-  maxHeadingLevel,
-}: TOCInlineProps): JSX.Element {
+  isChild,
+}: {
+  toc: readonly TOCItem[];
+  isChild?: boolean;
+}) {
+  if (!toc.length) {
+    return null;
+  }
   return (
-    <div className={styles.tableOfContentsInline}>
-      <TOCItems
-        toc={toc}
-        minHeadingLevel={minHeadingLevel}
-        maxHeadingLevel={maxHeadingLevel}
-        className="table-of-contents"
-        linkClassName={null}
-      />
+    <ul className={isChild ? '' : 'table-of-contents'}>
+      {toc.map((heading) => (
+        <li key={heading.id}>
+          <a
+            href={`#${heading.id}`}
+            className={LINK_CLASS_NAME}
+            // Developer provided the HTML, so assume it's safe.
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{__html: heading.value}}
+          />
+          <HeadingsInline isChild toc={heading.children} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function TOCInline({toc}: TOCProps): JSX.Element {
+  return (
+    <div className={clsx(styles.tableOfContentsInline)}>
+      <HeadingsInline toc={toc} />
     </div>
   );
 }

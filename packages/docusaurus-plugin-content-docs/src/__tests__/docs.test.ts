@@ -15,7 +15,6 @@ import {
   MetadataOptions,
   VersionMetadata,
   PluginOptions,
-  EditUrlFunction,
 } from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -45,7 +44,7 @@ ${markdown}
     source,
     content,
     lastUpdate: {},
-    contentPath: 'docs',
+    docsDirPath: 'docs',
     filePath: source,
   };
 };
@@ -76,7 +75,7 @@ function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'sidebar_label' | 'editUrl'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
@@ -89,10 +88,11 @@ function createTestUtils({
     expect(metadata).toEqual({
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
+      sidebar_label: undefined,
       editUrl: undefined,
       source: path.posix.join(
         '@site',
-        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
+        posixPath(path.relative(siteDir, versionMetadata.docsDirPath)),
         posixPath(docFileSource),
       ),
       ...expectedMetadata,
@@ -159,7 +159,6 @@ describe('simple site', () => {
         'rootRelativeSlug.md',
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
-        'headingAsTitle.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -176,45 +175,21 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'Bar',
       description: 'This is custom description',
-      frontMatter: {
-        description: 'This is custom description',
-        id: 'bar',
-        title: 'Bar',
-      },
-      tags: [],
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      frontMatter: {
-        id: 'hello',
-        title: 'Hello, World !',
-        sidebar_label: 'Hello sidebar_label',
-        tags: ['tag-1', 'tag 3'],
-      },
-      tags: [
-        {
-          label: 'tag-1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 3',
-          permalink: '/docs/tags/tag-3',
-        },
-      ],
     });
   });
 
@@ -234,28 +209,11 @@ describe('simple site', () => {
       version: 'current',
       id: 'hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      frontMatter: {
-        id: 'hello',
-        title: 'Hello, World !',
-        sidebar_label: 'Hello sidebar_label',
-        tags: ['tag-1', 'tag 3'],
-      },
-      tags: [
-        {
-          label: 'tag-1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 3',
-          permalink: '/docs/tags/tag-3',
-        },
-      ],
     });
   });
 
@@ -275,25 +233,18 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/bar',
       unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
       isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Bar',
       description: 'This is custom description',
-      frontMatter: {
-        description: 'This is custom description',
-        id: 'bar',
-        title: 'Bar',
-      },
-      tags: [],
     });
   });
 
   test('docs with editUrl', async () => {
     const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
       },
     });
 
@@ -308,35 +259,13 @@ describe('simple site', () => {
       version: 'current',
       id: 'foo/baz',
       unversionedId: 'foo/baz',
-      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/docs/foo/baz.md',
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
-      frontMatter: {
-        id: 'baz',
-        slug: 'bazSlug.html',
-        title: 'baz',
-        pagination_label: 'baz pagination_label',
-        tags: [
-          'tag 1',
-          'tag-1',
-          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
-        ],
-      },
-      tags: [
-        {
-          label: 'tag 1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 2',
-          permalink: '/docs/tags/tag2-custom-permalink',
-        },
-      ],
     });
   });
 
@@ -347,80 +276,12 @@ describe('simple site', () => {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      frontMatter: {
-        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
-      },
-      tags: [],
-    });
-  });
-
-  test('docs with function editUrl', async () => {
-    const hardcodedEditUrl = 'hardcoded-edit-url';
-
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
-
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        editUrl: editUrlFunction,
-      },
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-
-    await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
-      version: 'current',
-      id: 'foo/baz',
-      unversionedId: 'foo/baz',
-      sourceDirName: 'foo',
-      isDocsHomePage: false,
-      permalink: '/docs/foo/bazSlug.html',
-      slug: '/foo/bazSlug.html',
-      title: 'baz',
-      editUrl: hardcodedEditUrl,
-      description: 'Images',
-      frontMatter: {
-        id: 'baz',
-        slug: 'bazSlug.html',
-        title: 'baz',
-        pagination_label: 'baz pagination_label',
-        tags: [
-          'tag 1',
-          'tag-1',
-          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
-        ],
-      },
-      tags: [
-        {
-          label: 'tag 1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 2',
-          permalink: '/docs/tags/tag2-custom-permalink',
-        },
-      ],
-    });
-
-    expect(editUrlFunction).toHaveBeenCalledTimes(1);
-    expect(editUrlFunction).toHaveBeenCalledWith({
-      version: 'current',
-      versionDocsDirPath: 'docs',
-      docPath: path.posix.join('foo', 'baz.md'),
-      permalink: '/docs/foo/bazSlug.html',
-      locale: 'en',
     });
   });
 
@@ -443,21 +304,14 @@ describe('simple site', () => {
       version: 'current',
       id: 'lorem',
       unversionedId: 'lorem',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      frontMatter: {
-        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
-      },
       lastUpdatedAt: 1539502055,
-      formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
-      tags: [],
     });
   });
 
@@ -511,7 +365,7 @@ describe('simple site', () => {
         }),
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Document id \\"Hello/world\\" cannot include slash."`,
+      `"Document id [Hello/world] cannot include \\"/\\"."`,
     );
   });
 
@@ -563,8 +417,12 @@ describe('versioned site', () => {
       options,
     });
     expect(versionsMetadata.length).toEqual(4);
-    const [currentVersion, version101, version100, versionWithSlugs] =
-      versionsMetadata;
+    const [
+      currentVersion,
+      version101,
+      version100,
+      versionWithSlugs,
+    ] = versionsMetadata;
 
     const currentVersionTestUtils = createTestUtils({
       siteDir,
@@ -611,52 +469,23 @@ describe('versioned site', () => {
 
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
-      version: 'current',
       unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
-      frontMatter: {
-        slug: 'barSlug',
-        tags: [
-          'barTag 1',
-          'barTag-2',
-          {
-            label: 'barTag 3',
-            permalink: 'barTag-3-permalink',
-          },
-        ],
-      },
-      tags: [
-        {
-          label: 'barTag 1',
-          permalink: '/docs/next/tags/bar-tag-1',
-        },
-        {
-          label: 'barTag-2',
-          permalink: '/docs/next/tags/bar-tag-2',
-        },
-        {
-          label: 'barTag 3',
-          permalink: '/docs/next/tags/barTag-3-permalink',
-        },
-      ],
+      version: 'current',
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
-      version: 'current',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/next/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello next !',
-      frontMatter: {},
-      tags: [],
+      version: 'current',
     });
   });
 
@@ -666,56 +495,44 @@ describe('versioned site', () => {
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'Bar 1.0.0 !',
-      frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
-      tags: [],
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
-      frontMatter: {},
-      tags: [],
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      frontMatter: {},
-      tags: [],
     });
   });
 
@@ -778,55 +595,10 @@ describe('versioned site', () => {
     );
   });
 
-  test('doc with editUrl function', async () => {
-    const hardcodedEditUrl = 'hardcoded-edit-url';
-
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
-
-    const {siteDir, context, options, version100} = await loadSite({
-      options: {
-        editUrl: editUrlFunction,
-      },
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: version100,
-    });
-
-    await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
-      title: 'hello',
-      description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
-      version: '1.0.0',
-      source:
-        '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      editUrl: hardcodedEditUrl,
-      tags: [],
-    });
-
-    expect(editUrlFunction).toHaveBeenCalledTimes(1);
-    expect(editUrlFunction).toHaveBeenCalledWith({
-      version: '1.0.0',
-      versionDocsDirPath: 'versioned_docs/version-1.0.0',
-      docPath: path.join('hello.md'),
-      permalink: '/docs/1.0.0/hello',
-      locale: 'en',
-    });
-  });
-
   test('translated doc with editUrl', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
         // editCurrentVersion: true,
       },
     });
@@ -841,26 +613,23 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
-      tags: [],
+        'https://github.com/facebook/docusaurus/edit/master/website/versioned_docs/version-1.0.0/hello.md',
     });
   });
 
   test('translated en doc with editUrl and editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
         editCurrentVersion: true,
       },
     });
@@ -875,27 +644,24 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
-      tags: [],
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/hello.md',
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedDocs=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
-        editLocalizedFiles: true,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
+        editLocalizedDocs: true,
       },
       locale: 'fr',
     });
@@ -910,28 +676,25 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
+  test('translated fr doc with editUrl and editLocalizedDocs=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
         editCurrentVersion: true,
-        editLocalizedFiles: true,
+        editLocalizedDocs: true,
       },
       locale: 'fr',
     });
@@ -946,19 +709,16 @@ describe('versioned site', () => {
     await testUtilsLocal.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
-      sourceDirName: '.',
       isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
-      tags: [],
+        'https://github.com/facebook/docusaurus/edit/master/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
     });
   });
 });

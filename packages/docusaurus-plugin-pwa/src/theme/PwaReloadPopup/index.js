@@ -7,7 +7,6 @@
 
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
@@ -17,13 +16,7 @@ export default function PwaReloadPopup({onReload}) {
   return (
     isVisible && (
       <div className={clsx('alert', 'alert--secondary', styles.popup)}>
-        <p>
-          <Translate
-            id="theme.PwaReloadPopup.info"
-            description="The text for PWA reload popup">
-            New version available
-          </Translate>
-        </p>
+        <p>New version available</p>
         <div className={styles.buttonContainer}>
           <button
             className="button button--link"
@@ -32,20 +25,11 @@ export default function PwaReloadPopup({onReload}) {
               setIsVisible(false);
               onReload();
             }}>
-            <Translate
-              id="theme.PwaReloadPopup.refreshButtonText"
-              description="The text for PWA reload button">
-              Refresh
-            </Translate>
+            Refresh
           </button>
 
           <button
-            aria-label={translate({
-              id: 'theme.PwaReloadPopup.closeButtonAriaLabel',
-              message: 'Close',
-              description:
-                'The ARIA label for close button of PWA reload popup',
-            })}
+            aria-label="Close"
             className="close"
             type="button"
             onClick={() => setIsVisible(false)}>

@@ -16,7 +16,6 @@ import {
 import * as utils from '../utils';
 import {mapValues} from 'lodash';
 import {posixPath} from '@docusaurus/utils';
-import {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {
@@ -79,46 +78,16 @@ describe('getDocusaurusAliases()', () => {
 });
 
 describe('base webpack config', () => {
-  const props: Props = {
+  const props = {
     outDir: '',
-    siteDir: path.resolve(__dirname, '__fixtures__', 'base_test_site'),
-    siteConfig: {},
+    siteDir: '',
     baseUrl: '',
     generatedFilesDir: '',
-    routesPaths: [''],
-    i18n: {
-      currentLocale: 'en',
-    },
-    siteMetadata: {
-      docusaurusVersion: '2.0.0-alpha.70',
-    },
-    plugins: [
-      {
-        getThemePath() {
-          return path.resolve(
-            __dirname,
-            '__fixtures__',
-            'base_test_site',
-            'pluginThemeFolder',
-          );
-        },
-      },
-    ],
+    routesPaths: '',
   };
 
   afterEach(() => {
     jest.restoreAllMocks();
-  });
-
-  test('should create webpack aliases', () => {
-    // @ts-expect-error: Docusaurus webpack alias is always an object
-    const aliases: ThemeAliases =
-      createBaseConfig(props, true).resolve?.alias ?? {};
-    // Make aliases relative so that test work on all computers
-    const relativeAliases = mapValues(aliases, (a) =>
-      posixPath(path.relative(props.siteDir, a)),
-    );
-    expect(relativeAliases).toMatchSnapshot();
   });
 
   test('should use svg rule', () => {

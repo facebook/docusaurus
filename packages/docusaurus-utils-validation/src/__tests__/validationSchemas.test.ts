@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Joi from '../Joi';
+import * as Joi from 'joi';
 
 import {
   AdmonitionsSchema,
@@ -28,6 +28,7 @@ function createTestHelpers({
 
   function testFail(value: unknown) {
     expect(() => Joi.attempt(value, schema)).toThrowErrorMatchingSnapshot(
+      // @ts-expect-error: seems ok at runtime, but bad typedef
       `for value=${JSON.stringify(value)}`,
     );
   }

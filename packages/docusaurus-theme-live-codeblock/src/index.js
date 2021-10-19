@@ -6,9 +6,8 @@
  */
 
 const path = require('path');
-const {validateThemeConfig} = require('./validateThemeConfig');
 
-function theme() {
+module.exports = function () {
   return {
     name: 'docusaurus-theme-live-codeblock',
 
@@ -26,8 +25,4 @@ function theme() {
       };
     },
   };
-}
-
-module.exports = theme;
-
-theme.validateThemeConfig = validateThemeConfig;
+};

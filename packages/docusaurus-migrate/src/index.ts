@@ -13,7 +13,6 @@ import Color from 'color';
 
 import {
   ClassicPresetEntries,
-  SidebarEntry,
   SidebarEntries,
   VersionOneConfig,
   VersionTwoConfig,
@@ -107,8 +106,8 @@ export async function migrateDocusaurusProject(
     '@docusaurus/core': DOCUSAURUS_VERSION,
     '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
     clsx: '^1.1.1',
-    react: '^17.0.1',
-    'react-dom': '^17.0.1',
+    react: '^16.10.2',
+    'react-dom': '^16.10.2',
   };
   try {
     createClientRedirects(siteConfig, deps, config);
@@ -585,23 +584,26 @@ function migrateVersionedSidebar(
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(
-        (topLevel: SidebarEntries, value) => {
+        (topLevel: {[key: string]: any}, value) => {
           const key = value[0].replace(versionRegex, '');
+          // eslint-disable-next-line no-param-reassign
           topLevel[key] = Object.entries(value[1]).reduce(
             (
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
-              acc[val[0].replace(versionRegex, '')] = (
-                val[1] as Array<SidebarEntry>
-              ).map((item) => {
+              acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
+                any
+              >).map((item) => {
                 if (typeof item === 'string') {
                   return item.replace(versionRegex, '');
                 }
                 return {
                   type: 'category',
                   label: item.label,
-                  ids: item.ids.map((id) => id.replace(versionRegex, '')),
+                  ids: item.ids.map((id: string) =>
+                    id.replace(versionRegex, ''),
+                  ),
                 };
               });
               return acc;
@@ -616,13 +618,14 @@ function migrateVersionedSidebar(
     });
     sidebars.forEach((sidebar) => {
       const newSidebar = Object.entries(sidebar.entries).reduce(
-        (acc: SidebarEntries, val) => {
+        (acc: {[key: string]: any}, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
+          // eslint-disable-next-line prefer-destructuring
           acc[key] = Object.entries(val[1]).map((value) => {
             return {
               type: 'category',
               label: value[0],
-              items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
+              items: (value[1] as Array<any>).map((sidebarItem) => {
                 if (typeof sidebarItem === 'string') {
                   return {
                     type: 'doc',
@@ -671,7 +674,7 @@ function migrateVersionedSidebar(
             to: `docs/${version}/`,
           })),
         {
-          label: 'Main/Unreleased',
+          label: 'Master/Unreleased',
           to: `docs/next/`,
           activeBaseRegex: `docs/next/(?!support|team|resources)`,
         },
@@ -753,10 +756,7 @@ function migratePackageFile(
   newDir: string,
 ): void {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
-    scripts?: Record<string, string>;
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
-    [otherKey: string]: unknown;
+    [key: string]: any;
   };
   packageFile.scripts = {
     ...packageFile.scripts,

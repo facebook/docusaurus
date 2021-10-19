@@ -7,46 +7,25 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import Translate, {translate} from '@docusaurus/Translate';
-import type {Props} from '@theme/BlogListPaginator';
+import type {Metadata} from '@theme/BlogListPage';
 
-function BlogListPaginator(props: Props): JSX.Element {
+function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
   const {metadata} = props;
   const {previousPage, nextPage} = metadata;
 
   return (
-    <nav
-      className="pagination-nav"
-      aria-label={translate({
-        id: 'theme.blog.paginator.navAriaLabel',
-        message: 'Blog list page navigation',
-        description: 'The ARIA label for the blog pagination',
-      })}>
+    <nav className="pagination-nav" aria-label="Blog list page navigation">
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <div className="pagination-nav__label">
-              &laquo;{' '}
-              <Translate
-                id="theme.blog.paginator.newerEntries"
-                description="The label used to navigate to the newer blog posts page (previous page)">
-                Newer Entries
-              </Translate>
-            </div>
+            <div className="pagination-nav__label">&laquo; Newer Entries</div>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <div className="pagination-nav__label">
-              <Translate
-                id="theme.blog.paginator.olderEntries"
-                description="The label used to navigate to the older blog posts page (next page)">
-                Older Entries
-              </Translate>{' '}
-              &raquo;
-            </div>
+            <div className="pagination-nav__label">Older Entries &raquo;</div>
           </Link>
         )}
       </div>

@@ -6,20 +6,16 @@
  */
 
 const advancedBasePreset = require('cssnano-preset-advanced');
+const postCssCombineDuplicatedSelectors = require('postcss-combine-duplicated-selectors');
 const postCssSortMediaQueries = require('postcss-sort-media-queries');
 const postCssRemoveOverriddenCustomProperties = require('./src/remove-overridden-custom-properties');
 
-module.exports = function docusaurusCssnanoPreset(opts) {
-  const advancedPreset = advancedBasePreset({
-    autoprefixer: {add: false},
-    discardComments: {removeAll: true},
-    ...opts,
-  });
+const preset = advancedBasePreset({autoprefixer: {add: true}});
 
-  advancedPreset.plugins.unshift(
-    [postCssSortMediaQueries],
-    [postCssRemoveOverriddenCustomProperties],
-  );
+preset.plugins.unshift(
+  [postCssCombineDuplicatedSelectors, {removeDuplicatedValues: true}],
+  [postCssSortMediaQueries],
+  [postCssRemoveOverriddenCustomProperties],
+);
 
-  return advancedPreset;
-};
+module.exports = preset;

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -25,9 +26,9 @@ function wrapCommand(fn) {
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum Node.js version not met :(`) +
+    chalk.red(`\nMinimum Node version not met :(`) +
       chalk.yellow(
-        `\n\nYou are using Node ${process.version}. We require Node.js ${requiredVersion} or up!\n`,
+        `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
       ),
   );
   process.exit(1);
@@ -35,9 +36,9 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 cli
   .command('migrate [siteDir] [newDir]')
-  .option('--mdx', 'try to migrate MD to MDX too')
-  .option('--page', 'try to migrate pages too')
-  .description('Migrate between versions of Docusaurus website.')
+  .option('--mdx', 'Try to migrate MD to MDX too')
+  .option('--page', 'Try to migrate pages too')
+  .description('Migrate between versions of docusaurus website')
   .action((siteDir = '.', newDir = '.', {mdx, page}) => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
@@ -46,7 +47,7 @@ cli
 
 cli
   .command('mdx [siteDir] [newDir]')
-  .description('Migrate markdown files to MDX.')
+  .description('Migrate markdown files to MDX')
   .action((siteDir = '.', newDir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);

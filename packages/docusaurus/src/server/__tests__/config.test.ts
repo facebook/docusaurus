@@ -10,52 +10,31 @@ import loadConfig from '../config';
 
 describe('loadConfig', () => {
   test('website with valid siteConfig', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'simple-site',
-      'docusaurus.config.js',
-    );
+    const fixtures = path.join(__dirname, '__fixtures__');
+    const siteDir = path.join(fixtures, 'simple-site');
     const config = loadConfig(siteDir);
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
   test('website with incomplete siteConfig', () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'bad-site',
-      'docusaurus.config.js',
-    );
+    const siteDir = path.join(__dirname, '__fixtures__', 'bad-site');
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingSnapshot();
   });
 
   test('website with useless field (wrong field) in siteConfig', () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'wrong-site',
-      'docusaurus.config.js',
-    );
+    const siteDir = path.join(__dirname, '__fixtures__', 'wrong-site');
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingSnapshot();
   });
 
   test('website with no siteConfig', () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'nonExisting',
-      'docusaurus.config.js',
-    );
+    const siteDir = path.join(__dirname, '__fixtures__', 'nonExisting');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowError(
-      /Config file at "(.*?)__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
-    );
+    }).toThrowErrorMatchingSnapshot();
   });
 });

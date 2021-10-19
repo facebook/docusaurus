@@ -5,16 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): string | Buffer | void | undefined;
-}
+import {loader} from 'webpack';
+// import {getOptions} from 'loader-utils';
 
-const markdownLoader: Loader = function (fileString) {
+const markdownLoader: loader.Loader = function (fileString) {
   const callback = this.async();
 
-  // const options = this.getOptions();
+  // const options = getOptions(this);
 
   // TODO provide additinal md processing here? like interlinking pages?
   // fileString = linkify(fileString)

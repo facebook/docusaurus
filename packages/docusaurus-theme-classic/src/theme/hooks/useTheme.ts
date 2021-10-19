@@ -9,38 +9,38 @@ import {useState, useCallback, useEffect} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {useThemeReturns} from '@theme/hooks/useTheme';
-import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
-
-const ThemeStorage = createStorageSlot('theme');
+import {useThemeConfig} from '@docusaurus/theme-common';
 
 const themes = {
   light: 'light',
   dark: 'dark',
-} as const;
-
-type Themes = typeof themes[keyof typeof themes];
+};
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme?: string | null): Themes => {
+const coerceToTheme = (theme) => {
   return theme === themes.dark ? themes.dark : themes.light;
 };
 
-const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
+const getInitialTheme = () => {
   if (!ExecutionEnvironment.canUseDOM) {
-    return coerceToTheme(defaultMode);
+    return themes.light; // SSR: we don't care
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme: Themes) => {
-  createStorageSlot('theme').set(coerceToTheme(newTheme));
+const storeTheme = (newTheme) => {
+  try {
+    localStorage.setItem('theme', coerceToTheme(newTheme));
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const useTheme = (): useThemeReturns => {
   const {
-    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
+    colorMode: {disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
-  const [theme, setTheme] = useState(getInitialTheme(defaultMode));
+  const [theme, setTheme] = useState(getInitialTheme);
 
   const setLightTheme = useCallback(() => {
     setTheme(themes.light);
@@ -61,9 +61,9 @@ const useTheme = (): useThemeReturns => {
     }
 
     try {
-      const storedTheme = ThemeStorage.get();
-      if (storedTheme !== null) {
-        setTheme(coerceToTheme(storedTheme));
+      const localStorageTheme = localStorage.getItem('theme');
+      if (localStorageTheme !== null) {
+        setTheme(coerceToTheme(localStorageTheme));
       }
     } catch (err) {
       console.error(err);

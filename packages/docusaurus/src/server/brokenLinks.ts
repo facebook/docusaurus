@@ -48,9 +48,7 @@ function getPageBrokenLinks({
   }
 
   function isBrokenLink(link: string) {
-    const matchedRoutes = [link, decodeURI(link)]
-      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
-      .reduce((prev, cur) => prev.concat(cur));
+    const matchedRoutes = matchRoutes(toReactRouterRoutes(routes), link);
     return matchedRoutes.length === 0;
   }
 
@@ -130,13 +128,13 @@ export function getBrokenLinksErrorMessage(
       return '';
     }
 
-    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
+    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to: \n- ${frequentLinks.join(
       `\n- `,
     )}\n`;
   }
 
   return (
-    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
+    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list bellow, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
     `\n\nExhaustive list of all broken links found:\n${Object.entries(
       allBrokenLinks,
     )

@@ -16,18 +16,10 @@ export type Data = {
 };
 
 export type ClassicPresetEntries = {
-  docs: {[key: string]: unknown};
-  blog: {[key: string]: unknown};
-  theme: {[key: string]: unknown};
+  docs: {[key: string]: any};
+  blog: {[key: string]: any};
+  theme: {[key: string]: any};
 };
-
-export type SidebarEntry =
-  | string
-  | {
-      type: string;
-      label: string;
-      ids: string[];
-    };
 
 export type SidebarEntries = {
   [key: string]:
@@ -47,7 +39,7 @@ export interface VersionTwoConfig {
   githubHost?: string;
   onBrokenLinks: string;
   onBrokenMarkdownLinks: string;
-  plugins: Array<[string, {[key: string]: unknown}]>;
+  plugins: Array<[string, {[key: string]: any}]>;
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
@@ -105,10 +97,10 @@ export type VersionOneConfig = {
   organizationName?: string;
   projectName?: string;
   noIndex?: boolean;
-  headerLinks?: Array<{doc: string; href: string; label: string; page: string}>;
+  headerLinks?: Array<any>;
   headerIcon?: string;
   favicon?: string;
-  colors?: {primaryColor: string};
+  colors?: any;
   copyright?: string;
   editUrl?: string;
   customDocsPath?: string;
@@ -122,8 +114,8 @@ export type VersionOneConfig = {
   gaTrackingId?: string;
   highlight?: Record<string, unknown>;
   markdownPlugins?: Array<() => void>;
-  scripts?: Array<{src: string; [key: string]: unknown} | string>;
-  stylesheets?: Array<{href: string; [key: string]: unknown} | string>;
+  scripts?: Array<{src: string; [key: string]: any} | string>;
+  stylesheets?: Array<{href: string; [key: string]: any} | string>;
   facebookAppId?: string;
   facebookComments?: true;
   facebookPixelId?: string;

@@ -1,0 +1,122 @@
+aliases:
+  - &root-yarn |
+    yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+  - &root-restore-yarn-cache
+    keys:
+      - root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      # Fallback in case checksum fails
+      - root-yarn-{{ .Branch }}-
+
+  - &root-save-yarn-cache
+    paths:
+      - node_modules
+      - ~/.cache/yarn
+    key: root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+  - &filter-only-master
+    branches:
+      only:
+        - master
+
+  - &filter-ignore-gh-pages
+    branches:
+      ignore: gh-pages
+
+defaults: &defaults
+  working_directory: ~/docusaurus
+  docker:
+    - image: circleci/node:10
+  resource_class: large
+
+version: 2
+jobs:
+  lint-prettier:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
+      - run:
+          name: Check ESLint
+          command: yarn lint
+      - run:
+          name: Check Prettier
+          command: yarn prettier:diff
+
+  tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
+      - run:
+          name: Run Test Suites
+          command: yarn test
+
+  # The CIRCLE_ variables are defined during the CircleCI build process
+  # https://circleci.com/docs/1.0/environment-variables/
+  deploy-website:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
+      - run:
+          name: Configure GitHub Bot
+          # Do not do this if we don't have the right org (facebook), or if this is just a pull request
+          command: |
+            if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+              git config --global user.email "docusaurus-bot@users.noreply.github.com"
+              git config --global user.name "Website Deployment Script"
+              echo "machine github.com login docusaurus-bot password $DOCUSAURUS_PUBLISH_TOKEN" > ~/.netrc
+            fi
+      - run:
+          name: Deploy v1 Website
+          # Skip the deploy if we don't have the right org (facebook), or if this is just a pull request
+          command: |
+            if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -E "(^docs\/.*)|(docusaurus-1\.x\/.*)|(website-1\.x\/.*)"; then
+              echo "Skipping deploy. No relevant v1 website files have changed"
+            elif [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+              echo "Deploying website..."
+              # install Docusaurus and generate file of English strings
+              cd website-1.x && yarn run write-translations
+              # install Crowdin
+              sudo apt-get update
+              sudo apt-get install default-jre rsync
+              wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
+              sudo dpkg -i crowdin.deb
+              sleep 5
+              # upload translation strings and download translations
+              yarn run crowdin-upload
+              # download only enabled languages
+              for lang in fr ko ru ro pt-BR zh-CN
+              do
+                  yarn crowdin-download -l $lang
+              done
+              # publish
+              GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
+            else
+              echo "Skipping deploy."
+            fi
+
+# Workflows enables us to run multiple jobs in parallel
+workflows:
+  version: 2
+
+  lint-prettier:
+    jobs:
+      - lint-prettier:
+          filters: *filter-ignore-gh-pages
+
+  tests-and-deploy:
+    jobs:
+      - tests:
+          filters: *filter-ignore-gh-pages
+      - deploy-website:
+          requires:
+            - tests
+          filters: *filter-only-master

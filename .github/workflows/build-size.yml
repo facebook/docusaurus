@@ -1,0 +1,19 @@
+name: Build Size Report
+
+on:
+  pull_request_target:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          build-script: 'build:v2:en'
+          pattern: '{website/build/main*js,website/build/styles*css,website/build/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/introduction/index.html}'
+          strip-hash: '\.([^;]\w{7})\.'
+          minimum-change-threshold: 100
