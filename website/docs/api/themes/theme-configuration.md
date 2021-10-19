@@ -2,6 +2,7 @@
 id: theme-configuration
 title: 'Theme configuration'
 slug: '/api/themes/configuration'
+toc_max_heading_level: 4
 ---
 
 This configuration applies to all [main themes](./overview.md).
@@ -251,7 +252,7 @@ module.exports = {
 
 The items can have different behaviors based on the `type` field. The sections below will introduce you to all the types of navbar items available.
 
-### Navbar link {#navbar-link}
+#### Navbar link {#navbar-link}
 
 By default, Navbar items are regular links (internal or external).
 
@@ -306,7 +307,7 @@ module.exports = {
 };
 ```
 
-### Navbar dropdown {#navbar-dropdown}
+#### Navbar dropdown {#navbar-dropdown}
 
 Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items.
 
@@ -362,7 +363,7 @@ module.exports = {
 };
 ```
 
-### Navbar doc link {#navbar-doc-link}
+#### Navbar doc link {#navbar-doc-link}
 
 If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
 
@@ -400,7 +401,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version dropdown {#navbar-docs-version-dropdown}
+#### Navbar docs version dropdown {#navbar-docs-version-dropdown}
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
 
@@ -441,7 +442,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version {#navbar-docs-version}
+#### Navbar docs version {#navbar-docs-version}
 
 If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current URL), and fallback to the latest version.
 
@@ -479,7 +480,7 @@ module.exports = {
 };
 ```
 
-### Navbar locale dropdown {#navbar-locale-dropdown}
+#### Navbar locale dropdown {#navbar-locale-dropdown}
 
 If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
 
@@ -522,7 +523,7 @@ module.exports = {
 };
 ```
 
-### Navbar search {#navbar-search}
+#### Navbar search {#navbar-search}
 
 If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
 

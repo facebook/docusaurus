@@ -1,6 +1,7 @@
 ---
 id: lifecycle-apis
 title: Lifecycle APIs
+toc_max_heading_level: 4
 ---
 
 :::caution
@@ -162,9 +163,9 @@ Plugins should use the data loaded in `loadContent` and construct the pages/rout
 
 ### `actions` {#actions}
 
-`actions` contain two functions:
+`actions` contain three functions:
 
-- `addRoute(config: RouteConfig): void`
+#### `addRoute(config: RouteConfig): void`
 
 Create a route to add to the website.
 
@@ -189,7 +190,7 @@ type Module =
   | string;
 ```
 
-- `createData(name: string, data: any): Promise<string>`
+#### `createData(name: string, data: any): Promise<string>`
 
 A function to help you create static data (generally json or string), that you can provide to your routes as props.
 
@@ -231,7 +232,7 @@ export default function friendsPlugin(context, options) {
 }
 ```
 
-- `setGlobalData(data: any): void`
+#### `setGlobalData(data: any): void`
 
 This function permits to create some global plugin data, that can be read from any page, including the pages created by other plugins, and your theme layout.
 
