@@ -156,7 +156,11 @@ export default async function writeHeadingIds(
   } else {
     console.log(
       chalk.yellow(
-        `${markdownFiles.length} Markdown files already have explicit heading ids.`,
+        `${
+          markdownFiles.length
+        } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${chalk.cyan(
+          '--overwrite',
+        )} option.`,
       ),
     );
   }
