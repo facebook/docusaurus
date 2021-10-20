@@ -12,6 +12,19 @@ import {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
 
+// TODO this is temporary until we handle mdxToHtml better
+// It's hard to convert reliably JSX/require calls  to an html feed content
+// See https://github.com/facebook/docusaurus/issues/5664
+function mdxToFeedContent(mdxContent: string): string | undefined {
+  try {
+    return mdxToHtml(mdxContent);
+  } catch (e) {
+    // TODO will we need a plugin option to configure how to handle such an error
+    // Swallow the error on purpose for now, until we understand better the problem space
+    return undefined;
+  }
+}
+
 export async function generateBlogFeed({
   blogPosts,
   options,
@@ -61,7 +74,7 @@ export async function generateBlogFeed({
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
-      content: mdxToHtml(post.content),
+      content: mdxToFeedContent(post.content),
       author: authors.map(toFeedAuthor),
     });
   });
@@ -96,7 +109,7 @@ export async function createBlogFeedFiles({
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
-}) {
+}): Promise<void> {
   const feed = await generateBlogFeed({blogPosts, options, siteConfig});
 
   const feedTypes = options.feedOptions.type;
