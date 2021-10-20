@@ -93,7 +93,7 @@ function useAutoExpandActiveCategory({
     if (justBecameActive && collapsed) {
       setCollapsed(false);
     }
-  }, [isActive, wasActive, collapsed]);
+  }, [isActive, wasActive, collapsed, setCollapsed]);
 }
 
 function DocSidebarItemCategory({

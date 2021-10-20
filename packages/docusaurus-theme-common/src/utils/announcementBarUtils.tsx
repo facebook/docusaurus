@@ -83,14 +83,14 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
     if (isNewAnnouncement || !isDismissedInStorage()) {
       setClosed(false);
     }
-  }, []);
+  }, [announcementBar]);
 
   return useMemo(() => {
     return {
       isActive: !!announcementBar && !isClosed,
       close: handleClose,
     };
-  }, [isClosed]);
+  }, [announcementBar, isClosed, handleClose]);
 };
 
 const AnnouncementBarContext = createContext<AnnouncementBarAPI | null>(null);

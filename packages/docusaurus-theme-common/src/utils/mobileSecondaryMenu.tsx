@@ -83,6 +83,7 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
   return useMemo(
     () => obj,
     // Is this safe?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [...Object.keys(obj), ...Object.values(obj)],
   );
 }
