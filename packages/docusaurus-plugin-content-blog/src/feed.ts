@@ -12,7 +12,7 @@ import {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
 
-async function generateBlogFeed({
+export async function generateBlogFeed({
   blogPosts,
   options,
   siteConfig,
@@ -21,13 +21,17 @@ async function generateBlogFeed({
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
 }): Promise<Feed | null> {
+  if (!blogPosts.length) {
+    return null;
+  }
+
   const {feedOptions, routeBasePath} = options;
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
   const updated =
     (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00'); // TODO weird legacy date
+    new Date('2015-10-25T16:29:00.000-07:00'); // weird legacy magic date
 
   const feed = new Feed({
     id: blogBaseUrl,

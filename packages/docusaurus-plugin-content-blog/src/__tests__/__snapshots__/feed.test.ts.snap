@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`blogFeed atom should not show feed without posts 1`] = `null`;
-
 exports[`blogFeed atom shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <feed xmlns=\\"http://www.w3.org/2005/Atom\\">
@@ -80,8 +78,6 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
     </entry>
 </feed>"
 `;
-
-exports[`blogFeed rss should not show feed without posts 1`] = `null`;
 
 exports[`blogFeed rss shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>

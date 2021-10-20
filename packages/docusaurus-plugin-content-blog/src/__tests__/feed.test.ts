@@ -6,10 +6,12 @@
  */
 
 import path from 'path';
-import {generateBlogFeed} from '../blogUtils';
+import {generateBlogFeed} from '../feed';
 import {LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptions, BlogContentPaths} from '../types';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
+import {generateBlogPosts} from '../blogUtils';
+import {Feed} from 'feed';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -30,6 +32,23 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
   };
 }
 
+async function testGenerateFeeds(
+  context: LoadContext,
+  options: PluginOptions,
+): Promise<Feed | null> {
+  const blogPosts = await generateBlogPosts(
+    getBlogContentPaths(context.siteDir),
+    context,
+    options,
+  );
+
+  return generateBlogFeed({
+    blogPosts,
+    options,
+    siteConfig: context.siteConfig,
+  });
+}
+
 describe('blogFeed', () => {
   (['atom', 'rss'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
@@ -42,8 +61,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const feed = await generateBlogFeed(
-          getBlogContentPaths(siteDir),
+        const feed = await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
@@ -61,9 +79,8 @@ describe('blogFeed', () => {
             },
           } as PluginOptions,
         );
-        const feedContent =
-          feed && (feedType === 'rss' ? feed.rss2() : feed.atom1());
-        expect(feedContent).toMatchSnapshot();
+
+        expect(feed).toEqual(null);
       });
 
       test('shows feed item for each post', async () => {
@@ -76,8 +93,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const feed = await generateBlogFeed(
-          getBlogContentPaths(siteDir),
+        const feed = await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
