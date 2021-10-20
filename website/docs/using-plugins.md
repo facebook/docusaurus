@@ -133,7 +133,7 @@ You can use a plugin as a function, directly in the Docusaurus config file:
 module.exports = {
   // ...
   plugins: [
-    // highligh-start
+    // highlight-start
     function myPlugin(context, options) {
       // ...
       return {
