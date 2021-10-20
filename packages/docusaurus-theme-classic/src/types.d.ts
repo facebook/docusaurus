@@ -19,6 +19,10 @@ declare module '@theme/AnnouncementBar' {
   export default AnnouncementBar;
 }
 
+declare module '@theme/BackToTopButton' {
+  export default function BackToTopButton(): JSX.Element;
+}
+
 declare module '@theme/BlogListPaginator' {
   import type {Metadata} from '@theme/BlogListPage';
 
@@ -503,6 +507,10 @@ declare module '@theme/NavbarItem' {
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/SearchBar' {
+  export default function SearchBar(): JSX.Element;
 }
 
 declare module '@theme/TabItem' {
