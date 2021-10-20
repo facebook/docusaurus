@@ -45,6 +45,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-prince-pdf](https://github.com/signcl/docusaurus-prince-pdf) - Generate PDF with PrinceXML for better font subsetting and ToC features. Support Docusaurus v2 sites
 - [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) - A Docusaurus v2 compatible MDX plugin for displaying [Mermaid](https://mermaid-js.github.io/mermaid) diagrams
 - [redocusaurus](https://github.com/rohit-gohri/redocusaurus) - A Docusaurus preset for integrating OpenAPI documentation into your docs with [Redoc](https://github.com/redocly/redoc)
+- [plugin-image-zoom](https://github.com/flexanalytics/plugin-image-zoom) - An Image Zoom plugin for Docusaurus 2
 
 ## Enterprise usage {#enterprise-usage}
 
