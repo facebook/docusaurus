@@ -471,7 +471,7 @@ const Users: User[] = [
     preview: require('./showcase/zxuqian.png'),
     website: 'https://zxuqian.cn',
     source: null,
-    tags: ['personal'],
+    tags: ['personal', 'design'],
   },
   {
     title: 'FireCMS',
