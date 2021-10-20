@@ -129,8 +129,7 @@ function SearchPage() {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchValue, updateSearchPath} = useSearchQuery();
-  const [searchQuery, setSearchQuery] = useState(searchValue);
+  const {searchQuery, setSearchQuery} = useSearchQuery();
   const initialSearchResultState = {
     items: [],
     query: null,
@@ -303,8 +302,6 @@ function SearchPage() {
   }, [loaderRef]);
 
   useEffect(() => {
-    updateSearchPath(searchQuery);
-
     searchResultStateDispatcher({type: 'reset'});
 
     if (searchQuery) {
@@ -314,12 +311,7 @@ function SearchPage() {
         makeSearch();
       }, 300);
     }
-  }, [
-    searchQuery,
-    docsSearchVersionsHelpers.searchVersions,
-    updateSearchPath,
-    makeSearch,
-  ]);
+  }, [searchQuery, docsSearchVersionsHelpers.searchVersions, makeSearch]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -328,12 +320,6 @@ function SearchPage() {
 
     makeSearch(searchResultState.lastPage);
   }, [makeSearch, searchResultState.lastPage]);
-
-  useEffect(() => {
-    if (searchValue && searchValue !== searchQuery) {
-      setSearchQuery(searchValue);
-    }
-  }, [searchQuery, searchValue]);
 
   return (
     <Layout wrapperClassName="search-page-wrapper">
