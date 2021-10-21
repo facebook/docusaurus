@@ -55,7 +55,11 @@ function EditorWithHeader({code}) {
         </Translate>
       </Header>
       <BrowserOnly
-        fallback={<CodeBlock className="language-jsx">{code}</CodeBlock>}>
+        fallback={
+          <CodeBlock className="language-jsx" style={{marginBottom: 0}}>
+            {code}
+          </CodeBlock>
+        }>
         {() => <LiveEditor className={styles.playgroundEditor} />}
       </BrowserOnly>
     </>
