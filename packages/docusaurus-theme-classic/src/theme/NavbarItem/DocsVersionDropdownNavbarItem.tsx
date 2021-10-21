@@ -32,8 +32,9 @@ export default function DocsVersionDropdownNavbarItem({
 }: Props): JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
   
-  if (onlyShowOnActiveDoc && !activeDocContext.activeDoc)
+  if (onlyShowOnActiveDoc && !activeDocContext.activeDoc) {
     return null;
+  }
   
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
