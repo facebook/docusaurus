@@ -12,8 +12,15 @@ function Image(props) {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file
-  if (img.default) {
-    return <img src={img.default} className={className} alt={alt} {...props} />;
+  if (typeof img === 'string' || typeof img.default === 'string') {
+    return (
+      <img
+        src={img?.default ?? img}
+        className={className}
+        alt={alt}
+        {...props}
+      />
+    );
   }
 
   return (
