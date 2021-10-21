@@ -10,6 +10,7 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
@@ -61,24 +62,29 @@ export default function Playground({children, transformCode, ...props}) {
   const prismTheme = usePrismTheme();
 
   return (
-    <div className={styles.playgroundContainer}>
-      <LiveProvider
-        code={children.replace(/\n$/, '')}
-        transformCode={transformCode || ((code) => `${code};`)}
-        theme={prismTheme}
-        {...props}>
-        {playgroundPosition === 'top' ? (
-          <>
-            <ResultWithHeader />
-            <EditorWithHeader />
-          </>
-        ) : (
-          <>
-            <EditorWithHeader />
-            <ResultWithHeader />
-          </>
-        )}
-      </LiveProvider>
-    </div>
+    // https://github.com/facebook/docusaurus/issues/5747
+    <BrowserOnly fallback={<EditorWithHeader />}>
+      {() => (
+        <div className={styles.playgroundContainer}>
+          <LiveProvider
+            code={children.replace(/\n$/, '')}
+            transformCode={transformCode || ((code) => `${code};`)}
+            theme={prismTheme}
+            {...props}>
+            {playgroundPosition === 'top' ? (
+              <>
+                <ResultWithHeader />
+                <EditorWithHeader />
+              </>
+            ) : (
+              <>
+                <EditorWithHeader />
+                <ResultWithHeader />
+              </>
+            )}
+          </LiveProvider>
+        </div>
+      )}
+    </BrowserOnly>
   );
 }
