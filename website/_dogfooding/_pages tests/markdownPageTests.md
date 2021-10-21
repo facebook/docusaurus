@@ -102,9 +102,8 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 
 ```jsx live
 function Demo() {
-  const [text, setText] = useState('');
-  useEffect(() => setText(text + 'He'), []);
-  return <div>{text}</div>;
+  React.useEffect(() => console.log('mount'), []);
+  return null;
 }
 ```
 
