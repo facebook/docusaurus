@@ -212,7 +212,11 @@ export default function CodeBlock({
       code={code}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={styles.codeBlockContainer}>
+        <div
+          className={clsx(
+            styles.codeBlockContainer,
+            blockClassName?.replace(/language-[^ ]+/, ''),
+          )}>
           {codeBlockTitle && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
