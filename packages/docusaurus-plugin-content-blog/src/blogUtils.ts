@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {Feed, Author as FeedAuthor} from 'feed';
 import {compact, keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
@@ -17,7 +16,6 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  Author,
   ReadingTimeFunction,
 } from './types';
 import {
