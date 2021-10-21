@@ -52,7 +52,7 @@ function EditorWithHeader() {
   );
 }
 
-function StaticCodeBlock(props) {
+function StaticCodeBlock({className}) {
   return (
     <>
       <Header>
@@ -62,7 +62,7 @@ function StaticCodeBlock(props) {
           Live Editor
         </Translate>
       </Header>
-      <CodeBlock className={styles.playgroundEditor} {...props} />
+      <CodeBlock className={className}>{children}</CodeBlock>
     </>
   );
 }
@@ -79,7 +79,12 @@ export default function Playground({children, transformCode, ...props}) {
 
   return (
     // https://github.com/facebook/docusaurus/issues/5747
-    <BrowserOnly fallback={<StaticCodeBlock />}>
+    <BrowserOnly
+      fallback={
+        <StaticCodeBlock className={props.className}>
+          {children}
+        </StaticCodeBlock>
+      }>
       {() => (
         <div className={styles.playgroundContainer}>
           <LiveProvider
