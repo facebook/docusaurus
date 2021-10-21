@@ -16,7 +16,11 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useTitleFormatter, usePluralForm} from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  usePluralForm,
+  useDynamicCallback,
+} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
@@ -125,8 +129,7 @@ function SearchPage() {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchValue, updateSearchPath} = useSearchQuery();
-  const [searchQuery, setSearchQuery] = useState(searchValue);
+  const {searchQuery, setSearchQuery} = useSearchQuery();
   const initialSearchResultState = {
     items: [],
     query: null,
@@ -173,6 +176,7 @@ function SearchPage() {
     },
     initialSearchResultState,
   );
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
@@ -271,7 +275,7 @@ function SearchPage() {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = (page = 0) => {
+  const makeSearch = useDynamicCallback((page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
@@ -285,23 +289,19 @@ function SearchPage() {
     );
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
-  };
+  });
 
   useEffect(() => {
     if (!loaderRef) {
       return undefined;
     }
+    const currentObserver = observer.current;
 
-    observer.current.observe(loaderRef);
-
-    return () => {
-      observer.current.unobserve(loaderRef);
-    };
+    currentObserver.observe(loaderRef);
+    return () => currentObserver.unobserve(loaderRef);
   }, [loaderRef]);
 
   useEffect(() => {
-    updateSearchPath(searchQuery);
-
     searchResultStateDispatcher({type: 'reset'});
 
     if (searchQuery) {
@@ -311,7 +311,7 @@ function SearchPage() {
         makeSearch();
       }, 300);
     }
-  }, [searchQuery, docsSearchVersionsHelpers.searchVersions]);
+  }, [searchQuery, docsSearchVersionsHelpers.searchVersions, makeSearch]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -319,13 +319,7 @@ function SearchPage() {
     }
 
     makeSearch(searchResultState.lastPage);
-  }, [searchResultState.lastPage]);
-
-  useEffect(() => {
-    if (searchValue && searchValue !== searchQuery) {
-      setSearchQuery(searchValue);
-    }
-  }, [searchValue]);
+  }, [makeSearch, searchResultState.lastPage]);
 
   return (
     <Layout wrapperClassName="search-page-wrapper">

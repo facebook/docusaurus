@@ -252,6 +252,8 @@ Accepted fields:
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
 | `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |
+| `pagination_next` | <code>string \| null</code> | Next doc in the sidebar | The ID of the documentation you want the "Next" pagination to link to. Use `null` to disable showing "Next" for this page. |
+| `pagination_prev` | <code>string \| null</code> | Previous doc in the sidebar | The ID of the documentation you want the "Previous" pagination to link to. Use `null` to disable showing "Previous" for this page. |
 | `parse_number_prefixes` | `boolean` | `numberPrefixParser` plugin option | Whether number prefix parsing is disabled on this doc. See also [Using number prefixes](/docs/sidebar#using-number-prefixes). |
 | `custom_edit_url` | `string` | Computed using the `editUrl` plugin option | The URL for editing this document. |
 | `keywords` | `string[]` | `undefined` | Keywords meta tag for the document page, for search engines. |

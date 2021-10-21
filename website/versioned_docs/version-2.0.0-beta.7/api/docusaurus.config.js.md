@@ -1,7 +1,7 @@
 ---
 id: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
-slug: /docusaurus.config.js
+slug: /api/docusaurus-config
 ---
 
 # `docusaurus.config.js`

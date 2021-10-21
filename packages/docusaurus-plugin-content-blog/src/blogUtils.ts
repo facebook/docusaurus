@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {Feed, Author as FeedAuthor} from 'feed';
 import {compact, keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
@@ -17,7 +16,7 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  Author,
+  ReadingTimeFunction,
 } from './types';
 import {
   parseMarkdownFile,
@@ -26,7 +25,6 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
-  mdxToHtml,
   replaceMarkdownLinks,
   Globby,
   normalizeFrontMatterTags,
@@ -104,66 +102,6 @@ function formatBlogPostDate(locale: string, date: Date): string {
   }
 }
 
-export async function generateBlogFeed(
-  contentPaths: BlogContentPaths,
-  context: LoadContext,
-  options: PluginOptions,
-): Promise<Feed | null> {
-  if (!options.feedOptions) {
-    throw new Error(
-      'Invalid options: "feedOptions" is not expected to be null.',
-    );
-  }
-  const {siteConfig} = context;
-  const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  if (!blogPosts.length) {
-    return null;
-  }
-
-  const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
-
-  const updated =
-    (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00');
-
-  const feed = new Feed({
-    id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
-    updated,
-    language: feedOptions.language,
-    link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
-    copyright: feedOptions.copyright,
-  });
-
-  function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
-  }
-
-  blogPosts.forEach((post) => {
-    const {
-      id,
-      metadata: {title: metadataTitle, permalink, date, description, authors},
-    } = post;
-    feed.addItem({
-      title: metadataTitle,
-      id,
-      link: normalizeUrl([siteUrl, permalink]),
-      date,
-      description,
-      content: mdxToHtml(post.content),
-      author: authors.map(toFeedAuthor),
-    });
-  });
-
-  return feed;
-}
-
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
   const result = await parseMarkdownFile(blogSourceAbsolute, {
     removeContentTitle: true,
@@ -173,6 +111,10 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
     frontMatter: validateBlogPostFrontMatter(result.frontMatter),
   };
 }
+
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) => {
+  return readingTime(content, options).minutes;
+};
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -290,7 +232,13 @@ async function processBlogSourceFile(
       date,
       formattedDate,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
-      readingTime: showReadingTime ? readingTime(content).minutes : undefined,
+      readingTime: showReadingTime
+        ? options.readingTime({
+            content,
+            frontMatter,
+            defaultReadingTime,
+          })
+        : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
     },

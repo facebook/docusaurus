@@ -21,7 +21,7 @@ function generateTemplateExample(template) {
 
     // run the docusaurus script to bootstrap the template in the examples folder
     const command = template.endsWith('-typescript')
-      ? template.replace('-typescript', ' --typescript')
+      ? template.replace('-typescript', ' -- --typescript')
       : template;
     execSync(
       // /!\ we use the published init script on purpose,

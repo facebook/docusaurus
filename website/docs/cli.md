@@ -183,6 +183,12 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
 
-### `docusaurus write-heading-ids [siteDir]` {#docusaurus-write-heading-ids-sitedir}
+### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 
 Add [explicit heading ids](./guides/markdown-features/markdown-features-headings.mdx#explicit-ids) to the Markdown documents of your site.
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `files` | All MD files used by plugins | The files that you want heading IDs to be written to. |
+| `--maintain-case` | `false` | Keep the headings' casing, otherwise make all lowercase. |
+| `--overwrite` | `false` | Overwrite existing heading IDs. |

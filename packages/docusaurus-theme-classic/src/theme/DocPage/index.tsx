@@ -51,7 +51,7 @@ function DocPageContent({
       setHiddenSidebar(false);
     }
 
-    setHiddenSidebarContainer(!hiddenSidebarContainer);
+    setHiddenSidebarContainer((value) => !value);
   }, [hiddenSidebar]);
 
   return (

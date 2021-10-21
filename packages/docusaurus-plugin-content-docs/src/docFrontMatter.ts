@@ -34,6 +34,8 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  pagination_next: Joi.string().allow(null),
+  pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
 }).unknown();
 

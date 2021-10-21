@@ -24,12 +24,19 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
       return;
     }
 
+    const scrollTop = currentPosition.scrollY;
+
+    // It needed for mostly to handle rubber band scrolling
+    if (scrollTop < navbarHeight.current) {
+      setIsNavbarVisible(true);
+      return;
+    }
+
     if (isFocusedAnchor.current) {
       isFocusedAnchor.current = false;
       return;
     }
 
-    const scrollTop = currentPosition.scrollY;
     const lastScrollTop = lastPosition?.scrollY;
     const documentHeight =
       document.documentElement.scrollHeight - navbarHeight.current;

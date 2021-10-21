@@ -3,6 +3,7 @@
   "version": "2.0.0-beta.7",
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).",
   "main": "lib/index.js",
+  "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
     "build": "tsc && node copyUntypedFiles.js",
     "watch": "node copyUntypedFiles.js && tsc --watch"

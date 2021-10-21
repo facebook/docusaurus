@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {
@@ -49,13 +48,13 @@ import {
 } from '@docusaurus/types';
 import {Configuration} from 'webpack';
 import {
-  generateBlogFeed,
   generateBlogPosts,
   getContentPathList,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
+import {createBlogFeedFiles} from './feed';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -69,10 +68,11 @@ export default function pluginContentBlog(
 
   const {
     siteDir,
-    siteConfig: {onBrokenMarkdownLinks, baseUrl},
+    siteConfig,
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
+  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -519,29 +519,18 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feed = await generateBlogFeed(contentPaths, context, options);
-
-      if (!feed) {
+      // TODO: we shouldn't need to re-read the posts here!
+      // postBuild should receive loadedContent
+      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      if (blogPosts.length) {
         return;
       }
-
-      const feedTypes = options.feedOptions.type;
-
-      await Promise.all(
-        feedTypes.map(async (feedType) => {
-          const feedPath = path.join(
-            outDir,
-            options.routeBasePath,
-            `${feedType}.xml`,
-          );
-          const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
-          try {
-            await fs.outputFile(feedPath, feedContent);
-          } catch (err) {
-            throw new Error(`Generating ${feedType} feed failed: ${err}.`);
-          }
-        }),
-      );
+      await createBlogFeedFiles({
+        blogPosts,
+        options,
+        outDir,
+        siteConfig,
+      });
     },
 
     injectHtmlTags({content}) {

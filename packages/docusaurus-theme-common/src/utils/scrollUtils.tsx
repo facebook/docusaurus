@@ -15,6 +15,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import {useDynamicCallback} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
@@ -103,20 +104,22 @@ export function useScrollPosition(
   const {scrollEventsEnabledRef} = useScrollController();
   const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
 
-  const handleScroll = () => {
-    if (!scrollEventsEnabledRef.current) {
-      return;
-    }
-    const currentPosition = getScrollPosition()!;
-
-    if (effect) {
-      effect(currentPosition, lastPositionRef.current);
-    }
-
-    lastPositionRef.current = currentPosition;
-  };
+  const dynamicEffect = useDynamicCallback(effect);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollEventsEnabledRef.current) {
+        return;
+      }
+      const currentPosition = getScrollPosition()!;
+
+      if (dynamicEffect) {
+        dynamicEffect(currentPosition, lastPositionRef.current);
+      }
+
+      lastPositionRef.current = currentPosition;
+    };
+
     const opts: AddEventListenerOptions & EventListenerOptions = {
       passive: true,
     };
@@ -125,7 +128,12 @@ export function useScrollPosition(
     window.addEventListener('scroll', handleScroll, opts);
 
     return () => window.removeEventListener('scroll', handleScroll, opts);
-  }, deps);
+  }, [
+    dynamicEffect,
+    scrollEventsEnabledRef,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...deps,
+  ]);
 }
 
 type UseScrollPositionSaver = {
@@ -170,7 +178,7 @@ function useScrollPositionSaver(): UseScrollPositionSaver {
     return {restored: heightDiff !== 0};
   }, []);
 
-  return useMemo(() => ({save, restore}), []);
+  return useMemo(() => ({save, restore}), [restore, save]);
 }
 
 type UseScrollPositionBlockerReturn = {
@@ -217,7 +225,7 @@ export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
         }
       };
     },
-    [scrollController],
+    [scrollController, scrollPositionSaver],
   );
 
   useLayoutEffect(() => {

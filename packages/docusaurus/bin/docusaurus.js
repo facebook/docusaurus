@@ -206,11 +206,16 @@ cli
   );
 
 cli
-  .command('write-heading-ids [contentDir]')
+  .command('write-heading-ids [contentDir] [files]')
   .description('Generate heading ids in Markdown content.')
-  .action((siteDir) => {
-    writeHeadingIds(siteDir);
-  });
+  .option(
+    '--maintain-case',
+    "keep the headings' casing, otherwise make all lowercase (default: false)",
+  )
+  .option('--overwrite', 'overwrite existing heading IDs (default: false)')
+  .action((siteDir, files, options) =>
+    writeHeadingIds(resolveDir(siteDir), files, options),
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
