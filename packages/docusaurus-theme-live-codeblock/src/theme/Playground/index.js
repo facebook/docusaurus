@@ -12,8 +12,8 @@ import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
-import styles from './styles.module.css';
 import CodeBlock from '@theme-init/CodeBlock';
+import styles from './styles.module.css';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
@@ -29,15 +29,22 @@ function ResultWithHeader() {
           Result
         </Translate>
       </Header>
+      {/* https://github.com/facebook/docusaurus/issues/5747 */}
       <div className={styles.playgroundPreview}>
-        <LivePreview />
-        <LiveError />
+        <BrowserOnly fallback={<div>Loading...</div>}>
+          {() => (
+            <>
+              <LivePreview />
+              <LiveError />
+            </>
+          )}
+        </BrowserOnly>
       </div>
     </>
   );
 }
 
-function EditorWithHeader() {
+function EditorWithHeader({code}) {
   return (
     <>
       <Header>
@@ -47,18 +54,10 @@ function EditorWithHeader() {
           Live Editor
         </Translate>
       </Header>
-      <LiveEditor className={styles.playgroundEditor} />
-    </>
-  );
-}
-
-function StaticCodeBlock({className, children}) {
-  return (
-    <>
-      <Header>
-        <Translate id="theme.Playground.liveEditor">Live Editor</Translate>
-      </Header>
-      <CodeBlock className={className}>{children}</CodeBlock>
+      <BrowserOnly
+        fallback={<CodeBlock className="language-jsx">{code}</CodeBlock>}>
+        {() => <LiveEditor className={styles.playgroundEditor} />}
+      </BrowserOnly>
     </>
   );
 }
@@ -74,34 +73,24 @@ export default function Playground({children, transformCode, ...props}) {
   const prismTheme = usePrismTheme();
 
   return (
-    // https://github.com/facebook/docusaurus/issues/5747
-    <BrowserOnly
-      fallback={
-        <StaticCodeBlock className={props.className}>
-          {children}
-        </StaticCodeBlock>
-      }>
-      {() => (
-        <div className={styles.playgroundContainer}>
-          <LiveProvider
-            code={children.replace(/\n$/, '')}
-            transformCode={transformCode || ((code) => `${code};`)}
-            theme={prismTheme}
-            {...props}>
-            {playgroundPosition === 'top' ? (
-              <>
-                <ResultWithHeader />
-                <EditorWithHeader />
-              </>
-            ) : (
-              <>
-                <EditorWithHeader />
-                <ResultWithHeader />
-              </>
-            )}
-          </LiveProvider>
-        </div>
-      )}
-    </BrowserOnly>
+    <div className={styles.playgroundContainer}>
+      <LiveProvider
+        code={children.replace(/\n$/, '')}
+        transformCode={transformCode || ((code) => `${code};`)}
+        theme={prismTheme}
+        {...props}>
+        {playgroundPosition === 'top' ? (
+          <>
+            <ResultWithHeader />
+            <EditorWithHeader code={children} />
+          </>
+        ) : (
+          <>
+            <EditorWithHeader code={children} />
+            <ResultWithHeader />
+          </>
+        )}
+      </LiveProvider>
+    </div>
   );
 }
