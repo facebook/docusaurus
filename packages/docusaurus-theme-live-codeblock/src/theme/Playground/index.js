@@ -12,11 +12,15 @@ import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
-import CodeBlock from '@theme-init/CodeBlock';
 import styles from './styles.module.css';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
+}
+
+function LivePreviewLoader() {
+  // Is it worth improving/translating?
+  return <div>Loading...</div>;
 }
 
 function ResultWithHeader() {
@@ -31,7 +35,7 @@ function ResultWithHeader() {
       </Header>
       {/* https://github.com/facebook/docusaurus/issues/5747 */}
       <div className={styles.playgroundPreview}>
-        <BrowserOnly fallback={<div>Loading...</div>}>
+        <BrowserOnly fallback={<LivePreviewLoader />}>
           {() => (
             <>
               <LivePreview />
@@ -44,7 +48,7 @@ function ResultWithHeader() {
   );
 }
 
-function EditorWithHeader({code}) {
+function EditorWithHeader() {
   return (
     <>
       <Header>
@@ -54,14 +58,7 @@ function EditorWithHeader({code}) {
           Live Editor
         </Translate>
       </Header>
-      <BrowserOnly
-        fallback={
-          <CodeBlock className={clsx('language-jsx', styles.fallbackCodeblock)}>
-            {code}
-          </CodeBlock>
-        }>
-        {() => <LiveEditor className={styles.playgroundEditor} />}
-      </BrowserOnly>
+      <LiveEditor className={styles.playgroundEditor} />
     </>
   );
 }
@@ -86,11 +83,11 @@ export default function Playground({children, transformCode, ...props}) {
         {playgroundPosition === 'top' ? (
           <>
             <ResultWithHeader />
-            <EditorWithHeader code={children} />
+            <EditorWithHeader />
           </>
         ) : (
           <>
-            <EditorWithHeader code={children} />
+            <EditorWithHeader />
             <ResultWithHeader />
           </>
         )}
