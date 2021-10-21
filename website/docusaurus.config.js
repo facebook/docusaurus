@@ -38,6 +38,9 @@ const isDev = process.env.NODE_ENV === 'development';
 const isDeployPreview =
   process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
+// Used to debug production build issues faster
+const isBuildFast = !!process.env.BUILD_FAST;
+
 const baseUrl = process.env.BASE_URL || '/';
 
 // Special deployment for staging locales until they get enough translations
@@ -252,10 +255,11 @@ const config = {
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
-          onlyIncludeVersions:
-            !isVersioningDisabled && (isDev || isDeployPreview)
-              ? ['current', ...versions.slice(0, 2)]
-              : undefined,
+          onlyIncludeVersions: isBuildFast
+            ? ['current']
+            : !isVersioningDisabled && (isDev || isDeployPreview)
+            ? ['current', ...versions.slice(0, 2)]
+            : undefined,
           versions: {
             current: {
               label: `${getNextBetaVersionName()} 🚧`,
