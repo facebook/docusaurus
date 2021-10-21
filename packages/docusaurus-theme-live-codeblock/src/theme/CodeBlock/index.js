@@ -7,12 +7,14 @@
 
 import React from 'react';
 import Playground from '@theme/Playground';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import ReactLiveScope from '@theme/ReactLiveScope';
 import CodeBlock from '@theme-init/CodeBlock';
 
 const withLiveEditor = (Component) => {
   const WrappedComponent = (props) => {
-    if (props.live) {
+    const isBrowser = useIsBrowser();
+    if (props.live && isBrowser) {
       return <Playground scope={ReactLiveScope} {...props} />;
     }
 
