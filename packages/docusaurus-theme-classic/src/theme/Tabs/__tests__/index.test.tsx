@@ -13,6 +13,18 @@ import UserPreferencesProvider from '@theme/UserPreferencesProvider';
 import {ScrollControllerProvider} from '@docusaurus/theme-common';
 
 describe('Tabs', () => {
+  test('Should reject bad Tabs child', () => {
+    expect(() => {
+      renderer.create(
+        <Tabs>
+          <div>Naughty</div>
+          <TabItem value="good">Good</TabItem>
+        </Tabs>,
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique \\"value\\" prop."`,
+    );
+  });
   test('Should reject bad Tabs defaultValue', () => {
     expect(() => {
       renderer.create(
@@ -70,8 +82,8 @@ describe('Tabs', () => {
                 {value: 'v1', label: 'V1'},
                 {value: 'v2', label: 'V2'},
               ]}>
-              <TabItem>Tab 1</TabItem>
-              <TabItem>Tab 2</TabItem>
+              <TabItem value="v1">Tab 1</TabItem>
+              <TabItem value="v2">Tab 2</TabItem>
             </Tabs>
             <Tabs
               defaultValue={null}
@@ -79,8 +91,8 @@ describe('Tabs', () => {
                 {value: 'v1', label: 'V1'},
                 {value: 'v2', label: 'V2'},
               ]}>
-              <TabItem>Tab 1</TabItem>
-              <TabItem>Tab 2</TabItem>
+              <TabItem value="v1">Tab 1</TabItem>
+              <TabItem value="v2">Tab 2</TabItem>
             </Tabs>
             <Tabs defaultValue={null}>
               <TabItem value="v1" label="V1">

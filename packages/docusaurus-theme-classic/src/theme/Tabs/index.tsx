@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, cloneElement, Children, ReactElement} from 'react';
+import React, {
+  useState,
+  cloneElement,
+  Children,
+  isValidElement,
+  ReactElement,
+} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
@@ -16,6 +22,12 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
+// A very rough duck type, but good enough to guard against mistakes while
+// allowing customization
+function isTabItem(comp: ReactElement): comp is ReactElement<TabItemProps> {
+  return typeof comp.props.value !== 'undefined';
+}
+
 function TabsComponent(props: Props): JSX.Element {
   const {
     lazy,
@@ -25,9 +37,19 @@ function TabsComponent(props: Props): JSX.Element {
     groupId,
     className,
   } = props;
-  const children = Children.toArray(
-    props.children,
-  ) as ReactElement<TabItemProps>[];
+  const children = Children.map(props.children, (child) => {
+    if (isValidElement(child) && isTabItem(child)) {
+      return child;
+    }
+    // child.type.name will give non-sensical values in prod because of
+    // minification, but we assume it won't throw in prod.
+    throw new Error(
+      `Docusaurus error: Bad <Tabs> child <${
+        // @ts-expect-error: guarding against unexpected cases
+        typeof child.type === 'string' ? child.type : child.type.name
+      }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
+    );
+  });
   const values =
     valuesProp ?? children.map(({props: {value, label}}) => ({value, label}));
   const dup = duplicates(values, (a, b) => a.value === b.value);
