@@ -7,7 +7,7 @@
         "items": ["foo/bar", "foo/baz"]
       },
       {
-        "type": "slugs",
+        "type": "category",
         "label": "Slugs",
         "items": [
           "rootAbsoluteSlug",
