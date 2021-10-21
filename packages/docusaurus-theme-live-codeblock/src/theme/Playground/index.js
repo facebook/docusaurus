@@ -52,15 +52,11 @@ function EditorWithHeader() {
   );
 }
 
-function StaticCodeBlock({className}) {
+function StaticCodeBlock({className, children}) {
   return (
     <>
       <Header>
-        <Translate
-          id="theme.Playground.liveEditor"
-          description="The live editor label of the live codeblocks">
-          Live Editor
-        </Translate>
+        <Translate id="theme.Playground.liveEditor">Live Editor</Translate>
       </Header>
       <CodeBlock className={className}>{children}</CodeBlock>
     </>
