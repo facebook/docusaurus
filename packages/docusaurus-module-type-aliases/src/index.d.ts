@@ -69,11 +69,41 @@ declare module '@generated/codeTranslations' {
   export default codeTranslations;
 }
 
-declare module '@theme/*';
-
 declare module '@theme-original/*';
 
-declare module '@docusaurus/*';
+declare module '@theme/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly title?: string;
+    readonly description?: string;
+  }
+  export default function Layout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Loading' {
+  import type {LoadingComponentProps} from 'react-loadable';
+
+  export default function Loading(props: LoadingComponentProps): JSX.Element;
+}
+
+declare module '@theme/NotFound' {
+  export default function NotFound(props: any): JSX.Element;
+}
+
+declare module '@theme/Root' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function Root({children}: Props): JSX.Element;
+}
+
+declare module '@docusaurus/constants' {
+  export const DEFAULT_PLUGIN_ID: 'default';
+}
 
 declare module '@docusaurus/Head' {
   import type {HelmetProps} from 'react-helmet';

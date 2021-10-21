@@ -131,6 +131,8 @@ export type DocFrontMatter = {
   parse_number_prefixes?: boolean;
   toc_min_heading_level?: number;
   toc_max_heading_level?: number;
+  pagination_next?: string | null;
+  pagination_prev?: string | null;
   /* eslint-enable camelcase */
 };
 

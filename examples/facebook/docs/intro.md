@@ -17,7 +17,7 @@ Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new
 Generate a new Docusaurus site using the **classic template**:
 
 ```shell
-npx @docusaurus/init@latest init my-website classic
+npm init docusaurus@latest my-website classic
 ```
 
 ## Start your site

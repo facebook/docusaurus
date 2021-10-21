@@ -30,7 +30,7 @@ export function useDocsPreferredVersion(
     (versionName: string) => {
       api.savePreferredVersion(pluginId, versionName);
     },
-    [api],
+    [api, pluginId],
   );
 
   return {preferredVersion, savePreferredVersionName} as const;

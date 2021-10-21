@@ -41,6 +41,6 @@ module.exports = {
     // Maybe point to a fixture?
     '@generated/.*': '<rootDir>/jest/emptyModule.js',
     // TODO maybe use "projects" + multiple configs if we plan to add tests to another theme?
-    '@theme/(.*)': '@docusaurus/theme-classic/lib-next/theme/$1',
+    '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
   },
 };

@@ -141,7 +141,7 @@ function DropdownNavbarItemMobile({
     if (containsActive) {
       setCollapsed(!containsActive);
     }
-  }, [localPathname, containsActive]);
+  }, [localPathname, containsActive, setCollapsed]);
 
   return (
     <li
