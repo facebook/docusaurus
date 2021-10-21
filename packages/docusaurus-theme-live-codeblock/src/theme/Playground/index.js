@@ -13,6 +13,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
+import CodeBlock from '@theme-init/CodeBlock';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
@@ -51,6 +52,21 @@ function EditorWithHeader() {
   );
 }
 
+function StaticCodeBlock(props) {
+  return (
+    <>
+      <Header>
+        <Translate
+          id="theme.Playground.liveEditor"
+          description="The live editor label of the live codeblocks">
+          Live Editor
+        </Translate>
+      </Header>
+      <CodeBlock className={styles.playgroundEditor} {...props} />
+    </>
+  );
+}
+
 export default function Playground({children, transformCode, ...props}) {
   const {
     siteConfig: {
@@ -63,7 +79,7 @@ export default function Playground({children, transformCode, ...props}) {
 
   return (
     // https://github.com/facebook/docusaurus/issues/5747
-    <BrowserOnly fallback={<EditorWithHeader />}>
+    <BrowserOnly fallback={<StaticCodeBlock />}>
       {() => (
         <div className={styles.playgroundContainer}>
           <LiveProvider
