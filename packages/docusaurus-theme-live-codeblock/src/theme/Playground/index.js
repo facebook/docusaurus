@@ -13,6 +13,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
+import useIsBrowser from '@docusaurus/core/lib/client/exports/useIsBrowser';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
@@ -48,6 +49,18 @@ function ResultWithHeader() {
   );
 }
 
+function ThemedLiveEditor() {
+  const isBrowser = useIsBrowser();
+  return (
+    <LiveEditor
+      // We force remount the editor on hydration,
+      // otherwise dark prism theme is not applied
+      key={isBrowser}
+      className={styles.playgroundEditor}
+    />
+  );
+}
+
 function EditorWithHeader() {
   return (
     <>
@@ -58,7 +71,7 @@ function EditorWithHeader() {
           Live Editor
         </Translate>
       </Header>
-      <LiveEditor className={styles.playgroundEditor} />
+      <ThemedLiveEditor />
     </>
   );
 }
