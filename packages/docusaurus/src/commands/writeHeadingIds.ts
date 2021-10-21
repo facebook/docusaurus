@@ -15,11 +15,11 @@ import {parseMarkdownHeadingId} from '@docusaurus/utils';
 import {safeGlobby} from '../server/utils';
 
 type Options = {
-  maintainCase: boolean;
-  overwrite: boolean;
+  maintainCase?: boolean;
+  overwrite?: boolean;
 };
 
-export function unwrapMarkdownLinks(line: string): string {
+function unwrapMarkdownLinks(line: string): string {
   return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
@@ -62,7 +62,7 @@ export function transformMarkdownHeadingLine(
   return addHeadingId(parsedHeading.text, slugger, maintainCase);
 }
 
-export function transformMarkdownLine(
+function transformMarkdownLine(
   line: string,
   slugger: GithubSlugger,
   options?: Options,
@@ -121,7 +121,7 @@ async function transformMarkdownFile(
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
-  const plugins = await initPlugins({
+  const plugins = initPlugins({
     pluginConfigs,
     context,
   });
