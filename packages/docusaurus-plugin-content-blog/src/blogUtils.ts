@@ -16,6 +16,7 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  ReadingTimeFunction,
 } from './types';
 import {
   parseMarkdownFile,
@@ -110,6 +111,10 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
     frontMatter: validateBlogPostFrontMatter(result.frontMatter),
   };
 }
+
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) => {
+  return readingTime(content, options).minutes;
+};
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -227,7 +232,13 @@ async function processBlogSourceFile(
       date,
       formattedDate,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
-      readingTime: showReadingTime ? readingTime(content).minutes : undefined,
+      readingTime: showReadingTime
+        ? options.readingTime({
+            content,
+            frontMatter,
+            defaultReadingTime,
+          })
+        : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
     },

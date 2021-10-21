@@ -41,6 +41,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
+  readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
 };
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -113,4 +114,5 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
+  readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
 });
