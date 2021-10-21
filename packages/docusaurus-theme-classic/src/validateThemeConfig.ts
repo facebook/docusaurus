@@ -139,6 +139,7 @@ const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersionDropdown').required(),
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
+  onlyShowOnActiveDoc: Joi.boolean().default(false),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
 });
