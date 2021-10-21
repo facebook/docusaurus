@@ -27,7 +27,6 @@ const sidebars = {
       label: 'Guides',
       items: [
         'guides/creating-pages',
-        'guides/seo',
         {
           Docs: [
             'guides/docs/introduction',
@@ -60,6 +59,7 @@ const sidebars = {
         'static-assets',
         'search',
         'browser-support',
+        'guides/seo',
         'deployment',
         {
           type: 'category',

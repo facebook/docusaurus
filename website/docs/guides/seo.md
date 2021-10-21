@@ -48,29 +48,7 @@ Docusaurus supports alt tags for your images, see [this section](/docs/markdown-
 
 ## Rich search information {#richsearchinformation}
 
-In order to get ultimate search engine experience, the rich search information can be used. Those make your website look much better in the search engine and improves your search index. In order to provide the rich search information inline HTML can be used in markdown:
-
-```html title="rich search information"
-<script type="application/ld+json" data-react-helmet="true">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "Announcing Docusaurus 2 Beta",
-    "description": "After a lengthy alpha stage in order to ensure feature parity and quality, we are excited to officially release the first Docusaurus 2 beta.",
-    "image": [
-      "/assets/images/social-card-414bbe5147ecc177bbe8d858616709c5.png"
-    ],
-    "datePublished": "2021-05-12T00:00:00.000Z",
-    "author": {
-      "@type": "Person",
-      "name": "Docusaurus maintainer",
-      "url": "imageurl"
-    }
-  }
-</script>
-```
-
-To read more about rich search information visit [this site](https://developers.google.com/search/docs/advanced/structured-data/search-gallery).
+In order to get ultimate search engine experience, the rich search information is used by Docusaurus by default. The information is created depending on your meta information in blog/global configuration. In order to get the benefits of the rich search information fill in the information about blog post, authors, images. Read more about the meta information [here](/docs/next/blog#blog-post-authors), alternatively same information can be filled globally in configuration files [read more about global configuration](/docs/blog#global-authors).
 
 ## Robots file {#robotsfile}
 
