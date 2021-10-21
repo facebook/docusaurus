@@ -7,7 +7,13 @@
 
 import path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/index';
-import {processDocMetadata, readVersionDocs, readDocFile} from '../docs';
+import {
+  processDocMetadata,
+  readVersionDocs,
+  readDocFile,
+  handleNavigation,
+} from '../docs';
+import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
 import {
   DocFile,
@@ -16,6 +22,7 @@ import {
   VersionMetadata,
   PluginOptions,
   EditUrlFunction,
+  DocNavLink,
 } from '../types';
 import {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -110,7 +117,38 @@ function createTestUtils({
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
 
-  return {processDocFile, testMeta, testSlug};
+  async function generateNavigation(
+    docFiles: DocFile[],
+  ): Promise<[DocNavLink, DocNavLink][]> {
+    const rawDocs = await Promise.all(
+      docFiles.map((docFile) =>
+        processDocMetadata({
+          docFile,
+          versionMetadata,
+          context,
+          options,
+        }),
+      ),
+    );
+    const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
+      sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>
+        defaultSidebarItemsGenerator({...args}),
+      numberPrefixParser: options.numberPrefixParser,
+      docs: rawDocs,
+      version: versionMetadata,
+      options: {
+        sidebarCollapsed: false,
+        sidebarCollapsible: true,
+      },
+    });
+    return handleNavigation(
+      rawDocs,
+      sidebars,
+      versionMetadata.sidebarFilePath as string,
+    ).docs.map((doc) => [doc.previous, doc.next]);
+  }
+
+  return {processDocFile, testMeta, testSlug, generateNavigation};
 }
 
 describe('simple site', () => {
@@ -539,6 +577,28 @@ describe('simple site', () => {
       );
     }).toThrowErrorMatchingInlineSnapshot(
       `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to choose either homePageId or slug, not both"`,
+    );
+  });
+
+  test('custom pagination', async () => {
+    const {defaultTestUtils, options, versionsMetadata} = await loadSite();
+    const docs = await readVersionDocs(versionsMetadata[0], options);
+    expect(await defaultTestUtils.generateNavigation(docs)).toMatchSnapshot();
+  });
+
+  test('bad pagination', async () => {
+    const {defaultTestUtils, options, versionsMetadata} = await loadSite();
+    const docs = await readVersionDocs(versionsMetadata[0], options);
+    docs.push(
+      createFakeDocFile({
+        source: 'hehe',
+        frontmatter: {pagination_prev: 'nonexistent'},
+      }),
+    );
+    await expect(async () => {
+      await defaultTestUtils.generateNavigation(docs);
+    }).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
 });
