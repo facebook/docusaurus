@@ -38,3 +38,7 @@
   padding: 1rem;
   background-color: var(--ifm-pre-background);
 }
+
+.fallbackCodeblock {
+  margin-bottom: 0px !important;
+}

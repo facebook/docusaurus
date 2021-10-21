@@ -101,7 +101,7 @@ const highlightDirectiveRegex = (lang: string) => {
 
 export default function CodeBlock({
   children,
-  className: languageClassName,
+  className: blockClassName,
   metastring,
   title,
 }: Props): JSX.Element {
@@ -141,6 +141,9 @@ export default function CodeBlock({
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
+  const languageClassName = blockClassName
+    ?.split(' ')
+    .find((str) => str.startsWith('language-'));
   let language = languageClassName?.replace(/language-/, '') as Language;
 
   if (!language && prism.defaultLanguage) {

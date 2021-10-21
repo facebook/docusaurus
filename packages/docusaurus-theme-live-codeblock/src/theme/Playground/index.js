@@ -56,7 +56,7 @@ function EditorWithHeader({code}) {
       </Header>
       <BrowserOnly
         fallback={
-          <CodeBlock className="language-jsx" style={{marginBottom: 0}}>
+          <CodeBlock className={clsx('language-jsx', styles.fallbackCodeblock)}>
             {code}
           </CodeBlock>
         }>
