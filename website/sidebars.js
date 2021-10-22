@@ -59,7 +59,7 @@ const sidebars = {
         'static-assets',
         'search',
         'browser-support',
-        'guides/seo',
+        'seo',
         'deployment',
         {
           type: 'category',
