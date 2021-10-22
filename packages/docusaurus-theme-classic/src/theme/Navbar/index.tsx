@@ -33,7 +33,7 @@ const DefaultNavItemPosition = 'right';
 
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved
-  return useThemeConfig().navbar.items as NavbarItemConfig[];
+  return useThemeConfig().navbar.items as unknown as NavbarItemConfig[];
 }
 
 // If split links by left/right
