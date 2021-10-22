@@ -52,8 +52,8 @@ describe('themeConfig', () => {
         title: 'Docusaurus',
         logo: {
           alt: 'Docusaurus Logo',
-          src: 'img/docusaurus.svg',
-          srcDark: 'img/docusaurus_keytar.svg',
+          src: {uri: 'img/docusaurus.svg'},
+          srcDark: {uri: 'img/docusaurus_keytar.svg'},
         },
         items: [
           {
@@ -86,7 +86,7 @@ describe('themeConfig', () => {
         ],
         logo: {
           alt: 'Facebook Open Source Logo',
-          src: 'img/oss_logo.png',
+          src: {uri: 'img/oss_logo.png'},
           href: 'https://opensource.facebook.com',
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
@@ -311,7 +311,7 @@ describe('themeConfig', () => {
       navbar: {
         logo: {
           alt: '',
-          src: '/arbitrary-logo.png',
+          src: {uri: '/arbitrary-logo.png'},
         },
         hideOnScroll: false,
       },
@@ -330,7 +330,7 @@ describe('themeConfig', () => {
       footer: {
         logo: {
           alt: '',
-          src: '/arbitrary-logo.png',
+          src: {uri: '/arbitrary-logo.png'},
         },
       },
     };
@@ -341,6 +341,29 @@ describe('themeConfig', () => {
       footer: {
         ...normalizedConfig.footer,
         ...partialConfig.footer,
+      },
+    });
+  });
+
+  test('should allow width and height specification for logo ', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: {uri: '/arbitrary-logo.png', width: '30px', height: '30%'},
+          srcDark: {
+            uri: '/arbitrary-dark-logo.png',
+            width: '20px',
+            height: '20%',
+          },
+        },
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
       },
     });
   });
