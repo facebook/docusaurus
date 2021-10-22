@@ -555,6 +555,14 @@ declare module '@theme/ThemedImage' {
       readonly light: string;
       readonly dark: string;
     };
+    readonly widths?: {
+      readonly light: number | string;
+      readonly dark: number | string;
+    };
+    readonly heights?: {
+      readonly light: number | string;
+      readonly dark: number | string;
+    };
   }
 
   const ThemedImage: (props: Props) => JSX.Element;

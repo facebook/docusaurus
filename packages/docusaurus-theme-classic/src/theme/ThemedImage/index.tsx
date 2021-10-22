@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 const ThemedImage = (props: Props): JSX.Element => {
   const isBrowser = useIsBrowser();
   const {isDarkTheme} = useThemeContext();
-  const {sources, className, alt = '', ...propsRest} = props;
+  const {sources, heights, widths, className, alt = '', ...propsRest} = props;
 
   type SourceName = keyof Props['sources'];
 
@@ -36,6 +36,8 @@ const ThemedImage = (props: Props): JSX.Element => {
           key={sourceName}
           src={sources[sourceName]}
           alt={alt}
+          width={widths && widths[sourceName]}
+          height={heights && heights[sourceName]}
           className={clsx(
             styles.themedImage,
             styles[`themedImage--${sourceName}`],

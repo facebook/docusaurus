@@ -61,8 +61,8 @@ function Footer(): JSX.Element | null {
 
   const {copyright, links = [], logo = {}} = footer || {};
   const sources = {
-    light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark || logo.src),
+    light: useBaseUrl(logo?.src?.uri),
+    dark: useBaseUrl(logo?.srcDark?.uri || logo?.src?.uri),
   };
 
   if (!footer) {
