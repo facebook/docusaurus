@@ -129,9 +129,21 @@ module.exports = {
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
     '@typescript-eslint/no-empty-interface': [
-      'error',
+      ERROR,
       {
         allowSingleExtends: true,
+      },
+    ],
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: ['compact', 'flatten', 'flatMap', 'take', 'takeRight'],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
       },
     ],
   },
