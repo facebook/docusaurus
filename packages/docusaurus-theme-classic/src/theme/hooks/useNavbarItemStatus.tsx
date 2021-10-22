@@ -10,9 +10,10 @@ import NavbarItemStrategies, {
   Status,
 } from '@theme/NavbarStrategies';
 
-function normalizeStrategy<T>(
-  strategy: StrategyOption<T>,
-): {type: string; params: T | undefined} {
+function normalizeStrategy<T>(strategy: StrategyOption<T>): {
+  type: string;
+  params: T | undefined;
+} {
   if (typeof strategy === 'string') {
     return {type: strategy, params: undefined};
   }

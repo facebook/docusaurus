@@ -38,25 +38,23 @@ export default function DocsVersionDropdownNavbarItem({
     useDocsPreferredVersion(docsPluginId);
 
   function getItems() {
-    const versionLinks = versions.map(
-      (version): LinkLikeNavbarItemProps => {
-        // We try to link to the same doc, in another version
-        // When not possible, fallback to the "main doc" of the version
-        const versionDoc =
-          activeDocContext?.alternateDocVersions[version.name] ||
-          getVersionMainDoc(version);
-        return {
-          isNavLink: true,
-          label: version.label,
-          to: versionDoc.path,
-          isActive: () => version === activeDocContext?.activeVersion,
-          onClick: () => {
-            savePreferredVersionName(version.name);
-          },
-          statusStrategy: 'alwaysActive',
-        };
-      },
-    );
+    const versionLinks = versions.map((version): LinkLikeNavbarItemProps => {
+      // We try to link to the same doc, in another version
+      // When not possible, fallback to the "main doc" of the version
+      const versionDoc =
+        activeDocContext?.alternateDocVersions[version.name] ||
+        getVersionMainDoc(version);
+      return {
+        isNavLink: true,
+        label: version.label,
+        to: versionDoc.path,
+        isActive: () => version === activeDocContext?.activeVersion,
+        onClick: () => {
+          savePreferredVersionName(version.name);
+        },
+        statusStrategy: 'alwaysActive',
+      };
+    });
 
     return [...dropdownItemsBefore, ...versionLinks, ...dropdownItemsAfter];
   }
