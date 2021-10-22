@@ -28,7 +28,7 @@ function ShowcaseFilterCheckbox({label, ...props}: Props) {
         type="checkbox"
         id={id}
         className="sr-only"
-        // aria-label="Toggle between or and and for the tags you selected"
+        aria-label="Toggle between or and and for the tags you selected"
         {...props}
       />
       <div className={clsx('shadow--md', styles.checkboxLabelWrapper)}>

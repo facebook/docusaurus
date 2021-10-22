@@ -38,6 +38,6 @@
 .showcaseGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 18px;
+  gap: 32px;
   position: relative;
 }

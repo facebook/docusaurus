@@ -13,7 +13,7 @@ import Image from '@theme/IdealImage';
 import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
-function Tag({label, description}: Tag) {
+function TagComp({label, description}: Tag) {
   return (
     <li
       aria-label={label}
@@ -36,7 +36,7 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   return (
     <>
       {tagObjectsSorted.map((tagObject, index) => (
-        <Tag key={index} {...tagObject} />
+        <TagComp key={index} {...tagObject} />
       ))}
     </>
   );
@@ -46,39 +46,38 @@ const ShowcaseCard = memo(function ({user}: {user: User}) {
   return (
     <li
       key={user.title}
-      tabIndex={0}
       title={user.title}
-      className={clsx('card shadow--md', styles.showcaseCard)}>
+      className={clsx('card', styles.showcaseCard)}>
       <div className="card__image">
         <Image img={user.preview} alt={user.title} />
       </div>
-      <div className={clsx('card__body', styles.showcaseContent)}>
-        <div>
-          <div className={styles.showcaseCardHeader}>
-            <h4 className={styles.showcaseCardTitle}>
-              <a
-                href={user.website}
-                tabIndex={0}
-                className={styles.showcaseCardLink}>
-                {user.title}
-              </a>
-            </h4>
+      <div className="card__body">
+        <div className={clsx(styles.showcaseCardHeader)}>
+          <h4 className={styles.showcaseCardTitle}>
             <a
-              href={user.source}
+              target="noreferer noopener"
+              href={user.website}
               tabIndex={0}
-              className={clsx(
-                'button button--secondary button--sm',
-                styles.showcaseCardSrcBtn,
-              )}>
-              source
+              className={styles.showcaseCardLink}>
+              {user.title}
             </a>
-          </div>
-          <p className={styles.showcaseCardBody}>{user.description}</p>
-          <ul className={styles.cardFooter}>
-            <ShowcaseCardTag tags={user.tags} />
-          </ul>
+          </h4>
+          <a
+            href={user.source}
+            tabIndex={0}
+            target="noreferer noopener"
+            className={clsx(
+              'button button--secondary button--sm',
+              styles.showcaseCardSrcBtn,
+            )}>
+            source
+          </a>
         </div>
+        <p className={styles.showcaseCardBody}>{user.description}</p>
       </div>
+      <ul className={clsx('card__footer', styles.cardFooter)}>
+        <ShowcaseCardTag tags={user.tags} />
+      </ul>
     </li>
   );
 });

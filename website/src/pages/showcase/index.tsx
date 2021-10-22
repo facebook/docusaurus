@@ -156,25 +156,62 @@ function ShowcaseFilters(props: Props) {
   );
 }
 
-function ShowcaseCards({ filteredUsers }: { filteredUsers: User[] }) {
+function ShowcaseCards({
+  filteredUsers,
+  selectedTags,
+}: {
+  filteredUsers: User[];
+  selectedTags: TagType[];
+}) {
+  const favoriteUsers =
+    selectedTags.length === 0 &&
+    SortedUsers.filter((user) => user.tags.includes('favorite'));
+
+  const otherUsers = SortedUsers.filter(
+    (user) => !user.tags.includes('favorite'),
+  );
+
   return (
-    <section className="margin-top--xl margin-bottom--xl">
-      <div className={clsx('margin-top--lg', styles.showcaseList)}>
-        {filteredUsers.length > 0 ? (
-          <ul className={clsx(styles.showcaseGrid)}>
-            {filteredUsers.map((user) => (
-              <ShowcaseCard
-                key={user.title} // Title should be unique
-                user={user}
-              />
-            ))}
-          </ul>
-        ) : (
-          <div className={clsx('padding-vert--md text--center')}>
-            <h3>No result</h3>
-          </div>
-        )}
-      </div>
+    <section
+      className={clsx('margin-top--xl margin-bottom--xl', styles.showcaseList)}>
+      {filteredUsers.length > 0 ? (
+        <>
+          {favoriteUsers ? (
+            <>
+              <h3>Our favorites</h3>
+              <ul className={clsx(styles.showcaseGrid)}>
+                {favoriteUsers.map((user) => (
+                  <ShowcaseCard
+                    key={user.title} // Title should be unique
+                    user={user}
+                  />
+                ))}
+              </ul>
+              <ul className={clsx('margin-top--xl', styles.showcaseGrid)}>
+                {otherUsers.map((user) => (
+                  <ShowcaseCard
+                    key={user.title} // Title should be unique
+                    user={user}
+                  />
+                ))}
+              </ul>
+            </>
+          ) : (
+            <ul className={clsx(styles.showcaseGrid)}>
+              {filteredUsers.map((user) => (
+                <ShowcaseCard
+                  key={user.title} // Title should be unique
+                  user={user}
+                />
+              ))}
+            </ul>
+          )}
+        </>
+      ) : (
+        <div className={clsx('padding-vert--md text--center')}>
+          <h3>No result</h3>
+        </div>
+      )}
     </section>
   );
 }
@@ -195,7 +232,10 @@ function Showcase(): JSX.Element {
           filteredUsers={filteredUsers}
           setOperator={setOperator}
         />
-        <ShowcaseCards filteredUsers={filteredUsers} />
+        <ShowcaseCards
+          filteredUsers={filteredUsers}
+          selectedTags={selectedTags}
+        />
       </main>
     </Layout>
   );

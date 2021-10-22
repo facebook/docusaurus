@@ -23,7 +23,10 @@ function ShowcaseCheckbox({
   const id = `showcase_checkbox_id_${props.name};`;
 
   return (
-    <li title={title} className={clsx(className, styles.checkboxListItem)}>
+    <li
+      title={title}
+      key={title}
+      className={clsx(className, styles.checkboxListItem)}>
       <input type="checkbox" id={id} className="sr-only" {...props} />
       <label tabIndex={0} htmlFor={id} className={styles.checkboxLabel}>
         {label}
