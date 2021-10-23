@@ -7,14 +7,13 @@
 
 .showcaseCard {
   position: relative;
-  transition: all 50ms ease-in 200ms;
-  box-shadow: 0 5px 15px rgb(0 0 0 / 15%);
+  transition: transform ease-in 40ms;
+  box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
 }
 
 .showcaseCard:focus,
 .showcaseCard:hover {
-  box-shadow: var(--ifm-global-shadow-md);
-  transform: translateY(-7px);
+  transform: scale(1.01);
 }
 
 .showcaseCardHeader {
@@ -30,8 +29,6 @@
 
 .showcaseCardTitle a {
   text-decoration: none;
-  color: inherit;
-  transition: color ease-out 200ms;
 }
 
 .showcaseCardTitle a::before {
@@ -41,12 +38,15 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  opacity: 1;
+  transition: opacity ease-out 80ms;
+  background-color: rgba(0 0 0 / 3%);
   top: 0;
   left: 0;
 }
 
-.showcaseCardTitle a:hover {
-  color: var(--ifm-color-primary-dark);
+.showcaseCardTitle a:hover::before {
+  opacity: 0;
 }
 
 .showcaseCardSrcBtn {
