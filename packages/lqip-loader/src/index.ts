@@ -5,9 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const lqip = require('./lqip');
+import * as lqip from './lqip';
+import type {LoaderContext} from 'webpack';
 
-module.exports = function (contentBuffer) {
+type Options = {
+  base64: boolean;
+  palette: boolean;
+};
+
+async function lqipLoader(
+  this: LoaderContext<Options>,
+  contentBuffer: Buffer,
+): Promise<void> {
   if (this.cacheable) {
     this.cacheable();
   }
@@ -29,21 +38,21 @@ module.exports = function (contentBuffer) {
   const SOURCE_CHUNK = 1;
 
   if (contentIsUrlExport) {
-    source = content.match(/^(?:export default|module.exports =) (.*)/)[
+    source = content.match(/^(?:export default|module.exports =) (.*)/)![
       SOURCE_CHUNK
     ];
   } else {
     if (!contentIsFileExport) {
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
       const fileLoader = require('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
-    source = content.match(/^(?:export default|module.exports =) (.*);/)[
+    source = content.match(/^(?:export default|module.exports =) (.*);/)![
       SOURCE_CHUNK
     ];
   }
 
-  const outputPromises = [];
+  const outputPromises: (Promise<string | string[]> | null)[] = [];
 
   if (config.base64 === true) {
     outputPromises.push(lqip.base64(imgPath));
@@ -60,24 +69,25 @@ module.exports = function (contentBuffer) {
     outputPromises.push(null);
   }
 
-  Promise.all(outputPromises)
-    .then((data) => {
-      if (data) {
-        const [preSrc, palette] = data;
-        const finalObject = JSON.stringify({src: 'STUB', preSrc, palette});
-        const result = `module.exports = ${finalObject.replace(
-          '"STUB"',
-          source,
-        )};`;
-        callback(null, result);
-      } else {
-        callback('ERROR', null);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      callback(error, null);
-    });
-};
+  try {
+    const data = await Promise.all(outputPromises);
+    if (data) {
+      const [preSrc, palette] = data;
+      const finalObject = JSON.stringify({src: 'STUB', preSrc, palette});
+      const result = `module.exports = ${finalObject.replace(
+        '"STUB"',
+        source,
+      )};`;
+      callback(null, result);
+    } else {
+      callback(new Error('ERROR'), undefined);
+    }
+  } catch (error) {
+    console.error(error);
+    callback(new Error('ERROR'), undefined);
+  }
+}
 
-module.exports.raw = true;
+lqipLoader.raw = true;
+
+export default lqipLoader;
