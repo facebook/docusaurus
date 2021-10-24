@@ -234,11 +234,10 @@ class CleanWebpackPlugin {
           console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       const needsForce =
         /Cannot delete files\/folders outside the current working directory\./.test(
-          error.message,
+          (error as Error).message,
         );
 
       if (needsForce) {
