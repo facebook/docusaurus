@@ -265,28 +265,7 @@ When you add doc Y to sidebar X, it creates a two-way binding: sidebar X contain
 1. _How do I generate a link to doc Y in sidebar X without making sidebar X displayed on Y?_ For example, when I include doc Y in multiple sidebars as in the example above, and I want to explicitly tell Docusaurus to display one sidebar?
 2. _How do I make sidebar X displayed when browsing doc Y, but sidebar X shouldn't contain the link to Y?_ For example, when Y is a "doc home page" and the sidebar is purely used for navigation?
 
-For the first case, we used to have a sidebar item type `ref`, but now, prefer the more intuitive way of using `displayThisSidebar: false`.
-
-```js title="sidebars.js"
-module.exports = {
-  tutorialSidebar: {
-    'Category A': [
-      'doc1',
-      'doc2',
-      {
-        type: 'doc',
-        id: 'commonDoc',
-        displayThisSidebar: false,
-      },
-    ],
-  },
-  apiSidebar: ['doc3', 'doc4', 'commonDoc'],
-};
-```
-
-`commonDoc` was previously associated to two sidebars, but when we break its association with `tutorialSidebar` with `displayThisSidebar: false`, Docusaurus can be certain that `apiSidebar` should be displayed.
-
-If `commonDoc` is included in _n_ sidebars, you would need to declare `displayThisSidebar: false` in exactly _n - 1_ places for Docusaurus to determine one unique association, which can be troublesome. We provide another API: the front matter option `displayed_sidebar`, which forcibly sets the sidebar association. For the same example, you can still use doc shorthands without any special configuration:
+Front matter option `displayed_sidebar` will forcibly set the sidebar association. For the same example, you can still use doc shorthands without any special configuration:
 
 ```js title="sidebars.js"
 module.exports = {
@@ -319,7 +298,7 @@ If you set `displayed_sidebar: null`, no sidebar will be displayed whatsoever on
 
 ### Generating pagination {#generating-pagination}
 
-Docusaurus uses the sidebar to generate the "next" and "previous" pagination links at the bottom of each doc page. It strictly uses the sidebar that is displayed: if no sidebar is associated, it doesn't generate pagination either. However, the docs linked as "next" and "previous" are not guaranteed to display the same sidebar: they are included in this sidebar, but may have `displayThisSidebar: false`, for example.
+Docusaurus uses the sidebar to generate the "next" and "previous" pagination links at the bottom of each doc page. It strictly uses the sidebar that is displayed: if no sidebar is associated, it doesn't generate pagination either. However, the docs linked as "next" and "previous" are not guaranteed to display the same sidebar: they are included in this sidebar, but in their front matter, they may have a different `displayed_sidebar`.
 
 If a sidebar is displayed, but this sidebar doesn't contain the doc itself (by setting `displayed_sidebar` front matter), no pagination is displayed.
 
@@ -372,7 +351,6 @@ type SidebarItemDoc =
       type: 'doc';
       id: string;
       label: string; // Sidebar label text
-      displayThisSidebar: boolean; // Whether the sidebar this is included in should be displayed
       className?: string; // Class name for sidebar label
     }
 
@@ -848,8 +826,8 @@ module.exports = {
         }) {
           // Example: return an hardcoded list of static sidebar items
           return [
-            {type: 'doc', id: 'doc1', displayThisSidebar: true},
-            {type: 'doc', id: 'doc2', displayThisSidebar: true}},
+            {type: 'doc', id: 'doc1'},
+            {type: 'doc', id: 'doc2'}},
           ];
         },
         // highlight-end

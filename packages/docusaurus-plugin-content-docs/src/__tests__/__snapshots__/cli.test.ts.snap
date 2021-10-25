@@ -12,12 +12,10 @@ Object {
           "collapsible": true,
           "items": Array [
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/foo/bar",
               "type": "doc",
             },
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/foo/baz",
               "type": "doc",
             },
@@ -30,22 +28,18 @@ Object {
           "collapsible": true,
           "items": Array [
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/rootAbsoluteSlug",
               "type": "doc",
             },
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/rootRelativeSlug",
               "type": "doc",
             },
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/rootResolvedSlug",
               "type": "doc",
             },
             Object {
-              "displayThisSidebar": true,
               "id": "version-1.0.0/rootTryToEscapeSlug",
               "type": "doc",
             },
@@ -54,7 +48,6 @@ Object {
           "type": "category",
         },
         Object {
-          "displayThisSidebar": true,
           "id": "version-1.0.0/headingAsTitle",
           "type": "doc",
         },
@@ -64,9 +57,8 @@ Object {
           "type": "link",
         },
         Object {
-          "displayThisSidebar": false,
-          "id": "version-1.0.0/hello",
-          "type": "doc",
+          "id": "hello",
+          "type": "ref",
         },
       ],
       "label": "Test",
@@ -77,7 +69,6 @@ Object {
       "collapsible": true,
       "items": Array [
         Object {
-          "displayThisSidebar": true,
           "id": "version-1.0.0/hello",
           "type": "doc",
         },
@@ -97,7 +88,6 @@ Object {
       "collapsible": true,
       "items": Array [
         Object {
-          "displayThisSidebar": true,
           "id": "version-2.0.0/foo/bar",
           "type": "doc",
         },
@@ -110,7 +100,6 @@ Object {
       "collapsible": true,
       "items": Array [
         Object {
-          "displayThisSidebar": true,
           "id": "version-2.0.0/hello",
           "type": "doc",
         },
@@ -126,7 +115,6 @@ exports[`docsVersion second docs instance versioning 1`] = `
 Object {
   "version-2.0.0/community": Array [
     Object {
-      "displayThisSidebar": true,
       "id": "version-2.0.0/team",
       "type": "doc",
     },

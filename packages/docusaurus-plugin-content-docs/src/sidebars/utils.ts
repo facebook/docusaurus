@@ -85,16 +85,12 @@ export function createSidebarsUtils(
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 } {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
-  const docIdToSidebarName: Record<string, string> = {};
-  Object.keys(sidebars).forEach((sidebarName) => {
-    const sidebarDocItems = collectSidebarDocItems(sidebars[sidebarName]);
-    sidebarDocItems.forEach((item) => {
-      // Still guarding against the case of undefined
-      if (item.displayThisSidebar !== false) {
-        docIdToSidebarName[item.id] = sidebarName;
-      }
-    });
-  });
+  // Reverse mapping
+  const docIdToSidebarName = Object.fromEntries(
+    Object.entries(sidebarNameToDocIds).flatMap(([sidebarName, docIds]) =>
+      docIds.map((docId) => [docId, sidebarName]),
+    ),
+  );
 
   function getFirstDocIdOfFirstSidebar(): string | undefined {
     return Object.values(sidebarNameToDocIds)[0]?.[0];

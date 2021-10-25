@@ -41,9 +41,6 @@ const sidebarItemDocSchema = sidebarItemBaseSchema.append<SidebarItemDoc>({
   type: Joi.string().valid('doc', 'ref').required(),
   id: Joi.string().required(),
   label: Joi.string(),
-  displayThisSidebar: Joi.boolean().messages({
-    'any.unknown': '"displayThisSidebar" must be a boolean',
-  }),
 });
 
 const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
