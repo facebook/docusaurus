@@ -25,7 +25,7 @@ There are a few options you can use to add search to your website:
 
 Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
 
-The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/docs/apply).
+The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/apply).
 
 It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
