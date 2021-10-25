@@ -41,11 +41,9 @@
     "globby": "^11.0.2",
     "infima": "0.2.0-alpha.34",
     "lodash": "^4.17.20",
-    "parse-numeric-range": "^1.3.0",
     "postcss": "^8.3.7",
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.23.0",
-    "prop-types": "^15.7.2",
     "react-router-dom": "^5.2.0",
     "rtlcss": "^3.3.0"
   },
