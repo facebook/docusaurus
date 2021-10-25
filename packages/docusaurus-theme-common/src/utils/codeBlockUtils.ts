@@ -48,6 +48,8 @@ const HighlightDirectives = [
   'highlight-next-line',
   'highlight-start',
   'highlight-end',
+  'collapse-start',
+  'collapse-end',
 ];
 
 const getHighlightDirectiveRegex = (
@@ -101,62 +103,74 @@ export function parseLanguage(className?: string): Language | undefined {
   return languageClassName?.replace(/language-/, '') as Language | undefined;
 }
 
-export function parseHighlightLines(
+export function parseLines(
   content: string,
   metastring?: string,
   language?: Language,
-): {highlightLines: number[]; code: string} {
-  let highlightLines: number[] = [];
-  if (metastring && HighlightLinesRangeRegex.test(metastring)) {
-    // Tested above
-    const highlightLinesRange = metastring.match(HighlightLinesRangeRegex)![1];
-    highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
-  }
-  // only declaration OR directive highlight can be used for a block
+): {
+  highlightLines: number[];
+  collapsibleLines: number[];
+  code: string;
+} {
   let code = content.replace(/\n$/, '');
-  if (highlightLines.length === 0 && language !== undefined) {
-    let range = '';
-    const directiveRegex = highlightDirectiveRegex(language);
-    // go through line by line
-    const lines = content.replace(/\n$/, '').split('\n');
-    let blockStart: number;
-    // loop through lines
-    for (let index = 0; index < lines.length; ) {
-      const line = lines[index];
-      // adjust for 0-index
-      const lineNumber = index + 1;
-      const match = line.match(directiveRegex);
-      if (match !== null) {
-        const directive = match
-          .slice(1)
-          .reduce(
-            (final: string | undefined, item) => final || item,
-            undefined,
-          );
-        switch (directive) {
-          case 'highlight-next-line':
-            range += `${lineNumber},`;
-            break;
-
-          case 'highlight-start':
-            blockStart = lineNumber;
-            break;
-
-          case 'highlight-end':
-            range += `${blockStart!}-${lineNumber - 1},`;
-            break;
-
-          default:
-            break;
-        }
-        lines.splice(index, 1);
-      } else {
-        // lines without directives are unchanged
-        index += 1;
-      }
-    }
-    highlightLines = rangeParser(range);
-    code = lines.join('\n');
+  // Highlighted lines specified in props: don't parse the content
+  if (metastring && HighlightLinesRangeRegex.test(metastring)) {
+    const highlightLinesRange = metastring.match(HighlightLinesRangeRegex)![1];
+    const highlightLines = rangeParser(highlightLinesRange).filter(
+      (n) => n > 0,
+    );
+    return {highlightLines, collapsibleLines: [], code};
   }
-  return {highlightLines, code};
+  if (language === undefined) {
+    return {highlightLines: [], collapsibleLines: [], code};
+  }
+  const directiveRegex = highlightDirectiveRegex(language);
+  // go through line by line
+  const lines = code.split('\n');
+  let highlightBlockStart: number;
+  let highlightRange = '';
+  let collapseBlockStart: number;
+  let collapseRange = '';
+  // loop through lines
+  for (let index = 0; index < lines.length; ) {
+    const line = lines[index];
+    // adjust for 0-index
+    const lineNumber = index + 1;
+    const match = line.match(directiveRegex);
+    if (match !== null) {
+      const directive = match.slice(1).find((item) => item !== undefined);
+      switch (directive) {
+        case 'highlight-next-line':
+          highlightRange += `${lineNumber},`;
+          break;
+
+        case 'highlight-start':
+          highlightBlockStart = lineNumber;
+          break;
+
+        case 'highlight-end':
+          highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
+          break;
+
+        case 'collapse-start':
+          collapseBlockStart = lineNumber;
+          break;
+
+        case 'collapse-end':
+          collapseRange += `${collapseBlockStart!}-${lineNumber - 1},`;
+          break;
+
+        default:
+          break;
+      }
+      lines.splice(index, 1);
+    } else {
+      // lines without directives are unchanged
+      index += 1;
+    }
+  }
+  const highlightLines = rangeParser(highlightRange);
+  const collapsibleLines = rangeParser(collapseRange);
+  code = lines.join('\n');
+  return {highlightLines, collapsibleLines, code};
 }

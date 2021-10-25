@@ -34,6 +34,7 @@ export const ThemeClassNames = {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
+    expandCodeBlockButton: 'theme-expand-code-block-button',
   },
   layout: {
     // TODO add other stable classNames here

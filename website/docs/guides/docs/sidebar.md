@@ -340,6 +340,7 @@ module.exports = {
 We support the option to expand/collapse categories. Categories are collapsible by default, but you can disable collapsing with `collapsible: false`.
 
 ```js title="sidebars.js"
+// collapse-start
 module.exports = {
   docs: [
     {
@@ -347,6 +348,7 @@ module.exports = {
       label: 'Guides',
       items: [
         'creating-pages',
+        // collapse-end
         {
           type: 'category',
           // highlight-next-line
@@ -354,10 +356,12 @@ module.exports = {
           label: 'Docs',
           items: ['introduction', 'sidebar', 'markdown-features', 'versioning'],
         },
+        // collapse-start
       ],
     },
   ],
 };
+// collapse-end
 ```
 
 To make all categories non-collapsible by default, set the `sidebarCollapsible` option in `plugin-docs` to `false`:

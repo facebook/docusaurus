@@ -25,7 +25,7 @@ export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 export {
   parseCodeBlockTitle,
   parseLanguage,
-  parseHighlightLines,
+  parseLines,
 } from './utils/codeBlockUtils';
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';

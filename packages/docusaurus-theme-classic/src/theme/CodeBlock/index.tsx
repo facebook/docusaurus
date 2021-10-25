@@ -19,7 +19,8 @@ import {
   useThemeConfig,
   parseCodeBlockTitle,
   parseLanguage,
-  parseHighlightLines,
+  parseLines,
+  ThemeClassNames,
 } from '@docusaurus/theme-common';
 
 export default function CodeBlock({
@@ -32,6 +33,7 @@ export default function CodeBlock({
 
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
   // that come from SSR. Hence force a re-render after mounting to apply the
@@ -41,6 +43,8 @@ export default function CodeBlock({
   // at this point.
   useEffect(() => {
     setMounted(true);
+    // Render full code block in SSR
+    setCollapsed(true);
   }, []);
 
   // TODO: the title is provided by MDX as props automatically
@@ -57,7 +61,7 @@ export default function CodeBlock({
 
   const language =
     parseLanguage(blockClassName) ?? (prism.defaultLanguage as Language);
-  const {highlightLines, code} = parseHighlightLines(
+  const {highlightLines, collapsibleLines, code} = parseLines(
     content,
     metastring,
     language,
@@ -69,6 +73,8 @@ export default function CodeBlock({
 
     setTimeout(() => setShowCopied(false), 2000);
   };
+
+  const collapsible = collapsibleLines.length > 0;
 
   return (
     <Highlight
@@ -83,6 +89,28 @@ export default function CodeBlock({
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
             </div>
+          )}
+          {collapsible && (
+            <button
+              type="button"
+              tabIndex={0}
+              aria-label={translate({
+                id: 'theme.CodeBlock.expandButtonAriaLabel',
+                message: 'Expand code block',
+                description: 'The ARIA label for expanding code blocks button',
+              })}
+              className={clsx(
+                ThemeClassNames.common.expandCodeBlockButton,
+                styles.expandButton,
+              )}
+              onClick={() => setCollapsed(!collapsed)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setCollapsed(!collapsed);
+                }
+              }}>
+              {collapsed ? '+' : '–'}
+            </button>
           )}
           <div className={clsx(styles.codeBlockContent, language)}>
             <pre
@@ -100,6 +128,10 @@ export default function CodeBlock({
 
                   if (highlightLines.includes(i + 1)) {
                     lineProps.className += ' docusaurus-highlight-code-line';
+                  }
+
+                  if (collapsibleLines.includes(i + 1) && collapsed) {
+                    return null;
                   }
 
                   return (
