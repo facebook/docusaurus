@@ -1,9 +1,10 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "关闭",
-  "theme.BackToTopButton.buttonAriaLabel": "Scroll back to top",
+  "theme.BackToTopButton.buttonAriaLabel": "回到顶部",
   "theme.CodeBlock.copied": "复制成功",
   "theme.CodeBlock.copy": "复制",
   "theme.CodeBlock.copyButtonAriaLabel": "复制代码到剪贴板",
+  "theme.CodeBlock.expandButtonAriaLabel": "展开代码块",
   "theme.ErrorPageContent.title": "页面已崩溃。",
   "theme.ErrorPageContent.tryAgain": "重试",
   "theme.NotFound.p1": "我们找不到您要找的页面。",

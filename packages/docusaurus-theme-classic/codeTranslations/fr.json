@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Copié",
   "theme.CodeBlock.copy": "Copier",
   "theme.CodeBlock.copyButtonAriaLabel": "Copier le code",
+  "theme.CodeBlock.expandButtonAriaLabel": "Expand code block",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Nous n'avons pas trouvé ce que vous recherchez.",

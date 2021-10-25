@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "コピーしました",
   "theme.CodeBlock.copy": "コピー",
   "theme.CodeBlock.copyButtonAriaLabel": "クリップボードにコードをコピー",
+  "theme.CodeBlock.expandButtonAriaLabel": "Expand code block",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "お探しのページが見つかりませんでした。",
