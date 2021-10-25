@@ -33,7 +33,7 @@ export default function CodeBlock({
 
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
   // that come from SSR. Hence force a re-render after mounting to apply the
@@ -43,8 +43,6 @@ export default function CodeBlock({
   // at this point.
   useEffect(() => {
     setMounted(true);
-    // Render full code block in SSR
-    setCollapsed(true);
   }, []);
 
   // TODO: the title is provided by MDX as props automatically
