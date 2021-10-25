@@ -12,6 +12,7 @@ import copy from 'copy-text-to-clipboard';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
+import IconExpand from '@theme/IconExpand';
 
 import styles from './styles.module.css';
 
@@ -83,32 +84,34 @@ export default function CodeBlock({
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div className={clsx(styles.codeBlockContainer, blockClassName)}>
-          {codeBlockTitle && (
+          {(codeBlockTitle || collapsible) && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
-            </div>
-          )}
-          {collapsible && (
-            <button
-              type="button"
-              tabIndex={0}
-              aria-label={translate({
-                id: 'theme.CodeBlock.expandButtonAriaLabel',
-                message: 'Expand code block',
-                description: 'The ARIA label for expanding code blocks button',
-              })}
-              className={clsx(
-                ThemeClassNames.common.expandCodeBlockButton,
-                styles.expandButton,
+              {collapsible && (
+                <button
+                  type="button"
+                  tabIndex={0}
+                  aria-label={translate({
+                    id: 'theme.CodeBlock.expandButtonAriaLabel',
+                    message: 'Expand code block',
+                    description:
+                      'The ARIA label for expanding code blocks button',
+                  })}
+                  className={clsx(
+                    ThemeClassNames.common.expandCodeBlockButton,
+                    styles.expandButton,
+                    'clean-btn',
+                  )}
+                  onClick={() => setCollapsed(!collapsed)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setCollapsed(!collapsed);
+                    }
+                  }}>
+                  <IconExpand expanded={!collapsed} />
+                </button>
               )}
-              onClick={() => setCollapsed(!collapsed)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setCollapsed(!collapsed);
-                }
-              }}>
-              {collapsed ? '+' : '–'}
-            </button>
+            </div>
           )}
           <div className={clsx(styles.codeBlockContent, language)}>
             <pre

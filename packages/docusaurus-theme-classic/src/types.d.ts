@@ -736,6 +736,17 @@ declare module '@theme/IconEdit' {
   export default IconEdit;
 }
 
+declare module '@theme/IconExpand' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {
+    expanded?: boolean;
+  }
+
+  const IconExpand: (props: Props) => JSX.Element;
+  export default IconExpand;
+}
+
 declare module '@theme/IconMenu' {
   import type {ComponentProps} from 'react';
 

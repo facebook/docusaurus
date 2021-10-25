@@ -59,20 +59,7 @@
 }
 
 .expandButton {
-  display: block;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  z-index: 1;
-  background-color: var(--ifm-color-primary-lighter);
-  width: 30px;
-  height: 30px;
-  border: 0px;
-  font-size: 25px;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  text-align: center;
-  line-height: 100%;
+  float: right;
 }
 
 @media print {
