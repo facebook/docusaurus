@@ -28,9 +28,9 @@ describe('createSidebarsUtils', () => {
           collapsed: false,
           collapsible: true,
           label: 'Subcategory 1',
-          items: [{type: 'doc', id: 'doc1'}],
+          items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
         },
-        {type: 'doc', id: 'doc2'},
+        {type: 'doc', id: 'doc2', displayThisSidebar: true},
       ],
     },
   ];
@@ -42,18 +42,25 @@ describe('createSidebarsUtils', () => {
       collapsible: true,
       label: 'Category2',
       items: [
-        {type: 'doc', id: 'doc3'},
-        {type: 'doc', id: 'doc4'},
+        {type: 'doc', id: 'doc3', displayThisSidebar: true},
+        {type: 'doc', id: 'doc4', displayThisSidebar: true},
       ],
     },
   ];
 
   const sidebars: Sidebars = {sidebar1, sidebar2};
+  const docsById = {
+    doc1: {frontMatter: {}},
+    doc2: {frontMatter: {}},
+    doc3: {frontMatter: {}},
+    doc4: {frontMatter: {}},
+  };
 
   const {getFirstDocIdOfFirstSidebar, getSidebarNameByDocId, getDocNavigation} =
-    createSidebarsUtils(sidebars);
+    // @ts-expect-error: good enough for tests
+    createSidebarsUtils(sidebars, docsById);
 
-  test('getSidebarNameByDocId', async () => {
+  test('getFirstDocIdOfFirstSidebar', async () => {
     expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
   });
 
@@ -62,8 +69,6 @@ describe('createSidebarsUtils', () => {
     expect(getSidebarNameByDocId('doc2')).toEqual('sidebar1');
     expect(getSidebarNameByDocId('doc3')).toEqual('sidebar2');
     expect(getSidebarNameByDocId('doc4')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc5')).toEqual(undefined);
-    expect(getSidebarNameByDocId('doc6')).toEqual(undefined);
   });
 
   test('getDocNavigation', async () => {
@@ -105,7 +110,7 @@ describe('collectSidebarDocItems', () => {
             collapsed: false,
             collapsible: true,
             label: 'Subcategory 1',
-            items: [{type: 'doc', id: 'doc1'}],
+            items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
           },
           {
             type: 'category',
@@ -113,13 +118,13 @@ describe('collectSidebarDocItems', () => {
             collapsible: true,
             label: 'Subcategory 2',
             items: [
-              {type: 'doc', id: 'doc2'},
+              {type: 'doc', id: 'doc2', displayThisSidebar: true},
               {
                 type: 'category',
                 collapsed: false,
                 collapsible: true,
                 label: 'Sub sub category 1',
-                items: [{type: 'doc', id: 'doc3'}],
+                items: [{type: 'doc', id: 'doc3', displayThisSidebar: true}],
               },
             ],
           },
@@ -131,8 +136,8 @@ describe('collectSidebarDocItems', () => {
         collapsible: true,
         label: 'Category2',
         items: [
-          {type: 'doc', id: 'doc4'},
-          {type: 'doc', id: 'doc5'},
+          {type: 'doc', id: 'doc4', displayThisSidebar: true},
+          {type: 'doc', id: 'doc5', displayThisSidebar: true},
         ],
       },
     ];
@@ -161,7 +166,7 @@ describe('collectSidebarCategories', () => {
             collapsed: false,
             collapsible: true,
             label: 'Subcategory 1',
-            items: [{type: 'doc', id: 'doc1'}],
+            items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
           },
           {
             type: 'category',
@@ -169,13 +174,13 @@ describe('collectSidebarCategories', () => {
             collapsible: true,
             label: 'Subcategory 2',
             items: [
-              {type: 'doc', id: 'doc2'},
+              {type: 'doc', id: 'doc2', displayThisSidebar: true},
               {
                 type: 'category',
                 collapsed: false,
                 collapsible: true,
                 label: 'Sub sub category 1',
-                items: [{type: 'doc', id: 'doc3'}],
+                items: [{type: 'doc', id: 'doc3', displayThisSidebar: true}],
               },
             ],
           },
@@ -187,8 +192,8 @@ describe('collectSidebarCategories', () => {
         collapsible: true,
         label: 'Category2',
         items: [
-          {type: 'doc', id: 'doc4'},
-          {type: 'doc', id: 'doc5'},
+          {type: 'doc', id: 'doc4', displayThisSidebar: true},
+          {type: 'doc', id: 'doc5', displayThisSidebar: true},
         ],
       },
     ];
@@ -257,9 +262,9 @@ describe('collectSidebarsDocIds', () => {
             collapsed: false,
             collapsible: true,
             label: 'Subcategory 1',
-            items: [{type: 'doc', id: 'doc1'}],
+            items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
           },
-          {type: 'doc', id: 'doc2'},
+          {type: 'doc', id: 'doc2', displayThisSidebar: true},
         ],
       },
     ];
@@ -271,15 +276,15 @@ describe('collectSidebarsDocIds', () => {
         collapsible: true,
         label: 'Category2',
         items: [
-          {type: 'doc', id: 'doc3'},
-          {type: 'doc', id: 'doc4'},
+          {type: 'doc', id: 'doc3', displayThisSidebar: true},
+          {type: 'doc', id: 'doc4', displayThisSidebar: true},
         ],
       },
     ];
 
     const sidebar3: Sidebar = [
-      {type: 'doc', id: 'doc5'},
-      {type: 'doc', id: 'doc6'},
+      {type: 'doc', id: 'doc5', displayThisSidebar: true},
+      {type: 'doc', id: 'doc6', displayThisSidebar: true},
     ];
     expect(collectSidebarsDocIds({sidebar1, sidebar2, sidebar3})).toEqual({
       sidebar1: ['doc1', 'doc2'],
@@ -303,7 +308,7 @@ describe('transformSidebarItems', () => {
             collapsed: false,
             collapsible: true,
             label: 'Subcategory 1',
-            items: [{type: 'doc', id: 'doc1'}],
+            items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
             customProps: {fakeProp: false},
           },
           {
@@ -312,14 +317,19 @@ describe('transformSidebarItems', () => {
             collapsible: true,
             label: 'Subcategory 2',
             items: [
-              {type: 'doc', id: 'doc2'},
+              {type: 'doc', id: 'doc2', displayThisSidebar: true},
               {
                 type: 'category',
                 collapsed: false,
                 collapsible: true,
                 label: 'Sub sub category 1',
                 items: [
-                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
+                  {
+                    type: 'doc',
+                    id: 'doc3',
+                    displayThisSidebar: true,
+                    customProps: {lorem: 'ipsum'},
+                  },
                 ],
               },
             ],
@@ -332,8 +342,8 @@ describe('transformSidebarItems', () => {
         collapsible: true,
         label: 'Category2',
         items: [
-          {type: 'doc', id: 'doc4'},
-          {type: 'doc', id: 'doc5'},
+          {type: 'doc', id: 'doc4', displayThisSidebar: true},
+          {type: 'doc', id: 'doc5', displayThisSidebar: true},
         ],
       },
     ];
@@ -357,7 +367,7 @@ describe('transformSidebarItems', () => {
             collapsed: false,
             collapsible: true,
             label: 'MODIFIED LABEL: Subcategory 1',
-            items: [{type: 'doc', id: 'doc1'}],
+            items: [{type: 'doc', id: 'doc1', displayThisSidebar: true}],
             customProps: {fakeProp: false},
           },
           {
@@ -366,14 +376,19 @@ describe('transformSidebarItems', () => {
             collapsible: true,
             label: 'MODIFIED LABEL: Subcategory 2',
             items: [
-              {type: 'doc', id: 'doc2'},
+              {type: 'doc', id: 'doc2', displayThisSidebar: true},
               {
                 type: 'category',
                 collapsed: false,
                 collapsible: true,
                 label: 'MODIFIED LABEL: Sub sub category 1',
                 items: [
-                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
+                  {
+                    type: 'doc',
+                    id: 'doc3',
+                    displayThisSidebar: true,
+                    customProps: {lorem: 'ipsum'},
+                  },
                 ],
               },
             ],
@@ -386,8 +401,8 @@ describe('transformSidebarItems', () => {
         collapsible: true,
         label: 'MODIFIED LABEL: Category2',
         items: [
-          {type: 'doc', id: 'doc4'},
-          {type: 'doc', id: 'doc5'},
+          {type: 'doc', id: 'doc4', displayThisSidebar: true},
+          {type: 'doc', id: 'doc5', displayThisSidebar: true},
         ],
       },
     ]);
