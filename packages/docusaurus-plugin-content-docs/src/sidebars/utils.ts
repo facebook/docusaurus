@@ -95,7 +95,7 @@ export function createSidebarsUtils(
     });
   });
 
-  function getFirstDocIdOfFirstSidebar() {
+  function getFirstDocIdOfFirstSidebar(): string | undefined {
     return Object.values(sidebarNameToDocIds)[0]?.[0];
   }
 
@@ -108,7 +108,11 @@ export function createSidebarsUtils(
     return displayedSidebar;
   }
 
-  function getDocNavigation(docId: string) {
+  function getDocNavigation(docId: string): {
+    sidebarName: string | undefined;
+    previousId: string | undefined;
+    nextId: string | undefined;
+  } {
     const sidebarName = getSidebarNameByDocId(docId);
     if (!sidebarName) {
       return {
