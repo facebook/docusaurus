@@ -755,14 +755,14 @@ Previously, you would provide metadata to sidebar items when you declare them; f
 
 **For docs**: use additional front matter:
 
-```md title="docs/tutorials/tutorial-easy.md"
-## <!-- highlight-start -->
-
-sidebar_label: Easy sidebar_position: 2 sidebar_class_name: green
-
+```yaml title="docs/tutorials/tutorial-easy.md"
+# highlight-start
 ---
-
-<!-- highlight-end -->
+sidebar_label: Easy
+sidebar_position: 2
+sidebar_class_name: green
+---
+# highlight-end
 
 # Easy Tutorial
 

@@ -22,15 +22,19 @@ export type SidebarItemBase = {
 };
 
 export type SidebarItemDoc = SidebarItemBase & {
-  type: 'doc' | 'ref';
+  type: 'doc';
   label?: string;
   id: string;
   displayThisSidebar: boolean;
 };
 
-export type SidebarItemDocConfig = Expand<
-  Optional<SidebarItemDoc, 'displayThisSidebar'>
->;
+export type SidebarItemDocConfig = SidebarItemBase & {
+  // TODO: remove ref type
+  type: 'doc' | 'ref';
+  label?: string;
+  id: string;
+  displayThisSidebar?: boolean;
+};
 
 export type SidebarItemLink = SidebarItemBase & {
   type: 'link';
