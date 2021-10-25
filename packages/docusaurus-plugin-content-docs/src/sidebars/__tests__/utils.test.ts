@@ -324,11 +324,7 @@ describe('transformSidebarItems', () => {
                 collapsible: true,
                 label: 'Sub sub category 1',
                 items: [
-                  {
-                    type: 'doc',
-                    id: 'doc3',
-                    customProps: {lorem: 'ipsum'},
-                  },
+                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
                 ],
               },
             ],
@@ -382,11 +378,7 @@ describe('transformSidebarItems', () => {
                 collapsible: true,
                 label: 'MODIFIED LABEL: Sub sub category 1',
                 items: [
-                  {
-                    type: 'doc',
-                    id: 'doc3',
-                    customProps: {lorem: 'ipsum'},
-                  },
+                  {type: 'doc', id: 'doc3', customProps: {lorem: 'ipsum'}},
                 ],
               },
             ],

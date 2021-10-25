@@ -54,6 +54,7 @@ Available document ids are:
     switch (item.type) {
       case 'category':
         return {...item, items: item.items.map(normalizeItem)};
+      case 'ref':
       case 'doc':
         return convertDocLink(item);
       case 'link':
