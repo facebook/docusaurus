@@ -89,7 +89,8 @@ export function createSidebarsUtils(
   Object.keys(sidebars).forEach((sidebarName) => {
     const sidebarDocItems = collectSidebarDocItems(sidebars[sidebarName]);
     sidebarDocItems.forEach((item) => {
-      if (item.displayThisSidebar) {
+      // Still guarding against the case of undefined
+      if (item.displayThisSidebar !== false) {
         docIdToSidebarName[item.id] = sidebarName;
       }
     });
