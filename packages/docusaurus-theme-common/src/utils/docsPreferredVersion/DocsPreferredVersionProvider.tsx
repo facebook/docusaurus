@@ -120,7 +120,7 @@ function useContextValue() {
     return {
       savePreferredVersion,
     };
-  }, [setState]);
+  }, [versionPersistence]);
 
   return [state, api] as const;
 }

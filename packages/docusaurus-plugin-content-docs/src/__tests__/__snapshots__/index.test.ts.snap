@@ -46,6 +46,34 @@ Object {
           "type": "category",
         },
         Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "rootAbsoluteSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "rootRelativeSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "rootResolvedSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "rootTryToEscapeSlug",
+              "type": "doc",
+            },
+          ],
+          "label": "Slugs",
+          "type": "category",
+        },
+        Object {
+          "id": "headingAsTitle",
+          "type": "doc",
+        },
+        Object {
           "href": "https://github.com",
           "label": "Github",
           "type": "link",
@@ -95,7 +123,7 @@ Object {
             Object {
               "id": "headingAsTitle",
               "path": "/docs/headingAsTitle",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "hello",
@@ -115,22 +143,22 @@ Object {
             Object {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "slugs/absoluteSlug",
@@ -231,8 +259,8 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"Hello sidebar_label\\",
-    \\"permalink\\": \\"/docs/\\"
+    \\"title\\": \\"rootAbsoluteSlug\\",
+    \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
   }
 }",
   "site-docs-heading-as-title-md-c6d.json": "{
@@ -247,7 +275,16 @@ Object {
   \\"permalink\\": \\"/docs/headingAsTitle\\",
   \\"tags\\": [],
   \\"version\\": \\"current\\",
-  \\"frontMatter\\": {}
+  \\"frontMatter\\": {},
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"rootTryToEscapeSlug\\",
+    \\"permalink\\": \\"/docs/rootTryToEscapeSlug\\"
+  },
+  \\"next\\": {
+    \\"title\\": \\"Hello sidebar_label\\",
+    \\"permalink\\": \\"/docs/\\"
+  }
 }",
   "site-docs-hello-md-9df.json": "{
   \\"unversionedId\\": \\"hello\\",
@@ -281,8 +318,8 @@ Object {
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
-    \\"title\\": \\"baz pagination_label\\",
-    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+    \\"title\\": \\"My heading as title\\",
+    \\"permalink\\": \\"/docs/headingAsTitle\\"
   }
 }",
   "site-docs-ipsum-md-c61.json": "{
@@ -333,7 +370,18 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
-    \\"slug\\": \\"/rootAbsoluteSlug\\"
+    \\"slug\\": \\"/rootAbsoluteSlug\\",
+    \\"pagination_next\\": \\"headingAsTitle\\",
+    \\"pagination_prev\\": \\"foo/baz\\"
+  },
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz pagination_label\\",
+    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+  },
+  \\"next\\": {
+    \\"title\\": \\"My heading as title\\",
+    \\"permalink\\": \\"/docs/headingAsTitle\\"
   }
 }",
   "site-docs-root-relative-slug-md-3dd.json": "{
@@ -349,7 +397,18 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
-    \\"slug\\": \\"rootRelativeSlug\\"
+    \\"slug\\": \\"rootRelativeSlug\\",
+    \\"pagination_next\\": \\"headingAsTitle\\",
+    \\"pagination_prev\\": \\"foo/baz\\"
+  },
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz pagination_label\\",
+    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+  },
+  \\"next\\": {
+    \\"title\\": \\"My heading as title\\",
+    \\"permalink\\": \\"/docs/headingAsTitle\\"
   }
 }",
   "site-docs-root-resolved-slug-md-4d1.json": "{
@@ -365,7 +424,18 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
-    \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
+    \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\",
+    \\"pagination_next\\": \\"headingAsTitle\\",
+    \\"pagination_prev\\": \\"foo/baz\\"
+  },
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz pagination_label\\",
+    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+  },
+  \\"next\\": {
+    \\"title\\": \\"My heading as title\\",
+    \\"permalink\\": \\"/docs/headingAsTitle\\"
   }
 }",
   "site-docs-root-try-to-escape-slug-md-9ee.json": "{
@@ -381,7 +451,18 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {
-    \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
+    \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\",
+    \\"pagination_next\\": \\"headingAsTitle\\",
+    \\"pagination_prev\\": \\"foo/baz\\"
+  },
+  \\"sidebar\\": \\"docs\\",
+  \\"previous\\": {
+    \\"title\\": \\"baz pagination_label\\",
+    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+  },
+  \\"next\\": {
+    \\"title\\": \\"My heading as title\\",
+    \\"permalink\\": \\"/docs/headingAsTitle\\"
   }
 }",
   "site-docs-slugs-absolute-slug-md-4e8.json": "{
@@ -545,6 +626,39 @@ Object {
             \\"collapsed\\": true
           },
           {
+            \\"type\\": \\"category\\",
+            \\"label\\": \\"Slugs\\",
+            \\"items\\": [
+              {
+                \\"type\\": \\"link\\",
+                \\"label\\": \\"rootAbsoluteSlug\\",
+                \\"href\\": \\"/docs/rootAbsoluteSlug\\"
+              },
+              {
+                \\"type\\": \\"link\\",
+                \\"label\\": \\"rootRelativeSlug\\",
+                \\"href\\": \\"/docs/rootRelativeSlug\\"
+              },
+              {
+                \\"type\\": \\"link\\",
+                \\"label\\": \\"rootResolvedSlug\\",
+                \\"href\\": \\"/docs/hey/rootResolvedSlug\\"
+              },
+              {
+                \\"type\\": \\"link\\",
+                \\"label\\": \\"rootTryToEscapeSlug\\",
+                \\"href\\": \\"/docs/rootTryToEscapeSlug\\"
+              }
+            ],
+            \\"collapsible\\": true,
+            \\"collapsed\\": true
+          },
+          {
+            \\"type\\": \\"link\\",
+            \\"label\\": \\"My heading as title\\",
+            \\"href\\": \\"/docs/headingAsTitle\\"
+          },
+          {
             \\"type\\": \\"link\\",
             \\"label\\": \\"Github\\",
             \\"href\\": \\"https://github.com\\"
@@ -596,7 +710,7 @@ Object {
             Object {
               "id": "headingAsTitle",
               "path": "/docs/headingAsTitle",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "hello",
@@ -616,22 +730,22 @@ Object {
             Object {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
-              "sidebar": undefined,
+              "sidebar": "docs",
             },
             Object {
               "id": "slugs/absoluteSlug",
@@ -751,6 +865,7 @@ Array [
           "content": "@site/docs/headingAsTitle.md",
         },
         "path": "/docs/headingAsTitle",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -759,6 +874,7 @@ Array [
           "content": "@site/docs/rootResolvedSlug.md",
         },
         "path": "/docs/hey/rootResolvedSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -783,6 +899,7 @@ Array [
           "content": "@site/docs/rootAbsoluteSlug.md",
         },
         "path": "/docs/rootAbsoluteSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -791,6 +908,7 @@ Array [
           "content": "@site/docs/rootRelativeSlug.md",
         },
         "path": "/docs/rootRelativeSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -799,6 +917,7 @@ Array [
           "content": "@site/docs/rootTryToEscapeSlug.md",
         },
         "path": "/docs/rootTryToEscapeSlug",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",

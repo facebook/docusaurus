@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Configuration} from 'webpack';
 
 import path from 'path';

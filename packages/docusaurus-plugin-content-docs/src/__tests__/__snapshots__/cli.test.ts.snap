@@ -24,6 +24,34 @@ Object {
           "type": "category",
         },
         Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "version-1.0.0/rootAbsoluteSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootRelativeSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootResolvedSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootTryToEscapeSlug",
+              "type": "doc",
+            },
+          ],
+          "label": "Slugs",
+          "type": "category",
+        },
+        Object {
+          "id": "version-1.0.0/headingAsTitle",
+          "type": "doc",
+        },
+        Object {
           "href": "https://github.com",
           "label": "Github",
           "type": "link",

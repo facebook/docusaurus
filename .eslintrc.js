@@ -28,6 +28,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
     'airbnb',
     'prettier',
     'prettier/react',
@@ -41,6 +42,8 @@ module.exports = {
   },
   plugins: ['react-hooks', 'header'],
   rules: {
+    'react-hooks/rules-of-hooks': ERROR,
+    'react-hooks/exhaustive-deps': ERROR,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     // Ignore certain webpack alias because it can't be resolved
@@ -77,7 +80,6 @@ module.exports = {
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
-    'react-hooks/rules-of-hooks': ERROR,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
