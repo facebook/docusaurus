@@ -30,6 +30,7 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
   sidebar_class_name: Joi.string(),
+  displayed_sidebar: Joi.string().allow(null),
   tags: FrontMatterTagsSchema,
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),

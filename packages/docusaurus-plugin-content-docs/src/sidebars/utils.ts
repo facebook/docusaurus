@@ -16,6 +16,7 @@ import type {
 } from './types';
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
+import type {DocMetadataBase} from '../types';
 
 export function transformSidebarItems(
   sidebar: Sidebar,
@@ -70,9 +71,12 @@ export function collectSidebarsDocIds(
   });
 }
 
-export function createSidebarsUtils(sidebars: Sidebars): {
+export function createSidebarsUtils(
+  sidebars: Sidebars,
+  docsById: Record<string, DocMetadataBase>,
+): {
   getFirstDocIdOfFirstSidebar: () => string | undefined;
-  getSidebarNameByDocId: (docId: string) => string | undefined;
+  getSidebarNameByDocId: (docId: string) => string | null | undefined;
   getDocNavigation: (docId: string) => {
     sidebarName: string | undefined;
     previousId: string | undefined;
@@ -81,43 +85,58 @@ export function createSidebarsUtils(sidebars: Sidebars): {
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 } {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
-  // Reverse mapping
-  const docIdToSidebarName = Object.fromEntries(
-    Object.entries(sidebarNameToDocIds).flatMap(([sidebarName, docIds]) =>
-      docIds.map((docId) => [docId, sidebarName]),
-    ),
-  );
+  const docIdToSidebarName: Record<string, string> = {};
+  Object.keys(sidebars).forEach((sidebarName) => {
+    const sidebarDocItems = collectSidebarDocItems(sidebars[sidebarName]);
+    sidebarDocItems.forEach((item) => {
+      if (item.displayThisSidebar) {
+        docIdToSidebarName[item.id] = sidebarName;
+      }
+    });
+  });
 
-  function getFirstDocIdOfFirstSidebar(): string | undefined {
+  function getFirstDocIdOfFirstSidebar() {
     return Object.values(sidebarNameToDocIds)[0]?.[0];
   }
 
-  function getSidebarNameByDocId(docId: string): string | undefined {
-    return docIdToSidebarName[docId];
+  function getSidebarNameByDocId(docId: string): string | null | undefined {
+    const {
+      frontMatter: {
+        displayed_sidebar: displayedSidebar = docIdToSidebarName[docId],
+      },
+    } = docsById[docId];
+    return displayedSidebar;
   }
 
-  function getDocNavigation(docId: string): {
-    sidebarName: string | undefined;
-    previousId: string | undefined;
-    nextId: string | undefined;
-  } {
+  function getDocNavigation(docId: string) {
     const sidebarName = getSidebarNameByDocId(docId);
-    if (sidebarName) {
-      const docIds = sidebarNameToDocIds[sidebarName];
-      const currentIndex = docIds.indexOf(docId);
-      const {previous, next} = getElementsAround(docIds, currentIndex);
-      return {
-        sidebarName,
-        previousId: previous,
-        nextId: next,
-      };
-    } else {
+    if (!sidebarName) {
       return {
         sidebarName: undefined,
         previousId: undefined,
         nextId: undefined,
       };
     }
+    if (!Object.keys(sidebars).includes(sidebarName)) {
+      throw new Error(
+        `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
+      );
+    }
+    const docIds = sidebarNameToDocIds[sidebarName];
+    const currentIndex = docIds.indexOf(docId);
+    if (currentIndex === -1) {
+      return {
+        sidebarName,
+        previousId: undefined,
+        nextId: undefined,
+      };
+    }
+    const {previous, next} = getElementsAround(docIds, currentIndex);
+    return {
+      sidebarName,
+      previousId: previous,
+      nextId: next,
+    };
   }
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {

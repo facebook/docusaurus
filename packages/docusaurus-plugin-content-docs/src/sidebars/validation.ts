@@ -18,6 +18,9 @@ import {
   isCategoriesShorthand,
 } from './types';
 
+// NOTE: we don't add any default values during validation on purpose!
+// Config types are exposed to users for typechecking and we use the same type in normalization
+
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
   customProps: Joi.object().unknown(),
@@ -38,6 +41,9 @@ const sidebarItemDocSchema = sidebarItemBaseSchema.append<SidebarItemDoc>({
   type: Joi.string().valid('doc', 'ref').required(),
   id: Joi.string().required(),
   label: Joi.string(),
+  displayThisSidebar: Joi.boolean().messages({
+    'any.unknown': '"displayThisSidebar" must be a boolean',
+  }),
 });
 
 const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({

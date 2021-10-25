@@ -179,6 +179,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         type: 'doc',
         id,
         position,
+        displayThisSidebar: true,
         // We don't want these fields to magically appear in the generated sidebar
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),

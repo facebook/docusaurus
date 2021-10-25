@@ -298,7 +298,7 @@ export function handleNavigation(
 ): Pick<LoadedVersion, 'mainDocId' | 'docs'> {
   const docsBaseById = keyBy(docsBase, (doc) => doc.id);
   const {checkSidebarsDocIds, getDocNavigation, getFirstDocIdOfFirstSidebar} =
-    createSidebarsUtils(sidebars);
+    createSidebarsUtils(sidebars, docsBaseById);
 
   const validDocIds = Object.keys(docsBaseById);
   checkSidebarsDocIds(validDocIds, sidebarFilePath);
