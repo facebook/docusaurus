@@ -105,6 +105,7 @@ export default function CodeBlock({
                   onClick={() => setCollapsed(!collapsed)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
+                      e.preventDefault();
                       setCollapsed(!collapsed);
                     }
                   }}>
@@ -131,8 +132,25 @@ export default function CodeBlock({
                     lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
-                  if (collapsibleLines.includes(i + 1) && collapsed) {
-                    return null;
+                  if (collapsed) {
+                    if (collapsibleLines.includes(i + 1)) {
+                      return null;
+                    }
+                  } else if (collapsibleLines.includes(i + 1)) {
+                    lineProps.className += ' docusaurus-collapsible-code-line';
+                    if (
+                      i !== tokens.length - 1 &&
+                      !collapsibleLines.includes(i + 2)
+                    ) {
+                      lineProps.className +=
+                        ' docusaurus-collapsible-code-line-boundary';
+                    }
+                  } else if (
+                    i !== tokens.length - 1 &&
+                    collapsibleLines.includes(i + 2)
+                  ) {
+                    lineProps.className +=
+                      ' docusaurus-collapsible-code-line-boundary';
                   }
 
                   return (
