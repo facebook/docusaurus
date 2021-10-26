@@ -47,18 +47,15 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 .docusaurus-collapsible-code-line {
-  background-color: rgba(255, 161, 21, 0.1);
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+  transition: all 1s;
 }
 
-/* .docusaurus-collapsible-code-line-boundary {
-  border-bottom: 1px solid #555555;
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
-} */
+.docusaurus-collapsible-code-line-highlighted {
+  background-color: rgba(255, 161, 21, 0.2);
+}
 
 .header-github-link:hover {
   opacity: 0.6;

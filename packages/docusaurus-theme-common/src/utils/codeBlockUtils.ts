@@ -102,6 +102,10 @@ export function parseLanguage(className?: string): Language | undefined {
   return languageClassName?.replace(/language-/, '') as Language | undefined;
 }
 
+/**
+ * @param metastring The highlight range declared here starts at 1
+ * @returns Note: all line numbers start at 0, not 1
+ */
 export function parseLines(
   content: string,
   metastring?: string,
@@ -115,9 +119,9 @@ export function parseLines(
   // Highlighted lines specified in props: don't parse the content
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
-    const highlightLines = rangeParser(highlightLinesRange).filter(
-      (n) => n > 0,
-    );
+    const highlightLines = rangeParser(highlightLinesRange)
+      .filter((n) => n > 0)
+      .map((n) => n - 1);
     return {highlightLines, sampleLines: [], code};
   }
   if (language === undefined) {
@@ -131,10 +135,8 @@ export function parseLines(
   let sampleBlockStart: number;
   let sampleRange = '';
   // loop through lines
-  for (let index = 0; index < lines.length; ) {
-    const line = lines[index];
-    // adjust for 0-index
-    const lineNumber = index + 1;
+  for (let lineNumber = 0; lineNumber < lines.length; ) {
+    const line = lines[lineNumber];
     const match = line.match(directiveRegex);
     if (match !== null) {
       const directive = match.slice(1).find((item) => item !== undefined);
@@ -162,10 +164,10 @@ export function parseLines(
         default:
           break;
       }
-      lines.splice(index, 1);
+      lines.splice(lineNumber, 1);
     } else {
       // lines without directives are unchanged
-      index += 1;
+      lineNumber += 1;
     }
   }
   const highlightLines = rangeParser(highlightRange);

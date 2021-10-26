@@ -35,6 +35,7 @@ export default function CodeBlock({
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
+  const [highlightExpanded, setHighlightExpanded] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
   // that come from SSR. Hence force a re-render after mounting to apply the
@@ -74,6 +75,14 @@ export default function CodeBlock({
   };
 
   const collapsible = sampleLines.length > 0;
+
+  useEffect(() => {
+    setHighlightExpanded(true);
+    const timer = window.setTimeout(() => {
+      setHighlightExpanded(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [collapsed]);
 
   return (
     <Highlight
@@ -134,25 +143,16 @@ export default function CodeBlock({
 
                   if (collapsible) {
                     if (collapsed) {
-                      if (!sampleLines.includes(i + 1)) {
+                      if (!sampleLines.includes(i)) {
                         return null;
                       }
-                    } else if (!sampleLines.includes(i + 1)) {
+                    } else if (!sampleLines.includes(i)) {
                       lineProps.className +=
                         ' docusaurus-collapsible-code-line';
-                      if (
-                        i !== tokens.length - 1 &&
-                        !sampleLines.includes(i + 2)
-                      ) {
+                      if (highlightExpanded) {
                         lineProps.className +=
-                          ' docusaurus-collapsible-code-line-boundary';
+                          ' docusaurus-collapsible-code-line-highlighted';
                       }
-                    } else if (
-                      i !== tokens.length - 1 &&
-                      sampleLines.includes(i + 2)
-                    ) {
-                      lineProps.className +=
-                        ' docusaurus-collapsible-code-line-boundary';
                     }
                   }
 
