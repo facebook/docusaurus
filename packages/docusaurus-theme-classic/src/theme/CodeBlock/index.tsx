@@ -137,7 +137,7 @@ export default function CodeBlock({
 
                   const lineProps = getLineProps({line, key: i});
 
-                  if (highlightLines.includes(i + 1)) {
+                  if (highlightLines.includes(i)) {
                     lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
