@@ -9,18 +9,18 @@ import rangeParser from 'parse-numeric-range';
 import type {Language} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(["'])(.*?)\1/;
-const HighlightLinesRangeRegex = /{([\d,-]+)}/;
+const highlightLinesRangeRegex = /{([\d,-]+)}/;
 
-const HighlightLanguages = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
-type HighlightLanguage = typeof HighlightLanguages[number];
+const commentTypes = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
+type CommentType = typeof commentTypes[number];
 
-type HighlightLanguageConfig = {
+type CommentPattern = {
   start: string;
   end: string;
 };
 
 // Supported types of highlight comments
-const HighlightComments: Record<HighlightLanguage, HighlightLanguageConfig> = {
+const commentPatterns: Record<CommentType, CommentPattern> = {
   js: {
     start: '\\/\\/',
     end: '',
@@ -43,23 +43,22 @@ const HighlightComments: Record<HighlightLanguage, HighlightLanguageConfig> = {
   },
 };
 
-// Supported highlight directives
-const HighlightDirectives = [
+const magicCommentDirectives = [
   'highlight-next-line',
   'highlight-start',
   'highlight-end',
-  'collapse-start',
-  'collapse-end',
+  'sample-start',
+  'sample-end',
 ];
 
 const getHighlightDirectiveRegex = (
-  languages: readonly HighlightLanguage[] = HighlightLanguages,
+  languages: readonly CommentType[] = commentTypes,
 ) => {
   // to be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map((lang) => {
-      const {start, end} = HighlightComments[lang];
-      return `(?:${start}\\s*(${HighlightDirectives.join('|')})\\s*${end})`;
+      const {start, end} = commentPatterns[lang];
+      return `(?:${start}\\s*(${magicCommentDirectives.join('|')})\\s*${end})`;
     })
     .join('|');
   // white space is allowed, but otherwise it should be on it's own line
@@ -109,28 +108,28 @@ export function parseLines(
   language?: Language,
 ): {
   highlightLines: number[];
-  collapsibleLines: number[];
+  sampleLines: number[];
   code: string;
 } {
   let code = content.replace(/\n$/, '');
   // Highlighted lines specified in props: don't parse the content
-  if (metastring && HighlightLinesRangeRegex.test(metastring)) {
-    const highlightLinesRange = metastring.match(HighlightLinesRangeRegex)![1];
+  if (metastring && highlightLinesRangeRegex.test(metastring)) {
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
     const highlightLines = rangeParser(highlightLinesRange).filter(
       (n) => n > 0,
     );
-    return {highlightLines, collapsibleLines: [], code};
+    return {highlightLines, sampleLines: [], code};
   }
   if (language === undefined) {
-    return {highlightLines: [], collapsibleLines: [], code};
+    return {highlightLines: [], sampleLines: [], code};
   }
   const directiveRegex = highlightDirectiveRegex(language);
   // go through line by line
   const lines = code.split('\n');
   let highlightBlockStart: number;
   let highlightRange = '';
-  let collapseBlockStart: number;
-  let collapseRange = '';
+  let sampleBlockStart: number;
+  let sampleRange = '';
   // loop through lines
   for (let index = 0; index < lines.length; ) {
     const line = lines[index];
@@ -152,12 +151,12 @@ export function parseLines(
           highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
           break;
 
-        case 'collapse-start':
-          collapseBlockStart = lineNumber;
+        case 'sample-start':
+          sampleBlockStart = lineNumber;
           break;
 
-        case 'collapse-end':
-          collapseRange += `${collapseBlockStart!}-${lineNumber - 1},`;
+        case 'sample-end':
+          sampleRange += `${sampleBlockStart!}-${lineNumber - 1},`;
           break;
 
         default:
@@ -170,7 +169,7 @@ export function parseLines(
     }
   }
   const highlightLines = rangeParser(highlightRange);
-  const collapsibleLines = rangeParser(collapseRange);
+  const sampleLines = rangeParser(sampleRange);
   code = lines.join('\n');
-  return {highlightLines, collapsibleLines, code};
+  return {highlightLines, sampleLines, code};
 }

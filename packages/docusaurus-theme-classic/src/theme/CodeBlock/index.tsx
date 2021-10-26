@@ -60,7 +60,7 @@ export default function CodeBlock({
 
   const language =
     parseLanguage(blockClassName) ?? (prism.defaultLanguage as Language);
-  const {highlightLines, collapsibleLines, code} = parseLines(
+  const {highlightLines, sampleLines, code} = parseLines(
     content,
     metastring,
     language,
@@ -73,7 +73,7 @@ export default function CodeBlock({
     setTimeout(() => setShowCopied(false), 2000);
   };
 
-  const collapsible = collapsibleLines.length > 0;
+  const collapsible = sampleLines.length > 0;
 
   return (
     <Highlight
@@ -132,25 +132,28 @@ export default function CodeBlock({
                     lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
-                  if (collapsed) {
-                    if (collapsibleLines.includes(i + 1)) {
-                      return null;
-                    }
-                  } else if (collapsibleLines.includes(i + 1)) {
-                    lineProps.className += ' docusaurus-collapsible-code-line';
-                    if (
+                  if (collapsible) {
+                    if (collapsed) {
+                      if (!sampleLines.includes(i + 1)) {
+                        return null;
+                      }
+                    } else if (!sampleLines.includes(i + 1)) {
+                      lineProps.className +=
+                        ' docusaurus-collapsible-code-line';
+                      if (
+                        i !== tokens.length - 1 &&
+                        !sampleLines.includes(i + 2)
+                      ) {
+                        lineProps.className +=
+                          ' docusaurus-collapsible-code-line-boundary';
+                      }
+                    } else if (
                       i !== tokens.length - 1 &&
-                      !collapsibleLines.includes(i + 2)
+                      sampleLines.includes(i + 2)
                     ) {
                       lineProps.className +=
                         ' docusaurus-collapsible-code-line-boundary';
                     }
-                  } else if (
-                    i !== tokens.length - 1 &&
-                    collapsibleLines.includes(i + 2)
-                  ) {
-                    lineProps.className +=
-                      ' docusaurus-collapsible-code-line-boundary';
                   }
 
                   return (

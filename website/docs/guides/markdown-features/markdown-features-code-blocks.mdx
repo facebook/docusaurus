@@ -237,6 +237,64 @@ Supported commenting syntax:
 
 If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
 
+## Collapsible code block {#collapsible-code-block}
+
+You can make parts of a code block collapsible by adding `sample-start` and `sample-end` comments.
+
+:::note
+
+Code blocks with highlighted ranges specified in the title like ` ```js {1,3-4} ` will not be parsed at all. If you want both highlighting and collapsibility, use inline comments instead.
+
+:::
+
+````md {7,14,16,19}
+```jsx
+import React, {useState, useEffect} from 'react';
+import DataView from './DataView';
+
+export default function Component({defaultData}) {
+  const [data, setData] = useState(defaultData);
+  // sample-start
+  // Fetch the data
+  useEffect(() => {
+    fetch('https://example.com')
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+  // sample-end
+  return (
+    // sample-start
+    // Render the data
+    <DataView data={data} />
+    // sample-end
+  );
+}
+```
+````
+
+```jsx
+import React, {useState, useEffect} from 'react';
+import DataView from './DataView';
+
+export default function Component({defaultData}) {
+  const [data, setData] = useState(defaultData);
+  // sample-start
+  // Fetch the data
+  useEffect(() => {
+    fetch('https://example.com')
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+  // sample-end
+  return (
+    // sample-start
+    // Render the data
+    <DataView data={data} />
+    // sample-end
+  );
+}
+```
+
 ## Interactive code editor {#interactive-code-editor}
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))

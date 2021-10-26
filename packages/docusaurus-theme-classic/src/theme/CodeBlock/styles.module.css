@@ -23,6 +23,7 @@
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
+  min-height: calc(1.5rem + 20px);
 }
 
 .codeBlock {
