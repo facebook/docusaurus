@@ -664,8 +664,9 @@ Object {
             \\"href\\": \\"https://github.com\\"
           },
           {
-            \\"type\\": \\"ref\\",
-            \\"id\\": \\"hello\\"
+            \\"type\\": \\"link\\",
+            \\"label\\": \\"Hello sidebar_label\\",
+            \\"href\\": \\"/docs/\\"
           }
         ]
       },

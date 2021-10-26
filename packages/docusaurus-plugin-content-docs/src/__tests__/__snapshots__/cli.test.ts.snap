@@ -57,7 +57,7 @@ Object {
           "type": "link",
         },
         Object {
-          "id": "hello",
+          "id": "version-1.0.0/hello",
           "type": "ref",
         },
       ],

@@ -43,7 +43,7 @@ function createVersionedSidebarFile({
     // TODO try to get rid of it
     // Transform id in original sidebar to versioned id.
     const prependVersion = (item: SidebarItem): SidebarItem => {
-      if (item.type === 'doc') {
+      if (item.type === 'ref' || item.type === 'doc') {
         return {
           ...item,
           id: `version-${version}/${item.id}`,
