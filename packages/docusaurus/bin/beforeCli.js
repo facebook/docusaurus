@@ -67,7 +67,7 @@ function ignoreUpdate(update) {
 if (
   notifier.config &&
   notifier.update &&
-  notifier.update.current !== notifier.update.latest
+  semver.lt(notifier.update.current, notifier.update.latest)
 ) {
   // Because notifier clears cached data after reading it, leading to notifier not consistently displaying the update
   // See https://github.com/yeoman/update-notifier/issues/209
