@@ -10,7 +10,6 @@ import {
   mergeWithCustomize,
   customizeArray,
   customizeObject,
-  CustomizeRule,
 } from 'webpack-merge';
 import webpack, {
   Configuration,
@@ -224,8 +223,7 @@ export function applyConfigureWebpack(
       content,
     );
     if (res && typeof res === 'object') {
-      // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
-      const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
+      const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
         customizeArray: customizeArray(customizeRules),
         customizeObject: customizeObject(customizeRules),

@@ -23,6 +23,7 @@ describe('translate', () => {
   });
 
   test('reject when no id or message', () => {
+    // TODO tests are not resolving type defs correctly
     // @ts-expect-error: TS should protect when both id/message are missing
     expect(() => translate({})).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,

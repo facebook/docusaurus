@@ -778,7 +778,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink}>;
+  export type Tag = Readonly<{label: string; permalink: string}>;
   export interface Props {
     readonly tags: readonly Tag[];
   }
