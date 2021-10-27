@@ -399,8 +399,11 @@ module.exports = {
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% if (it.noIndex) { %>
+      <meta name="robots" content="noindex, nofollow" />
+    <% } %>
     <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
@@ -412,20 +415,17 @@ module.exports = {
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
     <% }); %>
   </head>
-  <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+  <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
     <div id="__docusaurus">
       <%~ it.appHtml %>
-    </div>
-    <div id="outside-docusaurus">
-      <span>Custom markup</span>
     </div>
     <% it.scripts.forEach((script) => { %>
       <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
-</html>
+</html>`,
 };
 ```
 
