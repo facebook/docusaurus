@@ -8,7 +8,7 @@ This tutorial will walk you through the basis of the **Docusaurus i18n system**.
 
 We will add **French** translations to a **newly initialized English Docusaurus website**.
 
-Initialize a new site with `npm init docusaurus@latest website classic` (like [this one](https://github.com/facebook/docusaurus/tree/main/examples/classic)).
+Initialize a new site with `npx create-docusaurus@latest website classic` (like [this one](https://github.com/facebook/docusaurus/tree/main/examples/classic)).
 
 ## Configure your site {#configure-your-site}
 
