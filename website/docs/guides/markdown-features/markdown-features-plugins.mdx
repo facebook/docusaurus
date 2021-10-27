@@ -5,15 +5,31 @@ description: Using MDX plugins to expand Docusaurus Markdown functionalities
 slug: /markdown-features/plugins
 ---
 
-The fragment files written in Docusaurus are using the MDX format see [this link](https://mdxjs.com/getting-started/) for more details about MDX. MDX itself can be easily extended with additional capabilities of translating the input text into HTML. Docusaurus content plugins support out of the box both [Remark](https://github.com/remarkjs/remark) and [Rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
+MDX has a built-in plugin system that can be used to customize its behavior, [see plugin documentation](https://mdxjs.com/advanced/plugins/) in official MDX docs.
 
-However sometimes it is not enough and you might want to use some advanced features as provided in [this extensive list of plugins for remark](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins) or [another one for rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins). The plugins on this list usually provide easier, shorter or more specialized ways of creating the HTML content. There are really useful if you want to for instance: override the defaults in terms of markdown to HTML conversion, add some new checks or support some specialized syntax specific to your content (like mathml support or picturing graphs or sheet music generation).
+You might want to customize the behavior of file translations in few ways for instance:
+
+- using existing remark plugin ([see official remark plugin list](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins))
+- using existing rehype plugin ([see official rehype plugin list](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins))
+- create remark/rehype plugin to introduce new syntax to your MDX
+- create remark/rehype plugin to change the HTML output for existing MDX syntax
+
+Some use case examples of introducing new features might be:
+
+- mathml support
+- graph visualization
+- sheet music generation
+
+Changes to HTML output might be useful if you want to:
+
+- add some additional HTML properties
+- change the resulting HTML element for Markdown feature
 
 ## What are remark and rehype
 
-Remark is a markdown processor used to parse it into the structured tree that can be used programmatically to transform it or compile it into output format. Complete introduction to remark can be found [here](https://github.com/remarkjs/remark).
+Remark is a markdown processor used to parse it into the structured tree. It can be later used programmatically to transform it or compile it into output format. Complete introduction to remark can be found [here](https://github.com/remarkjs/remark).
 
-Rehype is a similar suite of plugins working on the HTML files, capable of transforming, minifying, it. Complete introduction to rehype can be found [here](https://github.com/rehypejs/rehype).
+Rehype is a similar suite of plugins working on the HTML files, capable of transforming them. Complete introduction to rehype can be found [here](https://github.com/rehypejs/rehype).
 
 ## Configuring plugins {#configuring-plugins}
 
@@ -83,8 +99,12 @@ module.exports = {
 
 See more information in the [MDX documentation](https://mdxjs.com/advanced/plugins).
 
-## Creating own rehype or remark plugins
+## Creating new rehype/remark plugins
 
-In order to create own plugins follow those instructions for [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins) or [rehype](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins).
+In order to create your own plugins follow those instructions for [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins) or [rehype](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins).
 
-You can also take a look at docusaurus own [plugins](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-mdx-loader/src/remark) as a source of inspiration on how to write them and what are the good usecases.
+:::tip
+
+Docusaurus provides its own [plugins](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-mdx-loader/src/remark) that can be inspiration for your next plugin.
+
+:::
