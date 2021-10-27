@@ -425,7 +425,7 @@ module.exports = {
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
-</html>`
+</html>`,
 };
 ```
 
