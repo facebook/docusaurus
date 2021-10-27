@@ -35,7 +35,7 @@
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.40.0"
+    "webpack": "^5.60.0"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.8",

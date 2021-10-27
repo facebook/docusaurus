@@ -35,7 +35,7 @@
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0",
-    "webpack": "^5.40.0"
+    "webpack": "^5.60.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
