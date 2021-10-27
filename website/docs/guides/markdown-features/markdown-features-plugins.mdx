@@ -5,31 +5,29 @@ description: Using MDX plugins to expand Docusaurus Markdown functionalities
 slug: /markdown-features/plugins
 ---
 
-MDX has a built-in plugin system that can be used to customize its behavior, [see plugin documentation](https://mdxjs.com/advanced/plugins/) in official MDX docs.
+MDX has a built-in [plugin system](https://mdxjs.com/advanced/plugins/) that can be used to customize its behavior. It allows you to customize how the Markdown files will be transformed to the JSX and React components. It has two, plugin based, customization points:
 
-You might want to customize the behavior of file translations in few ways for instance:
+- processing Markdown to AST with [Remark](https://github.com/remarkjs/remark/)
+- processing AST to JSX and React components with [Rehype](https://github.com/rehypejs/rehype/)
 
-- using existing remark plugin ([see official remark plugin list](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins))
-- using existing rehype plugin ([see official rehype plugin list](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins))
-- create remark/rehype plugin to introduce new syntax to your MDX
-- create remark/rehype plugin to change the HTML output for existing MDX syntax
+Most common use case for the plugins is introducing new Markdown syntax for convenience. This can be done by:
+
+- using existing remark [plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)
+- using existing rehype [plugin](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins)
+- creating remark/rehype plugin to introduce new syntax to your MDX
+- creating remark/rehype plugin to change the JSX/React components for existing MDX syntax
 
 Some use case examples of introducing new features might be:
 
-- mathml support
-- graph visualization
-- sheet music generation
+- adding Docusaurus admonitions [remark-admonitions](https://github.com/elviswolcott/remark-admonitions)
+- rewriting components properties (like className) using [rehype-rewrite](https://github.com/jaywcjlove/rehype-rewrite)
+- adding math syntax using [remark-math](https://github.com/remarkjs/remark-math/tree/main/packages/remark-math)
 
-Changes to HTML output might be useful if you want to:
+:::tip
 
-- add some additional HTML properties
-- change the resulting HTML element for Markdown feature
+Use plugins to introduce shorter syntax for most-commonly used JSX elements in your project.
 
-## What are remark and rehype
-
-Remark is a markdown processor used to parse it into the structured tree. It can be later used programmatically to transform it or compile it into output format. Complete introduction to remark can be found [here](https://github.com/remarkjs/remark).
-
-Rehype is a similar suite of plugins working on the HTML files, capable of transforming them. Complete introduction to rehype can be found [here](https://github.com/rehypejs/rehype).
+:::
 
 ## Configuring plugins {#configuring-plugins}
 
@@ -101,7 +99,7 @@ See more information in the [MDX documentation](https://mdxjs.com/advanced/plugi
 
 ## Creating new rehype/remark plugins
 
-In order to create your own plugins follow those instructions for [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins) or [rehype](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins).
+You can create your own [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins) and [rehype](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#creating-plugins) plugin.
 
 :::tip
 
