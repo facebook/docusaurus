@@ -354,15 +354,16 @@ trigger:
   commands:
     - mkdir -p $HOME/.ssh
     - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
-    - echo "$GITHUB_PRIVATE_KEY > $HOME/.ssh/id_rsa"
+    - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
     - chmod 0600 $HOME/.ssh/id_rsa
     - cd website
     - npm i
-    - npm run publish-gh-pages
+    - npm run deploy
   environment:
     USE_SSH: true
     GIT_USER: $DRONE_COMMIT_AUTHOR
-    GITHUB_PRIVATE_KEY: git_deploy_private_key
+    GITHUB_PRIVATE_KEY: 
+      from_secret: "git_deploy_private_key"
 ```
 
 Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.
