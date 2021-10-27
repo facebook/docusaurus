@@ -17,6 +17,7 @@ import {
   addTrailingPathSeparator,
   Globby,
   createAbsoluteFilePathMatcher,
+  getRouteRanking,
   normalizeUrl,
 } from '@docusaurus/utils';
 import {
@@ -160,6 +161,7 @@ export default function pluginContentPages(
               path: permalink,
               component: options.mdxPageComponent,
               exact: true,
+              ranking: getRouteRanking(permalink),
               modules: {
                 content: source,
               },
@@ -168,6 +170,7 @@ export default function pluginContentPages(
             addRoute({
               path: permalink,
               component: source,
+              ranking: getRouteRanking(permalink),
               exact: true,
               modules: {
                 config: `@generated/docusaurus.config`,

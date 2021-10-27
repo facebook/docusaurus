@@ -32,11 +32,31 @@ exports[`sortConfig should sort route config correctly 1`] = `
 Array [
   Object {
     "component": "",
-    "path": "/community",
+    "path": "/",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/someDoc",
+      },
+      Object {
+        "component": "",
+        "path": "/someOtherDoc",
+      },
+    ],
   },
   Object {
     "component": "",
-    "path": "/some-page",
+    "path": "/",
+  },
+  Object {
+    "component": "",
+    "path": "/",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/subroute",
+      },
+    ],
   },
   Object {
     "component": "",
@@ -54,31 +74,11 @@ Array [
   },
   Object {
     "component": "",
-    "path": "/",
+    "path": "/community",
   },
   Object {
     "component": "",
-    "path": "/",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/someDoc",
-      },
-      Object {
-        "component": "",
-        "path": "/someOtherDoc",
-      },
-    ],
-  },
-  Object {
-    "component": "",
-    "path": "/",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/subroute",
-      },
-    ],
+    "path": "/some-page",
   },
 ]
 `;

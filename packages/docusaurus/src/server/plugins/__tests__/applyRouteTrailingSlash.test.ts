@@ -8,9 +8,14 @@
 import applyRouteTrailingSlash from '../applyRouteTrailingSlash';
 import {RouteConfig} from '@docusaurus/types';
 import {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
+import {getRouteRanking} from '@docusaurus/utils';
 
 function route(path: string, subRoutes?: string[]): RouteConfig {
-  const result: RouteConfig = {path, component: 'any'};
+  const result: RouteConfig = {
+    path,
+    component: 'any',
+    ranking: getRouteRanking(path),
+  };
 
   if (subRoutes) {
     result.routes = subRoutes.map((subRoute) => route(subRoute));

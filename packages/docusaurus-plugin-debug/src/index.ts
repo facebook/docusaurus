@@ -6,7 +6,12 @@
  */
 
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
+import {
+  docuHash,
+  getRouteRanking,
+  normalizeUrl,
+  posixPath,
+} from '@docusaurus/utils';
 import path from 'path';
 
 export default function pluginDebug({
@@ -39,35 +44,51 @@ export default function pluginDebug({
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug']),
         component: '@theme/DebugConfig',
+        ranking: getRouteRanking(normalizeUrl([baseUrl, '__docusaurus/debug'])),
         exact: true,
       });
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/config']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/config']),
+        ),
         component: '@theme/DebugConfig',
         exact: true,
       });
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/metadata']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/metadata']),
+        ),
         component: '@theme/DebugSiteMetadata',
         exact: true,
       });
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/registry']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/registry']),
+        ),
         component: '@theme/DebugRegistry',
         exact: true,
       });
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/routes']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/routes']),
+        ),
         component: '@theme/DebugRoutes',
         exact: true,
       });
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/content']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/content']),
+        ),
         component: '@theme/DebugContent',
         exact: true,
         modules: {
@@ -77,6 +98,9 @@ export default function pluginDebug({
 
       addRoute({
         path: normalizeUrl([baseUrl, '__docusaurus/debug/globalData']),
+        ranking: getRouteRanking(
+          normalizeUrl([baseUrl, '__docusaurus/debug/globalData']),
+        ),
         component: '@theme/DebugGlobalData',
         exact: true,
       });

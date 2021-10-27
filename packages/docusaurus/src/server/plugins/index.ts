@@ -30,36 +30,22 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
-    // Root route should get placed last.
-    if (a.path === '/' && b.path !== '/') {
-      return 1;
-    }
-    if (a.path !== '/' && b.path === '/') {
-      return -1;
-    }
-
-    if (a.routes && !b.routes) {
-      return 1;
-    }
-    if (!a.routes && b.routes) {
-      return -1;
-    }
     // Higher priority get placed first.
     if (a.priority || b.priority) {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
-      const score = priorityB - priorityA;
+      const score = priorityB - priorityA + b.ranking - a.ranking;
 
       if (score !== 0) {
         return score;
       }
     }
 
-    return a.path.localeCompare(b.path);
+    return b.ranking - a.ranking;
   });
 
   routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
+    routeConfig.routes?.sort((a, b) => b.ranking - a.ranking);
   });
 }
 

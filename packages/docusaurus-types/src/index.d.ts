@@ -354,6 +354,7 @@ export interface ChunkNames {
 export interface RouteConfig {
   path: string;
   component: string;
+  ranking: number;
   modules?: RouteModule;
   routes?: RouteConfig[];
   exact?: boolean;

@@ -8,7 +8,11 @@
 const path = require('path');
 const fs = require('fs');
 const eta = require('eta');
-const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
+const {
+  normalizeUrl,
+  getSwizzledComponent,
+  getRouteRanking,
+} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
 const {validateThemeConfig} = require('./validateThemeConfig');
 const {memoize} = require('lodash');
@@ -48,6 +52,7 @@ function theme(context) {
     async contentLoaded({actions: {addRoute}}) {
       addRoute({
         path: normalizeUrl([baseUrl, 'search']),
+        ranking: getRouteRanking(normalizeUrl([baseUrl, 'search'])),
         component: pagePath,
         exact: true,
       });

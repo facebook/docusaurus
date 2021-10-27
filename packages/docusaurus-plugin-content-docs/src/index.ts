@@ -19,6 +19,7 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getRouteRanking,
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
@@ -228,6 +229,7 @@ export default function pluginContentDocs(
               path: metadataItem.permalink,
               component: docItemComponent,
               exact: true,
+              ranking: getRouteRanking(metadataItem.permalink),
               modules: {
                 content: metadataItem.source,
               },
@@ -267,6 +269,7 @@ export default function pluginContentDocs(
               path: loadedVersion.tagsPath,
               exact: true,
               component: options.docTagsListComponent,
+              ranking: getRouteRanking(loadedVersion.tagsPath),
               modules: {
                 tags: aliasedSource(tagsPropPath),
               },
@@ -287,6 +290,7 @@ export default function pluginContentDocs(
           addRoute({
             path: tag.permalink,
             component: options.docTagDocListComponent,
+            ranking: getRouteRanking(tag.permalink),
             exact: true,
             modules: {
               tag: aliasedSource(tagPropPath),
@@ -313,6 +317,7 @@ export default function pluginContentDocs(
 
         addRoute({
           path: loadedVersion.versionPath,
+          ranking: getRouteRanking(loadedVersion.versionPath),
           // allow matching /docs/* as well
           exact: false,
           // main docs component (DocPage)

@@ -10,14 +10,17 @@ import {
   applyTrailingSlash,
   ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
+import {getRouteRanking} from '@docusaurus/utils';
 
 export default function applyRouteTrailingSlash(
   route: RouteConfig,
   params: ApplyTrailingSlashParams,
 ): RouteConfig {
+  const path = applyTrailingSlash(route.path, params);
   return {
     ...route,
-    path: applyTrailingSlash(route.path, params),
+    path,
+    ranking: getRouteRanking(path),
     ...(route.routes && {
       routes: route.routes.map((subroute) =>
         applyRouteTrailingSlash(subroute, params),

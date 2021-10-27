@@ -16,6 +16,7 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getRouteRanking,
 } from '@docusaurus/utils';
 import {
   STATIC_DIR_NAME,
@@ -259,6 +260,7 @@ export default function pluginContentBlog(
       );
       addRoute({
         path: archiveUrl,
+        ranking: getRouteRanking(archiveUrl),
         component: '@theme/BlogArchivePage',
         exact: true,
         modules: {
@@ -298,6 +300,7 @@ export default function pluginContentBlog(
           addRoute({
             path: metadata.permalink,
             component: blogPostComponent,
+            ranking: getRouteRanking(metadata.permalink),
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
@@ -321,6 +324,7 @@ export default function pluginContentBlog(
 
           addRoute({
             path: permalink,
+            ranking: getRouteRanking(permalink),
             component: blogListComponent,
             exact: true,
             modules: {
@@ -372,6 +376,7 @@ export default function pluginContentBlog(
             path: permalink,
             component: blogTagsPostsComponent,
             exact: true,
+            ranking: getRouteRanking(permalink),
             modules: {
               sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) => {
@@ -402,6 +407,7 @@ export default function pluginContentBlog(
         addRoute({
           path: blogTagsListPath,
           component: blogTagsListComponent,
+          ranking: getRouteRanking(blogTagsListPath),
           exact: true,
           modules: {
             sidebar: aliasedSource(sidebarProp),

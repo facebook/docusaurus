@@ -783,28 +783,13 @@ Object {
 exports[`simple website content: route config 1`] = `
 Array [
   Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/tags",
-  },
-  Object {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
     "modules": Object {
       "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
     },
     "path": "/docs/tags/tag-1",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
-    },
-    "path": "/docs/tags/tag-3",
+    "ranking": 21,
   },
   Object {
     "component": "@theme/DocTagDocListPage",
@@ -813,6 +798,25 @@ Array [
       "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
     },
     "path": "/docs/tags/tag2-custom-permalink",
+    "ranking": 21,
+  },
+  Object {
+    "component": "@theme/DocTagDocListPage",
+    "exact": true,
+    "modules": Object {
+      "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
+    },
+    "path": "/docs/tags/tag-3",
+    "ranking": 21,
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-current-prop-15a.json",
+    },
+    "path": "/docs/tags",
+    "ranking": 14,
   },
   Object {
     "component": "@theme/DocPage",
@@ -822,23 +826,16 @@ Array [
     },
     "path": "/docs",
     "priority": -1,
+    "ranking": 7,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/hello.md",
+          "content": "@site/docs/slugs/resolvedSlug.md",
         },
-        "path": "/docs/",
-        "sidebar": "docs",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/absoluteSlug.md",
-        },
-        "path": "/docs/absoluteSlug",
+        "path": "/docs/slugs/hey/resolvedSlug",
+        "ranking": 28,
       },
       Object {
         "component": "@theme/DocItem",
@@ -847,6 +844,7 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "ranking": 21,
         "sidebar": "docs",
       },
       Object {
@@ -856,15 +854,7 @@ Array [
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
-        "sidebar": "docs",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/headingAsTitle.md",
-        },
-        "path": "/docs/headingAsTitle",
+        "ranking": 21,
         "sidebar": "docs",
       },
       Object {
@@ -874,6 +864,35 @@ Array [
           "content": "@site/docs/rootResolvedSlug.md",
         },
         "path": "/docs/hey/rootResolvedSlug",
+        "ranking": 21,
+        "sidebar": "docs",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/relativeSlug.md",
+        },
+        "path": "/docs/slugs/relativeSlug",
+        "ranking": 21,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/absoluteSlug.md",
+        },
+        "path": "/docs/absoluteSlug",
+        "ranking": 14,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/headingAsTitle.md",
+        },
+        "path": "/docs/headingAsTitle",
+        "ranking": 14,
         "sidebar": "docs",
       },
       Object {
@@ -883,6 +902,7 @@ Array [
           "content": "@site/docs/ipsum.md",
         },
         "path": "/docs/ipsum",
+        "ranking": 14,
       },
       Object {
         "component": "@theme/DocItem",
@@ -891,6 +911,7 @@ Array [
           "content": "@site/docs/lorem.md",
         },
         "path": "/docs/lorem",
+        "ranking": 14,
       },
       Object {
         "component": "@theme/DocItem",
@@ -899,6 +920,7 @@ Array [
           "content": "@site/docs/rootAbsoluteSlug.md",
         },
         "path": "/docs/rootAbsoluteSlug",
+        "ranking": 14,
         "sidebar": "docs",
       },
       Object {
@@ -908,6 +930,7 @@ Array [
           "content": "@site/docs/rootRelativeSlug.md",
         },
         "path": "/docs/rootRelativeSlug",
+        "ranking": 14,
         "sidebar": "docs",
       },
       Object {
@@ -917,23 +940,8 @@ Array [
           "content": "@site/docs/rootTryToEscapeSlug.md",
         },
         "path": "/docs/rootTryToEscapeSlug",
+        "ranking": 14,
         "sidebar": "docs",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/resolvedSlug.md",
-        },
-        "path": "/docs/slugs/hey/resolvedSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/relativeSlug.md",
-        },
-        "path": "/docs/slugs/relativeSlug",
       },
       Object {
         "component": "@theme/DocItem",
@@ -942,6 +950,17 @@ Array [
           "content": "@site/docs/slugs/tryToEscapeSlug.md",
         },
         "path": "/docs/tryToEscapeSlug",
+        "ranking": 14,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/",
+        "ranking": 7,
+        "sidebar": "docs",
       },
     ],
   },
@@ -1227,6 +1246,7 @@ Array [
     },
     "path": "/community/next",
     "priority": undefined,
+    "ranking": 14,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
@@ -1235,6 +1255,7 @@ Array [
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
+        "ranking": 21,
         "sidebar": "community",
       },
     ],
@@ -1247,6 +1268,7 @@ Array [
     },
     "path": "/community",
     "priority": -1,
+    "ranking": 7,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
@@ -1255,6 +1277,7 @@ Array [
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
         "path": "/community/team",
+        "ranking": 14,
         "sidebar": "version-1.0.0/community",
       },
     ],
@@ -2069,20 +2092,13 @@ Object {
 exports[`versioned website content: route config 1`] = `
 Array [
   Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/next/tags",
-  },
-  Object {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
     "modules": Object {
       "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
     },
     "path": "/docs/next/tags/bar-tag-1",
+    "ranking": 28,
   },
   Object {
     "component": "@theme/DocTagDocListPage",
@@ -2091,6 +2107,7 @@ Array [
       "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
     },
     "path": "/docs/next/tags/bar-tag-2",
+    "ranking": 28,
   },
   Object {
     "component": "@theme/DocTagDocListPage",
@@ -2099,6 +2116,16 @@ Array [
       "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
     },
     "path": "/docs/next/tags/barTag-3-permalink",
+    "ranking": 28,
+  },
+  Object {
+    "component": "@theme/DocTagsListPage",
+    "exact": true,
+    "modules": Object {
+      "tags": "~docs/tags-list-current-prop-15a.json",
+    },
+    "path": "/docs/next/tags",
+    "ranking": 21,
   },
   Object {
     "component": "@theme/DocPage",
@@ -2108,16 +2135,8 @@ Array [
     },
     "path": "/docs/1.0.0",
     "priority": undefined,
+    "ranking": 14,
     "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
-        },
-        "path": "/docs/1.0.0/",
-        "sidebar": "version-1.0.0/docs",
-      },
       Object {
         "component": "@theme/DocItem",
         "exact": true,
@@ -2125,6 +2144,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
+        "ranking": 28,
         "sidebar": "version-1.0.0/docs",
       },
       Object {
@@ -2134,68 +2154,18 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
+        "ranking": 28,
         "sidebar": "version-1.0.0/docs",
       },
-    ],
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "exact": false,
-    "modules": Object {
-      "versionMetadata": "~docs/version-current-metadata-prop-751.json",
-    },
-    "path": "/docs/next",
-    "priority": undefined,
-    "routes": Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/hello.md",
+          "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
-        "path": "/docs/next/",
-        "sidebar": "docs",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/absoluteSlug.md",
-        },
-        "path": "/docs/next/absoluteSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/foo/bar.md",
-        },
-        "path": "/docs/next/foo/barSlug",
-        "sidebar": "docs",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/resolvedSlug.md",
-        },
-        "path": "/docs/next/slugs/hey/resolvedSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/relativeSlug.md",
-        },
-        "path": "/docs/next/slugs/relativeSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/slugs/tryToEscapeSlug.md",
-        },
-        "path": "/docs/next/tryToEscapeSlug",
+        "path": "/docs/1.0.0/",
+        "ranking": 14,
+        "sidebar": "version-1.0.0/docs",
       },
     ],
   },
@@ -2207,14 +2177,16 @@ Array [
     },
     "path": "/docs/withSlugs",
     "priority": undefined,
+    "ranking": 14,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
+          "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
         },
-        "path": "/docs/withSlugs/absoluteSlug",
+        "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
+        "ranking": 35,
       },
       Object {
         "component": "@theme/DocItem",
@@ -2223,6 +2195,25 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootResolvedSlug.md",
         },
         "path": "/docs/withSlugs/hey/rootResolvedSlug",
+        "ranking": 28,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
+        },
+        "path": "/docs/withSlugs/slugs/relativeSlug",
+        "ranking": 28,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
+        },
+        "path": "/docs/withSlugs/absoluteSlug",
+        "ranking": 21,
       },
       Object {
         "component": "@theme/DocItem",
@@ -2231,6 +2222,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
+        "ranking": 21,
         "sidebar": "version-1.0.1/docs",
       },
       Object {
@@ -2240,6 +2232,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootRelativeSlug.md",
         },
         "path": "/docs/withSlugs/rootRelativeSlug",
+        "ranking": 21,
       },
       Object {
         "component": "@theme/DocItem",
@@ -2248,22 +2241,7 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
         },
         "path": "/docs/withSlugs/rootTryToEscapeSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
-        },
-        "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
-        },
-        "path": "/docs/withSlugs/slugs/relativeSlug",
+        "ranking": 21,
       },
       Object {
         "component": "@theme/DocItem",
@@ -2272,6 +2250,75 @@ Array [
           "content": "@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
         },
         "path": "/docs/withSlugs/tryToEscapeSlug",
+        "ranking": 21,
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": false,
+    "modules": Object {
+      "versionMetadata": "~docs/version-current-metadata-prop-751.json",
+    },
+    "path": "/docs/next",
+    "priority": undefined,
+    "ranking": 14,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/resolvedSlug.md",
+        },
+        "path": "/docs/next/slugs/hey/resolvedSlug",
+        "ranking": 35,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/bar.md",
+        },
+        "path": "/docs/next/foo/barSlug",
+        "ranking": 28,
+        "sidebar": "docs",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/relativeSlug.md",
+        },
+        "path": "/docs/next/slugs/relativeSlug",
+        "ranking": 28,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/absoluteSlug.md",
+        },
+        "path": "/docs/next/absoluteSlug",
+        "ranking": 21,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/slugs/tryToEscapeSlug.md",
+        },
+        "path": "/docs/next/tryToEscapeSlug",
+        "ranking": 21,
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/next/",
+        "ranking": 14,
+        "sidebar": "docs",
       },
     ],
   },
@@ -2283,16 +2330,8 @@ Array [
     },
     "path": "/docs",
     "priority": -1,
+    "ranking": 7,
     "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
-        },
-        "path": "/docs/",
-        "sidebar": "version-1.0.1/docs",
-      },
       Object {
         "component": "@theme/DocItem",
         "exact": true,
@@ -2300,6 +2339,17 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
+        "ranking": 21,
+        "sidebar": "version-1.0.1/docs",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/hello.md",
+        },
+        "path": "/docs/",
+        "ranking": 7,
         "sidebar": "version-1.0.1/docs",
       },
     ],
