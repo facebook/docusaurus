@@ -52,22 +52,12 @@ async function lqipLoader(
     ];
   }
 
-  const outputPromises: (Promise<string | string[]> | null)[] = [];
-
-  if (config.base64 === true) {
-    outputPromises.push(lqip.base64(imgPath));
-  } else {
-    outputPromises.push(null);
-  }
-
-  // color palette generation is set to false by default
-  // since it is little bit slower than base64 generation
-
-  if (config.palette === true) {
-    outputPromises.push(lqip.palette(imgPath));
-  } else {
-    outputPromises.push(null);
-  }
+  const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [
+    config.base64 === true ? lqip.base64(imgPath) : null,
+    // color palette generation is set to false by default
+    // since it is little bit slower than base64 generation
+    config.palette === true ? lqip.palette(imgPath) : null,
+  ];
 
   try {
     const data = await Promise.all(outputPromises);
