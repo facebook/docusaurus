@@ -23,7 +23,7 @@
     "sharp": "^0.29.1"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   },
   "devDependencies": {
     "@types/sharp": "^0.29.2"
