@@ -332,7 +332,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
+    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[md5:hash].[ext]`;
 
   const loaders: FileLoaderUtils['loaders'] = {
     file: (options: {folder: AssetFolder}) => {
