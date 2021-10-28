@@ -68,7 +68,7 @@ function validateCollectedRedirects(
         return (e as Error).message;
       }
     })
-    .filter(Boolean) as string[];
+    .filter(Boolean);
   if (redirectValidationErrors.length > 0) {
     throw new Error(
       `Some created redirects are invalid:
