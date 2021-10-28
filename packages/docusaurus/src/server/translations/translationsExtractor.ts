@@ -9,7 +9,6 @@ import traverse, {Node} from '@babel/traverse';
 import generate from '@babel/generator';
 import chalk from 'chalk';
 import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
-import {flatten} from 'lodash';
 import {
   InitializedPlugin,
   TranslationFileContent,
@@ -69,7 +68,7 @@ async function getSourceCodeFilePaths(
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to extract translations from
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const pluginsPaths = flatten(plugins.map(getPluginSourceCodeFilePaths));
+  const pluginsPaths = plugins.flatMap(getPluginSourceCodeFilePaths);
 
   const allPaths = [...sitePaths, ...pluginsPaths];
 
@@ -133,11 +132,9 @@ export async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
-  return flatten(
-    await Promise.all(
-      sourceCodeFilePaths.map((sourceFilePath) =>
-        extractSourceCodeFileTranslations(sourceFilePath, babelOptions),
-      ),
+  return Promise.all(
+    sourceCodeFilePaths.flatMap((sourceFilePath) =>
+      extractSourceCodeFileTranslations(sourceFilePath, babelOptions),
     ),
   );
 }
