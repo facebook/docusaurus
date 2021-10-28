@@ -8,15 +8,13 @@
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
-import express from 'express';
+
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
-import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
-import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
@@ -171,9 +169,13 @@ export default async function start(
     ...{
       compress: true,
       hot: cliOptions.hotOnly ? 'only' : true,
-      // Prevent a WS client from getting injected as we're already including
-      // `webpackHotDevClient`.
-      client: false as WebpackDevServer.Configuration['client'],
+      client: {
+        progress: true,
+        overlay: {
+          warnings: false,
+          errors: true,
+        },
+      },
       https: getHttpsConfig(),
       headers: {
         'access-control-allow-origin': '*',
@@ -184,6 +186,7 @@ export default async function start(
         stats: 'errors-warnings',
       },
       static: {
+        directory: path.resolve(siteDir, STATIC_DIR_NAME),
         watch: {
           usePolling: !!cliOptions.poll,
 
@@ -200,17 +203,17 @@ export default async function start(
       host,
       port,
       onBeforeSetupMiddleware: (devServer) => {
-        devServer.app.use(
-          baseUrl,
-          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
-        );
         // This lets us fetch source contents from webpack for the error overlay.
-        devServer.app.use(evalSourceMapMiddleware(devServer));
-        // This lets us open files from the runtime error overlay.
-        devServer.app.use(errorOverlayMiddleware());
+        devServer.app.use(
+          evalSourceMapMiddleware(
+            // @ts-expect-error: bad types
+            devServer,
+          ),
+        );
       },
     },
   };
+
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
     compiler.hooks.done.tap('done', (stats) => {
@@ -229,6 +232,7 @@ export default async function start(
       openBrowser(openUrl);
     }
   });
+
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {
       devServer.close();
