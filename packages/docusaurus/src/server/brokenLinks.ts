@@ -110,9 +110,9 @@ export function getBrokenLinksErrorMessage(
   // Add an additional message in such case to help user figure this out.
   // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = Object.entries(allBrokenLinks).map(
+    const flatList = Object.entries(allBrokenLinks).flatMap(
       ([pagePage, brokenLinks]) =>
-        brokenLinks.flatMap((brokenLink) => ({pagePage, brokenLink})),
+        brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
 
     const countedBrokenLinks = countBy(
