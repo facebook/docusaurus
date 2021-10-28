@@ -126,6 +126,7 @@ export default async function start(
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     infrastructureLogging: {
+      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       level: 'warn',
     },
     plugins: [
@@ -179,6 +180,8 @@ export default async function start(
       },
       devMiddleware: {
         publicPath: baseUrl,
+        // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+        stats: false,
       },
       static: {
         watch: {
