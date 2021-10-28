@@ -41,6 +41,7 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  autoCollapseSidebar: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -329,6 +330,7 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  autoCollapseSidebar: Joi.bool().default(DEFAULT_CONFIG.autoCollapseSidebar),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
