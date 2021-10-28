@@ -140,7 +140,20 @@ module.exports = {
         paths: [
           {
             name: 'lodash',
-            importNames: ['compact', 'flatten', 'flatMap', 'take', 'takeRight'],
+            importNames: [
+              'compact',
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+              'last',
+            ],
             message: 'These APIs have their ES counterparts.',
           },
         ],
