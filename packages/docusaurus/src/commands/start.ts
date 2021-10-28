@@ -181,7 +181,7 @@ export default async function start(
       devMiddleware: {
         publicPath: baseUrl,
         // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-        stats: false,
+        stats: 'errors-warnings',
       },
       static: {
         watch: {
