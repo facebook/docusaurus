@@ -40,9 +40,7 @@ These are all typical use-cases of Remark plugins, which can also be a source of
 
 ## Installing plugins {#installing-plugins}
 
-An MDX plugin is usually a npm package, so you install them like other npm packages using npm.
-
-Take the [math plugins](./markdown-features-math-equations.mdx) as example. You first install the plugins.
+An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Take the [math plugins](./markdown-features-math-equations.mdx) as example.
 
 ```bash npm2yarn
 npm install --save remark-math@3 rehype-katex@4
@@ -169,7 +167,7 @@ module.exports = {
 
 :::note
 
-The default plugins of Docusaurus would transform images, links, or headings into JSX before the custom remark plugins are even called. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`. This is because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
+The default plugins of Docusaurus would operate before the custom remark plugins, and that means the images or links have been converted to JSX with `require()` calls already. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`, because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
 
 ```jsx title="docusaurus.config.js"
 module.exports = {
