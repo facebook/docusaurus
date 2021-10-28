@@ -234,7 +234,7 @@ export default async function start(
   });
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
-    process.on(sig as NodeJS.Signals, () => {
+    process.on(sig, () => {
       devServer.stop();
       process.exit();
     });
