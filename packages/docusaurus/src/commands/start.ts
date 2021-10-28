@@ -166,51 +166,49 @@ export default async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    ...{
-      compress: true,
-      hot: cliOptions.hotOnly ? 'only' : true,
-      client: {
-        progress: true,
-        overlay: {
-          warnings: false,
-          errors: true,
-        },
+    compress: true,
+    hot: cliOptions.hotOnly ? 'only' : true,
+    client: {
+      progress: true,
+      overlay: {
+        warnings: false,
+        errors: true,
       },
-      https: getHttpsConfig(),
-      headers: {
-        'access-control-allow-origin': '*',
-      },
-      devMiddleware: {
-        publicPath: baseUrl,
-        // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-        stats: 'errors-warnings',
-      },
-      static: {
-        directory: path.resolve(siteDir, STATIC_DIR_NAME),
-        watch: {
-          usePolling: !!cliOptions.poll,
+    },
+    https: getHttpsConfig(),
+    headers: {
+      'access-control-allow-origin': '*',
+    },
+    devMiddleware: {
+      publicPath: baseUrl,
+      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+      stats: 'errors-warnings',
+    },
+    static: {
+      directory: path.resolve(siteDir, STATIC_DIR_NAME),
+      watch: {
+        usePolling: !!cliOptions.poll,
 
-          // Useful options for our own monorepo using symlinks!
-          // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
-          followSymlinks: true,
-          ignored: /node_modules\/(?!@docusaurus)/,
-        },
+        // Useful options for our own monorepo using symlinks!
+        // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
+        followSymlinks: true,
+        ignored: /node_modules\/(?!@docusaurus)/,
       },
-      historyApiFallback: {
-        rewrites: [{from: /\/*/, to: baseUrl}],
-      },
-      allowedHosts: 'all',
-      host,
-      port,
-      onBeforeSetupMiddleware: (devServer) => {
-        // This lets us fetch source contents from webpack for the error overlay.
-        devServer.app.use(
-          evalSourceMapMiddleware(
-            // @ts-expect-error: bad types
-            devServer,
-          ),
-        );
-      },
+    },
+    historyApiFallback: {
+      rewrites: [{from: /\/*/, to: baseUrl}],
+    },
+    allowedHosts: 'all',
+    host,
+    port,
+    onBeforeSetupMiddleware: (devServer) => {
+      // This lets us fetch source contents from webpack for the error overlay.
+      devServer.app.use(
+        evalSourceMapMiddleware(
+          // @ts-expect-error: bad types
+          devServer,
+        ),
+      );
     },
   };
 
