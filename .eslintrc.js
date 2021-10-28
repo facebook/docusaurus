@@ -129,9 +129,34 @@ module.exports = {
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
     '@typescript-eslint/no-empty-interface': [
-      'error',
+      ERROR,
       {
         allowSingleExtends: true,
+      },
+    ],
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: [
+              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+              'last',
+            ],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
       },
     ],
   },
