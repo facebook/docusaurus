@@ -42,7 +42,7 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {keyBy, compact, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {
@@ -388,7 +388,7 @@ export default function pluginContentDocs(
           include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
-          use: compact([
+          use: [
             getJSLoader({isServer}),
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
@@ -414,7 +414,7 @@ export default function pluginContentDocs(
               loader: path.resolve(__dirname, './markdown/index.js'),
               options: docsMarkdownOptions,
             },
-          ]),
+          ].filter(Boolean),
         };
       }
 
