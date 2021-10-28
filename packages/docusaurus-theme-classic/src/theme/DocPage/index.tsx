@@ -23,11 +23,7 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {
-  ThemeClassNames,
-  docVersionSearchTag,
-  useThemeConfig,
-} from '@docusaurus/theme-common';
+import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 
 type DocPageContentProps = {
@@ -41,7 +37,6 @@ function DocPageContent({
   versionMetadata,
   children,
 }: DocPageContentProps): JSX.Element {
-  const {sidebarCollapsible, autoCollapseSidebar} = useThemeConfig();
   const {pluginId, version} = versionMetadata;
 
   const sidebarName = currentDocRoute.sidebar;
@@ -94,8 +89,6 @@ function DocPageContent({
               }
               sidebar={sidebar}
               path={currentDocRoute.path}
-              sidebarCollapsible={sidebarCollapsible ?? true}
-              autoCollapseSidebar={autoCollapseSidebar ?? false}
               onCollapse={toggleSidebar}
               isHidden={hiddenSidebar}
             />
