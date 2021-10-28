@@ -22,7 +22,13 @@ const ThemeConfigSample: ThemeConfig = {
     style: 'dark',
     hideOnScroll: false,
     items: [
-      {label: 'Dropdown', items: [{label: 'Dropdown item 1', items: []}]},
+      {
+        label: 'Dropdown',
+        items: [
+          {label: 'Dropdown item 1', items: []},
+          {label: 'Dropdown item 2', items: []},
+        ],
+      },
     ],
   },
   footer: {

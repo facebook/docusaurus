@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable no-param-reassign */
-
 import remark from 'remark';
 import npm2yarn from '../index';
 import vfile from 'to-vfile';
@@ -45,6 +43,22 @@ describe('npm2yarn plugin', () => {
 
   test('test: language was not setted', async () => {
     const result = await processFixture('syntax-not-properly-set', {
+      staticDir,
+    });
+
+    expect(result).toMatchSnapshot();
+  });
+
+  test('test: already imported tabs components above are not re-imported', async () => {
+    const result = await processFixture('import-tabs-above', {
+      staticDir,
+    });
+
+    expect(result).toMatchSnapshot();
+  });
+
+  test('test: already imported tabs components below are not re-imported', async () => {
+    const result = await processFixture('import-tabs-below', {
       staticDir,
     });
 

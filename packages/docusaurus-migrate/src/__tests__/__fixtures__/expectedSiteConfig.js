@@ -40,7 +40,7 @@ module.exports = {
           homePageId: 'installation',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/docs/',
         },
         blog: {},
         theme: {},
@@ -71,7 +71,7 @@ module.exports = {
           items: [{label: 'Twitter', to: 'https://twitter.com/docusaurus'}],
         },
       ],
-      copyright: 'Copyright © 2020 Facebook Inc.',
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook Inc.`,
       logo: {src: 'img/docusaurus_monochrome.svg'},
     },
     algolia: {

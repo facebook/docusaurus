@@ -5,34 +5,55 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import sitemap, {Sitemap, SitemapItemOptions} from 'sitemap';
+import {SitemapStream, streamToPromise} from 'sitemap';
 import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
+import {addTrailingSlash} from '@docusaurus/utils';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
-export default function createSitemap(
+export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
   options: PluginOptions,
-): Sitemap {
+): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
-    throw new Error('url in docusaurus.config.js cannot be empty/undefined');
+    throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {cacheTime, changefreq, priority, trailingSlash} = options;
+  const {changefreq, priority} = options;
 
-  const urls = routesPaths
+  const sitemapStream = new SitemapStream({
+    hostname,
+  });
+
+  function applySitemapTrailingSlash(routePath: string): string {
+    // kept for retrocompatibility
+    // TODO remove deprecated trailingSlash option before 2022
+    if (options.trailingSlash) {
+      return addTrailingSlash(routePath);
+    } else {
+      return applyTrailingSlash(routePath, {
+        trailingSlash: siteConfig.trailingSlash,
+        baseUrl: siteConfig.baseUrl,
+      });
+    }
+  }
+
+  routesPaths
     .filter((route) => !route.endsWith('404.html'))
-    .map(
-      (routesPath): SitemapItemOptions => ({
-        url: `${routesPath}${trailingSlash && routesPath !== '/' ? '/' : ''}`,
+    .map((routePath) =>
+      sitemapStream.write({
+        url: applySitemapTrailingSlash(routePath),
         changefreq,
         priority,
       }),
     );
 
-  return sitemap.createSitemap({
-    hostname,
-    cacheTime,
-    urls,
-  });
+  sitemapStream.end();
+
+  const generatedSitemap = await streamToPromise(sitemapStream).then((sm) =>
+    sm.toString(),
+  );
+
+  return generatedSitemap;
 }

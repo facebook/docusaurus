@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loader} from 'webpack';
-// import {getOptions} from 'loader-utils';
+import type {LoaderContext} from 'webpack';
 
-const markdownLoader: loader.Loader = function (fileString) {
+export default function markdownLoader(
+  this: LoaderContext<undefined>,
+  fileString: string,
+): void {
   const callback = this.async();
 
-  // const options = getOptions(this);
+  // const options = this.getOptions();
 
   // TODO provide additinal md processing here? like interlinking pages?
   // fileString = linkify(fileString)
 
   return callback && callback(null, fileString);
-};
-
-export default markdownLoader;
+}

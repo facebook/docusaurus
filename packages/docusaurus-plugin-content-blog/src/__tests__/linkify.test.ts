@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {linkify, LinkifyParams} from '../blogUtils';
+import {linkify, LinkifyParams, getSourceToPermalink} from '../blogUtils';
 import {BlogBrokenMarkdownLink, BlogContentPaths, BlogPost} from '../types';
 
 const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -21,7 +21,7 @@ const blogPosts: BlogPost[] = [
     id: 'Happy 1st Birthday Slash!',
     metadata: {
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-      source: path.join(
+      source: path.posix.join(
         '@site',
         pluginDir,
         '2018-12-14-Happy-First-Birthday-Slash.md',
@@ -43,10 +43,10 @@ const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const transformedContent = linkify({
     filePath,
-    fileContent,
+    fileString: fileContent,
     siteDir,
     contentPaths,
-    blogPosts,
+    sourceToPermalink: getSourceToPermalink(blogPosts),
     onBrokenMarkdownLink: (brokenMarkdownLink) => {
       throw new Error(
         `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
@@ -82,12 +82,12 @@ test('report broken markdown links', () => {
   expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(2);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: 'postNotExist1.md',
   } as BlogBrokenMarkdownLink);
   expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
     filePath: path.resolve(folderPath, filePath),
-    folderPath,
+    contentPaths,
     link: './postNotExist2.mdx',
   } as BlogBrokenMarkdownLink);
 });

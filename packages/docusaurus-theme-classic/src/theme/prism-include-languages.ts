@@ -12,16 +12,17 @@ import type * as PrismNamespace from 'prismjs';
 const prismIncludeLanguages = (PrismObject: typeof PrismNamespace): void => {
   if (ExecutionEnvironment.canUseDOM) {
     const {
-      themeConfig: {prism: {additionalLanguages = []} = {}},
+      themeConfig: {prism = {}},
     } = siteConfig;
+    const {additionalLanguages = []} = prism as {additionalLanguages: string[]};
 
     window.Prism = PrismObject;
 
-    additionalLanguages.forEach((lang: string) => {
+    additionalLanguages.forEach((lang) => {
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
     });
 
-    delete window.Prism;
+    delete (window as Window & {Prism?: typeof PrismNamespace}).Prism;
   }
 };
 

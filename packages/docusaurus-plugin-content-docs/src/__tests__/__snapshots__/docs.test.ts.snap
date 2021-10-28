@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`simple site custom pagination 1`] = `
+Array [
+  Array [
+    Object {
+      "permalink": "/docs/rootTryToEscapeSlug",
+      "title": "rootTryToEscapeSlug",
+    },
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bar",
+      "title": "Bar",
+    },
+    Object {
+      "permalink": "/docs/absoluteSlug",
+      "title": "absoluteSlug",
+    },
+  ],
+  Array [
+    undefined,
+    Object {
+      "permalink": "/docs/hello",
+      "title": "Hello sidebar_label",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+    Object {
+      "permalink": "/docs/ipsum",
+      "title": "ipsum",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/hello",
+      "title": "Hello sidebar_label",
+    },
+    Object {
+      "permalink": "/docs/lorem",
+      "title": "lorem",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/ipsum",
+      "title": "ipsum",
+    },
+    Object {
+      "permalink": "/docs/rootAbsoluteSlug",
+      "title": "rootAbsoluteSlug",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/foo/bazSlug.html",
+      "title": "baz pagination_label",
+    },
+    Object {
+      "permalink": "/docs/slugs/relativeSlug",
+      "title": "relativeSlug",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/absoluteSlug",
+      "title": "absoluteSlug",
+    },
+    Object {
+      "permalink": "/docs/slugs/hey/resolvedSlug",
+      "title": "resolvedSlug",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/slugs/relativeSlug",
+      "title": "relativeSlug",
+    },
+    Object {
+      "permalink": "/docs/tryToEscapeSlug",
+      "title": "tryToEscapeSlug",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/slugs/hey/resolvedSlug",
+      "title": "resolvedSlug",
+    },
+    undefined,
+  ],
+]
+`;

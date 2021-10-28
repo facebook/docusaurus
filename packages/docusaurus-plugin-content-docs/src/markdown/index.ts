@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getOptions} from 'loader-utils';
-import {loader} from 'webpack';
 import {linkify} from './linkify';
 import {DocsMarkdownOption} from '../types';
+import type {LoaderContext} from 'webpack';
 
-const markdownLoader: loader.Loader = function (source) {
-  const fileString = source as string;
+export default function markdownLoader(
+  this: LoaderContext<DocsMarkdownOption>,
+  source: string,
+): void {
+  const fileString = source;
   const callback = this.async();
-  const options = getOptions(this) as DocsMarkdownOption;
+  const options = this.getOptions();
   return (
     callback && callback(null, linkify(fileString, this.resourcePath, options))
   );
-};
-
-export default markdownLoader;
+}

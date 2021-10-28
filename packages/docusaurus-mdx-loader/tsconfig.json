@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "noEmit": true,
-    "noImplicitAny": false
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "lib"
   },
   "include": ["src/"]
 }

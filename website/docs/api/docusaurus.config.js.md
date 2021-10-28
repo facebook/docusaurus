@@ -1,17 +1,18 @@
 ---
 id: docusaurus.config.js
-title: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
-slug: /docusaurus.config.js
+slug: /api/docusaurus-config
 ---
 
-## Overview
+# `docusaurus.config.js`
+
+## Overview {#overview}
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-## Required fields
+## Required fields {#required-fields}
 
-### `title`
+### `title` {#title}
 
 - Type: `string`
 
@@ -23,38 +24,7 @@ module.exports = {
 };
 ```
 
-### `favicon`
-
-- Type: `string`
-
-URL for site favicon. Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'https://v2.docusaurus.io/favicon.ico',
-};
-```
-
-You can also use the favicon URL relative to the `static` directory of your site. For example, your site has the following directory structure:
-
-```bash
-.
-├── README.md
-├ # ... other files in root directory
-└─ static
-    └── img
-        └── favicon.ico
-```
-
-So you can refer it like below:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'img/favicon.ico',
-};
-```
-
-### `url`
+### `url` {#url}
 
 - Type: `string`
 
@@ -66,7 +36,7 @@ module.exports = {
 };
 ```
 
-### `baseUrl`
+### `baseUrl` {#baseurl}
 
 - Type: `string`
 
@@ -78,9 +48,71 @@ module.exports = {
 };
 ```
 
-## Optional fields
+## Optional fields {#optional-fields}
 
-### `noIndex`
+### `favicon` {#favicon}
+
+- Type: `string | undefined`
+
+Path to your site favicon
+
+Example, if your favicon is in `static/img/favicon.ico`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  favicon: '/img/favicon.ico',
+};
+```
+
+### `trailingSlash` {#trailing-slash}
+
+- Type: `boolean | undefined`
+
+Allow to customize the presence/absence of a trailing slash at the end of URLs/links, and how static HTML files are generated:
+
+- `undefined` (default): keeps URLs untouched, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `true`: add trailing slashes to URLs/links, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `false`: remove trailing slashes from URLs/links, and emit `/docs/myDoc.html` for `/docs/myDoc.md`
+
+:::tip
+
+Each static hosting provider serve static files differently (this behavior may even change over time).
+
+Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
+
+:::
+
+### `i18n` {#i18n}
+
+- Type: `Object`
+
+The i18n configuration object to [localize your site](../i18n/i18n-introduction.md).
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+      },
+      fr: {
+        label: 'Français',
+        direction: 'ltr',
+      },
+    },
+  },
+};
+```
+
+- `label`: the label to use for this locale
+- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew, etc.)
+
+### `noIndex` {#noindex}
 
 - Type: `boolean`
 
@@ -94,7 +126,7 @@ module.exports = {
 };
 ```
 
-### `onBrokenLinks`
+### `onBrokenLinks` {#onbrokenlinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -108,7 +140,7 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
-### `onBrokenMarkdownLinks`
+### `onBrokenMarkdownLinks` {#onbrokenmarkdownlinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -116,7 +148,7 @@ The behavior of Docusaurus, when it detects any broken markdown link.
 
 By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
 
-### `onDuplicateRoutes`
+### `onDuplicateRoutes` {#onduplicateroutes}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
 
@@ -124,7 +156,7 @@ The behavior of Docusaurus when it detects any [duplicate routes](/guides/creati
 
 By default, it displays a warning after you run `yarn start` or `yarn build`.
 
-### `tagline`
+### `tagline` {#tagline}
 
 - Type: `string`
 
@@ -137,7 +169,7 @@ module.exports = {
 };
 ```
 
-### `organizationName`
+### `organizationName` {#organizationname}
 
 - Type: `string`
 
@@ -150,7 +182,7 @@ module.exports = {
 };
 ```
 
-### `projectName`
+### `projectName` {#projectname}
 
 - Type: `string`
 
@@ -162,7 +194,7 @@ module.exports = {
 };
 ```
 
-### `githubHost`
+### `githubHost` {#githubhost}
 
 - Type: `string`
 
@@ -174,21 +206,30 @@ module.exports = {
 };
 ```
 
-### `themeConfig`
+### `githubPort` {#githubPort}
+
+- Type: `string`
+
+The port of your server. Useful if you are using GitHub Enterprise.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  githubPort: '22',
+};
+```
+
+### `themeConfig` {#themeconfig}
 
 - Type: `Object`
 
-<!-- TODO: explain that theme configurations will be consumed by the theme, and link to theme doc -->
-
-An object containing data needed by the theme you use.<!--, see [theme configurations](#).-->
-
-For Docusaurus' default theme _classic_, we use `themeConfig` to customize your navbar and footer links:
+The [theme configuration](./themes/theme-configuration.md) object, to customize your site UI like navbar, footer.
 
 Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
+    hideableSidebar: false,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
@@ -246,7 +287,7 @@ module.exports = {
 };
 ```
 
-### `plugins`
+### `plugins` {#plugins}
 
 <!-- TODO: configuration for plugins -->
 
@@ -258,7 +299,7 @@ module.exports = {
 };
 ```
 
-### `themes`
+### `themes` {#themes}
 
 <!-- TODO: configuration for plugins -->
 
@@ -270,7 +311,7 @@ module.exports = {
 };
 ```
 
-### `presets`
+### `presets` {#presets}
 
 <!-- TODO: configuration for presets -->
 
@@ -282,7 +323,7 @@ module.exports = {
 };
 ```
 
-### `customFields`
+### `customFields` {#customfields}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
@@ -303,7 +344,7 @@ Attempting to add unknown field in the config will lead to error in build time:
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
-### `scripts`
+### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
 
@@ -320,15 +361,14 @@ module.exports = {
     'https://docusaurus.io/script.js',
     // Object format.
     {
-      src:
-        'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
       async: true,
     },
   ],
 };
 ```
 
-### `clientModules`
+### `clientModules` {#clientmodules}
 
 An array of client modules to load globally on your site:
 
@@ -345,7 +385,7 @@ module.exports = {
 
 See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules).
 
-### `ssrTemplate`
+### `ssrTemplate` {#ssrtemplate}
 
 An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from `upstream`.
 
@@ -359,37 +399,37 @@ module.exports = {
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% if (it.noIndex) { %>
+      <meta name="robots" content="noindex, nofollow" />
+    <% } %>
     <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>
     <% it.stylesheets.forEach((stylesheet) => { %>
-      <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
+      <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
     <% }); %>
   </head>
-  <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+  <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
     <div id="__docusaurus">
       <%~ it.appHtml %>
     </div>
-    <div id="outside-docusaurus">
-      <span>Custom markup</span>
-    </div>
     <% it.scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+      <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
-</html>
+</html>`,
 };
 ```
 
-### `stylesheets`
+### `stylesheets` {#stylesheets}
 
 An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
 
@@ -405,13 +445,12 @@ module.exports = {
     // Object format.
     {
       href: 'http://mydomain.com/style.css',
-      type: 'text/css',
     },
   ],
 };
 ```
 
-### `titleDelimiter`
+### `titleDelimiter` {#titledelimiter}
 
 - Type: `string`
 
@@ -425,7 +464,7 @@ module.exports = {
 };
 ```
 
-### `baseUrlIssueBanner`
+### `baseUrlIssueBanner` {#baseurlissuebanner}
 
 - Type: `boolean`
 

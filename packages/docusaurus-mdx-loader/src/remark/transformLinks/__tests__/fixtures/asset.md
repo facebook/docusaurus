@@ -4,6 +4,8 @@
 
 [asset](./asset.pdf)
 
+[asset with hash](./asset.pdf#page=2)
+
 [asset](asset.pdf 'Title')
 
 ## Heading
@@ -21,6 +23,8 @@
 [staticAsset.pdf](/staticAsset.pdf)
 
 [@site/static/staticAsset.pdf](@site/static/staticAsset.pdf)
+
+[@site/static/staticAsset.pdf](@site/static/staticAsset.pdf#page=2 'Title')
 
 [Just staticAsset.pdf](/staticAsset.pdf), and [**awesome** staticAsset 2.pdf 'It is really "AWESOME"'](/staticAsset.pdf), but also [coded `staticAsset 3.pdf`](/staticAsset.pdf)
 

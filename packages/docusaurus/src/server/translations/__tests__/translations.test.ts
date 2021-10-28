@@ -12,10 +12,16 @@ import {
   readTranslationFileContent,
   WriteTranslationsOptions,
   localizePluginTranslationFile,
+  getPluginsDefaultCodeTranslationMessages,
+  applyDefaultCodeTranslations,
 } from '../translations';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
-import {TranslationFile, TranslationFileContent} from '@docusaurus/types';
+import {
+  InitializedPlugin,
+  TranslationFile,
+  TranslationFileContent,
+} from '@docusaurus/types';
 import path from 'path';
 
 async function createTmpSiteDir() {
@@ -28,21 +34,19 @@ async function createTmpSiteDir() {
 async function createTmpTranslationFile(
   content: TranslationFileContent | null,
 ) {
-  const file = await tmp.file({
+  const filePath = await tmp.tmpName({
     prefix: 'jest-createTmpTranslationFile',
     postfix: '.json',
   });
 
-  // null means we don't want a file, but tmp.file() creates an empty file :(
-  if (content === null) {
-    await fs.unlink(file.path);
-  } else {
-    await fs.writeFile(file.path, JSON.stringify(content, null, 2));
+  // null means we don't want a file, just a filename
+  if (content !== null) {
+    await fs.writeFile(filePath, JSON.stringify(content, null, 2));
   }
 
   return {
-    filePath: file.path,
-    readFile: async () => JSON.parse(await fs.readFile(file.path, 'utf8')),
+    filePath,
+    readFile: async () => JSON.parse(await fs.readFile(filePath, 'utf8')),
   };
 }
 
@@ -265,7 +269,7 @@ describe('writeTranslationFileContent', () => {
           key1: {message: 'key1 message'},
         },
       }),
-    ).rejects.toThrowError(/Invalid translation file at path/);
+    ).rejects.toThrowError(/Invalid translation file at/);
   });
 });
 
@@ -461,5 +465,196 @@ describe('localizePluginTranslationFile', () => {
         key4: {message: 'key4 message localized'},
       },
     });
+  });
+});
+
+describe('getPluginsDefaultCodeTranslationMessages', () => {
+  function createTestPlugin(
+    fn: InitializedPlugin['getDefaultCodeTranslationMessages'],
+  ): InitializedPlugin {
+    return {getDefaultCodeTranslationMessages: fn} as InitializedPlugin;
+  }
+
+  test('for empty plugins', async () => {
+    const plugins: InitializedPlugin[] = [];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({});
+  });
+
+  test('for 1 plugin without lifecycle', async () => {
+    const plugins: InitializedPlugin[] = [createTestPlugin(undefined)];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({});
+  });
+
+  test('for 1 plugin with lifecycle', async () => {
+    const plugins: InitializedPlugin[] = [
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      a: '1',
+      b: '2',
+    });
+  });
+
+  test('for 2 plugins with lifecycles', async () => {
+    const plugins: InitializedPlugin[] = [
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+      createTestPlugin(async () => ({
+        c: '3',
+        d: '4',
+      })),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      a: '1',
+      b: '2',
+      c: '3',
+      d: '4',
+    });
+  });
+
+  test('for realistic use-case', async () => {
+    const plugins: InitializedPlugin[] = [
+      createTestPlugin(undefined),
+      createTestPlugin(async () => ({
+        a: '1',
+        b: '2',
+      })),
+      createTestPlugin(undefined),
+      createTestPlugin(undefined),
+      createTestPlugin(async () => ({
+        a: '2',
+        d: '4',
+      })),
+      createTestPlugin(async () => ({
+        d: '5',
+      })),
+      createTestPlugin(undefined),
+    ];
+    await expect(
+      getPluginsDefaultCodeTranslationMessages(plugins),
+    ).resolves.toEqual({
+      // merge, last plugin wins
+      b: '2',
+      a: '2',
+      d: '5',
+    });
+  });
+});
+
+describe('applyDefaultCodeTranslations', () => {
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
+
+  test('for no code and message', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {},
+        defaultCodeMessages: {},
+      }),
+    ).toEqual({});
+    expect(consoleSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('for code and message', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id: {
+            message: 'extracted message',
+            description: 'description',
+          },
+        },
+        defaultCodeMessages: {
+          id: 'default message',
+        },
+      }),
+    ).toEqual({
+      id: {
+        message: 'default message',
+        description: 'description',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('for code and message mismatch', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id: {
+            message: 'extracted message',
+            description: 'description',
+          },
+        },
+        defaultCodeMessages: {
+          unknownId: 'default message',
+        },
+      }),
+    ).toEqual({
+      id: {
+        message: 'extracted message',
+        description: 'description',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/unknownId/);
+  });
+
+  test('for realistic scenario', () => {
+    expect(
+      applyDefaultCodeTranslations({
+        extractedCodeTranslations: {
+          id1: {
+            message: 'extracted message 1',
+            description: 'description 1',
+          },
+          id2: {
+            message: 'extracted message 2',
+            description: 'description 2',
+          },
+          id3: {
+            message: 'extracted message 3',
+            description: 'description 3',
+          },
+        },
+        defaultCodeMessages: {
+          id2: 'default message id2',
+          id3: 'default message id3',
+          idUnknown1: 'default message idUnknown1',
+          idUnknown2: 'default message idUnknown2',
+        },
+      }),
+    ).toEqual({
+      id1: {
+        message: 'extracted message 1',
+        description: 'description 1',
+      },
+      id2: {
+        message: 'default message id2',
+        description: 'description 2',
+      },
+      id3: {
+        message: 'default message id3',
+        description: 'description 3',
+      },
+    });
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/idUnknown1/);
+    expect(consoleSpy.mock.calls[0][0]).toMatch(/idUnknown2/);
   });
 });

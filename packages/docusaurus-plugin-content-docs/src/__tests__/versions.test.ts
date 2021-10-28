@@ -21,33 +21,34 @@ const DefaultI18N: I18n = {
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
+  localeConfigs: {},
 };
 
 describe('version paths', () => {
-  test('getVersionedDocsDirPath', () => {
+  test('getVersionsFilePath', () => {
     expect(getVersionsFilePath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versions.json',
+      `someSiteDir${path.sep}versions.json`,
     );
     expect(getVersionsFilePath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versions.json',
+      `otherSite${path.sep}dir${path.sep}pluginId_versions.json`,
     );
   });
 
   test('getVersionedDocsDirPath', () => {
     expect(getVersionedDocsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_docs',
+      `someSiteDir${path.sep}versioned_docs`,
     );
     expect(getVersionedDocsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_docs',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_docs`,
     );
   });
 
   test('getVersionedSidebarsDirPath', () => {
     expect(getVersionedSidebarsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
-      'someSiteDir/versioned_sidebars',
+      `someSiteDir${path.sep}versioned_sidebars`,
     );
     expect(getVersionedSidebarsDirPath('otherSite/dir', 'pluginId')).toBe(
-      'otherSite/dir/pluginId_versioned_sidebars',
+      `otherSite${path.sep}dir${path.sep}pluginId_versioned_sidebars`,
     );
   });
 });
@@ -68,17 +69,21 @@ describe('simple site', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(simpleSiteDir, 'docs'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(simpleSiteDir, 'docs'),
+      contentPathLocalized: path.join(
         simpleSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/current',
       ),
       isLast: true,
       routePriority: -1,
-      sidebarFilePath: path.join(simpleSiteDir, 'sidebars.json'),
+      sidebarFilePath: undefined,
+      tagsPath: '/docs/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs',
+      versionBanner: null,
+      versionBadge: false,
+      versionClassName: 'docs-version-current',
     };
     return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
   }
@@ -109,6 +114,7 @@ describe('simple site', () => {
       {
         ...vCurrent,
         versionPath: '/myBaseUrl/docs',
+        tagsPath: '/myBaseUrl/docs/tags',
       },
     ]);
   });
@@ -138,6 +144,10 @@ describe('simple site', () => {
         versionPath: '/myBaseUrl/docs/current-path',
         versionLabel: 'current-label',
         routePriority: undefined,
+        sidebarFilePath: undefined,
+        tagsPath: '/myBaseUrl/docs/current-path/tags',
+        versionEditUrl: undefined,
+        versionEditUrlLocalized: undefined,
       },
     ]);
   });
@@ -171,7 +181,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.versions: unknown versions found: unknownVersionName1,unknownVersionName2. Available version names are: current"`,
+      `"Invalid docs option \\"versions\\": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
     );
   });
 
@@ -184,7 +194,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs: using disableVersioning=true option on a non-versioned site does not make sense"`,
+      `"Docs: using \\"disableVersioning=true\\" option on a non-versioned site does not make sense."`,
     );
   });
 
@@ -197,7 +207,7 @@ describe('simple site', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=false"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=false\\"."`,
     );
   });
 });
@@ -210,6 +220,7 @@ describe('versioned site, pluginId=default', () => {
     const defaultOptions: PluginOptions = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
+      sidebarPath: 'sidebars.json',
     };
     const defaultContext = {
       siteDir: versionedSiteDir,
@@ -218,22 +229,26 @@ describe('versioned site, pluginId=default', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'docs'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'docs'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/current',
       ),
       isLast: false,
       routePriority: undefined,
       sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      tagsPath: '/docs/next/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/docs/next',
+      versionBanner: 'unreleased',
+      versionBadge: true,
+      versionClassName: 'docs-version-current',
     };
 
     const v101: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.1'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
       ),
@@ -243,14 +258,18 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-1.0.1-sidebars.json',
       ),
+      tagsPath: '/docs/tags',
       versionLabel: '1.0.1',
       versionName: '1.0.1',
       versionPath: '/docs',
+      versionBanner: null,
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.1',
     };
 
     const v100: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'versioned_docs/version-1.0.0'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
       ),
@@ -260,17 +279,21 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-1.0.0-sidebars.json',
       ),
+      tagsPath: '/docs/1.0.0/tags',
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/docs/1.0.0',
+      versionBanner: 'unmaintained',
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.0',
     };
 
     const vwithSlugs: VersionMetadata = {
-      docsDirPath: path.join(
+      contentPath: path.join(
         versionedSiteDir,
         'versioned_docs/version-withSlugs',
       ),
-      docsDirPathLocalized: path.join(
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
       ),
@@ -280,9 +303,13 @@ describe('versioned site, pluginId=default', () => {
         versionedSiteDir,
         'versioned_sidebars/version-withSlugs-sidebars.json',
       ),
+      tagsPath: '/docs/withSlugs/tags',
       versionLabel: 'withSlugs',
       versionName: 'withSlugs',
       versionPath: '/docs/withSlugs',
+      versionBanner: 'unmaintained',
+      versionBadge: true,
+      versionClassName: 'docs-version-withSlugs',
     };
 
     return {
@@ -297,14 +324,8 @@ describe('versioned site, pluginId=default', () => {
   }
 
   test('readVersionsMetadata versioned site', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: defaultOptions,
@@ -315,13 +336,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
@@ -337,14 +353,8 @@ describe('versioned site, pluginId=default', () => {
   });
 
   test('readVersionsMetadata versioned site with version options', async () => {
-    const {
-      defaultOptions,
-      defaultContext,
-      vCurrent,
-      v101,
-      v100,
-      vwithSlugs,
-    } = await loadSite();
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
 
     const versionsMetadata = readVersionsMetadata({
       options: {
@@ -353,9 +363,13 @@ describe('versioned site, pluginId=default', () => {
         versions: {
           current: {
             path: 'current-path',
+            banner: 'unmaintained',
+            badge: false,
+            className: 'custom-current-className',
           },
           '1.0.0': {
             label: '1.0.0-label',
+            banner: 'unreleased',
           },
         },
       },
@@ -363,21 +377,121 @@ describe('versioned site, pluginId=default', () => {
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, versionPath: '/docs/current-path'},
+      {
+        ...vCurrent,
+        tagsPath: '/docs/current-path/tags',
+        versionPath: '/docs/current-path',
+        versionBanner: 'unmaintained',
+        versionBadge: false,
+        versionClassName: 'custom-current-className',
+      },
       {
         ...v101,
         isLast: false,
         routePriority: undefined,
+        tagsPath: '/docs/1.0.1/tags',
         versionPath: '/docs/1.0.1',
+        versionBanner: 'unreleased',
       },
       {
         ...v100,
         isLast: true,
         routePriority: -1,
+        tagsPath: '/docs/tags',
         versionLabel: '1.0.0-label',
         versionPath: '/docs',
+        versionBanner: 'unreleased',
       },
       vwithSlugs,
+    ]);
+  });
+
+  test('readVersionsMetadata versioned site with editUrl', async () => {
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
+
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([
+      {
+        ...vCurrent,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v101,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.1',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
+      },
+      {
+        ...v100,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
+      },
+      {
+        ...vwithSlugs,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
+      },
+    ]);
+  });
+
+  test('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+      await loadSite();
+
+    const versionsMetadata = readVersionsMetadata({
+      options: {
+        ...defaultOptions,
+        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+        editCurrentVersion: true,
+      },
+      context: defaultContext,
+    });
+
+    expect(versionsMetadata).toEqual([
+      {
+        ...vCurrent,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v101,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...v100,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
+      {
+        ...vwithSlugs,
+        versionEditUrl:
+          'https://github.com/facebook/docusaurus/edit/main/website/docs',
+        versionEditUrlLocalized:
+          'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
+      },
     ]);
   });
 
@@ -405,7 +519,15 @@ describe('versioned site, pluginId=default', () => {
     });
 
     expect(versionsMetadata).toEqual([
-      {...vCurrent, isLast: true, routePriority: -1, versionPath: '/docs'},
+      {
+        ...vCurrent,
+        isLast: true,
+        routePriority: -1,
+        tagsPath: '/docs/tags',
+        versionPath: '/docs',
+        versionBanner: null,
+        versionBadge: false,
+      },
     ]);
   });
 
@@ -422,7 +544,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 
@@ -438,7 +560,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: an empty array is not allowed, at least one version is needed"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": an empty array is not allowed, at least one version is needed."`,
     );
   });
 
@@ -454,7 +576,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.onlyIncludeVersions: unknown versions found: unknownVersion1,unknownVersion2. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+      `"Invalid docs option \\"onlyIncludeVersions\\": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
     );
   });
 
@@ -471,7 +593,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad docs options.lastVersion: if you use both the onlyIncludeVersions and lastVersion options, then lastVersion must be present in the provided onlyIncludeVersions array"`,
+      `"Invalid docs option \\"lastVersion\\": if you use both the \\"onlyIncludeVersions\\" and \\"lastVersion\\" options, then \\"lastVersion\\" must be present in the provided \\"onlyIncludeVersions\\" array."`,
     );
   });
 
@@ -490,7 +612,7 @@ describe('versioned site, pluginId=default', () => {
         context: defaultContext,
       });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The versions file should contain an array of versions! Found content={\\"invalid\\":\\"json\\"}"`,
+      `"The versions file should contain an array of versions! Found content: {\\"invalid\\":\\"json\\"}"`,
     );
     mock.mockRestore();
   });
@@ -506,6 +628,7 @@ describe('versioned site, pluginId=community', () => {
       id: 'community',
       path: 'community',
       routeBasePath: 'communityBasePath',
+      sidebarPath: 'sidebars.json',
     };
     const defaultContext = {
       siteDir: versionedSiteDir,
@@ -514,25 +637,29 @@ describe('versioned site, pluginId=community', () => {
     };
 
     const vCurrent: VersionMetadata = {
-      docsDirPath: path.join(versionedSiteDir, 'community'),
-      docsDirPathLocalized: path.join(
+      contentPath: path.join(versionedSiteDir, 'community'),
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs-community/current',
       ),
       isLast: false,
       routePriority: undefined,
       sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
+      tagsPath: '/communityBasePath/next/tags',
       versionLabel: 'Next',
       versionName: 'current',
       versionPath: '/communityBasePath/next',
+      versionBanner: 'unreleased',
+      versionBadge: true,
+      versionClassName: 'docs-version-current',
     };
 
     const v100: VersionMetadata = {
-      docsDirPath: path.join(
+      contentPath: path.join(
         versionedSiteDir,
         'community_versioned_docs/version-1.0.0',
       ),
-      docsDirPathLocalized: path.join(
+      contentPathLocalized: path.join(
         versionedSiteDir,
         'i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0',
       ),
@@ -542,9 +669,13 @@ describe('versioned site, pluginId=community', () => {
         versionedSiteDir,
         'community_versioned_sidebars/version-1.0.0-sidebars.json',
       ),
+      tagsPath: '/communityBasePath/tags',
       versionLabel: '1.0.0',
       versionName: '1.0.0',
       versionPath: '/communityBasePath',
+      versionBanner: null,
+      versionBadge: true,
+      versionClassName: 'docs-version-1.0.0',
     };
 
     return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
@@ -571,7 +702,7 @@ describe('versioned site, pluginId=community', () => {
 
     expect(versionsMetadata).toEqual([
       // vCurrent removed
-      v100,
+      {...v100, versionBadge: false},
     ]);
   });
 
@@ -588,7 +719,10 @@ describe('versioned site, pluginId=community', () => {
         ...vCurrent,
         isLast: true,
         routePriority: -1,
+        tagsPath: '/communityBasePath/tags',
         versionPath: '/communityBasePath',
+        versionBanner: null,
+        versionBadge: false,
       },
     ]);
   });
@@ -606,7 +740,7 @@ describe('versioned site, pluginId=community', () => {
         context: defaultContext,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: includeCurrentVersion=false disableVersioning=true"`,
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
     );
   });
 });

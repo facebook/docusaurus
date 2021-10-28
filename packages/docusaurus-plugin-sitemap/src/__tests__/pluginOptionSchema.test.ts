@@ -26,21 +26,17 @@ describe('normalizeSitemapPluginOptions', () => {
 
   test('should accept correctly defined user options', async () => {
     const userOptions = {
-      cacheTime: 300,
       changefreq: 'yearly',
       priority: 0.9,
       trailingSlash: false,
     };
-    const {value} = await PluginOptionSchema.validate(userOptions);
+    const {value, warning} = await PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
-  });
 
-  test('should reject cacheTime inputs with wrong type', () => {
-    expect(() => {
-      normalizePluginOptions({
-        cacheTime: '42',
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`"\\"cacheTime\\" must be a number"`);
+    expect(warning?.details?.length).toEqual(1);
+    expect(warning?.details[0].message).toMatchInlineSnapshot(
+      `"Option \\"trailingSlash\\" of the sitemap plugin is deprecated: Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it."`,
+    );
   });
 
   test('should reject out-of-range priority inputs', () => {
