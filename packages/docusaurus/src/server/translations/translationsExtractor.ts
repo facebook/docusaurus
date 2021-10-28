@@ -157,10 +157,15 @@ export async function extractSourceCodeFileTranslations(
       filename: sourceCodeFilePath,
     }) as Node;
 
-    return await extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
+    const translations = await extractSourceCodeAstTranslations(
+      ast,
+      sourceCodeFilePath,
+    );
+    return translations;
+  } catch (e) {
+    if (e instanceof Error) {
+      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
+    }
     throw e;
   }
 }

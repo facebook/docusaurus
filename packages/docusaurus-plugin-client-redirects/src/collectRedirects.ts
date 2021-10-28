@@ -59,13 +59,13 @@ function validateCollectedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ) {
-  const redirectValidationErrors: string[] = redirects
+  const redirectValidationErrors = redirects
     .map((redirect) => {
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e: any) {
-        return e.message;
+      } catch (e) {
+        return (e as Error).message;
       }
     })
     .filter(Boolean);

@@ -457,21 +457,21 @@ function validateKeyAndCerts({
   try {
     // publicEncrypt will throw an error with an invalid cert
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`,
+      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
+        (err as Error).message
+      }`,
     );
   }
 
   try {
     // privateDecrypt will throw an error with an invalid key
     crypto.privateDecrypt(key, encrypted);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(
       `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        err.message
+        (err as Error).message
       }`,
     );
   }
