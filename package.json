@@ -86,7 +86,7 @@
     "@types/semver": "^7.1.0",
     "@types/shelljs": "^0.8.6",
     "@types/wait-on": "^5.2.0",
-    "@types/webpack-dev-server": "^3.11.1",
+    "@types/webpack-dev-server": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "concurrently": "^6.2.1",

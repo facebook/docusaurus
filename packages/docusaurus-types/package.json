@@ -20,7 +20,7 @@
     "joi": "^17.4.2",
     "querystring": "0.2.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.40.0",
+    "webpack": "^5.60.0",
     "webpack-merge": "^5.8.0"
   }
 }
