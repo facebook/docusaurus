@@ -52,6 +52,7 @@ import {
 import chalk from 'chalk';
 import {getVersionTags} from './tags';
 import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+import {createSidebarsRoutes} from './routes';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -242,11 +243,11 @@ export default function pluginContentDocs(
           }),
         );
 
-        return routes.sort((a, b) => a.path.localeCompare(b.path));
+        return routes;
       };
 
-      async function createVersionTagsRoutes(loadedVersion: LoadedVersion) {
-        const versionTags = getVersionTags(loadedVersion.docs);
+      async function createVersionTagsRoutes(version: LoadedVersion) {
+        const versionTags = getVersionTags(version.docs);
 
         async function createTagsListPage() {
           const tagsProp: PropTagsListPage['tags'] = Object.values(
@@ -260,11 +261,11 @@ export default function pluginContentDocs(
           // Only create /tags page if there are tags.
           if (Object.keys(tagsProp).length > 0) {
             const tagsPropPath = await createData(
-              `${docuHash(`tags-list-${loadedVersion.versionName}-prop`)}.json`,
+              `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),
             );
             addRoute({
-              path: loadedVersion.tagsPath,
+              path: version.tagsPath,
               exact: true,
               component: options.docTagsListComponent,
               modules: {
@@ -276,9 +277,9 @@ export default function pluginContentDocs(
 
         async function createTagDocListPage(tag: VersionTag) {
           const tagProps = toTagDocListProp({
-            allTagsPath: loadedVersion.tagsPath,
+            allTagsPath: version.tagsPath,
             tag,
-            docs: loadedVersion.docs,
+            docs: version.docs,
           });
           const tagPropPath = await createData(
             `${docuHash(`tag-${tag.permalink}`)}.json`,
@@ -299,30 +300,38 @@ export default function pluginContentDocs(
       }
 
       async function doCreateVersionRoutes(
-        loadedVersion: LoadedVersion,
+        version: LoadedVersion,
       ): Promise<void> {
-        await createVersionTagsRoutes(loadedVersion);
+        await createVersionTagsRoutes(version);
 
-        const versionMetadata = toVersionMetadataProp(pluginId, loadedVersion);
+        const versionMetadata = toVersionMetadataProp(pluginId, version);
         const versionMetadataPropPath = await createData(
-          `${docuHash(
-            `version-${loadedVersion.versionName}-metadata-prop`,
-          )}.json`,
+          `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
           JSON.stringify(versionMetadata, null, 2),
         );
 
+        async function createVersionSubRoutes() {
+          const [docRoutes, sidebarsRoutes] = await Promise.all([
+            createDocRoutes(version.docs),
+            createSidebarsRoutes({version, actions}),
+          ]);
+
+          const routes = [...docRoutes, ...sidebarsRoutes];
+          return routes.sort((a, b) => a.path.localeCompare(b.path));
+        }
+
         addRoute({
-          path: loadedVersion.versionPath,
+          path: version.versionPath,
           // allow matching /docs/* as well
           exact: false,
           // main docs component (DocPage)
           component: docLayoutComponent,
           // sub-routes for each doc
-          routes: await createDocRoutes(loadedVersion.docs),
+          routes: await createVersionSubRoutes(),
           modules: {
             versionMetadata: aliasedSource(versionMetadataPropPath),
           },
-          priority: loadedVersion.routePriority,
+          priority: version.routePriority,
         });
       }
 

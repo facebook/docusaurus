@@ -115,6 +115,15 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
+declare module '@theme/DocCategory' {
+  // TODO
+  export interface Props {
+    readonly category: any;
+  }
+
+  export default function DocCategory(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
