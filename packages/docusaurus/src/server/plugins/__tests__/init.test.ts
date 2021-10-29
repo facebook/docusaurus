@@ -87,4 +87,42 @@ describe('sortConfig', () => {
 
     expect(routes).toMatchSnapshot();
   });
+
+  test('should sort route config given a baseURL', () => {
+    const baseURL = '/latest';
+    const routes: RouteConfig[] = [
+      {
+        path: baseURL,
+        component: '',
+        routes: [
+          {path: `${baseURL}/someDoc`, component: ''},
+          {path: `${baseURL}/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/example`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/docs`,
+        component: '',
+        routes: [
+          {path: `${baseURL}/docs/someDoc`, component: ''},
+          {path: `${baseURL}/docs/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/community`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/some-page`,
+        component: '',
+      },
+    ];
+
+    sortConfig(routes, baseURL);
+
+    expect(routes).toMatchSnapshot();
+  });
 });
