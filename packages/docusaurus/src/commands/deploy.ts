@@ -169,22 +169,24 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
     );
     if (
       shellExecLog(
-        `git clone --depth 1 --no-single-branch ${remoteBranch} ${toPath}`,
+        `git clone --depth 1 --branch ${deploymentBranch} ${remoteBranch} ${toPath}`,
       ).code !== 0
     ) {
-      throw new Error(`Running "git clone" command in "${toPath}" failed.`);
-    }
+      if (
+        shellExecLog(`git clone --depth 1 ${remoteBranch} ${toPath}`).code !== 0
+      ) {
+        throw new Error(`Running "git clone" command in "${toPath}" failed.`);
+      }
 
-    shell.cd(toPath);
+      shell.cd(toPath);
 
-    // If the default branch is the one we're deploying to, then we'll fail
-    // to create it. This is the case of a cross-repo publish, where we clone
-    // a github.io repo with a default branch.
-    const defaultBranch = shell
-      .exec('git rev-parse --abbrev-ref HEAD')
-      .stdout.trim();
-    if (defaultBranch !== deploymentBranch) {
-      if (shellExecLog(`git checkout origin/${deploymentBranch}`).code !== 0) {
+      // If the default branch is the one we're deploying to, then we'll fail
+      // to create it. This is the case of a cross-repo publish, where we clone
+      // a github.io repo with a default branch.
+      const defaultBranch = shell
+        .exec('git rev-parse --abbrev-ref HEAD')
+        .stdout.trim();
+      if (defaultBranch !== deploymentBranch) {
         if (
           shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
         ) {
@@ -192,19 +194,10 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
             `Running "git checkout ${deploymentBranch}" command failed.`,
           );
         }
-      } else if (
-        shellExecLog(`git checkout -b ${deploymentBranch}`).code +
-          shellExecLog(
-            `git branch --set-upstream-to=origin/${deploymentBranch}`,
-          ).code !==
-        0
-      ) {
-        throw new Error(
-          `Running "git checkout ${deploymentBranch}" command failed.`,
-        );
       }
     }
 
+    shell.cd(toPath);
     shellExecLog('git rm -rf .');
     try {
       await fs.copy(fromPath, toPath);
@@ -213,7 +206,6 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
         `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
       );
     }
-    shell.cd(toPath);
     shellExecLog('git add --all');
 
     const commitMessage =
