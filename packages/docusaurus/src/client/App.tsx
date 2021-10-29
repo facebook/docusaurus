@@ -20,7 +20,7 @@ import './client-lifecycles-dispatcher';
 
 function App(): JSX.Element {
   return (
-    <ErrorBoundary tryAgain={() => {}}>
+    <ErrorBoundary>
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>

@@ -80,7 +80,6 @@ declare module '@theme/Error' {
   export interface Props {
     readonly error: Error;
     readonly errorInfo: ErrorInfo;
-    readonly tryAgain: () => void;
   }
   export default function Error(props: Props): JSX.Element;
 }
@@ -123,7 +122,6 @@ declare module '@docusaurus/ErrorBoundary' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly tryAgain: () => void;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;

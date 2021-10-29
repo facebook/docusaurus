@@ -16,7 +16,7 @@ interface State {
   errorInfo: React.ErrorInfo | null;
 }
 
-class DocusaurusErrorBoundary extends React.Component<Props, State> {
+class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -37,11 +37,11 @@ class DocusaurusErrorBoundary extends React.Component<Props, State> {
   }
 
   render(): ReactNode {
-    const {children, tryAgain} = this.props;
+    const {children} = this.props;
     const {error, errorInfo} = this.state;
 
     if (error && errorInfo) {
-      return <Error error={error} errorInfo={errorInfo} tryAgain={tryAgain} />;
+      return <Error error={error} errorInfo={errorInfo} />;
     }
 
     // Normally, just render children
@@ -49,4 +49,4 @@ class DocusaurusErrorBoundary extends React.Component<Props, State> {
   }
 }
 
-export default DocusaurusErrorBoundary;
+export default ErrorBoundary;

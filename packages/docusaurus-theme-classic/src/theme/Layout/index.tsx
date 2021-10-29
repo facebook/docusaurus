@@ -40,7 +40,7 @@ function Layout(props: Props): JSX.Element {
           wrapperClassName,
           pageClassName,
         )}>
-        <ErrorBoundary tryAgain={() => {}}>{children}</ErrorBoundary>
+        <ErrorBoundary>{children}</ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}
