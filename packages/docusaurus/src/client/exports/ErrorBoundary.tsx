@@ -33,7 +33,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     const {error} = this.state;
 
     if (error) {
-      fallback({
+      return fallback({
         error,
         tryAgain: () => this.setState({error: null}),
       });
