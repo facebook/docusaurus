@@ -8,6 +8,37 @@ Docusaurus provides some APIs on the clients that can be helpful to you when bui
 
 ## Components {#components}
 
+### `<ErrorBoundary />` {#errorboundary}
+
+This component creates a reusable error-catcher. Use it to wrap components that might throw, and display a fallback when that happens.
+
+```jsx {2,5,10}
+import React from 'react';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+
+const SafeComponent = () => (
+  <ErrorBoundary
+    fallback={({error, tryAgain}) => (
+      <div>
+        This component crashed because of error: {e.message}.
+        <button onClick={tryAgain}>Try Again</button>
+      </div>
+    )}>
+    <SomeDangerousComponentThatMayThrow />
+  </ErrorBoundary>
+);
+```
+
+:::info
+
+Docusaurus uses this component to catch errors within the theme's layout, and also within the entire app.
+
+:::
+
+#### Props {#errorboundary-props}
+
+- `fallback`: a JSX Element constructor. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
+
 ### `<Head/>` {#head}
 
 This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
