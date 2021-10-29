@@ -14,22 +14,26 @@ export default function ErrorPageContent({
   tryAgain,
 }: Props): JSX.Element {
   return (
-    <>
-      <h1>
-        <Translate
-          id="theme.ErrorPageContent.title"
-          description="The title of the fallback page when the page crashed">
-          This page crashed.
-        </Translate>
-      </h1>
-      <p>{error.message}</p>
-      <button type="button" style={{display: 'block'}} onClick={tryAgain}>
-        <Translate
-          id="theme.ErrorPageContent.tryAgain"
-          description="The label of the button to try again when the page crashed">
-          Try again
-        </Translate>
-      </button>
-    </>
+    <main className="container margin-vert--xl">
+      <div className="row">
+        <div className="col col--6 col--offset-3">
+          <h1 className="hero__title">
+            <Translate
+              id="theme.ErrorPageContent.title"
+              description="The title of the fallback page when the page crashed">
+              This page crashed.
+            </Translate>
+          </h1>
+          <p>{error.message}</p>
+          <button type="button" style={{display: 'block'}} onClick={tryAgain}>
+            <Translate
+              id="theme.ErrorPageContent.tryAgain"
+              description="The label of the button to try again when the page crashed">
+              Try again
+            </Translate>
+          </button>
+        </div>
+      </div>
+    </main>
   );
 }
