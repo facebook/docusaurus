@@ -2,6 +2,7 @@
   "name": "@docusaurus/theme-common",
   "version": "2.0.0-beta.9",
   "description": "Common code for Docusaurus themes.",
+  "type": "module",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {

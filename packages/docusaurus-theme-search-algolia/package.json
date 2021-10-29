@@ -2,6 +2,7 @@
   "name": "@docusaurus/theme-search-algolia",
   "version": "2.0.0-beta.9",
   "description": "Algolia search component for Docusaurus.",
+  "type": "module",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"

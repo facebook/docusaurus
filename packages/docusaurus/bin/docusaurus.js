@@ -6,10 +6,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
-const fs = require('fs');
-const cli = require('commander');
-const {
+import chalk from 'chalk';
+import fs from 'fs';
+import cli from 'commander';
+import {
   build,
   swizzle,
   deploy,
@@ -19,9 +19,9 @@ const {
   clear,
   writeTranslations,
   writeHeadingIds,
-} = require('../lib');
+} from '../lib';
 
-require('./beforeCli');
+import './beforeCli';
 
 const resolveDir = (dir = '.') => fs.realpathSync(dir);
 

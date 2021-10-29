@@ -2,6 +2,7 @@
   "name": "@docusaurus/types",
   "version": "2.0.0-beta.9",
   "description": "Common types for Docusaurus packages.",
+  "type": "module",
   "types": "./src/index.d.ts",
   "publishConfig": {
     "access": "public"

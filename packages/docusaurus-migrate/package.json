@@ -2,6 +2,7 @@
   "name": "@docusaurus/migrate",
   "version": "2.0.0-beta.9",
   "description": "A CLI tool to migrate from older versions of Docusaurus.",
+  "type": "module",
   "main": "lib/index.js",
   "license": "MIT",
   "engines": {

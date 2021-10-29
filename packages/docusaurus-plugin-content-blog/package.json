@@ -2,6 +2,7 @@
   "name": "@docusaurus/plugin-content-blog",
   "version": "2.0.0-beta.9",
   "description": "Blog plugin for Docusaurus.",
+  "type": "module",
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
   "scripts": {

@@ -6,7 +6,7 @@
  */
 import fs from 'fs-extra';
 import path from 'path';
-import chalk = require('chalk');
+import chalk from 'chalk';
 import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
 function removePath(fsPath: string) {
