@@ -35,11 +35,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     if (error) {
       fallback({
         error,
-        tryAgain: () => {
-          this.setState({
-            error: null,
-          });
-        },
+        tryAgain: () => this.setState({error: null}),
       });
     }
 
