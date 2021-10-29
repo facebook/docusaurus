@@ -35,6 +35,12 @@ Docusaurus uses this component to catch errors within the theme's layout, and al
 
 :::
 
+:::note
+
+This component would still throw during build, so you shouldn't use it as a catch-all for badly defined components, but just guard against potential user errors or browser render errors.
+
+:::
+
 #### Props {#errorboundary-props}
 
 - `fallback`: a JSX Element constructor. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
