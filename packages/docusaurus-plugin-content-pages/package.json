@@ -27,7 +27,7 @@
     "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",
-    "webpack": "^5.60.0"
+    "webpack": "^5.61.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

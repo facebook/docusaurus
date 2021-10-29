@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14', '16']
+        node: ['14', '16', '17']
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
