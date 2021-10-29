@@ -7,14 +7,9 @@
 
 import React, {ReactNode} from 'react';
 
-import ExecutionEnvironment from './ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Error from '@theme/Error';
-
-interface Props {
-  renderError?: any;
-  tryAgain?: any;
-  children: ReactNode;
-}
+import type {Props} from '@docusaurus/ErrorBoundary';
 
 interface State {
   error: Error | null;
@@ -31,7 +26,7 @@ class DocusaurusErrorBoundary extends React.Component<Props, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Catch errors in any components below and re-render with error message
     if (ExecutionEnvironment.canUseDOM) {
       this.setState({
@@ -41,19 +36,12 @@ class DocusaurusErrorBoundary extends React.Component<Props, State> {
     }
   }
 
-  render() {
-    const {children, renderError, tryAgain} = this.props;
+  render(): ReactNode {
+    const {children, tryAgain} = this.props;
     const {error, errorInfo} = this.state;
 
-    if (errorInfo) {
-      // Let's output our error
-      if (!renderError) {
-        return (
-          <Error error={error} errorInfo={errorInfo} tryAgain={tryAgain} />
-        );
-      }
-
-      return renderError(error, errorInfo);
+    if (error && errorInfo) {
+      return <Error error={error} errorInfo={errorInfo} tryAgain={tryAgain} />;
     }
 
     // Normally, just render children

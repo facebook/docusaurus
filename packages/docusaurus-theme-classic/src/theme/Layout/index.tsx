@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import DocusaurusErrorBoundary from '@docusaurus/DocusaurusErrorBoundary';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
@@ -40,7 +40,7 @@ function Layout(props: Props): JSX.Element {
           wrapperClassName,
           pageClassName,
         )}>
-        <DocusaurusErrorBoundary>{children}</DocusaurusErrorBoundary>
+        <ErrorBoundary tryAgain={() => {}}>{children}</ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}

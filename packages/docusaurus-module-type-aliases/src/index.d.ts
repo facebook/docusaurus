@@ -74,6 +74,17 @@ declare module '@generated/codeTranslations' {
 
 declare module '@theme-original/*';
 
+declare module '@theme/Error' {
+  import type {ErrorInfo} from 'react';
+
+  export interface Props {
+    readonly error: Error;
+    readonly errorInfo: ErrorInfo;
+    readonly tryAgain: () => void;
+  }
+  export default function Error(props: Props): JSX.Element;
+}
+
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
@@ -106,6 +117,16 @@ declare module '@theme/Root' {
 
 declare module '@docusaurus/constants' {
   export const DEFAULT_PLUGIN_ID: 'default';
+}
+
+declare module '@docusaurus/ErrorBoundary' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly tryAgain: () => void;
+    readonly children: ReactNode;
+  }
+  export default function ErrorBoundary(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Head' {
