@@ -19,7 +19,7 @@ function Error({error, tryAgain}) {
           height: '50vh',
           fontSize: '20px',
         }}>
-        <h1>An error prevented this page from loading.</h1>
+        <h1>This page crashed.</h1>
         <p>{error.message}</p>
         <button type="button" onClick={tryAgain}>
           Try again

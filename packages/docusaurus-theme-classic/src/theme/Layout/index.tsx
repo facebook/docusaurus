@@ -40,7 +40,21 @@ function Layout(props: Props): JSX.Element {
           wrapperClassName,
           pageClassName,
         )}>
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <ErrorBoundary
+          fallback={({error, tryAgain}) => (
+            <>
+              <h1>This page crashed.</h1>
+              <p>{error.message}</p>
+              <button
+                type="button"
+                style={{display: 'block'}}
+                onClick={tryAgain}>
+                Try again
+              </button>
+            </>
+          )}>
+          {children}
+        </ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}
