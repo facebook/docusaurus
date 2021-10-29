@@ -2,6 +2,7 @@
 id: theme-configuration
 title: 'Theme configuration'
 slug: '/api/themes/configuration'
+toc_max_heading_level: 4
 ---
 
 This configuration applies to all [main themes](./overview.md).
@@ -251,7 +252,7 @@ module.exports = {
 
 The items can have different behaviors based on the `type` field. The sections below will introduce you to all the types of navbar items available.
 
-### Navbar link {#navbar-link}
+#### Navbar link {#navbar-link}
 
 By default, Navbar items are regular links (internal or external).
 
@@ -265,6 +266,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'default'` | Optional | Sets the type of this item to a link. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
@@ -306,7 +308,7 @@ module.exports = {
 };
 ```
 
-### Navbar dropdown {#navbar-dropdown}
+#### Navbar dropdown {#navbar-dropdown}
 
 Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items.
 
@@ -324,6 +326,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'dropdown'` | Optional | Sets the type of this item to a dropdown. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -362,7 +365,7 @@ module.exports = {
 };
 ```
 
-### Navbar doc link {#navbar-doc-link}
+#### Navbar doc link {#navbar-doc-link}
 
 If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
 
@@ -372,6 +375,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'doc'` | **Required** | Sets the type of this item to a doc link. |
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -400,7 +404,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version dropdown {#navbar-docs-version-dropdown}
+#### Navbar docs version dropdown {#navbar-docs-version-dropdown}
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
 
@@ -412,6 +416,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersionDropdown'` | **Required** | Sets the type of this item to a docs version dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
@@ -441,7 +446,7 @@ module.exports = {
 };
 ```
 
-### Navbar docs version {#navbar-docs-version}
+#### Navbar docs version {#navbar-docs-version}
 
 If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current URL), and fallback to the latest version.
 
@@ -451,6 +456,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersion'` | **Required** | Sets the type of this item to a doc version link. |
 | `label` | `string` | The active/latest version label. | The name to be shown for this item. |
 | `to` | `string` | The active/latest version. | The internal link that this item points to. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -479,7 +485,7 @@ module.exports = {
 };
 ```
 
-### Navbar locale dropdown {#navbar-locale-dropdown}
+#### Navbar locale dropdown {#navbar-locale-dropdown}
 
 If you use the [i18n feature](../../i18n/i18n-introduction.md), this special navbar item type will render a dropdown with all your site's available locales.
 
@@ -491,6 +497,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'localeDropdown'` | **Required** | Sets the type of this item to a locale dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
@@ -522,7 +529,7 @@ module.exports = {
 };
 ```
 
-### Navbar search {#navbar-search}
+#### Navbar search {#navbar-search}
 
 If you use the [search](../../search.md), the search bar will be the rightmost element in the navbar.
 
@@ -532,6 +539,7 @@ However, with this special navbar item type, you can change the default location
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'search'` | **Required** | Sets the type of this item to a search bar. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>
