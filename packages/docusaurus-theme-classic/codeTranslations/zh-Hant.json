@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "複製成功",
   "theme.CodeBlock.copy": "複製",
   "theme.CodeBlock.copyButtonAriaLabel": "複製代碼至剪貼簿",
+  "theme.ErrorPageContent.title": "頁面已崩潰。",
+  "theme.ErrorPageContent.tryAgain": "重試",
   "theme.NotFound.p1": "我們找不到您要找的頁面。",
   "theme.NotFound.p2": "請聯絡原始連結來源網站的所有者，並通知他們連結已毀損。",
   "theme.NotFound.title": "找不到頁面",

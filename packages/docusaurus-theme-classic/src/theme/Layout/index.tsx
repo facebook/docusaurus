@@ -17,6 +17,7 @@ import LayoutHead from '@theme/LayoutHead';
 import type {Props} from '@theme/Layout';
 import useKeyboardNavigation from '@theme/hooks/useKeyboardNavigation';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 
 function Layout(props: Props): JSX.Element {
@@ -40,21 +41,7 @@ function Layout(props: Props): JSX.Element {
           wrapperClassName,
           pageClassName,
         )}>
-        <ErrorBoundary
-          fallback={({error, tryAgain}) => (
-            <>
-              <h1>This page crashed.</h1>
-              <p>{error.message}</p>
-              <button
-                type="button"
-                style={{display: 'block'}}
-                onClick={tryAgain}>
-                Try again
-              </button>
-            </>
-          )}>
-          {children}
-        </ErrorBoundary>
+        <ErrorBoundary fallback={ErrorPageContent}>{children}</ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}

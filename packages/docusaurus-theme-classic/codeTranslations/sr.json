@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "Копирано",
   "theme.CodeBlock.copy": "Копирај",
   "theme.CodeBlock.copyButtonAriaLabel": "Копирај код у меморију",
+  "theme.ErrorPageContent.title": "This page crashed.",
+  "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Тражени резултат не постоји.",
   "theme.NotFound.p2": "Молимо вас да контактирате власника сајта који вас је упутио овде и обавестите га да је њихова веза нетачна.",
   "theme.NotFound.title": "Страница није пронађена",

@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "Kopiert",
   "theme.CodeBlock.copy": "Kopieren",
   "theme.CodeBlock.copyButtonAriaLabel": "In die Zwischenablage kopieren",
+  "theme.ErrorPageContent.title": "This page crashed.",
+  "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Wir konnten nicht finden, wonach Sie gesucht haben.",
   "theme.NotFound.p2": "Bitte kontaktieren Sie den Besitzer der Seite, die Sie mit der ursprünglichen URL verlinkt hat, und teilen Sie ihm mit, dass der Link nicht mehr funktioniert.",
   "theme.NotFound.title": "Seite nicht gefunden",

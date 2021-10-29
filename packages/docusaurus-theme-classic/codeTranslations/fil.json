@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "Kinopya",
   "theme.CodeBlock.copy": "Kopyahin",
   "theme.CodeBlock.copyButtonAriaLabel": "Kopyahin ang code sa clipboard",
+  "theme.ErrorPageContent.title": "This page crashed.",
+  "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Hindi namin mahanap ang iyong hinananap.",
   "theme.NotFound.p2": "Mangyaring makipag-ugnayan sa may-ari ng site na nag-link sa iyo sa orihinal na URL at sabihin sa kanila na ang kanilang link ay putol.",
   "theme.NotFound.title": "Hindi Nahanap ang Pahina",
