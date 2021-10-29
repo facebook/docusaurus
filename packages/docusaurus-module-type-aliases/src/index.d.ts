@@ -75,11 +75,9 @@ declare module '@generated/codeTranslations' {
 declare module '@theme-original/*';
 
 declare module '@theme/Error' {
-  import type {ErrorInfo} from 'react';
-
   export interface Props {
     readonly error: Error;
-    readonly errorInfo: ErrorInfo;
+    readonly tryAgain: () => void;
   }
   export default function Error(props: Props): JSX.Element;
 }
@@ -120,8 +118,10 @@ declare module '@docusaurus/constants' {
 
 declare module '@docusaurus/ErrorBoundary' {
   import type {ReactNode} from 'react';
+  import type ErrorComponent from '@theme/Error';
 
   export interface Props {
+    readonly fallback?: ErrorComponent;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;

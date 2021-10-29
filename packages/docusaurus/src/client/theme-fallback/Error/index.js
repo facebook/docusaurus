@@ -6,16 +6,26 @@
  */
 
 import React from 'react';
+import Layout from '@theme/Layout';
 
-function Error({error}) {
+function Error({error, tryAgain}) {
   return (
-    <div>
-      <h1>An error prevented this page from loading.</h1>
-      <p>{error.message}</p>
-      <button type="button" onClick={() => {}}>
-        Try again
-      </button>
-    </div>
+    <Layout title="Page Error">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          fontSize: '20px',
+        }}>
+        <h1>An error prevented this page from loading.</h1>
+        <p>{error.message}</p>
+        <button type="button" onClick={tryAgain}>
+          Try again
+        </button>
+      </div>
+    </Layout>
   );
 }
 

@@ -13,35 +13,34 @@ import type {Props} from '@docusaurus/ErrorBoundary';
 
 interface State {
   error: Error | null;
-  errorInfo: React.ErrorInfo | null;
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      error: null,
-      errorInfo: null,
-    };
+    this.state = {error: null};
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  componentDidCatch(error: Error): void {
     // Catch errors in any components below and re-render with error message
     if (ExecutionEnvironment.canUseDOM) {
-      this.setState({
-        error,
-        errorInfo,
-      });
+      this.setState({error});
     }
   }
 
   render(): ReactNode {
-    const {children} = this.props;
-    const {error, errorInfo} = this.state;
+    const {children, fallback = Error} = this.props;
+    const {error} = this.state;
 
-    if (error && errorInfo) {
-      return <Error error={error} errorInfo={errorInfo} />;
+    if (error) {
+      fallback({
+        error,
+        tryAgain: () => {
+          this.setState({
+            error: null,
+          });
+        },
+      });
     }
 
     // Normally, just render children
