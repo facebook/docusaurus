@@ -120,6 +120,15 @@ export function ActiveTeamRow() {
           Source webmaster, which is an awesome role to be in.
         </Translate>
       </TeamProfileCardCol>
+      <TeamProfileCardCol
+        name="Sida Chen"
+        githubUrl="https://github.com/Josh-Cena"
+        twitterUrl="https://twitter.com/SidaChen63">
+        <Translate id="team.profile.Sida Chen.body">
+          Student from Shanghai, China. Enthusiastic open-source project
+          creator, but never actually works hard on those projects he created.
+        </Translate>
+      </TeamProfileCardCol>
     </div>
   );
 }
