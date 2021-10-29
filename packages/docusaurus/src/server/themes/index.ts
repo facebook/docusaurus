@@ -5,33 +5,56 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAlias} from '@docusaurus/types';
-import themeAlias from './alias';
+import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
+import path from 'path';
+import {THEME_PATH} from '../../constants';
+import themeAlias, {sortAliases} from './alias';
 
-export default function loadThemeAlias(
+const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
+
+function buildThemeAliases(
+  themeAliases: ThemeAliases,
+  aliases: ThemeAliases = {},
+): ThemeAliases {
+  Object.keys(themeAliases).forEach((aliasKey) => {
+    if (aliasKey in aliases) {
+      const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+      aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
+    }
+    aliases[aliasKey] = themeAliases[aliasKey];
+  });
+  return aliases;
+}
+
+export function loadThemeAliases(
   themePaths: string[],
   userThemePaths: string[] = [],
-): ThemeAlias {
-  const aliases = {};
+): ThemeAliases {
+  let aliases = {}; // TODO refactor, inelegant side-effect
 
   themePaths.forEach((themePath) => {
-    const themeAliases = themeAlias(themePath);
-    Object.keys(themeAliases).forEach((aliasKey) => {
-      if (aliasKey in aliases) {
-        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-        aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
-      }
-
-      aliases[aliasKey] = themeAliases[aliasKey];
-    });
+    const themeAliases = themeAlias(themePath, true);
+    aliases = {...aliases, ...buildThemeAliases(themeAliases, aliases)};
   });
 
   userThemePaths.forEach((themePath) => {
     const userThemeAliases = themeAlias(themePath, false);
-    Object.keys(userThemeAliases).forEach((aliasKey) => {
-      aliases[aliasKey] = userThemeAliases[aliasKey];
-    });
+    aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
   });
 
-  return aliases;
+  return sortAliases(aliases);
+}
+
+export function loadPluginsThemeAliases({
+  siteDir,
+  plugins,
+}: {
+  siteDir: string;
+  plugins: LoadedPlugin[];
+}): ThemeAliases {
+  const pluginThemes: string[] = plugins
+    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
+    .filter((x): x is string => Boolean(x));
+  const userTheme = path.resolve(siteDir, THEME_PATH);
+  return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);
 }

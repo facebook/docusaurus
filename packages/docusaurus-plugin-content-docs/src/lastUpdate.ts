@@ -7,6 +7,7 @@
 
 import shell from 'shelljs';
 import execa from 'execa';
+import path from 'path';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -14,7 +15,7 @@ const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
 
 let showedGitRequirementError = false;
 
-export default async function getFileLastUpdate(
+export async function getFileLastUpdate(
   filePath?: string,
 ): Promise<FileLastUpdateData | null> {
   if (!filePath) {
@@ -43,12 +44,15 @@ export default async function getFileLastUpdate(
       return null;
     }
 
-    const {stdout} = await execa('git', [
-      'log',
-      '-1',
-      '--format=%ct, %an',
-      filePath,
-    ]);
+    const fileBasename = path.basename(filePath);
+    const fileDirname = path.dirname(filePath);
+    const {stdout} = await execa(
+      'git',
+      ['log', '-1', '--format=%ct, %an', fileBasename],
+      {
+        cwd: fileDirname,
+      },
+    );
     return getTimestampAndAuthor(stdout);
   } catch (error) {
     console.error(error);

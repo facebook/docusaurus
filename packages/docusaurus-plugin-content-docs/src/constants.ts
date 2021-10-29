@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// The name of the version at the root of your site (website/docs)
+export const CURRENT_VERSION_NAME = 'current';
+
 export const VERSIONED_DOCS_DIR = 'versioned_docs';
 export const VERSIONED_SIDEBARS_DIR = 'versioned_sidebars';
 export const VERSIONS_JSON_FILE = 'versions.json';

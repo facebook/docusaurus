@@ -9,11 +9,20 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
+import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
+import IconExternalLink from '@theme/IconExternalLink';
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
+function FooterLink({
+  to,
+  href,
+  label,
+  prependBaseUrlToHref,
+  ...props
+}: FooterLinkItem) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -22,31 +31,39 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
       className="footer__link-item"
       {...(href
         ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             to: toUrl,
           })}
       {...props}>
-      {label}
+      {href && !isInternalUrl(href) ? (
+        <span>
+          {label}
+          <IconExternalLink />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
 
-const FooterLogo = ({url, alt}) => (
-  <img className="footer__logo" alt={alt} src={url} />
+const FooterLogo = ({
+  sources,
+  alt,
+}: Pick<ThemedImageProps, 'sources' | 'alt'>) => (
+  <ThemedImage className="footer__logo" alt={alt} sources={sources} />
 );
 
 function Footer(): JSX.Element | null {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {themeConfig = {}} = siteConfig;
-  const {footer} = themeConfig;
+  const {footer} = useThemeConfig();
 
   const {copyright, links = [], logo = {}} = footer || {};
-  const logoUrl = useBaseUrl(logo.src);
+  const sources = {
+    light: useBaseUrl(logo.src),
+    dark: useBaseUrl(logo.srcDark || logo.src),
+  };
 
   if (!footer) {
     return null;
@@ -63,7 +80,7 @@ function Footer(): JSX.Element | null {
             {links.map((linkItem, i) => (
               <div key={i} className="col footer__col">
                 {linkItem.title != null ? (
-                  <h4 className="footer__title">{linkItem.title}</h4>
+                  <div className="footer__title">{linkItem.title}</div>
                 ) : null}
                 {linkItem.items != null &&
                 Array.isArray(linkItem.items) &&
@@ -93,30 +110,28 @@ function Footer(): JSX.Element | null {
           </div>
         )}
         {(logo || copyright) && (
-          <div className="text--center">
-            {logo && logo.src && (
+          <div className="footer__bottom text--center">
+            {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
-                  <a
-                    href={logo.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.footerLogoLink}>
-                    <FooterLogo alt={logo.alt} url={logoUrl} />
-                  </a>
+                  <Link href={logo.href} className={styles.footerLogoLink}>
+                    <FooterLogo alt={logo.alt} sources={sources} />
+                  </Link>
                 ) : (
-                  <FooterLogo alt={logo.alt} url={logoUrl} />
+                  <FooterLogo alt={logo.alt} sources={sources} />
                 )}
               </div>
             )}
-
-            <div
-              // Developer provided the HTML, so assume it's safe.
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: copyright,
-              }}
-            />
+            {copyright ? (
+              <div
+                className="footer__copyright"
+                // Developer provided the HTML, so assume it's safe.
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: copyright,
+                }}
+              />
+            ) : null}
           </div>
         )}
       </div>

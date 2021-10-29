@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docsVersion first time versioning 1`] = `
+Object {
+  "version-1.0.0/docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "version-1.0.0/foo/bar",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/foo/baz",
+              "type": "doc",
+            },
+          ],
+          "label": "foo",
+          "type": "category",
+        },
+        Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "version-1.0.0/rootAbsoluteSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootRelativeSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootResolvedSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootTryToEscapeSlug",
+              "type": "doc",
+            },
+          ],
+          "label": "Slugs",
+          "type": "category",
+        },
+        Object {
+          "id": "version-1.0.0/headingAsTitle",
+          "type": "doc",
+        },
+        Object {
+          "href": "https://github.com",
+          "label": "Github",
+          "type": "link",
+        },
+        Object {
+          "id": "version-1.0.0/hello",
+          "type": "ref",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "version-1.0.0/hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`docsVersion not the first time versioning 1`] = `
+Object {
+  "version-2.0.0/docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "version-2.0.0/foo/bar",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "version-2.0.0/hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`docsVersion second docs instance versioning 1`] = `
+Object {
+  "version-2.0.0/community": Array [
+    Object {
+      "id": "version-2.0.0/team",
+      "type": "doc",
+    },
+  ],
+}
+`;

@@ -6,9 +6,9 @@
  */
 
 const path = require('path');
-const Joi = require('@hapi/joi');
+const {validateThemeConfig} = require('./validateThemeConfig');
 
-module.exports = function () {
+function theme() {
   return {
     name: 'docusaurus-theme-live-codeblock',
 
@@ -20,31 +20,14 @@ module.exports = function () {
       return {
         resolve: {
           alias: {
-            // fork of Buble which removes Buble's large dependency and weighs in
-            // at a smaller size of ~51kB
-            // https://github.com/FormidableLabs/react-live#what-bundle-size-can-i-expect
-            buble: '@philpl/buble',
+            buble: path.resolve(__dirname, './custom-buble.js'),
           },
         },
       };
     },
   };
-};
+}
 
-const ThemeConfigSchema = Joi.object({
-  prism: Joi.object({
-    theme: Joi.object({
-      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
-    darkTheme: Joi.object({
-      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
-    }),
-    defaultLanguage: Joi.string(),
-  }),
-});
+module.exports = theme;
 
-module.exports.validateThemeConfig = ({validate, themeConfig}) => {
-  return validate(ThemeConfigSchema, themeConfig);
-};
+theme.validateThemeConfig = validateThemeConfig;

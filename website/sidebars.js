@@ -5,33 +5,87 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
+// @ts-check
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
   docs: [
-    {
-      type: 'category',
-      label: 'Docusaurus',
-      items: ['introduction', 'design-principles', 'contributing'],
-    },
+    'introduction',
     {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['installation', 'configuration', 'typescript-support'],
+      items: [
+        'installation',
+        'configuration',
+        'playground',
+        'typescript-support',
+      ],
     },
     {
       type: 'category',
       label: 'Guides',
       items: [
-        'creating-pages',
-        'styling-layout',
-        'static-assets',
+        'guides/creating-pages',
         {
-          Docs: ['docs-introduction', 'markdown-features', 'versioning'],
+          Docs: [
+            'guides/docs/introduction',
+            'guides/docs/create-doc',
+            'guides/docs/sidebar',
+            'guides/docs/versioning',
+            'guides/docs/markdown-features',
+            'guides/docs/multi-instance',
+          ],
         },
         'blog',
+        {
+          type: 'category',
+          label: 'Markdown Features',
+          items: [
+            'guides/markdown-features/introduction',
+            'guides/markdown-features/react',
+            'guides/markdown-features/tabs',
+            'guides/markdown-features/code-blocks',
+            'guides/markdown-features/admonitions',
+            'guides/markdown-features/headings',
+            'guides/markdown-features/inline-toc',
+            'guides/markdown-features/assets',
+            'guides/markdown-features/plugins',
+            'guides/markdown-features/math-equations',
+            'guides/markdown-features/head-metadatas',
+          ],
+        },
+        'styling-layout',
+        'static-assets',
         'search',
+        'browser-support',
         'deployment',
-        'migrating-from-v1-to-v2',
+        {
+          type: 'category',
+          label: 'Internationalization',
+          items: [
+            {
+              type: 'doc',
+              id: 'i18n/introduction',
+              label: 'Introduction',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/tutorial',
+              label: 'Tutorial',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/git',
+              label: 'Using Git',
+            },
+            {
+              type: 'doc',
+              id: 'i18n/crowdin',
+              label: 'Using Crowdin',
+            },
+          ],
+        },
       ],
     },
     {
@@ -41,29 +95,50 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'API Reference',
+      label: 'Migrating from v1 to v2',
       items: [
-        'cli',
-        'docusaurus-core',
-        'docusaurus.config.js',
-        'lifecycle-apis',
-        'theme-classic',
+        'migration/migration-overview',
+        'migration/migration-automated',
+        'migration/migration-manual',
+        'migration/migration-versioned-sites',
+        'migration/migration-translated-sites',
       ],
     },
   ],
-  community: [
-    'community/support',
-    'community/team',
-    'community/resources',
+  api: [
+    'cli',
+    'docusaurus-core',
+    'api/docusaurus.config.js',
+    'lifecycle-apis',
     {
-      type: 'link',
-      href: '/showcase',
-      label: 'Showcase',
+      type: 'category',
+      label: 'Plugins',
+      items: [
+        'api/plugins/plugins-overview',
+        'api/plugins/plugin-content-docs',
+        'api/plugins/plugin-content-blog',
+        'api/plugins/plugin-content-pages',
+        'api/plugins/plugin-client-redirects',
+        'api/plugins/plugin-debug',
+        'api/plugins/plugin-google-analytics',
+        'api/plugins/plugin-google-gtag',
+        'api/plugins/plugin-ideal-image',
+        'api/plugins/plugin-pwa',
+        'api/plugins/plugin-sitemap',
+      ],
     },
     {
-      type: 'link',
-      href: '/feedback',
-      label: 'Feedback',
+      type: 'category',
+      label: 'Themes',
+      items: [
+        'api/themes/themes-overview',
+        'api/themes/theme-configuration',
+        'api/themes/theme-classic',
+        'api/themes/theme-live-codeblock',
+        'api/themes/theme-search-algolia',
+      ],
     },
   ],
 };
+
+module.exports = sidebars;

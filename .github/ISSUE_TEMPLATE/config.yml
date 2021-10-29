@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚀 Feature request
+    url: https://docusaurus.io/feature-requests
+    about: The Canny board to send us feature requests, vote and measure the interest of users. Useful to submit a feature request when you have an idea but no concrete API design proposal.
+  - name: ❓ Simple question - Discord chat
+    url: https://discord.gg/docusaurus
+    about: This issue tracker is not for technical support. Please use our Discord chat, and ask the community for help.
+  - name: ❓ Simple question - Stack Overflow
+    url: https://stackoverflow.com/questions/tagged/docusaurus
+    about: This issue tracker is not for technical support. Please use Stack Overflow, and ask the community for help.
+  - name: ❓ Advanced question - GitHub Discussions
+    url: https://github.com/facebook/docusaurus/discussions
+    about: Use GitHub Discussions for advanced and unanswered questions only, requiring a maintainer's answer. Make sure the question wasn't already asked.

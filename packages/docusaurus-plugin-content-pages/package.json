@@ -1,8 +1,9 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-alpha.58",
-  "description": "Pages content plugin for Docusaurus",
+  "version": "2.0.0-beta.8",
+  "description": "Pages plugin for Docusaurus.",
   "main": "lib/index.js",
+  "types": "src/plugin-content-pages.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
@@ -10,22 +11,29 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-content-pages"
   },
+  "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.58",
-    "@docusaurus/utils": "^2.0.0-alpha.58",
-    "globby": "^10.0.1",
-    "@hapi/joi": "17.1.1"
+    "@docusaurus/core": "2.0.0-beta.8",
+    "@docusaurus/mdx-loader": "2.0.0-beta.8",
+    "@docusaurus/types": "2.0.0-beta.8",
+    "@docusaurus/utils": "2.0.0-beta.8",
+    "@docusaurus/utils-validation": "2.0.0-beta.8",
+    "globby": "^11.0.2",
+    "lodash": "^4.17.20",
+    "remark-admonitions": "^1.2.1",
+    "tslib": "^2.3.1",
+    "webpack": "^5.60.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=14"
   }
 }

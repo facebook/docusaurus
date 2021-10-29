@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inline code should be escaped 1`] = `
+"export const toc = [
+	{
+		value: '<code>&lt;Head /&gt;</code>',
+		id: 'head-',
+		children: [
+			{
+				value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
+				id: 'headtesthead',
+				children: [],
+				level: 3
+			}
+		],
+		level: 2
+	},
+	{
+		value: '<code>&lt;div /&gt;</code>',
+		id: 'div-',
+		children: [],
+		level: 2
+	},
+	{
+		value: '<code>&lt;div&gt; Test &lt;/div&gt;</code>',
+		id: 'div-test-div',
+		children: [],
+		level: 2
+	},
+	{
+		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
+		id: 'divitestidiv',
+		children: [],
+		level: 2
+	}
+];
+
+## \`<Head />\`
+
+### \`<Head>Test</Head>\`
+
+## \`<div />\`
+
+## \`<div> Test </div>\`
+
+## \`<div><i>Test</i></div>\`
+"
+`;
+
+exports[`non text phrasing content 1`] = `
+"export const toc = [
+	{
+		value: '<em>Emphasis</em>',
+		id: 'emphasis',
+		children: [
+			{
+				value: '<strong>Importance</strong>',
+				id: 'importance',
+				children: [],
+				level: 3
+			}
+		],
+		level: 2
+	},
+	{
+		value: '<del>Strikethrough</del>',
+		id: 'strikethrough',
+		children: [],
+		level: 2
+	},
+	{
+		value: '<i>HTML</i>',
+		id: 'html',
+		children: [],
+		level: 2
+	},
+	{
+		value: '<code>inline.code()</code>',
+		id: 'inlinecode',
+		children: [],
+		level: 2
+	}
+];
+
+## _Emphasis_
+
+### **Importance**
+
+## ~~Strikethrough~~
+
+## <i>HTML</i>
+
+## \`inline.code()\`
+"
+`;

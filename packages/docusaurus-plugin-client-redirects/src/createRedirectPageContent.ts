@@ -7,15 +7,25 @@
 
 import * as eta from 'eta';
 import redirectPageTemplate from './templates/redirectPage.template.html';
+import {memoize} from 'lodash';
 
 type CreateRedirectPageOptions = {
   toUrl: string;
 };
 
+const getCompiledRedirectPageTemplate = memoize(() => {
+  return eta.compile(redirectPageTemplate.trim());
+});
+
+function renderRedirectPageTemplate(data: Record<string, unknown>) {
+  const compiled = getCompiledRedirectPageTemplate();
+  return compiled(data, eta.defaultConfig);
+}
+
 export default function createRedirectPageContent({
   toUrl,
-}: CreateRedirectPageOptions) {
-  return eta.render(redirectPageTemplate.trim(), {
+}: CreateRedirectPageOptions): string {
+  return renderRedirectPageTemplate({
     toUrl: encodeURI(toUrl),
   });
 }

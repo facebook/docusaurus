@@ -5,66 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docTitle {
-  font-size: 3rem;
-  margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
+.docItemContainer article > *:first-child,
+.docItemContainer header + * {
+  margin-top: 0;
 }
 
-.docItemContainer {
-  margin: 0 auto;
-  padding: 0 0.5rem;
-}
-
-@media only screen and (min-width: 997px) {
+@media (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
   }
-}
 
-@media (min-width: 997px) and (max-width: 1320px) {
-  .docItemWrapper {
-    max-width: calc(
-      var(--ifm-container-width) - 300px - var(--ifm-spacing-horizontal) * 2
-    );
-  }
-}
-
-.tableOfContents {
-  display: inherit;
-  max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
-  overflow-y: auto;
-  position: sticky;
-  top: calc(var(--ifm-navbar-height) + 2rem);
-}
-
-.tableOfContents::-webkit-scrollbar {
-  width: 7px;
-}
-
-.tableOfContents::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.tableOfContents::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.tableOfContents::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-@media only screen and (max-width: 996px) {
-  .tableOfContents {
+  /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
+  .tocMobile {
     display: none;
   }
-
-  .docItemContainer {
-    padding: 0 0.3rem;
-  }
-}
-
-.docLastUpdatedAt {
-  font-weight: bold;
 }

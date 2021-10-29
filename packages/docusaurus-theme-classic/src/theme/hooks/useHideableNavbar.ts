@@ -5,80 +5,63 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
-import {useLocation} from '@docusaurus/router';
-import useLocationHash from '@theme/hooks/useLocationHash';
-import useScrollPosition from '@theme/hooks/useScrollPosition';
+import {useState, useCallback, useRef} from 'react';
+import {useLocationChange, useScrollPosition} from '@docusaurus/theme-common';
+import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
 
-const useHideableNavbar = (hideOnScroll: boolean) => {
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [isFocusedAnchor, setIsFocusedAnchor] = useState(false);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
-  const [navbarHeight, setNavbarHeight] = useState(0);
-  const navbarRef = useCallback((node) => {
+const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
+  const [isNavbarVisible, setIsNavbarVisible] = useState(hideOnScroll);
+  const isFocusedAnchor = useRef(false);
+  const navbarHeight = useRef(0);
+  const navbarRef = useCallback((node: HTMLElement | null) => {
     if (node !== null) {
-      setNavbarHeight(node.getBoundingClientRect().height);
+      navbarHeight.current = node.getBoundingClientRect().height;
     }
   }, []);
-  const location = useLocation();
-  const [hash, setHash] = useLocationHash(location.hash);
 
-  useScrollPosition(
-    ({scrollY: scrollTop}) => {
-      if (!hideOnScroll) {
-        return;
-      }
-
-      if (scrollTop === 0) {
-        setIsNavbarVisible(true);
-      }
-
-      if (scrollTop < navbarHeight) {
-        return;
-      }
-
-      if (isFocusedAnchor) {
-        setIsFocusedAnchor(false);
-        setIsNavbarVisible(false);
-        setLastScrollTop(scrollTop);
-        return;
-      }
-
-      const documentHeight =
-        document.documentElement.scrollHeight - navbarHeight;
-      const windowHeight = window.innerHeight;
-
-      if (lastScrollTop && scrollTop >= lastScrollTop) {
-        setIsNavbarVisible(false);
-      } else if (scrollTop + windowHeight < documentHeight) {
-        setIsNavbarVisible(true);
-      }
-
-      setLastScrollTop(scrollTop);
-    },
-    [lastScrollTop, navbarHeight],
-  );
-
-  useEffect(() => {
+  useScrollPosition((currentPosition, lastPosition) => {
     if (!hideOnScroll) {
+      return;
+    }
+
+    const scrollTop = currentPosition.scrollY;
+
+    // It needed for mostly to handle rubber band scrolling
+    if (scrollTop < navbarHeight.current) {
+      setIsNavbarVisible(true);
+      return;
+    }
+
+    if (isFocusedAnchor.current) {
+      isFocusedAnchor.current = false;
+      return;
+    }
+
+    const lastScrollTop = lastPosition?.scrollY;
+    const documentHeight =
+      document.documentElement.scrollHeight - navbarHeight.current;
+    const windowHeight = window.innerHeight;
+
+    if (lastScrollTop && scrollTop >= lastScrollTop) {
+      setIsNavbarVisible(false);
+    } else if (scrollTop + windowHeight < documentHeight) {
+      setIsNavbarVisible(true);
+    }
+  });
+
+  useLocationChange((locationChangeEvent) => {
+    if (!hideOnScroll) {
+      return;
+    }
+
+    if (locationChangeEvent.location.hash) {
+      isFocusedAnchor.current = true;
+      setIsNavbarVisible(false);
       return;
     }
 
     setIsNavbarVisible(true);
-    setHash(location.hash);
-  }, [location]);
-
-  useEffect(() => {
-    if (!hideOnScroll) {
-      return;
-    }
-
-    if (!hash) {
-      return;
-    }
-
-    setIsFocusedAnchor(true);
-  }, [hash]);
+  });
 
   return {
     navbarRef,

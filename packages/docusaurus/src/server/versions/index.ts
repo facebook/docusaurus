@@ -20,6 +20,17 @@ export function getPackageJsonVersion(
   return undefined;
 }
 
+export function getPackageJsonName(
+  packageJsonPath: string,
+): string | undefined {
+  if (existsSync(packageJsonPath)) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
+    const {name} = require(packageJsonPath);
+    return typeof name === 'string' ? name : undefined;
+  }
+  return undefined;
+}
+
 export function getPluginVersion(
   pluginPath: string,
   siteDir: string,
@@ -37,6 +48,7 @@ export function getPluginVersion(
       }
       return {
         type: 'package',
+        name: getPackageJsonName(packageJsonPath),
         version: getPackageJsonVersion(packageJsonPath),
       };
     }

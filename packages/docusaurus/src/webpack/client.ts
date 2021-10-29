@@ -19,17 +19,12 @@ export default function createClientConfig(
   props: Props,
   minify: boolean = true,
 ): Configuration {
-  const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
-    entry: [
-      // Instead of the default WebpackDevServer client, we use a custom one
-      // like CRA to bring better experience.
-      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
-      path.resolve(__dirname, '../client/clientEntry.js'),
-    ].filter(Boolean) as string[],
+    // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
+    entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -55,10 +50,6 @@ export default function createClientConfig(
                 'Client bundle compiled with errors therefore further build is impossible.',
               ),
             );
-
-            stats.toJson('errors-only').errors.forEach((e) => {
-              console.error(e);
-            });
 
             process.exit(1);
           }
