@@ -39,7 +39,6 @@ Object {
   "@theme/UserThemeComponent1": "src/theme/UserThemeComponent1.js",
   "@theme/subfolder/PluginThemeComponent2": "pluginThemeFolder/subfolder/PluginThemeComponent2.js",
   "@theme/subfolder/UserThemeComponent2": "src/theme/subfolder/UserThemeComponent2.js",
-  "react-loadable": "../../../../../../../@docusaurus/react-loadable",
 }
 `;
 
