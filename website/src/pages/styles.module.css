@@ -104,6 +104,10 @@
   margin-top: 24px;
 }
 
+.indexCtas a, .indexCtas a:hover {
+  color: black;
+}
+
 .indexCtas a:last-of-type {
   margin: 20px 36px;
 }
