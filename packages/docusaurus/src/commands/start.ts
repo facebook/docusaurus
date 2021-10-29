@@ -109,13 +109,16 @@ export default async function start(
     }),
   ];
 
-  const fsWatcher = chokidar.watch(pathsToWatch, {
-    cwd: siteDir,
-    ignoreInitial: true,
+  const pollingOptions = {
     usePolling: !!cliOptions.poll,
     interval: Number.isInteger(cliOptions.poll)
       ? (cliOptions.poll as number)
       : undefined,
+  };
+  const fsWatcher = chokidar.watch(pathsToWatch, {
+    cwd: siteDir,
+    ignoreInitial: true,
+    ...{pollingOptions},
   });
 
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
@@ -166,8 +169,8 @@ export default async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    compress: true,
     hot: cliOptions.hotOnly ? 'only' : true,
+    liveReload: false,
     client: {
       progress: true,
       overlay: {
@@ -182,17 +185,16 @@ export default async function start(
     devMiddleware: {
       publicPath: baseUrl,
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-      stats: 'errors-warnings',
+      stats: 'summary',
     },
     static: {
       directory: path.resolve(siteDir, STATIC_DIR_NAME),
       watch: {
-        usePolling: !!cliOptions.poll,
-
         // Useful options for our own monorepo using symlinks!
         // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
         followSymlinks: true,
         ignored: /node_modules\/(?!@docusaurus)/,
+        ...{pollingOptions},
       },
     },
     historyApiFallback: {
@@ -233,7 +235,7 @@ export default async function start(
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig, () => {
-      devServer.close();
+      devServer.stop();
       process.exit();
     });
   });
