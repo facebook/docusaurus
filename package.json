@@ -57,6 +57,9 @@
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
     "lock:update": "npx yarn-deduplicate"
   },
+  "dependencies": {
+    "rimraf": "^3.0.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.12.16",
@@ -113,7 +116,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-test-renderer": "^17.0.2",
-    "rimraf": "^3.0.2",
     "serve": "^12.0.1",
     "stylelint": "^13.10.0",
     "tslib": "^2.3.1",

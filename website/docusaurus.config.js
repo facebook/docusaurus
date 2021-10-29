@@ -6,12 +6,12 @@
  */
 // @ts-check
 
-const path = require('path');
-const versions = require('./versions.json');
-const math = require('remark-math');
-const katex = require('rehype-katex');
-const VersionsArchived = require('./versionsArchived.json');
-const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
+import {resolve} from 'path';
+import versions, {slice} from './versions.json';
+import math from 'remark-math';
+import katex from 'rehype-katex';
+import VersionsArchived from './versionsArchived.json';
+import {dogfoodingPluginInstances} from './_dogfooding/dogfooding.config';
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -30,7 +30,7 @@ function getNextBetaVersionName() {
 const allDocHomesPaths = [
   '/docs/',
   '/docs/next/',
-  ...versions.slice(1).map((version) => `/docs/${version}/`),
+  ...slice(1).map((version) => `/docs/${version}/`),
 ];
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -172,7 +172,7 @@ const config = {
           'queryString',
         ],
         // swRegister: false,
-        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        swCustom: resolve(__dirname, 'src/sw.js'),
         pwaHead: [
           {
             tagName: 'link',
@@ -258,7 +258,7 @@ const config = {
           onlyIncludeVersions: isBuildFast
             ? ['current']
             : !isVersioningDisabled && (isDev || isDeployPreview)
-            ? ['current', ...versions.slice(0, 2)]
+            ? ['current', ...slice(0, 2)]
             : undefined,
           versions: {
             current: {
@@ -498,4 +498,4 @@ const config = {
     }),
 };
 
-module.exports = config;
+export default config;

@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs');
-const eta = require('eta');
-const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
-const openSearchTemplate = require('./templates/opensearch');
-const {validateThemeConfig} = require('./validateThemeConfig');
-const {memoize} = require('lodash');
+import {resolve, join} from 'path';
+import {writeFileSync} from 'fs';
+import {compile, defaultConfig} from 'eta';
+import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
+import {trim} from './templates/opensearch';
+import {validateThemeConfig} from './validateThemeConfig';
+import {memoize} from 'lodash';
 
 const getCompiledOpenSearchTemplate = memoize(() => {
-  return eta.compile(openSearchTemplate.trim());
+  return compile(trim());
 });
 
 function renderOpenSearchTemplate(data) {
   const compiled = getCompiledOpenSearchTemplate();
-  return compiled(data, eta.defaultConfig);
+  return compiled(data, defaultConfig);
 }
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
@@ -31,14 +31,13 @@ function theme(context) {
   } = context;
   const pageComponent = './theme/SearchPage/index.js';
   const pagePath =
-    getSwizzledComponent(pageComponent) ||
-    path.resolve(__dirname, pageComponent);
+    getSwizzledComponent(pageComponent) || resolve(__dirname, pageComponent);
 
   return {
     name: 'docusaurus-theme-search-algolia',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return resolve(__dirname, './theme');
     },
 
     getPathsToWatch() {
@@ -55,8 +54,8 @@ function theme(context) {
 
     async postBuild({outDir}) {
       try {
-        fs.writeFileSync(
-          path.join(outDir, OPEN_SEARCH_FILENAME),
+        writeFileSync(
+          join(outDir, OPEN_SEARCH_FILENAME),
           renderOpenSearchTemplate({
             title,
             url: url + baseUrl,
@@ -87,6 +86,6 @@ function theme(context) {
   };
 }
 
-module.exports = theme;
+export default theme;
 
-theme.validateThemeConfig = validateThemeConfig;
+export {validateThemeConfig};

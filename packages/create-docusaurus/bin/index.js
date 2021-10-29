@@ -6,12 +6,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
-const semver = require('semver');
-const path = require('path');
-const program = require('commander');
-const {default: init} = require('../lib');
-const requiredVersion = require('../package.json').engines.node;
+import chalk from 'chalk';
+import semver from 'semver';
+import path from 'path';
+import program from 'commander';
+import init from '../lib';
+import packageJSON from '../package.json';
+
+const requiredVersion = packageJSON.engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(

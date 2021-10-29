@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 /* eslint-disable import/no-extraneous-dependencies */
-require('@formatjs/intl-pluralrules/polyfill');
-require('@formatjs/intl-pluralrules/locale-data/en');
-require('@formatjs/intl-pluralrules/locale-data/fr');
+import '@formatjs/intl-pluralrules/polyfill';
+import '@formatjs/intl-pluralrules/locale-data/en';
+import '@formatjs/intl-pluralrules/locale-data/fr';
 
-require('@formatjs/intl-numberformat/polyfill');
-require('@formatjs/intl-numberformat/locale-data/en');
-require('@formatjs/intl-numberformat/locale-data/fr');
+import '@formatjs/intl-numberformat/polyfill';
+import '@formatjs/intl-numberformat/locale-data/en';
+import '@formatjs/intl-numberformat/locale-data/fr';
 
-require('@formatjs/intl-datetimeformat/polyfill');
-require('@formatjs/intl-datetimeformat/add-all-tz');
-require('@formatjs/intl-datetimeformat/locale-data/en');
-require('@formatjs/intl-datetimeformat/locale-data/fr');
+import '@formatjs/intl-datetimeformat/polyfill';
+import '@formatjs/intl-datetimeformat/add-all-tz';
+import '@formatjs/intl-datetimeformat/locale-data/en';
+import '@formatjs/intl-datetimeformat/locale-data/fr';

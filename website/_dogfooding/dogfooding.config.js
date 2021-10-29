@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
@@ -49,4 +49,4 @@ const dogfoodingPluginInstances = [
   ],
 ];
 
-exports.dogfoodingPluginInstances = dogfoodingPluginInstances;
+export {dogfoodingPluginInstances};

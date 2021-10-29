@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {Translations} = require('@crowdin/crowdin-api-client');
+import {Translations} from '@crowdin/crowdin-api-client';
 
 /*
 Crowdin does not support concurrent "project builds" (downloads of translations).

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const rimraf = require('rimraf');
-const {readFileSync, writeFileSync, readdirSync} = require('fs');
-const {execSync} = require('child_process');
+import rimraf from 'rimraf';
+import {readFileSync, writeFileSync, readdirSync} from 'fs';
+import {execSync} from 'child_process';
 
 // Generate one example per init template
 // We use those generated examples as CodeSandbox projects

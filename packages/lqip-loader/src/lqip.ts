@@ -9,9 +9,9 @@ import Vibrant from 'node-vibrant';
 import path from 'path';
 import sharp from 'sharp';
 import {toPalette, toBase64} from './utils';
+import packageJSON from '../package.json';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {version} = require('../package.json');
+const {version} = packageJSON;
 
 const ERROR_EXT = `Error: Input file is missing or uses unsupported image format, lqip v${version}`;
 

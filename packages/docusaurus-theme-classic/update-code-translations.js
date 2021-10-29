@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
-const path = require('path');
-const fs = require('fs-extra');
-const globby = require('globby');
-const {mapValues, pickBy, difference, orderBy} = require('lodash');
+import chalk from 'chalk';
+import path from 'path';
+import fs from 'fs-extra';
+import globby from 'globby';
+import {mapValues, pickBy, difference, orderBy} from 'lodash';
 
 const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
@@ -55,7 +55,9 @@ async function extractThemeCodeMessages() {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
     // eslint-disable-next-line global-require
-  } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
+  } = await import(
+    '@docusaurus/core/lib/server/translations/translationsExtractor'
+  );
 
   const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
