@@ -25,7 +25,7 @@ labels: 'bug, needs triage'
 
 <!--
 IMPORTANT: Please check the following items before creating a issue.
-Mark the checkbox by putting an X between the bracket.
+Mark the checkbox by replacing the space between the brackets with an X (- [X]).
 This way we know you've done these steps first.
 -->
 
@@ -47,11 +47,11 @@ This way we know you've done these steps first.
 
 Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
 
-(Write your steps here:)
+(Write your steps here.)
 
 1. Step 1...
-1. Step 2...
-1. Step 3...
+2. Step 2...
+3. Step 3...
 
 ## Expected behavior
 
@@ -70,8 +70,8 @@ Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the b
   Is something broken, or not behaving as you expected?
   Describe this section in detail, and attach screenshots if possible.
   Don't only say "it doesn't work"!
-  Please submit exhaustive and complete log messages (we also need the error strack-traces, not just the message).
-  Please read error messages carefully: it often tells you exactly what you are doing wrong
+  Please submit exhaustive and complete log messages (we also need the error stack-traces, not just the message).
+  Please read error messages carefully: it often tells you exactly what you are doing wrong.
 -->
 
 (Write what happened. Add full console log messages and screenshots, if applicable.)
@@ -107,3 +107,13 @@ Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the b
 
   Thanks for helping us help you!
 -->
+
+### Self-service
+
+<!--
+  If you feel like you could contribute to this issue, please check the box below by replacing the space with an X (- [X]).
+  This would tell us and other people looking for contributions that someone's working on it.
+  If you do check this box, please send a pull request within 7 days so we can still delegate this to someone else.
+-->
+
+- [ ] I'd be willing to fix this bug myself.
