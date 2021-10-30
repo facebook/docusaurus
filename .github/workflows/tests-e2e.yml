@@ -1,4 +1,4 @@
-name: V2 Tests E2E
+name: Tests E2E
 
 on:
   push:
@@ -29,9 +29,7 @@ jobs:
           KEEP_CONTAINER=true yarn test:build:website -s
           mv test-website ../test-website
       - name: Install test-website project with Yarn v1
-        run: |
-          cd ../test-website
-          yarn install
+        run: cd ../test-website && yarn install
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project

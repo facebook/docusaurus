@@ -1,4 +1,4 @@
-name: V2 Build Time Perf
+name: Build Time Perf
 
 on:
   pull_request:
