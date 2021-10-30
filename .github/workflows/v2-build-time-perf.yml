@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - "website/docs/**"
+      - website/docs/**
 
 jobs:
   build:
@@ -15,11 +15,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          cache: npm
+          cache: yarn
       - name: Installation
-        with:
-          install-command: yarn
-        run: npm ci
+        run: yarn
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)

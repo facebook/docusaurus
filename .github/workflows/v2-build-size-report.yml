@@ -18,12 +18,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          cache: npm
+          cache: yarn
       - uses: preactjs/compressed-size-action@v2
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          build-script: "build:website:en"
-          pattern: "{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          build-script: build:website:en
+          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
-          compression: "none"
+          compression: none

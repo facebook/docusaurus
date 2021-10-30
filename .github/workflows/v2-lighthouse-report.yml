@@ -14,7 +14,7 @@ jobs:
         uses: jakepartusch/wait-for-netlify-action@v1
         id: netlify
         with:
-          site_name: 'docusaurus-2'
+          site_name: docusaurus-2
           max_timeout: 600
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
