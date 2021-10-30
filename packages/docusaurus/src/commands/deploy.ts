@@ -63,8 +63,22 @@ This behavior can have SEO impacts and create relative link issues.
     throw new Error('Git not installed or on the PATH!');
   }
 
+  const currentRepoUrl = shell
+    .exec('git config --get remote.origin.url')
+    .stdout.trim();
+
+  const repoUrlUseSSH =
+    currentRepoUrl.match(/^ssh:\/\//) !== null ||
+    currentRepoUrl.match(/^([\w\-]+@)?[\w.\-]+:[\w.\-\/_]+(\.git)?/) !== null;
+
+  const envUseSSH =
+    process.env.USE_SSH !== undefined &&
+    process.env.USE_SSH.toLowerCase() === 'true';
+
+  const useSSH = envUseSSH || repoUrlUseSSH;
+
   const gitUser = process.env.GIT_USER;
-  if (!gitUser) {
+  if (!gitUser && !useSSH) {
     throw new Error('Please set the GIT_USER environment variable!');
   }
 
@@ -133,14 +147,13 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     gitCredentials = `${gitCredentials}:${gitPass}`;
   }
 
-  const useSSH = process.env.USE_SSH;
   const remoteBranch = buildUrl(
     githubHost,
     githubPort,
     gitCredentials,
     organizationName,
     projectName,
-    useSSH !== undefined && useSSH.toLowerCase() === 'true',
+    useSSH,
   );
 
   console.log(
@@ -148,9 +161,6 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   );
 
   // Check if this is a cross-repo publish.
-  const currentRepoUrl = shell
-    .exec('git config --get remote.origin.url')
-    .stdout.trim();
   const crossRepoPublish = !currentRepoUrl.endsWith(
     `${organizationName}/${projectName}.git`,
   );
