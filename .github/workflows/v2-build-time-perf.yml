@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'website/docs/**'
+      - website/docs/**
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - name: Installation
-        uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn
+          cache: yarn
+      - name: Installation
+        run: yarn
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)

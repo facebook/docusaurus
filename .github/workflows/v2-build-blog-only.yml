@@ -5,8 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'website-1.x/blog/**'
-      - 'packages/docusaurus/**'
+      - packages/docusaurus/**
 
 jobs:
   build:
@@ -15,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - name: Installation
-        uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn
+          cache: yarn
+      - name: Installation
+        run: yarn
       - name: Build blog-only
         run: yarn workspace website build:blogOnly
