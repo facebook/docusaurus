@@ -6,7 +6,7 @@
  */
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {usePluginData} from '@docusaurus/useGlobalData';
+import globalData from '@generated/globalData';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
 export default (function () {
@@ -14,9 +14,8 @@ export default (function () {
     return null;
   }
 
-  const {trackingID} = usePluginData<PluginOptions>(
-    'docusaurus-plugin-google-gtag',
-  );
+  const {trackingID} = globalData['docusaurus-plugin-google-gtag']
+    .default as PluginOptions;
 
   return {
     onRouteUpdate({location}: {location: Location}) {
