@@ -85,7 +85,7 @@ async function readCategoryMetadatasFile(
     const filePath = posixPath(
       path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
     );
-    if (fs.pathExistsSync(filePath)) {
+    if (await fs.pathExists(filePath)) {
       return tryReadFile(filePath);
     }
   }
