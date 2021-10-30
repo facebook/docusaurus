@@ -12,7 +12,7 @@ export type Options = {
   pages?: false | import('@docusaurus/plugin-content-pages').Options;
   sitemap?: false | import('@docusaurus/plugin-sitemap').Options;
   theme?: import('@docusaurus/theme-classic').Options;
-  analytics?: import('@docusaurus/plugin-google-analytics').Options;
+  googleAnalytics?: import('@docusaurus/plugin-google-analytics').Options;
   gtag?: import('@docusaurus/plugin-google-gtag').Options;
 };
 

@@ -13,6 +13,8 @@ import type {
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
+  ThemeConfig,
+  ThemeConfigValidationContext,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
@@ -89,4 +91,15 @@ export function validateOptions({
   options,
 }: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   return validate(pluginOptionsSchema, options);
+}
+
+export function validateThemeConfig({
+  themeConfig,
+}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
+  if (themeConfig.gtag) {
+    throw new Error(
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at .',
+    );
+  }
+  return themeConfig;
 }

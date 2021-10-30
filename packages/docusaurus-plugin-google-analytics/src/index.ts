@@ -13,6 +13,8 @@ import type {
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
+  ThemeConfig,
+  ThemeConfigValidationContext,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-google-analytics';
 
@@ -76,4 +78,15 @@ export function validateOptions({
   options,
 }: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
   return validate(pluginOptionsSchema, options);
+}
+
+export function validateThemeConfig({
+  themeConfig,
+}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
+  if (themeConfig.googleAnalytics) {
+    throw new Error(
+      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. More information at .',
+    );
+  }
+  return themeConfig;
 }
