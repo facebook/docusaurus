@@ -12,13 +12,10 @@ import {
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import {
-  PathOptions,
-  UnprocessedSidebarItem,
-  UnprocessedSidebars,
-  SidebarOptions,
-} from './types';
-import {loadSidebars, resolveSidebarPathOption} from './sidebars';
+import type {PathOptions, SidebarOptions} from './types';
+import {transformSidebarItems} from './sidebars/utils';
+import type {SidebarItem, NormalizedSidebars, Sidebar} from './sidebars/types';
+import {loadUnprocessedSidebars, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 function createVersionedSidebarFile({
@@ -35,7 +32,7 @@ function createVersionedSidebarFile({
   options: SidebarOptions;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  const loadedSidebars = loadSidebars(sidebarPath, options);
+  const loadedSidebars = loadUnprocessedSidebars(sidebarPath, options);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile =
@@ -45,30 +42,27 @@ function createVersionedSidebarFile({
     // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
     // TODO try to get rid of it
     // Transform id in original sidebar to versioned id.
-    const normalizeItem = (
-      item: UnprocessedSidebarItem,
-    ): UnprocessedSidebarItem => {
-      switch (item.type) {
-        case 'category':
-          return {...item, items: item.items.map(normalizeItem)};
-        case 'ref':
-        case 'doc':
-          return {
-            type: item.type,
-            id: `version-${version}/${item.id}`,
-          };
-        default:
-          return item;
+    const prependVersion = (item: SidebarItem): SidebarItem => {
+      if (item.type === 'ref' || item.type === 'doc') {
+        return {
+          type: item.type,
+          id: `version-${version}/${item.id}`,
+        };
       }
+      return item;
     };
 
-    const versionedSidebar: UnprocessedSidebars = Object.entries(
-      loadedSidebars,
-    ).reduce((acc: UnprocessedSidebars, [sidebarId, sidebarItems]) => {
-      const newVersionedSidebarId = `version-${version}/${sidebarId}`;
-      acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
-      return acc;
-    }, {});
+    const versionedSidebar = Object.entries(loadedSidebars).reduce(
+      (acc: NormalizedSidebars, [sidebarId, sidebar]) => {
+        const versionedId = `version-${version}/${sidebarId}`;
+        acc[versionedId] = transformSidebarItems(
+          sidebar as Sidebar,
+          prependVersion,
+        );
+        return acc;
+      },
+      {},
+    );
 
     const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(

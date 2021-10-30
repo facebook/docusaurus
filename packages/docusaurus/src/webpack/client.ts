@@ -19,21 +19,12 @@ export default function createClientConfig(
   props: Props,
   minify: boolean = true,
 ): Configuration {
-  const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
     // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
-    entry: [
-      // Instead of the default WebpackDevServer client, we use a custom one
-      // like CRA to bring better experience.
-      // note: the one in ./dev is modified to work with Docusaurus
-      // !isProd && require.resolve('react-dev-utils/hotDevServer.js'),
-      !isProd &&
-        require.resolve('./react-dev-utils-webpack5/webpackHotDevClient.js'),
-      path.resolve(__dirname, '../client/clientEntry.js'),
-    ].filter(Boolean) as string[],
+    entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985

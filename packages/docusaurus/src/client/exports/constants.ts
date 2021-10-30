@@ -5,16 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/*
-// eslint-disable-next-line no-restricted-imports
-export {
-  // constants were only available on node
-  // this makes some useful constants available to frontend/themes too
-  // import {DEFAULT_PLUGIN_ID} '@docusaurus/constants'
-  DEFAULT_PLUGIN_ID,
-} from '../../constants';
- */
-
-// Not duplicating the constants seems to produce
-// weird TS compilation side-effects
+// Constants used on the client-side: duplicated from server-side code
 export const DEFAULT_PLUGIN_ID = 'default';

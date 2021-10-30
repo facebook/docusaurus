@@ -9,7 +9,7 @@ We provide official Docusaurus plugins.
 
 ## Content plugins {#content-plugins}
 
-These plugins are responsible to load your site's content, and create pages for your theme to render.
+These plugins are responsible for loading your site's content, and creating pages for your theme to render.
 
 - [@docusaurus/plugin-content-docs](./plugin-content-docs.md)
 - [@docusaurus/plugin-content-blog](./plugin-content-blog.md)

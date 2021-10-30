@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten, uniqBy, difference, groupBy} from 'lodash';
+import {uniqBy, difference, groupBy} from 'lodash';
 import {
   PluginContext,
   RedirectMetadata,
@@ -59,13 +59,13 @@ function validateCollectedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ) {
-  const redirectValidationErrors: string[] = redirects
+  const redirectValidationErrors = redirects
     .map((redirect) => {
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e: any) {
-        return e.message;
+      } catch (e) {
+        return (e as Error).message;
       }
     })
     .filter(Boolean);
@@ -165,7 +165,7 @@ function createRedirectsOptionRedirects(
     }));
   }
 
-  return flatten(redirectsOption.map(optionToRedirects));
+  return redirectsOption.flatMap(optionToRedirects);
 }
 
 // Create redirects from the "createRedirects" fn provided by the user
@@ -189,5 +189,5 @@ function createCreateRedirectsOptionRedirects(
     });
   }
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

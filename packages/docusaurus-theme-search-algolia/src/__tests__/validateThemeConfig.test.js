@@ -103,6 +103,20 @@ describe('validateThemeConfig', () => {
     });
   });
 
+  test('externalUrlRegex config', () => {
+    const algolia = {
+      indexName: 'index',
+      apiKey: 'apiKey',
+      externalUrlRegex: 'http://external-domain.com',
+    };
+    expect(testValidateThemeConfig({algolia})).toEqual({
+      algolia: {
+        ...DEFAULT_CONFIG,
+        ...algolia,
+      },
+    });
+  });
+
   test('searchParameters.facetFilters search config', () => {
     const algolia = {
       indexName: 'index',

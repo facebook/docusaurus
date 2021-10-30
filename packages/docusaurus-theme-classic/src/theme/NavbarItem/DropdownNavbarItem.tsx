@@ -11,6 +11,7 @@ import {
   isSamePath,
   useCollapsible,
   Collapsible,
+  isRegexpStringMatch,
   useLocalPathname,
 } from '@docusaurus/theme-common';
 import type {
@@ -31,10 +32,7 @@ function isItemActive(
   if (isSamePath(item.to, localPathname)) {
     return true;
   }
-  if (
-    item.activeBaseRegex &&
-    new RegExp(item.activeBaseRegex).test(localPathname)
-  ) {
+  if (isRegexpStringMatch(item.activeBaseRegex, localPathname)) {
     return true;
   }
   if (item.activeBasePath && localPathname.startsWith(item.activeBasePath)) {
@@ -141,7 +139,7 @@ function DropdownNavbarItemMobile({
     if (containsActive) {
       setCollapsed(!containsActive);
     }
-  }, [localPathname, containsActive]);
+  }, [localPathname, containsActive, setCollapsed]);
 
   return (
     <li

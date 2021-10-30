@@ -28,6 +28,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
     'airbnb',
     'prettier',
     'prettier/react',
@@ -41,6 +42,8 @@ module.exports = {
   },
   plugins: ['react-hooks', 'header'],
   rules: {
+    'react-hooks/rules-of-hooks': ERROR,
+    'react-hooks/exhaustive-deps': ERROR,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     // Ignore certain webpack alias because it can't be resolved
@@ -77,7 +80,6 @@ module.exports = {
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
-    'react-hooks/rules-of-hooks': ERROR,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
@@ -127,9 +129,34 @@ module.exports = {
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
     '@typescript-eslint/no-empty-interface': [
-      'error',
+      ERROR,
       {
         allowSingleExtends: true,
+      },
+    ],
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: [
+              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+              'last',
+            ],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
       },
     ],
   },

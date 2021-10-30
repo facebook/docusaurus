@@ -11,6 +11,10 @@
   transition: opacity var(--ifm-transition-fast);
 }
 
+.hash-link:before {
+  content: '#';
+}
+
 .hash-link:focus,
 *:hover > .hash-link {
   opacity: 1;

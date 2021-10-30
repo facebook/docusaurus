@@ -7,20 +7,16 @@
 
 import {linkify} from './linkify';
 import {DocsMarkdownOption} from '../types';
+import type {LoaderContext} from 'webpack';
 
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): string | Buffer | void | undefined;
-}
-
-const markdownLoader: Loader = function (source) {
-  const fileString = source as string;
+export default function markdownLoader(
+  this: LoaderContext<DocsMarkdownOption>,
+  source: string,
+): void {
+  const fileString = source;
   const callback = this.async();
-  const options = this.getOptions() as DocsMarkdownOption;
+  const options = this.getOptions();
   return (
     callback && callback(null, linkify(fileString, this.resourcePath, options))
   );
-};
-
-export default markdownLoader;
+}

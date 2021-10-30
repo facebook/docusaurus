@@ -5,27 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useHistory, useLocation} from '@docusaurus/router';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useCallback, useEffect, useState} from 'react';
 
 const SEARCH_PARAM_QUERY = 'q';
 
 function useSearchQuery() {
   const history = useHistory();
-  const location = useLocation();
-  const {siteConfig: {baseUrl} = {}} = useDocusaurusContext();
+  const {
+    siteConfig: {baseUrl},
+  } = useDocusaurusContext();
 
-  return {
-    searchValue:
-      (ExecutionEnvironment.canUseDOM &&
-        new URLSearchParams(location.search).get(SEARCH_PARAM_QUERY)) ||
-      '',
-    updateSearchPath: (searchValue) => {
-      const searchParams = new URLSearchParams(location.search);
+  const [searchQuery, setSearchQueryState] = useState('');
 
-      if (searchValue) {
-        searchParams.set(SEARCH_PARAM_QUERY, searchValue);
+  // Init search query just after React hydration
+  useEffect(() => {
+    const searchQueryStringValue =
+      new URLSearchParams(window.location.search).get(SEARCH_PARAM_QUERY) ?? '';
+
+    setSearchQueryState(searchQueryStringValue);
+  }, []);
+
+  const setSearchQuery = useCallback(
+    (newSearchQuery) => {
+      const searchParams = new URLSearchParams(window.location.search);
+
+      if (newSearchQuery) {
+        searchParams.set(SEARCH_PARAM_QUERY, newSearchQuery);
       } else {
         searchParams.delete(SEARCH_PARAM_QUERY);
       }
@@ -33,11 +40,23 @@ function useSearchQuery() {
       history.replace({
         search: searchParams.toString(),
       });
+      setSearchQueryState(newSearchQuery);
     },
-    generateSearchPageLink: (searchValue) => {
+    [history],
+  );
+
+  const generateSearchPageLink = useCallback(
+    (targetSearchQuery) => {
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      return `${baseUrl}search?q=${encodeURIComponent(searchValue)}`;
+      return `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`;
     },
+    [baseUrl],
+  );
+
+  return {
+    searchQuery,
+    setSearchQuery,
+    generateSearchPageLink,
   };
 }
 

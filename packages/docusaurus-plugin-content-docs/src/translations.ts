@@ -5,20 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  LoadedVersion,
-  Sidebar,
-  LoadedContent,
-  Sidebars,
-  SidebarItem,
-} from './types';
+import type {LoadedVersion, LoadedContent} from './types';
+import type {Sidebar, Sidebars} from './sidebars/types';
 
-import {chain, mapValues, flatten, keyBy} from 'lodash';
+import {chain, mapValues, keyBy} from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
   collectSidebarLinks,
-} from './sidebars';
+} from './sidebars/utils';
 import {
   TranslationFileContent,
   TranslationFile,
@@ -131,7 +126,7 @@ function translateSidebar({
   sidebarName: string;
   sidebarsTranslations: TranslationFileContent;
 }): Sidebar {
-  return transformSidebarItems(sidebar, (item: SidebarItem): SidebarItem => {
+  return transformSidebarItems(sidebar, (item) => {
     if (item.type === 'category') {
       return {
         ...item,
@@ -222,7 +217,7 @@ function translateVersion(
 function getVersionsTranslationFiles(
   versions: LoadedVersion[],
 ): TranslationFiles {
-  return flatten(versions.map(getVersionTranslationFiles));
+  return versions.flatMap(getVersionTranslationFiles);
 }
 function translateVersions(
   versions: LoadedVersion[],

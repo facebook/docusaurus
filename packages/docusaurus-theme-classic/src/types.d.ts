@@ -19,6 +19,10 @@ declare module '@theme/AnnouncementBar' {
   export default AnnouncementBar;
 }
 
+declare module '@theme/BackToTopButton' {
+  export default function BackToTopButton(): JSX.Element;
+}
+
 declare module '@theme/BlogListPaginator' {
   import type {Metadata} from '@theme/BlogListPage';
 
@@ -217,19 +221,6 @@ declare module '@theme/hooks/usePrismTheme' {
 
   const usePrismTheme: () => typeof defaultTheme;
   export default usePrismTheme;
-}
-
-declare module '@theme/hooks/useScrollPosition' {
-  export type ScrollPosition = {scrollX: number; scrollY: number};
-
-  const useScrollPosition: (
-    effect: (
-      position: ScrollPosition,
-      lastPosition: ScrollPosition | null,
-    ) => void,
-    deps?: unknown[],
-  ) => void;
-  export default useScrollPosition;
 }
 
 declare module '@theme/hooks/useTabGroupChoice' {
@@ -518,6 +509,10 @@ declare module '@theme/NavbarItem' {
   export default NavbarItem;
 }
 
+declare module '@theme/SearchBar' {
+  export default function SearchBar(): JSX.Element;
+}
+
 declare module '@theme/TabItem' {
   import type {ReactNode} from 'react';
 
@@ -542,7 +537,7 @@ declare module '@theme/Tabs' {
     readonly lazy?: boolean;
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
-    readonly defaultValue?: string;
+    readonly defaultValue?: string | null;
     readonly values?: readonly {value: string; label?: string}[];
     readonly groupId?: string;
     readonly className?: string;
@@ -783,7 +778,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink}>;
+  export type Tag = Readonly<{label: string; permalink: string}>;
   export interface Props {
     readonly tags: readonly Tag[];
   }

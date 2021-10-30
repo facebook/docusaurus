@@ -101,7 +101,7 @@ const highlightDirectiveRegex = (lang: string) => {
 
 export default function CodeBlock({
   children,
-  className: languageClassName,
+  className: blockClassName,
   metastring,
   title,
 }: Props): JSX.Element {
@@ -141,6 +141,9 @@ export default function CodeBlock({
     highlightLines = rangeParser(highlightLinesRange).filter((n) => n > 0);
   }
 
+  const languageClassName = blockClassName
+    ?.split(' ')
+    .find((str) => str.startsWith('language-'));
   let language = languageClassName?.replace(/language-/, '') as Language;
 
   if (!language && prism.defaultLanguage) {
@@ -209,7 +212,11 @@ export default function CodeBlock({
       code={code}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={styles.codeBlockContainer}>
+        <div
+          className={clsx(
+            styles.codeBlockContainer,
+            blockClassName?.replace(/language-[^ ]+/, ''),
+          )}>
           {codeBlockTitle && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
@@ -223,8 +230,8 @@ export default function CodeBlock({
               style={style}>
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
-                  if (line.length === 1 && line[0].content === '') {
-                    line[0].content = '\n';
+                  if (line.length === 1 && line[0].content === '\n') {
+                    line[0].content = '';
                   }
 
                   const lineProps = getLineProps({line, key: i});
@@ -238,6 +245,7 @@ export default function CodeBlock({
                       {line.map((token, key) => (
                         <span key={key} {...getTokenProps({token, key})} />
                       ))}
+                      <br />
                     </span>
                   );
                 })}

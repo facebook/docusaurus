@@ -7,7 +7,7 @@
 
 import {OptionsSchema, DEFAULT_OPTIONS, validateOptions} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
