@@ -1,4 +1,4 @@
-name: V2 Build Size Report
+name: Build Size Report
 
 on:
   # Note! you can't safely use "pull_request_target" here

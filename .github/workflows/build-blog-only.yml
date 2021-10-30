@@ -1,4 +1,4 @@
-name: V2 Build Blog-only
+name: Build Blog-only
 
 on:
   pull_request:
