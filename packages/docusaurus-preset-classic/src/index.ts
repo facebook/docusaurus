@@ -29,9 +29,10 @@ export default function preset(
 ): Preset {
   const {siteConfig} = context;
   const {themeConfig} = siteConfig;
-  const {algolia, googleAnalytics, gtag} = themeConfig as Partial<ThemeConfig>;
+  const {algolia} = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
-  const {debug, docs, blog, pages, sitemap, theme, ...rest} = opts;
+  const {debug, docs, blog, pages, sitemap, theme, googleAnalytics, gtag, ...rest} =
+    opts;
 
   const themes: PluginConfig[] = [];
   themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
@@ -50,13 +51,15 @@ export default function preset(
     plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
   }
   if (isProd && googleAnalytics) {
-    plugins.push(require.resolve('@docusaurus/plugin-google-analytics'));
+    plugins.push(
+      makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics)
+    );
   }
   if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
   if (isProd && gtag) {
-    plugins.push(require.resolve('@docusaurus/plugin-google-gtag'));
+    plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
   }
   if (isProd && sitemap !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));

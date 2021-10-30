@@ -301,6 +301,11 @@ const config = {
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
         },
+        gtag: !isDeployPreview
+          ? {
+              trackingID: 'UA-141789564-1',
+            }
+          : undefined,
       }),
     ],
   ],
@@ -328,11 +333,6 @@ const config = {
       },
       image: 'img/docusaurus-soc.png',
       // metadatas: [{name: 'twitter:card', content: 'summary'}],
-      gtag: !isDeployPreview
-        ? {
-            trackingID: 'UA-141789564-1',
-          }
-        : undefined,
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',

@@ -12,13 +12,11 @@ export type Options = {
   pages?: false | import('@docusaurus/plugin-content-pages').Options;
   sitemap?: false | import('@docusaurus/plugin-sitemap').Options;
   theme?: import('@docusaurus/theme-classic').Options;
+  analytics?: import('@docusaurus/plugin-google-analytics').Options;
+  gtag?: import('@docusaurus/plugin-google-gtag').Options;
 };
 
 export type ThemeConfig = import('@docusaurus/types').ThemeConfig &
-  import('@docusaurus/theme-common').UserThemeConfig &
-  // Those plugins themeConfigs should rather be moved to preset/plugin options
-  // Plugin data can be made available to browser thank to the globalData api
-  import('@docusaurus/plugin-google-analytics').ThemeConfig &
-  import('@docusaurus/plugin-google-gtag').ThemeConfig & {
+  import('@docusaurus/theme-common').UserThemeConfig & {
     algolia?: unknown; // TODO type plugin
   };
