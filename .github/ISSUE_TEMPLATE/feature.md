@@ -8,7 +8,7 @@ labels: 'feature, needs triage'
   IMPORTANT:
   - We expect you to submit a feature request including a real design (API / UI...), not just a basic idea
   - The design does not have to be perfect, we'll discuss it and fix it if needed
-  - For a more "casual" feature requests, consider using Canny instead: https://docusaurus.io/feature-requests
+  - For a more "casual" feature request, consider using Canny instead: https://docusaurus.io/feature-requests
 -->
 
 ## 🚀 Feature
@@ -25,7 +25,7 @@ labels: 'feature, needs triage'
 
 ## Motivation
 
-(Please outline the motivation for the proposal and why it should be implemented. Has this been requested by a lot of users on our )
+(Please outline the motivation for the proposal and why it should be implemented. Has this been requested by a lot of users?)
 
 ## API Design
 
@@ -37,7 +37,7 @@ labels: 'feature, needs triage'
 -->
 
 <!--
-  What happens if you skip this step? This issue will be automatically closed.
+  What happens if you skip this step? This issue may be closed without any in-depth discussion.
   Your feature request is just an idea for now, please use Canny for that: https://docusaurus.io/feature-requests
 -->
 
@@ -55,3 +55,15 @@ labels: 'feature, needs triage'
   If you can't build it yourself for technical reasons, please explain why.
   We are willing to help you, and eventually providing new APIs to make it possible.
 -->
+
+### Self-service
+
+<!--
+  If you answered the question above as "no" because you feel like you could contribute directly to our repo, please check the box below by replacing the space with an X (- [X]).
+  This would tell us and other people looking for contributions that someone's working on it.
+  If you do check this box, please send a pull request within 7 days after a maintainer's approval so we can still delegate this to someone else.
+
+  Note that for feature issues, we still require you to fully fill out this form and reach consensus with the maintainers on API design before rushing to implement it, so that you don't waste your time.
+-->
+
+- [ ] I'd be willing to contribute this feature to Docusaurus myself.
