@@ -98,7 +98,7 @@ export function validateThemeConfig({
 }: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
   if (themeConfig.gtag) {
     throw new Error(
-      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at .',
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at https://github.com/facebook/docusaurus/pull/5832.',
     );
   }
   return themeConfig;
