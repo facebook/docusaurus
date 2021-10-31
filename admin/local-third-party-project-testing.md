@@ -36,7 +36,7 @@ Then:
 npm install ../../path/to/docusaurus/
 ```
 
-### Clowntown!
+#### Clowntown!
 
 Now, we have a bit of clowntown here in the way symlinks are handled. The above `npm install`, creates a `node_modules` directory with a symlink in it. And errors will result if you try to access the local site after starting the server (as you do below). You will get something like this error:
 
@@ -55,6 +55,57 @@ npm install react@^16.4.1
 npm install babel-preset-env@^1.7.0
 npm install babel-preset-react@^6.24.1
 ```
+
+### Install in an existing project
+
+Let's say you have an existing project with this snippet inside package.json:
+
+```json
+"dependencies": {
+  "@docusaurus/core": "^2.0.0-beta.8",
+  "@docusaurus/preset-classic": "^2.0.0-beta.8",
+}
+```
+
+Now, you have made changes to @docusaurus/core (this lives in packages/docusaurus) and would like to test the changes. In the local docusaurus repo, run `yarn install`. This will also build the local docusaurus packages and install them within the repo itself:
+
+```sh
+cd /path/to/local/docusaurus
+# can use yarn build:packages if dependencies have not been modified
+yarn install
+```
+
+In the existing project, add the local package:
+
+```sh
+cd /path/to/existing/project
+# this can be an absolute or relative path
+yarn add @docusaurus/core@../../local/docusaurus/packages/docusaurus
+```
+
+Check package.json again and you will find this:
+
+```json
+"dependencies": {
+  "@docusaurus/core": "../../local/docusaurus/packages/docusaurus",
+  "@docusaurus/preset-classic": "^2.0.0-beta.8",
+}
+```
+
+Note that:
+
+- The format is `scoped-package-name@local/path/to/specific/package/directory`.
+- The last component of the supplied path cannot be a symbolic link, it has to be the package directory itself.
+- If you supplied the wrong directory name, `yarn add` may not complain, but `yarn build` and `yarn start` will fail. To avoid this, check `package.json` inside the package directory to make sure you have the correct path.
+- These commands don't work:
+  ```
+  yarn add @docusaurus/core@../../local/docusaurus/node_modules/@docusaurus/core
+  yarn add file:../../local/docusaurus/packages/docusaurus
+  yarn add link:../../local/docusaurus/packages/docusaurus
+  yarn add ../../local/docusaurus/node_modules/@docusaurus/core
+  yarn add ../../local/docusaurus/packages/docusaurus
+  ```
+- You cannot use `npm install` instead of `yarn add` for this purpose.
 
 ### Test
 
