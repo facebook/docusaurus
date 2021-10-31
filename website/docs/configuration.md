@@ -29,7 +29,7 @@ They are used in a number of places such as your site's title and headings, brow
 
 ### Deployment configurations {#deployment-configurations}
 
-Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with the `deploy` command.
+Deployment configurations such as `projectName`, `organizationName`, and optionally `deploymentBranch` are used when you deploy your site with the `deploy` command.
 
 It is recommended to check the [deployment docs](deployment.mdx) for more information.
 
