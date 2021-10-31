@@ -194,6 +194,18 @@ module.exports = {
 };
 ```
 
+### `deploymentBranch` {#deploymentbranch}
+
+- Type: `string`
+
+The name of the branch to deploy the static files to. Used by the deployment command.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  deploymentBranch: 'gh-pages',
+};
+```
+
 ### `githubHost` {#githubhost}
 
 - Type: `string`
