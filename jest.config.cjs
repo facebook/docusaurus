@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
@@ -21,7 +19,7 @@ const ignorePatterns = [
 ];
 
 module.exports = {
-  rootDir: path.resolve(__dirname),
+  rootDir: __dirname,
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',

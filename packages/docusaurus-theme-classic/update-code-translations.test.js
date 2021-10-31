@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {extractThemeCodeMessages} = require('./update-code-translations');
-const path = require('path');
-const fs = require('fs-extra');
-const {mapValues, pickBy} = require('lodash');
+import {extractThemeCodeMessages} from './update-code-translations';
+import fs from 'fs-extra';
+import {mapValues, pickBy} from 'lodash';
 
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);
@@ -18,7 +17,7 @@ describe('update-code-translations', () => {
     const baseMessages = pickBy(
       JSON.parse(
         await fs.readFile(
-          path.join(__dirname, 'codeTranslations', 'base.json'),
+          new URL('./codeTranslations/base.json', import.meta.url).pathname,
         ),
       ),
       (_, key) => !key.endsWith('___DESCRIPTION'),

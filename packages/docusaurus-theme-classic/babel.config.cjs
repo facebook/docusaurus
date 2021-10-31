@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export default {
+module.exports = {
   env: {
     // USED FOR NODE/RUNTIME
     // maybe we should differenciate both cases because

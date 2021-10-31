@@ -4,10 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import path from 'path';
-import {ConfigAPI, TransformOptions} from '@babel/core';
 
-function getTransformOptions(isServer: boolean): TransformOptions {
+const path = require('path');
+
+function getTransformOptions(isServer) {
   const absoluteRuntimePath = path.dirname(
     require.resolve(`@babel/runtime/package.json`),
   );
@@ -68,9 +68,9 @@ function getTransformOptions(isServer: boolean): TransformOptions {
   };
 }
 
-function babelPresets(api: ConfigAPI): TransformOptions {
+function babelPresets(api) {
   const callerName = api.caller((caller) => caller?.name);
   return getTransformOptions(callerName === 'server');
 }
 
-export default babelPresets;
+module.exports = babelPresets;

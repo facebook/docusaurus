@@ -164,6 +164,7 @@ module.exports = {
     {
       files: [
         'packages/create-docusaurus/templates/**/*.js',
+        'packages/create-docusaurus/templates/**/*.cjs',
         'packages/create-docusaurus/templates/**/*.ts',
         'packages/create-docusaurus/templates/**/*.tsx',
       ],
