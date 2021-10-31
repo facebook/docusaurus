@@ -11,7 +11,7 @@ import importFresh from 'import-fresh';
 import path from 'path';
 import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
-import {partition} from 'lodash';
+import {partition} from 'lodash-es';
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';

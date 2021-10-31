@@ -13,14 +13,11 @@ import {
 } from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
-import {chain, identity} from 'lodash';
+import {mapValues, keyBy, identity} from 'lodash-es';
 import {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
-  return chain(locales)
-    .keyBy(identity)
-    .mapValues(getDefaultLocaleConfig)
-    .value();
+  return mapValues(keyBy(locales, identity), getDefaultLocaleConfig);
 }
 
 function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {

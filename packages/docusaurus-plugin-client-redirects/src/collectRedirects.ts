@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {uniqBy, difference, groupBy} from 'lodash';
+import {uniqBy, difference, groupBy} from 'lodash-es';
 import {
   PluginContext,
   RedirectMetadata,

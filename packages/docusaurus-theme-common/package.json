@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.9",
-    "lodash": "^4.17.20"
+    "lodash-es": "^4.17.20"
   },
   "peerDependencies": {
     "prism-react-renderer": "^1.2.1",

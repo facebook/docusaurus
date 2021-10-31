@@ -8,7 +8,7 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy, countBy} from 'lodash';
+import {mapValues, pickBy, countBy} from 'lodash-es';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';

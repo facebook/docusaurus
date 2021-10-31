@@ -6,7 +6,7 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues, difference} from 'lodash';
+import {mapValues, difference} from 'lodash-es';
 import {
   TranslationFileContent,
   TranslationFile,

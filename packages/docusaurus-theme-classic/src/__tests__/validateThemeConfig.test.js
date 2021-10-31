@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {merge} from 'lodash';
+import {merge} from 'lodash-es';
 
 const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 

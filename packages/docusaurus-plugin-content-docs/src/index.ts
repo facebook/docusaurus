@@ -42,7 +42,7 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {keyBy, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash-es';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {

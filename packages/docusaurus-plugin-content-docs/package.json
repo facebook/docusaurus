@@ -41,7 +41,7 @@
     "import-fresh": "^3.2.2",
     "js-yaml": "^4.0.0",
     "loader-utils": "^2.0.0",
-    "lodash": "^4.17.20",
+    "lodash-es": "^4.17.20",
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4",
     "tslib": "^2.3.1",

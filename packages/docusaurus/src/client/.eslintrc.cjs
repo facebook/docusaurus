@@ -13,7 +13,7 @@ module.exports = {
         patterns: [
           // prevent importing lodash in client bundle
           // prefer shipping vanilla JS
-          'lodash',
+          'lodash-es',
           'lodash.**',
           'lodash/**',
           // prevent importing server code in client bundle

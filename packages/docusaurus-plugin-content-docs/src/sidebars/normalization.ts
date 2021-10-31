@@ -17,7 +17,7 @@ import {
   SidebarsConfig,
   isCategoriesShorthand,
 } from './types';
-import {mapValues} from 'lodash';
+import {mapValues} from 'lodash-es';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,

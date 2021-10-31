@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {sortBy} from 'lodash';
+import {sortBy} from 'lodash-es';
 import type {Palette} from 'node-vibrant/lib/color';
 
 /**

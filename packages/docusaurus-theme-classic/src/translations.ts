@@ -12,8 +12,7 @@ import {
   NavbarItem,
   Footer,
 } from '@docusaurus/theme-common';
-
-import {keyBy, chain} from 'lodash';
+import {keyBy, mapValues} from 'lodash-es';
 import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
@@ -28,15 +27,16 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
 
   const allNavbarItems = flattenNavbarItems(navbar.items);
 
-  const navbarItemsTranslations: TranslationFileContent = chain(
-    allNavbarItems.filter((navbarItem) => !!navbarItem.label),
-  )
-    .keyBy((navbarItem) => `item.label.${navbarItem.label}`)
-    .mapValues((navbarItem) => ({
+  const navbarItemsTranslations: TranslationFileContent = mapValues(
+    keyBy(
+      allNavbarItems.filter((navbarItem) => !!navbarItem.label),
+      (navbarItem) => `item.label.${navbarItem.label}`,
+    ),
+    (navbarItem) => ({
       message: navbarItem.label!,
       description: `Navbar item with label ${navbarItem.label}`,
-    }))
-    .value();
+    }),
+  );
 
   const titleTranslations: TranslationFileContent = navbar.title
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
@@ -71,27 +71,29 @@ function translateNavbar(
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
   // TODO POC code
-  const footerLinkTitles: TranslationFileContent = chain(
-    footer.links.filter((link) => !!link.title),
-  )
-    .keyBy((link) => `link.title.${link.title}`)
-    .mapValues((link) => ({
+  const footerLinkTitles: TranslationFileContent = mapValues(
+    keyBy(
+      footer.links.filter((link) => !!link.title),
+      (link) => `link.title.${link.title}`,
+    ),
+    (link) => ({
       message: link.title!,
       description: `The title of the footer links column with title=${link.title} in the footer`,
-    }))
-    .value();
+    }),
+  );
 
-  const footerLinkLabels: TranslationFileContent = chain(
-    footer.links.flatMap((link) => link.items).filter((link) => !!link.label),
-  )
-    .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
-    .mapValues((linkItem) => ({
+  const footerLinkLabels: TranslationFileContent = mapValues(
+    keyBy(
+      footer.links.flatMap((link) => link.items).filter((link) => !!link.label),
+      (linkItem) => `link.item.label.${linkItem.label}`,
+    ),
+    (linkItem) => ({
       message: linkItem.label!,
       description: `The label of footer link with label=${
         linkItem.label
       } linking to ${linkItem.to ?? linkItem.href}`,
-    }))
-    .value();
+    }),
+  );
 
   const copyright: TranslationFileContent = footer.copyright
     ? {

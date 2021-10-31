@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {keyBy, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash-es';
 import {
   PluginOptions,
   BlogPost,

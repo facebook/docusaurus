@@ -11,7 +11,7 @@ import {
   removeSuffix,
   simpleHash,
 } from '@docusaurus/utils';
-import {has, isPlainObject, isString} from 'lodash';
+import {has, isPlainObject, isString} from 'lodash-es';
 import {stringify} from 'querystring';
 import {
   ChunkRegistry,

@@ -14,7 +14,7 @@ import type {
   SidebarItemDoc,
   SidebarItemType,
 } from './types';
-import {mapValues, difference} from 'lodash';
+import {mapValues, difference} from 'lodash-es';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 
 export function transformSidebarItems(

@@ -37,7 +37,7 @@ import {
   readCodeTranslationFileContent,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
-import {mapValues} from 'lodash';
+import {mapValues} from 'lodash-es';
 import {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 

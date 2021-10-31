@@ -139,7 +139,7 @@ module.exports = {
       {
         paths: [
           {
-            name: 'lodash',
+            name: 'lodash-es',
             importNames: [
               // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
               'filter',
@@ -181,7 +181,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.js', '*.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

@@ -7,8 +7,7 @@
 
 import type {LoadedVersion, LoadedContent} from './types';
 import type {Sidebar, Sidebars} from './sidebars/types';
-
-import {chain, mapValues, keyBy} from 'lodash';
+import {mapValues, keyBy} from 'lodash-es';
 import {
   collectSidebarCategories,
   transformSidebarItems,
@@ -97,22 +96,25 @@ function getSidebarTranslationFileContent(
   sidebarName: string,
 ): TranslationFileContent {
   const categories = collectSidebarCategories(sidebar);
-  const categoryContent: TranslationFileContent = chain(categories)
-    .keyBy((category) => `sidebar.${sidebarName}.category.${category.label}`)
-    .mapValues((category) => ({
+  const categoryContent: TranslationFileContent = mapValues(
+    keyBy(
+      categories,
+      (category) => `sidebar.${sidebarName}.category.${category.label}`,
+    ),
+    (category) => ({
       message: category.label,
       description: `The label for category ${category.label} in sidebar ${sidebarName}`,
-    }))
-    .value();
+    }),
+  );
 
   const links = collectSidebarLinks(sidebar);
-  const linksContent: TranslationFileContent = chain(links)
-    .keyBy((link) => `sidebar.${sidebarName}.link.${link.label}`)
-    .mapValues((link) => ({
+  const linksContent: TranslationFileContent = mapValues(
+    keyBy(links, (link) => `sidebar.${sidebarName}.link.${link.label}`),
+    (link) => ({
       message: link.label,
       description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
-    }))
-    .value();
+    }),
+  );
 
   return mergeTranslations([categoryContent, linksContent]);
 }

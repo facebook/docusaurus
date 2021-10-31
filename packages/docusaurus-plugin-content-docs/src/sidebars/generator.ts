@@ -12,7 +12,7 @@ import type {
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
 } from './types';
-import {keyBy, sortBy} from 'lodash';
+import {keyBy, sortBy} from 'lodash-es';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import chalk from 'chalk';

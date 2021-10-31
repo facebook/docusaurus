@@ -11,7 +11,7 @@ import chokidar from 'chokidar';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import {debounce} from 'lodash';
+import {debounce} from 'lodash-es';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';

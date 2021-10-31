@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {groupBy} from 'lodash';
+import {groupBy} from 'lodash-es';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {InitializedPlugin} from '@docusaurus/types';
 

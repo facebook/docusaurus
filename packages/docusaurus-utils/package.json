@@ -27,7 +27,7 @@
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "gray-matter": "^4.0.3",
-    "lodash": "^4.17.20",
+    "lodash-es": "^4.17.20",
     "micromatch": "^4.0.4",
     "remark-mdx-remove-exports": "^1.6.22",
     "remark-mdx-remove-imports": "^1.6.22",

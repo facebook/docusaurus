@@ -11,7 +11,7 @@ import {compile, defaultConfig} from 'eta';
 import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
 import {trim} from './templates/opensearch';
 import {validateThemeConfig} from './validateThemeConfig';
-import {memoize} from 'lodash';
+import {memoize} from 'lodash-es';
 
 const getCompiledOpenSearchTemplate = memoize(() => {
   return compile(trim());

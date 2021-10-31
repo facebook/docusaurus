@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {memoize} from 'lodash';
+import {memoize} from 'lodash-es';
 
 import {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';

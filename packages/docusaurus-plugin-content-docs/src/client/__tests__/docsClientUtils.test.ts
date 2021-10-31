@@ -14,7 +14,7 @@ import {
   getDocVersionSuggestions,
 } from '../docsClientUtils';
 import {GlobalPluginData, GlobalVersion} from '../../types';
-import {shuffle} from 'lodash';
+import {shuffle} from 'lodash-es';
 
 describe('docsClientUtils', () => {
   test('getActivePlugin', () => {

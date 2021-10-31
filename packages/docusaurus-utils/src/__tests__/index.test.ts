@@ -30,7 +30,7 @@ import {
   updateTranslationFileMessages,
   parseMarkdownHeadingId,
 } from '../index';
-import {sum} from 'lodash';
+import {sum} from 'lodash-es';
 
 describe('load utils', () => {
   test('aliasedSitePath', () => {

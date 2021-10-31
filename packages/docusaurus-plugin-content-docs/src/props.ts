@@ -18,7 +18,7 @@ import type {
   PropTagDocList,
   PropTagDocListDoc,
 } from '@docusaurus/plugin-content-docs-types';
-import {compact, keyBy, mapValues} from 'lodash';
+import {compact, keyBy, mapValues} from 'lodash-es';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);

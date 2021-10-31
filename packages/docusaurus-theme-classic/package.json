@@ -20,7 +20,7 @@
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
     "prettier:lib": "prettier --config ../../.prettierrc --write \"lib/**/*.{js,ts,jsx,tsx}\"",
-    "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
+    "update-code-translations": "node -e 'require(\"./update-code-translations.cjs\").run()' --es-module-specifier-resolution=node"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.9",
@@ -40,7 +40,7 @@
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
     "infima": "0.2.0-alpha.34",
-    "lodash": "^4.17.20",
+    "lodash-es": "^4.17.20",
     "parse-numeric-range": "^1.3.0",
     "postcss": "^8.3.7",
     "prism-react-renderer": "^1.2.1",

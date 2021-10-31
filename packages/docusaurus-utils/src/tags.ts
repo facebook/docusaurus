@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {kebabCase, uniq, uniqBy} from 'lodash';
+import {kebabCase, uniq, uniqBy} from 'lodash-es';
 import {normalizeUrl} from './normalizeUrl';
 
 export type Tag = {

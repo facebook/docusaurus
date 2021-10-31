@@ -5,19 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
-import path from 'path';
-import fs from 'fs-extra';
-import globby from 'globby';
-import {mapValues, pickBy, difference, orderBy} from 'lodash';
+const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs-extra');
+const globby = require('globby');
 
 const CodeDirPaths = [
-  new URL('lib', import.meta.url).pathname,
+  path.join(__dirname, 'lib-next'),
   // TODO other themes should rather define their own translations in the future?
-  new URL('../docusaurus-theme-common/lib', import.meta.url).pathname,
-  new URL('../docusaurus-theme-search-algolia/lib', import.meta.url).pathname,
-  new URL('../docusaurus-theme-live-codeblock/lib', import.meta.url).pathname,
-  new URL('../docusaurus-plugin-pwa/lib', import.meta.url).pathname,
+  path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
+  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
 ];
 
 console.log('Will scan folders for code translations:', CodeDirPaths);
@@ -29,7 +28,8 @@ function removeDescriptionSuffix(key) {
   return key;
 }
 
-function sortObjectKeys(obj) {
+async function sortObjectKeys(obj) {
+  const {orderBy} = await import('lodash-es');
   let keys = Object.keys(obj);
   keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
   return keys.reduce((acc, key) => {
@@ -55,9 +55,7 @@ async function extractThemeCodeMessages() {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
     // eslint-disable-next-line global-require
-  } = await import(
-    '@docusaurus/core/lib/server/translations/translationsExtractor'
-  );
+  } = await import('@docusaurus/core/lib/server/translations/translationsExtractor');
 
   const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
@@ -66,7 +64,7 @@ async function extractThemeCodeMessages() {
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
     {
-      presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+      presets: [require.resolve('@docusaurus/core/lib/babel/preset.cjs')],
     },
   );
 
@@ -96,7 +94,7 @@ async function readMessagesFile(filePath) {
 }
 
 async function writeMessagesFile(filePath, messages) {
-  const sortedMessages = sortObjectKeys(messages);
+  const sortedMessages = await sortObjectKeys(messages);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
   await fs.writeFile(filePath, content);
@@ -108,8 +106,7 @@ async function writeMessagesFile(filePath, messages) {
 }
 
 async function getCodeTranslationFiles() {
-  const codeTranslationsDir = new URL('codeTranslations', import.meta.url)
-    .pathname;
+  const codeTranslationsDir = path.join(__dirname, 'codeTranslations');
   const baseFile = path.join(codeTranslationsDir, 'base.json');
   const localesFiles = (await globby(codeTranslationsDir)).filter(
     (filepath) =>
@@ -121,6 +118,7 @@ async function getCodeTranslationFiles() {
 const DescriptionSuffix = '___DESCRIPTION';
 
 async function updateBaseFile(baseFile) {
+  const {mapValues, pickBy, difference} = await import('lodash-es');
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
   const baseMessages = pickBy(
     baseMessagesWithDescriptions,
@@ -175,6 +173,7 @@ ${logKeys(unknownMessages)}`),
 }
 
 async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
+  const {difference} = await import('lodash-es');
   const localeFileMessages = await readMessagesFile(localeFile);
 
   const unknownMessages = difference(
@@ -242,4 +241,5 @@ function run() {
   );
 }
 
-export {run, extractThemeCodeMessages};
+exports.run = run;
+exports.extractThemeCodeMessages = extractThemeCodeMessages;

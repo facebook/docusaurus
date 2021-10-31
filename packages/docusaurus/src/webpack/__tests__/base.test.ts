@@ -14,7 +14,7 @@ import {
   createBaseConfig,
 } from '../base';
 import * as utils from '../utils';
-import {mapValues} from 'lodash';
+import {mapValues} from 'lodash-es';
 import {posixPath} from '@docusaurus/utils';
 import {Props, ThemeAliases} from '@docusaurus/types';
 

@@ -26,7 +26,7 @@ module.exports = {
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest',
+    '^.+\\.[cm]?[jt]sx?$': 'babel-jest',
   },
   setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
   moduleNameMapper: {

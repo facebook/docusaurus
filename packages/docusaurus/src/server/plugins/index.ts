@@ -22,7 +22,7 @@ import {
 import initPlugins from './init';
 import chalk from 'chalk';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
-import {chain} from 'lodash';
+import {mapValues, groupBy} from 'lodash-es';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
@@ -122,15 +122,15 @@ export async function loadPlugins({
       }),
     );
 
-  const allContent: AllContent = chain(loadedPlugins)
-    .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
-        .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
-        .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
-    .value();
+  const allContent: AllContent = mapValues(
+    groupBy(loadedPlugins, (item) => item.name),
+    (nameItems) => {
+      return mapValues(
+        groupBy(nameItems, (item) => item.options.id ?? DEFAULT_PLUGIN_ID),
+        (idItems) => idItems[0].content,
+      );
+    },
+  );
 
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];

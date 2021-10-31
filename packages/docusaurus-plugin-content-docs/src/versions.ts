@@ -24,7 +24,7 @@ import {
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {LoadContext} from '@docusaurus/types';
 import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
-import {difference} from 'lodash';
+import {difference} from 'lodash-es';
 import {resolveSidebarPathOption} from './sidebars';
 
 // retro-compatibility: no prefix for the default plugin id

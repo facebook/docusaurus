@@ -8,7 +8,7 @@
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
-import {kebabCase, orderBy} from 'lodash';
+import {kebabCase, orderBy} from 'lodash-es';
 
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';

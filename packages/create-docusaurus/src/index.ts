@@ -11,7 +11,7 @@ import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase, sortBy} from 'lodash';
+import {kebabCase, sortBy} from 'lodash-es';
 import supportsColor from 'supports-color';
 
 const RecommendedTemplate = 'classic';

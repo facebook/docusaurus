@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
 import {ThemeAliases} from '@docusaurus/types';
-import {sortBy} from 'lodash';
+import {sortBy} from 'lodash-es';
 
 // Order of Webpack aliases is important because one alias can shadow another
 // This ensure @theme/NavbarItem alias is after @theme/NavbarItem/LocaleDropdown

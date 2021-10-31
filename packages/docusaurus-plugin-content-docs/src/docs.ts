@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
-import {keyBy} from 'lodash';
+import {keyBy} from 'lodash-es';
 import {
   aliasedSitePath,
   getEditUrl,

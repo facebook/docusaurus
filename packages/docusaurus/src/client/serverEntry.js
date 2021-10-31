@@ -26,7 +26,7 @@ import {
 } from './LinksCollector';
 import chalk from 'chalk';
 // eslint-disable-next-line no-restricted-imports
-import {memoize} from 'lodash';
+import {memoize} from 'lodash-es';
 
 const getCompiledSSRTemplate = memoize((template) => {
   return eta.compile(template.trim(), {

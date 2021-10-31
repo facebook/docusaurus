@@ -8,7 +8,7 @@
 import chalk from 'chalk';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, mapValues} from 'lodash';
+import {camelCase, mapValues} from 'lodash-es';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';

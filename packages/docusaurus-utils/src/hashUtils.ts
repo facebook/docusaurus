@@ -6,7 +6,7 @@
  */
 
 import {createHash} from 'crypto';
-import {kebabCase} from 'lodash';
+import {kebabCase} from 'lodash-es';
 import {shortName, isNameTooLong} from './pathUtils';
 
 export function md5Hash(str: string): string {

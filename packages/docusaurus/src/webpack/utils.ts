@@ -34,7 +34,7 @@ import {
   OUTPUT_STATIC_ASSETS_DIR_NAME,
   WEBPACK_URL_LOADER_LIMIT,
 } from '../constants';
-import {memoize} from 'lodash';
+import {memoize} from 'lodash-es';
 
 // Utility method to get style loaders
 export function getStyleLoaders(

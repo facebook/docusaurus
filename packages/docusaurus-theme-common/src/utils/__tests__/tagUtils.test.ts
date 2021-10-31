@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {shuffle} from 'lodash';
+import {shuffle} from 'lodash-es';
 import {listTagsByLetters} from '../tagsUtils';
 
 describe('listTagsByLetters', () => {

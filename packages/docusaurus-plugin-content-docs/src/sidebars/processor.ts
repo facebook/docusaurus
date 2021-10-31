@@ -24,7 +24,7 @@ import type {
 } from './types';
 import {transformSidebarItems} from './utils';
 import {DefaultSidebarItemsGenerator} from './generator';
-import {mapValues, memoize, pick} from 'lodash';
+import {mapValues, memoize, pick} from 'lodash-es';
 import combinePromises from 'combine-promises';
 
 export type SidebarProcessorProps = {
