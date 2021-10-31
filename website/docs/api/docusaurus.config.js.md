@@ -200,10 +200,11 @@ module.exports = {
 
 The name of the branch to deploy the static files to. Used by the deployment command.
 
-````js title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   deploymentBranch: 'gh-pages',
 };
+```
 
 ### `githubHost` {#githubhost}
 
@@ -498,4 +499,3 @@ This banner need to inline CSS / JS.
 If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
 
 :::
-````
