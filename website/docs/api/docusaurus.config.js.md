@@ -215,7 +215,7 @@ The hostname of your server. Useful if you are using GitHub Enterprise.
 module.exports = {
   githubHost: 'github.com',
 };
-````
+```
 
 ### `githubPort` {#githubPort}
 
@@ -498,3 +498,4 @@ This banner need to inline CSS / JS.
 If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
 
 :::
+````
