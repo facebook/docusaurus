@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 
 /**
  * Copy all untyped and static assets files to lib.
  */
-const srcDir = path.resolve(__dirname, 'src');
-const libDir = path.resolve(__dirname, 'lib');
-fs.copySync(srcDir, libDir, {
-  filter(filepath) {
-    return !/__tests__/.test(filepath) && !/\.ts$/.test(filepath);
+fs.copySync(
+  new URL('src', import.meta.url).pathname,
+  new URL('lib', import.meta.url).pathname,
+  {
+    filter(filepath) {
+      return !/__tests__/.test(filepath) && !/\.tsx?$/.test(filepath);
+    },
   },
-});
+);

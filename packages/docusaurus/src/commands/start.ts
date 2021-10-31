@@ -133,10 +133,10 @@ export default async function start(
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.resolve(
-          __dirname,
+        template: new URL(
           '../client/templates/index.html.template.ejs',
-        ),
+          import.meta.url,
+        ).pathname,
         // So we can define the position where the scripts are injected.
         inject: false,
         filename: 'index.html',

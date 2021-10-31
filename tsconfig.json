@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "ES6",
+    "module": "ESNext",
     "lib": ["ESNext", "DOM"],
     "declaration": true,
     "declarationMap": false,

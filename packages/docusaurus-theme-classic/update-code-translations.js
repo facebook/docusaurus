@@ -12,12 +12,12 @@ import globby from 'globby';
 import {mapValues, pickBy, difference, orderBy} from 'lodash';
 
 const CodeDirPaths = [
-  path.join(__dirname, 'lib-next'),
+  new URL('lib', import.meta.url).pathname,
   // TODO other themes should rather define their own translations in the future?
-  path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
-  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
-  path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
-  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
+  new URL('../docusaurus-theme-common/lib', import.meta.url).pathname,
+  new URL('../docusaurus-theme-search-algolia/lib', import.meta.url).pathname,
+  new URL('../docusaurus-theme-live-codeblock/lib', import.meta.url).pathname,
+  new URL('../docusaurus-plugin-pwa/lib', import.meta.url).pathname,
 ];
 
 console.log('Will scan folders for code translations:', CodeDirPaths);
@@ -108,7 +108,8 @@ async function writeMessagesFile(filePath, messages) {
 }
 
 async function getCodeTranslationFiles() {
-  const codeTranslationsDir = path.join(__dirname, 'codeTranslations');
+  const codeTranslationsDir = new URL('codeTranslations', import.meta.url)
+    .pathname;
   const baseFile = path.join(codeTranslationsDir, 'base.json');
   const localesFiles = (await globby(codeTranslationsDir)).filter(
     (filepath) =>
@@ -241,5 +242,4 @@ function run() {
   );
 }
 
-exports.run = run;
-exports.extractThemeCodeMessages = extractThemeCodeMessages;
+export {run, extractThemeCodeMessages};

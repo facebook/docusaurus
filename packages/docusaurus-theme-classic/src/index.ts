@@ -8,14 +8,13 @@
 import {DocusaurusContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
-import path from 'path';
 import {createRequire} from 'module';
 import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
 const requireFromDocusaurusCore = createRequire(
-  require.resolve('@docusaurus/core/package.json'),
+  '@docusaurus/core/package.json',
 );
 const ContextReplacementPlugin = requireFromDocusaurusCore(
   'webpack/lib/ContextReplacementPlugin',
@@ -115,22 +114,12 @@ export default function docusaurusThemeClassic(
   return {
     name: 'docusaurus-theme-classic',
 
-    /*
-    Does not seem needed: webpack can already hot reload theme files
-    getPathsToWatch() {
-      return [
-        path.join(__dirname, '..', 'lib'),
-        path.join(__dirname, '..', 'lib-next'),
-      ];
-    },
-     */
-
     getThemePath() {
-      return path.join(__dirname, '..', 'lib-next', 'theme');
+      return new URL('../lib/theme', import.meta.url).pathname;
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return new URL('../src/theme', import.meta.url).pathname;
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
@@ -138,7 +127,7 @@ export default function docusaurusThemeClassic(
 
     getDefaultCodeTranslationMessages: () => {
       return readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+        dirPath: new URL('../codeTranslations', import.meta.url).pathname,
         locale: currentLocale,
       });
     },
@@ -146,8 +135,8 @@ export default function docusaurusThemeClassic(
     getClientModules() {
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
-        path.resolve(__dirname, './prism-include-languages'),
-        path.resolve(__dirname, './admonitions.css'),
+        new URL('./prism-include-languages', import.meta.url).pathname,
+        new URL('./admonitions.css', import.meta.url).pathname,
       ];
 
       if (customCss) {

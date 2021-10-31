@@ -13,7 +13,6 @@ examples/
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-packages/docusaurus-*/lib-next/
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 
 packages/create-docusaurus/lib/*

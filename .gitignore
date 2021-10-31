@@ -23,7 +23,6 @@ packages/create-docusaurus/lib/
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
-packages/docusaurus-*/lib-next/
 
 website/netlifyDeployPreview/*
 !website/netlifyDeployPreview/index.html

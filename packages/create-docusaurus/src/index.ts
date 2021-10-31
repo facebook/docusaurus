@@ -109,7 +109,7 @@ export default async function init(
   }> = {},
 ): Promise<void> {
   const useYarn = cliOptions.useNpm ? false : hasYarn();
-  const templatesDir = path.resolve(__dirname, '../templates');
+  const templatesDir = new URL('../templates', import.meta.url).pathname;
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExistsSync(
