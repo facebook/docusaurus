@@ -26,8 +26,16 @@ https://docusaurus.io/docs/zh-cn/*      https://v1.docusaurus.io/docs/zh-cn/:spl
 
 
 # Feature requests redirects
-/feedback/*                 /feature-requests/:splat    301!
-/feature-requests/*         /feature-requests           200
+/feedback/*                 /feature-requests/:splat           301!
+/fr/feedback/*              /fr/feature-requests/:splat        301!
+/pt-BR/feedback/*           /pt-BR/feature-requests/:splat     301!
+/ko/feedback/*              /ko/feature-requests/:splat        301!
+/zh-CN/feedback/*           /zh-CN/feature-requests/:splat     301!
+/feature-requests/*         /feature-requests                  200
+/fr/feature-requests/*      /fr/feature-requests               200
+/pt-BR/feature-requests/*   /pt-BR/feature-requests            200
+/ko/feature-requests/*      /ko/feature-requests               200
+/zh-CN/feature-requests/*   /zh-CN/feature-requests            200
 
 
 # FALLBACK: PUT THIS LAST (rules above are more important)
