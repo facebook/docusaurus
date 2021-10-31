@@ -69,7 +69,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   const repoUrlUseSSH =
     currentRepoUrl.match(/^ssh:\/\//) !== null ||
-    currentRepoUrl.match(/^([\w\-]+@)?[\w.\-]+:[\w.\-\/_]+(\.git)?/) !== null;
+    currentRepoUrl.match(/^([\w-]+@)?[\w.-]+:[\w.\-/_]+(\.git)?/) !== null;
 
   const envUseSSH =
     process.env.USE_SSH !== undefined &&
