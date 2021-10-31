@@ -92,6 +92,8 @@ Check package.json again and you will find this:
 }
 ```
 
+If you make further changes to the local docusaurus repo, run `yarn install` inside the existing project so that the changes will be applied.
+
 Note that:
 
 - The format is `scoped-package-name@local/path/to/specific/package/directory`.
