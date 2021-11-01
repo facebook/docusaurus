@@ -8,7 +8,11 @@
 const path = require('path');
 const fs = require('fs');
 const eta = require('eta');
-const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
+const {
+  normalizeUrl,
+  getSwizzledComponent,
+  readDefaultCodeTranslationMessages,
+} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
 const {validateThemeConfig} = require('./validateThemeConfig');
 const {memoize} = require('lodash');
@@ -28,6 +32,7 @@ function theme(context) {
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
+    i18n: {currentLocale},
   } = context;
   const pageComponent = './theme/SearchPage/index.js';
   const pagePath =
@@ -43,6 +48,13 @@ function theme(context) {
 
     getPathsToWatch() {
       return [pagePath];
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, 'codeTranslations'),
+        locale: currentLocale,
+      });
     },
 
     async contentLoaded({actions: {addRoute}}) {

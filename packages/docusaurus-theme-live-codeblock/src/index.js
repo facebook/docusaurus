@@ -7,13 +7,25 @@
 
 const path = require('path');
 const {validateThemeConfig} = require('./validateThemeConfig');
+const {readDefaultCodeTranslationMessages} = require('@docusaurus/utils');
 
-function theme() {
+function theme(context) {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
       return path.resolve(__dirname, './theme');
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, 'codeTranslations'),
+        locale: currentLocale,
+      });
     },
 
     configureWebpack() {

@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Pesquisar",
+  "theme.SearchPage.algoliaLabel": "Pesquisa por Algolia",
+  "theme.SearchPage.documentsFound.plurals": "Um documento encontrado|{count} documentos encontrados",
+  "theme.SearchPage.emptyResultsTitle": "Pesquisar pela documentação",
+  "theme.SearchPage.existingResultsTitle": "Resultados da pesquisa por \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Procurando novos resultados...",
+  "theme.SearchPage.inputLabel": "Pesquisar",
+  "theme.SearchPage.inputPlaceholder": "Escreva aqui a sua pesquisa",
+  "theme.SearchPage.noResultsText": "Nenhum resultado encontrado"
+}

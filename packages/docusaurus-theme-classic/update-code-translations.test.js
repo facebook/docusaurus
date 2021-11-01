@@ -18,7 +18,7 @@ describe('update-code-translations', () => {
     const baseMessages = pickBy(
       JSON.parse(
         await fs.readFile(
-          path.join(__dirname, 'codeTranslations', 'base.json'),
+          path.join(__dirname, 'src', 'codeTranslations', 'base.json'),
         ),
       ),
       (_, key) => !key.endsWith('___DESCRIPTION'),

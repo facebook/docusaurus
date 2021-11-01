@@ -138,7 +138,7 @@ export default function docusaurusThemeClassic(
 
     getDefaultCodeTranslationMessages: () => {
       return readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+        dirPath: path.resolve(__dirname, 'codeTranslations'),
         locale: currentLocale,
       });
     },

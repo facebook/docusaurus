@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "搜尋",
+  "theme.SearchPage.algoliaLabel": "透過 Algolia 搜尋",
+  "theme.SearchPage.documentsFound.plurals": "找到 {count} 份文件",
+  "theme.SearchPage.emptyResultsTitle": "在文件中搜尋",
+  "theme.SearchPage.existingResultsTitle": "「{query}」的搜尋結果",
+  "theme.SearchPage.fetchingNewResults": "正在獲取新的搜尋結果...",
+  "theme.SearchPage.inputLabel": "搜尋",
+  "theme.SearchPage.inputPlaceholder": "在此輸入搜尋字詞",
+  "theme.SearchPage.noResultsText": "未找到任何結果"
+}

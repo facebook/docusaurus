@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "खोज करें",
+  "theme.SearchPage.algoliaLabel": "अल्गोलिया द्वारा खोजें",
+  "theme.SearchPage.documentsFound.plurals": "एक डॉक्यूमेंट मिला|{count} डॉक्यूमेंट मिलें",
+  "theme.SearchPage.emptyResultsTitle": "डॉक्यूमेंटेशन में खोजें",
+  "theme.SearchPage.existingResultsTitle": "\"{query}\" के लिए खोज परिणाम",
+  "theme.SearchPage.fetchingNewResults": "नए परिणाम प्राप्त कियें जा रहे हैं...",
+  "theme.SearchPage.inputLabel": "खोज करें",
+  "theme.SearchPage.inputPlaceholder": "अपनी खोज यहाँ टाइप करें",
+  "theme.SearchPage.noResultsText": "कोई परिणाम नहीं मिलें"
+}

@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Ara",
+  "theme.SearchPage.algoliaLabel": "Algolia ile Ara",
+  "theme.SearchPage.documentsFound.plurals": "Bir döküman bulundu|{count} döküman bulundu",
+  "theme.SearchPage.emptyResultsTitle": "Dokümanlarda ara",
+  "theme.SearchPage.existingResultsTitle": "Arama sonuçları",
+  "theme.SearchPage.fetchingNewResults": "Yeni sonuçlar getiriliyor...",
+  "theme.SearchPage.inputLabel": "Ara",
+  "theme.SearchPage.inputPlaceholder": "Aramanızı buraya yazın",
+  "theme.SearchPage.noResultsText": "Hiçbir sonuç bulunamadı"
+}

@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "بحث",
+  "theme.SearchPage.algoliaLabel": "البحث بواسطه Algolia",
+  "theme.SearchPage.documentsFound.plurals": "تم العثور على مستند واحد|تم العثور على {count} مستندات",
+  "theme.SearchPage.emptyResultsTitle": "ابحث في الوثائق",
+  "theme.SearchPage.existingResultsTitle": "نتائج البحث عن \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "جلب نتائج جديدة ...",
+  "theme.SearchPage.inputLabel": "بحث",
+  "theme.SearchPage.inputPlaceholder": "اكتب ما تبحث عنه هنا",
+  "theme.SearchPage.noResultsText": "لم يتم العثور على نتائج"
+}

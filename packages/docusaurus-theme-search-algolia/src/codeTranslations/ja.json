@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "検索",
+  "theme.SearchPage.algoliaLabel": "Algoliaで検索",
+  "theme.SearchPage.documentsFound.plurals": "{count}件のドキュメントが見つかりました",
+  "theme.SearchPage.emptyResultsTitle": "ドキュメントを検索",
+  "theme.SearchPage.existingResultsTitle": "『{query}』の検索結果",
+  "theme.SearchPage.fetchingNewResults": "新しい検索結果を取得しています...",
+  "theme.SearchPage.inputLabel": "検索",
+  "theme.SearchPage.inputPlaceholder": "ここに検索するキーワードを入力してください",
+  "theme.SearchPage.noResultsText": "検索結果が見つかりませんでした"
+}

@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Поиск",
+  "theme.SearchPage.algoliaLabel": "Поиск от Algolia",
+  "theme.SearchPage.documentsFound.plurals": "{count} документ|{count} документа|{count} документов",
+  "theme.SearchPage.emptyResultsTitle": "Поиск по сайту",
+  "theme.SearchPage.existingResultsTitle": "Результаты поиска по запросу \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Загрузка новых результатов поиска...",
+  "theme.SearchPage.inputLabel": "Поиск",
+  "theme.SearchPage.inputPlaceholder": "Введите фразу для поиска",
+  "theme.SearchPage.noResultsText": "По запросу ничего не найдено"
+}

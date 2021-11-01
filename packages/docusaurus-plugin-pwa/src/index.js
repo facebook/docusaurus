@@ -8,7 +8,10 @@
 const LogPlugin =
   require('@docusaurus/core/lib/webpack/plugins/LogPlugin').default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
-const {normalizeUrl} = require('@docusaurus/utils');
+const {
+  normalizeUrl,
+  readDefaultCodeTranslationMessages,
+} = require('@docusaurus/utils');
 const path = require('path');
 const webpack = require('webpack');
 const {injectManifest} = require('workbox-build');
@@ -44,7 +47,11 @@ function getSWBabelLoader() {
 }
 
 function plugin(context, options) {
-  const {outDir, baseUrl} = context;
+  const {
+    outDir,
+    baseUrl,
+    i18n: {currentLocale},
+  } = context;
   const {
     debug,
     offlineModeActivationStrategies,
@@ -64,6 +71,13 @@ function plugin(context, options) {
 
     getClientModules() {
       return isProd ? [swRegister] : [];
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, 'codeTranslations'),
+        locale: currentLocale,
+      });
     },
 
     configureWebpack(config) {

@@ -12,12 +12,13 @@ const globby = require('globby');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
 
 const CodeDirPaths = [
-  path.join(__dirname, 'lib-next'),
-  // TODO other themes should rather define their own translations in the future?
-  path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
-  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
-  path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
-  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
+  [
+    path.join(__dirname, 'lib-next'),
+    path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
+  ],
+  [path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src')],
+  [path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src')],
+  [path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src')],
 ];
 
 console.log('Will scan folders for code translations:', CodeDirPaths);
@@ -49,7 +50,7 @@ function logKeys(keys) {
   return `Keys:\n- ${keys.join('\n- ')}`;
 }
 
-async function extractThemeCodeMessages() {
+async function extractThemeCodeMessages(targetDirs = CodeDirPaths[0]) {
   // Unsafe import, should we create a package for the translationsExtractor ?
   const {
     globSourceCodeFilePaths,
@@ -57,7 +58,7 @@ async function extractThemeCodeMessages() {
     // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
+  const filePaths = (await globSourceCodeFilePaths(targetDirs)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
   );
 
@@ -97,7 +98,7 @@ async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
-  await fs.writeFile(filePath, content);
+  await fs.outputFile(filePath, content);
   console.log(
     `${path.basename(filePath)} updated (${
       Object.keys(sortedMessages).length
@@ -105,8 +106,12 @@ async function writeMessagesFile(filePath, messages) {
   );
 }
 
-async function getCodeTranslationFiles() {
-  const codeTranslationsDir = path.join(__dirname, 'codeTranslations');
+async function getCodeTranslationFiles(dirPath) {
+  const codeTranslationsDir = path.join(
+    path.dirname(dirPath),
+    'src',
+    'codeTranslations',
+  );
   const baseFile = path.join(codeTranslationsDir, 'base.json');
   const localesFiles = (await globby(codeTranslationsDir)).filter(
     (filepath) =>
@@ -117,14 +122,14 @@ async function getCodeTranslationFiles() {
 
 const DescriptionSuffix = '___DESCRIPTION';
 
-async function updateBaseFile(baseFile) {
+async function updateBaseFile(baseFile, targetDirs) {
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
   const baseMessages = pickBy(
     baseMessagesWithDescriptions,
     (_, key) => !key.endsWith(DescriptionSuffix),
   );
 
-  const codeExtractedTranslations = await extractThemeCodeMessages();
+  const codeExtractedTranslations = await extractThemeCodeMessages(targetDirs);
   const codeMessages = mapValues(
     codeExtractedTranslations,
     (translation) => translation.message,
@@ -210,14 +215,49 @@ ${logKeys(untranslatedKeys)}`),
 
 async function updateCodeTranslations() {
   logSection('Will update base file');
-  const {baseFile, localesFiles} = await getCodeTranslationFiles();
-  const baseFileMessages = await updateBaseFile(baseFile);
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const localeFile of localesFiles) {
-    logSection(`Will update ${path.basename(localeFile)}`);
-    // eslint-disable-next-line no-await-in-loop
-    await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+  /* eslint-disable no-await-in-loop, no-continue */
+  for (const CodeDirPath of CodeDirPaths) {
+    const {baseFile, localesFiles} = await getCodeTranslationFiles(
+      CodeDirPath[0],
+    );
+    const baseFileMessages = await updateBaseFile(baseFile, CodeDirPath);
+    const [, newLocale] = process.argv;
+
+    if (newLocale) {
+      const newLocalePath = path.join(
+        path.dirname(CodeDirPath[0]),
+        'src',
+        'codeTranslations',
+        `${newLocale}.json`,
+      );
+
+      if (!fs.existsSync(newLocalePath)) {
+        await writeMessagesFile(newLocalePath, baseFileMessages);
+        console.error(
+          chalk.green(
+            `Locale file ${path.basename(newLocalePath)} have been created.`,
+          ),
+        );
+      } else {
+        console.error(
+          chalk.red(
+            `Locale file ${path.basename(newLocalePath)} was already created!`,
+          ),
+        );
+      }
+
+      continue;
+    }
+
+    for (const localeFile of localesFiles) {
+      logSection(
+        `Will update ${path.basename(localeFile)} in ${path.basename(
+          path.dirname(CodeDirPath[0]),
+        )}`,
+      );
+      await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+    }
   }
 }
 
