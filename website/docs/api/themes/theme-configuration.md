@@ -187,6 +187,8 @@ Accepted fields:
 | `src` | `string` | **Required** | URL to the logo image. Base URL is appended by default. |
 | `srcDark` | `string` | `logo.src` | An alternative image URL to use in dark mode. |
 | `href` | `string` | `siteConfig.baseUrl` | Link to navigate to when the logo is clicked. |
+| `width` | <code>string \| number</code> | `undefined` | Specifies the `width` attribute. |
+| `height` | <code>string \| number</code> | `undefined` | Specifies the `height` attribute. |
 | `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
 
 </small>
@@ -205,6 +207,8 @@ module.exports = {
         srcDark: 'img/logo_dark.svg',
         href: 'https://docusaurus.io/',
         target: '_self',
+        width: 32,
+        height: 32,
       },
       // highlight-end
     },
@@ -679,6 +683,8 @@ module.exports = {
         alt: 'Facebook Open Source Logo',
         src: 'img/oss_logo.png',
         href: 'https://opensource.facebook.com',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },

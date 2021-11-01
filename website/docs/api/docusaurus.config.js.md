@@ -264,6 +264,8 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -292,6 +294,8 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
